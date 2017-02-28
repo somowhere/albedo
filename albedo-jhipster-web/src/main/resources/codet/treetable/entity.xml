@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+    <name>entity</name>
+    <filePath>src/main/java/${packageName}/${moduleName}/domain/${subModuleName}</filePath>
+    <fileName>${ClassName}.java</fileName>
+    <content><![CDATA[
+/**
+ * Copyright &copy; 2015 <a href="http://www.bs-innotech.com/">bs-innotech</a> All rights reserved.
+ */
+package ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>;
+
+<#list table.importList as i>
+import ${i};
+</#list>
+
+/**
+ * ${functionName}Entity ${functionNameSimple}
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@Entity
+@Table(name = "${table.name}")
+@DynamicInsert @DynamicUpdate
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+public class ${ClassName} extends TreeEntity<${ClassName}> {
+	
+	private static final long serialVersionUID = 1L;
+	<#list table.columnList as column>
+		<#if !column.pk && column.isNotBaseField && column.isNotBaseTreeField>
+	/** F_${column.constantJavaField} ${column.nameAndComments} */
+	public static final String F_${column.constantJavaField} = "${column.simpleJavaField}";
+		</#if>
+	</#list>
+	
+	<@generateFields/>
+	<@generateCompositeIdConstructorIfis/>
+
+	<@generatePkProperties/>
+	<@generateNotPkProperties/>
+
+	public String toString() {
+		return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
+		<#list table.columnList as column>
+			<#if !table.compositeId>
+			.append("${column.simpleJavaField}",get${column.simpleJavaField?cap_first}())
+			</#if>
+		</#list>
+			.toString();
+	}
+	
+	public int hashCode() {
+		return new HashCodeBuilder()
+		<#list table.pkColumnList as column>
+			<#if !table.compositeId>
+			.append(get${column.simpleJavaField?cap_first}())
+			</#if>
+		</#list>
+			.toHashCode();
+	}
+	
+	public boolean equals(Object obj) {
+		if(obj instanceof ${ClassName} == false) return false;
+		if(this == obj) return true;
+		${ClassName} other = (${ClassName})obj;
+		return new EqualsBuilder()
+			.append(getId(),other.getId())
+			.isEquals();
+	}
+}
+<#macro generateFields>
+	//columns START
+	<#list table.columnList as column>
+		<#if !column.pk && column.isNotBaseField && column.isNotBaseTreeField>
+	/** ${column.simpleJavaField} ${column.comments} */<#if table.parentExists && table.parentTableFk == column.name>
+	@ManyToOne(fetch = FetchType.LAZY)@JoinColumn(name = "${table.parentTableFk}")@NotFound(action = NotFoundAction.IGNORE)
+	private ${table.parent.className} ${column.simpleJavaField};
+	<#elseif column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
+	@ManyToOne@JoinColumn(name = "${column.name}", updatable = false, insertable=false)@NotFound(action = NotFoundAction.IGNORE)
+	private ${column.simpleJavaType} ${column.simpleJavaField};
+	@Column(name = "${column.name}")
+	private String ${column.simpleJavaField}Id;
+	<#else>${column.hibernateValidatorExprssion}<#if column.isDateTimeColumn>@Temporal(TemporalType.DATE)</#if>@Column(name = "${column.name}", unique = ${column.unique?string}, nullable = ${column.nullable?string}<#if column.javaType = 'String'>, length = ${column.size}</#if>)<#if column.unique>@SearchField</#if><#if column.dictType?? && column.dictType != "">@DictType(name="${column.dictType}")</#if>
+	private ${column.simpleJavaType} ${column.simpleJavaField};
+			</#if>
+		</#if>
+	</#list>
+	<#list table.childList as c>
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY, mappedBy = "${c.parentTableJavaFieldFk?uncap_first}")
+	@NotFound(action = NotFoundAction.IGNORE)
+	@Where(clause = "status_='" + FLAG_NORMAL + "'")
+	@Fetch(FetchMode.SUBSELECT)
+	private List<${c.className}> ${c.className?uncap_first}List = Lists.newArrayList();
+	</#list>
+	//columns END
+</#macro>
+<#macro generateCompositeIdConstructorIfis>
+	public ${ClassName}(){
+	}
+	
+	<#if table.compositeId>
+	public ${ClassName}(${ClassName}Id id) {
+		this.id = id;
+	}
+	<#else>
+	public ${ClassName}(${table.pkJavaType} id) {
+		this.id = id;
+	}
+	</#if>
+</#macro>
+<#macro generatePkProperties>
+	
+</#macro>
+
+<#macro generateNotPkProperties>
+	<#list table.columnList as column>
+		<#if !column.pk && column.isNotBaseField && column.isNotBaseTreeField>
+			<#if table.parentExists && table.parentTableFk == column.name>
+	/** ${column.simpleJavaField} ${column.comments} */
+	public ${table.parent.className} get${column.simpleJavaField?cap_first}() {
+		return ${column.simpleJavaField};
+	}
+	/** ${column.simpleJavaField} ${column.comments} */
+	public void set${column.simpleJavaField?cap_first}(${table.parent.className} ${column.simpleJavaField}) {
+		this.${column.simpleJavaField} = ${column.simpleJavaField};
+	}
+			<#else>
+	/** ${column.simpleJavaField} ${column.comments} */
+	public ${column.javaType} get${column.simpleJavaField?cap_first}() {
+		return this.${column.simpleJavaField};
+	}
+	/** ${column.simpleJavaField} ${column.comments} */
+	public void set${column.simpleJavaField?cap_first}(${column.javaType} value) {
+		this.${column.simpleJavaField} = value;
+	}
+			</#if>
+			<#if column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
+	/** ${column.simpleJavaField} ${column.comments} */
+	public String get${column.simpleJavaField?cap_first}Id() {
+		return this.${column.simpleJavaField}Id;
+	}
+	/** ${column.simpleJavaField} ${column.comments} */
+	public void set${column.simpleJavaField?cap_first}Id(String value) {
+		this.${column.simpleJavaField}Id = value;
+	}
+			</#if>
+		</#if>
+	</#list>
+	<#list table.childList as table>
+	public List<${table.className}> get${table.className}List() {
+		return ${table.className?uncap_first}List;
+	}
+
+	public void set${table.className}List(List<${table.className}> ${table.className?uncap_first}List) {
+		this.${table.className?uncap_first}List = ${table.className?uncap_first}List;
+	}
+	</#list>
+</#macro>
+]]>
+    </content>
+</template>

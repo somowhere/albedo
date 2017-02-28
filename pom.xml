@@ -1,0 +1,101 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.bosheng.java</groupId>
+    <artifactId>albedo-jhipster</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>albedo-jhipster</name>
+
+    <parent>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <version>1.4.2.RELEASE</version>
+        <relativePath/>
+    </parent>
+    <!-- 项目属性 -->
+    <properties>
+        <project.release.version>1.0.0-SNAPSHOT</project.release.version>
+        <hibernate.version>4.3.11.Final</hibernate.version>
+        <assertj-core.version>3.5.2</assertj-core.version>
+        <!-- 依赖库的版本定义 -->
+        <!-- Plugin -->
+        <jdk.version>1.8</jdk.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>mzone-release</id>
+            <url>http://182.92.204.180:8081/nexus/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>mzone-snapshot</id>
+            <url>http://182.92.204.180:8081/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <!-- 设定除中央仓库(repo1.maven.org/maven2/)外的其他仓库,按设定顺序进行查找. -->
+    <repositories>
+
+        <!-- 如有Nexus私服, 取消注释并指向正确的服务器地址. -->
+        <repository>
+            <id>aliyun</id>
+            <name>aliyun maven</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+        </repository>
+        <!-- 如有Nexus私服, 取消注释并指向正确的服务器地址. -->
+        <repository>
+            <id>nexus</id>
+            <name>Team Nexus Repository</name>
+            <url>http://182.92.204.180:8081/nexus/content/groups/public</url>
+        </repository>
+    </repositories>
+
+
+    <build>
+        <outputDirectory>${project.basedir}/target/bin</outputDirectory>
+        <plugins>
+            <!-- Compiler 插件, 设定JDK版本 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+            <!-- 打包源代码插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <modules>
+        <module>albedo-jhipster-domain</module>
+        <module>albedo-jhipster-service</module>
+        <module>albedo-jhipster-web</module>
+        <module>albedo-jhipster-app</module>
+        <module>albedo-jhipster-util</module>
+        <module>albedo-jhipster-quartz</module>
+        <module>albedo-jhipster-web-base</module>
+    </modules>
+</project>
