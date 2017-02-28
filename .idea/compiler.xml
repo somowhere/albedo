@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="albedo-jhipster-app" />
+        <module name="albedo-jhipster-domain" />
+        <module name="albedo-jhipster-quartz" />
+        <module name="albedo-jhipster-service" />
+        <module name="albedo-jhipster-util" />
+        <module name="albedo-jhipster-web" />
+        <module name="albedo-jhipster-web-base" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="albedo-jhipster" target="1.8" />
+      <module name="albedo-jhipster-app" target="1.8" />
+      <module name="albedo-jhipster-domain" target="1.8" />
+      <module name="albedo-jhipster-quartz" target="1.8" />
+      <module name="albedo-jhipster-service" target="1.8" />
+      <module name="albedo-jhipster-util" target="1.8" />
+      <module name="albedo-jhipster-web" target="1.8" />
+      <module name="albedo-jhipster-web-base" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
