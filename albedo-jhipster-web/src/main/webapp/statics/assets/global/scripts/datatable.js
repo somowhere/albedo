@@ -74,6 +74,9 @@ var Datatable = function() {
                         "url": "", // ajax URL
                         "type": "POST", // request type
                         "timeout": 20000,
+                        "headers": {
+                            "Content-Type" : "application/json"
+                        },
                         "data": function(d) { // add request parameters before submit
                             var pm = {},sortColumn = d.columns[d.order[0].column];
                             pm.sortName = (sortColumn.name ? sortColumn.name : sortColumn.data) +" "+d.order[0].dir;
@@ -81,7 +84,7 @@ var Datatable = function() {
                             pm.size=d.length;
                             pm.page=d.start/d.length+1;
                             pm.queryConditionJson = albedo.parseJsonItemFormTarget($formSearch && $formSearch.length>0 ? $formSearch : $("body form-search:eq(0)"));
-                            return pm;
+                            return JSON.stringify(pm);
                         },
                         "dataSrc": function(res) { // Manipulate the data returned from the server
                             if (res.status) {

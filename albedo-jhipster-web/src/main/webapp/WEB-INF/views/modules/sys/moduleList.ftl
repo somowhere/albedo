@@ -72,9 +72,7 @@
                 src: $("#data-table-module"),
                 dataTable: {
                     "ajax": {
-                        "url": "${ctx}/sys/module/page",
-                        type: 'GET',
-                        "dataType": 'json'
+                        "url": "${ctx}/sys/module/page"
                     },
                   	order: [ 5, 'asc' ],
                     "columns": [

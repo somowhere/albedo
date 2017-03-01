@@ -72,14 +72,14 @@ public class ModuleResource extends DataResource<Module> {
 	/**
 	 * GET / : get all module.
 	 * 
-	 * @param pageable
+	 * @param pm
 	 *            the pagination information
 	 * @return the ResponseEntity with status 200 (OK) and with body all module
 	 * @throws URISyntaxException
 	 *             if the pagination headers couldn't be generated
 	 */
-	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public void getPage(PageModel<Module> pm, HttpServletResponse response) {
+	@RequestMapping(value = "/page", method = RequestMethod.POST)
+	public void getPage(@RequestBody PageModel<Module> pm, HttpServletResponse response) {
 		SpecificationDetail<Module> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
 				QueryCondition.ne(Module.F_STATUS, Module.FLAG_DELETE));
 		Page<Module> page = moduleService.findAll(spec, pm);
@@ -111,22 +111,12 @@ public class ModuleResource extends DataResource<Module> {
 	}
 
 	/**
-	 * POST / : Creates a new module.
-	 * <p>
-	 * Creates a new module if the login and email are not already used, and sends
-	 * an mail with an activation link. The module needs to be activated on
-	 * creation.
-	 * </p>
 	 *
-	 * @param managedModuleVM
-	 *            the module to create
+	 * @param module
+	 * @param confirmPassword
+	 * @param model
 	 * @param request
-	 *            the HTTP request
-	 * @return the ResponseEntity with status 201 (Created) and with body the
-	 *         new module, or with status 400 (Bad Request) if the login or email
-	 *         is already in use
-	 * @throws URISyntaxException
-	 *             if the Location URI syntax is incorrect
+	 * @param response
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed

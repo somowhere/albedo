@@ -69,7 +69,7 @@ albedo:
     mail:
         from: albedoJhipster@localhost
     swagger:
-        basePath: /api/.*
+        basePath: /.*
         title: albedoJhipster API
         description: albedoJhipster API documentation
         version: 0.0.1

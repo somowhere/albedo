@@ -134,26 +134,27 @@
 
     <build>
         <resources>
-            <resource>
+            <!--<resource>
                 <directory>${basedir}/src/main/webapp</directory>
-                <!--注意此次必须要放在此目录下才能被访问到
+                &lt;!&ndash;注意此次必须要放在此目录下才能被访问到&ndash;&gt;
                 <targetPath>META-INF/resources</targetPath>
                 <includes>
-                    <include>WEB-INF/**</include>
+                    &lt;!&ndash;<include>WEB-INF/**</include>
                     <include>statics/frame/**</include>
-                    <include>statics/swagger-ui/**</include>
+                    <include>statics/swagger-ui/**</include>&ndash;&gt;
+                    <include>**/**</include>
                 </includes>
                 <excludes>
                     <exclude>**/*.jar</exclude>
-                </excludes>-->
-            </resource>
+                </excludes>
+            </resource>-->
 
-            <!-- <resource>
+            <resource>
                 <directory>${basedir}/src/main/resources</directory>
                  <includes>
-                     <include>codet/**</include>
+                     <include>**/**</include>
                  </includes>
-            </resource>-->
+            </resource>
 
         </resources>
         <outputDirectory>${project.basedir}/target/bin</outputDirectory>

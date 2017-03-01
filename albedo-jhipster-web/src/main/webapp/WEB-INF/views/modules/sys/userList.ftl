@@ -59,10 +59,8 @@
             gridUser.init({
                 src: $("#data-table-user"),
                 dataTable: {
-                    "ajax": {
-                        "url": "${ctx}/sys/user/page",
-                        type: 'GET',
-                        "dataType": 'json'
+                    ajax: {
+                        url: "${ctx}/sys/user/page"
                     },
                     "columns": [
                     	{ data: "orgName" },{ data: "loginId" },

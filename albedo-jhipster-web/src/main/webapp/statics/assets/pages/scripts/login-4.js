@@ -43,9 +43,6 @@ var Login = function () {
 	            },
 	            submitHandler: function (form) {
 	            	$(form).ajaxSubmit({
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
 	                    success:function(){
 	                        $('.alert-danger').hide();
 	                        albedo.goTo(ctx+"/index");

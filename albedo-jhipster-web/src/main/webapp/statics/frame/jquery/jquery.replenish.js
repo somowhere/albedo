@@ -16,7 +16,9 @@ var COOKIE_CSRF_NAME = "CSRF-TOKEN";
 	});
 	$(document).ajaxError(function(event, xhr, settings) {
 		App.unblockUI();
-		toastr && toastr.error('网络异常，请检查您的网络连接！', {closeButton:true,positionClass: 'toast-bottom-right'})
+		try{
+            toastr && toastr.error('网络异常，请检查您的网络连接！', {closeButton:true,positionClass: 'toast-bottom-right'})
+		}catch (e){}
 	});
     $(function(){
 		$("input[name='_csrf']").val(albedo.getCookie(COOKIE_CSRF_NAME));

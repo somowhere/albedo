@@ -61,7 +61,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     CustomizeAccessDecisionManager customizeAccessDecisionManager;
     @Inject
     InvocationSecurityMetadataSourceService invocationSecurityMetadataSourceService;
-    
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -71,7 +71,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) {
         try {
             auth
-                .userDetailsService(userDetailsService)
+                    .userDetailsService(userDetailsService)
                     .passwordEncoder(passwordEncoder());
         } catch (Exception e) {
             throw new BeanInitializationException("Security configuration failed", e);
@@ -80,82 +80,82 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-            .antMatchers(HttpMethod.OPTIONS, "/**")
-            .antMatchers("/content/**")
-            .antMatchers("/statics/**")
-            .antMatchers("/test/**");
+                .antMatchers(HttpMethod.OPTIONS, "/**")
+                .antMatchers("/content/**")
+                .antMatchers("/statics/**")
+                .antMatchers("/test/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-    	String adminPath = albedoProperties.getAdminPath();
-    	
-    	String[] permissAll = new String[InvocationSecurityMetadataSourceService.authorizePermitAll.length];
-    	
-    	for (int i = 0; i < permissAll.length; i++) {
-    		permissAll[i] = PublicUtil.toAppendStr(adminPath, InvocationSecurityMetadataSourceService.authorizePermitAll[i]);
-		}
-    	
+        String adminPath = albedoProperties.getAdminPath();
+
+        String[] permissAll = new String[InvocationSecurityMetadataSourceService.authorizePermitAll.length];
+
+        for (int i = 0; i < permissAll.length; i++) {
+            permissAll[i] = PublicUtil.toAppendStr(adminPath, InvocationSecurityMetadataSourceService.authorizePermitAll[i]);
+        }
+
         http
-            .csrf()
-        .and()
-            .addFilterAfter(new CsrfCookieGeneratorFilter(), CsrfFilter.class)
-            .exceptionHandling()
-            .accessDeniedHandler(new CustomAccessDeniedHandler())
-            .authenticationEntryPoint(authenticationEntryPoint)
-        .and()
-            .rememberMe()
-            .rememberMeServices(rememberMeServices)
-            .rememberMeParameter("remember-me")
-            .key(albedoProperties.getSecurity().getRememberMe().getKey())
-        .and()
-            .formLogin()
-            .loginProcessingUrl(adminPath+"/api/authentication")
-            .successHandler(ajaxAuthenticationSuccessHandler)
-            .failureHandler(ajaxAuthenticationFailureHandler)
-            .usernameParameter("a_username")
-            .passwordParameter("a_password")
-            .permitAll()
-        .and()
-            .logout()
-            .logoutUrl(adminPath+InvocationSecurityMetadataSourceService.logoutUrl)
-            .logoutSuccessHandler(ajaxLogoutSuccessHandler)
-            .deleteCookies("JSESSIONID", "CSRF-TOKEN")
-            .permitAll()
-        .and()
-            .headers()
-            .frameOptions()
-            .disable()
-        .and()
-            .authorizeRequests()
-            .antMatchers(adminPath+InvocationSecurityMetadataSourceService.loginUrl).permitAll()
-            .antMatchers(permissAll).permitAll()
-            .antMatchers(adminPath+"/**").authenticated().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
-                public <O extends FilterSecurityInterceptor> O postProcess(O fsi) {
-                    fsi.setSecurityMetadataSource(securityMetadataSource());
-                    return fsi;
-                }
-            }).accessDecisionManager(customizeAccessDecisionManager)
-            .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
-            .antMatchers("/statics/swagger-ui/index.html").hasAuthority(AuthoritiesConstants.ADMIN);
+                .csrf()
+                .and()
+                .addFilterAfter(new CsrfCookieGeneratorFilter(), CsrfFilter.class)
+                .exceptionHandling()
+                .accessDeniedHandler(new CustomAccessDeniedHandler())
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .and()
+                .rememberMe()
+                .rememberMeServices(rememberMeServices)
+                .rememberMeParameter("remember-me")
+                .key(albedoProperties.getSecurity().getRememberMe().getKey())
+                .and()
+                .formLogin()
+                .loginProcessingUrl(adminPath+"/api/authentication")
+                .successHandler(ajaxAuthenticationSuccessHandler)
+                .failureHandler(ajaxAuthenticationFailureHandler)
+                .usernameParameter("a_username")
+                .passwordParameter("a_password")
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl(adminPath+InvocationSecurityMetadataSourceService.logoutUrl)
+                .logoutSuccessHandler(ajaxLogoutSuccessHandler)
+                .deleteCookies("JSESSIONID", "CSRF-TOKEN")
+                .permitAll()
+                .and()
+                .headers()
+                .frameOptions()
+                .disable()
+                .and()
+                .authorizeRequests()
+                .antMatchers(adminPath+InvocationSecurityMetadataSourceService.loginUrl).permitAll()
+                .antMatchers(permissAll).permitAll()
+                .antMatchers(adminPath+"/**").authenticated().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+            public <O extends FilterSecurityInterceptor> O postProcess(O fsi) {
+                fsi.setSecurityMetadataSource(securityMetadataSource());
+                return fsi;
+            }
+        }).accessDecisionManager(customizeAccessDecisionManager)
+                .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
+                .antMatchers("/statics/swagger-ui/index.html").hasAuthority(AuthoritiesConstants.ADMIN);
 
     }
-   
+
     @Bean
     public FilterInvocationSecurityMetadataSource securityMetadataSource() {
         return invocationSecurityMetadataSourceService;
     }
-    
+
 //    @Bean
 //    public AccessDecisionManager unanimous(){
-//    	
+//
 //    	List<AccessDecisionVoter<? extends Object>> decisionVoters = Lists.newArrayList( new RoleVoter(), new AuthenticatedVoter(), new DatabaseRoleVoter(), new WebExpressionVoter());
-//    	
+//
 //    	return new UnanimousBased(decisionVoters);
-//    	
+//
 //    }
 //    private class DatabaseRoleVoter implements AccessDecisionVoter<Object> {
-//       
+//
 //    	@Override
 //        public boolean supports(ConfigAttribute arg0) {
 //            return true;

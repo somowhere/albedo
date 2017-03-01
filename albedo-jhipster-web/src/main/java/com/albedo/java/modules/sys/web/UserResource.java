@@ -93,19 +93,13 @@ public class UserResource extends DataResource<User> {
 		return "modules/sys/userList";
 	}
 	/**
-	 * GET / : get all user.
-	 * 
-	 * @param pageable
-	 *            the pagination information
-	 * @return the ResponseEntity with status 200 (OK) and with body all user
-	 * @throws URISyntaxException
-	 *             if the pagination headers couldn't be generated
+	 * 分页
+	 * @param pm
+	 * @param response
 	 */
-	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public void getPage(PageModel<User> pm, HttpServletResponse response) {
-		SpecificationDetail<User> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(), SecurityUtil.dataScopeFilter(),
+	@RequestMapping(value = "/page", method = RequestMethod.POST)
+	public void getPage(@RequestBody PageModel<User> pm, HttpServletResponse response) { SpecificationDetail<User> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(), SecurityUtil.dataScopeFilter(),
 				QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE), QueryCondition.ne(User.F_ID, "1"));
-		
 		Page<User> page = userService.findAll(spec, pm);
 		pm.setPageInstance(page);
 		JSON rs = JsonUtil.getInstance().setFreeFilters("roleIdList").setRecurrenceStr("org_name").toJsonObject(pm);
@@ -120,24 +114,6 @@ public class UserResource extends DataResource<User> {
 		return PublicUtil.toAppendStr("modules/sys/userForm", isModal ? "Modal" : "");
 	}
 
-	/**
-	 * POST / : Creates a new user.
-	 * <p>
-	 * Creates a new user if the login and email are not already used, and sends
-	 * an mail with an activation link. The user needs to be activated on
-	 * creation.
-	 * </p>
-	 *
-	 * @param managedUserVM
-	 *            the user to create
-	 * @param request
-	 *            the HTTP request
-	 * @return the ResponseEntity with status 201 (Created) and with body the
-	 *         new user, or with status 400 (Bad Request) if the login or email
-	 *         is already in use
-	 * @throws URISyntaxException
-	 *             if the Location URI syntax is incorrect
-	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
 	@Secured(AuthoritiesConstants.ADMIN)
