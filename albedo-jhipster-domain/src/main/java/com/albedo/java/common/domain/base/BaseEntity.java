@@ -2,6 +2,7 @@ package com.albedo.java.common.domain.base;
 
 import com.albedo.java.util.annotation.DictType;
 import com.albedo.java.util.annotation.SearchField;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -21,7 +22,7 @@ public abstract class BaseEntity extends GeneralEntity {
 	public static final String F_STATUS = "status";
 	/*** 状态（-2：删除；-1：停用 0：正常 1:审核） */
 	@Column(name = "status_")
-	@XmlTransient @SearchField @DictType(name="sys_status")
+	@XmlTransient @SearchField @DictType(name="sys_status")@ApiModelProperty(hidden=true)
 	protected Integer status;
 
 	public BaseEntity() {

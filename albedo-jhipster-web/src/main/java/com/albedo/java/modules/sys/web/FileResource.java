@@ -88,8 +88,7 @@ public class FileResource extends BaseResource {
             response.setHeader("Content-disposition", "attachment; filename=\"" + file.getName() + "\"");
             FileCopyUtils.copy(bytes, response.getOutputStream());
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 }

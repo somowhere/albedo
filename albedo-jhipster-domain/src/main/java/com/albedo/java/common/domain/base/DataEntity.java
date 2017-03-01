@@ -4,6 +4,7 @@ import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.annotation.JsonField;
 import com.alibaba.fastjson.annotation.JSONField;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.envers.Audited;
@@ -41,36 +42,36 @@ public abstract class DataEntity extends BaseEntity {
     
     @CreatedBy
     @Column(name = "created_by", nullable = false, length = 50, updatable = false)
-    @JSONField(serialize = false)
+    @JSONField(serialize = false)@ApiModelProperty(hidden=true)
     protected String createdBy;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by", updatable = false, insertable=false)
-    @NotFound(action = NotFoundAction.IGNORE) @JSONField(serialize = false) @JsonField
+    @NotFound(action = NotFoundAction.IGNORE) @JSONField(serialize = false) @JsonField@ApiModelProperty(hidden=true)
     protected User creator;
 
     @CreatedDate
-    @Column(name = "created_date", nullable = false)
+    @Column(name = "created_date", nullable = false)@ApiModelProperty(hidden=true)
     protected Date createdDate = PublicUtil.getCurrentDate();
 
     @LastModifiedBy
-    @Column(name = "last_modified_by", length = 50)
+    @Column(name = "last_modified_by", length = 50)@ApiModelProperty(hidden=true)
     protected String lastModifiedBy;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "last_modified_by", updatable = false, insertable=false)
-    @NotFound(action = NotFoundAction.IGNORE) @JSONField(serialize = false) @JsonField
+    @NotFound(action = NotFoundAction.IGNORE) @JSONField(serialize = false) @JsonField@ApiModelProperty(hidden=true)
     protected User modifier;
     
     @LastModifiedDate
-    @Column(name = "last_modified_date")
+    @Column(name = "last_modified_date")@ApiModelProperty(hidden=true)
     protected Date lastModifiedDate = PublicUtil.getCurrentDate();
 
     /*** 默认0，必填，离线乐观锁 */
 	@Version
 	@Column(name = "version_")
 	@JSONField(serialize = false)
-	@XmlTransient
+	@XmlTransient@ApiModelProperty(hidden=true)
 	protected Integer version = 0;
 
 	/*** 备注 */

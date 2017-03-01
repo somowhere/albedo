@@ -19,6 +19,7 @@ import com.albedo.java.web.rest.base.DataResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.Lists;
+import io.swagger.annotations.ApiImplicitParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.net.URISyntaxException;
 
 /**
@@ -97,8 +99,8 @@ public class UserResource extends DataResource<User> {
 	 * @param pm
 	 * @param response
 	 */
-	@RequestMapping(value = "/page", method = RequestMethod.POST)
-	public void getPage(@RequestBody PageModel<User> pm, HttpServletResponse response) { SpecificationDetail<User> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(), SecurityUtil.dataScopeFilter(),
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
+	public void getPage(PageModel<User> pm, HttpServletResponse response) { SpecificationDetail<User> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(), SecurityUtil.dataScopeFilter(),
 				QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE), QueryCondition.ne(User.F_ID, "1"));
 		Page<User> page = userService.findAll(spec, pm);
 		pm.setPageInstance(page);
@@ -108,16 +110,16 @@ public class UserResource extends DataResource<User> {
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	@Secured(AuthoritiesConstants.ADMIN)
-	public String form(User user, Boolean isModal, Model model) {
+//	@Secured(AuthoritiesConstants.ADMIN)
+	public String form(User user, @RequestParam(required=false) Boolean isModal, Model model) {
 		model.addAttribute("allRoles", FormDirective.convertComboDataList(SecurityUtil.getRoleList(), Role.F_ID, Role.F_NAME));
 		return PublicUtil.toAppendStr("modules/sys/userForm", isModal ? "Modal" : "");
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	@Secured(AuthoritiesConstants.ADMIN)
-	public void save(User user, String confirmPassword, Model model, HttpServletRequest request, HttpServletResponse response)
+//	@Secured(AuthoritiesConstants.ADMIN)
+	public void save(@RequestBody User user, @RequestParam(required=false) String confirmPassword, HttpServletResponse response)
 			throws URISyntaxException {
 		log.debug("REST request to save User : {}", user);
 		// beanValidatorAjax(user);
@@ -152,7 +154,7 @@ public class UserResource extends DataResource<User> {
 	@RequestMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
 			+ "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	@Secured(AuthoritiesConstants.ADMIN)
+//	@Secured(AuthoritiesConstants.ADMIN)
 	public void delete(@PathVariable String ids, HttpServletResponse response) {
 		log.debug("REST request to delete User: {}", ids);
 		userService.delete(ids);
@@ -169,7 +171,7 @@ public class UserResource extends DataResource<User> {
 	@RequestMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
 			+ "}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	@Secured(AuthoritiesConstants.ADMIN)
+//	@Secured(AuthoritiesConstants.ADMIN)
 	public void lockOrUnLock(@PathVariable String ids, HttpServletResponse response) {
 		log.debug("REST request to lockOrUnLock User: {}", ids);
 		userService.lockOrUnLock(ids);

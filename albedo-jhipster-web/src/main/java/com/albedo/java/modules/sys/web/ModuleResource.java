@@ -78,7 +78,7 @@ public class ModuleResource extends DataResource<Module> {
 	 * @throws URISyntaxException
 	 *             if the pagination headers couldn't be generated
 	 */
-	@RequestMapping(value = "/page", method = RequestMethod.POST)
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public void getPage(@RequestBody PageModel<Module> pm, HttpServletResponse response) {
 		SpecificationDetail<Module> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
 				QueryCondition.ne(Module.F_STATUS, Module.FLAG_DELETE));

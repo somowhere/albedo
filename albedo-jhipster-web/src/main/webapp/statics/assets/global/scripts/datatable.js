@@ -72,11 +72,8 @@ var Datatable = function() {
                     "autoWidth": false, // disable fixed width and enable fluid table
                     "ajax": { // define ajax settings
                         "url": "", // ajax URL
-                        "type": "POST", // request type
+                        "type": "GET", // request type
                         "timeout": 20000,
-                        "headers": {
-                            "Content-Type" : "application/json"
-                        },
                         "data": function(d) { // add request parameters before submit
                             var pm = {},sortColumn = d.columns[d.order[0].column];
                             pm.sortName = (sortColumn.name ? sortColumn.name : sortColumn.data) +" "+d.order[0].dir;

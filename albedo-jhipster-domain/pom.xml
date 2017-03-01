@@ -6,6 +6,10 @@
         <artifactId>albedo-jhipster</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+    <properties>
+        <springfox.version>2.5.0</springfox.version>
+    </properties>
+
     <artifactId>albedo-jhipster-domain</artifactId>
     <dependencies>
         <dependency>
@@ -53,7 +57,17 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mapstruct</groupId>
+                    <artifactId>mapstruct</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
     </dependencies>
 </project>

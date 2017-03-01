@@ -6,6 +6,7 @@ import com.albedo.java.common.config.template.FreeMarkerConfig;
 import com.albedo.java.common.security.service.InvocationSecurityMetadataSourceService;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.spring.SpringContextHolder;
+import io.swagger.annotations.ApiModelProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -76,6 +77,7 @@ public class AlbedoJhipsterWeb {
         Environment env = applicationContext.getEnvironment();
         ((InvocationSecurityMetadataSourceService) SpringContextHolder.getBean("invocationSecurityMetadataSourceService")).afterPropertiesSet();
         SpringContextHolder.getBean(FreeMarkerConfig.class).afterPropertiesSet();
+
 //        SpringContextHolder.getBean(TaskScheduleJobService.class).init();
         log.info("\n----------------------------------------------------------\n\t" +
                         "Application '{}' is running! Access URLs:\n\t" +

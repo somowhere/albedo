@@ -163,10 +163,14 @@ var UIExtendedModals = function () {
 	                    	albedo.isExitsFunction(validateFun) && eval("flag = "+validateFun+"()");
 	                    	if(flag){
 		                        $targetEvent.modal('loading');
+		                        console.log();
 		                        $.ajax({
 		                            url: $form.attr("action"),
 		                            type: $form.attr("method")||"POST",
-		                            data: self.getValue($form.serialize()),
+		                            data: JSON.stringify($form.serializeObject()),
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
 		                            dataType: "json",
 		                            timeout: 60000,
 		                            success: function (re) {

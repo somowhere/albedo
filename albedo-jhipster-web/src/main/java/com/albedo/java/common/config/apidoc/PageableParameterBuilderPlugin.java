@@ -75,10 +75,12 @@ public class PageableParameterBuilderPlugin implements ParameterBuilderPlugin {
                     .build(),
                 context.parameterBuilder()
                     .parameterType("query").name("sort").modelRef(stringModel).allowMultiple(true)
-                    .description("Sorting criteria in the format: property(,asc|desc). "
-                        + "Default sort order is ascending. "
-                        + "Multiple sort criteria are supported.")
-                    .build());
+                    .description("Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.")
+                    .build(),
+                    context.parameterBuilder()
+                            .parameterType("query").name("queryConditionJson").modelRef(stringModel).allowMultiple(true)
+                            .description("search json [{\"fieldName\":\"name\",\"attrType\":\"String\",\"fieldNode\":\"\",\"operate\":\"like\",\"weight\":0,\"value\":\"g\"},{\"fieldName\":\"status\",\"attrType\":\"Integer\",\"fieldNode\":\"\",\"operate\":\"in\",\"weight\":0,\"value\":\"-1\"}]}")
+                            .build());
 
             context.getOperationContext().operationBuilder().parameters(parameters);
         }

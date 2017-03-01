@@ -8,6 +8,7 @@ import com.albedo.java.util.domain.Globals;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.*;
 import org.hibernate.validator.constraints.Email;
@@ -56,7 +57,7 @@ public class User extends IdEntity {
     
     @ManyToOne
     @JoinColumn(name = "org_id", updatable = false, insertable=false)
-    @NotFound(action = NotFoundAction.IGNORE)
+    @NotFound(action = NotFoundAction.IGNORE)@ApiModelProperty(hidden=true)
     private Org org;
     
     @Size(max = 50)
@@ -96,17 +97,17 @@ public class User extends IdEntity {
         name = "sys_user_role_t",
         joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id_")},
         inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id_")})
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)@ApiModelProperty(hidden=true)
     private Set<Role> roles = Sets.newHashSet();
 
     @JSONField(serialize=false)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)@ApiModelProperty(hidden=true)
     private Set<PersistentToken> persistentTokens =  Sets.newHashSet();    
     
-    @Transient
+    @Transient@ApiModelProperty(hidden=true)
     private String roleNames;
-    @Transient
+    @Transient@ApiModelProperty(hidden=true)
     private List<String> roleIdList;
     
     

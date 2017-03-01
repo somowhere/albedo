@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 
+import com.albedo.java.util.domain.Message;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.slf4j.Logger;
@@ -106,28 +107,34 @@ public class BaseResource {
 	public String bindException(Exception e, HttpServletRequest request, HttpServletResponse response) {
 		setReqAndRes(response);
 		log.warn("请求链接:{} 操作异常:{}", request.getRequestURI(), e.getMessage());
+		Message message = new Message();
+		message.setStatus(MSG_TYPE_WARNING);
+		if (e instanceof RuntimeMsgException) {
+			RuntimeMsgException msg = (RuntimeMsgException) e;
+			message.setData(msg.getData());
+			message.setMessage(msg.getMessage());
+		} else if (e instanceof BindException) {
+			message.setMessage("您提交的参数，服务器无法处理");
+		} else if (e instanceof AccessDeniedException) {
+			message.setMessage("权限不足");
+		} else if (e instanceof ConstraintViolationException) {
+			List<String> list = BeanValidators.extractPropertyAndMessageAsList((ConstraintViolationException) e, ": ");
+			list.add(0, "数据验证失败：");
+			message.setMessage(Collections3.convertToString(list, StringUtil.SPLIT_DEFAULT));
+		} else if (e.getCause()!=null && e.getCause().getCause()!= null && e.getCause().getCause() instanceof ConstraintViolationException) {
+			List<String> list = BeanValidators.extractPropertyAndMessageAsList((ConstraintViolationException) e.getCause().getCause(), ": ");
+			list.add(0, "数据验证失败：");
+			message.setMessage(Collections3.convertToString(list, StringUtil.SPLIT_DEFAULT));
+		}
+		else {
+			e.printStackTrace();
+			message.setStatus(MSG_TYPE_WARNING);
+			message.setMessage("操作异常！请联系管理员");
+		}
+
 		String requestType = request.getHeader("X-Requested-With");
 		if (albedoProperties.getHttp().getRestful() || "XMLHttpRequest".equals(requestType)) {
-			if (e instanceof RuntimeMsgException) {
-				RuntimeMsgException msg = (RuntimeMsgException) e;
-				addAjaxMsg(MSG_TYPE_WARNING, msg.getMessage(), msg.getData(), response);
-			} else if (e instanceof BindException) {
-				addAjaxMsg(MSG_TYPE_WARNING, "您提交的参数，服务器无法处理", response);
-			} else if (e instanceof AccessDeniedException) {
-				addAjaxMsg(MSG_TYPE_WARNING, "权限不足", response);
-			} else if (e instanceof ConstraintViolationException) {
-				List<String> list = BeanValidators.extractPropertyAndMessageAsList((ConstraintViolationException) e, ": ");
-				list.add(0, "数据验证失败：");
-				addAjaxMsg(MSG_TYPE_WARNING, Collections3.convertToString(list, StringUtil.SPLIT_DEFAULT), response);
-			} else if (e.getCause()!=null && e.getCause().getCause()!= null && e.getCause().getCause() instanceof ConstraintViolationException) {
-				List<String> list = BeanValidators.extractPropertyAndMessageAsList((ConstraintViolationException) e.getCause().getCause(), ": ");
-				list.add(0, "数据验证失败：");
-				addAjaxMsg(MSG_TYPE_WARNING, Collections3.convertToString(list, StringUtil.SPLIT_DEFAULT), response);
-			} 
-			else {
-				e.printStackTrace();
-				addAjaxMsg(MSG_TYPE_ERROR, "操作异常！请联系管理员", response);
-			}
+			writeJsonHttpResponse(message, response);
 		} else {
 			if (e instanceof BindException) {
 				return "400";
@@ -146,9 +153,10 @@ public class BaseResource {
 					}
 					return PublicUtil.isNotEmpty(msg.getUrl()) ? msg.getUrl() : "error";
 				}
-				e.printStackTrace();
-				return "error";
+				request.setAttribute(MSG, message.getMessage());
+				request.setAttribute(MSG_TYPE, message.getStatus());
 			}
+			return "error";
 		}
 		return null;
 	}
@@ -217,9 +225,8 @@ public class BaseResource {
 
 	/**
 	 * 添加Model消息
-	 * 
-	 * @param messages
-	 *            消息
+	 * @param model
+	 * @param message
 	 */
 	protected void addMessage(Model model, String message) {
 		boolean falg = PublicUtil.isEmpty(message);
@@ -229,9 +236,8 @@ public class BaseResource {
 
 	/**
 	 * 添加警告Model消息
-	 * 
-	 * @param messages
-	 *            消息
+	 * @param model
+	 * @param message
 	 */
 	protected void addWarnMessage(Model model, String message) {
 		model.addAttribute(MSG, message);
@@ -240,9 +246,9 @@ public class BaseResource {
 
 	/**
 	 * 添加ajaxModel消息
-	 * 
-	 * @param messages
-	 *            消息
+	 * @param map
+	 * @param type
+	 * @param message
 	 */
 	protected void addAjaxMessage(Map<String, String> map, String type, String message) {
 		map.put(MSG_TYPE, type);
@@ -251,9 +257,9 @@ public class BaseResource {
 
 	/**
 	 * 添加ajaxModel消息
-	 * 
-	 * @param messages
-	 *            消息
+	 * @param map
+	 * @param type
+	 * @param message
 	 */
 	protected void addAjaxObjectMessage(Map<String, Object> map, String type, String message) {
 		map.put(MSG_TYPE, type);
@@ -262,9 +268,8 @@ public class BaseResource {
 
 	/**
 	 * 添加ajaxModel消息
-	 * 
-	 * @param messages
-	 *            消息 为空 消息类型默认指定 MSG_TYPE_SUCCESS 否则 MSG_TYPE_WARNING
+	 * @param map
+	 * @param message
 	 */
 	protected void addAjaxMessage(Map<String, String> map, String message) {
 		boolean flag = PublicUtil.isEmpty(message);
@@ -275,9 +280,8 @@ public class BaseResource {
 
 	/**
 	 * 添加ajaxModel消息
-	 * 
-	 * @param messages
-	 *            消息 为空 消息类型默认指定 MSG_TYPE_SUCCESS 否则 MSG_TYPE_WARNING
+	 * @param map
+	 * @param message
 	 */
 	protected void addAjaxObjectMessage(Map<String, Object> map, String message) {
 		boolean flag = PublicUtil.isEmpty(message);
@@ -344,10 +348,9 @@ public class BaseResource {
 	}
 
 	/**
-	 * 添加警告Flash消息
 	 * 
-	 * @param messages
-	 *            消息
+	 * @param redirectAttributes
+	 * @param message
 	 */
 	protected void addWarnMessage(RedirectAttributes redirectAttributes, String message) {
 		redirectAttributes.addFlashAttribute(MSG, message);
@@ -355,10 +358,9 @@ public class BaseResource {
 	}
 
 	/**
-	 * 添加Flash消息 为空 type - MSG_TYPE_SUCCESS 不为空 type - MSG_TYPE_WARNING
 	 * 
-	 * @param messages
-	 *            消息
+	 * @param redirectAttributes
+	 * @param message
 	 */
 	protected void addMessage(RedirectAttributes redirectAttributes, String message) {
 		boolean falg = PublicUtil.isEmpty(message);
