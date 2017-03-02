@@ -83,7 +83,7 @@ public class GenTemplateResource extends DataResource<GenTable> {
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public ResponseEntity save(@RequestBody GenTable genTable)
+	public ResponseEntity save(GenTable genTable)
 			throws URISyntaxException {
 		log.debug("REST request to save GenTable : {}", genTable);
 		// Lowercase the genTable login before comparing with database

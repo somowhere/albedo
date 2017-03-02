@@ -4,6 +4,7 @@ import com.albedo.java.common.domain.data.DynamicSpecifications;
 import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.modules.sys.domain.Dict;
+import com.albedo.java.modules.sys.domain.bean.DictTreeQuery;
 import com.albedo.java.modules.sys.service.DictService;
 import com.albedo.java.modules.sys.service.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
@@ -52,9 +53,8 @@ public class DictResource extends DataResource<Dict> {
 	}
 	
 	@RequestMapping(value = "findTreeData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity findTreeData(@RequestParam(required = false) String type,
-			@RequestParam(required = false) String all) {
-		String rs = dictService.findTreeData(type, all);
+	public ResponseEntity findTreeData(DictTreeQuery dictTreeQuery) {
+		JSON rs = dictService.findTreeData(dictTreeQuery);
 		return ResultBuilder.buildOk(rs);
 	}
 	
@@ -111,7 +111,7 @@ public class DictResource extends DataResource<Dict> {
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public ResponseEntity save(@RequestBody Dict dict)
+	public ResponseEntity save(Dict dict)
 			throws URISyntaxException {
 		log.debug("REST request to save Dict : {}", dict);
 		// Lowercase the dict login before comparing with database

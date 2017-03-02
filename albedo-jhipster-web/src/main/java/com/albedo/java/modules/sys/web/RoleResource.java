@@ -82,7 +82,7 @@ public class RoleResource extends DataResource<Role> {
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public ResponseEntity save(@RequestBody Role role){
+	public ResponseEntity save(Role role){
 		log.debug("REST request to save Role : {}", role);
 		// Lowercase the role login before comparing with database
 		if (!checkByProperty(Reflections.createObj(Role.class, Lists.newArrayList(Role.F_ID, Role.F_NAME),

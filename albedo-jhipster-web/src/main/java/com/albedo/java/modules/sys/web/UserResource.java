@@ -123,7 +123,7 @@ public class UserResource extends DataResource<User> {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed @ApiImplicitParams(@ApiImplicitParam(paramType = "query",name = "confirmPassword"))
 //	@Secured(AuthoritiesConstants.ADMIN)
-	public ResponseEntity save(@RequestBody User user, String confirmPassword){
+	public ResponseEntity save(User user, String confirmPassword){
 		log.debug("REST request to save User : {}", user);
 		// beanValidatorAjax(user);
 		if (PublicUtil.isNotEmpty(user.getPassword()) && !user.getPassword().equals(confirmPassword)) {

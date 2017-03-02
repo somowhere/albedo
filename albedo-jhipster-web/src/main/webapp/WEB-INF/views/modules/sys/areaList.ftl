@@ -41,11 +41,11 @@
                     <thead>
                     <tr area="row" class="heading">
                     	<th class=""> 区域名称 </th>
+                        <th class=""> 编码 </th>
                     	<th class=""> 区域简称 </th>
                     	<th class=""> 序号 </th>
                     	<th class=""> 区域等级 </th>
                     	<th class=""> 区域编码 </th>
-                    	<th> 是否叶子节点 </th>
                     	<th> 状态 </th>
                     <#if SecurityUtil.hasPermission('sys_area_edit,sys_area_delete,sys_area_lock')><th width="10%"> 操作 </th></#if>
                     </tr>
@@ -76,7 +76,8 @@
 					, render: function(data, type, row){
 						<#if SecurityUtil.hasPermission('sys_area_edit')>data = '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-area" data-is-modal="true" data-url="${ctx}/sys/area/edit?id='+row.id+'" title=\"点击编辑区域管理\">'+data+'</a>'</#if>
 						return data;
-					}}
+					}}, {data:'id'
+                        }
 					, {data:'shortName'
 					}
 					, {data:'sort'
@@ -84,8 +85,6 @@
 					, {data:'level'
 					}
 					, {data:'code'
-					}
-					, {data:'isLeaf'
 					}
 					, {data:'status',render: function(data, type, row){
 						var temp = '<span class="label label-sm label-'+(data == "正常" ? "info" : "warning")+'">'+data+'</span>';

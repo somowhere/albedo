@@ -46,7 +46,9 @@ public class ModuleResource extends DataResource<Module> {
 	public Module get(@RequestParam(required = false) String id) throws Exception {
 		String path = request.getRequestURI();
 		if (path != null && !path.contains("checkBy") && !path.contains("find") && PublicUtil.isNotEmpty(id)) {
-			return moduleService.findOne(id);
+			Module module = moduleService.findOne(id);
+			System.out.print(module.getParentIds());
+			return module;
 		} else {
 			return new Module();
 		}
@@ -76,7 +78,7 @@ public class ModuleResource extends DataResource<Module> {
 	 * @return
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public ResponseEntity getPage(@RequestBody PageModel<Module> pm) {
+	public ResponseEntity getPage(PageModel<Module> pm) {
 		SpecificationDetail<Module> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
 				QueryCondition.ne(Module.F_STATUS, Module.FLAG_DELETE));
 		Page<Module> page = moduleService.findAll(spec, pm);
@@ -114,7 +116,7 @@ public class ModuleResource extends DataResource<Module> {
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public ResponseEntity save(@RequestBody Module module)
+	public ResponseEntity save(Module module)
 			{
 		log.debug("REST request to save Module : {}", module);
 		// Lowercase the module login before comparing with database

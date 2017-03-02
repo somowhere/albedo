@@ -106,7 +106,7 @@ public class OrgResource extends DataResource<Org> {
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public ResponseEntity save(@RequestBody Org org)
+	public ResponseEntity save(Org org)
 			 {
 		log.debug("REST request to save Org : {}", org);
 		// Lowercase the org login before comparing with database

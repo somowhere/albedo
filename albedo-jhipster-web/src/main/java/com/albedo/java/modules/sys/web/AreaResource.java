@@ -102,12 +102,12 @@ public class AreaResource extends DataResource<Area> {
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public ResponseEntity save(@RequestBody Area area) {
+	public ResponseEntity save(Area area) {
 		log.debug("REST request to save Area : {}", area);
 		Area areaValidate = new Area(area.getId());
 		areaValidate.setCode(area.getCode());
 		if (PublicUtil.isNotEmpty(area.getCode()) && !checkByProperty(areaValidate)) {
-			throw new RuntimeMsgException(PublicUtil.toAppendStr("保存区域管理'", area.getCode(),"'失败，区域编码已存在"));
+			throw new RuntimeMsgException("保存区域管理'", area.getCode(),"'失败，区域编码已存在");
 		}
 		areaService.save(area);
 		return ResultBuilder.buildOk("保存区域管理成功");

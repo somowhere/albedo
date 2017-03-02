@@ -29,7 +29,7 @@ public class ResultBuilder {
         }
         return new ResponseEntity(CustomMessage.createWarn(data, messages), HttpStatus.OK);
     }
-    public static ResponseEntity buildOk(Object data) {
+    public static ResponseEntity buildDataOk(Object data) {
         String[] msg;
         if (data instanceof BindingResult){
             List<String> errorsList=new ArrayList();
