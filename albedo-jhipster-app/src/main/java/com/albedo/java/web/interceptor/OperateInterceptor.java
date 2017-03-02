@@ -22,7 +22,7 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.annotation.ParamNotNull;
 import com.albedo.java.util.base.Reflections;
-import com.albedo.java.util.domain.Message;
+import com.albedo.java.util.domain.CustomMessage;
 import com.albedo.java.web.rest.base.BaseResource;
 import com.albedo.java.web.rest.util.RequestUtil;
 import com.google.common.collect.Lists;
@@ -146,7 +146,7 @@ public class OperateInterceptor implements HandlerInterceptor {
 					List<String> paramList = Reflections.getMethodParameterList(handlerMethod.getBeanType(), handlerMethod.getMethod().getName());
 					for (String paramKey : paramList) {
 						if ((PublicUtil.isEmpty(props) || props.contains(paramKey)) && PublicUtil.isEmpty(request.getParameter(paramKey))) {
-							BaseResource.writeJsonHttpResponse(Message.createWarn(PublicUtil.toAppendStr("操作失败，参数[", paramKey, "]不能为空")), response);
+							BaseResource.writeJsonHttpResponse(CustomMessage.createWarn(PublicUtil.toAppendStr("操作失败，参数[", paramKey, "]不能为空")), response);
 							flag = false;
 							break;
 						}

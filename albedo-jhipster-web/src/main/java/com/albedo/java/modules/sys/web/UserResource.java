@@ -3,7 +3,6 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.config.template.tag.FormDirective;
 import com.albedo.java.common.domain.data.DynamicSpecifications;
 import com.albedo.java.common.domain.data.SpecificationDetail;
-import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.User;
@@ -15,24 +14,23 @@ import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.exception.RuntimeMsgException;
+import com.albedo.java.web.bean.ResultBuilder;
 import com.albedo.java.web.rest.base.DataResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.net.URISyntaxException;
 
 /**
@@ -97,30 +95,35 @@ public class UserResource extends DataResource<User> {
 	/**
 	 * 分页
 	 * @param pm
-	 * @param response
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public void getPage(PageModel<User> pm, HttpServletResponse response) { SpecificationDetail<User> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(), SecurityUtil.dataScopeFilter(),
+	public ResponseEntity getPage(PageModel<User> pm) { SpecificationDetail<User> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(), SecurityUtil.dataScopeFilter(),
 				QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE), QueryCondition.ne(User.F_ID, "1"));
 		Page<User> page = userService.findAll(spec, pm);
 		pm.setPageInstance(page);
 		JSON rs = JsonUtil.getInstance().setFreeFilters("roleIdList").setRecurrenceStr("org_name").toJsonObject(pm);
-		writeJsonHttpResponse(rs.toString(), response);
+		return ResultBuilder.buildObject(rs);
 	}
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
 //	@Secured(AuthoritiesConstants.ADMIN)
-	public String form(User user, @RequestParam(required=false) Boolean isModal, Model model) {
-		model.addAttribute("allRoles", FormDirective.convertComboDataList(SecurityUtil.getRoleList(), Role.F_ID, Role.F_NAME));
+	public String form(User user, @RequestParam(required=false) Boolean isModal) {
+		request.setAttribute("allRoles", FormDirective.convertComboDataList(SecurityUtil.getRoleList(), Role.F_ID, Role.F_NAME));
 		return PublicUtil.toAppendStr("modules/sys/userForm", isModal ? "Modal" : "");
 	}
 
+	/**
+	 * 保存
+	 * @param user
+	 * @param confirmPassword
+	 * @return
+	 * @throws URISyntaxException
+	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed
+	@Timed @ApiImplicitParams(@ApiImplicitParam(paramType = "query",name = "confirmPassword"))
 //	@Secured(AuthoritiesConstants.ADMIN)
-	public void save(@RequestBody User user, @RequestParam(required=false) String confirmPassword, HttpServletResponse response)
-			throws URISyntaxException {
+	public ResponseEntity save(@RequestBody User user, String confirmPassword){
 		log.debug("REST request to save User : {}", user);
 		// beanValidatorAjax(user);
 		if (PublicUtil.isNotEmpty(user.getPassword()) && !user.getPassword().equals(confirmPassword)) {
@@ -141,41 +144,37 @@ public class UserResource extends DataResource<User> {
 		// String baseUrl = request.getParameter("basePath");
 		// mailService.sendCreationEmail(newUser, baseUrl);
 		// }
-		addAjaxMsg(MSG_TYPE_SUCCESS, PublicUtil.toAppendStr("保存", user.getLoginId(), "成功"), response);
+		return ResultBuilder.buildOk("保存", user.getLoginId(), "成功");
 	}
 
 	/**
-	 * DELETE //:login : delete the "login" User.
-	 *
-	 * @param login
-	 *            the login of the user to delete
-	 * @return the ResponseEntity with status 200 (OK)
+	 * 批量删除
+	 * @param ids
+	 * @return
 	 */
 	@RequestMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
 			+ "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
 //	@Secured(AuthoritiesConstants.ADMIN)
-	public void delete(@PathVariable String ids, HttpServletResponse response) {
+	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete User: {}", ids);
 		userService.delete(ids);
-		addAjaxMsg(MSG_TYPE_SUCCESS, "删除成功", response);
+		return ResultBuilder.buildOk("删除成功");
 	}
-	
+
 	/**
-	 * lockOrUnLock //:login : lockOrUnLock the "login" User.
-	 *
-	 * @param login
-	 *            the login of the user to delete
-	 * @return the ResponseEntity with status 200 (OK)
+	 * 锁定or解锁
+	 * @param ids
+	 * @return
 	 */
 	@RequestMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
 			+ "}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
 //	@Secured(AuthoritiesConstants.ADMIN)
-	public void lockOrUnLock(@PathVariable String ids, HttpServletResponse response) {
+	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock User: {}", ids);
 		userService.lockOrUnLock(ids);
-		addAjaxMsg(MSG_TYPE_SUCCESS, "操作成功", response);
+		return ResultBuilder.buildOk("操作成功");
 	}
 	
 }

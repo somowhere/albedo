@@ -20,12 +20,14 @@ import com.albedo.java.util.base.Collections3;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
+import com.albedo.java.web.bean.ResultBuilder;
 import com.albedo.java.web.rest.base.DataResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.Lists;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,8 +35,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -64,27 +64,24 @@ public class GenSchemeResource extends DataResource<GenScheme> {
 	}
 	@RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public String list() throws URISyntaxException {
+	public String list() {
 		return "modules/gen/genSchemeList";
 	}
+
 	/**
-	 * GET / : get all user.
-	 * 
-	 * @param pageable
-	 *            the pagination information
-	 * @return the ResponseEntity with status 200 (OK) and with body all user
-	 * @throws URISyntaxException
-	 *             if the pagination headers couldn't be generated
+	 *
+	 * @param pm
+	 * @return
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	@Timed
-	public void getPage(PageModel<GenScheme> pm) throws URISyntaxException {
+	public ResponseEntity getPage(PageModel<GenScheme> pm) {
 		SpecificationDetail<GenScheme> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
 				QueryCondition.ne(GenScheme.F_STATUS, GenScheme.FLAG_DELETE));
 		Page<GenScheme> page = genSchemeService.findAll(spec, pm);
 		pm.setPageInstance(page);
 		JSON rs = JsonUtil.getInstance().setRecurrenceStr("genTable_name").toJsonObject(pm);
-		writeJsonHttpResponse(rs.toString(), response);
+		return ResultBuilder.buildObject(rs);
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -119,7 +116,7 @@ public class GenSchemeResource extends DataResource<GenScheme> {
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public void save(GenScheme genScheme, Model model, RedirectAttributes redirectAttributes) {
+	public ResponseEntity save(GenScheme genScheme, Model model, RedirectAttributes redirectAttributes) {
 		genSchemeService.save(genScheme);
 		if (genScheme.getSyncModule()) {
 			GenTable genTable = genScheme.getGenTable();
@@ -133,26 +130,26 @@ public class GenSchemeResource extends DataResource<GenScheme> {
 		if (genScheme.getGenCode()) {
 			genSchemeService.generateCode(genScheme);
 		}
-		addAjaxMsg(MSG_TYPE_SUCCESS, PublicUtil.toAppendStr("保存", genScheme.getName(), "成功"), response);
+		return ResultBuilder.buildOk("保存", genScheme.getName(), "成功");
 	}
 
 	@RequestMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
 			+ "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public void lockOrUnLock(@PathVariable String ids, HttpServletResponse response) {
+	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock genTable: {}", ids);
 		genSchemeService.lockOrUnLock(ids);
-		addAjaxMsg(MSG_TYPE_SUCCESS, "操作成功", response);
+		return ResultBuilder.buildOk("操作成功");
 	}
 	
 	@RequestMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
 			+ "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
 	@Secured(AuthoritiesConstants.ADMIN)
-	public void delete(@PathVariable String ids, HttpServletResponse response) {
+	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete User: {}", ids);
 		genSchemeService.delete(ids);
-		addAjaxMsg(MSG_TYPE_SUCCESS, "删除成功", response);
+		return ResultBuilder.buildOk("删除成功");
 	}
 	
 

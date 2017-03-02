@@ -8,6 +8,7 @@ import com.albedo.java.util.base.Collections3;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.*;
 
@@ -62,7 +63,7 @@ public class Role extends IdEntity {
 	
 	@ManyToOne
     @JoinColumn(name = "org_id", updatable = false, insertable=false)
-    @NotFound(action = NotFoundAction.IGNORE)
+    @NotFound(action = NotFoundAction.IGNORE)@ApiModelProperty(hidden=true)
     private Org org;
 	
 	/*** 是否系统数据  0 是 1否*/
@@ -78,14 +79,14 @@ public class Role extends IdEntity {
 	@JoinTable(name = "SYS_ROLE_ORG_T", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = { @JoinColumn(name = "org_id") })
 	@Fetch(FetchMode.SUBSELECT) @JSONField(serialize=false)
 	@NotFound(action = NotFoundAction.IGNORE)
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)@ApiModelProperty(hidden=true)
 	private Set<Org> orgs = Sets.newHashSet();
 	/*** 操作权限 */
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "SYS_ROLE_MODULE_T", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = { @JoinColumn(name = "module_id") })
 	@Fetch(FetchMode.SUBSELECT) @JSONField(serialize=false)
 	@NotFound(action = NotFoundAction.IGNORE)
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)@ApiModelProperty(hidden=true)
 	private Set<Module> modules = Sets.newHashSet();
 
 	/*** 拥有用户列表 */
@@ -94,7 +95,7 @@ public class Role extends IdEntity {
 	@OrderBy("created_date")
 	@Fetch(FetchMode.SUBSELECT) @JSONField(serialize=false)
 	@NotFound(action = NotFoundAction.IGNORE)
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)@ApiModelProperty(hidden=true)
 	private Set<User> users = Sets.newHashSet();
 
 	@Transient @JSONField(serialize=false)

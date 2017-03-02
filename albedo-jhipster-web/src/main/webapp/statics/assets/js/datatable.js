@@ -81,8 +81,10 @@ var Datatable = function() {
                             pm.size=d.length;
                             pm.page=d.start/d.length+1;
                             pm.queryConditionJson = albedo.parseJsonItemFormTarget($formSearch && $formSearch.length>0 ? $formSearch : $("body form-search:eq(0)"));
-                            return JSON.stringify(pm);
+                            // return JSON.stringify(pm);
+                            return pm;
                         },
+
                         "dataSrc": function(res) { // Manipulate the data returned from the server
                             if (res.status) {
                                 App.alert({

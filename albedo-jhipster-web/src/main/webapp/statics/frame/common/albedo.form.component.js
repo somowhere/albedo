@@ -131,7 +131,11 @@ var albedoForm = function(){
 		}
 		checkNodeFn && eval("setting.callback.onCheck = "+checkNodeFn);
 		var refreshTree = function(){
-			$.get(url, function(zNodes){
+			$.get(url, function(rs){
+				if(rs&& rs.status!=1){
+                    toastr.warning(rs.message);return;
+				}
+                var zNodes =rs.data;
 				tree = $.fn.zTree.init($thiz, setting, zNodes);
 				if(nodesLevel)for(var i = 0; i< nodesLevel; i++){
 					var nodes = tree.getNodesByParam("level", i);
@@ -239,7 +243,11 @@ var albedoForm = function(){
 				}
 			}
 		};
-		$.get(url+(url.indexOf("?")==-1? "?" : "&")+"extId="+extId+"&module="+module+"&t="+new Date().getTime(), function(zNodes){
+		$.get(url+(url.indexOf("?")==-1? "?" : "&")+"extId="+extId+"&module="+module+"&t="+new Date().getTime(), function(rs){
+            if(rs && rs.status!=1){
+                toastr.warning(rs.message);return;
+            }
+            var zNodes =rs.data;
 			// 初始化树结构
 			var tree = $.fn.zTree.init($modal.find("#tree-"+name), setting, zNodes);
 			// 默认指定层级节点

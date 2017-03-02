@@ -70,16 +70,18 @@
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-ehcache:4.3.11.Final" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.logging:jboss-logging-annotations:1.2.0.Beta1" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-envers:4.3.11.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.springfox:springfox-bean-validators:2.5.0" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.plugin:spring-plugin-metadata:1.2.0.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: io.springfox:springfox-spi:2.5.0" level="project" />
+    <orderEntry type="library" name="Maven: io.springfox:springfox-core:2.5.0" level="project" />
     <orderEntry type="library" name="Maven: io.springfox:springfox-swagger2:2.5.0" level="project" />
     <orderEntry type="library" name="Maven: io.swagger:swagger-annotations:1.5.9" level="project" />
     <orderEntry type="library" name="Maven: io.swagger:swagger-models:1.5.9" level="project" />
-    <orderEntry type="library" name="Maven: io.springfox:springfox-spi:2.5.0" level="project" />
-    <orderEntry type="library" name="Maven: io.springfox:springfox-core:2.5.0" level="project" />
     <orderEntry type="library" name="Maven: io.springfox:springfox-schema:2.5.0" level="project" />
     <orderEntry type="library" name="Maven: io.springfox:springfox-swagger-common:2.5.0" level="project" />
     <orderEntry type="library" name="Maven: io.springfox:springfox-spring-web:2.5.0" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.plugin:spring-plugin-metadata:1.2.0.RELEASE" level="project" />
+    <orderEntry type="module" module-name="albedo-jhipster-bean" />
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.40" level="project" />
     <orderEntry type="library" name="Maven: com.zaxxer:HikariCP:2.5.1" level="project" />

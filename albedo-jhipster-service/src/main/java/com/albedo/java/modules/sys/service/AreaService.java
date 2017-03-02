@@ -8,12 +8,14 @@ import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.repository.service.BaseService;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Area;
+import com.albedo.java.modules.sys.domain.bean.AreaTreeQuery;
 import com.albedo.java.modules.sys.repository.AreaRepository;
 import com.albedo.java.modules.sys.service.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.data.domain.Page;
@@ -93,7 +95,14 @@ public class AreaService extends BaseService<Area>{
 	}
 	
 	@Transactional(readOnly = true)
-	public String findTreeData(String extId, String all, String parentId, Integer ltLevel, Integer level) {
+	public JSON findTreeData(AreaTreeQuery areaTreeQuery) {
+
+		String extId = areaTreeQuery!=null ? areaTreeQuery.getExtId() : null,
+		 all =  areaTreeQuery!=null ? areaTreeQuery.getAll() : null,
+		parentId =  areaTreeQuery!=null ? areaTreeQuery.getParentId() : null;
+		Integer ltLevel =  areaTreeQuery!=null ? areaTreeQuery.getLtLevel() : null,
+		level =  areaTreeQuery!=null ? areaTreeQuery.getLevel() : null;
+
 		List<Map<String, Object>> mapList = Lists.newArrayList();
 		List<Area> list = SecurityUtil.getAreaList();
 		for (int i=0; i<list.size(); i++){
@@ -112,7 +121,7 @@ public class AreaService extends BaseService<Area>{
 					mapList.add(map);
 			}
 		}
-		return JsonUtil.getInstance().toJsonObject(mapList).toJSONString();
+		return JsonUtil.getInstance().toJsonObject(mapList);
 	}
 	
 	@Transactional(readOnly = true)

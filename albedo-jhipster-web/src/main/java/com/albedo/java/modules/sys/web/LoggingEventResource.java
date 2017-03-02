@@ -6,18 +6,18 @@ import com.albedo.java.modules.sys.domain.LoggingEvent;
 import com.albedo.java.modules.sys.service.LoggingEventService;
 import com.albedo.java.modules.sys.service.util.JsonUtil;
 import com.albedo.java.util.domain.PageModel;
+import com.albedo.java.web.bean.ResultBuilder;
 import com.albedo.java.web.rest.base.BaseResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-import java.net.URISyntaxException;
 
 /**
  * 操作日志Controller 操作日志
@@ -38,21 +38,16 @@ public class LoggingEventResource extends BaseResource {
 	}
 
 	/**
-	 * GET / : get all loggingEvent.
 	 * 
-	 * @param pageable
-	 *            the pagination information
-	 * @return the ResponseEntity with status 200 (OK) and with body all loggingEvent
-	 * @throws URISyntaxException
-	 *             if the pagination headers couldn't be generated
+	 * @param pm
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public void getPage(PageModel<LoggingEvent> pm, HttpServletResponse response) {
+	public ResponseEntity getPage(PageModel<LoggingEvent> pm) {
 		SpecificationDetail<LoggingEvent> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson());
 		Page<LoggingEvent> page = loggingEventService.findAll(spec, pm);
 		pm.setPageInstance(page);
 		JSON rs = JsonUtil.getInstance().setRecurrenceStr().toJsonObject(pm);
-		writeJsonHttpResponse(rs.toString(), response);
+		return ResultBuilder.buildObject(rs);
 	}
 
 }

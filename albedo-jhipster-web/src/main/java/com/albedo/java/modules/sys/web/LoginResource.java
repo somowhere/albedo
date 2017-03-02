@@ -49,7 +49,7 @@ public class LoginResource extends BaseResource {
 	 * 管理登录
 	 */
 	@RequestMapping(value = "login", method = RequestMethod.GET)
-	public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String login(HttpServletRequest request, Model model) {
 //		String login = SecurityUtils.getCurrentUserLoginId();
 //		if(StringUtils.isNotEmpty(login)&& !CustomAuditEventRepository.ANONYMOUS_USER.equalsIgnoreCase(login)){// 如果已经登录，则跳转到管理首页
 //			return PublicUtil.toAppendStr("redirect:", adminPath, "/index");
@@ -59,7 +59,7 @@ public class LoginResource extends BaseResource {
 	}
 	
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
-	public String logout(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String logout(HttpServletRequest request, Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null){    
 			new SecurityContextLogoutHandler().logout(request, response, auth);

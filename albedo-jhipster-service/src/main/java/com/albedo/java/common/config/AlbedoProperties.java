@@ -230,27 +230,16 @@ public class AlbedoProperties {
     }
 
     public static class Swagger {
-
-        private String title = "albedoJhipster API";
-
-        private String description = "albedoJhipster API documentation";
-
+        private String title = "Application API";
+        private String description = "API documentation";
         private String version = "0.0.1";
-
         private String termsOfServiceUrl;
-
         private String contactName;
-
         private String contactUrl;
-
         private String contactEmail;
-
         private String license;
-
         private String licenseUrl;
-        
-        private String basePath;
-        
+        private String defaultIncludePattern = "/api/.*";
 
         public String getTitle() {
             return title;
@@ -324,13 +313,13 @@ public class AlbedoProperties {
             this.licenseUrl = licenseUrl;
         }
 
-		public String getBasePath() {
-			return basePath;
-		}
+        public String getDefaultIncludePattern() {
+            return defaultIncludePattern;
+        }
 
-		public void setBasePath(String basePath) {
-			this.basePath = basePath;
-		}
+        public void setDefaultIncludePattern(String defaultIncludePattern) {
+            this.defaultIncludePattern = defaultIncludePattern;
+        }
     }
 
     public static class Metrics {

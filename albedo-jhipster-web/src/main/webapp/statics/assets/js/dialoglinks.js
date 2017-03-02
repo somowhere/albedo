@@ -163,7 +163,6 @@ var UIExtendedModals = function () {
 	                    	albedo.isExitsFunction(validateFun) && eval("flag = "+validateFun+"()");
 	                    	if(flag){
 		                        $targetEvent.modal('loading');
-		                        console.log();
 		                        $.ajax({
 		                            url: $form.attr("action"),
 		                            type: $form.attr("method")||"POST",

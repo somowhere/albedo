@@ -36,15 +36,15 @@ public final class Globals {
 	/*** 返回消息内容头 msg */
 	public static final String MSG = "message";
 	/*** 返回消息类型 info */
-	public static final String MSG_TYPE_INFO = "0";
+	public static final Integer MSG_TYPE_INFO = 0;
 	/*** 返回消息类型 success */
-	public static final String MSG_TYPE_SUCCESS = "1";
+	public static final Integer MSG_TYPE_SUCCESS = 1;
 	/*** 返回消息类型 warning */
-	public static final String MSG_TYPE_WARNING = "2";
+	public static final Integer MSG_TYPE_WARNING = 2;
 	/*** 返回消息类型 error */
-	public static final String MSG_TYPE_ERROR = "-1";
+	public static final Integer MSG_TYPE_ERROR = -1;
 	/*** 返回消息类型 error */
-	public static final String MSG_TYPE_LOGIN = "-99";
+	public static final Integer MSG_TYPE_LOGIN = -99;
 	
 	
 	public static final String RESOURCE_MODULE_DATA_MAP = "RESOURCE_MODULE_DATA_MAP";

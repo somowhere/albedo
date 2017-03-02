@@ -3,6 +3,7 @@ package com.albedo.java.modules.sys.domain;
 import com.albedo.java.common.domain.base.TreeEntity;
 import com.albedo.java.util.annotation.DictType;
 import com.alibaba.fastjson.annotation.JSONField;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.*;
 
@@ -43,7 +44,7 @@ public class Org extends TreeEntity<Org> {
 	@OrderBy(value = "created_date")
 	@Fetch(FetchMode.SUBSELECT)
 	@NotFound(action = NotFoundAction.IGNORE)
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE) @JSONField(serialize=false)
+	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE) @JSONField(serialize=false)@ApiModelProperty(hidden=true)
 	private Set<User> users;
 
 	public Org() {

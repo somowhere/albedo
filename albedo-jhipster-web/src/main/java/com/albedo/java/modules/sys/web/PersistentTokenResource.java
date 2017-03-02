@@ -8,19 +8,19 @@ import com.albedo.java.modules.sys.service.PersistentTokenService;
 import com.albedo.java.modules.sys.service.util.JsonUtil;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
+import com.albedo.java.web.bean.ResultBuilder;
 import com.albedo.java.web.rest.base.BaseResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-import java.net.URISyntaxException;
 
 /**
  * session 管理
@@ -42,32 +42,26 @@ public class PersistentTokenResource extends BaseResource {
 	}
 
 	/**
-	 * GET / : get all persistentToken.
 	 * 
-	 * @param pageable
-	 *            the pagination information
-	 * @return the ResponseEntity with status 200 (OK) and with body all
-	 *         persistentToken
-	 * @throws URISyntaxException
-	 *             if the pagination headers couldn't be generated
+	 * @param pm
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public void getPage(PageModel<PersistentToken> pm, HttpServletResponse response) {
+	public ResponseEntity getPage(PageModel<PersistentToken> pm) {
 		SpecificationDetail<PersistentToken> spec = DynamicSpecifications
 				.buildSpecification(pm.getQueryConditionJson(), SecurityUtil.dataScopeFilter());
 		Page<PersistentToken> page = persistentTokenService.findAll(spec, pm);
 		pm.setPageInstance(page);
 		JSON rs = JsonUtil.getInstance().setRecurrenceStr("user_loginId").toJsonObject(pm);
-		writeJsonHttpResponse(rs.toString(), response);
+		return ResultBuilder.buildObject(rs);
 	}
 	
 	@RequestMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
 			+ "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public void delete(@PathVariable String ids, HttpServletResponse response) {
+	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete User: {}", ids);
 		persistentTokenService.delete(ids);
-		addAjaxMsg(MSG_TYPE_SUCCESS, "删除成功", response);
+		return ResultBuilder.buildOk("删除成功");
 	}
 
 }

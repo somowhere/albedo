@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.bosheng.java</groupId>
         <artifactId>albedo-jhipster</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>albedo-jhipster-util</artifactId>
     <properties>

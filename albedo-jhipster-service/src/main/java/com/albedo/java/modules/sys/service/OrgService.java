@@ -5,12 +5,14 @@ import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.repository.service.BaseService;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Org;
+import com.albedo.java.modules.sys.domain.bean.OrgTreeQuery;
 import com.albedo.java.modules.sys.repository.OrgRepository;
 import com.albedo.java.modules.sys.service.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.data.domain.Page;
@@ -87,7 +89,11 @@ public class OrgService extends BaseService<Org> {
 	}
 	
 	@Transactional(readOnly = true)
-	public String findTreeData(String extId, String showType, Long grade, String all) {
+	public JSON findTreeData(OrgTreeQuery orgTreeQuery) {
+		String extId = orgTreeQuery !=null ? orgTreeQuery.getExtId() : null,
+                showType= orgTreeQuery !=null ? orgTreeQuery.getShowType() : null,
+                all = orgTreeQuery !=null ?  orgTreeQuery.getAll() : null;
+		Long grade = orgTreeQuery !=null ?  orgTreeQuery.getGrade() : null;
 		List<Map<String, Object>> mapList = Lists.newArrayList();
 		List<Org> list = SecurityUtil.getOrgList();
 		for (Org e : list) {
@@ -117,7 +123,7 @@ public class OrgService extends BaseService<Org> {
 				mapList.add(map);
 			}
 		}
-		return JsonUtil.getInstance().setRecurrenceStr("parent_name").toJsonObject(mapList).toJSONString();
+		return JsonUtil.getInstance().setRecurrenceStr("parent_name").toJsonObject(mapList);
 	}
 	
 	@Transactional(readOnly = true)

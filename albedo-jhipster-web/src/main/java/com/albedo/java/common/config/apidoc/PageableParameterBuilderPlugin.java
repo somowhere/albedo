@@ -25,9 +25,6 @@ import static com.google.common.collect.Lists.newArrayList;
 import static springfox.documentation.schema.ResolvedTypes.modelRefFactory;
 import static springfox.documentation.spi.schema.contexts.ModelContext.inputParam;
 
-@Component
-@Order(SwaggerPluginSupport.SWAGGER_PLUGIN_ORDER)
-@Profile(Globals.SPRING_PROFILE_SWAGGER)
 public class PageableParameterBuilderPlugin implements ParameterBuilderPlugin {
     private final TypeNameExtractor nameExtractor;
     private final TypeResolver resolver;

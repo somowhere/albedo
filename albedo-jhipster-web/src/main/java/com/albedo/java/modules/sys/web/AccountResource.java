@@ -7,6 +7,7 @@ import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.modules.sys.service.UserService;
 import com.albedo.java.modules.sys.service.dto.UserDTO;
+import com.albedo.java.web.bean.ResultBuilder;
 import com.albedo.java.web.rest.base.BaseResource;
 import com.albedo.java.web.rest.util.HeaderUtil;
 import com.albedo.java.web.rest.vm.KeyAndPasswordVM;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -160,11 +160,10 @@ public class AccountResource extends BaseResource {
             })
             .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
+
     /**
-     * POST  /account/changePassword : changes the current user's password
      *
-     * @param password the new password
-     * @return the ResponseEntity with status 200 (OK), or status 400 (Bad Request) if the new password is not strong enough
+     * @return
      */
     @RequestMapping(value = "/account/changePassword",
         method = RequestMethod.GET,
@@ -173,19 +172,21 @@ public class AccountResource extends BaseResource {
     public String changePassword() {
     	return "modules/sys/changePassword";
     }
+
     /**
-     * POST  /account/change_password : changes the current user's password
      *
-     * @param password the new password
-     * @return the ResponseEntity with status 200 (OK), or status 400 (Bad Request) if the new password is not strong enough
+     * @param password
+     * @param newPassword
+     * @param confirmPassword
+     * @return
      */
     @RequestMapping(value = "/account/changePassword",
         method = RequestMethod.POST,
         produces = MediaType.TEXT_PLAIN_VALUE)
     @Timed
-    public void changePassword(String password, String newPassword, String confirmPassword, HttpServletResponse response) {
+    public ResponseEntity changePassword(String password, String newPassword, String confirmPassword) {
         userService.changePassword(SecurityUtil.getCurrentUserId(), password, newPassword, confirmPassword);
-        addAjaxMsg(MSG_TYPE_SUCCESS, "密码修改成功，请下次登录时使用新密码", response);
+        return ResultBuilder.buildOk("密码修改成功，请下次登录时使用新密码");
     }
 
     /**

@@ -5,6 +5,7 @@ import com.albedo.java.common.domain.data.DynamicSpecifications;
 import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.modules.sys.domain.Module;
+import com.albedo.java.modules.sys.domain.bean.ModuleTreeQuery;
 import com.albedo.java.modules.sys.service.ModuleService;
 import com.albedo.java.modules.sys.service.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
@@ -14,6 +15,7 @@ import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.exception.RuntimeMsgException;
+import com.albedo.java.web.bean.ResultBuilder;
 import com.albedo.java.web.rest.base.DataResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
@@ -21,15 +23,13 @@ import com.google.common.collect.Lists;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -53,9 +53,9 @@ public class ModuleResource extends DataResource<Module> {
 	}
 	
 	@RequestMapping(value = "findTreeData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void findTreeData(@RequestParam(required = false) String type,@RequestParam(required = false) String all, HttpServletResponse response) {
-		String rs = moduleService.findTreeData(type, all);
-		writeJsonHttpResponse(rs, response);
+	public ResponseEntity findTreeData(ModuleTreeQuery moduleTreeQuery) {
+		JSON rs = moduleService.findTreeData(moduleTreeQuery);
+		return ResultBuilder.buildOk(rs);
 	}
 	
 
@@ -69,24 +69,21 @@ public class ModuleResource extends DataResource<Module> {
 	public String list() {
 		return "modules/sys/moduleList";
 	}
+
 	/**
-	 * GET / : get all module.
-	 * 
+	 *
 	 * @param pm
-	 *            the pagination information
-	 * @return the ResponseEntity with status 200 (OK) and with body all module
-	 * @throws URISyntaxException
-	 *             if the pagination headers couldn't be generated
+	 * @return
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public void getPage(@RequestBody PageModel<Module> pm, HttpServletResponse response) {
+	public ResponseEntity getPage(@RequestBody PageModel<Module> pm) {
 		SpecificationDetail<Module> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
 				QueryCondition.ne(Module.F_STATUS, Module.FLAG_DELETE));
 		Page<Module> page = moduleService.findAll(spec, pm);
 		pm.setSortDefaultName(Direction.DESC, DataEntity.F_LASTMODIFIEDDATE);
 		pm.setPageInstance(page);
 		JSON rs = JsonUtil.getInstance().toJsonObject(pm);
-		writeJsonHttpResponse(rs.toString(), response);
+		return ResultBuilder.buildObject(rs);
 	}
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -113,14 +110,11 @@ public class ModuleResource extends DataResource<Module> {
 	/**
 	 *
 	 * @param module
-	 * @param confirmPassword
-	 * @param model
-	 * @param request
-	 * @param response
+	 * @return
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public void save(Module module, String confirmPassword, Model model, HttpServletRequest request, HttpServletResponse response)
+	public ResponseEntity save(@RequestBody Module module)
 			{
 		log.debug("REST request to save Module : {}", module);
 		// Lowercase the module login before comparing with database
@@ -130,34 +124,36 @@ public class ModuleResource extends DataResource<Module> {
 		}
 		moduleService.save(module);
 		
-		addAjaxMsg(MSG_TYPE_SUCCESS, PublicUtil.toAppendStr("保存", module.getName(), "成功"), response);
+		return ResultBuilder.buildOk("保存", module.getName(), "成功");
 	}
 
 	/**
-	 * DELETE //:login : delete the "login" Module.
 	 *
-	 * @param login
-	 *            the login of the module to delete
-	 * @return the ResponseEntity with status 200 (OK)
+	 * @param ids
+	 * @return
 	 */
 	@RequestMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
 			+ "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public void delete(@PathVariable String ids, HttpServletResponse response) {
+	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete Module: {}", ids);
 		moduleService.delete(ids);
-		addAjaxMsg(MSG_TYPE_SUCCESS, "删除成功", response);
+		return ResultBuilder.buildOk("删除成功");
 	}
-	
-	
+
+	/**
+	 *
+	 * @param ids
+	 * @return
+	 */
 	@RequestMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
 			+ "}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
 	@Secured(AuthoritiesConstants.ADMIN)
-	public void lockOrUnLock(@PathVariable String ids, HttpServletResponse response) {
+	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock User: {}", ids);
 		moduleService.lockOrUnLock(ids);
-		addAjaxMsg(MSG_TYPE_SUCCESS, "操作成功", response);
+		return ResultBuilder.buildOk("操作成功");
 	}
 	
 }

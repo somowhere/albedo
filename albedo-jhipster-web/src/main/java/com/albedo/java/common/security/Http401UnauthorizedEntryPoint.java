@@ -2,6 +2,8 @@ package com.albedo.java.common.security;
 
 import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.domain.CustomMessage;
+import com.albedo.java.web.bean.ResultBuilder;
 import com.albedo.java.web.rest.base.BaseResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +38,8 @@ public class Http401UnauthorizedEntryPoint implements AuthenticationEntryPoint {
 //        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access Denied");
         String requestType = request.getHeader("X-Requested-With");
 		if ("XMLHttpRequest".equals(requestType)) {
-			BaseResource.addStaticAjaxMsg(BaseResource.MSG_TYPE_LOGIN, "登录超时,请重新登陆", response);
+            BaseResource.writeJsonHttpResponse(CustomMessage.createError("登录超时,请重新登陆"), response);
+
 		} else{
 			response.sendRedirect(PublicUtil.toAppendStr(albedoProperties.getAdminPath(), "/login"));
 		}

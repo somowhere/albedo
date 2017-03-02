@@ -1,13 +1,18 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.security.SecurityUtil;
+import com.albedo.java.web.bean.ResultBuilder;
 import com.albedo.java.web.rest.base.BaseResource;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.activation.MimetypesFileTypeMap;
@@ -25,17 +30,13 @@ import java.util.UUID;
 public class FileResource extends BaseResource {
 
 
-    /***************************************************
-     * URL: /a/file/upload
-     * upload(): receives files
+    /**
      *
-     * @param request  : MultipartHttpServletRequest auto passed
-     * @param response : HttpServletResponse auto passed
-     * @return LinkedList<String> as json format
-     ****************************************************/
+     * @param files
+     * @return
+     */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    @ResponseBody
-    public void upload(@RequestParam("uploadFile")MultipartFile[] files, HttpServletResponse response) {
+    public ResponseEntity upload(@RequestParam("uploadFile")MultipartFile[] files) {
         List<String> fileList = new LinkedList<>();
         String directory = SecurityUtil.albedoProperties.getStaticFileDirectory();
         String dir = mkdirs(directory);
@@ -51,8 +52,8 @@ public class FileResource extends BaseResource {
             
             fileList.add(fileName.replaceAll(directory, ""));
 		}
-        addAjaxSuccessMsg(StringUtils.join(fileList, ","), "上传成功", response);
-        
+        return ResultBuilder.buildOk(StringUtils.join(fileList, ","), "上传成功");
+
     }
 
 	private String mkdirs(String directory) {
@@ -68,14 +69,14 @@ public class FileResource extends BaseResource {
         return dir;
     }
 
-    /***************************************************
-     * URL: /a/file/get/{value}
-     * get(): get file as an attachment
+    /**
      *
-     * @param response : passed by the server
-     * @param value    : value from the URL
-     * @return void
-     ****************************************************/
+     * @param response
+     * @param year
+     * @param month
+     * @param day
+     * @param fileName
+     */
     @RequestMapping(value = "/get/{year}/{month}/{day}/{fileName:.+}", method = RequestMethod.GET)
     public void get(HttpServletResponse response, @PathVariable String year, @PathVariable String month, @PathVariable String day, @PathVariable String fileName) {
         try {

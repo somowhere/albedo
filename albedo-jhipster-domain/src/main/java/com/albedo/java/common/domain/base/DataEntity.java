@@ -12,6 +12,7 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.*;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlTransient;
@@ -47,7 +48,7 @@ public abstract class DataEntity extends BaseEntity {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by", updatable = false, insertable=false)
-    @NotFound(action = NotFoundAction.IGNORE) @JSONField(serialize = false) @JsonField@ApiModelProperty(hidden=true)
+    @NotFound(action = NotFoundAction.IGNORE) @JSONField(serialize = false) @JsonField @ApiModelProperty(hidden=true)
     protected User creator;
 
     @CreatedDate

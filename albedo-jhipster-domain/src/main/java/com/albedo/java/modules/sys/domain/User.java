@@ -107,7 +107,7 @@ public class User extends IdEntity {
     
     @Transient@ApiModelProperty(hidden=true)
     private String roleNames;
-    @Transient@ApiModelProperty(hidden=true)
+    @Transient
     private List<String> roleIdList;
     
     

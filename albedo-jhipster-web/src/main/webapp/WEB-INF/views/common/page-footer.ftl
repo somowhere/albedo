@@ -24,7 +24,7 @@
 <script src="${assets}/global/plugins/bootstrap-toastr/toastr.min.js" type="text/javascript"></script>
 <!-- END CORE PLUGINS -->
 <!-- BEGIN THEME GLOBAL SCRIPTS -->
-<script src="${assets}/global/scripts/app.js" type="text/javascript"></script>
+<script src="${assets}/js/app.js" type="text/javascript"></script>
 <script type="text/javascript">
 App.setCtxPath('${ctx}');App.setAssetsPath('${assets}/'),userId="${SecurityUtil.getCurrentUserId()}";
 </script>
@@ -34,7 +34,7 @@ App.setCtxPath('${ctx}');App.setAssetsPath('${assets}/'),userId="${SecurityUtil.
 <script src="${assets}/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
 <!-- END THEME LAYOUT SCRIPTS -->
 <!-- BEGIN PAGE LEVEL PLUGINS -->
-<script src="${assets}/global/scripts/datatable.js" type="text/javascript"></script>
+<script src="${assets}/js/datatable.js" type="text/javascript"></script>
 <script src="${assets}/global/plugins/datatables/datatables.js" type="text/javascript"></script>
 <script src="${assets}/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
 <script src="${assets}/global/plugins/jquery-validation/js/jquery.validate.js" type="text/javascript"></script>

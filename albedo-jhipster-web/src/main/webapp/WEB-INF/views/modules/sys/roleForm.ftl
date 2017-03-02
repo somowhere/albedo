@@ -91,8 +91,11 @@
 var treeRoleModule,treeRoleOrg,data, setting = {view:{selectedMulti:false},check:{enable:true,nocheckInherit:true},
 		data:{simpleData:{enable:true}}};
 	$(document).ready(function() {
-		$.get("${ctx}/sys/module/findTreeData", function(zNodes){
-			data = zNodes;
+		$.get("${ctx}/sys/module/findTreeData", function(rs){
+            if(rs && rs.status!=1){
+                toastr.warning(rs.message);return;
+            }
+			data = rs.data;
 			// 初始化树结构
 			treeRoleModule = $.fn.zTree.init($("#treeRoleModule"), setting, data);
 			var nodes = treeRoleModule.expandAll(true);
@@ -102,7 +105,11 @@ var treeRoleModule,treeRoleOrg,data, setting = {view:{selectedMulti:false},check
 				if(node)treeRoleModule.checkNode(node, true, false, false);
 			});
 		});
-		$.get("${ctx}/sys/org/findTreeData", function(data){
+		$.get("${ctx}/sys/org/findTreeData", function(rs){
+            if(rs && rs.status!=1){
+                toastr.warning(rs.message);return;
+            }
+            data = rs.data;
 			// 初始化树结构
 			treeRoleOrg = $.fn.zTree.init($("#treeRoleOrg"), setting, data);
 			var nodes = treeRoleOrg.expandAll(true);

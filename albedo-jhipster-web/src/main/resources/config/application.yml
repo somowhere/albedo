@@ -19,6 +19,10 @@ management:
 spring:
     application:
         name: albedoJhipster
+    mvc:
+        throw-exception-if-no-handler-found: true
+#    resources:
+#        add-mappings: false
     profiles:
         # The commented value for `active` can be replaced with valid spring profiles to load.
         # Otherwise, it will be filled in by maven when building the WAR file
@@ -69,16 +73,16 @@ albedo:
     mail:
         from: albedoJhipster@localhost
     swagger:
-        basePath: /.*
+        default-include-pattern: /.*
         title: albedoJhipster API
         description: albedoJhipster API documentation
         version: 0.0.1
-        termsOfServiceUrl:
-        contactName:
-        contactUrl:
-        contactEmail:
+        terms-of-service-url:
+        contact-name:
+        contact-url:
+        contact-email:
         license:
-        licenseUrl:
+        license-url:
     ribbon:
         # comma seperated list of profiles to show a ribbon on the GUI
         displayOnActiveProfiles: dev

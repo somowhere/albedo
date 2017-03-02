@@ -4,6 +4,7 @@ import com.albedo.java.common.domain.data.DynamicSpecifications;
 import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Area;
+import com.albedo.java.modules.sys.domain.bean.AreaTreeQuery;
 import com.albedo.java.modules.sys.service.AreaService;
 import com.albedo.java.modules.sys.service.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
@@ -11,18 +12,18 @@ import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.exception.RuntimeMsgException;
+import com.albedo.java.web.bean.ResultBuilder;
 import com.albedo.java.web.rest.base.DataResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.net.URISyntaxException;
 
 /**
@@ -47,11 +48,9 @@ public class AreaResource extends DataResource<Area> {
 		}
 	}
 	@RequestMapping(value = "findTreeData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void findTreeData(@RequestParam(required=false) String all,
-			@RequestParam(required=false) String parentId, @RequestParam(required=false) String extId,
-			@RequestParam(required=false) Integer ltLevel, @RequestParam(required=false) Integer level, HttpServletResponse response) {
-		String rs = areaService.findTreeData( extId, all, parentId, ltLevel, level);
-		writeJsonHttpResponse(rs, response);
+	public ResponseEntity findTreeData(AreaTreeQuery areaTreeQuery) {
+		JSON rs = areaService.findTreeData(areaTreeQuery);
+		return ResultBuilder.buildOk(rs);
 	}
 	@RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
@@ -60,22 +59,18 @@ public class AreaResource extends DataResource<Area> {
 	}
 
 	/**
-	 * GET / : get all area.
-	 * 
-	 * @param pageable
-	 *            the pagination information
-	 * @return the ResponseEntity with status 200 (OK) and with body all area
-	 * @throws URISyntaxException
-	 *             if the pagination headers couldn't be generated
+	 *
+	 * @param pm
+	 * @return
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public void getPage(PageModel<Area> pm, HttpServletResponse response) {
+	public ResponseEntity getPage(PageModel<Area> pm) {
 		SpecificationDetail<Area> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(), SecurityUtil.dataScopeFilter(),
 				QueryCondition.ne(Area.F_STATUS, Area.FLAG_DELETE));
 		Page<Area> page = areaService.findAll(spec, pm);
 		pm.setPageInstance(page);
 		JSON rs = JsonUtil.getInstance().setRecurrenceStr("creator_name").toJsonObject(pm);
-		writeJsonHttpResponse(rs.toString(), response);
+		return ResultBuilder.buildObject(rs);
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -102,13 +97,13 @@ public class AreaResource extends DataResource<Area> {
 	}
 
 	/**
-	 * POST / : Save a area.
-	 *
-	 * @param request the HTTP request
+	 * 
+	 * @param area
+	 * @return
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public void save(Area area, Model model, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity save(Area area) {
 		log.debug("REST request to save Area : {}", area);
 		Area areaValidate = new Area(area.getId());
 		areaValidate.setCode(area.getCode());
@@ -116,33 +111,30 @@ public class AreaResource extends DataResource<Area> {
 			throw new RuntimeMsgException(PublicUtil.toAppendStr("保存区域管理'", area.getCode(),"'失败，区域编码已存在"));
 		}
 		areaService.save(area);
-
-		addAjaxMsg(MSG_TYPE_SUCCESS, PublicUtil.toAppendStr("保存区域管理成功"), response);
+		return ResultBuilder.buildOk(PublicUtil.toAppendStr("保存区域管理成功"));
 	}
 
 	/**
-	 * DELETE //:login : delete the "login" Area.
-	 *
-	 * @param login
-	 *            the login of the area to delete
-	 * @return the ResponseEntity with status 200 (OK)
+	 * 
+	 * @param ids
+	 * @return
 	 */
 	@RequestMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
 			+ "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public void delete(@PathVariable String ids, HttpServletResponse response) {
+	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete Area: {}", ids);
 		areaService.delete(ids);
-		addAjaxMsg(MSG_TYPE_SUCCESS, "删除区域管理成功", response);
+		return ResultBuilder.buildOk("删除区域管理成功");
 	}
 
 	@RequestMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
 			+ "}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public void lockOrUnLock(@PathVariable String ids, HttpServletResponse response) {
+	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock Area: {}", ids);
 		areaService.lockOrUnLock(ids);
-		addAjaxMsg(MSG_TYPE_SUCCESS, "操作区域管理成功", response);
+		return ResultBuilder.buildOk("操作区域管理成功");
 	}
 
 }
