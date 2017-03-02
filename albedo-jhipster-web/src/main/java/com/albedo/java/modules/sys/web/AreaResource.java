@@ -75,7 +75,7 @@ public class AreaResource extends DataResource<Area> {
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public String form(Area area, Model model) {
+	public String form(Area area) {
 		if(area==null){
 			throw new RuntimeMsgException("无法获取区域管理数据");
 		}
@@ -91,7 +91,6 @@ public class AreaResource extends DataResource<Area> {
 		if(PublicUtil.isNotEmpty(area.getParentId())){
 			area.setParent(areaService.findOne(area.getParentId()));
 		}
-		model.addAttribute("area", area);
 		
 		return "modules/sys/areaForm";
 	}
@@ -103,7 +102,7 @@ public class AreaResource extends DataResource<Area> {
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public ResponseEntity save(Area area) {
+	public ResponseEntity save(@RequestBody Area area) {
 		log.debug("REST request to save Area : {}", area);
 		Area areaValidate = new Area(area.getId());
 		areaValidate.setCode(area.getCode());
@@ -111,7 +110,7 @@ public class AreaResource extends DataResource<Area> {
 			throw new RuntimeMsgException(PublicUtil.toAppendStr("保存区域管理'", area.getCode(),"'失败，区域编码已存在"));
 		}
 		areaService.save(area);
-		return ResultBuilder.buildOk(PublicUtil.toAppendStr("保存区域管理成功"));
+		return ResultBuilder.buildOk("保存区域管理成功");
 	}
 
 	/**

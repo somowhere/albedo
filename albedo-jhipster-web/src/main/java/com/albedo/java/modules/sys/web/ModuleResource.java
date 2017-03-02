@@ -88,7 +88,7 @@ public class ModuleResource extends DataResource<Module> {
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public String form(Module module, Model model) {
+	public String form(Module module) {
 		if(module == null){
 			throw new RuntimeMsgException(PublicUtil.toAppendStr("查询模块管理失败，原因：无法查找到编号区域"));
 		}

@@ -80,7 +80,7 @@ public class OrgResource extends DataResource<Org> {
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public String form(Org org, Model model)  {
+	public String form(Org org)  {
 		if(org == null){
 			throw new RuntimeMsgException(PublicUtil.toAppendStr("查询模块管理失败，原因：无法查找到编号区域"));
 		}
@@ -106,7 +106,7 @@ public class OrgResource extends DataResource<Org> {
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public ResponseEntity save(Org org)
+	public ResponseEntity save(@RequestBody Org org)
 			 {
 		log.debug("REST request to save Org : {}", org);
 		// Lowercase the org login before comparing with database

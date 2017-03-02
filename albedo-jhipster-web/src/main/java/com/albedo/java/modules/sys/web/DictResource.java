@@ -84,7 +84,7 @@ public class DictResource extends DataResource<Dict> {
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public String form(Dict dict, Model model) {
+	public String form(Dict dict) {
 		if(dict==null){
 			throw new RuntimeMsgException("无法获取字典数据");
 		}
@@ -100,7 +100,6 @@ public class DictResource extends DataResource<Dict> {
 		if(PublicUtil.isNotEmpty(dict.getParentId())){
 			dict.setParent(dictService.findOne(dict.getParentId()));
 		}
-		model.addAttribute("dict", dict);
 		return "modules/sys/dictForm";
 	}
 
@@ -112,7 +111,7 @@ public class DictResource extends DataResource<Dict> {
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public ResponseEntity save(Dict dict)
+	public ResponseEntity save(@RequestBody Dict dict)
 			throws URISyntaxException {
 		log.debug("REST request to save Dict : {}", dict);
 		// Lowercase the dict login before comparing with database

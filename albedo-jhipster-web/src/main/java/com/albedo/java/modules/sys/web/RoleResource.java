@@ -91,7 +91,7 @@ public class RoleResource extends DataResource<Role> {
 		}
 		roleService.save(role);
 
-		return ResultBuilder.buildOk(PublicUtil.toAppendStr("保存", role.getName(), "成功"));
+		return ResultBuilder.buildOk("保存", role.getName(), "成功");
 	}
 
 	/**
