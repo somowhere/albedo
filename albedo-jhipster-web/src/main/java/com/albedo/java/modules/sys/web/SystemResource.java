@@ -2,7 +2,7 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.config.SystemConfig;
-import com.albedo.java.web.bean.ResultBuilder;
+import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.BaseResource;
 import com.codahale.metrics.servlets.MetricsServlet;
 import com.google.common.collect.Maps;

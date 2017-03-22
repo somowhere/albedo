@@ -1,7 +1,7 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.security.SecurityUtil;
-import com.albedo.java.web.bean.ResultBuilder;
+import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.BaseResource;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;

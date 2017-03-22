@@ -26,7 +26,7 @@ import java.util.Collection;
 
 @ComponentScan
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
-@EnableConfigurationProperties({AlbedoProperties.class, LiquibaseProperties.class})
+@EnableConfigurationProperties({AlbedoProperties.class})
 public class AlbedoJhipsterApp {
 
     private static final Logger log = LoggerFactory.getLogger(AlbedoJhipsterApp.class);
@@ -76,6 +76,7 @@ public class AlbedoJhipsterApp {
                 env.getProperty("server.port"),
                 InetAddress.getLocalHost().getHostAddress(),
                 env.getProperty("server.port"));
+
     }
 
 

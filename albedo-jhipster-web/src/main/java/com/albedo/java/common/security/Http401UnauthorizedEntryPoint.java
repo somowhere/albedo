@@ -3,7 +3,6 @@ package com.albedo.java.common.security;
 import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.CustomMessage;
-import com.albedo.java.web.bean.ResultBuilder;
 import com.albedo.java.web.rest.base.BaseResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.bosheng.java</groupId>
+    <groupId>com.albedo.java</groupId>
     <artifactId>albedo-jhipster</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -98,5 +98,8 @@
         <module>albedo-jhipster-quartz</module>
         <module>albedo-jhipster-web-base</module>
         <module>albedo-jhipster-bean</module>
+        <module>albedo-rpc-common</module>
+        <module>albedo-rpc-server</module>
+        <module>albedo-rpc-client</module>
     </modules>
 </project>

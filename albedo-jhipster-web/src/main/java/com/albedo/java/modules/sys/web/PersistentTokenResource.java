@@ -8,7 +8,7 @@ import com.albedo.java.modules.sys.service.PersistentTokenService;
 import com.albedo.java.modules.sys.service.util.JsonUtil;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
-import com.albedo.java.web.bean.ResultBuilder;
+import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.BaseResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;

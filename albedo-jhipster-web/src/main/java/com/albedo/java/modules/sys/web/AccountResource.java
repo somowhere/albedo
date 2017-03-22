@@ -7,7 +7,7 @@ import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.modules.sys.service.UserService;
 import com.albedo.java.modules.sys.service.dto.UserDTO;
-import com.albedo.java.web.bean.ResultBuilder;
+import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.BaseResource;
 import com.albedo.java.web.rest.util.HeaderUtil;
 import com.albedo.java.web.rest.vm.KeyAndPasswordVM;

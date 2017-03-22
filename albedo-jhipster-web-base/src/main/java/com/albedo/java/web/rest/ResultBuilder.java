@@ -1,4 +1,4 @@
-package com.albedo.java.web.bean;
+package com.albedo.java.web.rest;
 
 import com.albedo.java.util.domain.CustomMessage;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
