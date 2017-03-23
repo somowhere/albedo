@@ -96,10 +96,13 @@
         <module>albedo-jhipster-app</module>
         <module>albedo-jhipster-util</module>
         <module>albedo-jhipster-quartz</module>
+        <module>albedo-jhipster-server</module>
+        <module>albedo-jhipster-web-vo</module>
         <module>albedo-jhipster-web-base</module>
-        <module>albedo-jhipster-bean</module>
         <module>albedo-rpc-common</module>
         <module>albedo-rpc-server</module>
         <module>albedo-rpc-client</module>
+        <module>albedo-jhipster-web-swagger</module>
+
     </modules>
 </project>

@@ -17,8 +17,8 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import javax.inject.Inject;
 
 @Configuration
-@EntityScan(basePackages = { "com.albedo.java.modules.*.domain", "com.bosheng.java.modules.*.domain"}, basePackageClasses = { JSR310PersistenceConverters.class })
-@EnableJpaRepositories(value={"com.albedo.java.modules.*.repository", "com.bosheng.java.modules.*.repository"}, queryLookupStrategy=Key.CREATE_IF_NOT_FOUND)
+@EntityScan(basePackages = { "com.albedo.java.modules.*.domain", "com.qingju.java.modules.*.domain"}, basePackageClasses = { JSR310PersistenceConverters.class })
+@EnableJpaRepositories(value={"com.albedo.java.modules.*.repository", "com.qingju.java.modules.*.repository"}, queryLookupStrategy=Key.CREATE_IF_NOT_FOUND)
 @EnableJpaAuditing(auditorAwareRef = "springSecurityAuditorAware")
 @EnableTransactionManagement
 public class DatabaseConfiguration {

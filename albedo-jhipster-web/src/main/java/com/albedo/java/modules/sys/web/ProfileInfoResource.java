@@ -1,7 +1,7 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.config.AlbedoProperties;
-import com.albedo.java.common.config.DefaultProfileUtil;
+import com.albedo.java.util.spring.DefaultProfileUtil;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;

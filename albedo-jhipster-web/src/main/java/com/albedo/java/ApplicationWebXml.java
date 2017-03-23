@@ -1,6 +1,6 @@
 package com.albedo.java;
 
-import com.albedo.java.common.config.DefaultProfileUtil;
+import com.albedo.java.util.spring.DefaultProfileUtil;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 

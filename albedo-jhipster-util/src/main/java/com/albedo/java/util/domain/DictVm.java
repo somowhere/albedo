@@ -1,9 +1,12 @@
 package com.albedo.java.util.domain;
 
+import lombok.Data;
+
 /**
  * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23
  * 下午1:55:43
  */
+@Data
 public class DictVm {
 
 	public static final String F_CODE = "code";
@@ -25,30 +28,6 @@ public class DictVm {
 		this.name = name;
 		this.code = code;
 		this.val = val;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public String getVal() {
-		return val;
-	}
-
-	public void setVal(String val) {
-		this.val = val;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 }

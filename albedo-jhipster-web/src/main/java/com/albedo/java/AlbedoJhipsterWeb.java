@@ -1,10 +1,10 @@
 package com.albedo.java;
 
 import com.albedo.java.common.config.AlbedoProperties;
-import com.albedo.java.common.config.DefaultProfileUtil;
 import com.albedo.java.common.config.template.FreeMarkerConfig;
 import com.albedo.java.common.security.service.InvocationSecurityMetadataSourceService;
 import com.albedo.java.util.domain.Globals;
+import com.albedo.java.util.spring.DefaultProfileUtil;
 import com.albedo.java.util.spring.SpringContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

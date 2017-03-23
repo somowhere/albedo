@@ -13,7 +13,7 @@
     <properties>
 
         <netty.version>4.1.8.Final</netty.version>
-        <curator.version>2.9.1</curator.version>
+        <curator.version>2.11.1</curator.version>
     </properties>
 
 <dependencies>
@@ -22,7 +22,7 @@
     <dependency>
         <groupId>com.albedo.java</groupId>
         <artifactId>albedo-jhipster-util</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>${project.release.version}</version>
     </dependency>
     <dependency>
         <groupId>org.springframework.boot</groupId>

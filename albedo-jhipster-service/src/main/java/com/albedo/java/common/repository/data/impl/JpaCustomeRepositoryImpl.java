@@ -197,7 +197,7 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
 				data.setName(PublicUtil.toStrString(o[1]));
 				Map<String, Object> map = Maps.newHashMap();
 				if (flag)
-					data.setpId(PublicUtil.toStrString(o[2]));
+					data.setPId(PublicUtil.toStrString(o[2]));
 				mapList.add(data);
 			}
 		}

@@ -41,7 +41,6 @@
                 <includes>
                     <include>WEB-INF/**</include>
                     <include>statics/frame/**</include>
-                    <include>statics/swagger-ui/**</include>
                 </includes>
                 <excludes>
                     <exclude>**/*.jar</exclude>
