@@ -5,7 +5,7 @@ import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.repository.service.BaseService;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Org;
-import com.albedo.java.modules.sys.domain.bean.OrgTreeQuery;
+import com.albedo.java.modules.sys.domain.vo.OrgTreeQuery;
 import com.albedo.java.modules.sys.repository.OrgRepository;
 import com.albedo.java.modules.sys.service.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;

@@ -4,7 +4,7 @@ import com.albedo.java.common.domain.base.DataEntity;
 import com.albedo.java.common.domain.data.DynamicSpecifications;
 import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.modules.sys.domain.Org;
-import com.albedo.java.modules.sys.domain.bean.OrgTreeQuery;
+import com.albedo.java.modules.sys.domain.vo.OrgTreeQuery;
 import com.albedo.java.modules.sys.service.OrgService;
 import com.albedo.java.modules.sys.service.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;

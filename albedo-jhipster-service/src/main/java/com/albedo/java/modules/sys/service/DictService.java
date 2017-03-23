@@ -4,7 +4,7 @@ import com.albedo.java.common.domain.base.BaseEntity;
 import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.repository.service.BaseService;
 import com.albedo.java.modules.sys.domain.Dict;
-import com.albedo.java.modules.sys.domain.bean.DictTreeQuery;
+import com.albedo.java.modules.sys.domain.vo.DictTreeQuery;
 import com.albedo.java.modules.sys.repository.DictRepository;
 import com.albedo.java.modules.sys.service.util.DictUtil;
 import com.albedo.java.modules.sys.service.util.JsonUtil;

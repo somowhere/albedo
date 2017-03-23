@@ -6,7 +6,7 @@ import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.repository.service.BaseService;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Module;
-import com.albedo.java.modules.sys.domain.bean.ModuleTreeQuery;
+import com.albedo.java.modules.sys.domain.vo.ModuleTreeQuery;
 import com.albedo.java.modules.sys.repository.ModuleRepository;
 import com.albedo.java.modules.sys.service.util.JsonUtil;
 import com.albedo.java.util.JedisUtil;

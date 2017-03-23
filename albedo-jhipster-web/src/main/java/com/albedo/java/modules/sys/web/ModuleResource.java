@@ -5,7 +5,7 @@ import com.albedo.java.common.domain.data.DynamicSpecifications;
 import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.modules.sys.domain.Module;
-import com.albedo.java.modules.sys.domain.bean.ModuleTreeQuery;
+import com.albedo.java.modules.sys.domain.vo.ModuleTreeQuery;
 import com.albedo.java.modules.sys.service.ModuleService;
 import com.albedo.java.modules.sys.service.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
