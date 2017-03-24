@@ -13,7 +13,10 @@ import javax.validation.constraints.NotNull;
  *     Properties are configured in the application.yml file.
  * </p>
  */
-@ConfigurationProperties(prefix = "albedo", ignoreUnknownFields = false)
+@ConfigurationProperties(prefix = "albedo",
+        ignoreUnknownFields = true,
+        ignoreInvalidFields= true,
+        exceptionIfInvalid = false)
 public class AlbedoProperties {
 
 	private String adminPath = "/a";

@@ -9,7 +9,6 @@ import java.io.Serializable;
  * 基础控制器支持类 copyright 2014 albedo all right reserved author MrLi created on
  * 2014年10月15日 下午4:04:00
  */
-@Data
 public class CustomMessage<T> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -56,6 +55,22 @@ public class CustomMessage<T> implements Serializable {
 
 	public void setMessage(String message) {
 		addMessage(message);
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public T getData() {
+		return data;
+	}
+
+	public void setData(T data) {
+		this.data = data;
 	}
 
 	public String readMessages(){

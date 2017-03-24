@@ -12,7 +12,7 @@
     <title> ${application} | 登录 </title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <meta content="优品加油, 商户平台" name="description"/>
+    <meta content="albedo" name="description"/>
     <meta content="" name="author"/>
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="${assets}/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
@@ -85,7 +85,7 @@
 </div>
 <!-- END LOGIN -->
 <!-- BEGIN COPYRIGHT -->
-<div class="copyright"> 2016 © 成都博晟创信科技有限公司 客服电话:<strong>400-005-8905</strong></div>
+<div class="copyright"> 2016 © albedo 客服电话:<strong>400-000-0000</strong></div>
 <!-- END COPYRIGHT -->
 <!--[if lt IE 9]>
 <script src="${assets}/global/plugins/respond.min.js"></script>
@@ -110,7 +110,7 @@
 <script src="${assets}/global/plugins/backstretch/jquery.backstretch.min.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN THEME GLOBAL SCRIPTS -->
-<script src="${assets}/global/scripts/app.min.js" type="text/javascript"></script>
+<script src="${assets}/js/app.min.js" type="text/javascript"></script>
 <!-- END THEME GLOBAL SCRIPTS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="${assets}/pages/scripts/login-4.js" type="text/javascript"></script>
