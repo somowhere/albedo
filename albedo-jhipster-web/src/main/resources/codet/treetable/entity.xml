@@ -9,6 +9,10 @@
  */
 package ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 <#list table.importList as i>
 import ${i};
 </#list>
@@ -22,6 +26,7 @@ import ${i};
 @Table(name = "${table.name}")
 @DynamicInsert @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Data @ToString @NoArgsConstructor @AllArgsConstructor
 public class ${ClassName} extends TreeEntity<${ClassName}> {
 	
 	private static final long serialVersionUID = 1L;
@@ -35,8 +40,6 @@ public class ${ClassName} extends TreeEntity<${ClassName}> {
 	<@generateFields/>
 	<@generateCompositeIdConstructorIfis/>
 
-	<@generatePkProperties/>
-	<@generateNotPkProperties/>
 
 	public String toString() {
 		return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -95,9 +98,7 @@ public class ${ClassName} extends TreeEntity<${ClassName}> {
 	//columns END
 </#macro>
 <#macro generateCompositeIdConstructorIfis>
-	public ${ClassName}(){
-	}
-	
+
 	<#if table.compositeId>
 	public ${ClassName}(${ClassName}Id id) {
 		this.id = id;

@@ -100,7 +100,7 @@ public class Assert {
 	 * @param text 待判定字符串
 	 * @param message 如果待判定字符串为空，抛出的异常消息
 	 */
-	public static void assertNotNull(String text,String message) {
+	public static void assertNotBlank(String text,String message) {
 		if (StringUtils.isBlank(text)) {
 			buildException(message);
 		}

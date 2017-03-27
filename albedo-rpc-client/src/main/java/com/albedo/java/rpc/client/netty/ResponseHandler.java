@@ -9,7 +9,7 @@ import com.albedo.java.rpc.common.protocol.Response;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Created by chenghao on 9/19/16.
+ * Created by lijie on 9/19/16.
  */
 public class ResponseHandler extends SimpleChannelInboundHandler<Message>{
     private Server server;

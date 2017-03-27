@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 
 /**
- * Created by chenghao on 9/7/16.
+ * Created by lijie on 9/7/16.
  */
 
 @SuppressWarnings("SpringJavaAutowiringInspection")

@@ -1,5 +1,6 @@
 package com.albedo.java.rpc.server.autoconfigure;
 
+import com.albedo.java.rpc.common.autoconfigure.CommonAutoConfiguration;
 import com.albedo.java.rpc.common.config.AlbedoRpcProperties;
 import com.albedo.java.rpc.common.protocol.marshalling.Marshalling;
 import com.albedo.java.rpc.server.listener.ServiceMapListener;
@@ -8,16 +9,18 @@ import com.albedo.java.rpc.server.netty.handler.NettyServer;
 import com.albedo.java.rpc.server.register.ServiceRegister;
 import com.albedo.java.rpc.server.register.ZookeeperServiceRegister;
 import org.apache.curator.framework.CuratorFramework;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 
 /**
- * Created by chenghao on 9/7/16.
+ * Created by lijie on 9/7/16.
  */
 @SuppressWarnings("SpringJavaAutowiringInspection")
 @Configuration
+@AutoConfigureAfter(value = {CommonAutoConfiguration.class})
 public class ServerAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean

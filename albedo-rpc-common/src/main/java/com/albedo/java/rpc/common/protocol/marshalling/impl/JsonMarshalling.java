@@ -4,7 +4,7 @@ import com.albedo.java.rpc.common.protocol.marshalling.Marshalling;
 import com.alibaba.fastjson.JSON;
 
 /**
- * Created by chenghao on 9/14/16.
+ * Created by lijie on 9/14/16.
  */
 public class JsonMarshalling implements Marshalling {
 

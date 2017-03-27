@@ -5,7 +5,7 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.zookeeper.CreateMode;
 
 /**
- * Created by chenghao on 9/7/16.
+ * Created by lijie on 9/7/16.
  */
 public class ZookeeperServiceRegister implements ServiceRegister {
     public ZookeeperServiceRegister(CuratorFramework curatorFramework, AlbedoRpcProperties applicationProperties){

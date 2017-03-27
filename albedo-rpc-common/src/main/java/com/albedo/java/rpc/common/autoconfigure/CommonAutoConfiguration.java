@@ -14,11 +14,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Created by chenghao on 9/7/16.
+ * Created by lijie on 9/7/16.
  */
 @Configuration
 @EnableConfigurationProperties({AlbedoRpcProperties.class,ZookeeperProperties.class})
 public class CommonAutoConfiguration {
+
     @Bean(destroyMethod = "close")
     @ConditionalOnMissingBean
     public CuratorFramework curatorFramework(ZookeeperProperties properties, RetryPolicy retryPolicy) throws InterruptedException {

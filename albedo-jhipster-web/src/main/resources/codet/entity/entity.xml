@@ -9,6 +9,10 @@
  */
 package ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 <#list table.importList as i>
 import ${i};
 </#list>
@@ -22,6 +26,7 @@ import ${i};
 @Table(name = "${table.name}")
 @DynamicInsert @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Data @ToString @NoArgsConstructor @AllArgsConstructor
 public class ${ClassName} extends DataEntity {
 	
 	private static final long serialVersionUID = 1L;
@@ -39,19 +44,6 @@ public class ${ClassName} extends DataEntity {
 		<#if table.pkJavaType = 'String'>
 		this.id = IdGen.uuid();
 		</#if>
-	}
-
-	<@generatePkProperties/>
-	<@generateNotPkProperties/>
-
-	public String toString() {
-		return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-		<#list table.columnList as column>
-			<#if !table.compositeId>
-			.append("${column.simpleJavaField}",get${column.simpleJavaField?cap_first}())
-			</#if>
-		</#list>
-			.toString();
 	}
 	
 	public int hashCode() {
@@ -110,9 +102,7 @@ public class ${ClassName} extends DataEntity {
 	//columns END
 </#macro>
 <#macro generateCompositeIdConstructorIfis>
-	public ${ClassName}(){
-	}
-	
+
 	<#if table.compositeId>
 	public ${ClassName}(${ClassName}Id id) {
 		this.id = id;

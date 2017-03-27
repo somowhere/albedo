@@ -9,7 +9,7 @@ import com.albedo.java.rpc.common.protocol.codec.MessageEncoder;
 import com.albedo.java.rpc.common.protocol.marshalling.Marshalling;
 
 /**
- * Created by chenghao on 9/8/16.
+ * Created by lijie on 9/8/16.
  */
 public class ClientChannelInitializer extends ChannelInitializer<SocketChannel> {
     private Marshalling marshalling;

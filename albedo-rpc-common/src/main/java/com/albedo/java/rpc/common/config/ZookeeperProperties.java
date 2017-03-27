@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesBindin
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by chenghao on 9/7/16.
+ * Created by lijie on 9/7/16.
  */
 @ConfigurationPropertiesBinding
 @ConfigurationProperties(prefix = "albedo.zookeeper")

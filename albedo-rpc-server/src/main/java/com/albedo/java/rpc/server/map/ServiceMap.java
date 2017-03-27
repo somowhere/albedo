@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by chenghao on 9/19/16.
+ * Created by lijie on 9/19/16.
  */
 public class ServiceMap {
     private Map<String,Object> map=new HashMap<>();

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by chenghao on 9/21/16.
+ * Created by lijie on 9/21/16.
  */
 public class ServiceStarter implements BeanFactoryPostProcessor{
      private List<Class> list=new ArrayList<>();

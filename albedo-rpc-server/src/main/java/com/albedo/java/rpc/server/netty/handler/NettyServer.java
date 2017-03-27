@@ -20,7 +20,7 @@ import com.albedo.java.rpc.server.register.ServiceRegister;
 import java.io.IOException;
 
 /**
- * Created by chenghao on 9/19/16.
+ * Created by lijie on 9/19/16.
  */
 
 public class NettyServer {

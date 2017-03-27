@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * Created by chenghao on 9/8/16.
+ * Created by lijie on 9/8/16.
  */
 public class Server {
     private String host;

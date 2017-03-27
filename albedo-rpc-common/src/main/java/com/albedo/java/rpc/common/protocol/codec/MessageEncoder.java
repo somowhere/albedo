@@ -7,7 +7,7 @@ import com.albedo.java.rpc.common.protocol.Message;
 import com.albedo.java.rpc.common.protocol.marshalling.Marshalling;
 
 /**
- * Created by chenghao on 9/18/16.
+ * Created by lijie on 9/18/16.
  */
 public class MessageEncoder extends MessageToByteEncoder<Message>{
     private Marshalling marshalling;

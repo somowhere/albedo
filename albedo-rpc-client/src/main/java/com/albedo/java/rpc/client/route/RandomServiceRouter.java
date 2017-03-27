@@ -6,7 +6,7 @@ import com.albedo.java.rpc.common.utils.RandomUtils;
 import java.util.List;
 
 /**
- * Created by chenghao on 9/9/16.
+ * Created by lijie on 9/9/16.
  */
 public class RandomServiceRouter implements ServiceRouter{
     @Override

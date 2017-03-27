@@ -81,7 +81,7 @@
                         "dataType": 'json'
                     },order: [ 5, 'asc' ],
                     "columns": [
-                    	{ data: "parentCode" },{ data: "name" },
+                    	{ data: "parentName" },{ data: "name" },
                         { data: "code" },
                         { data: "val", render : function(data, type, row){
                         	return albedo.subMaxStr(data, 20);

@@ -1,0 +1,10 @@
+albedo:
+    zookeeper:
+        connectString: 114.55.177.236:2181,114.55.177.236:2182,114.55.177.236:2183,114.55.177.236:2184,114.55.177.236:2185
+    rpc:
+        registerPath: /servers/node
+        appName: hcxd-mpns-rpc-server
+        hostUrl: localhost:8181
+
+
+

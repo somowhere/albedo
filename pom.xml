@@ -103,6 +103,7 @@
         <module>albedo-rpc-server</module>
         <module>albedo-rpc-client</module>
         <module>albedo-jhipster-web-swagger</module>
+        <module>albedo-rpc-test</module>
 
     </modules>
 </project>
