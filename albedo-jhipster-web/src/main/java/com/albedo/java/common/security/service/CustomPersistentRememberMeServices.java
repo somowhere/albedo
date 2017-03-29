@@ -6,6 +6,7 @@ import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,7 @@ import org.springframework.security.web.authentication.rememberme.CookieTheftExc
 import org.springframework.security.web.authentication.rememberme.InvalidCookieException;
 import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -48,9 +50,9 @@ import java.util.Arrays;
  * The main algorithm comes from Spring Security's PersistentTokenBasedRememberMeServices, but this class
  * couldn't be cleanly extended.
  */
-@Component
+@Service
 public class CustomPersistentRememberMeServices extends
-    AbstractRememberMeServices {
+    AbstractRememberMeServices{
 
     private final Logger log = LoggerFactory.getLogger(CustomPersistentRememberMeServices.class);
 
@@ -65,16 +67,15 @@ public class CustomPersistentRememberMeServices extends
 
     private SecureRandom random;
 
-    @Inject
+    @Autowired
     private PersistentTokenRepository persistentTokenRepository;
 
-    @Inject
+    @Autowired
     private UserRepository userRepository;
 
     @Inject
     public CustomPersistentRememberMeServices(AlbedoProperties albedoProperties, org.springframework.security.core.userdetails
         .UserDetailsService userDetailsService) {
-
         super(albedoProperties.getSecurity().getRememberMe().getKey(), userDetailsService);
         random = new SecureRandom();
     }

@@ -3,7 +3,7 @@ package com.albedo.java.common.config.template;
 import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.common.config.template.tag.CustomTags;
 import com.albedo.java.common.security.SecurityUtil;
-import com.albedo.java.modules.sys.service.util.DictUtil;
+import com.albedo.java.util.DictUtil;
 import com.albedo.java.util.PublicUtil;
 import com.google.common.collect.Maps;
 import freemarker.ext.beans.BeansWrapper;

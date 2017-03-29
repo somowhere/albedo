@@ -46,10 +46,10 @@ public final class SecurityUtil {
 	public static JpaCustomeRepository<?> baseRepository = SpringContextHolder.getBean(JpaCustomeRepository.class);
 
 	public static ModuleRepository moduleRepository = SpringContextHolder.getBean(ModuleRepository.class);
-	
-	
-	
-	
+
+
+
+
 	public static AlbedoProperties albedoProperties = SpringContextHolder.getBean(AlbedoProperties.class);
 
 	public static final String USER_CACHE = "-userCache-";
@@ -109,7 +109,7 @@ public final class SecurityUtil {
 	/**
 	 * 根据ID获取用户
 	 * 
-	 * @param id
+	 * @param userId
 	 * @return 取不到返回null
 	 */
 	public static User getByUserId(String userId) {
@@ -128,7 +128,7 @@ public final class SecurityUtil {
 	/**
 	 * 根据LoginId获取用户
 	 * 
-	 * @param id
+	 * @param loginId
 	 * @return 取不到返回null
 	 */
 	public static User getByLoginId(String loginId) {
@@ -153,8 +153,7 @@ public final class SecurityUtil {
 
 	/**
 	 * 返回当前用户可操作状态不为已删除的所有模块
-	 * 
-	 * @param refresh
+	 *
 	 *            是否从数据库中更新
 	 * @return
 	 */
@@ -168,7 +167,7 @@ public final class SecurityUtil {
 
 	/**
 	 * 返回当前用户可操作状态不为已删除的所有模块
-	 * 
+	 *
 	 * @param refresh
 	 *            是否从数据库中更新
 	 * @return
@@ -212,7 +211,7 @@ public final class SecurityUtil {
 		}
 		return orgList;
 	}
-	
+
 	public static List<Role> getRoleList() {
 		String userId = getCurrentUserId();
 		List<Role> roleList = getCacheJsonArray(CACHE_ROLE_LIST, Role.class);
@@ -228,7 +227,7 @@ public final class SecurityUtil {
 		}
 		return roleList;
 	}
-	
+
 	/**
 	 * Check if a user is authenticated.
 	 *

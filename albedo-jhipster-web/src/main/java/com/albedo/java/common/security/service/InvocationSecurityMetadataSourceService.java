@@ -4,7 +4,7 @@ import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.domain.Module;
 import com.albedo.java.modules.sys.repository.ModuleRepository;
-import com.albedo.java.modules.sys.service.util.DictUtil;
+import com.albedo.java.util.DictUtil;
 import com.albedo.java.util.JedisUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;

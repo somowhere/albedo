@@ -1,35 +1,31 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.config.template.tag.FormDirective;
-import com.albedo.java.common.domain.data.DynamicSpecifications;
-import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.User;
-import com.albedo.java.modules.sys.service.UserService;
-import com.albedo.java.modules.sys.service.util.JsonUtil;
+import com.albedo.java.modules.sys.service.impl.UserService;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
-import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.exception.RuntimeMsgException;
+import com.albedo.java.vo.sys.UserForm;
+import com.albedo.java.vo.sys.UserResult;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataResource;
-import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
 import java.net.URISyntaxException;
 
 /**
@@ -72,17 +68,16 @@ public class UserResource extends DataResource<User> {
 
 	private final Logger log = LoggerFactory.getLogger(UserResource.class);
 
-
-	@Inject
+	@Autowired
 	private UserService userService;
 
 	@ModelAttribute
-	public User get(@RequestParam(required = false) String id) throws Exception {
+	public UserResult get(@RequestParam(required = false) String id) throws Exception {
 		String path = request.getRequestURI();
 		if (path != null && !path.contains("checkBy") && !path.contains("find") && PublicUtil.isNotEmpty(id)) {
 			return userService.findOne(id);
 		} else {
-			return new User();
+			return new UserResult();
 		}
 	}
 
@@ -96,11 +91,8 @@ public class UserResource extends DataResource<User> {
 	 * @param pm
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public ResponseEntity getPage(PageModel<User> pm) { SpecificationDetail<User> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(), SecurityUtil.dataScopeFilter(),
-				QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE), QueryCondition.ne(User.F_ID, "1"));
-		Page<User> page = userService.findAll(spec, pm);
-		pm.setPageInstance(page);
-		JSON rs = JsonUtil.getInstance().setFreeFilters("roleIdList").setRecurrenceStr("org_name").toJsonObject(pm);
+	public ResponseEntity getPage(PageModel pm) {
+		String rs = userService.findAll(pm);
 		return ResultBuilder.buildObject(rs);
 	}
 	
@@ -114,7 +106,7 @@ public class UserResource extends DataResource<User> {
 
 	/**
 	 * 保存
-	 * @param user
+	 * @param userForm
 	 * @param confirmPassword
 	 * @return
 	 * @throws URISyntaxException
@@ -122,28 +114,28 @@ public class UserResource extends DataResource<User> {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed @ApiImplicitParams(@ApiImplicitParam(paramType = "query",name = "confirmPassword"))
 //	@Secured(AuthoritiesConstants.ADMIN)
-	public ResponseEntity save(User user, String confirmPassword){
-		log.debug("REST request to save User : {}", user);
+	public ResponseEntity save(UserForm userForm, String confirmPassword){
+		log.debug("REST request to save userForm : {}", userForm);
 		// beanValidatorAjax(user);
-		if (PublicUtil.isNotEmpty(user.getPassword()) && !user.getPassword().equals(confirmPassword)) {
+		if (PublicUtil.isNotEmpty(userForm.getPassword()) && !userForm.getPassword().equals(confirmPassword)) {
 			throw new RuntimeMsgException("两次输入密码不一致");
 		}
 		// Lowercase the user login before comparing with database
 		if (!checkByProperty(Reflections.createObj(User.class, Lists.newArrayList(User.F_ID, User.F_LOGINID),
-				user.getId(), user.getLoginId()))) {
+				userForm.getId(), userForm.getLoginId()))) {
 			throw new RuntimeMsgException("登录Id已存在");
 		}
-		if (!PublicUtil.isNotEmpty(user.getEmail()) && checkByProperty(Reflections.createObj(User.class,
-				Lists.newArrayList(User.F_ID, User.F_EMAIL), user.getId(), user.getEmail()))) {
+		if (!PublicUtil.isNotEmpty(userForm.getEmail()) && checkByProperty(Reflections.createObj(User.class,
+				Lists.newArrayList(User.F_ID, User.F_EMAIL), userForm.getId(), userForm.getEmail()))) {
 			throw new RuntimeMsgException("邮箱已存在");
 		}
-		User newUser = userService.save(user);
+		userService.save(userForm);
 		// if(PublicUtil.isEmpty(user.getId()) &&
 		// PublicUtil.isNotEmpty(user.getEmail())){
 		// String baseUrl = request.getParameter("basePath");
 		// mailService.sendCreationEmail(newUser, baseUrl);
 		// }
-		return ResultBuilder.buildOk("保存", user.getLoginId(), "成功");
+		return ResultBuilder.buildOk("保存", userForm.getLoginId(), "成功");
 	}
 
 	/**

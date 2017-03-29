@@ -81,7 +81,7 @@ public class ${ClassName}Service extends BaseService<${ClassName}>{
 	public void delete(String ids) {
 		Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id -> {
 			${className}Repository.findOneById(id).map(u -> {
-				deleteById(id, PublicUtil.toAppendStr("%,", id, ",%"));
+				deleteById(id, PublicUtil.toAppendStr("%,", id, ",%"), SecurityUtil.getCurrentAuditor());
 				log.debug("Deleted ${ClassName}: {}", u);
 				return u;
 			}).orElseThrow(() -> new RuntimeMsgException("${functionNameSimple}信息为空，删除失败"));
@@ -92,7 +92,7 @@ public class ${ClassName}Service extends BaseService<${ClassName}>{
 	public void lockOrUnLock(String ids) {
 		Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id ->{
 			${className}Repository.findOneById(id).map(u -> {
-    			operateStatusById(id, PublicUtil.toAppendStr("%,", id, ",%"), BaseEntity.FLAG_NORMAL.equals(u.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL);
+    			operateStatusById(id, PublicUtil.toAppendStr("%,", id, ",%"), BaseEntity.FLAG_NORMAL.equals(u.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL, SecurityUtil.getCurrentAuditor());
                 log.debug("LockOrUnLock ${ClassName}: {}", u);
 				return u;
 			}).orElseThrow(() -> new RuntimeMsgException("${functionNameSimple}信息为空，操作失败"));

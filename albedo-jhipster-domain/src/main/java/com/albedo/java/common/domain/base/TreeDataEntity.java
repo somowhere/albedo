@@ -2,8 +2,6 @@ package com.albedo.java.common.domain.base;
 
 import com.albedo.java.util.annotation.SearchField;
 import com.albedo.java.util.domain.QueryCondition.Operator;
-import com.alibaba.fastjson.annotation.JSONField;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.constraints.Length;

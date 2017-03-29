@@ -1,7 +1,7 @@
 package com.albedo.java.util.excel;
 
 import com.albedo.java.modules.sys.domain.Dict;
-import com.albedo.java.modules.sys.service.util.DictUtil;
+import com.albedo.java.util.DictUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.annotation.ExcelField;
 import com.albedo.java.util.base.Reflections;

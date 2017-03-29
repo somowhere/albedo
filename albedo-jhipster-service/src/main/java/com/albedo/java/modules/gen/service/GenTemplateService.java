@@ -41,7 +41,7 @@ public class GenTemplateService extends BaseService<GenTable> {
     public void delete(String ids) {
     	Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id ->{
     		genTableRepository.findOneById(id).map(u -> {
-    			deleteById(id);
+    			deleteById(id,SecurityUtil.getCurrentAuditor());
                 log.debug("Deleted GenTable: {}", u);
 				return u;
 			}).orElseThrow(() -> new RuntimeMsgException("用户 " + id + " 信息为空，删除失败"));
@@ -53,7 +53,7 @@ public class GenTemplateService extends BaseService<GenTable> {
 	public void lockOrUnLock(String ids) {
 		Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id ->{
 			genTableRepository.findOneById(id).map(u -> {
-    			operateStatusById(id, BaseEntity.FLAG_NORMAL.equals(u.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL);
+    			operateStatusById(id, BaseEntity.FLAG_NORMAL.equals(u.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL,SecurityUtil.getCurrentAuditor());
                 log.debug("LockOrUnLock User: {}", u);
 				return u;
 			}).orElseThrow(() -> new RuntimeMsgException("用户 " + id + " 信息为空，操作失败"));

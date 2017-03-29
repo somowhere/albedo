@@ -12,7 +12,6 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.*;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlTransient;
@@ -28,16 +27,7 @@ import java.util.Date;
 public abstract class DataEntity extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
-    /*** ID */
-	public static final String F_ID = "id";
-    public static final String F_CREATEDBY="createdBy";
-    public static final String F_CREATOR = "creator";
-    public static final String F_CREATEDDATE="createdDate";
-    public static final String F_LASTMODIFIEDBY="lastModifiedBy";
-    public static final String F_MODIFIER = "modifier";
-    public static final String F_LASTMODIFIEDDATE="lastModifiedDate";
-    public static final String F_VERSION="version";
-    public static final String F_DESCRIPTION="description";
+
     
     
     

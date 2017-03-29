@@ -6,7 +6,7 @@ import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.modules.gen.domain.GenTable;
 import com.albedo.java.modules.gen.service.GenTableService;
-import com.albedo.java.modules.sys.service.util.JsonUtil;
+import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.Globals;

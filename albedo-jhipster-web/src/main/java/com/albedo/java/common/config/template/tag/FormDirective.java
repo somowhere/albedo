@@ -2,7 +2,7 @@ package com.albedo.java.common.config.template.tag;
 
 import com.albedo.java.common.repository.data.JpaCustomeRepository;
 import com.albedo.java.modules.sys.domain.Dict;
-import com.albedo.java.modules.sys.service.util.DictUtil;
+import com.albedo.java.util.DictUtil;
 import com.albedo.java.util.Json;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Reflections;

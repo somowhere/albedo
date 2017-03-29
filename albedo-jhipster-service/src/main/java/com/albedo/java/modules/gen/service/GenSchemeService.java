@@ -48,7 +48,7 @@ public class GenSchemeService extends BaseService<GenScheme> {
     public void delete(String ids) {
     	Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id ->{
     		genSchemeRepository.findOneById(id).map(u -> {
-    			deleteById(id);
+    			deleteById(id,SecurityUtil.getCurrentAuditor());
                 log.debug("Deleted GenScheme: {}", u);
 				return u;
 			}).orElseThrow(() -> new RuntimeMsgException("用户 " + id + " 信息为空，删除失败"));
@@ -60,7 +60,7 @@ public class GenSchemeService extends BaseService<GenScheme> {
 	public void lockOrUnLock(String ids) {
 		Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id ->{
 			genSchemeRepository.findOneById(id).map(u -> {
-    			operateStatusById(id, BaseEntity.FLAG_NORMAL.equals(u.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL);
+    			operateStatusById(id, BaseEntity.FLAG_NORMAL.equals(u.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL,SecurityUtil.getCurrentAuditor());
                 log.debug("LockOrUnLock User: {}", u);
 				return u;
 			}).orElseThrow(() -> new RuntimeMsgException("用户 " + id + " 信息为空，操作失败"));

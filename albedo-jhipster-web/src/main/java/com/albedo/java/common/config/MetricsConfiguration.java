@@ -26,7 +26,7 @@ import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
-@EnableMetrics(proxyTargetClass = true)
+@EnableMetrics
 public class MetricsConfiguration extends MetricsConfigurerAdapter {
 
     private static final String PROP_METRIC_REG_JVM_MEMORY = "jvm.memory";

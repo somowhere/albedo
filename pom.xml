@@ -104,6 +104,9 @@
         <module>albedo-rpc-client</module>
         <module>albedo-jhipster-web-swagger</module>
         <module>albedo-rpc-test</module>
+        <module>albedo-jhipster-spring-jpa</module>
+        <module>albedo-jhipster-domain-base</module>
+        <module>albedo-jhipster-interface</module>
 
     </modules>
 </project>

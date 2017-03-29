@@ -34,7 +34,7 @@ public class GenTableColumnService extends BaseService<GenTableColumn> {
 	public void delete(String ids) {
 		Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id -> {
 			genTableColumnRepository.findOneById(id).map(u -> {
-				deleteById(id);
+				deleteById(id,SecurityUtil.getCurrentAuditor());
 				log.debug("Deleted GenTableColumn: {}", u);
 				return u;
 			}).orElseThrow(() -> new RuntimeMsgException("用户 " + id + " 信息为空，删除失败"));
@@ -46,7 +46,7 @@ public class GenTableColumnService extends BaseService<GenTableColumn> {
 		Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id -> {
 			genTableColumnRepository.findOneById(id).map(u -> {
 				operateStatusById(id,
-						BaseEntity.FLAG_NORMAL.equals(u.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL);
+						BaseEntity.FLAG_NORMAL.equals(u.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL,SecurityUtil.getCurrentAuditor());
 				log.debug("LockOrUnLock GenTableColumn: {}", u);
 				return u;
 			}).orElseThrow(() -> new RuntimeMsgException("用户 " + id + " 信息为空，操作失败"));

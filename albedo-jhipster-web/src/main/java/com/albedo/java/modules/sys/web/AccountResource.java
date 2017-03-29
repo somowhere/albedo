@@ -2,16 +2,11 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.PersistentToken;
-import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
-import com.albedo.java.modules.sys.service.UserService;
-import com.albedo.java.modules.sys.service.dto.UserDTO;
+import com.albedo.java.modules.sys.service.impl.UserService;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.BaseResource;
-import com.albedo.java.web.rest.util.HeaderUtil;
-import com.albedo.java.web.rest.vm.KeyAndPasswordVM;
-import com.albedo.java.web.rest.vm.ManagedUserVM;
 import com.codahale.metrics.annotation.Timed;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -20,15 +15,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
-import java.util.Optional;
+
+//import com.albedo.java.web.rest.vm.KeyAndPasswordVM;
+//import com.albedo.java.web.rest.vm.ManagedUserVM;
 
 //import com.albedo.java.modules.sys.service.MailService;
 
@@ -121,45 +120,45 @@ public class AccountResource extends BaseResource {
         return request.getRemoteUser();
     }
 
-    /**
-     * GET  /account : get the current user.
-     *
-     * @return the ResponseEntity with status 200 (OK) and the current user in body, or status 500 (Internal Server Error) if the user couldn't be returned
-     */
-    @RequestMapping(value = "/account",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<UserDTO> getAccount() {
-        return Optional.ofNullable(userService.getUserWithAuthorities())
-            .map(user -> new ResponseEntity<>(new UserDTO(user), HttpStatus.OK))
-            .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
-    }
-
-    /**
-     * POST  /account : update the current user information.
-     *
-     * @param userDTO the current user information
-     * @return the ResponseEntity with status 200 (OK), or status 400 (Bad Request) or 500 (Internal Server Error) if the user couldn't be updated
-     */
-    @RequestMapping(value = "/account",
-        method = RequestMethod.POST,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<String> saveAccount(@Valid @RequestBody UserDTO userDTO) {
-        Optional<User> existingUser = userRepository.findOneByEmail(userDTO.getEmail());
-        if (existingUser.isPresent() && (!existingUser.get().getLoginId().equalsIgnoreCase(userDTO.getLoginId()))) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("user-management", "emailexists", "Email already in use")).body(null);
-        }
-        return userRepository
-        		.findOneById(SecurityUtil.getCurrentUserId())
-            .map(u -> {
-                userService.update(userDTO.getName(), userDTO.getEmail(),
-                    userDTO.getLangKey());
-                return new ResponseEntity<String>(HttpStatus.OK);
-            })
-            .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
-    }
+//    /**
+//     * GET  /account : get the current user.
+//     *
+//     * @return the ResponseEntity with status 200 (OK) and the current user in body, or status 500 (Internal Server Error) if the user couldn't be returned
+//     */
+//    @RequestMapping(value = "/account",
+//        method = RequestMethod.GET,
+//        produces = MediaType.APPLICATION_JSON_VALUE)
+//    @Timed
+//    public ResponseEntity<UserDTO> getAccount() {
+//        return Optional.ofNullable(userService.getUserWithAuthorities())
+//            .map(user -> new ResponseEntity<>(new UserDTO(user), HttpStatus.OK))
+//            .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+//    }
+//
+//    /**
+//     * POST  /account : update the current user information.
+//     *
+//     * @param userDTO the current user information
+//     * @return the ResponseEntity with status 200 (OK), or status 400 (Bad Request) or 500 (Internal Server Error) if the user couldn't be updated
+//     */
+//    @RequestMapping(value = "/account",
+//        method = RequestMethod.POST,
+//        produces = MediaType.APPLICATION_JSON_VALUE)
+//    @Timed
+//    public ResponseEntity<String> saveAccount(@Valid @RequestBody UserDTO userDTO) {
+//        Optional<User> existingUser = userRepository.findOneByEmail(userDTO.getEmail());
+//        if (existingUser.isPresent() && (!existingUser.get().getLoginId().equalsIgnoreCase(userDTO.getLoginId()))) {
+//            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("user-management", "emailexists", "Email already in use")).body(null);
+//        }
+//        return userRepository
+//        		.findOneById(SecurityUtil.getCurrentUserId())
+//            .map(u -> {
+//                userService.update(userDTO.getName(), userDTO.getEmail(),
+//                    userDTO.getLangKey());
+//                return new ResponseEntity<String>(HttpStatus.OK);
+//            })
+//            .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+//    }
 
     /**
      *
@@ -260,29 +259,29 @@ public class AccountResource extends BaseResource {
 //            }).orElse(new ResponseEntity<>("e-mail address not registered", HttpStatus.BAD_REQUEST));
 //    }
 
-    /**
-     * POST   /account/reset_password/finish : Finish to reset the password of the user
-     *
-     * @param keyAndPassword the generated key and the new password
-     * @return the ResponseEntity with status 200 (OK) if the password has been reset,
-     * or status 400 (Bad Request) or 500 (Internal Server Error) if the password could not be reset
-     */
-    @RequestMapping(value = "/account/reset_password/finish",
-        method = RequestMethod.POST,
-        produces = MediaType.TEXT_PLAIN_VALUE)
-    @Timed
-    public ResponseEntity<String> finishPasswordReset(@RequestBody KeyAndPasswordVM keyAndPassword) {
-        if (!checkPasswordLength(keyAndPassword.getNewPassword())) {
-            return new ResponseEntity<>("Incorrect password", HttpStatus.BAD_REQUEST);
-        }
-        return userService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey())
-              .map(user -> new ResponseEntity<String>(HttpStatus.OK))
-              .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
-    }
-
-    private boolean checkPasswordLength(String password) {
-        return (!StringUtils.isEmpty(password) &&
-            password.length() >= ManagedUserVM.PASSWORD_MIN_LENGTH &&
-            password.length() <= ManagedUserVM.PASSWORD_MAX_LENGTH);
-    }
+//    /**
+//     * POST   /account/reset_password/finish : Finish to reset the password of the user
+//     *
+//     * @param keyAndPassword the generated key and the new password
+//     * @return the ResponseEntity with status 200 (OK) if the password has been reset,
+//     * or status 400 (Bad Request) or 500 (Internal Server Error) if the password could not be reset
+//     */
+//    @RequestMapping(value = "/account/reset_password/finish",
+//        method = RequestMethod.POST,
+//        produces = MediaType.TEXT_PLAIN_VALUE)
+//    @Timed
+//    public ResponseEntity<String> finishPasswordReset(@RequestBody KeyAndPasswordVM keyAndPassword) {
+//        if (!checkPasswordLength(keyAndPassword.getNewPassword())) {
+//            return new ResponseEntity<>("Incorrect password", HttpStatus.BAD_REQUEST);
+//        }
+//        return userService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey())
+//              .map(user -> new ResponseEntity<String>(HttpStatus.OK))
+//              .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+//    }
+//
+//    private boolean checkPasswordLength(String password) {
+//        return (!StringUtils.isEmpty(password) &&
+//            password.length() >= ManagedUserVM.PASSWORD_MIN_LENGTH &&
+//            password.length() <= ManagedUserVM.PASSWORD_MAX_LENGTH);
+//    }
 }
