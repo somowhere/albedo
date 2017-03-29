@@ -1,0 +1,125 @@
+ # ===================================================================
+# Spring Boot configuration.
+#
+# This configuration will be overriden by the Spring profile you use,
+# for example application-dev.yml if you use the "dev" profile.
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+management:
+    context-path: /a/management
+    health:
+        mail:
+            enabled: false # When using the MailService, configure an SMTP server and set this to true
+spring:
+    profiles:
+        active: dev
+        include: swagger
+    jackson:
+        serialization.indent_output: true
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:mysql://192.168.88.247:3306/albedo-new?useUnicode=true&characterEncoding=utf8&useSSL=false
+        name:
+        username: root
+        password: 123456
+        hikari:
+            data-source-properties:
+                cachePrepStmts: true
+                prepStmtCacheSize: 250
+                prepStmtCacheSqlLimit: 2048
+                useServerPrepStmts: true
+    jpa:
+        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+        database: MYSQL
+        show-sql: true
+        properties:
+            hibernate.cache.use_second_level_cache: true
+            hibernate.cache.use_query_cache: false
+            hibernate.generate_statistics: true
+            hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+    mail:
+        host: localhost
+        port: 25
+        username:
+        password:
+    messages:
+        cache-seconds: 1
+    mvc:
+#        view:
+#            prefix: /WEB-INF/views/
+#            suffix: .jsp
+        favicon:
+            enabled: false
+    freemarker:
+        allow-request-override: false
+        cache:  false
+        check-template-location: true
+        charset: UTF-8
+        content-type: text/html
+        expose-request-attributes:  false
+        expose-session-attributes:  false
+        expose-spring-macro-helpers:  true
+        #prefix:
+        suffix: .ftl
+        template-loader-path: /WEB-INF/views/,/META-INF/resources/WEB-INF/views/,classpath:/META-INF/resources/WEB-INF/views/
+    redis :
+      password : bosheng906!
+      sentinel :
+        nodes : 182.92.204.180:26377,182.92.204.180:26378
+        master : master
+
+security:
+    basic:
+        enabled: false
+
+# ===================================================================
+# JHipster specific properties
+# ===================================================================
+
+albedo:
+    application: albedo
+    adminPath: /a
+    frontPath: /f
+    staticFileDirectory: D:/temp/files/
+    urlSuffix: html
+    cluster: false
+    quartzEnabled: true
+    async:
+        corePoolSize: 2
+        maxPoolSize: 50
+        queueCapacity: 10000
+    security:
+        rememberMe:
+            # security key (this key should be unique for your application, and kept secret)
+            key: 8748a5ea8df623bc800993fbaed1090b31b049cc
+    #cors: #By default CORS are not enabled. Uncomment to enable.
+        #allowed-origins: "*"
+        #allowed-methods: GET, PUT, POST, DELETE, OPTIONS
+        #allowed-headers: "*"
+        #exposed-headers:
+        #allow-credentials: true
+        #max-age: 1800
+    mail:
+        from: albedoJhipster@localhost
+    swagger:
+        basePath: /api/.*
+        title: albedoJhipster API
+        description: albedoJhipster API documentation
+        version: 0.0.1
+        termsOfServiceUrl:
+        contactName:
+        contactUrl:
+        contactEmail:
+        license:
+        licenseUrl:
+    ribbon:
+        # comma seperated list of profiles to show a ribbon on the GUI
+        displayOnActiveProfiles: dev
+    http:
+        restful: false

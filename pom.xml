@@ -98,10 +98,10 @@
         <module>albedo-boot-spring-jpa</module>
         <module>albedo-boot-domain-base</module>
         <module>albedo-boot-interface</module>
-
         <module>albedo-boot-server</module>
-        <module>albedo-boot-app</module>
+        <module>albedo-boot-rpc</module>
         <module>albedo-boot-web</module>
+        <module>albedo-boot-web-app</module>
         <module>albedo-boot-web-base</module>
         <module>albedo-boot-web-swagger</module>
 
@@ -109,9 +109,6 @@
         <module>albedo-rpc-server</module>
         <module>albedo-rpc-client</module>
         <module>albedo-rpc-test</module>
-        <module>albedo-boot-web</module>
-        <module>albedo-boot-rpc</module>
-
 
     </modules>
 </project>
