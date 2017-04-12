@@ -8,9 +8,8 @@ package ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleNam
 
 import javax.annotation.Resource;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
+import com.albedo.java.util.JsonUtil;
 import com.albedo.java.web.rest.ResultBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
@@ -33,7 +32,6 @@ import com.albedo.java.common.domain.data.DynamicSpecifications;
 import com.albedo.java.common.security.SecurityUtil;
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
 import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Service;
-import com.albedo.java.modules.sys.service.util.JsonUtil;
 import com.albedo.java.web.rest.base.DataResource;
 import com.codahale.metrics.annotation.Timed;
 

@@ -11,13 +11,13 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <groupId>org.springframework.boot</groupId>
         <version>1.5.1.RELEASE</version>
-        <relativePath/>
     </parent>
     <!-- 项目属性 -->
     <properties>
         <project.release.version>1.0.0-SNAPSHOT</project.release.version>
         <hibernate.version>4.3.11.Final</hibernate.version>
         <assertj-core.version>3.5.2</assertj-core.version>
+        <lombok.version>1.16.6</lombok.version>
         <!-- 依赖库的版本定义 -->
         <!-- Plugin -->
         <jdk.version>1.8</jdk.version>
@@ -25,36 +25,7 @@
 
     </properties>
 
-    <distributionManagement>
-        <repository>
-            <id>mzone-release</id>
-            <url>http://182.92.204.180:8081/nexus/content/repositories/releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>mzone-snapshot</id>
-            <url>http://182.92.204.180:8081/nexus/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-    <!-- 设定除中央仓库(repo1.maven.org/maven2/)外的其他仓库,按设定顺序进行查找. -->
-    <repositories>
-
-        <!-- 如有Nexus私服, 取消注释并指向正确的服务器地址. -->
-        <repository>
-            <id>aliyun</id>
-            <name>aliyun maven</name>
-            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-        </repository>
-        <!-- 如有Nexus私服, 取消注释并指向正确的服务器地址. -->
-        <repository>
-            <id>nexus</id>
-            <name>Team Nexus Repository</name>
-            <url>http://182.92.204.180:8081/nexus/content/groups/public</url>
-        </repository>
-    </repositories>
-
-
     <build>
-        <outputDirectory>${project.basedir}/target/bin</outputDirectory>
         <plugins>
             <!-- Compiler 插件, 设定JDK版本 -->
             <plugin>
@@ -65,26 +36,6 @@
                     <target>${jdk.version}</target>
                     <showWarnings>true</showWarnings>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-            </plugin>
-            <!-- 打包源代码插件 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <configuration>
-                    <attach>true</attach>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
@@ -98,11 +49,10 @@
         <module>albedo-boot-spring-jpa</module>
         <module>albedo-boot-domain-base</module>
         <module>albedo-boot-interface</module>
-        <module>albedo-boot-server</module>
-        <module>albedo-boot-rpc</module>
-        <module>albedo-boot-web</module>
+        <module>albedo-boot-web-starter</module>
         <module>albedo-boot-web-app</module>
         <module>albedo-boot-web-base</module>
+        <module>albedo-boot-web-base-server</module>
         <module>albedo-boot-web-swagger</module>
 
         <module>albedo-rpc-common</module>
@@ -110,5 +60,22 @@
         <module>albedo-rpc-client</module>
         <module>albedo-rpc-test</module>
 
+        <module>albedo-grpc-consul</module>
+        <module>albedo-grpc</module>
+
     </modules>
+
+    <distributionManagement>
+        <repository>
+            <id>Releases</id>
+            <name>Project RELEASE</name>
+            <url>http://121.43.39.46:8081/nexus/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>Snapshots</id>
+            <name>Porject SNAPSHOTS</name>
+            <url>http://121.43.39.46:8081/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 </project>

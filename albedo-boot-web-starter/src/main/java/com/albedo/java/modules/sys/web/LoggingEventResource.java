@@ -3,7 +3,7 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.domain.data.DynamicSpecifications;
 import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.modules.sys.domain.LoggingEvent;
-import com.albedo.java.modules.sys.service.impl.LoggingEventService;
+import com.albedo.java.modules.sys.service.LoggingEventService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.web.rest.ResultBuilder;

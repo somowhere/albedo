@@ -45,6 +45,7 @@ import com.google.common.collect.Maps;
  * 2014年10月15日 下午4:04:00
  */
 public class BaseResource extends  GeneralResource {
+
 	@Resource
 	protected AlbedoProperties albedoProperties;
 	/**

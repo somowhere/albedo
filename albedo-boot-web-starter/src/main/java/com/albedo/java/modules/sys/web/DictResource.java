@@ -5,7 +5,7 @@ import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.vo.sys.query.DictTreeQuery;
-import com.albedo.java.modules.sys.service.impl.DictService;
+import com.albedo.java.modules.sys.service.DictService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;

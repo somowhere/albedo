@@ -19,6 +19,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  * 区域管理Entity 区域管理
@@ -45,6 +46,7 @@ public class Area extends TreeEntity<Area> {
 	/** level 区域等级 */@Column(name = "level_", unique = false, nullable = true)@DictType(name="sys_area_type")
 	private Integer level;
 	/** code 区域编码 */@Length(max=32)@Column(name = "code_", unique = true, nullable = true, length = 32)@SearchField
+	@NotNull
 	private String code;
 	//columns END
 	public Area(){
