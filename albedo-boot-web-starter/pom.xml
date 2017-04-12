@@ -6,7 +6,7 @@
         <artifactId>albedo-boot</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>albedo-boot-web</artifactId>
+    <artifactId>albedo-boot-web-starter</artifactId>
 
     <properties>
         <metrics-spark-reporter.version>1.2</metrics-spark-reporter.version>

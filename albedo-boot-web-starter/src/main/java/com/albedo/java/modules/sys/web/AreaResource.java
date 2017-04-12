@@ -5,7 +5,7 @@ import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Area;
 import com.albedo.java.vo.sys.query.AreaTreeQuery;
-import com.albedo.java.modules.sys.service.impl.AreaService;
+import com.albedo.java.modules.sys.service.AreaService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.Globals;

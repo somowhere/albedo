@@ -22,8 +22,6 @@ public class LoggingConfiguration {
     @Value("${spring.application.name}")
     private String appName;
 
-    @Value("${server.port}")
-    private String serverPort;
 
 
     @Inject
@@ -42,7 +40,7 @@ public class LoggingConfiguration {
         LogstashSocketAppender logstashAppender = new LogstashSocketAppender();
         logstashAppender.setName("LOGSTASH");
         logstashAppender.setContext(context);
-        String customFields = "{\"app_name\":\"" + appName + "\",\"app_port\":\"" + serverPort + "\"}";
+        String customFields = "{\"app_name\":\"" + appName + "\"}";
 
         // Set the Logstash appender config from JHipster properties
         logstashAppender.setSyslogHost(albedoProperties.getLogging().getLogstash().getHost());

@@ -423,7 +423,11 @@ public class Reflections {
 					for (int i = 0; i < fields.size(); i++) {
 						setFieldValue(obj, fields.get(i), value[i]);
 					}
+				}else{
+					logger.warn("obj {} fields {} value {}", obj, fields, value);
 				}
+			}else{
+				logger.warn("obj is null");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -4,7 +4,7 @@ import com.albedo.java.common.domain.data.DynamicSpecifications;
 import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.TaskScheduleJob;
-import com.albedo.java.modules.sys.service.impl.ITaskScheduleJobService;
+import com.albedo.java.modules.sys.service.ITaskScheduleJobService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.Globals;

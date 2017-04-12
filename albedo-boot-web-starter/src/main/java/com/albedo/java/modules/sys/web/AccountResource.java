@@ -4,7 +4,7 @@ import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.PersistentToken;
 import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
-import com.albedo.java.modules.sys.service.impl.UserService;
+import com.albedo.java.modules.sys.service.UserService;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.BaseResource;
 import com.codahale.metrics.annotation.Timed;
@@ -44,7 +44,7 @@ public class AccountResource extends BaseResource {
     private UserRepository userRepository;
 
     @Inject
-    private UserService userService;
+    private UserService userServiceImpl;
 
     @Inject
     private PersistentTokenRepository persistentTokenRepository;
@@ -100,7 +100,7 @@ public class AccountResource extends BaseResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<String> activateAccount(@RequestParam(value = "key") String key) {
-        return userService.activateRegistration(key)
+        return userServiceImpl.activateRegistration(key)
             .map(user -> new ResponseEntity<String>(HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
@@ -184,7 +184,7 @@ public class AccountResource extends BaseResource {
         produces = MediaType.TEXT_PLAIN_VALUE)
     @Timed
     public ResponseEntity changePassword(String password, String newPassword, String confirmPassword) {
-        userService.changePassword(SecurityUtil.getCurrentUserId(), password, newPassword, confirmPassword);
+        userServiceImpl.changePassword(SecurityUtil.getCurrentUserId(), password, newPassword, confirmPassword);
         return ResultBuilder.buildOk("密码修改成功，请下次登录时使用新密码");
     }
 

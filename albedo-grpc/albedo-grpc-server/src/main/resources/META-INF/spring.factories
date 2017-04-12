@@ -1,0 +1,5 @@
+# AutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.albedo.java.grpc.server.autoconfigure.GrpcServerAutoConfiguration,\
+com.albedo.java.grpc.server.autoconfigure.GrpcMetedataEurekaConfiguration,\
+com.albedo.java.grpc.server.autoconfigure.GrpcMetedataConsulConfiguration

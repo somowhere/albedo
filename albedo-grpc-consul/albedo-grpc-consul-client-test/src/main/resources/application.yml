@@ -1,0 +1,18 @@
+server:
+  port: 8081
+grpc:
+  server:
+    name: albedo-grpc-server
+spring:
+  profiles: default
+  cloud:
+    consul:
+      host: 114.55.177.236
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+
+---
+spring:
+  application:
+    name: albedo-grpc-client

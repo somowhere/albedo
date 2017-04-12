@@ -4,7 +4,7 @@ import com.albedo.java.common.config.template.tag.FormDirective;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.User;
-import com.albedo.java.modules.sys.service.impl.UserService;
+import com.albedo.java.modules.sys.service.UserService;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Globals;
@@ -20,12 +20,12 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.net.URISyntaxException;
 
 /**
@@ -68,7 +68,7 @@ public class UserResource extends DataResource<User> {
 
 	private final Logger log = LoggerFactory.getLogger(UserResource.class);
 
-	@Autowired
+	@Resource
 	private UserService userService;
 
 	@ModelAttribute

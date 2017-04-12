@@ -1,6 +1,6 @@
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.modules.sys.service.impl.AuditEventService;
+import com.albedo.java.modules.sys.service.AuditEventService;
 import com.albedo.java.web.rest.util.PaginationUtil;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.data.domain.Page;

@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+package com.albedo.java.grpc.client.service;
+
+enum Gender {
+    Male = 0;
+    Female = 1;
+}
+
+message UserDetail {
+    string name = 1;
+    string password = 2;
+    string email = 3;
+    int32 age = 4;
+    Gender gender = 5;
+}
+
+message users {
+    repeated UserDetail user = 1;
+}
+
+message user{
+	string name=1;
+}
+
+
+service UserService {
+    rpc createUser(UserDetail) returns (user);
+}

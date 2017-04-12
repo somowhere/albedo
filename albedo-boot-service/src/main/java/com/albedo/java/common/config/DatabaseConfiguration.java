@@ -28,13 +28,9 @@ public class DatabaseConfiguration {
     @Inject
     private Environment env;
 
-
     @Bean
     public Hibernate4Module hibernate4Module() {
         return new Hibernate4Module();
     }
-    @Bean
-    public javax.validation.Validator localValidatorFactoryBean() {
-       return new LocalValidatorFactoryBean();
-    }
+
 }

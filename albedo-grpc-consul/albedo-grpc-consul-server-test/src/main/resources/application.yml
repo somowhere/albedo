@@ -1,0 +1,27 @@
+server:
+  port: 9081
+grpc:
+  port : 7566
+
+logging:
+  level:
+    org.exampledriven: DEBUG
+
+
+spring:
+  profiles: default
+  cloud:
+    consul:
+      host: 114.55.177.236
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+        tags: dev1
+        instance-id: albedo-grpc-server-1
+        service-name: albedo-grpc-server
+        port: ${server.port}
+---
+
+spring:
+  application:
+    name: albedo-grpc-server-1
