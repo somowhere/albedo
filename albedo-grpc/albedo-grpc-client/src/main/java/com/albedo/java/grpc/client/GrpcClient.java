@@ -22,5 +22,7 @@ public @interface GrpcClient {
 
     String value();
 
+    boolean context() default true;
+
     Class<? extends ClientInterceptor>[] interceptors() default {};
 }

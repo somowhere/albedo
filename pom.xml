@@ -1,17 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <version>1.5.1.RELEASE</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.albedo.java</groupId>
     <artifactId>albedo-boot</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>albedo-boot</name>
-
-    <parent>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <groupId>org.springframework.boot</groupId>
-        <version>1.5.1.RELEASE</version>
-    </parent>
     <!-- 项目属性 -->
     <properties>
         <project.release.version>1.0.0-SNAPSHOT</project.release.version>
@@ -41,28 +40,12 @@
     </build>
 
     <modules>
-        <module>albedo-boot-vo</module>
-        <module>albedo-boot-domain</module>
-        <module>albedo-boot-service</module>
-        <module>albedo-boot-util</module>
-        <module>albedo-boot-quartz</module>
-        <module>albedo-boot-spring-jpa</module>
-        <module>albedo-boot-domain-base</module>
-        <module>albedo-boot-interface</module>
-        <module>albedo-boot-web-starter</module>
-        <module>albedo-boot-web-app</module>
-        <module>albedo-boot-web-base</module>
-        <module>albedo-boot-web-base-server</module>
-        <module>albedo-boot-web-swagger</module>
-
-        <module>albedo-rpc-common</module>
-        <module>albedo-rpc-server</module>
-        <module>albedo-rpc-client</module>
-        <module>albedo-rpc-test</module>
-
-        <module>albedo-grpc-consul</module>
+        <module>albedo-boot-common</module>
+        <module>albedo-boot-data</module>
+        <module>albedo-boot-api</module>
         <module>albedo-grpc</module>
-
+        <module>albedo-rpc</module>
+        <module>albedo-boot-web</module>
     </modules>
 
     <distributionManagement>

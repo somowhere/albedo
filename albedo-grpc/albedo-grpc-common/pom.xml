@@ -16,20 +16,6 @@
     </properties>
     <dependencies>
 
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-common</artifactId>
-            <version>${netty.version}</version>
-
-        </dependency>
-        <!-- Netty -->
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-codec</artifactId>
-            <version>${netty.version}</version>
-            <scope>compile</scope>
-        </dependency>
-
         <!-- grpc -->
         <dependency>
             <groupId>io.grpc</groupId>

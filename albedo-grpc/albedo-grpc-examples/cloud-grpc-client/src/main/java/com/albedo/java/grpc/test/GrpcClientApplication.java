@@ -5,6 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
+
+import io.netty.handler.codec.http2.Http2Headers;
+import io.netty.handler.codec.http2.ReadOnlyHttp2Headers;
+
 /**
  * User: Michael
  * Email: yidongnan@gmail.com

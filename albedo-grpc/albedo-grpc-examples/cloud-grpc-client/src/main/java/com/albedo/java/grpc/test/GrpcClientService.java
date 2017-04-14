@@ -17,7 +17,7 @@ import io.grpc.Channel;
 @Service
 public class GrpcClientService {
 
-    @GrpcClient("cloud-grpc-server")
+    @GrpcClient(value = "cloud-grpc-server", context = false)
     private Channel serverChannel;
 
     public String sendMessage(String name) {

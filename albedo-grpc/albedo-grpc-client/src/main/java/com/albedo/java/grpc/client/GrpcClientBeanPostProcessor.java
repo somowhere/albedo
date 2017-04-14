@@ -9,6 +9,7 @@ import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.env.Environment;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
@@ -20,6 +21,8 @@ import java.util.Map;
 import io.grpc.Channel;
 import io.grpc.ClientInterceptor;
 import lombok.SneakyThrows;
+
+import javax.inject.Inject;
 
 /**
  * User: Michael
@@ -35,6 +38,8 @@ public class GrpcClientBeanPostProcessor implements org.springframework.beans.fa
 
     @Autowired
     private GrpcChannelFactory channelFactory;
+    @Inject
+    private Environment env;
 
     public GrpcClientBeanPostProcessor() {
     }
@@ -79,8 +84,9 @@ public class GrpcClientBeanPostProcessor implements org.springframework.beans.fa
                             }
                             list.add(clientInterceptor);
                         }
-
-                        Channel channel = channelFactory.createChannel(annotation.value(), list);
+                        String name = annotation.context() ?
+                                env.getProperty(annotation.value()) : annotation.value();
+                        Channel channel = channelFactory.createChannel(name, list);
                         ReflectionUtils.makeAccessible(field);
                         ReflectionUtils.setField(field, target, channel);
                     }

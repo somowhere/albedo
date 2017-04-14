@@ -1,6 +1,8 @@
 package com.albedo.java.grpc.client.autoconfigure;
 
 import com.albedo.java.grpc.client.*;
+
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -41,12 +43,6 @@ public class GrpcClientAutoConfiguration {
         return RoundRobinLoadBalancerFactory.getInstance();
     }
 
-    @ConditionalOnMissingBean(value = GrpcChannelFactory.class, type = "org.springframework.cloud.client.discovery.DiscoveryClient")
-    @Bean
-    public GrpcChannelFactory addressChannelFactory(GrpcChannelsProperties channels, LoadBalancer.Factory loadBalancerFactory, GlobalClientInterceptorRegistry globalClientInterceptorRegistry) {
-        return new AddressChannelFactory(channels, loadBalancerFactory, globalClientInterceptorRegistry);
-    }
-
     @Bean
     @ConditionalOnClass(GrpcClient.class)
     public GrpcClientBeanPostProcessor grpcClientBeanPostProcessor() {
@@ -54,7 +50,7 @@ public class GrpcClientAutoConfiguration {
     }
 
     @Configuration
-    @ConditionalOnBean(DiscoveryClient.class)
+//    @ConditionalOnBean(DiscoveryClient.class)
     protected static class DiscoveryGrpcClientAutoConfiguration {
 
         @ConditionalOnMissingBean
@@ -64,6 +60,12 @@ public class GrpcClientAutoConfiguration {
             return new DiscoveryClientChannelFactory(channels, discoveryClient, loadBalancerFactory, globalClientInterceptorRegistry);
         }
     }
+
+//    @ConditionalOnMissingBean(value = GrpcChannelFactory.class, type = "org.springframework.cloud.client.discovery.DiscoveryClient")
+//    @Bean
+//    public GrpcChannelFactory addressChannelFactory(GrpcChannelsProperties channels, LoadBalancer.Factory loadBalancerFactory, GlobalClientInterceptorRegistry globalClientInterceptorRegistry) {
+//        return new AddressChannelFactory(channels, loadBalancerFactory, globalClientInterceptorRegistry);
+//    }
 
     @Configuration
     @ConditionalOnProperty(value = "spring.sleuth.scheduled.enabled", matchIfMissing = true)
