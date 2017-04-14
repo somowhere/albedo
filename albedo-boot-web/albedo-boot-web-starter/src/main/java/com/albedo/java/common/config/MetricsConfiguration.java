@@ -41,7 +41,7 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
 
     private HealthCheckRegistry healthCheckRegistry = new HealthCheckRegistry();
 
-    @Inject
+    @Resource
     private AlbedoProperties albedoProperties;
 
     @Autowired(required = false)
@@ -94,10 +94,10 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
 
         private final Logger log = LoggerFactory.getLogger(GraphiteRegistry.class);
 
-        @Inject
+        @Resource
         private MetricRegistry metricRegistry;
 
-        @Inject
+        @Resource
         private AlbedoProperties albedoProperties;
 
         @PostConstruct
@@ -124,10 +124,10 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
 
         private final Logger log = LoggerFactory.getLogger(SparkRegistry.class);
 
-        @Inject
+        @Resource
         private MetricRegistry metricRegistry;
 
-        @Inject
+        @Resource
         private AlbedoProperties albedoProperties;
 
         @PostConstruct

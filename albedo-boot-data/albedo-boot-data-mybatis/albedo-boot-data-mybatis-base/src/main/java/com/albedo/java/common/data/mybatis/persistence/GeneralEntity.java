@@ -1,8 +1,11 @@
 package com.albedo.java.common.data.mybatis.persistence;
 
+import org.springframework.data.mybatis.annotations.MappedSuperclass;
+
 import java.io.Serializable;
 
 /** 通常的数据基类 copyright 2014 albedo all right reserved author 李杰 created on 2014年12月31日 下午1:57:09 */
+@MappedSuperclass
 public abstract class GeneralEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;

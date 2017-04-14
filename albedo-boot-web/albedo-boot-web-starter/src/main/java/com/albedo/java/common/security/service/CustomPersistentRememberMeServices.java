@@ -73,7 +73,7 @@ public class CustomPersistentRememberMeServices extends
     @Autowired
     private UserRepository userRepository;
 
-    @Inject
+    @Resource
     public CustomPersistentRememberMeServices(AlbedoProperties albedoProperties, org.springframework.security.core.userdetails
         .UserDetailsService userDetailsService) {
         super(albedoProperties.getSecurity().getRememberMe().getKey(), userDetailsService);

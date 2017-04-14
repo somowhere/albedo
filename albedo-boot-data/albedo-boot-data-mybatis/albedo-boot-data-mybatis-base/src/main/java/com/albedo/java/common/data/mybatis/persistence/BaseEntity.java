@@ -9,6 +9,7 @@ import com.albedo.java.util.domain.PageModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.springframework.data.mybatis.annotations.MappedSuperclass;
 
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
@@ -19,6 +20,7 @@ import java.util.Map;
  * @author ThinkGem
  * @version 2014-05-16
  */
+@MappedSuperclass
 public abstract class BaseEntity<T> extends GeneralEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -26,7 +28,6 @@ public abstract class BaseEntity<T> extends GeneralEntity {
 	 * 当前实体分页对象
 	 */
 	protected PageModel<T> page;
-	
 	/**
 	 * 自定义SQL（SQL标识，SQL内容）
 	 */

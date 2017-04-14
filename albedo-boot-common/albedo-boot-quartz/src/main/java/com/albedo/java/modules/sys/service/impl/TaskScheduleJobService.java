@@ -10,7 +10,9 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import com.albedo.java.common.domain.data.DynamicSpecifications;
 import com.albedo.java.common.security.SecurityUtil;
+import com.albedo.java.util.domain.QueryCondition;
 import org.apache.commons.lang.StringUtils;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
@@ -54,10 +56,8 @@ import com.google.common.collect.Lists;
 @ConditionalOnProperty(name = Globals.ALBEDO_QUARTZENABLED)
 @Service
 @Transactional
-public class TaskScheduleJobService extends BaseService<TaskScheduleJob> implements ITaskScheduleJobService {
+public class TaskScheduleJobService extends BaseService<TaskScheduleJobRepository, TaskScheduleJob> implements ITaskScheduleJobService {
 
-	@Autowired
-	private TaskScheduleJobRepository taskTaskScheduleJobRepository;
 	@Autowired
 	private Scheduler scheduler;
 
@@ -70,7 +70,7 @@ public class TaskScheduleJobService extends BaseService<TaskScheduleJob> impleme
 	@PostConstruct
 	public void init() throws Exception {
 		// 这里获取任务信息数据
-		List<TaskScheduleJob> jobList = taskTaskScheduleJobRepository
+		List<TaskScheduleJob> jobList = repository
 				.findByStatusAndJobStatus(TaskScheduleJob.FLAG_NORMAL, SystemConfig.STR_YES);
 
 		for (TaskScheduleJob job : jobList) {
@@ -87,55 +87,18 @@ public class TaskScheduleJobService extends BaseService<TaskScheduleJob> impleme
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.albedo.java.modules.sys.service.ITaskScheduleJobService#delete(java.
-	 * lang.String)
-	 */
-	@Override
-	public void delete(String ids) {
-		Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id -> {
-			taskTaskScheduleJobRepository.findOneById(id).map(u -> {
-				deleteById(id, SecurityUtil.getCurrentAuditor());
-				log.debug("Deleted TaskScheduleJob: {}", u);
-				return u;
-			}).orElseThrow(() -> new RuntimeMsgException("任务调度 " + id + " 信息为空，删除失败"));
-		});
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.albedo.java.modules.sys.service.ITaskScheduleJobService#lockOrUnLock(
-	 * java.lang.String)
-	 */
-	@Override
-	public void lockOrUnLock(String ids) {
-		Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id -> {
-			taskTaskScheduleJobRepository.findOneById(id).map(u -> {
-				operateStatusById(id,
-						BaseEntity.FLAG_NORMAL.equals(u.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL, SecurityUtil.getCurrentAuditor());
-				log.debug("LockOrUnLock TaskScheduleJob: {}", u);
-				return u;
-			}).orElseThrow(() -> new RuntimeMsgException("任务调度 " + id + " 信息为空，操作失败"));
-		});
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
 	 * com.albedo.java.modules.sys.service.ITaskScheduleJobService#findOne(java.
 	 * lang.String)
 	 */
 	@Override
 	@Transactional(readOnly = true)
 	public TaskScheduleJob findOne(String id) {
-		return taskTaskScheduleJobRepository.findOne(id);
+		return repository.findOne(id);
 	}
 
 	@Transactional(readOnly = true)
 	public TaskScheduleJob findOneBySourceId(String soruceId) {
-		return taskTaskScheduleJobRepository.findTopBySourceIdAndStatusNot(soruceId, TaskScheduleJob.FLAG_DELETE);
+		return repository.findTopBySourceIdAndStatusNot(soruceId, TaskScheduleJob.FLAG_DELETE);
 	}
 
 	/*
@@ -148,8 +111,11 @@ public class TaskScheduleJobService extends BaseService<TaskScheduleJob> impleme
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public Page<TaskScheduleJob> findAll(SpecificationDetail<TaskScheduleJob> spec, PageModel<TaskScheduleJob> pm) {
-		return taskTaskScheduleJobRepository.findAll(spec, pm);
+	public Page<TaskScheduleJob> findAll(PageModel<TaskScheduleJob> pm, List<QueryCondition> queryConditions) {
+		SpecificationDetail<TaskScheduleJob> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
+				queryConditions,
+				QueryCondition.ne(TaskScheduleJob.F_STATUS, TaskScheduleJob.FLAG_DELETE));
+		return repository.findAll(spec, pm);
 	}
 
 	/*
@@ -160,7 +126,7 @@ public class TaskScheduleJobService extends BaseService<TaskScheduleJob> impleme
 	 */
 	@Override
 	public List<TaskScheduleJob> getAllTask() {
-		return taskTaskScheduleJobRepository.findAll();
+		return repository.findAll();
 	}
 
 	public TaskScheduleJob save(TaskScheduleJob scheduleJob) {
@@ -203,7 +169,7 @@ public class TaskScheduleJobService extends BaseService<TaskScheduleJob> impleme
 			throw new RuntimeMsgException("未找到目标方法！");
 		}
 		try {
-			scheduleJob = taskTaskScheduleJobRepository.save(scheduleJob);
+			scheduleJob = repository.save(scheduleJob);
 		} catch (Exception e) {
 			log.error("msg {}", e.getMessage());
 			throw new RuntimeMsgException("保存失败，检查 name group 组合是否有重复！");
@@ -227,7 +193,7 @@ public class TaskScheduleJobService extends BaseService<TaskScheduleJob> impleme
 	 */
 	@Override
 	public TaskScheduleJob getTaskById(String jobId) {
-		return taskTaskScheduleJobRepository.findOne(jobId);
+		return repository.findOne(jobId);
 	}
 
 	/*
@@ -250,7 +216,7 @@ public class TaskScheduleJobService extends BaseService<TaskScheduleJob> impleme
 			job.setJobStatus(SystemConfig.STR_YES);
 			addJob(job);
 		}
-		taskTaskScheduleJobRepository.save(job);
+		repository.save(job);
 	}
 
 	/*
@@ -277,7 +243,7 @@ public class TaskScheduleJobService extends BaseService<TaskScheduleJob> impleme
 		if (SystemConfig.YES.equals(job.getJobStatus())) {
 			updateJobCron(job);
 		}
-		taskTaskScheduleJobRepository.save(job);
+		repository.save(job);
 	}
 
 	/*
@@ -439,11 +405,11 @@ public class TaskScheduleJobService extends BaseService<TaskScheduleJob> impleme
 	}
 
 	public void removeBySourceId(String sourceId) {
-		List<TaskScheduleJob> itemList = taskTaskScheduleJobRepository.findAllBySourceId(sourceId);
+		List<TaskScheduleJob> itemList = repository.findAllBySourceId(sourceId);
 		if (itemList != null)
 			for (TaskScheduleJob taskScheduleJob : itemList) {
 				deleteJob(taskScheduleJob);
-				taskTaskScheduleJobRepository.delete(taskScheduleJob.getId());
+				repository.delete(taskScheduleJob.getId());
 			}
 	}
 

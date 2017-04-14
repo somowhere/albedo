@@ -35,10 +35,10 @@ import java.util.EnumSet;
 public class WebConfigurer implements ServletContextInitializer, EmbeddedServletContainerCustomizer {
 
 	private final Logger log = LoggerFactory.getLogger(WebConfigurer.class);
-	@Inject
+	@Resource
 	private Environment env;
 
-	@Inject
+	@Resource
 	private AlbedoProperties albedoProperties;
 
 	@Autowired(required = false)

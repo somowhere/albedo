@@ -2,12 +2,14 @@ package com.albedo.java.common.domain.base;
 
 import com.albedo.java.util.annotation.SearchField;
 import com.albedo.java.util.domain.QueryCondition.Operator;
+import org.springframework.data.mybatis.annotations.MappedSuperclass;
 
 /**
  * 数据TreeEntity类
  * 
  * @author lijie version 2013-12-27 下午12:27:10
  */
+@MappedSuperclass
 public abstract class TreeEntity<T extends DataEntity> extends IdEntity {
 
 	public static final String ROOT = "1";

@@ -1,7 +1,5 @@
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.domain.data.DynamicSpecifications;
-import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.service.RoleService;
@@ -10,7 +8,6 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
-import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataResource;
@@ -24,7 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
+import javax.annotation.Resource;
 import java.net.URISyntaxException;
 
 /**
@@ -34,7 +31,7 @@ import java.net.URISyntaxException;
 @RequestMapping("${albedo.adminPath}/sys/role")
 public class RoleResource extends DataResource<Role> {
 
-	@Inject
+	@Resource
 	private RoleService roleService;
 
 	@ModelAttribute
@@ -60,9 +57,7 @@ public class RoleResource extends DataResource<Role> {
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity getPage(PageModel<Role> pm) {
-		SpecificationDetail<Role> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(), SecurityUtil.dataScopeFilter(),
-				QueryCondition.ne(Role.F_STATUS, Role.FLAG_DELETE));
-		Page<Role> page = roleService.findAll(spec, pm);
+		Page<Role> page = roleService.findAll(pm, SecurityUtil.dataScopeFilter());
 		pm.setPageInstance(page);
 		JSON rs = JsonUtil.getInstance().setRecurrenceStr("org_name").toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
@@ -90,7 +85,7 @@ public class RoleResource extends DataResource<Role> {
 			throw new RuntimeMsgException("名称已存在");
 		}
 		roleService.save(role);
-
+		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("保存", role.getName(), "成功");
 	}
 
@@ -104,7 +99,8 @@ public class RoleResource extends DataResource<Role> {
 	@Timed
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete Role: {}", ids);
-		roleService.delete(ids);
+		roleService.delete(ids, SecurityUtil.getCurrentAuditor());
+		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("删除成功");
 	}
 
@@ -118,7 +114,8 @@ public class RoleResource extends DataResource<Role> {
 	@Timed
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock User: {}", ids);
-		roleService.lockOrUnLock(ids);
+		roleService.lockOrUnLock(ids, SecurityUtil.getCurrentAuditor());
+		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("操作成功");
 	}
 

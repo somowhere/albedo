@@ -58,9 +58,7 @@ public class TaskScheduleJobResource extends DataResource<TaskScheduleJob> {
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity getPage(PageModel<TaskScheduleJob> pm) {
-		SpecificationDetail<TaskScheduleJob> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(), SecurityUtil.dataScopeFilter(),
-				QueryCondition.ne(TaskScheduleJob.F_STATUS, TaskScheduleJob.FLAG_DELETE));
-		Page<TaskScheduleJob> page = taskScheduleJobService.findAll(spec, pm);
+		Page<TaskScheduleJob> page = taskScheduleJobService.findAll(pm, SecurityUtil.dataScopeFilter());
 		pm.setPageInstance(page);
 		JSON rs = JsonUtil.getInstance().setRecurrenceStr().toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
@@ -104,7 +102,7 @@ public class TaskScheduleJobResource extends DataResource<TaskScheduleJob> {
 	
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete TaskScheduleJob: {}", ids);
-		taskScheduleJobService.delete(ids);
+		taskScheduleJobService.delete(ids, SecurityUtil.getCurrentAuditor());
 		return ResultBuilder.buildOk("删除任务调度成功");
 	}
 
@@ -118,7 +116,7 @@ public class TaskScheduleJobResource extends DataResource<TaskScheduleJob> {
 	
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock TaskScheduleJob: {}", ids);
-		taskScheduleJobService.lockOrUnLock(ids);
+		taskScheduleJobService.lockOrUnLock(ids, SecurityUtil.getCurrentAuditor());
 		return ResultBuilder.buildOk("操作任务调度成功");
 	}
 

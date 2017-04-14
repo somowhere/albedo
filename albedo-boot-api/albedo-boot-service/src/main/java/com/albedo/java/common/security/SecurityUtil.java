@@ -177,7 +177,7 @@ public final class SecurityUtil {
 			userId = getCurrentUserId();
 		List<Module> moduleList = getCacheJsonArray(CACHE_MODULE_LIST, userId, Module.class);
 		if (PublicUtil.isEmpty(moduleList) || refresh) {
-			moduleList = isAdmin(userId) ? moduleRepository.findAllAuthenticationList(Module.FLAG_NORMAL)
+			moduleList = isAdmin(userId) ? moduleRepository.findAllByStatusOrderBySort(Module.FLAG_NORMAL)
 					: baseRepository.findListByHQL("select distinct m from Module m, Role r, User u where m in elements (r.modules) and r in elements (u.roles) and m.status=0 and r.status=0 and u.status=0 and u.id=:p1 order by m.sort", userId);
 			putCache(CACHE_MODULE_LIST, Json.toJsonString(moduleList), userId);
 		}

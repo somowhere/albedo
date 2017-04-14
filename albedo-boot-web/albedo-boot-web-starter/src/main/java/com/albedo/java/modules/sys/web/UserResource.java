@@ -5,6 +5,7 @@ import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.service.UserService;
+import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Globals;
@@ -14,14 +15,17 @@ import com.albedo.java.vo.sys.UserForm;
 import com.albedo.java.vo.sys.UserResult;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataResource;
+import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,7 +71,8 @@ import java.net.URISyntaxException;
 public class UserResource extends DataResource<User> {
 
 	private final Logger log = LoggerFactory.getLogger(UserResource.class);
-
+	@Autowired(required = false)
+	private PasswordEncoder passwordEncoder;
 	@Resource
 	private UserService userService;
 
@@ -75,7 +80,7 @@ public class UserResource extends DataResource<User> {
 	public UserResult get(@RequestParam(required = false) String id) throws Exception {
 		String path = request.getRequestURI();
 		if (path != null && !path.contains("checkBy") && !path.contains("find") && PublicUtil.isNotEmpty(id)) {
-			return userService.findOne(id);
+			return userService.findResult(id);
 		} else {
 			return new UserResult();
 		}
@@ -92,7 +97,8 @@ public class UserResource extends DataResource<User> {
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity getPage(PageModel pm) {
-		String rs = userService.findAll(pm);
+		pm = userService.findAll(pm, SecurityUtil.dataScopeFilter());
+		JSON rs = JsonUtil.getInstance().setFreeFilters("roleIdList").setRecurrenceStr("org_name").toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
 	}
 	
@@ -129,7 +135,15 @@ public class UserResource extends DataResource<User> {
 				Lists.newArrayList(User.F_ID, User.F_EMAIL), userForm.getId(), userForm.getEmail()))) {
 			throw new RuntimeMsgException("邮箱已存在");
 		}
+		if(PublicUtil.isNotEmpty(userForm.getId())){
+			User temp = userService.findOne(userForm.getId());
+			userForm.setPassword(PublicUtil.isEmpty(userForm.getPassword()) ? temp.getPassword() : passwordEncoder.encode(userForm.getPassword()));
+		}else{
+			userForm.setPassword(passwordEncoder.encode(userForm.getPassword()));
+		}
 		userService.save(userForm);
+		SecurityUtil.clearUserJedisCache();
+		SecurityUtil.clearUserLocalCache();
 		// if(PublicUtil.isEmpty(user.getId()) &&
 		// PublicUtil.isNotEmpty(user.getEmail())){
 		// String baseUrl = request.getParameter("basePath");
@@ -149,7 +163,9 @@ public class UserResource extends DataResource<User> {
 //	@Secured(AuthoritiesConstants.ADMIN)
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete User: {}", ids);
-		userService.delete(ids);
+		userService.delete(ids, SecurityUtil.getCurrentAuditor());
+		SecurityUtil.clearUserJedisCache();
+		SecurityUtil.clearUserLocalCache();
 		return ResultBuilder.buildOk("删除成功");
 	}
 
@@ -164,7 +180,9 @@ public class UserResource extends DataResource<User> {
 //	@Secured(AuthoritiesConstants.ADMIN)
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock User: {}", ids);
-		userService.lockOrUnLock(ids);
+		userService.lockOrUnLock(ids, SecurityUtil.getCurrentAuditor());
+		SecurityUtil.clearUserJedisCache();
+		SecurityUtil.clearUserLocalCache();
 		return ResultBuilder.buildOk("操作成功");
 	}
 	

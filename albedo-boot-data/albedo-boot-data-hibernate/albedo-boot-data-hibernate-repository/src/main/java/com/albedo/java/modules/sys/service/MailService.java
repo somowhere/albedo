@@ -33,16 +33,16 @@
 //    private static final String USER = "user";
 //    private static final String BASE_URL = "baseUrl";
 //
-//    @Inject
+//    @Resource
 //    private AlbedoProperties albedoProperties;
 //
-//    @Inject
+//    @Resource
 //    private JavaMailSenderImpl javaMailSender;
 //
-//    @Inject
+//    @Resource
 //    private MessageSource messageSource;
 //
-//    @Inject
+//    @Resource
 //    private SpringTemplateEngine templateEngine;
 //
 //    @Async

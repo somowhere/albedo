@@ -40,29 +40,29 @@ import javax.inject.Inject;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Inject
+    @Resource
     private AlbedoProperties albedoProperties;
 
-    @Inject
+    @Resource
     private AjaxAuthenticationSuccessHandler ajaxAuthenticationSuccessHandler;
 
-    @Inject
+    @Resource
     private AjaxAuthenticationFailureHandler ajaxAuthenticationFailureHandler;
 
-    @Inject
+    @Resource
     private AjaxLogoutSuccessHandler ajaxLogoutSuccessHandler;
 
-    @Inject
+    @Resource
     private Http401UnauthorizedEntryPoint authenticationEntryPoint;
 
-    @Inject
+    @Resource
     private UserDetailsService userDetailsService;
 
-    @Inject
+    @Resource
     private RememberMeServices rememberMeServices;
-    @Inject
+    @Resource
     CustomizeAccessDecisionManager customizeAccessDecisionManager;
-    @Inject
+    @Resource
     InvocationSecurityMetadataSourceService invocationSecurityMetadataSourceService;
 
     @Bean
@@ -70,7 +70,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Inject
+    @Resource
     public void configureGlobal(AuthenticationManagerBuilder auth) {
         try {
             auth

@@ -3,28 +3,23 @@ package com.albedo.java.modules.sys.service;
 import com.albedo.java.common.domain.base.BaseEntity;
 import com.albedo.java.common.domain.data.DynamicSpecifications;
 import com.albedo.java.common.domain.data.SpecificationDetail;
-import com.albedo.java.common.repository.service.BaseService;
-import com.albedo.java.common.security.SecurityUtil;
+import com.albedo.java.common.service.TreeService;
 import com.albedo.java.modules.sys.domain.Module;
-import com.albedo.java.vo.sys.query.ModuleTreeQuery;
 import com.albedo.java.modules.sys.repository.ModuleRepository;
-import com.albedo.java.util.JsonUtil;
-import com.albedo.java.util.JedisUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
-import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.domain.RequestMethod;
-import com.albedo.java.util.exception.RuntimeMsgException;
+import com.albedo.java.vo.sys.query.ModuleTreeQuery;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 
@@ -33,73 +28,14 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class ModuleService extends BaseService<Module> {
-
-	@Inject
-	private ModuleRepository moduleRepository;
-
-	public Module save(Module module) {
-		String oldParentIds = module.getParentIds(); // 获取修改前的parentIds，用于更新子节点的parentIds
-		Module parent = moduleRepository.findOne(module.getParentId());
-		if (parent == null || PublicUtil.isEmpty(parent.getId()))
-			throw new RuntimeMsgException("无法获取模块的父节点，插入失败");
-		if(parent!=null){
-			parent.setLeaf(false);
-			moduleRepository.save(parent);
-		}
-		if(PublicUtil.isNotEmpty(module.getId())){
-			Module itemTemp = moduleRepository.findOne(module.getId());
-			module.setLeaf(itemTemp == null? true : false);
-		}else{
-			module.setLeaf(true);
-		}
-		module.setParentIds(PublicUtil.toAppendStr(parent.getParentIds(), parent.getId(), ","));
-		module = moduleRepository.save(module);
-		// 更新子节点 parentIds
-		List<Module> list = moduleRepository.findFirstByParentIdsLike(PublicUtil.toAppendStr("%,", module.getId(), ",%"));
-		for (Module e : list) {
-			e.setParentIds(e.getParentIds().replace(oldParentIds, module.getParentIds()));
-		}
-		moduleRepository.save(list);
-		// 清除模块缓存
-		SecurityUtil.clearUserJedisCache();
-		JedisUtil.removeSys(Globals.RESOURCE_MODULE_DATA_MAP);
-		log.debug("Save Information for Module: {}", module);
-		return module;
-	}
-
-	public void delete(String ids) {
-		Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id -> {
-			moduleRepository.findOneById(id).map(u -> {
-				deleteById(id, PublicUtil.toAppendStr("%,", id, ",%"));
-				log.debug("Deleted Module: {}", u);
-				return u;
-			}).orElseThrow(() -> new RuntimeMsgException("模块 " + id + " 信息为空，删除失败"));
-		});
-		SecurityUtil.clearUserJedisCache();
-		JedisUtil.removeSys(Globals.RESOURCE_MODULE_DATA_MAP);
-	}
-
-	public void lockOrUnLock(String ids) {
-		Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id ->{
-			moduleRepository.findOneById(id).map(u -> {
-    			operateStatusById(id, PublicUtil.toAppendStr("%,", id, ",%"), BaseEntity.FLAG_NORMAL.equals(u.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL
-						,SecurityUtil.getCurrentAuditor());
-                log.debug("LockOrUnLock User: {}", u);
-				return u;
-			}).orElseThrow(() -> new RuntimeMsgException("模块 " + id + " 信息为空，操作失败"));
-    	});
-		SecurityUtil.clearUserJedisCache();
-		JedisUtil.removeSys(Globals.RESOURCE_MODULE_DATA_MAP);
-	}
+public class ModuleService extends TreeService<ModuleRepository, Module> {
 
 	@Transactional(readOnly = true)
-	public JSON findTreeData(ModuleTreeQuery moduleTreeQuery) {
+	public List<Map<String, Object>> findTreeData(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
 		String type = moduleTreeQuery!=null ? moduleTreeQuery.getType() : null,
 		 all = moduleTreeQuery!=null ? moduleTreeQuery.getAll() : null;
 
 		List<Map<String, Object>> mapList = Lists.newArrayList();
-		List<Module> moduleList = SecurityUtil.getModuleList();
 		for (Module e : moduleList) {
 			if ((all != null || (all == null && BaseEntity.FLAG_NORMAL.equals(e.getStatus())))) {
 				Map<String, Object> map = Maps.newHashMap();
@@ -113,25 +49,21 @@ public class ModuleService extends BaseService<Module> {
 				mapList.add(map);
 			}
 		}
-		return JsonUtil.getInstance().toJsonObject(mapList);
-	}
-	@Transactional(readOnly = true)
-	public Module findOne(String id) {
-		return moduleRepository.findOne(id);
+		return mapList;
 	}
 	@Transactional(readOnly = true)
 	public Page<Module> findAll(SpecificationDetail<Module> spec, PageModel<Module> pm) {
-		return moduleRepository.findAll(spec, pm);
+		return repository.findAll(spec, pm);
 	}
 	@Transactional(readOnly = true)
 	public List<Module> findAllByParentId(String parentId) {
-		return moduleRepository.findAllByParentIdAndStatusNot(parentId, Module.FLAG_DELETE);
+		return repository.findAllByParentIdAndStatusNot(parentId, Module.FLAG_DELETE);
 	}
 	public void generatorModuleData(String moduleName, String parentModuleId, String url){
-		Module currentModule = moduleRepository.findOne(DynamicSpecifications.bySearchQueryCondition(QueryCondition.eq(Module.F_NAME, moduleName)));
+		Module currentModule = repository.findOne(DynamicSpecifications.bySearchQueryCondition(QueryCondition.eq(Module.F_NAME, moduleName)));
 		if (currentModule != null)
 			baseRepository.execute("delete Module where id=:p1 or parentId=:p1", currentModule.getId());
-		Module parentModule = moduleRepository.findOne(parentModuleId);
+		Module parentModule = repository.findOne(parentModuleId);
 		if (parentModule == null)
 			new Exception(PublicUtil.toAppendStr("根据模块id[", parentModuleId, "无法查询到模块信息]"));
 		String permission = url.replace("/", "_").substring(1);
@@ -189,7 +121,7 @@ public class ModuleService extends BaseService<Module> {
 		moduleDelete.setUrl(url + "delete");
 		moduleDelete.setRequestMethod(RequestMethod.DELETE);
 		save(moduleDelete);
-		SecurityUtil.clearUserJedisCache();
+
 	}
 
 }

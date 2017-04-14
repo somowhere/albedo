@@ -4,25 +4,24 @@
 package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.domain.base.BaseEntity;
+import com.albedo.java.common.domain.data.DynamicSpecifications;
 import com.albedo.java.common.domain.data.SpecificationDetail;
-import com.albedo.java.common.repository.service.BaseService;
-import com.albedo.java.common.security.SecurityUtil;
+import com.albedo.java.common.service.TreeService;
 import com.albedo.java.modules.sys.domain.Area;
-import com.albedo.java.vo.sys.query.AreaTreeQuery;
 import com.albedo.java.modules.sys.repository.AreaRepository;
-import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.PageModel;
-import com.albedo.java.util.exception.RuntimeMsgException;
+import com.albedo.java.util.domain.QueryCondition;
+import com.albedo.java.vo.sys.query.AreaTreeQuery;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -33,80 +32,17 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class AreaService extends BaseService<Area>{
+public class AreaService extends TreeService<AreaRepository, Area> {
 
-	@Resource
-	private AreaRepository areaRepository;
-	/** 保存区域管理
-	 * 
-	 * @param area 实体区域管理
-	 * @return */
-	public Area save(Area area) {
-		String oldParentIds = area.getParentIds(); // 获取修改前的parentIds，用于更新子节点的parentIds
-		if(area.getParentId()!=null){
-			Area parent = areaRepository.findOne(area.getParentId());
-			if (parent == null || PublicUtil.isEmpty(parent.getId()))
-				throw new RuntimeMsgException("无法获取模块的父节点，插入失败");
-			if(parent!=null){
-				parent.setLeaf(false);
-				areaRepository.save(parent);
-			}
-			area.setParentIds(PublicUtil.toAppendStr(parent.getParentIds(), parent.getId(), ","));
-		}
-		
-		if(PublicUtil.isNotEmpty(area.getId())){
-			Area itemTemp = areaRepository.findFirstByParentId(area.getId());
-			area.setLeaf(itemTemp == null? true : false);
-		}else{
-			area.setLeaf(true);
-		}
-		area = areaRepository.save(area);
-		// 更新子节点 parentIds
-		List<Area> list = areaRepository.findAllByParentIdsLike(PublicUtil.toAppendStr("%,", area.getId(), ",%"));
-		for (Area e : list) {
-			e.setParentIds(e.getParentIds().replace(oldParentIds, area.getParentIds()));
-		}
-		areaRepository.save(list);
-		SecurityUtil.clearUserJedisCache();
-		log.debug("Save Information for Area: {}", area);
-		return area;
-	}
-
-	public void delete(String ids) {
-		Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id -> {
-			areaRepository.findOneById(id).map(u -> {
-				deleteById(id, PublicUtil.toAppendStr("%,", id, ",%"));
-				log.debug("Deleted Area: {}", u);
-				return u;
-			}).orElseThrow(() -> new RuntimeMsgException("区域管理信息为空，删除失败"));
-		});
-		SecurityUtil.clearUserJedisCache();
-	}
-
-	public void lockOrUnLock(String ids) {
-		Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id ->{
-			areaRepository.findOneById(id).map(u -> {
-    			operateStatusById(id,
-						PublicUtil.toAppendStr("%,", id, ",%"), BaseEntity.FLAG_NORMAL.equals(u.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL,
-						SecurityUtil.getCurrentAuditor());
-                log.debug("LockOrUnLock Area: {}", u);
-				return u;
-			}).orElseThrow(() -> new RuntimeMsgException("区域管理信息为空，操作失败"));
-    	});
-		SecurityUtil.clearUserJedisCache();
-	}
-	
 	@Transactional(readOnly = true)
-	public JSON findTreeData(AreaTreeQuery areaTreeQuery) {
+	public List<Map<String, Object>> findTreeData(AreaTreeQuery areaTreeQuery, List<Area> list) {
 
 		String extId = areaTreeQuery!=null ? areaTreeQuery.getExtId() : null,
 		 all =  areaTreeQuery!=null ? areaTreeQuery.getAll() : null,
 		parentId =  areaTreeQuery!=null ? areaTreeQuery.getParentId() : null;
 		Integer ltLevel =  areaTreeQuery!=null ? areaTreeQuery.getLtLevel() : null,
 		level =  areaTreeQuery!=null ? areaTreeQuery.getLevel() : null;
-
 		List<Map<String, Object>> mapList = Lists.newArrayList();
-		List<Area> list = SecurityUtil.getAreaList();
 		for (int i=0; i<list.size(); i++){
 			Area e = list.get(i);
 			if ((StringUtil.isBlank(extId) || (extId!=null && !extId.equals(e.getId()) && e.getParentIds().indexOf(","+extId+",")==-1))
@@ -123,20 +59,19 @@ public class AreaService extends BaseService<Area>{
 					mapList.add(map);
 			}
 		}
-		return JsonUtil.getInstance().toJsonObject(mapList);
+		return mapList;
 	}
 	
 	@Transactional(readOnly = true)
-	public Area findOne(String id) {
-		return areaRepository.findOne(id);
-	}
-	@Transactional(readOnly = true)
-	public Page<Area> findAll(SpecificationDetail<Area> spec, PageModel<Area> pm) {
-		return areaRepository.findAll(spec, pm);
+	public Page<Area> findAll(PageModel<Area> pm, List<QueryCondition> queryConditions) {
+		SpecificationDetail<Area> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
+				queryConditions,
+				QueryCondition.ne(Area.F_STATUS, Area.FLAG_DELETE));
+		return repository.findAll(spec, pm);
 	}
 	@Transactional(readOnly = true)
 	public Area findTopByParentId(String parentId) {
-		return areaRepository.findTopByParentIdAndStatusNotOrderBySortDesc(parentId, Area.FLAG_DELETE);
+		return repository.findTopByParentIdAndStatusNotOrderBySortDesc(parentId, Area.FLAG_DELETE);
 	}
 
 }

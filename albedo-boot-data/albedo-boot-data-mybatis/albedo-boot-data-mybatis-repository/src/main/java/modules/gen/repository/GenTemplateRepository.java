@@ -1,16 +1,12 @@
 package modules.gen.repository;
 
 import com.albedo.java.modules.gen.domain.GenTemplate;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-
-import java.util.Optional;
+import org.springframework.data.mybatis.repository.support.MybatisRepository;
 
 /**
  * Spring Data JPA repository for the Authority entity.
  */
-public interface GenTemplateRepository extends JpaRepository<GenTemplate, String>, JpaSpecificationExecutor<GenTemplate> {
+public interface GenTemplateRepository extends MybatisRepository<GenTemplate, String> {
 
-	Optional<GenTemplate> findOneById(String id);
 
 }

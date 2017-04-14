@@ -86,10 +86,10 @@ public class BaseService<Repository extends JpaRepository<T, String>, T extends 
 	}
 
 
-	public T save(T genTable) {
-		genTable = repository.save(genTable);
-		log.debug("Save Information for GenTable: {}", genTable);
-		return genTable;
+	public T save(T entity) {
+		entity = repository.save(entity);
+		log.debug("Save Information for Entity: {}", entity);
+		return entity;
 	}
 
 

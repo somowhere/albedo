@@ -28,7 +28,7 @@ public class AlbedoJhipsterApp {
 
     private static final Logger log = LoggerFactory.getLogger(AlbedoJhipsterApp.class);
 
-    @Inject
+    @Resource
     private Environment env;
 
     /**

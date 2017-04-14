@@ -22,7 +22,7 @@ public class LoggingAspect {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @Inject
+    @Resource
     private Environment env;
 
     @Pointcut("within(com.albedo.java.moduels.repository..*) || within(com.albedo.java.moduels.service..*) || within(com.albedo.java.moduels.web..*)")

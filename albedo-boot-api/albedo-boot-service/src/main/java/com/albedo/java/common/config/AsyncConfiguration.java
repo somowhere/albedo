@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import javax.inject.Inject;
+import javax.annotation.Resource;
 import java.util.concurrent.Executor;
 
 @Configuration
@@ -22,7 +22,7 @@ public class AsyncConfiguration implements AsyncConfigurer {
 
     private final Logger log = LoggerFactory.getLogger(AsyncConfiguration.class);
 
-    @Inject
+    @Resource
     private AlbedoProperties albedoProperties;
 
     @Override

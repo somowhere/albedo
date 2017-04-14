@@ -1,6 +1,6 @@
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.modules.sys.service.AuditEventService;
+import com.albedo.java.common.audit.AuditEventService;
 import com.albedo.java.web.rest.util.PaginationUtil;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.data.domain.Page;
@@ -12,7 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
+import javax.annotation.Resource;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.List;
@@ -26,7 +26,6 @@ public class AuditResource {
 
     private AuditEventService auditEventService;
 
-    @Inject
     public AuditResource(AuditEventService auditEventService) {
         this.auditEventService = auditEventService;
     }

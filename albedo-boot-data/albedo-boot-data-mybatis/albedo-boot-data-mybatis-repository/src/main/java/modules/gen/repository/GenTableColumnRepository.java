@@ -1,16 +1,11 @@
 package modules.gen.repository;
 
 import com.albedo.java.modules.gen.domain.GenTableColumn;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-
-import java.util.Optional;
+import org.springframework.data.mybatis.repository.support.MybatisRepository;
 
 /**
  * Spring Data JPA repository for the Authority entity.
  */
-public interface GenTableColumnRepository extends JpaRepository<GenTableColumn, String>, JpaSpecificationExecutor<GenTableColumn> {
-
-	Optional<GenTableColumn> findOneById(String id);
+public interface GenTableColumnRepository extends MybatisRepository<GenTableColumn, String> {
 
 }

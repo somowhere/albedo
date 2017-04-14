@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
+import javax.annotation.Resource;
 
 @Configuration
 public class LoggingConfiguration {
@@ -24,7 +24,7 @@ public class LoggingConfiguration {
 
 
 
-    @Inject
+    @Resource
     private AlbedoProperties albedoProperties;
 
     @PostConstruct

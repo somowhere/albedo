@@ -7,6 +7,7 @@ import com.albedo.java.util.PublicUtil;
 import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.annotation.*;
+import org.springframework.data.mybatis.annotations.MappedSuperclass;
 
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.Date;
@@ -15,6 +16,7 @@ import java.util.Date;
  * Base abstract class for entities which will hold definitions for created, last modified by and created,
  * last modified by date.
  */
+@MappedSuperclass
 public abstract class DataEntity extends BaseEntity {
 
     private static final long serialVersionUID = 1L;

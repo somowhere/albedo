@@ -4,20 +4,16 @@
 package modules.sys.repository;
 
 import com.albedo.java.modules.sys.domain.Area;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.mybatis.repository.support.MybatisRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 区域管理Repository 区域管理
  * @author admin
  * @version 2017-01-01
  */
-public interface AreaRepository extends JpaRepository<Area, String>, JpaSpecificationExecutor<Area> {
-
-	Optional<Area> findOneById(String id);
+public interface AreaRepository extends MybatisRepository<Area, String> {
 
 	Area findFirstByParentId(String parentId);
 	

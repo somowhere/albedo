@@ -2,6 +2,7 @@ package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.domain.base.IdEntity;
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.annotation.SearchField;
 import com.albedo.java.util.base.Collections3;
 import com.albedo.java.util.domain.Globals;
 import com.alibaba.fastjson.annotation.JSONField;
@@ -14,6 +15,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mybatis.annotations.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -25,9 +28,10 @@ import java.util.Set;
 /**
  * A user.
  */
+@Entity(table = "sys_user_t")
 @Data
-@ToString
 @AllArgsConstructor
+@ToString
 @NoArgsConstructor
 public class User extends IdEntity {
 
@@ -39,51 +43,71 @@ public class User extends IdEntity {
 	@NotBlank
     @Pattern(regexp = Globals.LOGIN_REGEX)
     @Size(min = 1, max = 50)
+    @Column(name="login_id") @SearchField
     private String loginId;
 
     @JSONField(serialize=false)
     @NotBlank
     @Size(min = 60, max = 60)
+    @Column(name = "password_hash")
     private String password;
     
     @Size(max = 32)
+    @Column(name = "org_id")
     private String orgId;
     
+    @ManyToOne
+    @JoinColumn(name = "org_id")
+    @ApiModelProperty(hidden=true)
     private Org org;
     
     @Size(max = 50)
+    @Column(name = "name_")
     private String name;
     @Size(max = 50)
+    @Column(name = "phone_")
     private String phone;
 
     @Email
     @Size(max = 100)
+    @Column(name="email_")
     private String email;
 
     @NotNull
+    @Column(name="activated_")
     private boolean activated = false;
 
     @Size(min = 2, max = 5)
+    @Column(name = "lang_key")
     private String langKey;
 
     @Size(max = 20)
+    @Column(name = "activation_key")
     @JSONField(serialize=false)
     private String activationKey;
 
     @Size(max = 20)
+    @Column(name = "reset_key")
     private String resetKey;
 
+    @Column(name = "reset_date")
     private ZonedDateTime resetDate = null;
 
+    @ManyToMany
+    @JoinTable(
+        name = "sys_user_role_t",
+        joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id_")},
+        inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id_")})
     @ApiModelProperty(hidden=true)
     private Set<Role> roles = Sets.newHashSet();
 
     @JSONField(serialize=false)
-    @ApiModelProperty(hidden=true)
+    @OneToMany @ApiModelProperty(hidden=true)
     private Set<PersistentToken> persistentTokens =  Sets.newHashSet();    
     
-    @ApiModelProperty(hidden=true)
+    @Transient@ApiModelProperty(hidden=true)
     private String roleNames;
+    @Transient
     private List<String> roleIdList;
     
     
@@ -94,6 +118,159 @@ public class User extends IdEntity {
 		}
 		return roleNames;
 	}
+
+	public void setRoleNames(String roleNames) {
+		this.roleNames = roleNames;
+	}
+
+    public String getLoginId() {
+        return loginId;
+    }
+
+    //Lowercase the login before saving it in database
+    public void setLoginId(String loginId) {
+        this.loginId = loginId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean getActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
+
+    public String getActivationKey() {
+        return activationKey;
+    }
+
+    public void setActivationKey(String activationKey) {
+        this.activationKey = activationKey;
+    }
+
+    public String getResetKey() {
+        return resetKey;
+    }
+
+    public void setResetKey(String resetKey) {
+        this.resetKey = resetKey;
+    }
+
+    public String getName() {
+		return name;
+	}
+
+	public ZonedDateTime getResetDate() {
+       return resetDate;
+    }
+
+    public void setResetDate(ZonedDateTime resetDate) {
+       this.resetDate = resetDate;
+    }
+
+    public String getLangKey() {
+        return langKey;
+    }
+
+    public void setLangKey(String langKey) {
+        this.langKey = langKey;
+    }
+
+
+    public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	public Set<PersistentToken> getPersistentTokens() {
+        return persistentTokens;
+    }
+
+    public void setPersistentTokens(Set<PersistentToken> persistentTokens) {
+        this.persistentTokens = persistentTokens;
+    }
+
+    public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+
+	public Org getOrg() {
+		return org;
+	}
+
+	public void setOrg(Org org) {
+		this.org = org;
+	}
+
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        User user = (User) o;
+
+        if (!loginId.equals(user.loginId)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return loginId == null ? 0 : loginId.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+            "loginId='" + loginId + '\'' +
+            ", name='" + name + '\'' +
+            ", email='" + email + '\'' +
+            ", activated='" + activated + '\'' +
+            ", langKey='" + langKey + '\'' +
+            ", activationKey='" + activationKey + '\'' +
+            "}";
+    }
 
 	public List<String> getRoleIdList() {
 		if (PublicUtil.isEmpty(roleIdList) && PublicUtil.isNotEmpty(roles)) {

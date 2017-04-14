@@ -1,5 +1,7 @@
 package com.albedo.java.util;
 
+import com.albedo.java.util.base.Collections3;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.*;
@@ -9,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Json extends com.alibaba.fastjson.JSON {
 
@@ -21,12 +20,26 @@ public class Json extends com.alibaba.fastjson.JSON {
 	/**
 	 * 默认的处理时间
 	 * 
-	 * @param jsonText
+	 * @param obj
 	 * @return
 	 */
 	public static String toJsonString(Object obj) {
 		return Json.toJSONStringWithDateFormat(obj, PublicUtil.TIME_FORMAT, SerializerFeature.WriteDateUseDateFormat);
 	}
+
+	public static Object toJson(Object obj) {
+		if (obj!=null)
+		if(obj instanceof Collection){
+			JSONArray json = new JSONArray();
+			json.addAll((Collection<? extends Object>) obj);
+			return json;
+		}else if(obj instanceof Map){
+			return new JSONObject((Map<String, Object>) obj);
+		}
+		return  obj;
+	}
+
+
 
 	public static final String toJSONDateString(Object object, String dataFmt, String... filters) {
 		return toJSONString(object, dataFmt, Lists.newArrayList(filters), false);

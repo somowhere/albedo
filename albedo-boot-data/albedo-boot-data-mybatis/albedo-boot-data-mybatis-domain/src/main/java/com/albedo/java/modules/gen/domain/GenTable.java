@@ -10,46 +10,69 @@ import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.collect.Lists;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mybatis.annotations.*;
 
 import java.util.List;
+
+import static org.apache.ibatis.ognl.OgnlRuntime.NotFound;
 
 /**
  * 业务表Entity
  * 
  * @version 2013-10-15
  */
+@Entity(table = "GEN_TABLE_T")
+@Data
+@AllArgsConstructor
+@ToString
+@NoArgsConstructor
 public class GenTable extends IdEntity {
 
 	private static final long serialVersionUID = 1L;
 	public static final String F_NAME = "name";
 	public static final String F_NAMESANDCOMMENTS = "nameAndComments";
-	@SearchField
+	@Column(name = "name_") @SearchField@Length(min = 1, max = 200)
 	private String name; // 名称
+	@Column(name = "comments")
 	private String comments; // 描述
+	@Column(name = "class_name")
 	private String className; // 实体类名称
+	@Column(name = "parent_table")
 	private String parentTable; // 关联父表
+	@Column(name = "parent_table_fk")
 	private String parentTableFk; // 关联父表外键
 
+	@OneToMany()
+	@JoinColumn(name = "gen_table_id")
+	@JSONField(serialize=false)
 	private List<GenTableColumn> columnList; // 表列
 	
+	@ManyToOne
+	@JoinColumn(name = "parent_table", referencedColumnName = "name_")
+	@JSONField(serialize=false)
 	private GenTable parent; // 父表对象
+	@OneToMany
+	@JSONField(serialize=false)
 	private List<GenTable> childList; // 子表列表
 
+	@Transient
 	private String nameAndComments; 
+	@Transient
 	private String nameLike; // 按名称模糊查询
-	 @JSONField(serialize=false)
+	@Transient@JSONField(serialize=false)
 	private List<String> pkList; // 当前表主键列表
-	 @JSONField(serialize=false)
+	@Transient@JSONField(serialize=false)
 	private List<GenTableColumn> pkColumnList; // 当前表主键列表
-	 
+	@Transient
 	private String category; // 当前表的生成分类
-	 @JSONField(serialize=false)
+	@Transient@JSONField(serialize=false)
 	private List<GenTableColumn> columnFormList;
-
-	public GenTable() {
-		super();
-	}
 
 	public GenTable(String id) {
 		super();
@@ -61,7 +84,7 @@ public class GenTable extends IdEntity {
 		this.comments = comments;
 	}
 
-	@Length(min = 1, max = 200)
+
 	public String getName() {
 		return StringUtil.lowerCase(name);
 	}

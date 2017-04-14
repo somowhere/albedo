@@ -26,7 +26,7 @@ public class CacheConfiguration {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Inject
+    @Resource
     AlbedoProperties albedoProperties;
     private net.sf.ehcache.CacheManager cacheManager;
 

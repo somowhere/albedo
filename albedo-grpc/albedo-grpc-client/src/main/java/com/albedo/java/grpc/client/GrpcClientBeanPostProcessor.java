@@ -38,7 +38,7 @@ public class GrpcClientBeanPostProcessor implements org.springframework.beans.fa
 
     @Autowired
     private GrpcChannelFactory channelFactory;
-    @Inject
+    @Resource
     private Environment env;
 
     public GrpcClientBeanPostProcessor() {

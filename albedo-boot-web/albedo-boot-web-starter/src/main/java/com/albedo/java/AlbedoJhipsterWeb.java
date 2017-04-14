@@ -32,7 +32,7 @@ public class AlbedoJhipsterWeb {
 
     private static final Logger log = LoggerFactory.getLogger(AlbedoJhipsterWeb.class);
 
-    @Inject
+    @Resource
     private Environment env;
 
     /**

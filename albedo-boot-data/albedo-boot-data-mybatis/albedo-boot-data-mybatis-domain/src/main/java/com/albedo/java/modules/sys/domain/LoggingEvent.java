@@ -9,8 +9,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.data.mybatis.annotations.Column;
+import org.springframework.data.mybatis.annotations.Entity;
+import org.springframework.data.mybatis.annotations.Id;
 
 import javax.validation.constraints.NotNull;
 
@@ -20,9 +27,10 @@ import javax.validation.constraints.NotNull;
  * @author admin
  * @version 2017-01-03
  */
+@Entity(table = "logging_event")
 @Data
-@ToString
 @AllArgsConstructor
+@ToString
 @NoArgsConstructor
 public class LoggingEvent {
 
@@ -57,62 +65,77 @@ public class LoggingEvent {
 	public static final String F_CALLERLINE = "callerLine";
 
 	// columns START
+	@Id
+	@Column(name = "event_id")
 	@SearchField
 	private Long id;
 	/** timestmp 创建时间 */
 	@NotNull
+	@Column(name = "timestmp")
 	private Long timestmp;
 	/** formattedMessage 内容 */
 	@NotBlank
 	@Length(max = 65535)
+	@Column(name = "formatted_message")
 	private String formattedMessage;
 	/** loggerName 名称 */
 	@NotBlank
 	@Length(max = 254)
+	@Column(name = "logger_name")
 	private String loggerName;
 	/** levelString 级别 */
 	@NotBlank
 	@Length(max = 254)
+	@Column(name = "level_string")
 	@DictType(name = "sys_log_level")
 	private String levelString;
 	/** threadName 线程 */
 	@Length(max = 254)
+	@Column(name = "thread_name")
 	private String threadName;
 	/** referenceFlag 引用标识 */
 	@Length(max = 6)
+	@Column(name = "reference_flag")
 	@DictType(name = "sys_yes_no")
 	private String referenceFlag;
 	/** arg0 参数0 */
 	@Length(max = 254)
+	@Column(name = "arg0")
 	private String arg0;
 	/** arg1 参数1 */
 	@Length(max = 254)
+	@Column(name = "arg1")
 	private String arg1;
 	/** arg2 参数2 */
 	@Length(max = 254)
+	@Column(name = "arg2")
 	private String arg2;
 	/** arg3 参数3 */
 	@Length(max = 254)
+	@Column(name = "arg3")
 	private String arg3;
 	/** callerFilename 操作文件 */
 	@NotBlank
 	@Length(max = 254)
+	@Column(name = "caller_filename")
 	private String callerFilename;
 	/** callerClass 操作类名 */
 	@NotBlank
 	@Length(max = 254)
+	@Column(name = "caller_class")
 	private String callerClass;
 	/** callerMethod 操作方法 */
 	@NotBlank
 	@Length(max = 254)
+	@Column(name = "caller_method")
 	private String callerMethod;
 	/** callerLine 操作行 */
 	@NotBlank
 	@Length(max = 4)
+	@Column(name = "caller_line")
 	private String callerLine;
 
 	// columns END
-
 	public LoggingEvent(Long id) {
 		this.id = id;
 	}

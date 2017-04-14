@@ -17,10 +17,10 @@ import java.util.List;
 @RequestMapping("${albedo.adminPath}/api")
 public class ProfileInfoResource {
 
-    @Inject
+    @Resource
     Environment env;
 
-    @Inject
+    @Resource
     private AlbedoProperties albedoProperties;
 
     @RequestMapping(value = "/profile-info",

@@ -7,7 +7,16 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.config.SystemConfig;
 import com.google.common.collect.Lists;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mybatis.annotations.Column;
+import org.springframework.data.mybatis.annotations.Entity;
+import org.springframework.data.mybatis.annotations.JoinColumn;
+import org.springframework.data.mybatis.annotations.ManyToOne;
 
 import java.util.List;
 
@@ -16,36 +25,55 @@ import java.util.List;
  * 
  * @version 2013-10-15
  */
+@Entity(table = "GEN_TABLE_COLUMN_T")
+@Data
+@AllArgsConstructor
+@ToString
+@NoArgsConstructor
 public class GenTableColumn extends IdEntity {
 
 	private static final long serialVersionUID = 1L;
+	@ManyToOne
+	@JoinColumn(name = "gen_table_id")
 	private GenTable genTable; // 归属表
 	@Length(min = 1, max = 200)
+	@Column(name = "name_")
 	private String name; // 列名
+	@Column(name = "comments")
 	private String comments; // 描述
+	@Column(name = "jdbc_type")
 	private String jdbcType; // JDBC类型
+	@Column(name = "java_type")
 	private String javaType; // JAVA类型
+	@Column(name = "java_field")
 	private String javaField; // JAVA字段名
+	@Column(name = "is_pk")
 	private Integer isPk = SystemConfig.NO; // 是否主键（1：主键）
+	@Column(name = "is_unique")
 	private Integer isUnique = SystemConfig.NO; // 是否唯一（1：是；0：否）
+	@Column(name = "is_null")
 	private Integer isNull = SystemConfig.NO; // 是否可为空（1：可为空；0：不为空）
+	@Column(name = "is_insert")
 	private Integer isInsert = SystemConfig.NO; // 是否为插入字段（1：插入字段）
+	@Column(name = "is_edit")
 	private Integer isEdit = SystemConfig.NO; // 是否编辑字段（1：编辑字段）
+	@Column(name = "is_list")
 	private Integer isList = SystemConfig.NO; // 是否列表字段（1：列表字段）
+	@Column(name = "is_query")
 	private Integer isQuery = SystemConfig.NO; // 是否查询字段（1：查询字段）
+	@Column(name = "query_type")
 	private String queryType; // 查询方式（等于、不等于、大于、小于、范围、左LIKE、右LIKE、左右LIKE）
+	@Column(name = "show_type")
 	private String showType; // 字段生成方案（文本框、文本域、下拉框、复选框、单选框、字典选择、人员选择、部门选择、区域选择）
+	@Column(name = "dict_type")
 	private String dictType; // 字典类型
+	@Column(name = "sort_")
 	private Integer sort; // 排序（升序）
 
-
+	@Transient
 	private String hibernateValidatorExprssion;
-
+	@Transient
 	private String size;
-
-	public GenTableColumn() {
-		super();
-	}
 
 	public GenTableColumn(String id) {
 		super();
@@ -59,158 +87,21 @@ public class GenTableColumn extends IdEntity {
 		this.comments = comments;
 		this.jdbcType = jdbcType;
 	}
-
-	public GenTableColumn(GenTable genTable) {
-		this.genTable = genTable;
-	}
-
-	public GenTable getGenTable() {
-		return genTable;
-	}
-
-	public void setGenTable(GenTable genTable) {
-		this.genTable = genTable;
-	}
-
-	public String getName() {
-		return StringUtil.lowerCase(name);
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getComments() {
-		return comments;
-	}
-
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
-
-	public String getJdbcType() {
-		return StringUtil.lowerCase(jdbcType);
-	}
-
-	public void setJdbcType(String jdbcType) {
-		this.jdbcType = jdbcType;
-	}
-
-	public String getJavaType() {
-		return javaType;
-	}
-
-	public void setJavaType(String javaType) {
-		this.javaType = javaType;
-	}
-
-	public String getJavaField() {
-		return javaField;
-	}
-
-	public void setJavaField(String javaField) {
-		this.javaField = javaField;
-	}
-
-	public Integer getIsPk() {
-		return isPk;
-	}
-
-	public void setIsPk(Integer isPk) {
-		this.isPk = isPk;
-	}
-
 	public boolean getPk() {
 		return SystemConfig.YES.equals(getIsPk());
 	}
-
-	public Integer getIsUnique() {
-		return isUnique;
-	}
-
-	public void setIsUnique(Integer isUnique) {
-		this.isUnique = isUnique;
-	}
-
 	public boolean getUnique() {
 		return SystemConfig.YES.equals(getIsUnique());
-	}
-
-	public Integer getIsNull() {
-		return isNull;
-	}
-
-	public void setIsNull(Integer isNull) {
-		this.isNull = isNull;
 	}
 
 	public boolean getNullable() {
 		return SystemConfig.YES.equals(getIsNull());
 	}
 
-	public Integer getIsInsert() {
-		return isInsert;
-	}
-
-	public void setIsInsert(Integer isInsert) {
-		this.isInsert = isInsert;
-	}
-
-	public Integer getIsEdit() {
-		return isEdit;
-	}
-
-	public void setIsEdit(Integer isEdit) {
-		this.isEdit = isEdit;
-	}
-
-	public Integer getIsList() {
-		return isList;
-	}
-
-	public void setIsList(Integer isList) {
-		this.isList = isList;
-	}
-
-	public Integer getIsQuery() {
-		return isQuery;
-	}
-
-	public void setIsQuery(Integer isQuery) {
-		this.isQuery = isQuery;
-	}
-
-	public String getQueryType() {
-		return queryType;
-	}
-
-	public void setQueryType(String queryType) {
-		this.queryType = queryType;
-	}
-
-	public String getShowType() {
-		return showType;
-	}
-
-	public void setShowType(String showType) {
-		this.showType = showType;
-	}
-
 	public String getDictType() {
 		return dictType == null ? "" : dictType;
 	}
 
-	public void setDictType(String dictType) {
-		this.dictType = dictType;
-	}
-
-	public Integer getSort() {
-		return sort;
-	}
-
-	public void setSort(Integer sort) {
-		this.sort = sort;
-	}
 
 	/**
 	 * 获取列名和说明

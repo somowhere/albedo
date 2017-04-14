@@ -1,4 +1,4 @@
-package com.albedo.java.common.security;
+package com.albedo.java.common.audit;
 
 import com.albedo.java.common.config.audit.AuditEventConverter;
 import com.albedo.java.modules.sys.domain.PersistentAuditEvent;

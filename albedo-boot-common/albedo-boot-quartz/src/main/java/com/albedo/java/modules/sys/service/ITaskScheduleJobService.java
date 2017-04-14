@@ -2,6 +2,7 @@ package com.albedo.java.modules.sys.service;
 
 import java.util.List;
 
+import com.albedo.java.util.domain.QueryCondition;
 import org.quartz.SchedulerException;
 import org.springframework.data.domain.Page;
 
@@ -20,7 +21,7 @@ public interface ITaskScheduleJobService {
 	 *            主键Id
 	 * @return
 	 */
-	void delete(String taskTaskScheduleJobId);
+	void delete(String taskTaskScheduleJobId, String currentUserId);
 
 	/**
 	 * 锁定
@@ -29,7 +30,7 @@ public interface ITaskScheduleJobService {
 	 *            主键Id
 	 * @return
 	 */
-	void lockOrUnLock(String taskTaskScheduleJobId);
+	void lockOrUnLock(String taskTaskScheduleJobId, String currentUserId);
 
 	/**
 	 * 根据业务编号删除job,删除数据库基本数据
@@ -41,7 +42,7 @@ public interface ITaskScheduleJobService {
 	
 	TaskScheduleJob findOne(String id);
 
-	Page<TaskScheduleJob> findAll(SpecificationDetail<TaskScheduleJob> spec, PageModel<TaskScheduleJob> pm);
+	Page<TaskScheduleJob> findAll(PageModel<TaskScheduleJob> pm, List<QueryCondition> queryConditions);
 
 	/**
 	 * 从数据库中取 区别于getAllJob

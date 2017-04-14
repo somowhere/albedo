@@ -25,10 +25,10 @@ public class CustomAuditEventRepository implements AuditEventRepository {
 
     public static final String ANONYMOUS_USER = "anonymoususer";
 
-    @Inject
+    @Resource
     private PersistenceAuditEventRepository persistenceAuditEventRepository;
 
-    @Inject
+    @Resource
     private AuditEventConverter auditEventConverter;
 
     @Override

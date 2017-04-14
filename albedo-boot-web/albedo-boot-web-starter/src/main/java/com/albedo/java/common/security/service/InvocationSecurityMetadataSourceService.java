@@ -42,12 +42,12 @@ public class InvocationSecurityMetadataSourceService
 
 	public static List<String> authorizePermitAllList = Lists.newArrayList(authorizePermitAll);
 	
-	@Inject
+	@Resource
 	private ModuleRepository moduleRepository;
-	@Inject
+	@Resource
 	ApplicationContext applicationContext;
 
-	@Inject
+	@Resource
 	AlbedoProperties albedoProperties;
 
 	public void afterPropertiesSet() throws Exception {

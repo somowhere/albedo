@@ -23,6 +23,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 区域管理Controller 区域管理
@@ -47,7 +49,7 @@ public class AreaResource extends DataResource<Area> {
 	}
 	@RequestMapping(value = "findTreeData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity findTreeData(AreaTreeQuery areaTreeQuery) {
-		JSON rs = areaService.findTreeData(areaTreeQuery);
+		List<Map<String, Object>> rs = areaService.findTreeData(areaTreeQuery, SecurityUtil.getAreaList());
 		return ResultBuilder.buildOk(rs);
 	}
 	@RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -63,9 +65,7 @@ public class AreaResource extends DataResource<Area> {
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity getPage(PageModel<Area> pm) {
-		SpecificationDetail<Area> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(), SecurityUtil.dataScopeFilter(),
-				QueryCondition.ne(Area.F_STATUS, Area.FLAG_DELETE));
-		Page<Area> page = areaService.findAll(spec, pm);
+		Page<Area> page = areaService.findAll(pm, SecurityUtil.dataScopeFilter());
 		pm.setPageInstance(page);
 		JSON rs = JsonUtil.getInstance().setRecurrenceStr("creator_name").toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
@@ -121,7 +121,7 @@ public class AreaResource extends DataResource<Area> {
 	@Timed
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete Area: {}", ids);
-		areaService.delete(ids);
+		areaService.delete(ids, SecurityUtil.getCurrentAuditor());
 		return ResultBuilder.buildOk("删除区域管理成功");
 	}
 
@@ -130,7 +130,7 @@ public class AreaResource extends DataResource<Area> {
 	@Timed
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock Area: {}", ids);
-		areaService.lockOrUnLock(ids);
+		areaService.lockOrUnLock(ids, SecurityUtil.getCurrentAuditor());
 		return ResultBuilder.buildOk("操作区域管理成功");
 	}
 

@@ -23,7 +23,7 @@ public class LocaleConfiguration extends WebMvcConfigurerAdapter implements Envi
 
 	@SuppressWarnings("unused")
 	private RelaxedPropertyResolver propertyResolver;
-	@Inject
+	@Resource
 	private AlbedoProperties albedoProperties;
 
 	@Override

@@ -8,20 +8,27 @@ import com.albedo.java.util.base.Collections3;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.apache.ibatis.mapping.FetchType;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mybatis.annotations.*;
 
 import java.util.List;
 import java.util.Set;
 
+import static org.apache.ibatis.ognl.OgnlRuntime.NotFound;
+
 /**
  * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午4:32:52
  */
+@Entity(table = "SYS_ROLE_T")
 @Data
-@ToString
 @AllArgsConstructor
+@ToString
 @NoArgsConstructor
 public class Role extends IdEntity {
 
@@ -43,36 +50,58 @@ public class Role extends IdEntity {
 	public static final String F_SYSDATA = "sysData";
 
 	/*** 角色名称 */
+	@Column(name = "name_")
 	@SearchField
 	private String name;
 	/*** 名称全拼 */
+	@Column(name = "en_")
 	@SearchField
 	private String en;
 	/*** 工作流组用户组类型（security-role：管理员、assignment：可进行任务分配、user：普通用户） */
+	@Column(name = "type_")
 	private String type;
 	/*** 组织ID */
+	@Column(name = "org_id")
 	private String orgId;
 	
+	@ManyToOne
+    @JoinColumn(name = "org_id")
+    @ApiModelProperty(hidden=true)
     private Org org;
 	
 	/*** 是否系统数据  0 是 1否*/
-	@DictType(name="sys_yes_no")
+	@Column(name = "sys_data") @DictType(name="sys_yes_no")
 	private Integer sysData;
 	/*** 可查看的数据范围 */
+	@Column(name = "data_scope")
 	private Integer dataScope;
+	@Column(name = "sort_")
 	private Integer sort;
 	/*** 组织机构 */
+	@ManyToMany
+	@JoinTable(name = "SYS_ROLE_ORG_T", joinColumns = { @JoinColumn(name = "role_id") },
+			inverseJoinColumns = { @JoinColumn(name = "org_id") })
+	@JSONField(serialize=false)
+	@ApiModelProperty(hidden=true)
 	private Set<Org> orgs = Sets.newHashSet();
 	/*** 操作权限 */
+	@ManyToMany
+	@JoinTable(name = "SYS_ROLE_MODULE_T", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = { @JoinColumn(name = "module_id") })
+	@ApiModelProperty(hidden=true)
 	private Set<Module> modules = Sets.newHashSet();
 
 	/*** 拥有用户列表 */
+	@ManyToMany
+	@JSONField(serialize=false)
+	@ApiModelProperty(hidden=true)
 	private Set<User> users = Sets.newHashSet();
 
+	@Transient
 	@JSONField(serialize=false)
 	private List<String> moduleIdList;
-	@JSONField(serialize=false)
+	@Transient @JSONField(serialize=false)
 	private List<String> orgIdList;
+	
 
 	public Role(String id) {
 		this.setId(id);
@@ -87,6 +116,82 @@ public class Role extends IdEntity {
 		this.setId(id);
 		this.name = name;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public Integer getSysData() {
+		return sysData;
+	}
+
+	public void setSysData(Integer sysData) {
+		this.sysData = sysData;
+	}
+
+	public Integer getDataScope() {
+		return dataScope;
+	}
+
+	public void setDataScope(Integer dataScope) {
+		this.dataScope = dataScope;
+	}
+
+
+	public Set<Module> getModules() {
+		return modules;
+	}
+
+	public void setModules(Set<Module> modules) {
+		this.modules = modules;
+	}
+
+	public Integer getSort() {
+		return sort;
+	}
+
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getEn() {
+		return en;
+	}
+
+	public void setEn(String en) {
+		this.en = en;
+	}
+
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
+
+	public Set<Org> getOrgs() {
+		return orgs;
+	}
+
+	public void setOrgs(Set<Org> orgs) {
+		this.orgs = orgs;
+	}
+
 
 	public List<String> getOrgIdList() {
 		if (PublicUtil.isEmpty(orgIdList) && PublicUtil.isNotEmpty(orgs)) {
@@ -125,6 +230,21 @@ public class Role extends IdEntity {
 		}
 	}
 
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+
+	public Org getOrg() {
+		return org;
+	}
+
+	public void setOrg(Org org) {
+		this.org = org;
+	}
 
 
 }

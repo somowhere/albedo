@@ -10,7 +10,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.mybatis.annotations.Column;
+import org.springframework.data.mybatis.annotations.Entity;
 
 import javax.validation.constraints.NotNull;
 
@@ -19,7 +25,11 @@ import javax.validation.constraints.NotNull;
  * @author admin
  * @version 2017-01-01
  */
-@Data @ToString @AllArgsConstructor @NoArgsConstructor
+@Entity(table = "sys_area_t")
+@Data
+@AllArgsConstructor
+@ToString
+@NoArgsConstructor
 public class Area extends TreeEntity<Area> {
 	
 	private static final long serialVersionUID = 1L;
@@ -31,11 +41,11 @@ public class Area extends TreeEntity<Area> {
 	public static final String F_CODE = "code";
 	
 	//columns START
-	/** shortName 区域简称 */@Length(max=32)
+	/** shortName 区域简称 */@Length(max=32)@Column(name = "short_name")
 	private String shortName;
-	/** level 区域等级 */@DictType(name="sys_area_type")
+	/** level 区域等级 */@Column(name = "level_")@DictType(name="sys_area_type")
 	private Integer level;
-	/** code 区域编码 */@Length(max=32)@SearchField
+	/** code 区域编码 */@Length(max=32)@Column(name = "code_")@SearchField
 	@NotNull
 	private String code;
 	//columns END

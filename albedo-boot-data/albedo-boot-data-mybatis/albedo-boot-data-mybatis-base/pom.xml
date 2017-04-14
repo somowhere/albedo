@@ -31,14 +31,9 @@
         </dependency>
         <!-- MyBatis -->
         <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis</artifactId>
-            <version>${mybatis.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-spring</artifactId>
-            <version>${mybatis-spring.version}</version>
+            <groupId>com.ifrabbit</groupId>
+            <artifactId>spring-boot-starter-data-mybatis</artifactId>
+            <version>1.0.15.RELEASE</version>
         </dependency>
     </dependencies>
 

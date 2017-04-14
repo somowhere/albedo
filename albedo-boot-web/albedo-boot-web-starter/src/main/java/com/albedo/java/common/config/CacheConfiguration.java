@@ -32,9 +32,9 @@ public class CacheConfiguration {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Inject
+    @Resource
     private MetricRegistry metricRegistry;
-    @Inject
+    @Resource
     AlbedoProperties albedoProperties;
     private net.sf.ehcache.CacheManager cacheManager;
 

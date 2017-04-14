@@ -18,7 +18,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import javax.inject.Inject;
+import javax.annotation.Resource;
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
@@ -35,10 +35,10 @@ import java.util.EnumSet;
 public class WebConfigurer implements ServletContextInitializer, EmbeddedServletContainerCustomizer {
 
 	private final Logger log = LoggerFactory.getLogger(WebConfigurer.class);
-	@Inject
+	@Resource
 	private Environment env;
 
-	@Inject
+	@Resource
 	private AlbedoProperties albedoProperties;
 	
 	@Bean

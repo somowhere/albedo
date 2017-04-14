@@ -3,8 +3,8 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.domain.base.DataEntity;
 import com.albedo.java.common.domain.data.DynamicSpecifications;
 import com.albedo.java.common.domain.data.SpecificationDetail;
+import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Org;
-import com.albedo.java.vo.sys.query.OrgTreeQuery;
 import com.albedo.java.modules.sys.service.OrgService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
@@ -14,6 +14,7 @@ import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.exception.RuntimeMsgException;
+import com.albedo.java.vo.sys.query.OrgTreeQuery;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataResource;
 import com.alibaba.fastjson.JSON;
@@ -26,7 +27,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -36,7 +37,7 @@ import java.util.List;
 @RequestMapping("${albedo.adminPath}/sys/org")
 public class OrgResource extends DataResource<Org> {
 
-	@Inject
+	@Resource
 	private OrgService orgService;
 
 	@RequestMapping(value = "findTreeData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -68,10 +69,9 @@ public class OrgResource extends DataResource<Org> {
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity getPage(PageModel<Org> pm)  {
-		SpecificationDetail<Org> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
-				QueryCondition.ne(Org.F_STATUS, Org.FLAG_DELETE));
+
 		pm.setSortDefaultName(Direction.DESC, DataEntity.F_LASTMODIFIEDDATE);
-		Page<Org> page = orgService.findAll(spec, pm);
+		Page<Org> page = orgService.findAll(pm);
 		pm.setPageInstance(page);
 		JSON rs = JsonUtil.getInstance().toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
@@ -114,7 +114,7 @@ public class OrgResource extends DataResource<Org> {
 			throw new RuntimeMsgException("名称已存在");
 		}
 		orgService.save(org);
-		
+		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("保存", org.getName(), "成功");
 	}
 
@@ -128,7 +128,8 @@ public class OrgResource extends DataResource<Org> {
 	@Timed
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete Org: {}", ids);
-		orgService.delete(ids);
+		orgService.delete(ids, SecurityUtil.getCurrentAuditor());
+		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("删除成功");
 	}
 
@@ -142,7 +143,8 @@ public class OrgResource extends DataResource<Org> {
 	@Timed
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock User: {}", ids);
-		orgService.lockOrUnLock(ids);
+		orgService.lockOrUnLock(ids, SecurityUtil.getCurrentAuditor());
+		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("操作成功");
 	}
 	

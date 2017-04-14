@@ -126,6 +126,7 @@ public class GenSchemeResource extends DataResource<GenScheme> {
 			String url = PublicUtil.toAppendStr("/", StringUtil.lowerCase(genScheme.getModuleName()), (StringUtil.isNotBlank(genScheme.getSubModuleName()) ? "/" + StringUtil.lowerCase(genScheme.getSubModuleName()) : ""), "/",
 					StringUtil.uncapitalize(genTable.getClassName()), "/");
 			moduleService.generatorModuleData(genScheme.getName(), genScheme.getParentModuleId(), url);
+			SecurityUtil.clearUserJedisCache();
 		}
 		// 生成代码
 		if (genScheme.getGenCode()) {
@@ -139,7 +140,7 @@ public class GenSchemeResource extends DataResource<GenScheme> {
 	@Timed
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock genTable: {}", ids);
-		genSchemeService.lockOrUnLock(ids);
+		genSchemeService.lockOrUnLock(ids, SecurityUtil.getCurrentAuditor());
 		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("操作成功");
 	}
@@ -150,7 +151,7 @@ public class GenSchemeResource extends DataResource<GenScheme> {
 	@Secured(AuthoritiesConstants.ADMIN)
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete User: {}", ids);
-		genSchemeService.delete(ids);
+		genSchemeService.delete(ids, SecurityUtil.getCurrentAuditor());
 		return ResultBuilder.buildOk("删除成功");
 	}
 	

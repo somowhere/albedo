@@ -1,4 +1,4 @@
-package com.albedo.java.modules.sys.service;
+package com.albedo.java.common.audit;
 
 import com.albedo.java.common.config.audit.AuditEventConverter;
 import com.albedo.java.modules.sys.repository.PersistenceAuditEventRepository;
@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -26,7 +25,6 @@ public class AuditEventService {
 
     private AuditEventConverter auditEventConverter;
 
-    @Inject
     public AuditEventService(
         PersistenceAuditEventRepository persistenceAuditEventRepository,
         AuditEventConverter auditEventConverter) {

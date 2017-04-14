@@ -2,25 +2,31 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.PersistentToken;
+import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.modules.sys.service.UserService;
+import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.base.Assert;
+import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.BaseResource;
 import com.codahale.metrics.annotation.Timed;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.inject.Inject;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -39,17 +45,18 @@ import java.util.List;
 public class AccountResource extends BaseResource {
 
     private final Logger log = LoggerFactory.getLogger(AccountResource.class);
-
-    @Inject
+    @Autowired(required = false)
+    private PasswordEncoder passwordEncoder;
+    @Resource
     private UserRepository userRepository;
 
-    @Inject
-    private UserService userServiceImpl;
+    @Resource
+    private UserService userService;
 
-    @Inject
+    @Resource
     private PersistentTokenRepository persistentTokenRepository;
 
-//    @Inject
+//    @Resource
 //    private MailService mailService;
 
     /**
@@ -100,7 +107,7 @@ public class AccountResource extends BaseResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<String> activateAccount(@RequestParam(value = "key") String key) {
-        return userServiceImpl.activateRegistration(key)
+        return userService.activateRegistration(key)
             .map(user -> new ResponseEntity<String>(HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
@@ -184,7 +191,24 @@ public class AccountResource extends BaseResource {
         produces = MediaType.TEXT_PLAIN_VALUE)
     @Timed
     public ResponseEntity changePassword(String password, String newPassword, String confirmPassword) {
-        userServiceImpl.changePassword(SecurityUtil.getCurrentUserId(), password, newPassword, confirmPassword);
+
+        if(PublicUtil.isEmpty(password) || PublicUtil.isEmpty(newPassword) || PublicUtil.isEmpty(confirmPassword)){
+            throw new RuntimeMsgException("新旧密码不能为空");
+        }
+        if(password.equals(newPassword)){
+            throw new RuntimeMsgException("新旧密码不能一致");
+        }
+        if(!newPassword.equals(confirmPassword)){
+            throw new RuntimeMsgException("新密码与确认密码不一致");
+        }
+        User user = userService.findOne(SecurityUtil.getCurrentUserId());
+        Assert.assertNotNull(user, "无法获取用户信息");
+            if(!passwordEncoder.matches(password, user.getPassword())){
+                throw new RuntimeMsgException("旧密码输入有误");
+            }
+        user.setPassword(passwordEncoder.encode(newPassword));
+            userService.save(user);
+            log.debug("Changed password for User: {}", user);
         return ResultBuilder.buildOk("密码修改成功，请下次登录时使用新密码");
     }
 

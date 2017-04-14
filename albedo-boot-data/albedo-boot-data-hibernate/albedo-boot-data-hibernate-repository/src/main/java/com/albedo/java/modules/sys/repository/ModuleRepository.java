@@ -11,9 +11,9 @@ import java.util.Optional;
 /**
  * Spring Data JPA repository for the Authority entity.
  */
-public interface ModuleRepository extends TreeRepository<Dict> {
+public interface ModuleRepository extends TreeRepository<Module> {
 
-	Module findOneByStatusOrderBySort(Integer flagNormal);
+	List<Module> findAllByStatusOrderBySort(Integer flagNormal);
 	Module findOneByParentIdOrderBySort(Integer parentId);
 	
 	Optional<Module> findOneById(String id);
