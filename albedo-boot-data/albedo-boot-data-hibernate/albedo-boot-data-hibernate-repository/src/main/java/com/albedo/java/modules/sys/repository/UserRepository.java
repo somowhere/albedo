@@ -1,5 +1,6 @@
 package com.albedo.java.modules.sys.repository;
 
+import com.albedo.java.common.repository.DataRepository;
 import com.albedo.java.modules.sys.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -11,7 +12,7 @@ import java.util.Optional;
 /**
  * Spring Data JPA repository for the User entity.
  */
-public interface UserRepository extends JpaRepository<User, String>, JpaSpecificationExecutor<User>  {
+public interface UserRepository extends DataRepository<User, String>  {
 
     Optional<User> findOneByActivationKey(String activationKey);
 
@@ -22,8 +23,5 @@ public interface UserRepository extends JpaRepository<User, String>, JpaSpecific
     Optional<User> findOneByEmail(String email);
     
     Optional<User> findOneByLoginId(String loginId);
-    
-    Optional<User> findOneById(String userId);
-    
     
 }

@@ -1,0 +1,52 @@
+DROP TABLE IF EXISTS DS_ROLE;
+DROP TABLE IF EXISTS DS_USER;
+DROP TABLE IF EXISTS DS_GROUP;
+DROP TABLE IF EXISTS DEPARTMENT;
+
+CREATE TABLE DS_USER (
+  ID            INT(11)      NOT NULL AUTO_INCREMENT,
+  FIRSTNAME     VARCHAR(32)  NULL,
+  LASTNAME      VARCHAR(32)  NULL,
+  AGE           INT(3)       NULL,
+  ACTIVE        INT(1)       NULL,
+  CREATED_AT    TIMESTAMP    NULL,
+  EMAIL_ADDRESS VARCHAR(128) NULL,
+  MANAGER_ID    INT(11)      NULL,
+  BINARY_DATA   BLOB         NULL,
+  DATE_OF_BIRTH DATE         NULL,
+  country       VARCHAR(64)  NULL,
+  city          VARCHAR(64)  NULL,
+  street_name   VARCHAR(64)  NULL,
+  street_no     VARCHAR(64)  NULL,
+  PRIMARY KEY (ID)
+);
+CREATE TABLE DS_ROLE (
+  ID       INT(11)     NOT NULL AUTO_INCREMENT,
+  NAME     VARCHAR(32) NULL,
+  GROUP_ID INT(11)     NULL,
+  PRIMARY KEY (ID)
+);
+CREATE TABLE DS_GROUP (
+  ID   INT(11)     NOT NULL AUTO_INCREMENT,
+  NAME VARCHAR(32) NULL,
+  CODE VARCHAR(32) NULL,
+  PRIMARY KEY (ID)
+);
+CREATE TABLE DEPARTMENT (
+  ID                 INT(11)     NOT NULL AUTO_INCREMENT,
+  NAME               VARCHAR(32) NULL,
+  version            INT(11)     NULL,
+  created_date       TIMESTAMP   NULL,
+  last_modified_date TIMESTAMP   NULL,
+  creator            INT(11)     NULL,
+  modifier           INT(11)     NULL,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE ds_booking (
+  ID            INT(11)     NOT NULL AUTO_INCREMENT,
+  serial_number VARCHAR(32) NULL,
+  amount        INT(11)     NULL,
+  user_id       INT(11)     NULL,
+  PRIMARY KEY (ID)
+);

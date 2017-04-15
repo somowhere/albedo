@@ -32,7 +32,7 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class AreaService extends TreeService<AreaRepository, Area> {
+public class AreaService extends TreeService<AreaRepository, Area, String> {
 
 	@Transactional(readOnly = true)
 	public List<Map<String, Object>> findTreeData(AreaTreeQuery areaTreeQuery, List<Area> list) {

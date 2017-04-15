@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.springframework.data.mybatis.domain.sample.User">
+
+
+    <select id="findUseMapper" resultType="org.springframework.data.mybatis.domain.sample.User" lang="XML">
+      SELECT ID AS id, FIRSTNAME AS firstname, LASTNAME AS lastname FROM DS_USER WHERE LASTNAME = #{lastname}
+    </select>
+    <select id="findUseMapper" resultType="org.springframework.data.mybatis.domain.sample.User" lang="XML" databaseId="postgres">
+    SELECT ID AS id, "FIRSTNAME" AS firstname, "LASTNAME" AS lastname FROM "DS_USER" WHERE "LASTNAME" = #{lastname}
+</select>
+
+</mapper>

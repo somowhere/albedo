@@ -10,6 +10,7 @@ import org.springframework.data.mybatis.repository.support.MybatisRepository;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * TreeRepository
@@ -30,5 +31,5 @@ public interface TreeRepository<T extends BaseEntity, PK extends Serializable> e
 
 	<T extends TreeEntity> T findOneByIdOrParentIdsLike(PK id, String likeParentIds);
 
-	<T extends TreeEntity> T findOneById(String parentId);
+	T findOneById(String parentId);
 }

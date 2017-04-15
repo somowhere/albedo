@@ -1,0 +1,13 @@
+[[new-features]]
+= New & Noteworthy
+
+[[new-features.1-0-0]]
+== What's new in Spring Data Mybatis 1.0.0
+
+* Implementation of CRUD methods for normal Entities
+* Dynamic query generation from query method names
+* Implementation domain base classes providing basic properties
+* Support for transparent auditing (created, last changed)
+* Possibility to integrate custom repository code
+* Easy Spring integration with custom namespace
+

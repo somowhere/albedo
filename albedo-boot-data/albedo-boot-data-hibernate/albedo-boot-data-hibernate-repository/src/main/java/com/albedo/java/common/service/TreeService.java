@@ -1,5 +1,6 @@
 package com.albedo.java.common.service;
 
+import com.albedo.java.common.domain.base.BaseEntity;
 import com.albedo.java.common.domain.base.TreeEntity;
 import com.albedo.java.common.repository.TreeRepository;
 import com.albedo.java.common.repository.service.BaseService;
@@ -8,17 +9,37 @@ import com.albedo.java.util.exception.RuntimeMsgException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.List;
 
 
 @Service
 @Transactional
-public class TreeService<Repository extends TreeRepository<T>, T extends TreeEntity<T>> extends BaseService<Repository, T> {
+public class TreeService<Repository extends TreeRepository<T, PK>, T extends TreeEntity<T>, PK extends Serializable>
+        extends DataService<Repository, T, PK> {
+
+    /**
+     * 逻辑删除
+     *
+     * @param id
+     * @param likeParentIds
+     * @return
+     */
+    public int deleteById(PK id, String likeParentIds, String lastModifiedBy) {
+        return operateStatusById(id, likeParentIds, BaseEntity.FLAG_DELETE, lastModifiedBy);
+    }
+
+    public int operateStatusById(PK id, String likeParentIds, Integer status, String lastModifiedBy) {
+        return baseRepository.createQuery(
+                PublicUtil.toAppendStr("update ", persistentClass.getSimpleName(), " set status='", status,
+                        "', lastModifiedBy=:p3, lastModifiedDate=:p4 where id = :p1 or parentIds like :p2"),
+                id, likeParentIds, lastModifiedBy, PublicUtil.getCurrentDate()).executeUpdate();
+    }
 
     public T save(T entity) {
         String oldParentIds = entity.getParentIds(); // 获取修改前的parentIds，用于更新子节点的parentIds
         if(entity.getParentId()!=null){
-            T parent = repository.findOne(entity.getParentId());
+            T parent = repository.findOneById(entity.getParentId());
             if (parent == null || PublicUtil.isEmpty(parent.getId()))
                 throw new RuntimeMsgException("无法获取模块的父节点，插入失败");
             if(parent!=null){

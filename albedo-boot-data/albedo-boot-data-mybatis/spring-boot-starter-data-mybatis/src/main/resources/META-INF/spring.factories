@@ -1,0 +1,4 @@
+# Auto Configure
+
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.springframework.data.mybatis.autoconfiguration.MybatisRepositoriesAutoConfiguration

@@ -26,7 +26,7 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class DictService extends TreeService<DictRepository, Dict> {
+public class DictService extends TreeService<DictRepository, Dict, String> {
 
 	@Transactional(readOnly = true)
 	public List<Map<String, Object>> findTreeData(DictTreeQuery dictTreeQuery, List<Dict> dictList) {

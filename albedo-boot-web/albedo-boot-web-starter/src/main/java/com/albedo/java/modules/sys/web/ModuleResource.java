@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * REST controller for managing Station.
@@ -57,7 +58,7 @@ public class ModuleResource extends DataResource<Module> {
 	
 	@RequestMapping(value = "findTreeData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity findTreeData(ModuleTreeQuery moduleTreeQuery) {
-		JSON rs = moduleService.findTreeData(moduleTreeQuery, SecurityUtil.getModuleList());
+		List<Map<String, Object>> rs = moduleService.findTreeData(moduleTreeQuery, SecurityUtil.getModuleList());
 		return ResultBuilder.buildOk(rs);
 	}
 	
@@ -141,7 +142,7 @@ public class ModuleResource extends DataResource<Module> {
 	@Timed
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete Module: {}", ids);
-		moduleService.delete(ids, SecurityUtil.getCurrentAuditor());
+		moduleService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
 		SecurityUtil.clearUserJedisCache();
 		JedisUtil.removeSys(Globals.RESOURCE_MODULE_DATA_MAP);
 		return ResultBuilder.buildOk("删除成功");
@@ -158,7 +159,7 @@ public class ModuleResource extends DataResource<Module> {
 	@Secured(AuthoritiesConstants.ADMIN)
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock User: {}", ids);
-		moduleService.lockOrUnLock(ids, SecurityUtil.getCurrentAuditor());
+		moduleService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
 		SecurityUtil.clearUserJedisCache();
 		JedisUtil.removeSys(Globals.RESOURCE_MODULE_DATA_MAP);
 		return ResultBuilder.buildOk("操作成功");

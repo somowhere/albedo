@@ -12,7 +12,7 @@ import java.util.Optional;
 /**
  * Spring Data JPA repository for the Authority entity.
  */
-public interface DictRepository extends TreeRepository<Dict> {
+public interface DictRepository extends TreeRepository<Dict, String> {
 	
 	List<Dict> findAllByStatusNotAndIsShowOrderBySortAsc(Integer status, Integer isShow);
 

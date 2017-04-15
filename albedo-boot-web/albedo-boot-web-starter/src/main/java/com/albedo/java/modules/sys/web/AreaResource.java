@@ -4,6 +4,7 @@ import com.albedo.java.common.domain.data.DynamicSpecifications;
 import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Area;
+import com.albedo.java.util.StringUtil;
 import com.albedo.java.vo.sys.query.AreaTreeQuery;
 import com.albedo.java.modules.sys.service.AreaService;
 import com.albedo.java.util.JsonUtil;
@@ -16,6 +17,7 @@ import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
+import com.google.common.collect.Lists;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -121,7 +123,7 @@ public class AreaResource extends DataResource<Area> {
 	@Timed
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete Area: {}", ids);
-		areaService.delete(ids, SecurityUtil.getCurrentAuditor());
+		areaService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
 		return ResultBuilder.buildOk("删除区域管理成功");
 	}
 
@@ -130,7 +132,7 @@ public class AreaResource extends DataResource<Area> {
 	@Timed
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock Area: {}", ids);
-		areaService.lockOrUnLock(ids, SecurityUtil.getCurrentAuditor());
+		areaService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
 		return ResultBuilder.buildOk("操作区域管理成功");
 	}
 

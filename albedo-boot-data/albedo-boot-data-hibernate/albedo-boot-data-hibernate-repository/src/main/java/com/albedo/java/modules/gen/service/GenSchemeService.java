@@ -4,6 +4,7 @@ import com.albedo.java.common.domain.base.BaseEntity;
 import com.albedo.java.common.domain.data.DynamicSpecifications;
 import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.repository.service.BaseService;
+import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.gen.domain.GenScheme;
 import com.albedo.java.modules.gen.domain.GenTable;
 import com.albedo.java.modules.gen.domain.GenTemplate;
@@ -29,21 +30,10 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class GenSchemeService extends BaseService<GenSchemeRepository, GenScheme> {
+public class GenSchemeService extends DataService<GenSchemeRepository, GenScheme, String> {
 
     @Resource
     private GenTableRepository genTableRepository;
-
-	@Transactional(readOnly=true)
-	public GenScheme findOne(String id) {
-		return repository.findOne(id);
-	}
-
-	@Transactional(readOnly=true)
-	public Page<GenScheme> findAll(SpecificationDetail<GenScheme> spec, PageModel<GenScheme> pm) {
-		return repository.findAll(spec, pm);
-	}
-
 
 	public List<GenScheme> findAll(String id) {
 		return repository.findAll(DynamicSpecifications.bySearchQueryCondition(QueryCondition.eq(GenTable.F_STATUS, GenTable.FLAG_NORMAL), 

@@ -2,7 +2,7 @@ package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.domain.data.DynamicSpecifications;
 import com.albedo.java.common.domain.data.SpecificationDetail;
-import com.albedo.java.common.repository.service.BaseService;
+import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
 import com.albedo.java.modules.sys.repository.RoleRepository;
@@ -31,7 +31,7 @@ import java.util.Optional;
  */
 @Service
 @Transactional
-public class UserService extends BaseService<UserRepository, User> {
+public class UserService extends DataService<UserRepository, User, String> {
 
     @Resource
     private PersistentTokenRepository persistentTokenRepository;

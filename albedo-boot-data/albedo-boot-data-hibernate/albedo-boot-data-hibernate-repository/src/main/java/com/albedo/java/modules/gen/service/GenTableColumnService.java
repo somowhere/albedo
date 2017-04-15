@@ -2,6 +2,7 @@ package com.albedo.java.modules.gen.service;
 
 import com.albedo.java.common.domain.base.BaseEntity;
 import com.albedo.java.common.repository.service.BaseService;
+import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.gen.domain.GenTableColumn;
 import com.albedo.java.modules.gen.repository.GenTableColumnRepository;
 import com.albedo.java.util.PublicUtil;
@@ -18,7 +19,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Transactional
-public class GenTableColumnService extends BaseService<GenTableColumnRepository, GenTableColumn> {
+public class GenTableColumnService extends DataService<GenTableColumnRepository, GenTableColumn, String> {
 
 
 	public void deleteByTableId(String id, String currentAuditor) {

@@ -4,6 +4,7 @@ import com.albedo.java.common.domain.base.BaseEntity;
 import com.albedo.java.common.domain.data.DynamicSpecifications;
 import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.repository.service.BaseService;
+import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.gen.domain.GenTable;
 import com.albedo.java.modules.gen.domain.GenTableColumn;
 import com.albedo.java.modules.gen.domain.xml.GenConfig;
@@ -12,6 +13,7 @@ import com.albedo.java.modules.gen.util.GenUtil;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
+import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
@@ -31,7 +33,7 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class GenTableService extends BaseService<GenTableRepository, GenTable> {
+public class GenTableService extends DataService<GenTableRepository, GenTable, String> {
 
 	@Autowired
 	private GenTableColumnService genTableColumnService;
@@ -44,14 +46,13 @@ public class GenTableService extends BaseService<GenTableRepository, GenTable> {
 		return genTable;
 	}
 
-	public void delete(String ids, String currentAuditor) {
-		Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id -> {
-			repository.findOneById(id).map(u -> {
-				deleteById(id, currentAuditor);
-				genTableColumnService.deleteByTableId(id, currentAuditor);
-				log.debug("Deleted GenTable: {}", u);
-				return u;
-			}).orElseThrow(() -> new RuntimeMsgException("用户 " + id + " 信息为空，删除失败"));
+	public void delete(List<String> ids, String currentAuditor) {
+		ids.forEach(id -> {
+			GenTable entity =  repository.findOneById(id);
+			Assert.assertNotNull(entity,"对象 " + id + " 信息为空，删除失败" );
+			deleteById(id, currentAuditor);
+			genTableColumnService.deleteByTableId(id, currentAuditor);
+			log.debug("Deleted GenTable: {}", entity);
 		});
 	}
 

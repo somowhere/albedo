@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * REST controller for managing Station.
@@ -42,7 +43,7 @@ public class OrgResource extends DataResource<Org> {
 
 	@RequestMapping(value = "findTreeData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity findTreeData(OrgTreeQuery orgTreeQuery) {
-		JSON rs = orgService.findTreeData(orgTreeQuery);
+		List<Map<String, Object>> rs = orgService.findTreeData(orgTreeQuery, SecurityUtil.getOrgList());
 		return ResultBuilder.buildOk(rs);
 	}
 
@@ -128,7 +129,7 @@ public class OrgResource extends DataResource<Org> {
 	@Timed
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete Org: {}", ids);
-		orgService.delete(ids, SecurityUtil.getCurrentAuditor());
+		orgService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
 		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("删除成功");
 	}
@@ -143,7 +144,7 @@ public class OrgResource extends DataResource<Org> {
 	@Timed
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock User: {}", ids);
-		orgService.lockOrUnLock(ids, SecurityUtil.getCurrentAuditor());
+		orgService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
 		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("操作成功");
 	}

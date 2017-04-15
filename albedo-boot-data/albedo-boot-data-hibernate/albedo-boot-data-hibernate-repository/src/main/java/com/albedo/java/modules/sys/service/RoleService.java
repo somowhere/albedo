@@ -3,6 +3,7 @@ package com.albedo.java.modules.sys.service;
 import com.albedo.java.common.domain.data.DynamicSpecifications;
 import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.repository.service.BaseService;
+import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.util.domain.PageModel;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class RoleService extends BaseService<RoleRepository, Role> {
+public class RoleService extends DataService<RoleRepository, Role, String> {
 
 	@Transactional(readOnly=true)
 	public Page<Role> findAll(PageModel<Role> pm, List<QueryCondition> queryConditions) {

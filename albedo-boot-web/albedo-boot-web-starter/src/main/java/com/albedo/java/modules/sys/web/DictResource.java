@@ -133,7 +133,7 @@ public class DictResource extends DataResource<Dict> {
 	@Timed
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete Dict: {}", ids);
-		dictService.delete(ids, SecurityUtil.getCurrentAuditor());
+		dictService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
 		DictUtil.clearCache();
 		return ResultBuilder.buildOk("删除成功");
 	}
@@ -145,7 +145,7 @@ public class DictResource extends DataResource<Dict> {
 	@Secured(AuthoritiesConstants.ADMIN)
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock User: {}", ids);
-		dictService.lockOrUnLock(ids, SecurityUtil.getCurrentAuditor());
+		dictService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
 		DictUtil.clearCache();
 		return ResultBuilder.buildOk("操作成功");
 	}

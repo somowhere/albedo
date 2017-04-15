@@ -33,7 +33,7 @@
         <dependency>
             <groupId>com.ifrabbit</groupId>
             <artifactId>spring-boot-starter-data-mybatis</artifactId>
-            <version>1.0.15.RELEASE</version>
+            <version>1.0.16.BUILD-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

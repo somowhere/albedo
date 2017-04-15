@@ -28,7 +28,7 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class ModuleService extends TreeService<ModuleRepository, Module> {
+public class ModuleService extends TreeService<ModuleRepository, Module, String> {
 
 	@Transactional(readOnly = true)
 	public List<Map<String, Object>> findTreeData(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {

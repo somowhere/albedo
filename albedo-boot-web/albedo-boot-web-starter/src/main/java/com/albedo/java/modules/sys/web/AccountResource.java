@@ -223,11 +223,10 @@ public class AccountResource extends BaseResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<List<PersistentToken>> getCurrentSessions() {
-        return userRepository.findOneById(SecurityUtil.getCurrentUserId())
-            .map(user -> new ResponseEntity<>(
+        User user = userRepository.findOneById(SecurityUtil.getCurrentUserId());
+        return  new ResponseEntity<>(
                 persistentTokenRepository.findByUser(user),
-                HttpStatus.OK))
-            .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+                HttpStatus.OK);
     }
 
     /**
@@ -251,11 +250,10 @@ public class AccountResource extends BaseResource {
     @Timed
     public void invalidateSession(@PathVariable String series) throws UnsupportedEncodingException {
         String decodedSeries = URLDecoder.decode(series, "UTF-8");
-        userRepository.findOneById(SecurityUtil.getCurrentUserId()).ifPresent(u -> {
-            persistentTokenRepository.findByUser(u).stream()
-                .filter(persistentToken -> StringUtils.equals(persistentToken.getSeries(), decodedSeries))
-                .findAny().ifPresent(t -> persistentTokenRepository.delete(t));
-        });
+        User user = userRepository.findOneById(SecurityUtil.getCurrentUserId());
+        persistentTokenRepository.findByUser(user).stream()
+            .filter(persistentToken -> StringUtils.equals(persistentToken.getSeries(), decodedSeries))
+            .findAny().ifPresent(t -> persistentTokenRepository.delete(t));
     }
 
     /**

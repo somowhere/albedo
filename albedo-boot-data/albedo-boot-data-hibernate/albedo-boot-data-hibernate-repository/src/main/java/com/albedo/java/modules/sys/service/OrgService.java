@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class OrgService extends TreeService<OrgRepository, Org> {
+public class OrgService extends TreeService<OrgRepository, Org, String> {
 
 
 	@Transactional(readOnly = true)

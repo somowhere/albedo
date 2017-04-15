@@ -8,6 +8,7 @@ import com.albedo.java.modules.gen.domain.GenTable;
 import com.albedo.java.modules.gen.service.GenTemplateService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
@@ -106,7 +107,7 @@ public class GenTemplateResource extends DataResource<GenTable> {
 	@Timed
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete GenTable: {}", ids);
-		genTemplateService.delete(ids, SecurityUtil.getCurrentAuditor());
+		genTemplateService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
 		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("删除成功");
 	}
@@ -117,7 +118,7 @@ public class GenTemplateResource extends DataResource<GenTable> {
 	@Secured(AuthoritiesConstants.ADMIN)
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock User: {}", ids);
-		genTemplateService.lockOrUnLock(ids, SecurityUtil.getCurrentAuditor());
+		genTemplateService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
 		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("操作成功");
 	}

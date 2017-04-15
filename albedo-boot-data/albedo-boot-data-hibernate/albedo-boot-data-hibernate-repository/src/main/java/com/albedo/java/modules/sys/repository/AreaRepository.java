@@ -16,7 +16,7 @@ import java.util.Optional;
  * @author admin
  * @version 2017-01-01
  */
-public interface AreaRepository extends TreeRepository<Area> {
+public interface AreaRepository extends TreeRepository<Area, String> {
 
 
 }

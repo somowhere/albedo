@@ -1,0 +1,24 @@
+[[dependencies]]
+= Dependencies
+
+.Declaring a dependency to a Spring Data module
+====
+[source, xml]
+----
+<dependencies>
+  <dependency>
+    <groupId>com.ifrabbit</groupId>
+    <artifactId>spring-data-mybatis</artifactId>
+    <version>{version}</version>
+  </dependency>
+<dependencies>
+----
+====
+
+
+
+[[dependencies.spring-framework]]
+== Spring Framework
+
+The current version of Spring Data modules require Spring Framework in version {springVersion} or better. The modules might also work with an older bugfix version of that minor version. However, using the most recent version within that generation is highly recommended.
+

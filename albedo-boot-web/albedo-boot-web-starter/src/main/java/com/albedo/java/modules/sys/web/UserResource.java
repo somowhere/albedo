@@ -7,6 +7,7 @@ import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.service.UserService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
@@ -163,7 +164,7 @@ public class UserResource extends DataResource<User> {
 //	@Secured(AuthoritiesConstants.ADMIN)
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete User: {}", ids);
-		userService.delete(ids, SecurityUtil.getCurrentAuditor());
+		userService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
 		SecurityUtil.clearUserJedisCache();
 		SecurityUtil.clearUserLocalCache();
 		return ResultBuilder.buildOk("删除成功");
@@ -180,7 +181,7 @@ public class UserResource extends DataResource<User> {
 //	@Secured(AuthoritiesConstants.ADMIN)
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock User: {}", ids);
-		userService.lockOrUnLock(ids, SecurityUtil.getCurrentAuditor());
+		userService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
 		SecurityUtil.clearUserJedisCache();
 		SecurityUtil.clearUserLocalCache();
 		return ResultBuilder.buildOk("操作成功");

@@ -1,0 +1,9 @@
+[[preface]]
+= Preface
+
+[[project]]
+[preface]
+== Project metadata
+
+* Version control - https://github.com/hatunet/spring-data-mybatis
+* Issue - https://github.com/hatunet/spring-data-mybatis/issues

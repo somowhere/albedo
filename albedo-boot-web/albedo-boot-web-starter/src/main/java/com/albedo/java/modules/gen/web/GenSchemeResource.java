@@ -76,9 +76,8 @@ public class GenSchemeResource extends DataResource<GenScheme> {
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	@Timed
 	public ResponseEntity getPage(PageModel<GenScheme> pm) {
-		SpecificationDetail<GenScheme> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
-				QueryCondition.ne(GenScheme.F_STATUS, GenScheme.FLAG_DELETE));
-		Page<GenScheme> page = genSchemeService.findAll(spec, pm);
+
+		Page<GenScheme> page = genSchemeService.findAll(pm);
 		pm.setPageInstance(page);
 		JSON rs = JsonUtil.getInstance().setRecurrenceStr("genTable_name").toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
@@ -140,7 +139,7 @@ public class GenSchemeResource extends DataResource<GenScheme> {
 	@Timed
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock genTable: {}", ids);
-		genSchemeService.lockOrUnLock(ids, SecurityUtil.getCurrentAuditor());
+		genSchemeService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
 		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("操作成功");
 	}
@@ -151,7 +150,7 @@ public class GenSchemeResource extends DataResource<GenScheme> {
 	@Secured(AuthoritiesConstants.ADMIN)
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete User: {}", ids);
-		genSchemeService.delete(ids, SecurityUtil.getCurrentAuditor());
+		genSchemeService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
 		return ResultBuilder.buildOk("删除成功");
 	}
 	

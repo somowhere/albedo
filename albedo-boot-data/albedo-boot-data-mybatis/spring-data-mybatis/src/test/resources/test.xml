@@ -1,0 +1,336 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.springframework.data.mybatis.domain.sample.User">
+    <sql id="TABLE_NAME">DS_USER</sql>
+    <sql id="SEQUENCE">call next value for seq_DS_USER</sql>
+    <sql id="SELECT_CONDITION_INNER"></sql>
+    <resultMap id="ResultMap" type="org.springframework.data.mybatis.domain.sample.User">
+        <id property="id" column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        <result property="age" column="age" javaType="int" jdbcType="INTEGER"/>
+        <result property="active" column="active" javaType="boolean" jdbcType="BIT"/>
+        <result property="binaryData" column="binaryData" javaType="byte" jdbcType="TINYINT"/>
+        <result property="createdAt" column="createdAt" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        <result property="dateOfBirth" column="dateOfBirth" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        <result property="emailAddress" column="emailAddress" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="firstname" column="firstname" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="lastname" column="lastname" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <association property="address" javaType="org.springframework.data.mybatis.domain.sample.Address">
+            <result property="country" column="address.country" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="city" column="address.city" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="streetName" column="address.streetName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="streetNo" column="address.streetNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </association>
+        <association property="manager" javaType="org.springframework.data.mybatis.domain.sample.User">
+            <id property="id" column="manager.id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <result property="age" column="manager.age" javaType="int" jdbcType="INTEGER"/>
+            <result property="active" column="manager.active" javaType="boolean" jdbcType="BIT"/>
+            <result property="binaryData" column="manager.binaryData" javaType="byte" jdbcType="TINYINT"/>
+            <result property="createdAt" column="manager.createdAt" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <result property="dateOfBirth" column="manager.dateOfBirth" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <result property="emailAddress" column="manager.emailAddress" javaType="java.lang.String"
+                    jdbcType="VARCHAR"/>
+            <result property="firstname" column="manager.firstname" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="lastname" column="manager.lastname" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <association property="address" javaType="org.springframework.data.mybatis.domain.sample.Address">
+                <result property="country" column="manager.address.country" javaType="java.lang.String"
+                        jdbcType="VARCHAR"/>
+                <result property="city" column="manager.address.city" javaType="java.lang.String" jdbcType="VARCHAR"/>
+                <result property="streetName" column="manager.address.streetName" javaType="java.lang.String"
+                        jdbcType="VARCHAR"/>
+                <result property="streetNo" column="manager.address.streetNo" javaType="java.lang.String"
+                        jdbcType="VARCHAR"/>
+            </association>
+            <association property="manager" javaType="org.springframework.data.mybatis.domain.sample.User">
+                <result property="id" column="manager.manager.id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            </association>
+        </association>
+        <collection property="bookings" ofType="org.springframework.data.mybatis.domain.sample.Booking">
+            <id property="id" column="bookings.id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <result property="amount" column="bookings.amount" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <result property="serialNumber" column="bookings.serialNumber" javaType="java.lang.String"
+                    jdbcType="VARCHAR"/>
+            <result property="userId" column="bookings.userId" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        </collection>
+        <collection property="colleagues" ofType="org.springframework.data.mybatis.domain.sample.User">
+            <id property="id" column="colleagues.id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <result property="age" column="colleagues.age" javaType="int" jdbcType="INTEGER"/>
+            <result property="active" column="colleagues.active" javaType="boolean" jdbcType="BIT"/>
+            <result property="binaryData" column="colleagues.binaryData" javaType="byte" jdbcType="TINYINT"/>
+            <result property="createdAt" column="colleagues.createdAt" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <result property="dateOfBirth" column="colleagues.dateOfBirth" javaType="java.util.Date"
+                    jdbcType="TIMESTAMP"/>
+            <result property="emailAddress" column="colleagues.emailAddress" javaType="java.lang.String"
+                    jdbcType="VARCHAR"/>
+            <result property="firstname" column="colleagues.firstname" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="lastname" column="colleagues.lastname" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </collection>
+        <collection property="roles" ofType="org.springframework.data.mybatis.domain.sample.Role">
+            <id property="id" column="roles.id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <result property="name" column="roles.name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+    <insert id="_insert" parameterType="org.springframework.data.mybatis.domain.sample.User" lang="XML" keyProperty="id"
+            keyColumn="id"><selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">call
+        identity()</selectKey>
+        <![CDATA[insert into DS_USER(age,active,binary_data,created_at,date_of_birth,EMAIL_ADDRESS,FIRSTNAME,LASTNAME,country,city,street_name,street_no,MANAGER_ID) values(#{age,jdbcType=INTEGER},#{active,jdbcType=BIT},#{binaryData,jdbcType=TINYINT},#{createdAt,jdbcType=TIMESTAMP},#{dateOfBirth,jdbcType=TIMESTAMP},#{emailAddress,jdbcType=VARCHAR},#{firstname,jdbcType=VARCHAR},#{lastname,jdbcType=VARCHAR},#{address.country,jdbcType=VARCHAR},#{address.city,jdbcType=VARCHAR},#{address.streetName,jdbcType=VARCHAR},#{address.streetNo,jdbcType=VARCHAR},#{manager.id,jdbcType=INTEGER})]]>
+    </insert>
+    <update id="_update" parameterType="org.springframework.data.mybatis.domain.sample.User" lang="XML">update DS_USER
+        <set>
+            <if test="age != null">age=#{age,jdbcType=INTEGER},</if>
+            <if test="active != null">active=#{active,jdbcType=BIT},</if>
+            <if test="binaryData != null">binary_data=#{binaryData,jdbcType=TINYINT},</if>
+            <if test="createdAt != null">created_at=#{createdAt,jdbcType=TIMESTAMP},</if>
+            <if test="dateOfBirth != null">date_of_birth=#{dateOfBirth,jdbcType=TIMESTAMP},</if>
+            <if test="emailAddress != null">EMAIL_ADDRESS=#{emailAddress,jdbcType=VARCHAR},</if>
+            <if test="firstname != null">FIRSTNAME=#{firstname,jdbcType=VARCHAR},</if>
+            <if test="lastname != null">LASTNAME=#{lastname,jdbcType=VARCHAR},</if>
+            <if test="address != null and address.country != null">country=#{address.country},</if>
+            <if test="address != null and address.city != null">city=#{address.city},</if>
+            <if test="address != null and address.streetName != null">street_name=#{address.streetName},</if>
+            <if test="address != null and address.streetNo != null">street_no=#{address.streetNo},</if>
+            <if test="manager != null and manager.id != null">MANAGER_ID=#{manager.id},</if>
+        </set>
+        <trim prefix="where" prefixOverrides="and |or ">and id=#{id}</trim>
+    </update>
+    <select id="_getById" parameterType="org.springframework.data.mybatis.domain.sample.User" resultMap="ResultMap"
+            lang="XML">select "user".id as "id","user".age as "age","user".active as "active","user".binary_data as
+        "binaryData","user".created_at as "createdAt","user".date_of_birth as "dateOfBirth","user".EMAIL_ADDRESS as
+        "emailAddress","user".FIRSTNAME as "firstname","user".LASTNAME as "lastname","user".country as
+        "address.country","user".city as "address.city","user".street_name as "address.streetName","user".street_no as
+        "address.streetNo","user.manager".id as "manager.id","user.manager".age as "manager.age","user.manager".active
+        as "manager.active","user.manager".binary_data as "manager.binaryData","user.manager".created_at as
+        "manager.createdAt","user.manager".date_of_birth as "manager.dateOfBirth","user.manager".EMAIL_ADDRESS as
+        "manager.emailAddress","user.manager".FIRSTNAME as "manager.firstname","user.manager".LASTNAME as
+        "manager.lastname","user.manager".country as "manager.address.country","user.manager".city as
+        "manager.address.city","user.manager".street_name as "manager.address.streetName","user.manager".street_no as
+        "manager.address.streetNo","user.manager".MANAGER_ID as "manager.manager.id","user.bookings".id as
+        "bookings.id","user.bookings".amount as "bookings.amount","user.bookings".serial_number as
+        "bookings.serialNumber","user.bookings".user_id as "bookings.userId","user.colleagues".id as
+        "colleagues.id","user.colleagues".age as "colleagues.age","user.colleagues".active as
+        "colleagues.active","user.colleagues".binary_data as "colleagues.binaryData","user.colleagues".created_at as
+        "colleagues.createdAt","user.colleagues".date_of_birth as
+        "colleagues.dateOfBirth","user.colleagues".EMAIL_ADDRESS as
+        "colleagues.emailAddress","user.colleagues".FIRSTNAME as "colleagues.firstname","user.colleagues".LASTNAME as
+        "colleagues.lastname","user.colleagues".country as "colleagues.address.country","user.colleagues".city as
+        "colleagues.address.city","user.colleagues".street_name as
+        "colleagues.address.streetName","user.colleagues".street_no as
+        "colleagues.address.streetNo","user.colleagues".MANAGER_ID as "colleagues.manager.id","user.roles".id as
+        "roles.id","user.roles".name as "roles.name","user.roles".group_id as "roles.group.id" from DS_USER "user" left
+        outer join DS_USER "user.manager" on "user".MANAGER_ID="user.manager".id left outer join ds_booking
+        "user.bookings" on "user".id="user.bookings".user_id left outer join DS_USER_DS_USER on
+        DS_USER_DS_USER.DS_USER_ID="user".ID left outer join DS_USER "user.colleagues" on
+        DS_USER_DS_USER.COLLEAGUES_ID="user.colleagues".ID left outer join DS_USER_DS_ROLE on
+        DS_USER_DS_ROLE.DS_USER_id="user".id left outer join DS_ROLE "user.roles" on
+        DS_USER_DS_ROLE.DS_ROLE_id="user.roles".id
+        <trim prefix=" where " prefixOverrides="and |or ">and "user".id=#{id}</trim>
+    </select>
+    <select id="_findAll" resultMap="ResultMap" lang="XML">select "user".id as "id","user".age as "age","user".active as
+        "active","user".binary_data as "binaryData","user".created_at as "createdAt","user".date_of_birth as
+        "dateOfBirth","user".EMAIL_ADDRESS as "emailAddress","user".FIRSTNAME as "firstname","user".LASTNAME as
+        "lastname","user".country as "address.country","user".city as "address.city","user".street_name as
+        "address.streetName","user".street_no as "address.streetNo","user.manager".id as "manager.id","user.manager".age
+        as "manager.age","user.manager".active as "manager.active","user.manager".binary_data as
+        "manager.binaryData","user.manager".created_at as "manager.createdAt","user.manager".date_of_birth as
+        "manager.dateOfBirth","user.manager".EMAIL_ADDRESS as "manager.emailAddress","user.manager".FIRSTNAME as
+        "manager.firstname","user.manager".LASTNAME as "manager.lastname","user.manager".country as
+        "manager.address.country","user.manager".city as "manager.address.city","user.manager".street_name as
+        "manager.address.streetName","user.manager".street_no as "manager.address.streetNo","user.manager".MANAGER_ID as
+        "manager.manager.id","user.bookings".id as "bookings.id","user.bookings".amount as
+        "bookings.amount","user.bookings".serial_number as "bookings.serialNumber","user.bookings".user_id as
+        "bookings.userId","user.colleagues".id as "colleagues.id","user.colleagues".age as
+        "colleagues.age","user.colleagues".active as "colleagues.active","user.colleagues".binary_data as
+        "colleagues.binaryData","user.colleagues".created_at as "colleagues.createdAt","user.colleagues".date_of_birth
+        as "colleagues.dateOfBirth","user.colleagues".EMAIL_ADDRESS as
+        "colleagues.emailAddress","user.colleagues".FIRSTNAME as "colleagues.firstname","user.colleagues".LASTNAME as
+        "colleagues.lastname","user.colleagues".country as "colleagues.address.country","user.colleagues".city as
+        "colleagues.address.city","user.colleagues".street_name as
+        "colleagues.address.streetName","user.colleagues".street_no as
+        "colleagues.address.streetNo","user.colleagues".MANAGER_ID as "colleagues.manager.id","user.roles".id as
+        "roles.id","user.roles".name as "roles.name","user.roles".group_id as "roles.group.id" from DS_USER "user" left
+        outer join DS_USER "user.manager" on "user".MANAGER_ID="user.manager".id left outer join ds_booking
+        "user.bookings" on "user".id="user.bookings".user_id left outer join DS_USER_DS_USER on
+        DS_USER_DS_USER.DS_USER_ID="user".ID left outer join DS_USER "user.colleagues" on
+        DS_USER_DS_USER.COLLEAGUES_ID="user.colleagues".ID left outer join DS_USER_DS_ROLE on
+        DS_USER_DS_ROLE.DS_USER_id="user".id left outer join DS_ROLE "user.roles" on
+        DS_USER_DS_ROLE.DS_ROLE_id="user.roles".id
+        <if test="_condition != null">
+            <trim prefix=" where " prefixOverrides="and |or ">
+                <if test="_condition != null and _condition.firstname != null">and
+                    "user".FIRSTNAME=#{_condition.firstname}
+                </if>
+                <if test="_condition != null and _condition.lastname != null">and "user".LASTNAME like
+                    #{_condition.lastname}
+                </if>
+            </trim>
+        </if>
+        <if test="_ids != null">where "user".id in
+            <foreach item="item" index="index" collection="_ids" open="(" separator="," close=")">#{item}</foreach>
+        </if>
+        <if test="_sorts != null">
+            <bind name="_columnsMap"
+                  value='#{"id":"\"user\".id","age":"\"user\".age","active":"\"user\".active","binaryData":"\"user\".binary_data","createdAt":"\"user\".created_at","dateOfBirth":"\"user\".date_of_birth","emailAddress":"\"user\".EMAIL_ADDRESS","firstname":"\"user\".FIRSTNAME","lastname":"\"user\".LASTNAME","address.country":"\"user\".country","address.city":"\"user\".city","address.streetName":"\"user\".street_name","address.streetNo":"\"user\".street_no","manager.id":"\"user.manager\".id","manager.age":"\"user.manager\".age","manager.active":"\"user.manager\".active","manager.binaryData":"\"user.manager\".binary_data","manager.createdAt":"\"user.manager\".created_at","manager.dateOfBirth":"\"user.manager\".date_of_birth","manager.emailAddress":"\"user.manager\".EMAIL_ADDRESS","manager.firstname":"\"user.manager\".FIRSTNAME","manager.lastname":"\"user.manager\".LASTNAME","manager.address.country":"\"user.manager\".country","manager.address.city":"\"user.manager\".city","manager.address.streetName":"\"user.manager\".street_name","manager.address.streetNo":"\"user.manager\".street_no","manager.manager.id":"\"user.manager\".MANAGER_ID","bookings.id":"\"user.bookings\".id","bookings.amount":"\"user.bookings\".amount","bookings.serialNumber":"\"user.bookings\".serial_number","bookings.userId":"\"user.bookings\".user_id","colleagues.id":"\"user.colleagues\".id","colleagues.age":"\"user.colleagues\".age","colleagues.active":"\"user.colleagues\".active","colleagues.binaryData":"\"user.colleagues\".binary_data","colleagues.createdAt":"\"user.colleagues\".created_at","colleagues.dateOfBirth":"\"user.colleagues\".date_of_birth","colleagues.emailAddress":"\"user.colleagues\".EMAIL_ADDRESS","colleagues.firstname":"\"user.colleagues\".FIRSTNAME","colleagues.lastname":"\"user.colleagues\".LASTNAME","colleagues.address.country":"\"user.colleagues\".country","colleagues.address.city":"\"user.colleagues\".city","colleagues.address.streetName":"\"user.colleagues\".street_name","colleagues.address.streetNo":"\"user.colleagues\".street_no","colleagues.manager.id":"\"user.colleagues\".MANAGER_ID","roles.id":"\"user.roles\".id","roles.name":"\"user.roles\".name","roles.group.id":"\"user.roles\".group_id"}'/>
+            order by
+            <foreach item="item" index="idx" collection="_sorts" open="" separator="," close=""><if
+                    test="item.ignoreCase">lower(</if>${_columnsMap[item.property]}<if test="item.ignoreCase">)</if> ${item.direction}
+            </foreach>
+        </if>
+    </select>
+    <select id="_findBasicAll" resultMap="ResultMap" lang="XML">select "user".id as "id","user".age as
+        "age","user".active as "active","user".binary_data as "binaryData","user".created_at as
+        "createdAt","user".date_of_birth as "dateOfBirth","user".EMAIL_ADDRESS as "emailAddress","user".FIRSTNAME as
+        "firstname","user".LASTNAME as "lastname","user".country as "address.country","user".city as
+        "address.city","user".street_name as "address.streetName","user".street_no as
+        "address.streetNo","user".MANAGER_ID as "manager.id" from DS_USER "user"
+        <if test="_condition != null">
+            <trim prefix=" where " prefixOverrides="and |or ">
+                <if test="_condition != null and _condition.firstname != null">and
+                    "user".FIRSTNAME=#{_condition.firstname}
+                </if>
+                <if test="_condition != null and _condition.lastname != null">and "user".LASTNAME like
+                    #{_condition.lastname}
+                </if>
+            </trim>
+        </if>
+        <if test="_ids != null">where "user".id in
+            <foreach item="item" index="index" collection="_ids" open="(" separator="," close=")">#{item}</foreach>
+        </if>
+        <if test="_sorts != null">
+            <bind name="_columnsMap"
+                  value='#{"id":"\"user\".id","age":"\"user\".age","active":"\"user\".active","binaryData":"\"user\".binary_data","createdAt":"\"user\".created_at","dateOfBirth":"\"user\".date_of_birth","emailAddress":"\"user\".EMAIL_ADDRESS","firstname":"\"user\".FIRSTNAME","lastname":"\"user\".LASTNAME","address.country":"\"user\".country","address.city":"\"user\".city","address.streetName":"\"user\".street_name","address.streetNo":"\"user\".street_no","manager.id":"\"user\".MANAGER_ID"}'/>
+            order by
+            <foreach item="item" index="idx" collection="_sorts" open="" separator="," close=""><if
+                    test="item.ignoreCase">lower(</if>${_columnsMap[item.property]}<if test="item.ignoreCase">)</if> ${item.direction}
+            </foreach>
+        </if>
+    </select>
+    <select id="_count" resultType="long" lang="XML">select count(*) from DS_USER "user"</select>
+    <delete id="_deleteById" parameterType="org.springframework.data.mybatis.domain.sample.User" lang="XML">delete from
+        DS_USER "user"
+        <trim prefix=" where " prefixOverrides="and |or ">and id=#{id}</trim>
+    </delete>
+    <delete id="_deleteAll">truncate table DS_USER </delete>
+    <select id="_findByPager" resultMap="ResultMap" lang="XML">select "user".id as "id","user".age as
+        "age","user".active as "active","user".binary_data as "binaryData","user".created_at as
+        "createdAt","user".date_of_birth as "dateOfBirth","user".EMAIL_ADDRESS as "emailAddress","user".FIRSTNAME as
+        "firstname","user".LASTNAME as "lastname","user".country as "address.country","user".city as
+        "address.city","user".street_name as "address.streetName","user".street_no as
+        "address.streetNo","user.manager".id as "manager.id","user.manager".age as "manager.age","user.manager".active
+        as "manager.active","user.manager".binary_data as "manager.binaryData","user.manager".created_at as
+        "manager.createdAt","user.manager".date_of_birth as "manager.dateOfBirth","user.manager".EMAIL_ADDRESS as
+        "manager.emailAddress","user.manager".FIRSTNAME as "manager.firstname","user.manager".LASTNAME as
+        "manager.lastname","user.manager".country as "manager.address.country","user.manager".city as
+        "manager.address.city","user.manager".street_name as "manager.address.streetName","user.manager".street_no as
+        "manager.address.streetNo","user.manager".MANAGER_ID as "manager.manager.id","user.bookings".id as
+        "bookings.id","user.bookings".amount as "bookings.amount","user.bookings".serial_number as
+        "bookings.serialNumber","user.bookings".user_id as "bookings.userId","user.colleagues".id as
+        "colleagues.id","user.colleagues".age as "colleagues.age","user.colleagues".active as
+        "colleagues.active","user.colleagues".binary_data as "colleagues.binaryData","user.colleagues".created_at as
+        "colleagues.createdAt","user.colleagues".date_of_birth as
+        "colleagues.dateOfBirth","user.colleagues".EMAIL_ADDRESS as
+        "colleagues.emailAddress","user.colleagues".FIRSTNAME as "colleagues.firstname","user.colleagues".LASTNAME as
+        "colleagues.lastname","user.colleagues".country as "colleagues.address.country","user.colleagues".city as
+        "colleagues.address.city","user.colleagues".street_name as
+        "colleagues.address.streetName","user.colleagues".street_no as
+        "colleagues.address.streetNo","user.colleagues".MANAGER_ID as "colleagues.manager.id","user.roles".id as
+        "roles.id","user.roles".name as "roles.name","user.roles".group_id as "roles.group.id" from DS_USER "user" left
+        outer join DS_USER "user.manager" on "user".MANAGER_ID="user.manager".id left outer join ds_booking
+        "user.bookings" on "user".id="user.bookings".user_id left outer join DS_USER_DS_USER on
+        DS_USER_DS_USER.DS_USER_ID="user".ID left outer join DS_USER "user.colleagues" on
+        DS_USER_DS_USER.COLLEAGUES_ID="user.colleagues".ID left outer join DS_USER_DS_ROLE on
+        DS_USER_DS_ROLE.DS_USER_id="user".id left outer join DS_ROLE "user.roles" on
+        DS_USER_DS_ROLE.DS_ROLE_id="user.roles".id
+        <if test="_condition != null">
+            <trim prefix=" where " prefixOverrides="and |or ">
+                <if test="_condition != null and _condition.firstname != null">and
+                    "user".FIRSTNAME=#{_condition.firstname}
+                </if>
+                <if test="_condition != null and _condition.lastname != null">and "user".LASTNAME like
+                    #{_condition.lastname}
+                </if>
+            </trim>
+        </if>
+        <if test="_sorts != null">
+            <bind name="_columnsMap"
+                  value='#{"id":"\"user\".id","age":"\"user\".age","active":"\"user\".active","binaryData":"\"user\".binary_data","createdAt":"\"user\".created_at","dateOfBirth":"\"user\".date_of_birth","emailAddress":"\"user\".EMAIL_ADDRESS","firstname":"\"user\".FIRSTNAME","lastname":"\"user\".LASTNAME","address.country":"\"user\".country","address.city":"\"user\".city","address.streetName":"\"user\".street_name","address.streetNo":"\"user\".street_no","manager.id":"\"user.manager\".id","manager.age":"\"user.manager\".age","manager.active":"\"user.manager\".active","manager.binaryData":"\"user.manager\".binary_data","manager.createdAt":"\"user.manager\".created_at","manager.dateOfBirth":"\"user.manager\".date_of_birth","manager.emailAddress":"\"user.manager\".EMAIL_ADDRESS","manager.firstname":"\"user.manager\".FIRSTNAME","manager.lastname":"\"user.manager\".LASTNAME","manager.address.country":"\"user.manager\".country","manager.address.city":"\"user.manager\".city","manager.address.streetName":"\"user.manager\".street_name","manager.address.streetNo":"\"user.manager\".street_no","manager.manager.id":"\"user.manager\".MANAGER_ID","bookings.id":"\"user.bookings\".id","bookings.amount":"\"user.bookings\".amount","bookings.serialNumber":"\"user.bookings\".serial_number","bookings.userId":"\"user.bookings\".user_id","colleagues.id":"\"user.colleagues\".id","colleagues.age":"\"user.colleagues\".age","colleagues.active":"\"user.colleagues\".active","colleagues.binaryData":"\"user.colleagues\".binary_data","colleagues.createdAt":"\"user.colleagues\".created_at","colleagues.dateOfBirth":"\"user.colleagues\".date_of_birth","colleagues.emailAddress":"\"user.colleagues\".EMAIL_ADDRESS","colleagues.firstname":"\"user.colleagues\".FIRSTNAME","colleagues.lastname":"\"user.colleagues\".LASTNAME","colleagues.address.country":"\"user.colleagues\".country","colleagues.address.city":"\"user.colleagues\".city","colleagues.address.streetName":"\"user.colleagues\".street_name","colleagues.address.streetNo":"\"user.colleagues\".street_no","colleagues.manager.id":"\"user.colleagues\".MANAGER_ID","roles.id":"\"user.roles\".id","roles.name":"\"user.roles\".name","roles.group.id":"\"user.roles\".group_id"}'/>
+            order by
+            <foreach item="item" index="idx" collection="_sorts" open="" separator="," close=""><if
+                    test="item.ignoreCase">lower(</if>${_columnsMap[item.property]}<if test="item.ignoreCase">)</if> ${item.direction}
+            </foreach>
+        </if>
+        limit #{pageSize} offset #{offset}
+    </select>
+    <select id="_findBasicByPager" resultMap="ResultMap" lang="XML">select "user".id as "id","user".age as
+        "age","user".active as "active","user".binary_data as "binaryData","user".created_at as
+        "createdAt","user".date_of_birth as "dateOfBirth","user".EMAIL_ADDRESS as "emailAddress","user".FIRSTNAME as
+        "firstname","user".LASTNAME as "lastname","user".country as "address.country","user".city as
+        "address.city","user".street_name as "address.streetName","user".street_no as
+        "address.streetNo","user".MANAGER_ID as "manager.id" from DS_USER "user"
+        <if test="_condition != null">
+            <trim prefix=" where " prefixOverrides="and |or ">
+                <if test="_condition != null and _condition.firstname != null">and
+                    "user".FIRSTNAME=#{_condition.firstname}
+                </if>
+                <if test="_condition != null and _condition.lastname != null">and "user".LASTNAME like
+                    #{_condition.lastname}
+                </if>
+            </trim>
+        </if>
+        <if test="_sorts != null">
+            <bind name="_columnsMap"
+                  value='#{"id":"\"user\".id","age":"\"user\".age","active":"\"user\".active","binaryData":"\"user\".binary_data","createdAt":"\"user\".created_at","dateOfBirth":"\"user\".date_of_birth","emailAddress":"\"user\".EMAIL_ADDRESS","firstname":"\"user\".FIRSTNAME","lastname":"\"user\".LASTNAME","address.country":"\"user\".country","address.city":"\"user\".city","address.streetName":"\"user\".street_name","address.streetNo":"\"user\".street_no","manager.id":"\"user\".MANAGER_ID"}'/>
+            order by
+            <foreach item="item" index="idx" collection="_sorts" open="" separator="," close=""><if
+                    test="item.ignoreCase">lower(</if>${_columnsMap[item.property]}<if test="item.ignoreCase">)</if> ${item.direction}
+            </foreach>
+        </if>
+        limit #{pageSize} offset #{offset}
+    </select>
+    <select id="_countByCondition" resultType="long" lang="XML">select count(*) from DS_USER "user" left outer join
+        DS_USER "user.manager" on "user".MANAGER_ID="user.manager".id left outer join ds_booking "user.bookings" on
+        "user".id="user.bookings".user_id left outer join DS_USER_DS_USER on DS_USER_DS_USER.DS_USER_ID="user".ID left
+        outer join DS_USER "user.colleagues" on DS_USER_DS_USER.COLLEAGUES_ID="user.colleagues".ID left outer join
+        DS_USER_DS_ROLE on DS_USER_DS_ROLE.DS_USER_id="user".id left outer join DS_ROLE "user.roles" on
+        DS_USER_DS_ROLE.DS_ROLE_id="user.roles".id
+        <if test="_condition != null">
+            <trim prefix=" where " prefixOverrides="and |or ">
+                <if test="_condition != null and _condition.firstname != null">and
+                    "user".FIRSTNAME=#{_condition.firstname}
+                </if>
+                <if test="_condition != null and _condition.lastname != null">and "user".LASTNAME like
+                    #{_condition.lastname}
+                </if>
+            </trim>
+        </if>
+    </select>
+    <select id="_countBasicByCondition" resultType="long" lang="XML">select count(*) from DS_USER "user"
+        <if test="_condition != null">
+            <trim prefix=" where " prefixOverrides="and |or ">
+                <if test="_condition != null and _condition.firstname != null">and
+                    "user".FIRSTNAME=#{_condition.firstname}
+                </if>
+                <if test="_condition != null and _condition.lastname != null">and "user".LASTNAME like
+                    #{_condition.lastname}
+                </if>
+            </trim>
+        </if>
+    </select>
+    <select id="_getBasicById" parameterType="org.springframework.data.mybatis.domain.sample.User" resultMap="ResultMap"
+            lang="XML">select "user".id as "id","user".age as "age","user".active as "active","user".binary_data as
+        "binaryData","user".created_at as "createdAt","user".date_of_birth as "dateOfBirth","user".EMAIL_ADDRESS as
+        "emailAddress","user".FIRSTNAME as "firstname","user".LASTNAME as "lastname","user".country as
+        "address.country","user".city as "address.city","user".street_name as "address.streetName","user".street_no as
+        "address.streetNo","user".MANAGER_ID as "manager.id" from DS_USER "user"
+        <trim prefix=" where " prefixOverrides="and |or ">and "user".id=#{id}</trim>
+    </select>
+    <delete id="_deleteByCondition" lang="XML">delete from DS_USER "user"
+        <if test="_condition != null">
+            <trim prefix=" where " prefixOverrides="and |or ">
+                <if test="_condition != null and _condition.firstname != null">and
+                    "user".FIRSTNAME=#{_condition.firstname}
+                </if>
+                <if test="_condition != null and _condition.lastname != null">and "user".LASTNAME like
+                    #{_condition.lastname}
+                </if>
+            </trim>
+        </if>
+    </delete>
+</mapper>
