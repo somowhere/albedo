@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -16,10 +18,26 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public class SpecificationDetail<T> implements Serializable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
+
 	protected static Logger logger = LoggerFactory.getLogger(SpecificationDetail.class);
+	public Class<T> persistentClass;
+
+	public SpecificationDetail<T> setPersistentClass(Class<T> persistentClass) {
+		this.persistentClass = persistentClass;
+		return this;
+	}
+	public SpecificationDetail(){
+		Class<?> c = getClass();
+		Type type = c.getGenericSuperclass();
+		if (type instanceof ParameterizedType) {
+			Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
+			persistentClass = (Class<T>) parameterizedType[0];
+		}
+	}
+
 	/**
 	 * 连接条件
 	 */
@@ -45,6 +63,9 @@ public class SpecificationDetail<T> implements Serializable {
 	private List<QueryCondition> andQueryConditions = Lists.newArrayList();
 
 	public List<QueryCondition> getAndQueryConditions() {
+		if(persistentClass!=null && PublicUtil.isNotEmpty(andQueryConditions)){
+			andQueryConditions.forEach(item -> item.setPersistentClass(persistentClass));
+		}
 		return andQueryConditions;
 	}
 
@@ -53,6 +74,9 @@ public class SpecificationDetail<T> implements Serializable {
 	}
 
 	public List<QueryCondition> getOrQueryConditions() {
+		if(persistentClass!=null && PublicUtil.isNotEmpty(orQueryConditions)){
+			orQueryConditions.forEach(item-> item.setPersistentClass(persistentClass));
+		}
 		return orQueryConditions;
 	}
 
@@ -92,7 +116,8 @@ public class SpecificationDetail<T> implements Serializable {
 			}
 		}
 		if (list == null) list = Lists.newArrayList();
-		this.andQueryConditions.addAll(list);
+		List<QueryCondition> rsList = Lists.newArrayList(list);
+		this.andQueryConditions.addAll(rsList);
 		return this;
 	}
 
@@ -149,7 +174,8 @@ public class SpecificationDetail<T> implements Serializable {
 			}
 		}
 		if (list == null) list = Lists.newArrayList();
-		this.orQueryConditions.addAll(list);
+		List<QueryCondition> rsList = Lists.newArrayList(list);
+		this.orQueryConditions.addAll(rsList);
 		return this;
 	}
 
@@ -232,4 +258,5 @@ public class SpecificationDetail<T> implements Serializable {
 			this.orders.clear();
 		return this;
 	}
+
 }

@@ -6,6 +6,7 @@ import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.gen.domain.GenScheme;
 import com.albedo.java.modules.gen.domain.GenTable;
 import com.albedo.java.modules.gen.domain.xml.GenConfig;
+import com.albedo.java.modules.gen.repository.GenSchemeRepository;
 import com.albedo.java.modules.gen.service.GenSchemeService;
 import com.albedo.java.modules.gen.service.GenTableService;
 import com.albedo.java.modules.gen.util.GenUtil;
@@ -39,7 +40,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "${albedo.adminPath}/gen/genScheme")
-public class GenSchemeResource extends DataResource<GenScheme> {
+public class GenSchemeResource extends DataResource<GenSchemeService, GenScheme> {
 
 	@Resource
 	private GenSchemeService genSchemeService;

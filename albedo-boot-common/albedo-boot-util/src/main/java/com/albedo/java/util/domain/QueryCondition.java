@@ -1,10 +1,20 @@
 package com.albedo.java.util.domain;
 
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.base.Reflections;
+import com.alibaba.fastjson.annotation.JSONField;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.mybatis.annotations.Column;
+import org.springframework.data.mybatis.annotations.Entity;
+import org.springframework.util.StringUtils;
 
+@Slf4j @Data
 public class QueryCondition implements Comparable<QueryCondition>, java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	private  Class<?> persistentClass;
 	/*** 节点 */
 	public static final String F_FILEDNODE = "fieldNode";
 	/*** 实体属性 注意区分大小写 */
@@ -239,7 +249,7 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
 		return new QueryCondition(property, QueryCondition.Operator.isNotNull, null);
 	}
 
-	public QueryCondition() {
+	public QueryCondition(){
 	}
 
 	public QueryCondition(String fieldNode, String fieldName, Operator operate, Object value) {
@@ -269,6 +279,25 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
 		}
 		return fieldName;
 	}
+
+	@JSONField(serialize = false)
+	public String getFieldRealColumnName() {
+		try {
+			if(persistentClass!=null && PublicUtil.isNotEmpty(getFieldName())){
+				Entity entity = Reflections.getAnnotation(persistentClass, Entity.class);
+				String quota = null != entity && StringUtils.hasText(entity.name()) ? entity.name():
+						StringUtils.uncapitalize(persistentClass.getSimpleName());
+				Column column = Reflections.getAnnotation(persistentClass, fieldName, Column.class);
+				if(column!=null && PublicUtil.isNotEmpty(column.name())){
+					fieldName = quota+"."+column.name();
+				}
+			}
+		}catch (Exception e){
+			log.warn(e.getMessage());
+		}
+		return fieldName;
+	}
+
 
 	public void setFieldName(String fieldName) {
 		this.fieldName = fieldName;

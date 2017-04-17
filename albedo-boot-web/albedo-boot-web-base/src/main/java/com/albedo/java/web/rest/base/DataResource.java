@@ -1,28 +1,27 @@
 package com.albedo.java.web.rest.base;
 
-import com.albedo.java.common.data.mybatis.persistence.BaseEntity;
-import com.albedo.java.common.data.mybatis.persistence.data.JpaCustomeRepository;
+import com.albedo.java.common.domain.base.DataEntity;
+import com.albedo.java.common.service.DataService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
-
 /** 基础控制器支持类 copyright 2014 albedo all right reserved author MrLi created on 2014年10月15日 下午4:04:00 */
-public class DataResource<T extends BaseEntity> extends BaseResource {
+public class DataResource<Service extends DataService, T extends DataEntity> extends BaseResource {
 
-	@Resource
-	protected JpaCustomeRepository<T> jpaCustomeRepository;
+	@Autowired
+	protected Service service;
 
 	@ResponseBody
 	@RequestMapping(value = "checkByProperty", method= RequestMethod.GET)
 	public synchronized boolean checkByProperty(T entity) {
-		return jpaCustomeRepository.doCheckByProperty(entity);
+		return service.doCheckByProperty(entity);
 	}
 	@ResponseBody
 	@RequestMapping(value = "checkByPK", method= RequestMethod.GET)
 	public synchronized boolean checkByPK(T entity) {
-		return jpaCustomeRepository.doCheckByPK(entity);
+		return service.doCheckByPK(entity);
 	}
 
 //	@RequestMapping(value = "findJson")

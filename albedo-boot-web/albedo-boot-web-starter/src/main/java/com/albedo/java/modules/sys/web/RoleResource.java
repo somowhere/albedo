@@ -2,6 +2,7 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Role;
+import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
@@ -30,7 +31,7 @@ import java.net.URISyntaxException;
  */
 @Controller
 @RequestMapping("${albedo.adminPath}/sys/role")
-public class RoleResource extends DataResource<Role> {
+public class RoleResource extends DataResource<RoleService, Role> {
 
 	@Resource
 	private RoleService roleService;

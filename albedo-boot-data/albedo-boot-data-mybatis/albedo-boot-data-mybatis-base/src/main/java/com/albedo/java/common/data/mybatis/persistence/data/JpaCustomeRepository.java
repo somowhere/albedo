@@ -12,19 +12,6 @@ import java.util.Map;
 
 public interface JpaCustomeRepository<T extends GeneralEntity> {
 
-	T findBasicOne(Map<String, Object> paramsMap, String... columns);
-
-	List<T> findBasicAll(Map<String, Object> paramsMap, String... columns);
-
-	List<T> findBasicAll(Sort sort, Map<String, Object> paramsMap, String... columns);
-
-	Page<T> findBasicAll(Pageable pageable, Map<String, Object> paramsMap, String... columns);
-
-	Long countBasicAll(Map<String, Object> paramsMap);
-
-    boolean doCheckByProperty(T entity);
-
-	boolean doCheckByPK(T entity);
 
     List<ComboData> findJson(Combo item);
 }

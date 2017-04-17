@@ -3,6 +3,7 @@ package com.albedo.java.modules.gen.web;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.gen.domain.GenTable;
+import com.albedo.java.modules.gen.repository.GenTableRepository;
 import com.albedo.java.modules.gen.service.GenTemplateService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
@@ -32,7 +33,7 @@ import java.net.URISyntaxException;
  */
 @Controller
 @RequestMapping(value = "${albedo.adminPath}/gen/genTemplate")
-public class GenTemplateResource extends DataResource<GenTable> {
+public class GenTemplateResource extends DataResource<GenTemplateService, GenTable> {
 
 	@Resource
 	private GenTemplateService genTemplateService;

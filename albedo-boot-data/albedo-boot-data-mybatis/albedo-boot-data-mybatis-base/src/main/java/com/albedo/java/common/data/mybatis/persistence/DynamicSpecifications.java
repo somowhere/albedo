@@ -14,6 +14,8 @@ public class DynamicSpecifications {
 	public static final String MYBITS_SEARCH_PARAMS_MAP = "paramsMap";
 
 	public static final String MYBITS_SEARCH_DSF = "_sqlConditionDsf";
+	public static final String MYBITS_SEARCH_CONDITION = "_condition";
+
 
 	public static <T> SpecificationDetail<T> bySearchQueryCondition(final List<QueryCondition> queryConditions) {
 		return new SpecificationDetail<T>().andAll(queryConditions);
@@ -30,10 +32,12 @@ public class DynamicSpecifications {
 	public static <T> SpecificationDetail<T> buildSpecification(String queryConditionJson, QueryCondition... conditions) {
 		return buildSpecification(queryConditionJson, null, conditions);
 	}
-
-	public static <T> SpecificationDetail<T> buildSpecification(String queryConditionJson, List<QueryCondition> list, QueryCondition... conditions) {
+	public static <T> SpecificationDetail<T> buildSpecification(String queryConditionJson,
+																List<QueryCondition> list,
+																Class<T> persistentClass,
+																QueryCondition... conditions) {
 		if (list == null) list = Lists.newArrayList();
-		
+
 		if (PublicUtil.isNotEmpty(queryConditionJson)) {
 			try {
 				list.addAll(JSONArray.parseArray(queryConditionJson, QueryCondition.class));
@@ -42,8 +46,13 @@ public class DynamicSpecifications {
 						"] is not json or other error", e.getMessage()));
 			}
 		}
-		
-		return new SpecificationDetail<T>().andAll(list).and(conditions);
+
+		return new SpecificationDetail<T>().andAll(list).setPersistentClass(persistentClass).and(conditions);
+	}
+	public static <T> SpecificationDetail<T> buildSpecification(String queryConditionJson,
+																List<QueryCondition> list,
+																QueryCondition... conditions) {
+		return buildSpecification(queryConditionJson, list, null, conditions);
 	}
 
 }

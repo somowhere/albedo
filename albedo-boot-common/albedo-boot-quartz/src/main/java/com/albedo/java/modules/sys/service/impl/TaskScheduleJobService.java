@@ -53,7 +53,9 @@ import com.albedo.java.util.spring.SpringContextHolder;
 @ConditionalOnProperty(name = Globals.ALBEDO_QUARTZENABLED)
 @Service
 @Transactional
-public class TaskScheduleJobService extends DataService<TaskScheduleJobRepository, TaskScheduleJob, String> implements ITaskScheduleJobService {
+public class TaskScheduleJobService extends DataService<TaskScheduleJobRepository, TaskScheduleJob, String>
+//		implements ITaskScheduleJobService 
+{
 
 	@Autowired
 	private Scheduler scheduler;
@@ -80,12 +82,12 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
 		log.info("init database job over...");
 	}
 
-	@Override
+	 
 	public void delete(String taskTaskScheduleJobId, String currentUserId) {
 
 	}
 
-	@Override
+	 
 	public void lockOrUnLock(String taskTaskScheduleJobId, String currentUserId) {
 
 	}
@@ -97,7 +99,6 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
 	 * com.albedo.java.modules.sys.service.ITaskScheduleJobService#findOne(java.
 	 * lang.String)
 	 */
-	@Override
 	@Transactional(readOnly = true)
 	public TaskScheduleJob findOne(String id) {
 		return repository.findOne(id);
@@ -116,7 +117,6 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
 	 * albedo.java.common.domain.data.SpecificationDetail,
 	 * com.albedo.java.util.domain.PageModel)
 	 */
-	@Override
 	@Transactional(readOnly = true)
 	public PageModel<TaskScheduleJob> findAll(PageModel<TaskScheduleJob> pm, List<QueryCondition> queryConditions) {
 		SpecificationDetail<TaskScheduleJob> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
@@ -131,7 +131,6 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
 	 * @see
 	 * com.albedo.java.modules.sys.service.ITaskScheduleJobService#getAllTask()
 	 */
-	@Override
 	public List<TaskScheduleJob> getAllTask() {
 		return repository.findAll();
 	}
@@ -198,7 +197,6 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
 	 * com.albedo.java.modules.sys.service.ITaskScheduleJobService#getTaskById(
 	 * java.lang.String)
 	 */
-	@Override
 	public TaskScheduleJob getTaskById(String jobId) {
 		return repository.findOne(jobId);
 	}
@@ -210,7 +208,6 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
 	 * com.albedo.java.modules.sys.service.ITaskScheduleJobService#changeStatus(
 	 * java.lang.String, java.lang.String)
 	 */
-	@Override
 	public void changeStatus(String jobId, String cmd) {
 		TaskScheduleJob job = getTaskById(jobId);
 		if (job == null) {
@@ -233,7 +230,6 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
 	 * com.albedo.java.modules.sys.service.ITaskScheduleJobService#updateCron(
 	 * java.lang.String, java.lang.String)
 	 */
-	@Override
 	public void updateCron(String jobId, String cron) {
 
 		try {
@@ -260,7 +256,6 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
 	 * com.albedo.java.modules.sys.service.ITaskScheduleJobService#addJob(com.
 	 * albedo.java.modules.sys.domain.TaskScheduleJob)
 	 */
-	@Override
 	public void addJob(TaskScheduleJob job) {
 		if (job == null || !SystemConfig.STR_YES.equals(job.getJobStatus())) {
 			return;
@@ -304,7 +299,6 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
 	 * @see
 	 * com.albedo.java.modules.sys.service.ITaskScheduleJobService#getAllJob()
 	 */
-	@Override
 	public List<TaskScheduleJob> getAllJob() {
 		GroupMatcher<JobKey> matcher = GroupMatcher.anyJobGroup();
 		Set<JobKey> jobKeys = null;
@@ -343,7 +337,6 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
 	 * com.albedo.java.modules.sys.service.ITaskScheduleJobService#getRunningJob
 	 * ()
 	 */
-	@Override
 	public List<TaskScheduleJob> getRunningJob() {
 		List<JobExecutionContext> executingJobs = null;
 		try {
@@ -380,7 +373,6 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
 	 * com.albedo.java.modules.sys.service.ITaskScheduleJobService#pauseJob(com.
 	 * albedo.java.modules.sys.domain.TaskScheduleJob)
 	 */
-	@Override
 	public void pauseJob(TaskScheduleJob scheduleJob) {
 		JobKey jobKey = JobKey.jobKey(scheduleJob.getName(), scheduleJob.getGroup());
 		log.info("pauseJob {}", jobKey);
@@ -399,7 +391,6 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
 	 * com.albedo.java.modules.sys.service.ITaskScheduleJobService#resumeJob(com
 	 * .albedo.java.modules.sys.domain.TaskScheduleJob)
 	 */
-	@Override
 	public void resumeJob(TaskScheduleJob scheduleJob) {
 		JobKey jobKey = JobKey.jobKey(scheduleJob.getName(), scheduleJob.getGroup());
 		log.info("resumeJob {}", jobKey);
@@ -427,7 +418,6 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
 	 * com.albedo.java.modules.sys.service.ITaskScheduleJobService#deleteJob(com
 	 * .albedo.java.modules.sys.domain.TaskScheduleJob)
 	 */
-	@Override
 	public void deleteJob(TaskScheduleJob scheduleJob) {
 		JobKey jobKey = JobKey.jobKey(scheduleJob.getName(), scheduleJob.getGroup());
 		log.info("deleteJob {}", jobKey);
@@ -446,7 +436,6 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
 	 * com.albedo.java.modules.sys.service.ITaskScheduleJobService#runAJobNow(
 	 * com.albedo.java.modules.sys.domain.TaskScheduleJob)
 	 */
-	@Override
 	public void runAJobNow(TaskScheduleJob scheduleJob) {
 		JobKey jobKey = JobKey.jobKey(scheduleJob.getName(), scheduleJob.getGroup());
 		log.info("runAJobNow {}", jobKey);
@@ -464,7 +453,6 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
 	 * com.albedo.java.modules.sys.service.ITaskScheduleJobService#updateJobCron
 	 * (com.albedo.java.modules.sys.domain.TaskScheduleJob)
 	 */
-	@Override
 	public void updateJobCron(TaskScheduleJob taskScheduleJob) {
 		try {
 			TriggerKey triggerKey = TriggerKey.triggerKey(taskScheduleJob.getName(), taskScheduleJob.getGroup());

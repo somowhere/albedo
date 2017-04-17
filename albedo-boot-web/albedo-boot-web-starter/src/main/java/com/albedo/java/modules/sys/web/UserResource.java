@@ -69,7 +69,7 @@ import java.net.URISyntaxException;
  */
 @Controller
 @RequestMapping("${albedo.adminPath}/sys/user")
-public class UserResource extends DataResource<User> {
+public class UserResource extends DataResource<UserService, User> {
 
 	private final Logger log = LoggerFactory.getLogger(UserResource.class);
 	@Autowired(required = false)

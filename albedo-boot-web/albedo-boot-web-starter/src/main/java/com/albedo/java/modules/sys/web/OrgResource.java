@@ -3,6 +3,7 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.domain.base.DataEntity;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Org;
+import com.albedo.java.modules.sys.repository.OrgRepository;
 import com.albedo.java.modules.sys.service.OrgService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
@@ -33,7 +34,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("${albedo.adminPath}/sys/org")
-public class OrgResource extends DataResource<Org> {
+public class OrgResource extends DataResource<OrgService, Org> {
 
 	@Resource
 	private OrgService orgService;

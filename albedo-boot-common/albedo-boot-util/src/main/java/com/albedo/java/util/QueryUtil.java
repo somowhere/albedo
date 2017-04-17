@@ -21,7 +21,6 @@ import com.albedo.java.util.domain.QueryCondition.Operator;
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.springframework.data.repository.query.parser.Part;
 
 @SuppressWarnings("rawtypes")
 public class QueryUtil {
@@ -68,7 +67,7 @@ public class QueryUtil {
 		return convertQueryConditionToStr(queryConditionList, argList, paramMap);
 	}
 
-	public static String convertQueryConditionToStr(List<QueryCondition> andQueryConditionList, List<QueryCondition> orQueryConditionList, List<String> argList,
+	public static  String convertQueryConditionToStr(List<QueryCondition> andQueryConditionList, List<QueryCondition> orQueryConditionList, List<String> argList,
 													Map<String, Object> paramMap, boolean isMybatis){
 
 		return PublicUtil.toAppendStr(convertQueryConditionToStr(andQueryConditionList,argList,paramMap, isMybatis, true),
@@ -123,7 +122,8 @@ public class QueryUtil {
 							.append(operate);
 					if (!Operator.isNotNull.equals(queryCondition.getOperate())
 							&& !Operator.isNull.equals(queryCondition.getOperate())) {
-						String paramFieldName = PublicUtil.toAppendStr(argStr, queryCondition.getFieldName())
+						String paramFieldName = PublicUtil.toAppendStr(argStr, isMybatis ? queryCondition.getFieldRealColumnName()
+								: queryCondition.getFieldName())
 								.replace(".", "_");
 						if (paramFieldName.contains(","))
 							paramFieldName = PublicUtil.getRandomString(6);

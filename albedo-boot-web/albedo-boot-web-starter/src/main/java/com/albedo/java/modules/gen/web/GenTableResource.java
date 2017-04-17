@@ -6,6 +6,7 @@ import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.gen.domain.GenTable;
+import com.albedo.java.modules.gen.repository.GenTableRepository;
 import com.albedo.java.modules.gen.service.GenTableService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
@@ -36,7 +37,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping(value = "${albedo.adminPath}/gen/genTable")
-public class GenTableResource extends DataResource<GenTable> {
+public class GenTableResource extends DataResource<GenTableService, GenTable> {
 
 	@Resource
 	private GenTableService genTableService;

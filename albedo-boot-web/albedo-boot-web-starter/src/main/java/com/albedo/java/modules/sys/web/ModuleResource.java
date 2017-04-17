@@ -1,10 +1,12 @@
 package com.albedo.java.modules.sys.web;
 
+import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
 import com.albedo.java.common.domain.base.DataEntity;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.common.security.service.InvocationSecurityMetadataSourceService;
 import com.albedo.java.modules.sys.domain.Module;
+import com.albedo.java.modules.sys.repository.ModuleRepository;
 import com.albedo.java.modules.sys.service.ModuleService;
 import com.albedo.java.util.JedisUtil;
 import com.albedo.java.util.JsonUtil;
@@ -37,7 +39,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("${albedo.adminPath}/sys/module")
-public class ModuleResource extends DataResource<Module> {
+public class ModuleResource extends DataResource<ModuleService, Module> {
 
 	@Resource
 	private ModuleService moduleService;

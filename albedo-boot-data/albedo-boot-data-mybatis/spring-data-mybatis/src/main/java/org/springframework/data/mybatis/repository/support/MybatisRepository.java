@@ -92,6 +92,17 @@ public interface MybatisRepository<T, ID extends Serializable>
 
     <X extends T> Long countBasicAll(X condition);
 
+    T findBasicOne(Map<String, Object> paramsMap, String... columns);
+
+    List<T> findBasicAll(Map<String, Object> paramsMap, String... columns);
+
+    List<T> findBasicAll(Sort sort, Map<String, Object> paramsMap, String... columns);
+
+    Page<T> findBasicAll(Pageable pageable, Map<String, Object> paramsMap, String... columns);
+
+    Long countBasicAll(Map<String, Object> paramsMap);
+
+
     void deleteInBatch(Iterable<T> entities);
 
     <X extends T> int deleteByCondition(X condition);

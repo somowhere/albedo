@@ -2,7 +2,9 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.TaskScheduleJob;
+import com.albedo.java.modules.sys.repository.TaskScheduleJobRepository;
 import com.albedo.java.modules.sys.service.ITaskScheduleJobService;
+import com.albedo.java.modules.sys.service.impl.TaskScheduleJobService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.Globals;
@@ -29,16 +31,16 @@ import javax.annotation.Resource;
 @ConditionalOnProperty(name = Globals.ALBEDO_QUARTZENABLED)
 @Controller
 @RequestMapping(value = "${albedo.adminPath}/sys/taskScheduleJob")
-public class TaskScheduleJobResource extends DataResource<TaskScheduleJob> {
+public class TaskScheduleJobResource extends DataResource<TaskScheduleJobService, TaskScheduleJob> {
 
-	@Resource
-	private ITaskScheduleJobService taskScheduleJobService;
+//	@Resource
+//	private ITaskScheduleJobService service;
 	
 	@ModelAttribute
 	public TaskScheduleJob get(@RequestParam(required = false) String id) throws Exception {
 		String path = request.getRequestURI();
 		if (path!=null && !path.contains("checkBy") && !path.contains("find") && PublicUtil.isNotEmpty(id)) {
-			return taskScheduleJobService.findOne(id);
+			return service.findOne(id);
 		} else {
 			return new TaskScheduleJob();
 		}
@@ -55,7 +57,7 @@ public class TaskScheduleJobResource extends DataResource<TaskScheduleJob> {
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity getPage(PageModel<TaskScheduleJob> pm) {
-		pm = taskScheduleJobService.findAll(pm, SecurityUtil.dataScopeFilter());
+		pm = service.findAll(pm, SecurityUtil.dataScopeFilter());
 		JSON rs = JsonUtil.getInstance().setRecurrenceStr().toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
 	}
@@ -83,7 +85,7 @@ public class TaskScheduleJobResource extends DataResource<TaskScheduleJob> {
 	
 	public ResponseEntity save(TaskScheduleJob taskScheduleJob) {
 		log.debug("REST request to save TaskScheduleJob : {}", taskScheduleJob);
-		taskScheduleJobService.save(taskScheduleJob);
+		service.save(taskScheduleJob);
 
 		return ResultBuilder.buildOk("保存任务调度成功");
 	}
@@ -98,7 +100,7 @@ public class TaskScheduleJobResource extends DataResource<TaskScheduleJob> {
 	
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete TaskScheduleJob: {}", ids);
-		taskScheduleJobService.delete(ids, SecurityUtil.getCurrentAuditor());
+		service.delete(ids, SecurityUtil.getCurrentAuditor());
 		return ResultBuilder.buildOk("删除任务调度成功");
 	}
 
@@ -112,7 +114,7 @@ public class TaskScheduleJobResource extends DataResource<TaskScheduleJob> {
 	
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock TaskScheduleJob: {}", ids);
-		taskScheduleJobService.lockOrUnLock(ids, SecurityUtil.getCurrentAuditor());
+		service.lockOrUnLock(ids, SecurityUtil.getCurrentAuditor());
 		return ResultBuilder.buildOk("操作任务调度成功");
 	}
 

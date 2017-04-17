@@ -355,6 +355,50 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
     }
 
     @Override
+    public T findBasicOne(Map<String, Object> paramsMap, String... columns) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.putAll(paramsMap);
+        if (null != columns) {
+            params.put("_specifiedFields", columns);
+        }
+        return selectOne("_findBasicAll", params);
+    }
+
+    @Override
+    public List<T> findBasicAll(Map<String, Object> paramsMap, String... columns) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.putAll(paramsMap);
+        if (null != columns) {
+            params.put("_specifiedFields", columns);
+        }
+        return selectList("_findBasicAll", params);
+    }
+
+    @Override
+    public List<T> findBasicAll(Sort sort, Map<String, Object> paramsMap, String... columns) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.putAll(paramsMap);
+        params.put("_sorts", sort);
+        if (null != columns) {
+            params.put("_specifiedFields", columns);
+        }
+        return selectList("_findBasicAll", params);
+    }
+
+    @Override
+    public Page<T> findBasicAll(Pageable pageable, Map<String, Object> paramsMap, String... columns) {
+        return findByPager(pageable, "_findBasicByPager", "_countBasicByCondition", null, paramsMap, columns);
+
+    }
+
+    @Override
+    public Long countBasicAll(Map<String, Object> paramsMap) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.putAll(paramsMap);
+        return selectOne("_countBasicByCondition", params);
+    }
+
+    @Override
     @Transactional
     public <X extends T> int deleteByCondition(X condition) {
         Map<String, Object> params = new HashMap<String, Object>();

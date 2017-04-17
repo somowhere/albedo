@@ -2,6 +2,7 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Area;
+import com.albedo.java.modules.sys.repository.AreaRepository;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.vo.sys.query.AreaTreeQuery;
 import com.albedo.java.modules.sys.service.AreaService;
@@ -32,7 +33,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping(value = "${albedo.adminPath}/sys/area")
-public class AreaResource extends DataResource<Area> {
+public class AreaResource extends DataResource<AreaService, Area> {
 
 	@Resource
 	private AreaService areaService;

@@ -3,6 +3,7 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Dict;
+import com.albedo.java.modules.sys.repository.DictRepository;
 import com.albedo.java.modules.sys.service.DictService;
 import com.albedo.java.util.DictUtil;
 import com.albedo.java.util.JsonUtil;
@@ -36,7 +37,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("${albedo.adminPath}/sys/dict")
-public class DictResource extends DataResource<Dict> {
+public class DictResource extends DataResource<DictService, Dict> {
 
 	@Resource
 	private DictService dictService;
