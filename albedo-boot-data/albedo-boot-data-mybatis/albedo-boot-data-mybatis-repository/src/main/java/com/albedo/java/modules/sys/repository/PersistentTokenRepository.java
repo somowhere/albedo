@@ -14,10 +14,9 @@ import java.util.Optional;
  */
 public interface PersistentTokenRepository extends BaseRepository<PersistentToken, String> {
 
-    List<PersistentToken> findByUser(User user);
-
     List<PersistentToken> findByTokenDateBefore(LocalDate localDate);
 
 	PersistentToken findOneBySeries(String presentedSeries);
 
+    List<PersistentToken> findAllByUserId(String userId);
 }

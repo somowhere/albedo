@@ -5,6 +5,9 @@ import org.apache.commons.lang3.time.DateUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -185,4 +188,12 @@ public class DateUtil extends DateUtils {
 		}
 		return NDate;
 	}
+
+	// 01. java.util.Date --> java.time.LocalDateTime
+	public static LocalDateTime convertDateToLocalDateTime(Date date) {
+		Instant instant = date.toInstant();
+		ZoneId zone = ZoneId.systemDefault();
+		return LocalDateTime.ofInstant(instant, zone);
+	}
+
 }

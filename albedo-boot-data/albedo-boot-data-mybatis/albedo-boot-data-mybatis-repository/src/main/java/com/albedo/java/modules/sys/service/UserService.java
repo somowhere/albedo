@@ -75,7 +75,7 @@ public class UserService extends DataService<UserRepository, User, String> {
             user.setLangKey(user.getLangKey());
         }
         user.setResetKey(RandomUtil.generateResetKey());
-        user.setResetDate(ZonedDateTime.now());
+        user.setResetDate(PublicUtil.getCurrentDate());
         user.setActivated(true);
         user = repository.save(user);
         log.debug("Save Information for User: {}", user);

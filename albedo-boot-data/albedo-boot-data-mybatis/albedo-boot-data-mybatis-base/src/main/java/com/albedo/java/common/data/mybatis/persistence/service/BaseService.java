@@ -12,6 +12,7 @@ import com.albedo.java.util.QueryUtil;
 import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.domain.PageModel;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +33,7 @@ import java.util.Map;
 @Transactional
 public abstract class BaseService<Repository extends BaseRepository<T, pk>, T extends GeneralEntity, pk extends Serializable> {
 	public final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(getClass());
+	@Autowired
 	public  Repository repository;
 
 	@Autowired
@@ -45,7 +47,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>, T ex
 		Type type = c.getGenericSuperclass();
 		if (type instanceof ParameterizedType) {
 			Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
-			persistentClass = (Class<T>) parameterizedType[0];
+			persistentClass = (Class<T>) parameterizedType[1];
 		}
 
 	}
@@ -102,13 +104,13 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>, T ex
 	@Transactional(readOnly=true)
 	public PageModel<T> findBasePage(PageModel<T> pm, SpecificationDetail specificationDetail) {
 		try {
-			T entity = persistentClass.newInstance();
+			Map<String, Object> paramsMap = Maps.newHashMap();
 			String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(specificationDetail.getAndQueryConditions(),
 					specificationDetail.getOrQueryConditions(),
-					Lists.newArrayList(DynamicSpecifications.MYBITS_SEARCH_PARAMS_MAP),
-					entity.getParamsMap(), true);
-			entity.setSqlConditionDsf(sqlConditionDsf);
-			pm.setPageInstance(repository.findBasicAll(pm, entity));
+					null,
+					paramsMap, true);
+			paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_DSF, sqlConditionDsf);
+			pm.setPageInstance(jpaCustomeRepository.findBasicAll(pm, paramsMap));
 			return pm;
 		} catch (Exception e) {
 			log.error(e.getMessage());

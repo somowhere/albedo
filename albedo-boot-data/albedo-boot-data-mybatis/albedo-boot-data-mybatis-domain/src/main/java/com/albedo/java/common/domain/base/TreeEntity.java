@@ -2,6 +2,11 @@ package com.albedo.java.common.domain.base;
 
 import com.albedo.java.util.annotation.SearchField;
 import com.albedo.java.util.domain.QueryCondition.Operator;
+import lombok.Cleanup;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.mybatis.annotations.Column;
+import org.springframework.data.mybatis.annotations.JoinColumn;
+import org.springframework.data.mybatis.annotations.ManyToOne;
 import org.springframework.data.mybatis.annotations.MappedSuperclass;
 
 /**
@@ -23,18 +28,25 @@ public abstract class TreeEntity<T extends DataEntity> extends IdEntity {
 	
 	/*** 组织名称 */
 	@SearchField(op = Operator.like)
+	@Column(name = "name_")
 	protected String name;
 	/*** 上级组织 */
 	@SearchField
+	@Column(name = "parent_id")
 	protected String parentId;
 	/*** 所有父编号 */
 	@SearchField(op = Operator.like)
+	@Column(name = "parent_ids")
 	protected String parentIds;
 	/*** 上级组织 */
+	@ManyToOne
+	@JoinColumn(name = "parent_id")
 	protected T parent;
 	/*** 1 叶子节点 0非叶子节点 */
+	@Column(name = "is_leaf")
 	private boolean isLeaf=false;
 	/*** 序号 */
+	@Column(name = "sort_")
 	protected Integer sort = 30;
 
 	public TreeEntity() {

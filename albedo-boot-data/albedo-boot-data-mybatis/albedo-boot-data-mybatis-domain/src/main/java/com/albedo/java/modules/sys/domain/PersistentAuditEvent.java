@@ -8,6 +8,7 @@ import org.springframework.data.mybatis.annotations.*;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public class PersistentAuditEvent {
     private String principal;
 
     @Column(name = "event_date")
-    private LocalDateTime auditEventDate;
+    private Date auditEventDate;
     @Column(name = "event_type")
     private String auditEventType;
 
@@ -57,11 +58,11 @@ public class PersistentAuditEvent {
         this.principal = principal;
     }
 
-    public LocalDateTime getAuditEventDate() {
+    public Date getAuditEventDate() {
         return auditEventDate;
     }
 
-    public void setAuditEventDate(LocalDateTime auditEventDate) {
+    public void setAuditEventDate(Date auditEventDate) {
         this.auditEventDate = auditEventDate;
     }
 

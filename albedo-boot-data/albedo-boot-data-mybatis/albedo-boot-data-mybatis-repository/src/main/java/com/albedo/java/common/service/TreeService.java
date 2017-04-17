@@ -13,9 +13,8 @@ import java.io.Serializable;
 import java.util.List;
 
 
-@Service
 @Transactional
-public class TreeService<Repository extends TreeRepository<T, PK>, T extends TreeEntity, PK extends Serializable>
+public abstract class TreeService<Repository extends TreeRepository<T, PK>, T extends TreeEntity, PK extends Serializable>
         extends DataService<Repository, T, PK> {
     /**
      * 逻辑删除

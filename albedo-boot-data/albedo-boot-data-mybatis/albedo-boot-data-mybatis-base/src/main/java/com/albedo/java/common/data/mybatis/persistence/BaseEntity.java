@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.MappedSuperclass;
 
 import javax.xml.bind.annotation.XmlTransient;
@@ -34,7 +35,7 @@ public abstract class BaseEntity<T> extends GeneralEntity {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-
+	@Column(name = "status_")
 	protected Integer status;
 
 	public BaseEntity() {
@@ -43,22 +44,6 @@ public abstract class BaseEntity<T> extends GeneralEntity {
 	}
 	public abstract String getId();
 	public abstract void setId(String id);
-	/**
-	 * 是否是新记录（默认：false），调用setIsNewRecord()设置新记录，使用自定义ID。
-	 * 设置为true后强制执行插入语句，ID不会自动生成，需从手动传入。
-	 * @return
-	 */
-	public boolean getIsNewRecord() {
-		return isNewRecord || PublicUtil.isEmpty(getId());
-	}
-
-	/**
-	 * 是否是新记录（默认：false），调用setIsNewRecord()设置新记录，使用自定义ID。
-	 * 设置为true后强制执行插入语句，ID不会自动生成，需从手动传入。
-	 */
-	public void setIsNewRecord(boolean isNewRecord) {
-		this.isNewRecord = isNewRecord;
-	}
 	/**
 	 * 插入之前执行方法，子类实现
 	 */

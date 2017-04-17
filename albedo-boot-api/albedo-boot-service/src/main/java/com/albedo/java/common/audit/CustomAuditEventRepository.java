@@ -3,16 +3,15 @@ package com.albedo.java.common.audit;
 import com.albedo.java.common.config.audit.AuditEventConverter;
 import com.albedo.java.modules.sys.domain.PersistentAuditEvent;
 import com.albedo.java.modules.sys.repository.PersistenceAuditEventRepository;
-import jdk.nashorn.internal.ir.annotations.Reference;
+import com.albedo.java.util.PublicUtil;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.boot.actuate.audit.AuditEventRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -26,10 +25,10 @@ public class CustomAuditEventRepository implements AuditEventRepository {
 
     public static final String ANONYMOUS_USER = "anonymoususer";
 
-    @Reference
+    @Resource
     private PersistenceAuditEventRepository persistenceAuditEventRepository;
 
-    @Reference
+    @Resource
     private AuditEventConverter auditEventConverter;
 
     @Override
@@ -69,8 +68,8 @@ public class CustomAuditEventRepository implements AuditEventRepository {
             PersistentAuditEvent persistentAuditEvent = new PersistentAuditEvent();
             persistentAuditEvent.setPrincipal(event.getPrincipal());
             persistentAuditEvent.setAuditEventType(event.getType());
-            Instant instant = Instant.ofEpochMilli(event.getTimestamp().getTime());
-            persistentAuditEvent.setAuditEventDate(LocalDateTime.ofInstant(instant, ZoneId.systemDefault()));
+//            Instant instant = Instant.ofEpochMilli(event.getTimestamp().getTime());
+            persistentAuditEvent.setAuditEventDate(PublicUtil.getCurrentDate());
             persistentAuditEvent.setData(auditEventConverter.convertDataToStrings(event.getData()));
             persistenceAuditEventRepository.save(persistentAuditEvent);
         }

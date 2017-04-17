@@ -1,11 +1,13 @@
 package com.albedo.java.common.config.audit;
 
 import com.albedo.java.modules.sys.domain.PersistentAuditEvent;
+import com.albedo.java.util.DateUtil;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -36,7 +38,8 @@ public class AuditEventConverter {
      * @return the converted list.
      */
     public AuditEvent convertToAuditEvent(PersistentAuditEvent persistentAuditEvent) {
-        Instant instant = persistentAuditEvent.getAuditEventDate().atZone(ZoneId.systemDefault()).toInstant();
+
+        Instant instant = DateUtil.convertDateToLocalDateTime(persistentAuditEvent.getAuditEventDate()).atZone(ZoneId.systemDefault()).toInstant();
         return new AuditEvent(Date.from(instant), persistentAuditEvent.getPrincipal(),
             persistentAuditEvent.getAuditEventType(), convertDataToObjects(persistentAuditEvent.getData()));
     }

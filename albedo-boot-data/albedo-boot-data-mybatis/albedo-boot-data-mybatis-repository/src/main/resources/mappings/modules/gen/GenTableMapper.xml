@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.albedo.java.modules.gen.repository.GenTableRepository">
     
-	<select id="findTableList" resultType="GenTable">
+	<select id="findTableList" resultType="com.albedo.java.modules.gen.domain.GenTable">
 		<if test="dbName == 'oracle'">
 			SELECT 
 				t.TABLE_NAME AS name, 
@@ -34,7 +34,7 @@
 		</if>
 	</select>
 	
-	<select id="findTableColumnList" resultType="GenTableColumn">
+	<select id="findTableColumnList" resultType="com.albedo.java.modules.gen.domain.GenTableColumn">
 		<if test="dbName == 'oracle'">
 			SELECT
 				t.COLUMN_NAME AS name,<!-- 

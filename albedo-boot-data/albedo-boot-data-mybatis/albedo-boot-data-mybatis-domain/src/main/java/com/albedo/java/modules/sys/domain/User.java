@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -91,7 +92,7 @@ public class User extends IdEntity {
     private String resetKey;
 
     @Column(name = "reset_date")
-    private ZonedDateTime resetDate = null;
+    private Date resetDate = null;
 
     @ManyToMany
     @JoinTable(
@@ -103,6 +104,7 @@ public class User extends IdEntity {
 
     @JSONField(serialize=false)
     @OneToMany @ApiModelProperty(hidden=true)
+    @JoinColumn(name="user_id")
     private Set<PersistentToken> persistentTokens =  Sets.newHashSet();    
     
     @Transient@ApiModelProperty(hidden=true)
@@ -188,11 +190,11 @@ public class User extends IdEntity {
 		return name;
 	}
 
-	public ZonedDateTime getResetDate() {
+	public Date getResetDate() {
        return resetDate;
     }
 
-    public void setResetDate(ZonedDateTime resetDate) {
+    public void setResetDate(Date resetDate) {
        this.resetDate = resetDate;
     }
 

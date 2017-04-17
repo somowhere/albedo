@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+    <name>resource</name>
+    <filePath>src/main/java/${packageName}/${moduleName}/web/${subModuleName}</filePath>
+    <fileName>${ClassName}Resource.java</fileName>
+    <content><![CDATA[
+package ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleName}</#if>;
+
+import javax.annotation.Resource;
+
+
+import com.albedo.java.util.JsonUtil;
+import com.albedo.java.web.rest.ResultBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.albedo.java.util.domain.QueryCondition;
+import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.exception.RuntimeMsgException;
+import com.alibaba.fastjson.JSON;
+import com.albedo.java.util.domain.Globals;
+import com.albedo.java.util.domain.PageModel;
+import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
+import com.albedo.java.common.data.mybatis.persistence.DynamicSpecifications;
+import com.albedo.java.common.security.SecurityUtil;
+import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
+import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Service;
+import com.albedo.java.web.rest.base.DataResource;
+import com.codahale.metrics.annotation.Timed;
+
+/**
+ * ${functionName}Controller ${functionNameSimple}
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@Controller
+@RequestMapping(value = "${r"${albedo.adminPath}"}/${urlPrefix}")
+public class ${ClassName}Resource extends DataResource<${ClassName}> {
+
+	@Resource
+	private ${ClassName}Service ${className}Service;
+	
+	@ModelAttribute
+	public ${ClassName} get(@RequestParam(required = false) String id) throws Exception {
+		String path = request.getRequestURI();
+		if (path!=null && !path.contains("checkBy") && !path.contains("find") && PublicUtil.isNotEmpty(id)) {
+			return ${className}Service.findOne(id);
+		} else {
+			return new ${ClassName}();
+		}
+	}
+
+	@RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed
+	public String list() {
+		return "${lastPackageName}/${viewPrefix}List";
+	}
+
+	/**
+	 * GET / : get all ${className}.
+	 * 
+	 * @param pm
+	 *            the pagination information
+	 * @return the ResponseEntity with status 200 (OK) and with body all ${className}
+	 */
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
+	public ResponseEntity getPage(PageModel<${ClassName}> pm) {
+		SpecificationDetail<${ClassName}> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(), SecurityUtil.dataScopeFilter(),
+				QueryCondition.ne(${ClassName}.F_STATUS, ${ClassName}.FLAG_DELETE));
+		Page<${ClassName}> page = ${className}Service.findAll(spec, pm);
+		pm.setPageInstance(page);
+		JSON rs = JsonUtil.getInstance().setRecurrenceStr(<#assign firstListField = true><#list table.columnList as column><#if column.simpleJavaType == "User" || column.simpleJavaType == "Org" || column.simpleJavaType == "Area"><#if !firstListField>, </#if>"<#if column.name == 'created_by'>creator<#elseif column.name == 'last_modified_by'>modifier<#else>${column.simpleJavaField}</#if>_${column.defaultJavaFieldName}"<#assign firstListField = false></#if></#list>).toJsonObject(pm);
+		return ResultBuilder.buildObject(rs);
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed
+	public String form(${ClassName} ${className}) {
+		if(${className} == null){
+			throw new RuntimeMsgException(PublicUtil.toAppendStr("查询${functionNameSimple}失败，原因：无法查找到编号为[", request.getParameter("id"), "]的${functionNameSimple}"));
+		}
+		return "${lastPackageName}/${viewPrefix}Form";
+	}
+
+	/**
+	 * POST / : Save a ${className}.
+	 *
+	 * @param ${className} the HTTP ${className}
+	 */
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed
+	public ResponseEntity save(${ClassName} ${className}) {
+		log.debug("REST request to save ${ClassName} : {}", ${className});
+		<#assign firstListField = true><#list table.columnList as column>
+			<#if column.unique && !column.pk>
+		<#if firstListField><#assign firstListField = false>${ClassName} </#if>${className}Validate = new ${ClassName}(${className}.getId());
+		${className}Validate.set${column.simpleJavaField?cap_first}(${className}.get${column.simpleJavaField?cap_first}());
+		if (<#if column.nullable>PublicUtil.isNotEmpty(${className}.get${column.simpleJavaField?cap_first}()) && </#if>!checkByProperty(${className}Validate)) {
+			throw new RuntimeMsgException(PublicUtil.toAppendStr("保存${functionNameSimple}'", ${className}.get${column.simpleJavaField?cap_first}(),"'失败，${column.comments }已存在"));
+		}
+			</#if>
+		</#list>
+		${className}Service.save(${className});
+		return ResultBuilder.buildOk("保存${functionNameSimple}成功");
+
+	}
+
+	/**
+	 * DELETE //:id : delete the "id" ${ClassName}.
+	 *
+	 * @param ids the id of the ${className} to delete
+	 * @return the ResponseEntity with status 200 (OK)
+	 */
+	@RequestMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
+			+ "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed
+	public ResponseEntity delete(@PathVariable String ids) {
+		log.debug("REST request to delete ${ClassName}: {}", ids);
+		${className}Service.delete(ids);
+		return ResultBuilder.buildOk("删除${functionNameSimple}成功");
+	}
+	/**
+	 * lock //:id : lockOrUnLock the "id" ${ClassName}.
+	 *
+	 * @param ids the id of the ${className} to lock
+	 * @return the ResponseEntity with status 200 (OK)
+	 */
+	@RequestMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
+			+ "}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed
+	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
+		log.debug("REST request to lockOrUnLock ${ClassName}: {}", ids);
+		${className}Service.lockOrUnLock(ids);
+		return ResultBuilder.buildOk("操作${functionNameSimple}成功");
+	}
+
+}]]>
+    </content>
+</template>

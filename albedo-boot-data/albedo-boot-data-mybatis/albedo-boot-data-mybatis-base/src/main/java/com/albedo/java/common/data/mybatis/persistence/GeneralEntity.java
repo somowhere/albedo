@@ -5,6 +5,7 @@ import com.albedo.java.util.config.SystemConfig;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.mybatis.annotations.DynamicSearch;
 import org.springframework.data.mybatis.annotations.MappedSuperclass;
 
 import javax.xml.bind.annotation.XmlTransient;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 /** 通常的数据基类 copyright 2014 albedo all right reserved author 李杰 created on 2014年12月31日 下午1:57:09 */
 @MappedSuperclass
+@DynamicSearch
 public abstract class GeneralEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -50,13 +52,6 @@ public abstract class GeneralEntity implements Serializable {
 	 */
 	@Transient @JSONField(serialize = false)
 	protected String sqlConditionDsf;
-
-
-	/**
-	 * 是否是新记录（默认：false），调用setIsNewRecord()设置新记录，使用自定义ID。
-	 * 设置为true后强制执行插入语句，ID不会自动生成，需从手动传入。
-	 */
-	protected boolean isNewRecord = false;
 
 	@JsonIgnore
 	@XmlTransient

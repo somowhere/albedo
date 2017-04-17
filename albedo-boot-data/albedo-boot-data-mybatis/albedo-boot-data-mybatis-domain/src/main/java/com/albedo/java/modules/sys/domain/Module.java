@@ -12,9 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.Transient;
-import org.springframework.data.mybatis.annotations.Column;
-import org.springframework.data.mybatis.annotations.Entity;
-import org.springframework.data.mybatis.annotations.ManyToMany;
+import org.springframework.data.mybatis.annotations.*;
 
 import java.util.Set;
 
@@ -57,7 +55,11 @@ public class Module extends TreeEntity<Module> {
 	@Column(name = "show_type")
 	private String showType;
 
-	@ManyToMany()
+	@ManyToMany
+	@JoinTable(
+			name = "sys_role_module_t",
+			joinColumns = {@JoinColumn(name = "module_id", referencedColumnName = "id_")},
+			inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id_")})
 	@JSONField(serialize=false)
 	private Set<Role> roles = Sets.newHashSet(); // 拥有角色列表
 

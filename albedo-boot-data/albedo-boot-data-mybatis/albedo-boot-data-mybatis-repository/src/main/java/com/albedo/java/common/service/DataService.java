@@ -77,18 +77,10 @@ public abstract class DataService<Repository extends BaseRepository<T, PK>, T ex
 
 		});
 	}
-
 	@Transactional(readOnly=true)
-	public T findOne(PK id) {
-		return repository.findOne(id);
-	}
-
-
-	@Transactional(readOnly = true)
 	public PageModel<T> findPage(PageModel<T> pm) {
-		return findBasePage(pm, null);
+		return findPage(pm, null);
 	}
-
 	@Transactional(readOnly=true)
 	public PageModel<T> findPage(PageModel<T> pm, List<QueryCondition> queryConditions) {
 		SpecificationDetail specificationDetail = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),

@@ -13,7 +13,7 @@ public class DynamicSpecifications {
 	protected static Logger logger = LoggerFactory.getLogger(DynamicSpecifications.class);
 	public static final String MYBITS_SEARCH_PARAMS_MAP = "paramsMap";
 
-	public static final String MYBITS_SEARCH_DSF = "sqlConditionDsf";
+	public static final String MYBITS_SEARCH_DSF = "_sqlConditionDsf";
 
 	public static <T> SpecificationDetail<T> bySearchQueryCondition(final List<QueryCondition> queryConditions) {
 		return new SpecificationDetail<T>().andAll(queryConditions);

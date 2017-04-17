@@ -4,6 +4,8 @@ import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.modules.sys.domain.PersistentToken;
 import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
+import com.albedo.java.util.DateUtil;
+import com.albedo.java.util.PublicUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +88,7 @@ public class CustomPersistentRememberMeServices extends
 
         // Token also matches, so login is valid. Update the token value, keeping the *same* series number.
         log.debug("Refreshing persistent login token for user '{}', series '{}'", login, token.getSeries());
-        token.setTokenDate(LocalDate.now());
+        token.setTokenDate(PublicUtil.getCurrentDate());
         token.setTokenValue(generateTokenData());
         token.setIpAddress(request.getRemoteAddr());
         token.setUserAgent(request.getHeader("User-Agent"));
@@ -112,7 +114,7 @@ public class CustomPersistentRememberMeServices extends
             t.setSeries(generateSeriesData());
             t.setUserId(u.getId());
             t.setTokenValue(generateTokenData());
-            t.setTokenDate(LocalDate.now());
+            t.setTokenDate(PublicUtil.getCurrentDate());
             t.setIpAddress(request.getRemoteAddr());
             t.setUserAgent(request.getHeader("User-Agent"));
             return t;
@@ -175,7 +177,7 @@ public class CustomPersistentRememberMeServices extends
                 "cookie theft attack.");
         }
 
-        if (token.getTokenDate().plusDays(TOKEN_VALIDITY_DAYS).isBefore(LocalDate.now())) {
+        if (DateUtil.addDays(token.getTokenDate(),TOKEN_VALIDITY_DAYS).before(PublicUtil.getCurrentDate())) {
             persistentTokenRepository.delete(token);
             throw new RememberMeAuthenticationException("Remember-me login has expired");
         }
