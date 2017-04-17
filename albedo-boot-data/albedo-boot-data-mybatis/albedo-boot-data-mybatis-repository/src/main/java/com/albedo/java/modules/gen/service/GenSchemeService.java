@@ -1,5 +1,7 @@
 package com.albedo.java.modules.gen.service;
 
+import com.albedo.java.common.data.mybatis.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.gen.domain.GenScheme;
 import com.albedo.java.modules.gen.domain.GenTable;
@@ -8,6 +10,9 @@ import com.albedo.java.modules.gen.domain.xml.GenConfig;
 import com.albedo.java.modules.gen.repository.GenSchemeRepository;
 import com.albedo.java.modules.gen.repository.GenTableRepository;
 import com.albedo.java.modules.gen.util.GenUtil;
+import com.albedo.java.util.QueryUtil;
+import com.albedo.java.util.domain.QueryCondition;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,10 +31,14 @@ public class GenSchemeService extends DataService<GenSchemeRepository, GenScheme
 	private GenTableRepository genTableRepository;
 
 	public List<GenScheme> findAll(String id) {
-
-//		return repository.findAll(DynamicSpecifications.bySearchQueryCondition(QueryCondition.eq(GenTable.F_STATUS, GenTable.FLAG_NORMAL),
-//				QueryCondition.ne(GenTable.F_ID, id == null ? "-1" : id)));
-		return null;
+		GenScheme genScheme = new GenScheme();
+		SpecificationDetail specificationDetail = DynamicSpecifications.bySearchQueryCondition(QueryCondition.eq(GenTable.F_STATUS, GenTable.FLAG_NORMAL),
+				QueryCondition.ne(GenTable.F_ID, id == null ? "-1" : id));
+		String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(specificationDetail.getAndQueryConditions(),
+				specificationDetail.getOrQueryConditions(),
+				Lists.newArrayList(DynamicSpecifications.MYBITS_SEARCH_PARAMS_MAP),genScheme.getParamsMap(), true);
+		genScheme.setSqlConditionDsf(sqlConditionDsf);
+		return repository.findAll(genScheme);
 	}
 
 

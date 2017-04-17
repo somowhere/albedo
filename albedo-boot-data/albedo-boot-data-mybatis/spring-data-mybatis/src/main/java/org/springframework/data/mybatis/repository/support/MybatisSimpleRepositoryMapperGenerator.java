@@ -459,7 +459,7 @@ public class MybatisSimpleRepositoryMapperGenerator {
     private String buildCondition() {
         final StringBuilder builder = new StringBuilder();
         if(persistentEntity.findAnnotation(DynamicSearch.class) != null){
-            builder.append(" ${sqlMap.dsf} ");
+            builder.append(" ${_condition.sqlConditionDsf} ");
         }
         persistentEntity.doWithProperties(new PropertyHandler<MybatisPersistentProperty>() {
             @Override

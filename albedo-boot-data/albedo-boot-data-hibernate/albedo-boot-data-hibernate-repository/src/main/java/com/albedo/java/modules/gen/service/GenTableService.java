@@ -1,9 +1,7 @@
 package com.albedo.java.modules.gen.service;
 
-import com.albedo.java.common.domain.base.BaseEntity;
-import com.albedo.java.common.domain.data.DynamicSpecifications;
-import com.albedo.java.common.domain.data.SpecificationDetail;
-import com.albedo.java.common.repository.service.BaseService;
+import com.albedo.java.common.data.hibernate.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.hibernate.persistence.SpecificationDetail;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.gen.domain.GenTable;
 import com.albedo.java.modules.gen.domain.GenTableColumn;

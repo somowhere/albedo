@@ -1,5 +1,6 @@
 package com.albedo.java.common.config;
 
+import org.apache.xmlbeans.impl.piccolo.xml.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -10,21 +11,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.metamodel.EntityType;
-import java.util.Set;
+import javax.annotation.Resource;
 
 @Configuration
 @EnableCaching
-@AutoConfigureAfter(value = { DatabaseConfiguration.class })
+//@AutoConfigureAfter(value = { DatabaseConfiguration.class })
 public class CacheConfiguration {
 
     private final Logger log = LoggerFactory.getLogger(CacheConfiguration.class);
 
-    @PersistenceContext
-    private EntityManager entityManager;
+//    @PersistenceContext
+//    private EntityManager entityManager;
 
     @Resource
     AlbedoProperties albedoProperties;
@@ -39,13 +36,13 @@ public class CacheConfiguration {
     public CacheManager ehCacheManager() {
        
         log.debug("Registering Ehcache Metrics gauges");
-        Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
-        for (EntityType<?> entity : entities) {
-            String name = entity.getName();
-            if (name == null || entity.getJavaType() != null) {
-                name = entity.getJavaType().getName();
-            }
-        }
+//        Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
+//        for (EntityType<?> entity : entities) {
+//            String name = entity.getName();
+//            if (name == null || entity.getJavaType() != null) {
+//                name = entity.getJavaType().getName();
+//            }
+//        }
         EhCacheCacheManager ehCacheManager = new EhCacheCacheManager();
         ehCacheManager.setCacheManager(getCacheManager());
         return ehCacheManager;

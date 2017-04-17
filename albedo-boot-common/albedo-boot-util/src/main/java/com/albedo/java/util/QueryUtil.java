@@ -21,6 +21,7 @@ import com.albedo.java.util.domain.QueryCondition.Operator;
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.springframework.data.repository.query.parser.Part;
 
 @SuppressWarnings("rawtypes")
 public class QueryUtil {
@@ -67,6 +68,18 @@ public class QueryUtil {
 		return convertQueryConditionToStr(queryConditionList, argList, paramMap);
 	}
 
+	public static String convertQueryConditionToStr(List<QueryCondition> andQueryConditionList, List<QueryCondition> orQueryConditionList, List<String> argList,
+													Map<String, Object> paramMap, boolean isMybatis){
+
+		return PublicUtil.toAppendStr(convertQueryConditionToStr(andQueryConditionList,argList,paramMap, isMybatis, true),
+				convertQueryConditionToStr(orQueryConditionList, argList, paramMap, isMybatis, false));
+	}
+
+
+	public static String convertQueryConditionToStr(List<QueryCondition> queryConditionList, List<String> argList,
+													Map<String, Object> paramMap){
+		return convertQueryConditionToStr(queryConditionList,argList,paramMap, false, true);
+	}
 	/**
 	 * 查询集合 转换 查询条件
 	 * 
@@ -76,7 +89,7 @@ public class QueryUtil {
 	 * @return
 	 */
 	public static String convertQueryConditionToStr(List<QueryCondition> queryConditionList, List<String> argList,
-			Map<String, Object> paramMap) {
+			Map<String, Object> paramMap, boolean isMybatis, boolean isAnd) {
 		StringBuffer sb = new StringBuffer();
 		if (PublicUtil.isNotEmpty(queryConditionList)) {
 			if (paramMap == null)
@@ -106,7 +119,7 @@ public class QueryUtil {
 						&& SecurityHqlUtil.checkStrForHqlWhere(String.valueOf(queryCondition.getValue()))) {
 					if (PublicUtil.isEmpty(operate))
 						queryCondition.setOperate(Operator.eq.getOperator());
-					sb.append(" and ").append(argStr).append(queryCondition.getFieldName()).append(" ")
+					sb.append(" ").append(isAnd? "and" : "or").append(" ").append(argStr).append(queryCondition.getFieldName()).append(" ")
 							.append(operate);
 					if (!Operator.isNotNull.equals(queryCondition.getOperate())
 							&& !Operator.isNull.equals(queryCondition.getOperate())) {
@@ -127,7 +140,8 @@ public class QueryUtil {
 									sb.append(" (");
 									Integer i = 0;
 									for (Iterator iterator = col.iterator(); iterator.hasNext(); i++) {
-										sb.append(":").append(PublicUtil.toAppendStr(paramFieldName, i)).append(", ");
+										buildConditionCaluse(sb, PublicUtil.toAppendStr(paramFieldName, i), isMybatis);
+										sb.append(", ");
 										paramMap.put(PublicUtil.toAppendStr(paramFieldName, i),
 												getQueryValue(queryCondition, iterator.next()));
 									}
@@ -141,16 +155,18 @@ public class QueryUtil {
 						} else if (SystemConfig.CONDITION_LIKE.equals(operate)
 								|| SystemConfig.CONDITION_ILIKE.equals(operate)) {
 							String val = (String) queryCondition.getValue();
-							sb.append(" :").append(paramFieldName);
+							buildConditionCaluse(sb, paramFieldName, isMybatis);
 							paramMap.put(paramFieldName, !val.startsWith("%") && !val.toString().endsWith("%")
 									? PublicUtil.toAppendStr("%", val, "%") : val);
 						} else if (SystemConfig.CONDITION_BETWEEN.equals(operate)) {
-							sb.append(" :").append(paramFieldName).append("1 and :").append(paramFieldName).append("2");
+							buildConditionCaluse(sb, PublicUtil.toAppendStr(paramFieldName, "1"), isMybatis);
+							sb.append(" and ");
+							buildConditionCaluse(sb, PublicUtil.toAppendStr(paramFieldName, "2"), isMybatis);
 							paramMap.put(paramFieldName + "1", getQueryValue(queryCondition, null));
 							paramMap.put(paramFieldName + "2",
 									getQueryValue(queryCondition, queryCondition.getEndValue()));
 						} else {
-							sb.append(" :").append(paramFieldName);
+							buildConditionCaluse(sb, paramFieldName, isMybatis);
 							paramMap.put(paramFieldName, getQueryValue(queryCondition, null));
 						}
 					}
@@ -161,7 +177,19 @@ public class QueryUtil {
 				}
 			}
 		}
+		if(PublicUtil.isNotEmpty(sb.toString())){
+			if(!isAnd){
+				sb.delete(0,4).insert(0, " and (").append(")");
+			}
+		}
 		return sb.toString();
+	}
+
+	public static void buildConditionCaluse(StringBuffer sb, Object val, boolean isMybatis) {
+		if(isMybatis)
+		sb.append("#{").append(val).append("}");
+		else
+		sb.append(":").append(val);
 	}
 
 	public static Object getQueryValue(QueryCondition queryCondition, Object val) {
@@ -297,7 +325,7 @@ public class QueryUtil {
 	/**
 	 * 在sql中寻找与最外层select对应的from的index 调用前请先转成大写。
 	 * 
-	 * @param sql
+	 * @param tempSql
 	 * @return
 	 */
 	public static  int findOuterFromIndex(String tempSql) {
@@ -333,7 +361,7 @@ public class QueryUtil {
 	/**
 	 * 在sql中寻找与最外层select对应的GroupBy的index 调用前请先转成大写。
 	 * 
-	 * @param sql
+	 * @param tempSql
 	 * @return
 	 */
 	public static  int findOuterGroupByIndex(String tempSql) {

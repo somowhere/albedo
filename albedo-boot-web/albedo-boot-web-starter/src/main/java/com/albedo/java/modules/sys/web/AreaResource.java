@@ -1,7 +1,5 @@
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.domain.data.DynamicSpecifications;
-import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Area;
 import com.albedo.java.util.StringUtil;
@@ -11,7 +9,6 @@ import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
-import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataResource;
@@ -67,8 +64,7 @@ public class AreaResource extends DataResource<Area> {
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity getPage(PageModel<Area> pm) {
-		Page<Area> page = areaService.findAll(pm, SecurityUtil.dataScopeFilter());
-		pm.setPageInstance(page);
+		areaService.findPage(pm, SecurityUtil.dataScopeFilter());
 		JSON rs = JsonUtil.getInstance().setRecurrenceStr("creator_name").toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
 	}

@@ -1,7 +1,5 @@
 package com.albedo.java.modules.gen.web;
 
-import com.albedo.java.common.domain.data.DynamicSpecifications;
-import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.gen.domain.GenTable;
@@ -12,7 +10,6 @@ import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
-import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataResource;
@@ -64,8 +61,7 @@ public class GenTemplateResource extends DataResource<GenTable> {
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity getPage(PageModel<GenTable> pm) {
 
-		Page<GenTable> page = genTemplateService.findAll(pm);
-		pm.setPageInstance(page);
+		genTemplateService.findPage(pm);
 		JSON rs = JsonUtil.getInstance().setRecurrenceStr("org_name").toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
 	}

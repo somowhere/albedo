@@ -17,7 +17,7 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,7 +27,7 @@ public class InvocationSecurityMetadataSourceService
 		implements FilterInvocationSecurityMetadataSource {
 
 	public static final String RESOURCE_MODULE_DATA_MAP = "RESOURCE_MODULE_DATA_MAP";
-	
+
 	private Map<String, Collection<ConfigAttribute>> resourceMap = null;
 	
 	public static String cUrl = null;
@@ -63,7 +63,7 @@ public class InvocationSecurityMetadataSourceService
 			}
 			
 			if(PublicUtil.isEmpty(resourceMap)){
-				List<Module> moduleList = moduleRepository.findAllAuthenticationList(Module.FLAG_NORMAL);
+				List<Module> moduleList = moduleRepository.findAllByStatusOrderBySort(Module.FLAG_NORMAL);
 				List<Dict> dictRequestList = DictUtil.getDictList("sys_request_method");
 				moduleList.stream().forEach(item -> {
 					if (PublicUtil.isNotEmpty(item.getPermission())) {
@@ -118,7 +118,7 @@ public class InvocationSecurityMetadataSourceService
 
 	@Override
 	public Collection<ConfigAttribute> getAllConfigAttributes() {
-		return moduleRepository.findAllAuthenticationList(Module.FLAG_NORMAL).stream()
+		return moduleRepository.findAllByStatusOrderBySort(Module.FLAG_NORMAL).stream()
 				.map(item -> new SecurityConfig(item.getPermission())).collect(Collectors.toList());
 	}
 

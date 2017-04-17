@@ -1,10 +1,9 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.domain.base.DataEntity;
-import com.albedo.java.common.domain.data.DynamicSpecifications;
-import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.common.security.SecurityUtil;
+import com.albedo.java.common.security.service.InvocationSecurityMetadataSourceService;
 import com.albedo.java.modules.sys.domain.Module;
 import com.albedo.java.modules.sys.service.ModuleService;
 import com.albedo.java.util.JedisUtil;
@@ -14,7 +13,6 @@ import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
-import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.sys.query.ModuleTreeQuery;
 import com.albedo.java.web.rest.ResultBuilder;
@@ -81,11 +79,8 @@ public class ModuleResource extends DataResource<Module> {
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity getPage(PageModel<Module> pm) {
-		SpecificationDetail<Module> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
-				QueryCondition.ne(Module.F_STATUS, Module.FLAG_DELETE));
-		Page<Module> page = moduleService.findAll(spec, pm);
+		moduleService.findPage(pm);
 		pm.setSortDefaultName(Direction.DESC, DataEntity.F_LASTMODIFIEDDATE);
-		pm.setPageInstance(page);
 		JSON rs = JsonUtil.getInstance().toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
 	}
@@ -128,7 +123,7 @@ public class ModuleResource extends DataResource<Module> {
 		}
 		moduleService.save(module);
 		SecurityUtil.clearUserJedisCache();
-		JedisUtil.removeSys(Globals.RESOURCE_MODULE_DATA_MAP);
+		JedisUtil.removeSys(InvocationSecurityMetadataSourceService.RESOURCE_MODULE_DATA_MAP);
 		return ResultBuilder.buildOk("保存", module.getName(), "成功");
 	}
 
@@ -144,7 +139,7 @@ public class ModuleResource extends DataResource<Module> {
 		log.debug("REST request to delete Module: {}", ids);
 		moduleService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
 		SecurityUtil.clearUserJedisCache();
-		JedisUtil.removeSys(Globals.RESOURCE_MODULE_DATA_MAP);
+		JedisUtil.removeSys(InvocationSecurityMetadataSourceService.RESOURCE_MODULE_DATA_MAP);
 		return ResultBuilder.buildOk("删除成功");
 	}
 
@@ -161,7 +156,7 @@ public class ModuleResource extends DataResource<Module> {
 		log.debug("REST request to lockOrUnLock User: {}", ids);
 		moduleService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
 		SecurityUtil.clearUserJedisCache();
-		JedisUtil.removeSys(Globals.RESOURCE_MODULE_DATA_MAP);
+		JedisUtil.removeSys(InvocationSecurityMetadataSourceService.RESOURCE_MODULE_DATA_MAP);
 		return ResultBuilder.buildOk("操作成功");
 	}
 	

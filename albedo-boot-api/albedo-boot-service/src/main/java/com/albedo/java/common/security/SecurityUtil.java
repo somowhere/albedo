@@ -1,11 +1,13 @@
 package com.albedo.java.common.security;
 
 import com.albedo.java.common.config.AlbedoProperties;
-import com.albedo.java.common.domain.data.DynamicSpecifications;
-import com.albedo.java.common.domain.data.SpecificationDetail;
-import com.albedo.java.common.repository.data.JpaCustomeRepository;
+import com.albedo.java.common.data.mybatis.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
 import com.albedo.java.modules.sys.domain.*;
 import com.albedo.java.modules.sys.repository.*;
+import com.albedo.java.modules.sys.service.AreaService;
+import com.albedo.java.modules.sys.service.OrgService;
+import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.util.*;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.QueryCondition;
@@ -23,6 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.security.MessageDigest;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -39,16 +42,12 @@ public final class SecurityUtil {
 	protected static Logger logger = LoggerFactory.getLogger(SecurityUtil.class);
 
 	public static UserRepository userRepository = SpringContextHolder.getBean(UserRepository.class);
-	public static AreaRepository areaRepository = SpringContextHolder.getBean(AreaRepository.class);
+	public static AreaService areaService = SpringContextHolder.getBean(AreaService.class);
 
-	public static RoleRepository roleRepository = SpringContextHolder.getBean(RoleRepository.class);
-	public static OrgRepository orgRepository = SpringContextHolder.getBean(OrgRepository.class);
-	public static JpaCustomeRepository<?> baseRepository = SpringContextHolder.getBean(JpaCustomeRepository.class);
+	public static RoleService roleService = SpringContextHolder.getBean(RoleService.class);
+	public static OrgService orgService = SpringContextHolder.getBean(OrgService.class);
 
 	public static ModuleRepository moduleRepository = SpringContextHolder.getBean(ModuleRepository.class);
-
-
-
 
 	public static AlbedoProperties albedoProperties = SpringContextHolder.getBean(AlbedoProperties.class);
 
@@ -115,7 +114,7 @@ public final class SecurityUtil {
 	public static User getByUserId(String userId) {
 		User user = CacheUtil.getJson(USER_CACHE, USER_CACHE_ID_ + userId, User.class);
 		if (user == null) {
-			user = (User) baseRepository.findEntityByHQL("from User where id=:p1", userId);
+			user = userRepository.findOneById(userId);
 			if (user == null)
 				throw new UsernameNotFoundException("User " + userId + " was not found in the database");
 			String json = Json.toJsonString(user);
@@ -134,12 +133,12 @@ public final class SecurityUtil {
 	public static User getByLoginId(String loginId) {
 		User user = (User) CacheUtil.getJson(USER_CACHE, USER_CACHE_LOGIN_NAME_ + loginId, User.class);
 		if (user == null) {
-			user = (User) baseRepository.findEntityByHQL("from User where loginId=:p1", loginId);
-			if (user != null) {
-				String json = Json.toJsonString(user);
-				CacheUtil.put(USER_CACHE, USER_CACHE_ID_ + user.getId(), json);
-				CacheUtil.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getLoginId(), json);
-			}
+			userRepository.findOneByLoginId(loginId).map(u -> {
+				String json = Json.toJsonString(u);
+				CacheUtil.put(USER_CACHE, USER_CACHE_ID_ + u.getId(), json);
+				CacheUtil.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + u.getLoginId(), json);
+				return u;
+			}).orElseThrow(() -> new UsernameNotFoundException("User " + loginId + " was not found in the database"));
 		}
 		return user;
 	}
@@ -178,7 +177,8 @@ public final class SecurityUtil {
 		List<Module> moduleList = getCacheJsonArray(CACHE_MODULE_LIST, userId, Module.class);
 		if (PublicUtil.isEmpty(moduleList) || refresh) {
 			moduleList = isAdmin(userId) ? moduleRepository.findAllByStatusOrderBySort(Module.FLAG_NORMAL)
-					: baseRepository.findListByHQL("select distinct m from Module m, Role r, User u where m in elements (r.modules) and r in elements (u.roles) and m.status=0 and r.status=0 and u.status=0 and u.id=:p1 order by m.sort", userId);
+					: moduleRepository.findAllAuthByUserId(userId);
+//					baseRepository.findListByHQL("select distinct m from Module m, Role r, User u where m in elements (r.modules) and r in elements (u.roles) and m.status=0 and r.status=0 and u.status=0 and u.id=:p1 order by m.sort", userId);
 			putCache(CACHE_MODULE_LIST, Json.toJsonString(moduleList), userId);
 		}
 		return moduleList;
@@ -190,7 +190,7 @@ public final class SecurityUtil {
 			SpecificationDetail<Area> spd = DynamicSpecifications
 					.bySearchQueryCondition(QueryCondition.ne(Org.F_STATUS, Org.FLAG_DELETE));
 			spd.orderASC(Area.F_ID);
-			areaList = areaRepository.findAll(spd);
+			areaList = areaService.findAll(spd);
 			putCache(CACHE_AREA_LIST, Json.toJsonString(areaList));
 		}
 		return areaList;
@@ -206,7 +206,7 @@ public final class SecurityUtil {
 				spd.orAll(dataScopeFilter(getCurrentUserId(), "this", ""));
 			}
 			spd.orderASC(Org.F_SORT);
-			orgList = orgRepository.findAll(spd);
+			orgList = orgService.findAll(spd);
 			putCache(CACHE_ORG_LIST, Json.toJsonString(orgList));
 		}
 		return orgList;
@@ -222,7 +222,7 @@ public final class SecurityUtil {
 				spd.orAll(dataScopeFilter(getCurrentUserId(), "org", "creator"));
 			}
 			spd.orderASC(Role.F_SORT);
-			roleList = roleRepository.findAll(spd);
+			roleList = roleService.findAll(spd);
 			putCache(CACHE_ROLE_LIST, Json.toJsonString(roleList));
 		}
 		return roleList;
@@ -437,7 +437,7 @@ public final class SecurityUtil {
 	/**
 	 * 数据范围过滤
 	 * 
-	 * @param staff
+	 * @param userId
 	 *            当前用户对象，通过“entity.getCurrentUser()”获取
 	 * @param orgAlias
 	 *            机构表别名，多个用“,”逗号隔开。

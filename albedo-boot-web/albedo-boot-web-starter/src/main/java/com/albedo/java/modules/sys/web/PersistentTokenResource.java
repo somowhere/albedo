@@ -1,17 +1,17 @@
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.domain.data.DynamicSpecifications;
-import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.PersistentToken;
 import com.albedo.java.modules.sys.service.PersistentTokenService;
 import com.albedo.java.util.JsonUtil;
+import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.BaseResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
+import com.google.common.collect.Lists;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -47,10 +47,7 @@ public class PersistentTokenResource extends BaseResource {
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity getPage(PageModel<PersistentToken> pm) {
-		SpecificationDetail<PersistentToken> spec = DynamicSpecifications
-				.buildSpecification(pm.getQueryConditionJson(), SecurityUtil.dataScopeFilter());
-		Page<PersistentToken> page = persistentTokenService.findAll(spec, pm);
-		pm.setPageInstance(page);
+		persistentTokenService.findPage(pm, SecurityUtil.dataScopeFilter());
 		JSON rs = JsonUtil.getInstance().setRecurrenceStr("user_loginId").toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
 	}
@@ -60,7 +57,7 @@ public class PersistentTokenResource extends BaseResource {
 	@Timed
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete User: {}", ids);
-		persistentTokenService.delete(ids);
+		persistentTokenService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
 		return ResultBuilder.buildOk("删除成功");
 	}
 

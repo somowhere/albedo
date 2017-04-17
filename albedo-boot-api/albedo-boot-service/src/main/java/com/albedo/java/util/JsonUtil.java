@@ -16,7 +16,6 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.hibernate.collection.internal.PersistentBag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -157,7 +156,7 @@ public class JsonUtil {
 	/**
 	 * 追加免过滤实体字段名
 	 * 
-	 * @param freeFilterList
+	 * @param freeFilters
 	 */
 	public JsonUtil setFreeFilters(String... freeFilters) {
 		JsonUtil.freeFilterList.addAll(Lists.newArrayList(freeFilters));
@@ -167,7 +166,7 @@ public class JsonUtil {
 	/**
 	 * 追加免过滤实体字段名
 	 * 
-	 * @param freeFilterList
+	 * @param key
 	 */
 	public JsonUtil removeFreeFilterList(String key) {
 		JsonUtil.freeFilterList.remove(key);
@@ -177,7 +176,7 @@ public class JsonUtil {
 	/**
 	 * 设置 允许递归的属性名称 多级用'_' 隔开 例如 staff_loginId ------> staffLoginId
 	 * 
-	 * @param RecurrenceCount
+	 * @param properties
 	 * @return
 	 */
 	public JsonUtil setRecurrenceStr(String... properties) {
@@ -368,7 +367,7 @@ public class JsonUtil {
 	/**
 	 * 将obj转换为map
 	 * 
-	 * @param objs
+	 * @param obj
 	 * @param clsName
 	 *            前缀 ，通常不传参
 	 * @return
@@ -380,7 +379,7 @@ public class JsonUtil {
 	/**
 	 * 将obj转换为map
 	 * 
-	 * @param objs
+	 * @param obj
 	 * @param flag
 	 *            是否处理分页对象中的data
 	 * @param clsName
@@ -420,8 +419,8 @@ public class JsonUtil {
 						continue;
 					}
 					val = PropertyUtils.getProperty(obj, key);
-					if (val instanceof PersistentBag)
-						continue;
+//					if (val instanceof PersistentBag)
+//						continue;
 					if (PublicUtil.isNotEmpty(clsName)) {
 						List<String> argList = Lists.newArrayList(clsName);
 						key = PublicUtil.toAppendStr(Collections3.convertToString(argList, "_"), "_", key);

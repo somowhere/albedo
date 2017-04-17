@@ -1,7 +1,5 @@
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.domain.data.DynamicSpecifications;
-import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.modules.sys.domain.LoggingEvent;
 import com.albedo.java.modules.sys.service.LoggingEventService;
 import com.albedo.java.util.JsonUtil;
@@ -43,9 +41,7 @@ public class LoggingEventResource extends BaseResource {
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity getPage(PageModel<LoggingEvent> pm) {
-		SpecificationDetail<LoggingEvent> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson());
-		Page<LoggingEvent> page = loggingEventService.findAll(spec, pm);
-		pm.setPageInstance(page);
+		loggingEventService.findPage(pm);
 		JSON rs = JsonUtil.getInstance().setRecurrenceStr().toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
 	}

@@ -1,8 +1,8 @@
 package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.domain.base.BaseEntity;
-import com.albedo.java.common.domain.data.DynamicSpecifications;
-import com.albedo.java.common.domain.data.SpecificationDetail;
+import com.albedo.java.common.data.hibernate.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.hibernate.persistence.SpecificationDetail;
 import com.albedo.java.common.service.TreeService;
 import com.albedo.java.modules.sys.domain.Org;
 import com.albedo.java.modules.sys.repository.OrgRepository;

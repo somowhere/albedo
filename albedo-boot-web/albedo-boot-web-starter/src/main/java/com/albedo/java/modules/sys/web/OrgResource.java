@@ -1,8 +1,6 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.domain.base.DataEntity;
-import com.albedo.java.common.domain.data.DynamicSpecifications;
-import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Org;
 import com.albedo.java.modules.sys.service.OrgService;
@@ -12,7 +10,6 @@ import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
-import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.sys.query.OrgTreeQuery;
 import com.albedo.java.web.rest.ResultBuilder;
@@ -72,8 +69,7 @@ public class OrgResource extends DataResource<Org> {
 	public ResponseEntity getPage(PageModel<Org> pm)  {
 
 		pm.setSortDefaultName(Direction.DESC, DataEntity.F_LASTMODIFIEDDATE);
-		Page<Org> page = orgService.findAll(pm);
-		pm.setPageInstance(page);
+		orgService.findPage(pm);
 		JSON rs = JsonUtil.getInstance().toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
 	}

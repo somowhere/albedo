@@ -3,13 +3,13 @@
  */
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.domain.data.SpecificationDetail;
+import com.albedo.java.common.data.hibernate.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.hibernate.persistence.SpecificationDetail;
 import com.albedo.java.modules.sys.domain.PersistentToken;
 import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
-import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.PageModel;
+import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.exception.RuntimeMsgException;
-import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * sessions Service
@@ -37,12 +38,14 @@ public class PersistentTokenService {
 	}
 
 	@Transactional(readOnly = true)
-	public Page<PersistentToken> findAll(SpecificationDetail<PersistentToken> spec, PageModel<PersistentToken> pm) {
+	public Page<PersistentToken> findAll(PageModel<PersistentToken> pm, List<QueryCondition> queryConditions) {
+		SpecificationDetail<PersistentToken> spec = DynamicSpecifications
+				.buildSpecification(pm.getQueryConditionJson(),queryConditions );
 		return persistentTokenRepository.findAll(spec, pm);
 	}
 
-	public void delete(String ids) {
-		Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id -> {
+	public void delete(List<String> ids) {
+		ids.forEach(id -> {
 			persistentTokenRepository.findOneById(id).map(u -> {
 				log.debug("Deleted Persistent: {}", u);
 				persistentTokenRepository.delete(u);

@@ -1,8 +1,6 @@
 package com.albedo.java.modules.gen.web;
 
 import com.albedo.java.common.config.template.tag.FormDirective;
-import com.albedo.java.common.domain.data.DynamicSpecifications;
-import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.gen.domain.GenScheme;
@@ -19,7 +17,6 @@ import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.Collections3;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
-import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataResource;
 import com.alibaba.fastjson.JSON;
@@ -77,8 +74,7 @@ public class GenSchemeResource extends DataResource<GenScheme> {
 	@Timed
 	public ResponseEntity getPage(PageModel<GenScheme> pm) {
 
-		Page<GenScheme> page = genSchemeService.findAll(pm);
-		pm.setPageInstance(page);
+		genSchemeService.findPage(pm);
 		JSON rs = JsonUtil.getInstance().setRecurrenceStr("genTable_name").toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
 	}

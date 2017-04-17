@@ -16,11 +16,9 @@ import org.springframework.security.web.authentication.rememberme.AbstractRememb
 import org.springframework.security.web.authentication.rememberme.CookieTheftException;
 import org.springframework.security.web.authentication.rememberme.InvalidCookieException;
 import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationException;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.SecureRandom;
@@ -73,7 +71,6 @@ public class CustomPersistentRememberMeServices extends
     @Autowired
     private UserRepository userRepository;
 
-    @Resource
     public CustomPersistentRememberMeServices(AlbedoProperties albedoProperties, org.springframework.security.core.userdetails
         .UserDetailsService userDetailsService) {
         super(albedoProperties.getSecurity().getRememberMe().getKey(), userDetailsService);
@@ -94,7 +91,7 @@ public class CustomPersistentRememberMeServices extends
         token.setIpAddress(request.getRemoteAddr());
         token.setUserAgent(request.getHeader("User-Agent"));
         try {
-            persistentTokenRepository.saveAndFlush(token);
+            persistentTokenRepository.save(token);
             addCookie(token, request, response);
         } catch (DataAccessException e) {
             log.error("Failed to update token: ", e);
@@ -121,7 +118,7 @@ public class CustomPersistentRememberMeServices extends
             return t;
         }).orElseThrow(() -> new UsernameNotFoundException("User " + login + " was not found in the database"));
         try {
-            persistentTokenRepository.saveAndFlush(token);
+            persistentTokenRepository.save(token);
             addCookie(token, request, response);
         } catch (DataAccessException e) {
             log.error("Failed to save persistent token ", e);

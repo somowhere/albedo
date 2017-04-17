@@ -3,7 +3,6 @@ package com.albedo.java.common.service;
 import com.albedo.java.common.domain.base.BaseEntity;
 import com.albedo.java.common.domain.base.TreeEntity;
 import com.albedo.java.common.repository.TreeRepository;
-import com.albedo.java.common.repository.service.BaseService;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import org.springframework.stereotype.Service;

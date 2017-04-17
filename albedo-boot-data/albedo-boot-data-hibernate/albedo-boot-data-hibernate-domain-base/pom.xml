@@ -29,7 +29,6 @@
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>${assertj-core.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -45,10 +44,6 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-envers</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>

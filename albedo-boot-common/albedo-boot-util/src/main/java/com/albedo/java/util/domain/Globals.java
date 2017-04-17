@@ -47,9 +47,6 @@ public final class Globals {
 	public static final Integer MSG_TYPE_LOGIN = -99;
 	
 	
-	public static final String RESOURCE_MODULE_DATA_MAP = "RESOURCE_MODULE_DATA_MAP";
-	
-	
     private Globals() {
     }
 }

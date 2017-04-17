@@ -1,8 +1,8 @@
 package com.albedo.java.modules.gen.web;
 
 import com.albedo.java.common.config.template.tag.FormDirective;
-import com.albedo.java.common.domain.data.DynamicSpecifications;
-import com.albedo.java.common.domain.data.SpecificationDetail;
+import com.albedo.java.common.data.mybatis.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.gen.domain.GenTable;
@@ -68,8 +68,7 @@ public class GenTableResource extends DataResource<GenTable> {
 	public ResponseEntity getPage(PageModel<GenTable> pm) {
 		SpecificationDetail<GenTable> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
 				QueryCondition.ne(GenTable.F_STATUS, GenTable.FLAG_DELETE));
-		Page<GenTable> page = genTableService.findAll(spec, pm);
-		pm.setPageInstance(page);
+		pm = genTableService.findBasePage(pm, spec);
 		JSON rs = JsonUtil.getInstance().setRecurrenceStr("org_name").toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
 	}

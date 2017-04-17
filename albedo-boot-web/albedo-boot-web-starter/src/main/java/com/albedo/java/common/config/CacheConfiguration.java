@@ -4,37 +4,31 @@ import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.ehcache.InstrumentedEhcache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.Assert;
 
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.PluralAttribute;
-import java.util.Set;
 import java.util.SortedSet;
 
 @Configuration
 @EnableCaching
-@AutoConfigureAfter(value = { MetricsConfiguration.class, DatabaseConfiguration.class })
+@AutoConfigureAfter(value = { MetricsConfiguration.class })
 @AutoConfigureBefore(SecurityConfiguration.class)
 public class CacheConfiguration {
 
     private final Logger log = LoggerFactory.getLogger(CacheConfiguration.class);
 
-    @PersistenceContext
-    private EntityManager entityManager;
+//    @PersistenceContext
+//    private EntityManager entityManager;
 
-    @Resource
+    @Autowired
     private MetricRegistry metricRegistry;
-    @Resource
+    @Autowired
     AlbedoProperties albedoProperties;
     private net.sf.ehcache.CacheManager cacheManager;
 
@@ -51,18 +45,18 @@ public class CacheConfiguration {
     public EhCacheCacheManager ehCacheManager() {
        
         log.debug("Registering Ehcache Metrics gauges");
-        Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
-        for (EntityType<?> entity : entities) {
-            String name = entity.getName();
-            if (name == null || entity.getJavaType() != null) {
-                name = entity.getJavaType().getName();
-            }
-            Assert.notNull(name, "entity cannot exist without an identifier");
-            reconfigureCache(name, albedoProperties);
-            for (PluralAttribute pluralAttribute : entity.getPluralAttributes()) {
-                reconfigureCache(name + "." + pluralAttribute.getName(), albedoProperties);
-            }
-        }
+//        Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
+//        for (EntityType<?> entity : entities) {
+//            String name = entity.getName();
+//            if (name == null || entity.getJavaType() != null) {
+//                name = entity.getJavaType().getName();
+//            }
+//            Assert.notNull(name, "entity cannot exist without an identifier");
+//            reconfigureCache(name, albedoProperties);
+//            for (PluralAttribute pluralAttribute : entity.getPluralAttributes()) {
+//                reconfigureCache(name + "." + pluralAttribute.getName(), albedoProperties);
+//            }
+//        }
         EhCacheCacheManager ehCacheManager = new EhCacheCacheManager();
         ehCacheManager.setCacheManager(getCacheManager());
         return ehCacheManager;

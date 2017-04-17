@@ -1,7 +1,7 @@
 package com.albedo.java.web.rest.base;
 
-import com.albedo.java.common.domain.base.BaseEntity;
-import com.albedo.java.common.repository.data.JpaCustomeRepository;
+import com.albedo.java.common.data.mybatis.persistence.BaseEntity;
+import com.albedo.java.common.data.mybatis.persistence.data.JpaCustomeRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;

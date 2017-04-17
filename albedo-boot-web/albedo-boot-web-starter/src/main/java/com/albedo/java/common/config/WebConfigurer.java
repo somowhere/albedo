@@ -15,13 +15,12 @@ import org.springframework.boot.context.embedded.MimeMappings;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.env.Environment;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import javax.inject.Inject;
+import javax.annotation.Resource;
 import javax.servlet.*;
 import java.io.File;
 import java.nio.file.Paths;

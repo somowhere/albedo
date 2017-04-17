@@ -75,8 +75,7 @@ public class DictResource extends DataResource<Dict> {
 	public ResponseEntity getPage(PageModel<Dict> pm) {
 
 		pm.setSortDefaultName(Direction.DESC, Dict.F_SORT, Dict.F_LASTMODIFIEDDATE);
-		Page<Dict> page = dictService.findAll(pm);
-		pm.setPageInstance(page);
+		dictService.findPage(pm);
 		JSON rs = JsonUtil.getInstance().setRecurrenceStr("parent_name").toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
 	}

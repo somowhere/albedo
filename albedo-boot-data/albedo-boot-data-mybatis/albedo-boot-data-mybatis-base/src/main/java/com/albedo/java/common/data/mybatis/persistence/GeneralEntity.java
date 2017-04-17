@@ -1,8 +1,15 @@
 package com.albedo.java.common.data.mybatis.persistence;
 
+import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.config.SystemConfig;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.MappedSuperclass;
 
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
+import java.util.Map;
 
 /** 通常的数据基类 copyright 2014 albedo all right reserved author 李杰 created on 2014年12月31日 下午1:57:09 */
 @MappedSuperclass
@@ -31,5 +38,49 @@ public abstract class GeneralEntity implements Serializable {
 	public static final String F_VERSION="version";
 	public static final String F_DESCRIPTION="description";
 
+	/**
+	 * 自定义SQL（SQL标识，SQL内容）
+	 */
+	@Transient
+	@JSONField(serialize = false)
+	protected Map<String, Object> paramsMap;
 
+	/**
+	 * 自定义条件SQL
+	 */
+	@Transient @JSONField(serialize = false)
+	protected String sqlConditionDsf;
+
+
+	/**
+	 * 是否是新记录（默认：false），调用setIsNewRecord()设置新记录，使用自定义ID。
+	 * 设置为true后强制执行插入语句，ID不会自动生成，需从手动传入。
+	 */
+	protected boolean isNewRecord = false;
+
+	@JsonIgnore
+	@XmlTransient
+	public Map<String, Object> getParamsMap() {
+		return paramsMap;
+	}
+
+	public void setParamsMap(Map<String, Object> paramsMap) {
+		this.paramsMap = paramsMap;
+	}
+	@JsonIgnore @JSONField(serialize = false)
+	public String getSqlConditionDsf() {
+		return sqlConditionDsf;
+	}
+
+	public void setSqlConditionDsf(String sqlConditionDsf) {
+		this.sqlConditionDsf = sqlConditionDsf;
+	}
+
+	/**
+	 * 获取数据库名称
+	 */
+	@JSONField(serialize = false)
+	public String getDbName(){
+		return SystemConfig.get("jdbc.type");
+	}
 }

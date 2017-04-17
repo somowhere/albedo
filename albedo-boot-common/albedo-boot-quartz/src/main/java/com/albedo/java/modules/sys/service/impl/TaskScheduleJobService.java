@@ -10,8 +10,10 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
-import com.albedo.java.common.domain.data.DynamicSpecifications;
-import com.albedo.java.common.security.SecurityUtil;
+import com.albedo.java.common.data.mybatis.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
+import com.albedo.java.common.data.mybatis.persistence.service.BaseService;
+import com.albedo.java.common.service.DataService;
 import com.albedo.java.util.domain.QueryCondition;
 import org.apache.commons.lang.StringUtils;
 import org.quartz.CronScheduleBuilder;
@@ -32,20 +34,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.albedo.java.common.domain.base.BaseEntity;
-import com.albedo.java.common.domain.data.SpecificationDetail;
-import com.albedo.java.common.repository.service.BaseService;
 import com.albedo.java.modules.sys.domain.TaskScheduleJob;
 import com.albedo.java.modules.sys.repository.TaskScheduleJobRepository;
 import com.albedo.java.modules.sys.service.ITaskScheduleJobService;
-import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.util.spring.SpringContextHolder;
-import com.google.common.collect.Lists;
 
 /**
  * 任务调度管理Service 任务调度
@@ -56,7 +53,7 @@ import com.google.common.collect.Lists;
 @ConditionalOnProperty(name = Globals.ALBEDO_QUARTZENABLED)
 @Service
 @Transactional
-public class TaskScheduleJobService extends BaseService<TaskScheduleJobRepository, TaskScheduleJob> implements ITaskScheduleJobService {
+public class TaskScheduleJobService extends DataService<TaskScheduleJobRepository, TaskScheduleJob, String> implements ITaskScheduleJobService {
 
 	@Autowired
 	private Scheduler scheduler;
@@ -81,6 +78,16 @@ public class TaskScheduleJobService extends BaseService<TaskScheduleJobRepositor
 			}
 		}
 		log.info("init database job over...");
+	}
+
+	@Override
+	public void delete(String taskTaskScheduleJobId, String currentUserId) {
+
+	}
+
+	@Override
+	public void lockOrUnLock(String taskTaskScheduleJobId, String currentUserId) {
+
 	}
 
 	/*
@@ -111,11 +118,11 @@ public class TaskScheduleJobService extends BaseService<TaskScheduleJobRepositor
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public Page<TaskScheduleJob> findAll(PageModel<TaskScheduleJob> pm, List<QueryCondition> queryConditions) {
+	public PageModel<TaskScheduleJob> findAll(PageModel<TaskScheduleJob> pm, List<QueryCondition> queryConditions) {
 		SpecificationDetail<TaskScheduleJob> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
 				queryConditions,
 				QueryCondition.ne(TaskScheduleJob.F_STATUS, TaskScheduleJob.FLAG_DELETE));
-		return repository.findAll(spec, pm);
+		return findBasePage(pm, spec);
 	}
 
 	/*

@@ -22,6 +22,7 @@ import io.grpc.Channel;
 import io.grpc.ClientInterceptor;
 import lombok.SneakyThrows;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 
 /**

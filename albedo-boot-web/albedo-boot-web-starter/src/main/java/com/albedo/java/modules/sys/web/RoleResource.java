@@ -58,8 +58,7 @@ public class RoleResource extends DataResource<Role> {
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity getPage(PageModel<Role> pm) {
-		Page<Role> page = roleService.findAll(pm, SecurityUtil.dataScopeFilter());
-		pm.setPageInstance(page);
+		roleService.findPage(pm, SecurityUtil.dataScopeFilter());
 		JSON rs = JsonUtil.getInstance().setRecurrenceStr("org_name").toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
 	}

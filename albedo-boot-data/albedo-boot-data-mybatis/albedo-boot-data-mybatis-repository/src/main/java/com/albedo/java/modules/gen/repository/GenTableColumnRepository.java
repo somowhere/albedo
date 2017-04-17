@@ -8,4 +8,5 @@ import com.albedo.java.modules.gen.domain.GenTableColumn;
  */
 public interface GenTableColumnRepository extends BaseRepository<GenTableColumn, String> {
 
+    GenTableColumn findOneByGenTableId(String id);
 }

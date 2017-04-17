@@ -4,18 +4,18 @@
 package com.albedo.java.common.service;
 
 import com.albedo.java.common.data.mybatis.persistence.BaseEntity;
+import com.albedo.java.common.data.mybatis.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
 import com.albedo.java.common.data.mybatis.persistence.repository.BaseRepository;
 import com.albedo.java.common.data.mybatis.persistence.service.BaseService;
 import com.albedo.java.common.domain.base.DataEntity;
 import com.albedo.java.util.PublicUtil;
-import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.Assert;
-import com.google.common.collect.Lists;
+import com.albedo.java.util.domain.PageModel;
+import com.albedo.java.util.domain.QueryCondition;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -77,5 +77,25 @@ public abstract class DataService<Repository extends BaseRepository<T, PK>, T ex
 
 		});
 	}
+
+	@Transactional(readOnly=true)
+	public T findOne(PK id) {
+		return repository.findOne(id);
+	}
+
+
+	@Transactional(readOnly = true)
+	public PageModel<T> findPage(PageModel<T> pm) {
+		return findBasePage(pm, null);
+	}
+
+	@Transactional(readOnly=true)
+	public PageModel<T> findPage(PageModel<T> pm, List<QueryCondition> queryConditions) {
+		SpecificationDetail specificationDetail = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
+				queryConditions,
+				QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
+		return findBasePage(pm, specificationDetail);
+	}
+
 
 }

@@ -1,8 +1,8 @@
 package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.domain.base.BaseEntity;
-import com.albedo.java.common.domain.data.DynamicSpecifications;
-import com.albedo.java.common.domain.data.SpecificationDetail;
+import com.albedo.java.common.data.hibernate.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.hibernate.persistence.SpecificationDetail;
 import com.albedo.java.common.service.TreeService;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.repository.DictRepository;
@@ -10,8 +10,6 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.vo.sys.query.DictTreeQuery;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.data.domain.Page;

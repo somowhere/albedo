@@ -6,7 +6,6 @@ import com.albedo.java.util.domain.QueryCondition;
 import org.quartz.SchedulerException;
 import org.springframework.data.domain.Page;
 
-import com.albedo.java.common.domain.data.SpecificationDetail;
 import com.albedo.java.modules.sys.domain.TaskScheduleJob;
 import com.albedo.java.util.domain.PageModel;
 
@@ -42,7 +41,7 @@ public interface ITaskScheduleJobService {
 	
 	TaskScheduleJob findOne(String id);
 
-	Page<TaskScheduleJob> findAll(PageModel<TaskScheduleJob> pm, List<QueryCondition> queryConditions);
+	PageModel<TaskScheduleJob> findAll(PageModel<TaskScheduleJob> pm, List<QueryCondition> queryConditions);
 
 	/**
 	 * 从数据库中取 区别于getAllJob

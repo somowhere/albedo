@@ -3,6 +3,7 @@
  */
 package com.albedo.java.modules.sys.domain;
 
+import com.albedo.java.common.data.mybatis.persistence.GeneralEntity;
 import com.albedo.java.util.annotation.DictType;
 import com.albedo.java.util.annotation.SearchField;
 import lombok.AllArgsConstructor;
@@ -32,7 +33,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class LoggingEvent {
+public class LoggingEvent extends GeneralEntity {
 
 	private static final long serialVersionUID = 1L;
 	/** F_TIMESTMP timestmp : 创建时间 */

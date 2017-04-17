@@ -1,9 +1,6 @@
 package com.albedo.java.modules.gen.service;
 
-import com.albedo.java.common.domain.base.BaseEntity;
-import com.albedo.java.common.domain.data.DynamicSpecifications;
-import com.albedo.java.common.domain.data.SpecificationDetail;
-import com.albedo.java.common.repository.service.BaseService;
+import com.albedo.java.common.data.hibernate.persistence.DynamicSpecifications;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.gen.domain.GenScheme;
 import com.albedo.java.modules.gen.domain.GenTable;
@@ -12,12 +9,7 @@ import com.albedo.java.modules.gen.domain.xml.GenConfig;
 import com.albedo.java.modules.gen.repository.GenSchemeRepository;
 import com.albedo.java.modules.gen.repository.GenTableRepository;
 import com.albedo.java.modules.gen.util.GenUtil;
-import com.albedo.java.util.StringUtil;
-import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
-import com.albedo.java.util.exception.RuntimeMsgException;
-import com.google.common.collect.Lists;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

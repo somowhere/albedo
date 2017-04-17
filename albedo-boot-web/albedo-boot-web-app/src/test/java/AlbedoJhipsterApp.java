@@ -15,7 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
+import javax.annotation.Resource;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;

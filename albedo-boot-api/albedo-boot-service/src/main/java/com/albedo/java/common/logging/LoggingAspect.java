@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 
-import javax.inject.Inject;
+import javax.annotation.Resource;
 import java.util.Arrays;
 
 /**
@@ -25,7 +25,7 @@ public class LoggingAspect {
     @Resource
     private Environment env;
 
-    @Pointcut("within(com.albedo.java.moduels.repository..*) || within(com.albedo.java.moduels.service..*) || within(com.albedo.java.moduels.web..*)")
+    @Pointcut("within(com.albedo.java.modules.*.repository..*) || within(com.albedo.java.modules.*.service..*) || within(com.albedo.java.modules.*.web..*)")
     public void loggingPointcut() {
     }
 

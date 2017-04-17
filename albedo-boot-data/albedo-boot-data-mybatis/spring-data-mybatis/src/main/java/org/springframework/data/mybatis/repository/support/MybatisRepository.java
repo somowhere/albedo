@@ -28,6 +28,7 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Mybatis specific extension of {@link org.springframework.data.repository.Repository}.

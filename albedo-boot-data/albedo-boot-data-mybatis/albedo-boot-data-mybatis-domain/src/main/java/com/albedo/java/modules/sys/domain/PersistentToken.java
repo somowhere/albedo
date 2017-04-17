@@ -1,5 +1,6 @@
 package com.albedo.java.modules.sys.domain;
 
+import com.albedo.java.common.data.mybatis.persistence.GeneralEntity;
 import com.albedo.java.util.annotation.SearchField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class PersistentToken implements Serializable {
+public class PersistentToken extends GeneralEntity {
 
     private static final long serialVersionUID = 1L;
 

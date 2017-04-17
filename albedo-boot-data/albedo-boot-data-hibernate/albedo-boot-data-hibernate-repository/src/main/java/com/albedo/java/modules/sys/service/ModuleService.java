@@ -1,22 +1,17 @@
 package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.domain.base.BaseEntity;
-import com.albedo.java.common.domain.data.DynamicSpecifications;
-import com.albedo.java.common.domain.data.SpecificationDetail;
+import com.albedo.java.common.data.hibernate.persistence.DynamicSpecifications;
 import com.albedo.java.common.service.TreeService;
 import com.albedo.java.modules.sys.domain.Module;
 import com.albedo.java.modules.sys.repository.ModuleRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
-import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.domain.RequestMethod;
 import com.albedo.java.vo.sys.query.ModuleTreeQuery;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,10 +46,7 @@ public class ModuleService extends TreeService<ModuleRepository, Module, String>
 		}
 		return mapList;
 	}
-	@Transactional(readOnly = true)
-	public Page<Module> findAll(SpecificationDetail<Module> spec, PageModel<Module> pm) {
-		return repository.findAll(spec, pm);
-	}
+
 	@Transactional(readOnly = true)
 	public List<Module> findAllByParentId(String parentId) {
 		return repository.findAllByParentIdAndStatusNot(parentId, Module.FLAG_DELETE);

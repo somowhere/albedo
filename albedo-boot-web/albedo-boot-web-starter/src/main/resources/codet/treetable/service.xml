@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.albedo.java.common.domain.base.BaseEntity;
 import com.albedo.java.util.domain.PageModel;
-import com.albedo.java.common.domain.data.SpecificationDetail;
+import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
 import com.albedo.java.common.repository.service.BaseService;
 import com.albedo.java.common.security.SecurityUtil;
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
