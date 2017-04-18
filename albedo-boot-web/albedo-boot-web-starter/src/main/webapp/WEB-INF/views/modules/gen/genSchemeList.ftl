@@ -81,6 +81,7 @@
                         type: 'GET',
                         "dataType": 'json'
                     },
+                    order: [[ 0, 'asc' ]],
                     "columns": [
                     	{ data: "name" },{data: "genTableName"},{ data: "packageName" },
                         { data: "moduleName" },

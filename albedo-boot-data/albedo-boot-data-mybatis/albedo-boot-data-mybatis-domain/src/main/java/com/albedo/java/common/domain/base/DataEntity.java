@@ -26,12 +26,12 @@ public abstract class DataEntity extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @CreatedBy
-    @JSONField(serialize = false)@ApiModelProperty(hidden=true)
-    @Column(name = "created_by")
-    protected String createdBy;
+//
+//    @JSONField(serialize = false)@ApiModelProperty(hidden=true)
+//    @Column(name = "created_by")
+//    protected String createdBy;
 
-    @ManyToOne
+    @ManyToOne @CreatedBy
     @JoinColumn(name = "created_by")
     protected User creator;
 
@@ -39,11 +39,11 @@ public abstract class DataEntity extends BaseEntity {
     @Column(name = "created_date")
     protected Date createdDate = PublicUtil.getCurrentDate();
 
-    @LastModifiedBy
-    @Column(name = "last_modified_by")
-    protected String lastModifiedBy;
 
-    @ManyToOne
+//    @Column(name = "last_modified_by")
+//    protected String lastModifiedBy;
+
+    @ManyToOne @LastModifiedBy
     @JoinColumn(name = "last_modified_by")
     protected User modifier;
     

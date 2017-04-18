@@ -453,21 +453,22 @@ public final class SecurityUtil {
 		if (!SecurityUtil.isAdmin(userId)) {
 			User user = getByUserId(userId);
 			boolean isDataScopeAll = false;
-			String tempOrgId = null;
+			String tempOrgId = null, userOrgId= null;
 			for (Role r : user.getRoles()) {
+				if(user.getOrg()!=null)userOrgId = user.getOrg().getId();
 				for (String oa : StringUtil.splitDefault(orgAlias)) {
 					if (!dataScope.contains(r.getDataScope()) && StringUtil.isNotBlank(oa)) {
 						tempOrgId = PublicUtil.toAppendStr(oa, ".id");
 						if (Role.DATA_SCOPE_ALL.equals(r.getDataScope())) {
 							isDataScopeAll = true;
 						} else if (Role.DATA_SCOPE_ORG_AND_CHILD.equals(r.getDataScope())) {
-							queryConditions.add(QueryCondition.eq(tempOrgId, user.getOrgId()));
+							queryConditions.add(QueryCondition.eq(tempOrgId, userOrgId));
 							queryConditions.add(QueryCondition.like(PublicUtil.toAppendStr(oa, ".parentIds"),
-									PublicUtil.toAppendStr(user.getOrg().getParentIds(), user.getOrgId(), ",%'")));
+									PublicUtil.toAppendStr(user.getOrg().getParentIds(), userOrgId, ",%'")));
 						} else if (Role.DATA_SCOPE_ORG.equals(r.getDataScope())) {
-							queryConditions.add(QueryCondition.eq(tempOrgId, user.getOrgId()));
+							queryConditions.add(QueryCondition.eq(tempOrgId, userOrgId));
 							queryConditions
-									.add(QueryCondition.eq(PublicUtil.toAppendStr(oa, ".parentId"), user.getOrgId()));
+									.add(QueryCondition.eq(PublicUtil.toAppendStr(oa, ".parentId"), userOrgId));
 						} else if (Role.DATA_SCOPE_SELF.equals(r.getDataScope())
 								|| Role.DATA_SCOPE_CUSTOM.equals(r.getDataScope())) {
 							if (PublicUtil.isNotEmpty(r.getOrgIds())) {

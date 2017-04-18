@@ -146,7 +146,7 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
 		}
 		return list;
 	}
-	@Transactional(readOnly = true)
+//	@Transactional(readOnly = true)
 	public List<GenTable> findTableListFormDb(GenTable genTable) {
 //		List<String[]> GenString = null;
 		List<GenTable> list = repository.findTableList(genTable);

@@ -36,14 +36,6 @@ public class DictService extends TreeService<DictRepository, Dict, String> {
 		}
 		return mapList;
 	}
-	@Transactional(readOnly = true)
-	public Dict findOne(String id) {
-		return repository.findOne(id);
-	}
 
-	@Transactional(readOnly = true)
-	public Dict findFristByParentId(String parentId) {
-		return repository.findTopByParentIdAndStatusNotOrderBySortDesc(parentId, Dict.FLAG_DELETE);
-	}
 
 }

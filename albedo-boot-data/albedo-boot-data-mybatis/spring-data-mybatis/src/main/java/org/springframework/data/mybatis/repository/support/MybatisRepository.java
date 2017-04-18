@@ -80,6 +80,18 @@ public interface MybatisRepository<T, ID extends Serializable>
 
     <X extends T> Long countAll(X condition);
 
+
+    T findOne(boolean isBasic, Map<String, Object> paramsMap, String... columns);
+
+    List<T> findAll(boolean isBasic, Map<String, Object> paramsMap, String... columns);
+
+    List<T> findAll(boolean isBasic, Sort sort, Map<String, Object> paramsMap, String... columns);
+
+    Page<T> findAll(boolean isBasic, Pageable pageable, Map<String, Object> paramsMap, String... columns);
+
+    Long countAll(boolean isBasic, Map<String, Object> paramsMap);
+
+
     /*** Query with non association ***/
 
     <X extends T> T findBasicOne(X condition, String... columns);
@@ -91,17 +103,6 @@ public interface MybatisRepository<T, ID extends Serializable>
     <X extends T> Page<T> findBasicAll(Pageable pageable, X condition, String... columns);
 
     <X extends T> Long countBasicAll(X condition);
-
-    T findBasicOne(Map<String, Object> paramsMap, String... columns);
-
-    List<T> findBasicAll(Map<String, Object> paramsMap, String... columns);
-
-    List<T> findBasicAll(Sort sort, Map<String, Object> paramsMap, String... columns);
-
-    Page<T> findBasicAll(Pageable pageable, Map<String, Object> paramsMap, String... columns);
-
-    Long countBasicAll(Map<String, Object> paramsMap);
-
 
     void deleteInBatch(Iterable<T> entities);
 

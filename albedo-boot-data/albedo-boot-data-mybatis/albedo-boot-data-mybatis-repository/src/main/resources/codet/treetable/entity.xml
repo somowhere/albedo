@@ -75,24 +75,21 @@ public class ${ClassName} extends TreeEntity<${ClassName}> {
 	<#list table.columnList as column>
 		<#if !column.pk && column.isNotBaseField && column.isNotBaseTreeField>
 	/** ${column.simpleJavaField} ${column.comments} */<#if table.parentExists && table.parentTableFk == column.name>
-	@ManyToOne(fetch = FetchType.LAZY)@JoinColumn(name = "${table.parentTableFk}")@NotFound(action = NotFoundAction.IGNORE)
+	@ManyToOne@JoinColumn(name = "${table.parentTableFk}")
 	private ${table.parent.className} ${column.simpleJavaField};
 	<#elseif column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
-	@ManyToOne@JoinColumn(name = "${column.name}", updatable = false, insertable=false)@NotFound(action = NotFoundAction.IGNORE)
+	@ManyToOne@JoinColumn(name = "${column.name}")
 	private ${column.simpleJavaType} ${column.simpleJavaField};
 	@Column(name = "${column.name}")
 	private String ${column.simpleJavaField}Id;
-	<#else>${column.hibernateValidatorExprssion}<#if column.isDateTimeColumn>@Temporal(TemporalType.DATE)</#if>@Column(name = "${column.name}", unique = ${column.unique?string}, nullable = ${column.nullable?string}<#if column.javaType = 'String'>, length = ${column.size}</#if>)<#if column.unique>@SearchField</#if><#if column.dictType?? && column.dictType != "">@DictType(name="${column.dictType}")</#if>
+	<#else>${column.hibernateValidatorExprssion}<#if column.isDateTimeColumn>@Temporal(TemporalType.DATE)</#if>@Column(name = "${column.name}")<#if column.unique>@SearchField</#if><#if column.dictType?? && column.dictType != "">@DictType(name="${column.dictType}")</#if>
 	private ${column.simpleJavaType} ${column.simpleJavaField};
 			</#if>
 		</#if>
 	</#list>
 	<#list table.childList as c>
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY, mappedBy = "${c.parentTableJavaFieldFk?uncap_first}")
-	@NotFound(action = NotFoundAction.IGNORE)
-	@Where(clause = "status_='" + FLAG_NORMAL + "'")
-	@Fetch(FetchMode.SUBSELECT)
+	@OneToMany
+	@JoinColumn(name = "${column.name}")
 	private List<${c.className}> ${c.className?uncap_first}List = Lists.newArrayList();
 	</#list>
 	//columns END

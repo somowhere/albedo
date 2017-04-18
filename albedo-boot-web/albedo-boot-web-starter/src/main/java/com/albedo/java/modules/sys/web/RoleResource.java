@@ -2,7 +2,6 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Role;
-import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
@@ -16,15 +15,12 @@ import com.albedo.java.web.rest.base.DataResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.Lists;
-import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import java.net.URISyntaxException;
 
 /**
  * REST controller for managing Station.
@@ -33,14 +29,11 @@ import java.net.URISyntaxException;
 @RequestMapping("${albedo.adminPath}/sys/role")
 public class RoleResource extends DataResource<RoleService, Role> {
 
-	@Resource
-	private RoleService roleService;
-
 	@ModelAttribute
 	public Role get(@RequestParam(required = false) String id) throws Exception {
 		String path = request.getRequestURI();
 		if (path != null && !path.contains("checkBy") && !path.contains("find") && PublicUtil.isNotEmpty(id)) {
-			return roleService.findOne(id);
+			return service.findOne(id);
 		} else {
 			return new Role();
 		}
@@ -59,7 +52,7 @@ public class RoleResource extends DataResource<RoleService, Role> {
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity getPage(PageModel<Role> pm) {
-		roleService.findPage(pm, SecurityUtil.dataScopeFilter());
+		service.findPage(pm, SecurityUtil.dataScopeFilter());
 		JSON rs = JsonUtil.getInstance().setRecurrenceStr("org_name").toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
 	}
@@ -74,7 +67,6 @@ public class RoleResource extends DataResource<RoleService, Role> {
 	 *
 	 * @param role
 	 * @return
-	 * @throws URISyntaxException
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
@@ -85,7 +77,7 @@ public class RoleResource extends DataResource<RoleService, Role> {
 				role.getId(),role.getName()))) {
 			throw new RuntimeMsgException("名称已存在");
 		}
-		roleService.save(role);
+		service.save(role);
 		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("保存", role.getName(), "成功");
 	}
@@ -100,7 +92,7 @@ public class RoleResource extends DataResource<RoleService, Role> {
 	@Timed
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete Role: {}", ids);
-		roleService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
+		service.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
 		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("删除成功");
 	}
@@ -115,7 +107,7 @@ public class RoleResource extends DataResource<RoleService, Role> {
 	@Timed
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock User: {}", ids);
-		roleService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
+		service.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
 		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("操作成功");
 	}

@@ -118,12 +118,12 @@ public class QueryUtil {
 						&& SecurityHqlUtil.checkStrForHqlWhere(String.valueOf(queryCondition.getValue()))) {
 					if (PublicUtil.isEmpty(operate))
 						queryCondition.setOperate(Operator.eq.getOperator());
-					sb.append(" ").append(isAnd? "and" : "or").append(" ").append(argStr).append(queryCondition.getFieldName()).append(" ")
+					sb.append(" ").append(isAnd? "and" : "or").append(" ").append(isMybatis ? queryCondition.getFieldRealColumnName()
+							: argStr + queryCondition.getFieldName()).append(" ")
 							.append(operate);
 					if (!Operator.isNotNull.equals(queryCondition.getOperate())
 							&& !Operator.isNull.equals(queryCondition.getOperate())) {
-						String paramFieldName = PublicUtil.toAppendStr(argStr, isMybatis ? queryCondition.getFieldRealColumnName()
-								: queryCondition.getFieldName())
+						String paramFieldName = PublicUtil.toAppendStr(argStr, queryCondition.getFieldName())
 								.replace(".", "_");
 						if (paramFieldName.contains(","))
 							paramFieldName = PublicUtil.getRandomString(6);
@@ -254,7 +254,6 @@ public class QueryUtil {
 		}
 		return sb.toString();
 	}
-
 	/**
 	 * 将对象不为空的属性转换为List<QueryCondition> 仅解析基本类型
 	 *
@@ -262,7 +261,7 @@ public class QueryUtil {
 	 * @param operateMap
 	 * @return
 	 */
-	public static List<QueryCondition> convertObjectToQueryCondition(Object entity, Map<String, Operator> operateMap) {
+	public static List<QueryCondition> convertObjectToQueryCondition(Object entity, Map<String, Operator> operateMap, Class<?> persistentClass) {
 		List<QueryCondition> list = Lists.newArrayList();
 		if (PublicUtil.isNotEmpty(entity)) {
 			Object val = null;
@@ -310,7 +309,7 @@ public class QueryUtil {
 								list.add(new QueryCondition(key,
 										PublicUtil.isNotEmpty(operateMap) && PublicUtil.isNotEmpty(operateMap.get(key))
 												? operateMap.get(key) : an.op(),
-										val));
+										val, persistentClass));
 							}
 						}
 					}
@@ -320,6 +319,16 @@ public class QueryUtil {
 
 		}
 		return list;
+	}
+	/**
+	 * 将对象不为空的属性转换为List<QueryCondition> 仅解析基本类型
+	 *
+	 * @param entity
+	 * @param operateMap
+	 * @return
+	 */
+	public static List<QueryCondition> convertObjectToQueryCondition(Object entity, Map<String, Operator> operateMap) {
+		return convertObjectToQueryCondition(entity,operateMap,null);
 	}
 
 	/**

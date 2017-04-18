@@ -1,7 +1,7 @@
 <div class="portlet light bordered">
 	<div class="portlet-title">
 		<div class="caption font-blue">
-            <i class="fa fa-globe font-blue"></i><#if user.id??>编辑<#else>添加</#if>用户
+            <i class="fa fa-globe font-blue"></i><#if (user.id)??>编辑<#else>添加</#if>用户
         </div>
 		<div class="actions">
 			<div class="btn-group">
@@ -17,7 +17,7 @@
 		<form id="ajax_form" action="${ctx}/sys/user/edit" method="post"
 			class="form-horizontal form-validation form-bordered form-label-stripped"
 			config="{rules:{
-                       loginId: {remote: '${ctx}/sys/user/checkByProperty?_statusFalse&id=' + encodeURIComponent('${user.id!}')},
+                       loginId: {remote: '${ctx}/sys/user/checkByProperty?_statusFalse&id=' + encodeURIComponent('${(user.id)!}')},
                        descption:{required:true}
                        },
                        messages:{loginId:{message:'登录Id已存在'}}}">

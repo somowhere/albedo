@@ -41,8 +41,8 @@ public abstract class DataService<Repository extends BaseRepository<T, PK>, T ex
 		T entity = repository.findOne(id);
 		Assert.assertNotNull(entity, "无法查询到对象信息");
 		entity.setStatus(status);
-		entity.setLastModifiedBy(lastModifiedBy);
-		entity.setLastModifiedDate(PublicUtil.getCurrentDate());
+//		entity.setLastModifiedBy();
+//		entity.setLastModifiedDate(PublicUtil.getCurrentDate());
 		repository.updateIgnoreNull(entity);
 	}
 
@@ -84,9 +84,9 @@ public abstract class DataService<Repository extends BaseRepository<T, PK>, T ex
 	@Transactional(readOnly=true)
 	public PageModel<T> findPage(PageModel<T> pm, List<QueryCondition> queryConditions) {
 		SpecificationDetail<T> specificationDetail = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
-				queryConditions,
+				queryConditions, persistentClass,
 				QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
-		specificationDetail.setPersistentClass(persistentClass);
+//		specificationDetail.setPersistentClass();
 		return findBasePage(pm, specificationDetail);
 	}
 

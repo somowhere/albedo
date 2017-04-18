@@ -198,30 +198,6 @@ public class TaskScheduleJob extends IdEntity {
 		this.sourceId = sourceId;
 	}
 
-	public String toString() {
-		return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("id", getId()).append("name", getName())
-				.append("group", getGroup()).append("jobStatus", getJobStatus())
-				.append("cronExpression", getCronExpression()).append("beanClass", getBeanClass())
-				.append("isConcurrent", getIsConcurrent()).append("springId", getSpringId())
-				.append("methodName", getMethodName()).append("createdBy", getCreatedBy())
-				.append("createdDate", getCreatedDate()).append("lastModifiedBy", getLastModifiedBy())
-				.append("lastModifiedDate", getLastModifiedDate()).append("status", getStatus())
-				.append("description", getDescription()).append("version", getVersion()).toString();
-	}
-
-	public int hashCode() {
-		return new HashCodeBuilder().append(getId()).toHashCode();
-	}
-
-	public boolean equals(Object obj) {
-		if (obj instanceof TaskScheduleJob == false)
-			return false;
-		if (this == obj)
-			return true;
-		TaskScheduleJob other = (TaskScheduleJob) obj;
-		return new EqualsBuilder().append(getId(), other.getId()).isEquals();
-	}
-
 
 	public String getMethodParams() {
 		return methodParams;

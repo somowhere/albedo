@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.albedo.java.modules.gen.repository.GenTableRepository">
+<mapper namespace="com.albedo.java.modules.gen.domain.GenTable">
     
 	<select id="findTableList" resultType="com.albedo.java.modules.gen.domain.GenTable">
-		<if test="dbName == 'oracle'">
-			SELECT 
-				t.TABLE_NAME AS name, 
+		<if test="_databaseId == 'oracle'">
+			SELECT
+				t.TABLE_NAME AS name,
 				c.COMMENTS AS comments
-			FROM user_tables t, user_tab_comments c 
+			FROM user_tables t, user_tab_comments c
 			WHERE t.table_name = c.table_name
 			<if test="name != null and name != ''">
 				AND t.TABLE_NAME = upper(#{name})
 			</if>
 			ORDER BY t.TABLE_NAME
 		</if>
-		<if test="dbName == 'mssql'">
-			SELECT t.name AS name,b.value AS comments 
+		<if test="_databaseId == 'mssql'">
+			SELECT t.name AS name,b.value AS comments
 			FROM sys.objects t LEFT JOIN sys.extended_properties b ON b.major_id=t.object_id and b.minor_id=0 and b.class=1 AND b.name='MS_Description'
 			WHERE t.type='U'
 			<if test="name != null and name != ''">
@@ -23,7 +23,7 @@
 			</if>
 			ORDER BY t.name
 		</if>
-		<if test="dbName == 'mysql'">			
+		<if test="_databaseId == 'mysql'">
 			SELECT t.table_name AS name,t.TABLE_COMMENT AS comments 
 			FROM information_schema.`TABLES` t 
 			WHERE t.TABLE_SCHEMA = (select database())

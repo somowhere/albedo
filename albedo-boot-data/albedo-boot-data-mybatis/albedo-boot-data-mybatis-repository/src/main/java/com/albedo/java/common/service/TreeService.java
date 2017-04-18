@@ -6,11 +6,14 @@ import com.albedo.java.common.repository.TreeRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.exception.RuntimeMsgException;
-import org.springframework.stereotype.Service;
+import com.albedo.java.vo.sys.query.TreeQuery;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 
 @Transactional
@@ -31,8 +34,8 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
         T entity = repository.findOneByIdOrParentIdsLike(id, likeParentIds);
         Assert.assertNotNull(entity, "无法查询到对象信息");
         entity.setStatus(status);
-        entity.setLastModifiedBy(lastModifiedBy);
-        entity.setLastModifiedDate(PublicUtil.getCurrentDate());
+//        entity.setLastModifiedBy(lastModifiedBy);
+//        entity.setLastModifiedDate(PublicUtil.getCurrentDate());
         repository.updateIgnoreNull(entity);
 
     }
@@ -64,6 +67,31 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
         repository.save(list);
         log.debug("Save Information for T: {}", entity);
         return entity;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> findTreeData(TreeQuery query) {
+        String extId = query!=null?query.getExtId(): null,  all = query !=null ?query.getAll() : null;
+        List<Map<String, Object>> mapList = Lists.newArrayList();
+        List<T> list = repository.findAllByStatusNot(BaseEntity.FLAG_DELETE);
+        for (T e : list) {
+            if ((PublicUtil.isEmpty(extId)
+                    || PublicUtil.isEmpty(e.getParentIds()) || (PublicUtil.isNotEmpty(extId) && !extId.equals(e.getId()) && e.getParentIds() != null && e.getParentIds().indexOf("," + extId + ",") == -1))
+                    && (all != null || (all == null && BaseEntity.FLAG_NORMAL.equals(e.getStatus())))) {
+                Map<String, Object> map = Maps.newHashMap();
+                map.put("id", e.getId());
+                map.put("pId", PublicUtil.isEmpty(e.getParentId()) ? "0" : e.getParentId());
+                map.put("name", e.getName());
+                map.put("pIds", e.getParentIds());
+                mapList.add(map);
+            }
+        }
+        return mapList;
+    }
+
+    @Transactional(readOnly = true)
+    public T findTopByParentId(String parentId) {
+        return repository.findTopByParentIdAndStatusNotOrderBySortDesc(parentId, BaseEntity.FLAG_DELETE);
     }
 
 }

@@ -18,7 +18,7 @@ public interface GenTableRepository extends BaseRepository<GenTable, String> {
      * @return
      */
     @Query
-    List<GenTable> findTableList(@Param("genTable") GenTable genTable);
+    List<GenTable> findTableList(GenTable genTable);
 
     /**
      * 获取数据表字段
@@ -26,7 +26,7 @@ public interface GenTableRepository extends BaseRepository<GenTable, String> {
      * @return
      */
     @Query
-    List<GenTableColumn> findTableColumnList(@Param("genTable") GenTable genTable);
+    List<GenTableColumn> findTableColumnList(GenTable genTable);
 
     /**
      * 获取数据表主键

@@ -5,12 +5,9 @@ package com.albedo.java.common.repository;
 
 import com.albedo.java.common.data.mybatis.persistence.BaseEntity;
 import com.albedo.java.common.data.mybatis.persistence.repository.BaseRepository;
-import com.albedo.java.common.domain.base.TreeEntity;
-import org.springframework.data.mybatis.repository.support.MybatisRepository;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * TreeRepository
@@ -27,9 +24,9 @@ public interface TreeRepository<T extends BaseEntity, PK extends Serializable> e
 	
 	List<T> findAllByStatusNot(Integer status);
 	
-	<T extends TreeEntity> T findTopByParentIdAndStatusNotOrderBySortDesc(String parentId, Integer status);
+	T findTopByParentIdAndStatusNotOrderBySortDesc(String parentId, Integer status);
 
-	<T extends TreeEntity> T findOneByIdOrParentIdsLike(PK id, String likeParentIds);
+	T findOneByIdOrParentIdsLike(PK id, String likeParentIds);
 
-	T findOneById(String parentId);
+
 }

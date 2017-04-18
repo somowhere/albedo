@@ -8,7 +8,6 @@ import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.BaseResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
-import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

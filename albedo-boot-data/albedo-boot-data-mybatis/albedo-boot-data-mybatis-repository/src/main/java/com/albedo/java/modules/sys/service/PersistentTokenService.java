@@ -32,7 +32,7 @@ public class PersistentTokenService extends BaseService<PersistentTokenRepositor
 	@Transactional(readOnly = true)
 	public PageModel<PersistentToken> findPage(PageModel<PersistentToken> pm, List<QueryCondition> queryConditions) {
 		SpecificationDetail<PersistentToken> spec = DynamicSpecifications
-				.buildSpecification(pm.getQueryConditionJson(),queryConditions );
+				.buildSpecification(pm.getQueryConditionJson(), queryConditions, persistentClass);
 		return findBasePage(pm, spec);
 	}
 

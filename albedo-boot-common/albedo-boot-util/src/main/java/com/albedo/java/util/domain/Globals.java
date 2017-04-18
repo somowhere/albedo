@@ -19,7 +19,7 @@ public final class Globals {
     // Spring profile used to disable running liquibase
     public static final String SPRING_PROFILE_NO_LIQUIBASE = "no-liquibase";
 
-    public static final String SYSTEM_ACCOUNT = "system";
+    public static final String SYSTEM_ACCOUNT = "1";
     
     
     public static final String INDEX_URL = "index";

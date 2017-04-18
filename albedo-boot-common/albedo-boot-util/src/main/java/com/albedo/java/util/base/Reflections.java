@@ -356,7 +356,23 @@ public class Reflections {
 		}
 		return new RuntimeException("Unexpected Checked Exception.", e);
 	}
-
+	/**
+	 * 获取对象属性所包含的指定注解（含get方法）
+	 *
+	 * @param cls
+	 * @param pName
+	 * @param annotationClass
+	 * @return
+	 */
+	public static <T extends Annotation> T getAnnotationByClazz(Class<?> cls, String pName, Class<T> annotationClass) {
+		try {
+			Object obj = cls.newInstance();
+			return  getAnnotation(obj, pName, annotationClass);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return null;
+	}
 	/**
 	 * 获取对象属性所包含的指定注解（含get方法）
 	 * 

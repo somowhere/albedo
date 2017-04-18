@@ -45,15 +45,15 @@ public class DatabaseAutoConfiguration implements ResourceLoaderAware {
         return new DataSourceTransactionManager(dataSource);
     }
 
-    @Bean
-    public AuditorAware<Long> auditorAware() {
-        return new AuditorAware<Long>() {
-            @Override
-            public Long getCurrentAuditor() {
-                return 1001L;
-            }
-        };
-    }
+//    @Bean
+//    public AuditorAware<Long> auditorAware() {
+//        return new AuditorAware<Long>() {
+//            @Override
+//            public Long getCurrentAuditor() {
+//                return 1001L;
+//            }
+//        };
+//    }
 
     @Bean
     public AuditDateAware<Date> auditDateAware() {

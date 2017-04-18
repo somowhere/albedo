@@ -15,20 +15,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.albedo.java.util.StringUtil;
-import com.albedo.java.util.exception.RuntimeMsgException;
-import com.albedo.java.common.domain.base.BaseEntity;
-import com.albedo.java.util.domain.PageModel;
-import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
-import com.albedo.java.common.repository.service.BaseService;
-import com.albedo.java.common.security.SecurityUtil;
+import com.albedo.java.common.service.DataService;
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
 <#if (table.compositeId)!>
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Id;
 </#if>
 import ${packageName}.${moduleName}.repository.${ClassName}Repository;
-import com.google.common.collect.Lists;
-
 
 /**
  * ${functionName}Service ${functionNameSimple}
@@ -37,58 +29,8 @@ import com.google.common.collect.Lists;
  */
 @Service
 @Transactional
-public class ${ClassName}Service extends BaseService<${ClassName}>{
+public class ${ClassName}Service extends DataService<${ClassName}Repository, ${ClassName}, String>{
 
-	@Resource
-    private ${ClassName}Repository ${className}Repository;
-
-	/** 保存${functionNameSimple}
-	 * 
-	 * @param ${className} 实体${functionNameSimple}
-	 * @return */
-    public ${ClassName} save(${ClassName} ${className}) {
-        ${className} = ${className}Repository.save(${className});
-        log.debug("Save Information for ${ClassName}: {}", ${className});
-        return ${className};
-    }
-
-	/** 逻辑删除
-	 * 
-	 * @param ids 主键Id
-	 * @return */
-    public void delete(String ids) {
-    	Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id ->{
-    		${className}Repository.findOneById(id).map(u -> {
-    			deleteById(id, SecurityUtil.getCurrentAuditor());
-                log.debug("Deleted ${ClassName}: {}", u);
-				return u;
-			}).orElseThrow(() -> new RuntimeMsgException("${functionNameSimple} " + id + " 信息为空，删除失败"));
-    	});
-    }
-
-	/** 锁定
-	 * 
-	 * @param ids 主键Id
-	 * @return */
-	public void lockOrUnLock(String ids) {
-		Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id ->{
-			${className}Repository.findOneById(id).map(u -> {
-    			operateStatusById(id, BaseEntity.FLAG_NORMAL.equals(u.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL,SecurityUtil.getCurrentAuditor());
-                log.debug("LockOrUnLock ${ClassName}: {}", u);
-				return u;
-			}).orElseThrow(() -> new RuntimeMsgException("${functionNameSimple} " + id + " 信息为空，操作失败"));
-    	});
-	}
-
-	@Transactional(readOnly=true)
-	public ${ClassName} findOne(String id) {
-		return ${className}Repository.findOne(id);
-	}
-
-	@Transactional(readOnly=true)
-	public Page<${ClassName}> findAll(SpecificationDetail<${ClassName}> spec, PageModel<${ClassName}> pm) {
-		return ${className}Repository.findAll(spec, pm);
-	}
 }
 ]]>
     </content>

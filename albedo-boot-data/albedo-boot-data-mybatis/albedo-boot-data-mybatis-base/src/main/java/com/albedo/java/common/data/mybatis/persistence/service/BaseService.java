@@ -13,6 +13,7 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.QueryUtil;
 import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.base.Reflections;
+import com.albedo.java.util.domain.Order;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import com.google.common.collect.Lists;
@@ -36,7 +37,8 @@ import java.util.Map;
  * @version 2014-05-16
  */
 @Transactional
-public abstract class BaseService<Repository extends BaseRepository<T, pk>, T extends GeneralEntity, pk extends Serializable> {
+public abstract class BaseService<Repository extends BaseRepository<T, pk>,
+		T extends GeneralEntity, pk extends Serializable> {
 	public final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(getClass());
 	@Autowired
 	public  Repository repository;
@@ -60,10 +62,10 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>, T ex
 		boolean rs = false;
 		if (PublicUtil.isNotEmpty(entity)) {
 			Map<String, Object> paramsMap = Maps.newHashMap();
-			List<QueryCondition> conditionList = QueryUtil.convertObjectToQueryCondition(entity, maps);
+			List<QueryCondition> conditionList = QueryUtil.convertObjectToQueryCondition(entity, maps, persistentClass);
 			String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(conditionList,
 					null,
-					paramsMap);
+					paramsMap, true, true);
 			paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_DSF, sqlConditionDsf);
 			Long obj = countBasicAll(paramsMap);
 			if (obj == null || obj == 0) {
@@ -109,38 +111,62 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>, T ex
 	}
 
 
-	public T findBasicOne(Map<String, Object> paramsMap, String... columns) {
-		return repository.findBasicOne(paramsMap, columns);
+	public T findOne(Map<String, Object> paramsMap, String... columns) {
+		paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_CONDITION, new Object());
+		return repository.findOne(false, paramsMap, columns);
 	}
 
-	public List<T> findBasicAll(Map<String, Object> paramsMap, String... columns) {
-		return repository.findBasicAll(paramsMap, columns);
+	public List<T> findAll(Map<String, Object> paramsMap, String... columns) {
+		paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_CONDITION, new Object());
+		return repository.findAll(false, paramsMap, columns);
 	}
 
-	public List<T> findBasicAll(Sort sort, Map<String, Object> paramsMap, String... columns) {
-		return repository.findBasicAll(sort, paramsMap, columns);
+	public List<T> findAll(Sort sort, Map<String, Object> paramsMap, String... columns) {
+		paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_CONDITION, new Object());
+		return repository.findAll(false, sort, paramsMap, columns);
 	}
 
-	public Page<T> findBasicAll(Pageable pageable, Map<String, Object> paramsMap, String... columns) {
-		return repository.findBasicAll(pageable, paramsMap, columns);
+	public Page<T> findAll(Pageable pageable, Map<String, Object> paramsMap, String... columns) {
+		paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_CONDITION, new Object());
+		return repository.findAll(false, pageable, paramsMap, columns);
 
 	}
 
 	public Long countBasicAll(Map<String, Object> paramsMap) {
-		return repository.countBasicAll(paramsMap);
+		paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_CONDITION, new Object());
+		return repository.countAll(false, paramsMap);
 	}
-
+	public List<Sort.Order> toOrders(List<Order> orders){
+		List<Sort.Order> orderList = Lists.newArrayList();
+		if (PublicUtil.isEmpty(orders)) {
+			return orderList;
+		}
+		for (com.albedo.java.util.domain.Order order : orders) {
+			if (order == null) {
+				continue;
+			}
+			String property = order.getProperty();
+			com.albedo.java.util.domain.Order.Direction direction = order.getDirection();
+			if (PublicUtil.isEmpty(property) || direction == null) {
+				continue;
+			}
+			orderList.add(new Sort.Order(direction.equals(Order.Direction.asc) ?
+					Sort.Direction.ASC : Sort.Direction.DESC, property));
+		}
+		return orderList;
+	}
 	@Transactional(readOnly=true)
 	public List<T> findAll(SpecificationDetail specificationDetail) {
 		try {
-			T entity = persistentClass.newInstance();
+			Map<String, Object> paramsMap = Maps.newHashMap();
 			specificationDetail.setPersistentClass(persistentClass);
 			String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(specificationDetail.getAndQueryConditions(),
 					specificationDetail.getOrQueryConditions(),
 					Lists.newArrayList(DynamicSpecifications.MYBITS_SEARCH_PARAMS_MAP),
-					entity.getParamsMap(), true);
-			entity.setSqlConditionDsf(sqlConditionDsf);
-			return repository.findBasicAll(new Sort(specificationDetail.getOrders()),entity);
+					paramsMap, true);
+			paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_DSF, sqlConditionDsf);
+			paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_CONDITION, new Object());
+			return repository.findAll(false, new Sort(toOrders(specificationDetail.getOrders())), paramsMap);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			Assert.buildException(e.getMessage());
@@ -151,14 +177,14 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>, T ex
 	public PageModel<T> findBasePage(PageModel<T> pm, SpecificationDetail<T> specificationDetail) {
 		try {
 			Map<String, Object> paramsMap = Maps.newHashMap();
+			specificationDetail.setPersistentClass(persistentClass);
 			String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(specificationDetail.getAndQueryConditions(),
 					specificationDetail.getOrQueryConditions(),
 					null,
 					paramsMap, true);
 			paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_DSF, sqlConditionDsf);
 			paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_CONDITION, new Object());
-			paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_DSF, sqlConditionDsf);
-			pm.setPageInstance(repository.findBasicAll(pm, paramsMap));
+			pm.setPageInstance(repository.findAll(false, pm, paramsMap));
 			return pm;
 		} catch (Exception e) {
 			log.error(e.getMessage());

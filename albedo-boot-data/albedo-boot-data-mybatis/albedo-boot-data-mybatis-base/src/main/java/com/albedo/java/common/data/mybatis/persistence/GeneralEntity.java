@@ -4,6 +4,7 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.config.SystemConfig;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.DynamicSearch;
 import org.springframework.data.mybatis.annotations.MappedSuperclass;
@@ -14,7 +15,7 @@ import java.util.Map;
 
 /** 通常的数据基类 copyright 2014 albedo all right reserved author 李杰 created on 2014年12月31日 下午1:57:09 */
 @MappedSuperclass
-@DynamicSearch
+@DynamicSearch @Data
 public abstract class GeneralEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -53,6 +54,10 @@ public abstract class GeneralEntity implements Serializable {
 	@Transient @JSONField(serialize = false)
 	protected String sqlConditionDsf;
 
+	@Transient @JSONField(serialize = false)
+	protected String dbName = SystemConfig.get("jdbc.type");
+
+
 	@JsonIgnore
 	@XmlTransient
 	public Map<String, Object> getParamsMap() {
@@ -71,11 +76,4 @@ public abstract class GeneralEntity implements Serializable {
 		this.sqlConditionDsf = sqlConditionDsf;
 	}
 
-	/**
-	 * 获取数据库名称
-	 */
-	@JSONField(serialize = false)
-	public String getDbName(){
-		return SystemConfig.get("jdbc.type");
-	}
 }

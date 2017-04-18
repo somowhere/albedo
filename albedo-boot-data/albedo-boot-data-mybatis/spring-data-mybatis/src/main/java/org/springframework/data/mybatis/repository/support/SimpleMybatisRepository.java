@@ -312,6 +312,52 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
     }
 
     @Override
+    public T findOne(boolean isBasic, Map<String, Object> paramsMap, String... columns) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.putAll(paramsMap);
+        if (null != columns) {
+            params.put("_specifiedFields", columns);
+        }
+        return selectOne(isBasic ? "_findBasicAll" : "_findAll", params);
+    }
+
+    @Override
+    public List<T> findAll(boolean isBasic, Map<String, Object> paramsMap, String... columns) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.putAll(paramsMap);
+        if (null != columns) {
+            params.put("_specifiedFields", columns);
+        }
+        return selectList(isBasic ? "_findBasicAll" : "_findAll", params);
+    }
+
+    @Override
+    public List<T> findAll(boolean isBasic, Sort sort, Map<String, Object> paramsMap, String... columns) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.putAll(paramsMap);
+        params.put("_sorts", sort);
+        if (null != columns) {
+            params.put("_specifiedFields", columns);
+        }
+        return selectList(isBasic ? "_findBasicAll" : "_findAll", params);
+    }
+
+    @Override
+    public Page<T> findAll(boolean isBasic, Pageable pageable, Map<String, Object> paramsMap, String... columns) {
+        return findByPager(pageable, isBasic ? "_findBasicByPager" : "_findByPager",
+                isBasic ? "_countBasicByCondition" : "_countByCondition", null, paramsMap, columns);
+
+    }
+
+    @Override
+    public Long countAll(boolean isBasic, Map<String, Object> paramsMap) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.putAll(paramsMap);
+        return selectOne(isBasic ? "_countBasicByCondition" : "_countByCondition", params);
+    }
+
+
+    @Override
     public <X extends T> T findBasicOne(X condition, String... columns) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("_condition", condition);
@@ -351,50 +397,6 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
     public <X extends T> Long countBasicAll(X condition) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("_condition", condition);
-        return selectOne("_countBasicByCondition", params);
-    }
-
-    @Override
-    public T findBasicOne(Map<String, Object> paramsMap, String... columns) {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.putAll(paramsMap);
-        if (null != columns) {
-            params.put("_specifiedFields", columns);
-        }
-        return selectOne("_findBasicAll", params);
-    }
-
-    @Override
-    public List<T> findBasicAll(Map<String, Object> paramsMap, String... columns) {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.putAll(paramsMap);
-        if (null != columns) {
-            params.put("_specifiedFields", columns);
-        }
-        return selectList("_findBasicAll", params);
-    }
-
-    @Override
-    public List<T> findBasicAll(Sort sort, Map<String, Object> paramsMap, String... columns) {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.putAll(paramsMap);
-        params.put("_sorts", sort);
-        if (null != columns) {
-            params.put("_specifiedFields", columns);
-        }
-        return selectList("_findBasicAll", params);
-    }
-
-    @Override
-    public Page<T> findBasicAll(Pageable pageable, Map<String, Object> paramsMap, String... columns) {
-        return findByPager(pageable, "_findBasicByPager", "_countBasicByCondition", null, paramsMap, columns);
-
-    }
-
-    @Override
-    public Long countBasicAll(Map<String, Object> paramsMap) {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.putAll(paramsMap);
         return selectOne("_countBasicByCondition", params);
     }
 

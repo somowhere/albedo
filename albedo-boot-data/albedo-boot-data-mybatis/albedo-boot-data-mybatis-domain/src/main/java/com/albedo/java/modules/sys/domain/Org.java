@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Entity;
+import org.springframework.data.mybatis.annotations.JoinColumn;
 import org.springframework.data.mybatis.annotations.OneToMany;
 
 import java.util.Set;
@@ -42,6 +43,7 @@ public class Org extends TreeEntity<Org> {
 
 	@OneToMany
 	@JSONField(serialize=false)@ApiModelProperty(hidden=true)
+	@JoinColumn(name="org_id")
 	private Set<User> users;
 
 	public Org(String id, String parentIds) {

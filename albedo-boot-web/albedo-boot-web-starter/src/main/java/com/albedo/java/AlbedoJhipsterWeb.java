@@ -17,6 +17,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
+import org.springframework.data.mybatis.repository.config.EnableMybatisRepositories;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;

@@ -223,7 +223,7 @@ public class GenTable extends IdEntity {
 	 * 获取导入依赖包字符串
 	 * 
 	 * @return
-	 */
+	 */@JSONField(serialize = false)
 	public List<String> getImportList() {
 		List<String> importList = null;
 		if ("treeTable".equalsIgnoreCase(getCategory())) {

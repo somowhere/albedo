@@ -3,7 +3,6 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Dict;
-import com.albedo.java.modules.sys.repository.DictRepository;
 import com.albedo.java.modules.sys.service.DictService;
 import com.albedo.java.util.DictUtil;
 import com.albedo.java.util.JsonUtil;
@@ -19,7 +18,6 @@ import com.albedo.java.web.rest.base.DataResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.Lists;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -88,7 +86,7 @@ public class DictResource extends DataResource<DictService, Dict> {
 			throw new RuntimeMsgException("无法获取字典数据");
 		}
 		if (StringUtil.isBlank(dict.getId())){
-			Dict item = dictService.findFristByParentId(dict.getParentId());
+			Dict item = dictService.findTopByParentId(dict.getParentId());
 			if (item!=null){
 				dict.setSort(dict.getSort() + item.getSort() + 30);
 			}

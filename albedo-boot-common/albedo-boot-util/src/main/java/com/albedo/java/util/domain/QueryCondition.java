@@ -259,11 +259,19 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
 		this.value = value;
 	}
 
+	public QueryCondition(String fieldName, Operator operate, Object value, Class<?> persistentClass) {
+		this.fieldName = fieldName;
+		this.operate = operate;
+		this.value = value;
+		this.persistentClass = persistentClass;
+	}
+
 	public QueryCondition(String fieldName, Operator operate, Object value) {
 		this.fieldName = fieldName;
 		this.operate = operate;
 		this.value = value;
 	}
+
 
 	public String getFieldNode() {
 		return fieldNode;
@@ -282,20 +290,21 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
 
 	@JSONField(serialize = false)
 	public String getFieldRealColumnName() {
+		String fieldNameReal = new String(fieldName);
 		try {
 			if(persistentClass!=null && PublicUtil.isNotEmpty(getFieldName())){
 				Entity entity = Reflections.getAnnotation(persistentClass, Entity.class);
 				String quota = null != entity && StringUtils.hasText(entity.name()) ? entity.name():
 						StringUtils.uncapitalize(persistentClass.getSimpleName());
-				Column column = Reflections.getAnnotation(persistentClass, fieldName, Column.class);
+				Column column = Reflections.getAnnotationByClazz(persistentClass, fieldName, Column.class);
 				if(column!=null && PublicUtil.isNotEmpty(column.name())){
-					fieldName = quota+"."+column.name();
+					fieldNameReal = quota+"."+column.name();
 				}
 			}
 		}catch (Exception e){
 			log.warn(e.getMessage());
 		}
-		return fieldName;
+		return fieldNameReal;
 	}
 
 

@@ -78,12 +78,12 @@ public class UserResource extends DataResource<UserService, User> {
 	private UserService userService;
 
 	@ModelAttribute
-	public UserResult get(@RequestParam(required = false) String id) throws Exception {
+	public User get(@RequestParam(required = false) String id) throws Exception {
 		String path = request.getRequestURI();
 		if (path != null && !path.contains("checkBy") && !path.contains("find") && PublicUtil.isNotEmpty(id)) {
-			return userService.findResult(id);
+			return userService.findOne(id);
 		} else {
-			return new UserResult();
+			return new User();
 		}
 	}
 
@@ -98,7 +98,7 @@ public class UserResource extends DataResource<UserService, User> {
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity getPage(PageModel pm) {
-		pm = userService.findAll(pm, SecurityUtil.dataScopeFilter());
+		pm = userService.findPage(pm, SecurityUtil.dataScopeFilter());
 		JSON rs = JsonUtil.getInstance().setFreeFilters("roleIdList").setRecurrenceStr("org_name").toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
 	}

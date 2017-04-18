@@ -79,14 +79,17 @@ public class Role extends IdEntity {
 	private Integer sort;
 	/*** 组织机构 */
 	@ManyToMany
-	@JoinTable(name = "SYS_ROLE_ORG_T", joinColumns = { @JoinColumn(name = "role_id") },
+	@JoinTable(name = "SYS_ROLE_ORG_T",
+			joinColumns = { @JoinColumn(name = "role_id") },
 			inverseJoinColumns = { @JoinColumn(name = "org_id") })
 	@JSONField(serialize=false)
 	@ApiModelProperty(hidden=true)
 	private Set<Org> orgs = Sets.newHashSet();
 	/*** 操作权限 */
 	@ManyToMany
-	@JoinTable(name = "SYS_ROLE_MODULE_T", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = { @JoinColumn(name = "module_id") })
+	@JoinTable(name = "SYS_ROLE_MODULE_T",
+			joinColumns = { @JoinColumn(name = "role_id") },
+			inverseJoinColumns = { @JoinColumn(name = "module_id") })
 	@ApiModelProperty(hidden=true)
 	private Set<Module> modules = Sets.newHashSet();
 
@@ -94,6 +97,9 @@ public class Role extends IdEntity {
 	@ManyToMany
 	@JSONField(serialize=false)
 	@ApiModelProperty(hidden=true)
+	@JoinTable(name = "sys_user_role_t",
+			joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id_")},
+			inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id_")})
 	private Set<User> users = Sets.newHashSet();
 
 	@Transient

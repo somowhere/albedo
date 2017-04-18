@@ -53,9 +53,9 @@ public class User extends IdEntity {
     @Column(name = "password_hash")
     private String password;
     
-    @Size(max = 32)
-    @Column(name = "org_id")
-    private String orgId;
+//    @Size(max = 32)
+//    @Column(name = "org_id")
+//    private String orgId;
     
     @ManyToOne
     @JoinColumn(name = "org_id")
@@ -99,7 +99,7 @@ public class User extends IdEntity {
         name = "sys_user_role_t",
         joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id_")},
         inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id_")})
-    @ApiModelProperty(hidden=true)
+    @ApiModelProperty(hidden=true)@JSONField(serialize=false)
     private Set<Role> roles = Sets.newHashSet();
 
     @JSONField(serialize=false)
@@ -223,14 +223,6 @@ public class User extends IdEntity {
         this.persistentTokens = persistentTokens;
     }
 
-    public String getOrgId() {
-		return orgId;
-	}
-
-	public void setOrgId(String orgId) {
-		this.orgId = orgId;
-	}
-
 	public Org getOrg() {
 		return org;
 	}
@@ -238,41 +230,6 @@ public class User extends IdEntity {
 	public void setOrg(Org org) {
 		this.org = org;
 	}
-
-	@Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        User user = (User) o;
-
-        if (!loginId.equals(user.loginId)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return loginId == null ? 0 : loginId.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-            "loginId='" + loginId + '\'' +
-            ", name='" + name + '\'' +
-            ", email='" + email + '\'' +
-            ", activated='" + activated + '\'' +
-            ", langKey='" + langKey + '\'' +
-            ", activationKey='" + activationKey + '\'' +
-            "}";
-    }
 
 	public List<String> getRoleIdList() {
 		if (PublicUtil.isEmpty(roleIdList) && PublicUtil.isNotEmpty(roles)) {
