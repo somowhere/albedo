@@ -166,7 +166,10 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
 					paramsMap, true);
 			paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_DSF, sqlConditionDsf);
 			paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_CONDITION, new Object());
-			return repository.findAll(false, new Sort(toOrders(specificationDetail.getOrders())), paramsMap);
+
+			return PublicUtil.isNotEmpty(specificationDetail.getOrders()) ?
+					repository.findAll(false, new Sort(toOrders(specificationDetail.getOrders())), paramsMap):
+					repository.findAll(false, paramsMap);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			Assert.buildException(e.getMessage());
@@ -174,7 +177,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
 		return null;
 	}
 	@Transactional(readOnly=true)
-	public PageModel<T> findBasePage(PageModel<T> pm, SpecificationDetail<T> specificationDetail) {
+	public PageModel<T> findBasePage(PageModel<T> pm, SpecificationDetail<T> specificationDetail, boolean isBasic) {
 		try {
 			Map<String, Object> paramsMap = Maps.newHashMap();
 			specificationDetail.setPersistentClass(persistentClass);
@@ -184,13 +187,18 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
 					paramsMap, true);
 			paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_DSF, sqlConditionDsf);
 			paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_CONDITION, new Object());
-			pm.setPageInstance(repository.findAll(false, pm, paramsMap));
+			pm.setPageInstance(repository.findAll(isBasic, pm, paramsMap));
 			return pm;
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			Assert.buildException(e.getMessage());
 		}
 		return null;
+	}
+
+	@Transactional(readOnly=true)
+	public PageModel<T> findPage(PageModel<T> pm, SpecificationDetail<T> specificationDetail) {
+		return findBasePage(pm, specificationDetail, true);
 	}
 
 }

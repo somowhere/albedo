@@ -2,6 +2,7 @@ package com.albedo.java.modules.sys.repository;
 
 import com.albedo.java.common.repository.TreeRepository;
 import com.albedo.java.modules.sys.domain.Module;
+import com.albedo.java.modules.sys.domain.User;
 import org.springframework.data.mybatis.repository.annotation.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -13,7 +14,7 @@ import java.util.List;
 public interface ModuleRepository extends TreeRepository<Module, String> {
 
 	@Query
-	List<Module> findAllAuthByUserId(@Param("userId") String userId);
+	List<Module> findAllAuthByUser(User user);
 
 	List<Module> findAllByStatusOrderBySort(Integer flagNormal);
 

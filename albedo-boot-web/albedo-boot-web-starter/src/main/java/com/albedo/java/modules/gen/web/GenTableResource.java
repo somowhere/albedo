@@ -67,7 +67,7 @@ public class GenTableResource extends DataResource<GenTableService, GenTable> {
 	public ResponseEntity getPage(PageModel<GenTable> pm) {
 		SpecificationDetail<GenTable> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
 				QueryCondition.ne(GenTable.F_STATUS, GenTable.FLAG_DELETE));
-		pm = genTableService.findBasePage(pm, spec);
+		pm = genTableService.findPage(pm, spec);
 		JSON rs = JsonUtil.getInstance().setRecurrenceStr("org_name").toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
 	}

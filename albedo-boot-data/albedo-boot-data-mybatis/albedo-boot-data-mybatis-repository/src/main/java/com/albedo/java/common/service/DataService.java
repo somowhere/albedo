@@ -79,15 +79,15 @@ public abstract class DataService<Repository extends BaseRepository<T, PK>, T ex
 	}
 	@Transactional(readOnly=true)
 	public PageModel<T> findPage(PageModel<T> pm) {
-		return findPage(pm, null);
+		return findPageQuery(pm, null);
 	}
 	@Transactional(readOnly=true)
-	public PageModel<T> findPage(PageModel<T> pm, List<QueryCondition> queryConditions) {
+	public PageModel<T> findPageQuery(PageModel<T> pm, List<QueryCondition> queryConditions) {
 		SpecificationDetail<T> specificationDetail = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
 				queryConditions, persistentClass,
 				QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
 //		specificationDetail.setPersistentClass();
-		return findBasePage(pm, specificationDetail);
+		return findPage(pm, specificationDetail);
 	}
 
 

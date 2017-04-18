@@ -157,7 +157,7 @@ public class UserService extends DataService<UserRepository, User, String> {
                 QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE), QueryCondition.ne(User.F_ID, "1"));
 //        Page<User> page = repository.findAll(spec, pm);
 //        pm.setPageInstance(page);
-        return  findBasePage(pm, spec);
+        return  findPage(pm, spec);
     }
 
 

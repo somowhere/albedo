@@ -78,7 +78,7 @@ public class ModuleResource extends DataResource<ModuleService, Module> {
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity getPage(PageModel<Module> pm) {
-		moduleService.findPage(pm, SecurityUtil.dataScopeFilter());
+		moduleService.findPageQuery(pm, SecurityUtil.dataScopeFilter());
 		pm.setSortDefaultName(Direction.DESC, DataEntity.F_LASTMODIFIEDDATE);
 		JSON rs = JsonUtil.getInstance().toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);

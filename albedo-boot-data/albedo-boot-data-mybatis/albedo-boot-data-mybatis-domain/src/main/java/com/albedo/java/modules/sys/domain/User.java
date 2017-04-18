@@ -94,6 +94,10 @@ public class User extends IdEntity {
     @Column(name = "reset_date")
     private Date resetDate = null;
 
+    public User(String id){
+        this.id=id;
+    }
+
     @ManyToMany
     @JoinTable(
         name = "sys_user_role_t",

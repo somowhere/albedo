@@ -33,7 +33,7 @@ public class PersistentTokenService extends BaseService<PersistentTokenRepositor
 	public PageModel<PersistentToken> findPage(PageModel<PersistentToken> pm, List<QueryCondition> queryConditions) {
 		SpecificationDetail<PersistentToken> spec = DynamicSpecifications
 				.buildSpecification(pm.getQueryConditionJson(), queryConditions, persistentClass);
-		return findBasePage(pm, spec);
+		return findPage(pm, spec);
 	}
 
 	public void delete(List<String> ids) {

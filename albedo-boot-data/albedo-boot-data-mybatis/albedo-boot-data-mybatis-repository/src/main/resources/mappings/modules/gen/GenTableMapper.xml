@@ -35,7 +35,7 @@
 	</select>
 	
 	<select id="findTableColumnList" resultType="com.albedo.java.modules.gen.domain.GenTableColumn">
-		<if test="dbName == 'oracle'">
+		<if test="_databaseId == 'oracle'">
 			SELECT
 				t.COLUMN_NAME AS name,<!-- 
 				t.DATA_TYPE,
@@ -61,7 +61,7 @@
 			</if>
 			ORDER BY t.COLUMN_ID
 		</if>
-		<if test="dbName == 'mssql'">	
+		<if test="_databaseId == 'mssql'">	
 			SELECT t.COLUMN_NAME AS name, (CASE WHEN t.IS_NULLABLE = 'YES' THEN '1' ELSE '0' END) AS isNull,
 				(t.ORDINAL_POSITION * 10) AS sort,isnull(g.[value], '') AS comments,
 				(t.DATA_TYPE+
@@ -77,7 +77,7 @@
 			</if>
 			ORDER BY t.ORDINAL_POSITION
 		</if>
-		<if test="dbName == 'mysql'">	
+		<if test="_databaseId == 'mysql'">	
 			SELECT t.COLUMN_NAME AS name, (CASE WHEN t.IS_NULLABLE = 'YES' THEN '1' ELSE '0' END) AS isNull,
 				(t.ORDINAL_POSITION * 10) AS sort,t.COLUMN_COMMENT AS comments,t.COLUMN_TYPE AS jdbcType 
 			FROM information_schema.`COLUMNS` t 
@@ -90,20 +90,20 @@
 	</select>
 	
 	<select id="findTablePK" resultType="string">
-		<if test="dbName == 'oracle'">
+		<if test="_databaseId == 'oracle'">
 			SELECT lower(cu.COLUMN_NAME) AS columnName
 			FROM user_cons_columns cu, user_constraints au
 			WHERE cu.constraint_name = au.constraint_name
 				AND au.constraint_type = 'P'
 				AND au.table_name = upper(#{name})
 		</if>
-		<if test="dbName == 'mssql'">
+		<if test="_databaseId == 'mssql'">
 			SELECT lower(au.COLUMN_NAME) AS columnName
 			FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE au
 			WHERE au.TABLE_NAME = (#{name})
 			AND au.TABLE_SCHEMA = (SCHEMA_NAME())
 		</if>
-		<if test="dbName == 'mysql'">
+		<if test="_databaseId == 'mysql'">
 			SELECT lower(au.COLUMN_NAME) AS columnName 
 			FROM information_schema.`COLUMNS` au
 			WHERE au.TABLE_SCHEMA = (select database()) 

@@ -30,6 +30,6 @@ public class LoggingEventService extends BaseService<LoggingEventRepository, Log
 	@Transactional(readOnly=true)
 	public PageModel<LoggingEvent> findPage(PageModel<LoggingEvent> pm) {
 		SpecificationDetail<LoggingEvent> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson());
-		return findBasePage(pm, spec);
+		return findPage(pm, spec);
 	}
 }
