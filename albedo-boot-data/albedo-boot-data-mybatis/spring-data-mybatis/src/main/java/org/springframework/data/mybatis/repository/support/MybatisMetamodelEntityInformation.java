@@ -37,6 +37,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * mybatis meta.
@@ -94,10 +96,27 @@ public class MybatisMetamodelEntityInformation<T, ID extends Serializable> exten
         return persistentEntity.hasVersionProperty();
     }
 
+    public int appearNumber(String srcText, String findText, int position) {
+        int count = 0;
+        Pattern p = Pattern.compile(findText);
+        Matcher m = p.matcher(srcText);
+        while (m.find()) {
+            count++;
+            if(position==count)break;
+        }
+        return m.start();
+    }
+
     private Method getAnnotaionMethod(T entity, Class annotationClass){
-        Method[] methods = entity.getClass().getDeclaredMethods();
-        for (Method method : methods){
-            if(method.getAnnotation(annotationClass)!=null) return method;
+        String className = entity.getClass().getName(), baseName = className.substring(0, appearNumber(className, ".", 3));
+        Method method = null;
+        Class<?> temp = entity.getClass();
+        while (method == null && temp.toString().contains(baseName)) {
+            Method[] methods = temp.getDeclaredMethods();
+            for (Method item : methods){
+                if(item.getAnnotation(annotationClass)!=null) return item;
+            }
+            temp = temp.getSuperclass();
         }
         return null;
     }

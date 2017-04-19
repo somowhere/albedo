@@ -12,7 +12,7 @@
     <artifactId>albedo-boot-data-mybatis</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <!--<module>spring-data-mybatis</module>-->
+        <module>spring-data-mybatis</module>
         <!--<module>spring-boot-starter-data-mybatis</module>-->
         <module>albedo-boot-data-mybatis-base</module>
         <module>albedo-boot-data-mybatis-domain-base</module>

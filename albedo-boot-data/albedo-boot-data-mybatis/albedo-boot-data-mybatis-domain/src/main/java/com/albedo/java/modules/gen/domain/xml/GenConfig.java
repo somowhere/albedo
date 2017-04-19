@@ -19,13 +19,13 @@ public class GenConfig implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<GenCategory> categoryList; // 代码模板分类
 
-	private List<Dict> javaTypeList; // Java类型
+	private List<DictTemp> javaTypeList; // Java类型
 
-	private List<Dict> queryTypeList; // 查询类型
+	private List<DictTemp> queryTypeList; // 查询类型
 
-	private List<Dict> showTypeList; // 显示类型
+	private List<DictTemp> showTypeList; // 显示类型
 	
-	private List<Dict> viewTypeList; // 视图类型
+	private List<DictTemp> viewTypeList; // 视图类型
 	
 
 	public GenConfig() {
@@ -44,41 +44,41 @@ public class GenConfig implements Serializable {
 
 	@XmlElementWrapper(name = "javaType")
 	@XmlElement(name = "dict")
-	public List<Dict> getJavaTypeList() {
+	public List<DictTemp> getJavaTypeList() {
 		return javaTypeList;
 	}
 
-	public void setJavaTypeList(List<Dict> javaTypeList) {
+	public void setJavaTypeList(List<DictTemp> javaTypeList) {
 		this.javaTypeList = javaTypeList;
 	}
 
 	@XmlElementWrapper(name = "queryType")
 	@XmlElement(name = "dict")
-	public List<Dict> getQueryTypeList() {
+	public List<DictTemp> getQueryTypeList() {
 		return queryTypeList;
 	}
 
-	public void setQueryTypeList(List<Dict> queryTypeList) {
+	public void setQueryTypeList(List<DictTemp> queryTypeList) {
 		this.queryTypeList = queryTypeList;
 	}
 
 	@XmlElementWrapper(name = "showType")
 	@XmlElement(name = "dict")
-	public List<Dict> getShowTypeList() {
+	public List<DictTemp> getShowTypeList() {
 		return showTypeList;
 	}
 
-	public void setShowTypeList(List<Dict> showTypeList) {
+	public void setShowTypeList(List<DictTemp> showTypeList) {
 		this.showTypeList = showTypeList;
 	}
 
 	@XmlElementWrapper(name = "viewType")
 	@XmlElement(name = "dict")
-	public List<Dict> getViewTypeList() {
+	public List<DictTemp> getViewTypeList() {
 		return viewTypeList;
 	}
 
-	public void setViewTypeList(List<Dict> viewTypeList) {
+	public void setViewTypeList(List<DictTemp> viewTypeList) {
 		this.viewTypeList = viewTypeList;
 	}
 

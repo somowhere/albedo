@@ -32,7 +32,6 @@ import static org.springframework.data.domain.Sort.Direction.ASC;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
-
 @Transactional
 public class UserServiceTest {
 

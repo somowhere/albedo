@@ -45,6 +45,7 @@
         <dict val="Long" name="Long"/>
         <dict val="Integer" name="Integer"/>
         <dict val="Double" name="Double"/>
+        <dict val="java.math.BigDecimal" name="BigDecimal"/>
         <dict val="java.util.Date" name="Date"/>
         <dict val="com.albedo.java.modules.sys.domain.User" name="User"/>
         <dict val="com.albedo.java.modules.sys.domain.Org" name="Org"/>

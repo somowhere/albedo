@@ -28,6 +28,8 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -62,15 +64,16 @@ public class GenUtil {
 			if (StringUtil.startsWithIgnoreCase(column.getJdbcType(), "CHAR") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "VARCHAR") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "NARCHAR")) {
 				column.setJavaType("String");
 			} else if (StringUtil.startsWithIgnoreCase(column.getJdbcType(), "DATETIME") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "DATE") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "TIMESTAMP")) {
-				column.setJavaType("java.util.Date");
+				column.setJavaType(Date.class.getName());
 				column.setShowType("dateselect");
-			} else if (StringUtil.startsWithIgnoreCase(column.getJdbcType(), "INT") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "BIGINT")
+			} else if (StringUtil.startsWithIgnoreCase(column.getJdbcType(), "INT") ||
+					StringUtil.startsWithIgnoreCase(column.getJdbcType(), "BIGINT")
 					|| StringUtil.startsWithIgnoreCase(column.getJdbcType(), "NUMBER") || 
 					StringUtil.startsWithIgnoreCase(column.getJdbcType(), "DECIMAL")) {
 				// 如果是浮点型
 				String[] ss = StringUtil.split(StringUtil.substringBetween(column.getJdbcType(), "(", ")"), ",");
 				if (ss != null && ss.length == 2 && Integer.parseInt(ss[1]) > 0) {
-					column.setJavaType("Double");
+					column.setJavaType(BigDecimal.class.getName());
 				}
 				// 如果是整形
 				else if (ss != null && ss.length == 1 && Integer.parseInt(ss[0]) <= 10) {
@@ -167,7 +170,7 @@ public class GenUtil {
 
 	public static String getHibernateValidatorExpression(GenTableColumn c) {
 		if (!SystemConfig.YES.equals(c.getIsPk()) && !SystemConfig.YES.equals(c.getIsNull())) {
-			if (c.getJavaType().endsWith("String"))
+			if (c.getJavaType() !=null && c.getJavaType().endsWith("String"))
 				return (new StringBuilder()).append("@NotBlank ").append(getNotRequiredHibernateValidatorExpression(c)).toString();
 			else
 				return (new StringBuilder()).append("@NotNull ").append(getNotRequiredHibernateValidatorExpression(c)).toString();
@@ -180,7 +183,7 @@ public class GenUtil {
 		String result = "", javaType = c.getJavaType(), jdbcType = c.getJdbcType();
 		if (c.getName().indexOf("mail") >= 0)
 			result = (new StringBuilder()).append(result).append("@Email ").toString();
-		;
+		if(javaType == null) javaType = "";
 		if (javaType.endsWith("String")) {
 			Integer size = jdbcType.equals("text") ? 65535 : Integer.valueOf(jdbcType.substring(jdbcType.indexOf("(") + 1, jdbcType.length() - 1));
 			result = (new StringBuilder()).append(result).append(String.format("@Length(max=%s)", new Object[] { size })).toString();

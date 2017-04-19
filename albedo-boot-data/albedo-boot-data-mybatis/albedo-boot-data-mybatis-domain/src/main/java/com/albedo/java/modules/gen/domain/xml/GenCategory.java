@@ -13,7 +13,7 @@ import java.util.List;
  * @version 2013-10-15
  */
 @XmlRootElement(name = "category")
-public class GenCategory extends Dict {
+public class GenCategory extends DictTemp {
 
 	private static final long serialVersionUID = 1L;
 

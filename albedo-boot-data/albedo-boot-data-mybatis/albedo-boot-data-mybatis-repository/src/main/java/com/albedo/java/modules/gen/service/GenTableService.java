@@ -31,8 +31,14 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
 	private GenTableColumnService genTableColumnService;
 
 	public GenTable save(GenTable genTable) {
-		genTable.setColumnList(genTable.getColumnFormList());
+
 		genTable = repository.save(genTable);
+
+		for(GenTableColumn item : genTable.getColumnFormList()){
+			item.setGenTable(genTable);
+		}
+		genTableColumnService.save(genTable.getColumnFormList());
+
 		log.debug("Save Information for GenTable: {}", genTable);
 
 		return genTable;

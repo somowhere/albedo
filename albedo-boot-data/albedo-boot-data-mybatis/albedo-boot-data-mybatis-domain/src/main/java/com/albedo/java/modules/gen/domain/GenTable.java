@@ -54,7 +54,7 @@ public class GenTable extends IdEntity {
 	private List<GenTableColumn> columnList; // 表列
 	
 	@ManyToOne
-	@JoinColumn(name = "parent_table", referencedColumnName = "name_")
+	@JoinColumn(name = "parent_table", referencedColumnName = "name_", insertable = false,updatable = false)
 	@JSONField(serialize=false)
 	private GenTable parent; // 父表对象
 	@OneToMany
@@ -228,7 +228,7 @@ public class GenTable extends IdEntity {
 		List<String> importList = null;
 		if ("treeTable".equalsIgnoreCase(getCategory())) {
 			importList = Lists.newArrayList("org.apache.commons.lang3.builder.EqualsBuilder", "org.apache.commons.lang3.builder.HashCodeBuilder", "org.apache.commons.lang3.builder.ToStringBuilder",
-					"org.apache.commons.lang3.builder.ToStringStyle", "javax.persistence.Entity", "javax.persistence.Table", "org.hibernate.annotations.Cache", "org.hibernate.annotations.CacheConcurrencyStrategy",
+					"org.apache.commons.lang3.builder.ToStringStyle", "java.math.BigDecimal", "javax.persistence.Entity", "javax.persistence.Table", "org.hibernate.annotations.Cache", "org.hibernate.annotations.CacheConcurrencyStrategy",
 					"org.hibernate.annotations.DynamicInsert", "org.hibernate.annotations.DynamicUpdate", "com.albedo.java.common.domain.base.TreeEntity"); // 引用列表
 			for (GenTableColumn column : getColumnList()) {
 				if (column.getIsNotBaseTreeField()) {

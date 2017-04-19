@@ -6,9 +6,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.data.annotation.Transient;
-import org.springframework.data.mybatis.annotations.DynamicSearch;
-import org.springframework.data.mybatis.annotations.Id;
-import org.springframework.data.mybatis.annotations.MappedSuperclass;
+import org.springframework.data.mybatis.annotations.*;
 import org.springframework.data.mybatis.domains.Persistable;
 
 import javax.xml.bind.annotation.XmlTransient;
@@ -20,7 +18,7 @@ import static org.springframework.data.mybatis.annotations.Id.GenerationType.AUT
 /** 通常的数据基类 copyright 2014 albedo all right reserved author 李杰 created on 2014年12月31日 下午1:57:09 */
 @MappedSuperclass
 @DynamicSearch @Data
-public abstract class GeneralEntity<ID extends Serializable> implements Persistable<ID>,Serializable {
+public abstract class GeneralEntity<ID extends Serializable> implements Persistable<ID>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	/*** 状态 审核 */
@@ -80,7 +78,7 @@ public abstract class GeneralEntity<ID extends Serializable> implements Persista
 		this.sqlConditionDsf = sqlConditionDsf;
 	}
 
-	@Override @Transient
+	@Transient
 	public boolean isNew() {
 		return PublicUtil.isEmpty(getId());
 	}
