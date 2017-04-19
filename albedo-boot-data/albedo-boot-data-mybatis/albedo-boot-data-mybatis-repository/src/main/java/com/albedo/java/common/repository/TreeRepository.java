@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface TreeRepository<T extends BaseEntity, PK extends Serializable> extends BaseRepository<T, PK> {
 
-	T findFirstByParentId(String parentId);
+	Long countByParentId(String parentId);
 	
 	List<T> findAllByParentIdsLike(String parentIds);
 

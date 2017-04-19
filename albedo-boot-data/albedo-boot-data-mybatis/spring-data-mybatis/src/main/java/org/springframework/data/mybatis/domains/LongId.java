@@ -18,8 +18,8 @@
 
 package org.springframework.data.mybatis.domains;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Transient;
-import org.springframework.data.domain.Persistable;
 import org.springframework.data.mybatis.annotations.Id;
 import org.springframework.data.mybatis.annotations.MappedSuperclass;
 
@@ -31,10 +31,20 @@ import static org.springframework.data.mybatis.annotations.Id.GenerationType.AUT
  *
  * @author Jarvis Song
  */
-@MappedSuperclass
+@MappedSuperclass @Slf4j
 public abstract class LongId implements Persistable<Long> {
 
     protected Long id;
+
+    @Override
+    public void preInssert() {
+       log.info(this.getClass().getName() + "preInssert............");
+    }
+
+    @Override
+    public void preUpdate() {
+        log.info(this.getClass().getName() + "preUpdate............");
+    }
 
     @Override
     @Id(strategy = AUTO)

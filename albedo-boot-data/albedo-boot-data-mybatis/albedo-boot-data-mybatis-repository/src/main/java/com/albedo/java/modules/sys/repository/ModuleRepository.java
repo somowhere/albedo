@@ -14,7 +14,7 @@ import java.util.List;
 public interface ModuleRepository extends TreeRepository<Module, String> {
 
 	@Query
-	List<Module> findAllAuthByUser(User user);
+	List<Module> findAllAuthByUser(@Param("user") User user);
 
 	List<Module> findAllByStatusOrderBySort(Integer flagNormal);
 

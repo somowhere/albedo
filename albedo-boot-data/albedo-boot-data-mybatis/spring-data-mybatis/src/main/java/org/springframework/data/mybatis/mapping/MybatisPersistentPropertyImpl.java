@@ -172,6 +172,24 @@ class MybatisPersistentPropertyImpl extends AnnotationBasedPersistentProperty<My
     }
 
     @Override
+    public boolean insertable() {
+        Column column = findAnnotation(Column.class);
+        if (null != column) {
+            return column.insertable();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean updatable() {
+        Column column = findAnnotation(Column.class);
+        if (null != column) {
+            return column.updatable();
+        }
+        return true;
+    }
+
+    @Override
     public boolean isToOneAssociation() {
         if (!isAssociation()) {
             return false;

@@ -7,16 +7,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.DynamicSearch;
+import org.springframework.data.mybatis.annotations.Id;
 import org.springframework.data.mybatis.annotations.MappedSuperclass;
+import org.springframework.data.mybatis.domains.Persistable;
 
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Map;
 
+import static org.springframework.data.mybatis.annotations.Id.GenerationType.AUTO;
+
 /** 通常的数据基类 copyright 2014 albedo all right reserved author 李杰 created on 2014年12月31日 下午1:57:09 */
 @MappedSuperclass
 @DynamicSearch @Data
-public abstract class GeneralEntity implements Serializable {
+public abstract class GeneralEntity<ID extends Serializable> implements Persistable<ID>,Serializable {
 
 	private static final long serialVersionUID = 1L;
 	/*** 状态 审核 */
@@ -75,5 +79,28 @@ public abstract class GeneralEntity implements Serializable {
 	public void setSqlConditionDsf(String sqlConditionDsf) {
 		this.sqlConditionDsf = sqlConditionDsf;
 	}
+
+	@Override @Transient
+	public boolean isNew() {
+		return PublicUtil.isEmpty(getId());
+	}
+
+	public abstract ID getId();
+
+	public abstract void setId(ID id);
+
+	public void preInssert() {
+		if(PublicUtil.isEmpty(getId())){
+			try{
+				setId((ID) IdGen.uuid());
+			}catch (Exception e){
+			}
+		}
+	}
+
+	public void preUpdate() {
+
+	}
+
 
 }

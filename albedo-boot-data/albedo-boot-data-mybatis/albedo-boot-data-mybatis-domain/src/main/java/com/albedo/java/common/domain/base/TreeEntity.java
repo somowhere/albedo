@@ -40,7 +40,7 @@ public abstract class TreeEntity<T extends DataEntity> extends IdEntity {
 	protected String parentIds;
 	/*** 上级组织 */
 	@ManyToOne
-	@JoinColumn(name = "parent_id")
+	@JoinColumn(name = "parent_id", updatable = false, insertable = false)
 	protected T parent;
 	/*** 1 叶子节点 0非叶子节点 */
 	@Column(name = "is_leaf")

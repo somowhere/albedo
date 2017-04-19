@@ -53,12 +53,12 @@ public class User extends IdEntity {
     @Column(name = "password_hash")
     private String password;
     
-//    @Size(max = 32)
-//    @Column(name = "org_id")
-//    private String orgId;
+    @Size(max = 32)
+    @Column(name = "org_id")
+    private String orgId;
     
     @ManyToOne
-    @JoinColumn(name = "org_id")
+    @JoinColumn(name = "org_id",insertable = false, updatable = false)
     @ApiModelProperty(hidden=true)
     private Org org;
     

@@ -82,8 +82,10 @@ public class ${ClassName} extends DataEntity {
 	@ManyToOne@JoinColumn(name = "${table.parentTableFk}")
 	private ${table.parent.className} ${column.simpleJavaField};
 	<#elseif column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
+	@Column(name = "${column.name}")
+	private String ${column.simpleJavaField}Id;
 	@ManyToOne
-	@JoinColumn(name = "${column.name}")
+	@JoinColumn(name = "${column.name}", updatable = false,insertable = false)
 	private ${column.simpleJavaType} ${column.simpleJavaField};
 	<#else>${column.hibernateValidatorExprssion}<#if column.isDateTimeColumn>@Temporal(TemporalType.DATE)</#if>@Column(name = "${column.name}")<#if column.unique>@SearchField</#if><#if column.dictType?? && column.dictType != "">@DictType(name="${column.dictType}")</#if>
 	private ${column.simpleJavaType} ${column.simpleJavaField};

@@ -33,5 +33,8 @@ public @interface Column {
 
     String name() default "";
 
+    boolean insertable() default true;
+
+    boolean updatable() default true;
 
 }

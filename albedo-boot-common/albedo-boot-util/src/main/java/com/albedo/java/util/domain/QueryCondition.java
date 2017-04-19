@@ -2,11 +2,13 @@ package com.albedo.java.util.domain;
 
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Reflections;
+import com.albedo.java.util.spring.SpringContextHolder;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Entity;
+import org.springframework.data.mybatis.repository.dialect.Dialect;
 import org.springframework.util.StringUtils;
 
 @Slf4j @Data
@@ -298,7 +300,8 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
 						StringUtils.uncapitalize(persistentClass.getSimpleName());
 				Column column = Reflections.getAnnotationByClazz(persistentClass, fieldName, Column.class);
 				if(column!=null && PublicUtil.isNotEmpty(column.name())){
-					fieldNameReal = quota+"."+column.name();
+					Dialect dialect = SpringContextHolder.getBean(Dialect.class);
+					fieldNameReal = dialect.openQuote() + quota + dialect.closeQuote() +'.'+column.name();
 				}
 			}
 		}catch (Exception e){

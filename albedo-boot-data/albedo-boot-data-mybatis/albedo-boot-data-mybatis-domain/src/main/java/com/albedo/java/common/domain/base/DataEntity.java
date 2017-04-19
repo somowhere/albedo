@@ -14,6 +14,7 @@ import org.springframework.data.mybatis.annotations.ManyToOne;
 import org.springframework.data.mybatis.annotations.MappedSuperclass;
 
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -22,29 +23,29 @@ import java.util.Date;
  */
 @MappedSuperclass
 @Data
-public abstract class DataEntity extends BaseEntity {
+public abstract class DataEntity<ID extends Serializable> extends BaseEntity<ID> {
 
     private static final long serialVersionUID = 1L;
+    @CreatedBy
+    @JSONField(serialize = false)@ApiModelProperty(hidden=true)
+    @Column(name = "created_by")
+    protected String createdBy;
 
-//
-//    @JSONField(serialize = false)@ApiModelProperty(hidden=true)
-//    @Column(name = "created_by")
-//    protected String createdBy;
-
-    @ManyToOne @CreatedBy
-    @JoinColumn(name = "created_by")
+    @ManyToOne
+    @Persistent
+    @JoinColumn(name = "created_by", updatable = false, insertable = false)
     protected User creator;
 
     @CreatedDate
     @Column(name = "created_date")
     protected Date createdDate = PublicUtil.getCurrentDate();
 
+    @LastModifiedBy
+    @Column(name = "last_modified_by")
+    protected String lastModifiedBy;
 
-//    @Column(name = "last_modified_by")
-//    protected String lastModifiedBy;
-
-    @ManyToOne @LastModifiedBy
-    @JoinColumn(name = "last_modified_by")
+    @ManyToOne
+    @JoinColumn(name = "last_modified_by", updatable = false, insertable = false)
     protected User modifier;
     
     @LastModifiedDate
@@ -62,21 +63,6 @@ public abstract class DataEntity extends BaseEntity {
 	@XmlTransient
     @Column(name = "description_")
 	protected String description;
-    /**
-     * 插入之前执行方法，需要手动调用
-     */
-    @Override
-    public void preInsert(){
-        this.lastModifiedDate = new Date();
-        this.createdDate = this.lastModifiedDate;
-    }
 
-    /**
-     * 更新之前执行方法，需要手动调用
-     */
-    @Override
-    public void preUpdate(){
-        this.lastModifiedDate = new Date();
-    }
 
 }

@@ -8,7 +8,7 @@ import org.springframework.data.mybatis.annotations.Id;
 import org.springframework.data.mybatis.annotations.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class IdEntity extends DataEntity {
+public abstract class IdEntity extends DataEntity<String> {
 
 	private static final long serialVersionUID = 1L;
 	@SearchField
@@ -27,15 +27,6 @@ public abstract class IdEntity extends DataEntity {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	@Override
-	public void preInsert(){
-		super.preInsert();
-		// 不限制ID为UUID，调用setIsNewRecord()使用自定义ID
-		if (PublicUtil.isEmpty(getId())){
-			setId(IdGen.uuid());
-		}
 	}
 
 }

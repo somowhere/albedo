@@ -66,7 +66,7 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
     public <S extends T> S insert(S entity) {
         entityInformation.setCreatedDate(entity);
         entityInformation.setCreatedBy(entity);
-
+        entityInformation.preInssert(entity);
         if (entityInformation.hasVersion()) {
             entityInformation.setVersion(entity, 0);
         }
@@ -81,7 +81,7 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
     public <S extends T> S update(S entity) {
         entityInformation.setLastModifiedDate(entity);
         entityInformation.setLastModifiedBy(entity);
-
+        entityInformation.preUpdate(entity);
         int row = update(STATEMENT_UPDATE, entity);
         if (row == 0) {
             throw new MybatisNoHintException("update effect 0 row, maybe version control lock occurred.");
@@ -97,7 +97,7 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
     public <S extends T> S updateIgnoreNull(S entity) {
         entityInformation.setLastModifiedDate(entity);
         entityInformation.setLastModifiedBy(entity);
-
+        entityInformation.preUpdate(entity);
         int row = update(STATEMENT_UPDATE_IGNORE_NULL, entity);
         if (row == 0) {
             throw new MybatisNoHintException("update effect 0 row, maybe version control lock occurred.");
@@ -112,7 +112,6 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
     @Transactional
     public <S extends T> S save(S entity) {
         Assert.notNull(entity, "entity can not be null");
-
         if (entityInformation.isNew(entity)) {
             // insert
             insert(entity);

@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mybatis.repository.dialect.Dialect;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
@@ -99,11 +100,26 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
 		}
 		return doCheckWithEntity(entity, maps);
 	}
+	public Iterable<T> save(Iterable<T> entitys) {
+		entitys.forEach(item -> save(item));
+		return entitys;
+	}
+
+//	public void checkSave(T entity){
+//		if(entity.isNew()){
+//			entity.preInssert();
+//		}else{
+//			entity.preUpdate();
+//		}
+//	}
+
 	public T save(T entity) {
+//		checkSave(entity);
 		entity = repository.save(entity);
 		log.debug("Save Information for Entity: {}", entity);
 		return entity;
 	}
+
 
 	@Transactional(readOnly=true)
 	public T findOne(pk id) {
@@ -181,7 +197,8 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
 		try {
 			Map<String, Object> paramsMap = Maps.newHashMap();
 			specificationDetail.setPersistentClass(persistentClass);
-			String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(specificationDetail.getAndQueryConditions(),
+			String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(
+					specificationDetail.getAndQueryConditions(),
 					specificationDetail.getOrQueryConditions(),
 					null,
 					paramsMap, true);

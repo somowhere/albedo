@@ -100,7 +100,6 @@ public class UserService extends DataService<UserRepository, User, String> {
     @Transactional(readOnly = true)
     public UserResult getUserWithAuthorities(String id) {
         User user = repository.findOne(id);
-        user.getRoles().size(); // eagerly load the association
         return copyBeanToResult(user);
     }
 

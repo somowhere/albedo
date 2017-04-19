@@ -27,7 +27,7 @@ import java.util.Map;
  * @version 2014-05-16
  */
 @MappedSuperclass
-public abstract class BaseEntity<T> extends GeneralEntity {
+public abstract class BaseEntity<ID extends Serializable> extends GeneralEntity<ID> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -47,16 +47,5 @@ public abstract class BaseEntity<T> extends GeneralEntity {
 		super();
 		this.status = FLAG_NORMAL;
 	}
-	public abstract String getId();
-	public abstract void setId(String id);
-	/**
-	 * 插入之前执行方法，子类实现
-	 */
-	public abstract void preInsert();
-
-	/**
-	 * 更新之前执行方法，子类实现
-	 */
-	public abstract void preUpdate();
 
 }

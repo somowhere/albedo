@@ -40,6 +40,7 @@ public class JpaCustomeRepositoryImpl<T extends GeneralEntity>
 	@Override
 	@Transactional(readOnly = true)
 	public List<ComboData> findJson(Combo combo) {
+
 		List<ComboData> mapList = Lists.newArrayList();
 		if (PublicUtil.isNotEmpty(combo) && PublicUtil.isNotEmpty(combo.getId())
 				&& PublicUtil.isNotEmpty(combo.getName()) && PublicUtil.isNotEmpty(combo.getModule())) {

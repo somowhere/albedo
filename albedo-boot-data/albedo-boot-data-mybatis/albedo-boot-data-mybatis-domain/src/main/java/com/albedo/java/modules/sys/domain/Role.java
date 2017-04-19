@@ -65,7 +65,7 @@ public class Role extends IdEntity {
 	private String orgId;
 	
 	@ManyToOne
-    @JoinColumn(name = "org_id")
+    @JoinColumn(name = "org_id", updatable = false,insertable = false)
     @ApiModelProperty(hidden=true)
     private Org org;
 	

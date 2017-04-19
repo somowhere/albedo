@@ -63,7 +63,7 @@ public class AreaResource extends DataResource<AreaService, Area> {
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity getPage(PageModel<Area> pm) {
-		areaService.findPageQuery(pm, SecurityUtil.dataScopeFilter());
+		areaService.findPage(pm, SecurityUtil.dataScopeFilter());
 		JSON rs = JsonUtil.getInstance().setRecurrenceStr("creator_name").toJsonObject(pm);
 		return ResultBuilder.buildObject(rs);
 	}

@@ -47,17 +47,19 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
                 throw new RuntimeMsgException("无法获取模块的父节点，插入失败");
             if(parent!=null){
                 parent.setLeaf(false);
+//                checkSave(parent);
                 repository.save(parent);
             }
             entity.setParentIds(PublicUtil.toAppendStr(parent.getParentIds(), parent.getId(), ","));
         }
 
         if(PublicUtil.isNotEmpty(entity.getId())){
-            T itemTemp = repository.findFirstByParentId(entity.getId());
-            entity.setLeaf(itemTemp == null? true : false);
+            Long count = repository.countByParentId(entity.getId());
+            entity.setLeaf(count == null || count== 0 ? true : false);
         }else{
             entity.setLeaf(true);
         }
+//        checkSave(entity);
         entity = repository.save(entity);
         // 更新子节点 parentIds
         List<T> list = repository.findAllByParentIdsLike(PublicUtil.toAppendStr("%,", entity.getId(), ",%"));

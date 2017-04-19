@@ -78,7 +78,7 @@ public class ${ClassName} extends TreeEntity<${ClassName}> {
 	@ManyToOne@JoinColumn(name = "${table.parentTableFk}")
 	private ${table.parent.className} ${column.simpleJavaField};
 	<#elseif column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
-	@ManyToOne@JoinColumn(name = "${column.name}")
+	@ManyToOne@JoinColumn(name = "${column.name}", updatable = false,insertable = false)
 	private ${column.simpleJavaType} ${column.simpleJavaField};
 	@Column(name = "${column.name}")
 	private String ${column.simpleJavaField}Id;

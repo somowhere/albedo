@@ -16,31 +16,21 @@
  *
  */
 
-package org.springframework.data.mybatis.mapping;
+package org.springframework.data.mybatis.domains;
 
-import org.apache.ibatis.type.JdbcType;
-import org.apache.ibatis.type.TypeHandler;
-import org.springframework.data.mapping.PersistentProperty;
-import org.springframework.data.mybatis.annotations.Id.GenerationType;
+import java.io.Serializable;
 
 /**
  * @author Jarvis Song
  */
-public interface MybatisPersistentProperty extends PersistentProperty<MybatisPersistentProperty> {
+public interface Persistable<ID extends Serializable> extends Serializable  {
 
-    JdbcType getJdbcType();
+    void preInssert();
 
-    String getColumnName();
+    void preUpdate();
 
-    boolean insertable();
+    ID getId();
 
-    boolean updatable();
+    boolean isNew();
 
-    boolean isToOneAssociation();
-
-    boolean isCompositeId();
-
-    GenerationType getIdGenerationType();
-
-    Class<? extends TypeHandler> getSpecifiedTypeHandler();
 }

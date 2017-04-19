@@ -99,7 +99,6 @@ public final class SecurityUtil {
 		}
 		return userName;
 	}
-
 	public static String getCurrentAuditor() {
 		String userName = SecurityUtil.getCurrentUserId();
 		return (userName != null ? userName : Globals.SYSTEM_ACCOUNT);

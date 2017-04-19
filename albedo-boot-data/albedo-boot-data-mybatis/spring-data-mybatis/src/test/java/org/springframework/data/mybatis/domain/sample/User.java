@@ -136,7 +136,15 @@ public class User {
     public void setManager(User manager) {
         this.manager = manager;
     }
+    @PreInssert
+    public void preInssert() {
+        System.out.println(this.getClass().getName()+" preInssert............");
+    }
 
+    @PreUpdate
+    public void preUpdate() {
+        System.out.println(this.getClass().getName()+"preUpdate............");
+    }
     /**
      * @return the id
      */

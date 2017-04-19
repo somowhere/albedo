@@ -36,4 +36,8 @@ public @interface JoinColumn {
 
     String referencedColumnName() default "";
 
+    boolean insertable() default true;
+
+    boolean updatable() default true;
+
 }

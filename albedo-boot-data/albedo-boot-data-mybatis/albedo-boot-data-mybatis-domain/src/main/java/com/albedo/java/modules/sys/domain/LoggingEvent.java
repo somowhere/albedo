@@ -10,10 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.mybatis.annotations.Column;
@@ -33,7 +29,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class LoggingEvent extends GeneralEntity {
+public class LoggingEvent extends GeneralEntity<Long> {
 
 	private static final long serialVersionUID = 1L;
 	/** F_TIMESTMP timestmp : 创建时间 */

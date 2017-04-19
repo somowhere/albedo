@@ -12,8 +12,6 @@ import org.springframework.data.mybatis.annotations.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -26,15 +24,15 @@ import java.util.Date;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class PersistentToken extends GeneralEntity {
+public class PersistentToken extends GeneralEntity<String> {
 
     private static final long serialVersionUID = 1L;
 
     private static final int MAX_USER_AGENT_LEN = 255;
 
-    @Id
-	@Column(name = "id_")
 	@SearchField
+    @Id(strategy = Id.GenerationType.UUID)
+    @Column(name = "id_")
 	protected String id; // 编号
     @Column(name = "series_")
     private String series;
