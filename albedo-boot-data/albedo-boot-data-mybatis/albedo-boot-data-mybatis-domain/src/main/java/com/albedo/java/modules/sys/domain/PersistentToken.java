@@ -1,6 +1,8 @@
 package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.data.mybatis.persistence.GeneralEntity;
+import com.albedo.java.common.data.mybatis.persistence.IdGen;
+import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.annotation.SearchField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -61,6 +63,13 @@ public class PersistentToken extends GeneralEntity<String> {
 	@ManyToOne
 	@JoinColumn(name = "user_id") @JsonIgnore
 	private User user;
+
+    @PreInssert
+    public void preInssert() {
+        if(PublicUtil.isEmpty(getId())){
+            setId(IdGen.uuid());
+        }
+    }
 	
     public String getId() {
 		return id;

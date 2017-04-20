@@ -295,7 +295,7 @@ public class QueryUtil {
 							val = PropertyUtils.getProperty(obj, key);
 							an = Reflections.getAnnotation(obj, key, SearchField.class);
 						} catch (Exception e) {
-							logger.error(PublicUtil.toAppendStr("key:", key, "exception:", e));
+							logger.info("key:{} exception:{} ", key, e);
 							continue;
 						}
 						if (PublicUtil.isNotEmpty(val) && an != null) {

@@ -56,7 +56,7 @@ public class GenScheme extends IdEntity {
 	@Column(name = "function_author")
 	private String functionAuthor; // 生成功能作者
 	@ManyToOne
-	@JoinColumn(name = "gen_table_id")
+	@JoinColumn(name = "gen_table_id", insertable = false, updatable = false)
 	private GenTable genTable; // 业务表名
 	@Column(name = "gen_table_id")
 	private String genTableId; // 业务表名

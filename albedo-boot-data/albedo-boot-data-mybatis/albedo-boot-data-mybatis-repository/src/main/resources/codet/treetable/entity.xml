@@ -22,10 +22,7 @@ import ${i};
  * @author ${functionAuthor}
  * @version ${functionVersion}
  */
-@Entity
-@Table(name = "${table.name}")
-@DynamicInsert @DynamicUpdate
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Entity(table = "${table.name}")
 @Data @ToString @NoArgsConstructor @AllArgsConstructor
 public class ${ClassName} extends TreeEntity<${ClassName}> {
 	

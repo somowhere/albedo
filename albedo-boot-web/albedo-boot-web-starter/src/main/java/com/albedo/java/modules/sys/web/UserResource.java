@@ -164,7 +164,7 @@ public class UserResource extends DataResource<UserService, User> {
 //	@Secured(AuthoritiesConstants.ADMIN)
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete User: {}", ids);
-		userService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
+		userService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
 		SecurityUtil.clearUserJedisCache();
 		SecurityUtil.clearUserLocalCache();
 		return ResultBuilder.buildOk("删除成功");
@@ -181,7 +181,7 @@ public class UserResource extends DataResource<UserService, User> {
 //	@Secured(AuthoritiesConstants.ADMIN)
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock User: {}", ids);
-		userService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
+		userService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
 		SecurityUtil.clearUserJedisCache();
 		SecurityUtil.clearUserLocalCache();
 		return ResultBuilder.buildOk("操作成功");

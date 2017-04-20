@@ -35,4 +35,6 @@ public interface GenTableRepository extends BaseRepository<GenTable, String> {
      */
     @Query
     List<String> findTablePK(@Param("genTable") GenTable genTable);
+
+    List<GenTable> findAllByParentTable(String id);
 }

@@ -22,10 +22,7 @@ import ${i};
  * @author ${functionAuthor}
  * @version ${functionVersion}
  */
-@Entity
-@Table(name = "${table.name}")
-@DynamicInsert @DynamicUpdate
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Entity(table = "${table.name}")
 @Data @ToString @NoArgsConstructor @AllArgsConstructor
 public class ${ClassName} extends DataEntity {
 	
@@ -39,13 +36,20 @@ public class ${ClassName} extends DataEntity {
 	
 	<@generateFields/>
 	<@generateCompositeIdConstructorIfis/>
-	@PrePersist
-	public void prePersist() {
-		<#if table.pkJavaType = 'String'>
-		this.id = IdGen.uuid();
+	<@generatePkProperties/>
+	@PreInssert
+	public void preInssert() {
+	    <#if table.pkJavaType = 'String'>
+		if(PublicUtil.isEmpty(getId())){
+			setId(IdGen.uuid());
+		}
 		</#if>
 	}
-	
+	@PreUpdate
+	public void preUpdate() {
+
+	}
+
 	public int hashCode() {
 		return new HashCodeBuilder()
 		<#list table.pkColumnList as column>
@@ -71,9 +75,9 @@ public class ${ClassName} extends DataEntity {
 	@EmbeddedId
 	private ${ClassName}Id id;
 <#else>
-	@Id 
 	@Column(name = "${table.pkSqlName}")
 	@SearchField
+	@Id(strategy = Id.GenerationType.UUID)
 	private ${table.pkJavaType} id;
 </#if>
 	<#list table.columnList as column>
@@ -118,12 +122,12 @@ public class ${ClassName} extends DataEntity {
 	}
 	
 	public void setId(${ClassName}Id id) {
-		this.id = id;
+		if (PublicUtil.isNotEmpty(id))this.id = id;
 	}
 	<#else>
 	/** ${table.pkColumn.simpleJavaField} ${table.pkColumn.comments} */
-	public void setId(${table.pkColumn.javaType} value) {
-		this.id = value;
+	public void setId(${table.pkColumn.javaType} id) {
+		if (PublicUtil.isNotEmpty(id))this.id = id;
 	}
 	/** ${table.pkColumn.simpleJavaField} ${table.pkColumn.comments} */
 	public ${table.pkColumn.javaType} getId() {

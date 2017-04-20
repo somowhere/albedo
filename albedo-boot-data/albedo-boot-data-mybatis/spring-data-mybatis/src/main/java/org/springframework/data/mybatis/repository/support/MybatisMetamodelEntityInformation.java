@@ -146,10 +146,10 @@ public class MybatisMetamodelEntityInformation<T, ID extends Serializable> exten
 
     }
 
-    private void setAuditDate(PersistentProperty<?> property, T entity, Class<? extends Annotation> annotationType) {
+    private void setAuditDate(PersistentProperty<?> property, T entity, Class<? extends Annotation> annotationType, boolean isCheckVal) {
 
         Object val = persistentEntity.getPropertyAccessor(entity).getProperty(property);
-        if (null != val) {
+        if (isCheckVal && null != val) {
             return;
         }
 
@@ -175,7 +175,7 @@ public class MybatisMetamodelEntityInformation<T, ID extends Serializable> exten
         if (null == createdDateProperty) {
             return;
         }
-        setAuditDate(createdDateProperty, entity, CreatedDate.class);
+        setAuditDate(createdDateProperty, entity, CreatedDate.class, true);
     }
 
     @Override
@@ -183,13 +183,13 @@ public class MybatisMetamodelEntityInformation<T, ID extends Serializable> exten
         if (null == lastModifiedDateProperty) {
             return;
         }
-        setAuditDate(lastModifiedDateProperty, entity, LastModifiedDate.class);
+        setAuditDate(lastModifiedDateProperty, entity, LastModifiedDate.class, false);
 
     }
 
-    private void setCurrentAuditor(PersistentProperty<?> property, T entity) {
+    private void setCurrentAuditor(PersistentProperty<?> property, T entity, boolean isCheckVal) {
         Object val = persistentEntity.getPropertyAccessor(entity).getProperty(property);
-        if (null != val) {
+        if (isCheckVal && null != val) {
             return;
         }
         persistentEntity.getPropertyAccessor(entity).setProperty(property, auditorAware.getCurrentAuditor());
@@ -200,7 +200,7 @@ public class MybatisMetamodelEntityInformation<T, ID extends Serializable> exten
         if (null == createdByProperty || null == auditorAware) {
             return;
         }
-        setCurrentAuditor(createdByProperty, entity);
+        setCurrentAuditor(createdByProperty, entity, false);
     }
 
     @Override
@@ -208,7 +208,7 @@ public class MybatisMetamodelEntityInformation<T, ID extends Serializable> exten
         if (null == lastModifiedByProperty || null == auditorAware) {
             return;
         }
-        setCurrentAuditor(lastModifiedByProperty, entity);
+        setCurrentAuditor(lastModifiedByProperty, entity, false);
     }
 
     @Override

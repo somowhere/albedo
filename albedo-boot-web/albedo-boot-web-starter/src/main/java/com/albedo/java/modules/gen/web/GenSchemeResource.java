@@ -111,6 +111,8 @@ public class GenSchemeResource extends DataResource<GenSchemeService, GenScheme>
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
 	public ResponseEntity save(GenScheme genScheme, Model model, RedirectAttributes redirectAttributes) {
+		if(PublicUtil.isEmpty(genScheme.getGenTableId())&& genScheme.getGenTable()!=null)
+			genScheme.setGenTableId(genScheme.getGenTable().getId());
 		genSchemeService.save(genScheme);
 		SecurityUtil.clearUserJedisCache();
 		if (genScheme.getSyncModule()) {
@@ -134,7 +136,7 @@ public class GenSchemeResource extends DataResource<GenSchemeService, GenScheme>
 	@Timed
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock genTable: {}", ids);
-		genSchemeService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
+		genSchemeService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
 		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("操作成功");
 	}
@@ -145,7 +147,7 @@ public class GenSchemeResource extends DataResource<GenSchemeService, GenScheme>
 	@Secured(AuthoritiesConstants.ADMIN)
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete User: {}", ids);
-		genSchemeService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
+		genSchemeService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
 		return ResultBuilder.buildOk("删除成功");
 	}
 	

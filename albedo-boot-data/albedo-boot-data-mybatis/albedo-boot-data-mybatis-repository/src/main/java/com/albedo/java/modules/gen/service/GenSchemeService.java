@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -31,14 +33,12 @@ public class GenSchemeService extends DataService<GenSchemeRepository, GenScheme
 	private GenTableRepository genTableRepository;
 
 	public List<GenScheme> findAll(String id) {
-		GenScheme genScheme = new GenScheme();
-		SpecificationDetail specificationDetail = DynamicSpecifications.bySearchQueryCondition(QueryCondition.eq(GenTable.F_STATUS, GenTable.FLAG_NORMAL),
+
+		SpecificationDetail specificationDetail = DynamicSpecifications.bySearchQueryCondition(
+				QueryCondition.eq(GenTable.F_STATUS, GenTable.FLAG_NORMAL),
 				QueryCondition.ne(GenTable.F_ID, id == null ? "-1" : id));
-		String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(specificationDetail.getAndQueryConditions(),
-				specificationDetail.getOrQueryConditions(),
-				Lists.newArrayList(DynamicSpecifications.MYBITS_SEARCH_PARAMS_MAP),genScheme.getParamsMap(), true);
-		genScheme.setSqlConditionDsf(sqlConditionDsf);
-		return repository.findAll(genScheme);
+		return findAll(specificationDetail);
+//		return repository.findAllByStatusAndId(GenTable.FLAG_NORMAL, id == null ? "-1" : id);
 	}
 
 
@@ -47,6 +47,8 @@ public class GenSchemeService extends DataService<GenSchemeRepository, GenScheme
 
 		// 查询主表及字段列
 		GenTable genTable = genTableRepository.findOne(genScheme.getGenTable().getId());
+
+		Collections.sort(genTable.getColumnList());
 
 		// 获取所有代码模板
 		GenConfig config = GenUtil.getConfig();
@@ -57,11 +59,13 @@ public class GenSchemeService extends DataService<GenSchemeRepository, GenScheme
 
 		// 如果有子表模板，则需要获取子表列表
 		if (childTableTemplateList.size() > 0) {
-			genTable.getChildList();
+			genTable.setChildList(genTableRepository.findAllByParentTable(genTable.getId()));
 		}
 
 		// 生成子表模板代码
+		if(genTable.getChildList()==null)genTable.setChildList(Lists.newArrayList());
 		for (GenTable childTable : genTable.getChildList()) {
+			Collections.sort(childTable.getColumnList());
 			childTable.setCategory(genScheme.getCategory());
 			genScheme.setGenTable(childTable);
 			Map<String, Object> childTableModel = GenUtil.getDataModel(genScheme);

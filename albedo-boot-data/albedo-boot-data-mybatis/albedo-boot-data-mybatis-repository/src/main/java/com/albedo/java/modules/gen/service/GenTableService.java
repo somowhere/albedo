@@ -5,6 +5,7 @@ import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.gen.domain.GenTable;
 import com.albedo.java.modules.gen.domain.GenTableColumn;
 import com.albedo.java.modules.gen.domain.xml.GenConfig;
+import com.albedo.java.modules.gen.repository.GenTableColumnRepository;
 import com.albedo.java.modules.gen.repository.GenTableRepository;
 import com.albedo.java.modules.gen.util.GenUtil;
 import com.albedo.java.modules.sys.domain.Dict;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -29,17 +31,20 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
 
 	@Autowired
 	private GenTableColumnService genTableColumnService;
+	@Autowired
+	private GenTableColumnRepository genTableColumnRepository;
 
 	public GenTable save(GenTable genTable) {
-
+		boolean isNew = PublicUtil.isEmpty(genTable.getId());
 		genTable = repository.save(genTable);
-
-		for(GenTableColumn item : genTable.getColumnFormList()){
-			item.setGenTable(genTable);
-		}
-		genTableColumnService.save(genTable.getColumnFormList());
-
 		log.debug("Save Information for GenTable: {}", genTable);
+		int index = 0;
+		for(GenTableColumn item : genTable.getColumnFormList()){
+			item.setGenTableId(genTable.getId());
+			if(!isNew)
+			item.setVersion(genTable.getColumnList().get(index++).getVersion());
+		}
+		genTableColumnService.saveIgnoreNull(genTable.getColumnFormList());
 
 		return genTable;
 	}
@@ -150,6 +155,9 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
 		if(PublicUtil.isEmpty(list)){
 			throw new RuntimeMsgException(PublicUtil.toAppendStr("无法获取[", genTable.getName(), "]表的列信息"));
 		}
+		if(PublicUtil.isNotEmpty(genTable.getId())){
+			Collections.sort(list);
+		}
 		return list;
 	}
 //	@Transactional(readOnly = true)
@@ -189,7 +197,8 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
 		}
 		// 获取物理表字段
 		genTable = getTableFormDb(genTable);
-		map.put("columnList",  PublicUtil.convertComboDataList(genTable.getColumnList(), GenTable.F_NAME, GenTable.F_NAMESANDCOMMENTS));
+		map.put("columnList",  PublicUtil.convertComboDataList(genTable.getColumnList(),
+				GenTable.F_NAME, GenTable.F_NAMESANDCOMMENTS));
 		
 		
 		map.put("genTable", genTable);
@@ -199,7 +208,9 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
 		map.put("queryTypeList",  PublicUtil.convertComboDataList(config.getQueryTypeList(), Dict.F_VAL, Dict.F_NAME));
 		map.put("showTypeList",  PublicUtil.convertComboDataList(config.getShowTypeList(), Dict.F_VAL, Dict.F_NAME));
 		map.put("javaTypeList",  PublicUtil.convertComboDataList(config.getJavaTypeList(), Dict.F_VAL, Dict.F_NAME));
-		
+		if(PublicUtil.isNotEmpty(genTable.getId())){
+			Collections.sort(genTable.getColumnList());
+		}
 		
 		return map;
 	}

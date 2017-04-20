@@ -30,11 +30,14 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class GenTableColumn extends IdEntity {
+public class GenTableColumn extends IdEntity implements Comparable {
 
 	private static final long serialVersionUID = 1L;
+
+	@Column(name = "gen_table_id")
+	private String genTableId; // 列名
 	@ManyToOne
-	@JoinColumn(name = "gen_table_id")
+	@JoinColumn(name = "gen_table_id", insertable = false, updatable = false)
 	private GenTable genTable; // 归属表
 	@Length(min = 1, max = 200)
 	@Column(name = "name_")
@@ -313,4 +316,12 @@ public class GenTableColumn extends IdEntity {
 	public void setSize(String size) {
 		this.size = size;
 	}
+
+	@Override
+	public int compareTo(Object obj) {
+		GenTableColumn b = (GenTableColumn) obj;
+		return this.sort - b.sort; // 按书的id比较大小，用于默认排序
+	}
+
+
 }

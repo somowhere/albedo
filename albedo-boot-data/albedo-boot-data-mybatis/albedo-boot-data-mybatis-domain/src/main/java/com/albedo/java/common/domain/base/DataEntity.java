@@ -8,10 +8,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.data.annotation.*;
-import org.springframework.data.mybatis.annotations.Column;
-import org.springframework.data.mybatis.annotations.JoinColumn;
-import org.springframework.data.mybatis.annotations.ManyToOne;
-import org.springframework.data.mybatis.annotations.MappedSuperclass;
+import org.springframework.data.mybatis.annotations.*;
 
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;

@@ -3,6 +3,7 @@ package com.albedo.java.common.service;
 import com.albedo.java.common.data.mybatis.persistence.BaseEntity;
 import com.albedo.java.common.domain.base.TreeEntity;
 import com.albedo.java.common.repository.TreeRepository;
+import com.albedo.java.modules.sys.domain.Area;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.exception.RuntimeMsgException;
@@ -93,7 +94,14 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
 
     @Transactional(readOnly = true)
     public T findTopByParentId(String parentId) {
-        return repository.findTopByParentIdAndStatusNotOrderBySortDesc(parentId, BaseEntity.FLAG_DELETE);
+        List<T> tempList = repository.findTop1ByParentIdAndStatusNotOrderBySortDesc(parentId, BaseEntity.FLAG_DELETE);
+        return PublicUtil.isNotEmpty(tempList) ? tempList.get(0) : null;
     }
+
+    @Transactional(readOnly = true)
+    public Long countTopByParentId(String parentId) {
+        return repository.countByParentIdAndStatusNot(parentId, Area.FLAG_DELETE);
+    }
+
 
 }

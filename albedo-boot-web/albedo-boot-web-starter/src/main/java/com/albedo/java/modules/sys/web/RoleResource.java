@@ -92,7 +92,7 @@ public class RoleResource extends DataResource<RoleService, Role> {
 	@Timed
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete Role: {}", ids);
-		service.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
+		service.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
 		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("删除成功");
 	}
@@ -107,7 +107,7 @@ public class RoleResource extends DataResource<RoleService, Role> {
 	@Timed
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock User: {}", ids);
-		service.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
+		service.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
 		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("操作成功");
 	}

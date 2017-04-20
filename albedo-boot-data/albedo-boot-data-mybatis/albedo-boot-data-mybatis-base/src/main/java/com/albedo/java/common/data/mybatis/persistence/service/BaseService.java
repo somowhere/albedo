@@ -104,6 +104,10 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
 		entitys.forEach(item -> save(item));
 		return entitys;
 	}
+	public Iterable<T> saveIgnoreNull(Iterable<T> entitys) {
+		entitys.forEach(item -> saveIgnoreNull(item));
+		return entitys;
+	}
 
 //	public void checkSave(T entity){
 //		if(entity.isNew()){
@@ -112,7 +116,12 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
 //			entity.preUpdate();
 //		}
 //	}
-
+	public T saveIgnoreNull(T entity) {
+//		checkSave(entity);
+	entity = repository.saveIgnoreNull(entity);
+	log.debug("Save Information for Entity: {}", entity);
+	return entity;
+}
 	public T save(T entity) {
 //		checkSave(entity);
 		entity = repository.save(entity);

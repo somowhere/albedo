@@ -55,9 +55,4 @@ public class AreaService extends TreeService<AreaRepository, Area, String> {
 		return mapList;
 	}
 	
-	@Transactional(readOnly = true)
-	public Area findTopByParentId(String parentId) {
-		return repository.findTopByParentIdAndStatusNotOrderBySortDesc(parentId, Area.FLAG_DELETE);
-	}
-
 }

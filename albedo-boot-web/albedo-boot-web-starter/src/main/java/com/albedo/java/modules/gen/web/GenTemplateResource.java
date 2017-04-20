@@ -102,7 +102,7 @@ public class GenTemplateResource extends DataResource<GenTemplateService, GenTab
 	@Timed
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete GenTable: {}", ids);
-		genTemplateService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
+		genTemplateService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
 		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("删除成功");
 	}
@@ -113,7 +113,7 @@ public class GenTemplateResource extends DataResource<GenTemplateService, GenTab
 	@Secured(AuthoritiesConstants.ADMIN)
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock User: {}", ids);
-		genTemplateService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
+		genTemplateService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
 		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("操作成功");
 	}

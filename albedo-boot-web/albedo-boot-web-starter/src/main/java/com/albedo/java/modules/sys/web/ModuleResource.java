@@ -136,7 +136,7 @@ public class ModuleResource extends DataResource<ModuleService, Module> {
 	@Timed
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete Module: {}", ids);
-		moduleService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
+		moduleService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
 		SecurityUtil.clearUserJedisCache();
 		JedisUtil.removeSys(InvocationSecurityMetadataSourceService.RESOURCE_MODULE_DATA_MAP);
 		return ResultBuilder.buildOk("删除成功");
@@ -153,7 +153,7 @@ public class ModuleResource extends DataResource<ModuleService, Module> {
 	@Secured(AuthoritiesConstants.ADMIN)
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock User: {}", ids);
-		moduleService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
+		moduleService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
 		SecurityUtil.clearUserJedisCache();
 		JedisUtil.removeSys(InvocationSecurityMetadataSourceService.RESOURCE_MODULE_DATA_MAP);
 		return ResultBuilder.buildOk("操作成功");

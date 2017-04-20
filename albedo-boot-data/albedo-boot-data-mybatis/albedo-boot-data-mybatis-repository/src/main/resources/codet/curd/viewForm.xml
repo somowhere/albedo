@@ -44,7 +44,7 @@
 					<label class="control-label col-md-3">${c.comments}<#if !c.nullable><span class="required">*</span></#if></label>
 					<div class="col-md-5">
 					<#if c.showType == "input">
-						<input type="text" name="${c.javaFieldId}" id="${c.javaFieldId}" class="form-control<#if !c.nullable> required</#if><#if c.javaType == "Long" || c.javaType == "Integer"> digits</#if><#if c.javaType == "Double"> number</#if>" value="<@jspEl />{(${className}.${c.javaFieldId})!}" htmlEscape="false"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if>>
+						<input type="text" name="${c.javaFieldId}" id="${c.javaFieldId}" class="form-control<#if !c.nullable> required</#if><#if c.javaType == "Long" || c.javaType == "Integer"> digits</#if><#if c.javaType == "java.math.BigDecimal" || c.javaType == "Double"> number</#if>" value="<@jspEl />{(${className}.${c.javaFieldId})!}" htmlEscape="false"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if>>
 					<#elseif c.showType == "textarea">
 						<textarea name="${c.javaFieldId}" rows="5"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if> class="form-control input-xxlarge <#if !c.nullable>required</#if>"><@jspEl />{(${className}.${c.javaFieldId})! }</textarea>
 					<#elseif c.showType == "select" || c.showType == "checkbox" || c.showType == "radio">

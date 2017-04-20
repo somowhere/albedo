@@ -17,14 +17,15 @@ import java.util.List;
 public interface TreeRepository<T extends BaseEntity, PK extends Serializable> extends BaseRepository<T, PK> {
 
 	Long countByParentId(String parentId);
+	Long countByParentIdAndStatusNot(String parentId, Integer status);
 	
 	List<T> findAllByParentIdsLike(String parentIds);
 
 	List<T> findAllByParentIdAndStatusNot(String parentId, Integer status);
 	
 	List<T> findAllByStatusNot(Integer status);
-	
-	T findTopByParentIdAndStatusNotOrderBySortDesc(String parentId, Integer status);
+
+	List<T> findTop1ByParentIdAndStatusNotOrderBySortDesc(String parentId, Integer status);
 
 	T findOneByIdOrParentIdsLike(PK id, String likeParentIds);
 

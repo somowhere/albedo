@@ -18,7 +18,7 @@ import static org.springframework.data.mybatis.annotations.Id.GenerationType.AUT
 /** 通常的数据基类 copyright 2014 albedo all right reserved author 李杰 created on 2014年12月31日 下午1:57:09 */
 @MappedSuperclass
 @DynamicSearch @Data
-public abstract class GeneralEntity<ID extends Serializable> implements Persistable<ID>, Serializable {
+public abstract class GeneralEntity<ID extends Serializable> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	/*** 状态 审核 */
@@ -76,28 +76,6 @@ public abstract class GeneralEntity<ID extends Serializable> implements Persista
 
 	public void setSqlConditionDsf(String sqlConditionDsf) {
 		this.sqlConditionDsf = sqlConditionDsf;
-	}
-
-	@Transient
-	public boolean isNew() {
-		return PublicUtil.isEmpty(getId());
-	}
-
-	public abstract ID getId();
-
-	public abstract void setId(ID id);
-
-	public void preInssert() {
-		if(PublicUtil.isEmpty(getId())){
-			try{
-				setId((ID) IdGen.uuid());
-			}catch (Exception e){
-			}
-		}
-	}
-
-	public void preUpdate() {
-
 	}
 
 

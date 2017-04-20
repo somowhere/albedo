@@ -33,11 +33,11 @@ public abstract class DataService<Repository extends BaseRepository<T, PK>, T ex
 	 * @param id
 	 * @return
 	 */
-	public void deleteById(PK id, String lastModifiedBy) {
-		operateStatusById(id, BaseEntity.FLAG_DELETE, lastModifiedBy);
+	public void deleteById(PK id) {
+		operateStatusById(id, BaseEntity.FLAG_DELETE);
 	}
 
-	public void operateStatusById(PK id, Integer status, String lastModifiedBy) {
+	public void operateStatusById(PK id, Integer status) {
 		T entity = repository.findOne(id);
 		Assert.assertNotNull(entity, "无法查询到对象信息");
 		entity.setStatus(status);
@@ -52,27 +52,26 @@ public abstract class DataService<Repository extends BaseRepository<T, PK>, T ex
 	 * @param idList
 	 * @return
 	 */
-	public void deleteById(List<PK> idList, String lastModifiedBy) {
+	public void deleteById(List<PK> idList) {
 		for (PK id : idList) {
-			deleteById(id, lastModifiedBy);
+			deleteById(id);
 		}
 	}
 
-	public void delete(List<PK> ids, String currentAuditor) {
+	public void delete(List<PK> ids) {
 		ids.forEach(id ->{
 			T entity =  repository.findOne(id);
 			Assert.assertNotNull(entity,"对象 " + id + " 信息为空，删除失败" );
-			deleteById(id, currentAuditor);
+			deleteById(id);
 			log.debug("Deleted Entity: {}", entity);
 		});
 	}
 
-	public void lockOrUnLock(List<PK> ids, String currentAuditor) {
+	public void lockOrUnLock(List<PK> ids) {
 		ids.forEach(id ->{
 			T entity =  repository.findOne(id);
 			Assert.assertNotNull(entity,"对象 " + id + " 信息为空，操作失败" );
-			operateStatusById(id, BaseEntity.FLAG_NORMAL.equals(entity.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL,
-					currentAuditor);
+			operateStatusById(id, BaseEntity.FLAG_NORMAL.equals(entity.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL);
 			log.debug("LockOrUnLock Entity: {}", entity);
 
 		});

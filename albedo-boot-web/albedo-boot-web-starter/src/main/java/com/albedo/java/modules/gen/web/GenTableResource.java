@@ -96,7 +96,7 @@ public class GenTableResource extends DataResource<GenTableService, GenTable> {
 	@Secured(AuthoritiesConstants.ADMIN)
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete genTable: {}", ids);
-		genTableService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
+		genTableService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
 		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("删除成功");
 	}
@@ -106,7 +106,7 @@ public class GenTableResource extends DataResource<GenTableService, GenTable> {
 	@Timed
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock genTable: {}", ids);
-		genTableService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentAuditor());
+		genTableService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
 		SecurityUtil.clearUserJedisCache();
 		return ResultBuilder.buildOk("操作成功");
 	}
