@@ -10,14 +10,12 @@ import com.albedo.java.modules.gen.domain.xml.GenConfig;
 import com.albedo.java.modules.gen.repository.GenSchemeRepository;
 import com.albedo.java.modules.gen.repository.GenTableRepository;
 import com.albedo.java.modules.gen.util.GenUtil;
-import com.albedo.java.util.QueryUtil;
 import com.albedo.java.util.domain.QueryCondition;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;

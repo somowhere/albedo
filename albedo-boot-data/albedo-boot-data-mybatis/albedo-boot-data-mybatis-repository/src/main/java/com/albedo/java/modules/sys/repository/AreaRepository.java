@@ -3,10 +3,8 @@
  */
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.common.repository.TreeRepository;
+import com.albedo.java.common.data.mybatis.persistence.repository.TreeRepository;
 import com.albedo.java.modules.sys.domain.Area;
-
-import java.util.List;
 
 /**
  * 区域管理Repository 区域管理

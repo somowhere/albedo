@@ -1,8 +1,8 @@
 package com.albedo.java.grpc.client.autoconfigure;
 
 import com.albedo.java.grpc.client.*;
-
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import io.grpc.LoadBalancer;
+import io.grpc.util.RoundRobinLoadBalancerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -13,9 +13,6 @@ import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.grpc.LoadBalancer;
-import io.grpc.util.RoundRobinLoadBalancerFactory;
-
 /**
  * User: Michael
  * Email: yidongnan@gmail.com
@@ -25,29 +22,6 @@ import io.grpc.util.RoundRobinLoadBalancerFactory;
 @EnableConfigurationProperties
 @ConditionalOnClass({GrpcChannelFactory.class})
 public class GrpcClientAutoConfiguration {
-
-    @ConditionalOnMissingBean
-    @Bean
-    public GrpcChannelsProperties grpcChannelsProperties() {
-        return new GrpcChannelsProperties();
-    }
-
-    @Bean
-    public GlobalClientInterceptorRegistry globalClientInterceptorRegistry() {
-        return new GlobalClientInterceptorRegistry();
-    }
-
-    @ConditionalOnMissingBean
-    @Bean
-    public LoadBalancer.Factory grpcLoadBalancerFactory() {
-        return RoundRobinLoadBalancerFactory.getInstance();
-    }
-
-    @Bean
-    @ConditionalOnClass(GrpcClient.class)
-    public GrpcClientBeanPostProcessor grpcClientBeanPostProcessor() {
-        return new GrpcClientBeanPostProcessor();
-    }
 
     @Configuration
 //    @ConditionalOnBean(DiscoveryClient.class)
@@ -83,4 +57,28 @@ public class GrpcClientAutoConfiguration {
             };
         }
     }
+
+    @ConditionalOnMissingBean
+    @Bean
+    public GrpcChannelsProperties grpcChannelsProperties() {
+        return new GrpcChannelsProperties();
+    }
+
+    @Bean
+    public GlobalClientInterceptorRegistry globalClientInterceptorRegistry() {
+        return new GlobalClientInterceptorRegistry();
+    }
+
+    @ConditionalOnMissingBean
+    @Bean
+    public LoadBalancer.Factory grpcLoadBalancerFactory() {
+        return RoundRobinLoadBalancerFactory.getInstance();
+    }
+
+    @Bean
+    @ConditionalOnClass(GrpcClient.class)
+    public GrpcClientBeanPostProcessor grpcClientBeanPostProcessor() {
+        return new GrpcClientBeanPostProcessor();
+    }
+
 }

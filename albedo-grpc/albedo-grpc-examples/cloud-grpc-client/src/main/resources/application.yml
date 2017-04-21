@@ -1,11 +1,16 @@
 server:
-  port: 8080
+    port: 8080
 spring:
-  application:
-    name: cloud-grpc-client
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
+    application:
+        name: cloud-grpc-client
+    cloud:
+        zookeeper:
+            connectString: localhost:2181,localhost:2182,localhost:2183
+            discovery:
+                register: false
+#eureka:
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/

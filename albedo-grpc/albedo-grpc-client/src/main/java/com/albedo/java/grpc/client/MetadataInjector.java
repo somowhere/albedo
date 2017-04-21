@@ -1,4 +1,4 @@
-package com.albedo.java.grpc.client.autoconfigure;
+package com.albedo.java.grpc.client;
 
 import org.springframework.cloud.sleuth.Span;
 import org.springframework.cloud.sleuth.SpanInjector;

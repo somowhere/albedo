@@ -16,29 +16,28 @@
             <artifactId>albedo-grpc-server</artifactId>
             <version>${project.release.version}</version>
         </dependency>
-    	<dependency>
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka</artifactId>
+            <artifactId>spring-cloud-starter-zookeeper-all</artifactId>
             <exclusions>
-            	<exclusion>
-            		<groupId>io.netty</groupId>
-            		<artifactId>netty-codec</artifactId>
-            	</exclusion>
-            	<exclusion>
-            		<groupId>io.netty</groupId>
-            		<artifactId>netty-common</artifactId>
-            	</exclusion>
-            	<exclusion>
-            		<groupId>org.springframework.boot</groupId>
-            		<artifactId>spring-boot-starter-tomcat</artifactId>
-            	</exclusion>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-common</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-buffer</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-transport</artifactId>
+                </exclusion>
             </exclusions>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        
-
     </dependencies>
 </project>

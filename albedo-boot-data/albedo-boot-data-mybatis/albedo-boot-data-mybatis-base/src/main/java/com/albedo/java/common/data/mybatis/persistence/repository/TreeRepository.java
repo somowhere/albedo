@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2015 <a href="http://www.bs-innotech.com/">bs-innotech</a> All rights reserved.
  */
-package com.albedo.java.common.repository;
+package com.albedo.java.common.data.mybatis.persistence.repository;
 
 import com.albedo.java.common.data.mybatis.persistence.BaseEntity;
 import com.albedo.java.common.data.mybatis.persistence.repository.BaseRepository;

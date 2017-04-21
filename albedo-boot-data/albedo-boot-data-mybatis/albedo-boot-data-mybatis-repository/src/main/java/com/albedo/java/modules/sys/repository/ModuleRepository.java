@@ -1,6 +1,6 @@
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.common.repository.TreeRepository;
+import com.albedo.java.common.data.mybatis.persistence.repository.TreeRepository;
 import com.albedo.java.modules.sys.domain.Module;
 import com.albedo.java.modules.sys.domain.User;
 import org.springframework.data.mybatis.repository.annotation.Query;

@@ -8,6 +8,7 @@ import com.albedo.java.rpc.common.config.AlbedoRpcProperties;
 import com.albedo.java.rpc.common.config.ZookeeperProperties;
 import com.albedo.java.rpc.common.protocol.marshalling.Marshalling;
 import com.albedo.java.rpc.common.protocol.marshalling.impl.JsonMarshalling;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -20,9 +21,13 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties({AlbedoRpcProperties.class,ZookeeperProperties.class})
 public class CommonAutoConfiguration {
 
+//    @Value("${albedo.zookeeper.connectString}")
+//    private String connectString;
+
     @Bean(destroyMethod = "close")
     @ConditionalOnMissingBean
     public CuratorFramework curatorFramework(ZookeeperProperties properties, RetryPolicy retryPolicy) throws InterruptedException {
+//        if(connectString!=null) properties.setConnectString(connectString);
         CuratorFrameworkFactory.Builder builder = CuratorFrameworkFactory.builder();
         CuratorFramework curator = builder
                 .retryPolicy(retryPolicy)

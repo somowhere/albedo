@@ -12,7 +12,6 @@ import javax.annotation.PostConstruct;
 
 import com.albedo.java.common.data.mybatis.persistence.DynamicSpecifications;
 import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
-import com.albedo.java.common.data.mybatis.persistence.service.BaseService;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.util.domain.QueryCondition;
 import org.apache.commons.lang.StringUtils;
@@ -30,13 +29,11 @@ import org.quartz.TriggerKey;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.albedo.java.modules.sys.domain.TaskScheduleJob;
 import com.albedo.java.modules.sys.repository.TaskScheduleJobRepository;
-import com.albedo.java.modules.sys.service.ITaskScheduleJobService;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.domain.Globals;

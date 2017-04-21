@@ -14,8 +14,8 @@
 
     <modules>
         <module>albedo-rpc-common</module>
-        <module>albedo-rpc-server</module>
         <module>albedo-rpc-client</module>
+        <module>albedo-rpc-server</module>
         <module>albedo-rpc-test</module>
     </modules>
 </project>

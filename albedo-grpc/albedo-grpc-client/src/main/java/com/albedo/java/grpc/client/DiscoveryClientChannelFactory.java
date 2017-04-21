@@ -23,11 +23,10 @@ import io.grpc.netty.NettyChannelBuilder;
  * Date: 5/17/16
  */
 public class DiscoveryClientChannelFactory implements GrpcChannelFactory {
-    private final GrpcChannelsProperties properties;
-    private final DiscoveryClient client;
-    private final LoadBalancer.Factory loadBalancerFactory;
-    private final GlobalClientInterceptorRegistry globalClientInterceptorRegistry;
-
+    private GrpcChannelsProperties properties;
+    private DiscoveryClient client;
+    private LoadBalancer.Factory loadBalancerFactory;
+    private GlobalClientInterceptorRegistry globalClientInterceptorRegistry;
     public DiscoveryClientChannelFactory(GrpcChannelsProperties properties, DiscoveryClient client, LoadBalancer.Factory loadBalancerFactory,
                                          GlobalClientInterceptorRegistry globalClientInterceptorRegistry) {
         this.properties = properties;

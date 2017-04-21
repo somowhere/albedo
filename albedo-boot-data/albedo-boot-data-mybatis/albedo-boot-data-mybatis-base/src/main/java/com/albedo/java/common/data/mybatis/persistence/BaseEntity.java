@@ -3,27 +3,17 @@
  */
 package com.albedo.java.common.data.mybatis.persistence;
 
-import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.annotation.DictType;
 import com.albedo.java.util.annotation.SearchField;
-import com.albedo.java.util.config.SystemConfig;
-import com.albedo.java.util.domain.PageModel;
-import com.alibaba.fastjson.annotation.JSONField;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.collect.Maps;
 import io.swagger.annotations.ApiModelProperty;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.MappedSuperclass;
 
-import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * Entity支持类
- * @author ThinkGem
+ * @author lj
  * @version 2014-05-16
  */
 @MappedSuperclass
