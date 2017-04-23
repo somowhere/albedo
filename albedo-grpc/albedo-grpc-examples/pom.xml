@@ -13,6 +13,7 @@
         <module>cloud-eureka-server</module>
         <module>cloud-grpc-server</module>
         <module>cloud-grpc-client</module>
+       <module>cloud-grpc-client-tomcat</module>
         <module>cloud-grpc-server-one</module>
     </modules>
     <artifactId>albedo-grpc-examples</artifactId>
@@ -38,11 +39,11 @@
         </extensions>
 
         <plugins>
-            <plugin>
+            
+            <!--<plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <!-- grpc -->
+            </plugin> grpc -->
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>

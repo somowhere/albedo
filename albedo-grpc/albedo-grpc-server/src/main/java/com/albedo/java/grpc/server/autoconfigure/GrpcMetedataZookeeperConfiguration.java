@@ -17,7 +17,7 @@ import javax.annotation.PostConstruct;
  */
 @Configuration
 @EnableConfigurationProperties
-//@ConditionalOnBean(ZookeeperDiscoveryProperties.class)
+@ConditionalOnBean(ZookeeperDiscoveryProperties.class)
 public class GrpcMetedataZookeeperConfiguration {
 
     @Autowired

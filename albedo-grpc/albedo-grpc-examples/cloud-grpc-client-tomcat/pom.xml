@@ -8,13 +8,18 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <packaging>war</packaging>
+    <artifactId>cloud-grpc-client-tomcat</artifactId>
 
-    <artifactId>cloud-grpc-server</artifactId>
     <dependencies>
     	<dependency>
             <groupId>com.albedo.java</groupId>
-            <artifactId>albedo-grpc-server</artifactId>
+            <artifactId>albedo-grpc-client</artifactId>
             <version>${project.release.version}</version>
+            <exclusions>
+            <exclusion><groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId></exclusion>
+            </exclusions>
         </dependency>
         <!-- eureka -->
         <dependency>
@@ -40,5 +45,31 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+        <!--<dependency>-->
+        <!--<groupId>com.netflix.archaius</groupId>-->
+        <!--<artifactId>archaius-core</artifactId>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+        <!--<groupId>com.netflix.servo</groupId>-->
+        <!--<artifactId>servo-core</artifactId>-->
+    <!--</dependency>-->
     </dependencies>
+    <!--<build>-->
+   <!--<plugins><plugin>  -->
+    <!--<groupId>org.apache.maven.plugins</groupId>  -->
+    <!--<artifactId>maven-dependency-plugin</artifactId>  -->
+    <!--<executions>  -->
+    <!--<execution>  -->
+    <!--<id>copy</id>  -->
+    <!--<phase>install</phase>  -->
+    <!--<goals>  -->
+        <!--<goal>copy-dependencies</goal>  -->
+    <!--</goals>  -->
+    <!--<configuration>  -->
+    <!--<outputDirectory>F:\albedo\albedo-boot\albedo-grpc\albedo-grpc-examples\cloud-grpc-client-tomcat\target\cloud-grpc-client-tomcat-1.0.0-SNAPSHOT\WEB-INF\lib</outputDirectory>  &ndash;&gt;拷贝所以依赖存放位置  -->
+    <!--</configuration>  -->
+    <!--</execution>  -->
+    <!--</executions>  -->
+<!--</plugin>  </plugins> -->
+    <!--</build>-->
 </project>

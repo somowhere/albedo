@@ -16,7 +16,7 @@ import javax.annotation.PostConstruct;
  */
 @Configuration
 @EnableConfigurationProperties
-@ConditionalOnBean(EurekaInstanceConfig.class)
+//@ConditionalOnBean(EurekaInstanceConfig.class)
 public class GrpcMetedataEurekaConfiguration {
 
     @Autowired
