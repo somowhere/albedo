@@ -19,6 +19,7 @@
 		<module>albedo-grpc-client</module>
 		<module>albedo-grpc-examples</module>
 		<module>albedo-grpc-common</module>
+        <module>albedo-grpc-client-netflix</module>
     </modules>
 
 	<dependencyManagement>

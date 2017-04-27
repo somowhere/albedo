@@ -1,5 +1,6 @@
 package com.albedo.java.common.data.hibernate.persistence.service;
 
+import com.albedo.java.common.data.hibernate.persistence.repository.BaseRepository;
 import com.albedo.java.common.data.hibernate.persistence.repository.JpaCustomeRepository;
 import com.albedo.java.common.domain.base.BaseEntity;
 import org.slf4j.Logger;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class BaseService<Repository extends JpaRepository<T, PK>, T extends BaseEntity, PK extends Serializable> {
+public class BaseService<Repository extends BaseRepository<T, PK>, T extends BaseEntity, PK extends Serializable> {
 	public final Logger log = LoggerFactory.getLogger(getClass());
 
 	@Autowired
@@ -32,6 +33,7 @@ public class BaseService<Repository extends JpaRepository<T, PK>, T extends Base
 		Type type = c.getGenericSuperclass();
 		if (type instanceof ParameterizedType) {
 			Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
+			if(parameterizedType[0] instanceof  Class)
 			persistentClass = (Class<T>) parameterizedType[0];
 		}
 	}

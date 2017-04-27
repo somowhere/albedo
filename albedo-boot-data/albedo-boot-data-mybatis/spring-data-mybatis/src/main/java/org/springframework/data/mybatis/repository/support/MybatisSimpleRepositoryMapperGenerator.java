@@ -282,7 +282,7 @@ public class MybatisSimpleRepositoryMapperGenerator {
 
         MybatisPersistentProperty versionProperty = persistentEntity.getVersionProperty();
         if (null != versionProperty) {
-            builder.append("and ").append(dialect.wrapColumnName(versionProperty.getColumnName())).append("=").append("#{").append(versionProperty.getName()).append("}");
+            builder.append(" and ").append(dialect.wrapColumnName(versionProperty.getColumnName())).append("=").append("#{").append(versionProperty.getName()).append("}");
         }
 
         builder.append("</trim>");
