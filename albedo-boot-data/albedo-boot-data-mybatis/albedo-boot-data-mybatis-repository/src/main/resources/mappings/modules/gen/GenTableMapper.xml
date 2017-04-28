@@ -46,7 +46,7 @@
 					AND t.TABLE_NAME = upper(#{genTableQuery.name})
 				</if>
 				<if test="genTableQuery.notNames != null">
-					<foreach collection="genTableQuery.notNames" index="notName">
+					<foreach collection="genTableQuery.notNames" item="notName">
 						AND instr(t.TABLE_NAME, #{notName}) &lt; 0
 					</foreach>
 				</if>
