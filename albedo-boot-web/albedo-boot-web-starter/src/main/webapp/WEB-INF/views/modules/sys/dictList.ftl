@@ -29,6 +29,9 @@
                         <label class="input-label" for="loginId">编码 </label>
                         <input type="text" class="form-control" searchItem="searchItem" id="code" name="code" placeholder="..."> </div>
                     <div class="form-group">
+                        <label class="input-label" for="loginId">key </label>
+                        <input type="text" class="form-control" searchItem="searchItem" id="code" name="key" placeholder="..."> </div>
+                    <div class="form-group">
                         <label class="input-label" >状态</label>
                         <@albedo.form name="status" searchItem="searchItem" dictCode="sys_status" boxType="checkbox" operate="in" attrType="Integer"> </@albedo.form></div>
                     <div class="form-group form-btn">
@@ -44,6 +47,7 @@
                     	<th width="10%" colspan="1"> 上级名称 </th>
                     	<th width="10%" colspan="1"> 名称 </th>
                         <th width="10%"> 编码 </th>
+                        <th width="10%"> key </th>
                         <th width="10%"> 值 </th>
                         <th width="10%"> 是否显示</th>
                         <th width="10%"> 序号 </th>
@@ -82,7 +86,7 @@
                     },order: [ 5, 'asc' ],
                     "columns": [
                     	{ data: "parentName" },{ data: "name" },
-                        { data: "code" },
+                        { data: "code" },{ data: "key" },
                         { data: "val", render : function(data, type, row){
                         	return albedo.subMaxStr(data, 20);
                         }},{ data: "isShow"},{ data: "sort"},

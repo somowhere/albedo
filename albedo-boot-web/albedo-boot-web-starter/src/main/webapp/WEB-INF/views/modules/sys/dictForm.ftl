@@ -37,7 +37,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-3 control-label">值<span class="required">*</span></label>
+                        <label class="control-label col-md-3">key</label>
+                        </label>
+                        <div class="col-md-5">
+                            <input type="text" name="key" value="${(dict.key)! }" maxlength="64" data-required="1" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">值</label>
                         <div class="col-md-5">
                             <textarea class="summernote form-control" name="val" rows="5">${(dict.val)! }</textarea>
                         </div>
