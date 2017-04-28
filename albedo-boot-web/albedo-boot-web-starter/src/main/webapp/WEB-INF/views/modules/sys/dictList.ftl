@@ -83,7 +83,7 @@
                         "url": "${ctx}/sys/dict/page",
                         type: 'GET',
                         "dataType": 'json'
-                    },order: [ 5, 'asc' ],
+                    },order: [ 6, 'asc' ],
                     "columns": [
                     	{ data: "parentName" },{ data: "name" },
                         { data: "code" },{ data: "key" },
