@@ -13,7 +13,6 @@
         <module>cloud-eureka-server</module>
         <module>cloud-grpc-server</module>
         <module>cloud-grpc-client</module>
-       <module>cloud-grpc-client-tomcat</module>
         <module>cloud-grpc-server-one</module>
     </modules>
     <artifactId>albedo-grpc-examples</artifactId>
