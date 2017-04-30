@@ -1,8 +1,8 @@
 package com.albedo.java;
 
-import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.common.config.template.FreeMarkerConfig;
 import com.albedo.java.common.security.service.InvocationSecurityMetadataSourceService;
+import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.spring.DefaultProfileUtil;
 import com.albedo.java.util.spring.SpringContextHolder;
@@ -17,7 +17,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
-import org.springframework.data.mybatis.repository.config.EnableMybatisRepositories;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;

@@ -14,6 +14,7 @@
         <module>cloud-grpc-server</module>
         <module>cloud-grpc-client</module>
         <module>cloud-grpc-server-one</module>
+        <module>cloud-grpc-client-netfix</module>
     </modules>
     <artifactId>albedo-grpc-examples</artifactId>
 

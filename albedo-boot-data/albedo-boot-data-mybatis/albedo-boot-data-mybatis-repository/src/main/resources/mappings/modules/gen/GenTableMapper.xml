@@ -2,15 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.albedo.java.modules.gen.domain.GenTable">
     
-	<select id="findTableList" resultType="com.albedo.java.modules.gen.domain.GenTable">
+	<select id="findTableList" resultType="com.albedo.java.modules.gen.domain.vo.GenTableQuery">
 		<if test="_databaseId == 'oracle'">
 			SELECT
 				t.TABLE_NAME AS name,
 				c.COMMENTS AS comments
 			FROM user_tables t, user_tab_comments c
 			WHERE t.table_name = c.table_name
-			<if test="genTable != null and genTable.name != null">
-				AND t.TABLE_NAME = upper(#{genTable.name})
+			<if test="genTableQuery != null">
+			<if test="genTableQuery.name != null">
+				AND t.TABLE_NAME = upper(#{genTableQuery.name})
+			</if>
+			<if test="genTableQuery.notNames != null">
+				<foreach collection="genTableQuery.notNames" index="notName">
+					AND instr(t.TABLE_NAME, #{notName}) &lt; 0
+				</foreach>
+			</if>
 			</if>
 			ORDER BY t.TABLE_NAME
 		</if>
@@ -18,8 +25,15 @@
 			SELECT t.name AS name,b.value AS comments
 			FROM sys.objects t LEFT JOIN sys.extended_properties b ON b.major_id=t.object_id and b.minor_id=0 and b.class=1 AND b.name='MS_Description'
 			WHERE t.type='U'
-			<if test="genTable != null and genTable.name != null">
-				AND t.name = (#{genTable.name})
+			<if test="genTableQuery != null">
+				<if test="genTableQuery.name != null">
+					AND t.name = upper(#{genTableQuery.name})
+				</if>
+				<if test="genTableQuery.notNames != null">
+					<foreach collection="genTableQuery.notNames" index="notName">
+						AND instr(t.name, #{notName}) &lt; 0
+					</foreach>
+				</if>
 			</if>
 			ORDER BY t.name
 		</if>
@@ -27,8 +41,15 @@
 			SELECT t.table_name AS name,t.TABLE_COMMENT AS comments 
 			FROM information_schema.`TABLES` t 
 			WHERE t.TABLE_SCHEMA = (select database())
-			<if test="genTable != null and genTable.name != null">
-				AND t.TABLE_NAME = (#{genTable.name})
+			<if test="genTableQuery != null">
+				<if test="genTableQuery.name != null">
+					AND t.TABLE_NAME = upper(#{genTableQuery.name})
+				</if>
+				<if test="genTableQuery.notNames != null">
+					<foreach collection="genTableQuery.notNames" item="notName">
+						AND instr(t.TABLE_NAME, #{notName}) &lt; 0
+					</foreach>
+				</if>
 			</if>
 			ORDER BY t.TABLE_NAME
 		</if>

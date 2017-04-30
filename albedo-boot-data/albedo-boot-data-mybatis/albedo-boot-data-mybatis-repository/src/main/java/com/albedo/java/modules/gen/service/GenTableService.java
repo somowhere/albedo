@@ -4,6 +4,7 @@ import com.albedo.java.common.data.mybatis.persistence.DynamicSpecifications;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.gen.domain.GenTable;
 import com.albedo.java.modules.gen.domain.GenTableColumn;
+import com.albedo.java.modules.gen.domain.vo.GenTableQuery;
 import com.albedo.java.modules.gen.domain.xml.GenConfig;
 import com.albedo.java.modules.gen.repository.GenTableColumnRepository;
 import com.albedo.java.modules.gen.repository.GenTableRepository;
@@ -11,8 +12,10 @@ import com.albedo.java.modules.gen.util.GenUtil;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
+import com.albedo.java.util.base.Collections3;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.exception.RuntimeMsgException;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -163,7 +166,13 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
 //	@Transactional(readOnly = true)
 	public List<GenTable> findTableListFormDb(GenTable genTable) {
 //		List<String[]> GenString = null;
-		List<GenTable> list = repository.findTableList(genTable);
+		List<GenTable> genTables = findAll();
+		GenTableQuery genTableQuery = new GenTableQuery();
+		genTableQuery.setName(genTable.getName());
+		List<String> tempNames = Lists.newArrayList("gen_","logging_","sys_","jhi_");
+		if(PublicUtil.isEmpty(genTables))tempNames.addAll(Collections3.extractToList(genTables, GenTable.F_NAME));
+		genTableQuery.setNotNames(tempNames);
+		List<GenTable> list = repository.findTableList(genTableQuery);
 //		String sql = "";
 //		if (SystemConfig.isMySql()) {
 //			sql = "SELECT t.table_name AS name,t.TABLE_COMMENT AS comments FROM information_schema.`TABLES` t WHERE t.TABLE_SCHEMA = (select database()) AND t.TABLE_NAME=:p1 ORDER BY t.TABLE_NAME";

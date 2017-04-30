@@ -9,6 +9,7 @@ import javassist.*;
 import javassist.bytecode.CodeAttribute;
 import javassist.bytecode.LocalVariableAttribute;
 import javassist.bytecode.MethodInfo;
+import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -24,10 +25,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author lijie version 2013-12-26 下午2:43:53
@@ -907,6 +905,62 @@ public class Reflections {
 		}
 		throw new UndeclaredThrowableException(ex);
 	}
+
+	// Bean --> Map 1: 利用Introspector和PropertyDescriptor 将Bean --> Map
+	public static Map<String, ? extends Object> bean2Map(Object obj) {
+
+		if (obj == null) {
+			return null;
+		}
+		Map<String, Object> map = new HashMap<>();
+		try {
+			BeanInfo beanInfo = Introspector.getBeanInfo(obj.getClass());
+			PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+			for (PropertyDescriptor property : propertyDescriptors) {
+				String key = property.getName();
+
+				// 过滤class属性
+				if (!key.equals("class")) {
+					// 得到property对应的getter方法
+					Method getter = property.getReadMethod();
+					Object value = getter.invoke(obj);
+
+					map.put(key, value);
+				}
+
+			}
+		} catch (Exception e) {
+			logger.error("=============Bean转Map异常================{}", e);
+		}
+		return map;
+	}
+
+	// Map --> Bean 1: 利用Introspector,PropertyDescriptor实现 Map --> Bean
+	public static void map2Bean(Map<String, Object> map, Object obj) {
+
+		try {
+			BeanInfo beanInfo = Introspector.getBeanInfo(obj.getClass());
+			PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+
+			for (PropertyDescriptor property : propertyDescriptors) {
+				String key = property.getName();
+
+				if (map.containsKey(key)) {
+					Object value = map.get(key);
+					if (value != null) {
+						value = ConvertUtils.convert(value, property.getPropertyType());//类型转换,引用类型需要在监听器里面注册转换
+					}
+					// 得到property对应的setter方法
+					Method setter = property.getWriteMethod();
+					setter.invoke(obj, value);
+				}
+			}
+		} catch (Exception e) {
+			logger.error("=============Map转Bean异常================{}", e);
+		}
+		return;
+	}
+
 	public static void main(String[] args) {
 		System.out.println(getMethodParameter("com.albedo.java.modules.sys.controller.AreaController", "findTreeData"));
 	}

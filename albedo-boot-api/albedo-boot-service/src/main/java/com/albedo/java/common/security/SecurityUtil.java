@@ -25,11 +25,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.security.MessageDigest;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -322,7 +320,6 @@ public final class SecurityUtil {
 	
 
 	public static Object getCacheDefult(String key, Object defaultValue, String userId) {
-		Date date = new Date();
 		Object obj = null;
 		if (PublicUtil.isEmpty(userId))
 			userId = getCurrentUserId();
@@ -341,7 +338,6 @@ public final class SecurityUtil {
 			}
 			
 		}
-		logger.warn("getCacheDefult {} ms", new Date().getTime() - date.getTime());
 		return obj == null ? defaultValue : obj;
 	}
 

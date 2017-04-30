@@ -47,7 +47,7 @@
 						<input name="packageName" type="text" value="${(genScheme.packageName)! }"
 							htmlEscape="false"
 							class="form-control required" /> <span
-							class="help-inline">建议模块包：com.bosheng.modules.模块名</span>
+							class="help-inline">建议模块包：com.qingju.modules.模块名</span>
 					</div>
 				</div>
 				<div class="form-group">

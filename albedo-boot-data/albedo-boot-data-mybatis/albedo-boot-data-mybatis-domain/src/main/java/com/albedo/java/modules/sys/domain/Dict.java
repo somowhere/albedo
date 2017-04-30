@@ -44,6 +44,9 @@ public class Dict extends TreeEntity<Dict> {
 	/*** 资源文件key */
 	@Column(name = "show_name")
 	private String showName;
+	/*** key */
+	@Column(name = "key_")
+	private String key;
 	@NotNull
 	@Column(name = "is_show")
 	@DictType(name = "sys_yes_no")

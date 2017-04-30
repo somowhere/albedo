@@ -66,6 +66,8 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
     public <S extends T> S insert(S entity) {
         entityInformation.setCreatedDate(entity);
         entityInformation.setCreatedBy(entity);
+        entityInformation.setLastModifiedBy(entity);
+        entityInformation.setLastModifiedDate(entity);
         entityInformation.preInssert(entity);
         if (entityInformation.hasVersion()) {
             entityInformation.setVersion(entity, 0);

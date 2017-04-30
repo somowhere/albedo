@@ -4,13 +4,19 @@ import com.albedo.java.common.domain.util.JSR310PersistenceConverters;
 import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.mybatis.domains.AuditDateAware;
 import org.springframework.data.repository.query.QueryLookupStrategy.Key;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import java.util.Date;
 
 @Configuration
 @EntityScan(basePackages = { "com.albedo.java.modules.*.domain", "com.qingju.java.modules.*.domain"}, basePackageClasses = { JSR310PersistenceConverters.class })
@@ -24,6 +30,29 @@ public class DatabaseAutoConfiguration {
     @Bean
     public Hibernate4Module hibernate4Module() {
         return new Hibernate4Module();
+    }
+
+
+    @Bean
+    @ConditionalOnMissingClass
+    public AuditorAware<String> springSecurityAuditorAware() {
+        return new AuditorAware<String>() {
+            @Override
+            public String getCurrentAuditor() {
+                return "1";
+            }
+        };
+    }
+
+    @Bean
+    @ConditionalOnMissingClass
+    public AuditDateAware<Date> auditDateAware() {
+        return new AuditDateAware<Date>() {
+            @Override
+            public Date getCurrentDate() {
+                return new Date();
+            }
+        };
     }
 
 }
