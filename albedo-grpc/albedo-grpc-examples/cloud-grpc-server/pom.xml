@@ -16,6 +16,7 @@
             <artifactId>albedo-grpc-server</artifactId>
             <version>${project.release.version}</version>
         </dependency>
+        <!-- eureka -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-eureka</artifactId>
