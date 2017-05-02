@@ -39,11 +39,11 @@
         </extensions>
 
         <plugins>
-            
-            <!--<plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin> grpc -->
+            </plugin>
+            <!-- grpc -->
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
