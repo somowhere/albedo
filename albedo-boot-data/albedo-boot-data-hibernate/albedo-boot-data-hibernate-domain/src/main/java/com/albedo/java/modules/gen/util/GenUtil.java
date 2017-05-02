@@ -64,10 +64,11 @@ public class GenUtil {
 			} else if (StringUtil.startsWithIgnoreCase(column.getJdbcType(), "DATETIME") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "DATE") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "TIMESTAMP")) {
 				column.setJavaType("java.util.Date");
 				column.setShowType("dateselect");
-			} else if (StringUtil.startsWithIgnoreCase(column.getJdbcType(), "INT") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "BIGINT")
+			} else if (StringUtil.startsWithIgnoreCase(column.getJdbcType(), "INT")
 					|| StringUtil.startsWithIgnoreCase(column.getJdbcType(), "TINYINT")
-					|| StringUtil.startsWithIgnoreCase(column.getJdbcType(), "NUMBER") ||
-					StringUtil.startsWithIgnoreCase(column.getJdbcType(), "DECIMAL")) {
+					|| StringUtil.startsWithIgnoreCase(column.getJdbcType(), "BIGINT")
+					|| StringUtil.startsWithIgnoreCase(column.getJdbcType(), "NUMBER")
+					|| StringUtil.startsWithIgnoreCase(column.getJdbcType(), "DECIMAL")) {
 				// 如果是浮点型
 				String[] ss = StringUtil.split(StringUtil.substringBetween(column.getJdbcType(), "(", ")"), ",");
 				if (ss != null && ss.length == 2 && Integer.parseInt(ss[1]) > 0) {
