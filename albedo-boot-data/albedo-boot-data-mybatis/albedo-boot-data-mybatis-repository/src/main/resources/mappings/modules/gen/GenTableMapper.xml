@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.albedo.java.modules.gen.domain.GenTable">
     
-	<select id="findTableList" resultType="com.albedo.java.modules.gen.domain.vo.GenTableQuery">
+	<select id="findTableList" resultType="com.albedo.java.modules.gen.domain.GenTable">
 		<if test="_databaseId == 'oracle'">
 			SELECT
 				t.TABLE_NAME AS name,
@@ -14,8 +14,13 @@
 				AND t.TABLE_NAME = upper(#{genTableQuery.name})
 			</if>
 			<if test="genTableQuery.notNames != null">
-				<foreach collection="genTableQuery.notNames" index="notName">
-					AND instr(t.TABLE_NAME, #{notName}) &lt; 0
+				<foreach collection="genTableQuery.notNames" item="notName">
+					AND t.TABLE_NAME != #{notName}
+				</foreach>
+			</if>
+			<if test="genTableQuery.notLikeNames != null">
+				<foreach collection="genTableQuery.notLikeNames" item="notLikeName">
+					AND instr(t.TABLE_NAME, #{notLikeName}) &lt;= 0
 				</foreach>
 			</if>
 			</if>
@@ -30,8 +35,13 @@
 					AND t.name = upper(#{genTableQuery.name})
 				</if>
 				<if test="genTableQuery.notNames != null">
-					<foreach collection="genTableQuery.notNames" index="notName">
-						AND instr(t.name, #{notName}) &lt; 0
+					<foreach collection="genTableQuery.notNames" item="notName">
+						AND t.name != #{notName}
+					</foreach>
+				</if>
+				<if test="genTableQuery.notLikeNames != null">
+					<foreach collection="genTableQuery.notLikeNames" item="notLikeName">
+						AND instr(t.name, #{notLikeName}) &lt;= 0
 					</foreach>
 				</if>
 			</if>
@@ -47,7 +57,12 @@
 				</if>
 				<if test="genTableQuery.notNames != null">
 					<foreach collection="genTableQuery.notNames" item="notName">
-						AND instr(t.TABLE_NAME, #{notName}) &lt; 0
+						AND t.TABLE_NAME != #{notName}
+					</foreach>
+				</if>
+				<if test="genTableQuery.notLikeNames != null">
+					<foreach collection="genTableQuery.notLikeNames" item="notLikeName">
+						AND instr(t.TABLE_NAME, #{notLikeName}) &lt;= 0
 					</foreach>
 				</if>
 			</if>

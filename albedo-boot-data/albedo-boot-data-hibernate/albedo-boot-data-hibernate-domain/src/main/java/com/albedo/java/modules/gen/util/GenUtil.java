@@ -65,6 +65,7 @@ public class GenUtil {
 				column.setJavaType("java.util.Date");
 				column.setShowType("dateselect");
 			} else if (StringUtil.startsWithIgnoreCase(column.getJdbcType(), "INT") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "BIGINT")
+					|| StringUtil.startsWithIgnoreCase(column.getJdbcType(), "TINYINT")
 					|| StringUtil.startsWithIgnoreCase(column.getJdbcType(), "NUMBER") || 
 					StringUtil.startsWithIgnoreCase(column.getJdbcType(), "DECIMAL")) {
 				// 如果是浮点型

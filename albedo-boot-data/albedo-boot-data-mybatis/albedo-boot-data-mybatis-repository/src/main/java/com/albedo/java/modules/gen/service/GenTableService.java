@@ -170,8 +170,10 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
 		GenTableQuery genTableQuery = new GenTableQuery();
 		genTableQuery.setName(genTable.getName());
 		List<String> tempNames = Lists.newArrayList("gen_","logging_","sys_","jhi_");
-		if(PublicUtil.isEmpty(genTables))tempNames.addAll(Collections3.extractToList(genTables, GenTable.F_NAME));
-		genTableQuery.setNotNames(tempNames);
+		genTableQuery.setNotLikeNames(tempNames);
+		if(PublicUtil.isNotEmpty(genTables)){
+			genTableQuery.setNotNames(Collections3.extractToList(genTables, GenTable.F_NAME));
+		}
 		List<GenTable> list = repository.findTableList(genTableQuery);
 //		String sql = "";
 //		if (SystemConfig.isMySql()) {

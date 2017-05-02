@@ -39,4 +39,7 @@ public class GenTableQuery implements Serializable {
 
 	private List<String> notNames;
 
+
+	private List<String> notLikeNames;
+
 }
