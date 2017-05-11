@@ -28,16 +28,18 @@ public class ServerAutoConfiguration {
         return new ZookeeperServiceRegister(curatorFramework,applicationProperties);
     }
 
+    @Bean
+    public ServiceMapListener serviceMapListener(){
+        return new ServiceMapListener();
+    }
+
     @Bean(initMethod = "start" )
     public NettyServer nettyServer(ServiceMap map, Marshalling marshalling, AlbedoRpcProperties applicationProperties, ServiceRegister serviceRegister){
         return new NettyServer(marshalling,applicationProperties,map,serviceRegister);
 
     }
 
-    @Bean
-    public ServiceMapListener serviceMapListener(){
-        return new ServiceMapListener();
-    }
+
 
 
 }

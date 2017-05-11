@@ -1,0 +1,9 @@
+albedo:
+    zookeeper:
+        connectString: localhost:2181,localhost:2182,localhost:2183
+    rpc:
+        registerPath: albedo
+        appName: albedo-thrift-server
+        hostUrl: localhost:8181
+
+

@@ -111,14 +111,12 @@ public class GenSchemeResource extends DataResource<GenSchemeService, GenScheme>
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
 	public ResponseEntity save(GenScheme genScheme, Model model, RedirectAttributes redirectAttributes) {
-		if(PublicUtil.isEmpty(genScheme.getGenTableId())&& genScheme.getGenTable()!=null)
-			genScheme.setGenTableId(genScheme.getGenTable().getId());
 		genSchemeService.save(genScheme);
 		SecurityUtil.clearUserJedisCache();
 		if (genScheme.getSyncModule()) {
 			GenTable genTable = genScheme.getGenTable();
 			if (genTable == null || PublicUtil.isEmpty(genTable.getClassName()))
-				genTable = genTableService.findOne(genScheme.getGenTable().getId());
+				genTable = genTableService.findOne(genScheme.getGenTableId());
 			String url = PublicUtil.toAppendStr("/", StringUtil.lowerCase(genScheme.getModuleName()), (StringUtil.isNotBlank(genScheme.getSubModuleName()) ? "/" + StringUtil.lowerCase(genScheme.getSubModuleName()) : ""), "/",
 					StringUtil.uncapitalize(genTable.getClassName()), "/");
 			moduleService.generatorModuleData(genScheme.getName(), genScheme.getParentModuleId(), url);

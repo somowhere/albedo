@@ -1,6 +1,7 @@
 package com.albedo.java.rpc.client.discover;
 
 import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.curator.framework.recipes.cache.PathChildrenCache;
 import org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent;
 import com.albedo.java.rpc.client.manage.Handler;
@@ -48,6 +49,10 @@ public class ZookeeperServiceDiscover implements ServiceDiscover {
     }
     @Override
     public void watchService() {
+        // 如果zk尚未启动,则启动
+        if (curatorFramework.getState() == CuratorFrameworkState.LATENT) {
+            curatorFramework.start();
+        }
         PathChildrenCache cache =new PathChildrenCache(curatorFramework,applicationProperties.getRegisterPath(),true);
         cache.getListenable().addListener((client,event)->{
             switch (event.getType()) {

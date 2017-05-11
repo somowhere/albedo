@@ -1,0 +1,3 @@
+# Auto Configuration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.albedo.java.thrift.rpc.server.autoconfigure.ServerAutoConfiguration

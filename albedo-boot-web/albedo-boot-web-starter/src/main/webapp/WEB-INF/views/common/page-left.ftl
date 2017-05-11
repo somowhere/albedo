@@ -16,7 +16,7 @@
 				<#if (moduleParent.parentId)! == '4d32c49cc7f448dcbfb92ce9c4dde058' > 
 					<#if moduleParent.url !=''>
 					<li class='nav-item ${(moduleParent_index == 0)!?string("start", "")}'>
-                        <a href="#${(moduleParent.hrefName)! }" data-url-name="${(moduleParent.hrefName)! }" class="nav-link pageModal" data-target="${moduleParent.target}">
+                        <a href="#${(moduleParent.hrefName)! }" data-url-name="${(moduleParent.hrefName)! }" class="nav-link pageModal" data-target="${(moduleParent.target)!}">
                             <i class="fa ${moduleParent.iconCls}"></i>
                             <span class="title">${(moduleParent.name)!}</span>
                         </a>

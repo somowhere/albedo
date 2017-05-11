@@ -5,9 +5,12 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
@@ -23,6 +26,8 @@ import java.util.Set;
 
 public class HttpUtil {
 	protected static Logger logger = LoggerFactory.getLogger(HttpUtil.class);
+
+
 
 	/**
 	 * 发送GET请求，携带参数 3389
@@ -78,27 +83,58 @@ public class HttpUtil {
 
 	/**
 	 * 发送POST请求
-	 * 
 	 * @param url
-	 * @param parmas
+	 * @param instream
 	 * @return
 	 * @throws Exception
 	 */
-	public static HttpEntity sendPostRequest(String url, Map<String, String> params) throws Exception {
-		HttpClient httpClient = HttpClients.createDefault();
+	public static HttpEntity sendPostRequest(String url, InputStream instream) throws Exception {
+		HttpClient httpclient = HttpClients.createDefault();
+		HttpPost httpPost = new HttpPost(url);
+		InputStreamEntity inputEntry = new InputStreamEntity(instream);
+		httpPost.setEntity(inputEntry);
+		HttpResponse reponse = httpclient.execute(httpPost);
+		return reponse.getEntity();
+	}
+
+
+	/**
+	 * 发送POST请求
+	 * @param url
+	 * @param params
+	 * @return
+	 * @throws Exception
+	 */
+	public static HttpEntity sendPostRequestMapObject(String url, Map<String, Object> params) throws Exception {
 		List<NameValuePair> listParams = new ArrayList<NameValuePair>();
 		if (params != null) {
-			Set<Entry<String, String>> set = params.entrySet();
-			for (Entry<String, String> entry : set) {
-				listParams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+			Set<Entry<String, Object>> set = params.entrySet();
+			for (Entry<String, Object> entry : set) {
+				listParams.add(new BasicNameValuePair(entry.getKey(), PublicUtil.toStrString(entry.getValue())));
 			}
 		}
+		return sendPostRequest(url, listParams);
+	}
+
+	public static HttpEntity sendPostRequest(String url, List<NameValuePair> listParams) throws Exception {
+		HttpClient httpClient = HttpClients.createDefault();
 		logger.info("Post params:" + listParams.toString());
 		HttpPost httpPost = new HttpPost(url);
 		httpPost.setEntity(new UrlEncodedFormEntity(listParams, "utf-8"));
 		HttpResponse reponse = httpClient.execute(httpPost);
 
 		return reponse.getEntity();
+	}
+	public static HttpEntity sendPostRequest(String url, Map<String, String> params) throws Exception {
+		List<NameValuePair> listParams = new ArrayList<NameValuePair>();
+		if (params != null) {
+			Set<Entry<String, String>> set = params.entrySet();
+			for (Entry<String, String> entry : set) {
+				listParams.add(new BasicNameValuePair(entry.getKey(), PublicUtil.toStrString(entry.getValue())));
+			}
+		}
+
+		return sendPostRequest(url, listParams);
 	}
 
 	public static String sendPostRequestString(String url, Map<String, String> params) {

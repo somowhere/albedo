@@ -37,7 +37,7 @@ public class GenSchemeService extends DataService<GenSchemeRepository, GenScheme
 		StringBuilder result = new StringBuilder();
 
 		// 查询主表及字段列
-		GenTable genTable = genTableRepository.findOne(genScheme.getGenTable().getId());
+		GenTable genTable = genTableRepository.findOne(genScheme.getGenTableId());
 
 		// 获取所有代码模板
 		GenConfig config = GenUtil.getConfig();

@@ -108,9 +108,9 @@
 					<label class="col-md-3 control-label">业务表名<span
 						class="required">*</span></label>
 					<div class="col-md-5">
-						<@albedo.form name="genTable.id"
+						<@albedo.form name="genTableId"
 						cssClass="required" boxType="select" data="${(tableList)!}"
-						value="${(genScheme.genTable.id)! }"> </@albedo.form>
+						value="${(genScheme.genTableId)! }"> </@albedo.form>
 						 <span class="help-inline">生成的数据表，一对多情况下请选择主表。</span>
 					</div>
 				</div>

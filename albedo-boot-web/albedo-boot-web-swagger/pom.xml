@@ -52,5 +52,7 @@
             </resource>
         </resources>
         <outputDirectory>${project.basedir}/target/bin</outputDirectory>
+
     </build>
+
 </project>

@@ -44,8 +44,9 @@
         <module>albedo-boot-data</module>
         <module>albedo-boot-api</module>
         <module>albedo-grpc</module>
-        <!--<module>albedo-rpc</module>-->
+        <module>albedo-rpc</module>
         <module>albedo-boot-web</module>
+        <module>albedo-thrift</module>
     </modules>
 
     <distributionManagement>

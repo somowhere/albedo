@@ -14,6 +14,8 @@
 
         <netty.version>4.1.8.Final</netty.version>
         <curator.version>2.11.1</curator.version>
+        <version.protostuff>1.0.9</version.protostuff>
+        <version.objenesis>2.1</version.objenesis>
     </properties>
 
 <dependencies>
@@ -48,7 +50,23 @@
         <artifactId>cglib</artifactId>
         <version>3.1</version>
     </dependency>
-
+    <!-- Protostuff -->
+    <dependency>
+        <groupId>com.dyuproject.protostuff</groupId>
+        <artifactId>protostuff-core</artifactId>
+        <version>${version.protostuff}</version>
+    </dependency>
+    <dependency>
+        <groupId>com.dyuproject.protostuff</groupId>
+        <artifactId>protostuff-runtime</artifactId>
+        <version>${version.protostuff}</version>
+    </dependency>
+    <!-- Objenesis -->
+    <dependency>
+        <groupId>org.objenesis</groupId>
+        <artifactId>objenesis</artifactId>
+        <version>${version.objenesis}</version>
+    </dependency>
     <!-- Apache Commons Collections -->
     <dependency>
         <groupId>org.apache.commons</groupId>

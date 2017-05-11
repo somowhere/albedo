@@ -1,5 +1,6 @@
 package com.albedo.java.rpc.common.autoconfigure;
 
+import com.albedo.java.rpc.common.protocol.marshalling.impl.ProtoMarshalling;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
@@ -49,6 +50,6 @@ public class CommonAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public Marshalling marshalling(){
-        return new JsonMarshalling();
+        return new ProtoMarshalling();
     }
 }

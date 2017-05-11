@@ -21,8 +21,10 @@ public class ServiceMapListener implements ApplicationListener<ContextRefreshedE
             Object obj=map.get(name);
             Class[] interfaces=obj.getClass().getInterfaces();
             for(Class i:interfaces)
-                if(i.getAnnotation(RpcServiceApiDescription.class)!=null)
+                if(i.getAnnotation(RpcServiceApiDescription.class)!=null){
                     serviceMap.addService(i.getName(),obj);
+                }
+
         }
         applicationContext.getBeanFactory().registerSingleton(serviceMap.getClass().getName(),serviceMap);
     }

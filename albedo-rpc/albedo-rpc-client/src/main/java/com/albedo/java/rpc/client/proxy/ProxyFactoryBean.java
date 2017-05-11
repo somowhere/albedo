@@ -19,7 +19,7 @@ public class ProxyFactoryBean<T> implements FactoryBean<T> {
     private ConfigurableListableBeanFactory factory;
 
     public T getObject() throws Exception {
-        ServiceProxy serviceProxy=factory.getBean(ServiceProxy.class);
+        ServiceProxy serviceProxy = factory.getBean(ServiceProxy.class);
         return (T)Proxy.newProxyInstance(innerClass.getClassLoader(),new Class[]{innerClass},serviceProxy);
 
     }
