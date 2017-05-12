@@ -1,11 +1,20 @@
 package com.albedo.java.thrift.rpc.server.service;
 
-import org.apache.thrift.TProcessor;
+import com.albedo.java.thrift.rpc.common.ThriftConstant;
 
 /**
- * Created by chenshunyang on 2016/9/23.
+ * Created by lijie on 2017/5/12.
+ *
+ * @author 837158334@qq.com
  */
-public interface ThriftServerService {
+public abstract class ThriftServerService implements IThriftServerService {
 
-    TProcessor getProcessor(ThriftServerService bean);
+    public String getVersion(){
+        return ThriftConstant.DEFAULT_VERSION;
+    }
+
+    public int getWeight() {
+        return ThriftConstant.DEFAULT_WEIGHT;
+    }
+
 }

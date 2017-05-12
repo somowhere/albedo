@@ -5,8 +5,9 @@ package com.albedo.java.thrift.rpc.common;
  *
  * @author 837158334@qq.com
  */
-public class ConstantThrift {
+public class ThriftConstant {
 
     public final static String DEFAULT_VERSION="1.0.0";
+    public final static int DEFAULT_WEIGHT=1;
 
 }

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class ThriftLoggingProxyHandler {
 
-    @Around(value = "target(com.albedo.java.thrift.rpc.server.service.ThriftServerService)")
+    @Around(value = "target(com.albedo.java.thrift.rpc.server.service.IThriftServerService)")
     public Object log(ProceedingJoinPoint pjp) {
         Object result = null;
         // *) 函数调用前, 拦截处理, 作ThreadLocal的初始化工作

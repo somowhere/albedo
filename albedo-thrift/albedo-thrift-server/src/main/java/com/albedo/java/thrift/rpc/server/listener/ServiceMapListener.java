@@ -2,15 +2,12 @@ package com.albedo.java.thrift.rpc.server.listener;
 
 import com.albedo.java.thrift.rpc.common.annotion.ThriftServiceApi;
 import com.albedo.java.thrift.rpc.server.map.ServiceMap;
-import com.albedo.java.thrift.rpc.server.service.ThriftServerService;
-import org.apache.thrift.TProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.event.ContextRefreshedEvent;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**

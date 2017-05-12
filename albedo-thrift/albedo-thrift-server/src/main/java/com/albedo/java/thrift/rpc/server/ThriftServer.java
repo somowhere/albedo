@@ -1,15 +1,12 @@
 package com.albedo.java.thrift.rpc.server;
 
-import com.albedo.java.thrift.rpc.common.ConstantThrift;
-import com.albedo.java.thrift.rpc.common.ThriftException;
-import com.albedo.java.thrift.rpc.common.annotion.ThriftServiceApi;
+import com.albedo.java.thrift.rpc.common.ThriftConstant;
 import com.albedo.java.thrift.rpc.common.config.AlbedoRpcProperties;
-import com.albedo.java.thrift.rpc.common.zookeeper.ThriftServerIpLocalNetworkResolve;
-import com.albedo.java.thrift.rpc.common.zookeeper.ThriftServerIpResolve;
 import com.albedo.java.thrift.rpc.server.map.ServiceMap;
 import com.albedo.java.thrift.rpc.server.register.ServiceRegister;
-import com.albedo.java.thrift.rpc.server.service.ThriftServerService;
+import com.albedo.java.thrift.rpc.server.service.IThriftServerService;
 import org.apache.thrift.TMultiplexedProcessor;
+import org.apache.thrift.TProcessor;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TServerSocket;
@@ -62,11 +59,11 @@ public class ThriftServer {
       // 注册服务
       if (serviceRegister != null) {
          for (String beanName : serviceMap.keySet()) {
-            ThriftServiceApi thriftServiceApi = serviceMap.getServiceAnnotaion(beanName);
-            String version = ConstantThrift.DEFAULT_VERSION; int weight=1;
-            if(thriftServiceApi!=null){
-               version = thriftServiceApi.version();
-               weight = thriftServiceApi.weight();
+            IThriftServerService serverService = (IThriftServerService) serviceMap.getService(beanName);
+            String version = ThriftConstant.DEFAULT_VERSION; int weight=1;
+            if(serverService!=null){
+               version = serverService.getVersion();
+               weight = serverService.getWeight();
             }
             serviceRegister.register(beanName, version,
                     getHostname(weight));
@@ -82,13 +79,11 @@ public class ThriftServer {
       ServerThread() throws TTransportException {
          TMultiplexedProcessor processor = new TMultiplexedProcessor();
          for (String beanName : serviceMap.keySet()) {
-            ThriftServiceApi thriftServiceApi = serviceMap.getServiceAnnotaion(beanName);
-            Object bean = serviceMap.getService(beanName);
-            ThriftServerService serverService = (ThriftServerService) bean;
-            String processorName = thriftServiceApi.name();
-            processor.registerProcessor(processorName,
-                    serverService.getProcessor(serverService));
-            logger.info("Register a Processor {}", processorName);
+            IThriftServerService serverService = (IThriftServerService) serviceMap.getService(beanName);
+            String processorName = serverService.getName();
+            TProcessor tProcessor = serverService.getProcessor(serverService);
+            processor.registerProcessor(processorName, tProcessor);
+            logger.info("Register a processorName {} processorImpl {}", processorName, tProcessor);
          }
 
          logger.info("init default TServerTransport in addr {} port {}", applicationProperties.getAddr(), applicationProperties.getPort());

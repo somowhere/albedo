@@ -72,11 +72,11 @@ public class ThriftClientPoolFactory extends BasePoolableObjectFactory<TServiceC
     @Override
     public TServiceClient makeObject() throws Exception {
         TSocket tsocket = new TSocket(server.getHost(), server.getPort());
-        TTransport transport = new TFramedTransport(tsocket);
-        TJSONProtocol protocol = new TJSONProtocol(transport);
+        tsocket.open();
+//        TTransport transport = new TFramedTransport(tsocket);
+        TJSONProtocol protocol = new TJSONProtocol(tsocket);
         TMultiplexedProtocol uProtocol=new TMultiplexedProtocol(protocol, proccessName);
         TServiceClient client = this.clientFactory.getClient(uProtocol);
-        transport.open();
         if (callback != null) {
             try {
                 callback.make(client);

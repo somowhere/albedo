@@ -4,6 +4,6 @@ albedo:
     rpc:
         registerPath: albedo
         appName: albedo-thrift-server
-        hostUrl: localhost:8181
+        hostUrl: localhost:8182
 
 

@@ -4,8 +4,10 @@ import com.albedo.java.thrift.rpc.client.discover.ServiceDiscover;
 import com.albedo.java.thrift.rpc.client.discover.ZookeeperServiceDiscover;
 import com.albedo.java.thrift.rpc.client.manage.ServerManager;
 import com.albedo.java.thrift.rpc.client.route.ServiceRouter;
-import com.albedo.java.thrift.rpc.common.ConstantThrift;
+import com.albedo.java.thrift.rpc.common.ThriftConstant;
 import com.albedo.java.thrift.rpc.common.annotion.ThriftServiceApi;
+import com.albedo.java.thrift.rpc.common.vo.ServiceApi;
+import com.google.common.collect.Maps;
 import org.apache.curator.framework.CuratorFramework;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
@@ -16,12 +18,14 @@ import org.springframework.beans.factory.support.GenericBeanDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lijie on 9/21/16.
  */
 public class ServiceStarter implements BeanFactoryPostProcessor{
     private List<Class> list=new ArrayList<>();
+    private Map<String, ServiceApi> map = Maps.newHashMap();
 
     public ServiceStarter(CuratorFramework curatorFramework, ServiceRouter serviceRouter) {
         this.serviceRouter = serviceRouter;
@@ -31,8 +35,9 @@ public class ServiceStarter implements BeanFactoryPostProcessor{
     private ServiceRouter serviceRouter;
     private CuratorFramework curatorFramework;
 
-    public ServiceStarter startService(Class clazz){
+    public ServiceStarter startService(Class clazz, ServiceApi serviceApi){
         list.add(clazz);
+        map.put(clazz.getName(), serviceApi);
         return this;
     }
 
@@ -44,11 +49,12 @@ public class ServiceStarter implements BeanFactoryPostProcessor{
             GenericBeanDefinition definition=(GenericBeanDefinition) BeanDefinitionBuilder.genericBeanDefinition(clazz).getBeanDefinition();
             definition.getPropertyValues().addPropertyValue("innerClass",clazz);
             definition.getPropertyValues().addPropertyValue("factory",beanFactory);
-            ThriftServiceApi thriftServiceApi = (ThriftServiceApi) clazz.getAnnotation(ThriftServiceApi.class);
-            definition.getPropertyValues().addPropertyValue("proccessName",thriftServiceApi.name());
-            String path = "/"+clazz.getName()+"/"+ (thriftServiceApi!=null ? thriftServiceApi.version() :
-                    ConstantThrift.DEFAULT_VERSION);
-            ServiceDiscover serviceDiscover = new ZookeeperServiceDiscover(curatorFramework,path);
+            ServiceApi serviceApi = map.get(clazz.getName());
+            definition.getPropertyValues().addPropertyValue("proccessName",serviceApi.getName());
+
+            String path = "/"+clazz.getName()+"/"+ (serviceApi!=null ? serviceApi.getVersion() :
+                    ThriftConstant.DEFAULT_VERSION);
+            ServiceDiscover serviceDiscover = new ZookeeperServiceDiscover(curatorFramework, path);
 
             definition.getPropertyValues().addPropertyValue("serverManager",
                     new ServerManager(serviceDiscover, serviceRouter));

@@ -19,7 +19,6 @@ import java.util.Arrays;
 import java.util.Collection;
 
 //服务端启动
-@SpringBootConfiguration
 @EnableAutoConfiguration
 @ComponentScan(value = "com.albedo.java.*")
 public class AlbedoThriftExampleClient {

@@ -3,6 +3,7 @@ package com.albedo.java.thrift.rpc.server.map;
 import com.albedo.java.thrift.rpc.common.annotion.ThriftServiceApi;
 import org.apache.thrift.TProcessor;
 
+import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -17,17 +18,6 @@ public class ServiceMap {
     }
     public Object getService(String name){
         return map.get(name);
-    }
-
-    public ThriftServiceApi getServiceAnnotaion(String name){
-        Object obj = map.get(name);
-        Class[] interfaces=obj.getClass().getInterfaces();
-        for(Class i:interfaces)
-            if(i.getAnnotation(ThriftServiceApi.class)!=null){
-                return (ThriftServiceApi) i.getAnnotation(ThriftServiceApi.class);
-            }
-
-        return null;
     }
 
 

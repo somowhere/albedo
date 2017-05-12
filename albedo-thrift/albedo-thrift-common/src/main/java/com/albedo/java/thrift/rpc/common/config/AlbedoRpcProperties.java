@@ -7,12 +7,15 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesBindin
  * Created by lijie on 9/7/16.
  */
 
-@ConfigurationPropertiesBinding
-@ConfigurationProperties(prefix = "albedo.rpc")
+//@ConfigurationProperties(prefix = "albedo.rpc")
+@ConfigurationProperties(prefix = "albedo.rpc",
+        ignoreUnknownFields = true,
+        ignoreInvalidFields= true,
+        exceptionIfInvalid = false)
 public class AlbedoRpcProperties {
-    private String registerPath="albedo";
-    private String appName="albedo-thrift-server";
-    private String hostUrl="localhost:8181";
+    private String namespace="albedo-thrift";
+    private String hostUrl="localhost:8182";
+
     public String getHostUrl() {
         return hostUrl;
     }
@@ -27,27 +30,10 @@ public class AlbedoRpcProperties {
     public int getPort(){
         return Integer.parseInt(hostUrl.split(":")[1]);
     }
-
-
-    public String getAppName() {
-        return appName;
+    public String getNamespace() {
+        return namespace;
     }
-
-    public void setAppName(String appName) {
-        this.appName = appName;
-    }
-
-    public String getRegisterPath() {
-        return registerPath;
-    }
-
-    public void setRegisterPath(String registerPath) {
-        this.registerPath = registerPath;
-    }
-    public String getFullPath(String appName){
-        return new StringBuilder(registerPath).append("/").append(appName).toString();
-    }
-    public String getFullPath(){
-        return getFullPath(appName);
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
     }
 }

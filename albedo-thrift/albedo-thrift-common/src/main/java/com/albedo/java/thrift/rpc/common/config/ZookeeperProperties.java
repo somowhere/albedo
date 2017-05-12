@@ -8,8 +8,10 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by lijie on 9/7/16.
  */
-@ConfigurationPropertiesBinding
-@ConfigurationProperties(prefix = "albedo.zookeeper")
+@ConfigurationProperties(prefix = "albedo.zookeeper",
+        ignoreUnknownFields = true,
+        ignoreInvalidFields= true,
+        exceptionIfInvalid = false)
 public class ZookeeperProperties {
     private String connectString = "localhost:2181";
 

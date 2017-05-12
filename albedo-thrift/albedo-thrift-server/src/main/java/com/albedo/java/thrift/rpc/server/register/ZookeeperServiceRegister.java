@@ -1,6 +1,6 @@
 package com.albedo.java.thrift.rpc.server.register;
 
-import com.albedo.java.thrift.rpc.common.ConstantThrift;
+import com.albedo.java.thrift.rpc.common.ThriftConstant;
 import com.albedo.java.thrift.rpc.common.ThriftException;
 import com.albedo.java.thrift.rpc.common.config.AlbedoRpcProperties;
 import org.apache.curator.framework.CuratorFramework;
@@ -27,7 +27,7 @@ public class ZookeeperServiceRegister implements ServiceRegister {
             curatorFramework.start();
         }
         if (version == null || version == ""){
-            version = ConstantThrift.DEFAULT_VERSION;
+            version = ThriftConstant.DEFAULT_VERSION;
         }
 
         //创建临时节点

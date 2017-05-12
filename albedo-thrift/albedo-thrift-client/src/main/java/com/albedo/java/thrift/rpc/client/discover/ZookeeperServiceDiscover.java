@@ -27,7 +27,7 @@ public class ZookeeperServiceDiscover implements ServiceDiscover {
 
     private String path;
 
-//    private CountDownLatch countDownLatch= new CountDownLatch(1);//避免 zk还没有连接上，就去调用服务
+    private CountDownLatch countDownLatch= new CountDownLatch(1);//避免 zk还没有连接上，就去调用服务
 
 
     public ZookeeperServiceDiscover(CuratorFramework curatorFramework,String path){
@@ -55,6 +55,7 @@ public class ZookeeperServiceDiscover implements ServiceDiscover {
 
     @Override
     public void watchService() {
+        logger.info("watchService {}", path);
         cache =new PathChildrenCache(curatorFramework, path
                 ,true);
         cache.getListenable().addListener((client,event)->{
@@ -70,7 +71,7 @@ public class ZookeeperServiceDiscover implements ServiceDiscover {
             }
         });
         try {
-//            PathChildrenCache.StartMode.POST_INITIALIZED_EVENT
+//          PathChildrenCache.StartMode.POST_INITIALIZED_EVENT
             cache.start();
 //            countDownLatch.await();
         } catch (Exception e) {

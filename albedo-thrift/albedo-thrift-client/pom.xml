@@ -16,6 +16,7 @@
             <groupId>com.albedo.java</groupId>
             <artifactId>albedo-thrift-common</artifactId>
             <version>${project.release.version}</version>
+            
         </dependency>
     </dependencies>
 </project>
