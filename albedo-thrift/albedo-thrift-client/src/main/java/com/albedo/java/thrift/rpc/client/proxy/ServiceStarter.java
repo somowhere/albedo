@@ -27,13 +27,6 @@ public class ServiceStarter implements BeanFactoryPostProcessor{
     private List<Class> list=new ArrayList<>();
     private Map<String, ServiceApi> map = Maps.newHashMap();
 
-    public ServiceStarter(CuratorFramework curatorFramework, ServiceRouter serviceRouter) {
-        this.serviceRouter = serviceRouter;
-        this.curatorFramework = curatorFramework;
-    }
-
-    private ServiceRouter serviceRouter;
-    private CuratorFramework curatorFramework;
 
     public ServiceStarter startService(Class clazz, ServiceApi serviceApi){
         list.add(clazz);
@@ -44,7 +37,8 @@ public class ServiceStarter implements BeanFactoryPostProcessor{
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         BeanDefinitionRegistry registry=(BeanDefinitionRegistry)beanFactory;
-
+        CuratorFramework curatorFramework = beanFactory.getBean(CuratorFramework.class);
+        ServiceRouter serviceRouter = beanFactory.getBean(ServiceRouter.class);
         for(Class clazz:list){
             GenericBeanDefinition definition=(GenericBeanDefinition) BeanDefinitionBuilder.genericBeanDefinition(clazz).getBeanDefinition();
             definition.getPropertyValues().addPropertyValue("innerClass",clazz);

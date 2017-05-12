@@ -1,8 +1,8 @@
 albedo:
-    zookeeper:
-        connectString: localhost:2181,localhost:2182,localhost:2183
     rpc:
         namespace: albedo-thrift
         hostUrl: localhost:8181
+        zookeeper:
+                connectString: localhost:2181,localhost:2182,localhost:2183
 
 

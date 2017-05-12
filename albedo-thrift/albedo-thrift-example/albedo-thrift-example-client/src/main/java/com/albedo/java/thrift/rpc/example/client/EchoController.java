@@ -1,7 +1,7 @@
 package com.albedo.java.thrift.rpc.example.client;
 
+import com.albedo.java.thrift.rpc.common.config.AlbedoRpcProperties;
 import com.albedo.java.thrift.rpc.example.EchoSerivce;
-import com.albedo.java.util.spring.SpringContextHolder;
 import org.apache.thrift.TException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,8 @@ import javax.annotation.Resource;
 @Controller
 @RequestMapping("/")
 public class EchoController {
-
+    @Resource
+    AlbedoRpcProperties albedoRpcProperties;
     @Resource
     EchoSerivce.Iface echoSerivce;
     @RequestMapping("/index")

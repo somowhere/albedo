@@ -14,13 +14,11 @@ import org.springframework.context.annotation.Configuration;
  * @author 837158334@qq.com
  */
 @Configuration
-
 public class TestConfig {
 
     @Bean
-    public static ServiceStarter serviceMap(CuratorFramework curatorFramework, ServiceRouter serviceRouter){
-
-        return new ServiceStarter(curatorFramework, serviceRouter)
+    public ServiceStarter serviceMap(){
+        return new ServiceStarter()
                 .startService(EchoSerivce.Iface.class, ServiceApi.create("echoSerivce"));
     }
 

@@ -26,7 +26,8 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-    </dependencies><build>
+    </dependencies>
+    <build>
     <plugins>
         <plugin>
             <groupId>org.springframework.boot</groupId>
