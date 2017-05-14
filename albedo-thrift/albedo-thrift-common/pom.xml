@@ -12,12 +12,7 @@
     <artifactId>albedo-thrift-common</artifactId>
 
     <dependencies>
-        <!-- albedo-->
-        <dependency>
-            <groupId>com.albedo.java</groupId>
-            <artifactId>albedo-boot-util</artifactId>
-            <version>${project.release.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>org.apache.thrift</groupId>
             <artifactId>libthrift</artifactId>
@@ -39,20 +34,32 @@
             <artifactId>zookeeper</artifactId>
             <version>3.4.6</version>
             <exclusions>
-            	<exclusion>
-            		<groupId>org.slf4j</groupId>
-            		<artifactId>slf4j-log4j12</artifactId>
-            	</exclusion>
-            	<exclusion>
-            		<groupId>log4j</groupId>
-            		<artifactId>log4j</artifactId>
-            	</exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-recipes</artifactId>
             <version>2.7.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
 </project>

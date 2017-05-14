@@ -2,6 +2,7 @@ package com.albedo.java.thrift.rpc.common.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +13,8 @@ import java.util.concurrent.TimeUnit;
  */
 
 @ConfigurationProperties(prefix = "albedo.rpc")
-@Order
+@PropertySource(value = "classpath:config/application-${spring.profiles.active}.yml",
+ignoreResourceNotFound = true)
 public class AlbedoRpcProperties {
     private String namespace="albedo-thrift";
     private String hostUrl="localhost:8181";

@@ -11,6 +11,7 @@ import com.google.common.collect.Maps;
 import org.apache.curator.framework.CuratorFramework;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -23,7 +24,7 @@ import java.util.Map;
 /**
  * Created by lijie on 9/21/16.
  */
-public class ServiceStarter implements BeanFactoryPostProcessor{
+public class ServiceStarter implements BeanFactoryPostProcessor {
     private List<Class> list=new ArrayList<>();
     private Map<String, ServiceApi> map = Maps.newHashMap();
 
@@ -34,7 +35,6 @@ public class ServiceStarter implements BeanFactoryPostProcessor{
         return this;
     }
 
-    @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         BeanDefinitionRegistry registry=(BeanDefinitionRegistry)beanFactory;
         CuratorFramework curatorFramework = beanFactory.getBean(CuratorFramework.class);
@@ -59,4 +59,5 @@ public class ServiceStarter implements BeanFactoryPostProcessor{
         }
 
     }
+
 }

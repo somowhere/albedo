@@ -157,10 +157,10 @@
     <logger name="org.hibernate.validator" level="WARN"/>
     <logger name="org.hibernate" level="WARN"/>
     <logger name="org.hibernate.ejb.HibernatePersistence" level="OFF"/>
-    <logger name="org.springframework" level="WARN"/>
-    <logger name="org.springframework.web" level="WARN"/>
-    <logger name="org.springframework.security" level="WARN"/>
-    <logger name="org.springframework.cache" level="WARN"/>
+    <!--<logger name="org.springframework" level="WARN"/>-->
+    <!--<logger name="org.springframework.web" level="WARN"/>-->
+    <!--<logger name="org.springframework.security" level="WARN"/>-->
+    <!--<logger name="org.springframework.cache" level="WARN"/>-->
     <logger name="org.thymeleaf" level="WARN"/>
     <logger name="org.xnio" level="WARN"/>
     <logger name="springfox" level="WARN"/>
@@ -172,7 +172,7 @@
         <resetJUL>true</resetJUL>
     </contextListener>
 
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="FILEERROR"/>
         <appender-ref ref="FILEWARN"/>
         <appender-ref ref="FILEINFO"/>
