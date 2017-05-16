@@ -15,7 +15,7 @@
         <module>albedo-thrift-common</module>
         <module>albedo-thrift-client</module>
         <module>albedo-thrift-server</module>
-        <module>albedo-thrift-example</module>
+        <!--<module>albedo-thrift-example</module>-->
     </modules>
 
 

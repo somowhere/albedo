@@ -19,6 +19,8 @@
 
 package com.albedo.java.common.spi;
 
+import com.albedo.java.util.PublicUtil;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -41,6 +43,7 @@ public final class SpiLoader {
     @SuppressWarnings("unchecked")
     public static <T> T load(Class<T> clazz, String name) {
         String key = clazz.getName();
+        if(PublicUtil.isNotEmpty(name)) key += ":" + name;
         Object o = CACHE.get(key);
         if (o == null) {
             T t = load0(clazz, name);

@@ -1,5 +1,6 @@
 package com.albedo.java.common.config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -10,11 +11,12 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.GenericToStringSerializer;
 
 @Configuration
-public class RedisConfiguuration {
+public class RedisAutoConfiguuration {
 	
     private final RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<Object, Object>();
 	
 	@Bean
+	@ConditionalOnMissingBean
 	public RedisTemplate<?, ?> sessionRedisTemplate(RedisConnectionFactory connectionFactory) {
 		final GenericJackson2JsonRedisSerializer jackson2JsonRedisSerializer = new GenericJackson2JsonRedisSerializer();
 		final GenericToStringSerializer<Object> genericToStringSerializer = new GenericToStringSerializer(Object.class);
@@ -29,6 +31,7 @@ public class RedisConfiguuration {
 
 	@Bean(name="redisCacheManager")
 	@Primary
+	@ConditionalOnMissingBean
 	public RedisCacheManager redisCacheManager(RedisTemplate<?, ?> redisTemplate) {
 		RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
 		// cacheManager.setDefaultExpiration(300);

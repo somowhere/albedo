@@ -1,9 +1,11 @@
 package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.config.TestConfig;
+import com.albedo.java.modules.sys.domain.Module;
 import com.albedo.java.modules.sys.domain.Org;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.modules.sys.repository.ModuleRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.util.domain.PageModel;
 import com.google.common.collect.Sets;
@@ -37,6 +39,8 @@ public class UserServiceTest {
 
     @Autowired
     UserRepository repository;
+    @Autowired
+    ModuleRepository moduleRepository;
 
     @Autowired
     UserService userService;
@@ -91,16 +95,16 @@ public class UserServiceTest {
         
 
         user3 = new User();
-        user3.setLoginId("admin3");
-        user3.setPassword("333333");
+        user3.setLoginId("admin33");
+        user3.setPassword("3333333");
         
         
         user3.setEmail("email3");
         
 
         user4 = new User();
-        user4.setLoginId("admin4");
-        user4.setPassword("444444");
+        user4.setLoginId("admin44");
+        user4.setPassword("4444444");
         
         user4.setEmail("email4");
         
@@ -161,6 +165,9 @@ public class UserServiceTest {
         assertThat(pm.getData().get(0).getLoginId(), is(user1.getLoginId()));
 
         User temp = repository.findOneByLoginId(user1.getLoginId()).get();
+
+        List<Module> modules = moduleRepository.findAllAuthByUser(new User("1"));
+//        assertThat(modules.size()!=0, is(true));
         assertThat(pm.getData().get(0), is(temp));
 
 

@@ -1,7 +1,6 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.security.AuthoritiesConstants;
-import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.service.DictService;
 import com.albedo.java.util.DictUtil;

@@ -3,18 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>albedo-boot</artifactId>
+        <artifactId>albedo-boot-data</artifactId>
         <groupId>com.albedo.java</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>albedo-boot-data</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <!--<module>albedo-boot-data-hibernate</module>-->
-        <module>albedo-boot-data-mybatis</module>
-        <module>albedo-boot-data-config</module>
-    </modules>
+    <artifactId>albedo-boot-data-config</artifactId>
 
+
+    <dependencies>
+        <dependency>
+            <groupId>com.albedo.java</groupId>
+            <artifactId>albedo-boot-util</artifactId>
+            <version>${project.release.version}</version>
+        </dependency>
+    </dependencies>
 </project>
