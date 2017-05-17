@@ -50,7 +50,7 @@ public class InvocationSecurityMetadataSourceService
 	@Resource
 	AlbedoProperties albedoProperties;
 
-	public void afterPropertiesSet() throws Exception {
+	public void afterPropertiesSet() {
 		getResourceMap();
 	}
 	

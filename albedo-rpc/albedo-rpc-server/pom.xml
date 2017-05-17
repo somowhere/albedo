@@ -10,13 +10,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>albedo-rpc-server</artifactId>
-
     <dependencies>
-
         <dependency>
             <groupId>com.albedo.java</groupId>
             <artifactId>albedo-rpc-common</artifactId>
             <version>${project.release.version}</version>
         </dependency>
     </dependencies>
+
 </project>

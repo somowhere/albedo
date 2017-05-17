@@ -69,10 +69,7 @@ public class AlbedoJhipsterWeb {
         final ApplicationContext applicationContext = app.run(args);
         SpringContextHolder.setStaticApplicationContext(applicationContext);
         Environment env = applicationContext.getEnvironment();
-        ((InvocationSecurityMetadataSourceService) SpringContextHolder.getBean("invocationSecurityMetadataSourceService")).afterPropertiesSet();
-        SpringContextHolder.getBean(FreeMarkerConfig.class).afterPropertiesSet();
 
-//        SpringContextHolder.getBean(TaskScheduleJobService.class).init();
         log.info("\n----------------------------------------------------------\n\t" +
                         "Application '{}' is running! Access URLs:\n\t" +
                         "Local: \t\thttp://localhost:{}\n\t" +

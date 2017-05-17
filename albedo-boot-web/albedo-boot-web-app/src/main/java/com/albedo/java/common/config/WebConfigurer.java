@@ -1,5 +1,6 @@
 package com.albedo.java.common.config;
 
+import com.albedo.java.common.ContextInitListener;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.web.filter.CachingHttpHeadersFilter;
 import org.slf4j.Logger;
@@ -126,5 +127,11 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
 		source.registerCorsConfiguration("/v2/api-docs", config);
 		source.registerCorsConfiguration("/oauth/**", config);
 		return new CorsFilter(source);
+	}
+
+
+	@Bean
+	public ContextInitListener contextInitListener(){
+		return new ContextInitListener();
 	}
 }

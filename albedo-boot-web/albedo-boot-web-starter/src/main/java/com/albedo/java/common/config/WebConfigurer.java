@@ -1,7 +1,10 @@
 package com.albedo.java.common.config;
 
+import com.albedo.java.common.listener.ContextInitListener;
+import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.web.filter.CachingHttpHeadersFilter;
+import com.albedo.java.web.interceptor.OperateInterceptor;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.servlet.InstrumentedFilter;
 import com.codahale.metrics.servlets.MetricsServlet;
@@ -15,10 +18,14 @@ import org.springframework.boot.context.embedded.MimeMappings;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.annotation.Resource;
 import javax.servlet.*;
@@ -31,7 +38,7 @@ import java.util.EnumSet;
  * Configuration of web application with Servlet 3.0 APIs.
  */
 @Configuration
-public class WebConfigurer implements ServletContextInitializer, EmbeddedServletContainerCustomizer {
+public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletContextInitializer, EmbeddedServletContainerCustomizer {
 
 	private final Logger log = LoggerFactory.getLogger(WebConfigurer.class);
 	@Resource
@@ -123,6 +130,7 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
 		servletContext.setAttribute(MetricsServlet.METRICS_REGISTRY, metricRegistry);
 
 		log.debug("Registering Metrics Filter");
+		log.info("servletContext {}", servletContext);
 		FilterRegistration.Dynamic metricsFilter = servletContext.addFilter("webappMetricsFilter",
 				new InstrumentedFilter());
 
@@ -150,4 +158,22 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
 		source.registerCorsConfiguration("/oauth/**", config);
 		return new CorsFilter(source);
 	}
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(new OperateInterceptor(albedoProperties)).addPathPatterns(albedoProperties.getAdminPath("/**"), "/management/**", "/api/**");
+	}
+
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/").setViewName(PublicUtil.isEmpty(albedoProperties.getDefaultView()) ? PublicUtil.toAppendStr("redirect:", albedoProperties.getAdminPath("/login")) : albedoProperties.getDefaultView());
+		registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+		super.addViewControllers(registry);
+	}
+
+	@Bean
+	public ContextInitListener contextInitListener(){
+		return new ContextInitListener();
+	}
+
 }

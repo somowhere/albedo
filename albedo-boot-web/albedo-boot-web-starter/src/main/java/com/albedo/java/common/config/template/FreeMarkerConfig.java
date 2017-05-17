@@ -39,7 +39,7 @@ public class FreeMarkerConfig {
 
 	@PostConstruct
 	public void setSharedVariable() {
-		
+
 		configuration.setDateFormat("yyyy/MM/dd");
 		configuration.setDateTimeFormat("yyyy-MM-dd HH:mm:ss");
 		configuration.setNumberFormat("#");
@@ -81,7 +81,7 @@ public class FreeMarkerConfig {
 		return null;
 	}
 
-	public void afterPropertiesSet() throws Exception {
+	public void afterPropertiesSet() {
 		Map<String, Object> map = Maps.newHashMap();
 		map.put(SecurityUtil.class.getSimpleName(), useStaticPackage(SecurityUtil.class));
 		map.put(PublicUtil.class.getSimpleName(), useStaticPackage(PublicUtil.class));
