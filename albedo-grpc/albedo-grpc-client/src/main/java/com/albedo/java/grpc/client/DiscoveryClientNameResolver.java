@@ -131,7 +131,8 @@ public class DiscoveryClientNameResolver extends NameResolver {
                     }
                     savedListener.onUpdate(resolvedServerInfoGroupList, Attributes.EMPTY);
                 } else {
-                    savedListener.onError(Status.UNAVAILABLE.withCause(new RuntimeException("UNAVAILABLE: NameResolver returned an empty list")));
+                    savedListener.onError(Status.UNAVAILABLE.withCause(
+                            new RuntimeException("UNAVAILABLE: NameResolver ["+name+"] returned an empty list ")));
                 }
             } finally {
                 synchronized (DiscoveryClientNameResolver.this) {
