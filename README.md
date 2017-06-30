@@ -96,8 +96,6 @@ AlbedoBoot 提供了常用工具进行封装，包括日志工具、缓存工具
 
 * E-mail：837158334@qq.com
 * GitHub：<https://github.com/somewhereMrli/albedo-boot>
-* 开源中国：<http://git.oschina.net/thinkgem/AlbedoBoot>
-* 官方网址：<http://AlbedoBoot.com>  论坛：<http://bbs.AlbedoBoot.com>
 * 支持AlbedoBoot发展：（加我好友 微信：lljj20520）
 
 一个人的个人能力再强，也无法战胜一个团队，希望兄弟姐妹的支持，能够贡献出自己的部分代码，参与进来共同完善它(^_^)。
