@@ -15,11 +15,11 @@ public class StringUtilTest {
 
         ConstantDictPay obj = ConstantDictPay.class.newInstance();
         Field[] fields = obj.getClass().getFields();
-        for (Field field :fields) {
+        for (Field field : fields) {
             String fileStr = Reflections.getFieldValue(obj, field).toString().toLowerCase()
                     .replace("alipay_", "")
                     .replace("weixin_", "");
-            System.out.println("private String "+StringUtil.toCamelCase(fileStr)+";");
+            System.out.println("private String " + StringUtil.toCamelCase(fileStr) + ";");
         }
 
 

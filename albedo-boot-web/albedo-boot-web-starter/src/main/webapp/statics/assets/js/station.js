@@ -21,7 +21,7 @@ var TableDatatablesManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found",
                 "paginate": {
-                    "previous":"Prev",
+                    "previous": "Prev",
                     "next": "Next",
                     "last": "Last",
                     "first": "First"
@@ -40,7 +40,7 @@ var TableDatatablesManaged = function () {
 
             "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
 
-            "columnDefs": [ {
+            "columnDefs": [{
                 "targets": 0,
                 "orderable": false,
                 "searchable": false
@@ -107,7 +107,7 @@ var TableDatatablesManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found",
                 "paginate": {
-                    "previous":"Prev",
+                    "previous": "Prev",
                     "next": "Next",
                     "last": "Last",
                     "first": "First"
@@ -126,7 +126,7 @@ var TableDatatablesManaged = function () {
 
             "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
 
-            "columnDefs": [ {
+            "columnDefs": [{
                 "targets": 0,
                 "orderable": false,
                 "searchable": false
@@ -187,8 +187,8 @@ var TableDatatablesManaged = function () {
 
 }();
 
-if (App.isAngularJsApp() === false) { 
-    jQuery(document).ready(function() {
+if (App.isAngularJsApp() === false) {
+    jQuery(document).ready(function () {
         TableDatatablesManaged.init();
     });
 }

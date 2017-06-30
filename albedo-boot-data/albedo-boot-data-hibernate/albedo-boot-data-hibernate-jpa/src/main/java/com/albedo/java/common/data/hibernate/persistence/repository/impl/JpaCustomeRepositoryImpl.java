@@ -6,7 +6,6 @@ import com.albedo.java.common.domain.base.GeneralEntity;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.QueryUtil;
 import com.albedo.java.util.base.Reflections;
-import com.albedo.java.util.domain.*;
 import com.albedo.java.util.domain.QueryCondition.Operator;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;

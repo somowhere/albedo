@@ -1,6 +1,6 @@
 <div class="page-footer">
     <div class="page-footer-inner">
-        ©2016 成都博晟创信科技有限公司 蜀ICP备15022264号-2   客服电话:400-005-8905
+        ©2017 albedo
     </div>
     <div class="scroll-to-top">
         <i class="icon-arrow-up"></i>
@@ -16,7 +16,8 @@
 <script src="${assets}/global/plugins/jquery.min.js" type="text/javascript"></script>
 <script src="${assets}/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="${assets}/global/plugins/js.cookie.min.js" type="text/javascript"></script>
-<script src="${assets}/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+<script src="${assets}/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js"
+        type="text/javascript"></script>
 <script src="${assets}/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
 <script src="${assets}/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
 <script src="${assets}/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
@@ -26,7 +27,8 @@
 <!-- BEGIN THEME GLOBAL SCRIPTS -->
 <script src="${assets}/js/app.js" type="text/javascript"></script>
 <script type="text/javascript">
-App.setCtxPath('${ctx}');App.setAssetsPath('${assets}/'),userId="${SecurityUtil.getCurrentUserId()}";
+    App.setCtxPath('${ctx}');
+    App.setAssetsPath('${assets}/'), userId = "${SecurityUtil.getCurrentUserId()}";
 </script>
 <!-- END THEME GLOBAL SCRIPTS -->
 <!-- BEGIN THEME LAYOUT SCRIPTS -->
@@ -36,20 +38,27 @@ App.setCtxPath('${ctx}');App.setAssetsPath('${assets}/'),userId="${SecurityUtil.
 <!-- BEGIN PAGE LEVEL PLUGINS -->
 <script src="${assets}/js/datatable.js" type="text/javascript"></script>
 <script src="${assets}/global/plugins/datatables/datatables.js" type="text/javascript"></script>
-<script src="${assets}/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
+<script src="${assets}/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"
+        type="text/javascript"></script>
 <script src="${assets}/global/plugins/jquery-validation/js/jquery.validate.js" type="text/javascript"></script>
 <script src="${assets}/global/plugins/jquery-validation/js/jquery.validate.method.js" type="text/javascript"></script>
-<script src="${assets}/global/plugins/jquery-validation/js/localization/messages_zh.min.js" type="text/javascript"></script>
+<script src="${assets}/global/plugins/jquery-validation/js/localization/messages_zh.min.js"
+        type="text/javascript"></script>
 <script src="${assets}/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
 <script src="${assets}/global/plugins/select2/js/i18n/zh-CN.js" type="text/javascript"></script>
 <script src="${assets}/global/plugins/moment.min.js" type="text/javascript"></script>
 
 <script src="${assets}/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js" type="text/javascript"></script>
-<script src="${assets}/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js" type="text/javascript"></script>
-<script src="${assets}/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
-<script src="${assets}/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
-<script src="${assets}/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js" type="text/javascript"></script>
-<script src="${assets}/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+<script src="${assets}/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"
+        type="text/javascript"></script>
+<script src="${assets}/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"
+        type="text/javascript"></script>
+<script src="${assets}/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"
+        type="text/javascript"></script>
+<script src="${assets}/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"
+        type="text/javascript"></script>
+<script src="${assets}/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"
+        type="text/javascript"></script>
 
 
 <script src="${assets}/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js" type="text/javascript"></script>
@@ -58,7 +67,8 @@ App.setCtxPath('${ctx}');App.setAssetsPath('${assets}/'),userId="${SecurityUtil.
 <script src="${assets}/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js" type="text/javascript"></script>
 <script src="${assets}/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js" type="text/javascript"></script>
 <script src="${assets}/global/plugins/jquery-ztree/3.5.12/js/jquery.ztree.core-3.5.js" type="text/javascript"></script>
-<script src="${assets}/global/plugins/jquery-ztree/3.5.12/js/jquery.ztree.excheck-3.5.js" type="text/javascript"></script>
+<script src="${assets}/global/plugins/jquery-ztree/3.5.12/js/jquery.ztree.excheck-3.5.js"
+        type="text/javascript"></script>
 <script src="${assets}/global/plugins/bootstrap-summernote/summernote.min.js" type="text/javascript"></script>
 <script src="${assets}/pages/scripts/components-select2.js" type="text/javascript"></script>
 <!-- ECharts单文件引入 -->

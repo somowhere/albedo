@@ -1,6 +1,5 @@
 package com.albedo.java.util.domain;
 
-import lombok.Data;
 import org.springframework.util.ObjectUtils;
 
 import java.io.Serializable;

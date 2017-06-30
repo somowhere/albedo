@@ -1,21 +1,13 @@
 package com.albedo.java.modules.gen.service;
 
 import com.albedo.java.config.TestConfig;
-import com.albedo.java.modules.gen.domain.GenTable;
-import com.albedo.java.modules.gen.domain.GenTableColumn;
 import com.albedo.java.modules.gen.repository.GenTableRepository;
-import com.albedo.java.modules.sys.domain.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
 
 /**
  * Created by lijie on 2017/4/19.

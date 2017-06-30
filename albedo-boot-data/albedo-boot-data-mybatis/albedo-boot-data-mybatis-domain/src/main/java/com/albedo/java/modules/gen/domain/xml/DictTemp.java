@@ -1,9 +1,5 @@
 package com.albedo.java.modules.gen.domain.xml;
 
-import com.albedo.java.util.annotation.DictType;
-import org.springframework.data.mybatis.annotations.Column;
-
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAttribute;
 
 /**

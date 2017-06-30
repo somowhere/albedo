@@ -24,7 +24,10 @@ import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
-import org.springframework.data.repository.config.*;
+import org.springframework.data.repository.config.RepositoryBeanDefinitionRegistrarSupport;
+import org.springframework.data.repository.config.RepositoryConfigurationDelegate;
+import org.springframework.data.repository.config.RepositoryConfigurationExtension;
+import org.springframework.data.repository.config.RepositoryConfigurationUtils;
 import org.springframework.util.Assert;
 
 import java.lang.annotation.Annotation;

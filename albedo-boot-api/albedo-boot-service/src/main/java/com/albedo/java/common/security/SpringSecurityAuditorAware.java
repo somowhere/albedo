@@ -1,6 +1,5 @@
 package com.albedo.java.common.security;
 
-import com.albedo.java.modules.sys.domain.User;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
 

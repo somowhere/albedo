@@ -3,12 +3,12 @@
 <mapper namespace="com.albedo.java.common.data.mybatis.persistence.data.JpaCustomeRepository">
 
 
-	<select id="_findByCombo" resultType="Module">
-		SELECT ${columns}
-		FROM
-           ${tableName}
-		WHERE status_ != -2 ${condition}
-		ORDER BY a.sort
-	</select>
-	
+    <select id="_findByCombo" resultType="Module">
+        SELECT ${columns}
+        FROM
+        ${tableName}
+        WHERE status_ != -2 ${condition}
+        ORDER BY a.sort
+    </select>
+
 </mapper>

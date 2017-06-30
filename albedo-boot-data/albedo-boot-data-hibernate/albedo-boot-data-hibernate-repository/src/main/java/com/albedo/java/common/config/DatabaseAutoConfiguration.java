@@ -4,7 +4,6 @@ import com.albedo.java.common.domain.util.JSR310PersistenceConverters;
 import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;

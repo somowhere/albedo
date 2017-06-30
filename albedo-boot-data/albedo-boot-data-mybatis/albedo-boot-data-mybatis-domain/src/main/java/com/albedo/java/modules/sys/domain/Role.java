@@ -13,14 +13,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.apache.ibatis.mapping.FetchType;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.*;
 
 import java.util.List;
 import java.util.Set;
-
-import static org.apache.ibatis.ognl.OgnlRuntime.NotFound;
 
 /**
  * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午4:32:52

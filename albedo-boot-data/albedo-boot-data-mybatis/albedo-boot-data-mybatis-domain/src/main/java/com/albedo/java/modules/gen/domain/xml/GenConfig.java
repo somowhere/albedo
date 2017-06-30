@@ -1,7 +1,5 @@
 package com.albedo.java.modules.gen.domain.xml;
 
-import com.albedo.java.modules.sys.domain.Dict;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;

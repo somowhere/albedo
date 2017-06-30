@@ -1,14 +1,16 @@
 package com.albedo.java.common.domain.base;
 
 import com.albedo.java.common.data.mybatis.persistence.BaseEntity;
-import com.albedo.java.common.data.mybatis.persistence.IdGen;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.util.PublicUtil;
 import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.data.annotation.*;
-import org.springframework.data.mybatis.annotations.*;
+import org.springframework.data.mybatis.annotations.Column;
+import org.springframework.data.mybatis.annotations.JoinColumn;
+import org.springframework.data.mybatis.annotations.ManyToOne;
+import org.springframework.data.mybatis.annotations.MappedSuperclass;
 
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;

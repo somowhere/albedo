@@ -20,8 +20,6 @@ import org.springframework.data.mybatis.annotations.*;
 
 import java.util.List;
 
-import static org.apache.ibatis.ognl.OgnlRuntime.NotFound;
-
 /**
  * 业务表Entity
  * 

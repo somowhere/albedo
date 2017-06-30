@@ -5,14 +5,9 @@ package com.albedo.java.common.repository;
 
 import com.albedo.java.common.domain.base.BaseEntity;
 import com.albedo.java.common.domain.base.TreeEntity;
-import com.albedo.java.modules.sys.domain.Area;
-import com.albedo.java.modules.sys.domain.Org;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * TreeRepository

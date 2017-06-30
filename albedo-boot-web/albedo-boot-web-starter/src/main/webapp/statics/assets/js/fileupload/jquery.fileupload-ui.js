@@ -108,7 +108,7 @@
                     .addClass('processing');
                 options.filesContainer[
                     options.prependFiles ? 'prepend' : 'append'
-                ](data.context);
+                    ](data.context);
                 that._forceReflow(data.context);
                 that._transition(data.context);
                 data.process(function () {
@@ -123,8 +123,8 @@
                 }).done(function () {
                     data.context.find('.start').prop('disabled', false);
                     if ((that._trigger('added', e, data) !== false) &&
-                            (options.autoUpload || data.autoUpload) &&
-                            data.autoUpload !== false) {
+                        (options.autoUpload || data.autoUpload) &&
+                        data.autoUpload !== false) {
                         data.submit();
                     }
                 }).fail(function () {
@@ -144,21 +144,21 @@
                     return false;
                 }
                 var that = $(this).data('blueimp-fileupload') ||
-                        $(this).data('fileupload');
+                    $(this).data('fileupload');
                 if (data.context && data.dataType &&
-                        data.dataType.substr(0, 6) === 'iframe') {
+                    data.dataType.substr(0, 6) === 'iframe') {
                     // Iframe Transport does not support progress events.
                     // In lack of an indeterminate progress bar, we set
                     // the progress to 100%, showing the full animated bar:
                     data.context
                         .find('.progress').addClass(
-                            !$.support.transition && 'progress-animated'
-                        )
+                        !$.support.transition && 'progress-animated'
+                    )
                         .attr('aria-valuenow', 100)
                         .children().first().css(
-                            'width',
-                            '100%'
-                        );
+                        'width',
+                        '100%'
+                    );
                 }
                 return that._trigger('sent', e, data);
             },
@@ -177,7 +177,7 @@
                 if (data.context) {
                     data.context.each(function (index) {
                         var file = files[index] ||
-                                {error: 'Empty file upload result'};
+                            {error: 'Empty file upload result'};
                         deferred = that._addFinishedDeferreds();
                         that._transition($(this)).done(
                             function () {
@@ -199,7 +199,7 @@
                 } else {
                     template = that._renderDownload(files)[
                         that.options.prependFiles ? 'prependTo' : 'appendTo'
-                    ](that.options.filesContainer);
+                        ](that.options.filesContainer);
                     that._forceReflow(template);
                     deferred = that._addFinishedDeferreds();
                     that._transition(template).done(
@@ -259,7 +259,7 @@
                 } else if (data.errorThrown !== 'abort') {
                     data.context = that._renderUpload(data.files)[
                         that.options.prependFiles ? 'prependTo' : 'appendTo'
-                    ](that.options.filesContainer)
+                        ](that.options.filesContainer)
                         .data('data', data);
                     that._forceReflow(data.context);
                     deferred = that._addFinishedDeferreds();
@@ -288,9 +288,9 @@
                         $(this).find('.progress')
                             .attr('aria-valuenow', progress)
                             .children().first().css(
-                                'width',
-                                progress + '%'
-                            );
+                            'width',
+                            progress + '%'
+                        );
                     });
                 }
             },
@@ -314,9 +314,9 @@
                     .find('.progress')
                     .attr('aria-valuenow', progress)
                     .children().first().css(
-                        'width',
-                        progress + '%'
-                    );
+                    'width',
+                    progress + '%'
+                );
             },
             // Callback for uploads start, equivalent to the global ajaxStart event:
             start: function (e) {
@@ -324,7 +324,7 @@
                     return false;
                 }
                 var that = $(this).data('blueimp-fileupload') ||
-                        $(this).data('fileupload');
+                    $(this).data('fileupload');
                 that._resetFinishedDeferreds();
                 that._transition($(this).find('.fileupload-progress')).done(
                     function () {
@@ -421,7 +421,8 @@
                         'DownloadURL',
                         [type, name, url].join(':')
                     );
-                } catch (ignore) {}
+                } catch (ignore) {
+                }
             });
         },
 

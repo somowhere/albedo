@@ -69,8 +69,10 @@
         </collection>
     </resultMap>
     <insert id="_insert" parameterType="org.springframework.data.mybatis.domain.sample.User" lang="XML" keyProperty="id"
-            keyColumn="id"><selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">call
-        identity()</selectKey>
+            keyColumn="id">
+        <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">call
+            identity()
+        </selectKey>
         <![CDATA[insert into DS_USER(age,active,binary_data,created_at,date_of_birth,EMAIL_ADDRESS,FIRSTNAME,LASTNAME,country,city,street_name,street_no,MANAGER_ID) values(#{age,jdbcType=INTEGER},#{active,jdbcType=BIT},#{binaryData,jdbcType=TINYINT},#{createdAt,jdbcType=TIMESTAMP},#{dateOfBirth,jdbcType=TIMESTAMP},#{emailAddress,jdbcType=VARCHAR},#{firstname,jdbcType=VARCHAR},#{lastname,jdbcType=VARCHAR},#{address.country,jdbcType=VARCHAR},#{address.city,jdbcType=VARCHAR},#{address.streetName,jdbcType=VARCHAR},#{address.streetNo,jdbcType=VARCHAR},#{manager.id,jdbcType=INTEGER})]]>
     </insert>
     <update id="_update" parameterType="org.springframework.data.mybatis.domain.sample.User" lang="XML">update DS_USER
@@ -207,7 +209,7 @@
         DS_USER "user"
         <trim prefix=" where " prefixOverrides="and |or ">and id=#{id}</trim>
     </delete>
-    <delete id="_deleteAll">truncate table DS_USER </delete>
+    <delete id="_deleteAll">truncate table DS_USER</delete>
     <select id="_findByPager" resultMap="ResultMap" lang="XML">select "user".id as "id","user".age as
         "age","user".active as "active","user".binary_data as "binaryData","user".created_at as
         "createdAt","user".date_of_birth as "dateOfBirth","user".EMAIL_ADDRESS as "emailAddress","user".FIRSTNAME as

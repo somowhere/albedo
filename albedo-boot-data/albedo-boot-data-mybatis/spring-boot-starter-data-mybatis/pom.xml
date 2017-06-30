@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starters</artifactId>
-        <version>1.5.1.RELEASE</version>
-    </parent>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starters</artifactId>
+                <version>1.5.1.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <groupId>com.ifrabbit</groupId>
     <artifactId>spring-boot-starter-data-mybatis</artifactId>
     <version>1.0.16.BUILD-SNAPSHOT</version>
@@ -29,10 +35,10 @@
     </licenses>
 
     <!--<scm>-->
-        <!--<url>https://github.com/hatunet/spring-boot-starter-data-mybatis</url>-->
-        <!--<connection>scm:git:git://github.com/hatunet/spring-boot-starter-data-mybatis.git</connection>-->
-        <!--<developerConnection>scm:git:ssh://git@github.com/hatunet/spring-boot-starter-data-mybatis.git-->
-        <!--</developerConnection>-->
+    <!--<url>https://github.com/hatunet/spring-boot-starter-data-mybatis</url>-->
+    <!--<connection>scm:git:git://github.com/hatunet/spring-boot-starter-data-mybatis.git</connection>-->
+    <!--<developerConnection>scm:git:ssh://git@github.com/hatunet/spring-boot-starter-data-mybatis.git-->
+    <!--</developerConnection>-->
     <!--</scm>-->
     <properties>
         <spring.data.mybatis.version>1.0.16.BUILD-SNAPSHOT</spring.data.mybatis.version>
@@ -53,84 +59,84 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>release</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-            <distributionManagement>
-                <snapshotRepository>
-                    <id>oss</id>
-                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-                </snapshotRepository>
-                <repository>
-                    <id>oss</id>
-                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-                </repository>
-            </distributionManagement>
-        </profile>
-    </profiles>
+    <!--<profiles>-->
+    <!--<profile>-->
+    <!--<id>release</id>-->
+    <!--<build>-->
+    <!--<plugins>-->
+    <!--<plugin>-->
+    <!--<groupId>org.apache.maven.plugins</groupId>-->
+    <!--<artifactId>maven-source-plugin</artifactId>-->
+    <!--<executions>-->
+    <!--<execution>-->
+    <!--<phase>package</phase>-->
+    <!--<goals>-->
+    <!--<goal>jar-no-fork</goal>-->
+    <!--</goals>-->
+    <!--</execution>-->
+    <!--</executions>-->
+    <!--</plugin>-->
+    <!--<plugin>-->
+    <!--<groupId>org.apache.maven.plugins</groupId>-->
+    <!--<artifactId>maven-javadoc-plugin</artifactId>-->
+    <!--<executions>-->
+    <!--<execution>-->
+    <!--<phase>package</phase>-->
+    <!--<goals>-->
+    <!--<goal>jar</goal>-->
+    <!--</goals>-->
+    <!--</execution>-->
+    <!--</executions>-->
+    <!--</plugin>-->
+    <!--<plugin>-->
+    <!--<groupId>org.apache.maven.plugins</groupId>-->
+    <!--<artifactId>maven-gpg-plugin</artifactId>-->
+    <!--<executions>-->
+    <!--<execution>-->
+    <!--<phase>verify</phase>-->
+    <!--<goals>-->
+    <!--<goal>sign</goal>-->
+    <!--</goals>-->
+    <!--</execution>-->
+    <!--</executions>-->
+    <!--</plugin>-->
+    <!--</plugins>-->
+    <!--</build>-->
+    <!--<distributionManagement>-->
+    <!--<snapshotRepository>-->
+    <!--<id>oss</id>-->
+    <!--<url>https://oss.sonatype.org/content/repositories/snapshots/</url>-->
+    <!--</snapshotRepository>-->
+    <!--<repository>-->
+    <!--<id>oss</id>-->
+    <!--<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
+    <!--</repository>-->
+    <!--</distributionManagement>-->
+    <!--</profile>-->
+    <!--</profiles>-->
 
-    <repositories>
-        <repository>
-            <id>oss-snapshots-repo</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-    <distributionManagement>
-        <repository>
-            <id>Releases</id>
-            <name>Project RELEASE</name>
-            <url>http://121.43.39.46:8081/nexus/content/repositories/releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>Snapshots</id>
-            <name>Porject SNAPSHOTS</name>
-            <url>http://121.43.39.46:8081/nexus/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
+    <!--<repositories>-->
+    <!--<repository>-->
+    <!--<id>oss-snapshots-repo</id>-->
+    <!--<url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+    <!--<releases>-->
+    <!--<enabled>false</enabled>-->
+    <!--</releases>-->
+    <!--<snapshots>-->
+    <!--<enabled>true</enabled>-->
+    <!--</snapshots>-->
+    <!--</repository>-->
+    <!--</repositories>-->
+    <!--<distributionManagement>-->
+    <!--<repository>-->
+    <!--<id>Releases</id>-->
+    <!--<name>Project RELEASE</name>-->
+    <!--<url>http://121.43.39.46:8081/nexus/content/repositories/releases</url>-->
+    <!--</repository>-->
+    <!--<snapshotRepository>-->
+    <!--<id>Snapshots</id>-->
+    <!--<name>Porject SNAPSHOTS</name>-->
+    <!--<url>http://121.43.39.46:8081/nexus/content/repositories/snapshots</url>-->
+    <!--</snapshotRepository>-->
+    <!--</distributionManagement>-->
 </project>

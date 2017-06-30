@@ -1,8 +1,6 @@
 package com.albedo.java.common.config;
 
-import java.io.IOException;
-import java.util.Properties;
-
+import com.albedo.java.util.domain.Globals;
 import org.quartz.JobDetail;
 import org.quartz.SimpleTrigger;
 import org.quartz.spi.JobFactory;
@@ -20,7 +18,8 @@ import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 
-import com.albedo.java.util.domain.Globals;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  * Created by david on 2015-01-20.

@@ -1,11 +1,11 @@
 package com.albedo.java;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
 
 
 /**

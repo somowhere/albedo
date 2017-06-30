@@ -30,11 +30,9 @@ import org.springframework.data.mybatis.annotations.PreInssert;
 import org.springframework.data.mybatis.annotations.PreUpdate;
 import org.springframework.data.mybatis.domains.AuditDateAware;
 import org.springframework.data.repository.core.support.AbstractEntityInformation;
-import org.springframework.util.Assert;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.regex.Matcher;

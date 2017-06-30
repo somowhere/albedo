@@ -3,9 +3,7 @@ package com.albedo.java.common.domain.base;
 import com.albedo.java.common.data.mybatis.persistence.IdGen;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.annotation.SearchField;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.*;
-import org.springframework.data.mybatis.domains.Persistable;
 
 @MappedSuperclass
 public abstract class IdEntity extends DataEntity<String> {

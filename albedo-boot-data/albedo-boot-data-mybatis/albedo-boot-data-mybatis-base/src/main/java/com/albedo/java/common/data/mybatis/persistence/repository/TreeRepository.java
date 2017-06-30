@@ -4,7 +4,6 @@
 package com.albedo.java.common.data.mybatis.persistence.repository;
 
 import com.albedo.java.common.data.mybatis.persistence.BaseEntity;
-import com.albedo.java.common.data.mybatis.persistence.repository.BaseRepository;
 
 import java.io.Serializable;
 import java.util.List;

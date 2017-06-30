@@ -1,16 +1,5 @@
 package com.albedo.java.util;
 
-import java.beans.PropertyDescriptor;
-import java.io.UnsupportedEncodingException;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.beanutils.PropertyUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.albedo.java.util.annotation.SearchField;
 import com.albedo.java.util.base.Collections3;
 import com.albedo.java.util.base.Encodes;
@@ -21,6 +10,16 @@ import com.albedo.java.util.domain.QueryCondition.Operator;
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.beans.PropertyDescriptor;
+import java.io.UnsupportedEncodingException;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("rawtypes")
 public class QueryUtil {
@@ -295,7 +294,7 @@ public class QueryUtil {
 							val = PropertyUtils.getProperty(obj, key);
 							an = Reflections.getAnnotation(obj, key, SearchField.class);
 						} catch (Exception e) {
-							logger.info("key:{} exception:{} ", key, e);
+							logger.info("key:{} exception:{} ", key, e.getMessage());
 							continue;
 						}
 						if (PublicUtil.isNotEmpty(val) && an != null) {

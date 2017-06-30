@@ -15,7 +15,7 @@
     <defaultCache
             eternal="false"
             overflowToDisk="false"
-            />
+    />
 
     <cache name="com.albedo.java.domain.User"
            timeToLiveSeconds="3600">
@@ -36,9 +36,9 @@
     <cache name="com.albedo.java.domain.User.persistentTokens"
            timeToLiveSeconds="3600">
     </cache>
-    
+
     <cache name="com.albedo.java.domain.Station"
-        timeToLiveSeconds="3600">
+           timeToLiveSeconds="3600">
     </cache>
 
     <!-- jhipster-needle-ehcache-add-entry -->

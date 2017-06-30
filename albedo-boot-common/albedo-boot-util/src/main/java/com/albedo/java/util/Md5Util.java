@@ -1,10 +1,10 @@
 package com.albedo.java.util;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by IntelliJ IDEA. User: lj Date: 2009-8-21 Time: 16:11:20 To change

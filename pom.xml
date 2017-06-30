@@ -1,4 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -43,7 +43,7 @@
         <module>albedo-boot-common</module>
         <module>albedo-boot-data</module>
         <module>albedo-boot-api</module>
-        <module>albedo-grpc</module>
+        <!--<module>albedo-grpc</module>-->
         <!--<module>albedo-rpc</module>-->
         <module>albedo-boot-web</module>
         <!--<module>albedo-thrift</module>-->

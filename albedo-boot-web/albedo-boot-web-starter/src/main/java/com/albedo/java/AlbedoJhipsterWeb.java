@@ -1,7 +1,5 @@
 package com.albedo.java;
 
-import com.albedo.java.common.config.template.FreeMarkerConfig;
-import com.albedo.java.common.security.service.InvocationSecurityMetadataSourceService;
 import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.spring.DefaultProfileUtil;
@@ -12,7 +10,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfiguration;
 import org.springframework.boot.actuate.autoconfigure.MetricRepositoryAutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
@@ -27,35 +24,13 @@ import java.util.Collection;
 
 @ComponentScan
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
-@EnableConfigurationProperties({AlbedoProperties.class, LiquibaseProperties.class})
+@EnableConfigurationProperties({AlbedoProperties.class})
 public class AlbedoJhipsterWeb {
 
     private static final Logger log = LoggerFactory.getLogger(AlbedoJhipsterWeb.class);
 
     @Resource
     private Environment env;
-
-    /**
-     * Initializes albedoJhipster.
-     * <p>
-     * Spring profiles can be configured with a program arguments --spring.profiles.active=your-active-profile
-     * <p>
-     * You can find more information on how profiles work with JHipster on <a href="http://albedo.github.io/profiles/">http://albedo.github.io/profiles/</a>.
-     */
-    @PostConstruct
-    public void initApplication() {
-        log.info("Running with Spring profile(s) : {}", Arrays.toString(env.getActiveProfiles()));
-        Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
-        if (activeProfiles.contains(Globals.SPRING_PROFILE_DEVELOPMENT) && activeProfiles.contains(Globals.SPRING_PROFILE_PRODUCTION)) {
-            log.error("You have misconfigured your application! It should not run " +
-                    "with both the 'dev' and 'prod' profiles at the same time.");
-        }
-        if (activeProfiles.contains(Globals.SPRING_PROFILE_DEVELOPMENT) && activeProfiles.contains(Globals.SPRING_PROFILE_CLOUD)) {
-            log.error("You have misconfigured your application! It should not" +
-                    "run with both the 'dev' and 'cloud' profiles at the same time.");
-        }
-        
-    }
 
     /**
      * Main method, used to run the application.
@@ -78,6 +53,28 @@ public class AlbedoJhipsterWeb {
                 env.getProperty("server.port"),
                 InetAddress.getLocalHost().getHostAddress(),
                 env.getProperty("server.port"));
+    }
+
+    /**
+     * Initializes albedoJhipster.
+     * <p>
+     * Spring profiles can be configured with a program arguments --spring.profiles.active=your-active-profile
+     * <p>
+     * You can find more information on how profiles work with JHipster on <a href="http://albedo.github.io/profiles/">http://albedo.github.io/profiles/</a>.
+     */
+    @PostConstruct
+    public void initApplication() {
+        log.info("Running with Spring profile(s) : {}", Arrays.toString(env.getActiveProfiles()));
+        Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
+        if (activeProfiles.contains(Globals.SPRING_PROFILE_DEVELOPMENT) && activeProfiles.contains(Globals.SPRING_PROFILE_PRODUCTION)) {
+            log.error("You have misconfigured your application! It should not run " +
+                    "with both the 'dev' and 'prod' profiles at the same time.");
+        }
+        if (activeProfiles.contains(Globals.SPRING_PROFILE_DEVELOPMENT) && activeProfiles.contains(Globals.SPRING_PROFILE_CLOUD)) {
+            log.error("You have misconfigured your application! It should not" +
+                    "run with both the 'dev' and 'cloud' profiles at the same time.");
+        }
+
     }
 
 

@@ -1,14 +1,5 @@
 package com.albedo.java.util;
 
-import java.security.MessageDigest;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import com.albedo.java.util.config.SystemConfig;
-import com.albedo.java.util.domain.Globals;
-
 /**
  * 数据Hql安全类
  * 

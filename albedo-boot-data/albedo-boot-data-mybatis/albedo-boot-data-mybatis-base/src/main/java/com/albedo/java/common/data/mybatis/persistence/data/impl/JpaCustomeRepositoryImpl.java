@@ -1,31 +1,20 @@
 package com.albedo.java.common.data.mybatis.persistence.data.impl;
 
-import com.albedo.java.common.data.mybatis.persistence.BaseEntity;
-import com.albedo.java.common.data.mybatis.persistence.DynamicSpecifications;
 import com.albedo.java.common.data.mybatis.persistence.GeneralEntity;
 import com.albedo.java.common.data.mybatis.persistence.data.JpaCustomeRepository;
 import com.albedo.java.util.PublicUtil;
-import com.albedo.java.util.QueryUtil;
-import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Combo;
 import com.albedo.java.util.domain.ComboData;
 import com.albedo.java.util.domain.ComboQuery;
-import com.albedo.java.util.domain.QueryCondition;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mybatis.repository.support.SqlSessionRepositorySupport;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Component
 @Transactional

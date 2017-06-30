@@ -8,7 +8,7 @@
 </head>
 <body class="page-container-bg-solid page-header-fixed page-sidebar-closed-hide-logo">
 <!-- BEGIN HEADER -->
-<#include "page-header.html" />  
+<#include "page-header.html" />
 <!-- END HEADER -->
 <!-- BEGIN HEADER & CONTENT DIVIDER -->
 <div class="clearfix"></div>
@@ -16,7 +16,7 @@
 <!-- BEGIN CONTAINER -->
 <sitemesh:write property='body'/>
 <!-- BEGIN FOOTER -->
-<#include "page-footer.html">  
+<#include "page-footer.html">
 <!-- END FOOTER -->
 </body>
 </html>

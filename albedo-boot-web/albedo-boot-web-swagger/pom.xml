@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>albedo-boot-web</artifactId>
@@ -13,30 +13,30 @@
     <properties>
         <springfox.version>2.5.0</springfox.version>
     </properties>
-<dependencies>
-    <dependency>
-        <groupId>com.albedo.java</groupId>
-        <artifactId>albedo-boot-web-base-server</artifactId>
-        <version>${project.release.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>io.springfox</groupId>
-        <artifactId>springfox-bean-validators</artifactId>
-        <version>${springfox.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>io.springfox</groupId>
-        <artifactId>springfox-swagger2</artifactId>
-        <version>${springfox.version}</version>
-        <exclusions>
-            <exclusion>
-                <groupId>org.mapstruct</groupId>
-                <artifactId>mapstruct</artifactId>
-            </exclusion>
-        </exclusions>
-    </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>com.albedo.java</groupId>
+            <artifactId>albedo-boot-web-base-server</artifactId>
+            <version>${project.release.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-bean-validators</artifactId>
+            <version>${springfox.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mapstruct</groupId>
+                    <artifactId>mapstruct</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
-</dependencies>
+    </dependencies>
     <build>
         <resources>
             <resource>

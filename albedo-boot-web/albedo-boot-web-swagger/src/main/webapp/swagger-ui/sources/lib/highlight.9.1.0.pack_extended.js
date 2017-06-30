@@ -5,7 +5,7 @@
 
     configure = hljs.configure;
     // "extending" hljs.configure method
-    hljs.configure = function _configure (options) {
+    hljs.configure = function _configure(options) {
         var size = options.highlightSizeThreshold;
 
         // added highlightSizeThreshold option to set maximum size
@@ -18,7 +18,7 @@
     highlightBlock = hljs.highlightBlock;
 
     // "extending" hljs.highlightBlock method
-    hljs.highlightBlock = function _highlightBlock (el) {
+    hljs.highlightBlock = function _highlightBlock(el) {
         var innerHTML = el.innerHTML;
         var size = hljs.highlightSizeThreshold;
 

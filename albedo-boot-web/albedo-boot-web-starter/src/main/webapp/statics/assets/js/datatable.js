@@ -1,7 +1,7 @@
 /***
-Wrapper/Helper Class for datagrid based on jQuery Datatable Plugin
-***/
-var Datatable = function() {
+ Wrapper/Helper Class for datagrid based on jQuery Datatable Plugin
+ ***/
+var Datatable = function () {
 
     var tableOptions; // main options
     var dataTable; // datatable object
@@ -12,7 +12,7 @@ var Datatable = function() {
     var ajaxParams = {}; // set filter mode
     var the;
 
-    var countSelectedRecords = function() {
+    var countSelectedRecords = function () {
         var selected = $('tbody > tr > td:nth-child(1) input[type="checkbox"]:checked', table).size();
         var text = tableOptions.dataTable.language.metronicGroupActions;
         if (selected > 0) {
@@ -25,7 +25,7 @@ var Datatable = function() {
     return {
 
         //main function to initiate the module
-        init: function(options) {
+        init: function (options) {
 
             if (!$().dataTable) {
                 return;
@@ -46,19 +46,19 @@ var Datatable = function() {
                     "serverSide": true,
                     "ordering": true,
                     //"paging": false, disable pagination
-                    "lengthMenu": [[10, 20, 50, 100, -1],[10, 20, 50, 100, "全部"]],
+                    "lengthMenu": [[10, 20, 50, 100, -1], [10, 20, 50, 100, "全部"]],
                     "pagingType": "bootstrap_full_number",
                     //"pagingType": "bootstrap_extended", // pagination type(bootstrap, bootstrap_full_number or bootstrap_extended)
                     //"dom": "<'row'<'col-md-6 col-sm-12'>><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'lp>>", // horizobtal scrollable datatable
                     buttons: [
-                  	  { extend: 'print', className: 'btn dark btn-outline', text: '打印' },
-                      { extend: 'copy', className: 'btn red btn-outline', text: '复制' },
-                      { extend: 'excel', className: 'btn yellow btn-outline ' },
-                      { extend: 'csv', className: 'btn purple btn-outline ' },
-                      { extend: 'colvis', className: 'btn dark btn-outline', text: '列'}
+                        {extend: 'print', className: 'btn dark btn-outline', text: '打印'},
+                        {extend: 'copy', className: 'btn red btn-outline', text: '复制'},
+                        // { extend: 'excel', className: 'btn yellow btn-outline ' },
+                        {extend: 'csv', className: 'btn purple btn-outline '},
+                        {extend: 'colvis', className: 'btn dark btn-outline', text: '列'}
                     ],
-                    order: [[ 1, 'asc' ]],
-                    rowId:"id",
+                    order: [[1, 'asc']],
+                    rowId: "id",
                     "language": albedo.language,
                     responsive: true,
                     "dom": "<'row'<'col-md-6 col-sm-12'l><'col-md-6'B>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
@@ -74,18 +74,18 @@ var Datatable = function() {
                         "url": "", // ajax URL
                         "type": "GET", // request type
                         "timeout": 20000,
-                        "data": function(d) { // add request parameters before submit
-                            var pm = {},sortColumn = d.columns[d.order[0].column];
-                            pm.sortName = (sortColumn.name ? sortColumn.name : sortColumn.data) +" "+d.order[0].dir;
-                            pm.draw=d.draw;
-                            pm.size=d.length;
-                            pm.page=d.start/d.length+1;
-                            pm.queryConditionJson = albedo.parseJsonItemFormTarget($formSearch && $formSearch.length>0 ? $formSearch : $("body form-search:eq(0)"));
+                        "data": function (d) { // add request parameters before submit
+                            var pm = {}, sortColumn = d.columns[d.order[0].column];
+                            pm.sortName = (sortColumn.name ? sortColumn.name : sortColumn.data) + " " + d.order[0].dir;
+                            pm.draw = d.draw;
+                            pm.size = d.length;
+                            pm.page = d.start / d.length + 1;
+                            pm.queryConditionJson = albedo.parseJsonItemFormTarget($formSearch && $formSearch.length > 0 ? $formSearch : $("body form-search:eq(0)"));
                             // return JSON.stringify(pm);
                             return pm;
                         },
 
-                        "dataSrc": function(res) { // Manipulate the data returned from the server
+                        "dataSrc": function (res) { // Manipulate the data returned from the server
                             if (res.status) {
                                 App.alert({
                                     type: (res.type == 'OK' ? 'success' : 'danger'),
@@ -115,7 +115,7 @@ var Datatable = function() {
                             App.unblockUI();
                             return res.data;
                         },
-                        "error": function(rs) { // handle general connection errors
+                        "error": function (rs) { // handle general connection errors
                             if (tableOptions.onError) {
                                 tableOptions.onError.call(undefined, the);
                             }
@@ -128,11 +128,12 @@ var Datatable = function() {
                                 place: 'prepend'
                             });
 
-                            App.unblockUI(tableContainer);App.unblockUI();
+                            App.unblockUI(tableContainer);
+                            App.unblockUI();
                         }
                     },
 
-                    "drawCallback": function(oSettings) { // run some code on table redraw
+                    "drawCallback": function (oSettings) { // run some code on table redraw
                         if (tableInitialized === false) { // check if table has been initialized
                             tableInitialized = true; // set table initialized
                             table.show(); // display table
@@ -178,10 +179,10 @@ var Datatable = function() {
                 $('.table-actions-wrapper', tableContainer).remove(); // remove the template container
             }
             // handle group checkboxes check/uncheck
-            $('.group-checkable', table).change(function() {
+            $('.group-checkable', table).change(function () {
                 var set = table.find('tbody > tr > td:nth-child(1) input[type="checkbox"]');
                 var checked = $(this).prop("checked");
-                $(set).each(function() {
+                $(set).each(function () {
                     $(this).prop("checked", checked);
                 });
                 $.uniform.update(set);
@@ -189,58 +190,58 @@ var Datatable = function() {
             });
 
             // handle row's checkbox click
-            table.on('change', 'tbody > tr > td:nth-child(1) input[type="checkbox"]', function() {
+            table.on('change', 'tbody > tr > td:nth-child(1) input[type="checkbox"]', function () {
                 countSelectedRecords();
             });
 
             // handle filter submit button click
-            table.on('click', '.filter-submit', function(e) {
+            table.on('click', '.filter-submit', function (e) {
                 e.preventDefault();
                 the.submitFilter();
             });
 
             // handle filter cancel button click
-            table.on('click', '.filter-cancel', function(e) {
+            table.on('click', '.filter-cancel', function (e) {
                 e.preventDefault();
                 the.resetFilter();
             });
         },
 
-        submitFilter: function() {
+        submitFilter: function () {
             the.setAjaxParam("action", tableOptions.filterApplyAction);
 
             // get all typeable inputs
-            $('textarea.form-filter, select.form-filter, input.form-filter:not([type="radio"],[type="checkbox"])', table).each(function() {
+            $('textarea.form-filter, select.form-filter, input.form-filter:not([type="radio"],[type="checkbox"])', table).each(function () {
                 the.setAjaxParam($(this).attr("name"), $(this).val());
             });
 
             // get all checkboxes
-            $('input.form-filter[type="checkbox"]:checked', table).each(function() {
+            $('input.form-filter[type="checkbox"]:checked', table).each(function () {
                 the.addAjaxParam($(this).attr("name"), $(this).val());
             });
 
             // get all radio buttons
-            $('input.form-filter[type="radio"]:checked', table).each(function() {
+            $('input.form-filter[type="radio"]:checked', table).each(function () {
                 the.setAjaxParam($(this).attr("name"), $(this).val());
             });
 
             dataTable.ajax.reload();
         },
 
-        resetFilter: function() {
-            $('textarea.form-filter, select.form-filter, input.form-filter:not([type="radio"],[type="checkbox"])', table).each(function() {
+        resetFilter: function () {
+            $('textarea.form-filter, select.form-filter, input.form-filter:not([type="radio"],[type="checkbox"])', table).each(function () {
                 $(this).val("");
             });
-            $('input.form-filter[type="checkbox"]', table).each(function() {
+            $('input.form-filter[type="checkbox"]', table).each(function () {
                 $(this).attr("checked", false);
             });
-            $('input.form-filter[type="radio"]', table).each(function() {
+            $('input.form-filter[type="radio"]', table).each(function () {
                 $(this).attr("checked", false);
                 if ($().uniform) {
                     $.uniform.update($(this));
                 }
             });
-            $('select.form-filter', table).each(function() {
+            $('select.form-filter', table).each(function () {
                 if ($().select2) {
                     $(this).val("null");
                     $(this).trigger('change.select2');
@@ -251,24 +252,24 @@ var Datatable = function() {
             dataTable.ajax.reload();
         },
 
-        getSelectedRowsCount: function() {
+        getSelectedRowsCount: function () {
             return $('tbody > tr > td:nth-child(1) input[type="checkbox"]:checked', table).size();
         },
 
-        getSelectedRows: function() {
+        getSelectedRows: function () {
             var rows = [];
-            $('tbody > tr > td:nth-child(1) input[type="checkbox"]:checked', table).each(function() {
+            $('tbody > tr > td:nth-child(1) input[type="checkbox"]:checked', table).each(function () {
                 rows.push($(this).val());
             });
 
             return rows;
         },
 
-        setAjaxParam: function(name, value) {
+        setAjaxParam: function (name, value) {
             ajaxParams[name] = value;
         },
 
-        addAjaxParam: function(name, value) {
+        addAjaxParam: function (name, value) {
             if (!ajaxParams[name]) {
                 ajaxParams[name] = [];
             }
@@ -285,23 +286,23 @@ var Datatable = function() {
             }
         },
 
-        clearAjaxParams: function(name, value) {
+        clearAjaxParams: function (name, value) {
             ajaxParams = {};
         },
 
-        getDataTable: function() {
+        getDataTable: function () {
             return dataTable;
         },
 
-        getTableWrapper: function() {
+        getTableWrapper: function () {
             return tableWrapper;
         },
 
-        gettableContainer: function() {
+        gettableContainer: function () {
             return tableContainer;
         },
 
-        getTable: function() {
+        getTable: function () {
             return table;
         }
 

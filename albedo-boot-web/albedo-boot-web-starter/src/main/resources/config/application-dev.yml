@@ -68,10 +68,11 @@ spring:
         #prefix:
         suffix: .ftl
         template-loader-path: /WEB-INF/views/,/META-INF/resources/WEB-INF/views/,classpath:/META-INF/resources/WEB-INF/views/
-    redis :
-      password : hcxd-elk
-      cluster :
-        nodes : 114.55.177.236:7000,114.55.177.236:7001,114.55.177.236:7002,114.55.177.236:7003,114.55.177.236:7004,114.55.177.236:7005
+#    redis :
+#      password :
+#      cluster :
+#        nodes :
+
 
 server:
     port: 8070

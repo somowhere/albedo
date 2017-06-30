@@ -40,7 +40,7 @@ public class LoginResource extends BaseResource {
 		}
 		// 登录成功后，验证码计算器清零
 		isValidateCodeLogin(request.getSession().getId(), false, true);
-		session.setAttribute("moduleList", SecurityUtil.getModuleList());
+		request.getSession().setAttribute("moduleList", SecurityUtil.getModuleList());
 		modele.addAttribute("loginId", user.getLoginId());
 		return "index";
 	}

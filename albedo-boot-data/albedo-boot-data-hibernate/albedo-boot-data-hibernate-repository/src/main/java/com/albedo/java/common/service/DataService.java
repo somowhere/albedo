@@ -1,11 +1,11 @@
 package com.albedo.java.common.service;
 
-import com.albedo.java.common.domain.base.BaseEntity;
-import com.albedo.java.common.domain.base.DataEntity;
 import com.albedo.java.common.data.hibernate.persistence.DynamicSpecifications;
 import com.albedo.java.common.data.hibernate.persistence.SpecificationDetail;
-import com.albedo.java.common.repository.DataRepository;
 import com.albedo.java.common.data.hibernate.persistence.service.BaseService;
+import com.albedo.java.common.domain.base.BaseEntity;
+import com.albedo.java.common.domain.base.DataEntity;
+import com.albedo.java.common.repository.DataRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.domain.PageModel;

@@ -1,12 +1,11 @@
 package com.albedo.java.modules.sys.service.impl;
 
+import com.albedo.java.modules.sys.domain.TaskScheduleJob;
+import com.albedo.java.modules.sys.util.TaskUtils;
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-
-import com.albedo.java.modules.sys.domain.TaskScheduleJob;
-import com.albedo.java.modules.sys.util.TaskUtils;
 
 /**
  * 

@@ -21,7 +21,6 @@ import org.springframework.data.mybatis.annotations.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;

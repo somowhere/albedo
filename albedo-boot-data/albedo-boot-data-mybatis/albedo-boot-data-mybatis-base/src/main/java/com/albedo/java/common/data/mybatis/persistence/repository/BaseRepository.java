@@ -3,17 +3,10 @@
  */
 package com.albedo.java.common.data.mybatis.persistence.repository;
 
-import com.albedo.java.common.data.mybatis.persistence.BaseEntity;
 import com.albedo.java.common.data.mybatis.persistence.GeneralEntity;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mybatis.repository.support.MybatisRepository;
-import org.springframework.data.mybatis.repository.support.QueryDslMybatisRepository;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 
 /**
  * DAO支持类实现

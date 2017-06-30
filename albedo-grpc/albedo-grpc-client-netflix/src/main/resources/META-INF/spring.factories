@@ -1,3 +1,0 @@
-# AutoConfiguration
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.albedo.java.grpc.client.autoconfigure.GrpcClientAutoConfiguration

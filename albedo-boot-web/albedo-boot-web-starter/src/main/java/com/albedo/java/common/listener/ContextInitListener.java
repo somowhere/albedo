@@ -1,22 +1,10 @@
 package com.albedo.java.common.listener;
 
 import com.albedo.java.common.config.template.FreeMarkerConfig;
-import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.common.security.service.InvocationSecurityMetadataSourceService;
-import com.albedo.java.util.DictUtil;
-import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.spring.SpringContextHolder;
-import com.google.common.collect.Maps;
-import freemarker.ext.beans.BeansWrapper;
-import freemarker.ext.beans.BeansWrapperBuilder;
-import freemarker.template.TemplateHashModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
-
-import java.util.Map;
 
 /**
  * Created by lijie on 2017/5/17.
@@ -28,10 +16,12 @@ public class ContextInitListener implements ApplicationListener<ContextRefreshed
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
+        //初始化权限数据
         ((InvocationSecurityMetadataSourceService) SpringContextHolder.
                 getBean("invocationSecurityMetadataSourceService")).afterPropertiesSet();
+        //初始化freeMarker引擎数据
         SpringContextHolder.getBean(FreeMarkerConfig.class).afterPropertiesSet();
-
+        //初始化任务
 //        SpringContextHolder.getBean(TaskScheduleJobService.class).init();
 
     }

@@ -7,8 +7,8 @@ import com.albedo.java.util.annotation.SearchField;
 import com.albedo.java.util.domain.RequestMethod;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.collect.Sets;
-import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
 
 import javax.persistence.*;
 import javax.persistence.Entity;

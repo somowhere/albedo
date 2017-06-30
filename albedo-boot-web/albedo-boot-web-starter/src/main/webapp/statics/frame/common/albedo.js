@@ -22,17 +22,17 @@ $.fn.outerHTML = function () {
     // IE, Chrome & Safari will comply with the non-standard outerHTML, all
     // others (FF) will have a fall-back for cloning
     return (!this.length) ? this : (this[0].outerHTML || (function (el) {
-            var div = document.createElement('div');
-            div.appendChild(el.cloneNode(true));
-            var contents = div.innerHTML;
-            div = null;
-            return contents;
-        })(this[0]));
+        var div = document.createElement('div');
+        div.appendChild(el.cloneNode(true));
+        var contents = div.innerHTML;
+        div = null;
+        return contents;
+    })(this[0]));
 };
-$.fn.serializeObject = function() {
+$.fn.serializeObject = function () {
     var o = {};
     var a = this.serializeArray();
-    $.each(a, function() {
+    $.each(a, function () {
         if (o[this.name]) {
             if (!o[this.name].push) {
                 o[this.name] = [o[this.name]];
@@ -288,12 +288,12 @@ var albedo = {
                     && !$(this).is(":checked"))
                     return true;
                 var s = $(this).val() ? ($(this).attr("format") != "yyyy-MM-dd HH:mm:ss" ? $(
-                            this).val().replaceAll(" ", "")
-                        : $(this).val())
+                    this).val().replaceAll(" ", "")
+                    : $(this).val())
                     : undefined;
                 if (s) {
                     var fieldName = $(this).attr("realName") ? $(this)
-                            .attr("realName") : $(this).attr("name");
+                        .attr("realName") : $(this).attr("name");
                     if ($(this).attr('type') == 'checkbox' && json_list
                         && json_list.length > 0) {
                         for (var j = 0; j < json_list.length; j++) {
@@ -306,22 +306,22 @@ var albedo = {
                     var _json = {};
                     _json.fieldName = fieldName;
                     _json.attrType = $(this).attr("attrType") ? $(this)
-                            .attr("attrType") : 'String';
+                        .attr("attrType") : 'String';
                     if (_json.attrType == "date"
                         || _json.attrType == "Date") {
                         _json.format = $(this).attr("format") ? $(this)
-                                .attr("format") : 'yyyy-MM-dd';
+                            .attr("format") : 'yyyy-MM-dd';
                     }
                     _json.fieldNode = $(this).attr("fieldNode") ? $(this)
-                            .attr("fieldNode") : '';
+                        .attr("fieldNode") : '';
                     _json.operate = $(this).attr("operate") ? $(this).attr(
-                            "operate") : 'like';
+                        "operate") : 'like';
                     _json.weight = $(this).attr("weight") ? $(this).attr(
-                            "weight") : 0;
+                        "weight") : 0;
                     if (_json.operate == "between") {
                         var endValue = $("input[for-date='" + $(this).attr("name") + "']").val();
                         _json.endValue = endValue ? ($(this)
-                                .attr("format") != "yyyy-MM-dd HH:mm:ss" ? endValue.replaceAll(" ", "") : endValue)
+                            .attr("format") != "yyyy-MM-dd HH:mm:ss" ? endValue.replaceAll(" ", "") : endValue)
                             : undefined;
                         if (!_json.endValue)
                             return true;

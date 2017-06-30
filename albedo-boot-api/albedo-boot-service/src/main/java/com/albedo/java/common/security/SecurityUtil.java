@@ -4,7 +4,8 @@ import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.common.data.mybatis.persistence.DynamicSpecifications;
 import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
 import com.albedo.java.modules.sys.domain.*;
-import com.albedo.java.modules.sys.repository.*;
+import com.albedo.java.modules.sys.repository.ModuleRepository;
+import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.modules.sys.service.AreaService;
 import com.albedo.java.modules.sys.service.OrgService;
 import com.albedo.java.modules.sys.service.RoleService;
@@ -25,11 +26,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.security.MessageDigest;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Utility class for Spring Security.

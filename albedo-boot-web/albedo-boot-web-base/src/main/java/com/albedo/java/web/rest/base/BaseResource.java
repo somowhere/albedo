@@ -27,7 +27,7 @@ import java.util.List;
  * 基础控制器支持类 copyright 2014 albedo all right reserved author MrLi created on
  * 2014年10月15日 下午4:04:00
  */
-public class BaseResource extends  GeneralResource {
+public class BaseResource extends GeneralResource {
 
 	@Resource
 	protected AlbedoProperties albedoProperties;
@@ -36,7 +36,6 @@ public class BaseResource extends  GeneralResource {
 	 */
 	@ExceptionHandler({ Exception.class })
 	public String bindException(Exception e, HttpServletRequest request, HttpServletResponse response) {
-		setReqAndRes(response);
 		log.warn("请求链接:{} 操作异常:{}", request.getRequestURI(), e.getMessage());
 		CustomMessage message = new CustomMessage();
 		message.setStatus(Globals.MSG_TYPE_WARNING);

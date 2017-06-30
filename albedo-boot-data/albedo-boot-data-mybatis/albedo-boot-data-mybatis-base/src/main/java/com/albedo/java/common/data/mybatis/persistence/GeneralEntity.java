@@ -1,19 +1,16 @@
 package com.albedo.java.common.data.mybatis.persistence;
 
-import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.config.SystemConfig;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.data.annotation.Transient;
-import org.springframework.data.mybatis.annotations.*;
-import org.springframework.data.mybatis.domains.Persistable;
+import org.springframework.data.mybatis.annotations.DynamicSearch;
+import org.springframework.data.mybatis.annotations.MappedSuperclass;
 
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Map;
-
-import static org.springframework.data.mybatis.annotations.Id.GenerationType.AUTO;
 
 /** 通常的数据基类 copyright 2014 albedo all right reserved author 李杰 created on 2014年12月31日 下午1:57:09 */
 @MappedSuperclass

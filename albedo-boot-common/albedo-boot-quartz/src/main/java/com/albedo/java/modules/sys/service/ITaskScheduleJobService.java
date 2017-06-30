@@ -1,13 +1,11 @@
 package com.albedo.java.modules.sys.service;
 
-import java.util.List;
-
-import com.albedo.java.util.domain.QueryCondition;
-import org.quartz.SchedulerException;
-import org.springframework.data.domain.Page;
-
 import com.albedo.java.modules.sys.domain.TaskScheduleJob;
 import com.albedo.java.util.domain.PageModel;
+import com.albedo.java.util.domain.QueryCondition;
+import org.quartz.SchedulerException;
+
+import java.util.List;
 
 public interface ITaskScheduleJobService {
 

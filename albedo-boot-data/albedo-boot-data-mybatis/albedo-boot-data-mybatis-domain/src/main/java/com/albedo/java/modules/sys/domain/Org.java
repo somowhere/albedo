@@ -2,7 +2,6 @@ package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.domain.base.TreeEntity;
 import com.albedo.java.util.annotation.DictType;
-import com.albedo.java.util.base.Reflections;
 import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

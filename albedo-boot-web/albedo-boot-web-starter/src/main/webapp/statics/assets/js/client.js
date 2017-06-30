@@ -11,7 +11,7 @@ var TableDatatablesButtons = function () {
             onError: function (grid) {
                 // execute some code on network or other general error
             },
-            onDataLoad: function(grid) {
+            onDataLoad: function (grid) {
                 // execute some code on ajax data load
             },
             loadingMessage: 'Loading...',
@@ -30,12 +30,12 @@ var TableDatatablesButtons = function () {
                 ],
                 "pageLength": 10, // default record count per page
                 "ajax": {
-                    "url": ctx+"/sys/staff/findList", // ajax source
-                    data: function ( d ) {
+                    "url": ctx + "/sys/staff/findList", // ajax source
+                    data: function (d) {
                         var pm = {};
-                        pm.draw=d.draw;
-                        pm.pageSize=d.length;
-                        pm.pageNo=d.start/d.length+1;
+                        pm.draw = d.draw;
+                        pm.pageSize = d.length;
+                        pm.pageNo = d.start / d.length + 1;
                         var column = d.columns[d.order[0].column];
                         pm.sortName = column.name ? column.name : column.data;
                         pm.sortOrder = d.order[0].dir;
@@ -44,15 +44,23 @@ var TableDatatablesButtons = function () {
                     }
                 },
                 "columns": [
-                    {data: function ( row, type, val, meta ) {return '<input type="checkbox" class="group-checkable" />';}},
-                    { data: "orgName","name":"org.name" },
-                    { data: "loginId" },
-                    { data: "status" },
-                    { data: "name","defaultContent": "" },
-                    { data: "mobile" },
-                    { data: "type" },
-                    { data: "roleNames", orderable:false, searchable:false },
-                    { orderable:false, searchable:false, data: function ( row, type, val, meta ) {return "<a href=''>编辑</a>"+"<a href='javascript:void'>删除</a>";} }
+                    {
+                        data: function (row, type, val, meta) {
+                            return '<input type="checkbox" class="group-checkable" />';
+                        }
+                    },
+                    {data: "orgName", "name": "org.name"},
+                    {data: "loginId"},
+                    {data: "status"},
+                    {data: "name", "defaultContent": ""},
+                    {data: "mobile"},
+                    {data: "type"},
+                    {data: "roleNames", orderable: false, searchable: false},
+                    {
+                        orderable: false, searchable: false, data: function (row, type, val, meta) {
+                        return "<a href=''>编辑</a>" + "<a href='javascript:void'>删除</a>";
+                    }
+                    }
                 ],
                 "order": [
                     [1, "asc"]
@@ -71,6 +79,6 @@ var TableDatatablesButtons = function () {
     };
 }();
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     TableDatatablesButtons.init();
 });

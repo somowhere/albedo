@@ -1,8 +1,8 @@
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     // ECHARTS
     require.config({
         paths: {
-            echarts: ctx+'/assets/global/plugins/echarts/'
+            echarts: ctx + '/assets/global/plugins/echarts/'
         }
     });
 
@@ -13,7 +13,7 @@ jQuery(document).ready(function() {
             'echarts/chart/bar',
             'echarts/chart/line'
         ],
-        function(ec) {
+        function (ec) {
             //--- BAR ---
             var myChart = ec.init(document.getElementById('echarts_bar'));
             myChart.setOption({

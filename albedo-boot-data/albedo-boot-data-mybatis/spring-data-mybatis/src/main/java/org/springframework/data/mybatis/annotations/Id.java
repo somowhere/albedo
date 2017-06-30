@@ -23,7 +23,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.*;
-import static org.springframework.data.mybatis.annotations.Id.GenerationType.*;
+import static org.springframework.data.mybatis.annotations.Id.GenerationType.AUTO;
 
 /**
  * @author Jarvis Song

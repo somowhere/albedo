@@ -61,7 +61,7 @@ public class ConstantDictPay {
     public static final String WEIXIN_PAY_QUERY_ORDER_API = "WEIXIN_PAY_QUERY_ORDER_API";
     public static final String WEIXIN_SNS_OAUTH2_API = "WEIXIN_SNS_OAUTH2_API";
     public static final String WEIXIN_PAY_TRANSFERS_API = "WEIXIN_PAY_TRANSFERS_API";
-    public static final String WEIXIN_PAY_SIGN_MD5 =  "WEIXIN_PAY_SIGN_MD5";
+    public static final String WEIXIN_PAY_SIGN_MD5 = "WEIXIN_PAY_SIGN_MD5";
     public static final String WEIXIN_PAY_TAPP_ID = "WEIXIN_PAY_TAPP_ID";
     public static final String WEIXIN_PAY_TAPP_SECRET = "WEIXIN_PAY_TAPP_SECRET";
     public static final String WEIXIN_PAY_TAPP_OAUTH2_API = "WEIXIN_PAY_TAPP_OAUTH2_API";

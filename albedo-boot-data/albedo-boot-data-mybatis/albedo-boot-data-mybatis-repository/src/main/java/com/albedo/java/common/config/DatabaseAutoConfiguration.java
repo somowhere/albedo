@@ -2,14 +2,12 @@ package com.albedo.java.common.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.mybatis.domains.AuditDateAware;
 import org.springframework.data.mybatis.replication.transaction.ReadWriteManagedTransactionFactory;
 import org.springframework.data.mybatis.repository.config.EnableMybatisRepositories;

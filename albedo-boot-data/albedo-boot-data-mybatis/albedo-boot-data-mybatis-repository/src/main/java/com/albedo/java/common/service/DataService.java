@@ -9,7 +9,6 @@ import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
 import com.albedo.java.common.data.mybatis.persistence.repository.BaseRepository;
 import com.albedo.java.common.data.mybatis.persistence.service.BaseService;
 import com.albedo.java.common.domain.base.DataEntity;
-import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
