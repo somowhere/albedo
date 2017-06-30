@@ -1,33 +1,33 @@
-function option0 (name) {
+function option0(name) {
     var color = eColorMap[name];
     var option = {
-        title : {
-            text: '空气质量（'+name+'）',
+        title: {
+            text: '空气质量（' + name + '）',
             subtext: 'data from PM25.in',
             sublink: 'http://www.pm25.in'
         },
-        tooltip : {
+        tooltip: {
             trigger: 'item'
         },
         toolbox: {
-            show : true,
+            show: true,
             //orient : 'vertical',
             x: 'right',
             //y: 'center',
-            feature : {
-                mark : {show: true},
-                dataView : {show: true, readOnly: false},
-                restore : {show: true},
-                saveAsImage : {show: true}
+            feature: {
+                mark: {show: true},
+                dataView: {show: true, readOnly: false},
+                restore: {show: true},
+                saveAsImage: {show: true}
             }
         },
         dataRange: {
-            min : data[name + 'Min'],
-            max : data[name + 'Max'],
-            calculable : true,
-            color: ['maroon','purple','red','orange','yellow','lightgreen']
+            min: data[name + 'Min'],
+            max: data[name + 'Max'],
+            calculable: true,
+            color: ['maroon', 'purple', 'red', 'orange', 'yellow', 'lightgreen']
         },
-        series : [
+        series: [
             {
                 type: 'map',
                 mapType: 'china',
@@ -35,11 +35,11 @@ function option0 (name) {
                     //x:'left'
                 },
                 hoverable: false,
-                roam:true,
-                itemStyle:{
+                roam: true,
+                itemStyle: {
                     //normal:{label:{show:true}}
                 },
-                data : [],
+                data: [],
                 markPoint: {
                     symbolSize: 5,       // 标注大小，半宽（半径）参数，当图形为方向或菱形则总宽度为symbolSize * 2
                     itemStyle: {
@@ -58,9 +58,9 @@ function option0 (name) {
                             }
                         }
                     },
-                    data : data[name]
+                    data: data[name]
                 },
-                geoCoord : data.geoCoord
+                geoCoord: data.geoCoord
             }
         ]
     };

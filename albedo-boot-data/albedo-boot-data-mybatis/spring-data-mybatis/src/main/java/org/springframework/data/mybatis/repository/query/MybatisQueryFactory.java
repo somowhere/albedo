@@ -33,8 +33,8 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 public enum MybatisQueryFactory {
 
     INSTANCE;
-    private transient static final Logger               LOG    = LoggerFactory.getLogger(MybatisQueryFactory.class);
-    private static final           SpelExpressionParser PARSER = new SpelExpressionParser();
+    private transient static final Logger LOG = LoggerFactory.getLogger(MybatisQueryFactory.class);
+    private static final SpelExpressionParser PARSER = new SpelExpressionParser();
 
     AbstractMybatisQuery fromQueryAnnotation(SqlSessionTemplate sqlSessionTemplate, MybatisQueryMethod method, EvaluationContextProvider evaluationContextProvider) {
         LOG.debug("Looking up query for method {}", method.getName());

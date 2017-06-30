@@ -14,7 +14,8 @@ import java.util.Date;
 
 public final class JSR310PersistenceConverters {
 
-    private JSR310PersistenceConverters() {}
+    private JSR310PersistenceConverters() {
+    }
 
     @Converter(autoApply = true)
     public static class LocalDateConverter implements AttributeConverter<LocalDate, java.sql.Date> {

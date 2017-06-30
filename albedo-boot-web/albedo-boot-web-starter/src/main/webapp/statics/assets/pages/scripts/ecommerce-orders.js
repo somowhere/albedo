@@ -85,6 +85,6 @@ var EcommerceOrders = function () {
 
 }();
 
-jQuery(document).ready(function() {    
-   EcommerceOrders.init();
+jQuery(document).ready(function () {
+    EcommerceOrders.init();
 });

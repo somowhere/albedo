@@ -88,7 +88,7 @@ define(function (require) {
      * @param {Object} series 数据
      * @param {Object} component 组件
      */
-    function Pie(ecTheme, messageCenter, zr, option, myChart){
+    function Pie(ecTheme, messageCenter, zr, option, myChart) {
         // 图表基类
         ChartBase.call(this, ecTheme, messageCenter, zr, option, myChart);
 
@@ -110,10 +110,10 @@ define(function (require) {
 
             // 文本标签，需要显示则会有返回
             var label = self.getLabel(
-                    seriesIndex, dataIndex, percent,
-                    center, midAngle, defaultColor,
-                    true
-                );
+                seriesIndex, dataIndex, percent,
+                center, midAngle, defaultColor,
+                true
+            );
 
             if (label) {
                 self.zr.addHoverShape(label);
@@ -121,11 +121,11 @@ define(function (require) {
 
             // 文本标签视觉引导线，需要显示则会有返回
             var labelLine = self.getLabelLine(
-                    seriesIndex, dataIndex,
-                    center, shape.style.r0, shape.style.r,
-                    midAngle, defaultColor,
-                    true
-                );
+                seriesIndex, dataIndex,
+                center, shape.style.r0, shape.style.r,
+                midAngle, defaultColor,
+                true
+            );
 
             if (labelLine) {
                 self.zr.addHoverShape(labelLine);
@@ -180,16 +180,16 @@ define(function (require) {
                                 brushType: 'stroke',
                                 lineWidth: 1,
                                 strokeColor: series[i].calculableHolderColor
-                                             || this.ecTheme.calculableHolderColor
-                                             || ecConfig.calculableHolderColor
+                                || this.ecTheme.calculableHolderColor
+                                || ecConfig.calculableHolderColor
                             }
                         };
                         ecData.pack(pieCase, series[i], i, undefined, -1);
                         this.setCalculable(pieCase);
 
                         pieCase = radius[0] <= 10
-                                  ? new CircleShape(pieCase)
-                                  : new RingShape(pieCase);
+                            ? new CircleShape(pieCase)
+                            : new RingShape(pieCase);
                         this.shapeList.push(pieCase);
                     }
                     this._buildSinglePie(i);
@@ -313,22 +313,20 @@ define(function (require) {
         /**
          * 构建单个扇形及指标
          */
-        _buildItem: function (
-            singleShapeList,
-            seriesIndex, dataIndex, percent,
-            isSelected,
-            center, r0, r1,
-            startAngle, endAngle, defaultColor
-        ) {
+        _buildItem: function (singleShapeList,
+                              seriesIndex, dataIndex, percent,
+                              isSelected,
+                              center, r0, r1,
+                              startAngle, endAngle, defaultColor) {
             var series = this.series;
             var midAngle = ((endAngle + startAngle) / 2 + 360) % 360; // 中值
 
             // 扇形
             var sector = this.getSector(
-                    seriesIndex, dataIndex, percent, isSelected,
-                    center, r0, r1,
-                    startAngle, endAngle, defaultColor
-                );
+                seriesIndex, dataIndex, percent, isSelected,
+                center, r0, r1,
+                startAngle, endAngle, defaultColor
+            );
             // 图形需要附加的私有数据
             ecData.pack(
                 sector,
@@ -341,17 +339,17 @@ define(function (require) {
 
             // 文本标签，需要显示则会有返回
             var label = this.getLabel(
-                    seriesIndex, dataIndex, percent,
-                    center, midAngle, defaultColor,
-                    false
-                );
+                seriesIndex, dataIndex, percent,
+                center, midAngle, defaultColor,
+                false
+            );
             // 文本标签视觉引导线，需要显示则会有返回
             var labelLine = this.getLabelLine(
-                    seriesIndex, dataIndex,
-                    center, r0, r1,
-                    midAngle, defaultColor,
-                    false
-                );
+                seriesIndex, dataIndex,
+                center, r0, r1,
+                midAngle, defaultColor,
+                false
+            );
 
             if (labelLine) {
                 ecData.pack(
@@ -379,11 +377,9 @@ define(function (require) {
         /**
          * 构建扇形
          */
-        getSector: function (
-            seriesIndex, dataIndex, percent, isSelected,
-            center, r0, r1,
-            startAngle, endAngle, defaultColor
-        ) {
+        getSector: function (seriesIndex, dataIndex, percent, isSelected,
+                             center, r0, r1,
+                             startAngle, endAngle, defaultColor) {
             var series = this.series;
             var serie = series[seriesIndex];
             var data = serie.data[dataIndex];
@@ -391,20 +387,20 @@ define(function (require) {
 
             // 多级控制
             var normal = this.deepMerge(
-                queryTarget,
-                'itemStyle.normal'
-            ) || {};
+                    queryTarget,
+                    'itemStyle.normal'
+                ) || {};
             var emphasis = this.deepMerge(
-                queryTarget,
-                'itemStyle.emphasis'
-            ) || {};
+                    queryTarget,
+                    'itemStyle.emphasis'
+                ) || {};
             var normalColor = this.getItemStyleColor(normal.color, seriesIndex, dataIndex, data)
-                              || defaultColor;
+                || defaultColor;
 
             var emphasisColor = this.getItemStyleColor(emphasis.color, seriesIndex, dataIndex, data)
                 || (typeof normalColor === 'string'
-                    ? zrColor.lift(normalColor, -0.2)
-                    : normalColor
+                        ? zrColor.lift(normalColor, -0.2)
+                        : normalColor
                 );
 
             var sector = {
@@ -474,11 +470,9 @@ define(function (require) {
         /**
          * 需要显示则会有返回构建好的shape，否则返回undefined
          */
-        getLabel: function (
-            seriesIndex, dataIndex, percent,
-            center, midAngle, defaultColor,
-            isEmphasis
-        ) {
+        getLabel: function (seriesIndex, dataIndex, percent,
+                            center, midAngle, defaultColor,
+                            isEmphasis) {
             var series = this.series;
             var serie = series[seriesIndex];
             var data = serie.data[dataIndex];
@@ -492,9 +486,9 @@ define(function (require) {
 
             // serie里有默认配置，放心大胆的用！
             var itemStyle = zrUtil.merge(
-                    zrUtil.clone(data.itemStyle) || {},
-                    serie.itemStyle
-                );
+                zrUtil.clone(data.itemStyle) || {},
+                serie.itemStyle
+            );
             // label配置
             var labelControl = itemStyle[status].label;
             var textStyle = labelControl.textStyle || {};
@@ -507,7 +501,7 @@ define(function (require) {
             var textAlign;
             var textBaseline = 'middle';
             labelControl.position = labelControl.position
-                                    || itemStyle.normal.label.position;
+                || itemStyle.normal.label.position;
             if (labelControl.position === 'center') {
                 // center显示
                 x = centerX;
@@ -594,14 +588,14 @@ define(function (require) {
                     );
                 }
                 else if (typeof formatter === 'string') {
-                    formatter = formatter.replace('{a}','{a0}')
-                                         .replace('{b}','{b0}')
-                                         .replace('{c}','{c0}')
-                                         .replace('{d}','{d0}');
+                    formatter = formatter.replace('{a}', '{a0}')
+                        .replace('{b}', '{b0}')
+                        .replace('{c}', '{c0}')
+                        .replace('{d}', '{d0}');
                     formatter = formatter.replace('{a0}', serie.name)
-                                         .replace('{b0}', data.name)
-                                         .replace('{c0}', data.value)
-                                         .replace('{d0}', percent);
+                        .replace('{b0}', data.name)
+                        .replace('{c0}', data.value)
+                        .replace('{d0}', percent);
 
                     return formatter;
                 }
@@ -614,12 +608,10 @@ define(function (require) {
         /**
          * 需要显示则会有返回构建好的shape，否则返回undefined
          */
-        getLabelLine: function (
-            seriesIndex, dataIndex,
-            center, r0, r1,
-            midAngle, defaultColor,
-            isEmphasis
-        ) {
+        getLabelLine: function (seriesIndex, dataIndex,
+                                center, r0, r1,
+                                midAngle, defaultColor,
+                                isEmphasis) {
             var series = this.series;
             var serie = series[seriesIndex];
             var data = serie.data[dataIndex];
@@ -630,9 +622,9 @@ define(function (require) {
 
                 // serie里有默认配置，放心大胆的用！
                 var itemStyle = zrUtil.merge(
-                        zrUtil.clone(data.itemStyle) || {},
-                        serie.itemStyle
-                    );
+                    zrUtil.clone(data.itemStyle) || {},
+                    serie.itemStyle
+                );
                 // labelLine配置
                 var labelLineControl = itemStyle[status].labelLine;
                 var lineStyle = labelLineControl.lineStyle || {};
@@ -643,7 +635,7 @@ define(function (require) {
                 var minRadius = r1;
                 // 视觉引导线终点半径
                 var maxRadius = this.parseRadius(this.zr, serie.radius)[1]
-                                - (-labelLineControl.length);
+                    - (-labelLineControl.length);
                 var cosValue = zrMath.cos(midAngle, true);
                 var sinValue = zrMath.sin(midAngle, true);
 
@@ -709,14 +701,14 @@ define(function (require) {
                 [data, serie],
                 'itemStyle.'
                 + (isEmphasis ? 'emphasis' : 'normal')
-                +'.labelLine.show'
+                + '.labelLine.show'
             );
         },
 
         /**
          * @param {Array.<Object>} sList 单系列图形集合
          */
-        _autoLabelLayout : function (sList, center, r) {
+        _autoLabelLayout: function (sList, center, r) {
             var leftList = [];
             var rightList = [];
 
@@ -739,8 +731,8 @@ define(function (require) {
          * @param {Array.<Object>} tList 单系列文本图形集合
          * @param {number} direction 水平方向参数，left为-1，right为1
          */
-        _layoutCalculate : function(tList, center, r, direction) {
-            tList.sort(function(a, b){
+        _layoutCalculate: function (tList, center, r, direction) {
+            tList.sort(function (a, b) {
                 return a._rect.y - b._rect.y;
             });
 
@@ -801,12 +793,12 @@ define(function (require) {
                     length = sList[i]._radius - r;
                     deltaX = (deltaY < r + length)
                         ? Math.sqrt(
-                              (r + length + 20) * (r + length + 20)
-                              - Math.pow(sList[i]._rect.y - y, 2)
-                          )
+                            (r + length + 20) * (r + length + 20)
+                            - Math.pow(sList[i]._rect.y - y, 2)
+                        )
                         : Math.abs(
-                              sList[i]._rect.x + (direction > 0 ? 0 : sList[i]._rect.width) - x
-                          );
+                            sList[i]._rect.x + (direction > 0 ? 0 : sList[i]._rect.width) - x
+                        );
                     if (isDownList && deltaX >= lastDeltaX) {
                         // 右下，左下
                         deltaX = lastDeltaX - 10;
@@ -819,7 +811,7 @@ define(function (require) {
                     sList[i]._rect.x = sList[i].style.x = x + deltaX * direction;
                     if (sList[i]._labelLine) {
                         sList[i]._labelLine.style.pointList[2][0] = x + (deltaX - 5) * direction;
-                        sList[i]._labelLine.style.pointList[1][0] = x + (deltaX - 20) *direction;
+                        sList[i]._labelLine.style.pointList[1][0] = x + (deltaX - 20) * direction;
                     }
                     lastDeltaX = deltaX;
                 }
@@ -860,11 +852,11 @@ define(function (require) {
             // 常用方法快捷方式
             var _merge = zrUtil.merge;
             opt = _merge(
-                      _merge(
-                          opt || {}, zrUtil.clone(this.ecTheme.pie || {})
-                      ),
-                      zrUtil.clone(ecConfig.pie)
-                  );
+                _merge(
+                    opt || {}, zrUtil.clone(this.ecTheme.pie || {})
+                ),
+                zrUtil.clone(ecConfig.pie)
+            );
 
             // 通用字体设置
             opt.itemStyle.normal.label.textStyle = this.getTextStyle(
@@ -902,6 +894,7 @@ define(function (require) {
             }
 
             var aniCount = 0;
+
             function animationDone() {
                 aniCount--;
                 if (aniCount === 0) {
@@ -930,10 +923,10 @@ define(function (require) {
                     if (isHead) {
                         if (!dataGrow) {
                             sectorMap[
-                                seriesIndex
-                                + '_'
-                                + series[seriesIndex].data.length
-                            ] = 'delete';
+                            seriesIndex
+                            + '_'
+                            + series[seriesIndex].data.length
+                                ] = 'delete';
                         }
                         deltaIdxMap[seriesIndex] = 1;
                     }
@@ -974,7 +967,7 @@ define(function (require) {
                 seriesIndex = backupShapeList[i]._seriesIndex;
                 if (aniMap[seriesIndex]) {
                     dataIndex = backupShapeList[i]._dataIndex
-                                + deltaIdxMap[seriesIndex];
+                        + deltaIdxMap[seriesIndex];
                     key = seriesIndex + '_' + dataIndex;
                     targeSector = sectorMap[key];
                     if (!targeSector) {
@@ -1002,15 +995,15 @@ define(function (require) {
                                 .when(
                                     400,
                                     deltaIdxMap[seriesIndex] < 0
-                                    ? { startAngle: backupShapeList[i].style.startAngle }
-                                    : { endAngle: backupShapeList[i].style.endAngle }
+                                        ? {startAngle: backupShapeList[i].style.startAngle}
+                                        : {endAngle: backupShapeList[i].style.endAngle}
                                 )
                                 .done(animationDone)
                                 .start();
                         }
                     }
                     else if (backupShapeList[i].type === 'text'
-                             || backupShapeList[i].type === 'polyline'
+                        || backupShapeList[i].type === 'polyline'
                     ) {
                         if (targeSector === 'delete') {
                             // 删除逻辑一样
@@ -1026,8 +1019,8 @@ define(function (require) {
                                         .when(
                                             400,
                                             {
-                                                x :targeSector.style.x,
-                                                y :targeSector.style.y
+                                                x: targeSector.style.x,
+                                                y: targeSector.style.y
                                             }
                                         )
                                         .done(animationDone)
@@ -1040,7 +1033,7 @@ define(function (require) {
                                         .when(
                                             400,
                                             {
-                                                pointList:targeSector.style.pointList
+                                                pointList: targeSector.style.pointList
                                             }
                                         )
                                         .done(animationDone)
@@ -1081,7 +1074,7 @@ define(function (require) {
                     if (!style._hasSelected) {
                         var midAngle =
                             ((style.startAngle + style.endAngle) / 2)
-                            .toFixed(2) - 0;
+                                .toFixed(2) - 0;
                         target.style._hasSelected = true;
                         this._selected[seriesIndex][dataIndex] = true;
                         target.style._x = target.style.x;
@@ -1091,9 +1084,9 @@ define(function (require) {
                             'selectedOffset'
                         );
                         target.style.x += zrMath.cos(midAngle, true)
-                                          * offset;
+                            * offset;
                         target.style.y -= zrMath.sin(midAngle, true)
-                                          * offset;
+                            * offset;
                     }
                     else {
                         // 复位
@@ -1106,7 +1099,7 @@ define(function (require) {
                     this.zr.modShape(target.id);
                 }
                 else if (this.shapeList[i].style._hasSelected
-                         && this._selectedMode === 'single'
+                    && this._selectedMode === 'single'
                 ) {
                     seriesIndex = ecData.get(this.shapeList[i], 'seriesIndex');
                     dataIndex = ecData.get(this.shapeList[i], 'dataIndex');
@@ -1124,7 +1117,7 @@ define(function (require) {
                 param.event,
                 {
                     selected: this._selected,
-                    target:  ecData.get(target, 'name')
+                    target: ecData.get(target, 'name')
                 },
                 this.myChart
             );

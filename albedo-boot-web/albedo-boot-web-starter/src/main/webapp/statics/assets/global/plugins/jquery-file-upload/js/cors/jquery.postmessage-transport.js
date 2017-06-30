@@ -73,8 +73,8 @@
                         eventName = 'message.' + message.id;
                     iframe = $(
                         '<iframe style="display:none;" src="' +
-                            options.postMessage + '" name="' +
-                            message.id + '"></iframe>'
+                        options.postMessage + '" name="' +
+                        message.id + '"></iframe>'
                     ).bind('load', function () {
                         $.each(names, function (i, name) {
                             message[name] = options[name];

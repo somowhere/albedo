@@ -5,54 +5,57 @@
 <div class="modal-body">
     <div class="row">
         <div class="col-md-12 form">
-			<!-- BEGIN FORM-->
-			<div id="bootstrap-alerts" class="bootstrap-alerts-org-form"></div>
+            <!-- BEGIN FORM-->
+            <div id="bootstrap-alerts" class="bootstrap-alerts-org-form"></div>
             <form id="ajax_form" action="${ctx}/sys/org/edit" method="post"
-                       class="form-horizontal form-validation form-bordered form-label-stripped" config="{rules:{
+                  class="form-horizontal form-validation form-bordered form-label-stripped" config="{rules:{
                        name: {remote: '${ctx}/sys/org/checkByProperty?_statusFalse&id=' + encodeURIComponent('${org.id!}')}},
-                       messages:{name:{message:'组织名称已存在'}}}" >
+                       messages:{name:{message:'组织名称已存在'}}}">
                 <div class="form-body">
-                    <input type="hidden" name="id" value="${(org.id)!}" />
+                    <input type="hidden" name="id" value="${(org.id)!}"/>
                     <div class="form-group">
                         <label class="control-label col-md-3">上级组织<span class="required">*</span>
                         </label>
                         <div class="col-md-5">
-                            <@albedo.treeSelect id="org" cssClass="required" allowClear="true" name="parentId" value="${(org.parentId)!}" labelName="parentName" 
-                            labelValue="${(org.parent.name)!}" extId="${(org.id)!}"
-							title="选择组织" url="${ctx}/sys/org/findTreeData"> </@albedo.treeSelect>
+                        <@albedo.treeSelect id="org" cssClass="required" allowClear="true" name="parentId" value="${(org.parentId)!}" labelName="parentName"
+                        labelValue="${(org.parent.name)!}" extId="${(org.id)!}"
+                        title="选择组织" url="${ctx}/sys/org/findTreeData"> </@albedo.treeSelect>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">名称<span class="required">*</span>
                         </label>
                         <div class="col-md-5">
-                            <input type="text" name="name" value="${(org.name)! }" maxlength="64" data-required="1" class="form-control required" /> 
+                            <input type="text" name="name" value="${(org.name)! }" maxlength="64" data-required="1"
+                                   class="form-control required"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">编码
                         </label>
                         <div class="col-md-5">
-                            <input type="text" name="code" value="${(org.code)! }" maxlength="64" data-required="1" class="form-control" /> 
+                            <input type="text" name="code" value="${(org.code)! }" maxlength="64" data-required="1"
+                                   class="form-control"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">类型<span class="required">*</span></label>
                         <div class="col-md-5">
-                            <@albedo.form name="type" id="type" cssClass="required" boxType="select" dictCode="sys_org_type" value="${(org.type)! }"> </@albedo.form>
+                        <@albedo.form name="type" id="type" cssClass="required" boxType="select" dictCode="sys_org_type" value="${(org.type)! }"> </@albedo.form>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">等级<span class="required">*</span></label>
                         <div class="col-md-5">
-                            <@albedo.form name="grade" id="grade" cssClass="required" boxType="select" dictCode="sys_org_grade" value="${(org.grade)! }"> </@albedo.form>
+                        <@albedo.form name="grade" id="grade" cssClass="required" boxType="select" dictCode="sys_org_grade" value="${(org.grade)! }"> </@albedo.form>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">序号
                         </label>
                         <div class="col-md-5">
-                            <input type="text" name="sort" value="${(org.sort)! }" maxlength="10" data-required="1" class="form-control digits" /> 
+                            <input type="text" name="sort" value="${(org.sort)! }" maxlength="10" data-required="1"
+                                   class="form-control digits"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -64,7 +67,8 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">描述</label>
                         <div class="col-md-8">
-                        <textarea class="summernote form-control" name="description" rows="9">${(org.description)! }</textarea>
+                            <textarea class="summernote form-control" name="description"
+                                      rows="9">${(org.description)! }</textarea>
                         </div>
                     </div>
                 </div>

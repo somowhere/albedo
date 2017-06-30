@@ -36,7 +36,7 @@ define('echarts/chart/tree', [
         layerPadding: 100,
         itemStyle: {
             normal: {
-                label: { show: true },
+                label: {show: true},
                 lineStyle: {
                     width: 1,
                     color: '#777',
@@ -50,10 +50,12 @@ define('echarts/chart/tree', [
     var zrConfig = require('zrender/config');
     var zrEvent = require('zrender/tool/event');
     var zrUtil = require('zrender/tool/util');
+
     function Tree(ecTheme, messageCenter, zr, option, myChart) {
         ChartBase.call(this, ecTheme, messageCenter, zr, option, myChart);
         this.refresh(option);
     }
+
     Tree.prototype = {
         type: ecConfig.CHART_TYPE_TREE,
         _buildShape: function (series, seriesIndex) {
@@ -167,14 +169,14 @@ define('echarts/chart/tree', [
                 var xEnd = parentNode.children[i].layout.position[0];
                 var yEnd = parentNode.children[i].layout.position[1];
                 switch (lineStyle.type) {
-                case 'curve':
-                    this._buildBezierCurve(parentNode, parentNode.children[i], lineStyle, serie);
-                    break;
-                case 'broken':
-                    break;
-                default:
-                    var shape = this._getLine(xStart, yStart, xEnd, yEnd, lineStyle);
-                    this.shapeList.push(shape);
+                    case 'curve':
+                        this._buildBezierCurve(parentNode, parentNode.children[i], lineStyle, serie);
+                        break;
+                    case 'broken':
+                        break;
+                    default:
+                        var shape = this._getLine(xStart, yStart, xEnd, yEnd, lineStyle);
+                        this.shapeList.push(shape);
                 }
             }
         },
@@ -417,11 +419,13 @@ define('echarts/chart/tree', [
     zrUtil.inherits(Tree, ChartBase);
     require('../chart').define('tree', Tree);
     return Tree;
-});define('echarts/layout/Tree', [
+});
+define('echarts/layout/Tree', [
     'require',
     'zrender/tool/vector'
 ], function (require) {
     var vec2 = require('zrender/tool/vector');
+
     function TreeLayout(opts) {
         opts = opts || {};
         this.nodePadding = opts.nodePadding || 30;
@@ -429,6 +433,7 @@ define('echarts/chart/tree', [
         this._layerOffsets = [];
         this._layers = [];
     }
+
     TreeLayout.prototype.run = function (tree) {
         this._layerOffsets.length = 0;
         for (var i = 0; i < tree.root.height + 1; i++) {
@@ -491,11 +496,13 @@ define('echarts/chart/tree', [
         }
     };
     return TreeLayout;
-});define('echarts/data/Tree', [
+});
+define('echarts/data/Tree', [
     'require',
     'zrender/tool/util'
 ], function (require) {
     var zrUtil = require('zrender/tool/util');
+
     function TreeNode(id, data) {
         this.id = id;
         this.depth = 0;
@@ -504,6 +511,7 @@ define('echarts/chart/tree', [
         this.parent = null;
         this.data = data || null;
     }
+
     TreeNode.prototype.add = function (child) {
         var children = this.children;
         if (child.parent === this) {
@@ -552,6 +560,7 @@ define('echarts/chart/tree', [
     function Tree(id) {
         this.root = new TreeNode(id);
     }
+
     Tree.prototype.traverse = function (cb, context) {
         this.root.traverse(cb, context);
     };
@@ -583,6 +592,7 @@ define('echarts/chart/tree', [
                 }
             }
         }
+
         for (var i = 0; i < data.length; i++) {
             buildHierarchy(data[i], rootNode);
         }
@@ -599,6 +609,7 @@ define('echarts/chart/tree', [
                 buildHierarchy(childTreeNode);
             }
         }
+
         var treeMap = {};
         var treeNodesMap = {};
         for (var i = 0; i < graph.nodes.length; i++) {
