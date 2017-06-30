@@ -26,6 +26,6 @@ public class RoleService extends DataService<RoleRepository, Role, String> {
                 queryConditions, persistentClass,
                 QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
 //		specificationDetail.setPersistentClass();
-        return findPage(pm, specificationDetail);
+        return findBasePage(pm, specificationDetail,false);
     }
 }
