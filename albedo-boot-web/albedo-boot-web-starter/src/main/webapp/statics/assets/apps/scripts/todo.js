@@ -1,12 +1,12 @@
 /**
-Todo Module
-**/
+ Todo Module
+ **/
 var AppTodo = function () {
 
     // private functions & variables
 
-    var _initComponents = function() {
-        
+    var _initComponents = function () {
+
         // init datepicker
         $('.todo-taskbody-due').datepicker({
             rtl: App.isRTL(),
@@ -20,7 +20,7 @@ var AppTodo = function () {
         });
     }
 
-    var _handleProjectListMenu = function() {
+    var _handleProjectListMenu = function () {
         if (App.getViewPort().width <= 992) {
             $('.todo-project-list-content').addClass("collapse");
         } else {
@@ -33,18 +33,18 @@ var AppTodo = function () {
 
         //main function
         init: function () {
-            _initComponents();     
+            _initComponents();
             _handleProjectListMenu();
 
-            App.addResizeHandler(function(){
-                _handleProjectListMenu();    
-            });       
+            App.addResizeHandler(function () {
+                _handleProjectListMenu();
+            });
         }
 
     };
 
 }();
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     AppTodo.init();
 });

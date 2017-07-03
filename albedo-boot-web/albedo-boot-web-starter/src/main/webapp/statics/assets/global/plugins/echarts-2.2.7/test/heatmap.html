@@ -9,13 +9,14 @@
         height: 100%;
         margin: 0px;
     }
+
     #main {
         width: 100%;
         height: 100%;
     }
 </style>
 <body>
-    <div id="main"></div>
+<div id="main"></div>
 </body>
 <script>
     require.config({
@@ -35,11 +36,11 @@
         data.push([Math.random() * 400, Math.random() * 300, Math.random()]);
     }
     for (var i = 0; i < 100; ++i) {
-        data.push([Math.random() * 20 + i / 2 + 100, 
+        data.push([Math.random() * 20 + i / 2 + 100,
             Math.random() * 20 + 200, Math.random()]);
     }
     for (var i = 0; i < 100; ++i) {
-        data.push([Math.random() * 20 + i / 2 + 300, 
+        data.push([Math.random() * 20 + i / 2 + 300,
             Math.random() * 20 - i / 3 + 200, Math.random()]);
     }
     require(['echarts', 'echarts/chart/heatmap'], function (echarts, Heatmap) {
@@ -50,7 +51,7 @@
                 type: 'heatmap',
                 name: 'name',
                 gradientColors: [
-                  'pink', 'orange', 'green'
+                    'pink', 'orange', 'green'
                 ]
             }]
         });

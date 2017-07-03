@@ -13,7 +13,7 @@ public interface PersistentTokenRepository extends BaseRepository<PersistentToke
 
     List<PersistentToken> findByTokenDateBefore(LocalDate localDate);
 
-	PersistentToken findOneBySeries(String presentedSeries);
+    PersistentToken findOneBySeries(String presentedSeries);
 
     List<PersistentToken> findAllByUserId(String userId);
 }

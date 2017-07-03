@@ -1,10 +1,10 @@
 /**
  * Tree data structure
- * 
+ *
  * @module echarts/data/Tree
  * @author Yi Shen(https://www.github.com/pissang)
  */
-define(function(require) {
+define(function (require) {
 
     var zrUtil = require('zrender/tool/util');
 
@@ -136,7 +136,7 @@ define(function(require) {
      * @param  {Function} cb
      * @param  {Object}   [context]
      */
-    Tree.prototype.traverse = function(cb, context) {
+    Tree.prototype.traverse = function (cb, context) {
         this.root.traverse(cb, context);
     };
 
@@ -145,7 +145,7 @@ define(function(require) {
      * @param  {string} id 子树根节点 id
      * @return {module:echarts/data/Tree}
      */
-    Tree.prototype.getSubTree = function(id) {
+    Tree.prototype.getSubTree = function (id) {
         var root = this.getNodeById(id);
         if (root) {
             var tree = new Tree(root.id);

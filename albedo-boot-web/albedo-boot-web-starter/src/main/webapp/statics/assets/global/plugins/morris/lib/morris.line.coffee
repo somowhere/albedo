@@ -6,15 +6,15 @@ class Morris.Line extends Morris.Grid
     super(options)
 
   init: ->
-    # Some instance variables for later
+# Some instance variables for later
     if @options.hideHover isnt 'always'
       @hover = new Morris.Hover(parent: @el)
       @on('hovermove', @onHoverMove)
       @on('hoverout', @onHoverOut)
       @on('gridclick', @onGridClick)
 
-  # Default configuration
-  #
+# Default configuration
+#
   defaults:
     lineWidth: 3
     pointSize: 4
@@ -36,16 +36,16 @@ class Morris.Line extends Morris.Grid
     xLabelMargin: 24
     hideHover: false
 
-  # Do any size-related calculations
-  #
-  # @private
+# Do any size-related calculations
+#
+# @private
   calc: ->
     @calcPoints()
     @generatePaths()
 
-  # calculate series data point coordinates
-  #
-  # @private
+# calculate series data point coordinates
+#
+# @private
   calcPoints: ->
     for row in @data
       row._x = @transX(row.x)
@@ -53,8 +53,8 @@ class Morris.Line extends Morris.Grid
         if y? then @transY(y) else y
       row._ymax = Math.min [@bottom].concat(y for y in row._y when y?)...
 
-  # hit test - returns the index of the row at the given x-coordinate
-  #
+# hit test - returns the index of the row at the given x-coordinate
+#
   hitTest: (x) ->
     return null if @data.length == 0
     # TODO better search algo
@@ -62,30 +62,30 @@ class Morris.Line extends Morris.Grid
       break if x < (r._x + @data[index]._x) / 2
     index
 
-  # click on grid event handler
-  #
-  # @private
+# click on grid event handler
+#
+# @private
   onGridClick: (x, y) =>
     index = @hitTest(x)
     @fire 'click', index, @data[index].src, x, y
 
-  # hover movement event handler
-  #
-  # @private
+# hover movement event handler
+#
+# @private
   onHoverMove: (x, y) =>
     index = @hitTest(x)
     @displayHoverForRow(index)
 
-  # hover out event handler
-  #
-  # @private
+# hover out event handler
+#
+# @private
   onHoverOut: =>
     if @options.hideHover isnt false
       @displayHoverForRow(null)
 
-  # display a hover popup over the given row
-  #
-  # @private
+# display a hover popup over the given row
+#
+# @private
   displayHoverForRow: (index) ->
     if index?
       @hover.update(@hoverContentForRow(index)...)
@@ -94,9 +94,9 @@ class Morris.Line extends Morris.Grid
       @hover.hide()
       @hilight()
 
-  # hover content for a point
-  #
-  # @private
+# hover content for a point
+#
+# @private
   hoverContentForRow: (index) ->
     row = @data[index]
     content = "<div class='morris-hover-row-label'>#{row.label}</div>"
@@ -112,9 +112,9 @@ class Morris.Line extends Morris.Grid
     [content, row._x, row._ymax]
 
 
-  # generate paths for series lines
-  #
-  # @private
+# generate paths for series lines
+#
+# @private
   generatePaths: ->
     @paths = for i in [0...@options.ykeys.length]
       smooth = if typeof @options.smooth is "boolean" then @options.smooth else @options.ykeys[i] in @options.smooth
@@ -125,19 +125,19 @@ class Morris.Line extends Morris.Grid
       else
         null
 
-  # Draws the line chart.
-  #
+# Draws the line chart.
+#
   draw: ->
     @drawXAxis() if @options.axes in [true, 'both', 'x']
     @drawSeries()
     if @options.hideHover is false
       @displayHoverForRow(@data.length - 1)
 
-  # draw the x-axis labels
-  #
-  # @private
+# draw the x-axis labels
+#
+# @private
   drawXAxis: ->
-    # draw x axis labels
+# draw x axis labels
     ypos = @bottom + @options.padding / 2
     prevLabelMargin = null
     prevAngleMargin = null
@@ -154,21 +154,22 @@ class Morris.Line extends Morris.Grid
       # try to avoid overlaps
       labelBox = label.getBBox()
       if (not prevLabelMargin? or
-          prevLabelMargin >= labelBox.x + labelBox.width or
-          prevAngleMargin? and prevAngleMargin >= labelBox.x) and
-         labelBox.x >= 0 and (labelBox.x + labelBox.width) < @el.width()
+        prevLabelMargin >= labelBox.x + labelBox.width or
+        prevAngleMargin? and prevAngleMargin >= labelBox.x) and
+        labelBox.x >= 0 and (labelBox.x + labelBox.width) < @el.width()
         if @options.xLabelAngle != 0
           margin = 1.25 * @options.gridTextSize /
-            Math.sin(@options.xLabelAngle * Math.PI / 180.0)
+            Math.sin(@options.xLabelAngle * Math.PI / 180.0
+          )
           prevAngleMargin = labelBox.x - margin
         prevLabelMargin = labelBox.x - @options.xLabelMargin
       else
         label.remove()
     if @options.parseTime
       if @data.length == 1 and @options.xLabels == 'auto'
-        # where there's only one value in the series, we can't make a
-        # sensible guess for an x labelling scheme, so just use the original
-        # column label
+# where there's only one value in the series, we can't make a
+# sensible guess for an x labelling scheme, so just use the original
+# column label
         labels = [[@data[0].label, @data[0].x]]
       else
         labels = Morris.labelSeries(@xmin, @xmax, @width, @options.xLabels, @options.xLabelFormat)
@@ -178,14 +179,14 @@ class Morris.Line extends Morris.Grid
     for l in labels
       drawLabel(l[0], l[1])
 
-  # draw the data series
-  #
-  # @private
+# draw the data series
+#
+# @private
   drawSeries: ->
     @seriesPoints = []
-    for i in [@options.ykeys.length-1..0]
+    for i in [@options.ykeys.length - 1..0]
       @_drawLineFor i
-    for i in [@options.ykeys.length-1..0]
+    for i in [@options.ykeys.length - 1..0]
       @_drawPointFor i
 
   _drawPointFor: (index) ->
@@ -201,9 +202,9 @@ class Morris.Line extends Morris.Grid
     if path isnt null
       @drawLinePath path, @colorFor(null, index, 'line'), index
 
-  # create a path for a data series
-  #
-  # @private
+# create a path for a data series
+#
+# @private
   @createPath: (coords, smooth, bottom) ->
     path = ""
     grads = Morris.Line.gradients(coords) if smooth
@@ -229,9 +230,9 @@ class Morris.Line extends Morris.Grid
       prevCoord = coord
     return path
 
-  # calculate a gradient at each point for a series of points
-  #
-  # @private
+# calculate a gradient at each point for a series of points
+#
+# @private
   @gradients: (coords) ->
     grad = (a, b) -> (a.y - b.y) / (a.x - b.x)
     for coord, i in coords
@@ -249,14 +250,14 @@ class Morris.Line extends Morris.Grid
       else
         null
 
-  # @private
+# @private
   hilight: (index) =>
     if @prevHilight isnt null and @prevHilight isnt index
-      for i in [0..@seriesPoints.length-1]
+      for i in [0..@seriesPoints.length - 1]
         if @seriesPoints[i][@prevHilight]
           @seriesPoints[i][@prevHilight].animate @pointShrinkSeries(i)
     if index isnt null and @prevHilight isnt index
-      for i in [0..@seriesPoints.length-1]
+      for i in [0..@seriesPoints.length - 1]
         if @seriesPoints[i][index]
           @seriesPoints[i][index].animate @pointGrowSeries(i)
     @prevHilight = index
@@ -287,33 +288,33 @@ class Morris.Line extends Morris.Grid
       .attr('stroke-width', @pointStrokeWidthForSeries(lineIndex))
       .attr('stroke', @pointStrokeColorForSeries(lineIndex))
 
-  # @private
+# @private
   pointStrokeWidthForSeries: (index) ->
     @options.pointStrokeWidths[index % @options.pointStrokeWidths.length]
 
-  # @private
+# @private
   pointStrokeColorForSeries: (index) ->
     @options.pointStrokeColors[index % @options.pointStrokeColors.length]
 
-  # @private
+# @private
   lineWidthForSeries: (index) ->
     if (@options.lineWidth instanceof Array)
       @options.lineWidth[index % @options.lineWidth.length]
     else
       @options.lineWidth
 
-  # @private
+# @private
   pointSizeForSeries: (index) ->
     if (@options.pointSize instanceof Array)
       @options.pointSize[index % @options.pointSize.length]
     else
       @options.pointSize
 
-  # @private
+# @private
   pointGrowSeries: (index) ->
     Raphael.animation r: @pointSizeForSeries(index) + 3, 25, 'linear'
 
-  # @private
+# @private
   pointShrinkSeries: (index) ->
     Raphael.animation r: @pointSizeForSeries(index), 25, 'linear'
 

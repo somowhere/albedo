@@ -60,7 +60,7 @@ public class MybatisRepositoriesAutoConfiguration implements ResourceLoaderAware
 
     @Autowired
     private MybatisProperties properties;
-    private ResourceLoader    resourceLoader;
+    private ResourceLoader resourceLoader;
 
     @Bean
     @ConditionalOnMissingBean

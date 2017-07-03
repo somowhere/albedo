@@ -32,10 +32,10 @@ public class PersistentToken extends GeneralEntity<String> {
 
     private static final int MAX_USER_AGENT_LEN = 255;
 
-	@SearchField
+    @SearchField
     @Id(strategy = Id.GenerationType.UUID)
     @Column(name = "id_")
-	protected String id; // 编号
+    protected String id; // 编号
     @Column(name = "series_")
     private String series;
 
@@ -43,7 +43,7 @@ public class PersistentToken extends GeneralEntity<String> {
     @NotNull
     @Column(name = "token_value")
     private String tokenValue;
-    
+
     @Column(name = "token_date")
     private Date tokenDate;
 
@@ -56,30 +56,31 @@ public class PersistentToken extends GeneralEntity<String> {
     private String userAgent;
 
     /*** 用户 */
-	@Length(min = 0, max = 2000)
-	@Column(name = "user_id")
-	private String userId;
-	/*** 用户  */
-	@ManyToOne
-	@JoinColumn(name = "user_id") @JsonIgnore
-	private User user;
+    @Length(min = 0, max = 2000)
+    @Column(name = "user_id")
+    private String userId;
+    /*** 用户  */
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
 
     @PreInssert
     public void preInssert() {
-        if(PublicUtil.isEmpty(getId())){
+        if (PublicUtil.isEmpty(getId())) {
             setId(IdGen.uuid());
         }
     }
-	
+
     public String getId() {
-		return id;
-	}
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getSeries() {
+    public String getSeries() {
         return series;
     }
 
@@ -132,14 +133,14 @@ public class PersistentToken extends GeneralEntity<String> {
     }
 
     public String getUserId() {
-		return userId;
-	}
+        return userId;
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	@Override
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -165,11 +166,11 @@ public class PersistentToken extends GeneralEntity<String> {
     @Override
     public String toString() {
         return "PersistentToken{" +
-            "series='" + series + '\'' +
-            ", tokenValue='" + tokenValue + '\'' +
-            ", tokenDate=" + tokenDate +
-            ", ipAddress='" + ipAddress + '\'' +
-            ", userAgent='" + userAgent + '\'' +
-            "}";
+                "series='" + series + '\'' +
+                ", tokenValue='" + tokenValue + '\'' +
+                ", tokenDate=" + tokenDate +
+                ", ipAddress='" + ipAddress + '\'' +
+                ", userAgent='" + userAgent + '\'' +
+                "}";
     }
 }

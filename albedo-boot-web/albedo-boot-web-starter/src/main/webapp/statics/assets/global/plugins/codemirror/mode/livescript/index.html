@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: LiveScript mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel="stylesheet" href="../../lib/codemirror.css">
 <link rel="stylesheet" href="../../theme/solarized.css">
@@ -21,16 +21,16 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">LiveScript</a>
+        <li>
+            <a class=active href="#">LiveScript</a>
     </ul>
 </div>
 <article>
@@ -55,10 +55,10 @@
                 < (f y)=> -1 | otherwise => 0 export sum = (xs) -> result = 0 if typeof! xs is \Object for , x of xs then result += x else for x in xs then result += x result export product = (xs) -> result = 1 if typeof! xs is \Object for , x of xs then result
                     *= x else for x in xs then result *= x result export mean = export average = (xs) -> (sum xs) / len xs export concat = (xss) -> fold append, [], xss export concatMap = (f, xs) --> fold ((memo, x) -> append memo, f x), [], xs export
                     listToObj = (xs) -> {[x.0, x.1] for x in xs} export maximum = (xs) -> fold1 (>?), xs export minimum = (xs) -> fold1 (
-                    <?), xs
+            <?), xs
 
 export scan = export scanl = (f, memo, xs) -->
-  last = memo
+            last = memo
   if typeof! xs is \Object
   then [memo] ++ [last = f last, x for , x of xs]
   else [memo] ++ [last = f last, x for x in xs]
@@ -267,14 +267,14 @@ export installPrelude = !(target) ->
 export prelude = out$
 </textarea></form>
     <script>
-      var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-        theme: "solarized light",
-        lineNumbers: true
-      });
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            theme: "solarized light",
+            lineNumbers: true
+        });
     </script>
 
     <p><strong>MIME types defined:</strong> <code>text/x-livescript</code>.</p>
 
     <p>The LiveScript mode was written by Kenneth Bentley.</p>
 
-  </article>
+</article>

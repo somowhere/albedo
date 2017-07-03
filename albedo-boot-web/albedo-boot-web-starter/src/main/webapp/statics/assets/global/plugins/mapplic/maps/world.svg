@@ -1649,11 +1649,11 @@
 	</g>
 </g>
 <g id="other">
-	<path id="path3961" fill="#DDDDDD" d="M587.11,325.55l-0.49,1.81l1.93-1.44l-0.49-0.96L587.11,325.55z"/>
-	<path id="path4273" fill="#DDDDDD" d="M471.48,728.45l5.24,5.19l3.58,4.88l0.28-4.88l-2.75-3.05L471.48,728.45z"/>
-	<path id="path4307" fill="#DDDDDD" stroke="#FFFFFF" stroke-width="0.5" d="M364.04,462.47l-1.31,0.24l-0.24,0.96l2.05,0.24
+<path id="path3961" fill="#DDDDDD" d="M587.11,325.55l-0.49,1.81l1.93-1.44l-0.49-0.96L587.11,325.55z"/>
+<path id="path4273" fill="#DDDDDD" d="M471.48,728.45l5.24,5.19l3.58,4.88l0.28-4.88l-2.75-3.05L471.48,728.45z"/>
+<path id="path4307" fill="#DDDDDD" stroke="#FFFFFF" stroke-width="0.5" d="M364.04,462.47l-1.31,0.24l-0.24,0.96l2.05,0.24
 		l0.12-1.57L364.04,462.47L364.04,462.47z"/>
-	<path id="path4329" fill="#DDDDDD" stroke="#FFFFFF" stroke-width="0.5" d="M251.29,617.69l-2.89,0.73l2.17,1.44l1.44-1.44
+<path id="path4329" fill="#DDDDDD" stroke="#FFFFFF" stroke-width="0.5" d="M251.29,617.69l-2.89,0.73l2.17,1.44l1.44-1.44
 		L251.29,617.69z"/>
 </g>
-</svg>
+        </svg>

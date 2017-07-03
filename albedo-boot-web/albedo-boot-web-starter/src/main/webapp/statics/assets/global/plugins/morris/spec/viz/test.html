@@ -13,36 +13,33 @@
             margin: 0;
             background-color: white;
         }
-        
+
         #chart {
             width: 500px;
             height: 300px;
         }
     </style>
     <script>
-        function bridge(e)
-        {
+        function bridge(e) {
             window.alert(JSON.stringify(e));
         }
-        window.snapshot = function()
-        {
+        window.snapshot = function () {
             bridge(
-            {
-                fn: "snapshot"
-            });
+                {
+                    fn: "snapshot"
+                });
         };
-        window.mousemove = function(x, y)
-        {
+        window.mousemove = function (x, y) {
             bridge(
-            {
-                fn: "mousemove",
-                x: x,
-                y: y
-            });
+                {
+                    fn: "mousemove",
+                    x: x,
+                    y: y
+                });
         };
     </script>
 </head>
 
 <body>
-    <div id="chart"></div>
+<div id="chart"></div>
 </body>

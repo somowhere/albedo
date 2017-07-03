@@ -1,67 +1,67 @@
 var UIBootbox = function () {
 
-    var handleDemo = function() {
+    var handleDemo = function () {
 
-        $('#demo_1').click(function(){
-                bootbox.alert("Hello world!");    
-            });
-            //end #demo_1
+        $('#demo_1').click(function () {
+            bootbox.alert("Hello world!");
+        });
+        //end #demo_1
 
-            $('#demo_2').click(function(){
-                bootbox.alert("Hello world!", function() {
-                    alert("Hello world callback");
-                });  
+        $('#demo_2').click(function () {
+            bootbox.alert("Hello world!", function () {
+                alert("Hello world callback");
             });
-            //end #demo_2
-        
-            $('#demo_3').click(function(){
-                bootbox.confirm("Are you sure?", function(result) {
-                   alert("Confirm result: "+result);
-                }); 
-            });
-            //end #demo_3
+        });
+        //end #demo_2
 
-            $('#demo_4').click(function(){
-                bootbox.prompt("What is your name?", function(result) {
-                    if (result === null) {
-                        alert("Prompt dismissed");
-                    } else {
-                        alert("Hi <b>"+result+"</b>");
-                    }
-                });
+        $('#demo_3').click(function () {
+            bootbox.confirm("Are you sure?", function (result) {
+                alert("Confirm result: " + result);
             });
-            //end #demo_6
+        });
+        //end #demo_3
 
-            $('#demo_5').click(function(){
-                bootbox.dialog({
-                    message: "I am a custom dialog",
-                    title: "Custom title",
-                    buttons: {
-                      success: {
+        $('#demo_4').click(function () {
+            bootbox.prompt("What is your name?", function (result) {
+                if (result === null) {
+                    alert("Prompt dismissed");
+                } else {
+                    alert("Hi <b>" + result + "</b>");
+                }
+            });
+        });
+        //end #demo_6
+
+        $('#demo_5').click(function () {
+            bootbox.dialog({
+                message: "I am a custom dialog",
+                title: "Custom title",
+                buttons: {
+                    success: {
                         label: "Success!",
                         className: "green",
-                        callback: function() {
-                          alert("great success");
+                        callback: function () {
+                            alert("great success");
                         }
-                      },
-                      danger: {
+                    },
+                    danger: {
                         label: "Danger!",
                         className: "red",
-                        callback: function() {
-                          alert("uh oh, look out!");
+                        callback: function () {
+                            alert("uh oh, look out!");
                         }
-                      },
-                      main: {
+                    },
+                    main: {
                         label: "Click ME!",
                         className: "blue",
-                        callback: function() {
-                          alert("Primary button");
+                        callback: function () {
+                            alert("Primary button");
                         }
-                      }
                     }
-                });
+                }
             });
-            //end #demo_7
+        });
+        //end #demo_7
 
     }
 
@@ -75,6 +75,6 @@ var UIBootbox = function () {
 
 }();
 
-jQuery(document).ready(function() {    
-   UIBootbox.init();
+jQuery(document).ready(function () {
+    UIBootbox.init();
 });

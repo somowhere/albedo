@@ -13,6 +13,6 @@ public class MySQLIdentityColumnSupport extends IdentityColumnSupportImpl {
 
     @Override
     public String getIdentityColumnString(int type) {
-         return "not null auto_increment";
+        return "not null auto_increment";
     }
 }

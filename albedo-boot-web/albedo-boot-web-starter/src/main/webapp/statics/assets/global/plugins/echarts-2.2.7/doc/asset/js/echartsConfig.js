@@ -7,16 +7,16 @@
  */
 //define(function() {
     // 请原谅我这样写，这显然可以直接返回个对象，但那样的话outline就显示不出来了~~
-    var echartsConfig = {
+var echartsConfig = {
         // 全图默认背景
         backgroundColor: 'rgba(0,0,0,0)',
-        
+
         // 默认色板
-        color: ['#ff7f50','#87cefa','#da70d6','#32cd32','#6495ed',
-                '#ff69b4','#ba55d3','#cd5c5c','#ffa500','#40e0d0',
-                '#1e90ff','#ff6347','#7b68ee','#00fa9a','#ffd700',
-                '#6699FF','#ff6666','#3cb371','#b8860b','#30e0e0'],
-        
+        color: ['#ff7f50', '#87cefa', '#da70d6', '#32cd32', '#6495ed',
+            '#ff69b4', '#ba55d3', '#cd5c5c', '#ffa500', '#40e0d0',
+            '#1e90ff', '#ff6347', '#7b68ee', '#00fa9a', '#ffd700',
+            '#6699FF', '#ff6666', '#3cb371', '#b8860b', '#30e0e0'],
+
         // 图表标题
         title: {
             zlevel: 0,                  // 一级层叠
@@ -111,9 +111,9 @@
             selectedMode: true,        // 选择模式，默认开启值域开关
             hoverLink: true,
             realtime: true,
-            color:['#006edd','#e0ffff'],//颜色 
+            color: ['#006edd', '#e0ffff'],//颜色
             formatter: null,
-            text:null,           // 文本，默认为数值文本
+            text: null,           // 文本，默认为数值文本
             textStyle: {
                 color: '#333'          // 值域文字颜色
             }
@@ -131,7 +131,7 @@
             y: 'top',                  // 垂直安放位置，默认为全图顶端，可选为：
                                        // 'top' ¦ 'bottom' ¦ 'center'
                                        // ¦ {number}（y坐标，单位px）
-            color: ['#1e90ff','#22bb22','#4b0082','#d2691e'],
+            color: ['#1e90ff', '#22bb22', '#4b0082', '#d2691e'],
             disableColor: '#ddd',
             effectiveColor: 'red',
             backgroundColor: 'rgba(0,0,0,0)', // 工具箱背景颜色
@@ -203,7 +203,7 @@
                     show: false,
                     title: '保存为图片',
                     type: 'png',
-                    lang: ['点击保存'] 
+                    lang: ['点击保存']
                 }
             }
         },
@@ -215,7 +215,7 @@
             show: true,
             showContent: true,         // tooltip主体内容
             trigger: 'item',           // 触发类型，默认数据触发，见下图，可选为：'item' ¦ 'axis'
-            position : null,
+            position: null,
             formatter: null,            // 内容格式器：{string}（Template） ¦ {Function}
             islandFormatter: '{a} <br/>{b} : {c}',  // 数据孤岛内容格式器，非标准参数
             showDelay: 20,             // 显示延迟，添加显示延迟可以避免频繁切换，单位ms
@@ -259,9 +259,9 @@
             orient: 'horizontal',          // 布局方式，默认为水平布局，可选为：
                                            // 'horizontal' ¦ 'vertical'
             x: null,            // 水平安放位置，默认为根据grid参数适配，可选为：
-                                       // {number}（x坐标，单位px）
+            // {number}（x坐标，单位px）
             y: null,            // 垂直安放位置，默认为根据grid参数适配，可选为：
-                                       // {number}（y坐标，单位px）
+            // {number}（y坐标，单位px）
             //width: {number},        // 指定宽度，横向布局时默认为根据grid参数适配
             //height: {number},       // 指定高度，纵向布局时默认为根据grid参数适配
             backgroundColor: 'rgba(0,0,0,0)',       // 背景颜色
@@ -317,7 +317,7 @@
                 interval: 'auto',
                 inside: false,    // 控制小标记是否在grid里 
                 onGap: null,
-                length :5,         // 属性length控制线长
+                length: 5,         // 属性length控制线长
                 lineStyle: {       // 属性lineStyle控制线条样式
                     color: '#333',
                     width: 1
@@ -327,7 +327,7 @@
                 show: true,
                 interval: 'auto',
                 rotate: 0,
-                margin:  8,
+                margin: 8,
                 clickable: false,
                 formatter: null,
                 textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
@@ -347,7 +347,7 @@
                 show: false,       // 默认不显示，属性show控制显示与否
                 // onGap: null,
                 areaStyle: {       // 属性areaStyle（详见areaStyle）控制区域样式
-                    color: ['rgba(250,250,250,0.3)','rgba(200,200,200,0.3)']
+                    color: ['rgba(250,250,250,0.3)', 'rgba(200,200,200,0.3)']
                 }
             }
         },
@@ -377,7 +377,7 @@
             axisTick: {            // 坐标轴小标记
                 show: false,       // 属性show控制显示与否，默认不显示
                 inside: false,     // 控制小标记是否在grid里 
-                length :5,         // 属性length控制线长
+                length: 5,         // 属性length控制线长
                 lineStyle: {       // 属性lineStyle控制线条样式
                     color: '#333',
                     width: 1
@@ -404,7 +404,7 @@
             splitArea: {           // 分隔区域
                 show: false,       // 默认不显示，属性show控制显示与否
                 areaStyle: {       // 属性areaStyle（详见areaStyle）控制区域样式
-                    color: ['rgba(250,250,250,0.3)','rgba(200,200,200,0.3)']
+                    color: ['rgba(250,250,250,0.3)', 'rgba(200,200,200,0.3)']
                 }
             }
         },
@@ -442,7 +442,7 @@
             splitArea: {
                 show: true,
                 areaStyle: {
-                    color: ['rgba(250,250,250,0.3)','rgba(200,200,200,0.3)']
+                    color: ['rgba(250,250,250,0.3)', 'rgba(200,200,200,0.3)']
                 }
             },
             splitLine: {
@@ -453,7 +453,7 @@
                 }
             },
             type: 'polygon',
-            indicator : []
+            indicator: []
         },
 
         timeline: {
@@ -507,22 +507,22 @@
             controlStyle: {
                 itemSize: 15,
                 itemGap: 5,
-                normal: { color: '#333'},
-                emphasis: { color: '#1e90ff'}
+                normal: {color: '#333'},
+                emphasis: {color: '#1e90ff'}
             },
             symbol: 'emptyDiamond',
             symbolSize: 4,
             currentIndex: 0,
             data: null
         },
-        
+
         roamController: {
             zlevel: 0,                  // 一级层叠
             z: 4,                       // 二级层叠
             show: true,
             x: 'left',                // 水平安放位置，默认为全图左对齐，可选为：
-                                       // 'center' ¦ 'left' ¦ 'right'
-                                       // ¦ {number}（x坐标，单位px）
+            // 'center' ¦ 'left' ¦ 'right'
+            // ¦ {number}（x坐标，单位px）
             y: 'top',                  // 垂直安放位置，默认为全图顶端，可选为：
                                        // 'top' ¦ 'bottom' ¦ 'center'
                                        // ¦ {number}（y坐标，单位px）
@@ -617,10 +617,10 @@
                     }
                 }
             },
-            smooth : false,
+            smooth: false,
             symbol: null,             // 拐点图形类型，非标准参数
             symbolSize: 2,            // 可计算特性参数，空数据拖拽提示图形大小
-            symbolRotate : null,    // 拐点图形旋转控制
+            symbolRotate: null,    // 拐点图形旋转控制
             showAllSymbol: false    // 标志图形默认只有主轴显示（随主轴标签间隔隐藏策略）
         },
 
@@ -651,7 +651,7 @@
                 }
             }
         },
-        
+
         // 散点图默认参数
         scatter: {
             zlevel: 0,                  // 一级层叠
@@ -714,7 +714,7 @@
             },
             symbol: null,            // 拐点图形类型，非标准参数
             symbolSize: 2,           // 可计算特性参数，空数据拖拽提示图形大小
-            symbolRotate : null     // 图形旋转控制
+            symbolRotate: null     // 图形旋转控制
         },
 
         // 饼图默认参数
@@ -776,16 +776,16 @@
                 }
             }
         },
-        
+
         map: {
             zlevel: 0,                  // 一级层叠
             z: 2,                       // 二级层叠
             mapType: 'china',
             mapLocation: {
-                x : 'center',
-                y : 'center',
+                x: 'center',
+                y: 'center',
                 width: null,    // 自适应
-                height:null   // 自适应
+                height: null   // 自适应
             },
             mapValueCalculation: 'sum',    // 数值合并方式，默认加和，可选为：'sum' | 'average'
             mapValuePrecision: 0,         // 地图数值计算结果小数精度
@@ -839,10 +839,10 @@
 
             // 防止节点和节点，节点和边之间的重叠
             preventOverlap: false,
-            
+
             // 布局冷却因子，值越小结束时间越短，值越大时间越长但是结果也越收敛
             coolDown: 0.99,
-            
+
             // 数据映射到圆的半径的最小值和最大值
             minRadius: 10,
             maxRadius: 20,
@@ -892,9 +892,9 @@
                         position: 'inside',
                         textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
                     },
-                    nodeStyle : {
-                        brushType : 'both',
-                        borderColor : '#5182ab',
+                    nodeStyle: {
+                        brushType: 'both',
+                        borderColor: '#5182ab',
                         borderWidth: 1
                     },
                     linkStyle: {
@@ -949,7 +949,7 @@
             startAngle: 90,
             clockWise: true,
             ribbonType: true,
-            
+
             /***************** 下面的配置项在 ribbonType 为 false 时有效 */
             // 同force类似
             minRadius: 10,
@@ -1016,7 +1016,7 @@
              *
              *  Relation ship from source to target
              *  https://github.com/mbostock/d3/wiki/Chord-Layout#wiki-chord
-             *  
+             *
              *  Row based
              */
             matrix: [],
@@ -1040,14 +1040,14 @@
             axisLine: {            // 坐标轴线
                 show: true,        // 默认显示，属性show控制显示与否
                 lineStyle: {       // 属性lineStyle控制线条样式
-                    color: [[0.2, '#228b22'],[0.8, '#48b'],[1, '#ff4500']], 
+                    color: [[0.2, '#228b22'], [0.8, '#48b'], [1, '#ff4500']],
                     width: 30
                 }
             },
             axisTick: {            // 坐标轴小标记
                 show: true,        // 属性show控制显示与否，默认不显示
                 splitNumber: 5,    // 每份split细分多少段
-                length :8,         // 属性length控制线长
+                length: 8,         // 属性length控制线长
                 lineStyle: {       // 属性lineStyle控制线条样式
                     color: '#eee',
                     width: 1,
@@ -1063,7 +1063,7 @@
             },
             splitLine: {           // 分隔线
                 show: true,        // 默认显示，属性show控制显示与否
-                length :30,         // 属性length控制线长
+                length: 30,         // 属性length控制线长
                 lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
                     color: '#eee',
                     width: 2,
@@ -1099,7 +1099,7 @@
                 }
             }
         },
-        
+
         funnel: {
             zlevel: 0,                  // 一级层叠
             z: 2,                       // 二级层叠
@@ -1152,7 +1152,7 @@
                 }
             }
         },
-        
+
         eventRiver: {
             zlevel: 0,                  // 一级层叠
             z: 2,                       // 二级层叠
@@ -1180,7 +1180,7 @@
                 }
             }
         },
-        
+
         island: {
             zlevel: 0,                  // 一级层叠
             z: 5,                       // 二级层叠
@@ -1192,7 +1192,7 @@
             clickable: true,
             symbol: 'pin',         // 标注类型
             symbolSize: 10,       // 标注大小，半宽（半径）参数，当图形为方向或菱形则总宽度为symbolSize * 2
-            symbolRotate : null,// 标注旋转控制
+            symbolRotate: null,// 标注旋转控制
             large: false,
             effect: {
                 show: false,
@@ -1230,11 +1230,11 @@
                 }
             }
         },
-        
+
         markLine: {
             clickable: true,
             // 标线起始和结束的symbol介绍类型，如果都一样，可以直接传string
-            symbol: ['circle', 'arrow'],  
+            symbol: ['circle', 'arrow'],
             // 标线起始和结束的symbol大小，半宽（半径）参数，当图形为方向或菱形则总宽度为symbolSize * 2
             symbolSize: [2, 4],
             // 标线起始和结束的symbol旋转控制
@@ -1268,7 +1268,7 @@
                         color: null, // 主色，线色，优先级高于borderColor和color
                         width: null, // 优先于borderWidth
                         type: 'dashed',
-                        shadowColor : 'rgba(0,0,0,0)', //默认透明
+                        shadowColor: 'rgba(0,0,0,0)', //默认透明
                         shadowBlur: 0,
                         shadowOffsetX: 0,
                         shadowOffsetY: 0
@@ -1279,11 +1279,11 @@
                     label: {
                         show: false,
                         // 标签文本格式器，同Tooltip.formatter，不支持回调
-                        formatter : null,
+                        formatter: null,
                         position: 'inside', // 'left'|'right'|'top'|'bottom'
                         textStyle: null    // 默认使用全局文本样式，详见TEXTSTYLE
                     },
-                    lineStyle : {}
+                    lineStyle: {}
                 }
             }
         },
@@ -1330,11 +1330,11 @@
             ROAMCONTROLLER: 'roamController'
         },
         DRAG_ENABLE_TIME: 120,   // 降低图表内元素拖拽敏感度，单位ms，不建议外部干预
-        EFFECT_ZLEVEL : 10,       // 特效动画zlevel
+        EFFECT_ZLEVEL: 10,       // 特效动画zlevel
         // 主题，默认标志图形类型列表
         symbolList: [
-          'circle', 'rectangle', 'triangle', 'diamond',
-          'emptyCircle', 'emptyRectangle', 'emptyTriangle', 'emptyDiamond'
+            'circle', 'rectangle', 'triangle', 'diamond',
+            'emptyCircle', 'emptyRectangle', 'emptyTriangle', 'emptyDiamond'
         ],
         loadingEffect: 'spin',
         loadingText: '数据读取中...',

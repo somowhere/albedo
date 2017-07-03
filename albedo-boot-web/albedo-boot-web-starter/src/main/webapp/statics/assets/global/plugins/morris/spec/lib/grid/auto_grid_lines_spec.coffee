@@ -1,5 +1,4 @@
 describe 'Morris.Grid#autoGridLines', ->
-
   beforeEach ->
     @subject = Morris.Grid.prototype.autoGridLines
 

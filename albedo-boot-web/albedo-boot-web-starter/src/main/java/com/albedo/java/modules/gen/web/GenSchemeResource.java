@@ -40,114 +40,114 @@ import java.util.List;
 @RequestMapping(value = "${albedo.adminPath}/gen/genScheme")
 public class GenSchemeResource extends DataResource<GenSchemeService, GenScheme> {
 
-	@Resource
-	private GenSchemeService genSchemeService;
+    @Resource
+    private GenSchemeService genSchemeService;
 
-	@Resource
-	private GenTableService genTableService;
+    @Resource
+    private GenTableService genTableService;
 
-	@Resource
-	private ModuleService moduleService;
+    @Resource
+    private ModuleService moduleService;
 
-	@ModelAttribute
-	public GenScheme get(@RequestParam(required = false) String id) {
-		String path = request.getRequestURI();
-		if (path != null && !path.contains("checkBy") && !path.contains("find") && StringUtil.isNotBlank(id)) {
-			return genSchemeService.findOne(id);
-		} else {
-			return new GenScheme();
-		}
-	}
-	@RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed
-	public String list() {
-		return "modules/gen/genSchemeList";
-	}
+    @ModelAttribute
+    public GenScheme get(@RequestParam(required = false) String id) {
+        String path = request.getRequestURI();
+        if (path != null && !path.contains("checkBy") && !path.contains("find") && StringUtil.isNotBlank(id)) {
+            return genSchemeService.findOne(id);
+        } else {
+            return new GenScheme();
+        }
+    }
 
-	/**
-	 *
-	 * @param pm
-	 * @return
-	 */
-	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	@Timed
-	public ResponseEntity getPage(PageModel<GenScheme> pm) {
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public String list() {
+        return "modules/gen/genSchemeList";
+    }
 
-		genSchemeService.findPage(pm);
-		JSON rs = JsonUtil.getInstance().setRecurrenceStr("genTable_name").toJsonObject(pm);
-		return ResultBuilder.buildObject(rs);
-	}
+    /**
+     * @param pm
+     * @return
+     */
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    @Timed
+    public ResponseEntity getPage(PageModel<GenScheme> pm) {
 
-	@RequestMapping(value = "/edit", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed
-	public String form(GenScheme genScheme, Boolean isModal, Model model) {
-		if (StringUtil.isBlank(genScheme.getPackageName())) {
-			genScheme.setPackageName("com.albedo.java.modules");
-		}
-		 if (StringUtil.isBlank(genScheme.getFunctionAuthor())){
-			 genScheme.setFunctionAuthor(SecurityUtil.getCurrentUser().getLoginId());
-		 }
-		genScheme.setSyncModule(true); // 同步模块数据
-		model.addAttribute("genScheme", genScheme);
-		GenConfig config = GenUtil.getConfig();
-		model.addAttribute("config", config);
-		
-		model.addAttribute("categoryList",  FormDirective.convertComboDataList(config.getCategoryList(), Dict.F_VAL, Dict.F_NAME));
-		model.addAttribute("viewTypeList",  FormDirective.convertComboDataList(config.getViewTypeList(), Dict.F_VAL, Dict.F_NAME));
-		
-		List<GenTable> tableList = genTableService.findAll(), list = Lists.newArrayList();
-		List<GenScheme> schemeList = genSchemeService.findAll(genScheme.getId());
-		@SuppressWarnings("unchecked")
-		List<String> tableIds = Collections3.extractToList(schemeList, "genTableId");
-		for (GenTable table : tableList) {
-			if (!tableIds.contains(table.getId())) {
-				list.add(table);
-			}
-		}
-		model.addAttribute("tableList", FormDirective.convertComboDataList(list, GenTable.F_ID, GenTable.F_NAMESANDCOMMENTS));
-		return PublicUtil.toAppendStr("modules/gen/genSchemeForm", isModal ? "Modal" : "");
-	}
+        genSchemeService.findPage(pm);
+        JSON rs = JsonUtil.getInstance().setRecurrenceStr("genTable_name").toJsonObject(pm);
+        return ResultBuilder.buildObject(rs);
+    }
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed
-	public ResponseEntity save(GenScheme genScheme, Model model, RedirectAttributes redirectAttributes) {
-		genSchemeService.save(genScheme);
-		SecurityUtil.clearUserJedisCache();
-		if (genScheme.getSyncModule()) {
-			GenTable genTable = genScheme.getGenTable();
-			if (genTable == null || PublicUtil.isEmpty(genTable.getClassName()))
-				genTable = genTableService.findOne(genScheme.getGenTableId());
-			String url = PublicUtil.toAppendStr("/", StringUtil.lowerCase(genScheme.getModuleName()), (StringUtil.isNotBlank(genScheme.getSubModuleName()) ? "/" + StringUtil.lowerCase(genScheme.getSubModuleName()) : ""), "/",
-					StringUtil.uncapitalize(genTable.getClassName()), "/");
-			moduleService.generatorModuleData(genScheme.getName(), genScheme.getParentModuleId(), url);
-			SecurityUtil.clearUserJedisCache();
-		}
-		// 生成代码
-		if (genScheme.getGenCode()) {
-			genSchemeService.generateCode(genScheme);
-		}
-		return ResultBuilder.buildOk("保存", genScheme.getName(), "成功");
-	}
+    @RequestMapping(value = "/edit", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public String form(GenScheme genScheme, Boolean isModal, Model model) {
+        if (StringUtil.isBlank(genScheme.getPackageName())) {
+            genScheme.setPackageName("com.albedo.java.modules");
+        }
+        if (StringUtil.isBlank(genScheme.getFunctionAuthor())) {
+            genScheme.setFunctionAuthor(SecurityUtil.getCurrentUser().getLoginId());
+        }
+        genScheme.setSyncModule(true); // 同步模块数据
+        model.addAttribute("genScheme", genScheme);
+        GenConfig config = GenUtil.getConfig();
+        model.addAttribute("config", config);
 
-	@RequestMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
-			+ "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed
-	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
-		log.debug("REST request to lockOrUnLock genTable: {}", ids);
-		genSchemeService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
-		SecurityUtil.clearUserJedisCache();
-		return ResultBuilder.buildOk("操作成功");
-	}
-	
-	@RequestMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
-			+ "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed
-	@Secured(AuthoritiesConstants.ADMIN)
-	public ResponseEntity delete(@PathVariable String ids) {
-		log.debug("REST request to delete User: {}", ids);
-		genSchemeService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
-		return ResultBuilder.buildOk("删除成功");
-	}
-	
+        model.addAttribute("categoryList", FormDirective.convertComboDataList(config.getCategoryList(), Dict.F_VAL, Dict.F_NAME));
+        model.addAttribute("viewTypeList", FormDirective.convertComboDataList(config.getViewTypeList(), Dict.F_VAL, Dict.F_NAME));
+
+        List<GenTable> tableList = genTableService.findAll(), list = Lists.newArrayList();
+        List<GenScheme> schemeList = genSchemeService.findAll(genScheme.getId());
+        @SuppressWarnings("unchecked")
+        List<String> tableIds = Collections3.extractToList(schemeList, "genTableId");
+        for (GenTable table : tableList) {
+            if (!tableIds.contains(table.getId())) {
+                list.add(table);
+            }
+        }
+        model.addAttribute("tableList", FormDirective.convertComboDataList(list, GenTable.F_ID, GenTable.F_NAMESANDCOMMENTS));
+        return PublicUtil.toAppendStr("modules/gen/genSchemeForm", isModal ? "Modal" : "");
+    }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity save(GenScheme genScheme, Model model, RedirectAttributes redirectAttributes) {
+        genSchemeService.save(genScheme);
+        SecurityUtil.clearUserJedisCache();
+        if (genScheme.getSyncModule()) {
+            GenTable genTable = genScheme.getGenTable();
+            if (genTable == null || PublicUtil.isEmpty(genTable.getClassName()))
+                genTable = genTableService.findOne(genScheme.getGenTableId());
+            String url = PublicUtil.toAppendStr("/", StringUtil.lowerCase(genScheme.getModuleName()), (StringUtil.isNotBlank(genScheme.getSubModuleName()) ? "/" + StringUtil.lowerCase(genScheme.getSubModuleName()) : ""), "/",
+                    StringUtil.uncapitalize(genTable.getClassName()), "/");
+            moduleService.generatorModuleData(genScheme.getName(), genScheme.getParentModuleId(), url);
+            SecurityUtil.clearUserJedisCache();
+        }
+        // 生成代码
+        if (genScheme.getGenCode()) {
+            genSchemeService.generateCode(genScheme);
+        }
+        return ResultBuilder.buildOk("保存", genScheme.getName(), "成功");
+    }
+
+    @RequestMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
+            + "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity lockOrUnLock(@PathVariable String ids) {
+        log.debug("REST request to lockOrUnLock genTable: {}", ids);
+        genSchemeService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        SecurityUtil.clearUserJedisCache();
+        return ResultBuilder.buildOk("操作成功");
+    }
+
+    @RequestMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
+            + "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
+    public ResponseEntity delete(@PathVariable String ids) {
+        log.debug("REST request to delete User: {}", ids);
+        genSchemeService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        return ResultBuilder.buildOk("删除成功");
+    }
+
 
 }

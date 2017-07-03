@@ -10,11 +10,12 @@ import java.io.Serializable;
 
 /**
  * DAO支持类实现
+ *
  * @author ThinkGem
  * @version 2014-05-16
  */
 public interface BaseRepository<T extends GeneralEntity, pk extends Serializable> extends
-        MybatisRepository<T, pk>{
+        MybatisRepository<T, pk> {
     T findOneById(String id);
 
 }

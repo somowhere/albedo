@@ -38,8 +38,8 @@ import java.io.InputStream;
  */
 public class MybatisMappersRegister implements InitializingBean, ApplicationContextAware {
 
-    private SqlSessionFactory  sqlSessionFactory;
-    private String[]           locations;
+    private SqlSessionFactory sqlSessionFactory;
+    private String[] locations;
     private ApplicationContext applicationContext;
 
 

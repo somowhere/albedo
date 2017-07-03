@@ -15,7 +15,7 @@ var EcommerceOrdersView = function () {
             },
             loadingMessage: 'Loading...',
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
-                
+
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
                 // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
                 // So when dropdowns used the scrollable div should be removed. 
@@ -68,7 +68,7 @@ var EcommerceOrdersView = function () {
     var handleCreditMemos = function () {
 
         var grid = new Datatable();
-        
+
         grid.init({
             src: $("#datatable_credit_memos"),
             onSuccess: function (grid) {
@@ -232,6 +232,6 @@ var EcommerceOrdersView = function () {
 
 }();
 
-jQuery(document).ready(function() {    
-   EcommerceOrdersView.init();
+jQuery(document).ready(function () {
+    EcommerceOrdersView.init();
 });

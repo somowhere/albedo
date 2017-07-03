@@ -49,13 +49,15 @@ var editor = [];
 for (var i = 0, l = domTextarea.length; i < l; i++) {
     editor[i] = CodeMirror.fromTextArea(
         domTextarea[i],
-        { lineNumbers: true }
+        {lineNumbers: true}
     );
     editor[i].setOption("theme", 'monokai');
-    editor[i].on('change', function (){needRefresh = true;});
+    editor[i].on('change', function () {
+        needRefresh = true;
+    });
 }
 
-function refresh(isBtnRefresh, idd){
+function refresh(isBtnRefresh, idd) {
     if (isBtnRefresh) {
         idx = idd;
         needRefresh = true;
@@ -67,8 +69,8 @@ function refresh(isBtnRefresh, idd){
         myChart[idx].dispose();
     }
     myChart[idx] = echarts.init(domMain[idx]);
-    (new Function (editor[idx].doc.getValue().replace(
-        'option', 'option[' + idx + ']'))
+    (new Function(editor[idx].doc.getValue().replace(
+            'option', 'option[' + idx + ']'))
     )()
     myChart[idx].setOption(option[idx], true);
     domMessage[idx].innerHTML = '';
@@ -76,8 +78,8 @@ function refresh(isBtnRefresh, idd){
 
 function refreshAll() {
     for (var i = 0, l = myChart.length; i < l; i++) {
-        (new Function (editor[i].doc.getValue().replace(
-            'option', 'option[' + i + ']'))
+        (new Function(editor[i].doc.getValue().replace(
+                'option', 'option[' + i + ']'))
         )();
         myChart[i].setOption(option[i], true);
         domMessage[i].innerHTML = '';
@@ -101,11 +103,12 @@ if (developMode) {
             script.onload = fireLoad;
         }
         (document.getElementsByTagName('head')[0] || document.body).appendChild(script);
-        
+
         function fireLoad() {
             script.onload = script.onreadystatechange = null;
-            setTimeout(loadedListener,100);
+            setTimeout(loadedListener, 100);
         }
+
         function loadedListener() {
             // for develop
             require.config({
@@ -130,7 +133,7 @@ if (developMode) {
 else {
     // for echarts online home page
     require.config({
-        paths:{ 
+        paths: {
             echarts: '../../build/dist'
         }
     });
@@ -170,7 +173,7 @@ function launchExample() {
 
 var echarts;
 var option = {};
-function requireCallback (ec) {
+function requireCallback(ec) {
     echarts = ec;
     if (myChart.length > 0) {
         for (var i = 0, l = myChart.length; i < l; i++) {
@@ -182,8 +185,8 @@ function requireCallback (ec) {
         myChart[i] = echarts.init(domMain[i]);
     }
     refreshAll();
-    
-    window.onresize = function (){
+
+    window.onresize = function () {
         for (var i = 0, l = myChart.length; i < l; i++) {
             myChart[i].resize && myChart[i].resize();
         }

@@ -103,7 +103,6 @@ public class TestConfig implements ResourceLoaderAware {
         };
     }
 
-    @Override
     public void setResourceLoader(ResourceLoader resourceLoader) {
 
         this.resourceLoader = resourceLoader;

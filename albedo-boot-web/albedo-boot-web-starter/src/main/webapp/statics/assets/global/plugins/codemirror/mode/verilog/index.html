@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: Verilog/SystemVerilog mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel="stylesheet" href="../../lib/codemirror.css">
 <script src="../../lib/codemirror.js"></script>
@@ -20,16 +20,16 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">Verilog/SystemVerilog</a>
+        <li>
+            <a class=active href="#">Verilog/SystemVerilog</a>
     </ul>
 </div>
 <article>
@@ -75,24 +75,26 @@ endclass
 
 </textarea></div>
 
-<script>
-  var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-    lineNumbers: true,
-    matchBrackets: true,
-    mode: {
-      name: "verilog",
-      noIndentKeywords: ["package"]
-    }
-  });
-</script>
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            lineNumbers: true,
+            matchBrackets: true,
+            mode: {
+                name: "verilog",
+                noIndentKeywords: ["package"]
+            }
+        });
+    </script>
 
-<p>
-Syntax highlighting and indentation for the Verilog and SystemVerilog languages (IEEE 1800).
-<h2>Configuration options:</h2>
-  <ul>
-    <li><strong>noIndentKeywords</strong> - List of keywords which should not cause identation to increase. E.g. ["package", "module"]. Default: None</li>
-  </ul>
-</p>
+    <p>
+        Syntax highlighting and indentation for the Verilog and SystemVerilog languages (IEEE 1800).
+    <h2>Configuration options:</h2>
+    <ul>
+        <li><strong>noIndentKeywords</strong> - List of keywords which should not cause identation to increase. E.g.
+            ["package", "module"]. Default: None
+        </li>
+    </ul>
+    </p>
 
-<p><strong>MIME types defined:</strong> <code>text/x-verilog</code> and <code>text/x-systemverilog</code>.</p>
+    <p><strong>MIME types defined:</strong> <code>text/x-verilog</code> and <code>text/x-systemverilog</code>.</p>
 </article>

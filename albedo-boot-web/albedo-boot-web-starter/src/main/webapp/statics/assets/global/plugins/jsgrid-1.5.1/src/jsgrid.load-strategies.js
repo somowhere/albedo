@@ -1,4 +1,4 @@
-(function(jsGrid, $, undefined) {
+(function (jsGrid, $, undefined) {
 
     function DirectLoadingStrategy(grid) {
         this._grid = grid;
@@ -6,12 +6,12 @@
 
     DirectLoadingStrategy.prototype = {
 
-        firstDisplayIndex: function() {
+        firstDisplayIndex: function () {
             var grid = this._grid;
             return grid.option("paging") ? (grid.option("pageIndex") - 1) * grid.option("pageSize") : 0;
         },
 
-        lastDisplayIndex: function() {
+        lastDisplayIndex: function () {
             var grid = this._grid;
             var itemsCount = grid.option("data").length;
 
@@ -20,40 +20,40 @@
                 : itemsCount;
         },
 
-        itemsCount: function() {
+        itemsCount: function () {
             return this._grid.option("data").length;
         },
 
-        openPage: function(index) {
+        openPage: function (index) {
             this._grid.refresh();
         },
 
-        loadParams: function() {
+        loadParams: function () {
             return {};
         },
 
-        sort: function() {
+        sort: function () {
             this._grid._sortData();
             this._grid.refresh();
             return $.Deferred().resolve().promise();
         },
 
-        reset: function() {
+        reset: function () {
             this._grid.refresh();
             return $.Deferred().resolve().promise();
         },
 
-        finishLoad: function(loadedData) {
+        finishLoad: function (loadedData) {
             this._grid.option("data", loadedData);
         },
 
-        finishInsert: function(insertedItem) {
+        finishInsert: function (insertedItem) {
             var grid = this._grid;
             grid.option("data").push(insertedItem);
             grid.refresh();
         },
 
-        finishDelete: function(deletedItem, deletedItemIndex) {
+        finishDelete: function (deletedItem, deletedItemIndex) {
             var grid = this._grid;
             grid.option("data").splice(deletedItemIndex, 1);
             grid.reset();
@@ -68,23 +68,23 @@
 
     PageLoadingStrategy.prototype = {
 
-        firstDisplayIndex: function() {
+        firstDisplayIndex: function () {
             return 0;
         },
 
-        lastDisplayIndex: function() {
+        lastDisplayIndex: function () {
             return this._grid.option("data").length;
         },
 
-        itemsCount: function() {
+        itemsCount: function () {
             return this._itemsCount;
         },
 
-        openPage: function(index) {
+        openPage: function (index) {
             this._grid.loadData();
         },
 
-        loadParams: function() {
+        loadParams: function () {
             var grid = this._grid;
             return {
                 pageIndex: grid.option("pageIndex"),
@@ -92,24 +92,24 @@
             };
         },
 
-        reset: function() {
+        reset: function () {
             return this._grid.loadData();
         },
 
-        sort: function() {
+        sort: function () {
             return this._grid.loadData();
         },
 
-        finishLoad: function(loadedData) {
+        finishLoad: function (loadedData) {
             this._itemsCount = loadedData.itemsCount;
             this._grid.option("data", loadedData.data);
         },
 
-        finishInsert: function(insertedItem) {
+        finishInsert: function (insertedItem) {
             this._grid.search();
         },
 
-        finishDelete: function(deletedItem, deletedItemIndex) {
+        finishDelete: function (deletedItem, deletedItemIndex) {
             this._grid.search();
         }
     };

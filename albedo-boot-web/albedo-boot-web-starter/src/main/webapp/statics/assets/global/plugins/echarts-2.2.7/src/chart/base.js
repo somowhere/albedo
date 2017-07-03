@@ -13,7 +13,7 @@ define(function (require) {
     var SymbolShape = require('../util/shape/Symbol');
     var PolylineShape = require('zrender/shape/Polyline');
     var ShapeBundle = require('zrender/shape/ShapeBundle');
-    
+
     var ecConfig = require('../config');
     var ecData = require('../util/ecData');
     var ecAnimation = require('../util/ecAnimation');
@@ -29,7 +29,7 @@ define(function (require) {
     function isCoordAvailable(coord) {
         return coord.x != null && coord.y != null;
     }
-    
+
     function Base(ecTheme, messageCenter, zr, option, myChart) {
 
         ComponentBase.call(this, ecTheme, messageCenter, zr, option, myChart);
@@ -41,54 +41,54 @@ define(function (require) {
             onclick: function () {
                 self.isClick = true;
             },
-            
+
             ondragover: function (param) {
                 // 返回触发可计算特性的图形提示
                 var calculableShape = param.target;
                 calculableShape.highlightStyle = calculableShape.highlightStyle || {};
-                
+
                 // 备份特出特性
                 var highlightStyle = calculableShape.highlightStyle;
                 var brushType = highlightStyle.brushTyep;
                 var strokeColor = highlightStyle.strokeColor;
                 var lineWidth = highlightStyle.lineWidth;
-                
+
                 highlightStyle.brushType = 'stroke';
                 highlightStyle.strokeColor = self.ecTheme.calculableColor
-                                             || ecConfig.calculableColor;
+                    || ecConfig.calculableColor;
                 highlightStyle.lineWidth = calculableShape.type === 'icon' ? 30 : 10;
 
                 self.zr.addHoverShape(calculableShape);
-                
-                setTimeout(function (){
+
+                setTimeout(function () {
                     // 复位
                     if (highlightStyle) {
                         highlightStyle.brushType = brushType;
                         highlightStyle.strokeColor = strokeColor;
                         highlightStyle.lineWidth = lineWidth;
                     }
-                },20);
+                }, 20);
             },
-            
+
             ondrop: function (param) {
                 // 排除一些非数据的拖拽进入
                 if (ecData.get(param.dragged, 'data') != null) {
                     self.isDrop = true;
                 }
             },
-            
+
             ondragend: function () {
                 self.isDragend = true;
             }
         };
     }
-    
+
     /**
      * 基类方法
      */
     Base.prototype = {
         /**
-         * 图形拖拽特性 
+         * 图形拖拽特性
          */
         setCalculable: function (shape) {
             shape.dragEnableTime = this.ecTheme.DRAG_ENABLE_TIME || ecConfig.DRAG_ENABLE_TIME;
@@ -123,7 +123,7 @@ define(function (require) {
                     this.isDrop = false;
                     return;
                 }
-                
+
                 data = {
                     value: ecData.get(dragged, 'value'),
                     name: ecData.get(dragged, 'name')
@@ -154,7 +154,7 @@ define(function (require) {
                 data = series[seriesIndex].data[dataIndex] || '-';
                 if (data.value != null) {
                     if (data.value != '-') {
-                        series[seriesIndex].data[dataIndex].value = 
+                        series[seriesIndex].data[dataIndex].value =
                             accMath.accAdd(
                                 series[seriesIndex].data[dataIndex].value,
                                 ecData.get(dragged, 'value')
@@ -164,12 +164,12 @@ define(function (require) {
                         series[seriesIndex].data[dataIndex].value =
                             ecData.get(dragged, 'value');
                     }
-                    
+
                     if (this.type === ecConfig.CHART_TYPE_FUNNEL
                         || this.type === ecConfig.CHART_TYPE_PIE
                     ) {
-                        legend && legend.getRelatedAmount(data.name) === 1 
-                               && this.component.legend.del(data.name);
+                        legend && legend.getRelatedAmount(data.name) === 1
+                        && this.component.legend.del(data.name);
                         data.name += this.option.nameConnector + ecData.get(dragged, 'name');
                         legend && legend.add(
                             data.name,
@@ -179,7 +179,7 @@ define(function (require) {
                 }
                 else {
                     if (data != '-') {
-                        series[seriesIndex].data[dataIndex] = 
+                        series[seriesIndex].data[dataIndex] =
                             accMath.accAdd(
                                 series[seriesIndex].data[dataIndex],
                                 ecData.get(dragged, 'value')
@@ -199,10 +199,10 @@ define(function (require) {
             this.isDrop = false;
 
             var self = this;
-            setTimeout(function(){
+            setTimeout(function () {
                 self.zr.trigger('mousemove', param.event);
             }, 300);
-            
+
             return;
         },
 
@@ -234,7 +234,7 @@ define(function (require) {
             else {
                 series[seriesIndex].data[dataIndex] = '-';
             }
-            
+
             // 别status = {}赋值啊！！
             status.dragOut = true;
             status.needRefresh = true;
@@ -259,18 +259,18 @@ define(function (require) {
             }
             return;
         },
-        
+
         /**
          * 折线图、柱形图公用方法
          */
-        _buildPosition: function() {
+        _buildPosition: function () {
             this._symbol = this.option.symbolList;
             this._sIndex2ShapeMap = {};  // series拐点图形类型，seriesIndex索引到shape type
             this._sIndex2ColorMap = {};  // series默认颜色索引，seriesIndex索引到color
 
             this.selectedMap = {};
             this.xMarkMap = {};
-            
+
             var series = this.series;
             // 水平垂直双向series索引 ，position索引到seriesIndex
             var _position2sIndexMap = {
@@ -314,7 +314,7 @@ define(function (require) {
 
             this.addShapeList();
         },
-        
+
         /**
          * 构建单个方向上的折线图、柱形图公用方法
          *
@@ -341,12 +341,12 @@ define(function (require) {
                     this._buildOther(seriesArray, maxDataLength, locationMap, this.xMarkMap);
                     break;
             }
-            
+
             for (var i = 0, l = seriesArray.length; i < l; i++) {
                 this.buildMark(seriesArray[i]);
             }
         },
-        
+
         /**
          * 数据整形，折线图、柱形图公用方法
          * 数组位置映射到系列索引
@@ -367,23 +367,23 @@ define(function (require) {
             for (var i = 0, l = seriesArray.length; i < l; i++) {
                 serie = series[seriesArray[i]];
                 serieName = serie.name;
-                
+
                 this._sIndex2ShapeMap[seriesArray[i]] = this._sIndex2ShapeMap[seriesArray[i]]
-                                                        || this.query(serie,'symbol')
-                                                        || this._symbol[i % this._symbol.length];
-                      
-                if (legend){
+                    || this.query(serie, 'symbol')
+                    || this._symbol[i % this._symbol.length];
+
+                if (legend) {
                     this.selectedMap[serieName] = legend.isSelected(serieName);
-                    
+
                     this._sIndex2ColorMap[seriesArray[i]] = legend.getColor(serieName);
-                        
+
                     iconShape = legend.getItemShape(serieName);
                     if (iconShape) {
                         // 回调legend，换一个更形象的icon
                         var style = iconShape.style;
                         if (this.type == ecConfig.CHART_TYPE_LINE) {
                             style.iconType = 'legendLineIcon';
-                            style.symbol =  this._sIndex2ShapeMap[seriesArray[i]];
+                            style.symbol = this._sIndex2ShapeMap[seriesArray[i]];
                         }
                         else if (serie.itemStyle.normal.barBorderWidth > 0) {
                             var highlightStyle = iconShape.highlightStyle;
@@ -392,12 +392,12 @@ define(function (require) {
                             style.y += 1;
                             style.width -= 2;
                             style.height -= 2;
-                            style.strokeColor 
-                                = highlightStyle.strokeColor 
+                            style.strokeColor
+                                = highlightStyle.strokeColor
                                 = serie.itemStyle.normal.barBorderColor;
                             highlightStyle.lineWidth = 3;
                         }
-                        
+
                         legend.setItemShape(serieName, iconShape);
                     }
                 }
@@ -422,31 +422,31 @@ define(function (require) {
                 maxDataLength = Math.max(maxDataLength, serie.data.length);
             }
             /* 调试输出
-            var s = '';
-            for (var i = 0, l = maxDataLength; i < l; i++) {
-                s = '[';
-                for (var j = 0, k = locationMap.length; j < k; j++) {
-                    s +='['
-                    for (var m = 0, n = locationMap[j].length - 1; m < n; m++) {
-                        s += series[locationMap[j][m]].data[i] + ','
-                    }
-                    s += series[locationMap[j][locationMap[j].length - 1]]
-                         .data[i];
-                    s += ']'
-                }
-                s += ']';
-                console.log(s);
-            }
-            console.log(locationMap)
-            */
+             var s = '';
+             for (var i = 0, l = maxDataLength; i < l; i++) {
+             s = '[';
+             for (var j = 0, k = locationMap.length; j < k; j++) {
+             s +='['
+             for (var m = 0, n = locationMap[j].length - 1; m < n; m++) {
+             s += series[locationMap[j][m]].data[i] + ','
+             }
+             s += series[locationMap[j][locationMap[j].length - 1]]
+             .data[i];
+             s += ']'
+             }
+             s += ']';
+             console.log(s);
+             }
+             console.log(locationMap)
+             */
 
             return {
                 locationMap: locationMap,
                 maxDataLength: maxDataLength
             };
         },
-        
-        _calculMarkMapXY : function(xMarkMap, locationMap, xy) {
+
+        _calculMarkMapXY: function (xMarkMap, locationMap, xy) {
             var series = this.series;
             for (var j = 0, k = locationMap.length; j < k; j++) {
                 for (var m = 0, n = locationMap[j].length; m < n; m++) {
@@ -460,9 +460,9 @@ define(function (require) {
                             tarMark['average' + valueIndex] =
                                 tarMark['sum' + valueIndex] / tarMark['counter' + valueIndex];
                         }
-                        
+
                         var x = this.component.xAxis.getAxis(series[seriesIndex].xAxisIndex || 0)
-                                .getCoord(tarMark['average' + valueIndex]);
+                            .getCoord(tarMark['average' + valueIndex]);
                         tarMark['averageLine' + valueIndex] = [
                             [x, grid.getYend()],
                             [x, grid.getY()]
@@ -475,18 +475,18 @@ define(function (require) {
                             [tarMark['maxX' + valueIndex], grid.getYend()],
                             [tarMark['maxX' + valueIndex], grid.getY()]
                         ];
-                        
+
                         tarMark.isHorizontal = false;
                     }
-                    
+
                     valueIndex = xy == 'xy' ? 1 : '';
                     if (xy.indexOf('y') != '-1') {
                         if (tarMark['counter' + valueIndex] > 0) {
-                            tarMark['average' + valueIndex] = 
+                            tarMark['average' + valueIndex] =
                                 tarMark['sum' + valueIndex] / tarMark['counter' + valueIndex];
                         }
                         var y = this.component.yAxis.getAxis(series[seriesIndex].yAxisIndex || 0)
-                                .getCoord(tarMark['average' + valueIndex]);
+                            .getCoord(tarMark['average' + valueIndex]);
                         tarMark['averageLine' + valueIndex] = [
                             [grid.getX(), y],
                             [grid.getXend(), y]
@@ -499,15 +499,15 @@ define(function (require) {
                             [grid.getX(), tarMark['maxY' + valueIndex]],
                             [grid.getXend(), tarMark['maxY' + valueIndex]]
                         ];
-                        
+
                         tarMark.isHorizontal = true;
                     }
                 }
             }
         },
-        
+
         /**
-         * 添加文本 
+         * 添加文本
          */
         addLabel: function (tarShape, serie, data, name, orient) {
             // 多级控制
@@ -517,15 +517,15 @@ define(function (require) {
 
             var nTextStyle = nLabel.textStyle || {};
             var eTextStyle = eLabel.textStyle || {};
-            
+
             if (nLabel.show) {
                 var style = tarShape.style;
                 style.text = this._getLabelText(
                     serie, data, name, 'normal'
                 );
                 style.textPosition = nLabel.position == null
-                                     ? (orient === 'horizontal' ? 'right' : 'top')
-                                     : nLabel.position;
+                    ? (orient === 'horizontal' ? 'right' : 'top')
+                    : nLabel.position;
                 style.textColor = nTextStyle.color;
                 style.textFont = this.getFont(nTextStyle);
                 style.textAlign = nTextStyle.align;
@@ -537,19 +537,19 @@ define(function (require) {
                     serie, data, name, 'emphasis'
                 );
                 highlightStyle.textPosition = nLabel.show
-                                              ? tarShape.style.textPosition
-                                              : (eLabel.position == null
-                                                 ? (orient === 'horizontal' ? 'right' : 'top')
-                                                 : eLabel.position);
+                    ? tarShape.style.textPosition
+                    : (eLabel.position == null
+                        ? (orient === 'horizontal' ? 'right' : 'top')
+                        : eLabel.position);
                 highlightStyle.textColor = eTextStyle.color;
                 highlightStyle.textFont = this.getFont(eTextStyle);
                 highlightStyle.textAlign = eTextStyle.align;
                 highlightStyle.textBaseline = eTextStyle.baseline;
             }
-            
+
             return tarShape;
         },
-        
+
         /**
          * 根据lable.format计算label text
          */
@@ -565,9 +565,9 @@ define(function (require) {
                     'itemStyle.normal.label.formatter'
                 );
             }
-            
+
             var value = this.getDataFromOption(data, '-');
-            
+
             if (formatter) {
                 if (typeof formatter === 'function') {
                     return formatter.call(
@@ -583,30 +583,30 @@ define(function (require) {
                     );
                 }
                 else if (typeof formatter === 'string') {
-                    formatter = formatter.replace('{a}','{a0}')
-                                         .replace('{b}','{b0}')
-                                         .replace('{c}','{c0}')
-                                         .replace('{a0}', serie.name)
-                                         .replace('{b0}', name)
-                                         .replace('{c0}', this.numAddCommas(value));
-    
+                    formatter = formatter.replace('{a}', '{a0}')
+                        .replace('{b}', '{b0}')
+                        .replace('{c}', '{c0}')
+                        .replace('{a0}', serie.name)
+                        .replace('{b0}', name)
+                        .replace('{c0}', this.numAddCommas(value));
+
                     return formatter;
                 }
             }
             else {
                 if (value instanceof Array) {
                     return value[2] != null
-                           ? this.numAddCommas(value[2])
-                           : (value[0] + ' , ' + value[1]);
+                        ? this.numAddCommas(value[2])
+                        : (value[0] + ' , ' + value[1]);
                 }
                 else {
                     return this.numAddCommas(value);
                 }
             }
         },
-        
+
         /**
-         * 标线标注 
+         * 标线标注
          */
         buildMark: function (seriesIndex) {
             var serie = this.series[seriesIndex];
@@ -615,12 +615,12 @@ define(function (require) {
                 serie.markPoint && this._buildMarkPoint(seriesIndex);
             }
         },
-        
+
         /**
          * 标注逻辑
          */
         _buildMarkPoint: function (seriesIndex) {
-            var attachStyle =  (this.markAttachStyle || {})[seriesIndex];
+            var attachStyle = (this.markAttachStyle || {})[seriesIndex];
             var serie = this.series[seriesIndex];
             var mpData;
             var pos;
@@ -640,9 +640,9 @@ define(function (require) {
                         || (zrArea.getTextWidth(pos[3], this.getFont()) / 2 + 5);
                 }
             }
-            
+
             var shapeList = this._markPoint(seriesIndex, markPoint);
-            
+
             for (var i = 0, l = shapeList.length; i < l; i++) {
                 var tarShape = shapeList[i];
                 tarShape.zlevel = serie.zlevel;
@@ -661,12 +661,12 @@ define(function (require) {
                 }
             }
         },
-        
+
         /**
          * 标线逻辑
          */
         _buildMarkLine: function (seriesIndex) {
-            var attachStyle =  (this.markAttachStyle || {})[seriesIndex];
+            var attachStyle = (this.markAttachStyle || {})[seriesIndex];
             var serie = this.series[seriesIndex];
             var pos;
             var markLine = zrUtil.clone(serie.markLine);
@@ -680,17 +680,17 @@ define(function (require) {
                     markLine.data[i] = [zrUtil.clone(mlData), {}];
                     markLine.data[i][0].name = mlData.name || mlData.type;
                     markLine.data[i][0].value = mlData.type !== 'average'
-                                                ? pos[3]
-                                                : +pos[3].toFixed(
-                                                      markLine.precision != null 
-                                                      ? markLine.precision 
-                                                      : this.deepQuery(
-                                                            [this.ecTheme, ecConfig],
-                                                            'markLine.precision'
-                                                        )
-                                                  );
+                        ? pos[3]
+                        : +pos[3].toFixed(
+                            markLine.precision != null
+                                ? markLine.precision
+                                : this.deepQuery(
+                                [this.ecTheme, ecConfig],
+                                'markLine.precision'
+                            )
+                        );
                     pos = pos[2];
-                    mlData = [{},{}];
+                    mlData = [{}, {}];
                 }
                 else {
                     pos = [
@@ -707,7 +707,7 @@ define(function (require) {
                 markLine.data[i][1].x = mlData[1].x != null ? mlData[1].x : pos[1][0];
                 markLine.data[i][1].y = mlData[1].y != null ? mlData[1].y : pos[1][1];
             }
-            
+
             var shapeList = this._markLine(seriesIndex, markLine);
 
             var isLarge = markLine.large;
@@ -759,7 +759,7 @@ define(function (require) {
                 }
             }
         },
-        
+
         /**
          * 标注多级控制构造
          */
@@ -775,11 +775,11 @@ define(function (require) {
             );
 
             mpOption.name = serie.name;
-                   
+
             var pList = [];
             var data = mpOption.data;
             var itemShape;
-            
+
             var dataRange = component.dataRange;
             var legend = component.legend;
             var color;
@@ -804,24 +804,24 @@ define(function (require) {
                     // 值域
                     if (dataRange) {
                         color = isNaN(value) ? color : dataRange.getColor(value);
-                        
+
                         queryTarget = [data[i], mpOption];
                         nColor = this.deepQuery(queryTarget, 'itemStyle.normal.color')
-                                 || color;
+                            || color;
                         eColor = this.deepQuery(queryTarget, 'itemStyle.emphasis.color')
-                                 || nColor;
+                            || nColor;
                         // 有值域，并且值域返回null且用户没有自己定义颜色，则隐藏这个mark
                         if (nColor == null && eColor == null) {
                             continue;
                         }
                     }
-                    
+
                     color = color == null ? this.zr.getColor(seriesIndex) : color;
-                    
+
                     // 标准化一些参数
                     data[i].tooltip = data[i].tooltip
-                                      || mpOption.tooltip
-                                      || {trigger:'item'}; // tooltip.trigger指定为item
+                        || mpOption.tooltip
+                        || {trigger: 'item'}; // tooltip.trigger指定为item
                     data[i].name = data[i].name != null ? data[i].name : '';
                     data[i].value = value;
 
@@ -836,7 +836,7 @@ define(function (require) {
                         'horizontal'                // 走向，用于默认文字定位
                     );
                     itemShape._mark = 'point';
-                    
+
                     effect = this.deepMerge(
                         [data[i], mpOption],
                         'effect'
@@ -844,11 +844,11 @@ define(function (require) {
                     if (effect.show) {
                         itemShape.effect = effect;
                     }
-                    
+
                     if (serie.type === ecConfig.CHART_TYPE_MAP) {
                         itemShape._geo = this.getMarkGeo(data[i]);
                     }
-                    
+
                     // 重新pack一下数据
                     ecData.pack(
                         itemShape,
@@ -868,17 +868,17 @@ define(function (require) {
             }
             return pList;
         },
-        
+
         /**
          * 标线多级控制构造
          */
         _markLine: (function () {
             function normalizeOptionValue(mlOption, key) {
                 mlOption[key] = mlOption[key] instanceof Array
-                          ? mlOption[key].length > 1 
-                            ? mlOption[key] 
-                            : [mlOption[key][0], mlOption[key][0]]
-                          : [mlOption[key], mlOption[key]];
+                    ? mlOption[key].length > 1
+                        ? mlOption[key]
+                        : [mlOption[key][0], mlOption[key][0]]
+                    : [mlOption[key], mlOption[key]];
             }
 
             return function (seriesIndex, mlOption) {
@@ -923,9 +923,9 @@ define(function (require) {
                             color = isNaN(value) ? color : dataRange.getColor(value);
 
                             var nColor = this.deepQuery(queryTarget, 'itemStyle.normal.color')
-                                     || color;
+                                || color;
                             var eColor = this.deepQuery(queryTarget, 'itemStyle.emphasis.color')
-                                     || nColor;
+                                || nColor;
                             // 有值域，并且值域返回null且用户没有自己定义颜色，则隐藏这个mark
                             if (nColor == null && eColor == null) {
                                 continue;
@@ -933,8 +933,8 @@ define(function (require) {
                         }
                         // 标准化一些参数
                         mlData[0].tooltip = mergeData.tooltip
-                                            || mlOption.tooltip
-                                            || {trigger:'item'}; // tooltip.trigger指定为item
+                            || mlOption.tooltip
+                            || {trigger: 'item'}; // tooltip.trigger指定为item
                         mlData[0].name = mlData[0].name || '';
                         mlData[1].name = mlData[1].name || '';
                         mlData[0].value = value;
@@ -942,9 +942,9 @@ define(function (require) {
                         edges.push({
                             points: [
                                 [this.parsePercent(mlData[0].x, zrWidth),
-                                this.parsePercent(mlData[0].y, zrHeight)],
+                                    this.parsePercent(mlData[0].y, zrHeight)],
                                 [this.parsePercent(mlData[1].x, zrWidth),
-                                this.parsePercent(mlData[1].y, zrHeight)]
+                                    this.parsePercent(mlData[1].y, zrHeight)]
                             ],
                             rawData: mlData,
                             color: color
@@ -956,18 +956,18 @@ define(function (require) {
                 if (enableBundling) {
                     var edgeBundling = new EdgeBundling();
                     edgeBundling.maxTurningAngle = this.query(
-                        mlOption, 'bundling.maxTurningAngle'
-                    ) / 180 * Math.PI;
+                            mlOption, 'bundling.maxTurningAngle'
+                        ) / 180 * Math.PI;
                     edges = edgeBundling.run(edges);
                 }
 
                 mlOption.name = serie.name;
-  
+
                 var shapeList = [];
 
                 for (var i = 0, l = edges.length; i < l; i++) {
                     var edge = edges[i];
-                    var rawEdge = edge.rawEdge || edge; 
+                    var rawEdge = edge.rawEdge || edge;
                     var mlData = rawEdge.rawData;
                     var value = mlData.value != null ? mlData.value : '';
 
@@ -981,7 +981,7 @@ define(function (require) {
                         rawEdge.color
                     );
                     itemShape._mark = 'line';
-                    
+
                     var effect = this.deepMerge(
                         [mlData[0], mlData[1], mlOption],
                         'effect'
@@ -990,22 +990,22 @@ define(function (require) {
                         itemShape.effect = effect;
                         itemShape.effect.large = mlOption.large;
                     }
-                    
+
                     if (serie.type === ecConfig.CHART_TYPE_MAP) {
                         itemShape._geo = [
                             this.getMarkGeo(mlData[0]),
                             this.getMarkGeo(mlData[1])
                         ];
                     }
-                    
+
                     // 重新pack一下数据
                     ecData.pack(
                         itemShape,
                         serie, seriesIndex,
                         mlData[0], i,
-                        mlData[0].name 
-                            // 不要帮我代码规范
-                            + (mlData[1].name !== '' ? (' > ' + mlData[1].name) : ''),
+                        mlData[0].name
+                        // 不要帮我代码规范
+                        + (mlData[1].name !== '' ? (' > ' + mlData[1].name) : ''),
                         value
                     );
                     shapeList.push(itemShape);
@@ -1014,36 +1014,35 @@ define(function (require) {
                 return shapeList;
             };
         })(),
-        
+
         getMarkCoord: function () {
             // 无转换位置
             return [0, 0];
         },
-        
+
         /**
-         * symbol构造器 
+         * symbol构造器
          */
-        getSymbolShape: function (
-            serie, seriesIndex,     // 系列 
-            data, dataIndex, name,  // 数据
-            x, y,                   // 坐标
-            symbol, color,          // 默认symbol和color，来自legend或dataRange全局分配
-            emptyColor,             // 折线的emptySymbol用白色填充
-            orient                  // 走向，用于默认文字定位
+        getSymbolShape: function (serie, seriesIndex,     // 系列 
+                                  data, dataIndex, name,  // 数据
+                                  x, y,                   // 坐标
+                                  symbol, color,          // 默认symbol和color，来自legend或dataRange全局分配
+                                  emptyColor,             // 折线的emptySymbol用白色填充
+                                  orient                  // 走向，用于默认文字定位
         ) {
             var queryTarget = [data, serie];
             var value = this.getDataFromOption(data, '-');
-            
+
             symbol = this.deepQuery(queryTarget, 'symbol') || symbol;
             var symbolSize = this.deepQuery(queryTarget, 'symbolSize');
             symbolSize = typeof symbolSize === 'function'
-                         ? symbolSize(value)
-                         : symbolSize;
+                ? symbolSize(value)
+                : symbolSize;
             if (typeof symbolSize === 'number') {
                 symbolSize = [symbolSize, symbolSize];
             }
             var symbolRotate = this.deepQuery(queryTarget, 'symbolRotate');
-            
+
             var normal = this.deepMerge(
                 queryTarget,
                 'itemStyle.normal'
@@ -1053,21 +1052,21 @@ define(function (require) {
                 'itemStyle.emphasis'
             );
             var nBorderWidth = normal.borderWidth != null
-                               ? normal.borderWidth
-                               : (normal.lineStyle && normal.lineStyle.width);
+                ? normal.borderWidth
+                : (normal.lineStyle && normal.lineStyle.width);
             if (nBorderWidth == null) {
                 nBorderWidth = symbol.match('empty') ? 2 : 0;
             }
             var eBorderWidth = emphasis.borderWidth != null
-                               ? emphasis.borderWidth
-                               : (emphasis.lineStyle && emphasis.lineStyle.width);
+                ? emphasis.borderWidth
+                : (emphasis.lineStyle && emphasis.lineStyle.width);
             if (eBorderWidth == null) {
                 eBorderWidth = nBorderWidth + 2;
             }
 
             var nColor = this.getItemStyleColor(normal.color, seriesIndex, dataIndex, data);
             var eColor = this.getItemStyleColor(emphasis.color, seriesIndex, dataIndex, data);
-            
+
             var width = symbolSize[0];
             var height = symbolSize[1];
             var itemShape = new IconShape({
@@ -1078,21 +1077,21 @@ define(function (require) {
                     width: width * 2,
                     height: height * 2,
                     brushType: 'both',
-                    color: symbol.match('empty') 
-                           ? emptyColor 
-                           : (nColor || color),
+                    color: symbol.match('empty')
+                        ? emptyColor
+                        : (nColor || color),
                     strokeColor: normal.borderColor || nColor || color,
                     lineWidth: nBorderWidth
                 },
                 highlightStyle: {
-                    color: symbol.match('empty') 
-                           ? emptyColor 
-                           : (eColor || nColor || color),
-                    strokeColor: emphasis.borderColor 
-                                 || normal.borderColor
-                                 || eColor
-                                 || nColor
-                                 || color,
+                    color: symbol.match('empty')
+                        ? emptyColor
+                        : (eColor || nColor || color),
+                    strokeColor: emphasis.borderColor
+                    || normal.borderColor
+                    || eColor
+                    || nColor
+                    || color,
                     lineWidth: eBorderWidth
                 },
                 clickable: this.deepQuery(queryTarget, 'clickable')
@@ -1106,47 +1105,47 @@ define(function (require) {
                     clickable: this.deepQuery(queryTarget, 'clickable')
                 });
             }
-            
+
             if (symbolRotate != null) {
                 itemShape.rotation = [
                     symbolRotate * Math.PI / 180, x, y
                 ];
             }
-            
+
             if (symbol.match('star')) {
                 itemShape.style.iconType = 'star';
-                itemShape.style.n = 
-                    (symbol.replace('empty', '').replace('star','') - 0) || 5;
+                itemShape.style.n =
+                    (symbol.replace('empty', '').replace('star', '') - 0) || 5;
             }
-            
+
             if (symbol === 'none') {
                 itemShape.invisible = true;
                 itemShape.hoverable = false;
             }
-            
+
             /*
-            if (this.deepQuery([data, serie, option], 'calculable')) {
-                this.setCalculable(itemShape);
-                itemShape.draggable = true;
-            }
-            */
+             if (this.deepQuery([data, serie, option], 'calculable')) {
+             this.setCalculable(itemShape);
+             itemShape.draggable = true;
+             }
+             */
 
             itemShape = this.addLabel(
-                itemShape, 
-                serie, data, name, 
+                itemShape,
+                serie, data, name,
                 orient
             );
-            
+
             if (symbol.match('empty')) {
                 if (itemShape.style.textColor == null) {
                     itemShape.style.textColor = itemShape.style.strokeColor;
                 }
                 if (itemShape.highlightStyle.textColor == null) {
-                    itemShape.highlightStyle.textColor = 
+                    itemShape.highlightStyle.textColor =
                         itemShape.highlightStyle.strokeColor;
                 }
             }
-            
+
             ecData.pack(
                 itemShape,
                 serie, seriesIndex,
@@ -1156,24 +1155,23 @@ define(function (require) {
 
             itemShape._x = x;
             itemShape._y = y;
-            
+
             itemShape._dataIndex = dataIndex;
             itemShape._seriesIndex = seriesIndex;
 
             return itemShape;
         },
-        
+
         /**
-         * 标线构造器 
+         * 标线构造器
          */
-        getMarkLineShape: function (
-            mlOption,               // 系列 
-            seriesIndex,            // 系列索引
-            data,                   // 数据
-            dataIndex,              // 数据索引
-            points,                 // 坐标点
-            bundling,               // 是否边捆绑过
-            color                   // 默认color，来自legend或dataRange全局分配
+        getMarkLineShape: function (mlOption,               // 系列 
+                                    seriesIndex,            // 系列索引
+                                    data,                   // 数据
+                                    dataIndex,              // 数据索引
+                                    points,                 // 坐标点
+                                    bundling,               // 是否边捆绑过
+                                    color                   // 默认color，来自legend或dataRange全局分配
         ) {
             var value0 = data[0].value != null ? data[0].value : '-';
             var value1 = data[1].value != null ? data[1].value : '-';
@@ -1186,11 +1184,11 @@ define(function (require) {
                 data[1].symbolSize || mlOption.symbolSize[1]
             ];
             symbolSize[0] = typeof symbolSize[0] === 'function'
-                            ? symbolSize[0](value0)
-                            : symbolSize[0];
+                ? symbolSize[0](value0)
+                : symbolSize[0];
             symbolSize[1] = typeof symbolSize[1] === 'function'
-                            ? symbolSize[1](value1)
-                            : symbolSize[1];
+                ? symbolSize[1](value1)
+                : symbolSize[1];
             var symbolRotate = [
                 this.query(data[0], 'symbolRotate') || mlOption.symbolRotate[0],
                 this.query(data[1], 'symbolRotate') || mlOption.symbolRotate[1]
@@ -1208,22 +1206,22 @@ define(function (require) {
                 'itemStyle.emphasis'
             );
             emphasis.color = this.getItemStyleColor(emphasis.color, seriesIndex, dataIndex, data);
-            
+
             var nlineStyle = normal.lineStyle;
             var elineStyle = emphasis.lineStyle;
-            
+
             var nBorderWidth = nlineStyle.width;
             if (nBorderWidth == null) {
                 nBorderWidth = normal.borderWidth;
             }
             var eBorderWidth = elineStyle.width;
             if (eBorderWidth == null) {
-                eBorderWidth = emphasis.borderWidth != null 
-                               ? emphasis.borderWidth
-                               : (nBorderWidth + 2);
+                eBorderWidth = emphasis.borderWidth != null
+                    ? emphasis.borderWidth
+                    : (nBorderWidth + 2);
             }
             var smoothness = this.deepQuery(queryTarget, 'smoothness');
-            if (! this.deepQuery(queryTarget, 'smooth')) {
+            if (!this.deepQuery(queryTarget, 'smooth')) {
                 smoothness = 0;
             }
 
@@ -1237,22 +1235,22 @@ define(function (require) {
                     brushType: 'both',
                     lineType: nlineStyle.type,
                     shadowColor: nlineStyle.shadowColor
-                                 || nlineStyle.color
-                                 || normal.borderColor
-                                 || normal.color
-                                 || color,
+                    || nlineStyle.color
+                    || normal.borderColor
+                    || normal.color
+                    || color,
                     shadowBlur: nlineStyle.shadowBlur,
                     shadowOffsetX: nlineStyle.shadowOffsetX,
                     shadowOffsetY: nlineStyle.shadowOffsetY,
                     color: normal.color || color,
                     strokeColor: nlineStyle.color
-                                 || normal.borderColor
-                                 || normal.color
-                                 || color,
+                    || normal.borderColor
+                    || normal.color
+                    || color,
                     lineWidth: nBorderWidth,
                     symbolBorderColor: normal.borderColor
-                                       || normal.color
-                                       || color,
+                    || normal.color
+                    || color,
                     symbolBorder: normal.borderWidth
                 },
                 highlightStyle: {
@@ -1260,23 +1258,23 @@ define(function (require) {
                     shadowBlur: elineStyle.shadowBlur,
                     shadowOffsetX: elineStyle.shadowOffsetX,
                     shadowOffsetY: elineStyle.shadowOffsetY,
-                    color: emphasis.color|| normal.color || color,
+                    color: emphasis.color || normal.color || color,
                     strokeColor: elineStyle.color
-                                 || nlineStyle.color
-                                 || emphasis.borderColor 
-                                 || normal.borderColor
-                                 || emphasis.color 
-                                 || normal.color
-                                 || color,
+                    || nlineStyle.color
+                    || emphasis.borderColor
+                    || normal.borderColor
+                    || emphasis.color
+                    || normal.color
+                    || color,
                     lineWidth: eBorderWidth,
                     symbolBorderColor: emphasis.borderColor
-                                       || normal.borderColor
-                                       || emphasis.color
-                                       || normal.color
-                                       || color,
+                    || normal.borderColor
+                    || emphasis.color
+                    || normal.color
+                    || color,
                     symbolBorder: emphasis.borderWidth == null
-                                  ? (normal.borderWidth + 2)
-                                  : (emphasis.borderWidth)
+                        ? (normal.borderWidth + 2)
+                        : (emphasis.borderWidth)
                 },
                 clickable: this.deepQuery(queryTarget, 'clickable')
             });
@@ -1293,26 +1291,26 @@ define(function (require) {
                 shapeStyle.curveness = smoothness;
                 itemShape.updatePoints(itemShape.style);
             }
-            
+
             itemShape = this.addLabel(
-                itemShape, 
-                mlOption, 
-                data[0], 
+                itemShape,
+                mlOption,
+                data[0],
                 data[0].name + ' : ' + data[1].name
             );
 
             return itemShape;
         },
-        
+
         /**
-         * 大规模标注构造器 
+         * 大规模标注构造器
          */
-        getLargeMarkPointShape: function(seriesIndex, mpOption) {
+        getLargeMarkPointShape: function (seriesIndex, mpOption) {
             var serie = this.series[seriesIndex];
             var component = this.component;
             var data = mpOption.data;
             var itemShape;
-            
+
             var dataRange = component.dataRange;
             var legend = component.legend;
             var color;
@@ -1321,7 +1319,7 @@ define(function (require) {
             var nColor;
             var eColor;
             var effect;
-            
+
             // 图例
             if (legend) {
                 color = legend.getColor(serie.name);
@@ -1330,29 +1328,29 @@ define(function (require) {
             if (dataRange) {
                 value = data[0].value != null ? data[0].value : '';
                 color = isNaN(value) ? color : dataRange.getColor(value);
-                
+
                 nColor = this.deepQuery(queryTarget, 'itemStyle.normal.color')
-                         || color;
+                    || color;
                 eColor = this.deepQuery(queryTarget, 'itemStyle.emphasis.color')
-                         || nColor;
+                    || nColor;
                 // 有值域，并且值域返回null且用户没有自己定义颜色，则隐藏这个mark
                 if (nColor == null && eColor == null) {
                     return;
                 }
             }
-            color = this.deepMerge(queryTarget, 'itemStyle.normal').color 
-                    || color;
-            
+            color = this.deepMerge(queryTarget, 'itemStyle.normal').color
+                || color;
+
             var symbol = this.deepQuery(queryTarget, 'symbol') || 'circle';
             symbol = symbol.replace('empty', '').replace(/\d/g, '');
-            
+
             effect = this.deepMerge(
                 [data[0], mpOption],
                 'effect'
             );
-            
+
             var devicePixelRatio = window.devicePixelRatio || 1;
-            
+
             //console.log(data)
             itemShape = new SymbolShape({
                 style: {
@@ -1361,23 +1359,23 @@ define(function (require) {
                     strokeColor: color,
                     shadowColor: effect.shadowColor || color,
                     shadowBlur: (effect.shadowBlur != null ? effect.shadowBlur : 8)
-                                 * devicePixelRatio,
+                    * devicePixelRatio,
                     size: this.deepQuery(queryTarget, 'symbolSize'),
                     iconType: symbol,
                     brushType: 'fill',
-                    lineWidth:1
+                    lineWidth: 1
                 },
                 draggable: false,
                 hoverable: false
             });
-            
+
             if (effect.show) {
                 itemShape.effect = effect;
             }
-            
+
             return itemShape;
         },
-        
+
         backupShapeList: function () {
             if (this.shapeList && this.shapeList.length > 0) {
                 this.lastShapeList = this.shapeList;
@@ -1387,22 +1385,22 @@ define(function (require) {
                 this.lastShapeList = [];
             }
         },
-        
+
         addShapeList: function () {
             var maxLenth = this.option.animationThreshold / (this.canvasSupported ? 2 : 4);
             var lastShapeList = this.lastShapeList;
             var shapeList = this.shapeList;
             var isUpdate = lastShapeList.length > 0;
             var duration = isUpdate
-                           ? this.query(this.option, 'animationDurationUpdate')
-                           : this.query(this.option, 'animationDuration');
+                ? this.query(this.option, 'animationDurationUpdate')
+                : this.query(this.option, 'animationDuration');
             var easing = this.query(this.option, 'animationEasing');
             var delay;
             var key;
             var oldMap = {};
             var newMap = {};
-            if (this.option.animation 
-                && !this.option.renderAsImage 
+            if (this.option.animation
+                && !this.option.renderAsImage
                 && shapeList.length < maxLenth
                 && !this.motionlessOnce
             ) {
@@ -1434,7 +1432,7 @@ define(function (require) {
                         newMap[key] = shapeList[i];
                     }
                 }
-                
+
                 for (key in oldMap) {
                     if (!newMap[key]) {
                         // 新的没有 删除
@@ -1453,10 +1451,10 @@ define(function (require) {
                         // 新有旧没有  添加并动画过渡
                         //this._animateAdd(newMap[key], duration, easing);
                         delay = (this.type == ecConfig.CHART_TYPE_LINE
-                                || this.type == ecConfig.CHART_TYPE_RADAR)
-                                && key.indexOf('icon') !== 0
-                                ? duration / 2
-                                : 0;
+                        || this.type == ecConfig.CHART_TYPE_RADAR)
+                        && key.indexOf('icon') !== 0
+                            ? duration / 2
+                            : 0;
                         this._animateMod(
                             false, newMap[key], duration, easing, delay, isUpdate
                         );
@@ -1475,28 +1473,28 @@ define(function (require) {
                 }
             }
         },
-        
-        _getAnimationKey: function(shape) {
+
+        _getAnimationKey: function (shape) {
             if (this.type != ecConfig.CHART_TYPE_MAP
                 && this.type != ecConfig.CHART_TYPE_TREEMAP
                 && this.type != ecConfig.CHART_TYPE_VENN
                 && this.type != ecConfig.CHART_TYPE_TREE
-                ) {
+            ) {
                 return ecData.get(shape, 'seriesIndex') + '_'
-                       + ecData.get(shape, 'dataIndex')
-                       + (shape._mark ? shape._mark : '')
-                       + (this.type === ecConfig.CHART_TYPE_RADAR 
-                          ? ecData.get(shape, 'special') : '');
+                    + ecData.get(shape, 'dataIndex')
+                    + (shape._mark ? shape._mark : '')
+                    + (this.type === ecConfig.CHART_TYPE_RADAR
+                        ? ecData.get(shape, 'special') : '');
             }
             else {
                 return ecData.get(shape, 'seriesIndex') + '_'
-                       + ecData.get(shape, 'dataIndex')
-                       + (shape._mark ? shape._mark : 'undefined');
+                    + ecData.get(shape, 'dataIndex')
+                    + (shape._mark ? shape._mark : 'undefined');
             }
         },
-        
+
         /**
-         * 动画过渡 
+         * 动画过渡
          */
         _animateMod: function (oldShape, newShape, duration, easing, delay, isUpdate) {
             switch (newShape.type) {
@@ -1527,8 +1525,8 @@ define(function (require) {
                         ecAnimation.ring(
                             this.zr,
                             oldShape,
-                            newShape, 
-                            duration + ((ecData.get(newShape, 'dataIndex') || 0) % 20 * 100), 
+                            newShape,
+                            duration + ((ecData.get(newShape, 'dataIndex') || 0) % 20 * 100),
                             easing
                         );
                     }
@@ -1568,14 +1566,14 @@ define(function (require) {
                     break;
             }
         },
-        
+
         /**
          * 标注动画
          * @param {number} duration 时长
          * @param {string=} easing 缓动效果
          * @param {Array=} shapeList 指定特效对象，不指定默认使用this.shapeList
          */
-        animationMark: function (duration , easing, shapeList) {
+        animationMark: function (duration, easing, shapeList) {
             var shapeList = shapeList || this.shapeList;
             for (var i = 0, l = shapeList.length; i < l; i++) {
                 if (!shapeList[i]._mark) {
@@ -1603,7 +1601,7 @@ define(function (require) {
                     {
                         motionBlur: true,
                         lastFrameAlpha: this.option.effectBlendAlpha
-                            || ecConfig.effectBlendAlpha
+                        || ecConfig.effectBlendAlpha
                     }
                 );
             }
@@ -1617,13 +1615,13 @@ define(function (require) {
                 this.effectList[this.effectList.length - 1]._mark = shape._mark;
             }
         },
-        
+
         clearEffectShape: function (clearMotionBlur) {
             var effectList = this.effectList;
             if (this.zr && effectList && effectList.length > 0) {
                 clearMotionBlur && this.zr.modLayer(
-                    ecConfig.EFFECT_ZLEVEL, 
-                    { motionBlur: false }
+                    ecConfig.EFFECT_ZLEVEL,
+                    {motionBlur: false}
                 );
                 this.zr.delShape(effectList);
 
@@ -1636,7 +1634,7 @@ define(function (require) {
             }
             this.effectList = [];
         },
-        
+
         /**
          * 动态标线标注添加
          * @param {number} seriesIndex 系列索引
@@ -1651,7 +1649,7 @@ define(function (require) {
                 // 备份，复用_buildMarkX
                 var oriMarkData = serie[markType].data;
                 var lastLength = this.shapeList.length;
-                
+
                 serie[markType].data = markData.data;
                 this['_build' + markType.replace('m', 'M')](seriesIndex);
                 if (this.option.animation && !this.option.renderAsImage) {
@@ -1668,7 +1666,7 @@ define(function (require) {
                 serie[markType].data = oriMarkData;
             }
         },
-        
+
         /**
          * 动态标线标注删除
          * @param {number} seriesIndex 系列索引
@@ -1682,7 +1680,7 @@ define(function (require) {
                 var needRefresh = false;
                 var shapeList = [this.shapeList, this.effectList];
                 var len = 2;
-                while(len--) {
+                while (len--) {
                     for (var i = 0, l = shapeList[len].length; i < l; i++) {
                         if (shapeList[len][i]._mark == markType
                             && ecData.get(shapeList[len][i], 'seriesIndex') == seriesIndex
@@ -1695,7 +1693,7 @@ define(function (require) {
                         }
                     }
                 }
-                
+
                 needRefresh && this.zr.refreshNextFrame();
             }
         }

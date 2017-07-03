@@ -7,12 +7,12 @@ var iconResize = document.getElementById('icon-resize');
 var needRefresh = false;
 
 var enVersion = location.hash.indexOf('-en') != -1;
-var hash = location.hash.replace('-en','');
-hash = hash.replace('#','') || (needMap() ? 'default' : 'macarons');
+var hash = location.hash.replace('-en', '');
+hash = hash.replace('#', '') || (needMap() ? 'default' : 'macarons');
 hash += enVersion ? '-en' : '';
 
 var curTheme;
-function requireCallback (ec, defaultTheme) {
+function requireCallback(ec, defaultTheme) {
     curTheme = themeSelector ? defaultTheme : {};
     echarts = ec;
     refresh();
@@ -37,16 +37,16 @@ if (themeSelector) {
         + '<option name="sakura">sakura</option>'
         + '<option name="default">default</option>'
     );
-    $(themeSelector).on('change', function(){
+    $(themeSelector).on('change', function () {
         selectChange($(this).val());
     });
-    function selectChange(value){
+    function selectChange(value) {
         var theme = value;
         myChart.showLoading();
         $(themeSelector).val(theme);
         if (theme != 'default') {
             window.location.hash = value + (enVersion ? '-en' : '');
-            require(['theme/' + theme], function(tarTheme){
+            require(['theme/' + theme], function (tarTheme) {
                 curTheme = tarTheme;
                 setTimeout(refreshTheme, 500);
             })
@@ -57,10 +57,12 @@ if (themeSelector) {
             setTimeout(refreshTheme, 500);
         }
     }
-    function refreshTheme(){
+
+    function refreshTheme() {
         myChart.hideLoading();
         myChart.setTheme(curTheme);
     }
+
     if ($(themeSelector).val(hash.replace('-en', '')).val() != hash.replace('-en', '')) {
         $(themeSelector).val('macarons');
         hash = 'macarons' + enVersion ? '-en' : '';
@@ -95,14 +97,16 @@ function focusGraphic() {
 
 var editor = CodeMirror.fromTextArea(
     document.getElementById("code"),
-    { lineNumbers: true }
+    {lineNumbers: true}
 );
 editor.setOption("theme", 'monokai');
 
 
-editor.on('change', function(){needRefresh = true;});
+editor.on('change', function () {
+    needRefresh = true;
+});
 
-function refresh(isBtnRefresh){
+function refresh(isBtnRefresh) {
     if (isBtnRefresh) {
         needRefresh = true;
         focusGraphic();
@@ -122,9 +126,9 @@ function refresh(isBtnRefresh){
 function needMap() {
     var href = location.href;
     return href.indexOf('map') != -1
-           || href.indexOf('mix3') != -1
-           || href.indexOf('mix5') != -1
-           || href.indexOf('dataRange') != -1;
+        || href.indexOf('mix3') != -1
+        || href.indexOf('mix5') != -1
+        || href.indexOf('dataRange') != -1;
 
 }
 
@@ -151,11 +155,12 @@ if (developMode) {
             script.onload = fireLoad;
         }
         (document.getElementsByTagName('head')[0] || document.body).appendChild(script);
-        
+
         function fireLoad() {
             script.onload = script.onreadystatechange = null;
-            setTimeout(loadedListener,100);
+            setTimeout(loadedListener, 100);
         }
+
         function loadedListener() {
             // for develop
             require.config({

@@ -20,33 +20,33 @@ public final class Globals {
     public static final String SPRING_PROFILE_NO_LIQUIBASE = "no-liquibase";
 
     public static final String SYSTEM_ACCOUNT = "1";
-    
-    
+
+
     public static final String INDEX_URL = "index";
-    
+
     public static final String AUTHENTICATED = "authenticated";
-	public static final String NO = null;
-	
-	
-	 public static final String ALBEDO_QUARTZENABLED = "albedo.quartzEnabled";
-	 
-	
-	/*** 返回消息状态头 type */
-	public static final String MSG_TYPE = "status";
-	/*** 返回消息内容头 msg */
-	public static final String MSG = "message";
-	/*** 返回消息类型 info */
-	public static final Integer MSG_TYPE_INFO = 0;
-	/*** 返回消息类型 success */
-	public static final Integer MSG_TYPE_SUCCESS = 1;
-	/*** 返回消息类型 warning */
-	public static final Integer MSG_TYPE_WARNING = 2;
-	/*** 返回消息类型 error */
-	public static final Integer MSG_TYPE_ERROR = -1;
-	/*** 返回消息类型 error */
-	public static final Integer MSG_TYPE_LOGIN = -99;
-	
-	
+    public static final String NO = null;
+
+
+    public static final String ALBEDO_QUARTZENABLED = "albedo.quartzEnabled";
+
+
+    /*** 返回消息状态头 type */
+    public static final String MSG_TYPE = "status";
+    /*** 返回消息内容头 msg */
+    public static final String MSG = "message";
+    /*** 返回消息类型 info */
+    public static final Integer MSG_TYPE_INFO = 0;
+    /*** 返回消息类型 success */
+    public static final Integer MSG_TYPE_SUCCESS = 1;
+    /*** 返回消息类型 warning */
+    public static final Integer MSG_TYPE_WARNING = 2;
+    /*** 返回消息类型 error */
+    public static final Integer MSG_TYPE_ERROR = -1;
+    /*** 返回消息类型 error */
+    public static final Integer MSG_TYPE_LOGIN = -99;
+
+
     private Globals() {
     }
 }

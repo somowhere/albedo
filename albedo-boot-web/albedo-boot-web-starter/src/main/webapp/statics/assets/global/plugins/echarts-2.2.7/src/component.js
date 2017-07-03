@@ -27,6 +27,6 @@ define(function (/*require*/) {     // component
     self.get = function (name) {
         return _componentLibrary[name];
     };
-    
+
     return self;
 });

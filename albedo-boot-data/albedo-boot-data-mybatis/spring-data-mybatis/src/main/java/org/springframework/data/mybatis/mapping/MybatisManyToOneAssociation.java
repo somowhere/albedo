@@ -85,10 +85,10 @@ public class MybatisManyToOneAssociation extends MybatisAssociation {
     }
 
     public boolean insertable() {
-        return null != joinColumn?joinColumn.insertable():true;
+        return null != joinColumn ? joinColumn.insertable() : true;
     }
 
     public boolean updatable() {
-        return null != joinColumn?joinColumn.updatable():true;
+        return null != joinColumn ? joinColumn.updatable() : true;
     }
 }

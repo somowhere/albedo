@@ -39,29 +39,23 @@ import javax.annotation.Resource;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Resource
-    private AlbedoProperties albedoProperties;
-
-    @Resource
-    private AjaxAuthenticationSuccessHandler ajaxAuthenticationSuccessHandler;
-
-    @Resource
-    private AjaxAuthenticationFailureHandler ajaxAuthenticationFailureHandler;
-
-    @Resource
-    private AjaxLogoutSuccessHandler ajaxLogoutSuccessHandler;
-
-    @Resource
-    private Http401UnauthorizedEntryPoint authenticationEntryPoint;
-
-    @Resource
-    private UserDetailsService userDetailsService;
-
-    @Resource
-    private RememberMeServices rememberMeServices;
-    @Resource
     CustomizeAccessDecisionManager customizeAccessDecisionManager;
     @Resource
     InvocationSecurityMetadataSourceService invocationSecurityMetadataSourceService;
+    @Resource
+    private AlbedoProperties albedoProperties;
+    @Resource
+    private AjaxAuthenticationSuccessHandler ajaxAuthenticationSuccessHandler;
+    @Resource
+    private AjaxAuthenticationFailureHandler ajaxAuthenticationFailureHandler;
+    @Resource
+    private AjaxLogoutSuccessHandler ajaxLogoutSuccessHandler;
+    @Resource
+    private Http401UnauthorizedEntryPoint authenticationEntryPoint;
+    @Resource
+    private UserDetailsService userDetailsService;
+    @Resource
+    private RememberMeServices rememberMeServices;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -78,6 +72,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             throw new BeanInitializationException("Security configuration failed", e);
         }
     }
+
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
@@ -111,7 +106,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .key(albedoProperties.getSecurity().getRememberMe().getKey())
                 .and()
                 .formLogin()
-                .loginProcessingUrl(adminPath+"/api/authentication")
+                .loginProcessingUrl(adminPath + "/api/authentication")
                 .successHandler(ajaxAuthenticationSuccessHandler)
                 .failureHandler(ajaxAuthenticationFailureHandler)
                 .usernameParameter("a_username")
@@ -119,7 +114,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
-                .logoutUrl(adminPath+InvocationSecurityMetadataSourceService.logoutUrl)
+                .logoutUrl(adminPath + InvocationSecurityMetadataSourceService.logoutUrl)
                 .logoutSuccessHandler(ajaxLogoutSuccessHandler)
                 .deleteCookies("JSESSIONID", "CSRF-TOKEN")
                 .permitAll()
@@ -129,9 +124,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers(adminPath+InvocationSecurityMetadataSourceService.loginUrl).permitAll()
+                .antMatchers(adminPath + InvocationSecurityMetadataSourceService.loginUrl).permitAll()
                 .antMatchers(permissAll).permitAll()
-                .antMatchers(adminPath+"/**").authenticated().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                .antMatchers(adminPath + "/**").authenticated().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
             public <O extends FilterSecurityInterceptor> O postProcess(O fsi) {
                 fsi.setSecurityMetadataSource(securityMetadataSource());
                 return fsi;

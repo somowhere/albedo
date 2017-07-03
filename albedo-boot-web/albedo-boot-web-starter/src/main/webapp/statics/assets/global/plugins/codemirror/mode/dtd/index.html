@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: DTD mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel="stylesheet" href="../../lib/codemirror.css">
 <script src="../../lib/codemirror.js"></script>
@@ -19,16 +19,16 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">DTD</a>
+        <li>
+            <a class=active href="#">DTD</a>
     </ul>
 </div>
 <article>
@@ -36,14 +36,14 @@
     <form>
         <textarea id="code" name="code">
             <?xml version="1.0" encoding="UTF-8"?>
-                <!ATTLIST title
+            <!ATTLIST title
   xmlns	CDATA	#FIXED	"http://docbook.org/ns/docbook"
   role	CDATA	#IMPLIED
   %db.common.attributes;
   %db.common.linking.attributes;
 >
-                <!--
-  Try: http://docbook.org/xml/5.0/dtd/docbook.dtd
+            <!--
+Try: http://docbook.org/xml/5.0/dtd/docbook.dtd
 -->
                 <!DOCTYPE xsl:stylesheet
   [
@@ -85,15 +85,14 @@
     </form>
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById("code"),
-        {
-            mode:
             {
-                name: "dtd",
-                alignCDATA: true
-            },
-            lineNumbers: true,
-            lineWrapping: true
-        });
+                mode: {
+                    name: "dtd",
+                    alignCDATA: true
+                },
+                lineNumbers: true,
+                lineWrapping: true
+            });
     </script>
     <p>
         <strong>MIME types defined:</strong> <code>application/xml-dtd</code>.</p>

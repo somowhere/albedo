@@ -1,6 +1,6 @@
 var ComponentsBootstrapSwitch = function () {
 
-    var handleBootstrapSwitch = function() {
+    var handleBootstrapSwitch = function () {
 
         $('.switch-radio1').on('switch-change', function () {
             $('.switch-radio1').bootstrapSwitch('toggleRadioState');
@@ -27,6 +27,6 @@ var ComponentsBootstrapSwitch = function () {
 
 }();
 
-jQuery(document).ready(function() {    
-   ComponentsBootstrapSwitch.init(); 
+jQuery(document).ready(function () {
+    ComponentsBootstrapSwitch.init();
 });

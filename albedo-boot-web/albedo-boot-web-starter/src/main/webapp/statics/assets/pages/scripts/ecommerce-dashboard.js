@@ -1,4 +1,4 @@
-var EcommerceDashboard = function() {
+var EcommerceDashboard = function () {
 
     function showTooltip(x, y, labelX, labelY) {
         $('<div id="tooltip" class="chart-tooltip">' + (labelY.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')) + 'USD<\/div>').css({
@@ -12,7 +12,7 @@ var EcommerceDashboard = function() {
         }).appendTo("body").fadeIn(200);
     }
 
-    var initChart1 = function() {
+    var initChart1 = function () {
 
         var data = [
             ['01/2013', 4],
@@ -93,7 +93,7 @@ var EcommerceDashboard = function() {
 
         var previousPoint = null;
 
-        $("#statistics_1").bind("plothover", function(event, pos, item) {
+        $("#statistics_1").bind("plothover", function (event, pos, item) {
             $("#x").text(pos.x.toFixed(2));
             $("#y").text(pos.y.toFixed(2));
             if (item) {
@@ -114,7 +114,7 @@ var EcommerceDashboard = function() {
 
     }
 
-    var initChart2 = function() {
+    var initChart2 = function () {
 
         var data = [
             ['01/2013', 10],
@@ -195,7 +195,7 @@ var EcommerceDashboard = function() {
 
         var previousPoint = null;
 
-        $("#statistics_2").bind("plothover", function(event, pos, item) {
+        $("#statistics_2").bind("plothover", function (event, pos, item) {
             $("#x").text(pos.x.toFixed(2));
             $("#y").text(pos.y.toFixed(2));
             if (item) {
@@ -219,10 +219,10 @@ var EcommerceDashboard = function() {
     return {
 
         //main function
-        init: function() {
+        init: function () {
             initChart1();
 
-            $('#statistics_orders_tab').on('shown.bs.tab', function(e) {
+            $('#statistics_orders_tab').on('shown.bs.tab', function (e) {
                 initChart2();
             });
         }
@@ -231,6 +231,6 @@ var EcommerceDashboard = function() {
 
 }();
 
-jQuery(document).ready(function() {    
-   EcommerceDashboard.init();
+jQuery(document).ready(function () {
+    EcommerceDashboard.init();
 });

@@ -16,30 +16,30 @@ import java.lang.reflect.Type;
 @Service
 @Transactional
 public class BaseService<Repository extends BaseRepository<T, PK>, T extends BaseEntity, PK extends Serializable> {
-	public final Logger log = LoggerFactory.getLogger(getClass());
+    public final Logger log = LoggerFactory.getLogger(getClass());
 
-	@Autowired
-	public JpaCustomeRepository<T> baseRepository;
+    @Autowired
+    public JpaCustomeRepository<T> baseRepository;
 
-	public  Repository repository;
+    public Repository repository;
 
-	public Class<T> persistentClass;
+    public Class<T> persistentClass;
 
-	@SuppressWarnings("unchecked")
-	public BaseService() {
-		Class<?> c = getClass();
-		Type type = c.getGenericSuperclass();
-		if (type instanceof ParameterizedType) {
-			Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
-			if(parameterizedType[0] instanceof  Class)
-			persistentClass = (Class<T>) parameterizedType[0];
-		}
-	}
+    @SuppressWarnings("unchecked")
+    public BaseService() {
+        Class<?> c = getClass();
+        Type type = c.getGenericSuperclass();
+        if (type instanceof ParameterizedType) {
+            Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
+            if (parameterizedType[0] instanceof Class)
+                persistentClass = (Class<T>) parameterizedType[0];
+        }
+    }
 
-	public T save(T entity) {
-		entity = repository.save(entity);
-		log.debug("Save Information for Entity: {}", entity);
-		return entity;
-	}
+    public T save(T entity) {
+        entity = repository.save(entity);
+        log.debug("Save Information for Entity: {}", entity);
+        return entity;
+    }
 
 }

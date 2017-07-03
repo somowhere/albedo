@@ -30,9 +30,9 @@ public class PersistentToken implements Serializable {
     private static final int MAX_USER_AGENT_LEN = 255;
 
     @Id
-	@Column(name = "id_")
-	@SearchField
-	protected String id; // 编号
+    @Column(name = "id_")
+    @SearchField
+    protected String id; // 编号
     @Column(name = "series_")
     private String series;
 
@@ -40,7 +40,7 @@ public class PersistentToken implements Serializable {
     @NotNull
     @Column(name = "token_value", nullable = false)
     private String tokenValue;
-    
+
     @Column(name = "token_date")
     private Date tokenDate;
 
@@ -53,29 +53,30 @@ public class PersistentToken implements Serializable {
     private String userAgent;
 
     /*** 用户 */
-	@Length(min = 0, max = 2000)
-	@Column(name = "user_id")
-	private String userId;
-	/*** 用户  */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", insertable = false, updatable = false)
-	@NotFound(action = NotFoundAction.IGNORE)  @JsonIgnore
-	private User user;
-	
-	@PrePersist
-	public void prePersist() {
-		this.id = IdGen.uuid();
-	}
-	
+    @Length(min = 0, max = 2000)
+    @Column(name = "user_id")
+    private String userId;
+    /*** 用户  */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JsonIgnore
+    private User user;
+
+    @PrePersist
+    public void prePersist() {
+        this.id = IdGen.uuid();
+    }
+
     public String getId() {
-		return id;
-	}
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getSeries() {
+    public String getSeries() {
         return series;
     }
 
@@ -128,14 +129,14 @@ public class PersistentToken implements Serializable {
     }
 
     public String getUserId() {
-		return userId;
-	}
+        return userId;
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	@Override
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -161,11 +162,11 @@ public class PersistentToken implements Serializable {
     @Override
     public String toString() {
         return "PersistentToken{" +
-            "series='" + series + '\'' +
-            ", tokenValue='" + tokenValue + '\'' +
-            ", tokenDate=" + tokenDate +
-            ", ipAddress='" + ipAddress + '\'' +
-            ", userAgent='" + userAgent + '\'' +
-            "}";
+                "series='" + series + '\'' +
+                ", tokenValue='" + tokenValue + '\'' +
+                ", tokenDate=" + tokenDate +
+                ", ipAddress='" + ipAddress + '\'' +
+                ", userAgent='" + userAgent + '\'' +
+                "}";
     }
 }

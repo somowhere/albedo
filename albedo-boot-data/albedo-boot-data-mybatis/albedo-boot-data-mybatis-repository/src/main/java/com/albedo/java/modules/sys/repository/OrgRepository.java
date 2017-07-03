@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface OrgRepository extends TreeRepository<Org, String> {
 
-	List<Org> findFirstByParentIdsLike(String parentIds);
+    List<Org> findFirstByParentIdsLike(String parentIds);
 
 }

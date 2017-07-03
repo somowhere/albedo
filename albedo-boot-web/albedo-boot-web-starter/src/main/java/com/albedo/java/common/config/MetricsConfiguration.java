@@ -80,10 +80,10 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
         if (albedoProperties.getMetrics().getLogs().isEnabled()) {
             log.info("Initializing Metrics Log reporting");
             final Slf4jReporter reporter = Slf4jReporter.forRegistry(metricRegistry)
-                .outputTo(LoggerFactory.getLogger("metrics"))
-                .convertRatesTo(TimeUnit.SECONDS)
-                .convertDurationsTo(TimeUnit.MILLISECONDS)
-                .build();
+                    .outputTo(LoggerFactory.getLogger("metrics"))
+                    .convertRatesTo(TimeUnit.SECONDS)
+                    .convertDurationsTo(TimeUnit.MILLISECONDS)
+                    .build();
             reporter.start(albedoProperties.getMetrics().getLogs().getReportFrequency(), TimeUnit.SECONDS);
         }
     }
@@ -109,10 +109,10 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
                 String graphitePrefix = albedoProperties.getMetrics().getGraphite().getPrefix();
                 Graphite graphite = new Graphite(new InetSocketAddress(graphiteHost, graphitePort));
                 GraphiteReporter graphiteReporter = GraphiteReporter.forRegistry(metricRegistry)
-                    .convertRatesTo(TimeUnit.SECONDS)
-                    .convertDurationsTo(TimeUnit.MILLISECONDS)
-                    .prefixedWith(graphitePrefix)
-                    .build(graphite);
+                        .convertRatesTo(TimeUnit.SECONDS)
+                        .convertDurationsTo(TimeUnit.MILLISECONDS)
+                        .prefixedWith(graphitePrefix)
+                        .build(graphite);
                 graphiteReporter.start(1, TimeUnit.MINUTES);
             }
         }
@@ -137,9 +137,9 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
                 String sparkHost = albedoProperties.getMetrics().getSpark().getHost();
                 Integer sparkPort = albedoProperties.getMetrics().getSpark().getPort();
                 SparkReporter sparkReporter = SparkReporter.forRegistry(metricRegistry)
-                    .convertRatesTo(TimeUnit.SECONDS)
-                    .convertDurationsTo(TimeUnit.MILLISECONDS)
-                    .build(sparkHost, sparkPort);
+                        .convertRatesTo(TimeUnit.SECONDS)
+                        .convertDurationsTo(TimeUnit.MILLISECONDS)
+                        .build(sparkHost, sparkPort);
                 sparkReporter.start(1, TimeUnit.MINUTES);
             }
         }

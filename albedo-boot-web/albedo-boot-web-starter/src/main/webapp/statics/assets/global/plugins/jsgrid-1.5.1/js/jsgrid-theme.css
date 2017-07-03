@@ -194,16 +194,59 @@
     opacity: .5;
 }
 
-.jsgrid-cancel-edit-button { background-position: 0 0; width: 16px; height: 16px; }
-.jsgrid-clear-filter-button { background-position: 0 -40px; width: 16px; height: 16px; }
-.jsgrid-delete-button { background-position: 0 -80px; width: 16px; height: 16px; }
-.jsgrid-edit-button { background-position: 0 -120px; width: 16px; height: 16px; }
-.jsgrid-insert-mode-button { background-position: 0 -160px; width: 24px; height: 24px; }
-.jsgrid-insert-button { background-position: 0 -208px; width: 16px; height: 16px; }
-.jsgrid-search-mode-button { background-position: 0 -248px; width: 24px; height: 24px; }
-.jsgrid-search-button { background-position: 0 -296px; width: 16px; height: 16px; }
-.jsgrid-update-button { background-position: 0 -336px; width: 16px; height: 16px; }
+.jsgrid-cancel-edit-button {
+    background-position: 0 0;
+    width: 16px;
+    height: 16px;
+}
 
+.jsgrid-clear-filter-button {
+    background-position: 0 -40px;
+    width: 16px;
+    height: 16px;
+}
+
+.jsgrid-delete-button {
+    background-position: 0 -80px;
+    width: 16px;
+    height: 16px;
+}
+
+.jsgrid-edit-button {
+    background-position: 0 -120px;
+    width: 16px;
+    height: 16px;
+}
+
+.jsgrid-insert-mode-button {
+    background-position: 0 -160px;
+    width: 24px;
+    height: 24px;
+}
+
+.jsgrid-insert-button {
+    background-position: 0 -208px;
+    width: 16px;
+    height: 16px;
+}
+
+.jsgrid-search-mode-button {
+    background-position: 0 -248px;
+    width: 24px;
+    height: 24px;
+}
+
+.jsgrid-search-button {
+    background-position: 0 -296px;
+    width: 16px;
+    height: 16px;
+}
+
+.jsgrid-update-button {
+    background-position: 0 -336px;
+    width: 16px;
+    height: 16px;
+}
 
 .jsgrid-load-shader {
     background: #ddd;
@@ -235,24 +278,35 @@
     animation: indicator 1s linear infinite;
 }
 
-@-webkit-keyframes indicator
-{
-    from { -webkit-transform: rotate(0deg); }
-    50%  { -webkit-transform: rotate(180deg); }
-    to   { -webkit-transform: rotate(360deg); }
+@-webkit-keyframes indicator {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    50% {
+        -webkit-transform: rotate(180deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
 }
 
-@keyframes indicator
-{
-    from { transform: rotate(0deg); }
-    50%  { transform: rotate(180deg); }
-    to   { transform: rotate(360deg); }
+@keyframes indicator {
+    from {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* old IE */
 .jsgrid-load-panel {
-    padding-top: 1.5em\9;
+    padding-top: 1.5em \9;
 }
+
 .jsgrid-load-panel:before {
-    display: none\9;
+    display: none \9;
 }

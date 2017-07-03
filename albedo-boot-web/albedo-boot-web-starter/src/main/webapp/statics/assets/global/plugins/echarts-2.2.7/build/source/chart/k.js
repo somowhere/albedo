@@ -33,17 +33,19 @@ define('echarts/chart/k', [
                     color: '#ff3200',
                     color0: '#00aa11'
                 },
-                label: { show: false }
+                label: {show: false}
             },
-            emphasis: { label: { show: false } }
+            emphasis: {label: {show: false}}
         }
     };
     var ecData = require('../util/ecData');
     var zrUtil = require('zrender/tool/util');
+
     function K(ecTheme, messageCenter, zr, option, myChart) {
         ChartBase.call(this, ecTheme, messageCenter, zr, option, myChart);
         this.refresh(option);
     }
+
     K.prototype = {
         type: ecConfig.CHART_TYPE_K,
         _buildShape: function () {
@@ -282,12 +284,14 @@ define('echarts/chart/k', [
             var seriesIndex;
             var dataIndex;
             var aniCount = 0;
+
             function animationDone() {
                 aniCount--;
                 if (aniCount === 0) {
                     done && done();
                 }
             }
+
             for (var i = 0, l = this.shapeList.length; i < l; i++) {
                 seriesIndex = this.shapeList[i]._seriesIndex;
                 if (aniMap[seriesIndex] && !aniMap[seriesIndex][3]) {

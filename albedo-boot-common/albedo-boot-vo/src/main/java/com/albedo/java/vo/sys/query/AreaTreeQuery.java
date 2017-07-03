@@ -9,9 +9,9 @@ import lombok.Data;
 public class AreaTreeQuery {
 
     private String all;
-    private String parentId; 
+    private String parentId;
     private String extId;
-    private Integer ltLevel; 
+    private Integer ltLevel;
     private Integer level;
 
 }

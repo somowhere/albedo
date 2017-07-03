@@ -8,60 +8,40 @@ import javax.validation.constraints.NotNull;
 
 /**
  * Properties specific to JHipster.
- *
  * <p>
- *     Properties are configured in the application.yml file.
+ * <p>
+ * Properties are configured in the application.yml file.
  * </p>
  */
 @ConfigurationProperties(prefix = "albedo",
         ignoreUnknownFields = true,
-        ignoreInvalidFields= true,
+        ignoreInvalidFields = true,
         exceptionIfInvalid = false)
 public class AlbedoProperties {
 
-	private String adminPath = "/a";
-	
-	private String frontPath = "/f";
-	
-	private String defaultView;
-	
-	private String application = "albedo";
-	
-	private String jedisKeyPrefix = "";
-	
-	private String urlSuffix = ".html";
-	
-	private Boolean developMode=true;
-	
-	private Boolean quartzEnabled=true;
-	
-	private Boolean isTokenInterceptor=true;
-	
-	private Boolean cluster=false;
-	
-	private String freeURL = "";
-	
-	private String staticFileDirectory = "";
-	
-	private String rsaPublicKey = "";
-	
-	private String rsaPrivateKey = "";
-	
     private final Async async = new Async();
-
     private final Http http = new Http();
-
     private final Cache cache = new Cache();
-
     private final Mail mail = new Mail();
-
     private final Security security = new Security();
-
     private final Metrics metrics = new Metrics();
-
     private final CorsConfiguration cors = new CorsConfiguration();
-
     private final Ribbon ribbon = new Ribbon();
+    private final Logging logging = new Logging();
+    private String adminPath = "/a";
+    private String frontPath = "/f";
+    private String defaultView;
+    private String application = "albedo";
+    private String jedisKeyPrefix = "";
+    private String urlSuffix = ".html";
+    private Boolean developMode = true;
+    private Boolean quartzEnabled = true;
+    private Boolean isTokenInterceptor = true;
+    private Boolean cluster = false;
+    private String freeURL = "";
+    private String staticFileDirectory = "";
+    private String rsaPublicKey = "";
+    private String rsaPrivateKey = "";
 
     public Async getAsync() {
         return async;
@@ -83,7 +63,6 @@ public class AlbedoProperties {
         return security;
     }
 
-
     public Metrics getMetrics() {
         return metrics;
     }
@@ -95,6 +74,135 @@ public class AlbedoProperties {
     public Ribbon getRibbon() {
         return ribbon;
     }
+
+    public Logging getLogging() {
+        return logging;
+    }
+
+    public Boolean getDevelopMode() {
+        return developMode;
+    }
+
+    public void setDevelopMode(Boolean developMode) {
+        this.developMode = developMode;
+    }
+
+    public String getAdminPath() {
+        return adminPath;
+    }
+
+    public void setAdminPath(String adminPath) {
+        this.adminPath = adminPath;
+    }
+
+    public String getAdminPath(String strs) {
+        return PublicUtil.toAppendStr(adminPath, strs);
+    }
+
+    public String getStaticUrlPath(String strs) {
+        return PublicUtil.toAppendStr(adminPath, "/file/get", strs);
+    }
+
+    public String getStaticFileDirectory(String strs) {
+        return PublicUtil.toAppendStr(staticFileDirectory, strs);
+    }
+
+    public Boolean getIsTokenInterceptor() {
+        return isTokenInterceptor;
+    }
+
+    public void setIsTokenInterceptor(Boolean isTokenInterceptor) {
+        this.isTokenInterceptor = isTokenInterceptor;
+    }
+
+    public String getFreeURL() {
+        return freeURL;
+    }
+
+    public void setFreeURL(String freeURL) {
+        this.freeURL = freeURL;
+    }
+
+    public String getFrontPath() {
+        return frontPath;
+    }
+
+    public void setFrontPath(String frontPath) {
+        this.frontPath = frontPath;
+    }
+
+    public String getUrlSuffix() {
+        return urlSuffix;
+    }
+
+    public void setUrlSuffix(String urlSuffix) {
+        this.urlSuffix = urlSuffix;
+    }
+
+    public String getApplication() {
+        return application;
+    }
+
+    public void setApplication(String application) {
+        this.application = application;
+    }
+
+    public String getJedisKeyPrefix() {
+        return jedisKeyPrefix;
+    }
+
+    public void setJedisKeyPrefix(String jedisKeyPrefix) {
+        this.jedisKeyPrefix = jedisKeyPrefix;
+    }
+
+    public Boolean getCluster() {
+        return cluster;
+    }
+
+    public void setCluster(Boolean cluster) {
+        this.cluster = cluster;
+    }
+
+    public String getStaticFileDirectory() {
+        return staticFileDirectory;
+    }
+
+    public void setStaticFileDirectory(String staticFileDirectory) {
+        this.staticFileDirectory = staticFileDirectory;
+    }
+
+    public Boolean getQuartzEnabled() {
+        return quartzEnabled;
+    }
+
+    public void setQuartzEnabled(Boolean quartzEnabled) {
+        this.quartzEnabled = quartzEnabled;
+    }
+
+    public String getDefaultView() {
+        return defaultView;
+    }
+
+    public void setDefaultView(String defaultView) {
+        this.defaultView = defaultView;
+    }
+
+    public String getRsaPublicKey() {
+        return rsaPublicKey;
+    }
+
+    public void setRsaPublicKey(String rsaPublicKey) {
+        this.rsaPublicKey = rsaPublicKey;
+    }
+
+    public String getRsaPrivateKey() {
+        return rsaPrivateKey;
+    }
+
+    public void setRsaPrivateKey(String rsaPrivateKey) {
+        this.rsaPrivateKey = rsaPrivateKey;
+    }
+
     public static class Async {
 
         private int corePoolSize = 2;
@@ -131,21 +239,22 @@ public class AlbedoProperties {
     public static class Http {
 
         private final Cache cache = new Cache();
-        private Boolean restful = false; 
+        private Boolean restful = false;
+
         public Cache getCache() {
             return cache;
         }
 
-		public Boolean getRestful() {
-			return restful;
-		}
+        public Boolean getRestful() {
+            return restful;
+        }
 
-		public void setRestful(Boolean restful) {
-			this.restful = restful;
-		}
+        public void setRestful(Boolean restful) {
+            this.restful = restful;
+        }
 
 
-		public static class Cache {
+        public static class Cache {
 
             private int timeToLiveInDays = 1461;
 
@@ -161,9 +270,8 @@ public class AlbedoProperties {
 
     public static class Cache {
 
-        private int timeToLiveSeconds = 3600;
-
         private final Ehcache ehcache = new Ehcache();
+        private int timeToLiveSeconds = 3600;
 
         public int getTimeToLiveSeconds() {
             return timeToLiveSeconds;
@@ -342,7 +450,7 @@ public class AlbedoProperties {
             }
         }
 
-        public static  class Logs {
+        public static class Logs {
 
             private boolean enabled = false;
 
@@ -366,75 +474,13 @@ public class AlbedoProperties {
         }
     }
 
-    private final Logging logging = new Logging();
-
-    public Logging getLogging() { return logging; }
-
-    public Boolean getDevelopMode() {
-		return developMode;
-	}
-
-	public void setDevelopMode(Boolean developMode) {
-		this.developMode = developMode;
-	}
-
-	public String getAdminPath() {
-		return adminPath;
-	}
-	
-	public String getAdminPath(String strs) {
-		return PublicUtil.toAppendStr(adminPath, strs);
-	}
-	
-	public String getStaticUrlPath(String strs) {
-		return PublicUtil.toAppendStr(adminPath, "/file/get", strs);
-	}
-	
-	public String getStaticFileDirectory(String strs) {
-		return PublicUtil.toAppendStr(staticFileDirectory, strs);
-	}
-	
-	public void setAdminPath(String adminPath) {
-		this.adminPath = adminPath;
-	}
-
-	public Boolean getIsTokenInterceptor() {
-		return isTokenInterceptor;
-	}
-
-	public void setIsTokenInterceptor(Boolean isTokenInterceptor) {
-		this.isTokenInterceptor = isTokenInterceptor;
-	}
-
-	public String getFreeURL() {
-		return freeURL;
-	}
-
-	public void setFreeURL(String freeURL) {
-		this.freeURL = freeURL;
-	}
-
-	public String getFrontPath() {
-		return frontPath;
-	}
-
-	public void setFrontPath(String frontPath) {
-		this.frontPath = frontPath;
-	}
-
-	public String getUrlSuffix() {
-		return urlSuffix;
-	}
-
-	public void setUrlSuffix(String urlSuffix) {
-		this.urlSuffix = urlSuffix;
-	}
-
-	public static class Logging {
+    public static class Logging {
 
         private final Logstash logstash = new Logstash();
 
-        public Logstash getLogstash() { return logstash; }
+        public Logstash getLogstash() {
+            return logstash;
+        }
 
         public static class Logstash {
 
@@ -446,21 +492,37 @@ public class AlbedoProperties {
 
             private int queueSize = 512;
 
-            public boolean isEnabled() { return enabled; }
+            public boolean isEnabled() {
+                return enabled;
+            }
 
-            public void setEnabled(boolean enabled) { this.enabled = enabled; }
+            public void setEnabled(boolean enabled) {
+                this.enabled = enabled;
+            }
 
-            public String getHost() { return host; }
+            public String getHost() {
+                return host;
+            }
 
-            public void setHost(String host) { this.host = host; }
+            public void setHost(String host) {
+                this.host = host;
+            }
 
-            public int getPort() { return port; }
+            public int getPort() {
+                return port;
+            }
 
-            public void setPort(int port) { this.port = port; }
+            public void setPort(int port) {
+                this.port = port;
+            }
 
-            public int getQueueSize() { return queueSize; }
+            public int getQueueSize() {
+                return queueSize;
+            }
 
-            public void setQueueSize(int queueSize) { this.queueSize = queueSize; }
+            public void setQueueSize(int queueSize) {
+                this.queueSize = queueSize;
+            }
         }
     }
 
@@ -476,69 +538,5 @@ public class AlbedoProperties {
             this.displayOnActiveProfiles = displayOnActiveProfiles;
         }
     }
-
-	public String getApplication() {
-		return application;
-	}
-
-	public void setApplication(String application) {
-		this.application = application;
-	}
-
-	public String getJedisKeyPrefix() {
-		return jedisKeyPrefix;
-	}
-
-	public void setJedisKeyPrefix(String jedisKeyPrefix) {
-		this.jedisKeyPrefix = jedisKeyPrefix;
-	}
-
-	public Boolean getCluster() {
-		return cluster;
-	}
-
-	public void setCluster(Boolean cluster) {
-		this.cluster = cluster;
-	}
-
-	public String getStaticFileDirectory() {
-		return staticFileDirectory;
-	}
-
-	public void setStaticFileDirectory(String staticFileDirectory) {
-		this.staticFileDirectory = staticFileDirectory;
-	}
-
-	public Boolean getQuartzEnabled() {
-		return quartzEnabled;
-	}
-
-	public void setQuartzEnabled(Boolean quartzEnabled) {
-		this.quartzEnabled = quartzEnabled;
-	}
-
-	public String getDefaultView() {
-		return defaultView;
-	}
-
-	public void setDefaultView(String defaultView) {
-		this.defaultView = defaultView;
-	}
-
-	public String getRsaPublicKey() {
-		return rsaPublicKey;
-	}
-
-	public void setRsaPublicKey(String rsaPublicKey) {
-		this.rsaPublicKey = rsaPublicKey;
-	}
-
-	public String getRsaPrivateKey() {
-		return rsaPrivateKey;
-	}
-
-	public void setRsaPrivateKey(String rsaPrivateKey) {
-		this.rsaPrivateKey = rsaPrivateKey;
-	}
 
 }

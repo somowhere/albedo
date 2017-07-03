@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: Modelica mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel="stylesheet" href="../../lib/codemirror.css">
 <script src="../../lib/codemirror.js"></script>
@@ -21,16 +21,16 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">Modelica</a>
+        <li>
+            <a class=active href="#">Modelica</a>
     </ul>
 </div>
 <article>
@@ -42,11 +42,11 @@
     </div>
     <script>
         var modelicaEditor = CodeMirror.fromTextArea(document.getElementById("modelica"),
-        {
-            lineNumbers: true,
-            matchBrackets: true,
-            mode: "text/x-modelica"
-        });
+            {
+                lineNumbers: true,
+                matchBrackets: true,
+                mode: "text/x-modelica"
+            });
         var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
         CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
     </script>

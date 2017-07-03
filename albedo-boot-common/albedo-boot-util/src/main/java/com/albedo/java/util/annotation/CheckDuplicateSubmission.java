@@ -18,16 +18,15 @@ import static java.lang.annotation.ElementType.METHOD;
  * 保存方法需要验证重复提交的，设置needRemoveToken为true
  * 此时会在拦截器中验证是否重复提交
  * </p>
- *
  */
-@Target({ METHOD, FIELD })
+@Target({METHOD, FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface CheckDuplicateSubmission {
 
-	String tokenName() default "";
-	
-	boolean needCheckToken() default false;
-	
-	boolean needGenerateToken() default false;
+    String tokenName() default "";
+
+    boolean needCheckToken() default false;
+
+    boolean needGenerateToken() default false;
 }

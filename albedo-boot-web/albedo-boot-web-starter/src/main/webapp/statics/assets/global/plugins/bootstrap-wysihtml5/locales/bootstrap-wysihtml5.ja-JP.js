@@ -1,7 +1,7 @@
 /**
  * Japanese translation for bootstrap-wysihtml5
  */
-(function($){
+(function ($) {
     $.fn.wysihtml5.locale["ja-JP"] = {
         font_styles: {
             normal: "通常の文字",

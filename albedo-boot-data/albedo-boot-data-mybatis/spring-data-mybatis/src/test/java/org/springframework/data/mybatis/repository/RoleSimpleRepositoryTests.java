@@ -50,7 +50,7 @@ import static org.junit.Assert.*;
 public class RoleSimpleRepositoryTests {
 
     @Autowired
-    RoleRepository  roleRepository;
+    RoleRepository roleRepository;
     @Autowired
     GroupRepository groupRepository;
     Role manager, tester, developer, assistant;

@@ -1,6 +1,6 @@
-var FormValidationMd = function() {
+var FormValidationMd = function () {
 
-    var handleValidation1 = function() {
+    var handleValidation1 = function () {
         // for more info visit the official plugin documentation: 
         // http://docs.jquery.com/Plugins/Validation
         var form1 = $('#form_sample_1');
@@ -92,13 +92,13 @@ var FormValidationMd = function() {
                 }
             },
 
-            invalidHandler: function(event, validator) { //display error alert on form submit              
+            invalidHandler: function (event, validator) { //display error alert on form submit              
                 success1.hide();
                 error1.show();
                 App.scrollTo(error1, -200);
             },
 
-            errorPlacement: function(error, element) {
+            errorPlacement: function (error, element) {
                 if (element.is(':checkbox')) {
                     error.insertAfter(element.closest(".md-checkbox-list, .md-checkbox-inline, .checkbox-list, .checkbox-inline"));
                 } else if (element.is(':radio')) {
@@ -108,29 +108,29 @@ var FormValidationMd = function() {
                 }
             },
 
-            highlight: function(element) { // hightlight error inputs
+            highlight: function (element) { // hightlight error inputs
                 $(element)
                     .closest('.form-group').addClass('has-error'); // set error class to the control group
             },
 
-            unhighlight: function(element) { // revert the change done by hightlight
+            unhighlight: function (element) { // revert the change done by hightlight
                 $(element)
                     .closest('.form-group').removeClass('has-error'); // set error class to the control group
             },
 
-            success: function(label) {
+            success: function (label) {
                 label
                     .closest('.form-group').removeClass('has-error'); // set success class to the control group
             },
 
-            submitHandler: function(form) {
+            submitHandler: function (form) {
                 success1.show();
                 error1.hide();
             }
         });
     }
 
-    var handleValidation2 = function() {
+    var handleValidation2 = function () {
         // for more info visit the official plugin documentation: 
         // http://docs.jquery.com/Plugins/Validation
         var form1 = $('#form_sample_2');
@@ -222,13 +222,13 @@ var FormValidationMd = function() {
                 }
             },
 
-            invalidHandler: function(event, validator) { //display error alert on form submit              
+            invalidHandler: function (event, validator) { //display error alert on form submit              
                 success1.hide();
                 error1.show();
                 App.scrollTo(error1, -200);
             },
 
-            errorPlacement: function(error, element) {
+            errorPlacement: function (error, element) {
                 if (element.is(':checkbox')) {
                     error.insertAfter(element.closest(".md-checkbox-list, .md-checkbox-inline, .checkbox-list, .checkbox-inline"));
                 } else if (element.is(':radio')) {
@@ -238,29 +238,29 @@ var FormValidationMd = function() {
                 }
             },
 
-            highlight: function(element) { // hightlight error inputs
+            highlight: function (element) { // hightlight error inputs
                 $(element)
                     .closest('.form-group').addClass('has-error'); // set error class to the control group
             },
 
-            unhighlight: function(element) { // revert the change done by hightlight
+            unhighlight: function (element) { // revert the change done by hightlight
                 $(element)
                     .closest('.form-group').removeClass('has-error'); // set error class to the control group
             },
 
-            success: function(label) {
+            success: function (label) {
                 label
                     .closest('.form-group').removeClass('has-error'); // set success class to the control group
             },
 
-            submitHandler: function(form) {
+            submitHandler: function (form) {
                 success1.show();
                 error1.hide();
             }
         });
     }
 
-    var handleValidation3 = function() {
+    var handleValidation3 = function () {
         // for more info visit the official plugin documentation: 
         // http://docs.jquery.com/Plugins/Validation
         var form1 = $('#form_sample_3');
@@ -338,13 +338,13 @@ var FormValidationMd = function() {
                 }
             },
 
-            invalidHandler: function(event, validator) { //display error alert on form submit              
+            invalidHandler: function (event, validator) { //display error alert on form submit              
                 success1.hide();
                 error1.show();
                 App.scrollTo(error1, -200);
             },
 
-            errorPlacement: function(error, element) {
+            errorPlacement: function (error, element) {
                 if (element.is(':checkbox')) {
                     error.insertAfter(element.closest(".md-checkbox-list, .md-checkbox-inline, .checkbox-list, .checkbox-inline"));
                 } else if (element.is(':radio')) {
@@ -354,22 +354,22 @@ var FormValidationMd = function() {
                 }
             },
 
-            highlight: function(element) { // hightlight error inputs
+            highlight: function (element) { // hightlight error inputs
                 $(element)
                     .closest('.form-group').addClass('has-error'); // set error class to the control group
             },
 
-            unhighlight: function(element) { // revert the change done by hightlight
+            unhighlight: function (element) { // revert the change done by hightlight
                 $(element)
                     .closest('.form-group').removeClass('has-error'); // set error class to the control group
             },
 
-            success: function(label) {
+            success: function (label) {
                 label
                     .closest('.form-group').removeClass('has-error'); // set success class to the control group
             },
 
-            submitHandler: function(form) {
+            submitHandler: function (form) {
                 success1.show();
                 error1.hide();
             }
@@ -378,7 +378,7 @@ var FormValidationMd = function() {
 
     return {
         //main function to initiate the module
-        init: function() {
+        init: function () {
             handleValidation1();
             handleValidation2();
             handleValidation3();
@@ -386,6 +386,6 @@ var FormValidationMd = function() {
     };
 }();
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     FormValidationMd.init();
 });

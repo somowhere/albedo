@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * 生成方案Entity
- * 
+ *
  * @version 2013-10-15
  */
 @XmlRootElement(name = "template")
@@ -28,45 +28,45 @@ import java.util.List;
 @NoArgsConstructor
 public class GenTemplate extends IdEntity {
 
-	private static final long serialVersionUID = 1L;
-	@Length(min = 1, max = 200)
-	@Column(name = "name_")
-	private String name; // 名称
-	@Column(name = "category_")
-	private String category; // 分类
-	@Column(name = "file_path")
-	private String filePath; // 生成文件路径
-	@Column(name = "file_name")
-	private String fileName; // 文件名
-	@Column(name = "content_")
-	private String content; // 内容
+    private static final long serialVersionUID = 1L;
+    @Length(min = 1, max = 200)
+    @Column(name = "name_")
+    private String name; // 名称
+    @Column(name = "category_")
+    private String category; // 分类
+    @Column(name = "file_path")
+    private String filePath; // 生成文件路径
+    @Column(name = "file_name")
+    private String fileName; // 文件名
+    @Column(name = "content_")
+    private String content; // 内容
 
-	private boolean ignoreOutput;
+    private boolean ignoreOutput;
 
-	public GenTemplate(String id) {
-		super();
-		this.id = id;
-	}
+    public GenTemplate(String id) {
+        super();
+        this.id = id;
+    }
 
-	@XmlTransient
-	public String getCategory() {
-		return category;
-	}
+    @XmlTransient
+    public String getCategory() {
+        return category;
+    }
 
-	public List<String> getCategoryList() {
-		if (category == null) {
-			return Lists.newArrayList();
-		} else {
-			return Lists.newArrayList(StringUtil.split(category, ","));
-		}
-	}
+    public List<String> getCategoryList() {
+        if (category == null) {
+            return Lists.newArrayList();
+        } else {
+            return Lists.newArrayList(StringUtil.split(category, ","));
+        }
+    }
 
-	public void setCategoryList(List<String> categoryList) {
-		if (categoryList == null) {
-			this.category = "";
-		} else {
-			this.category = "," + StringUtil.join(categoryList, ",") + ",";
-		}
-	}
+    public void setCategoryList(List<String> categoryList) {
+        if (categoryList == null) {
+            this.category = "";
+        } else {
+            this.category = "," + StringUtil.join(categoryList, ",") + ",";
+        }
+    }
 
 }

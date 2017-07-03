@@ -1,123 +1,126 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
-(function() {
-  var mode = CodeMirror.getMode({tabSize: 4}, "stex");
-  function MT(name) { test.mode(name, mode, Array.prototype.slice.call(arguments, 1)); }
+(function () {
+    var mode = CodeMirror.getMode({tabSize: 4}, "stex");
 
-  MT("word",
-     "foo");
+    function MT(name) {
+        test.mode(name, mode, Array.prototype.slice.call(arguments, 1));
+    }
 
-  MT("twoWords",
-     "foo bar");
+    MT("word",
+        "foo");
 
-  MT("beginEndDocument",
-     "[tag \\begin][bracket {][atom document][bracket }]",
-     "[tag \\end][bracket {][atom document][bracket }]");
+    MT("twoWords",
+        "foo bar");
 
-  MT("beginEndEquation",
-     "[tag \\begin][bracket {][atom equation][bracket }]",
-     "  E=mc^2",
-     "[tag \\end][bracket {][atom equation][bracket }]");
+    MT("beginEndDocument",
+        "[tag \\begin][bracket {][atom document][bracket }]",
+        "[tag \\end][bracket {][atom document][bracket }]");
 
-  MT("beginModule",
-     "[tag \\begin][bracket {][atom module][bracket }[[]]]");
+    MT("beginEndEquation",
+        "[tag \\begin][bracket {][atom equation][bracket }]",
+        "  E=mc^2",
+        "[tag \\end][bracket {][atom equation][bracket }]");
 
-  MT("beginModuleId",
-     "[tag \\begin][bracket {][atom module][bracket }[[]id=bbt-size[bracket ]]]");
+    MT("beginModule",
+        "[tag \\begin][bracket {][atom module][bracket }[[]]]");
 
-  MT("importModule",
-     "[tag \\importmodule][bracket [[][string b-b-t][bracket ]]{][builtin b-b-t][bracket }]");
+    MT("beginModuleId",
+        "[tag \\begin][bracket {][atom module][bracket }[[]id=bbt-size[bracket ]]]");
 
-  MT("importModulePath",
-     "[tag \\importmodule][bracket [[][tag \\KWARCslides][bracket {][string dmath/en/cardinality][bracket }]]{][builtin card][bracket }]");
+    MT("importModule",
+        "[tag \\importmodule][bracket [[][string b-b-t][bracket ]]{][builtin b-b-t][bracket }]");
 
-  MT("psForPDF",
-     "[tag \\PSforPDF][bracket [[][atom 1][bracket ]]{]#1[bracket }]");
+    MT("importModulePath",
+        "[tag \\importmodule][bracket [[][tag \\KWARCslides][bracket {][string dmath/en/cardinality][bracket }]]{][builtin card][bracket }]");
 
-  MT("comment",
-     "[comment % foo]");
+    MT("psForPDF",
+        "[tag \\PSforPDF][bracket [[][atom 1][bracket ]]{]#1[bracket }]");
 
-  MT("tagComment",
-     "[tag \\item][comment % bar]");
+    MT("comment",
+        "[comment % foo]");
 
-  MT("commentTag",
-     " [comment % \\item]");
+    MT("tagComment",
+        "[tag \\item][comment % bar]");
 
-  MT("commentLineBreak",
-     "[comment %]",
-     "foo");
+    MT("commentTag",
+        " [comment % \\item]");
 
-  MT("tagErrorCurly",
-     "[tag \\begin][error }][bracket {]");
+    MT("commentLineBreak",
+        "[comment %]",
+        "foo");
 
-  MT("tagErrorSquare",
-     "[tag \\item][error ]]][bracket {]");
+    MT("tagErrorCurly",
+        "[tag \\begin][error }][bracket {]");
 
-  MT("commentCurly",
-     "[comment % }]");
+    MT("tagErrorSquare",
+        "[tag \\item][error ]]][bracket {]");
 
-  MT("tagHash",
-     "the [tag \\#] key");
+    MT("commentCurly",
+        "[comment % }]");
 
-  MT("tagNumber",
-     "a [tag \\$][atom 5] stetson");
+    MT("tagHash",
+        "the [tag \\#] key");
 
-  MT("tagPercent",
-     "[atom 100][tag \\%] beef");
+    MT("tagNumber",
+        "a [tag \\$][atom 5] stetson");
 
-  MT("tagAmpersand",
-     "L [tag \\&] N");
+    MT("tagPercent",
+        "[atom 100][tag \\%] beef");
 
-  MT("tagUnderscore",
-     "foo[tag \\_]bar");
+    MT("tagAmpersand",
+        "L [tag \\&] N");
 
-  MT("tagBracketOpen",
-     "[tag \\emph][bracket {][tag \\{][bracket }]");
+    MT("tagUnderscore",
+        "foo[tag \\_]bar");
 
-  MT("tagBracketClose",
-     "[tag \\emph][bracket {][tag \\}][bracket }]");
+    MT("tagBracketOpen",
+        "[tag \\emph][bracket {][tag \\{][bracket }]");
 
-  MT("tagLetterNumber",
-     "section [tag \\S][atom 1]");
+    MT("tagBracketClose",
+        "[tag \\emph][bracket {][tag \\}][bracket }]");
 
-  MT("textTagNumber",
-     "para [tag \\P][atom 2]");
+    MT("tagLetterNumber",
+        "section [tag \\S][atom 1]");
 
-  MT("thinspace",
-     "x[tag \\,]y");
+    MT("textTagNumber",
+        "para [tag \\P][atom 2]");
 
-  MT("thickspace",
-     "x[tag \\;]y");
+    MT("thinspace",
+        "x[tag \\,]y");
 
-  MT("negativeThinspace",
-     "x[tag \\!]y");
+    MT("thickspace",
+        "x[tag \\;]y");
 
-  MT("periodNotSentence",
-     "J.\\ L.\\ is");
+    MT("negativeThinspace",
+        "x[tag \\!]y");
 
-  MT("periodSentence",
-     "X[tag \\@]. The");
+    MT("periodNotSentence",
+        "J.\\ L.\\ is");
 
-  MT("italicCorrection",
-     "[bracket {][tag \\em] If[tag \\/][bracket }] I");
+    MT("periodSentence",
+        "X[tag \\@]. The");
 
-  MT("tagBracket",
-     "[tag \\newcommand][bracket {][tag \\pop][bracket }]");
+    MT("italicCorrection",
+        "[bracket {][tag \\em] If[tag \\/][bracket }] I");
 
-  MT("inlineMathTagFollowedByNumber",
-     "[keyword $][tag \\pi][number 2][keyword $]");
+    MT("tagBracket",
+        "[tag \\newcommand][bracket {][tag \\pop][bracket }]");
 
-  MT("inlineMath",
-     "[keyword $][number 3][variable-2 x][tag ^][number 2.45]-[tag \\sqrt][bracket {][tag \\$\\alpha][bracket }] = [number 2][keyword $] other text");
+    MT("inlineMathTagFollowedByNumber",
+        "[keyword $][tag \\pi][number 2][keyword $]");
 
-  MT("displayMath",
-     "More [keyword $$]\t[variable-2 S][tag ^][variable-2 n][tag \\sum] [variable-2 i][keyword $$] other text");
+    MT("inlineMath",
+        "[keyword $][number 3][variable-2 x][tag ^][number 2.45]-[tag \\sqrt][bracket {][tag \\$\\alpha][bracket }] = [number 2][keyword $] other text");
 
-  MT("mathWithComment",
-     "[keyword $][variable-2 x] [comment % $]",
-     "[variable-2 y][keyword $] other text");
+    MT("displayMath",
+        "More [keyword $$]\t[variable-2 S][tag ^][variable-2 n][tag \\sum] [variable-2 i][keyword $$] other text");
 
-  MT("lineBreakArgument",
-    "[tag \\\\][bracket [[][atom 1cm][bracket ]]]");
+    MT("mathWithComment",
+        "[keyword $][variable-2 x] [comment % $]",
+        "[variable-2 y][keyword $] other text");
+
+    MT("lineBreakArgument",
+        "[tag \\\\][bracket [[][atom 1cm][bracket ]]]");
 })();

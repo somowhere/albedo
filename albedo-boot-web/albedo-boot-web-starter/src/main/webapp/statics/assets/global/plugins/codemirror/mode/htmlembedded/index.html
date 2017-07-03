@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: Html Embedded Scripts mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel="stylesheet" href="../../lib/codemirror.css">
 <script src="../../lib/codemirror.js"></script>
@@ -24,16 +24,16 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">Html Embedded Scripts</a>
+        <li>
+            <a class=active href="#">Html Embedded Scripts</a>
     </ul>
 </div>
 <article>
@@ -54,15 +54,17 @@ function hello(who) {
     </form>
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById("code"),
-        {
-            lineNumbers: true,
-            mode: "application/x-ejs",
-            indentUnit: 4,
-            indentWithTabs: true
-        });
+            {
+                lineNumbers: true,
+                mode: "application/x-ejs",
+                indentUnit: 4,
+                indentWithTabs: true
+            });
     </script>
-    <p>Mode for html embedded scripts like JSP and ASP.NET. Depends on HtmlMixed which in turn depends on JavaScript, CSS and XML.
-        <br />Other dependancies include those of the scriping language chosen.</p>
+    <p>Mode for html embedded scripts like JSP and ASP.NET. Depends on HtmlMixed which in turn depends on JavaScript,
+        CSS and XML.
+        <br/>Other dependancies include those of the scriping language chosen.</p>
     <p>
-        <strong>MIME types defined:</strong> <code>application/x-aspx</code> (ASP.NET), <code>application/x-ejs</code> (Embedded Javascript), <code>application/x-jsp</code> (JavaServer Pages)</p>
+        <strong>MIME types defined:</strong> <code>application/x-aspx</code> (ASP.NET), <code>application/x-ejs</code>
+        (Embedded Javascript), <code>application/x-jsp</code> (JavaServer Pages)</p>
 </article>

@@ -39,7 +39,7 @@ public class Dialect {
     public static final String CLOSED_QUOTE = "`\"]";
 
     private final TypeMappings typeMappings = new TypeMappings();
-    private final Set<String>  sqlKeywords  = new HashSet<String>();
+    private final Set<String> sqlKeywords = new HashSet<String>();
 
     protected Dialect() {
         registerColumnType(Types.BIT, "bit");

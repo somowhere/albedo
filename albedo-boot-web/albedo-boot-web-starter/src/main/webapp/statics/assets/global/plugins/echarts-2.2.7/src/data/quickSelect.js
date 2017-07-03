@@ -74,6 +74,6 @@ define(function (require) {
         }
         return select(list, left, right, nth, compareFunc);
     }
-    
+
     return quickSelect;
 });

@@ -1,6 +1,6 @@
-var ComponentsSelect2 = function() {
+var ComponentsSelect2 = function () {
 
-    var handleDemo = function() {
+    var handleDemo = function () {
 
         // Set the "bootstrap" theme as the default theme for all Select2
         // widgets.
@@ -54,13 +54,13 @@ var ComponentsSelect2 = function() {
                 url: "https://api.github.com/search/repositories",
                 dataType: 'json',
                 delay: 250,
-                data: function(params) {
+                data: function (params) {
                     return {
                         q: params.term, // search term
                         page: params.page
                     };
                 },
-                processResults: function(data, page) {
+                processResults: function (data, page) {
                     // parse the results into the format expected by Select2.
                     // since we are using custom formatting functions we do not need to
                     // alter the remote JSON data
@@ -70,7 +70,7 @@ var ComponentsSelect2 = function() {
                 },
                 cache: true
             },
-            escapeMarkup: function(markup) {
+            escapeMarkup: function (markup) {
                 return markup;
             }, // let our custom formatter work
             minimumInputLength: 1,
@@ -78,11 +78,11 @@ var ComponentsSelect2 = function() {
             templateSelection: formatRepoSelection
         });
 
-        $("button[data-select2-open]").click(function() {
+        $("button[data-select2-open]").click(function () {
             $("#" + $(this).data("select2-open")).select2("open");
         });
 
-        $(":checkbox").on("click", function() {
+        $(":checkbox").on("click", function () {
             $(this).parent().nextAll("select").prop("disabled", !this.checked);
         });
 
@@ -92,7 +92,7 @@ var ComponentsSelect2 = function() {
         // (was #select2-drop in Select2 v3.x, in Select2 v4 can be selected via
         // body > .select2-container) if _any_ of the opened Select2's parents
         // has one of these forementioned classes (YUCK! ;-))
-        $(".select2, .select2-multiple, .select2-allow-clear, .js-data-example-ajax").on("select2:open", function() {
+        $(".select2, .select2-multiple, .select2-allow-clear, .js-data-example-ajax").on("select2:open", function () {
             if ($(this).parents("[class*='has-']").length) {
                 var classNames = $(this).parents("[class*='has-']")[0].className.split(/\s+/);
 
@@ -104,7 +104,7 @@ var ComponentsSelect2 = function() {
             }
         });
 
-        $(".js-btn-set-scaling-classes").on("click", function() {
+        $(".js-btn-set-scaling-classes").on("click", function () {
             $("#select2-multiple-input-sm, #select2-single-input-sm").next(".select2-container--bootstrap").addClass("input-sm");
             $("#select2-multiple-input-lg, #select2-single-input-lg").next(".select2-container--bootstrap").addClass("input-lg");
             $(this).removeClass("btn-primary btn-outline").prop("disabled", true);
@@ -113,7 +113,7 @@ var ComponentsSelect2 = function() {
 
     return {
         //main function to initiate the module
-        init: function() {
+        init: function () {
             handleDemo();
         }
     };
@@ -121,7 +121,7 @@ var ComponentsSelect2 = function() {
 }();
 
 if (App.isAngularJsApp() === false) {
-    jQuery(document).ready(function() {
+    jQuery(document).ready(function () {
         ComponentsSelect2.init();
     });
 }

@@ -16,6 +16,6 @@ var UIModals = function () {
 
 }();
 
-jQuery(document).ready(function() {    
-   UIModals.init();
+jQuery(document).ready(function () {
+    UIModals.init();
 });

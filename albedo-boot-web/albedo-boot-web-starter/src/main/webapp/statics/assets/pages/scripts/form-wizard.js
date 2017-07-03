@@ -17,7 +17,7 @@ var FormWizard = function () {
                 placeholder: "Select",
                 allowClear: true,
                 formatResult: format,
-                width: 'auto', 
+                width: 'auto',
                 formatSelection: format,
                 escapeMarkup: function (m) {
                     return m;
@@ -136,7 +136,7 @@ var FormWizard = function () {
                     } else { // display success icon for other inputs
                         label
                             .addClass('valid') // mark the current input as valid and display OK icon
-                        .closest('.form-group').removeClass('has-error').addClass('has-success'); // set success class to the control group
+                            .closest('.form-group').removeClass('has-error').addClass('has-success'); // set success class to the control group
                     }
                 },
 
@@ -148,11 +148,11 @@ var FormWizard = function () {
 
             });
 
-            var displayConfirm = function() {
-                $('#tab4 .form-control-static', form).each(function(){
-                    var input = $('[name="'+$(this).attr("data-display")+'"]', form);
+            var displayConfirm = function () {
+                $('#tab4 .form-control-static', form).each(function () {
+                    var input = $('[name="' + $(this).attr("data-display") + '"]', form);
                     if (input.is(":radio")) {
-                        input = $('[name="'+$(this).attr("data-display")+'"]:checked', form);
+                        input = $('[name="' + $(this).attr("data-display") + '"]:checked', form);
                     }
                     if (input.is(":text") || input.is("textarea")) {
                         $(this).html(input.val());
@@ -162,7 +162,7 @@ var FormWizard = function () {
                         $(this).html(input.attr("data-title"));
                     } else if ($(this).attr("data-display") == 'payment[]') {
                         var payment = [];
-                        $('[name="payment[]"]:checked', form).each(function(){ 
+                        $('[name="payment[]"]:checked', form).each(function () {
                             payment.push($(this).attr('data-title'));
                         });
                         $(this).html(payment.join("<br>"));
@@ -170,7 +170,7 @@ var FormWizard = function () {
                 });
             }
 
-            var handleTitle = function(tab, navigation, index) {
+            var handleTitle = function (tab, navigation, index) {
                 var total = navigation.find('li').length;
                 var current = index + 1;
                 // set wizard title
@@ -205,13 +205,13 @@ var FormWizard = function () {
                 'previousSelector': '.button-previous',
                 onTabClick: function (tab, navigation, index, clickedIndex) {
                     return false;
-                    
+
                     success.hide();
                     error.hide();
                     if (form.valid() == false) {
                         return false;
                     }
-                    
+
                     handleTitle(tab, navigation, clickedIndex);
                 },
                 onNext: function (tab, navigation, index) {
@@ -255,6 +255,6 @@ var FormWizard = function () {
 
 }();
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     FormWizard.init();
 });

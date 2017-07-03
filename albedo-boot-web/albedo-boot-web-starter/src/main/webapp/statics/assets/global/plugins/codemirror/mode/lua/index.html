@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: Lua mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel="stylesheet" href="../../lib/codemirror.css">
 <link rel="stylesheet" href="../../theme/neat.css">
@@ -20,16 +20,16 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">Lua</a>
+        <li>
+            <a class=active href="#">Lua</a>
     </ul>
 </div>
 <article>
@@ -41,13 +41,15 @@
     </form>
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById("code"),
-        {
-            matchBrackets: true,
-            theme: "neat"
-        });
+            {
+                matchBrackets: true,
+                theme: "neat"
+            });
     </script>
     <p>Loosely based on Franciszek Wawrzak's
-        <a href="http://codemirror.net/1/contrib/lua">CodeMirror 1 mode</a>. One configuration parameter is supported, <code>specials</code>, to which you can provide an array of strings to have those identifiers highlighted with the <code>lua-special</code> style.</p>
+        <a href="http://codemirror.net/1/contrib/lua">CodeMirror 1 mode</a>. One configuration parameter is supported,
+        <code>specials</code>, to which you can provide an array of strings to have those identifiers highlighted with
+        the <code>lua-special</code> style.</p>
     <p>
         <strong>MIME types defined:</strong> <code>text/x-lua</code>.</p>
 </article>

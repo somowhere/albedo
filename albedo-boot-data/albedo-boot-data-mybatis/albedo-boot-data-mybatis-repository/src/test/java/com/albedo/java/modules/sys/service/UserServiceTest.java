@@ -57,17 +57,28 @@ public class UserServiceTest {
 
     Org org, orgParent;
 
+    private static <T> void assertSameElements(Collection<T> first, Collection<T> second) {
+
+        for (T element : first) {
+            assertThat(element, isIn(second));
+        }
+
+        for (T element : second) {
+            assertThat(element, isIn(first));
+        }
+    }
+
     @Before
     public void setUp() throws Exception {
         orgParent = new Org();
         orgParent.setName("nameParent1");
         orgParent.setCode("codeParent1");
-        
+
         org = new Org();
         org.setName("name1");
         org.setCode("code1");
         org.setDescription("org");
-        
+
 
         role1 = new Role();
         role1.setName("role1");
@@ -77,40 +88,40 @@ public class UserServiceTest {
         role2.setOrgId(org.getId());
         roles.add(role1);
         roles.add(role2);
-        
+
 
         user1 = new User();
         user1.setLoginId("admin1");
         user1.setPassword("111111");
         user1.setEmail("email1");
-        
+
 
         user2 = new User();
         user2.setLoginId("admin2");
         user2.setPassword("222222");
-        
+
         user2.setEmail("email2");
-        
+
 
         user3 = new User();
         user3.setLoginId("admin33");
         user3.setPassword("3333333");
-        
-        
+
+
         user3.setEmail("email3");
-        
+
 
         user4 = new User();
         user4.setLoginId("admin44");
         user4.setPassword("4444444");
-        
+
         user4.setEmail("email4");
-        
+
 
     }
 
     private void flushTestUsers() {
-        orgParent=orgService.save(orgParent);
+        orgParent = orgService.save(orgParent);
         org.setParentId(orgParent.getId());
         org = orgService.save(org);
         roles = (Set<Role>) roleService.save(roles);
@@ -122,8 +133,8 @@ public class UserServiceTest {
         user2.setOrgId(org.getId());
         user2.setRoles(roles);
         userService.save(user2);
-        
-        
+
+
         user3.setOrgId(org.getId());
         user3.setRoles(roles);
         userService.save(user3);
@@ -132,7 +143,7 @@ public class UserServiceTest {
         user4.setOrgId(org.getId());
         user4.setRoles(roles);
         userService.save(user4);
-        
+
 
         id = user1.getId();
 
@@ -145,20 +156,18 @@ public class UserServiceTest {
         assertThat(repository.exists(user2.getId()), is(true));
         assertThat(repository.exists(user3.getId()), is(true));
         assertThat(repository.exists(user4.getId()), is(true));
-        
+
     }
-    
-    
 
     @Test
     public void findPage() throws Exception {
 
         flushTestUsers();
-        
+
         PageModel<User> pm = new PageModel<User>(1, 10);
         pm.setSort(new Sort(new Sort.Order(Sort.Direction.ASC, "loginId")));
         userService.findPage(pm);
-        
+
         assertThat(pm.getData().size(), is(4));
         assertThat(pm.getData().get(0).getLoginId(), is(user1.getLoginId()));
 
@@ -171,15 +180,6 @@ public class UserServiceTest {
 
     }
 
-    @Test
-    public void testRead() throws Exception {
-
-        flushTestUsers();
-        
-        User foundPerson = repository.findOne(id);
-        assertThat(user1.getName(), is(foundPerson.getName()));
-    }
-
 //    @Test
 //    public void findsAllByGivenIds() {
 //
@@ -189,7 +189,14 @@ public class UserServiceTest {
 //        assertThat(result, hasItems(user1, user2));
 //    }
 
-    
+    @Test
+    public void testRead() throws Exception {
+
+        flushTestUsers();
+
+        User foundPerson = repository.findOne(id);
+        assertThat(user1.getName(), is(foundPerson.getName()));
+    }
 
     @Test
     public void testReadByIdReturnsNullForNotFoundEntities() {
@@ -215,7 +222,6 @@ public class UserServiceTest {
         assertThat(result, is(notNullValue()));
         assertThat(result.isEmpty(), is(true));
     }
-
 
     @Test
     public void savingEmptyCollectionIsNoOp() throws Exception {
@@ -306,17 +312,12 @@ public class UserServiceTest {
         assertThat(repository.exists(user2.getId()), is(false));
         assertThat(repository.count(), is(before - 2));
     }
-    
 
     @Test
     public void deleteEmptyCollectionDoesNotDeleteAnything() {
 
         assertDeleteCallDoesNotDeleteAnything(new ArrayList<User>());
     }
-
-
-
-
 
     @Test
     public void testReadAll() {
@@ -337,7 +338,6 @@ public class UserServiceTest {
         assertThat(repository.count(), is(0L));
     }
 
-
     @Test
     public void testCountsCorrectly() {
 
@@ -351,13 +351,6 @@ public class UserServiceTest {
         assertThat(repository.count() == count + 1, is(true));
     }
 
-    @Test
-    public void returnsSameListIfNoSortIsGiven() throws Exception {
-
-        flushTestUsers();
-        assertSameElements(repository.findAll((Sort) null), repository.findAll());
-    }
-
 //    @Test
 //    public void returnsSamePageIfNoSpecGiven() throws Exception {
 //
@@ -368,10 +361,10 @@ public class UserServiceTest {
 //    }
 
     @Test
-    public void returnsAllAsPageIfNoPageableIsGiven() throws Exception {
+    public void returnsSameListIfNoSortIsGiven() throws Exception {
 
         flushTestUsers();
-        assertThat(repository.findAll((Pageable) null), is((Page<User>) new PageImpl<User>(repository.findAll())));
+        assertSameElements(repository.findAll((Sort) null), repository.findAll());
     }
 
 
@@ -394,7 +387,12 @@ public class UserServiceTest {
 //        assertThat(result, hasItems(user3, user2));
 //    }
 
+    @Test
+    public void returnsAllAsPageIfNoPageableIsGiven() throws Exception {
 
+        flushTestUsers();
+        assertThat(repository.findAll((Pageable) null), is((Page<User>) new PageImpl<User>(repository.findAll())));
+    }
 
     private void assertDeleteCallDoesNotDeleteAnything(List<User> collection) {
 
@@ -405,17 +403,5 @@ public class UserServiceTest {
         assertThat(repository.count(), is(count));
     }
 
-    private static <T> void assertSameElements(Collection<T> first, Collection<T> second) {
-
-        for (T element : first) {
-            assertThat(element, isIn(second));
-        }
-
-        for (T element : second) {
-            assertThat(element, isIn(first));
-        }
-    }
-
-    
 
 }

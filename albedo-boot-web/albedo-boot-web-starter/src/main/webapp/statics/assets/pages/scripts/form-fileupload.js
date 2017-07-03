@@ -3,7 +3,7 @@ var FormFileUpload = function () {
         //main function to initiate the module
         init: function () {
 
-             // Initialize the jQuery File Upload widget:
+            // Initialize the jQuery File Upload widget:
             $('#fileupload').fileupload({
                 disableImageResize: false,
                 autoUpload: false,
@@ -31,7 +31,7 @@ var FormFileUpload = function () {
                 }).fail(function () {
                     $('<div class="alert alert-danger"/>')
                         .text('Upload server currently unavailable - ' +
-                                new Date())
+                            new Date())
                         .appendTo('#fileupload');
                 });
             }
@@ -48,7 +48,7 @@ var FormFileUpload = function () {
                 $(this).removeClass('fileupload-processing');
             }).done(function (result) {
                 $(this).fileupload('option', 'done')
-                .call(this, $.Event('done'), {result: result});
+                    .call(this, $.Event('done'), {result: result});
             });
         }
 
@@ -56,6 +56,6 @@ var FormFileUpload = function () {
 
 }();
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     FormFileUpload.init();
 });

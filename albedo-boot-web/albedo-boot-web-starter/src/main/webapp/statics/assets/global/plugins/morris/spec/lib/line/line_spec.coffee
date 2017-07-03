@@ -1,5 +1,4 @@
 describe 'Morris.Line', ->
-
   it 'should raise an error when the placeholder element is not found', ->
     my_data = [{x: 1, y: 1}, {x: 2, y: 2}]
     fn = ->
@@ -33,7 +32,6 @@ describe 'Morris.Line', ->
     chart.colorFor(chart.data[1], 1, 'point').should.equal red
 
   describe 'generating column labels', ->
-
     it 'should use user-supplied x value strings by default', ->
       chart = Morris.Line
         element: 'graph'
@@ -64,14 +62,14 @@ describe 'Morris.Line', ->
         labels: ['dontcare']
         dateFormat: (d) ->
           x = new Date(d)
-          "#{x.getYear()}/#{x.getMonth()+1}/#{x.getDay()}"
+          "#{x.getYear()}/#{x.getMonth() + 1}/#{x.getDay()}"
       chart.data.map((x) -> x.label).should == ['2012/1/1', '2012/1/2']
 
   describe 'rendering lines', ->
     beforeEach ->
       @defaults =
         element: 'graph'
-        data: [{x:0, y:1, z:0}, {x:1, y:0, z:1}, {x:2, y:1, z:0}, {x:3, y:0, z:1}, {x:4, y:1, z:0}]
+        data: [{x: 0, y: 1, z: 0}, {x: 1, y: 0, z: 1}, {x: 2, y: 1, z: 0}, {x: 3, y: 0, z: 1}, {x: 4, y: 1, z: 0}]
         xkey: 'x'
         ykeys: ['y', 'z']
         labels: ['y', 'z']
@@ -79,10 +77,10 @@ describe 'Morris.Line', ->
         smooth: true
 
     shouldHavePath = (regex, color = '#abcdef') ->
-      # Matches an SVG path element within the rendered chart.
-      #
-      # Sneakily uses line colors to differentiate between paths within
-      # the chart.
+# Matches an SVG path element within the rendered chart.
+#
+# Sneakily uses line colors to differentiate between paths within
+# the chart.
       $('#graph').find("path[stroke='#{color}']").attr('d').should.match regex
 
     it 'should generate smooth lines when options.smooth is true', ->
@@ -114,7 +112,6 @@ describe 'Morris.Line', ->
       chart.lineWidthForSeries(1).should.equal 2
 
   describe '#createPath', ->
-
     it 'should generate a smooth line', ->
       testData = [{x: 0, y: 10}, {x: 10, y: 0}, {x: 20, y: 10}]
       path = Morris.Line.createPath(testData, true, 20)
@@ -144,7 +141,7 @@ describe 'Morris.Line', ->
     defaults =
       element: 'graph'
       data: [{x: '2012 Q1', y: 1}, {x: '2012 Q2', y: 1}]
-      lineColors: [ '#0b62a4', '#7a92a3']
+      lineColors: ['#0b62a4', '#7a92a3']
       xkey: 'x'
       ykeys: ['y']
       labels: ['dontcare']
@@ -172,7 +169,7 @@ describe 'Morris.Line', ->
       xkey: 'x'
       ykeys: ['y', 'z']
       labels: ['Y', 'Z']
-      lineColors: [ '#0b62a4', '#7a92a3']
+      lineColors: ['#0b62a4', '#7a92a3']
       lineWidth: 3
       pointStrokeWidths: [5]
       pointStrokeColors: ['#ffffff']

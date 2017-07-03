@@ -1,7 +1,7 @@
 /**
  * Korean translation for bootstrap-wysihtml5
  */
-(function($){
+(function ($) {
     $.fn.wysihtml5.locale["ko-KR"] = {
         font_styles: {
             normal: "일반",

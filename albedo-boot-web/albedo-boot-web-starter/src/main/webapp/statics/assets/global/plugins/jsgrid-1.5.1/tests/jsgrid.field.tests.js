@@ -1,49 +1,49 @@
-$(function() {
+$(function () {
 
     var Grid = jsGrid.Grid;
 
     module("common field config", {
-        setup: function() {
-            this.isFieldExcluded = function(FieldClass) {
+        setup: function () {
+            this.isFieldExcluded = function (FieldClass) {
                 return FieldClass === jsGrid.ControlField;
             };
         }
     });
 
-    test("filtering=false prevents rendering filter template", function() {
+    test("filtering=false prevents rendering filter template", function () {
         var isFieldExcluded = this.isFieldExcluded;
 
-        $.each(jsGrid.fields, function(name, FieldClass) {
-            if(isFieldExcluded(FieldClass))
+        $.each(jsGrid.fields, function (name, FieldClass) {
+            if (isFieldExcluded(FieldClass))
                 return;
 
-            var field = new FieldClass({ filtering: false });
+            var field = new FieldClass({filtering: false});
 
             equal(field.filterTemplate(), "", "empty filter template for field " + name);
         });
     });
 
-    test("inserting=false prevents rendering insert template", function() {
+    test("inserting=false prevents rendering insert template", function () {
         var isFieldExcluded = this.isFieldExcluded;
 
-        $.each(jsGrid.fields, function(name, FieldClass) {
-            if(isFieldExcluded(FieldClass))
+        $.each(jsGrid.fields, function (name, FieldClass) {
+            if (isFieldExcluded(FieldClass))
                 return;
 
-            var field = new FieldClass({ inserting: false });
+            var field = new FieldClass({inserting: false});
 
             equal(field.insertTemplate(), "", "empty insert template for field " + name);
         });
     });
 
-    test("editing=false renders itemTemplate", function() {
+    test("editing=false renders itemTemplate", function () {
         var isFieldExcluded = this.isFieldExcluded;
 
-        $.each(jsGrid.fields, function(name, FieldClass) {
-            if(isFieldExcluded(FieldClass))
+        $.each(jsGrid.fields, function (name, FieldClass) {
+            if (isFieldExcluded(FieldClass))
                 return;
 
-            var field = new FieldClass({ editing: false });
+            var field = new FieldClass({editing: false});
 
             var editTemplate = field.editTemplate("test");
             var itemTemplate = field.itemTemplate("test");
@@ -57,8 +57,8 @@ $(function() {
 
     module("jsGrid.field");
 
-    test("basic", function() {
-        var customSortingFunc = function() {
+    test("basic", function () {
+        var customSortingFunc = function () {
                 return 1;
             },
             field = new jsGrid.Field({
@@ -81,8 +81,8 @@ $(function() {
 
     module("jsGrid.field.text");
 
-    test("basic", function() {
-        var field = new jsGrid.TextField({ name: "testField" });
+    test("basic", function () {
+        var field = new jsGrid.TextField({name: "testField"});
 
         equal(field.itemTemplate("testValue"), "testValue");
         equal(field.filterTemplate()[0].tagName.toLowerCase(), "input");
@@ -93,13 +93,13 @@ $(function() {
         strictEqual(field.editValue(), "testEditValue");
     });
 
-    test("set default field options with setDefaults", function() {
+    test("set default field options with setDefaults", function () {
         jsGrid.setDefaults("text", {
             defaultOption: "test"
         });
 
         var $element = $("#jsGrid").jsGrid({
-            fields: [{ type: "text" }]
+            fields: [{type: "text"}]
         });
 
         equal($element.jsGrid("option", "fields")[0].defaultOption, "test", "default field option set");
@@ -108,8 +108,8 @@ $(function() {
 
     module("jsGrid.field.number");
 
-    test("basic", function() {
-        var field = new jsGrid.NumberField({ name: "testField" });
+    test("basic", function () {
+        var field = new jsGrid.NumberField({name: "testField"});
 
         equal(field.itemTemplate(5), "5");
         equal(field.filterTemplate()[0].tagName.toLowerCase(), "input");
@@ -123,8 +123,8 @@ $(function() {
 
     module("jsGrid.field.textArea");
 
-    test("basic", function() {
-        var field = new jsGrid.TextAreaField({ name: "testField" });
+    test("basic", function () {
+        var field = new jsGrid.TextAreaField({name: "testField"});
 
         equal(field.itemTemplate("testValue"), "testValue");
         equal(field.filterTemplate()[0].tagName.toLowerCase(), "input");
@@ -137,8 +137,8 @@ $(function() {
 
     module("jsGrid.field.checkbox");
 
-    test("basic", function() {
-        var field = new jsGrid.CheckboxField({ name: "testField" }),
+    test("basic", function () {
+        var field = new jsGrid.CheckboxField({name: "testField"}),
             itemTemplate,
             filterTemplate,
             insertTemplate,
@@ -171,7 +171,7 @@ $(function() {
 
     module("jsGrid.field.select");
 
-    test("basic", function() {
+    test("basic", function () {
         var field,
             filterTemplate,
             insertTemplate,
@@ -203,7 +203,7 @@ $(function() {
         strictEqual(field.editValue(), 2);
     });
 
-    test("items as array of integers", function() {
+    test("items as array of integers", function () {
         var field,
             filterTemplate,
             insertTemplate,
@@ -235,13 +235,13 @@ $(function() {
         strictEqual(field.editValue(), 1);
     });
 
-    test("string value type", function() {
+    test("string value type", function () {
         var field = new jsGrid.SelectField({
             name: "testField",
             items: [
-                { text: "test1", value: "1" },
-                { text: "test2", value: "2" },
-                { text: "test3", value: "3" }
+                {text: "test1", value: "1"},
+                {text: "test2", value: "2"},
+                {text: "test3", value: "3"}
             ],
             textField: "text",
             valueField: "value",
@@ -259,13 +259,13 @@ $(function() {
         strictEqual(field.insertValue(), "2");
     });
 
-    test("value type auto-defined", function() {
+    test("value type auto-defined", function () {
         var field = new jsGrid.SelectField({
             name: "testField",
             items: [
-                { text: "test1", value: "1" },
-                { text: "test2", value: "2" },
-                { text: "test3", value: "3" }
+                {text: "test1", value: "1"},
+                {text: "test2", value: "2"},
+                {text: "test3", value: "3"}
             ],
             textField: "text",
             valueField: "value",
@@ -284,12 +284,12 @@ $(function() {
         strictEqual(field.insertValue(), "2");
     });
 
-    test("value type defaulted to string", function() {
+    test("value type defaulted to string", function () {
         var field = new jsGrid.SelectField({
             name: "testField",
             items: [
-                { text: "test1" },
-                { text: "test2", value: "2" }
+                {text: "test1"},
+                {text: "test2", value: "2"}
             ],
             textField: "text",
             valueField: "value"
@@ -298,13 +298,13 @@ $(function() {
         strictEqual(field.sorter, "string", "sorter set to string if first item has no value field");
     });
 
-    test("object items", function() {
+    test("object items", function () {
         var field = new jsGrid.SelectField({
             name: "testField",
             items: [
-                { text: "test1", value: 1 },
-                { text: "test2", value: 2 },
-                { text: "test3", value: 3 }
+                {text: "test1", value: 1},
+                {text: "test2", value: 2},
+                {text: "test3", value: 3}
             ]
         });
 
@@ -326,7 +326,7 @@ $(function() {
 
     module("jsGrid.field.control");
 
-    test("basic", function() {
+    test("basic", function () {
         var field,
             itemTemplate,
             headerTemplate,
@@ -369,14 +369,14 @@ $(function() {
         strictEqual(field.editValue(), "");
     });
 
-    test("switchMode button should consider filtering=false", function() {
+    test("switchMode button should consider filtering=false", function () {
         var optionArgs = {};
 
         var field = new jsGrid.ControlField();
         field._grid = {
             filtering: false,
             inserting: true,
-            option: function(name, value) {
+            option: function (name, value) {
                 optionArgs = {
                     name: name,
                     value: value
@@ -393,21 +393,21 @@ $(function() {
         ok($modeSwitchButton.hasClass(field.modeOnButtonClass), "on class is attached");
         equal(headerTemplate.filter("." + field.insertModeButtonClass).length, 1, "insert button rendered");
         equal(headerTemplate.filter("." + field.searchModeButtonClass).length, 0, "search button not rendered");
-        deepEqual(optionArgs, { name: "inserting", value: true }, "turn on grid inserting mode");
+        deepEqual(optionArgs, {name: "inserting", value: true}, "turn on grid inserting mode");
 
         $modeSwitchButton.trigger("click");
         ok(!$modeSwitchButton.hasClass(field.modeOnButtonClass), "on class is detached");
-        deepEqual(optionArgs, { name: "inserting", value: false }, "turn off grid inserting mode");
+        deepEqual(optionArgs, {name: "inserting", value: false}, "turn off grid inserting mode");
     });
 
-    test("switchMode button should consider inserting=false", function() {
+    test("switchMode button should consider inserting=false", function () {
         var optionArgs = {};
 
         var field = new jsGrid.ControlField();
         field._grid = {
             filtering: true,
             inserting: false,
-            option: function(name, value) {
+            option: function (name, value) {
                 optionArgs = {
                     name: name,
                     value: value
@@ -424,14 +424,14 @@ $(function() {
         ok(!$modeSwitchButton.hasClass(field.modeOnButtonClass), "on class is detached");
         equal(headerTemplate.filter("." + field.searchModeButtonClass).length, 1, "search button rendered");
         equal(headerTemplate.filter("." + field.insertModeButtonClass).length, 0, "insert button not rendered");
-        deepEqual(optionArgs, { name: "filtering", value: false }, "turn off grid filtering mode");
+        deepEqual(optionArgs, {name: "filtering", value: false}, "turn off grid filtering mode");
 
         $modeSwitchButton.trigger("click");
         ok($modeSwitchButton.hasClass(field.modeOnButtonClass), "on class is attached");
-        deepEqual(optionArgs, { name: "filtering", value: true }, "turn on grid filtering mode");
+        deepEqual(optionArgs, {name: "filtering", value: true}, "turn on grid filtering mode");
     });
 
-    test("switchMode is not rendered if inserting=false and filtering=false", function() {
+    test("switchMode is not rendered if inserting=false and filtering=false", function () {
         var optionArgs = {};
 
         var field = new jsGrid.ControlField();

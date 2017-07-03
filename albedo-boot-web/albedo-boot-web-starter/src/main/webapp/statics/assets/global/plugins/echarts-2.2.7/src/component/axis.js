@@ -132,7 +132,7 @@ define(function (require) {
                 this.shapeList.push(axShape);
             },
 
-            _axisLabelClickable: function(clickable, axShape) {
+            _axisLabelClickable: function (clickable, axShape) {
                 if (clickable) {
                     ecData.pack(
                         axShape, undefined, -1, undefined, -1, axShape.style.text
@@ -150,7 +150,7 @@ define(function (require) {
                 }
             },
 
-            refixAxisShape: function(zeroX, zeroY) {
+            refixAxisShape: function (zeroX, zeroY) {
                 if (!this.option.axisLine.onZero) {
                     return;
                 }
@@ -162,13 +162,13 @@ define(function (require) {
                             this.shapeList[i].style.yStart
                                 = this.shapeList[i].style.yEnd
                                 = this.subPixelOptimize(
-                                    zeroY, this.shapeList[i].stylelineWidth
-                                );
+                                zeroY, this.shapeList[i].stylelineWidth
+                            );
                             this.zr.modShape(this.shapeList[i].id);
                         }
                         else if (this.shapeList[i]._axisShape === 'axisTick') {
                             tickLength = this.shapeList[i].style.yEnd
-                                         - this.shapeList[i].style.yStart;
+                                - this.shapeList[i].style.yStart;
                             this.shapeList[i].style.yStart = zeroY - tickLength;
                             this.shapeList[i].style.yEnd = zeroY;
                             this.zr.modShape(this.shapeList[i].id);
@@ -182,13 +182,13 @@ define(function (require) {
                             this.shapeList[i].style.xStart
                                 = this.shapeList[i].style.xEnd
                                 = this.subPixelOptimize(
-                                    zeroX, this.shapeList[i].stylelineWidth
-                                );
+                                zeroX, this.shapeList[i].stylelineWidth
+                            );
                             this.zr.modShape(this.shapeList[i].id);
                         }
                         else if (this.shapeList[i]._axisShape === 'axisTick') {
                             tickLength = this.shapeList[i].style.xEnd
-                                         - this.shapeList[i].style.xStart;
+                                - this.shapeList[i].style.xStart;
                             this.shapeList[i].style.xStart = zeroX;
                             this.shapeList[i].style.xEnd = zeroX + tickLength;
                             this.zr.modShape(this.shapeList[i].id);
@@ -201,7 +201,7 @@ define(function (require) {
                 return this.option.position;
             },
 
-            isHorizontal: function() {
+            isHorizontal: function () {
                 return this.option.position === 'bottom' || this.option.position === 'top';
             }
         },
@@ -212,9 +212,9 @@ define(function (require) {
         reformOption: function (opt) {
             // 不写或传了个空数值默认为数值轴
             if (!opt || (opt instanceof Array && opt.length === 0)) {
-                opt = [ { type: ecConfig.COMPONENT_TYPE_AXIS_VALUE } ];
+                opt = [{type: ecConfig.COMPONENT_TYPE_AXIS_VALUE}];
             }
-            else if (!(opt instanceof Array)){
+            else if (!(opt instanceof Array)) {
                 opt = [opt];
             }
 
@@ -245,7 +245,7 @@ define(function (require) {
             else {
                 // 纵轴位置默认配置
                 if (!opt[0].position            // 没配置或配置错
-                    || (opt[0].position != 'left'  && opt[0].position != 'right')
+                    || (opt[0].position != 'left' && opt[0].position != 'right')
                 ) {
                     opt[0].position = 'left';
                 }
@@ -305,13 +305,13 @@ define(function (require) {
                 else if (axisOption && axisOption[i]) {
                     this._axisList[i] = axisOption[i].type === 'category'
                         ? new CategoryAxis(
-                               this.ecTheme, this.messageCenter, this.zr,
-                               axisOption[i], this.myChart, this.axisBase
-                           )
+                            this.ecTheme, this.messageCenter, this.zr,
+                            axisOption[i], this.myChart, this.axisBase
+                        )
                         : new ValueAxis(
-                               this.ecTheme, this.messageCenter, this.zr,
-                               axisOption[i], this.myChart, this.axisBase,
-                               this.series
+                            this.ecTheme, this.messageCenter, this.zr,
+                            axisOption[i], this.myChart, this.axisBase,
+                            this.series
                         );
                 }
             }

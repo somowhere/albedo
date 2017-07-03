@@ -50,7 +50,7 @@ define(function (require) {
          * @param {Object} newOption - options to refresh the chart
          * @public
          */
-        refresh: function(newOption) {
+        refresh: function (newOption) {
             this.clear();
 
             if (newOption) {
@@ -65,7 +65,7 @@ define(function (require) {
          * init heatmap
          * @private
          */
-        _init: function() {
+        _init: function () {
             var series = this.series;
             this.backupShapeList();
 
@@ -97,7 +97,6 @@ define(function (require) {
             this.addShapeList();
         }
     };
-
 
 
     zrUtil.inherits(Heatmap, ChartBase);

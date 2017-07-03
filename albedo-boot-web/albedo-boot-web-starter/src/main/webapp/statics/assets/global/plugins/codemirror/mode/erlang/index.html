@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: Erlang mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel="stylesheet" href="../../lib/codemirror.css">
 <link rel="stylesheet" href="../../theme/erlang-dark.css">
@@ -21,16 +21,16 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">Erlang</a>
+        <li>
+            <a class=active href="#">Erlang</a>
     </ul>
 </div>
 <article>
@@ -44,15 +44,14 @@
     </form>
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById("code"),
-        {
-            lineNumbers: true,
-            matchBrackets: true,
-            extraKeys:
             {
-                "Tab": "indentAuto"
-            },
-            theme: "erlang-dark"
-        });
+                lineNumbers: true,
+                matchBrackets: true,
+                extraKeys: {
+                    "Tab": "indentAuto"
+                },
+                theme: "erlang-dark"
+            });
     </script>
     <p>
         <strong>MIME types defined:</strong> <code>text/x-erlang</code>.</p>

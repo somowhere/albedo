@@ -82,8 +82,9 @@ define(function (require) {
         };
         self.zr.on(zrConfig.EVENT.CLICK, self._onclick);
     }
+
     Treemap.prototype = {
-        type : ecConfig.CHART_TYPE_TREEMAP,
+        type: ecConfig.CHART_TYPE_TREEMAP,
         /**
          * 刷新
          */
@@ -106,7 +107,7 @@ define(function (require) {
                     series[i] = this.reformOption(series[i]);
 
                     var seriesName = series[i].name || '';
-                    this.selectedMap[seriesName] = 
+                    this.selectedMap[seriesName] =
                         legend ? legend.isSelected(seriesName) : true;
                     if (!this.selectedMap[seriesName]) {
                         continue;
@@ -117,7 +118,7 @@ define(function (require) {
             }
         },
 
-        _buildSeries: function(series, seriesIndex) {
+        _buildSeries: function (series, seriesIndex) {
             var tree = Tree.fromOptionData(series.name, series.data);
 
             this._treesMap[seriesIndex] = tree;
@@ -131,7 +132,7 @@ define(function (require) {
          *
          * @param {Object} data 数据
          */
-        _buildTreemap : function (treeRoot, seriesIndex) {
+        _buildTreemap: function (treeRoot, seriesIndex) {
 
             // 清除之前的 shapes
             var shapeList = this.shapeList;
@@ -153,8 +154,8 @@ define(function (require) {
             var treemapWidth = this.parsePercent(series.size[0], this.zr.getWidth()) || 400;
             var treemapHeight = this.parsePercent(series.size[1], this.zr.getHeight()) || 500;
             var center = this.parseCenter(this.zr, series.center);
-            var treemapX = center[0] -  treemapWidth * 0.5;
-            var treemapY = center[1] -  treemapHeight * 0.5;
+            var treemapX = center[0] - treemapWidth * 0.5;
+            var treemapY = center[1] - treemapHeight * 0.5;
 
             var treemapArea = treemapWidth * treemapHeight; // 计算总面积
             // 遍历数组，通过value与area0计算实际面积area
@@ -208,7 +209,7 @@ define(function (require) {
             if (this.query(series, 'itemStyle.normal.breadcrumb.show')) {
                 this._buildBreadcrumb(
                     treeRoot, seriesIndex, treemapX, treemapY + treemapHeight
-                );   
+                );
             }
 
             for (var i = currentShapeLen; i < shapeList.length; i++) {
@@ -219,13 +220,11 @@ define(function (require) {
         /**
          * 构建单个item
          */
-        _buildItem : function (
-            dataItem,
-            itemStyle,
-            rect,
-            seriesIndex,
-            dataIndex
-        ) {
+        _buildItem: function (dataItem,
+                              itemStyle,
+                              rect,
+                              seriesIndex,
+                              dataIndex) {
             var series = this.series;
             var rectangle = this.getRectangle(
                 dataItem,
@@ -252,11 +251,9 @@ define(function (require) {
          * @param {number} height 矩形高
          * @return {Object} 返回一个矩形
          */
-        getRectangle: function (
-            dataItem,
-            itemStyle,
-            rect
-        ) {
+        getRectangle: function (dataItem,
+                                itemStyle,
+                                rect) {
             var emphasis = itemStyle.emphasis;
             var normal = itemStyle.normal;
             var textShape = this.getLabel(
@@ -305,12 +302,10 @@ define(function (require) {
          * @param {number} value 数据值
          * @return {Object} 返回label的样式
          */
-        getLabel: function (
-            itemStyle,
-            rect,
-            name,
-            value
-        ) {
+        getLabel: function (itemStyle,
+                            rect,
+                            name,
+                            value) {
             var normalTextStyle = itemStyle.normal.label.textStyle;
             var queryTarget = [itemStyle.emphasis.label.textStyle, normalTextStyle];
             var emphasisTextStyle = this.deepMerge(queryTarget);
@@ -383,9 +378,9 @@ define(function (require) {
                 }
                 else if (typeof formatter === 'string') {
                     formatter = formatter.replace('{b}', '{b0}')
-                                         .replace('{c}', '{c0}');
+                        .replace('{c}', '{c0}');
                     formatter = formatter.replace('{b0}', name)
-                                         .replace('{c0}', value);
+                        .replace('{c0}', value);
                     return formatter;
                 }
             }
@@ -399,13 +394,11 @@ define(function (require) {
          * @param {Object} data 数据
          * @param {Object} rect
          * @return
-        */
-        _buildChildrenTreemap: function (
-            data,
-            itemStyle,
-            rect,
-            seriesIndex
-        ) {
+         */
+        _buildChildrenTreemap: function (data,
+                                         itemStyle,
+                                         rect,
+                                         seriesIndex) {
             var treemapArea = rect.width * rect.height; // 计算总面积
             // 遍历数组，通过value与area0计算实际面积area
             var sum = 0;
@@ -489,14 +482,12 @@ define(function (require) {
          * @param {number} lineColor 颜色
          * @return {Object} 返回一个线段
          */
-        _getLine : function (
-            xStart,
-            yStart,
-            xEnd,
-            yEnd,
-            lineWidth,
-            lineColor
-        ) {
+        _getLine: function (xStart,
+                            yStart,
+                            xEnd,
+                            yEnd,
+                            lineWidth,
+                            lineColor) {
             var lineShape = {
                 zlevel: this.getZlevelBase(),
                 z: this.getZBase(),
@@ -525,7 +516,7 @@ define(function (require) {
 
             var series = this.series[seriesIndex];
             var textStyle = this.query(series, 'itemStyle.normal.breadcrumb.textStyle') || {};
-            var textEmphasisStyle = 
+            var textEmphasisStyle =
                 this.query(series, 'itemStyle.emphasis.breadcrumb.textStyle') || {};
 
             var commonStyle = {
@@ -562,7 +553,7 @@ define(function (require) {
             }
         },
 
-        __onclick : function (params) {
+        __onclick: function (params) {
             var target = params.target;
             if (target) {
                 var seriesIndex = ecData.get(target, 'seriesIndex');

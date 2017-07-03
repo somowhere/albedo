@@ -4,7 +4,7 @@ class Morris.Grid extends Morris.EventEmitter
   # Draws grid lines and axis labels.
   #
   constructor: (options) ->
-    # find the container to draw the graph in
+# find the container to draw the graph in
     if typeof options.element is 'string'
       @el = $ document.getElementById(options.element)
     else
@@ -46,7 +46,7 @@ class Morris.Grid extends Morris.EventEmitter
         left = @data[@hitTest(Math.min(x, @selectFrom))]._x
         right = @data[@hitTest(Math.max(x, @selectFrom))]._x
         width = right - left
-        @selectionRect.attr({ x: left, width: width })
+        @selectionRect.attr({x: left, width: width})
       else
         @fire 'hovermove', x, evt.pageY - offset.top
 
@@ -67,7 +67,7 @@ class Morris.Grid extends Morris.EventEmitter
 
     if @options.rangeSelect
       @selectionRect = @raphael.rect(0, 0, 0, @el.innerHeight())
-        .attr({ fill: @options.rangeSelectColor, stroke: false })
+        .attr({fill: @options.rangeSelectColor, stroke: false})
         .toBack()
         .hide()
 
@@ -91,8 +91,8 @@ class Morris.Grid extends Morris.EventEmitter
 
     @postInit() if @postInit
 
-  # Default options
-  #
+# Default options
+#
   gridDefaults:
     dateFormat: null
     axes: true
@@ -133,8 +133,8 @@ class Morris.Grid extends Morris.EventEmitter
     rangeSelectColor: '#eef'
     resize: false
 
-  # Update the data series and redraw the chart.
-  #
+# Update the data series and redraw the chart.
+#
   setData: (data, redraw = true) ->
     @options.data = data
 
@@ -216,8 +216,8 @@ class Morris.Grid extends Morris.EventEmitter
 
     if @options.axes in [true, 'both', 'y'] or @options.grid is true
       if (@options.ymax == @gridDefaults.ymax and
-          @options.ymin == @gridDefaults.ymin)
-        # calculate 'magic' grid placement
+        @options.ymin == @gridDefaults.ymin)
+# calculate 'magic' grid placement
         @grid = @autoGridLines(@ymin, @ymax, @options.numLines)
         @ymin = Math.min(@ymin, @grid[0])
         @ymax = Math.max(@ymax, @grid[@grid.length - 1])
@@ -297,8 +297,8 @@ class Morris.Grid extends Morris.EventEmitter
       @dy = @height / (@ymax - @ymin)
       @calc() if @calc
 
-  # Quick translation helpers
-  #
+# Quick translation helpers
+#
   transY: (y) -> @bottom - (y - @ymin) * @dy
   transX: (x) ->
     if @data.length == 1
@@ -306,10 +306,10 @@ class Morris.Grid extends Morris.EventEmitter
     else
       @left + (x - @xmin) * @dx
 
-  # Draw it!
-  #
-  # If you need to re-size your charts, call this method after changing the
-  # size of the container element.
+# Draw it!
+#
+# If you need to re-size your charts, call this method after changing the
+# size of the container element.
   redraw: ->
     @raphael.clear()
     @_calc()
@@ -318,8 +318,8 @@ class Morris.Grid extends Morris.EventEmitter
     @drawEvents()
     @draw() if @draw
 
-  # @private
-  #
+# @private
+#
   measureText: (text, angle = 0) ->
     tt = @raphael.text(100, 100, text)
       .attr('font-size', @options.gridTextSize)
@@ -330,20 +330,20 @@ class Morris.Grid extends Morris.EventEmitter
     tt.remove()
     ret
 
-  # @private
-  #
+# @private
+#
   yAxisFormat: (label) -> @yLabelFormat(label)
 
-  # @private
-  #
+# @private
+#
   yLabelFormat: (label) ->
     if typeof @options.yLabelFormat is 'function'
       @options.yLabelFormat(label)
     else
       "#{@options.preUnits}#{Morris.commas(label)}#{@options.postUnits}"
 
-  # draw y axis labels, horizontal lines
-  #
+# draw y axis labels, horizontal lines
+#
   drawGrid: ->
     return if @options.grid is false and @options.axes not in [true, 'both', 'y']
     for lineY in @grid
@@ -353,14 +353,14 @@ class Morris.Grid extends Morris.EventEmitter
       if @options.grid
         @drawGridLine("M#{@left},#{y}H#{@left + @width}")
 
-  # draw goals horizontal lines
-  #
+# draw goals horizontal lines
+#
   drawGoals: ->
     for goal, i in @options.goals
       color = @options.goalLineColors[i % @options.goalLineColors.length]
       @drawGoal(goal, color)
 
-  # draw events vertical lines
+# draw events vertical lines
   drawEvents: ->
     for event, i in @events
       color = @options.eventLineColors[i % @options.eventLineColors.length]
@@ -389,12 +389,12 @@ class Morris.Grid extends Morris.EventEmitter
       .attr('stroke', @options.gridLineColor)
       .attr('stroke-width', @options.gridStrokeWidth)
 
-  # Range selection
-  #
+# Range selection
+#
   startRange: (x) ->
     @hover.hide()
     @selectFrom = x
-    @selectionRect.attr({ x: x, width: 0 }).show()
+    @selectionRect.attr({x: x, width: 0}).show()
 
   endRange: (x) ->
     if @selectFrom
@@ -438,7 +438,7 @@ Morris.parseDate = (date) ->
       parseInt(o[2], 10) - 1,
       parseInt(o[3], 10)).getTime()
   else if p
-    # calculate number of weeks in year given
+# calculate number of weeks in year given
     ret = new Date(parseInt(p[1], 10), 0, 1);
     # first thursday in year (ISO 8601 standard)
     if ret.getDay() isnt 4
@@ -447,7 +447,7 @@ Morris.parseDate = (date) ->
     ret.getTime() + parseInt(p[2], 10) * 604800000
   else if q
     if not q[6]
-      # no timezone info, use local
+# no timezone info, use local
       new Date(
         parseInt(q[1], 10),
         parseInt(q[2], 10) - 1,
@@ -455,7 +455,7 @@ Morris.parseDate = (date) ->
         parseInt(q[4], 10),
         parseInt(q[5], 10)).getTime()
     else
-      # timezone info supplied, use UTC
+# timezone info supplied, use UTC
       offsetmins = 0
       if q[6] != 'Z'
         offsetmins = parseInt(q[8], 10) * 60 + parseInt(q[9], 10)
@@ -471,7 +471,7 @@ Morris.parseDate = (date) ->
     isecs = Math.floor(secs)
     msecs = Math.round((secs - isecs) * 1000)
     if not r[8]
-      # no timezone info, use local
+# no timezone info, use local
       new Date(
         parseInt(r[1], 10),
         parseInt(r[2], 10) - 1,
@@ -481,7 +481,7 @@ Morris.parseDate = (date) ->
         isecs,
         msecs).getTime()
     else
-      # timezone info supplied, use UTC
+# timezone info supplied, use UTC
       offsetmins = 0
       if r[8] != 'Z'
         offsetmins = parseInt(r[10], 10) * 60 + parseInt(r[11], 10)

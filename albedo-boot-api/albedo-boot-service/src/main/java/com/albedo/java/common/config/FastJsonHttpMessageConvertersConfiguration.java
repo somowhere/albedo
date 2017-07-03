@@ -31,16 +31,16 @@ public class FastJsonHttpMessageConvertersConfiguration {
 //
 //        return new HttpMessageConverters(converter);
 //    }
-	
-	
-	@Configuration
+
+
+    @Configuration
     @ConditionalOnClass({FastJsonHttpMessageConverter.class}) //1
     @ConditionalOnProperty(//2
             name = {"spring.http.converters.preferred-json-mapper"},
-            havingValue = "fastjson", 
+            havingValue = "fastjson",
             matchIfMissing = true
     )
-    protected static class FastJson2HttpMessageConverterConfiguration{
+    protected static class FastJson2HttpMessageConverterConfiguration {
         protected FastJson2HttpMessageConverterConfiguration() {
         }
 
@@ -61,7 +61,7 @@ public class FastJsonHttpMessageConvertersConfiguration {
                 //s 是key值
                 //o1 是value值
                 public Object process(Object o, String s, Object o1) {
-                    if (null == o1){
+                    if (null == o1) {
                         o1 = "";
                     }
                     return o1;
@@ -74,5 +74,5 @@ public class FastJsonHttpMessageConvertersConfiguration {
             return converter;
         }
     }
-	
+
 }

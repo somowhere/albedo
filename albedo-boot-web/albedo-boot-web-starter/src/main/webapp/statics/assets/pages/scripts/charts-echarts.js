@@ -1,4 +1,4 @@
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     // ECHARTS
     require.config({
         paths: {
@@ -28,7 +28,7 @@ jQuery(document).ready(function() {
             'echarts/chart/venn',
             'echarts/chart/wordCloud'
         ],
-        function(ec) {
+        function (ec) {
             //--- BAR ---
             var myChart = ec.init(document.getElementById('echarts_bar'));
             myChart.setOption({
@@ -218,7 +218,7 @@ jQuery(document).ready(function() {
                     name: 'scatter1',
                     type: 'scatter',
                     symbolSize: 5,
-                    data: (function() {
+                    data: (function () {
                         var d = [];
                         var len = 500;
                         var value;
@@ -239,7 +239,7 @@ jQuery(document).ready(function() {
             myChart4.setOption({
                 tooltip: {
                     trigger: 'axis',
-                    formatter: function(params) {
+                    formatter: function (params) {
                         var res = params[0].seriesName + ' ' + params[0].name;
                         res += '<br/>  Opening : ' + params[0].value[0] + '  Highest : ' + params[0].value[3];
                         res += '<br/>  Closing : ' + params[0].value[1] + '  Lowest : ' + params[0].value[2];
@@ -494,7 +494,7 @@ jQuery(document).ready(function() {
                         normal: {
                             label: {
                                 position: 'inner',
-                                formatter: function(params) {
+                                formatter: function (params) {
                                     return (params.percent - 0).toFixed(0) + '%'
                                 }
                             },
@@ -542,7 +542,7 @@ jQuery(document).ready(function() {
                         name: 'Social',
                         itemStyle: {
                             normal: {
-                                color: (function() {
+                                color: (function () {
                                     var zrColor = require('zrender/tool/color');
                                     return zrColor.getRadialGradient(
                                         300, 200, 110, 300, 200, 140, [
@@ -607,7 +607,7 @@ jQuery(document).ready(function() {
                     startAngle: 135,
                     center: ['75%', 200],
                     radius: [80, 120],
-                    itemStyle: 　{
+                    itemStyle: {
                         normal: {
                             label: {
                                 show: false
@@ -617,7 +617,7 @@ jQuery(document).ready(function() {
                             }
                         },
                         emphasis: {
-                            color: (function() {
+                            color: (function () {
                                 var zrColor = require('zrender/tool/color');
                                 return zrColor.getRadialGradient(
                                     650, 200, 80, 650, 200, 120, [

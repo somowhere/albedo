@@ -1,6 +1,6 @@
-var ComponentsNoUiSliders = function() {
+var ComponentsNoUiSliders = function () {
 
-    var demo2 = function() {
+    var demo2 = function () {
         var connectSlider = document.getElementById('demo2');
 
         noUiSlider.create(connectSlider, {
@@ -13,7 +13,7 @@ var ComponentsNoUiSliders = function() {
         });
     }
 
-    var demo3 = function() {
+    var demo3 = function () {
         var connectSlider = document.getElementById('demo3');
 
         noUiSlider.create(connectSlider, {
@@ -33,15 +33,15 @@ var ComponentsNoUiSliders = function() {
         connectBar.className += 'connect';
         connectBase.appendChild(connectBar);
 
-        connectSlider.noUiSlider.on('update', function( values, handle ) {
+        connectSlider.noUiSlider.on('update', function (values, handle) {
 
             // Pick left for the first handle, right for the second.
             var side = handle ? 'right' : 'left',
-            // Get the handle position and trim the '%' sign.
-                offset = (connectHandles[handle].style.left).slice(0, - 1);
+                // Get the handle position and trim the '%' sign.
+                offset = (connectHandles[handle].style.left).slice(0, -1);
 
             // Right offset is 100% - left offset
-            if ( handle === 1 ) {
+            if (handle === 1) {
                 offset = 100 - offset;
             }
 
@@ -49,15 +49,15 @@ var ComponentsNoUiSliders = function() {
         });
     }
 
-    var demo4 = function() {
+    var demo4 = function () {
         //** init the select
         var select = document.getElementById('demo4_select');
 
         // Append the option elements
-        for ( var i = -20; i <= 40; i++ ) {
+        for (var i = -20; i <= 40; i++) {
             var option = document.createElement("option");
-                option.text = i;
-                option.value = i;
+            option.text = i;
+            option.value = i;
             select.appendChild(option);
         }
 
@@ -65,7 +65,7 @@ var ComponentsNoUiSliders = function() {
         var html5Slider = document.getElementById('demo4');
 
         noUiSlider.create(html5Slider, {
-            start: [ 10, 30 ],
+            start: [10, 30],
             connect: true,
             range: {
                 'min': -20,
@@ -76,45 +76,45 @@ var ComponentsNoUiSliders = function() {
         //** init the input
         var inputNumber = document.getElementById('demo4_input');
 
-        html5Slider.noUiSlider.on('update', function( values, handle ) {
+        html5Slider.noUiSlider.on('update', function (values, handle) {
 
             var value = values[handle];
 
-            if ( handle ) {
+            if (handle) {
                 inputNumber.value = value;
             } else {
                 select.value = Math.round(value);
             }
         });
 
-        select.addEventListener('change', function(){
+        select.addEventListener('change', function () {
             html5Slider.noUiSlider.set([this.value, null]);
         });
 
-        inputNumber.addEventListener('change', function(){
+        inputNumber.addEventListener('change', function () {
             html5Slider.noUiSlider.set([null, this.value]);
         });
     }
 
-    var demo5 = function() {
+    var demo5 = function () {
         var nonLinearSlider = document.getElementById('demo5');
 
         noUiSlider.create(nonLinearSlider, {
             connect: true,
             behaviour: 'tap',
-            start: [ 500, 4000 ],
+            start: [500, 4000],
             range: {
                 // Starting at 500, step the value by 500,
                 // until 4000 is reached. From there, step by 1000.
-                'min': [ 0 ],
-                '10%': [ 500, 500 ],
-                '50%': [ 4000, 1000 ],
-                'max': [ 10000 ]
+                'min': [0],
+                '10%': [500, 500],
+                '50%': [4000, 1000],
+                'max': [10000]
             }
         });
 
         // Write the CSS 'left' value to a span.
-        function leftValue ( handle ) {
+        function leftValue(handle) {
             return handle.parentElement.style.left;
         }
 
@@ -124,8 +124,8 @@ var ComponentsNoUiSliders = function() {
 
         // Display the slider value and how far the handle moved
         // from the left edge of the slider.
-        nonLinearSlider.noUiSlider.on('update', function ( values, handle ) {
-            if ( !handle ) {
+        nonLinearSlider.noUiSlider.on('update', function (values, handle) {
+            if (!handle) {
                 lowerValue.innerHTML = values[handle] + ', ' + leftValue(handles[handle]);
             } else {
                 upperValue.innerHTML = values[handle] + ', ' + leftValue(handles[handle]);
@@ -133,7 +133,7 @@ var ComponentsNoUiSliders = function() {
         });
     }
 
-    var demo6 = function() {
+    var demo6 = function () {
         // Store the locked state and slider values.
         var lockedState = false,
             lockedSlider = false,
@@ -146,16 +146,16 @@ var ComponentsNoUiSliders = function() {
 
         // When the button is clicked, the locked
         // state is inverted.
-        lockButton.addEventListener('click', function(){
+        lockButton.addEventListener('click', function () {
             lockedState = !lockedState;
             this.textContent = lockedState ? 'unlock' : 'lock';
         });
 
-        function crossUpdate ( value, slider ) {
+        function crossUpdate(value, slider) {
 
             // If the sliders aren't interlocked, don't
             // cross-update.
-            if ( !lockedState ) return;
+            if (!lockedState) return;
 
             // Select whether to increase or decrease
             // the other slider value.
@@ -189,15 +189,15 @@ var ComponentsNoUiSliders = function() {
             }
         });
 
-        slider1.noUiSlider.on('update', function( values, handle ){
+        slider1.noUiSlider.on('update', function (values, handle) {
             slider1Value.innerHTML = values[handle];
         });
 
-        slider2.noUiSlider.on('update', function( values, handle ){
+        slider2.noUiSlider.on('update', function (values, handle) {
             slider2Value.innerHTML = values[handle];
         });
 
-        function setLockedValues ( ) {
+        function setLockedValues() {
             lockedValues = [
                 Number(slider1.noUiSlider.get()),
                 Number(slider2.noUiSlider.get())
@@ -211,16 +211,16 @@ var ComponentsNoUiSliders = function() {
         // using a custom function as the serialization
         // method. The function uses the global 'lockedState'
         // variable to decide whether the other slider is updated.
-        slider1.noUiSlider.on('slide', function( values, handle ){
+        slider1.noUiSlider.on('slide', function (values, handle) {
             crossUpdate(values[handle], slider2);
         });
 
-        slider2.noUiSlider.on('slide', function( values, handle ){
+        slider2.noUiSlider.on('slide', function (values, handle) {
             crossUpdate(values[handle], slider1);
         });
     }
 
-    var demo7 = function() {
+    var demo7 = function () {
         var softSlider = document.getElementById('demo7');
 
         noUiSlider.create(softSlider, {
@@ -236,16 +236,16 @@ var ComponentsNoUiSliders = function() {
             }
         });
 
-        softSlider.noUiSlider.on('change', function ( values, handle ) {
-            if ( values[handle] < 20 ) {
+        softSlider.noUiSlider.on('change', function (values, handle) {
+            if (values[handle] < 20) {
                 softSlider.noUiSlider.set(20);
-            } else if ( values[handle] > 80 ) {
+            } else if (values[handle] > 80) {
                 softSlider.noUiSlider.set(80);
             }
         });
     }
 
-    var demo8 = function() {
+    var demo8 = function () {
         var tooltipSlider = document.getElementById('demo8');
 
         noUiSlider.create(tooltipSlider, {
@@ -262,11 +262,11 @@ var ComponentsNoUiSliders = function() {
             tooltips = [];
 
         // Add divs to the slider handles.
-        for ( var i = 0; i < tipHandles.length; i++ ){
+        for (var i = 0; i < tipHandles.length; i++) {
             tooltips[i] = document.createElement('div');
             tipHandles[i].appendChild(tooltips[i]);
         }
-  
+
         // Add a class for styling
         tooltips[1].className += 'noUi-tooltip';
         // Add additional markup
@@ -282,14 +282,14 @@ var ComponentsNoUiSliders = function() {
         tooltips[0] = tooltips[0].getElementsByTagName('span')[0];
 
         // When the slider changes, write the value to the tooltips.
-        tooltipSlider.noUiSlider.on('update', function( values, handle ){
+        tooltipSlider.noUiSlider.on('update', function (values, handle) {
             tooltips[handle].innerHTML = values[handle];
         });
     }
 
     return {
         //main function to initiate the module
-        init: function() {
+        init: function () {
             demo2();
             demo3();
             demo4();
@@ -303,6 +303,6 @@ var ComponentsNoUiSliders = function() {
 
 }();
 
-jQuery(document).ready(function() {    
-   ComponentsNoUiSliders.init(); 
+jQuery(document).ready(function () {
+    ComponentsNoUiSliders.init();
 });

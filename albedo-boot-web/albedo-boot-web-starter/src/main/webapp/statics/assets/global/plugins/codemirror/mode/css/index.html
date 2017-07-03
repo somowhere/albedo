@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: CSS mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel="stylesheet" href="../../lib/codemirror.css">
 <link rel="stylesheet" href="../../addon/hint/show-hint.css">
@@ -21,16 +21,16 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">CSS</a>
+        <li>
+            <a class=active href="#">CSS</a>
     </ul>
 </div>
 <article>
@@ -41,12 +41,11 @@
     </form>
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById("code"),
-        {
-            extraKeys:
             {
-                "Ctrl-Space": "autocomplete"
-            },
-        });
+                extraKeys: {
+                    "Ctrl-Space": "autocomplete"
+                },
+            });
     </script>
     <p>
         <strong>MIME types defined:</strong> <code>text/css</code>, <code>text/x-scss</code> (

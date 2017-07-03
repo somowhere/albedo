@@ -1,8 +1,8 @@
 {
-  "features" : [
+  "features": [
     {
-      "geometry" : {
-        "coordinates" : [
+      "geometry": {
+        "coordinates": [
           [
             [
               [
@@ -5220,13 +5220,13 @@
             ]
           ]
         ],
-        "type" : "MultiPolygon"
+        "type": "MultiPolygon"
       },
-      "properties" : {
-          "name":"United Kingdom"
+      "properties": {
+        "name": "United Kingdom"
       },
-      "type" : "Feature"
+      "type": "Feature"
     }
   ],
-  "type" : "FeatureCollection"
+  "type": "FeatureCollection"
 }

@@ -16,43 +16,46 @@ import java.util.List;
 
 /**
  * 区域管理Service 区域管理
+ *
  * @author admin
  * @version 2017-04-24
  */
 @Service
 @Transactional
-public class SystemAreaService extends DataService<SystemAreaRepository, SystemArea, Long>{
+public class SystemAreaService extends DataService<SystemAreaRepository, SystemArea, Long> {
     @Autowired
-    public  SystemAreaRepository repository;
+    public SystemAreaRepository repository;
+
     @Transactional(readOnly = true)
     public SystemArea findTopByParentId(Long parentId) {
         List<SystemArea> tempList = repository.findTop1ByParentIdAndStatusNotOrderBySortDesc(parentId, BaseEntity.FLAG_DELETE);
         return PublicUtil.isNotEmpty(tempList) ? tempList.get(0) : null;
     }
+
     @Override
     public SystemArea save(SystemArea entity) {
         String oldParentIds = entity.getParentIds(); // 获取修改前的parentIds，用于更新子节点的parentIds
-        if(entity.getParentId()!=null){
+        if (entity.getParentId() != null) {
             SystemArea parent = repository.findOne(entity.getParentId());
 //            if (parent == null || PublicUtil.isEmpty(parent.getId()))
 //                throw new RuntimeMsgException("无法获取模块的父节点，插入失败");
-            if(parent!=null){
+            if (parent != null) {
                 parent.setLeaf(false);
 //                checkSave(parent);
                 repository.save(parent);
                 entity.setParentIds(PublicUtil.toAppendStr(parent.getParentIds(), parent.getId(), ","));
                 SystemArea item = findTopByParentId(parent.getParentId());
-                if (item!=null){
+                if (item != null) {
                     entity.setSort(parent.getSort() + item.getSort());
-                }else entity.setSort(10l);
+                } else entity.setSort(10l);
             }
 
         }
 
-        if(PublicUtil.isNotEmpty(entity.getId())){
+        if (PublicUtil.isNotEmpty(entity.getId())) {
             Long count = repository.countByParentId(entity.getId());
-            entity.setLeaf(count == null || count== 0 ? true : false);
-        }else{
+            entity.setLeaf(count == null || count == 0 ? true : false);
+        } else {
             entity.setLeaf(true);
         }
 //        checkSave(entity);

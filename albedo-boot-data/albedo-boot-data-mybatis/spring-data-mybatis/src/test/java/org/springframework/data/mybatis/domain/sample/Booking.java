@@ -10,8 +10,8 @@ import org.springframework.data.mybatis.domains.LongId;
 @Entity(table = "ds_booking")
 public class Booking extends LongId {
 
-    private Long    userId;
-    private String  serialNumber;
+    private Long userId;
+    private String serialNumber;
     private Integer amount;
 
     public Booking() {

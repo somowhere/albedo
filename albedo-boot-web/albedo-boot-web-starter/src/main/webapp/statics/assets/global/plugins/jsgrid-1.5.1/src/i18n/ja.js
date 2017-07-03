@@ -1,4 +1,4 @@
-(function(jsGrid) {
+(function (jsGrid) {
 
     jsGrid.locales.ja = {
         grid: {
@@ -32,14 +32,14 @@
         },
 
         validators: {
-            required: { message: "項目が必要です。" },
-            rangeLength: { message: "項目の桁数が範囲外です。" },
-            minLength: { message: "項目の桁数が超過しています。" },
-            maxLength: { message: "項目の桁数が不足しています。" },
-            pattern: { message: "項目の値がパターンに一致しません。" },
-            range: { message: "項目の値が範囲外です。" },
-            min: { message: "項目の値が超過しています。" },
-            max: { message: "項目の値が不足しています。" }
+            required: {message: "項目が必要です。"},
+            rangeLength: {message: "項目の桁数が範囲外です。"},
+            minLength: {message: "項目の桁数が超過しています。"},
+            maxLength: {message: "項目の桁数が不足しています。"},
+            pattern: {message: "項目の値がパターンに一致しません。"},
+            range: {message: "項目の値が範囲外です。"},
+            min: {message: "項目の値が超過しています。"},
+            max: {message: "項目の値が不足しています。"}
         }
     };
 

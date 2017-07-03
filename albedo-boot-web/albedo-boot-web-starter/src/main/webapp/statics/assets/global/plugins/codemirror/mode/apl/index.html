@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: APL mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel="stylesheet" href="../../lib/codemirror.css">
 <script src="../../lib/codemirror.js"></script>
@@ -19,16 +19,16 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">APL</a>
+        <li>
+            <a class=active href="#">APL</a>
     </ul>
 </div>
 <article>
@@ -40,14 +40,15 @@
     </form>
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById("code"),
-        {
-            lineNumbers: true,
-            matchBrackets: true,
-            mode: "text/apl"
-        });
+            {
+                lineNumbers: true,
+                matchBrackets: true,
+                mode: "text/apl"
+            });
     </script>
     <p>Simple mode that tries to handle APL as well as it can.</p>
-    <p>It attempts to label functions/operators based upon monadic/dyadic usage (but this is far from fully fleshed out). This means there are meaningful classnames so hover states can have popups etc.</p>
+    <p>It attempts to label functions/operators based upon monadic/dyadic usage (but this is far from fully fleshed
+        out). This means there are meaningful classnames so hover states can have popups etc.</p>
     <p>
         <strong>MIME types defined:</strong> <code>text/apl</code> (APL code)</p>
 </article>

@@ -8,10 +8,10 @@
 define(function (require) {
     var zrUtil = require('zrender/tool/util');
     var curveTool = require('zrender/tool/curve');
-    
+
     /**
      * 折线型动画
-     * 
+     *
      * @param {ZRender} zr
      * @param {shape} oldShape
      * @param {shape} newShape
@@ -42,9 +42,9 @@ define(function (require) {
                 oldPointList[newPointListLen - 1] = zrUtil.clone(newPointList[newPointListLen - 1]);
                 oldPointList[newPointListLen - 2] = zrUtil.clone(newPointList[newPointListLen - 2]);
             }
-            oldShape = {style : {pointList : oldPointList}};
+            oldShape = {style: {pointList: oldPointList}};
         }
-        
+
         oldPointList = oldShape.style.pointList;
         var oldPointListLen = oldPointList.length;
         if (oldPointListLen == newPointListLen) {
@@ -64,7 +64,7 @@ define(function (require) {
         zr.animate(newShape.id, 'style')
             .when(
                 duration,
-                { pointList: newPointList }
+                {pointList: newPointList}
             )
             .during(function () {
                 // Updating bezier points
@@ -72,15 +72,15 @@ define(function (require) {
                     newShape.updateControlPoints(newShape.style);
                 }
             })
-            .done(function() {
+            .done(function () {
                 newShape.__animating = false;
             })
             .start(easing);
     }
-    
+
     /**
      * 复制样式
-     * 
+     *
      * @inner
      * @param {Object} target 目标对象
      * @param {Object} source 源对象
@@ -96,7 +96,7 @@ define(function (require) {
 
     /**
      * 方型动画
-     * 
+     *
      * @param {ZRender} zr
      * @param {shape} oldShape
      * @param {shape} newShape
@@ -107,20 +107,20 @@ define(function (require) {
         var newShapeStyle = newShape.style;
         if (!oldShape) {        // add
             oldShape = {
-                position : newShape.position,
-                style : {
-                    x : newShapeStyle.x,
-                    y : newShape._orient == 'vertical'
+                position: newShape.position,
+                style: {
+                    x: newShapeStyle.x,
+                    y: newShape._orient == 'vertical'
                         ? newShapeStyle.y + newShapeStyle.height
                         : newShapeStyle.y,
-                    width: newShape._orient == 'vertical' 
-                           ? newShapeStyle.width : 0,
-                    height: newShape._orient != 'vertical' 
-                           ? newShapeStyle.height : 0
+                    width: newShape._orient == 'vertical'
+                        ? newShapeStyle.width : 0,
+                    height: newShape._orient != 'vertical'
+                        ? newShapeStyle.height : 0
                 }
             };
         }
-        
+
         var newX = newShapeStyle.x;
         var newY = newShapeStyle.y;
         var newWidth = newShapeStyle.width;
@@ -143,7 +143,7 @@ define(function (require) {
                 )
                 .start(easing);
         }
-        
+
         newShape.__animating = true;
         zr.animate(newShape.id, 'style')
             .when(
@@ -155,15 +155,15 @@ define(function (require) {
                     height: newHeight
                 }
             )
-            .done(function() {
+            .done(function () {
                 newShape.__animating = false;
             })
             .start(easing);
     }
-    
+
     /**
      * 蜡烛动画
-     * 
+     *
      * @param {ZRender} zr
      * @param {shape} oldShape
      * @param {shape} newShape
@@ -173,9 +173,9 @@ define(function (require) {
     function candle(zr, oldShape, newShape, duration, easing) {
         if (!oldShape) {        // add
             var y = newShape.style.y;
-            oldShape = {style : {y : [y[0], y[0], y[0], y[0]]}};
+            oldShape = {style: {y: [y[0], y[0], y[0], y[0]]}};
         }
-        
+
         var newY = newShape.style.y;
         newShape.style.y = oldShape.style.y;
         zr.addShape(newShape);
@@ -183,9 +183,9 @@ define(function (require) {
         zr.animate(newShape.id, 'style')
             .when(
                 duration,
-                { y: newY }
+                {y: newY}
             )
-            .done(function() {
+            .done(function () {
                 newShape.__animating = false;
             })
             .start(easing);
@@ -193,7 +193,7 @@ define(function (require) {
 
     /**
      * 环型动画
-     * 
+     *
      * @param {ZRender} zr
      * @param {shape} oldShape
      * @param {shape} newShape
@@ -205,55 +205,55 @@ define(function (require) {
         var y = newShape.style.y;
         var r0 = newShape.style.r0;
         var r = newShape.style.r;
-        
+
         newShape.__animating = true;
 
         if (newShape._animationAdd != 'r') {
             newShape.style.r0 = 0;
             newShape.style.r = 0;
-            newShape.rotation = [Math.PI*2, x, y];
-            
+            newShape.rotation = [Math.PI * 2, x, y];
+
             zr.addShape(newShape);
             zr.animate(newShape.id, 'style')
                 .when(
                     duration,
                     {
-                        r0 : r0,
-                        r : r
+                        r0: r0,
+                        r: r
                     }
                 )
-                .done(function() {
+                .done(function () {
                     newShape.__animating = false;
                 })
                 .start(easing);
             zr.animate(newShape.id, '')
                 .when(
                     duration,
-                    { rotation : [0, x, y] }
+                    {rotation: [0, x, y]}
                 )
                 .start(easing);
         }
         else {
             newShape.style.r0 = newShape.style.r;
-            
+
             zr.addShape(newShape);
             zr.animate(newShape.id, 'style')
                 .when(
                     duration,
                     {
-                        r0 : r0
+                        r0: r0
                     }
                 )
-                .done(function() {
+                .done(function () {
                     newShape.__animating = false;
                 })
                 .start(easing);
         }
     }
-    
+
     /**
      * 扇形动画
-     * 
+     *
      * @param {ZRender} zr
      * @param {shape} oldShape
      * @param {shape} newShape
@@ -264,44 +264,44 @@ define(function (require) {
         if (!oldShape) {        // add
             if (newShape._animationAdd != 'r') {
                 oldShape = {
-                    style : {
-                        startAngle : newShape.style.startAngle,
-                        endAngle : newShape.style.startAngle
+                    style: {
+                        startAngle: newShape.style.startAngle,
+                        endAngle: newShape.style.startAngle
                     }
                 };
             }
             else {
-                oldShape = {style : {r0 : newShape.style.r}};
+                oldShape = {style: {r0: newShape.style.r}};
             }
         }
-        
+
         var startAngle = newShape.style.startAngle;
         var endAngle = newShape.style.endAngle;
-        
+
         cloneStyle(
             newShape, oldShape,
             'startAngle', 'endAngle'
         );
-        
+
         zr.addShape(newShape);
         newShape.__animating = true;
         zr.animate(newShape.id, 'style')
             .when(
                 duration,
                 {
-                    startAngle : startAngle,
-                    endAngle : endAngle
+                    startAngle: startAngle,
+                    endAngle: endAngle
                 }
             )
-            .done(function() {
+            .done(function () {
                 newShape.__animating = false;
             })
             .start(easing);
     }
-    
+
     /**
      * 文本动画
-     * 
+     *
      * @param {ZRender} zr
      * @param {shape} oldShape
      * @param {shape} newShape
@@ -311,42 +311,42 @@ define(function (require) {
     function text(zr, oldShape, newShape, duration, easing) {
         if (!oldShape) {        // add
             oldShape = {
-                style : {
-                    x : newShape.style.textAlign == 'left' 
+                style: {
+                    x: newShape.style.textAlign == 'left'
                         ? newShape.style.x + 100
                         : newShape.style.x - 100,
-                    y : newShape.style.y
+                    y: newShape.style.y
                 }
             };
         }
-        
+
         var x = newShape.style.x;
         var y = newShape.style.y;
-        
+
         cloneStyle(
             newShape, oldShape,
             'x', 'y'
         );
-        
+
         zr.addShape(newShape);
         newShape.__animating = true;
         zr.animate(newShape.id, 'style')
             .when(
                 duration,
                 {
-                    x : x,
-                    y : y
+                    x: x,
+                    y: y
                 }
             )
-            .done(function() {
+            .done(function () {
                 newShape.__animating = false;
             })
             .start(easing);
     }
-    
+
     /**
      * 多边形动画
-     * 
+     *
      * @param {ZRender} zr
      * @param {shape} oldShape
      * @param {shape} newShape
@@ -357,7 +357,7 @@ define(function (require) {
         var rect = require('zrender/shape/Polygon').prototype.getRect(newShape.style);
         var x = rect.x + rect.width / 2;
         var y = rect.y + rect.height / 2;
-        
+
         newShape.scale = [0.1, 0.1, x, y];
         zr.addShape(newShape);
         newShape.__animating = true;
@@ -365,18 +365,18 @@ define(function (require) {
             .when(
                 duration,
                 {
-                    scale : [1, 1, x, y]
+                    scale: [1, 1, x, y]
                 }
             )
-            .done(function() {
+            .done(function () {
                 newShape.__animating = false;
             })
             .start(easing);
     }
-    
+
     /**
      * 和弦动画
-     * 
+     *
      * @param {ZRender} zr
      * @param {shape} oldShape
      * @param {shape} newShape
@@ -386,48 +386,48 @@ define(function (require) {
     function ribbon(zr, oldShape, newShape, duration, easing) {
         if (!oldShape) {        // add
             oldShape = {
-                style : {
-                    source0 : 0,
-                    source1 : newShape.style.source1 > 0 ? 360 : -360,
-                    target0 : 0,
-                    target1 : newShape.style.target1 > 0 ? 360 : -360
+                style: {
+                    source0: 0,
+                    source1: newShape.style.source1 > 0 ? 360 : -360,
+                    target0: 0,
+                    target1: newShape.style.target1 > 0 ? 360 : -360
                 }
             };
         }
-        
+
         var source0 = newShape.style.source0;
         var source1 = newShape.style.source1;
         var target0 = newShape.style.target0;
         var target1 = newShape.style.target1;
-        
+
         if (oldShape.style) {
             cloneStyle(
                 newShape, oldShape,
                 'source0', 'source1', 'target0', 'target1'
             );
         }
-        
+
         zr.addShape(newShape);
         newShape.__animating = true;
         zr.animate(newShape.id, 'style')
             .when(
                 duration,
                 {
-                    source0 : source0,
-                    source1 : source1,
-                    target0 : target0,
-                    target1 : target1
+                    source0: source0,
+                    source1: source1,
+                    target0: target0,
+                    target1: target1
                 }
             )
-            .done(function() {
+            .done(function () {
                 newShape.__animating = false;
             })
             .start(easing);
     }
-    
+
     /**
      * gaugePointer动画
-     * 
+     *
      * @param {ZRender} zr
      * @param {shape} oldShape
      * @param {shape} newShape
@@ -437,12 +437,12 @@ define(function (require) {
     function gaugePointer(zr, oldShape, newShape, duration, easing) {
         if (!oldShape) {        // add
             oldShape = {
-                style : {
-                    angle : newShape.style.startAngle
+                style: {
+                    angle: newShape.style.startAngle
                 }
             };
         }
-        
+
         var angle = newShape.style.angle;
         newShape.style.angle = oldShape.style.angle;
         zr.addShape(newShape);
@@ -451,18 +451,18 @@ define(function (require) {
             .when(
                 duration,
                 {
-                    angle : angle
+                    angle: angle
                 }
             )
-            .done(function() {
+            .done(function () {
                 newShape.__animating = false;
             })
             .start(easing);
     }
-    
+
     /**
      * icon动画
-     * 
+     *
      * @param {ZRender} zr
      * @param {shape} oldShape
      * @param {shape} newShape
@@ -486,9 +486,9 @@ define(function (require) {
                 .delay(delay)
                 .when(
                     duration,
-                    {scale : [1, 1, x, y]}
+                    {scale: [1, 1, x, y]}
                 )
-                .done(function() {
+                .done(function () {
                     newShape.__animating = false;
                 })
                 .start(easing || 'QuinticOut');
@@ -497,10 +497,10 @@ define(function (require) {
             rectangle(zr, oldShape, newShape, duration, easing);
         }
     }
-    
+
     /**
      * line动画
-     * 
+     *
      * @param {ZRender} zr
      * @param {shape} oldShape
      * @param {shape} newShape
@@ -510,15 +510,15 @@ define(function (require) {
     function line(zr, oldShape, newShape, duration, easing) {
         if (!oldShape) {
             oldShape = {
-                style : {
-                    xStart : newShape.style.xStart,
-                    yStart : newShape.style.yStart,
-                    xEnd : newShape.style.xStart,
-                    yEnd : newShape.style.yStart
+                style: {
+                    xStart: newShape.style.xStart,
+                    yStart: newShape.style.yStart,
+                    xEnd: newShape.style.xStart,
+                    yEnd: newShape.style.yStart
                 }
             };
         }
-        
+
         var xStart = newShape.style.xStart;
         var xEnd = newShape.style.xEnd;
         var yStart = newShape.style.yStart;
@@ -541,15 +541,15 @@ define(function (require) {
                     yEnd: yEnd
                 }
             )
-            .done(function() {
+            .done(function () {
                 newShape.__animating = false;
             })
             .start(easing);
     }
-    
+
     /**
      * markline动画
-     * 
+     *
      * @param {ZRender} zr
      * @param {shape} oldShape
      * @param {shape} newShape
@@ -571,14 +571,14 @@ define(function (require) {
         var y2 = newShapeStyle.yEnd;
         if (newShapeStyle.curveness > 0) {
             newShape.updatePoints(newShapeStyle);
-            var obj = { p: 0 };
+            var obj = {p: 0};
             var x1 = newShapeStyle.cpX1;
             var y1 = newShapeStyle.cpY1;
             var newXArr = [];
             var newYArr = [];
             var subdivide = curveTool.quadraticSubdivide;
             zr.animation.animate(obj)
-                .when(duration, { p: 1 })
+                .when(duration, {p: 1})
                 .during(function () {
                     // Calculate subdivided curve
                     subdivide(x0, x1, x2, obj.p, newXArr);
@@ -608,17 +608,17 @@ define(function (require) {
     }
 
     return {
-        pointList : pointList,
-        rectangle : rectangle,
-        candle : candle,
-        ring : ring,
-        sector : sector,
-        text : text,
-        polygon : polygon,
-        ribbon : ribbon,
-        gaugePointer : gaugePointer,
-        icon : icon,
-        line : line,
-        markline : markline
+        pointList: pointList,
+        rectangle: rectangle,
+        candle: candle,
+        ring: ring,
+        sector: sector,
+        text: text,
+        polygon: polygon,
+        ribbon: ribbon,
+        gaugePointer: gaugePointer,
+        icon: icon,
+        line: line,
+        markline: markline
     };
 });

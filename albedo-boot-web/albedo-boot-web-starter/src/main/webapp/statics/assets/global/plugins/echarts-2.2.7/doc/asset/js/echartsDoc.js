@@ -16,7 +16,7 @@ function JsonTree(jsonData) {
     }
 
     //building the jsonData as dom elements
-    this.getTree = function(domId) {
+    this.getTree = function (domId) {
         if (this.display === true) {
             return;
         } else {
@@ -36,24 +36,24 @@ function JsonTree(jsonData) {
     function buildDom(o, literal) {
         // null object
         var type = o === null
-                   ? 'null'
-                   : (isArray(o) ? 'array' : typeof o);
+            ? 'null'
+            : (isArray(o) ? 'array' : typeof o);
         var html = '';
 
-        switch(type) {
+        switch (type) {
             case 'array' :
                 for (var i = 0, len = o.length; i < len; i++) {
                     html += '<li class = \'tree-close\' title=\''
-                            + literal + '[' + i + ']\'><strong>'
-                            + i + '</strong>:'
-                            + buildDom(o[i], literal + '[' + i + ']')
-                            + ',</li>';
+                        + literal + '[' + i + ']\'><strong>'
+                        + i + '</strong>:'
+                        + buildDom(o[i], literal + '[' + i + ']')
+                        + ',</li>';
                 }
                 return '<span class="operator">+</span><div class="group">'
-                       + '[<ul class="' + type + '">'
-                       + html.replace(/,<\/li>$/, '<\/li>')
-                       + '</ul>]</div><div class="summary">Array['
-                       + len + ']</div>';
+                    + '[<ul class="' + type + '">'
+                    + html.replace(/,<\/li>$/, '<\/li>')
+                    + '</ul>]</div><div class="summary">Array['
+                    + len + ']</div>';
                 break;
             case 'object':
                 //sort obj
@@ -63,33 +63,33 @@ function JsonTree(jsonData) {
                     //quote numeric property
                     if (/^\d+$/.test(key)) {
                         html += '<li class = \'tree-close\' title=\'' + literal
-                                + '["' + key + '"]\'><strong>"'
-                                + key + '"</strong>:'
-                                + buildDom(
-                                    o[key], literal + '["' + key + '"]'
-                                  )
-                                + ',</li>';
+                            + '["' + key + '"]\'><strong>"'
+                            + key + '"</strong>:'
+                            + buildDom(
+                                o[key], literal + '["' + key + '"]'
+                            )
+                            + ',</li>';
                     } else {
                         html += '<li class = \'tree-close\' title=\''
-                                + key
-                                + '\'><a href=\'#' + (literal == '' ? key : literal).charAt(0).toUpperCase()
-                                + (literal == '' ? key : literal).slice(1)
-                                + '\'><strong>' + key + '</strong></a>:'
-                                + buildDom(o[key], literal == '' ? key : literal)
-                                + ',</li>';
+                            + key
+                            + '\'><a href=\'#' + (literal == '' ? key : literal).charAt(0).toUpperCase()
+                            + (literal == '' ? key : literal).slice(1)
+                            + '\'><strong>' + key + '</strong></a>:'
+                            + buildDom(o[key], literal == '' ? key : literal)
+                            + ',</li>';
                     }
                 }
                 //remove last comma
                 return '<span class="operator">+</span><div class="group">'
-                       +'{<ul class="' + type + '">'
-                       + html.replace(/,<\/li>$/, '<\/li>')
-                       + '</ul>}</div><div class="summary">Object</div>';
+                    + '{<ul class="' + type + '">'
+                    + html.replace(/,<\/li>$/, '<\/li>')
+                    + '</ul>}</div><div class="summary">Object</div>';
                 break;
             case 'string':
                 return '<span class="value ' + type + '">"'
-                        + (/^https?\:(\/\/).*$/i.test(o)
-                          ? '<a href="' + o + '" target="_blank">' + o + '</a>'
-                          : htmlEncode(o) ) + '"</span>';
+                    + (/^https?\:(\/\/).*$/i.test(o)
+                        ? '<a href="' + o + '" target="_blank">' + o + '</a>'
+                        : htmlEncode(o) ) + '"</span>';
                 break;
             default :
                 return '<span class="value ' + type + '">' + o + '</span>';
@@ -97,7 +97,7 @@ function JsonTree(jsonData) {
     }
 
     function bindEvents(tree) {
-        tree.onclick = function(e) {
+        tree.onclick = function (e) {
             e = e || window.event;
             var src = e.srcElement || e.target;
             if (src.className === 'operator') {
@@ -120,7 +120,7 @@ domConfig.appendChild(new JsonTree(echartsConfig).getTree());
 function _resize() {
     var viewHeight = document.documentElement.clientHeight;
     var scrollHeight = document.documentElement.scrollTop
-                       || document.body.scrollTop;
+        || document.body.scrollTop;
     var offsetHeight = document.body.offsetHeight;
     var maxHeight;
     var footHole = offsetHeight - scrollHeight - viewHeight;

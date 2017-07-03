@@ -1,5 +1,4 @@
 describe '#pad', ->
-
   it 'should pad numbers', ->
     Morris.pad2(0).should.equal("00")
     Morris.pad2(1).should.equal("01")

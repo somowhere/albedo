@@ -40,13 +40,14 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
         repository.updateIgnoreNull(entity);
 
     }
+
     public T save(T entity) {
         String oldParentIds = entity.getParentIds(); // 获取修改前的parentIds，用于更新子节点的parentIds
-        if(entity.getParentId()!=null){
+        if (entity.getParentId() != null) {
             T parent = repository.findOneById(entity.getParentId());
             if (parent == null || PublicUtil.isEmpty(parent.getId()))
                 throw new RuntimeMsgException("无法获取模块的父节点，插入失败");
-            if(parent!=null){
+            if (parent != null) {
                 parent.setLeaf(false);
 //                checkSave(parent);
                 repository.save(parent);
@@ -54,10 +55,10 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
             entity.setParentIds(PublicUtil.toAppendStr(parent.getParentIds(), parent.getId(), ","));
         }
 
-        if(PublicUtil.isNotEmpty(entity.getId())){
+        if (PublicUtil.isNotEmpty(entity.getId())) {
             Long count = repository.countByParentId(entity.getId());
-            entity.setLeaf(count == null || count== 0 ? true : false);
-        }else{
+            entity.setLeaf(count == null || count == 0 ? true : false);
+        } else {
             entity.setLeaf(true);
         }
 //        checkSave(entity);
@@ -74,7 +75,7 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
 
     @Transactional(readOnly = true)
     public List<Map<String, Object>> findTreeData(TreeQuery query) {
-        String extId = query!=null?query.getExtId(): null,  all = query !=null ?query.getAll() : null;
+        String extId = query != null ? query.getExtId() : null, all = query != null ? query.getAll() : null;
         List<Map<String, Object>> mapList = Lists.newArrayList();
         List<T> list = repository.findAllByStatusNot(BaseEntity.FLAG_DELETE);
         for (T e : list) {

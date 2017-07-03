@@ -1,32 +1,32 @@
 /**
  * Arabic translation for bootstrap-wysihtml5
  */
-(function($){
+(function ($) {
     $.fn.wysihtml5.locale["mo-MD"] = {
         font_styles: {
-              normal: "نص عادي",
-              h1: "عنوان رئيسي 1",
-              h2: "عنوان رئيسي 2",
-              h3: "عنوان رئيسي 3",
+            normal: "نص عادي",
+            h1: "عنوان رئيسي 1",
+            h2: "عنوان رئيسي 2",
+            h3: "عنوان رئيسي 3",
         },
         emphasis: {
-              bold: "عريض",
-              italic: "مائل",
-              underline: "تحته خط"
+            bold: "عريض",
+            italic: "مائل",
+            underline: "تحته خط"
         },
         lists: {
-              unordered: "قائمة منقطة",
-              ordered: "قائمة مرقمة",
-              outdent: "محاذاه للخارج",
-              indent: "محاذاه للداخل"
+            unordered: "قائمة منقطة",
+            ordered: "قائمة مرقمة",
+            outdent: "محاذاه للخارج",
+            indent: "محاذاه للداخل"
         },
         link: {
-              insert: "إضافة رابط",
-              cancel: "إلغاء"
+            insert: "إضافة رابط",
+            cancel: "إلغاء"
         },
         image: {
-              insert: "إضافة صورة",
-              cancel: "إلغاء"
+            insert: "إضافة صورة",
+            cancel: "إلغاء"
         },
         html: {
             edit: "تعديل HTML"

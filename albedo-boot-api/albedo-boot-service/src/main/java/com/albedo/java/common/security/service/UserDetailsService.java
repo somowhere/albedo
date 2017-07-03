@@ -33,7 +33,7 @@ public class UserDetailsService implements org.springframework.security.core.use
 
     @Resource
     private UserRepository userRepository;
-    
+
     @Override
     @Transactional
     public UserDetails loadUserByUsername(final String login) {
@@ -44,22 +44,22 @@ public class UserDetailsService implements org.springframework.security.core.use
             if (!user.getActivated()) {
                 throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");
             }
-            
+
             List<GrantedAuthority> grantedAuthorities = Lists.newArrayList(new SimpleGrantedAuthority("user"));
-            if(SecurityUtil.isAdmin(user.getId())){
-            	grantedAuthorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ADMIN));
-        	}
+            if (SecurityUtil.isAdmin(user.getId())) {
+                grantedAuthorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ADMIN));
+            }
             SecurityUtil.getModuleList(user.getId()).forEach(authority -> {
-            	if(PublicUtil.isNotEmpty(authority.getPermission())){
-            		Lists.newArrayList(authority.getPermission().split(StringUtil.SPLIT_DEFAULT)).forEach(p -> {
-            			grantedAuthorities.add(new SimpleGrantedAuthority(p));
-            		});
-            	}
+                if (PublicUtil.isNotEmpty(authority.getPermission())) {
+                    Lists.newArrayList(authority.getPermission().split(StringUtil.SPLIT_DEFAULT)).forEach(p -> {
+                        grantedAuthorities.add(new SimpleGrantedAuthority(p));
+                    });
+                }
             });
             return new UserPrincipal(user.getId(), lowercaseLogin,
-                user.getPassword(),
-                grantedAuthorities);
+                    user.getPassword(),
+                    grantedAuthorities);
         }).orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the " +
-        "database"));
+                "database"));
     }
 }

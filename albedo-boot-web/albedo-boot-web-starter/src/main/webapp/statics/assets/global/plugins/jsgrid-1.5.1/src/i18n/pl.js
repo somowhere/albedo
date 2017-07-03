@@ -1,4 +1,4 @@
-(function(jsGrid) {
+(function (jsGrid) {
 
     jsGrid.locales.pl = {
         grid: {

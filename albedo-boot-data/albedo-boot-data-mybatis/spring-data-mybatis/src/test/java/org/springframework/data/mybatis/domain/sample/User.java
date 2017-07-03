@@ -37,13 +37,13 @@ public class User {
     private Integer id;
     @Condition
     @Column(name = "FIRSTNAME")
-    private String  firstname;
+    private String firstname;
     @Condition(type = LIKE)
     @Column(name = "LASTNAME")
-    private String  lastname;
-    private int     age;
+    private String lastname;
+    private int age;
     private boolean active;
-    private Date    createdAt;
+    private Date createdAt;
 
     @Column(name = "EMAIL_ADDRESS")
     private String emailAddress;
@@ -55,7 +55,7 @@ public class User {
     private Set<User> colleagues;
     @ManyToOne
     @JoinColumn(name = "MANAGER_ID")
-    private User      manager;
+    private User manager;
     @ManyToMany
     private Set<Role> roles;
 
@@ -77,21 +77,12 @@ public class User {
     @Transient
     private String testData;
 
-    public String getTestData() {
-        return testData;
-    }
-
-    public void setTestData(String testData) {
-        this.testData = testData;
-    }
-
     /**
      * Creates a new empty instance of {@code User}.
      */
     public User() {
         this(null, null, null);
     }
-
 
     //    @PersistenceConstructor
     public User(String firstname, String lastname) {
@@ -113,12 +104,12 @@ public class User {
         this.createdAt = new Date();
     }
 
-    public void setColleagues(Set<User> colleagues) {
-        this.colleagues = colleagues;
+    public String getTestData() {
+        return testData;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setTestData(String testData) {
+        this.testData = testData;
     }
 
     public List<Booking> getBookings() {
@@ -136,15 +127,17 @@ public class User {
     public void setManager(User manager) {
         this.manager = manager;
     }
+
     @PreInssert
     public void preInssert() {
-        System.out.println(this.getClass().getName()+" preInssert............");
+        System.out.println(this.getClass().getName() + " preInssert............");
     }
 
     @PreUpdate
     public void preUpdate() {
-        System.out.println(this.getClass().getName()+"preUpdate............");
+        System.out.println(this.getClass().getName() + "preUpdate............");
     }
+
     /**
      * @return the id
      */
@@ -236,17 +229,17 @@ public class User {
     }
 
     /**
-     * @param active the active to set
-     */
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    /**
      * @return the active
      */
     public boolean isActive() {
         return active;
+    }
+
+    /**
+     * @param active the active to set
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**
@@ -257,6 +250,10 @@ public class User {
     public Set<Role> getRoles() {
 
         return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     /**
@@ -285,6 +282,10 @@ public class User {
     public Set<User> getColleagues() {
 
         return colleagues;
+    }
+
+    public void setColleagues(Set<User> colleagues) {
+        this.colleagues = colleagues;
     }
 
     /**
@@ -322,6 +323,10 @@ public class User {
         return createdAt;
     }
 
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
     /**
      * @return the address
      */
@@ -337,17 +342,17 @@ public class User {
     }
 
     /**
-     * @param binaryData the binaryData to set
-     */
-    public void setBinaryData(byte[] binaryData) {
-        this.binaryData = binaryData;
-    }
-
-    /**
      * @return the binaryData
      */
     public byte[] getBinaryData() {
         return binaryData;
+    }
+
+    /**
+     * @param binaryData the binaryData to set
+     */
+    public void setBinaryData(byte[] binaryData) {
+        this.binaryData = binaryData;
     }
 
     /*
@@ -391,10 +396,6 @@ public class User {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
     }
 
     /*

@@ -41,10 +41,9 @@ import static org.junit.Assert.assertNull;
 public class AuditableDepartmentRepositoryTests {
 
 
+    Department research;
     @Autowired
     private DepartmentRepository departmentRepository;
-
-    Department research;
 
     @Before
     public void setUp() throws Exception {

@@ -20,6 +20,6 @@ var UIButtons = function () {
 
 }();
 
-jQuery(document).ready(function() {    
-   UIButtons.init();
+jQuery(document).ready(function () {
+    UIButtons.init();
 });

@@ -1,11 +1,9 @@
 describe "Morris.Hover", ->
-
   describe "with dummy content", ->
-
     beforeEach ->
       parent = $('<div style="width:200px;height:180px"></div>')
         .appendTo($('#test'))
-      @hover = new Morris.Hover(parent:  parent)
+      @hover = new Morris.Hover(parent: parent)
       @element = $('#test .morris-hover')
 
     it "should initialise a hidden, empty popup", ->

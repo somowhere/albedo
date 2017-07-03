@@ -1,6 +1,6 @@
 require.config({
-    paths:{ 
-        echarts:'example/www/js'
+    paths: {
+        echarts: 'example/www/js'
     }
 });
 require(
@@ -10,10 +10,10 @@ require(
         'echarts/chart/line',
         'echarts/chart/scatter'
     ],
-    function(ec) {
+    function (ec) {
         myChart = ec.init(document.getElementById('main'));
         option = {
-            title : {
+            title: {
                 text: 'Data Dancing',
                 x: 'center',
                 textStyle: {
@@ -21,19 +21,19 @@ require(
                 }
             },
             toolbox: {
-                show : true,
-                feature : {
-                    mark : {show: true},
+                show: true,
+                feature: {
+                    mark: {show: true},
                     magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
-                    restore : {show: true},
-                    saveAsImage : {show: true}
+                    restore: {show: true},
+                    saveAsImage: {show: true}
                 }
             },
-            xAxis : [
+            xAxis: [
                 {
-                    type : 'category',
-                    axisLabel:{show:false},
-                    data : (function() {
+                    type: 'category',
+                    axisLabel: {show: false},
+                    data: (function () {
                         var res = [];
                         for (var i = 0; i < 30; i++) {
                             res.push(i);
@@ -42,37 +42,37 @@ require(
                     })()
                 }
             ],
-            yAxis : [
+            yAxis: [
                 {
-                    type : 'value',
-                    splitNumber:6,
-                    min:-30,
-                    max:30,
-                    power:1,
-                    axisLine:{show:false},
-                    axisLabel:{show:false},
-                    splitArea : {show : true}
+                    type: 'value',
+                    splitNumber: 6,
+                    min: -30,
+                    max: 30,
+                    power: 1,
+                    axisLine: {show: false},
+                    axisLabel: {show: false},
+                    splitArea: {show: true}
                 }
             ],
             animationDuration: 3000,
             animationEasing: 'BounceOut',
-            addDataAnimation : false,
-            series : [
+            addDataAnimation: false,
+            series: [
                 {
-                    name:'1',
-                    type:'bar',
+                    name: '1',
+                    type: 'bar',
                     itemStyle: {normal: {areaStyle: {type: 'default'}}},
-                    symbol:'none',
-                    barMinHeight:0,
-                    data : dataDanceing[Math.floor(Math.random()*3)](1)
+                    symbol: 'none',
+                    barMinHeight: 0,
+                    data: dataDanceing[Math.floor(Math.random() * 3)](1)
                 },
                 {
-                    name:'2',
-                    type:'bar',
+                    name: '2',
+                    type: 'bar',
                     itemStyle: {normal: {areaStyle: {type: 'default'}}},
-                    symbol:'none',
-                    barMinHeight:0,
-                    data : dataDanceing[Math.floor(Math.random()*3)](-1)
+                    symbol: 'none',
+                    barMinHeight: 0,
+                    data: dataDanceing[Math.floor(Math.random() * 3)](-1)
                 }
             ]
         };
@@ -84,38 +84,38 @@ require(
 
 // ------------------------------------
 var dataDanceing = [
-    function(n) {
+    function (n) {
         var res = [];
-        var p = Math.round(Math.random()*10) % 2 == 0;
+        var p = Math.round(Math.random() * 10) % 2 == 0;
         for (var i = 0; i < 30; i++) {
             res[p ? 'push' : 'unshift'](i * n);
         }
         //console.log('1--',res);
         return res;
     },
-    function(n) {
+    function (n) {
         var res = [];
-        var p = Math.round(Math.random()*10) % 2 == 0;
+        var p = Math.round(Math.random() * 10) % 2 == 0;
         for (var i = 0; i < 30; i++) {
-            i % 2 == 0 
-            ? res[p ? 'push' : 'unshift']((p ? i : (30 - i)) * n) 
-            : res[p ? 'unshift' : 'push']((p ? i : (30 - i)) * n);
+            i % 2 == 0
+                ? res[p ? 'push' : 'unshift']((p ? i : (30 - i)) * n)
+                : res[p ? 'unshift' : 'push']((p ? i : (30 - i)) * n);
         }
         //console.log('2--',res);
         return res;
     },
-    function(n) {
+    function (n) {
         var res = [];
-        var p = Math.round(Math.random()*10) % 2 == 0;
+        var p = Math.round(Math.random() * 10) % 2 == 0;
         for (var i = 0; i < 60; i++) {
             res[p ? 'push' : 'unshift']((i - 30) * n);
         }
         //console.log('3--',res);
         return res;
     },
-    function(n) {
+    function (n) {
         var res = [];
-        var p = Math.round(Math.random()*10) % 2 == 0;
+        var p = Math.round(Math.random() * 10) % 2 == 0;
         for (var i = 0; i < 30; i++) {
             res[p ? 'push' : 'unshift']((i * n) * (i % 2 == 0 ? 1 : -1));
         }
@@ -132,7 +132,7 @@ var danceStep1;
 var danceStep2;
 var timeTicket;
 var playing = false;
-function start(){
+function start() {
     if (ecReady && password && mReady && !playing) {
         if (!document.createElement('canvas').getContext) {
             alert('亲，换个浏览器吧');
@@ -144,13 +144,13 @@ function start(){
         audioV3.play();
         playing = true;
         myChart.setOption(option, true);
-        setTimeout(function(){
-            timeTicket = setInterval(function(){
+        setTimeout(function () {
+            timeTicket = setInterval(function () {
                 if (danceStep1.length == 0 && playing) {
-                    danceStep1 = dataDanceing[Math.floor(Math.random()*dataDanceing.length)](Math.round(Math.random()*10)%2==0?1:-1);
+                    danceStep1 = dataDanceing[Math.floor(Math.random() * dataDanceing.length)](Math.round(Math.random() * 10) % 2 == 0 ? 1 : -1);
                 }
                 if (danceStep2.length == 0 && playing) {
-                    danceStep2 = dataDanceing[Math.floor(Math.random()*dataDanceing.length)](Math.round(Math.random()*10)%2==0?1:-1);
+                    danceStep2 = dataDanceing[Math.floor(Math.random() * dataDanceing.length)](Math.round(Math.random() * 10) % 2 == 0 ? 1 : -1);
                 }
                 if (danceStep1.length > 0 && danceStep2.length) {
                     // 动态数据接口 addData
@@ -171,12 +171,12 @@ function start(){
                 }
                 else {
                     clearInterval(timeTicket);
-                    setTimeout(function(){
+                    setTimeout(function () {
                         option.series[0].data = dataDanceing[1](1);
                         option.series[1].data = dataDanceing[1](-1);
                         var _backupSeries = option.series;
-                        var es = [[],[2,3,4,5,6,7,8],[2,5,8],[2,5,8],[],[3,4,5,6,7],[2,8],[2,8],[],[2,3,4,5,6,7,8],[5],[2,3,4,5,6,7,8],[],[4,5,6,7,8],[2,3,6],[4,5,6,7,8],[],[2,3,4,5,6,7,8],[2,5],[2,3,4,6,7,8],[],[2],[2,3,4,5,6,7,8],[2],[],[3,4,8],[2,5,8],[2,6,7]];
-                        var data= [];
+                        var es = [[], [2, 3, 4, 5, 6, 7, 8], [2, 5, 8], [2, 5, 8], [], [3, 4, 5, 6, 7], [2, 8], [2, 8], [], [2, 3, 4, 5, 6, 7, 8], [5], [2, 3, 4, 5, 6, 7, 8], [], [4, 5, 6, 7, 8], [2, 3, 6], [4, 5, 6, 7, 8], [], [2, 3, 4, 5, 6, 7, 8], [2, 5], [2, 3, 4, 6, 7, 8], [], [2], [2, 3, 4, 5, 6, 7, 8], [2], [], [3, 4, 8], [2, 5, 8], [2, 6, 7]];
+                        var data = [];
                         for (var i = 0, l = es.length; i < l; i++) {
                             for (var j = 0, k = es[i].length; j < k; j++) {
                                 data.push([i + 1, 4.5 * (8 - es[i][j]) + 2, 1])
@@ -184,42 +184,44 @@ function start(){
                         }
                         option.series = [
                             {
-                                type:'scatter',
-                                symbol:'rectangle',
-                                symbolSize:6,
-                                data: data.splice(0,13)
+                                type: 'scatter',
+                                symbol: 'rectangle',
+                                symbolSize: 6,
+                                data: data.splice(0, 13)
                             },
                             {
-                                type:'scatter',
-                                symbol:'circle',
-                                symbolSize:6,
+                                type: 'scatter',
+                                symbol: 'circle',
+                                symbolSize: 6,
                                 data: data
                             },
                             {
-                                type:'bar',
-                                itemStyle: {normal: {
-                                    color: (function(){
-                                        var zrColor = require('zrender/tool/color');
-                                        return zrColor.getLinearGradient(
-                                            0, 200, 0, 400,
-                                            [[0, 'rgba(144,238,144,0.8)'],[0.8, 'rgba(255,255,0,0.8)']]
-                                        );
-                                    })(),
-                                    areaStyle: {type: 'default'}
-                                }},
-                                symbol:'none',
-                                barMinHeight:0,
-                                data : dataDanceing[1](-1)
+                                type: 'bar',
+                                itemStyle: {
+                                    normal: {
+                                        color: (function () {
+                                            var zrColor = require('zrender/tool/color');
+                                            return zrColor.getLinearGradient(
+                                                0, 200, 0, 400,
+                                                [[0, 'rgba(144,238,144,0.8)'], [0.8, 'rgba(255,255,0,0.8)']]
+                                            );
+                                        })(),
+                                        areaStyle: {type: 'default'}
+                                    }
+                                },
+                                symbol: 'none',
+                                barMinHeight: 0,
+                                data: dataDanceing[1](-1)
                             }
                         ];
-                        option.title.text= 'Welcome';
+                        option.title.text = 'Welcome';
                         myChart.setOption(option, true);
                         option.series = _backupSeries;
                         option.title.text = 'Data Dancing';
-                    },500);
+                    }, 500);
                 }
             }, 100);
-        },3800);
+        }, 3800);
     }
 }
 
@@ -227,24 +229,24 @@ function start(){
 var audioV3 = document.getElementById('audioV3');
 audioV3.addEventListener && audioV3.addEventListener(
     'ended',
-    function(){
+    function () {
         playing = false;
     }
 )
 audioV3.addEventListener && audioV3.addEventListener(
     'canplaythrough',
-    function() {
+    function () {
         start(mReady = true);
     }
 );
 audioV3.src = 'asset/img/dataDancing.mp3';
 
 // -----------
-var k = [101,99,104,97,114,116,115];
+var k = [101, 99, 104, 97, 114, 116, 115];
 var progress = 0;
 document.body.addEventListener && document.body.addEventListener(
     'keypress',
-    function(p) {
+    function (p) {
         var curCode = p.keyCode;
         if (k[progress] == p.keyCode) {
             progress++;

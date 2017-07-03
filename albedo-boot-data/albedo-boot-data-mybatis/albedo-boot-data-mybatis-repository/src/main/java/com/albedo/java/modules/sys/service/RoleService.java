@@ -20,12 +20,12 @@ import java.util.List;
 @Transactional
 public class RoleService extends DataService<RoleRepository, Role, String> {
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public PageModel<Role> findPage(PageModel<Role> pm, List<QueryCondition> queryConditions) {
         SpecificationDetail<Role> specificationDetail = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
                 queryConditions, persistentClass,
                 QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
 //		specificationDetail.setPersistentClass();
-        return findBasePage(pm, specificationDetail,false);
+        return findBasePage(pm, specificationDetail, false);
     }
 }

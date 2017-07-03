@@ -46,17 +46,17 @@
                 var $this = $(this);
                 $this.find('.fileupload-progress')
                     .find('.progress').progressbar(
-                        'option',
-                        'value',
-                        parseInt(data.loaded / data.total * 100, 10)
-                    ).end()
+                    'option',
+                    'value',
+                    parseInt(data.loaded / data.total * 100, 10)
+                ).end()
                     .find('.progress-extended').each(function () {
-                        $(this).html(
-                            ($this.data('blueimp-fileupload') ||
-                                    $this.data('fileupload'))
-                                ._renderExtendedProgress(data)
-                        );
-                    });
+                    $(this).html(
+                        ($this.data('blueimp-fileupload') ||
+                        $this.data('fileupload'))
+                            ._renderExtendedProgress(data)
+                    );
+                });
             }
         },
 
@@ -117,11 +117,11 @@
             this.element
                 .find('.fileupload-buttonbar')
                 .find('.fileinput-button').each(function () {
-                    var input = $(this).find('input:file').detach();
-                    $(this)
-                        .button({icons: {primary: 'ui-icon-plusthick'}})
-                        .append(input);
-                })
+                var input = $(this).find('input:file').detach();
+                $(this)
+                    .button({icons: {primary: 'ui-icon-plusthick'}})
+                    .append(input);
+            })
                 .end().find('.start')
                 .button({icons: {primary: 'ui-icon-circle-arrow-e'}})
                 .end().find('.cancel')
@@ -135,11 +135,11 @@
             this.element
                 .find('.fileupload-buttonbar')
                 .find('.fileinput-button').each(function () {
-                    var input = $(this).find('input:file').detach();
-                    $(this)
-                        .button('destroy')
-                        .append(input);
-                })
+                var input = $(this).find('input:file').detach();
+                $(this)
+                    .button('destroy')
+                    .append(input);
+            })
                 .end().find('.start')
                 .button('destroy')
                 .end().find('.cancel')

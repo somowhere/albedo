@@ -68,7 +68,7 @@ define('echarts/chart/gauge', [
         },
         axisLabel: {
             show: true,
-            textStyle: { color: 'auto' }
+            textStyle: {color: 'auto'}
         },
         splitLine: {
             show: true,
@@ -116,10 +116,12 @@ define('echarts/chart/gauge', [
     var ecData = require('../util/ecData');
     var accMath = require('../util/accMath');
     var zrUtil = require('zrender/tool/util');
+
     function Gauge(ecTheme, messageCenter, zr, option, myChart) {
         ChartBase.call(this, ecTheme, messageCenter, zr, option, myChart);
         this.refresh(option);
     }
+
     Gauge.prototype = {
         type: ecConfig.CHART_TYPE_GAUGE,
         _buildShape: function () {
@@ -458,9 +460,9 @@ define('echarts/chart/gauge', [
             var color = serie.axisLine.lineStyle.color;
             if (!(color instanceof Array)) {
                 color = [[
-                        1,
-                        color
-                    ]];
+                    1,
+                    color
+                ]];
             }
             var colorArray = [];
             for (var i = 0, l = color.length; i < l; i++) {
@@ -526,7 +528,8 @@ define('echarts/chart/gauge', [
     zrUtil.inherits(Gauge, ChartBase);
     require('../chart').define('gauge', Gauge);
     return Gauge;
-});define('echarts/util/shape/GaugePointer', [
+});
+define('echarts/util/shape/GaugePointer', [
     'require',
     'zrender/shape/Base',
     'zrender/tool/util',
@@ -534,9 +537,11 @@ define('echarts/chart/gauge', [
 ], function (require) {
     var Base = require('zrender/shape/Base');
     var zrUtil = require('zrender/tool/util');
+
     function GaugePointer(options) {
         Base.call(this, options);
     }
+
     GaugePointer.prototype = {
         type: 'gauge-pointer',
         buildPath: function (ctx, style) {

@@ -72,6 +72,7 @@ public class TestConfig implements ResourceLoaderAware {
         factoryBean.setTransactionFactory(new ReadWriteManagedTransactionFactory());
         return factoryBean;
     }
+
     @Bean
     public PlatformTransactionManager transactionManager(DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);

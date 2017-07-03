@@ -4,10 +4,11 @@
 
 
     <select id="findUseMapper" resultType="org.springframework.data.mybatis.domain.sample.User" lang="XML">
-      SELECT ID AS id, FIRSTNAME AS firstname, LASTNAME AS lastname FROM DS_USER WHERE LASTNAME = #{lastname}
+        SELECT ID AS id, FIRSTNAME AS firstname, LASTNAME AS lastname FROM DS_USER WHERE LASTNAME = #{lastname}
     </select>
-    <select id="findUseMapper" resultType="org.springframework.data.mybatis.domain.sample.User" lang="XML" databaseId="postgres">
-    SELECT ID AS id, "FIRSTNAME" AS firstname, "LASTNAME" AS lastname FROM "DS_USER" WHERE "LASTNAME" = #{lastname}
-</select>
+    <select id="findUseMapper" resultType="org.springframework.data.mybatis.domain.sample.User" lang="XML"
+            databaseId="postgres">
+        SELECT ID AS id, "FIRSTNAME" AS firstname, "LASTNAME" AS lastname FROM "DS_USER" WHERE "LASTNAME" = #{lastname}
+    </select>
 
 </mapper>

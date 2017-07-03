@@ -10,7 +10,7 @@ define(function (require) {
 
     var ecConfig = require('../config');
     var zrUtil = require('zrender/tool/util');
-    
+
     /**
      * 构造函数
      * @param {Object} messageCenter echart消息中心
@@ -22,7 +22,7 @@ define(function (require) {
         Base.call(this, ecTheme, messageCenter, zr, option, myChart);
 
         this.dom = myChart.dom;
-        
+
         // dataview dom & css
         this._tDom = document.createElement('div');
         this._textArea = document.createElement('textArea');
@@ -38,7 +38,7 @@ define(function (require) {
         // 缓存一些高宽数据
         this._zrHeight = zr.getHeight();
         this._zrWidth = zr.getWidth();
-    
+
         this._tDom.className = 'echarts-dataview';
         this.hide();
         this.dom.firstChild.appendChild(this._tDom);
@@ -63,45 +63,45 @@ define(function (require) {
             this._tDom.attachEvent('onmouseup', this._stop);
         }
     }
-    
+
     DataView.prototype = {
-        type : ecConfig.COMPONENT_TYPE_DATAVIEW,
-        _lang : ['Data View', 'close', 'refresh'],
+        type: ecConfig.COMPONENT_TYPE_DATAVIEW,
+        _lang: ['Data View', 'close', 'refresh'],
         // 通用样式
-        _gCssText : 'position:absolute;'
-                    + 'display:block;'
-                    + 'overflow:hidden;'
-                    + 'transition:height 0.8s,background-color 1s;'
-                    + '-moz-transition:height 0.8s,background-color 1s;'
-                    + '-webkit-transition:height 0.8s,background-color 1s;'
-                    + '-o-transition:height 0.8s,background-color 1s;'
-                    + 'z-index:1;'
-                    + 'left:0;'
-                    + 'top:0;',
-        hide : function () {
+        _gCssText: 'position:absolute;'
+        + 'display:block;'
+        + 'overflow:hidden;'
+        + 'transition:height 0.8s,background-color 1s;'
+        + '-moz-transition:height 0.8s,background-color 1s;'
+        + '-webkit-transition:height 0.8s,background-color 1s;'
+        + '-o-transition:height 0.8s,background-color 1s;'
+        + 'z-index:1;'
+        + 'left:0;'
+        + 'top:0;',
+        hide: function () {
             this._sizeCssText = 'width:' + this._zrWidth + 'px;'
-                           + 'height:' + 0 + 'px;'
-                           + 'background-color:#f0ffff;';
+                + 'height:' + 0 + 'px;'
+                + 'background-color:#f0ffff;';
             this._tDom.style.cssText = this._gCssText + this._sizeCssText;
             // 这是个很恶心的事情
             /*
-            this.dom.onselectstart = function () {
-                return false;
-            };
-            */
+             this.dom.onselectstart = function () {
+             return false;
+             };
+             */
         },
 
-        show : function (newOption) {
+        show: function (newOption) {
             this._hasShow = true;
             var lang = this.query(this.option, 'toolbox.feature.dataView.lang')
-                       || this._lang;
+                || this._lang;
 
             this.option = newOption;
 
             this._tDom.innerHTML = '<p style="padding:8px 0;margin:0 0 10px 0;'
-                              + 'border-bottom:1px solid #eee">'
-                              + (lang[0] || this._lang[0])
-                              + '</p>';
+                + 'border-bottom:1px solid #eee">'
+                + (lang[0] || this._lang[0])
+                + '</p>';
 
             var customContent = this.query(
                 this.option, 'toolbox.feature.dataView.optionToContent'
@@ -125,7 +125,7 @@ define(function (require) {
             this._buttonClose.style.cssText = 'float:right;padding:1px 6px;';
             this._buttonClose.innerHTML = lang[1] || this._lang[1];
             var self = this;
-            this._buttonClose.onclick = function (){
+            this._buttonClose.onclick = function () {
                 self.hide();
             };
             this._tDom.appendChild(this._buttonClose);
@@ -136,7 +136,7 @@ define(function (require) {
                 this._buttonRefresh.style.cssText =
                     'float:right;margin-right:10px;padding:1px 6px;';
                 this._buttonRefresh.innerHTML = lang[2] || this._lang[2];
-                this._buttonRefresh.onclick = function (){
+                this._buttonRefresh.onclick = function () {
                     self._save();
                 };
                 this._textArea.readOnly = false;
@@ -151,18 +151,18 @@ define(function (require) {
             this._tDom.appendChild(this._buttonRefresh);
 
             this._sizeCssText = 'width:' + this._zrWidth + 'px;'
-                           + 'height:' + this._zrHeight + 'px;'
-                           + 'background-color:#fff;';
+                + 'height:' + this._zrHeight + 'px;'
+                + 'background-color:#fff;';
             this._tDom.style.cssText = this._gCssText + this._sizeCssText;
             // 这是个很恶心的事情
             /*
-            this.dom.onselectstart = function () {
-                return true;
-            };
-            */
+             this.dom.onselectstart = function () {
+             return true;
+             };
+             */
         },
 
-        _optionToContent : function () {
+        _optionToContent: function () {
             var i;
             var j;
             var k;
@@ -196,7 +196,7 @@ define(function (require) {
                     axisList = [this.option.yAxis];
                 }
                 for (i = 0, len = axisList.length; i < len; i++) {
-                    if (axisList[i].type  == 'category') {
+                    if (axisList[i].type == 'category') {
                         valueList = [];
                         for (j = 0, k = axisList[i].data.length; j < k; j++) {
                             valueList.push(this.getDataFromOption(axisList[i].data[j]));
@@ -220,7 +220,7 @@ define(function (require) {
                     else {
                         itemName = '';
                     }
-                    
+
                     if (series[i].type == ecConfig.CHART_TYPE_SCATTER) {
                         data = this.getDataFromOption(data).join(', ');
                     }
@@ -228,7 +228,7 @@ define(function (require) {
                 }
                 content += (series[i].name || '-') + ' : \n';
                 content += valueList.join(
-                    series[i].type == ecConfig.CHART_TYPE_SCATTER ? '\n': ', '
+                    series[i].type == ecConfig.CHART_TYPE_SCATTER ? '\n' : ', '
                 );
                 content += '\n\n';
             }
@@ -236,7 +236,7 @@ define(function (require) {
             return content;
         },
 
-        _save : function () {
+        _save: function () {
             var customContent = this.query(
                 this.option, 'toolbox.feature.dataView.contentToOption'
             );
@@ -257,14 +257,14 @@ define(function (require) {
             }
 
             this.hide();
-            
+
             var self = this;
             setTimeout(
-                function (){
+                function () {
                     self.messageCenter && self.messageCenter.dispatch(
                         ecConfig.EVENT.DATA_VIEW_CHANGED,
                         null,
-                        {option : self.option},
+                        {option: self.option},
                         self.myChart
                     );
                 },
@@ -273,7 +273,7 @@ define(function (require) {
             );
         },
 
-        _contentToOption : function (content) {
+        _contentToOption: function (content) {
             var i;
             var j;
             var k;
@@ -319,7 +319,7 @@ define(function (require) {
                     axisList = [this.option.yAxis];
                 }
                 for (i = 0, len = axisList.length; i < len; i++) {
-                    if (axisList[i].type  == 'category') {
+                    if (axisList[i].type == 'category') {
                         contentValueList = content[contentIdx].split(',');
                         for (j = 0, k = axisList[i].data.length; j < k; j++) {
                             value = this._trim(contentValueList[j] || '');
@@ -343,7 +343,7 @@ define(function (require) {
                 if (series[i].type == ecConfig.CHART_TYPE_SCATTER) {
                     for (var j = 0, k = series[i].data.length; j < k; j++) {
                         contentValueList = content[contentIdx];
-                        value = contentValueList.replace(' ','').split(',');
+                        value = contentValueList.replace(' ', '').split(',');
                         if (typeof series[i].data[j].value != 'undefined'
                         ) {
                             series[i].data[j].value = value;
@@ -357,11 +357,11 @@ define(function (require) {
                 else {
                     contentValueList = content[contentIdx].split(',');
                     for (var j = 0, k = series[i].data.length; j < k; j++) {
-                        value = (contentValueList[j] || '').replace(/.*:/,'');
+                        value = (contentValueList[j] || '').replace(/.*:/, '');
                         value = this._trim(value);
                         value = (value != '-' && value !== '')
-                                ? (value - 0)
-                                : '-';
+                            ? (value - 0)
+                            : '-';
                         if (typeof series[i].data[j].value != 'undefined'
                         ) {
                             series[i].data[j].value = value;
@@ -375,7 +375,7 @@ define(function (require) {
             }
         },
 
-        _trim : function (str){
+        _trim: function (str) {
             var trimer = new RegExp(
                 '(^[\\s\\t\\xa0\\u3000]+)|([\\u3000\\xa0\\s\\t]+\x24)', 'g'
             );
@@ -383,7 +383,7 @@ define(function (require) {
         },
 
         // 阻塞zrender事件
-        _stop : function (e){
+        _stop: function (e) {
             e = e || window.event;
             if (e.stopPropagation) {
                 e.stopPropagation();
@@ -396,25 +396,25 @@ define(function (require) {
         /**
          * zrender事件响应：窗口大小改变
          */
-        resize : function () {
+        resize: function () {
             this._zrHeight = this.zr.getHeight();
             this._zrWidth = this.zr.getWidth();
             if (this._tDom.offsetHeight > 10) {
                 this._sizeCssText = 'width:' + this._zrWidth + 'px;'
-                               + 'height:' + this._zrHeight + 'px;'
-                               + 'background-color:#fff;';
+                    + 'height:' + this._zrHeight + 'px;'
+                    + 'background-color:#fff;';
                 this._tDom.style.cssText = this._gCssText + this._sizeCssText;
                 this._textArea.style.cssText = 'display:block;margin:0 0 8px 0;'
-                                        + 'padding:4px 6px;overflow:auto;'
-                                        + 'width:100%;'
-                                        + 'height:' + (this._zrHeight - 100) + 'px;';
+                    + 'padding:4px 6px;overflow:auto;'
+                    + 'width:100%;'
+                    + 'height:' + (this._zrHeight - 100) + 'px;';
             }
         },
 
         /**
          * 释放后实例不可用，重载基类方法
          */
-        dispose : function () {
+        dispose: function () {
             if (window.removeEventListener) {
                 this._tDom.removeEventListener('click', this._stop);
                 this._tDom.removeEventListener('mousewheel', this._stop);
@@ -452,10 +452,10 @@ define(function (require) {
             this._tDom = null;
         }
     };
-    
+
     zrUtil.inherits(DataView, Base);
-    
+
     require('../component').define('dataView', DataView);
-    
+
     return DataView;
 });

@@ -1,12 +1,11 @@
 describe 'Morris.Donut', ->
-
   describe 'svg structure', ->
     defaults =
       element: 'graph'
-      data: [ {label: 'Jam', value: 25 },
-        {label: 'Frosted', value: 40 },
-        {label: 'Custard', value: 25 },
-        {label: 'Sugar', value: 10 } ]
+      data: [{label: 'Jam', value: 25},
+        {label: 'Frosted', value: 40},
+        {label: 'Custard', value: 25},
+        {label: 'Sugar', value: 10}]
       formatter: (y) -> "#{y}%"
 
     it 'should contain 2 paths for each segment', ->
@@ -20,12 +19,12 @@ describe 'Morris.Donut', ->
   describe 'svg attributes', ->
     defaults =
       element: 'graph'
-      data: [ {label: 'Jam', value: 25 },
-        {label: 'Frosted', value: 40 },
-        {label: 'Custard', value: 25 },
-        {label: 'Sugar', value: 10 } ]
+      data: [{label: 'Jam', value: 25},
+        {label: 'Frosted', value: 40},
+        {label: 'Custard', value: 25},
+        {label: 'Sugar', value: 10}]
       formatter: (y) -> "#{y}%"
-      colors: [ '#0B62A4', '#3980B5', '#679DC6', '#95BBD7']
+      colors: ['#0B62A4', '#3980B5', '#679DC6', '#95BBD7']
 
     it 'should have a label with font size 15', ->
       chart = Morris.Donut $.extend {}, defaults
@@ -62,15 +61,15 @@ describe 'Morris.Donut', ->
   describe 'setData', ->
     defaults =
       element: 'graph'
-      data: [ {label: 'One', value: 25 }, {label: "Two", value: 30} ]
+      data: [{label: 'One', value: 25}, {label: "Two", value: 30}]
       colors: ['#ff0000', '#00ff00', '#0000ff']
 
     it 'should update the chart', ->
       chart = Morris.Donut $.extend {}, defaults
       $('#graph').find("path[stroke='#0000ff']").size().should.equal 0
       chart.setData [
-        { label: 'One', value: 25 }
-        { label: 'Two', value: 30 }
-        { label: 'Three', value: 35 }
+        {label: 'One', value: 25}
+        {label: 'Two', value: 30}
+        {label: 'Three', value: 35}
       ]
       $('#graph').find("path[stroke='#0000ff']").size().should.equal 1

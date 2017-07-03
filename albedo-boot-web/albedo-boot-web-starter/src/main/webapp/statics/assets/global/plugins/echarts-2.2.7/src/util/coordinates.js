@@ -17,7 +17,7 @@ define(
          * @return {Array.<number>} 直角坐标[x,y]
          */
         function polar2cartesian(r, theta) {
-            return [r * zrMath.sin(theta), r*zrMath.cos(theta)];
+            return [r * zrMath.sin(theta), r * zrMath.cos(theta)];
         }
 
         /**
@@ -33,8 +33,8 @@ define(
         }
 
         return {
-            polar2cartesian : polar2cartesian,
-            cartesian2polar : cartesian2polar
+            polar2cartesian: polar2cartesian,
+            cartesian2polar: cartesian2polar
         };
     }
 );

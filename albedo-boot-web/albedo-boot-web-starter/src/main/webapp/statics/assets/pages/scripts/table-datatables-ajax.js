@@ -22,7 +22,7 @@ var TableDatatablesAjax = function () {
             onError: function (grid) {
                 // execute some code on network or other general error  
             },
-            onDataLoad: function(grid) {
+            onDataLoad: function (grid) {
                 // execute some code on ajax data load
             },
             loadingMessage: 'Loading...',
@@ -32,7 +32,7 @@ var TableDatatablesAjax = function () {
                 // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
                 // So when dropdowns used the scrollable div should be removed. 
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-                
+
                 "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
 
                 "lengthMenu": [
@@ -96,6 +96,6 @@ var TableDatatablesAjax = function () {
 
 }();
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     TableDatatablesAjax.init();
 });

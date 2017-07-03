@@ -31,7 +31,7 @@ define('echarts/chart/line', [
         dataFilter: 'nearest',
         itemStyle: {
             normal: {
-                label: { show: false },
+                label: {show: false},
                 lineStyle: {
                     width: 2,
                     type: 'solid',
@@ -41,7 +41,7 @@ define('echarts/chart/line', [
                     shadowOffsetY: 0
                 }
             },
-            emphasis: { label: { show: false } }
+            emphasis: {label: {show: false}}
         },
         symbolSize: 2,
         showAllSymbol: false
@@ -49,10 +49,12 @@ define('echarts/chart/line', [
     var ecData = require('../util/ecData');
     var zrUtil = require('zrender/tool/util');
     var zrColor = require('zrender/tool/color');
+
     function Line(ecTheme, messageCenter, zr, option, myChart) {
         ChartBase.call(this, ecTheme, messageCenter, zr, option, myChart);
         this.refresh(option);
     }
+
     Line.prototype = {
         type: ecConfig.CHART_TYPE_LINE,
         _buildShape: function () {
@@ -89,12 +91,12 @@ define('echarts/chart/line', [
                         value = this.getDataFromOption(data, '-');
                         curPLMap[seriesIndex] = curPLMap[seriesIndex] || [];
                         xMarkMap[seriesIndex] = xMarkMap[seriesIndex] || {
-                            min: Number.POSITIVE_INFINITY,
-                            max: Number.NEGATIVE_INFINITY,
-                            sum: 0,
-                            counter: 0,
-                            average: 0
-                        };
+                                min: Number.POSITIVE_INFINITY,
+                                max: Number.NEGATIVE_INFINITY,
+                                sum: 0,
+                                counter: 0,
+                                average: 0
+                            };
                         if (value === '-') {
                             if (curPLMap[seriesIndex].length > 0) {
                                 this.finalPLMap[seriesIndex] = this.finalPLMap[seriesIndex] || [];
@@ -199,12 +201,12 @@ define('echarts/chart/line', [
                         value = this.getDataFromOption(data, '-');
                         curPLMap[seriesIndex] = curPLMap[seriesIndex] || [];
                         xMarkMap[seriesIndex] = xMarkMap[seriesIndex] || {
-                            min: Number.POSITIVE_INFINITY,
-                            max: Number.NEGATIVE_INFINITY,
-                            sum: 0,
-                            counter: 0,
-                            average: 0
-                        };
+                                min: Number.POSITIVE_INFINITY,
+                                max: Number.NEGATIVE_INFINITY,
+                                sum: 0,
+                                counter: 0,
+                                average: 0
+                            };
                         if (value === '-') {
                             if (curPLMap[seriesIndex].length > 0) {
                                 this.finalPLMap[seriesIndex] = this.finalPLMap[seriesIndex] || [];
@@ -292,17 +294,17 @@ define('echarts/chart/line', [
                     var baseY = yAxis.getCoord(0);
                     curPLMap[seriesIndex] = curPLMap[seriesIndex] || [];
                     xMarkMap[seriesIndex] = xMarkMap[seriesIndex] || {
-                        min0: Number.POSITIVE_INFINITY,
-                        min1: Number.POSITIVE_INFINITY,
-                        max0: Number.NEGATIVE_INFINITY,
-                        max1: Number.NEGATIVE_INFINITY,
-                        sum0: 0,
-                        sum1: 0,
-                        counter0: 0,
-                        counter1: 0,
-                        average0: 0,
-                        average1: 0
-                    };
+                            min0: Number.POSITIVE_INFINITY,
+                            min1: Number.POSITIVE_INFINITY,
+                            max0: Number.NEGATIVE_INFINITY,
+                            max1: Number.NEGATIVE_INFINITY,
+                            sum0: 0,
+                            sum1: 0,
+                            counter0: 0,
+                            counter1: 0,
+                            average0: 0,
+                            average1: 0
+                        };
                     for (var i = 0, l = serie.data.length; i < l; i++) {
                         var data = serie.data[i];
                         var value = this.getDataFromOption(data, '-');
@@ -440,7 +442,7 @@ define('echarts/chart/line', [
                                     smoothConstraint: bbox,
                                     color: fillNormalColor ? fillNormalColor : zrColor.alpha(defaultColor, 0.5)
                                 },
-                                highlightStyle: { brushType: 'fill' },
+                                highlightStyle: {brushType: 'fill'},
                                 hoverable: false,
                                 _main: true,
                                 _seriesIndex: seriesIndex,
@@ -494,29 +496,29 @@ define('echarts/chart/line', [
             var newList = [];
             if (typeof filter != 'function') {
                 switch (filter) {
-                case 'min':
-                    filter = function (arr) {
-                        return Math.max.apply(null, arr);
-                    };
-                    break;
-                case 'max':
-                    filter = function (arr) {
-                        return Math.min.apply(null, arr);
-                    };
-                    break;
-                case 'average':
-                    filter = function (arr) {
-                        var total = 0;
-                        for (var i = 0; i < arr.length; i++) {
-                            total += arr[i];
-                        }
-                        return total / arr.length;
-                    };
-                    break;
-                default:
-                    filter = function (arr) {
-                        return arr[0];
-                    };
+                    case 'min':
+                        filter = function (arr) {
+                            return Math.max.apply(null, arr);
+                        };
+                        break;
+                    case 'max':
+                        filter = function (arr) {
+                            return Math.min.apply(null, arr);
+                        };
+                        break;
+                    case 'average':
+                        filter = function (arr) {
+                            var total = 0;
+                            for (var i = 0; i < arr.length; i++) {
+                                total += arr[i];
+                            }
+                            return total / arr.length;
+                        };
+                        break;
+                    default:
+                        filter = function (arr) {
+                            return arr[0];
+                        };
                 }
             }
             var windowData = [];
@@ -651,15 +653,18 @@ define('echarts/chart/line', [
             var pointList;
             var isHorizontal;
             var aniCount = 0;
+
             function animationDone() {
                 aniCount--;
                 if (aniCount === 0) {
                     done && done();
                 }
             }
+
             function animationDuring(target) {
                 target.style.controlPointList = null;
             }
+
             for (var i = this.shapeList.length - 1; i >= 0; i--) {
                 seriesIndex = this.shapeList[i]._seriesIndex;
                 if (aniMap[seriesIndex] && !aniMap[seriesIndex][3]) {
@@ -766,11 +771,13 @@ define('echarts/chart/line', [
             ctx.lineTo(x + width, y + dy);
         }
     }
+
     IconShape.prototype.iconLibrary['legendLineIcon'] = legendLineIcon;
     zrUtil.inherits(Line, ChartBase);
     require('../chart').define('line', Line);
     return Line;
-});define('echarts/util/shape/HalfSmoothPolygon', [
+});
+define('echarts/util/shape/HalfSmoothPolygon', [
     'require',
     'zrender/shape/Base',
     'zrender/shape/util/smoothBezier',
@@ -780,9 +787,11 @@ define('echarts/chart/line', [
     var Base = require('zrender/shape/Base');
     var smoothBezier = require('zrender/shape/util/smoothBezier');
     var zrUtil = require('zrender/tool/util');
+
     function HalfSmoothPolygon(options) {
         Base.call(this, options);
     }
+
     HalfSmoothPolygon.prototype = {
         type: 'half-smooth-polygon',
         buildPath: function (ctx, style) {

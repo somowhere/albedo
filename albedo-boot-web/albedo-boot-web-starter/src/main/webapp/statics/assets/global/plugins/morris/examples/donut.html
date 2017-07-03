@@ -8,11 +8,13 @@
     <script src="lib/example.js"></script>
     <link rel="stylesheet" href="lib/example.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/prettify/r224/prettify.min.css">
-    <link rel="stylesheet" href="../morris.css"> </head>
+    <link rel="stylesheet" href="../morris.css">
+</head>
 
 <body>
-    <h1>Donut Chart</h1>
-    <div id="graph"></div> <pre id="code" class="prettyprint linenums">
+<h1>Donut Chart</h1>
+<div id="graph"></div>
+<pre id="code" class="prettyprint linenums">
 Morris.Donut({
   element: 'graph',
   data: [
@@ -25,4 +27,5 @@ Morris.Donut({
 }).on('click', function(i, row){
   console.log(i, row);
 });
-</pre> </body>
+</pre>
+</body>

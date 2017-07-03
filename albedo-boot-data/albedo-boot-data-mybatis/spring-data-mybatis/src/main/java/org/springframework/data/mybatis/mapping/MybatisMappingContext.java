@@ -35,7 +35,7 @@ public class MybatisMappingContext extends AbstractMappingContext<MybatisPersist
 
     @Override
     protected <T> MybatisPersistentEntityImpl<?> createPersistentEntity(TypeInformation<T> typeInformation) {
-        return new MybatisPersistentEntityImpl<T>(this,typeInformation, new ResultMapComparator());
+        return new MybatisPersistentEntityImpl<T>(this, typeInformation, new ResultMapComparator());
     }
 
     @Override

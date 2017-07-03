@@ -37,9 +37,9 @@
      * Required reading: http://javascriptweblog.wordpress.com/2011/12/05/extending-javascript-natives/
      */
 
-    // Shortcut to an often accessed properties, in order to avoid multiple
-    // dereference that costs universally. This also holds a reference to known-good
-    // functions.
+        // Shortcut to an often accessed properties, in order to avoid multiple
+        // dereference that costs universally. This also holds a reference to known-good
+        // functions.
     var $Array = Array;
     var ArrayPrototype = $Array.prototype;
     var $Object = Object;
@@ -67,25 +67,97 @@
     /* global Symbol */
     /* eslint-disable one-var-declaration-per-line, no-redeclare, max-statements-per-line */
     var hasToStringTag = typeof Symbol === 'function' && typeof Symbol.toStringTag === 'symbol';
-    var isCallable; /* inlined from https://npmjs.com/is-callable */ var fnToStr = Function.prototype.toString, constructorRegex = /^\s*class /, isES6ClassFn = function isES6ClassFn(value) { try { var fnStr = fnToStr.call(value); var singleStripped = fnStr.replace(/\/\/.*\n/g, ''); var multiStripped = singleStripped.replace(/\/\*[.\s\S]*\*\//g, ''); var spaceStripped = multiStripped.replace(/\n/mg, ' ').replace(/ {2}/g, ' '); return constructorRegex.test(spaceStripped); } catch (e) { return false; /* not a function */ } }, tryFunctionObject = function tryFunctionObject(value) { try { if (isES6ClassFn(value)) { return false; } fnToStr.call(value); return true; } catch (e) { return false; } }, fnClass = '[object Function]', genClass = '[object GeneratorFunction]', isCallable = function isCallable(value) { if (!value) { return false; } if (typeof value !== 'function' && typeof value !== 'object') { return false; } if (hasToStringTag) { return tryFunctionObject(value); } if (isES6ClassFn(value)) { return false; } var strClass = to_string.call(value); return strClass === fnClass || strClass === genClass; };
+    var isCallable;
+    /* inlined from https://npmjs.com/is-callable */
+    var fnToStr = Function.prototype.toString, constructorRegex = /^\s*class /,
+        isES6ClassFn = function isES6ClassFn(value) {
+            try {
+                var fnStr = fnToStr.call(value);
+                var singleStripped = fnStr.replace(/\/\/.*\n/g, '');
+                var multiStripped = singleStripped.replace(/\/\*[.\s\S]*\*\//g, '');
+                var spaceStripped = multiStripped.replace(/\n/mg, ' ').replace(/ {2}/g, ' ');
+                return constructorRegex.test(spaceStripped);
+            } catch (e) {
+                return false;
+                /* not a function */
+            }
+        }, tryFunctionObject = function tryFunctionObject(value) {
+            try {
+                if (isES6ClassFn(value)) {
+                    return false;
+                }
+                fnToStr.call(value);
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }, fnClass = '[object Function]', genClass = '[object GeneratorFunction]', isCallable = function isCallable(value) {
+            if (!value) {
+                return false;
+            }
+            if (typeof value !== 'function' && typeof value !== 'object') {
+                return false;
+            }
+            if (hasToStringTag) {
+                return tryFunctionObject(value);
+            }
+            if (isES6ClassFn(value)) {
+                return false;
+            }
+            var strClass = to_string.call(value);
+            return strClass === fnClass || strClass === genClass;
+        };
 
-    var isRegex; /* inlined from https://npmjs.com/is-regex */ var regexExec = RegExp.prototype.exec, tryRegexExec = function tryRegexExec(value) { try { regexExec.call(value); return true; } catch (e) { return false; } }, regexClass = '[object RegExp]'; isRegex = function isRegex(value) { if (typeof value !== 'object') { return false; } return hasToStringTag ? tryRegexExec(value) : to_string.call(value) === regexClass; };
-    var isString; /* inlined from https://npmjs.com/is-string */ var strValue = String.prototype.valueOf, tryStringObject = function tryStringObject(value) { try { strValue.call(value); return true; } catch (e) { return false; } }, stringClass = '[object String]'; isString = function isString(value) { if (typeof value === 'string') { return true; } if (typeof value !== 'object') { return false; } return hasToStringTag ? tryStringObject(value) : to_string.call(value) === stringClass; };
+    var isRegex;
+    /* inlined from https://npmjs.com/is-regex */
+    var regexExec = RegExp.prototype.exec, tryRegexExec = function tryRegexExec(value) {
+        try {
+            regexExec.call(value);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }, regexClass = '[object RegExp]';
+    isRegex = function isRegex(value) {
+        if (typeof value !== 'object') {
+            return false;
+        }
+        return hasToStringTag ? tryRegexExec(value) : to_string.call(value) === regexClass;
+    };
+    var isString;
+    /* inlined from https://npmjs.com/is-string */
+    var strValue = String.prototype.valueOf, tryStringObject = function tryStringObject(value) {
+        try {
+            strValue.call(value);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }, stringClass = '[object String]';
+    isString = function isString(value) {
+        if (typeof value === 'string') {
+            return true;
+        }
+        if (typeof value !== 'object') {
+            return false;
+        }
+        return hasToStringTag ? tryStringObject(value) : to_string.call(value) === stringClass;
+    };
     /* eslint-enable one-var-declaration-per-line, no-redeclare, max-statements-per-line */
 
     /* inlined from http://npmjs.com/define-properties */
     var supportsDescriptors = $Object.defineProperty && (function () {
-        try {
-            var obj = {};
-            $Object.defineProperty(obj, 'x', { enumerable: false, value: obj });
-            for (var _ in obj) { // jscs:ignore disallowUnusedVariables
+            try {
+                var obj = {};
+                $Object.defineProperty(obj, 'x', {enumerable: false, value: obj});
+                for (var _ in obj) { // jscs:ignore disallowUnusedVariables
+                    return false;
+                }
+                return obj.x === obj;
+            } catch (e) { /* this is ES3 */
                 return false;
             }
-            return obj.x === obj;
-        } catch (e) { /* this is ES3 */
-            return false;
-        }
-    }());
+        }());
     var defineProperties = (function (has) {
         // Define configurable, writable, and non-enumerable props
         // if they don't exist.
@@ -131,8 +203,8 @@
     };
 
     var isActualNaN = $Number.isNaN || function isActualNaN(x) {
-        return x !== x;
-    };
+            return x !== x;
+        };
 
     var ES = {
         // ES5 9.4
@@ -196,7 +268,8 @@
     // ES-5 15.3.4.5
     // http://es5.github.com/#x15.3.4.5
 
-    var Empty = function Empty() {};
+    var Empty = function Empty() {
+    };
 
     defineProperties(FunctionPrototype, {
         bind: function bind(that) { // .length is 1
@@ -353,8 +426,8 @@
     //
 
     var isArray = $Array.isArray || function isArray(obj) {
-        return toStr(obj) === '[object Array]';
-    };
+            return toStr(obj) === '[object Array]';
+        };
 
     // ES5 15.4.4.12
     // http://es5.github.com/#x15.4.4.13
@@ -372,7 +445,7 @@
     // ES5 15.4.3.2
     // http://es5.github.com/#x15.4.3.2
     // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/isArray
-    defineProperties($Array, { isArray: isArray });
+    defineProperties($Array, {isArray: isArray});
 
     // The IsCallable() check in the Array functions
     // has been replaced with a strict check on the
@@ -574,8 +647,8 @@
     var reduceCoercesToObject = false;
     if (ArrayPrototype.reduce) {
         reduceCoercesToObject = typeof ArrayPrototype.reduce.call('es5', function (_, __, ___, list) {
-            return list;
-        }) === 'object';
+                return list;
+            }) === 'object';
     }
     defineProperties(ArrayPrototype, {
         reduce: function reduce(callbackfn/*, initialValue*/) {
@@ -627,8 +700,8 @@
     var reduceRightCoercesToObject = false;
     if (ArrayPrototype.reduceRight) {
         reduceRightCoercesToObject = typeof ArrayPrototype.reduceRight.call('es5', function (_, __, ___, list) {
-            return list;
-        }) === 'object';
+                return list;
+            }) === 'object';
     }
     defineProperties(ArrayPrototype, {
         reduceRight: function reduceRight(callbackfn/*, initial*/) {
@@ -918,7 +991,7 @@
         var result = arr.push(undefined);
         return result !== 1 || arr.length !== 1 || typeof arr[0] !== 'undefined' || !owns(arr, 0);
     }());
-    defineProperties(ArrayPrototype, { push: pushShim }, pushUndefinedIsWeird);
+    defineProperties(ArrayPrototype, {push: pushShim}, pushUndefinedIsWeird);
 
     // ES5 15.2.3.14
     // http://es5.github.io/#x15.4.4.10
@@ -935,7 +1008,8 @@
             [1, 2].sort(null);
             [1, 2].sort({});
             return true;
-        } catch (e) {}
+        } catch (e) {
+        }
         return false;
     }());
     var sortThrowsOnRegex = (function () {
@@ -943,7 +1017,8 @@
         try {
             [1, 2].sort(/a/);
             return false;
-        } catch (e) {}
+        } catch (e) {
+        }
         return true;
     }());
     var sortIgnoresUndefined = (function () {
@@ -951,7 +1026,8 @@
         try {
             [1, 2].sort(undefined);
             return true;
-        } catch (e) {}
+        } catch (e) {
+        }
         return false;
     }());
     defineProperties(ArrayPrototype, {
@@ -975,8 +1051,9 @@
     // http://es5.github.com/#x15.2.3.14
 
     // http://whattheheadsaid.com/2010/10/a-safer-object-keys-compatibility-implementation
-    var hasDontEnumBug = !isEnum({ 'toString': null }, 'toString');
-    var hasProtoEnumBug = isEnum(function () {}, 'prototype');
+    var hasDontEnumBug = !isEnum({'toString': null}, 'toString');
+    var hasProtoEnumBug = isEnum(function () {
+    }, 'prototype');
     var hasStringEnumBug = !owns('x', '0');
     var equalsConstructorPrototype = function (o) {
         var ctor = o.constructor;
@@ -1087,13 +1164,13 @@
     });
 
     var keysWorksWithArguments = $Object.keys && (function () {
-        // Safari 5.0 bug
-        return $Object.keys(arguments).length === 2;
-    }(1, 2));
+            // Safari 5.0 bug
+            return $Object.keys(arguments).length === 2;
+        }(1, 2));
     var keysHasArgumentsLengthBug = $Object.keys && (function () {
-        var argKeys = $Object.keys(arguments);
-        return arguments.length !== 1 || argKeys.length !== 1 || argKeys[0] !== 1;
-    }(1));
+            var argKeys = $Object.keys(arguments);
+            return arguments.length !== 1 || argKeys.length !== 1 || argKeys[0] !== 1;
+        }(1));
     var originalKeys = $Object.keys;
     defineProperties($Object, {
         keys: function keys(object) {
@@ -1352,7 +1429,9 @@
                 new Date(NaN).toJSON() === null &&
                 new Date(negativeDate).toJSON().indexOf(negativeYearString) !== -1 &&
                 Date.prototype.toJSON.call({ // generic
-                    toISOString: function () { return true; }
+                    toISOString: function () {
+                        return true;
+                    }
                 });
         } catch (e) {
             return false;
@@ -1410,8 +1489,8 @@
         var hasSafariSignedIntBug = isActualNaN(new Date(1970, 0, 1, 0, 0, 0, maxSafeUnsigned32Bit + 1).getTime());
         /* eslint-disable no-implicit-globals */
         Date = (function (NativeDate) {
-        /* eslint-enable no-implicit-globals */
-        /* eslint-enable no-undef */
+            /* eslint-enable no-implicit-globals */
+            /* eslint-enable no-undef */
             // Date.length === 7
             var DateShim = function Date(Y, M, D, h, m, s, ms) {
                 var length = arguments.length;
@@ -1432,19 +1511,19 @@
                         // We have to manually make calls depending on argument
                         // length here
                         length >= 7 ? new NativeDate(Y, M, D, h, m, seconds, millis) :
-                        length >= 6 ? new NativeDate(Y, M, D, h, m, seconds) :
-                        length >= 5 ? new NativeDate(Y, M, D, h, m) :
-                        length >= 4 ? new NativeDate(Y, M, D, h) :
-                        length >= 3 ? new NativeDate(Y, M, D) :
-                        length >= 2 ? new NativeDate(Y, M) :
-                        length >= 1 ? new NativeDate(Y instanceof NativeDate ? +Y : Y) :
-                                      new NativeDate();
+                            length >= 6 ? new NativeDate(Y, M, D, h, m, seconds) :
+                                length >= 5 ? new NativeDate(Y, M, D, h, m) :
+                                    length >= 4 ? new NativeDate(Y, M, D, h) :
+                                        length >= 3 ? new NativeDate(Y, M, D) :
+                                            length >= 2 ? new NativeDate(Y, M) :
+                                                length >= 1 ? new NativeDate(Y instanceof NativeDate ? +Y : Y) :
+                                                    new NativeDate();
                 } else {
                     date = NativeDate.apply(this, arguments);
                 }
                 if (!isPrimitive(date)) {
                     // Prevent mixups with unfixed Date object
-                    defineProperties(date, { constructor: DateShim }, true);
+                    defineProperties(date, {constructor: DateShim}, true);
                 }
                 return date;
             };
@@ -1452,25 +1531,25 @@
             // 15.9.1.15 Date Time String Format.
             var isoDateExpression = new RegExp('^' +
                 '(\\d{4}|[+-]\\d{6})' + // four-digit year capture or sign +
-                                          // 6-digit extended year
+                // 6-digit extended year
                 '(?:-(\\d{2})' + // optional month capture
                 '(?:-(\\d{2})' + // optional day capture
                 '(?:' + // capture hours:minutes:seconds.milliseconds
-                    'T(\\d{2})' + // hours capture
-                    ':(\\d{2})' + // minutes capture
-                    '(?:' + // optional :seconds.milliseconds
-                        ':(\\d{2})' + // seconds capture
-                        '(?:(\\.\\d{1,}))?' + // milliseconds capture
-                    ')?' +
+                'T(\\d{2})' + // hours capture
+                ':(\\d{2})' + // minutes capture
+                '(?:' + // optional :seconds.milliseconds
+                ':(\\d{2})' + // seconds capture
+                '(?:(\\.\\d{1,}))?' + // milliseconds capture
+                ')?' +
                 '(' + // capture UTC offset component
-                    'Z|' + // UTC capture
-                    '(?:' + // offset specifier +/-hours:minutes
-                        '([-+])' + // sign capture
-                        '(\\d{2})' + // hours offset capture
-                        ':(\\d{2})' + // minutes offset capture
-                    ')' +
+                'Z|' + // UTC capture
+                '(?:' + // offset specifier +/-hours:minutes
+                '([-+])' + // sign capture
+                '(\\d{2})' + // hours offset capture
+                ':(\\d{2})' + // minutes offset capture
+                ')' +
                 ')?)?)?)?' +
-            '$');
+                '$');
 
             var months = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365];
 
@@ -1547,14 +1626,14 @@
                         day < (dayFromMonth(year, month + 1) - dayFromMonth(year, month))
                     ) {
                         result = (
-                            (dayFromMonth(year, month) + day) * 24 +
-                            hour +
-                            hourOffset * signOffset
-                        ) * 60;
+                                (dayFromMonth(year, month) + day) * 24 +
+                                hour +
+                                hourOffset * signOffset
+                            ) * 60;
                         result = (
-                            (result + minute + minuteOffset * signOffset) * 60 +
-                            second
-                        ) * 1000 + millisecond;
+                                (result + minute + minuteOffset * signOffset) * 60 +
+                                second
+                            ) * 1000 + millisecond;
                         if (isLocalTime) {
                             result = toUTC(result);
                         }
@@ -1566,7 +1645,7 @@
                 }
                 return NativeDate.parse.apply(this, arguments);
             };
-            defineProperties(DateShim, { parse: parseShim });
+            defineProperties(DateShim, {parse: parseShim});
 
             return DateShim;
         }(Date));
@@ -1589,11 +1668,11 @@
     // ES5.1 15.7.4.5
     // http://es5.github.com/#x15.7.4.5
     var hasToFixedBugs = NumberPrototype.toFixed && (
-      (0.00008).toFixed(3) !== '0.000' ||
-      (0.9).toFixed(0) !== '1' ||
-      (1.255).toFixed(2) !== '1.25' ||
-      (1000000000000000128).toFixed(0) !== '1000000000000000128'
-    );
+            (0.00008).toFixed(3) !== '0.000' ||
+            (0.9).toFixed(0) !== '1' ||
+            (1.255).toFixed(2) !== '1.25' ||
+            (1000000000000000128).toFixed(0) !== '1000000000000000128'
+        );
 
     var toFixedHelpers = {
         base: 1e7,
@@ -1733,7 +1812,7 @@
 
         return m;
     };
-    defineProperties(NumberPrototype, { toFixed: toFixedShim }, hasToFixedBugs);
+    defineProperties(NumberPrototype, {toFixed: toFixedShim}, hasToFixedBugs);
 
     var hasToPrecisionUndefinedBug = (function () {
         try {
@@ -1794,9 +1873,9 @@
 
                 var output = [];
                 var flags = (separator.ignoreCase ? 'i' : '') +
-                            (separator.multiline ? 'm' : '') +
-                            (separator.unicode ? 'u' : '') + // in ES6
-                            (separator.sticky ? 'y' : ''), // Firefox 3+ and ES6
+                        (separator.multiline ? 'm' : '') +
+                        (separator.unicode ? 'u' : '') + // in ES6
+                        (separator.sticky ? 'y' : ''), // Firefox 3+ and ES6
                     lastLastIndex = 0,
                     // Make `global` and avoid `lastIndex` issues by working with a copy
                     separator2, match, lastIndex, lastLength;
@@ -1857,12 +1936,12 @@
             };
         }());
 
-    // [bugfix, chrome]
-    // If separator is undefined, then the result array contains just one String,
-    // which is the this value (converted to a String). If limit is not undefined,
-    // then the output array is truncated so that it contains no more than limit
-    // elements.
-    // "0".split(undefined, 0) -> []
+        // [bugfix, chrome]
+        // If separator is undefined, then the result array contains just one String,
+        // which is the this value (converted to a String). If limit is not undefined,
+        // then the output array is truncated so that it contains no more than limit
+        // elements.
+        // "0".split(undefined, 0) -> []
     } else if ('0'.split(void 0, 0).length) {
         StringPrototype.split = function split(separator, limit) {
             if (typeof separator === 'undefined' && limit === 0) {
@@ -1975,7 +2054,7 @@
     // ES-5 15.1.2.2
     /* eslint-disable radix */
     if (parseInt(ws + '08') !== 8 || parseInt(ws + '0x16') !== 22) {
-    /* eslint-enable radix */
+        /* eslint-enable radix */
         /* global parseInt: true */
         parseInt = (function (origParseInt) {
             var hexRegex = /^[\-+]?0[xX]/;

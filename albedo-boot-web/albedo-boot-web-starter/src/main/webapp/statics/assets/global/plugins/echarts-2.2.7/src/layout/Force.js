@@ -3,16 +3,18 @@
  * @module echarts/layout/Force
  * @author pissang(http://github.com/pissang)
  */
-define(function(require) {
+define(function (require) {
 
     var ForceLayoutWorker = require('./forceLayoutWorker');
     var vec2 = require('zrender/tool/vector');
 
     var requestAnimationFrame = window.requestAnimationFrame
-                                || window.msRequestAnimationFrame
-                                || window.mozRequestAnimationFrame
-                                || window.webkitRequestAnimationFrame
-                                || function (func) {setTimeout(func, 16);};
+        || window.msRequestAnimationFrame
+        || window.mozRequestAnimationFrame
+        || window.webkitRequestAnimationFrame
+        || function (func) {
+            setTimeout(func, 16);
+        };
     var ArrayCtor = typeof(Float32Array) == 'undefined' ? Array : Float32Array;
 
     var workerUrl;
@@ -28,7 +30,7 @@ define(function(require) {
         ) {
             try {
                 var blob = new Blob([ForceLayoutWorker.getWorkerCode()]);
-                workerUrl = window.URL.createObjectURL(blob);   
+                workerUrl = window.URL.createObjectURL(blob);
             }
             catch (e) {
                 workerUrl = '';
@@ -38,7 +40,7 @@ define(function(require) {
         return workerUrl;
     }
 
-    var ForceLayout = function(opts) {
+    var ForceLayout = function (opts) {
 
         if (typeof(workerUrl) === 'undefined') {
             createWorkerUrl();
@@ -51,13 +53,14 @@ define(function(require) {
         this.ratioScaling = opts.ratioScaling || false;
         this.scaling = opts.scaling || 1;
         this.gravity = typeof(opts.gravity) !== 'undefined'
-                        ? opts.gravity : 1;
+            ? opts.gravity : 1;
         this.large = opts.large || false;
         this.preventNodeOverlap = opts.preventNodeOverlap || false;
         this.preventNodeEdgeOverlap = opts.preventNodeEdgeOverlap || false;
         this.maxSpeedIncrease = opts.maxSpeedIncrease || 1;
 
-        this.onupdate = opts.onupdate || function () {};
+        this.onupdate = opts.onupdate || function () {
+            };
         this.temperature = opts.temperature || 1;
         this.coolDown = opts.coolDown || 0.99;
 
@@ -66,7 +69,7 @@ define(function(require) {
 
         var self = this;
         var _$onupdate = this._$onupdate;
-        this._$onupdate = function(e) {
+        this._$onupdate = function (e) {
             _$onupdate.call(self, e);
         };
     };
@@ -85,7 +88,7 @@ define(function(require) {
             barnesHutOptimize: this.large,
             preventNodeOverlap: this.preventNodeOverlap,
             preventNodeEdgeOverlap: this.preventNodeEdgeOverlap,
-            
+
             maxSpeedIncrease: this.maxSpeedIncrease
         };
 
@@ -173,7 +176,7 @@ define(function(require) {
         }
         else {
             this._layout.initNodes(positionArr, massArr, sizeArr);
-            this._layout.initEdges(edgeArr, edgeWeightArr);   
+            this._layout.initEdges(edgeArr, edgeWeightArr);
         }
 
         this.updateConfig();
@@ -202,7 +205,7 @@ define(function(require) {
             }
         }
         else {
-            
+
             requestAnimationFrame(this._$onupdate);
 
             for (var i = 0; i < nodes.length; i++) {
@@ -236,7 +239,7 @@ define(function(require) {
         }
     };
 
-    ForceLayout.prototype.dispose = function() {
+    ForceLayout.prototype.dispose = function () {
         if (this._layoutWorker) {
             this._layoutWorker.terminate();
         }

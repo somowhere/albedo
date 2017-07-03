@@ -39,6 +39,9 @@ import static org.springframework.data.mybatis.annotations.Id.GenerationType.AUT
 public abstract class AbstractPersistable<PK extends Serializable> implements Persistable<PK> {
 
     private static final long serialVersionUID = -5554308939380869754L;
+    @Id(strategy = AUTO)
+    //    @JdbcType(JDBCType.NUMERIC)
+    protected PK id;
 
     /**
      * 构造函数.
@@ -46,17 +49,13 @@ public abstract class AbstractPersistable<PK extends Serializable> implements Pe
     public AbstractPersistable() {
     }
 
+
     /**
      * 构造函数.
      */
     public AbstractPersistable(PK id) {
         setId(id);
     }
-
-
-    @Id(strategy = AUTO)
-    //    @JdbcType(JDBCType.NUMERIC)
-    protected PK id;
 
     /*
      * (non-Javadoc)

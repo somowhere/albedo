@@ -13,29 +13,31 @@ import java.io.Serializable;
 
 /**
  * Entity支持类
+ *
  * @author lj
  * @version 2014-05-16
  */
 @MappedSuperclass
 public abstract class BaseEntity<ID extends Serializable> extends GeneralEntity<ID> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
+    @Column(name = "status_")
+    @SearchField
+    @DictType(name = "sys_status")
+    @ApiModelProperty(hidden = true)
+    protected Integer status;
 
-	public Integer getStatus() {
-		return status;
-	}
+    public BaseEntity() {
+        super();
+        this.status = FLAG_NORMAL;
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	@Column(name = "status_")
-	@SearchField
-	@DictType(name="sys_status")@ApiModelProperty(hidden=true)
-	protected Integer status;
+    public Integer getStatus() {
+        return status;
+    }
 
-	public BaseEntity() {
-		super();
-		this.status = FLAG_NORMAL;
-	}
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
 }

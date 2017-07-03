@@ -38,7 +38,7 @@ define('echarts/chart/eventRiver', [
             emphasis: {
                 borderColor: 'rgba(0,0,0,0)',
                 borderWidth: 1,
-                label: { show: true }
+                label: {show: true}
             }
         }
     };
@@ -46,6 +46,7 @@ define('echarts/chart/eventRiver', [
     var ecDate = require('../util/date');
     var zrUtil = require('zrender/tool/util');
     var zrColor = require('zrender/tool/color');
+
     function EventRiver(ecTheme, messageCenter, zr, option, myChart) {
         ChartBase.call(this, ecTheme, messageCenter, zr, option, myChart);
         var self = this;
@@ -54,6 +55,7 @@ define('echarts/chart/eventRiver', [
         };
         this.refresh(option);
     }
+
     EventRiver.prototype = {
         type: ecConfig.CHART_TYPE_EVENTRIVER,
         _buildShape: function () {
@@ -217,15 +219,18 @@ define('echarts/chart/eventRiver', [
     zrUtil.inherits(EventRiver, ChartBase);
     require('../chart').define('eventRiver', EventRiver);
     return EventRiver;
-});define('echarts/layout/eventRiver', ['require'], function (require) {
+});
+define('echarts/layout/eventRiver', ['require'], function (require) {
     function eventRiverLayout(series, intervalX, area) {
         var space = 4;
         var scale = intervalX;
+
         function importanceSort(a, b) {
             var x = a.importance;
             var y = b.importance;
             return x > y ? -1 : x < y ? 1 : 0;
         }
+
         function indexOf(array, value) {
             if (array.indexOf) {
                 return array.indexOf(value);
@@ -237,6 +242,7 @@ define('echarts/chart/eventRiver', [
             }
             return -1;
         }
+
         for (var i = 0; i < series.length; i++) {
             for (var j = 0; j < series[i].data.length; j++) {
                 if (series[i].data[j].weight == null) {
@@ -316,6 +322,7 @@ define('echarts/chart/eventRiver', [
         }
         scaleY(bubbleData, area, totalMaxy, totalOffset);
     }
+
     function scaleY(bubbleData, area, maxY, offset) {
         var height = area.height;
         var offsetScale = offset / height > 0.5 ? 0.5 : 1;
@@ -335,6 +342,7 @@ define('echarts/chart/eventRiver', [
             }
         }
     }
+
     function line(x0, y0, x1, y1) {
         if (x0 === x1) {
             throw new Error('x0 is equal with x1!!!');
@@ -350,6 +358,7 @@ define('echarts/chart/eventRiver', [
             return k * x + b;
         };
     }
+
     function bubbleBound(e, intervalX, minX) {
         var space = ~~intervalX;
         var length = e.time.length;
@@ -380,6 +389,7 @@ define('echarts/chart/eventRiver', [
         e.xpx.push(x1 - minX);
         e.ypx.push(y1);
     }
+
     function findLocation(flags, e, yvalue) {
         var pos = 0;
         var length = e.xpx.length;
@@ -395,5 +405,6 @@ define('echarts/chart/eventRiver', [
         }
         return pos;
     }
+
     return eventRiverLayout;
 });

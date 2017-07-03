@@ -162,19 +162,19 @@
                     file = data.files[data.index],
                     dfd = $.Deferred();
                 if (($.type(options.maxFileSize) === 'number' &&
-                            file.size > options.maxFileSize) ||
-                        (options.fileTypes &&
-                            !options.fileTypes.test(file.type)) ||
-                        !loadImage(
-                            file,
-                            function (img) {
-                                if (img.src) {
-                                    data.img = img;
-                                }
-                                dfd.resolveWith(that, [data]);
-                            },
-                            options
-                        )) {
+                    file.size > options.maxFileSize) ||
+                    (options.fileTypes &&
+                    !options.fileTypes.test(file.type)) ||
+                    !loadImage(
+                        file,
+                        function (img) {
+                            if (img.src) {
+                                data.img = img;
+                            }
+                            dfd.resolveWith(that, [data]);
+                        },
+                        options
+                    )) {
                     return data;
                 }
                 return dfd.promise();
@@ -195,8 +195,8 @@
                     img = (options.canvas && data.canvas) || data.img,
                     resolve = function (newImg) {
                         if (newImg && (newImg.width !== img.width ||
-                                newImg.height !== img.height ||
-                                options.forceResize)) {
+                            newImg.height !== img.height ||
+                            options.forceResize)) {
                             data[newImg.getContext ? 'canvas' : 'img'] = newImg;
                         }
                         data.preview = newImg;
@@ -283,7 +283,7 @@
 
             saveImageMetaData: function (data, options) {
                 if (!(data.imageHead && data.canvas &&
-                        data.canvas.toBlob && !options.disabled)) {
+                    data.canvas.toBlob && !options.disabled)) {
                     return data;
                 }
                 var file = data.files[data.index],

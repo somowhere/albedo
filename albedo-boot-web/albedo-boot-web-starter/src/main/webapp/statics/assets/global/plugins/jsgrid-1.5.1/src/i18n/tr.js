@@ -1,4 +1,4 @@
-(function(jsGrid) {
+(function (jsGrid) {
 
     jsGrid.locales.tr = {
         grid: {
@@ -32,14 +32,14 @@
         },
 
         validators: {
-            required: { message: "Gerekli alandır" },
-            rangeLength: { message: "Alan değerinin uzunluğu tanımlanan aralık dışındadır" },
-            minLength: { message: "Alan değeri çok kısadır" },
-            maxLength: { message: "Alan değeri çok uzundur" },
-            pattern: { message: "Alan değeri tanımlanan şablon ile eşleşmiyor" },
-            range: { message: "Alan değeri tanımlı aralığın dışındadır" },
-            min: { message: "Alan değeri çok küçüktür" },
-            max: { message: "Alan değeri çok büyüktür" }
+            required: {message: "Gerekli alandır"},
+            rangeLength: {message: "Alan değerinin uzunluğu tanımlanan aralık dışındadır"},
+            minLength: {message: "Alan değeri çok kısadır"},
+            maxLength: {message: "Alan değeri çok uzundur"},
+            pattern: {message: "Alan değeri tanımlanan şablon ile eşleşmiyor"},
+            range: {message: "Alan değeri tanımlı aralığın dışındadır"},
+            min: {message: "Alan değeri çok küçüktür"},
+            max: {message: "Alan değeri çok büyüktür"}
         }
     };
 

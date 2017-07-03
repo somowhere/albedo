@@ -1,7 +1,7 @@
 class Morris.Area extends Morris.Line
   # Initialise
   #
-  areaDefaults = 
+  areaDefaults =
     fillOpacity: 'auto'
     behaveLikeLine: false
 
@@ -16,9 +16,9 @@ class Morris.Area extends Morris.Line
 
     super(areaOptions)
 
-  # calculate series data point coordinates
-  #
-  # @private
+# calculate series data point coordinates
+#
+# @private
   calcPoints: ->
     for row in @data
       row._x = @transX(row.x)
@@ -31,15 +31,15 @@ class Morris.Area extends Morris.Line
           @transY(total)
       row._ymax = Math.max row._y...
 
-  # draw the data series
-  #
-  # @private
+# draw the data series
+#
+# @private
   drawSeries: ->
     @seriesPoints = []
     if @options.behaveLikeLine
-      range = [0..@options.ykeys.length-1]
+      range = [0..@options.ykeys.length - 1]
     else
-      range = [@options.ykeys.length-1..0]
+      range = [@options.ykeys.length - 1..0]
 
     for i in range
       @_drawFillFor i

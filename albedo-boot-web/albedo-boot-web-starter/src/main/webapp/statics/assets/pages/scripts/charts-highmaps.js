@@ -1,8 +1,8 @@
-jQuery(document).ready(function() {
-  // HIGHMAPS DEMOS
+jQuery(document).ready(function () {
+    // HIGHMAPS DEMOS
 
-  // MAP BUBBLE
-  $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=world-population.json&callback=?', function (data) {
+    // MAP BUBBLE
+    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=world-population.json&callback=?', function (data) {
 
         var mapData = Highcharts.geojson(Highcharts.maps['custom/world']);
 
@@ -14,18 +14,18 @@ jQuery(document).ready(function() {
         });
 
         $('#highmaps_1').highcharts('Map', {
-            chart : {
+            chart: {
                 style: {
-		            fontFamily: 'Open Sans'
-		        }
+                    fontFamily: 'Open Sans'
+                }
             },
 
             title: {
                 text: 'World population 2013 by country'
             },
 
-            subtitle : {
-                text : 'Demo of Highcharts map with bubbles'
+            subtitle: {
+                text: 'Demo of Highcharts map with bubbles'
             },
 
             legend: {
@@ -39,7 +39,7 @@ jQuery(document).ready(function() {
                 }
             },
 
-            series : [{
+            series: [{
                 name: 'Countries',
                 mapData: mapData,
                 color: '#E0E0E0',
@@ -60,8 +60,8 @@ jQuery(document).ready(function() {
 
     });
 
-	// HEAT MAP
-	$('#highmaps_2').highcharts({
+    // HEAT MAP
+    $('#highmaps_2').highcharts({
 
         data: {
             csv: document.getElementById('csv').innerHTML
@@ -72,8 +72,8 @@ jQuery(document).ready(function() {
             type: 'heatmap',
             inverted: true,
             style: {
-	            fontFamily: 'Open Sans'
-	        }
+                fontFamily: 'Open Sans'
+            }
         },
 
 
@@ -130,17 +130,17 @@ jQuery(document).ready(function() {
 
     });
 
-	// TIMEZONE MAP
-	// Instanciate the map
+    // TIMEZONE MAP
+    // Instanciate the map
     $('#highmaps_3').highcharts('Map', {
         chart: {
             spacingBottom: 20,
             style: {
-	            fontFamily: 'Open Sans'
-	        }
+                fontFamily: 'Open Sans'
+            }
         },
-        title : {
-            text : 'Europe time zones'
+        title: {
+            text: 'Europe time zones'
         },
 
         legend: {
@@ -173,26 +173,26 @@ jQuery(document).ready(function() {
             }
         },
 
-        series : [{
+        series: [{
             name: 'UTC',
             data: $.map(['IE', 'IS', 'GB', 'PT'], function (code) {
-                return { code: code };
+                return {code: code};
             })
         }, {
             name: 'UTC + 1',
             data: $.map(['NO', 'SE', 'DK', 'DE', 'NL', 'BE', 'LU', 'ES', 'FR', 'PL', 'CZ', 'AT', 'CH', 'LI', 'SK', 'HU',
-                    'SI', 'IT', 'SM', 'HR', 'BA', 'YF', 'ME', 'AL', 'MK'], function (code) {
-                return { code: code };
+                'SI', 'IT', 'SM', 'HR', 'BA', 'YF', 'ME', 'AL', 'MK'], function (code) {
+                return {code: code};
             })
         }, {
             name: 'UTC + 2',
             data: $.map(['FI', 'EE', 'LV', 'LT', 'BY', 'UA', 'MD', 'RO', 'BG', 'GR', 'TR', 'CY'], function (code) {
-                return { code: code };
+                return {code: code};
             })
         }, {
             name: 'UTC + 3',
             data: $.map(['RU'], function (code) {
-                return { code: code };
+                return {code: code};
             })
         }]
     });

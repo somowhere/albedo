@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * 业务表Entity
- * 
+ *
  * @version 2013-10-15
  */
 @Data
@@ -19,13 +19,13 @@ import java.util.List;
 @NoArgsConstructor
 public class GenTableQuery implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String name; // 名称
+    private String name; // 名称
 
-	private List<String> notNames;
+    private List<String> notNames;
 
 
-	private List<String> notLikeNames;
+    private List<String> notLikeNames;
 
 }

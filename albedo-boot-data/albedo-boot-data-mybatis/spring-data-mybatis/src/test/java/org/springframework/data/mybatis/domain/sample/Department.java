@@ -34,26 +34,20 @@ import static org.springframework.data.mybatis.annotations.Id.GenerationType.AUT
 @Entity(table = "DEPARTMENT")
 public class Department {
     @Id(strategy = AUTO)
-    protected Long    id;
-    private   String  name;
-    @Version
-    private   Integer version;
-
-
+    protected Long id;
     @CreatedDate
     protected Date createdDate;
-
-
     @LastModifiedDate
     protected Date lastModifiedDate;
-
     @Column(name = "creator")
     @CreatedBy
     protected Long createdBy;
-
     @Column(name = "MODIFIER")
     @LastModifiedBy
     protected Long lastModifiedBy;
+    private String name;
+    @Version
+    private Integer version;
 
     public Department() {
     }
@@ -72,6 +66,11 @@ public class Department {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+
+        this.name = name;
     }
 
     public Integer getVersion() {
@@ -112,10 +111,5 @@ public class Department {
 
     public void setLastModifiedBy(Long lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public void setName(String name) {
-
-        this.name = name;
     }
 }

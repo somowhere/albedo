@@ -1,5 +1,5 @@
 var ComponentsEditors = function () {
-    
+
     var handleWysihtml5 = function () {
         if (!jQuery().wysihtml5) {
             return;
@@ -29,6 +29,6 @@ var ComponentsEditors = function () {
 
 }();
 
-jQuery(document).ready(function() {    
-   ComponentsEditors.init(); 
+jQuery(document).ready(function () {
+    ComponentsEditors.init();
 });

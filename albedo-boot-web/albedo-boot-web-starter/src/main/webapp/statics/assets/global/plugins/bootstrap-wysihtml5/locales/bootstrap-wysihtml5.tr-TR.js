@@ -1,7 +1,7 @@
 /**
  * Turkish translation for bootstrap-wysihtml5
  */
-(function($){
+(function ($) {
     $.fn.wysihtml5.locale["tr-TR"] = {
         font_styles: {
             normal: "Normal",

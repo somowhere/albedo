@@ -57,7 +57,7 @@ define('echarts/chart/pie', [
             emphasis: {
                 borderColor: 'rgba(0,0,0,0)',
                 borderWidth: 1,
-                label: { show: false },
+                label: {show: false},
                 labelLine: {
                     show: false,
                     length: 20,
@@ -73,6 +73,7 @@ define('echarts/chart/pie', [
     var zrUtil = require('zrender/tool/util');
     var zrMath = require('zrender/tool/math');
     var zrColor = require('zrender/tool/color');
+
     function Pie(ecTheme, messageCenter, zr, option, myChart) {
         ChartBase.call(this, ecTheme, messageCenter, zr, option, myChart);
         var self = this;
@@ -100,6 +101,7 @@ define('echarts/chart/pie', [
         };
         this.refresh(option);
     }
+
     Pie.prototype = {
         type: ecConfig.CHART_TYPE_PIE,
         _buildShape: function () {
@@ -371,7 +373,7 @@ define('echarts/chart/pie', [
                     textBaseline: textStyle.baseline || textBaseline,
                     textFont: this.getFont(textStyle)
                 },
-                highlightStyle: { brushType: 'fill' }
+                highlightStyle: {brushType: 'fill'}
             });
             ts._radius = radius;
             ts._labelPosition = labelControl.position || 'outer';
@@ -501,6 +503,7 @@ define('echarts/chart/pie', [
                 }
                 _changeUp(end - 1, delta / 2);
             }
+
             function _changeUp(end, delta) {
                 for (var j = end; j >= 0; j--) {
                     tList[j]._rect.y -= delta;
@@ -514,6 +517,7 @@ define('echarts/chart/pie', [
                     }
                 }
             }
+
             function _changeX(sList, isDownList, center, r, direction) {
                 var x = center[0];
                 var y = center[1];
@@ -539,6 +543,7 @@ define('echarts/chart/pie', [
                     lastDeltaX = deltaX;
                 }
             }
+
             var lastY = 0;
             var delta;
             var len = tList.length;
@@ -588,12 +593,14 @@ define('echarts/chart/pie', [
                 aniMap[params[i][0]] = params[i];
             }
             var aniCount = 0;
+
             function animationDone() {
                 aniCount--;
                 if (aniCount === 0) {
                     done && done();
                 }
             }
+
             var sectorMap = {};
             var textMap = {};
             var lineMap = {};
@@ -631,15 +638,15 @@ define('echarts/chart/pie', [
                 dataIndex = this.shapeList[i]._dataIndex;
                 key = seriesIndex + '_' + dataIndex;
                 switch (this.shapeList[i].type) {
-                case 'sector':
-                    sectorMap[key] = this.shapeList[i];
-                    break;
-                case 'text':
-                    textMap[key] = this.shapeList[i];
-                    break;
-                case 'polyline':
-                    lineMap[key] = this.shapeList[i];
-                    break;
+                    case 'sector':
+                        sectorMap[key] = this.shapeList[i];
+                        break;
+                    case 'text':
+                        textMap[key] = this.shapeList[i];
+                        break;
+                    case 'polyline':
+                        lineMap[key] = this.shapeList[i];
+                        break;
                 }
             }
             this.shapeList = [];
@@ -662,26 +669,26 @@ define('echarts/chart/pie', [
                             }).done(animationDone).start();
                         } else {
                             aniCount++;
-                            this.zr.animate(backupShapeList[i].id, 'style').when(400, deltaIdxMap[seriesIndex] < 0 ? { startAngle: backupShapeList[i].style.startAngle } : { endAngle: backupShapeList[i].style.endAngle }).done(animationDone).start();
+                            this.zr.animate(backupShapeList[i].id, 'style').when(400, deltaIdxMap[seriesIndex] < 0 ? {startAngle: backupShapeList[i].style.startAngle} : {endAngle: backupShapeList[i].style.endAngle}).done(animationDone).start();
                         }
                     } else if (backupShapeList[i].type === 'text' || backupShapeList[i].type === 'polyline') {
                         if (targeSector === 'delete') {
                             this.zr.delShape(backupShapeList[i].id);
                         } else {
                             switch (backupShapeList[i].type) {
-                            case 'text':
-                                aniCount++;
-                                targeSector = textMap[key];
-                                this.zr.animate(backupShapeList[i].id, 'style').when(400, {
-                                    x: targeSector.style.x,
-                                    y: targeSector.style.y
-                                }).done(animationDone).start();
-                                break;
-                            case 'polyline':
-                                aniCount++;
-                                targeSector = lineMap[key];
-                                this.zr.animate(backupShapeList[i].id, 'style').when(400, { pointList: targeSector.style.pointList }).done(animationDone).start();
-                                break;
+                                case 'text':
+                                    aniCount++;
+                                    targeSector = textMap[key];
+                                    this.zr.animate(backupShapeList[i].id, 'style').when(400, {
+                                        x: targeSector.style.x,
+                                        y: targeSector.style.y
+                                    }).done(animationDone).start();
+                                    break;
+                                case 'polyline':
+                                    aniCount++;
+                                    targeSector = lineMap[key];
+                                    this.zr.animate(backupShapeList[i].id, 'style').when(400, {pointList: targeSector.style.pointList}).done(animationDone).start();
+                                    break;
                             }
                         }
                     }

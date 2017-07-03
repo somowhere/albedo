@@ -37,22 +37,25 @@ public class UserService extends DataService<UserRepository, User, String> {
     @Resource
     private RoleRepository roleRepository;
 
-    public UserResult copyBeanToResult(User user){
+    public UserResult copyBeanToResult(User user) {
         UserResult userResult = new UserResult();
         BeanUtils.copyProperties(user, userResult);
         userResult.setRoleNames(user.getRoleNames());
-        if(user.getOrg()!=null)userResult.setOrgName(user.getOrg().getName());
+        if (user.getOrg() != null) userResult.setOrgName(user.getOrg().getName());
         return userResult;
     }
-    public UserForm copyBeanToForm(User user){
+
+    public UserForm copyBeanToForm(User user) {
         UserForm userForm = new UserForm();
         BeanUtils.copyProperties(user, userForm);
         return userForm;
     }
-    public User copyFormToBean(UserForm userForm){
+
+    public User copyFormToBean(UserForm userForm) {
         return copyFormToBean(userForm, new User());
     }
-    public User copyFormToBean(UserForm userForm, User user){
+
+    public User copyFormToBean(UserForm userForm, User user) {
         BeanUtils.copyProperties(userForm, user);
         return user;
     }
@@ -137,25 +140,26 @@ public class UserService extends DataService<UserRepository, User, String> {
     }
 
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public UserResult findResult(String id) {
         User user = repository.findOne(id);
         return copyBeanToResult(user);
     }
-    @Transactional(readOnly=true)
+
+    @Transactional(readOnly = true)
     public UserForm findForm(String id) {
         User user = repository.findOne(id);
         return copyBeanToForm(user);
     }
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public PageModel<User> findPage(PageModel<User> pm, List<QueryCondition> queryConditions) {
         SpecificationDetail<User> spec = DynamicSpecifications.
                 buildSpecification(pm.getQueryConditionJson(), queryConditions,
-                QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE), QueryCondition.ne(User.F_ID, "1"));
+                        QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE), QueryCondition.ne(User.F_ID, "1"));
 //        Page<User> page = repository.findAll(spec, pm);
 //        pm.setPageInstance(page);
-        return  findBasePage(pm, spec, false);
+        return findBasePage(pm, spec, false);
     }
 
 

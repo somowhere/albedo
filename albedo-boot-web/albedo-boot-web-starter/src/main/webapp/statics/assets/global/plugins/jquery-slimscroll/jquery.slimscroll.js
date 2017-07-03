@@ -6,10 +6,10 @@
  * Version: 1.3.2
  *
  */
-(function($) {
+(function ($) {
 
     jQuery.fn.extend({
-        slimScroll: function(options) {
+        slimScroll: function (options) {
 
             var defaults = {
 
@@ -86,7 +86,7 @@
             var o = $.extend(defaults, options);
 
             // do it for every element that matches selector
-            this.each(function() {
+            this.each(function () {
 
                 var isOverPanel, isOverBar, isDragg, queueHide, touchDif,
                     barHeight, percentScroll, lastScroll,
@@ -99,8 +99,8 @@
 
                 //begin: windows phone fix added by keenthemes
                 if ('ontouchstart' in window && window.navigator.msPointerEnabled) {
-                  me.css("-ms-touch-action", "none");
-              }
+                    me.css("-ms-touch-action", "none");
+                }
                 //end: windows phone fix added by keenthemes
 
                 // ensure we are not binding it again
@@ -216,25 +216,25 @@
 
                 // make it draggable and no longer dependent on the jqueryUI
                 if (o.railDraggable) {
-                    bar.bind("mousedown", function(e) {
+                    bar.bind("mousedown", function (e) {
                         var $doc = $(document);
                         isDragg = true;
                         t = parseFloat(bar.css('top'));
                         pageY = e.pageY;
 
-                        $doc.bind("mousemove.slimscroll", function(e) {
+                        $doc.bind("mousemove.slimscroll", function (e) {
                             currTop = t + e.pageY - pageY;
                             bar.css('top', currTop);
                             scrollContent(0, bar.position().top, false); // scroll content
                         });
 
-                        $doc.bind("mouseup.slimscroll", function(e) {
+                        $doc.bind("mouseup.slimscroll", function (e) {
                             isDragg = false;
                             hideBar();
                             $doc.unbind('.slimscroll');
                         });
                         return false;
-                    }).bind("selectstart.slimscroll", function(e) {
+                    }).bind("selectstart.slimscroll", function (e) {
                         e.stopPropagation();
                         e.preventDefault();
                         return false;
@@ -243,12 +243,12 @@
 
                 //begin: windows phone fix added by keenthemes
                 if ('ontouchstart' in window && window.navigator.msPointerEnabled) {
-                    me.bind('MSPointerDown', function(e, b) {
+                    me.bind('MSPointerDown', function (e, b) {
                         // record where touch started
                         touchDif = e.originalEvent.pageY;
                     });
 
-                    me.bind('MSPointerMove', function(e) {
+                    me.bind('MSPointerMove', function (e) {
                         // prevent scrolling the page if necessary
                         e.originalEvent.preventDefault();
                         // see how far user swiped
@@ -261,38 +261,38 @@
                 //end: windows phone fix added by keenthemes
 
                 // on rail over
-                rail.hover(function() {
+                rail.hover(function () {
                     showBar();
-                }, function() {
+                }, function () {
                     hideBar();
                 });
 
                 // on bar over
-                bar.hover(function() {
+                bar.hover(function () {
                     isOverBar = true;
-                }, function() {
+                }, function () {
                     isOverBar = false;
                 });
 
                 // show on parent mouseover
-                me.hover(function() {
+                me.hover(function () {
                     isOverPanel = true;
                     showBar();
                     hideBar();
-                }, function() {
+                }, function () {
                     isOverPanel = false;
                     hideBar();
                 });
 
                 // support for mobile
-                me.bind('touchstart', function(e, b) {
+                me.bind('touchstart', function (e, b) {
                     if (e.originalEvent.touches.length) {
                         // record where touch started
                         touchDif = e.originalEvent.touches[0].pageY;
                     }
                 });
 
-                me.bind('touchmove', function(e) {
+                me.bind('touchmove', function (e) {
                     // prevent scrolling the page if necessary
                     if (!releaseScroll) {
                         e.originalEvent.preventDefault();
@@ -475,7 +475,7 @@
                 function hideBar() {
                     // only hide when options allow it
                     if (!o.alwaysVisible) {
-                        queueHide = setTimeout(function() {
+                        queueHide = setTimeout(function () {
                             if (!(o.disableFadeOut && isOverPanel) && !isOverBar && !isDragg) {
                                 bar.fadeOut('slow');
                                 rail.fadeOut('slow');

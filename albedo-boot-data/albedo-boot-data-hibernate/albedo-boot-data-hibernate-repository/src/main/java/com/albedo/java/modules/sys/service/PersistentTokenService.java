@@ -21,36 +21,36 @@ import java.util.List;
 
 /**
  * sessions Service
- * 
+ *
  * @author admin
  * @version 2017-01-03
  */
 @Service
 @Transactional
 public class PersistentTokenService {
-	public final Logger log = LoggerFactory.getLogger(getClass());
-	@Resource
-	private PersistentTokenRepository persistentTokenRepository;
+    public final Logger log = LoggerFactory.getLogger(getClass());
+    @Resource
+    private PersistentTokenRepository persistentTokenRepository;
 
-	@Transactional(readOnly = true)
-	public PersistentToken findOne(String id) {
-		return persistentTokenRepository.findOne(id);
-	}
+    @Transactional(readOnly = true)
+    public PersistentToken findOne(String id) {
+        return persistentTokenRepository.findOne(id);
+    }
 
-	@Transactional(readOnly = true)
-	public Page<PersistentToken> findAll(PageModel<PersistentToken> pm, List<QueryCondition> queryConditions) {
-		SpecificationDetail<PersistentToken> spec = DynamicSpecifications
-				.buildSpecification(pm.getQueryConditionJson(),queryConditions );
-		return persistentTokenRepository.findAll(spec, pm);
-	}
+    @Transactional(readOnly = true)
+    public Page<PersistentToken> findAll(PageModel<PersistentToken> pm, List<QueryCondition> queryConditions) {
+        SpecificationDetail<PersistentToken> spec = DynamicSpecifications
+                .buildSpecification(pm.getQueryConditionJson(), queryConditions);
+        return persistentTokenRepository.findAll(spec, pm);
+    }
 
-	public void delete(List<String> ids) {
-		ids.forEach(id -> {
-			persistentTokenRepository.findOneById(id).map(u -> {
-				log.debug("Deleted Persistent: {}", u);
-				persistentTokenRepository.delete(u);
-				return u;
-			}).orElseThrow(() -> new RuntimeMsgException("回话  信息为空，删除失败"));
-		});
-	}
+    public void delete(List<String> ids) {
+        ids.forEach(id -> {
+            persistentTokenRepository.findOneById(id).map(u -> {
+                log.debug("Deleted Persistent: {}", u);
+                persistentTokenRepository.delete(u);
+                return u;
+            }).orElseThrow(() -> new RuntimeMsgException("回话  信息为空，删除失败"));
+        });
+    }
 }

@@ -17,24 +17,25 @@ import javax.annotation.Resource;
 
 /**
  * 操作日志Service 操作日志
+ *
  * @author admin
  * @version 2017-01-03
  */
 @Service
 @Transactional
-public class LoggingEventService{
+public class LoggingEventService {
 
-	@Resource
+    @Resource
     private LoggingEventRepository loggingEventRepository;
 
-	@Transactional(readOnly=true)
-	public LoggingEvent findOne(String id) {
-		return loggingEventRepository.findOne(id);
-	}
+    @Transactional(readOnly = true)
+    public LoggingEvent findOne(String id) {
+        return loggingEventRepository.findOne(id);
+    }
 
-	@Transactional(readOnly=true)
-	public Page<LoggingEvent> findAll(PageModel<LoggingEvent> pm) {
-		SpecificationDetail<LoggingEvent> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson());
-		return loggingEventRepository.findAll(spec, pm);
-	}
+    @Transactional(readOnly = true)
+    public Page<LoggingEvent> findAll(PageModel<LoggingEvent> pm) {
+        SpecificationDetail<LoggingEvent> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson());
+        return loggingEventRepository.findAll(spec, pm);
+    }
 }

@@ -29,8 +29,14 @@ import java.util.TreeMap;
  * @author Jarvis Song
  */
 public class TypeMappings {
-    private Map<Integer, String>            defaults = new HashMap<Integer, String>();
+    private Map<Integer, String> defaults = new HashMap<Integer, String>();
     private Map<Integer, Map<Long, String>> weighted = new HashMap<Integer, Map<Long, String>>();
+
+    private static String replace(String type, long size, int precision, int scale) {
+        type = StringUtils.replaceOnce(type, "$s", Integer.toString(scale));
+        type = StringUtils.replaceOnce(type, "$l", Long.toString(size));
+        return StringUtils.replaceOnce(type, "$p", Integer.toString(precision));
+    }
 
     public String get(int typeCode) throws MappingException {
         final String result = defaults.get(typeCode);
@@ -54,12 +60,6 @@ public class TypeMappings {
         //		1) There was no weighted registration for that typeCode
         //		2) There was no weighting whose max capacity was big enough to contain size
         return replace(get(typeCode), size, precision, scale);
-    }
-
-    private static String replace(String type, long size, int precision, int scale) {
-        type = StringUtils.replaceOnce(type, "$s", Integer.toString(scale));
-        type = StringUtils.replaceOnce(type, "$l", Long.toString(size));
-        return StringUtils.replaceOnce(type, "$p", Integer.toString(precision));
     }
 
     public void put(int typeCode, long capacity, String value) {

@@ -1,23 +1,23 @@
-function option2 (name) {
+function option2(name) {
     var option = {
-        title : {
+        title: {
             x: 'center',
             y: 'top',
-            textStyle:{
+            textStyle: {
                 fontSize: 14
             }
         },
-        tooltip : {
+        tooltip: {
             trigger: 'item'
         },
         dataRange: {
             min: 0,
-            itemWidth:8,
+            itemWidth: 8,
             itemGap: 5,
             x: 'left',
             y: 'bottom'
         },
-        series : [
+        series: [
             {
                 type: 'map',
                 mapType: 'china'
@@ -28,16 +28,16 @@ function option2 (name) {
     option.title.text = eNameMap[name] + ' (亿元)';
     option.title.textStyle.color = color;
     option.dataRange.color = [
-        color, 
+        color,
         require('zrender/tool/color').lift(color, -0.9)
     ];
     option.dataRange.max = dataMap['data' + name][curYear + 'max'];
-    
+
     for (var i = 0, l = option.series.length; i < l; i++) {
         option.series[i].name = eNameMap[name] + '(' + curYear + ')';
-        option.series[i].data = 
+        option.series[i].data =
             dataMap['data' + name][curYear]
     }
-    
+
     return option;
 }

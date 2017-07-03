@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: IDL mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel="stylesheet" href="../../lib/codemirror.css">
 <script src="../../lib/codemirror.js"></script>
@@ -19,16 +19,16 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">IDL</a>
+        <li>
+            <a class=active href="#">IDL</a>
     </ul>
 </div>
 <article>
@@ -39,17 +39,16 @@
     </div>
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById("code"),
-        {
-            mode:
             {
-                name: "idl",
-                version: 1,
-                singleLineStringErrors: false
-            },
-            lineNumbers: true,
-            indentUnit: 4,
-            matchBrackets: true
-        });
+                mode: {
+                    name: "idl",
+                    version: 1,
+                    singleLineStringErrors: false
+                },
+                lineNumbers: true,
+                indentUnit: 4,
+                matchBrackets: true
+            });
     </script>
     <p>
         <strong>MIME types defined:</strong> <code>text/x-idl</code>.</p>

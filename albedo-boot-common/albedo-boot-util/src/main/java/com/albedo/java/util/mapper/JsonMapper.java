@@ -53,7 +53,9 @@ public class JsonMapper extends ObjectMapper {
         });
     }
 
-    /** 创建只输出非Null且非Empty(如List.isEmpty)的属性到Json字符串的Mapper,建议在外部接口中使用. */
+    /**
+     * 创建只输出非Null且非Empty(如List.isEmpty)的属性到Json字符串的Mapper,建议在外部接口中使用.
+     */
     public static JsonMapper getInstance() {
         if (mapper == null) {
             mapper = new JsonMapper().enableSimple();
@@ -61,7 +63,9 @@ public class JsonMapper extends ObjectMapper {
         return mapper;
     }
 
-    /** 创建只输出初始值被改变的属性到Json字符串的Mapper, 最节约的存储方式，建议在内部接口中使用。 */
+    /**
+     * 创建只输出初始值被改变的属性到Json字符串的Mapper, 最节约的存储方式，建议在内部接口中使用。
+     */
     public static JsonMapper nonDefaultMapper() {
         if (mapper == null) {
             mapper = new JsonMapper(Include.NON_DEFAULT);
@@ -69,7 +73,39 @@ public class JsonMapper extends ObjectMapper {
         return mapper;
     }
 
-    /** Object可以是POJO，也可以是Collection或数组。 如果对象为Null, 返回"null". 如果集合为空集合, 返回"[]". */
+    /**
+     * 转换为JSON字符串
+     *
+     * @param object
+     * @return
+     */
+    public static String toJsonString(Object object) {
+        return JsonMapper.getInstance().toJson(object);
+    }
+
+    /**
+     * 测试
+     */
+    public static void main(String[] args) {
+        List<Map<String, Object>> list = Lists.newArrayList();
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("id", 1);
+        map.put("pId", -1);
+        map.put("name", "根节点");
+        list.add(map);
+        map = Maps.newHashMap();
+        map.put("id", 2);
+        map.put("pId", 1);
+        map.put("name", "你好");
+        map.put("open", true);
+        list.add(map);
+        String json = JsonMapper.getInstance().toJson(list);
+        System.out.println(json);
+    }
+
+    /**
+     * Object可以是POJO，也可以是Collection或数组。 如果对象为Null, 返回"null". 如果集合为空集合, 返回"[]".
+     */
     public String toJson(Object object) {
 
         try {
@@ -115,12 +151,16 @@ public class JsonMapper extends ObjectMapper {
         }
     }
 
-    /** 構造泛型的Collection Type如: ArrayList<MyBean>, 则调用constructCollectionType(ArrayList.class,MyBean.class) HashMap<String,MyBean>, 则调用(HashMap.class,String.class, MyBean.class) */
+    /**
+     * 構造泛型的Collection Type如: ArrayList<MyBean>, 则调用constructCollectionType(ArrayList.class,MyBean.class) HashMap<String,MyBean>, 则调用(HashMap.class,String.class, MyBean.class)
+     */
     public JavaType createCollectionType(Class<?> collectionClass, Class<?>... elementClasses) {
         return this.getTypeFactory().constructParametricType(collectionClass, elementClasses);
     }
 
-    /** 當JSON裡只含有Bean的部分屬性時，更新一個已存在Bean，只覆蓋該部分的屬性. */
+    /**
+     * 當JSON裡只含有Bean的部分屬性時，更新一個已存在Bean，只覆蓋該部分的屬性.
+     */
     @SuppressWarnings("unchecked")
     public <T> T update(String jsonString, T object) {
         try {
@@ -133,63 +173,45 @@ public class JsonMapper extends ObjectMapper {
         return null;
     }
 
-    /** 輸出JSONP格式數據. */
+    /**
+     * 輸出JSONP格式數據.
+     */
     public String toJsonP(String functionName, Object object) {
         return toJson(new JSONPObject(functionName, object));
     }
 
-    /** 設定是否使用Enum的toString函數來讀寫Enum, 為False時時使用Enum的name()函數來讀寫Enum, 默認為False. 注意本函數一定要在Mapper創建後, 所有的讀寫動作之前調用. */
+    /**
+     * 設定是否使用Enum的toString函數來讀寫Enum, 為False時時使用Enum的name()函數來讀寫Enum, 默認為False. 注意本函數一定要在Mapper創建後, 所有的讀寫動作之前調用.
+     */
     public JsonMapper enableEnumUseToString() {
         this.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
         this.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
         return this;
     }
 
-    /** 支持使用Jaxb的Annotation，使得POJO上的annotation不用与Jackson耦合。 默认会先查找jaxb的annotation，如果找不到再找jackson的。 */
+    /**
+     * 支持使用Jaxb的Annotation，使得POJO上的annotation不用与Jackson耦合。 默认会先查找jaxb的annotation，如果找不到再找jackson的。
+     */
     public JsonMapper enableJaxbAnnotation() {
         JaxbAnnotationModule module = new JaxbAnnotationModule();
         this.registerModule(module);
         return this;
     }
 
-    /** 允许单引号 允许不带引号的字段名称 */
+    /**
+     * 允许单引号 允许不带引号的字段名称
+     */
     public JsonMapper enableSimple() {
         this.configure(Feature.ALLOW_SINGLE_QUOTES, true);
         this.configure(Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
         return this;
     }
 
-    /** 取出Mapper做进一步的设置或使用其他序列化API. */
+    /**
+     * 取出Mapper做进一步的设置或使用其他序列化API.
+     */
     public ObjectMapper getMapper() {
         return this;
-    }
-
-    /**
-     * 转换为JSON字符串
-     *
-     * @param object
-     * @return
-     */
-    public static String toJsonString(Object object) {
-        return JsonMapper.getInstance().toJson(object);
-    }
-
-    /** 测试 */
-    public static void main(String[] args) {
-        List<Map<String, Object>> list = Lists.newArrayList();
-        Map<String, Object> map = Maps.newHashMap();
-        map.put("id", 1);
-        map.put("pId", -1);
-        map.put("name", "根节点");
-        list.add(map);
-        map = Maps.newHashMap();
-        map.put("id", 2);
-        map.put("pId", 1);
-        map.put("name", "你好");
-        map.put("open", true);
-        list.add(map);
-        String json = JsonMapper.getInstance().toJson(list);
-        System.out.println(json);
     }
 
 }

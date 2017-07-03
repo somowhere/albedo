@@ -10,10 +10,10 @@ SwaggerUi.Views.PopupView = Backbone.View.extend({
 
     selectors: {
         content: '.api-popup-content',
-        main   : '#swagger-ui-container'
+        main: '#swagger-ui-container'
     },
 
-    initialize: function(){
+    initialize: function () {
         this.$el.html(this.template(this.model));
     },
 

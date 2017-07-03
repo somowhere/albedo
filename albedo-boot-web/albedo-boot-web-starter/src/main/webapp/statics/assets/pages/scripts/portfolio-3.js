@@ -1,4 +1,4 @@
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     'use strict';
 
     // init cubeportfolio
@@ -42,22 +42,22 @@
         singlePageInlineDelegate: '.cbp-singlePageInline',
         singlePageInlinePosition: 'below',
         singlePageInlineInFocus: true,
-        singlePageInlineCallback: function(url, element) {
+        singlePageInlineCallback: function (url, element) {
             // to update singlePageInline content use the following method: this.updateSinglePageInline(yourContent)
             var t = this;
 
             $.ajax({
-                    url: url,
-                    type: 'GET',
-                    dataType: 'html',
-                    timeout: 10000
-                })
-                .done(function(result) {
+                url: url,
+                type: 'GET',
+                dataType: 'html',
+                timeout: 10000
+            })
+                .done(function (result) {
 
                     t.updateSinglePageInline(result);
 
                 })
-                .fail(function() {
+                .fail(function () {
                     t.updateSinglePageInline('AJAX Error! Please refresh the page!');
                 });
         },

@@ -7,12 +7,12 @@
  */
 define(function (require) {
     var Base = require('./base');
-    
+
     // 图形依赖
     var RectangleShape = require('zrender/shape/Rectangle');
     var SectorShape = require('zrender/shape/Sector');
     var CircleShape = require('zrender/shape/Circle');
-    
+
     var ecConfig = require('../config');
     ecConfig.roamController = {
         zlevel: 0,                  // 一级层叠
@@ -57,30 +57,30 @@ define(function (require) {
             console.error('option.roamController.mapTypeControl has not been defined.');
             return;
         }
-        
+
         Base.call(this, ecTheme, messageCenter, zr, option, myChart);
-        
+
         this.rcOption = option.roamController;
-        
+
         var self = this;
-        this._drictionMouseDown = function(params) {
+        this._drictionMouseDown = function (params) {
             return self.__drictionMouseDown(params);
         };
-        this._drictionMouseUp = function(params) {
+        this._drictionMouseUp = function (params) {
             return self.__drictionMouseUp(params);
         };
-        this._drictionMouseMove = function(params) {
+        this._drictionMouseMove = function (params) {
             return self.__drictionMouseMove(params);
         };
-        this._drictionMouseOut = function(params) {
+        this._drictionMouseOut = function (params) {
             return self.__drictionMouseOut(params);
         };
-        this._scaleHandler = function(params) {
+        this._scaleHandler = function (params) {
             return self.__scaleHandler(params);
         };
         this.refresh(option);
     }
-    
+
     RoamController.prototype = {
         type: ecConfig.COMPONENT_TYPE_ROAMCONTROLLER,
         _buildShape: function () {
@@ -109,12 +109,12 @@ define(function (require) {
             this.shapeList.push(this._getScaleShape('scaleUp'));
             this.shapeList.push(this._getScaleShape('scaleDown'));
         },
-        
-        _getDirectionShape: function(direction) {
+
+        _getDirectionShape: function (direction) {
             var r = this._itemGroupLocation.r;
             var x = this._itemGroupLocation.x + r;
             var y = this._itemGroupLocation.y + r;
-            
+
             var sectorShape = {
                 zlevel: this.getZlevelBase(),
                 z: this.getZBase(),
@@ -158,18 +158,18 @@ define(function (require) {
             sectorShape.onmouseup = this._drictionMouseUp;
             sectorShape.onmousemove = this._drictionMouseMove;
             sectorShape.onmouseout = this._drictionMouseOut;
-            
+
             return sectorShape;
         },
-        
-        _getScaleShape: function(text) {
+
+        _getScaleShape: function (text) {
             var width = this._itemGroupLocation.width;
             var height = this._itemGroupLocation.height - width;
             height = height < 0 ? 20 : height;  // 确保height不为负
-            
+
             var r = Math.min(width / 2 - 5, height) / 2;
-            var x = this._itemGroupLocation.x 
-                    + (text === 'scaleDown' ? (width - r) : r);
+            var x = this._itemGroupLocation.x
+                + (text === 'scaleDown' ? (width - r) : r);
             var y = this._itemGroupLocation.y + this._itemGroupLocation.height - r;
 
             var scaleShape = {
@@ -195,21 +195,21 @@ define(function (require) {
                 },
                 clickable: true
             };
-            
+
             scaleShape = new CircleShape(scaleShape);
             scaleShape._roamType = text;
             scaleShape.onmousedown = this._scaleHandler;
-            
+
             return scaleShape;
         },
-        
+
         _buildBackground: function () {
             var padding = this.reformCssArray(this.rcOption.padding);
 
             this.shapeList.push(new RectangleShape({
                 zlevel: this.getZlevelBase(),
                 z: this.getZBase(),
-                hoverable :false,
+                hoverable: false,
                 style: {
                     x: this._itemGroupLocation.x - padding[3],
                     y: this._itemGroupLocation.y - padding[0],
@@ -230,7 +230,7 @@ define(function (require) {
             var padding = this.reformCssArray(this.rcOption.padding);
             var width = this.rcOption.width;
             var height = this.rcOption.height;
-            
+
             var zrWidth = this.zr.getWidth();
             var zrHeight = this.zr.getHeight();
             var x;
@@ -252,7 +252,7 @@ define(function (require) {
                     x = this.parsePercent(this.rcOption.x, zrWidth);
                     break;
             }
-            
+
             var y;
             switch (this.rcOption.y) {
                 case 'top' :
@@ -282,49 +282,49 @@ define(function (require) {
             };
         },
 
-        __drictionMouseDown: function(params) {
+        __drictionMouseDown: function (params) {
             this.mousedown = true;
             this._drictionHandlerOn(params);
         },
-        
-        __drictionMouseUp: function(params) {
+
+        __drictionMouseUp: function (params) {
             this.mousedown = false;
             this._drictionHandlerOff(params);
         },
-        
-        __drictionMouseMove: function(params) {
+
+        __drictionMouseMove: function (params) {
             if (this.mousedown) {
                 this._drictionHandlerOn(params);
             }
         },
-        
-        __drictionMouseOut: function(params) {
+
+        __drictionMouseOut: function (params) {
             this._drictionHandlerOff(params);
         },
-        
-        _drictionHandlerOn: function(params) {
+
+        _drictionHandlerOn: function (params) {
             this._dispatchEvent(params.event, params.target._roamType);
             clearInterval(this.dircetionTimer);
             var self = this;
-            this.dircetionTimer = setInterval(function() {
+            this.dircetionTimer = setInterval(function () {
                 self._dispatchEvent(params.event, params.target._roamType);
             }, 100);
             zrEvent.stop(params.event);
         },
-        
-        _drictionHandlerOff: function(params) {
+
+        _drictionHandlerOff: function (params) {
             clearInterval(this.dircetionTimer);
         },
-        
-        __scaleHandler: function(params) {
+
+        __scaleHandler: function (params) {
             this._dispatchEvent(params.event, params.target._roamType);
             zrEvent.stop(params.event);
         },
-        
-        _dispatchEvent: function(event, roamType){
+
+        _dispatchEvent: function (event, roamType) {
             this.messageCenter.dispatch(
                 ecConfig.EVENT.ROAMCONTROLLER,
-                event, 
+                event,
                 {
                     roamType: roamType,
                     mapTypeControl: this.rcOption.mapTypeControl,
@@ -346,12 +346,12 @@ define(function (require) {
             this._buildShape();
         }
     };
-    
-    
+
+
     zrUtil.inherits(RoamController, Base);
-    
+
     require('../component').define('roamController', RoamController);
-    
+
     return RoamController;
 });
 

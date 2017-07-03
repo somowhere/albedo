@@ -1,4 +1,4 @@
-(function(jsGrid, $, undefined) {
+(function (jsGrid, $, undefined) {
 
     var TextField = jsGrid.TextField;
 
@@ -10,22 +10,22 @@
 
         sorter: "number",
         align: "right",
-		readOnly: false,
+        readOnly: false,
 
-        filterValue: function() {
+        filterValue: function () {
             return parseInt(this.filterControl.val() || 0, 10);
         },
 
-        insertValue: function() {
+        insertValue: function () {
             return parseInt(this.insertControl.val() || 0, 10);
         },
 
-        editValue: function() {
+        editValue: function () {
             return parseInt(this.editControl.val() || 0, 10);
         },
 
-        _createTextBox: function() {
-			return $("<input>").attr("type", "number")
+        _createTextBox: function () {
+            return $("<input>").attr("type", "number")
                 .prop("readonly", !!this.readOnly);
         }
     });

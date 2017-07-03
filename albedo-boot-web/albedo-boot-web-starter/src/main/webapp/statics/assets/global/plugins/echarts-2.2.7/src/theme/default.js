@@ -5,9 +5,8 @@
  * @author Kener (@Kener-林峰, kener.linfeng@gmail.com)
  *
  */
-define(function() {
-    var config = {
-    };
+define(function () {
+    var config = {};
 
     return config;
 });

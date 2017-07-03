@@ -27,98 +27,101 @@ import javax.xml.bind.annotation.XmlAttribute;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Dict extends TreeEntity<Dict> {
 
-	private static final long serialVersionUID = 1L;
-	/** 叶子节点 */
-	public static final String FLAG_LEAF = "0";
-	/** 非叶子节点 */
-	public static final String FLAG_UNLEAF = "1";
-	public static final String F_CODE = "code";
-	public static final String F_VAL = "val";
-	
-	/*** 编码 */
-	@SearchField
-	@Column(name = "code_")
-	private String code;
-	/*** 字典值 */
-	@Column(name = "val_")
-	private String val;
-	/*** 资源文件key */
-	@Column(name = "show_name")
-	private String showName;
-	@NotNull
-	@Column(name = "is_show", nullable = false)
-	@DictType(name = "sys_yes_no")
-	private Integer isShow = 1;
-	@Transient
-	private String parentCode;
-	
-	public Dict() {
-	}
+    /**
+     * 叶子节点
+     */
+    public static final String FLAG_LEAF = "0";
+    /**
+     * 非叶子节点
+     */
+    public static final String FLAG_UNLEAF = "1";
+    public static final String F_CODE = "code";
+    public static final String F_VAL = "val";
+    private static final long serialVersionUID = 1L;
+    /*** 编码 */
+    @SearchField
+    @Column(name = "code_")
+    private String code;
+    /*** 字典值 */
+    @Column(name = "val_")
+    private String val;
+    /*** 资源文件key */
+    @Column(name = "show_name")
+    private String showName;
+    @NotNull
+    @Column(name = "is_show", nullable = false)
+    @DictType(name = "sys_yes_no")
+    private Integer isShow = 1;
+    @Transient
+    private String parentCode;
 
-	public Dict(String id) {
-		this.id=id;
-	}
+    public Dict() {
+    }
 
-	public String getShowName() {
-		return showName;
-	}
+    public Dict(String id) {
+        this.id = id;
+    }
 
-	public void setShowName(String showName) {
-		this.showName = showName;
-	}
+    public String getShowName() {
+        return showName;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public void setShowName(String showName) {
+        this.showName = showName;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	@XmlAttribute
-	public String getVal() {
-		return val;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public void setVal(String val) {
-		this.val = val;
-	}
+    @XmlAttribute
+    public String getVal() {
+        return val;
+    }
 
-	public Integer getIsShow() {
-		return isShow;
-	}
+    public void setVal(String val) {
+        this.val = val;
+    }
 
-	public void setIsShow(Integer isShow) {
-		this.isShow = isShow;
-	}
+    public Integer getIsShow() {
+        return isShow;
+    }
 
-	@XmlAttribute
-	public String getDescription() {
-		return super.getDescription();
-	}	
+    public void setIsShow(Integer isShow) {
+        this.isShow = isShow;
+    }
 
-	public void setDescription(String description) {
-		super.setDescription(description);
-	}
-	
-	@XmlAttribute
-	public String getName() {
-		return super.getName();
-	}
-	
-	public void setName(String name) {
-		super.setName(name);
-	}
+    @XmlAttribute
+    public String getDescription() {
+        return super.getDescription();
+    }
 
-	public String getParentCode() {
-		if(PublicUtil.isEmpty(parentCode) && parent!=null){
-			parentCode=parent.getCode();
-		}
-		return parentCode;
-	}
+    public void setDescription(String description) {
+        super.setDescription(description);
+    }
 
-	public void setParentCode(String parentCode) {
-		this.parentCode = parentCode;
-	}
-	
+    @XmlAttribute
+    public String getName() {
+        return super.getName();
+    }
+
+    public void setName(String name) {
+        super.setName(name);
+    }
+
+    public String getParentCode() {
+        if (PublicUtil.isEmpty(parentCode) && parent != null) {
+            parentCode = parent.getCode();
+        }
+        return parentCode;
+    }
+
+    public void setParentCode(String parentCode) {
+        this.parentCode = parentCode;
+    }
+
 }

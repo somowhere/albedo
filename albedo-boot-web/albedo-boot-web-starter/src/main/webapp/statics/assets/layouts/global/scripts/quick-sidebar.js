@@ -1,13 +1,13 @@
 /**
-Core script to handle the entire theme and core functions
-**/
+ Core script to handle the entire theme and core functions
+ **/
 var QuickSidebar = function () {
 
     // Handles quick sidebar toggler
     var handleQuickSidebarToggler = function () {
         // quick sidebar toggler
         $('.dropdown-quick-sidebar-toggler a, .page-quick-sidebar-toggler, .quick-sidebar-toggler').click(function (e) {
-            $('body').toggleClass('page-quick-sidebar-open'); 
+            $('body').toggleClass('page-quick-sidebar-open');
         });
     };
 
@@ -59,10 +59,10 @@ var QuickSidebar = function () {
                 return;
             }
 
-            var preparePost = function(dir, time, name, avatar, message) {
+            var preparePost = function (dir, time, name, avatar, message) {
                 var tpl = '';
-                tpl += '<div class="post '+ dir +'">';
-                tpl += '<img class="avatar" alt="" src="' + Layout.getLayoutImgPath() + avatar +'.jpg"/>';
+                tpl += '<div class="post ' + dir + '">';
+                tpl += '<img class="avatar" alt="" src="' + Layout.getLayoutImgPath() + avatar + '.jpg"/>';
                 tpl += '<div class="message">';
                 tpl += '<span class="arrow"></span>';
                 tpl += '<a href="#" class="name">Bob Nilson</a>&nbsp;';
@@ -89,7 +89,7 @@ var QuickSidebar = function () {
             input.val("");
 
             // simulate reply
-            setTimeout(function(){
+            setTimeout(function () {
                 var time = new Date();
                 var message = preparePost('in', (time.getHours() + ':' + time.getMinutes()), "Ella Wong", 'avatar2', 'Lorem ipsum doloriam nibh...');
                 message = $(message);
@@ -165,8 +165,8 @@ var QuickSidebar = function () {
 
 }();
 
-if (App.isAngularJsApp() === false) { 
-    jQuery(document).ready(function() {    
-       QuickSidebar.init(); // init metronic core componets
+if (App.isAngularJsApp() === false) {
+    jQuery(document).ready(function () {
+        QuickSidebar.init(); // init metronic core componets
     });
 }

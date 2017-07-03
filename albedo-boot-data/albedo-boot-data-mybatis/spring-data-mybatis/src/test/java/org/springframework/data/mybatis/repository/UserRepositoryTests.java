@@ -56,7 +56,18 @@ public class UserRepositoryTests {
     // Test fixture
     User firstUser, secondUser, thirdUser, fourthUser;
     Integer id;
-    Role    adminRole;
+    Role adminRole;
+
+    private static <T> void assertSameElements(Collection<T> first, Collection<T> second) {
+
+        for (T element : first) {
+            assertThat(element, isIn(second));
+        }
+
+        for (T element : second) {
+            assertThat(element, isIn(first));
+        }
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -161,7 +172,6 @@ public class UserRepositoryTests {
         assertThat(result, is(notNullValue()));
         assertThat(result.isEmpty(), is(true));
     }
-
 
     @Test
     public void savingEmptyCollectionIsNoOp() throws Exception {
@@ -321,7 +331,6 @@ public class UserRepositoryTests {
         assertThat(repository.count(), is(0L));
     }
 
-
     @Test
     public void testCountsCorrectly() {
 
@@ -366,14 +375,6 @@ public class UserRepositoryTests {
         assertThat(result, hasItems(secondUser, thirdUser, fourthUser));
     }
 
-
-    @Test
-    public void returnsSameListIfNoSortIsGiven() throws Exception {
-
-        flushTestUsers();
-        assertSameElements(repository.findAll((Sort) null), repository.findAll());
-    }
-
 //    @Test
 //    public void returnsSamePageIfNoSpecGiven() throws Exception {
 //
@@ -384,29 +385,17 @@ public class UserRepositoryTests {
 //    }
 
     @Test
+    public void returnsSameListIfNoSortIsGiven() throws Exception {
+
+        flushTestUsers();
+        assertSameElements(repository.findAll((Sort) null), repository.findAll());
+    }
+
+    @Test
     public void returnsAllAsPageIfNoPageableIsGiven() throws Exception {
 
         flushTestUsers();
         assertThat(repository.findAll((Pageable) null), is((Page<User>) new PageImpl<User>(repository.findAll())));
-    }
-
-    @Test
-    public void executesQueryMethodWithDeepTraversalCorrectly() throws Exception {
-
-        flushTestUsers();
-
-        firstUser.setManager(secondUser);
-        thirdUser.setManager(firstUser);
-        repository.save(Arrays.asList(firstUser, thirdUser));
-
-        List<User> result = repository.findByManagerLastname("Arrasz");
-
-        assertThat(result.size(), is(1));
-        assertThat(result, hasItem(firstUser));
-
-        result = repository.findByManagerLastname("Gierke");
-        assertThat(result.size(), is(1));
-        assertThat(result, hasItem(thirdUser));
     }
 
 //    @Test(expected = MybatisQueryNotSupportException.class)
@@ -427,6 +416,25 @@ public class UserRepositoryTests {
 //        assertThat(result.size(), is(2));
 //        assertThat(result, hasItems(thirdUser, secondUser));
 //    }
+
+    @Test
+    public void executesQueryMethodWithDeepTraversalCorrectly() throws Exception {
+
+        flushTestUsers();
+
+        firstUser.setManager(secondUser);
+        thirdUser.setManager(firstUser);
+        repository.save(Arrays.asList(firstUser, thirdUser));
+
+        List<User> result = repository.findByManagerLastname("Arrasz");
+
+        assertThat(result.size(), is(1));
+        assertThat(result, hasItem(firstUser));
+
+        result = repository.findByManagerLastname("Gierke");
+        assertThat(result.size(), is(1));
+        assertThat(result, hasItem(thirdUser));
+    }
 
     @Test
     public void executesFindByNotNullLastnameCorrectly() throws Exception {
@@ -600,7 +608,6 @@ public class UserRepositoryTests {
         assertThat(all.getContent().isEmpty(), is(false));
     }
 
-
     private void assertDeleteCallDoesNotDeleteAnything(List<User> collection) {
 
         flushTestUsers();
@@ -610,22 +617,11 @@ public class UserRepositoryTests {
         assertThat(repository.count(), is(count));
     }
 
-    private static <T> void assertSameElements(Collection<T> first, Collection<T> second) {
-
-        for (T element : first) {
-            assertThat(element, isIn(second));
-        }
-
-        for (T element : second) {
-            assertThat(element, isIn(first));
-        }
-    }
-
     @Test
     public void testFindByFirstnameOrLastname() throws Exception {
         flushTestUsers();
-        List<User> byFirstnameOrLastname = repository.findByFirstnameOrLastname(firstUser.getFirstname(),fourthUser.getLastname());
-        assertThat(byFirstnameOrLastname.size(),is(2));
+        List<User> byFirstnameOrLastname = repository.findByFirstnameOrLastname(firstUser.getFirstname(), fourthUser.getLastname());
+        assertThat(byFirstnameOrLastname.size(), is(2));
         assertThat(byFirstnameOrLastname.get(0), is(firstUser));
         assertThat(byFirstnameOrLastname.get(1), is(fourthUser));
     }

@@ -1,12 +1,12 @@
-var AppCalendar = function() {
+var AppCalendar = function () {
 
     return {
         //main function to initiate the module
-        init: function() {
+        init: function () {
             this.initCalendar();
         },
 
-        initCalendar: function() {
+        initCalendar: function () {
 
             if (!jQuery().fullCalendar) {
                 return;
@@ -53,7 +53,7 @@ var AppCalendar = function() {
                 }
             }
 
-            var initDrag = function(el) {
+            var initDrag = function (el) {
                 // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
                 // it doesn't need to have a start or end
                 var eventObject = {
@@ -69,18 +69,18 @@ var AppCalendar = function() {
                 });
             };
 
-            var addEvent = function(title) {
+            var addEvent = function (title) {
                 title = title.length === 0 ? "Untitled Event" : title;
                 var html = $('<div class="external-event label label-default">' + title + '</div>');
                 jQuery('#event_box').append(html);
                 initDrag(html);
             };
 
-            $('#external-events div.external-event').each(function() {
+            $('#external-events div.external-event').each(function () {
                 initDrag($(this));
             });
 
-            $('#event_add').unbind('click').click(function() {
+            $('#event_add').unbind('click').click(function () {
                 var title = $('#event_title').val();
                 addEvent(title);
             });
@@ -101,7 +101,7 @@ var AppCalendar = function() {
                 slotMinutes: 15,
                 editable: true,
                 droppable: true, // this allows things to be dropped onto the calendar !!!
-                drop: function(date, allDay) { // this function is called when something is dropped
+                drop: function (date, allDay) { // this function is called when something is dropped
 
                     // retrieve the dropped element's stored Event Object
                     var originalEventObject = $(this).data('eventObject');
@@ -173,6 +173,6 @@ var AppCalendar = function() {
 
 }();
 
-jQuery(document).ready(function() {    
-   AppCalendar.init(); 
+jQuery(document).ready(function () {
+    AppCalendar.init();
 });

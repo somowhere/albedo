@@ -1,7 +1,7 @@
 /**
  * Slovak translation for bootstrap-wysihtml5
  */
-(function($){
+(function ($) {
     $.fn.wysihtml5.locale["sk-SK"] = {
         font_styles: {
             normal: "Normálny text",

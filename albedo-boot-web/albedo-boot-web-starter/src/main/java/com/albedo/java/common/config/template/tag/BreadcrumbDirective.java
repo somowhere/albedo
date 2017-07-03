@@ -19,53 +19,54 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 import java.util.Map;
+
 @Component
 public class BreadcrumbDirective implements TemplateDirectiveModel {
 
-	private final Logger log = LoggerFactory.getLogger(BreadcrumbDirective.class);
+    private final Logger log = LoggerFactory.getLogger(BreadcrumbDirective.class);
 
-	@Override
-	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
-			throws TemplateException, IOException {
-		Writer out = env.getOut();
+    @Override
+    public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
+            throws TemplateException, IOException {
+        Writer out = env.getOut();
 
-		List<Module> moduleList = SecurityUtil.getModuleList(), currentItemList = Lists.newArrayList();
-		if (PublicUtil.isNotEmpty(InvocationSecurityMetadataSourceService.cUrl)) {
-			moduleList.stream().filter(item -> item.getUrl()!=null && item.getUrl().equals(InvocationSecurityMetadataSourceService.cUrl))
-					.findFirst().ifPresent(currentItem -> {
-						currentItemList.add(currentItem);
-						Lists.newArrayList(currentItem.getParentIds().split(",")).forEach(id -> {
-							moduleList.stream().filter(item -> PublicUtil.isNotEmpty(item.getParentId()) && item.getId().equals(id)).findFirst()
-									.ifPresent(moduleTemp -> {
-								currentItemList.add(moduleTemp);
-							});
-						});
-					});
-		}
-		
-		StringBuffer sb = new StringBuffer();
-		sb.append("<ul class=\"page-breadcrumb breadcrumb\"><li><a href=\"").append(env.getCustomAttribute("adminPath"))
-				.append(Globals.INDEX_URL)
-				.append("\">首页</a><i class=\"fa fa-circle\"></i></li>");
-		if (PublicUtil.isNotEmpty(currentItemList)) {
-			for (int i = 1; i < currentItemList.size(); i++) {
-				Module item = currentItemList.get(i);
-				sb.append("<li><a href=\"")
-						.append(PublicUtil.isEmpty(item.getUrl()) ? "javascript:void(0)" : item.getUrl()).append("\">")
-						.append(item.getName()).append("</a><i class=\"fa fa-circle\"></i></li>");
-			}
-			sb.append("<li><span class=\"active\">").append(currentItemList.get(0).getName()).append("</span></li>");
-		}
-		sb.append("</ul>");
-		out.write(sb.toString());
-		if (body != null) {
-			body.render(env.getOut());
-		} else
+        List<Module> moduleList = SecurityUtil.getModuleList(), currentItemList = Lists.newArrayList();
+        if (PublicUtil.isNotEmpty(InvocationSecurityMetadataSourceService.cUrl)) {
+            moduleList.stream().filter(item -> item.getUrl() != null && item.getUrl().equals(InvocationSecurityMetadataSourceService.cUrl))
+                    .findFirst().ifPresent(currentItem -> {
+                currentItemList.add(currentItem);
+                Lists.newArrayList(currentItem.getParentIds().split(",")).forEach(id -> {
+                    moduleList.stream().filter(item -> PublicUtil.isNotEmpty(item.getParentId()) && item.getId().equals(id)).findFirst()
+                            .ifPresent(moduleTemp -> {
+                                currentItemList.add(moduleTemp);
+                            });
+                });
+            });
+        }
 
-		{
-			throw new RuntimeException("标签内部至少要加一个空格");
-		}
+        StringBuffer sb = new StringBuffer();
+        sb.append("<ul class=\"page-breadcrumb breadcrumb\"><li><a href=\"").append(env.getCustomAttribute("adminPath"))
+                .append(Globals.INDEX_URL)
+                .append("\">首页</a><i class=\"fa fa-circle\"></i></li>");
+        if (PublicUtil.isNotEmpty(currentItemList)) {
+            for (int i = 1; i < currentItemList.size(); i++) {
+                Module item = currentItemList.get(i);
+                sb.append("<li><a href=\"")
+                        .append(PublicUtil.isEmpty(item.getUrl()) ? "javascript:void(0)" : item.getUrl()).append("\">")
+                        .append(item.getName()).append("</a><i class=\"fa fa-circle\"></i></li>");
+            }
+            sb.append("<li><span class=\"active\">").append(currentItemList.get(0).getName()).append("</span></li>");
+        }
+        sb.append("</ul>");
+        out.write(sb.toString());
+        if (body != null) {
+            body.render(env.getOut());
+        } else
 
-	}
+        {
+            throw new RuntimeException("标签内部至少要加一个空格");
+        }
+
+    }
 
 }

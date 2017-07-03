@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
 public class MybatisOneToManyAssociation extends MybatisAssociation {
 
     protected JoinColumn joinColumn;
-    protected JoinTable  joinTable;
+    protected JoinTable joinTable;
 
     public MybatisOneToManyAssociation(MybatisPersistentProperty inverse, MybatisPersistentProperty obverse) {
         super(inverse, obverse);

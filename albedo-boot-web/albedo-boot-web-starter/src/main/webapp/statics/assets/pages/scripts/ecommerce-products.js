@@ -8,7 +8,7 @@ var EcommerceProducts = function () {
         });
     }
 
-    var handleProducts = function() {
+    var handleProducts = function () {
         var grid = new Datatable();
 
         grid.init({
@@ -41,7 +41,7 @@ var EcommerceProducts = function () {
             }
         });
 
-         // handle group actionsubmit button click
+        // handle group actionsubmit button click
         grid.getTableWrapper().on('click', '.table-group-action-submit', function (e) {
             e.preventDefault();
             var action = $(".table-group-action-input", grid.getTableWrapper());
@@ -78,13 +78,13 @@ var EcommerceProducts = function () {
 
             handleProducts();
             initPickers();
-            
+
         }
 
     };
 
 }();
 
-jQuery(document).ready(function() {    
-   EcommerceProducts.init();
+jQuery(document).ready(function () {
+    EcommerceProducts.init();
 });

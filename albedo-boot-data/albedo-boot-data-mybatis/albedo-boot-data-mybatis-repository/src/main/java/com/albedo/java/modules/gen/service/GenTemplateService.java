@@ -18,9 +18,9 @@ import java.util.List;
 public class GenTemplateService extends DataService<GenTableRepository, GenTable, String> {
 
 
-	@Transactional(readOnly=true)
-	public List<GenTable> findAll() {
-		return findAll(DynamicSpecifications.bySearchQueryCondition(QueryCondition.ne(GenTable.F_STATUS, GenTable.FLAG_DELETE)));
-	}
+    @Transactional(readOnly = true)
+    public List<GenTable> findAll() {
+        return findAll(DynamicSpecifications.bySearchQueryCondition(QueryCondition.ne(GenTable.F_STATUS, GenTable.FLAG_DELETE)));
+    }
 
 }

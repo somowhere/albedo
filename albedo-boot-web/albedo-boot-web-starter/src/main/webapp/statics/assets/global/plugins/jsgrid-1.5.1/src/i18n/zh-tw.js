@@ -1,4 +1,4 @@
-(function(jsGrid) {
+(function (jsGrid) {
 
     jsGrid.locales["zh-tw"] = {
         grid: {
@@ -32,14 +32,14 @@
         },
 
         validators: {
-            required: { message: "欄位必填" },
-            rangeLength: { message: "欄位字串長度超出範圍" },
-            minLength: { message: "欄位字串長度太短" },
-            maxLength: { message: "欄位字串長度太長" },
-            pattern: { message: "欄位字串不符合規則" },
-            range: { message: "欄位數值超出範圍" },
-            min: { message: "欄位數值太小" },
-            max: { message: "欄位數值太大" }
+            required: {message: "欄位必填"},
+            rangeLength: {message: "欄位字串長度超出範圍"},
+            minLength: {message: "欄位字串長度太短"},
+            maxLength: {message: "欄位字串長度太長"},
+            pattern: {message: "欄位字串不符合規則"},
+            range: {message: "欄位數值超出範圍"},
+            min: {message: "欄位數值太小"},
+            max: {message: "欄位數值太大"}
         }
     };
 

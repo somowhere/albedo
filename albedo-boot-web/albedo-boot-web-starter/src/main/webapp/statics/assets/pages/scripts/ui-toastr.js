@@ -116,6 +116,6 @@ var UIToastr = function () {
 
 }();
 
-jQuery(document).ready(function() {    
-   UIToastr.init();
+jQuery(document).ready(function () {
+    UIToastr.init();
 });

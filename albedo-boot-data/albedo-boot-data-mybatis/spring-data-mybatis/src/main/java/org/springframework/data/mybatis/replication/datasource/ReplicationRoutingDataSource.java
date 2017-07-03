@@ -19,13 +19,9 @@ import static org.springframework.util.Assert.notNull;
  */
 public class ReplicationRoutingDataSource extends AbstractRoutingDataSource {
     private final transient static Logger logger = LoggerFactory.getLogger(ReplicationRoutingDataSource.class);
-
-
-    private DatasourceSelectPolicy datasourceSelectPolicy;
-
-    private static ThreadLocal<Integer> FORCE_STATUS   = new ThreadLocal<Integer>();
+    private static ThreadLocal<Integer> FORCE_STATUS = new ThreadLocal<Integer>();
     private static ThreadLocal<Integer> STATEMENT_TYPE = new ThreadLocal<Integer>();
-
+    private DatasourceSelectPolicy datasourceSelectPolicy;
     private DataSource master;
     private List<DataSource> slaves = new ArrayList<DataSource>();
 
@@ -47,15 +43,6 @@ public class ReplicationRoutingDataSource extends AbstractRoutingDataSource {
             }
         }
         setTargetDataSources(dataSourceMap);
-    }
-
-    @Override
-    public void afterPropertiesSet() {
-        super.afterPropertiesSet();
-
-        if (null == datasourceSelectPolicy && !slaves.isEmpty()) {
-            datasourceSelectPolicy = new RoundRobinDatasourceSelectPolicy();
-        }
     }
 
     public static void forceMaster() {
@@ -80,6 +67,15 @@ public class ReplicationRoutingDataSource extends AbstractRoutingDataSource {
             STATEMENT_TYPE.set(1);
         } else {
             STATEMENT_TYPE.set(2);
+        }
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        super.afterPropertiesSet();
+
+        if (null == datasourceSelectPolicy && !slaves.isEmpty()) {
+            datasourceSelectPolicy = new RoundRobinDatasourceSelectPolicy();
         }
     }
 

@@ -101,7 +101,7 @@ var TableDatatablesEditable = function () {
                     oTable.fnDeleteRow(nEditing); // cancel
                     nEditing = null;
                     nNew = false;
-                    
+
                     return;
                 }
             }
@@ -172,6 +172,6 @@ var TableDatatablesEditable = function () {
 
 }();
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     TableDatatablesEditable.init();
 });

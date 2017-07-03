@@ -1,10 +1,9 @@
 describe 'Morris.Area', ->
-
   describe 'svg structure', ->
     defaults =
       element: 'graph'
       data: [{x: '2012 Q1', y: 1}, {x: '2012 Q2', y: 1}]
-      lineColors: [ '#0b62a4', '#7a92a3']
+      lineColors: ['#0b62a4', '#7a92a3']
       gridLineColor: '#aaa'
       xkey: 'x'
       ykeys: ['y']
@@ -33,7 +32,7 @@ describe 'Morris.Area', ->
       xkey: 'x'
       ykeys: ['y']
       labels: ['Y']
-      lineColors: [ '#0b62a4', '#7a92a3']
+      lineColors: ['#0b62a4', '#7a92a3']
       lineWidth: 3
       pointWidths: [5]
       pointStrokeColors: ['#ffffff']

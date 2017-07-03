@@ -55,6 +55,7 @@ define('echarts/chart/wordCloud', [
         ChartBase.call(this, ecTheme, messageCenter, zr, option, myChart);
         this.refresh(option);
     }
+
     Cloud.prototype = {
         type: ecConfig.CHART_TYPE_WORDCLOUD,
         refresh: function (newOption) {
@@ -90,7 +91,7 @@ define('echarts/chart/wordCloud', [
             var center = this.parseCenter(this.zr, serie.center);
             var layoutConfig = {
                 size: size,
-                wordletype: { autoSizeCal: serie.autoSize },
+                wordletype: {autoSizeCal: serie.autoSize},
                 center: center,
                 rotate: serie.textRotation,
                 padding: serie.textPadding,
@@ -174,16 +175,19 @@ define('echarts/chart/wordCloud', [
     zrUtil.inherits(Cloud, ChartBase);
     require('../chart').define('wordCloud', Cloud);
     return Cloud;
-});define('echarts/layout/WordCloud', [
+});
+define('echarts/layout/WordCloud', [
     'require',
     '../layout/WordCloudRectZero',
     'zrender/tool/util'
 ], function (require) {
     var ZeroArray = require('../layout/WordCloudRectZero');
     var zrUtil = require('zrender/tool/util');
+
     function CloudLayout(option) {
         this._init(option);
     }
+
     CloudLayout.prototype = {
         start: function () {
             var board = null;
@@ -223,6 +227,7 @@ define('echarts/chart/wordCloud', [
                 dfop.timer = setInterval(step, 0);
                 step();
             }
+
             function step() {
                 var start = +new Date();
                 var n = data.length;
@@ -306,26 +311,33 @@ define('echarts/chart/wordCloud', [
             function cloudText(d) {
                 return d.name;
             }
+
             function cloudFont() {
                 return 'sans-serif';
             }
+
             function cloudFontNormal() {
                 return 'normal';
             }
+
             function cloudFontSize(d) {
                 return d.value;
             }
+
             function cloudRotate() {
                 return 0;
             }
+
             function newCloudRotate(rotate) {
                 return function () {
                     return rotate[Math.round(Math.random() * (rotate.length - 1))];
                 };
             }
+
             function cloudPadding() {
                 return 0;
             }
+
             function archimedeanSpiral(size) {
                 var e = size[0] / size[1];
                 return function (t) {
@@ -335,6 +347,7 @@ define('echarts/chart/wordCloud', [
                     ];
                 };
             }
+
             function rectangularSpiral(size) {
                 var dy = 4;
                 var dx = dy * size[0] / size[1];
@@ -343,18 +356,18 @@ define('echarts/chart/wordCloud', [
                 return function (t) {
                     var sign = t < 0 ? -1 : 1;
                     switch (Math.sqrt(1 + 4 * sign * t) - sign & 3) {
-                    case 0:
-                        x += dx;
-                        break;
-                    case 1:
-                        y += dy;
-                        break;
-                    case 2:
-                        x -= dx;
-                        break;
-                    default:
-                        y -= dy;
-                        break;
+                        case 0:
+                            x += dx;
+                            break;
+                        case 1:
+                            y += dy;
+                            break;
+                        case 2:
+                            x -= dx;
+                            break;
+                        default:
+                            y -= dy;
+                            break;
                     }
                     return [
                         x,
@@ -362,6 +375,7 @@ define('echarts/chart/wordCloud', [
                     ];
                 };
             }
+
             function functor(v) {
                 return typeof v === 'function' ? v : function () {
                     return v;
@@ -371,9 +385,9 @@ define('echarts/chart/wordCloud', [
         _initProperty: function (option) {
             var dfop = this.defaultOption;
             dfop.size = option.size || [
-                256,
-                256
-            ];
+                    256,
+                    256
+                ];
             dfop.wordletype = option.wordletype;
             dfop.words = option.words || [];
             dfop.timeInterval = Infinity;
@@ -604,6 +618,7 @@ define('echarts/chart/wordCloud', [
                 }
                 return false;
             }
+
             function collideRects(a, maxBounds) {
                 return maxBounds.row[a.y] && maxBounds.cloumn[a.x] && a.x >= maxBounds.row[a.y].start && a.x <= maxBounds.row[a.y].end && a.y >= maxBounds.cloumn[a.x].start && a.y <= maxBounds.cloumn[a.x].end;
             }
@@ -672,6 +687,7 @@ define('echarts/chart/wordCloud', [
                 }
                 return measureTextWitHitByarea(d);
             }
+
             function sum(dts, callback) {
                 var j = dts.length;
                 var ressum = 0;
@@ -683,7 +699,8 @@ define('echarts/chart/wordCloud', [
         }
     };
     return CloudLayout;
-});define('echarts/component/dataRange', [
+});
+define('echarts/component/dataRange', [
     'require',
     './base',
     'zrender/shape/Text',
@@ -726,12 +743,13 @@ define('echarts/chart/wordCloud', [
             '#006edd',
             '#e0ffff'
         ],
-        textStyle: { color: '#333' }
+        textStyle: {color: '#333'}
     };
     var zrUtil = require('zrender/tool/util');
     var zrEvent = require('zrender/tool/event');
     var zrArea = require('zrender/tool/area');
     var zrColor = require('zrender/tool/color');
+
     function DataRange(ecTheme, messageCenter, zr, option, myChart) {
         Base.call(this, ecTheme, messageCenter, zr, option, myChart);
         var self = this;
@@ -755,6 +773,7 @@ define('echarts/chart/wordCloud', [
         this.refresh(option);
         messageCenter.bind(ecConfig.EVENT.HOVER, this._onhoverlink);
     }
+
     DataRange.prototype = {
         type: ecConfig.COMPONENT_TYPE_DATARANGE,
         _textGap: 10,
@@ -828,7 +847,7 @@ define('echarts/chart/wordCloud', [
                             textFont: font,
                             textBaseline: 'top'
                         },
-                        highlightStyle: { brushType: 'fill' }
+                        highlightStyle: {brushType: 'fill'}
                     };
                     if (this.dataRangeOption.orient == 'vertical' && this.dataRangeOption.x == 'right') {
                         textShape.style.x -= itemWidth + 10;
@@ -1475,36 +1494,36 @@ define('echarts/chart/wordCloud', [
             var x;
             var zrWidth = this.zr.getWidth();
             switch (this.dataRangeOption.x) {
-            case 'center':
-                x = Math.floor((zrWidth - totalWidth) / 2);
-                break;
-            case 'left':
-                x = padding[3] + this.dataRangeOption.borderWidth;
-                break;
-            case 'right':
-                x = zrWidth - totalWidth - padding[1] - this.dataRangeOption.borderWidth;
-                break;
-            default:
-                x = this.parsePercent(this.dataRangeOption.x, zrWidth);
-                x = isNaN(x) ? 0 : x;
-                break;
+                case 'center':
+                    x = Math.floor((zrWidth - totalWidth) / 2);
+                    break;
+                case 'left':
+                    x = padding[3] + this.dataRangeOption.borderWidth;
+                    break;
+                case 'right':
+                    x = zrWidth - totalWidth - padding[1] - this.dataRangeOption.borderWidth;
+                    break;
+                default:
+                    x = this.parsePercent(this.dataRangeOption.x, zrWidth);
+                    x = isNaN(x) ? 0 : x;
+                    break;
             }
             var y;
             var zrHeight = this.zr.getHeight();
             switch (this.dataRangeOption.y) {
-            case 'top':
-                y = padding[0] + this.dataRangeOption.borderWidth;
-                break;
-            case 'bottom':
-                y = zrHeight - totalHeight - padding[2] - this.dataRangeOption.borderWidth;
-                break;
-            case 'center':
-                y = Math.floor((zrHeight - totalHeight) / 2);
-                break;
-            default:
-                y = this.parsePercent(this.dataRangeOption.y, zrHeight);
-                y = isNaN(y) ? 0 : y;
-                break;
+                case 'top':
+                    y = padding[0] + this.dataRangeOption.borderWidth;
+                    break;
+                case 'bottom':
+                    y = zrHeight - totalHeight - padding[2] - this.dataRangeOption.borderWidth;
+                    break;
+                case 'center':
+                    y = Math.floor((zrHeight - totalHeight) / 2);
+                    break;
+                default:
+                    y = this.parsePercent(this.dataRangeOption.y, zrHeight);
+                    y = isNaN(y) ? 0 : y;
+                    break;
             }
             if (this.dataRangeOption.calculable) {
                 var handlerWidth = Math.max(zrArea.getTextWidth(this.dataRangeOption.max, font), zrArea.getTextWidth(this.dataRangeOption.min, font)) + textHeight;
@@ -2010,11 +2029,13 @@ define('echarts/chart/wordCloud', [
     zrUtil.inherits(DataRange, Base);
     require('../component').define('dataRange', DataRange);
     return DataRange;
-});define('echarts/layout/WordCloudRectZero', ['require'], function (require) {
+});
+define('echarts/layout/WordCloudRectZero', ['require'], function (require) {
     function ZeroArray(option) {
-        this.defaultOption = { type: 'RECT' };
+        this.defaultOption = {type: 'RECT'};
         this._init(option);
     }
+
     ZeroArray.prototype = {
         RECT: '_calculateRect',
         _init: function (option) {
@@ -2086,7 +2107,8 @@ define('echarts/chart/wordCloud', [
         }
     };
     return ZeroArray;
-});define('echarts/util/shape/HandlePolygon', [
+});
+define('echarts/util/shape/HandlePolygon', [
     'require',
     'zrender/shape/Base',
     'zrender/shape/Polygon',
@@ -2095,9 +2117,11 @@ define('echarts/chart/wordCloud', [
     var Base = require('zrender/shape/Base');
     var PolygonShape = require('zrender/shape/Polygon');
     var zrUtil = require('zrender/tool/util');
+
     function HandlePolygon(options) {
         Base.call(this, options);
     }
+
     HandlePolygon.prototype = {
         type: 'handle-polygon',
         buildPath: function (ctx, style) {

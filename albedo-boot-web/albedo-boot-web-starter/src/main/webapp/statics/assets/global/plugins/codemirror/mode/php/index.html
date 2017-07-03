@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: PHP mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel="stylesheet" href="../../lib/codemirror.css">
 <script src="../../lib/codemirror.js"></script>
@@ -25,16 +25,16 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">PHP</a>
+        <li>
+            <a class=active href="#">PHP</a>
     </ul>
 </div>
 <article>
@@ -59,16 +59,17 @@ function hello($who) {
     </form>
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById("code"),
-        {
-            lineNumbers: true,
-            matchBrackets: true,
-            mode: "application/x-httpd-php",
-            indentUnit: 4,
-            indentWithTabs: true
-        });
+            {
+                lineNumbers: true,
+                matchBrackets: true,
+                mode: "application/x-httpd-php",
+                indentUnit: 4,
+                indentWithTabs: true
+            });
     </script>
     <p>Simple HTML/PHP mode based on the
         <a href="../clike/">C-like</a> mode. Depends on XML, JavaScript, CSS, HTMLMixed, and C-like modes.</p>
     <p>
-        <strong>MIME types defined:</strong> <code>application/x-httpd-php</code> (HTML with PHP code), <code>text/x-php</code> (plain, non-wrapped PHP code).</p>
+        <strong>MIME types defined:</strong> <code>application/x-httpd-php</code> (HTML with PHP code),
+        <code>text/x-php</code> (plain, non-wrapped PHP code).</p>
 </article>

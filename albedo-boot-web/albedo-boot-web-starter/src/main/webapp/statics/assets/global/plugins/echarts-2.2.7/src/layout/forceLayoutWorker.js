@@ -9,38 +9,38 @@ define(function __echartsForceLayoutWorker(require) {
     var inWorker = typeof(window) === 'undefined' && typeof(require) === 'undefined';
     if (inWorker) {
         vec2 = {
-            create: function(x, y) {
+            create: function (x, y) {
                 var out = new Float32Array(2);
                 out[0] = x || 0;
                 out[1] = y || 0;
                 return out;
             },
-            dist: function(a, b) {
+            dist: function (a, b) {
                 var x = b[0] - a[0];
                 var y = b[1] - a[1];
-                return Math.sqrt(x*x + y*y);
+                return Math.sqrt(x * x + y * y);
             },
-            len: function(a) {
+            len: function (a) {
                 var x = a[0];
                 var y = a[1];
-                return Math.sqrt(x*x + y*y);
+                return Math.sqrt(x * x + y * y);
             },
-            scaleAndAdd: function(out, a, b, scale) {
+            scaleAndAdd: function (out, a, b, scale) {
                 out[0] = a[0] + b[0] * scale;
                 out[1] = a[1] + b[1] * scale;
                 return out;
             },
-            scale: function(out, a, b) {
+            scale: function (out, a, b) {
                 out[0] = a[0] * b;
                 out[1] = a[1] * b;
                 return out;
             },
-            add: function(out, a, b) {
+            add: function (out, a, b) {
                 out[0] = a[0] + b[0];
                 out[1] = a[1] + b[1];
                 return out;
             },
-            sub: function(out, a, b) {
+            sub: function (out, a, b) {
                 out[0] = a[0] - b[0];
                 out[1] = a[1] - b[1];
                 return out;
@@ -48,10 +48,10 @@ define(function __echartsForceLayoutWorker(require) {
             dot: function (v1, v2) {
                 return v1[0] * v2[0] + v1[1] * v2[1];
             },
-            normalize: function(out, a) {
+            normalize: function (out, a) {
                 var x = a[0];
                 var y = a[1];
-                var len = x*x + y*y;
+                var len = x * x + y * y;
                 if (len > 0) {
                     //TODO: evaluate use of glm_invsqrt here?
                     len = 1 / Math.sqrt(len);
@@ -60,17 +60,17 @@ define(function __echartsForceLayoutWorker(require) {
                 }
                 return out;
             },
-            negate: function(out, a) {
+            negate: function (out, a) {
                 out[0] = -a[0];
                 out[1] = -a[1];
                 return out;
             },
-            copy: function(out, a) {
+            copy: function (out, a) {
                 out[0] = a[0];
                 out[1] = a[1];
                 return out;
             },
-            set: function(out, x, y) {
+            set: function (out, x, y) {
                 out[0] = x;
                 out[1] = y;
                 return out;
@@ -104,7 +104,7 @@ define(function __echartsForceLayoutWorker(require) {
     }
 
     // Reset before update
-    Region.prototype.beforeUpdate = function() {
+    Region.prototype.beforeUpdate = function () {
         for (var i = 0; i < this.nSubRegions; i++) {
             this.subRegions[i].beforeUpdate();
         }
@@ -117,14 +117,14 @@ define(function __echartsForceLayoutWorker(require) {
         this.node = null;
     };
     // Clear after update
-    Region.prototype.afterUpdate = function() {
+    Region.prototype.afterUpdate = function () {
         this.subRegions.length = this.nSubRegions;
         for (var i = 0; i < this.nSubRegions; i++) {
             this.subRegions[i].afterUpdate();
         }
     };
 
-    Region.prototype.addNode = function(node) {
+    Region.prototype.addNode = function (node) {
         if (this.nSubRegions === 0) {
             if (this.node == null) {
                 this.node = node;
@@ -140,7 +140,7 @@ define(function __echartsForceLayoutWorker(require) {
         this._updateCenterOfMass(node);
     };
 
-    Region.prototype.findSubRegion = function(x, y) {
+    Region.prototype.findSubRegion = function (x, y) {
         for (var i = 0; i < this.nSubRegions; i++) {
             var region = this.subRegions[i];
             if (region.contain(x, y)) {
@@ -149,14 +149,14 @@ define(function __echartsForceLayoutWorker(require) {
         }
     };
 
-    Region.prototype.contain = function(x, y) {
+    Region.prototype.contain = function (x, y) {
         return this.bbox[0] <= x
             && this.bbox[2] >= x
             && this.bbox[1] <= y
             && this.bbox[3] >= y;
     };
 
-    Region.prototype.setBBox = function(minX, minY, maxX, maxY) {
+    Region.prototype.setBBox = function (minX, minY, maxX, maxY) {
         // Min
         this.bbox[0] = minX;
         this.bbox[1] = minY;
@@ -167,7 +167,7 @@ define(function __echartsForceLayoutWorker(require) {
         this.size = (maxX - minX + maxY - minY) / 2;
     };
 
-    Region.prototype._newSubRegion = function() {
+    Region.prototype._newSubRegion = function () {
         var subRegion = this.subRegions[this.nSubRegions];
         if (!subRegion) {
             subRegion = new Region();
@@ -177,7 +177,7 @@ define(function __echartsForceLayoutWorker(require) {
         return subRegion;
     };
 
-    Region.prototype._addNodeToSubRegion = function(node) {
+    Region.prototype._addNodeToSubRegion = function (node) {
         var subRegion = this.findSubRegion(node.position[0], node.position[1]);
         var bbox = this.bbox;
         if (!subRegion) {
@@ -185,7 +185,7 @@ define(function __echartsForceLayoutWorker(require) {
             var cy = (bbox[1] + bbox[3]) / 2;
             var w = (bbox[2] - bbox[0]) / 2;
             var h = (bbox[3] - bbox[1]) / 2;
-            
+
             var xi = node.position[0] >= cx ? 1 : 0;
             var yi = node.position[1] >= cy ? 1 : 0;
 
@@ -204,7 +204,7 @@ define(function __echartsForceLayoutWorker(require) {
         subRegion.addNode(node);
     };
 
-    Region.prototype._updateCenterOfMass = function(node) {
+    Region.prototype._updateCenterOfMass = function (node) {
         // Incrementally update
         if (this.centerOfMass == null) {
             this.centerOfMass = vec2.create();
@@ -301,7 +301,7 @@ define(function __echartsForceLayoutWorker(require) {
         return w * d / k;
     };
 
-    ForceLayout.prototype.initNodes = function(positionArr, massArr, sizeArr) {
+    ForceLayout.prototype.initNodes = function (positionArr, massArr, sizeArr) {
 
         this.temperature = 1.0;
 
@@ -326,7 +326,7 @@ define(function __echartsForceLayoutWorker(require) {
         }
     };
 
-    ForceLayout.prototype.initEdges = function(edgeArr, edgeWeightArr) {
+    ForceLayout.prototype.initEdges = function (edgeArr, edgeWeightArr) {
         var nEdges = edgeArr.length / 2;
         this.edges.length = 0;
         var edgeHaveWeight = typeof(edgeWeightArr) !== 'undefined';
@@ -352,7 +352,7 @@ define(function __echartsForceLayoutWorker(require) {
         }
     };
 
-    ForceLayout.prototype.update = function() {
+    ForceLayout.prototype.update = function () {
 
         var nNodes = this.nodes.length;
 
@@ -499,7 +499,7 @@ define(function __echartsForceLayoutWorker(require) {
         }
     };
 
-    ForceLayout.prototype.applyRegionToNodeRepulsion = (function() {
+    ForceLayout.prototype.applyRegionToNodeRepulsion = (function () {
         var v = vec2.create();
         return function applyRegionToNodeRepulsion(region, node) {
             if (region.node) { // Region is a leaf 
@@ -525,7 +525,7 @@ define(function __echartsForceLayoutWorker(require) {
         };
     })();
 
-    ForceLayout.prototype.applyNodeToNodeRepulsion = (function() {
+    ForceLayout.prototype.applyNodeToNodeRepulsion = (function () {
         var v = vec2.create();
         return function applyNodeToNodeRepulsion(na, nb, oneWay) {
             if (na === nb) {
@@ -535,7 +535,7 @@ define(function __echartsForceLayoutWorker(require) {
             if (na.mass === 0 && nb.mass === 0) {
                 return;
             }
-            
+
             vec2.sub(v, na.position, nb.position);
             var d2 = v[0] * v[0] + v[1] * v[1];
 
@@ -576,7 +576,7 @@ define(function __echartsForceLayoutWorker(require) {
         };
     })();
 
-    ForceLayout.prototype.applyEdgeAttraction = (function() {
+    ForceLayout.prototype.applyEdgeAttraction = (function () {
         var v = vec2.create();
         return function applyEdgeAttraction(edge) {
             var na = edge.node1;
@@ -613,9 +613,9 @@ define(function __echartsForceLayoutWorker(require) {
         };
     })();
 
-    ForceLayout.prototype.applyNodeGravity = (function() {
+    ForceLayout.prototype.applyNodeGravity = (function () {
         var v = vec2.create();
-        return function(node) {
+        return function (node) {
             // PENDING Move to centerOfMass or [0, 0] ?
             // vec2.sub(v, this._rootRegion.centerOfMass, node.position);
             // vec2.negate(v, node.position);
@@ -629,7 +629,7 @@ define(function __echartsForceLayoutWorker(require) {
                 v[0] *= this.height / this.width;
             }
             var d = vec2.len(v) / 100;
-            
+
             if (this.strongGravity) {
                 vec2.scaleAndAdd(node.force, node.force, v, d * this.gravity * node.mass);
             }
@@ -682,7 +682,7 @@ define(function __echartsForceLayoutWorker(require) {
         };
     })();
 
-    ForceLayout.prototype.updateBBox = function() {
+    ForceLayout.prototype.updateBBox = function () {
         var minX = Infinity;
         var minY = Infinity;
         var maxX = -Infinity;
@@ -700,7 +700,7 @@ define(function __echartsForceLayoutWorker(require) {
         this.bbox[3] = maxY;
     };
 
-    ForceLayout.getWorkerCode = function() {
+    ForceLayout.getWorkerCode = function () {
         var str = __echartsForceLayoutWorker.toString();
         return str.slice(str.indexOf('{') + 1, str.lastIndexOf('return'));
     };
@@ -712,8 +712,8 @@ define(function __echartsForceLayoutWorker(require) {
     /* jshint ignore:start */
     if (inWorker) {
         var forceLayout = null;
-        
-        self.onmessage = function(e) {
+
+        self.onmessage = function (e) {
             // Position read back
             if (e.data instanceof ArrayBuffer) {
                 if (!forceLayout) return;
@@ -728,7 +728,7 @@ define(function __echartsForceLayoutWorker(require) {
                 return;
             }
 
-            switch(e.data.cmd) {
+            switch (e.data.cmd) {
                 case 'init':
                     if (!forceLayout) {
                         forceLayout = new ForceLayout();

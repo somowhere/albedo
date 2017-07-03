@@ -11,7 +11,7 @@ SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
 
     setScopes: function (name, val) {
         var auth = _.extend({}, this.attributes);
-        var index = _.findIndex(auth.scopes, function(o) {
+        var index = _.findIndex(auth.scopes, function (o) {
             return o.scope === name;
         });
         auth.scopes[index].checked = val;
@@ -21,22 +21,22 @@ SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
     },
 
     validate: function () {
-      var valid = false;
-      var scp = this.get('scopes');
-      var idx =  _.findIndex(scp, function (o) {
-         return o.checked === true;
-      });
+        var valid = false;
+        var scp = this.get('scopes');
+        var idx = _.findIndex(scp, function (o) {
+            return o.checked === true;
+        });
 
-      if(scp.length > 0 && idx >= 0) {
-          valid = true;
-      }
+        if (scp.length > 0 && idx >= 0) {
+            valid = true;
+        }
 
-      if(scp.length === 0) {
-          valid = true;
-      }
+        if (scp.length === 0) {
+            valid = true;
+        }
 
-      this.set('valid', valid);
+        this.set('valid', valid);
 
-      return valid;
+        return valid;
     }
 });

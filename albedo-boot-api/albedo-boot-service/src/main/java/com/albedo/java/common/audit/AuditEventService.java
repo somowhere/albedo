@@ -26,8 +26,8 @@ public class AuditEventService {
     private AuditEventConverter auditEventConverter;
 
     public AuditEventService(
-        PersistenceAuditEventRepository persistenceAuditEventRepository,
-        AuditEventConverter auditEventConverter) {
+            PersistenceAuditEventRepository persistenceAuditEventRepository,
+            AuditEventConverter auditEventConverter) {
 
         this.persistenceAuditEventRepository = persistenceAuditEventRepository;
         this.auditEventConverter = auditEventConverter;
@@ -35,16 +35,16 @@ public class AuditEventService {
 
     public Page<AuditEvent> findAll(Pageable pageable) {
         return persistenceAuditEventRepository.findAll(pageable)
-            .map(persistentAuditEvents -> auditEventConverter.convertToAuditEvent(persistentAuditEvents));
+                .map(persistentAuditEvents -> auditEventConverter.convertToAuditEvent(persistentAuditEvents));
     }
 
     public Page<AuditEvent> findByDates(LocalDateTime fromDate, LocalDateTime toDate, Pageable pageable) {
         return persistenceAuditEventRepository.findAllByAuditEventDateBetween(fromDate, toDate, pageable)
-            .map(persistentAuditEvents -> auditEventConverter.convertToAuditEvent(persistentAuditEvents));
+                .map(persistentAuditEvents -> auditEventConverter.convertToAuditEvent(persistentAuditEvents));
     }
 
     public Optional<AuditEvent> find(Long id) {
         return Optional.ofNullable(persistenceAuditEventRepository.findOne(id)).map
-            (auditEventConverter::convertToAuditEvent);
+                (auditEventConverter::convertToAuditEvent);
     }
 }

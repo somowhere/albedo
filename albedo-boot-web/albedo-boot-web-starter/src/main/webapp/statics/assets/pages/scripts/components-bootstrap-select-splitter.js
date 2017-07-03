@@ -1,6 +1,6 @@
-var ComponentsBootstrapSelectSplitter = function() {
+var ComponentsBootstrapSelectSplitter = function () {
 
-    var selectSplitter = function() {
+    var selectSplitter = function () {
         $('#select_selectsplitter1').selectsplitter({
             selectSize: 4
         });
@@ -14,13 +14,13 @@ var ComponentsBootstrapSelectSplitter = function() {
 
     return {
         //main function to initiate the module
-        init: function() {
+        init: function () {
             selectSplitter();
         }
     };
 
 }();
 
-jQuery(document).ready(function() {    
-   ComponentsBootstrapSelectSplitter.init(); 
+jQuery(document).ready(function () {
+    ComponentsBootstrapSelectSplitter.init();
 });

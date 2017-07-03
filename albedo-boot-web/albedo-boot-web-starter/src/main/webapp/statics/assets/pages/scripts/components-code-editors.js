@@ -1,12 +1,12 @@
 var ComponentsCodeEditors = function () {
-    
+
     var handleDemo1 = function () {
         var myTextArea = document.getElementById('code_editor_demo_1');
         var myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
             lineNumbers: true,
             matchBrackets: true,
             styleActiveLine: true,
-            theme:"ambiance",
+            theme: "ambiance",
             mode: 'javascript'
         });
     }
@@ -17,7 +17,7 @@ var ComponentsCodeEditors = function () {
             lineNumbers: true,
             matchBrackets: true,
             styleActiveLine: true,
-            theme:"material",
+            theme: "material",
             mode: 'css'
         });
     }
@@ -28,7 +28,7 @@ var ComponentsCodeEditors = function () {
             lineNumbers: true,
             matchBrackets: true,
             styleActiveLine: true,
-            theme:"neat",
+            theme: "neat",
             mode: 'javascript',
             readOnly: true
         });
@@ -40,7 +40,7 @@ var ComponentsCodeEditors = function () {
             lineNumbers: true,
             matchBrackets: true,
             styleActiveLine: true,
-            theme:"neo",
+            theme: "neo",
             mode: 'css',
             readOnly: true
         });
@@ -59,6 +59,6 @@ var ComponentsCodeEditors = function () {
 
 }();
 
-jQuery(document).ready(function() {    
-   ComponentsCodeEditors.init(); 
+jQuery(document).ready(function () {
+    ComponentsCodeEditors.init();
 });

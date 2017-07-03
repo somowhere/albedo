@@ -18,9 +18,9 @@ public class AjaxAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-        AuthenticationException exception) throws IOException, ServletException {
-    	String useruame = request.getParameter("a_username");
-    	LoginResource.isValidateCodeLogin(useruame, true, false);
+                                        AuthenticationException exception) throws IOException, ServletException {
+        String useruame = request.getParameter("a_username");
+        LoginResource.isValidateCodeLogin(useruame, true, false);
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication failed");
     }
 }

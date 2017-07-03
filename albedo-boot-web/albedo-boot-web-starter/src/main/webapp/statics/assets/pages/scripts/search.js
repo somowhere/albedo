@@ -3,7 +3,7 @@ var Search = function () {
     return {
         //main function to initiate the module
         init: function () {
-           	$('.date-picker').datepicker({
+            $('.date-picker').datepicker({
                 rtl: App.isRTL(),
                 orientation: "left",
                 autoclose: true
@@ -14,6 +14,6 @@ var Search = function () {
 
 }();
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     Search.init();
 })

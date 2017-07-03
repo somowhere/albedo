@@ -1,59 +1,59 @@
 /* Flot plugin for stacking data sets rather than overlyaing them.
 
-Copyright (c) 2007-2014 IOLA and Ole Laursen.
-Licensed under the MIT license.
+ Copyright (c) 2007-2014 IOLA and Ole Laursen.
+ Licensed under the MIT license.
 
-The plugin assumes the data is sorted on x (or y if stacking horizontally).
-For line charts, it is assumed that if a line has an undefined gap (from a
-null point), then the line above it should have the same gap - insert zeros
-instead of "null" if you want another behaviour. This also holds for the start
-and end of the chart. Note that stacking a mix of positive and negative values
-in most instances doesn't make sense (so it looks weird).
+ The plugin assumes the data is sorted on x (or y if stacking horizontally).
+ For line charts, it is assumed that if a line has an undefined gap (from a
+ null point), then the line above it should have the same gap - insert zeros
+ instead of "null" if you want another behaviour. This also holds for the start
+ and end of the chart. Note that stacking a mix of positive and negative values
+ in most instances doesn't make sense (so it looks weird).
 
-Two or more series are stacked when their "stack" attribute is set to the same
-key (which can be any number or string or just "true"). To specify the default
-stack, you can set the stack option like this:
+ Two or more series are stacked when their "stack" attribute is set to the same
+ key (which can be any number or string or just "true"). To specify the default
+ stack, you can set the stack option like this:
 
-	series: {
-		stack: null/false, true, or a key (number/string)
-	}
+ series: {
+ stack: null/false, true, or a key (number/string)
+ }
 
-You can also specify it for a single series, like this:
+ You can also specify it for a single series, like this:
 
-	$.plot( $("#placeholder"), [{
-		data: [ ... ],
-		stack: true
-	}])
+ $.plot( $("#placeholder"), [{
+ data: [ ... ],
+ stack: true
+ }])
 
-The stacking order is determined by the order of the data series in the array
-(later series end up on top of the previous).
+ The stacking order is determined by the order of the data series in the array
+ (later series end up on top of the previous).
 
-Internally, the plugin modifies the datapoints in each series, adding an
-offset to the y value. For line series, extra data points are inserted through
-interpolation. If there's a second y value, it's also adjusted (e.g for bar
-charts or filled areas).
+ Internally, the plugin modifies the datapoints in each series, adding an
+ offset to the y value. For line series, extra data points are inserted through
+ interpolation. If there's a second y value, it's also adjusted (e.g for bar
+ charts or filled areas).
 
-*/
+ */
 
 (function ($) {
     var options = {
-        series: { stack: null } // or number/string
+        series: {stack: null} // or number/string
     };
-    
+
     function init(plot) {
         function findMatchingSeries(s, allseries) {
             var res = null;
             for (var i = 0; i < allseries.length; ++i) {
                 if (s == allseries[i])
                     break;
-                
+
                 if (allseries[i].stack == s.stack)
                     res = allseries[i];
             }
-            
+
             return res;
         }
-        
+
         function stackData(plot, s, datapoints) {
             if (s.stack == null || s.stack === false)
                 return;
@@ -118,7 +118,7 @@ charts or filled areas).
 
                         newpoints[l + accumulateOffset] += qy;
                         bottom = qy;
-                        
+
                         i += ps;
                         j += otherps;
                     }
@@ -131,7 +131,7 @@ charts or filled areas).
                             newpoints.push(intery + qy);
                             for (m = 2; m < ps; ++m)
                                 newpoints.push(points[i + m]);
-                            bottom = qy; 
+                            bottom = qy;
                         }
 
                         j += otherps;
@@ -142,22 +142,22 @@ charts or filled areas).
                             i += ps;
                             continue;
                         }
-                            
+
                         for (m = 0; m < ps; ++m)
                             newpoints.push(points[i + m]);
-                        
+
                         // we might be able to interpolate a point below,
                         // this can give us a better y
                         if (withlines && j > 0 && otherpoints[j - otherps] != null)
                             bottom = qy + (otherpoints[j - otherps + accumulateOffset] - qy) * (px - qx) / (otherpoints[j - otherps + keyOffset] - qx);
 
                         newpoints[l + accumulateOffset] += bottom;
-                        
+
                         i += ps;
                     }
 
                     fromgap = false;
-                    
+
                     if (l != newpoints.length && withbottom)
                         newpoints[l + 2] += bottom;
                 }
@@ -175,10 +175,10 @@ charts or filled areas).
 
             datapoints.points = newpoints;
         }
-        
+
         plot.hooks.processDatapoints.push(stackData);
     }
-    
+
     $.plot.plugins.push({
         init: init,
         options: options,

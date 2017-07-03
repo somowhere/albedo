@@ -53,8 +53,8 @@ define('echarts/chart/funnel', [
             emphasis: {
                 borderColor: 'rgba(0,0,0,0)',
                 borderWidth: 1,
-                label: { show: true },
-                labelLine: { show: true }
+                label: {show: true},
+                labelLine: {show: true}
             }
         }
     };
@@ -63,10 +63,12 @@ define('echarts/chart/funnel', [
     var zrUtil = require('zrender/tool/util');
     var zrColor = require('zrender/tool/color');
     var zrArea = require('zrender/tool/area');
+
     function Funnel(ecTheme, messageCenter, zr, option, myChart) {
         ChartBase.call(this, ecTheme, messageCenter, zr, option, myChart);
         this.refresh(option);
     }
+
     Funnel.prototype = {
         type: ecConfig.CHART_TYPE_FUNNEL,
         _buildShape: function () {
@@ -132,14 +134,14 @@ define('echarts/chart/funnel', [
                 if (this.selectedMap[itemName] && !isNaN(selectedData[i].value)) {
                     width = i <= l - 2 ? this._getItemWidth(seriesIndex, selectedData[i + next].value) : serie.sort === 'descending' ? number.parsePercent(serie.minSize, location.width) : number.parsePercent(serie.maxSize, location.width);
                     switch (align) {
-                    case 'left':
-                        x = location.x;
-                        break;
-                    case 'right':
-                        x = location.x + location.width - lastWidth;
-                        break;
-                    default:
-                        x = centerX - lastWidth / 2;
+                        case 'left':
+                            x = location.x;
+                            break;
+                        case 'right':
+                            x = location.x + location.width - lastWidth;
+                            break;
+                        default:
+                            x = centerX - lastWidth / 2;
                     }
                     polygon = this._buildItem(seriesIndex, selectedData[i]._index, legend ? legend.getColor(itemName) : this.zr.getColor(selectedData[i]._index), x, lastY, lastWidth, width, height, align);
                     lastY += height + gap;
@@ -260,9 +262,11 @@ define('echarts/chart/funnel', [
                 }
                 return b.value - a.value;
             }
+
             function numAscending(a, b) {
                 return -numDescending(a, b);
             }
+
             if (serie.sort != 'none') {
                 funnelData.sort(serie.sort === 'descending' ? numDescending : numAscending);
             }
@@ -322,15 +326,15 @@ define('echarts/chart/funnel', [
             var emphasisColor = this.getItemStyleColor(emphasis.color, seriesIndex, dataIndex, data) || (typeof normalColor === 'string' ? zrColor.lift(normalColor, -0.2) : normalColor);
             var xLB;
             switch (align) {
-            case 'left':
-                xLB = xLT;
-                break;
-            case 'right':
-                xLB = xLT + (topWidth - bottomWidth);
-                break;
-            default:
-                xLB = xLT + (topWidth - bottomWidth) / 2;
-                break;
+                case 'left':
+                    xLB = xLT;
+                    break;
+                case 'right':
+                    xLB = xLT + (topWidth - bottomWidth);
+                    break;
+                default:
+                    xLB = xLT + (topWidth - bottomWidth) / 2;
+                    break;
             }
             var polygon = {
                 zlevel: serie.zlevel,
@@ -506,21 +510,21 @@ define('echarts/chart/funnel', [
         _getLabelPoint: function (position, x, location, topWidth, bottomWidth, lineLength, align) {
             position = position === 'inner' || position === 'inside' ? 'center' : position;
             switch (position) {
-            case 'center':
-                return align == 'center' ? x + topWidth / 2 : align == 'left' ? x + 10 : x + topWidth - 10;
-            case 'left':
-                if (lineLength === 'auto') {
-                    return location.x - 10;
-                } else {
-                    return align == 'center' ? location.centerX - Math.max(topWidth, bottomWidth) / 2 - lineLength : align == 'right' ? x - (topWidth < bottomWidth ? bottomWidth - topWidth : 0) - lineLength : location.x - lineLength;
-                }
-                break;
-            default:
-                if (lineLength === 'auto') {
-                    return location.x + location.width + 10;
-                } else {
-                    return align == 'center' ? location.centerX + Math.max(topWidth, bottomWidth) / 2 + lineLength : align == 'right' ? location.x + location.width + lineLength : x + Math.max(topWidth, bottomWidth) + lineLength;
-                }
+                case 'center':
+                    return align == 'center' ? x + topWidth / 2 : align == 'left' ? x + 10 : x + topWidth - 10;
+                case 'left':
+                    if (lineLength === 'auto') {
+                        return location.x - 10;
+                    } else {
+                        return align == 'center' ? location.centerX - Math.max(topWidth, bottomWidth) / 2 - lineLength : align == 'right' ? x - (topWidth < bottomWidth ? bottomWidth - topWidth : 0) - lineLength : location.x - lineLength;
+                    }
+                    break;
+                default:
+                    if (lineLength === 'auto') {
+                        return location.x + location.width + 10;
+                    } else {
+                        return align == 'center' ? location.centerX + Math.max(topWidth, bottomWidth) / 2 + lineLength : align == 'right' ? location.x + location.width + lineLength : x + Math.max(topWidth, bottomWidth) + lineLength;
+                    }
             }
         },
         _getLabelLineStartPoint: function (x, location, topWidth, bottomWidth, align) {

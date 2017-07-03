@@ -9,7 +9,7 @@
  * ARIA Support: Greta Krafsig
  * Project: https://github.com/CodeSeven/toastr
  */
-; (function (define) {
+;(function (define) {
     define(['jquery'], function ($) {
         return (function () {
             var $container;
@@ -28,7 +28,7 @@
                 error: error,
                 getContainer: getContainer,
                 info: info,
-                options: {closeButton:true,positionClass: 'toast-bottom-right'},
+                options: {closeButton: true, positionClass: 'toast-bottom-right'},
                 subscribe: subscribe,
                 success: success,
                 version: '2.1.0',
@@ -51,12 +51,14 @@
             }
 
             function getContainer(options, create) {
-                if (!options) { options = getOptions(); }
+                if (!options) {
+                    options = getOptions();
+                }
                 $container = $('#' + options.containerId);
                 if ($container.length) {
                     return $container;
                 }
-                if(create) {
+                if (create) {
                     $container = createContainer(options);
                 }
                 return $container;
@@ -98,7 +100,9 @@
 
             function clear($toastElement) {
                 var options = getOptions();
-                if (!$container) { getContainer(options); }
+                if (!$container) {
+                    getContainer(options);
+                }
                 if (!clearToast($toastElement, options)) {
                     clearContainer(options);
                 }
@@ -106,7 +110,9 @@
 
             function remove($toastElement) {
                 var options = getOptions();
-                if (!$container) { getContainer(options); }
+                if (!$container) {
+                    getContainer(options);
+                }
                 if ($toastElement && $(':focus', $toastElement).length === 0) {
                     removeToast($toastElement);
                     return;
@@ -115,23 +121,27 @@
                     $container.remove();
                 }
             }
+
             //#endregion
 
             //#region Internal Methods
 
-            function clearContainer(options){
+            function clearContainer(options) {
                 var toastsToClear = $container.children();
                 for (var i = toastsToClear.length - 1; i >= 0; i--) {
                     clearToast($(toastsToClear[i]), options);
-                };
+                }
+                ;
             }
 
-            function clearToast($toastElement, options){
+            function clearToast($toastElement, options) {
                 if ($toastElement && $(':focus', $toastElement).length === 0) {
                     $toastElement[options.hideMethod]({
                         duration: options.hideDuration,
                         easing: options.hideEasing,
-                        complete: function () { removeToast($toastElement); }
+                        complete: function () {
+                            removeToast($toastElement);
+                        }
                     });
                     return true;
                 }
@@ -185,7 +195,9 @@
             }
 
             function publish(args) {
-                if (!listener) { return; }
+                if (!listener) {
+                    return;
+                }
                 listener(args);
             }
 
@@ -193,11 +205,11 @@
                 var options = getOptions(),
                     iconClass = map.iconClass || options.iconClass;
 
-                if(options.preventDuplicates){
-                    if(map.message === previousToast){
+                if (options.preventDuplicates) {
+                    if (map.message === previousToast) {
                         return;
                     }
-                    else{
+                    else {
                         previousToast = map.message;
                     }
                 }
@@ -251,7 +263,7 @@
 
 
                 $toastElement[options.showMethod](
-                    { duration: options.showDuration, easing: options.showEasing, complete: options.onShown }
+                    {duration: options.showDuration, easing: options.showEasing, complete: options.onShown}
                 );
 
                 if (options.timeOut > 0) {
@@ -265,9 +277,9 @@
 
                 if (options.closeButton && $closeElement) {
                     $closeElement.click(function (event) {
-                        if( event.stopPropagation ) {
+                        if (event.stopPropagation) {
                             event.stopPropagation();
-                        } else if( event.cancelBubble !== undefined && event.cancelBubble !== true ) {
+                        } else if (event.cancelBubble !== undefined && event.cancelBubble !== true) {
                             event.cancelBubble = true;
                         }
                         hideToast(true);
@@ -317,7 +329,7 @@
                 function stickAround() {
                     clearTimeout(intervalId);
                     $toastElement.stop(true, true)[options.showMethod](
-                        { duration: options.showDuration, easing: options.showEasing }
+                        {duration: options.showDuration, easing: options.showEasing}
                     );
                 }
             }
@@ -327,7 +339,9 @@
             }
 
             function removeToast($toastElement) {
-                if (!$container) { $container = getContainer(); }
+                if (!$container) {
+                    $container = getContainer();
+                }
                 if ($toastElement.is(':visible')) {
                     return;
                 }
@@ -337,6 +351,7 @@
                     $container.remove();
                 }
             }
+
             //#endregion
 
         })();

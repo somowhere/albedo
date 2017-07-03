@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: COBOL mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel="stylesheet" href="../../lib/codemirror.css">
 <link rel="stylesheet" href="../../theme/neat.css">
@@ -34,7 +34,7 @@
         font-size: 20px;
         height: auto !important;
     }
-    
+
     .CodeMirror-activeline-background {
         background: #555555 !important;
     }
@@ -47,16 +47,16 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">COBOL</a>
+        <li>
+            <a class=active href="#">COBOL</a>
     </ul>
 </div>
 <article>
@@ -100,7 +100,7 @@
         <label for="checkBoxReadOnly">Read-only</label>
         <input type="checkbox" id="checkBoxReadOnly" onchange="selectReadOnly()">
         <label for="id_tabToIndentSpace">Insert Spaces on Tab</label>
-        <input type="checkbox" id="id_tabToIndentSpace" onchange="tabToIndentSpace()"> </p>
+        <input type="checkbox" id="id_tabToIndentSpace" onchange="tabToIndentSpace()"></p>
     <textarea id="code" name="code"> ---------1---------2---------3---------4---------5---------6---------7---------8 12345678911234567892123456789312345678941234567895123456789612345678971234567898 000010 IDENTIFICATION DIVISION. MODTGHERE 000020 PROGRAM-ID. SAMPLE. 000030 AUTHOR. TEST
         SAM. 000040 DATE-WRITTEN. 5 February 2013 000041 000042* A sample program just to show the form. 000043* The program copies its input to the output, 000044* and counts the number of records. 000045* At the end this number is printed. 000046 000050
         ENVIRONMENT DIVISION. 000060 INPUT-OUTPUT SECTION. 000070 FILE-CONTROL. 000080 SELECT STUDENT-FILE ASSIGN TO SYSIN 000090 ORGANIZATION IS LINE SEQUENTIAL. 000100 SELECT PRINT-FILE ASSIGN TO SYSOUT 000110 ORGANIZATION IS LINE SEQUENTIAL. 000120
@@ -113,56 +113,48 @@
         000540 000550 PRINT-SUMMARY. 000560 MOVE RECORDS-WRITTEN TO TOTAL-READ. 000570 MOVE SUMMARY-LINE TO PRINT-LINE. 000571 WRITE PRINT-LINE. 000572 000580 </textarea>
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById("code"),
-        {
-            lineNumbers: true,
-            matchBrackets: true,
-            mode: "text/x-cobol",
-            theme: "twilight",
-            styleActiveLine: true,
-            showCursorWhenSelecting: true,
-        });
+            {
+                lineNumbers: true,
+                matchBrackets: true,
+                mode: "text/x-cobol",
+                theme: "twilight",
+                styleActiveLine: true,
+                showCursorWhenSelecting: true,
+            });
 
-        function selectTheme()
-        {
+        function selectTheme() {
             var themeInput = document.getElementById("selectTheme");
             var theme = themeInput.options[themeInput.selectedIndex].innerHTML;
             editor.setOption("theme", theme);
         }
 
-        function selectFontsize()
-        {
+        function selectFontsize() {
             var fontSizeInput = document.getElementById("selectFontSize");
             var fontSize = fontSizeInput.options[fontSizeInput.selectedIndex].innerHTML;
             editor.getWrapperElement().style.fontSize = fontSize;
             editor.refresh();
         }
 
-        function selectReadOnly()
-        {
+        function selectReadOnly() {
             editor.setOption("readOnly", document.getElementById("checkBoxReadOnly").checked);
         }
 
-        function tabToIndentSpace()
-        {
-            if (document.getElementById("id_tabToIndentSpace").checked)
-            {
+        function tabToIndentSpace() {
+            if (document.getElementById("id_tabToIndentSpace").checked) {
                 editor.setOption("extraKeys",
-                {
-                    Tab: function(cm)
                     {
-                        cm.replaceSelection("    ", "end");
-                    }
-                });
+                        Tab: function (cm) {
+                            cm.replaceSelection("    ", "end");
+                        }
+                    });
             }
-            else
-            {
+            else {
                 editor.setOption("extraKeys",
-                {
-                    Tab: function(cm)
                     {
-                        cm.replaceSelection("    ", "end");
-                    }
-                });
+                        Tab: function (cm) {
+                            cm.replaceSelection("    ", "end");
+                        }
+                    });
             }
         }
     </script>

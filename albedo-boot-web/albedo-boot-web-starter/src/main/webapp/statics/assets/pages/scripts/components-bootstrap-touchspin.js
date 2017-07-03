@@ -1,6 +1,6 @@
-var ComponentsBootstrapTouchSpin = function() {
+var ComponentsBootstrapTouchSpin = function () {
 
-    var handleDemo = function() {
+    var handleDemo = function () {
 
         $("#touchspin_1").TouchSpin({
             min: 0,
@@ -64,13 +64,13 @@ var ComponentsBootstrapTouchSpin = function() {
 
     return {
         //main function to initiate the module
-        init: function() {
+        init: function () {
             handleDemo();
         }
     };
 
 }();
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     ComponentsBootstrapTouchSpin.init();
 });

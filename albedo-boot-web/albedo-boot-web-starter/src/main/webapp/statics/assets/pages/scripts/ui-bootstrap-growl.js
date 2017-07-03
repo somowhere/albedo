@@ -1,11 +1,11 @@
-var UIBootstrapGrowl = function() {
+var UIBootstrapGrowl = function () {
 
     return {
         //main function to initiate the module
-        init: function() {
+        init: function () {
 
 
-            $('#bs_growl_show').click(function(event) {
+            $('#bs_growl_show').click(function (event) {
 
                 $.bootstrapGrowl($('#growl_text').val(), {
                     ele: 'body', // which element to append to
@@ -29,6 +29,6 @@ var UIBootstrapGrowl = function() {
 
 }();
 
-jQuery(document).ready(function() {    
-   UIBootstrapGrowl.init();
+jQuery(document).ready(function () {
+    UIBootstrapGrowl.init();
 });

@@ -1,10 +1,10 @@
 var ComponentsFormTools = function () {
 
-    var handleBootstrapMaxlength = function() {
+    var handleBootstrapMaxlength = function () {
         $('#maxlength_defaultconfig').maxlength({
             limitReachedClass: "label label-danger",
         })
-    
+
         $('#maxlength_thresholdconfig').maxlength({
             limitReachedClass: "label label-danger",
             threshold: 20
@@ -31,7 +31,7 @@ var ComponentsFormTools = function () {
             placement: App.isRTL() ? 'top-right' : 'top-left'
         });
     }
-    
+
     var handlePasswordStrengthChecker = function () {
         var initialized = false;
         var input = $("#password_strength");
@@ -87,18 +87,14 @@ var ComponentsFormTools = function () {
 
             btn.attr('disabled', true);
 
-            input.attr("readonly", true).
-            attr("disabled", true).
-            addClass("spinner");
+            input.attr("readonly", true).attr("disabled", true).addClass("spinner");
 
             $.post('../demo/username_checker.php', {
                 username: input.val()
             }, function (res) {
                 btn.attr('disabled', false);
 
-                input.attr("readonly", false).
-                attr("disabled", false).
-                removeClass("spinner");
+                input.attr("readonly", false).attr("disabled", false).removeClass("spinner");
 
                 if (res.status == 'OK') {
                     input.closest('.form-group').removeClass('has-error').addClass('has-success');
@@ -143,16 +139,12 @@ var ComponentsFormTools = function () {
                 return;
             }
 
-            input.attr("readonly", true).
-            attr("disabled", true).
-            addClass("spinner");
+            input.attr("readonly", true).attr("disabled", true).addClass("spinner");
 
             $.post('../demo/username_checker.php', {
                 username: input.val()
             }, function (res) {
-                input.attr("readonly", false).
-                attr("disabled", false).
-                removeClass("spinner");
+                input.attr("readonly", false).attr("disabled", false).removeClass("spinner");
 
                 // change popover font color based on the result
                 if (res.status == 'OK') {
@@ -195,8 +187,8 @@ var ComponentsFormTools = function () {
 
 }();
 
-if (App.isAngularJsApp() === false) { 
-    jQuery(document).ready(function() {
+if (App.isAngularJsApp() === false) {
+    jQuery(document).ready(function () {
         ComponentsFormTools.init(); // init metronic core componets
     });
 }

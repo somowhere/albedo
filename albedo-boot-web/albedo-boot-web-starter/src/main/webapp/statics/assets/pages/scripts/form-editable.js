@@ -1,8 +1,8 @@
-var FormEditable = function() {
+var FormEditable = function () {
 
     $.mockjaxSettings.responseTime = 500;
 
-    var log = function(settings, response) {
+    var log = function (settings, response) {
         var s = [],
             str;
         s.push(settings.type.toUpperCase() + ' url = "' + settings.url + '"');
@@ -23,7 +23,7 @@ var FormEditable = function() {
         if (response.responseText) {
             if ($.isArray(response.responseText)) {
                 s.push('[');
-                $.each(response.responseText, function(i, v) {
+                $.each(response.responseText, function (i, v) {
                     s.push('{value: ' + v.value + ', text: "' + v.text + '"}');
                 });
                 s.push(']');
@@ -35,12 +35,12 @@ var FormEditable = function() {
         $('#console').val(s.join('\n') + $('#console').val());
     }
 
-    var initAjaxMock = function() {
+    var initAjaxMock = function () {
         //ajax mocks
 
         $.mockjax({
             url: '/post',
-            response: function(settings) {
+            response: function (settings) {
                 log(settings, this);
             }
         });
@@ -49,7 +49,7 @@ var FormEditable = function() {
             url: '/error',
             status: 400,
             statusText: 'Bad Request',
-            response: function(settings) {
+            response: function (settings) {
                 this.responseText = 'Please input correct value';
                 log(settings, this);
             }
@@ -58,7 +58,7 @@ var FormEditable = function() {
         $.mockjax({
             url: '/status',
             status: 500,
-            response: function(settings) {
+            response: function (settings) {
                 this.responseText = 'Internal Server Error';
                 log(settings, this);
             }
@@ -66,7 +66,7 @@ var FormEditable = function() {
 
         $.mockjax({
             url: '/groups',
-            response: function(settings) {
+            response: function (settings) {
                 this.responseText = [{
                     value: 0,
                     text: 'Guest'
@@ -92,7 +92,7 @@ var FormEditable = function() {
 
     }
 
-    var initEditables = function() {
+    var initEditables = function () {
 
         //set editable mode based on URL parameter
         if (App.getURLParameter('mode') == 'inline') {
@@ -118,7 +118,7 @@ var FormEditable = function() {
         });
 
         $('#firstname').editable({
-            validate: function(value) {
+            validate: function (value) {
                 if ($.trim(value) == '') return 'This field is required';
             }
         });
@@ -133,13 +133,13 @@ var FormEditable = function() {
                 value: 2,
                 text: 'Female'
             }],
-            display: function(value, sourceData) {
+            display: function (value, sourceData) {
                 var colors = {
                         "": "gray",
                         1: "green",
                         2: "blue"
                     },
-                    elem = $.grep(sourceData, function(o) {
+                    elem = $.grep(sourceData, function (o) {
                         return o.value == value;
                     });
 
@@ -175,7 +175,7 @@ var FormEditable = function() {
         $('#meeting_start').editable({
             format: 'yyyy-mm-dd hh:ii',
             viewformat: 'dd/mm/yyyy hh:ii',
-            validate: function(v) {
+            validate: function (v) {
                 if (v && v.getDate() == 10) return 'Day cant be 10!';
             },
             datetimepicker: {
@@ -193,7 +193,7 @@ var FormEditable = function() {
             showbuttons: (App.isRTL() ? 'left' : 'right')
         });
 
-        $('#pencil').click(function(e) {
+        $('#pencil').click(function (e) {
             e.stopPropagation();
             e.preventDefault();
             $('#note').editable('toggle');
@@ -224,7 +224,7 @@ var FormEditable = function() {
             }]
         });
 
-        $('#fruits').on('shown', function(e, reason) {
+        $('#fruits').on('shown', function (e, reason) {
             App.initUniform();
         });
 
@@ -490,7 +490,7 @@ var FormEditable = function() {
             "UA": "Ukraine",
             "QA": "Qatar",
             "MZ": "Mozambique"
-        }, function(k, v) {
+        }, function (k, v) {
             countries.push({
                 id: k,
                 text: v
@@ -509,10 +509,10 @@ var FormEditable = function() {
                 street: "Valencia",
                 building: "#24"
             },
-            validate: function(value) {
+            validate: function (value) {
                 if (value.city == '') return 'city is required!';
             },
-            display: function(value) {
+            display: function (value) {
                 if (!value) {
                     $(this).empty();
                     return;
@@ -525,7 +525,7 @@ var FormEditable = function() {
 
     return {
         //main function to initiate the module
-        init: function() {
+        init: function () {
 
             // inii ajax simulation
             initAjaxMock();
@@ -534,12 +534,12 @@ var FormEditable = function() {
             initEditables();
 
             // init editable toggler
-            $('#enable').click(function() {
+            $('#enable').click(function () {
                 $('#user .editable').editable('toggleDisabled');
             });
 
             // init 
-            $('#inline').on('change', function(e) {
+            $('#inline').on('change', function (e) {
                 if ($(this).is(':checked')) {
                     window.location.href = 'form_editable.html?mode=inline';
                 } else {
@@ -548,11 +548,11 @@ var FormEditable = function() {
             });
 
             // handle editable elements on hidden event fired
-            $('#user .editable').on('hidden', function(e, reason) {
+            $('#user .editable').on('hidden', function (e, reason) {
                 if (reason === 'save' || reason === 'nochange') {
                     var $next = $(this).closest('tr').next().find('.editable');
                     if ($('#autoopen').is(':checked')) {
-                        setTimeout(function() {
+                        setTimeout(function () {
                             $next.editable('show');
                         }, 300);
                     } else {
@@ -568,6 +568,6 @@ var FormEditable = function() {
 
 }();
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     FormEditable.init();
 });

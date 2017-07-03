@@ -14,34 +14,34 @@ import javax.annotation.PostConstruct;
 @Component
 public class CustomTags extends SimpleHash {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Autowired
-	FormDirective formDirective;
-	@Autowired
-	GridSelectDirective gridSelectDirective;
-	@Autowired
-	TreeSelectDirective treeSelectDirective;
-	@Autowired
-	TreeShowDirective treeShowDirective;
-	@Autowired
-	BreadcrumbDirective breadcrumbDirective;
+    @Autowired
+    FormDirective formDirective;
+    @Autowired
+    GridSelectDirective gridSelectDirective;
+    @Autowired
+    TreeSelectDirective treeSelectDirective;
+    @Autowired
+    TreeShowDirective treeShowDirective;
+    @Autowired
+    BreadcrumbDirective breadcrumbDirective;
     @Autowired
     private FileInputDirective fileInputDirective;
 
 
-	public CustomTags(){
+    public CustomTags() {
         super(new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_22).build());
     }
 
-	@PostConstruct
-    public void  setSharedVariable(){
-		put("form", formDirective);
+    @PostConstruct
+    public void setSharedVariable() {
+        put("form", formDirective);
         put("treeSelect", treeSelectDirective);
         put("girdSelect", gridSelectDirective);
         put("treeShow", treeShowDirective);
         put("breadcrumb", breadcrumbDirective);
         put("fileInput", fileInputDirective);
-	}
+    }
 
 }

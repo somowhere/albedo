@@ -10,6 +10,7 @@ public class DictTemp {
     private String name;
     private String val;
     private String description;
+
     @XmlAttribute
     public String getName() {
         return name;
@@ -18,6 +19,7 @@ public class DictTemp {
     public void setName(String name) {
         this.name = name;
     }
+
     @XmlAttribute
     public String getVal() {
         return val;
@@ -26,6 +28,7 @@ public class DictTemp {
     public void setVal(String val) {
         this.val = val;
     }
+
     @XmlAttribute
     public String getDescription() {
         return description;

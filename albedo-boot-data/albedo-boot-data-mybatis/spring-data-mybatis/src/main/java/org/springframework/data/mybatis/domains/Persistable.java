@@ -23,7 +23,7 @@ import java.io.Serializable;
 /**
  * @author Jarvis Song
  */
-public interface Persistable<ID extends Serializable> extends Serializable  {
+public interface Persistable<ID extends Serializable> extends Serializable {
 
     void preInssert();
 

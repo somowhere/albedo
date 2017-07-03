@@ -7,10 +7,10 @@
  */
 define(function (require) {
     var Base = require('./base');
-    
+
     // 图形依赖
     var RectangleShape = require('zrender/shape/Rectangle');
-    
+
     var ecConfig = require('../config');
     // 网格
     ecConfig.grid = {
@@ -44,7 +44,7 @@ define(function (require) {
 
         this.refresh(option);
     }
-    
+
     Grid.prototype = {
         type: ecConfig.COMPONENT_TYPE_GRID,
 
@@ -80,18 +80,18 @@ define(function (require) {
                 height: this._height
             };
         },
-        
-        getBbox: function() {
+
+        getBbox: function () {
             return [
-                [ this._x, this._y ],
-                [ this.getXend(), this.getYend() ]
+                [this._x, this._y],
+                [this.getXend(), this.getYend()]
             ];
         },
-        
+
         /**
          * 实在找不到合适的地方做了，各种粗暴的写法~ -_-
          */
-        refixAxisShape: function(component) {
+        refixAxisShape: function (component) {
             var zeroX;
             var zeroY;
             var axisList = component.xAxis._axisList.concat(
@@ -101,13 +101,13 @@ define(function (require) {
             var axis;
             while (len--) {
                 axis = axisList[len];
-                if (axis.type == ecConfig.COMPONENT_TYPE_AXIS_VALUE 
-                    && axis._min < 0  
+                if (axis.type == ecConfig.COMPONENT_TYPE_AXIS_VALUE
+                    && axis._min < 0
                     && axis._max >= 0
                 ) {
                     axis.isHorizontal()
-                    ? (zeroX = axis.getCoord(0))
-                    : (zeroY = axis.getCoord(0));
+                        ? (zeroX = axis.getCoord(0))
+                        : (zeroY = axis.getCoord(0));
                 }
             }
             if (typeof zeroX != 'undefined' || typeof zeroY != 'undefined') {
@@ -117,16 +117,16 @@ define(function (require) {
                 }
             }
         },
-        
+
         refresh: function (newOption) {
             if (newOption
-                || this._zrWidth != this.zr.getWidth() 
+                || this._zrWidth != this.zr.getWidth()
                 || this._zrHeight != this.zr.getHeight()
             ) {
                 this.clear();
                 this.option = newOption || this.option;
                 this.option.grid = this.reformOption(this.option.grid);
-    
+
                 var gridOption = this.option.grid;
                 this._zrWidth = this.zr.getWidth();
                 this._zrHeight = this.zr.getHeight();
@@ -134,8 +134,8 @@ define(function (require) {
                 this._y = this.parsePercent(gridOption.y, this._zrHeight);
                 var x2 = this.parsePercent(gridOption.x2, this._zrWidth);
                 var y2 = this.parsePercent(gridOption.y2, this._zrHeight);
-                
-    
+
+
                 if (typeof gridOption.width == 'undefined') {
                     this._width = this._zrWidth - this._x - x2;
                 }
@@ -143,7 +143,7 @@ define(function (require) {
                     this._width = this.parsePercent(gridOption.width, this._zrWidth);
                 }
                 this._width = this._width <= 0 ? 10 : this._width;
-    
+
                 if (typeof gridOption.height == 'undefined') {
                     this._height = this._zrHeight - this._y - y2;
                 }
@@ -151,10 +151,10 @@ define(function (require) {
                     this._height = this.parsePercent(gridOption.height, this._zrHeight);
                 }
                 this._height = this._height <= 0 ? 10 : this._height;
-                
+
                 this._x = this.subPixelOptimize(this._x, gridOption.borderWidth);
                 this._y = this.subPixelOptimize(this._y, gridOption.borderWidth);
-    
+
                 this.shapeList.push(new RectangleShape({
                     zlevel: this.getZlevelBase(),
                     z: this.getZBase(),
@@ -175,10 +175,10 @@ define(function (require) {
             }
         }
     };
-    
+
     zrUtil.inherits(Grid, Base);
-    
+
     require('../component').define('grid', Grid);
-    
+
     return Grid;
 });

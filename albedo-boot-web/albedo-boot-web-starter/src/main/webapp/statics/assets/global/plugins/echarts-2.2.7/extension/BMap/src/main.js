@@ -78,7 +78,8 @@ define(function (require) {
          * @constructor
          * @extends BMap.Overlay
          */
-        function Overlay() {}
+        function Overlay() {
+        }
 
         Overlay.prototype = new BMap.Overlay();
 
@@ -103,7 +104,8 @@ define(function (require) {
         /**
          * @override
          */
-        Overlay.prototype.draw = function () {};
+        Overlay.prototype.draw = function () {
+        };
 
         var myOverlay = new Overlay();
 
@@ -182,7 +184,7 @@ define(function (require) {
         // addMark wrap for get position from baidu map by geo location
         // by kener at 2015.01.08
         self._addMarkWrap = function () {
-            function _addMark (seriesIdx, markData, markType) {
+            function _addMark(seriesIdx, markData, markType) {
                 var data;
                 if (markType == 'markPoint') {
                     var data = markData.data;
@@ -203,6 +205,7 @@ define(function (require) {
                 }
                 self._ec._addMarkOri(seriesIdx, markData, markType);
             }
+
             self._ec._addMarkOri = self._ec._addMark;
             self._ec._addMark = _addMark;
         };
@@ -321,8 +324,8 @@ define(function (require) {
                 var offsetEle =
                     self._echartsContainer.parentNode.parentNode.parentNode;
                 self._mapOffset = [
-                    - parseInt(offsetEle.style.left) || 0,
-                    - parseInt(offsetEle.style.top) || 0
+                    -parseInt(offsetEle.style.left) || 0,
+                    -parseInt(offsetEle.style.top) || 0
                 ];
                 self._echartsContainer.style.left = self._mapOffset[0] + 'px';
                 self._echartsContainer.style.top = self._mapOffset[1] + 'px';

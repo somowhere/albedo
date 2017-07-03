@@ -20,46 +20,46 @@
 
 !function ($) {
 
-  "use strict"; // jshint ;_;
+    "use strict"; // jshint ;_;
 
 
-  /* CSS TRANSITION SUPPORT (http://www.modernizr.com/)
-   * ======================================================= */
+    /* CSS TRANSITION SUPPORT (http://www.modernizr.com/)
+     * ======================================================= */
 
-  $(function () {
+    $(function () {
 
-    $.support.transition = (function () {
+        $.support.transition = (function () {
 
-      var transitionEnd = (function () {
+            var transitionEnd = (function () {
 
-        var el = document.createElement('bootstrap')
-          , transEndEventNames = {
-               'WebkitTransition' : 'webkitTransitionEnd'
-            ,  'MozTransition'    : 'transitionend'
-            ,  'OTransition'      : 'oTransitionEnd otransitionend'
-            ,  'transition'       : 'transitionend'
-            }
-          , name
+                var el = document.createElement('bootstrap')
+                    , transEndEventNames = {
+                    'WebkitTransition': 'webkitTransitionEnd'
+                    , 'MozTransition': 'transitionend'
+                    , 'OTransition': 'oTransitionEnd otransitionend'
+                    , 'transition': 'transitionend'
+                }
+                    , name
 
-        for (name in transEndEventNames){
-          if (el.style[name] !== undefined) {
-            return transEndEventNames[name]
-          }
-        }
+                for (name in transEndEventNames) {
+                    if (el.style[name] !== undefined) {
+                        return transEndEventNames[name]
+                    }
+                }
 
-      }())
+            }())
 
-      return transitionEnd && {
-        end: transitionEnd
-      }
+            return transitionEnd && {
+                    end: transitionEnd
+                }
 
-    })()
+        })()
 
-  })
+    })
 
 }(window.jQuery);
 
 if (document.location.href.indexOf('local') == -1) {
     var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fb78830c9a5dad062d08b90b2bc0cf5da' type='text/javascript'%3E%3C/script%3E"));   
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fb78830c9a5dad062d08b90b2bc0cf5da' type='text/javascript'%3E%3C/script%3E"));
 }

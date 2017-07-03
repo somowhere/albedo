@@ -1,6 +1,6 @@
-var ComponentsIonSliders = function() {
+var ComponentsIonSliders = function () {
 
-    var handleBasicDemo = function() {
+    var handleBasicDemo = function () {
         // demo 1
         $("#range_1").ionRangeSlider();
 
@@ -92,7 +92,7 @@ var ComponentsIonSliders = function() {
         });
     }
 
-    var handleAdvancedDemo = function() {
+    var handleAdvancedDemo = function () {
         $("#range_10").ionRangeSlider({
             type: "double",
             min: 0,
@@ -136,7 +136,7 @@ var ComponentsIonSliders = function() {
 
     return {
         //main function to initiate the module
-        init: function() {
+        init: function () {
             handleBasicDemo();
             handleAdvancedDemo();
         }
@@ -145,6 +145,6 @@ var ComponentsIonSliders = function() {
 
 }();
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     ComponentsIonSliders.init();
 });

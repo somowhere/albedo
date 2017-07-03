@@ -21,8 +21,7 @@ var AppInbox = function () {
             cache: false,
             url: url,
             dataType: "html",
-            success: function(res) 
-            {
+            success: function (res) {
                 toggleButton(el);
 
                 App.unblockUI('.inbox-content');
@@ -39,8 +38,7 @@ var AppInbox = function () {
 
                 App.initUniform();
             },
-            error: function(xhr, ajaxOptions, thrownError)
-            {
+            error: function (xhr, ajaxOptions, thrownError) {
                 toggleButton(el);
             },
             async: false
@@ -68,16 +66,15 @@ var AppInbox = function () {
 
         toggleButton(el);
 
-        var message_id = el.parent('tr').attr("data-messageid");  
-        
+        var message_id = el.parent('tr').attr("data-messageid");
+
         $.ajax({
             type: "GET",
             cache: false,
             url: url,
             dataType: "html",
             data: {'message_id': message_id},
-            success: function(res) 
-            {
+            success: function (res) {
                 App.unblockUI(content);
 
                 toggleButton(el);
@@ -91,8 +88,7 @@ var AppInbox = function () {
                 Layout.fixContentHeight();
                 App.initUniform();
             },
-            error: function(xhr, ajaxOptions, thrownError)
-            {
+            error: function (xhr, ajaxOptions, thrownError) {
                 toggleButton(el);
             },
             async: false
@@ -122,7 +118,7 @@ var AppInbox = function () {
             }).fail(function () {
                 $('<span class="alert alert-error"/>')
                     .text('Upload server currently unavailable - ' +
-                    new Date())
+                        new Date())
                     .appendTo('#fileupload');
             });
         }
@@ -145,8 +141,7 @@ var AppInbox = function () {
             cache: false,
             url: url,
             dataType: "html",
-            success: function(res) 
-            {
+            success: function (res) {
                 App.unblockUI(content);
                 toggleButton(el);
 
@@ -162,8 +157,7 @@ var AppInbox = function () {
                 Layout.fixContentHeight();
                 App.initUniform();
             },
-            error: function(xhr, ajaxOptions, thrownError)
-            {
+            error: function (xhr, ajaxOptions, thrownError) {
                 toggleButton(el);
             },
             async: false
@@ -173,7 +167,7 @@ var AppInbox = function () {
     var loadReply = function (el) {
         var messageid = $(el).attr("data-messageid");
         var url = 'app_inbox_reply.html';
-        
+
         App.blockUI({
             target: content,
             overlayColor: 'none',
@@ -188,8 +182,7 @@ var AppInbox = function () {
             cache: false,
             url: url,
             dataType: "html",
-            success: function(res) 
-            {
+            success: function (res) {
                 App.unblockUI(content);
                 toggleButton(el);
 
@@ -206,8 +199,7 @@ var AppInbox = function () {
                 Layout.fixContentHeight();
                 App.initUniform();
             },
-            error: function(xhr, ajaxOptions, thrownError)
-            {
+            error: function (xhr, ajaxOptions, thrownError) {
                 toggleButton(el);
             },
             async: false
@@ -237,7 +229,7 @@ var AppInbox = function () {
         });
     }
 
-    var toggleButton = function(el) {
+    var toggleButton = function (el) {
         if (typeof el == 'undefined') {
             return;
         }
@@ -258,7 +250,7 @@ var AppInbox = function () {
             });
 
             // handle discard btn
-            $('.inbox').on('click', '.inbox-discard-btn', function(e) {
+            $('.inbox').on('click', '.inbox-discard-btn', function (e) {
                 e.preventDefault();
                 loadInbox($(this), listListing);
             });
@@ -294,7 +286,7 @@ var AppInbox = function () {
             } else if (App.getURLParameter("a") === "compose") {
                 loadCompose();
             } else {
-               $('.inbox-nav > li:first > a').click();
+                $('.inbox-nav > li:first > a').click();
             }
 
         }
@@ -303,6 +295,6 @@ var AppInbox = function () {
 
 }();
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     AppInbox.init();
 });

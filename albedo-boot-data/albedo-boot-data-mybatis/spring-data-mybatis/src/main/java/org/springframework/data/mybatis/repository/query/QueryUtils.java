@@ -31,7 +31,7 @@ import static java.util.regex.Pattern.CASE_INSENSITIVE;
  */
 public abstract class QueryUtils {
 
-    private static final String  IDENTIFIER      = "[\\p{Lu}\\P{InBASIC_LATIN}\\p{Alnum}._$]+";
+    private static final String IDENTIFIER = "[\\p{Lu}\\P{InBASIC_LATIN}\\p{Alnum}._$]+";
     private static final Pattern NAMED_PARAMETER = Pattern.compile(":" + IDENTIFIER + "|\\#" + IDENTIFIER,
             CASE_INSENSITIVE);
 

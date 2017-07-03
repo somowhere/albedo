@@ -43,8 +43,6 @@ public class MybatisQueryMethod extends QueryMethod {
 
     private static final Set<Class<?>> NATIVE_ARRAY_TYPES;
 
-    private final Method method;
-
     static {
 
         Set<Class<?>> types = new HashSet<Class<?>>();
@@ -55,6 +53,8 @@ public class MybatisQueryMethod extends QueryMethod {
 
         NATIVE_ARRAY_TYPES = Collections.unmodifiableSet(types);
     }
+
+    private final Method method;
 
 
     /**

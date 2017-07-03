@@ -52,21 +52,22 @@ public class DataService<Repository extends DataRepository<T, PK>, T extends Dat
             deleteById(id, lastModifiedBy);
         }
     }
+
     public void delete(List<PK> ids, String currentAuditor) {
-        Assert.assertNotNull(ids,"ids 信息为空，操作失败" );
-        ids.forEach(id ->{
-            T entity =  repository.findOne(id);
-            Assert.assertNotNull(entity,"对象 " + id + " 信息为空，删除失败" );
+        Assert.assertNotNull(ids, "ids 信息为空，操作失败");
+        ids.forEach(id -> {
+            T entity = repository.findOne(id);
+            Assert.assertNotNull(entity, "对象 " + id + " 信息为空，删除失败");
             deleteById(id, currentAuditor);
             log.debug("Deleted Entity: {}", entity);
         });
     }
 
     public void lockOrUnLock(List<PK> ids, String currentAuditor) {
-        Assert.assertNotNull(ids,"ids 信息为空，操作失败" );
-        ids.forEach(id ->{
-            T entity =  repository.findOne(id);
-            Assert.assertNotNull(entity,"对象 " + id + " 信息为空，操作失败" );
+        Assert.assertNotNull(ids, "ids 信息为空，操作失败");
+        ids.forEach(id -> {
+            T entity = repository.findOne(id);
+            Assert.assertNotNull(entity, "对象 " + id + " 信息为空，操作失败");
             operateStatusById(id, BaseEntity.FLAG_NORMAL.equals(entity.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL,
                     currentAuditor);
             log.debug("LockOrUnLock Entity: {}", entity);
@@ -74,12 +75,12 @@ public class DataService<Repository extends DataRepository<T, PK>, T extends Dat
         });
     }
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public T findOne(PK id) {
         return repository.findOne(id);
     }
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public Page<T> findAll(PageModel<T> pm) {
         SpecificationDetail<T> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
                 QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));

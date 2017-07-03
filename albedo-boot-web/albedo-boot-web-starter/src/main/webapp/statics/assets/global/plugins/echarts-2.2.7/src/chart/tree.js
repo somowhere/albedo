@@ -32,9 +32,9 @@ define(function (require) {
         nodePadding: 30,
         layerPadding: 100,
         /*rootLocation: {
-            x: 'center' | 'left' | 'right' | 'x%' | {number},
-            y: 'center' | 'top' | 'bottom' | 'y%' | {number}
-        },*/
+         x: 'center' | 'left' | 'right' | 'x%' | {number},
+         y: 'center' | 'top' | 'bottom' | 'y%' | {number}
+         },*/
         itemStyle: {
             normal: {
                 // color: 各异,
@@ -47,9 +47,7 @@ define(function (require) {
                     type: 'curve' // curve
                 }
             },
-            emphasis: {
-
-            }
+            emphasis: {}
         }
     };
 
@@ -72,14 +70,15 @@ define(function (require) {
         ChartBase.call(this, ecTheme, messageCenter, zr, option, myChart);
         this.refresh(option);
     }
+
     Tree.prototype = {
-        type : ecConfig.CHART_TYPE_TREE,
+        type: ecConfig.CHART_TYPE_TREE,
         /**
          * 构建单个
          *
          * @param {Object} data 数据
          */
-        _buildShape : function (series, seriesIndex) {
+        _buildShape: function (series, seriesIndex) {
             var data = series.data[0];
             this.tree = TreeData.fromOptionData(data.name, data.children);
             // 添加root的data
@@ -126,22 +125,20 @@ define(function (require) {
         /**
          * 构建单个item
          */
-        _buildItem : function (
-            treeNode,
-            serie,
-            seriesIndex
-        ) {
+        _buildItem: function (treeNode,
+                              serie,
+                              seriesIndex) {
             var queryTarget = [treeNode.data, serie];
             var symbol = this.deepQuery(queryTarget, 'symbol');
             // 多级控制
             var normal = this.deepMerge(
-                queryTarget,
-                'itemStyle.normal'
-            ) || {};
+                    queryTarget,
+                    'itemStyle.normal'
+                ) || {};
             var emphasis = this.deepMerge(
-                queryTarget,
-                'itemStyle.emphasis'
-            ) || {};
+                    queryTarget,
+                    'itemStyle.emphasis'
+                ) || {};
             var normalColor = normal.color || this.zr.getColor();
             var emphasisColor = emphasis.color || this.zr.getColor();
             var angle = -treeNode.layout.angle || 0;
@@ -208,8 +205,8 @@ define(function (require) {
                     queryTarget, 'itemStyle.normal.label.textStyle.color'
                 );
                 shape.style.textFont = this.getFont(this.deepQuery(
-                    queryTarget, 'itemStyle.normal.label.textStyle'
-                ) || {});
+                        queryTarget, 'itemStyle.normal.label.textStyle'
+                    ) || {});
             }
 
             if (this.deepQuery(queryTarget, 'itemStyle.emphasis.label.show')) {
@@ -220,8 +217,8 @@ define(function (require) {
                     queryTarget, 'itemStyle.emphasis.label.textStyle.color'
                 );
                 shape.highlightStyle.textFont = this.getFont(this.deepQuery(
-                    queryTarget, 'itemStyle.emphasis.label.textStyle'
-                ) || {});
+                        queryTarget, 'itemStyle.emphasis.label.textStyle'
+                    ) || {});
             }
             // todo
             ecData.pack(
@@ -233,10 +230,8 @@ define(function (require) {
             this.shapeList.push(shape);
         },
 
-        _buildLink : function (
-            parentNode,
-            serie
-        ) {
+        _buildLink: function (parentNode,
+                              serie) {
             var lineStyle = serie.itemStyle.normal.lineStyle;
             // 折线另外计算
             if (lineStyle.type === 'broken') {
@@ -277,11 +272,9 @@ define(function (require) {
                 }
             }
         },
-        _buildBrokenLine: function (
-            parentNode,
-            lineStyle,
-            serie
-        ) {
+        _buildBrokenLine: function (parentNode,
+                                    lineStyle,
+                                    serie) {
             // 引用_getLine需要把type改为solid
             var solidLineStyle = zrUtil.clone(lineStyle);
             solidLineStyle.type = 'solid';
@@ -353,13 +346,11 @@ define(function (require) {
             }
             this.shapeList = this.shapeList.concat(shapes);
         },
-        _getLine: function (
-            xStart,
-            yStart,
-            xEnd,
-            yEnd,
-            lineStyle
-        ) {
+        _getLine: function (xStart,
+                            yStart,
+                            xEnd,
+                            yEnd,
+                            lineStyle) {
             if (xStart === xEnd) {
                 xStart = xEnd = this.subPixelOptimize(xStart, lineStyle.width);
             }
@@ -384,12 +375,10 @@ define(function (require) {
                 )
             });
         },
-        _buildBezierCurve: function (
-            parentNode,
-            treeNode,
-            lineStyle,
-            serie
-        ) {
+        _buildBezierCurve: function (parentNode,
+                                     treeNode,
+                                     lineStyle,
+                                     serie) {
             var offsetRatio = GOLDEN_SECTION;
             var orient = serie.orient;
             var xStart = parentNode.layout.position[0];
@@ -457,7 +446,7 @@ define(function (require) {
             });
             this.shapeList.push(shape);
         },
-        _setTreeShape : function (serie) {
+        _setTreeShape: function (serie) {
             // 跑出来树的layout
             var treeLayout = new TreeLayout(
                 {
@@ -573,15 +562,15 @@ define(function (require) {
         /*
          * 刷新
          */
-/*        refresh: function (newOption) {
-            this.clear();
-            if (newOption) {
-                this.option = newOption;
-                this.series = newOption.series;
-            }
+        /*        refresh: function (newOption) {
+         this.clear();
+         if (newOption) {
+         this.option = newOption;
+         this.series = newOption.series;
+         }
 
-            this._buildShape();
-        }*/
+         this._buildShape();
+         }*/
         refresh: function (newOption) {
             this.clear();
 
@@ -600,7 +589,7 @@ define(function (require) {
                     series[i] = this.reformOption(series[i]);
 
                     var seriesName = series[i].name || '';
-                    this.selectedMap[seriesName] = 
+                    this.selectedMap[seriesName] =
                         legend ? legend.isSelected(seriesName) : true;
                     if (!this.selectedMap[seriesName]) {
                         continue;
@@ -614,7 +603,7 @@ define(function (require) {
         _buildSeries: function (series, seriesIndex) {
             /*var tree = Tree.fromOptionData('root', series.data);
 
-            this._treesMap[seriesIndex] = tree;*/
+             this._treesMap[seriesIndex] = tree;*/
 
             // this._buildTreemap(tree.root, seriesIndex);
             this._buildShape(series, seriesIndex);

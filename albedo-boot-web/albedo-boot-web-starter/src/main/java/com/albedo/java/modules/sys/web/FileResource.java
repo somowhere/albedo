@@ -31,32 +31,31 @@ public class FileResource extends BaseResource {
 
 
     /**
-     *
      * @param files
      * @return
      */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public ResponseEntity upload(@RequestParam("uploadFile")MultipartFile[] files) {
+    public ResponseEntity upload(@RequestParam("uploadFile") MultipartFile[] files) {
         List<String> fileList = new LinkedList<>();
         String directory = SecurityUtil.albedoProperties.getStaticFileDirectory();
         String dir = mkdirs(directory);
-        
+
         for (int i = 0; i < files.length; i++) {
-        	String fileName = new StringBuilder().append(dir).append(UUID.randomUUID().toString().replaceAll("-", "")).append(".")
-        			.append(FilenameUtils.getExtension(files[i].getOriginalFilename())).toString();
+            String fileName = new StringBuilder().append(dir).append(UUID.randomUUID().toString().replaceAll("-", "")).append(".")
+                    .append(FilenameUtils.getExtension(files[i].getOriginalFilename())).toString();
             try {
                 FileCopyUtils.copy(files[i].getBytes(), new FileOutputStream(fileName));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            
+
             fileList.add(fileName.replaceAll(directory, ""));
-		}
+        }
         return ResultBuilder.buildOk(StringUtils.join(fileList, ","), "上传成功");
 
     }
 
-	private String mkdirs(String directory) {
+    private String mkdirs(String directory) {
         Calendar now = Calendar.getInstance();
         int year = now.get(Calendar.YEAR);
         int month = now.get(Calendar.MONTH) + 1;
@@ -70,7 +69,6 @@ public class FileResource extends BaseResource {
     }
 
     /**
-     *
      * @param response
      * @param year
      * @param month
@@ -80,7 +78,7 @@ public class FileResource extends BaseResource {
     @RequestMapping(value = "/get/{year}/{month}/{day}/{fileName:.+}", method = RequestMethod.GET)
     public void get(HttpServletResponse response, @PathVariable String year, @PathVariable String month, @PathVariable String day, @PathVariable String fileName) {
         try {
-        	String directory = SecurityUtil.albedoProperties.getStaticFileDirectory();
+            String directory = SecurityUtil.albedoProperties.getStaticFileDirectory();
             String dir = new StringBuilder().append(directory).append("/").append(year).append("/").append(month).append("/").append(day).toString();
             File file = FileUtils.getFile(dir, fileName);
             byte[] bytes = FileCopyUtils.copyToByteArray(file);

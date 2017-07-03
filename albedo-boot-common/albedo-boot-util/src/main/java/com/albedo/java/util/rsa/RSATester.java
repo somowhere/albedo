@@ -3,7 +3,7 @@ package com.albedo.java.util.rsa;
 import java.util.Map;
 
 public class RSATester {
-	static String publicKey;
+    static String publicKey;
     static String privateKey;
 
     static {
@@ -17,9 +17,9 @@ public class RSATester {
             e.printStackTrace();
         }
     }
-    
+
     public static void main(String[] args) throws Exception {
-    	
+
 /*
  *     	Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
 
@@ -28,8 +28,8 @@ public class RSATester {
     	Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding",new BouncyCastleProvider());
  * 
  * */
-    	
-    	 test();
+
+        test();
         testStr();
         testSign();
 //        testSignStr();
@@ -46,7 +46,7 @@ public class RSATester {
         String target = new String(decodedData);
         System.out.println("解密后文字: \r\n" + target);
     }
-    
+
     static void testStr() throws Exception {
         System.err.println("公钥加密——私钥解密");
         String source = "3333333333333333";
@@ -57,7 +57,8 @@ public class RSATester {
         String decodedData = RSAUtil.decryptByPrivateKeyStr(encodedData, privateKey);
         System.out.println("解密后文字: \r\n" + decodedData);
     }
-//    static void testSignStr() throws Exception {
+
+    //    static void testSignStr() throws Exception {
 //        System.err.println("私钥加密——公钥解密");
 //        String source = "2222222222222222222";
 //        System.out.println("原文字：\r\n" + source);

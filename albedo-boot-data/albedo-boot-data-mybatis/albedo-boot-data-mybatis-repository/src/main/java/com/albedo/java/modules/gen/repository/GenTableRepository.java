@@ -15,6 +15,7 @@ import java.util.List;
 public interface GenTableRepository extends BaseRepository<GenTable, String> {
     /**
      * 查询表列表
+     *
      * @param genTableQuery
      * @return
      */
@@ -23,14 +24,16 @@ public interface GenTableRepository extends BaseRepository<GenTable, String> {
 
     /**
      * 获取数据表字段
+     *
      * @param genTable
      * @return
      */
     @Query
-    List<GenTableColumn> findTableColumnList(@Param("genTable")GenTable genTable);
+    List<GenTableColumn> findTableColumnList(@Param("genTable") GenTable genTable);
 
     /**
      * 获取数据表主键
+     *
      * @param genTable
      * @return
      */

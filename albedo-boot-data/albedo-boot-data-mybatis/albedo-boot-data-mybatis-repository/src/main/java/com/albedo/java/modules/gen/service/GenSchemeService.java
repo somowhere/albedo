@@ -27,58 +27,58 @@ import java.util.Map;
 @Transactional
 public class GenSchemeService extends DataService<GenSchemeRepository, GenScheme, String> {
 
-	@Resource
-	private GenTableRepository genTableRepository;
+    @Resource
+    private GenTableRepository genTableRepository;
 
-	public List<GenScheme> findAll(String id) {
+    public List<GenScheme> findAll(String id) {
 
-		SpecificationDetail specificationDetail = DynamicSpecifications.bySearchQueryCondition(
-				QueryCondition.eq(GenTable.F_STATUS, GenTable.FLAG_NORMAL),
-				QueryCondition.ne(GenTable.F_ID, id == null ? "-1" : id));
-		return findAll(specificationDetail);
+        SpecificationDetail specificationDetail = DynamicSpecifications.bySearchQueryCondition(
+                QueryCondition.eq(GenTable.F_STATUS, GenTable.FLAG_NORMAL),
+                QueryCondition.ne(GenTable.F_ID, id == null ? "-1" : id));
+        return findAll(specificationDetail);
 //		return repository.findAllByStatusAndId(GenTable.FLAG_NORMAL, id == null ? "-1" : id);
-	}
+    }
 
 
-	public String generateCode(GenScheme genScheme) {
-		StringBuilder result = new StringBuilder();
+    public String generateCode(GenScheme genScheme) {
+        StringBuilder result = new StringBuilder();
 
-		// 查询主表及字段列
-		GenTable genTable = genTableRepository.findOne(genScheme.getGenTableId());
+        // 查询主表及字段列
+        GenTable genTable = genTableRepository.findOne(genScheme.getGenTableId());
 
-		Collections.sort(genTable.getColumnList());
+        Collections.sort(genTable.getColumnList());
 
-		// 获取所有代码模板
-		GenConfig config = GenUtil.getConfig();
+        // 获取所有代码模板
+        GenConfig config = GenUtil.getConfig();
 
-		// 获取模板列表
-		List<GenTemplate> templateList = GenUtil.getTemplateList(config, genScheme.getCategory(), false);
-		List<GenTemplate> childTableTemplateList = GenUtil.getTemplateList(config, genScheme.getCategory(), true);
+        // 获取模板列表
+        List<GenTemplate> templateList = GenUtil.getTemplateList(config, genScheme.getCategory(), false);
+        List<GenTemplate> childTableTemplateList = GenUtil.getTemplateList(config, genScheme.getCategory(), true);
 
-		// 如果有子表模板，则需要获取子表列表
-		if (childTableTemplateList.size() > 0) {
-			genTable.setChildList(genTableRepository.findAllByParentTable(genTable.getId()));
-		}
+        // 如果有子表模板，则需要获取子表列表
+        if (childTableTemplateList.size() > 0) {
+            genTable.setChildList(genTableRepository.findAllByParentTable(genTable.getId()));
+        }
 
-		// 生成子表模板代码
-		if(genTable.getChildList()==null)genTable.setChildList(Lists.newArrayList());
-		for (GenTable childTable : genTable.getChildList()) {
-			Collections.sort(childTable.getColumnList());
-			childTable.setCategory(genScheme.getCategory());
-			genScheme.setGenTable(childTable);
-			Map<String, Object> childTableModel = GenUtil.getDataModel(genScheme);
-			for (GenTemplate tpl : childTableTemplateList) {
-				result.append(GenUtil.generateToFile(tpl, childTableModel, genScheme.getReplaceFile()));
-			}
-		}
-		genTable.setCategory(genScheme.getCategory());
-		// 生成主表模板代码
-		genScheme.setGenTable(genTable);
-		Map<String, Object> model = GenUtil.getDataModel(genScheme);
-		for (GenTemplate tpl : templateList) {
-			result.append(GenUtil.generateToFile(tpl, model, genScheme.getReplaceFile()));
-		}
-		return result.toString();
-	}
+        // 生成子表模板代码
+        if (genTable.getChildList() == null) genTable.setChildList(Lists.newArrayList());
+        for (GenTable childTable : genTable.getChildList()) {
+            Collections.sort(childTable.getColumnList());
+            childTable.setCategory(genScheme.getCategory());
+            genScheme.setGenTable(childTable);
+            Map<String, Object> childTableModel = GenUtil.getDataModel(genScheme);
+            for (GenTemplate tpl : childTableTemplateList) {
+                result.append(GenUtil.generateToFile(tpl, childTableModel, genScheme.getReplaceFile()));
+            }
+        }
+        genTable.setCategory(genScheme.getCategory());
+        // 生成主表模板代码
+        genScheme.setGenTable(genTable);
+        Map<String, Object> model = GenUtil.getDataModel(genScheme);
+        for (GenTemplate tpl : templateList) {
+            result.append(GenUtil.generateToFile(tpl, model, genScheme.getReplaceFile()));
+        }
+        return result.toString();
+    }
 
 }

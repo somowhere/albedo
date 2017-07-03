@@ -12,7 +12,7 @@ define(function (require) {
          * y 父矩形横坐标
          * width 父矩形宽
          * height 父矩形高
-        */
+         */
         var row = {
             x: opts.x,
             y: opts.y,
@@ -111,11 +111,9 @@ define(function (require) {
             );
         }
     };
-    TreeMapLayout.prototype._getShapeListInAbstractRow = function (
-        areas,
-        width,
-        height
-    ) {
+    TreeMapLayout.prototype._getShapeListInAbstractRow = function (areas,
+                                                                   width,
+                                                                   height) {
         // 如果只剩下一个了，直接返回
         if (areas.length === 1) {
             return [
@@ -146,24 +144,22 @@ define(function (require) {
     };
 
     // 确定数量进行填充
-    TreeMapLayout.prototype._placeFixedNumberRectangles = function (
-        areaSubArr,
-        width,
-        height
-    ) {
+    TreeMapLayout.prototype._placeFixedNumberRectangles = function (areaSubArr,
+                                                                    width,
+                                                                    height) {
         var count = areaSubArr.length;
         // 声明返回值-每个矩形的形状（长宽）之数组
         // 例如：
         /*[
-            {
-                width: 11
-                height: 12
-            },
-            {
-                width: 11
-                height: 22
-            }
-        ]*/
+         {
+         width: 11
+         height: 12
+         },
+         {
+         width: 11
+         height: 22
+         }
+         ]*/
         var shapeArr = [];
 
         // 求出面积总和
@@ -184,13 +180,11 @@ define(function (require) {
         return shapeArr;
     };
     // 相邻的两种填充方式放进去，比较是不是前一个的纵横比较小
-    TreeMapLayout.prototype._isFirstBetter = function (
-        shapeArr0,
-        shapeArr1
-    ) {
+    TreeMapLayout.prototype._isFirstBetter = function (shapeArr0,
+                                                       shapeArr1) {
         var ratio0 = shapeArr0[0].height / shapeArr0[0].width;
         ratio0 = (ratio0 > 1) ? 1 / ratio0 : ratio0;
-        var ratio1 =  shapeArr1[0].height / shapeArr1[0].width;
+        var ratio1 = shapeArr1[0].height / shapeArr1[0].width;
         ratio1 = (ratio1 > 1) ? 1 / ratio1 : ratio1;
         if (Math.abs(ratio0 - 1) <= Math.abs(ratio1 - 1)) {
             return true;

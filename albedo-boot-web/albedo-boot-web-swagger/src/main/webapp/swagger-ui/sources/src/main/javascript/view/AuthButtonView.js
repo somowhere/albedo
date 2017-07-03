@@ -11,7 +11,7 @@ SwaggerUi.Views.AuthButtonView = Backbone.View.extend({
         authBtnOperation: Handlebars.templates.auth_button_operation
     },
 
-    initialize: function(opts) {
+    initialize: function (opts) {
         this.options = opts || {};
         this.options.data = this.options.data || {};
         this.isOperation = this.options.isOperation;

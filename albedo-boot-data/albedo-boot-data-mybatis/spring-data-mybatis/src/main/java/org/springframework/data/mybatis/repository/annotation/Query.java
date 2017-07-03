@@ -54,9 +54,6 @@ public @interface Query {
 
     Operation operation() default unknown;
 
-    class Unspecified {
-    }
-
     enum Operation {
         insert,
         update,
@@ -67,6 +64,9 @@ public @interface Query {
         slice,
         stream,
         unknown
+    }
+
+    class Unspecified {
     }
 
 }

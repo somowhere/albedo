@@ -1,27 +1,27 @@
 var Widgets = function () {
 
-	var handleMapplic = function () {
-		$('#mapplic').mapplic({
-			source: '../../assets/global/plugins/mapplic/world.json',
-			height: 265,
-			animate: false,
-			sidebar: false,
-			minimap: false,
+    var handleMapplic = function () {
+        $('#mapplic').mapplic({
+            source: '../../assets/global/plugins/mapplic/world.json',
+            height: 265,
+            animate: false,
+            sidebar: false,
+            minimap: false,
             locations: true,
-			deeplinking: true,
-			fullscreen: false,
-			hovertip: true,
-			zoombuttons: false,
-			clearbutton: false,
-			developer: false,
-			maxscale: 2,
-			skin: 'mapplic-dark',
-			zoom: true
-		});
-	}
+            deeplinking: true,
+            fullscreen: false,
+            hovertip: true,
+            zoombuttons: false,
+            clearbutton: false,
+            developer: false,
+            maxscale: 2,
+            skin: 'mapplic-dark',
+            zoom: true
+        });
+    }
 
-	var handleSparklineChart = function () {
-		$("#widget_sparkline_bar").sparkline([8, 7, 9, 8.5, 8, 8.2, 8, 8.5, 9, 8, 9], {
+    var handleSparklineChart = function () {
+        $("#widget_sparkline_bar").sparkline([8, 7, 9, 8.5, 8, 8.2, 8, 8.5, 9, 8, 9], {
             type: 'bar',
             width: '100',
             barWidth: 5,
@@ -53,8 +53,8 @@ var Widgets = function () {
             barColor: '#9a7caf',
             negBarColor: '#e02222'
         });
-	}
-    
+    }
+
     var handleCounter = function () {
         $('.counter').counterUp({
             delay: 10,
@@ -62,7 +62,7 @@ var Widgets = function () {
         });
     }
 
-	return {
+    return {
 
         // main function
         init: function () {
@@ -70,10 +70,10 @@ var Widgets = function () {
             handleSparklineChart(); // handle sparkline chart
             handleCounter(); // handle counter
         }
-        
+
     };
 }();
 
-jQuery(document).ready(function() {    
-   Widgets.init();
+jQuery(document).ready(function () {
+    Widgets.init();
 });

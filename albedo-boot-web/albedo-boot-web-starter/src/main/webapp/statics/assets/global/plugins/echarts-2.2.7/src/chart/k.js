@@ -7,14 +7,14 @@
  */
 define(function (require) {
     var ChartBase = require('./base');
-    
+
     // 图形依赖
     var CandleShape = require('../util/shape/Candle');
     // 组件依赖
     require('../component/axis');
     require('../component/grid');
     require('../component/dataZoom');
-    
+
     var ecConfig = require('../config');
     // K线图默认参数
     ecConfig.k = {
@@ -60,7 +60,7 @@ define(function (require) {
 
     var ecData = require('../util/ecData');
     var zrUtil = require('zrender/tool/util');
-    
+
     /**
      * 构造函数
      * @param {Object} messageCenter echart消息中心
@@ -74,7 +74,7 @@ define(function (require) {
 
         this.refresh(option);
     }
-    
+
     K.prototype = {
         type: ecConfig.CHART_TYPE_K,
         /**
@@ -148,10 +148,10 @@ define(function (require) {
             for (var i = 0, l = seriesArray.length; i < l; i++) {
                 serie = series[seriesArray[i]];
                 serieName = serie.name;
-                this.selectedMap[serieName] = legend 
-                                              ? legend.isSelected(serieName)
-                                              : true;
-                
+                this.selectedMap[serieName] = legend
+                    ? legend.isSelected(serieName)
+                    : true;
+
                 if (this.selectedMap[serieName]) {
                     locationMap.push(seriesArray[i]);
                 }
@@ -185,25 +185,25 @@ define(function (require) {
             for (var j = 0, k = locationMap.length; j < k; j++) {
                 seriesIndex = locationMap[j];
                 serie = series[seriesIndex];
-                
+
                 xAxisIndex = serie.xAxisIndex || 0;
                 categoryAxis = this.component.xAxis.getAxis(xAxisIndex);
-                candleWidth = serie.barWidth 
-                              || Math.floor(categoryAxis.getGap() / 2);
+                candleWidth = serie.barWidth
+                    || Math.floor(categoryAxis.getGap() / 2);
                 barMaxWidth = serie.barMaxWidth;
                 if (barMaxWidth && barMaxWidth < candleWidth) {
                     candleWidth = barMaxWidth;
                 }
                 yAxisIndex = serie.yAxisIndex || 0;
                 valueAxis = this.component.yAxis.getAxis(yAxisIndex);
-                
+
                 pointList[seriesIndex] = [];
                 for (var i = 0, l = maxDataLength; i < l; i++) {
                     if (categoryAxis.getNameByIndex(i) == null) {
                         // 系列数据超出类目轴长度
                         break;
                     }
-                    
+
                     data = serie.data[i];
                     value = this.getDataFromOption(data, '-');
                     if (value === '-' || value.length != 4) {
@@ -237,7 +237,7 @@ define(function (require) {
             var nLineColor0;    // 阴线
             var nColor;
             var nColor0;        // 阴线
-            
+
             // emphasis:
             var eLineWidth;
             var eLineColor;
@@ -257,11 +257,11 @@ define(function (require) {
                 seriesIndex = seriesArray[sIdx];
                 serie = series[seriesIndex];
                 seriesPL = pointList[seriesIndex];
-                
+
                 if (this._isLarge(seriesPL)) {
                     seriesPL = this._getLargePointList(seriesPL);
                 }
-                
+
                 if (serie.type === ecConfig.CHART_TYPE_K && seriesPL != null) {
                     // 多级控制
                     queryTarget = serie;
@@ -280,7 +280,7 @@ define(function (require) {
                     nColor0 = this.query(
                         queryTarget, 'itemStyle.normal.color0'
                     );
-                    
+
                     eLineWidth = this.query(
                         queryTarget, 'itemStyle.emphasis.lineStyle.width'
                     );
@@ -318,65 +318,65 @@ define(function (require) {
                             seriesIndex,    // seriesIndex
                             singlePoint[6], // dataIndex
                             singlePoint[7], // name
-                            
+
                             singlePoint[0], // x
                             singlePoint[1], // width
                             singlePoint[2], // y开盘
                             singlePoint[3], // y收盘
                             singlePoint[4], // y最低
                             singlePoint[5], // y最高
-                            
+
                             // 填充颜色
                             candleType
-                            ? (this.query(          // 阳
-                                   queryTarget, 'itemStyle.normal.color'
-                               ) || nColor)
-                            : (this.query(          // 阴
-                                   queryTarget, 'itemStyle.normal.color0'
-                               ) || nColor0),
-                            
+                                ? (this.query(          // 阳
+                                queryTarget, 'itemStyle.normal.color'
+                            ) || nColor)
+                                : (this.query(          // 阴
+                                queryTarget, 'itemStyle.normal.color0'
+                            ) || nColor0),
+
                             // 线宽
                             this.query(
-                               queryTarget, 'itemStyle.normal.lineStyle.width'
+                                queryTarget, 'itemStyle.normal.lineStyle.width'
                             ) || nLineWidth,
-                            
+
                             // 线色
                             candleType
-                            ? (this.query(          // 阳
-                                   queryTarget,
-                                   'itemStyle.normal.lineStyle.color'
-                               ) || nLineColor)
-                            : (this.query(          // 阴
-                                   queryTarget,
-                                   'itemStyle.normal.lineStyle.color0'
-                               ) || nLineColor0),
-                            
+                                ? (this.query(          // 阳
+                                queryTarget,
+                                'itemStyle.normal.lineStyle.color'
+                            ) || nLineColor)
+                                : (this.query(          // 阴
+                                queryTarget,
+                                'itemStyle.normal.lineStyle.color0'
+                            ) || nLineColor0),
+
                             //------------高亮
-                            
+
                             // 填充颜色
                             candleType
-                            ? (this.query(          // 阳
-                                   queryTarget, 'itemStyle.emphasis.color'
-                               ) || eColor || nColor)
-                            : (this.query(          // 阴
-                                   queryTarget, 'itemStyle.emphasis.color0'
-                               ) || eColor0 || nColor0),
-                            
+                                ? (this.query(          // 阳
+                                queryTarget, 'itemStyle.emphasis.color'
+                            ) || eColor || nColor)
+                                : (this.query(          // 阴
+                                queryTarget, 'itemStyle.emphasis.color0'
+                            ) || eColor0 || nColor0),
+
                             // 线宽
                             this.query(
-                               queryTarget, 'itemStyle.emphasis.lineStyle.width'
+                                queryTarget, 'itemStyle.emphasis.lineStyle.width'
                             ) || eLineWidth || nLineWidth,
-                            
+
                             // 线色
                             candleType
-                            ? (this.query(          // 阳
-                                   queryTarget,
-                                   'itemStyle.emphasis.lineStyle.color'
-                               ) || eLineColor || nLineColor)
-                            : (this.query(          // 阴
-                                   queryTarget,
-                                   'itemStyle.emphasis.lineStyle.color0'
-                               ) || eLineColor0 || nLineColor0)
+                                ? (this.query(          // 阳
+                                queryTarget,
+                                'itemStyle.emphasis.lineStyle.color'
+                            ) || eLineColor || nLineColor)
+                                : (this.query(          // 阴
+                                queryTarget,
+                                'itemStyle.emphasis.lineStyle.color0'
+                            ) || eLineColor0 || nLineColor0)
                         ));
                     }
                 }
@@ -384,14 +384,14 @@ define(function (require) {
             // console.log(this.shapeList)
         },
 
-        _isLarge: function(singlePL) {
+        _isLarge: function (singlePL) {
             return singlePL[0][1] < 0.5;
         },
-        
+
         /**
-         * 大规模pointList优化 
+         * 大规模pointList优化
          */
-        _getLargePointList: function(singlePL) {
+        _getLargePointList: function (singlePL) {
             var total = this.component.grid.getWidth();
             var len = singlePL.length;
             var newList = [];
@@ -400,16 +400,14 @@ define(function (require) {
             }
             return newList;
         },
-        
+
         /**
          * 生成K线图上的图形
          */
-        _getCandle: function (
-            seriesIndex, dataIndex, name, 
-            x, width, y0, y1, y2, y3, 
-            nColor, nLinewidth, nLineColor, 
-            eColor, eLinewidth, eLineColor
-        ) {
+        _getCandle: function (seriesIndex, dataIndex, name,
+                              x, width, y0, y1, y2, y3,
+                              nColor, nLinewidth, nLineColor,
+                              eColor, eLinewidth, eLineColor) {
             var series = this.series;
             var serie = series[seriesIndex];
             var data = serie.data[dataIndex];
@@ -438,16 +436,16 @@ define(function (require) {
             };
 
             itemShape = this.addLabel(itemShape, serie, data, name);
-            
+
             ecData.pack(
                 itemShape,
                 serie, seriesIndex,
                 data, dataIndex,
                 name
             );
-            
+
             itemShape = new CandleShape(itemShape);
-            
+
             return itemShape;
         },
 
@@ -456,18 +454,18 @@ define(function (require) {
             var serie = this.series[seriesIndex];
             var xAxis = this.component.xAxis.getAxis(serie.xAxisIndex);
             var yAxis = this.component.yAxis.getAxis(serie.yAxisIndex);
-            
+
             return [
                 typeof mpData.xAxis != 'string' && xAxis.getCoordByIndex
                     ? xAxis.getCoordByIndex(mpData.xAxis || 0)
                     : xAxis.getCoord(mpData.xAxis || 0),
-                
+
                 typeof mpData.yAxis != 'string' && yAxis.getCoordByIndex
                     ? yAxis.getCoordByIndex(mpData.yAxis || 0)
                     : yAxis.getCoord(mpData.yAxis || 0)
             ];
         },
-        
+
         /**
          * 刷新
          */
@@ -476,7 +474,7 @@ define(function (require) {
                 this.option = newOption;
                 this.series = newOption.series;
             }
-            
+
             this.backupShapeList();
             this._buildShape();
         },
@@ -498,6 +496,7 @@ define(function (require) {
             var dataIndex;
 
             var aniCount = 0;
+
             function animationDone() {
                 aniCount--;
                 if (aniCount === 0) {
@@ -505,14 +504,14 @@ define(function (require) {
                 }
             }
 
-             for (var i = 0, l = this.shapeList.length; i < l; i++) {
+            for (var i = 0, l = this.shapeList.length; i < l; i++) {
                 seriesIndex = this.shapeList[i]._seriesIndex;
                 if (aniMap[seriesIndex] && !aniMap[seriesIndex][3]) {
                     // 有数据删除才有移动的动画
                     if (this.shapeList[i].type === 'candle') {
                         dataIndex = ecData.get(this.shapeList[i], 'dataIndex');
                         serie = series[seriesIndex];
-                        if (aniMap[seriesIndex][2] 
+                        if (aniMap[seriesIndex][2]
                             && dataIndex === serie.data.length - 1
                         ) {
                             // 队头加入删除末尾
@@ -525,33 +524,33 @@ define(function (require) {
                             continue;
                         }
                         dx = this.component.xAxis.getAxis(
-                                serie.xAxisIndex || 0
-                             ).getGap();
+                            serie.xAxisIndex || 0
+                        ).getGap();
                         x = aniMap[seriesIndex][2] ? dx : -dx;
                         y = 0;
                         aniCount++;
                         this.zr.animate(this.shapeList[i].id, '')
                             .when(
                                 this.query(this.option, 'animationDurationUpdate'),
-                                { position: [ x, y ] }
+                                {position: [x, y]}
                             )
                             .done(animationDone)
                             .start();
                     }
                 }
             }
-            
+
             // 没有动画
             if (!aniCount) {
                 done && done();
             }
         }
     };
-    
+
     zrUtil.inherits(K, ChartBase);
-    
+
     // 图表注册
     require('../chart').define('k', K);
-    
+
     return K;
 });

@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: XML mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel="stylesheet" href="../../lib/codemirror.css">
 <script src="../../lib/codemirror.js"></script>
@@ -19,16 +19,16 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">XML</a>
+        <li>
+            <a class=active href="#">XML</a>
     </ul>
 </div>
 <article>
@@ -39,15 +39,17 @@
     </form>
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById("code"),
-        {
-            mode: "text/html",
-            lineNumbers: true
-        });
+            {
+                mode: "text/html",
+                lineNumbers: true
+            });
     </script>
     <p>The XML mode supports two configuration parameters:</p>
     <dl>
         <dt><code>htmlMode (boolean)</code></dt>
-        <dd>This switches the mode to parse HTML instead of XML. This means attributes do not have to be quoted, and some elements (such as <code>br</code>) do not require a closing tag.</dd>
+        <dd>This switches the mode to parse HTML instead of XML. This means attributes do not have to be quoted, and
+            some elements (such as <code>br</code>) do not require a closing tag.
+        </dd>
         <dt><code>alignCDATA (boolean)</code></dt>
         <dd>Setting this to true will force the opening tag of CDATA blocks to not be indented.</dd>
     </dl>

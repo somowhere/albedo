@@ -5,7 +5,7 @@
  * @author Kener (@Kener-林峰, kener.linfeng@gmail.com)
  *
  */
-define(function() {
+define(function () {
     // 墨卡托投射
     function _mercator() {
         var radians = Math.PI / 180;
@@ -15,8 +15,8 @@ define(function() {
         function mercator(coordinates) {
             var x = coordinates[0] / 360;
             var y = -(Math.log(Math.tan(
-                        Math.PI / 4 + coordinates[1] * radians / 2
-                    )) / radians) / 360;
+                    Math.PI / 4 + coordinates[1] * radians / 2
+                )) / radians) / 360;
             return [
                 scale * x + translate[0],
                 scale * Math.max(-0.5, Math.min(0.5, y)) + translate[1]

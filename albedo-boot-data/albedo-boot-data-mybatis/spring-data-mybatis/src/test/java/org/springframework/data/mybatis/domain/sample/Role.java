@@ -89,11 +89,19 @@ public class Role {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     /**
      * @return the name
      */
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     /*
@@ -105,14 +113,6 @@ public class Role {
     public String toString() {
 
         return PREFIX + name;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Group getGroup() {

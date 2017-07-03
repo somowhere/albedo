@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: Q mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel="stylesheet" href="../../lib/codemirror.css">
 <script src="../../lib/codemirror.js"></script>
@@ -20,16 +20,16 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">Q</a>
+        <li>
+            <a class=active href="#">Q</a>
     </ul>
 </div>
 <article>
@@ -46,9 +46,14 @@
                     or more is forced to character "*" DISCARDEMPTY:0b / completely ignore empty columns if true else set them to "C" CHUNKSIZE:50000000 / used in fs2 (modified .Q.fs) k)nameltrim:{$[~@x;.z.s'x;~(*x)in aA:.Q.a,.Q.A;(+/&\~x in aA)_x;x]}
                     k)fs2:{[f;s]((-7!s)>){[f;s;x]i:1+last@&0xa=r:1:(s;x;CHUNKSIZE);f@`\:i#r;x+i}[f;s]/0j} cleanhdrs:{{$[ZAPHDRS;lower x except"_";x]}x where x in DELIM,.Q.an} cancast:{nw:x$"";if[not x in"BXCS";nw:(min 0#;max 0#;::)@\:nw];$[not any nw
                     in x$(11&count y)#y;$[11
-                    <count y;not any nw in x$y;1b];0b]} read:{[file]data[file;info[file]]} read10:{[file]data10[file;info[file]]} colhdrs:{[file] `$nameltrim DELIM vs cleanhdrs first read0(file;0;1+first where 0xa=read1(file;0;WIDTHHDR))}
-                    data:{[file;info] (exec c from info where not t=" " )xcol(exec t from info;enlist DELIM)0:file} data10:{[file;info] data[;info](file;0;1+last 11#where 0xa=read1(file;0;15*WIDTHHDR))} info0:{[file;onlycols] colhdrs:`$nameltrim DELIM
-                    vs cleanhdrs first head:read0(file;0;1+last where 0xa=read1(file;0;WIDTHHDR)); loadfmts:(count colhdrs)# "S";if[count onlycols;loadfmts[where not colhdrs in onlycols]: "C"]; breaks:where 0xa=read1(file;0;floor(10+READLINES)*WIDTHHDR%count
+                    <count y;not any nw in x$y;1b];0b]} read:{[file]data[file;info[file]]}
+                           read10:{[file]data10[file;info[file]]} colhdrs:{[file] `$nameltrim DELIM vs cleanhdrs first
+                           read0(file;0;1+first where 0xa=read1(file;0;WIDTHHDR))}
+                           data:{[file;info] (exec c from info where not t=" " )xcol(exec t from info;enlist
+                           DELIM)0:file} data10:{[file;info] data[;info](file;0;1+last 11#where
+                           0xa=read1(file;0;15*WIDTHHDR))} info0:{[file;onlycols] colhdrs:`$nameltrim DELIM
+                           vs cleanhdrs first head:read0(file;0;1+last where 0xa=read1(file;0;WIDTHHDR));
+                           loadfmts:(count colhdrs)# "S";if[count onlycols;loadfmts[where not colhdrs in onlycols]: "C"]; breaks:where 0xa=read1(file;0;floor(10+READLINES)*WIDTHHDR%count
                     head); nas:count as:colhdrs xcol(loadfmts;enlist DELIM)0:(file;0;1+last((1+READLINES)&count breaks)#breaks); info:([]c:key flip as;v:value flip as);as:(); reserved:key`.q;reserved,:.Q.res;reserved,:`i; info:update res:c in reserved
                     from info; info:update ci:i,t: "?",ipa:0b,mdot:0,mw:0,rule:0,gr:0,ndv:0,maybe:0b,empty:0b,j10:0b,j12:0b from info; info:update ci:`s#ci from info; if[count onlycols;info:update t: " ",rule:10 from info where not c in onlycols]; info:update
                     sdv:{string(distinct x)except`}peach v from info; info:update ndv:count each sdv from info; info:update gr:floor 0.5+100*ndv%nas,mw:{max count each x}peach sdv from info where 0<ndv; info:update t: "*",rule:20 from info where mw>.csv.FORCECHARWIDTH; / long values info:update t:"C "[.csv.DISCARDEMPTY],rule:30,empty:1b from info where t="?",mw=0; / empty columns info:update dchar:{asc distinct raze x}peach sdv from info where t="?"; info:update mdot:{max sum
@@ -57,8 +62,10 @@
                         from info where t="J",mw
                         <12,.csv.cancast[ "I"]peach sdv; info:update t: "H",rule:80 from info where t="I" ,mw<7,.csv.cancast[ "H"]peach sdv; info:update t: "F",rule:90 from info where t="n" ,mdot<2,mw>1,.csv.cancast["F"]peach sdv; info:update t:"E",rule:100,maybe:1b from info where t="F",mw
                             <9; info:update t: "M",rule:110,maybe:1b from info where t in "nIHEF",mdot<2,mw within 4 7,.csv.cancast[ "M"]peach sdv; info:update t:
-                            "D",rule:120,maybe:1b from info where t in "nI",mdot in 0 2,mw within 6 11,.csv.cancast[ "D"]peach sdv; info:update t: "V",rule:130,maybe:1b from info where t="I" ,mw in 5 6,7<count each dchar,{all x like
-                            "*[0-9][0-5][0-9][0-5][0-9]"}peach sdv,.csv.cancast[ "V"]peach sdv; / 235959 12345 info:update t: "U",rule:140,maybe:1b from info where t="H" ,mw in 3 4,7<count each dchar,{all x like "*[0-9][0-5][0-9]"}peach sdv,.csv.cancast[ "U"]peach sdv; /2359 info:update
+                            "D",rule:120,maybe:1b from info where t in "nI",mdot in 0 2,mw within 6 11,.csv.cancast[ "D"]peach sdv; info:update t: "V",rule:130,maybe:1b from info where t="I" ,mw in 5 6,7<count
+                        each dchar,{all x like
+                            "*[0-9][0-5][0-9][0-5][0-9]"}peach sdv,.csv.cancast[ "V"]peach sdv; / 235959 12345 info:update t: "U",rule:140,maybe:1b from info where t="H" ,mw in 3 4,7<count
+                        each dchar,{all x like "*[0-9][0-5][0-9]"}peach sdv,.csv.cancast[ "U"]peach sdv; /2359 info:update
                             t: "U",rule:150,maybe:0b from info where t="n" ,mw in 4 5,mdot=0,{all x like "*[0-9]:[0-5][0-9]"}peach sdv,.csv.cancast[ "U"]peach sdv; info:update t: "T",rule:160,maybe:0b from info where t="n" ,mw within 7 12,mdot<2,{all
                             x like "*[0-9]:[0-5][0-9]:[0-5][0-9]*"}peach sdv,.csv.cancast[ "T"]peach sdv; info:update t: "V",rule:170,maybe:0b from info where t="T" ,mw in 7 8,mdot=0,.csv.cancast[ "V"]peach sdv; info:update t: "T",rule:180,maybe:1b from
                             info where t in "EF",mw within 7 10,mdot=1,{all x like "*[0-9][0-5][0-9][0-5][0-9].*"}peach sdv,.csv.cancast[ "T"]peach sdv; info:update t: "Z",rule:190,maybe:0b from info where t="n" ,mw within 11 24,mdot<4,.csv.cancast[
@@ -83,11 +90,11 @@ bulkload:{[file;info]
 </textarea></div>
 
     <script>
-      var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-        lineNumbers: true,
-        matchBrackets: true
-      });
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            lineNumbers: true,
+            matchBrackets: true
+        });
     </script>
 
     <p><strong>MIME type defined:</strong> <code>text/x-q</code>.</p>
-  </article>
+</article>

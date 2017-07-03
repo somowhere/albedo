@@ -5,14 +5,14 @@
  * @author Neil (杨骥, 511415343@qq.com)
  */
 
- define(function (require) {
+define(function (require) {
     var ChartBase = require('./base');
-    
-     // 图形依赖
+
+    // 图形依赖
     var PolygonShape = require('zrender/shape/Polygon');
-     // 组件依赖
+    // 组件依赖
     require('../component/polar');
-    
+
     var ecConfig = require('../config');
     // 雷达图默认参数
     ecConfig.radar = {
@@ -47,7 +47,7 @@
     var ecData = require('../util/ecData');
     var zrUtil = require('zrender/tool/util');
     var zrColor = require('zrender/tool/color');
-    
+
     /**
      * 构造函数
      * @param {Object} messageCenter echart消息中心
@@ -63,34 +63,34 @@
 
         this.refresh(option);
     }
-    
+
     Radar.prototype = {
-        type : ecConfig.CHART_TYPE_RADAR,
+        type: ecConfig.CHART_TYPE_RADAR,
         /**
          * 绘制图形
          */
-        _buildShape : function () {
+        _buildShape: function () {
             this.selectedMap = {};
             this._symbol = this.option.symbolList;
             this._queryTarget;
             this._dropBoxList = [];
             this._radarDataCounter = 0;
-            
+
             var series = this.series;
             var legend = this.component.legend;
             var serieName;
-            for (var i = 0, l = series.length; i < l ; i++) {
+            for (var i = 0, l = series.length; i < l; i++) {
                 if (series[i].type === ecConfig.CHART_TYPE_RADAR) {
                     this.serie = this.reformOption(series[i]);
                     this.legendHoverLink = series[i].legendHoverLink || this.legendHoverLink;
                     serieName = this.serie.name || '';
                     // 系列图例开关
-                    this.selectedMap[serieName] = 
+                    this.selectedMap[serieName] =
                         legend ? legend.isSelected(serieName) : true;
-                    
+
                     if (this.selectedMap[serieName]) {
                         this._queryTarget = [this.serie, this.option];
-    
+
                         // 添加可拖拽提示框，多系列共用一个极坐标，第一个优先
                         if (this.deepQuery(this._queryTarget, 'calculable')) {
                             this._addDropBox(i);
@@ -108,7 +108,7 @@
          * 构建数据图形
          * @param {number} 序列的index
          */
-        _buildSingleRadar : function (index) {
+        _buildSingleRadar: function (index) {
             var legend = this.component.legend;
             var iconShape;
             var data = this.serie.data;
@@ -116,18 +116,18 @@
             var name;
             var pointList;
             var calculable = this.deepQuery(this._queryTarget, 'calculable');
-           
+
             for (var i = 0; i < data.length; i++) {
                 name = data[i].name || '';
-                
+
                 // 图例开关
-                this.selectedMap[name] = legend 
+                this.selectedMap[name] = legend
                     ? legend.isSelected(name) : true;
                 if (!this.selectedMap[name]) {
                     continue;
                 }
-                
-                 // 默认颜色策略
+
+                // 默认颜色策略
                 if (legend) {
                     // 有图例则从图例中获取颜色定义
                     defaultColor = legend.getColor(name);
@@ -164,7 +164,7 @@
          * @param {Array<Object>} 处理的数据
          * @return {Array<Array<number>>} 点集
          */
-        _getPointList : function (polarIndex, dataArr) {
+        _getPointList: function (polarIndex, dataArr) {
             var pointList = [];
             var vector;
             var polar = this.component.polar;
@@ -172,16 +172,16 @@
             var value;
             for (var i = 0, l = dataArr.value.length; i < l; i++) {
                 value = this.getDataFromOption(dataArr.value[i]);
-                vector = value != '-' 
-                         ? polar.getVector(polarIndex, i, value)
-                         : false;
+                vector = value != '-'
+                    ? polar.getVector(polarIndex, i, value)
+                    : false;
                 if (vector) {
                     pointList.push(vector);
-                } 
+                }
             }
             return pointList;
         },
-        
+
         /**
          * 添加拐点
          * @param {Array<Array<number>>} pointList 点集
@@ -189,7 +189,7 @@
          * @param {object} data 数据
          * @param {number} serieIndex
          */
-        _addSymbol :function (pointList, defaultColor, dataIndex, seriesIndex, polarIndex) {
+        _addSymbol: function (pointList, defaultColor, dataIndex, seriesIndex, polarIndex) {
             var series = this.series;
             var itemShape;
             var polar = this.component.polar;
@@ -199,7 +199,7 @@
                     this.deepMerge(
                         [series[seriesIndex].data[dataIndex], series[seriesIndex]]
                     ),
-                    seriesIndex, 
+                    seriesIndex,
                     series[seriesIndex].data[dataIndex].value[i], i,
                     polar.getIndicatorText(polarIndex, i),
                     pointList[i][0],    // x
@@ -211,7 +211,7 @@
                 );
                 itemShape.zlevel = this.getZlevelBase();
                 itemShape.z = this.getZBase() + 1;
-                
+
                 ecData.set(itemShape, 'data', series[seriesIndex].data[dataIndex]);
                 ecData.set(itemShape, 'value', series[seriesIndex].data[dataIndex].value);
                 ecData.set(itemShape, 'dataIndex', dataIndex);
@@ -219,7 +219,7 @@
                 this.shapeList.push(itemShape);
             }
         },
-        
+
         /**
          * 添加数据图形
          * @param {Array<Array<number>>} pointList 点集
@@ -228,11 +228,9 @@
          * @param {number} serieIndex
          * @param {number} dataIndex
          * @param {boolean} calcalable
-         */ 
-        _addDataShape : function (
-            pointList, defaultColor, data,
-            seriesIndex, dataIndex, calculable
-        ) {
+         */
+        _addDataShape: function (pointList, defaultColor, data,
+                                 seriesIndex, dataIndex, calculable) {
             var series = this.series;
             // 多级控制
             var queryTarget = [data, this.serie];
@@ -259,48 +257,48 @@
             var shape = {
                 zlevel: this.getZlevelBase(),
                 z: this.getZBase(),
-                style : {
-                    pointList   : pointList,
-                    brushType   : nIsAreaFill ? 'both' : 'stroke',
-                    color       : nAreaColor 
-                                  || nColor 
-                                  || (typeof defaultColor === 'string' 
-                                      ? zrColor.alpha(defaultColor,0.5) : defaultColor),
-                    strokeColor : nColor || defaultColor,
-                    lineWidth   : nLineWidth,
-                    lineType    : nLineType
+                style: {
+                    pointList: pointList,
+                    brushType: nIsAreaFill ? 'both' : 'stroke',
+                    color: nAreaColor
+                    || nColor
+                    || (typeof defaultColor === 'string'
+                        ? zrColor.alpha(defaultColor, 0.5) : defaultColor),
+                    strokeColor: nColor || defaultColor,
+                    lineWidth: nLineWidth,
+                    lineType: nLineType
                 },
-                highlightStyle : {
-                    brushType   : this.deepQuery(
-                                      queryTarget,
-                                      'itemStyle.emphasis.areaStyle'
-                                  ) || nIsAreaFill 
-                                  ? 'both' : 'stroke',
-                    color       : this.deepQuery(
-                                      queryTarget,
-                                      'itemStyle.emphasis.areaStyle.color'
-                                  ) 
-                                  || nAreaColor 
-                                  || nColor 
-                                  || (typeof defaultColor === 'string' 
-                                      ? zrColor.alpha(defaultColor,0.5) : defaultColor),
-                    strokeColor : this.getItemStyleColor(
-                                       this.deepQuery(
-                                           queryTarget, 'itemStyle.emphasis.color'
-                                       ),
-                                       seriesIndex,
-                                       dataIndex,
-                                       data
-                                   )
-                                   || nColor || defaultColor,
-                    lineWidth   : this.deepQuery(
-                                      queryTarget,
-                                      'itemStyle.emphasis.lineStyle.width'
-                                  ) || nLineWidth,
-                    lineType    : this.deepQuery(
-                                      queryTarget,
-                                      'itemStyle.emphasis.lineStyle.type'
-                                  ) || nLineType
+                highlightStyle: {
+                    brushType: this.deepQuery(
+                        queryTarget,
+                        'itemStyle.emphasis.areaStyle'
+                    ) || nIsAreaFill
+                        ? 'both' : 'stroke',
+                    color: this.deepQuery(
+                        queryTarget,
+                        'itemStyle.emphasis.areaStyle.color'
+                    )
+                    || nAreaColor
+                    || nColor
+                    || (typeof defaultColor === 'string'
+                        ? zrColor.alpha(defaultColor, 0.5) : defaultColor),
+                    strokeColor: this.getItemStyleColor(
+                        this.deepQuery(
+                            queryTarget, 'itemStyle.emphasis.color'
+                        ),
+                        seriesIndex,
+                        dataIndex,
+                        data
+                    )
+                    || nColor || defaultColor,
+                    lineWidth: this.deepQuery(
+                        queryTarget,
+                        'itemStyle.emphasis.lineStyle.width'
+                    ) || nLineWidth,
+                    lineType: this.deepQuery(
+                        queryTarget,
+                        'itemStyle.emphasis.lineStyle.type'
+                    ) || nLineType
                 }
             };
             ecData.pack(
@@ -317,8 +315,8 @@
                 shape.draggable = true;
                 this.setCalculable(shape);
             }
-            
-            shape = new PolygonShape(shape); 
+
+            shape = new PolygonShape(shape);
             this.shapeList.push(shape);
         },
 
@@ -326,7 +324,7 @@
          * 增加外围接受框
          * @param {number} serie的序列
          */
-        _addDropBox : function (index) {
+        _addDropBox: function (index) {
             var series = this.series;
             var polarIndex = this.deepQuery(
                 this._queryTarget, 'polarIndex'
@@ -335,7 +333,7 @@
                 var shape = this.component.polar.getDropBox(polarIndex);
                 shape.zlevel = this.getZlevelBase();
                 shape.z = this.getZBase();
-                
+
                 this.setCalculable(shape);
                 ecData.pack(shape, series, index, undefined, -1);
                 this.shapeList.push(shape);
@@ -346,7 +344,7 @@
         /**
          * 数据项被拖拽出去，重载基类方法
          */
-        ondragend : function (param, status) {
+        ondragend: function (param, status) {
             var series = this.series;
             if (!this.isDragend || !param.target) {
                 // 没有在当前实例上发生拖拽行为则直接返回
@@ -376,10 +374,10 @@
             return;
         },
 
-         /**
+        /**
          * 数据项被拖拽进来， 重载基类方法
          */
-        ondrop : function (param, status) {
+        ondrop: function (param, status) {
             var series = this.series;
             if (!this.isDrop || !param.target) {
                 // 没有在当前实例上发生拖拽行为则直接返回
@@ -398,8 +396,8 @@
 
             if (dataIndex === -1) {
                 data = {
-                    value : ecData.get(dragged, 'value'),
-                    name : ecData.get(dragged, 'name')
+                    value: ecData.get(dragged, 'value'),
+                    name: ecData.get(dragged, 'name')
                 };
 
                 series[seriesIndex].data.push(data);
@@ -415,12 +413,12 @@
                 data = series[seriesIndex].data[dataIndex];
                 legend && legend.del(data.name);
                 data.name += this.option.nameConnector
-                             + ecData.get(dragged, 'name');
+                    + ecData.get(dragged, 'name');
                 value = ecData.get(dragged, 'value');
-                for (var i = 0 ; i < value.length; i++) {
+                for (var i = 0; i < value.length; i++) {
                     data.value[i] = accMath.accAdd(data.value[i], value[i]);
                 }
-                
+
                 legend && legend.add(
                     data.name,
                     dragged.style.color || dragged.style.strokeColor
@@ -439,21 +437,21 @@
         /**
          * 刷新
          */
-        refresh : function (newOption) {
+        refresh: function (newOption) {
             if (newOption) {
                 this.option = newOption;
                 this.series = newOption.series;
             }
-            
+
             this.backupShapeList();
             this._buildShape();
         }
     };
-    
+
     zrUtil.inherits(Radar, ChartBase);
-    
+
     // 图表注册
     require('../chart').define('radar', Radar);
-    
+
     return Radar;
 });

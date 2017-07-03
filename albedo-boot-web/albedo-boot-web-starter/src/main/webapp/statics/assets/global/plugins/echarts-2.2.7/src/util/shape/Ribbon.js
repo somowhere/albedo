@@ -38,7 +38,7 @@ define(function (require) {
     var area = require('zrender/tool/area');
 
     // var _ctx = zrUtil.getContext();
-    
+
     function RibbonShape(options) {
         Base.call(this, options);
 
@@ -46,10 +46,10 @@ define(function (require) {
     }
 
     RibbonShape.prototype = {
-        
-        type : 'ribbon',
-        
-        buildPath : function (ctx, style) {
+
+        type: 'ribbon',
+
+        buildPath: function (ctx, style) {
 
             var clockWise = style.clockWise || false;
 
@@ -75,9 +75,9 @@ define(function (require) {
             path.moveTo(sx0, sy0);
             path.arc(cx, cy, style.r, s0, s1, !clockWise);
             path.bezierCurveTo(
-                (cx - sx1) * 0.70 + sx1, 
+                (cx - sx1) * 0.70 + sx1,
                 (cy - sy1) * 0.70 + sy1,
-                (cx - tx0) * 0.70 + tx0, 
+                (cx - tx0) * 0.70 + tx0,
                 (cy - ty0) * 0.70 + ty0,
                 tx0, ty0
             );
@@ -91,13 +91,13 @@ define(function (require) {
             path.bezierCurveTo(
                 (cx - tx1) * 0.70 + tx1,
                 (cy - ty1) * 0.70 + ty1,
-                (cx - sx0) * 0.70 + sx0, 
+                (cx - sx0) * 0.70 + sx0,
                 (cy - sy0) * 0.70 + sy0,
                 sx0, sy0
             );
         },
-        
-        getRect : function (style) {
+
+        getRect: function (style) {
             if (style.__rect) {
                 return style.__rect;
             }
@@ -107,7 +107,7 @@ define(function (require) {
             return this._pathProxy.fastBoundingRect();
         },
 
-        isCover : function (x, y) {
+        isCover: function (x, y) {
             var rect = this.getRect(this.style);
             if (x >= rect.x
                 && x <= (rect.x + rect.width)
@@ -122,6 +122,6 @@ define(function (require) {
     };
 
     zrUtil.inherits(RibbonShape, Base);
-    
+
     return RibbonShape;
 });

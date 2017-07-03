@@ -1,7 +1,7 @@
 /**
-* Danish translations
-*/
-(function($){
+ * Danish translations
+ */
+(function ($) {
     $.fn.wysihtml5.locale["da-DK"] = {
         font_styles: {
             normal: "Normal tekst",

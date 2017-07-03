@@ -1,7 +1,7 @@
 /**
  * Swedish translation for bootstrap-wysihtml5
  */
-(function($){
+(function ($) {
     $.fn.wysihtml5.locale["sv-SE"] = {
         font_styles: {
             normal: "Normal Text",

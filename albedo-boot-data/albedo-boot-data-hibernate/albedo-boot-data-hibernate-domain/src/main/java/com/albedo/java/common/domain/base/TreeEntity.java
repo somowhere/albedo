@@ -11,44 +11,45 @@ import javax.persistence.PrePersist;
 
 /**
  * 数据TreeEntity类
- * 
+ *
  * @author lijie version 2013-12-27 下午12:27:10
  */
 @MappedSuperclass
 public abstract class TreeEntity<T extends DataEntity> extends TreeDataEntity<T> {
 
-	private static final long serialVersionUID = 1L;
-	/*** ID */
-	public static final String F_ID = "id";
-	@Id
-	@Column(name = "id_")
-	@SearchField
-	protected String id; // 编号
+    /*** ID */
+    public static final String F_ID = "id";
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Column(name = "id_")
+    @SearchField
+    protected String id; // 编号
 
-	public TreeEntity() {
-		super();
-	}
+    public TreeEntity() {
+        super();
+    }
 
-	@PrePersist
-	public void prePersist() {
-		if (this.id != TreeEntity.ROOT) {
-			this.id = IdGen.uuid();
-		}
-	}
+    public static boolean isRoot(String id) {
+        return id != null && id.equals("1");
+    }
 
-	public String getId() {
-		return id;
-	}
+    @PrePersist
+    public void prePersist() {
+        if (this.id != TreeEntity.ROOT) {
+            this.id = IdGen.uuid();
+        }
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
-	 @JSONField(serialize=false)
-	public boolean isRoot() {
-		return isRoot(this.id);
-	}
+    public String getId() {
+        return id;
+    }
 
-	public static boolean isRoot(String id) {
-		return id != null && id.equals("1");
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @JSONField(serialize = false)
+    public boolean isRoot() {
+        return isRoot(this.id);
+    }
 }

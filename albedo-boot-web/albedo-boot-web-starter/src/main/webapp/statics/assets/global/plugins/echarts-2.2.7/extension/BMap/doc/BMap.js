@@ -7,8 +7,8 @@ var iconResize = document.getElementById('icon-resize');
 var needRefresh = false;
 
 var enVersion = location.hash.indexOf('-en') != -1;
-var hash = location.hash.replace('-en','');
-hash = hash.replace('#','') || (needMap() ? 'default' : 'macarons');
+var hash = location.hash.replace('-en', '');
+hash = hash.replace('#', '') || (needMap() ? 'default' : 'macarons');
 hash += enVersion ? '-en' : '';
 
 var startPoint = {
@@ -18,7 +18,7 @@ var startPoint = {
 var BMapExtension;
 
 var curTheme;
-function requireCallback (ec, defaultTheme) {
+function requireCallback(ec, defaultTheme) {
     curTheme = themeSelector ? defaultTheme : {};
     echarts = ec;
     refresh();
@@ -27,7 +27,7 @@ function requireCallback (ec, defaultTheme) {
 var themeSelector = $('#theme-select');
 if (themeSelector) {
     themeSelector.html(
-        '<option selected="true" name="macarons">macarons</option>' 
+        '<option selected="true" name="macarons">macarons</option>'
         + '<option name="infographic">infographic</option>'
         + '<option name="shine">shine</option>'
         + '<option name="dark">dark</option>'
@@ -38,16 +38,16 @@ if (themeSelector) {
         + '<option name="helianthus">helianthus</option>'
         + '<option name="default">default</option>'
     );
-    $(themeSelector).on('change', function(){
+    $(themeSelector).on('change', function () {
         selectChange($(this).val());
     });
-    function selectChange(value){
+    function selectChange(value) {
         var theme = value;
         myChart.showLoading();
         $(themeSelector).val(theme);
         if (theme != 'default') {
             window.location.hash = value + (enVersion ? '-en' : '');
-            require(['http://echarts.baidu.com/doc/example/theme/' + theme], function(tarTheme){
+            require(['http://echarts.baidu.com/doc/example/theme/' + theme], function (tarTheme) {
                 curTheme = tarTheme;
                 setTimeout(refreshTheme, 500);
             })
@@ -58,10 +58,12 @@ if (themeSelector) {
             setTimeout(refreshTheme, 500);
         }
     }
-    function refreshTheme(){
+
+    function refreshTheme() {
         myChart.hideLoading();
         myChart.setTheme(curTheme);
     }
+
     if ($(themeSelector).val(hash.replace('-en', '')).val() != hash.replace('-en', '')) {
         $(themeSelector).val('macarons');
         hash = 'macarons' + enVersion ? '-en' : '';
@@ -96,15 +98,17 @@ function focusGraphic() {
 
 var editor = CodeMirror.fromTextArea(
     document.getElementById("code"),
-    { lineNumbers: true }
+    {lineNumbers: true}
 );
 editor.setOption("theme", 'monokai');
 
 
-editor.on('change', function(){needRefresh = true;});
+editor.on('change', function () {
+    needRefresh = true;
+});
 
-function refresh(isBtnRefresh){
-    require(['BMap'], function(mapEx){
+function refresh(isBtnRefresh) {
+    require(['BMap'], function (mapEx) {
         BMapExtension = mapEx;
         if (isBtnRefresh) {
             needRefresh = true;
@@ -112,7 +116,7 @@ function refresh(isBtnRefresh){
             return;
         }
         needRefresh = false;
-        
+
         domMessage.innerHTML = '';
         (new Function(editor.doc.getValue()))();
     });
@@ -121,9 +125,9 @@ function refresh(isBtnRefresh){
 function needMap() {
     var href = location.href;
     return href.indexOf('Map') != -1
-           || href.indexOf('mix3') != -1
-           || href.indexOf('mix5') != -1
-           || href.indexOf('dataRange') != -1;
+        || href.indexOf('mix3') != -1
+        || href.indexOf('mix5') != -1
+        || href.indexOf('dataRange') != -1;
 
 }
 
@@ -146,11 +150,12 @@ if (developMode) {
             script.onload = fireLoad;
         }
         (document.getElementsByTagName('head')[0] || document.body).appendChild(script);
-        
+
         function fireLoad() {
             script.onload = script.onreadystatechange = null;
-            setTimeout(loadedListener,100);
+            setTimeout(loadedListener, 100);
         }
+
         function loadedListener() {
             // for develop
             require.config({

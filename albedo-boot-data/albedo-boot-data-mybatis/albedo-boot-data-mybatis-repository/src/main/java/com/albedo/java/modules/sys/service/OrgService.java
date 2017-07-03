@@ -22,53 +22,53 @@ import java.util.Map;
 public class OrgService extends TreeService<OrgRepository, Org, String> {
 
 
-	@Transactional(readOnly = true)
-	public List<Map<String, Object>> findTreeData(OrgTreeQuery orgTreeQuery, List<Org> list) {
-		String extId = orgTreeQuery !=null ? orgTreeQuery.getExtId() : null,
-                showType= orgTreeQuery !=null ? orgTreeQuery.getShowType() : null,
-                all = orgTreeQuery !=null ?  orgTreeQuery.getAll() : null;
-		Long grade = orgTreeQuery !=null ?  orgTreeQuery.getGrade() : null;
-		List<Map<String, Object>> mapList = Lists.newArrayList();
-		for (Org e : list) {
-			if ((PublicUtil.isEmpty(extId)
-					|| PublicUtil.isEmpty(e.getParentIds()) || (PublicUtil.isNotEmpty(extId) && !extId.equals(e.getId()) && e.getParentIds() != null && e.getParentIds().indexOf("," + extId + ",") == -1))
-					&& (PublicUtil.isEmpty(showType)
-							|| (PublicUtil.isNotEmpty(showType) && (showType.equals("1") ? showType.equals(e.getType()) : true)))
-					&& (PublicUtil.isEmpty(grade) || (PublicUtil.isNotEmpty(grade) && Integer.parseInt(e.getGrade()) <= grade.intValue()))
-					&& (all != null || (all == null && BaseEntity.FLAG_NORMAL.equals(e.getStatus())))) {
-				Map<String, Object> map = Maps.newHashMap();
-				map.put("id", e.getId());
-				map.put("pId", e.getParentId());
-				map.put("name", e.getName());
-				map.put("pIds", e.getParentIds());
-				map.put("org", e);
-				if ("3".equals(showType)) {
-					map.put("isParent", true);
-					e.getUsers().forEach(user -> {
-						Map<String, Object> userMap = Maps.newHashMap();
-						userMap.put("id", user.getId());
-						userMap.put("pId", e.getId());
-						userMap.put("name", user.getName());
-						userMap.put("iconCls", "fa fa-user");
-						mapList.add(userMap);
-					});
-				}
-				mapList.add(map);
-			}
-		}
-		return mapList;
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> findTreeData(OrgTreeQuery orgTreeQuery, List<Org> list) {
+        String extId = orgTreeQuery != null ? orgTreeQuery.getExtId() : null,
+                showType = orgTreeQuery != null ? orgTreeQuery.getShowType() : null,
+                all = orgTreeQuery != null ? orgTreeQuery.getAll() : null;
+        Long grade = orgTreeQuery != null ? orgTreeQuery.getGrade() : null;
+        List<Map<String, Object>> mapList = Lists.newArrayList();
+        for (Org e : list) {
+            if ((PublicUtil.isEmpty(extId)
+                    || PublicUtil.isEmpty(e.getParentIds()) || (PublicUtil.isNotEmpty(extId) && !extId.equals(e.getId()) && e.getParentIds() != null && e.getParentIds().indexOf("," + extId + ",") == -1))
+                    && (PublicUtil.isEmpty(showType)
+                    || (PublicUtil.isNotEmpty(showType) && (showType.equals("1") ? showType.equals(e.getType()) : true)))
+                    && (PublicUtil.isEmpty(grade) || (PublicUtil.isNotEmpty(grade) && Integer.parseInt(e.getGrade()) <= grade.intValue()))
+                    && (all != null || (all == null && BaseEntity.FLAG_NORMAL.equals(e.getStatus())))) {
+                Map<String, Object> map = Maps.newHashMap();
+                map.put("id", e.getId());
+                map.put("pId", e.getParentId());
+                map.put("name", e.getName());
+                map.put("pIds", e.getParentIds());
+                map.put("org", e);
+                if ("3".equals(showType)) {
+                    map.put("isParent", true);
+                    e.getUsers().forEach(user -> {
+                        Map<String, Object> userMap = Maps.newHashMap();
+                        userMap.put("id", user.getId());
+                        userMap.put("pId", e.getId());
+                        userMap.put("name", user.getName());
+                        userMap.put("iconCls", "fa fa-user");
+                        mapList.add(userMap);
+                    });
+                }
+                mapList.add(map);
+            }
+        }
+        return mapList;
 
-	}
+    }
 
-//	@Transactional(readOnly = true)
+    //	@Transactional(readOnly = true)
 //	public Page<Org> findAll(PageModel<Org> pm) {
 //		SpecificationDetail<Org> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
 //				QueryCondition.ne(Org.F_STATUS, Org.FLAG_DELETE));
 //		return repository.findAll(spec, pm);
 //	}
-	@Transactional(readOnly = true)
-	public List<Org> findAllByParentId(String parentId) {
-		return repository.findAllByParentIdAndStatusNot(parentId, Org.FLAG_DELETE);
-	}
+    @Transactional(readOnly = true)
+    public List<Org> findAllByParentId(String parentId) {
+        return repository.findAllByParentIdAndStatusNot(parentId, Org.FLAG_DELETE);
+    }
 
 }

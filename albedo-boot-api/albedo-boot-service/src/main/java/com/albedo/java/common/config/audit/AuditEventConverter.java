@@ -40,7 +40,7 @@ public class AuditEventConverter {
 
         Instant instant = DateUtil.convertDateToLocalDateTime(persistentAuditEvent.getAuditEventDate()).atZone(ZoneId.systemDefault()).toInstant();
         return new AuditEvent(Date.from(instant), persistentAuditEvent.getPrincipal(),
-            persistentAuditEvent.getAuditEventType(), convertDataToObjects(persistentAuditEvent.getData()));
+                persistentAuditEvent.getAuditEventType(), convertDataToObjects(persistentAuditEvent.getData()));
     }
 
     /**

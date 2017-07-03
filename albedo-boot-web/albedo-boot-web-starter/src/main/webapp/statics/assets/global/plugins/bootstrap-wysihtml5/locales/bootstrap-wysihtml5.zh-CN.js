@@ -1,7 +1,7 @@
 /**
  * Chinese translation for bootstrap-wysihtml5
  */
-(function($){
+(function ($) {
     $.fn.wysihtml5.locale["zh-CN"] = {
         font_styles: {
             normal: "正文",

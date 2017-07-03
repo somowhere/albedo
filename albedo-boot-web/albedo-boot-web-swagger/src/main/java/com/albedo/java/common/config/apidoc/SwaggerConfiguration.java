@@ -25,7 +25,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Springfox Swagger configuration.
- *
+ * <p>
  * Warning! When having a lot of REST endpoints, Springfox can become a performance issue. In that
  * case, you can use a specific Spring profile for this class, so that only front-end developers
  * have access to the Swagger view.
@@ -42,6 +42,7 @@ public class SwaggerConfiguration {
 
     @Autowired
     AlbedoSwaggerProperties albedoSwaggerProperties;
+
     /**
      * Swagger Springfox configuration.
      *

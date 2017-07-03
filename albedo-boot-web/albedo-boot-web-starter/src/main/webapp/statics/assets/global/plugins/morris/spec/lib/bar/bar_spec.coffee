@@ -6,7 +6,7 @@ describe 'Morris.Bar', ->
       xkey: 'x'
       ykeys: ['y', 'z']
       labels: ['Y', 'Z']
-      barColors: [ '#0b62a4', '#7a92a3']
+      barColors: ['#0b62a4', '#7a92a3']
       gridLineColor: '#aaa'
       gridStrokeWidth: 0.5
       gridTextColor: '#888'
@@ -56,7 +56,7 @@ describe 'Morris.Bar', ->
       xkey: 'x'
       ykeys: ['y', 'z']
       labels: ['Y', 'Z']
-      barColors: [ '#0b62a4', '#7a92a3']
+      barColors: ['#0b62a4', '#7a92a3']
       gridLineColor: '#aaa'
       gridStrokeWidth: 0.5
       gridTextColor: '#888'
@@ -95,7 +95,7 @@ describe 'Morris.Bar', ->
       it 'should use rects if radius is too big', ->
         delete defaults.barStyle
         chart = Morris.Bar $.extend {}, defaults,
-            barRadius: [300, 300, 0, 0]
+          barRadius: [300, 300, 0, 0]
         $('#graph').find("rect").size().should.equal 4
 
   describe 'barSize option', ->

@@ -8,7 +8,9 @@ window.SwaggerUi.utils = {
         var scopes = [];
         var utils = window.SwaggerUi.utils;
 
-        if (!Array.isArray(security)) { return null; }
+        if (!Array.isArray(security)) {
+            return null;
+        }
 
         security.forEach(function (item) {
             var singleSecurity = {};
@@ -16,7 +18,9 @@ window.SwaggerUi.utils = {
 
             for (var key in item) {
                 if (Array.isArray(item[key])) {
-                    if (!auths[key]) { continue; }
+                    if (!auths[key]) {
+                        continue;
+                    }
                     auths[key] = auths[key] || {};
                     if (auths[key].type === 'oauth2') {
                         singleOauth2Security[key] = Object.assign({}, auths[key]);
@@ -46,13 +50,13 @@ window.SwaggerUi.utils = {
                 authsArr.push(singleSecurity);
             }
 
-            if (!_.isEmpty(singleOauth2Security)){
+            if (!_.isEmpty(singleOauth2Security)) {
                 oauth2Arr.push(singleOauth2Security);
             }
         });
 
         return {
-            auths : authsArr,
+            auths: authsArr,
             oauth2: oauth2Arr,
             scopes: scopes
         };

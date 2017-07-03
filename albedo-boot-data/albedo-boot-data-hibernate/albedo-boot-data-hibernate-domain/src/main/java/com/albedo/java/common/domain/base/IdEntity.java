@@ -11,28 +11,28 @@ import javax.persistence.PrePersist;
 @MappedSuperclass
 public class IdEntity extends DataEntity {
 
-	private static final long serialVersionUID = 1L;
-	@Id
-	@Column(name = "id_")
-	@SearchField
-	protected String id; // 编号
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Column(name = "id_")
+    @SearchField
+    protected String id; // 编号
 
-	public IdEntity() {
-		super();
-	}
+    public IdEntity() {
+        super();
+    }
 
-	@PrePersist
-	public void prePersist() {
-		if (this.id != TreeEntity.ROOT) {
-			this.id = IdGen.uuid();
-		}
-	}
+    @PrePersist
+    public void prePersist() {
+        if (this.id != TreeEntity.ROOT) {
+            this.id = IdGen.uuid();
+        }
+    }
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 }

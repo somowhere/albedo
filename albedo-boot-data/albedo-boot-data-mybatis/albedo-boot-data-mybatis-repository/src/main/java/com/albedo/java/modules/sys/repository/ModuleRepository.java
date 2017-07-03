@@ -13,17 +13,17 @@ import java.util.List;
  */
 public interface ModuleRepository extends TreeRepository<Module, String> {
 
-	@Query
-	List<Module> findAllAuthByUser(@Param("user") User user);
+    @Query
+    List<Module> findAllAuthByUser(@Param("user") User user);
 
-	List<Module> findAllByStatusOrderBySort(Integer flagNormal);
+    List<Module> findAllByStatusOrderBySort(Integer flagNormal);
 
-	Module findOneByParentIdOrderBySort(Integer parentId);
-	
-	Module findFirstByParentIdAndStatusNot(String id, Integer flagDelete);
+    Module findOneByParentIdOrderBySort(Integer parentId);
+
+    Module findFirstByParentIdAndStatusNot(String id, Integer flagDelete);
 
     Module findOneByName(String moduleName);
 
-	List<Module> findOneByIdOrParentId(String id, String parentId);
+    List<Module> findOneByIdOrParentId(String id, String parentId);
 
 }

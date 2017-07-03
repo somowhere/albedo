@@ -1,10 +1,10 @@
 /**
  * Graph data structure
- * 
+ *
  * @module echarts/data/Graph
  * @author Yi Shen(https://www.github.com/pissang)
  */
-define(function(require) {
+define(function (require) {
 
     var util = require('zrender/tool/util');
 
@@ -15,7 +15,7 @@ define(function(require) {
      * @constructor
      * @param {boolean} directed
      */
-    var Graph = function(directed) {
+    var Graph = function (directed) {
         /**
          * 是否是有向图
          * @type {boolean}
@@ -58,7 +58,7 @@ define(function(require) {
         this._nodesMap[id] = node;
         return node;
     };
-    
+
     /**
      * 获取节点
      * @param  {string} id
@@ -95,7 +95,7 @@ define(function(require) {
 
         if (this._directed) {
             n1.outEdges.push(edge);
-            n2.inEdges.push(edge);   
+            n2.inEdges.push(edge);
         }
         n1.edges.push(edge);
         if (n1 !== n2) {
@@ -118,7 +118,7 @@ define(function(require) {
         var key = n1.id + '-' + n2.id;
         if (this._directed) {
             n1.outEdges.splice(util.indexOf(n1.outEdges, edge), 1);
-            n2.inEdges.splice(util.indexOf(n2.inEdges, edge), 1);   
+            n2.inEdges.splice(util.indexOf(n2.inEdges, edge), 1);
         }
         n1.edges.splice(util.indexOf(n1.edges, edge), 1);
         if (n1 !== n2) {
@@ -181,7 +181,7 @@ define(function(require) {
      * @param  {Function} cb
      * @param  {*}   [context]
      */
-     Graph.prototype.filterNode = function (cb, context) {
+    Graph.prototype.filterNode = function (cb, context) {
         var len = this.nodes.length;
         for (var i = 0; i < len;) {
             if (cb.call(context, this.nodes[i], i)) {
@@ -191,14 +191,14 @@ define(function(require) {
                 len--;
             }
         }
-     };
+    };
 
     /**
      * 遍历并且过滤指定的边
      * @param  {Function} cb
      * @param  {*}   [context]
      */
-     Graph.prototype.filterEdge = function (cb, context) {
+    Graph.prototype.filterEdge = function (cb, context) {
         var len = this.edges.length;
         for (var i = 0; i < len;) {
             if (cb.call(context, this.edges[i], i)) {
@@ -208,7 +208,7 @@ define(function(require) {
                 len--;
             }
         }
-     };
+    };
 
     /**
      * 线性遍历所有节点
@@ -223,7 +223,7 @@ define(function(require) {
             }
         }
     };
-    
+
     /**
      * 线性遍历所有边
      * @param  {Function} cb
@@ -237,18 +237,18 @@ define(function(require) {
             }
         }
     };
-    
+
     /**
      * 清空图
      */
-    Graph.prototype.clear = function() {
+    Graph.prototype.clear = function () {
         this.nodes.length = 0;
         this.edges.length = 0;
 
         this._nodesMap = {};
         this._edgesMap = {};
     };
-    
+
     /**
      * 广度优先遍历
      * @param {Function} cb
@@ -256,9 +256,7 @@ define(function(require) {
      * @param {string} [direction=none] none, in, out 指定遍历边
      * @param {*} [context] 回调函数调用context
      */
-    Graph.prototype.breadthFirstTraverse = function (
-        cb, startNode, direction, context
-    ) {
+    Graph.prototype.breadthFirstTraverse = function (cb, startNode, direction, context) {
         if (typeof(startNode) === 'string') {
             startNode = this._nodesMap[startNode];
         }
@@ -272,7 +270,7 @@ define(function(require) {
         } else if (direction === 'in') {
             edgeType = 'inEdges';
         }
-        
+
         for (var i = 0; i < this.nodes.length; i++) {
             this.nodes[i].__visited = false;
         }
@@ -288,7 +286,7 @@ define(function(require) {
 
             for (var i = 0; i < edges.length; i++) {
                 var e = edges[i];
-                var otherNode = e.node1 === currentNode 
+                var otherNode = e.node1 === currentNode
                     ? e.node2 : e.node1;
                 if (!otherNode.__visited) {
                     if (cb.call(otherNode, otherNode, currentNode)) {
@@ -323,7 +321,7 @@ define(function(require) {
      * @param {string} id
      * @param {*} [data]
      */
-    var Node = function(id, data) {
+    var Node = function (id, data) {
         /**
          * 节点名称
          * @type {string}
@@ -350,28 +348,28 @@ define(function(require) {
          */
         this.edges = [];
     };
-    
+
     /**
      * 度
      * @return {number}
      */
-    Node.prototype.degree = function() {
-        return this.edges.length; 
+    Node.prototype.degree = function () {
+        return this.edges.length;
     };
-    
+
     /**
      * 入度，只在有向图上有效
      * @return {number}
      */
-    Node.prototype.inDegree = function() {
+    Node.prototype.inDegree = function () {
         return this.inEdges.length;
     };
-    
+
     /**
      * 出度，只在有向图上有效
      * @return {number}
      */
-    Node.prototype.outDegree = function() {
+    Node.prototype.outDegree = function () {
         return this.outEdges.length;
     };
 
@@ -382,7 +380,7 @@ define(function(require) {
      * @param {module:echarts/data/Graph~Node} node2
      * @param {extra} data
      */
-    var Edge = function(node1, node2, data) {
+    var Edge = function (node1, node2, data) {
         /**
          * 节点1，如果是有向图则为源节点
          * @type {module:echarts/data/Graph~Node}
@@ -419,14 +417,14 @@ define(function(require) {
      * 对于有向图会计算每一行的和写到`node.data.outValue`,
      * 计算每一列的和写到`node.data.inValue`。
      * 边的权重会被然后写到`edge.data.weight`。
-     * 
+     *
      * @method module:echarts/data/Graph.fromMatrix
      * @param {Array.<Object>} nodesData 节点信息，必须有`id`属性, 会保存到`node.data`中
      * @param {Array} matrix 邻接矩阵
      * @param {boolean} directed 是否是有向图
      * @return {module:echarts/data/Graph}
      */
-    Graph.fromMatrix = function(nodesData, matrix, directed) {
+    Graph.fromMatrix = function (nodesData, matrix, directed) {
         if (
             !matrix || !matrix.length
             || (matrix[0].length !== matrix.length)

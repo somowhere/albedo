@@ -5,7 +5,7 @@
  *         Ievgenii (@Ievgeny, ievgeny@zoomdata.com)
  */
 
-define(function(require) {
+define(function (require) {
 
     // Reference
     var number = require('./number');
@@ -128,7 +128,7 @@ define(function(require) {
      */
     function clearStaticVariables() {
         logPositive = custOpts = logMappingOffset = lnBase =
-        absMin = absMax = splitNumber = tickList = logLabelBase = logLabelMode = null;
+            absMin = absMax = splitNumber = tickList = logLabelBase = logLabelMode = null;
     }
 
     /**
@@ -266,17 +266,17 @@ define(function(require) {
             var minDecimal = toDecimalFrom4Hex(minExpon, 0);
             var endDecimal = minDecimal + 2;
             while (
-                minDecimal < endDecimal
-                && toH(minDecimal + 1) + toK(minDecimal + 1) * LN2D10 < minDataLog
-            ) {
+            minDecimal < endDecimal
+            && toH(minDecimal + 1) + toK(minDecimal + 1) * LN2D10 < minDataLog
+                ) {
                 minDecimal++;
             }
             var maxDecimal = toDecimalFrom4Hex(maxExpon, 0);
             var endDecimal = maxDecimal - 2; // maxDecimal is greater than 4
             while (
-                maxDecimal > endDecimal
-                && toH(maxDecimal - 1) + toK(maxDecimal - 1) * LN2D10 > maxDataLog
-            ) {
+            maxDecimal > endDecimal
+            && toH(maxDecimal - 1) + toK(maxDecimal - 1) * LN2D10 > maxDataLog
+                ) {
                 maxDecimal--;
             }
 

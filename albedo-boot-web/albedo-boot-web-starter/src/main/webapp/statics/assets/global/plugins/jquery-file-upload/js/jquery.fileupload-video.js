@@ -80,11 +80,11 @@
                     url,
                     video;
                 if (this._videoElement.canPlayType &&
-                        this._videoElement.canPlayType(file.type) &&
-                        ($.type(options.maxFileSize) !== 'number' ||
-                            file.size <= options.maxFileSize) &&
-                        (!options.fileTypes ||
-                            options.fileTypes.test(file.type))) {
+                    this._videoElement.canPlayType(file.type) &&
+                    ($.type(options.maxFileSize) !== 'number' ||
+                    file.size <= options.maxFileSize) &&
+                    (!options.fileTypes ||
+                    options.fileTypes.test(file.type))) {
                     url = loadImage.createObjectURL(file);
                     if (url) {
                         video = this._videoElement.cloneNode(false);

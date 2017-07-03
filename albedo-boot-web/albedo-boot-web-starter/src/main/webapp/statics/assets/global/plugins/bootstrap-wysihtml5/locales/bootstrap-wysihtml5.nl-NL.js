@@ -1,7 +1,7 @@
 /**
  * Dutch translation for bootstrap-wysihtml5
  */
-(function($){
+(function ($) {
     $.fn.wysihtml5.locale["nl-NL"] = {
         font_styles: {
             normal: "Normale Tekst",

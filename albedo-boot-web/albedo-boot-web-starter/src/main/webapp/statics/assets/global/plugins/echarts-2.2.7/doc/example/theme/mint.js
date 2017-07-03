@@ -1,16 +1,15 @@
 define({
     // 全图默认背景
     // backgroundColor: 'rgba(0,0,0,0)',
-    
-    // 默认色板
-    color: ['#8aedd5','#93bc9e','#cef1db','#7fe579','#a6d7c2',
-            '#bef0bb','#99e2vb','#94f8a8','#7de5b8','#4dfb70'],
 
-    
-    
+    // 默认色板
+    color: ['#8aedd5', '#93bc9e', '#cef1db', '#7fe579', '#a6d7c2',
+        '#bef0bb', '#99e2vb', '#94f8a8', '#7de5b8', '#4dfb70'],
+
+
     // 值域
     dataRange: {
-        color:['#93bc92','#bef0bb']
+        color: ['#93bc92', '#bef0bb']
     },
 
     // K线图默认参数
@@ -33,7 +32,7 @@ define({
             }
         }
     },
-    
+
     // 饼图默认参数
     pie: {
         itemStyle: {
@@ -44,8 +43,8 @@ define({
                 label: {
                     show: true,
                     position: 'outer',
-                  textStyle: {color: '#1b1b1b'},
-                  lineStyle: {color: '#1b1b1b'}
+                    textStyle: {color: '#1b1b1b'},
+                    lineStyle: {color: '#1b1b1b'}
                     // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
                 },
                 labelLine: {
@@ -60,16 +59,16 @@ define({
             }
         }
     },
-    
+
     map: {
         mapType: 'china',   // 各省的mapType暂时都用中文
         mapLocation: {
-            x : 'center',
-            y : 'center'
+            x: 'center',
+            y: 'center'
             // width    // 自适应
             // height   // 自适应
         },
-        showLegendSymbol : true,       // 显示图例颜色标识（系列标识的小圆点），存在legend时生效
+        showLegendSymbol: true,       // 显示图例颜色标识（系列标识的小圆点），存在legend时生效
         itemStyle: {
             normal: {
                 // color: 各异,
@@ -101,8 +100,8 @@ define({
             }
         }
     },
-    
-    force : {
+
+    force: {
         itemStyle: {
             normal: {
                 // color: 各异,
@@ -110,12 +109,12 @@ define({
                     show: false
                     // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
                 },
-                nodeStyle : {
-                    brushType : 'both',
-                    strokeColor : '#49b485'
+                nodeStyle: {
+                    brushType: 'both',
+                    strokeColor: '#49b485'
                 },
-                linkStyle : {
-                    strokeColor : '#49b485'
+                linkStyle: {
+                    strokeColor: '#49b485'
                 }
             },
             emphasis: {
@@ -124,23 +123,23 @@ define({
                     show: false
                     // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
                 },
-                nodeStyle : {},
-                linkStyle : {}
+                nodeStyle: {},
+                linkStyle: {}
             }
         }
     },
 
-    gauge : {
+    gauge: {
         axisLine: {            // 坐标轴线
             show: true,        // 默认显示，属性show控制显示与否
             lineStyle: {       // 属性lineStyle控制线条样式
-                color: [[0.2, '#93bc9e'],[0.8, '#8aedd5'],[1, '#a6d7c2']], 
+                color: [[0.2, '#93bc9e'], [0.8, '#8aedd5'], [1, '#a6d7c2']],
                 width: 8
             }
         },
         axisTick: {            // 坐标轴小标记
             splitNumber: 10,   // 每份split细分多少段
-            length :12,        // 属性length控制线长
+            length: 12,        // 属性length控制线长
             lineStyle: {       // 属性lineStyle控制线条样式
                 color: 'auto'
             }
@@ -151,21 +150,21 @@ define({
             }
         },
         splitLine: {           // 分隔线
-            length : 18,         // 属性length控制线长
+            length: 18,         // 属性length控制线长
             lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
                 color: 'auto'
             }
         },
-        pointer : {
-            length : '90%',
-            color : 'auto'
+        pointer: {
+            length: '90%',
+            color: 'auto'
         },
-        title : {
+        title: {
             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
                 color: '#333'
             }
         },
-        detail : {
+        detail: {
             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
                 color: 'auto'
             }

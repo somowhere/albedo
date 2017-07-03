@@ -5,7 +5,7 @@
  * @author Kener (@Kener-林峰, kener.linfeng@gmail.com)
  *
  */
-define(function() {
+define(function () {
     // Derived from Tom Carden's Albers implementation for Protovis.
     // http://gist.github.com/476238
     // http://mathworld.wolfram.com/AlbersEqual-AreaConicProjection.html
@@ -19,12 +19,12 @@ define(function() {
         var n;
         var C;
         var p0;
-        
+
         function albers(coordinates) {
             var t = n * (radians * coordinates[0] - lng0);
             var p = Math.sqrt(
-                        C - 2 * n * Math.sin(radians * coordinates[1])
-                    ) / n;
+                    C - 2 * n * Math.sin(radians * coordinates[1])
+                ) / n;
             return [
                 scale * p * Math.sin(t) + translate[0],
                 scale * (p * Math.cos(t) - p0) + translate[1]
@@ -90,6 +90,6 @@ define(function() {
 
         return reload();
     }
-    
+
     return _albers;
 });

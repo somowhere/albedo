@@ -1,4 +1,4 @@
-(function(jsGrid, $, undefined) {
+(function (jsGrid, $, undefined) {
 
     var Field = jsGrid.Field;
 
@@ -9,18 +9,18 @@
     TextField.prototype = new Field({
 
         autosearch: true,
-		readOnly: false,
+        readOnly: false,
 
-        filterTemplate: function() {
-            if(!this.filtering)
+        filterTemplate: function () {
+            if (!this.filtering)
                 return "";
 
             var grid = this._grid,
                 $result = this.filterControl = this._createTextBox();
 
-            if(this.autosearch) {
-                $result.on("keypress", function(e) {
-                    if(e.which === 13) {
+            if (this.autosearch) {
+                $result.on("keypress", function (e) {
+                    if (e.which === 13) {
                         grid.search();
                         e.preventDefault();
                     }
@@ -30,15 +30,15 @@
             return $result;
         },
 
-        insertTemplate: function() {
-            if(!this.inserting)
+        insertTemplate: function () {
+            if (!this.inserting)
                 return "";
 
             return this.insertControl = this._createTextBox();
         },
 
-        editTemplate: function(value) {
-            if(!this.editing)
+        editTemplate: function (value) {
+            if (!this.editing)
                 return this.itemTemplate(value);
 
             var $result = this.editControl = this._createTextBox();
@@ -46,19 +46,19 @@
             return $result;
         },
 
-        filterValue: function() {
+        filterValue: function () {
             return this.filterControl.val();
         },
 
-        insertValue: function() {
+        insertValue: function () {
             return this.insertControl.val();
         },
 
-        editValue: function() {
+        editValue: function () {
             return this.editControl.val();
         },
 
-        _createTextBox: function() {
+        _createTextBox: function () {
             return $("<input>").attr("type", "text")
                 .prop("readonly", !!this.readOnly);
         }

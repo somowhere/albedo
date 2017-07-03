@@ -19,7 +19,7 @@ public interface UserRepository extends BaseRepository<User, String> {
     Optional<User> findOneByResetKey(String resetKey);
 
     Optional<User> findOneByEmail(String email);
-    
+
     Optional<User> findOneByLoginId(String loginId);
-    
+
 }

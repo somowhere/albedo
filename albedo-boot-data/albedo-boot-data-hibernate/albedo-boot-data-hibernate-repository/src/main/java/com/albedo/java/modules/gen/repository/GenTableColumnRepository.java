@@ -6,6 +6,6 @@ import com.albedo.java.modules.gen.domain.GenTableColumn;
 /**
  * Spring Data JPA repository for the Authority entity.
  */
-public interface GenTableColumnRepository extends DataRepository<GenTableColumn, String>{
+public interface GenTableColumnRepository extends DataRepository<GenTableColumn, String> {
 
 }

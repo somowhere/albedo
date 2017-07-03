@@ -23,7 +23,7 @@ import javax.annotation.Resource;
 
 /**
  * session 管理
- * 
+ *
  * @author admin
  * @version 2017-01-03
  */
@@ -31,33 +31,32 @@ import javax.annotation.Resource;
 @RequestMapping(value = "${albedo.adminPath}/sys/persistentToken")
 public class PersistentTokenResource extends BaseResource {
 
-	@Resource
-	private PersistentTokenService persistentTokenService;
+    @Resource
+    private PersistentTokenService persistentTokenService;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed
-	public String list() {
-		return "modules/sys/persistentTokenList";
-	}
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public String list() {
+        return "modules/sys/persistentTokenList";
+    }
 
-	/**
-	 * 
-	 * @param pm
-	 */
-	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public ResponseEntity getPage(PageModel<PersistentToken> pm) {
-		persistentTokenService.findPage(pm, SecurityUtil.dataScopeFilter());
-		JSON rs = JsonUtil.getInstance().setRecurrenceStr("user_loginId").toJsonObject(pm);
-		return ResultBuilder.buildObject(rs);
-	}
-	
-	@RequestMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
-			+ "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed
-	public ResponseEntity delete(@PathVariable String ids) {
-		log.debug("REST request to delete User: {}", ids);
-		persistentTokenService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
-		return ResultBuilder.buildOk("删除成功");
-	}
+    /**
+     * @param pm
+     */
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    public ResponseEntity getPage(PageModel<PersistentToken> pm) {
+        persistentTokenService.findPage(pm, SecurityUtil.dataScopeFilter());
+        JSON rs = JsonUtil.getInstance().setRecurrenceStr("user_loginId").toJsonObject(pm);
+        return ResultBuilder.buildObject(rs);
+    }
+
+    @RequestMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
+            + "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity delete(@PathVariable String ids) {
+        log.debug("REST request to delete User: {}", ids);
+        persistentTokenService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        return ResultBuilder.buildOk("删除成功");
+    }
 
 }

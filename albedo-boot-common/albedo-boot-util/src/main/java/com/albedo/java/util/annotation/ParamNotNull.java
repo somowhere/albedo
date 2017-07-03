@@ -11,10 +11,10 @@ import static java.lang.annotation.ElementType.METHOD;
 /**
  * bean中文名注解
  */
-@Target({ METHOD, FIELD })
+@Target({METHOD, FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface ParamNotNull {
 
-	String[] props() default {};
+    String[] props() default {};
 }

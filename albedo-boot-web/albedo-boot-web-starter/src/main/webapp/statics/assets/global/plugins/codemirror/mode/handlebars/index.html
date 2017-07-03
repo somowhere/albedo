@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: Handlebars mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel="stylesheet" href="../../lib/codemirror.css">
 <script src="../../lib/codemirror.js"></script>
@@ -22,16 +22,16 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">HTML mixed</a>
+        <li>
+            <a class=active href="#">HTML mixed</a>
     </ul>
 </div>
 <article>
@@ -57,25 +57,31 @@
         </textarea>
     </form>
     <script>
-        CodeMirror.defineMode("htmlhandlebars", function(config)
-        {
+        CodeMirror.defineMode("htmlhandlebars", function (config) {
             return CodeMirror.multiplexingMode(CodeMirror.getMode(config, "text/html"),
-            {
-                open: "{{",
-                close: "}}",
-                mode: CodeMirror.getMode(config, "handlebars"),
-                parseDelimiters: true
-            });
+                {
+                    open: "{{",
+                    close: "}}",
+                    mode: CodeMirror.getMode(config, "handlebars"),
+                    parseDelimiters: true
+                });
         });
         var editor = CodeMirror.fromTextArea(document.getElementById("code"),
-        {
-            lineNumbers: true,
-            matchBrackets: true,
-            mode: "htmlhandlebars"
-        });
+            {
+                lineNumbers: true,
+                matchBrackets: true,
+                mode: "htmlhandlebars"
+            });
     </script>
     </script>
-    <p>Handlebars syntax highlighting for CodeMirror.</p>
-    <p>
-        <strong>MIME types defined:</strong> <code>text/x-handlebars-template</code></p>
-</article>
+    <
+    p > Handlebars
+    syntax
+    highlighting
+    for CodeMirror. < / p >
+        < p >
+        < strong > MIME types
+    defined:<
+    /
+    strong > < code > text / x - handlebars - template < / code > < / p >
+    < / article >

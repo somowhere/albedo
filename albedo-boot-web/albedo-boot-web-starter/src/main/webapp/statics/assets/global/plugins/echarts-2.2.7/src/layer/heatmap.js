@@ -55,7 +55,7 @@ define(function (require) {
          * @param {number} canvas height
          * @return {Object} rendered canvas
          */
-        getCanvas: function(data, width, height) {
+        getCanvas: function (data, width, height) {
             var brush = this._getBrush();
             var gradient = this._getGradient();
             var r = BRUSH_SIZE + this.option.blurSize;
@@ -85,7 +85,7 @@ define(function (require) {
             var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             var pixels = imageData.data;
             var len = pixels.length / 4;
-            while(len--) {
+            while (len--) {
                 var id = len * 4 + 3;
                 var alpha = pixels[id] / 256;
                 var colorOffset = Math.floor(alpha * (GRADIENT_LEVELS - 1));
@@ -104,7 +104,7 @@ define(function (require) {
          * @private
          * @returns {Object} circle brush canvas
          */
-        _getBrush: function() {
+        _getBrush: function () {
             if (!this._brushCanvas) {
                 this._brushCanvas = document.createElement('canvas');
 
@@ -139,14 +139,14 @@ define(function (require) {
          * @private
          * @returns {array} gradient color pixels
          */
-        _getGradient: function() {
+        _getGradient: function () {
             if (!this._gradientPixels) {
                 var levels = GRADIENT_LEVELS;
                 var canvas = document.createElement('canvas');
                 canvas.width = 1;
                 canvas.height = levels;
                 var ctx = canvas.getContext('2d');
-                
+
                 // add color to gradient stops
                 var gradient = ctx.createLinearGradient(0, 0, 0, levels);
                 var len = this.option.gradientColors.length;

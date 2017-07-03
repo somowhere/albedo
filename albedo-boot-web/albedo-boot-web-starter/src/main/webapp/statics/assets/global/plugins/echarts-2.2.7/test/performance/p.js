@@ -15,11 +15,12 @@ if (developMode) {
             script.onload = fireLoad;
         }
         (document.getElementsByTagName('head')[0] || document.body).appendChild(script);
-        
+
         function fireLoad() {
             script.onload = script.onreadystatechange = null;
-            setTimeout(loadedListener,100);
+            setTimeout(loadedListener, 100);
         }
+
         function loadedListener() {
             // for develop
             require.config({
@@ -44,7 +45,7 @@ if (developMode) {
 else {
     // for echarts online home page
     require.config({
-        paths:{ 
+        paths: {
             echarts: '../../build/dist'
         }
     });
@@ -84,7 +85,7 @@ function launchExample() {
 
 var echarts;
 var myChart;
-function requireCallback (ec) {
+function requireCallback(ec) {
     echarts = ec;
     myChart = echarts.init(domMain);
     var opt = option('line', 100);
@@ -116,12 +117,12 @@ function start() {
     result = [];
     total = 0;
     chartType = document.getElementById('chart').value;
-    setTimeout(run,50);
+    setTimeout(run, 50);
 }
 
 var cList = [
-    'line','bar','scatter','k',
-    'pie','radar','chord','map'
+    'line', 'bar', 'scatter', 'k',
+    'pie', 'radar', 'chord', 'map'
 ];
 var autoIdx = 0;
 var autoRun = false;
@@ -144,7 +145,7 @@ function autoCheck() {
     }
 }
 
-function run(){
+function run() {
     if (round--) {
         var opt = option(chartType, n - 0);
         var ticket = new Date();
@@ -152,7 +153,7 @@ function run(){
         ticket = new Date() - ticket;
         total += ticket
         result.push(ticket);
-        setTimeout(run,200);
+        setTimeout(run, 200);
         //myChart.showLoading();
     }
     else {
@@ -162,11 +163,11 @@ function run(){
             '【' + chartType + '】 : ' +
             (
                 (chartType == 'map' || chartType == 'radar' || chartType == 'pie' || chartType == 'chord')
-                ? (n > 200 ? 200 : n)
-                : (n >= 10000 ? (n / 10000 + '万') : n)
+                    ? (n > 200 ? 200 : n)
+                    : (n >= 10000 ? (n / 10000 + '万') : n)
             )
             + '个数据平均render时间:'
-            + Math.round(total/result.length)
+            + Math.round(total / result.length)
             + 'ms : [' + result.join(',') + ']<br/>';
         autoCheck();
     }

@@ -16,12 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class GenTableColumnService extends DataService<GenTableColumnRepository, GenTableColumn, String> {
 
 
-	public void deleteByTableId(String id, String currentAuditor) {
-		baseRepository.createQuery(
-				PublicUtil.toAppendStr("update GenTableColumn set status='", BaseEntity.FLAG_DELETE,
-						"', lastModifiedBy=:p2, lastModifiedDate=:p3 where genTable.id = :p1"),
-				id, currentAuditor, PublicUtil.getCurrentDate()).executeUpdate();
-	}
+    public void deleteByTableId(String id, String currentAuditor) {
+        baseRepository.createQuery(
+                PublicUtil.toAppendStr("update GenTableColumn set status='", BaseEntity.FLAG_DELETE,
+                        "', lastModifiedBy=:p2, lastModifiedDate=:p3 where genTable.id = :p1"),
+                id, currentAuditor, PublicUtil.getCurrentDate()).executeUpdate();
+    }
 
 
 }

@@ -79,6 +79,7 @@ define(function (require) {
     function MessageCenter() {
         zrEvent.Dispatcher.call(this);
     }
+
     zrUtil.merge(MessageCenter.prototype, zrEvent.Dispatcher.prototype, true);
 
     /**
@@ -176,7 +177,7 @@ define(function (require) {
             this._zr = _zr;
 
             // wrap: n,e,d,t for name event data this
-            this._messageCenter.dispatch = function(type, event, eventPackage, that) {
+            this._messageCenter.dispatch = function (type, event, eventPackage, that) {
                 eventPackage = eventPackage || {};
                 eventPackage.type = type;
                 eventPackage.event = event;
@@ -199,7 +200,7 @@ define(function (require) {
                 // }
             };
 
-            this._onevent = function(param){
+            this._onevent = function (param) {
                 return self.__onevent(param);
             };
             for (var e in ecConfig.EVENT) {
@@ -213,7 +214,7 @@ define(function (require) {
 
             var eventBehaviors = {};
             this._onzrevent = function (param) {
-                return self[eventBehaviors[ param.type ]](param);
+                return self[eventBehaviors[param.type]](param);
             };
 
             // 挂载关心的事件
@@ -252,7 +253,7 @@ define(function (require) {
         /**
          * ECharts事件处理中心
          */
-        __onevent: function (param){
+        __onevent: function (param) {
             param.__echartsId = param.__echartsId || this.id;
 
             // 来自其他联动图表的事件
@@ -330,12 +331,12 @@ define(function (require) {
                     }
                     break;
                 /*
-                case ecConfig.EVENT.RESIZE :
-                case ecConfig.EVENT.DATA_CHANGED :
-                case ecConfig.EVENT.PIE_SELECTED :
-                case ecConfig.EVENT.MAP_SELECTED :
-                    break;
-                */
+                 case ecConfig.EVENT.RESIZE :
+                 case ecConfig.EVENT.DATA_CHANGED :
+                 case ecConfig.EVENT.PIE_SELECTED :
+                 case ecConfig.EVENT.MAP_SELECTED :
+                 break;
+                 */
             }
 
             // 多图联动，只做自己的一级事件分发，避免级联事件循环
@@ -596,11 +597,11 @@ define(function (require) {
                 var dataIndex = ecData.get(target, 'dataIndex');
 
                 dataIndex = seriesIndex != -1 && this.component.dataZoom
-                            ? this.component.dataZoom.getRealDataIndex(
-                                seriesIndex,
-                                dataIndex
-                              )
-                            : dataIndex;
+                    ? this.component.dataZoom.getRealDataIndex(
+                        seriesIndex,
+                        dataIndex
+                    )
+                    : dataIndex;
                 return {
                     seriesIndex: seriesIndex,
                     seriesName: (ecData.get(target, 'series') || {}).name,
@@ -614,7 +615,7 @@ define(function (require) {
             return;
         },
 
-        _noDataCheck: function(magicOption) {
+        _noDataCheck: function (magicOption) {
             var series = magicOption.series;
 
             for (var i = 0, l = series.length; i < l; i++) {
@@ -635,11 +636,11 @@ define(function (require) {
                 || ecConfig.noDataLoadingOption
                 || {
                     text: (this._option && this._option.noDataText)
-                          || this._themeConfig.noDataText
-                          || ecConfig.noDataText,
+                    || this._themeConfig.noDataText
+                    || ecConfig.noDataText,
                     effect: (this._option && this._option.noDataEffect)
-                            || this._themeConfig.noDataEffect
-                            || ecConfig.noDataEffect
+                    || this._themeConfig.noDataEffect
+                    || ecConfig.noDataEffect
                 };
             // 空数据
             this.clear();
@@ -758,7 +759,7 @@ define(function (require) {
 
             // 已有实例但新option不带这类图表的实例释放
             for (chartType in this.chart) {
-                if (chartType != ecConfig.CHART_TYPE_ISLAND  && !chartMap[chartType]) {
+                if (chartType != ecConfig.CHART_TYPE_ISLAND && !chartMap[chartType]) {
                     this.chart[chartType].dispose();
                     this.chart[chartType] = null;
                     delete this.chart[chartType];
@@ -996,6 +997,7 @@ define(function (require) {
             var magicOption = zrUtil.clone(this._option);
 
             var self = this;
+
             function restoreOption(prop) {
                 var restoreSource = self._optionRestore[prop];
 
@@ -1054,7 +1056,7 @@ define(function (require) {
          * timelineOption接口，配置图表实例任何可配置选项
          * @param {Object} option
          */
-        _setTimelineOption: function(option) {
+        _setTimelineOption: function (option) {
             this._timeline && this._timeline.dispose();
             var Timeline = require('./component/timeline');
             var timeline = new Timeline(
@@ -1364,7 +1366,7 @@ define(function (require) {
             }
 
             var bgColor = this._option.backgroundColor;
-            if (bgColor && bgColor.replace(' ','') === 'rgba(0,0,0,0)') {
+            if (bgColor && bgColor.replace(' ', '') === 'rgba(0,0,0,0)') {
                 bgColor = '#fff';
             }
 
@@ -1594,14 +1596,14 @@ define(function (require) {
             );
 
             textStyle.textFont = finalTextStyle.fontStyle + ' '
-                                 + finalTextStyle.fontWeight + ' '
-                                 + finalTextStyle.fontSize + 'px '
-                                 + finalTextStyle.fontFamily;
+                + finalTextStyle.fontWeight + ' '
+                + finalTextStyle.fontSize + 'px '
+                + finalTextStyle.fontFamily;
 
             textStyle.text = loadingOption.text
-                             || (this._option && this._option.loadingText)
-                             || this._themeConfig.loadingText
-                             || ecConfig.loadingText;
+                || (this._option && this._option.loadingText)
+                || this._themeConfig.loadingText
+                || ecConfig.loadingText;
 
             if (loadingOption.x != null) {
                 textStyle.x = loadingOption.x;
@@ -1615,13 +1617,13 @@ define(function (require) {
 
             var Effect = loadingOption.effect;
             if (typeof Effect === 'string' || Effect == null) {
-                Effect =  effectList[
-                              loadingOption.effect
-                              || (this._option && this._option.loadingEffect)
-                              || this._themeConfig.loadingEffect
-                              || ecConfig.loadingEffect
-                          ]
-                          || effectList.spin;
+                Effect = effectList[
+                    loadingOption.effect
+                    || (this._option && this._option.loadingEffect)
+                    || this._themeConfig.loadingEffect
+                    || ecConfig.loadingEffect
+                        ]
+                    || effectList.spin;
             }
             this._zr.showLoading(new Effect(loadingOption.effectOption));
             return this;
@@ -1640,7 +1642,7 @@ define(function (require) {
          */
         setTheme: function (theme) {
             if (theme) {
-               if (typeof theme === 'string') {
+                if (typeof theme === 'string') {
                     // 默认主题
                     switch (theme) {
                         case 'macarons':
@@ -1681,7 +1683,7 @@ define(function (require) {
             if (!_canvasSupported) {   // IE8-
                 var textStyle = this._themeConfig.textStyle;
                 textStyle && textStyle.fontFamily && textStyle.fontFamily2
-                    && (textStyle.fontFamily = textStyle.fontFamily2);
+                && (textStyle.fontFamily = textStyle.fontFamily2);
 
                 textStyle = ecConfig.textStyle;
                 textStyle.fontFamily = textStyle.fontFamily2;
@@ -1696,7 +1698,7 @@ define(function (require) {
          */
         resize: function () {
             var self = this;
-            return function(){
+            return function () {
                 self._clearEffect();
                 self._zr.resize();
                 if (self._option && self._option.renderAsImage && _canvasSupported) {
@@ -1721,8 +1723,8 @@ define(function (require) {
             };
         },
 
-        _clearEffect: function() {
-            this._zr.modLayer(ecConfig.EFFECT_ZLEVEL, { motionBlur: false });
+        _clearEffect: function () {
+            this._zr.modLayer(ecConfig.EFFECT_ZLEVEL, {motionBlur: false});
             this._zr.painter.clearLayer(ecConfig.EFFECT_ZLEVEL);
         },
 

@@ -35,15 +35,15 @@ public class CsrfCookieGeneratorFilter extends OncePerRequestFilter {
             cookie.setPath("/");
             response.addCookie(cookie);
         }
-        String basePath = PublicUtil.toAppendStr(request.getScheme(), "://",request.getServerName(), ":", request.getServerPort(), request.getContextPath());
+        String basePath = PublicUtil.toAppendStr(request.getScheme(), "://", request.getServerName(), ":", request.getServerPort(), request.getContextPath());
         request.setAttribute("basePath", basePath);
         String adminPath = SpringContextHolder.getBean(AlbedoProperties.class).getAdminPath();
         request.setAttribute("ctx", PublicUtil.toAppendStr(basePath, adminPath));
         request.setAttribute("assets", PublicUtil.toAppendStr(basePath, "/statics/assets"));
         request.setAttribute("ctxStatic", PublicUtil.toAppendStr(basePath, "/statics/frame"));
         HttpSession session = request.getSession();
-        if(session.getAttribute("moduleList") == null && PublicUtil.isNotEmpty(SecurityUtil.getCurrentUserId())){
-        	session.setAttribute("moduleList", SecurityUtil.getModuleList());
+        if (session.getAttribute("moduleList") == null && PublicUtil.isNotEmpty(SecurityUtil.getCurrentUserId())) {
+            session.setAttribute("moduleList", SecurityUtil.getModuleList());
         }
         filterChain.doFilter(request, response);
     }

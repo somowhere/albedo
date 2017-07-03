@@ -21,7 +21,7 @@ var TableDatatablesManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found",
                 "paginate": {
-                    "previous":"Prev",
+                    "previous": "Prev",
                     "next": "Next",
                     "last": "Last",
                     "first": "First"
@@ -40,7 +40,7 @@ var TableDatatablesManaged = function () {
 
             "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
 
-            "columnDefs": [ {
+            "columnDefs": [{
                 "targets": 0,
                 "orderable": false,
                 "searchable": false
@@ -107,7 +107,7 @@ var TableDatatablesManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found",
                 "paginate": {
-                    "previous":"Prev",
+                    "previous": "Prev",
                     "next": "Next",
                     "last": "Last",
                     "first": "First"
@@ -177,20 +177,20 @@ var TableDatatablesManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found",
                 "paginate": {
-                    "previous":"Prev",
+                    "previous": "Prev",
                     "next": "Next",
                     "last": "Last",
                     "first": "First"
                 }
             },
-            
+
             // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
             // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js). 
             // So when dropdowns used the scrollable div should be removed. 
             //"dom": "<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r>t<'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
 
             "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
-            
+
             "lengthMenu": [
                 [6, 15, 20, -1],
                 [6, 15, 20, "All"] // change per page values here
@@ -242,8 +242,8 @@ var TableDatatablesManaged = function () {
 
 }();
 
-if (App.isAngularJsApp() === false) { 
-    jQuery(document).ready(function() {
+if (App.isAngularJsApp() === false) {
+    jQuery(document).ready(function () {
         TableDatatablesManaged.init();
     });
 }

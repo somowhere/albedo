@@ -4,32 +4,32 @@
 
 // Modified from d3-cloud
 /*
-Copyright (c) 2013, Jason Davies.
-All rights reserved.
+ Copyright (c) 2013, Jason Davies.
+ All rights reserved.
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
 
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
+ * Redistributions of source code must retain the above copyright notice, this
+ list of conditions and the following disclaimer.
 
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
+ * Redistributions in binary form must reproduce the above copyright notice,
+ this list of conditions and the following disclaimer in the documentation
+ and/or other materials provided with the distribution.
 
-  * The name Jason Davies may not be used to endorse or promote products
-    derived from this software without specific prior written permission.
+ * The name Jason Davies may not be used to endorse or promote products
+ derived from this software without specific prior written permission.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL JASON DAVIES BE LIABLE FOR ANY DIRECT, INDIRECT,
-INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL JASON DAVIES BE LIABLE FOR ANY DIRECT, INDIRECT,
+ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 define(function (require) {
@@ -51,7 +51,8 @@ define(function (require) {
             var maxArea = 0;
             var i = -1;
             var tags = [];
-            var maxBounds = null; /*图片的最大可用边框*/
+            var maxBounds = null;
+            /*图片的最大可用边框*/
             // 根据配置 初始化 字符云数组
             var data = this.wordsdata;
             var dfop = this.defaultOption;
@@ -254,8 +255,8 @@ define(function (require) {
                 var e = size[0] / size[1];
                 return function (t) {
                     return [
-                            e * (t *= .1) * Math.cos(t),
-                            t * Math.sin(t)
+                        e * (t *= .1) * Math.cos(t),
+                        t * Math.sin(t)
                     ];
                 };
             }
@@ -301,9 +302,9 @@ define(function (require) {
             var dfop = this.defaultOption;
             //默认值
             dfop.size = option.size || [
-                256,
-                256
-            ];
+                    256,
+                    256
+                ];
             dfop.wordletype = option.wordletype;
             dfop.words = option.words || [];
             dfop.timeInterval = Infinity;
@@ -487,9 +488,9 @@ define(function (require) {
             /*判断目前该值是否能够放的下*/
             var size = this.defaultOption.size;
             var perimeter = [
-                    {x: 0, y: 0},
-                    {x: size[0], y: size[1]}
-                ];
+                {x: 0, y: 0},
+                {x: size[0], y: size[1]}
+            ];
             var startX = tag.x;
             var startY = tag.y;
             var maxDelta = Math.sqrt(size[0] * size[0] + size[1] * size[1]);
@@ -581,11 +582,13 @@ define(function (require) {
             //面积 归一化
             //计算 每个字体的面积
             var sizesum = sum(data, function (k) {
-                    return k.size;
-                });
+                return k.size;
+            });
             var i = data.length;
-            var maxareapre = .25; /*面积归一化后， 字体占总面积的最大百分比*/
-            var minTextSize = minSize; /*字体所能缩放的最小大小。。如果字体面积 依旧无法满足上述约束， 字体将不会再缩小*/
+            var maxareapre = .25;
+            /*面积归一化后， 字体占总面积的最大百分比*/
+            var minTextSize = minSize;
+            /*字体所能缩放的最小大小。。如果字体面积 依旧无法满足上述约束， 字体将不会再缩小*/
             var cw = this.defaultOption.cw;
             var ch = this.defaultOption.ch;
             var c = this.defaultOption.c;

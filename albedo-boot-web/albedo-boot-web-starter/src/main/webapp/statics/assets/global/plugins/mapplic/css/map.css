@@ -1,50 +1,50 @@
 #landmarks-ground .mapplic-clickable,
 #landmarks-underground .mapplic-clickable,
 #landmarks-level1 .mapplic-clickable {
-	opacity: 1 !important;
+    opacity: 1 !important;
 }
 
 #landmarks-ground polygon.mapplic-active,
 #landmarks-ground path.mapplic-active {
-	fill: #ADDB2C;
+    fill: #ADDB2C;
 }
 
 #landmarks-underground polygon.mapplic-active,
 #landmarks-underground path.mapplic-active {
-	fill: #7EE0CD;
+    fill: #7EE0CD;
 }
 
 #landmarks-level1 polygon.mapplic-active,
 #landmarks-level1 path.mapplic-active {
-	fill: #F9684B;
+    fill: #F9684B;
 }
 
 /* SKINS */
 /* mapplic-dark */
 
 .mapplic-dark .mapplic-tooltip {
-	background-color: #333;
+    background-color: #333;
 }
 
 .mapplic-dark .mapplic-tooltip-triangle {
-	border-color: #333 transparent transparent transparent;
+    border-color: #333 transparent transparent transparent;
 }
 
 .mapplic-dark .mapplic-bottom .mapplic-tooltip-triangle {
-	border-color: transparent transparent #333 transparent;
+    border-color: transparent transparent #333 transparent;
 }
 
 .mapplic-dark .mapplic-tooltip-title {
-	color: #fff;
+    color: #fff;
 }
 
 .mapplic-dark .mapplic-tooltip-description,
 .mapplic-dark .mapplic-tooltip p {
-	color: #bbb;
+    color: #bbb;
 }
 
 .mapplic-dark .mapplic-tooltip-close {
-	background-image: url(../mapplic/images/cross-light.png);
+    background-image: url(../mapplic/images/cross-light.png);
 }
 
 /* buttons */
@@ -61,7 +61,7 @@
 
 /* retina */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
-	.mapplic-dark .mapplic-tooltip-close {
-		background-image: url(../mapplic/images/cross-light@2x.png);
-	}
+    .mapplic-dark .mapplic-tooltip-close {
+        background-image: url(../mapplic/images/cross-light@2x.png);
+    }
 }

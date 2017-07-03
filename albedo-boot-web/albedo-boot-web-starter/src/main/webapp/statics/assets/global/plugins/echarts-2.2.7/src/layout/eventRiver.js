@@ -3,7 +3,7 @@
  * @module echarts/layout/eventRiver
  * @author clmtulip  (车丽美, clmtulip@gmail.com)
  */
-define(function(require) {
+define(function (require) {
 
     function eventRiverLayout(series, intervalX, area) {
         var space = 4;
@@ -83,11 +83,11 @@ define(function(require) {
         var flagForOffset = (function () {
 
             var length = maxTime - minTime + 1 + (~~intervalX);
-            if (length <= 0){
+            if (length <= 0) {
                 return [0];
             }
             var result = [];
-            while (length--){
+            while (length--) {
                 result.push(0);
             }
             return result;
@@ -117,9 +117,13 @@ define(function(require) {
                 bubbleBound(e, intervalX, minTime);
 
                 // 得到可以放置的位置
-                e.y = findLocation(flagForPos, e, function (e, index){return e.ypx[index];});
+                e.y = findLocation(flagForPos, e, function (e, index) {
+                    return e.ypx[index];
+                });
                 // 得到偏移量
-                e._offset = findLocation(flagForOffset, e, function (){ return space;});
+                e._offset = findLocation(flagForOffset, e, function () {
+                    return space;
+                });
 
                 totalMaxy = Math.max(totalMaxy, e.y + maxy);
                 totalOffset = Math.max(totalOffset, e._offset);
@@ -142,7 +146,7 @@ define(function(require) {
         var yBase = area.y;
         var yScale = (area.height - offset) / maxY;
 
-        for (var i = 0, length = bubbleData.length; i < length; i++){
+        for (var i = 0, length = bubbleData.length; i < length; i++) {
             var e = bubbleData[i];
             e.y = yBase + yScale * e.y + e._offset * offsetScale;
 
@@ -169,7 +173,7 @@ define(function(require) {
      * @param {number} y1 终点纵坐标
      * @returns {Function} 输入为横坐标 返回纵坐标s
      */
-    function line(x0, y0, x1, y1){
+    function line(x0, y0, x1, y1) {
 
         // 横坐标相同,应该抛出错误
         if (x0 === x1) {
@@ -198,7 +202,7 @@ define(function(require) {
      * @param {array} e.value 值域范围
      * @param {number} intervalX 气泡尾巴长度
      */
-    function bubbleBound(e, intervalX, minX){
+    function bubbleBound(e, intervalX, minX) {
         var space = ~~intervalX;
         var length = e.time.length;
 
@@ -211,7 +215,7 @@ define(function(require) {
         var y0 = 0;
         var y1 = 0;
         var newline;
-        for(; i < length; i++){
+        for (; i < length; i++) {
 
             x0 = ~~e.time[i];
             y0 = e.value[i] / 2;
@@ -228,7 +232,7 @@ define(function(require) {
             // to line
             newline = line(x0, y0, x1, y1);
             //
-            for (var x = x0; x < x1; x++){
+            for (var x = x0; x < x1; x++) {
                 e.xpx.push(x - minX);
                 e.ypx.push(newline(x));
             }
@@ -238,19 +242,19 @@ define(function(require) {
         e.ypx.push(y1);
     }
 
-    function findLocation(flags, e, yvalue){
+    function findLocation(flags, e, yvalue) {
         var pos = 0;
 
         var length = e.xpx.length;
         var i = 0;
         var y;
-        for(; i < length; i++){
+        for (; i < length; i++) {
             y = yvalue(e, i);
             pos = Math.max(pos, y + flags[e.xpx[i]]);
         }
 
         // reset flags
-        for(i = 0; i < length; i++){
+        for (i = 0; i < length; i++) {
             y = yvalue(e, i);
             flags[e.xpx[i]] = pos + y;
         }

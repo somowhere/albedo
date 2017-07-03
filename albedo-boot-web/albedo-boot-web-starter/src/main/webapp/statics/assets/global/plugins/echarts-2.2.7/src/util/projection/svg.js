@@ -1,14 +1,15 @@
 /**
  * echarts地图一般投射算法
  * modify from GeoMap v0.5.3 https://github.com/x6doooo/GeoMap
- * 
+ *
  * @desc echarts基于Canvas，纯Javascript图表库，提供直观，生动，可交互，可个性化定制的数据统计图表。
  * @author Kener (@Kener-林峰, kener.linfeng@gmail.com)
  *
  */
-define(function(require) {
+define(function (require) {
 
     var PathShape = require('zrender/shape/Path');
+
     function toFloat(str) {
         return parseFloat(str || 0);
     }
@@ -31,10 +32,11 @@ define(function(require) {
             height: height
         };
     }
-    
+
     function geoJson2Path(root, transform) {
         var scale = [transform.scale.x, transform.scale.y];
         var elList = [];
+
         function _getShape(root) {
             var tagName = root.tagName;
             if (shapeBuilders[tagName]) {
@@ -57,6 +59,7 @@ define(function(require) {
                 _getShape(shapes[i]);
             }
         }
+
         _getShape(root);
         return elList;
     }
@@ -69,7 +72,7 @@ define(function(require) {
         var point = p instanceof Array ? [p[0] * 1, p[1] * 1] : [p.x * 1, p.y * 1];
         return [point[0] / obj.scale.x, point[1] / obj.scale.y];
     }
-    
+
     /**
      * 经纬度转平面坐标
      * @param {Array | Object} p
@@ -124,20 +127,20 @@ define(function(require) {
 
     // Regular svg shapes
     var shapeBuilders = {
-        path: function(xmlNode, scale) {
+        path: function (xmlNode, scale) {
             var path = xmlNode.getAttribute('d');
-            var rect = PathShape.prototype.getRect({ path : path });
+            var rect = PathShape.prototype.getRect({path: path});
             return {
                 shapeType: 'path',
                 path: path,
                 cp: [
-                    (rect.x + rect.width / 2) * scale[0], 
+                    (rect.x + rect.width / 2) * scale[0],
                     (rect.y + rect.height / 2) * scale[1]
                 ]
             };
         },
 
-        rect: function(xmlNode, scale) {
+        rect: function (xmlNode, scale) {
             var x = toFloat(xmlNode.getAttribute('x'));
             var y = toFloat(xmlNode.getAttribute('y'));
             var width = toFloat(xmlNode.getAttribute('width'));
@@ -150,13 +153,13 @@ define(function(require) {
                 width: width,
                 height: height,
                 cp: [
-                    (x + width / 2) * scale[0], 
+                    (x + width / 2) * scale[0],
                     (y + height / 2) * scale[1]
                 ]
             };
         },
 
-        line: function(xmlNode, scale) {
+        line: function (xmlNode, scale) {
             var x1 = toFloat(xmlNode.getAttribute('x1'));
             var y1 = toFloat(xmlNode.getAttribute('y1'));
             var x2 = toFloat(xmlNode.getAttribute('x2'));
@@ -169,13 +172,13 @@ define(function(require) {
                 xEnd: x2,
                 yEnd: y2,
                 cp: [
-                    (x1 + x2) * 0.5 * scale[0], 
+                    (x1 + x2) * 0.5 * scale[0],
                     (y1 + y2) * 0.5 * scale[1]
                 ]
             };
         },
 
-        circle: function(xmlNode, scale) {
+        circle: function (xmlNode, scale) {
             var cx = toFloat(xmlNode.getAttribute('cx'));
             var cy = toFloat(xmlNode.getAttribute('cy'));
             var r = toFloat(xmlNode.getAttribute('r'));
@@ -192,7 +195,7 @@ define(function(require) {
             };
         },
 
-        ellipse: function(xmlNode, scale) {
+        ellipse: function (xmlNode, scale) {
             var cx = parseFloat(xmlNode.getAttribute('cx') || 0);
             var cy = parseFloat(xmlNode.getAttribute('cy') || 0);
             var rx = parseFloat(xmlNode.getAttribute('rx') || 0);
@@ -211,7 +214,7 @@ define(function(require) {
             };
         },
 
-        polygon: function(xmlNode, scale) {
+        polygon: function (xmlNode, scale) {
             var points = xmlNode.getAttribute('points');
             var min = [Infinity, Infinity];
             var max = [-Infinity, -Infinity];
@@ -220,7 +223,7 @@ define(function(require) {
 
                 for (var i = 0; i < points.length; i++) {
                     var p = points[i];
-                    
+
                     min[0] = Math.min(p[0], min[0]);
                     min[1] = Math.min(p[1], min[1]);
 
@@ -239,12 +242,12 @@ define(function(require) {
             }
         },
 
-        polyline: function(xmlNode, scale) {
+        polyline: function (xmlNode, scale) {
             var obj = shapeBuilders.polygon(xmlNode, scale);
             return obj;
         }
     };
-    
+
     return {
         getBbox: getBbox,
         geoJson2Path: geoJson2Path,

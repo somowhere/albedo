@@ -12,12 +12,12 @@ SwaggerUi.Views.ApiKeyAuthView = Backbone.View.extend({ // TODO: append this to 
 
     template: Handlebars.templates.apikey_auth,
 
-    initialize: function(opts) {
+    initialize: function (opts) {
         this.options = opts || {};
         this.router = this.options.router;
     },
 
-    render: function (){
+    render: function () {
         this.$el.html(this.template(this.model.toJSON()));
 
         return this;

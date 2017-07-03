@@ -17,7 +17,7 @@ import java.util.SortedSet;
 
 @Configuration
 @EnableCaching
-@AutoConfigureAfter(value = { MetricsConfiguration.class })
+@AutoConfigureAfter(value = {MetricsConfiguration.class})
 @AutoConfigureBefore(SecurityConfiguration.class)
 public class CacheConfiguration {
 
@@ -25,11 +25,10 @@ public class CacheConfiguration {
 
 //    @PersistenceContext
 //    private EntityManager entityManager;
-
-    @Autowired
-    private MetricRegistry metricRegistry;
     @Autowired
     AlbedoProperties albedoProperties;
+    @Autowired
+    private MetricRegistry metricRegistry;
     private net.sf.ehcache.CacheManager cacheManager;
 
     @PreDestroy
@@ -41,9 +40,9 @@ public class CacheConfiguration {
         getCacheManager().shutdown();
     }
 
-    @Bean(name="ehCacheManager")
+    @Bean(name = "ehCacheManager")
     public EhCacheCacheManager ehCacheManager() {
-       
+
         log.debug("Registering Ehcache Metrics gauges");
 //        Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
 //        for (EntityType<?> entity : entities) {
@@ -61,22 +60,22 @@ public class CacheConfiguration {
         ehCacheManager.setCacheManager(getCacheManager());
         return ehCacheManager;
     }
-    
-    @Bean(name="cacheManager")
+
+    @Bean(name = "cacheManager")
     public net.sf.ehcache.CacheManager cacheManager() {
         return getCacheManager();
     }
-    
-    private net.sf.ehcache.CacheManager getCacheManager() {
-    	if(cacheManager == null){
-    		log.debug("Starting Ehcache");
-      		 cacheManager = net.sf.ehcache.CacheManager.create();
-      	     cacheManager.getConfiguration().setMaxBytesLocalHeap(albedoProperties.getCache().getEhcache().getMaxBytesLocalHeap());
-    	}
-		return cacheManager;
-	}
 
-	private void reconfigureCache(String name, AlbedoProperties albedoProperties) {
+    private net.sf.ehcache.CacheManager getCacheManager() {
+        if (cacheManager == null) {
+            log.debug("Starting Ehcache");
+            cacheManager = net.sf.ehcache.CacheManager.create();
+            cacheManager.getConfiguration().setMaxBytesLocalHeap(albedoProperties.getCache().getEhcache().getMaxBytesLocalHeap());
+        }
+        return cacheManager;
+    }
+
+    private void reconfigureCache(String name, AlbedoProperties albedoProperties) {
         net.sf.ehcache.Cache cache = getCacheManager().getCache(name);
         if (cache != null) {
             cache.getCacheConfiguration().setTimeToLiveSeconds(albedoProperties.getCache().getTimeToLiveSeconds());
@@ -84,5 +83,5 @@ public class CacheConfiguration {
             getCacheManager().replaceCacheWithDecoratedCache(cache, decoratedCache);
         }
     }
-	
+
 }

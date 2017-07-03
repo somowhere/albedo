@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: Markdown mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel="stylesheet" href="../../lib/codemirror.css">
 <script src="../../lib/codemirror.js"></script>
@@ -12,14 +12,14 @@
         border-top: 1px solid black;
         border-bottom: 1px solid black;
     }
-    
+
     .cm-s-default .cm-trailing-space-a:before,
     .cm-s-default .cm-trailing-space-b:before {
         position: absolute;
         content: "\00B7";
         color: #777;
     }
-    
+
     .cm-s-default .cm-trailing-space-new-line:before {
         position: absolute;
         content: "\21B5";
@@ -34,16 +34,16 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">Markdown</a>
+        <li>
+            <a class=active href="#">Markdown</a>
     </ul>
 </div>
 <article>
@@ -86,15 +86,14 @@
     </form>
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById("code"),
-        {
-            mode: 'markdown',
-            lineNumbers: true,
-            theme: "default",
-            extraKeys:
             {
-                "Enter": "newlineAndIndentContinueMarkdownList"
-            }
-        });
+                mode: 'markdown',
+                lineNumbers: true,
+                theme: "default",
+                extraKeys: {
+                    "Enter": "newlineAndIndentContinueMarkdownList"
+                }
+            });
     </script>
     <p>Optionally depends on the XML mode for properly highlighted inline XML blocks.</p>
     <p>

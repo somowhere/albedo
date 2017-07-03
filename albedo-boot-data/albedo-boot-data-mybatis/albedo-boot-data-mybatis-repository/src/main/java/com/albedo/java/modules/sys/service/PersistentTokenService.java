@@ -19,31 +19,31 @@ import java.util.List;
 
 /**
  * sessions Service
- * 
+ *
  * @author admin
  * @version 2017-01-03
  */
 @Service
 @Transactional
 public class PersistentTokenService extends BaseService<PersistentTokenRepository, PersistentToken, String> {
-	public final Logger log = LoggerFactory.getLogger(getClass());
+    public final Logger log = LoggerFactory.getLogger(getClass());
 
 
-	@Transactional(readOnly = true)
-	public PageModel<PersistentToken> findPage(PageModel<PersistentToken> pm, List<QueryCondition> queryConditions) {
-		SpecificationDetail<PersistentToken> spec = DynamicSpecifications
-				.buildSpecification(pm.getQueryConditionJson(), queryConditions, persistentClass);
-		return findPage(pm, spec);
-	}
+    @Transactional(readOnly = true)
+    public PageModel<PersistentToken> findPage(PageModel<PersistentToken> pm, List<QueryCondition> queryConditions) {
+        SpecificationDetail<PersistentToken> spec = DynamicSpecifications
+                .buildSpecification(pm.getQueryConditionJson(), queryConditions, persistentClass);
+        return findPage(pm, spec);
+    }
 
-	public void delete(List<String> ids) {
-		ids.forEach(id ->{
+    public void delete(List<String> ids) {
+        ids.forEach(id -> {
 //			PersistentToken entity =  repository.findOne(id);
 //			Assert.assertNotNull(entity,"对象 " + id + " 信息为空，删除失败" );
 //			deleteById(id, currentAuditor);
-			repository.delete(id);
+            repository.delete(id);
 //			log.debug("Deleted Entity: {}", entity);
-		});
-	}
+        });
+    }
 
 }

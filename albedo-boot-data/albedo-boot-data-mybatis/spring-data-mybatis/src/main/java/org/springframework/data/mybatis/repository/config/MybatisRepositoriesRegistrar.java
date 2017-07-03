@@ -40,7 +40,7 @@ import java.lang.annotation.Annotation;
 class MybatisRepositoriesRegistrar extends RepositoryBeanDefinitionRegistrarSupport implements ResourceLoaderAware, EnvironmentAware {
 
     private ResourceLoader resourceLoader;
-    private Environment    environment;
+    private Environment environment;
 
     @Override
     protected Class<? extends Annotation> getAnnotation() {

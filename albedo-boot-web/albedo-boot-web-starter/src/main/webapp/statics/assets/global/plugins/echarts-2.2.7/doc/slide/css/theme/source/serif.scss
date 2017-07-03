@@ -4,14 +4,10 @@
  *
  * This theme is Copyright (C) 2012-2013 Owen Versteeg, http://owenversteeg.com - it is MIT licensed.
  */
-
-
 // Default mixins and settings -----------------
 @import "../template/mixins";
 @import "../template/settings";
 // ---------------------------------------------
-
-
 
 // Override theme settings (see ../template/settings.scss)
 $mainFont: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
@@ -22,13 +18,12 @@ $headingTextShadow: none;
 $headingTextTransform: none;
 $backgroundColor: #F0F1EB;
 $linkColor: #51483D;
-$linkColorHover: lighten( $linkColor, 20% );
+$linkColorHover: lighten($linkColor, 20%);
 $selectionBackgroundColor: #26351C;
 
 .reveal a:not(.image) {
   line-height: 1.3em;
 }
-
 
 // Theme template ------------------------------
 @import "../template/theme";

@@ -33,14 +33,14 @@ var UIGeneral = function () {
         }
     }
 
-    var handleDynamicPagination = function() {
+    var handleDynamicPagination = function () {
         $('#dynamic_pager_demo1').bootpag({
             paginationClass: 'pagination',
             next: '<i class="fa fa-angle-right"></i>',
             prev: '<i class="fa fa-angle-left"></i>',
             total: 6,
             page: 1,
-        }).on("page", function(event, num){
+        }).on("page", function (event, num) {
             $("#dynamic_pager_content1").html("Page " + num + " content here"); // or some ajax content loading...
         });
 
@@ -50,8 +50,8 @@ var UIGeneral = function () {
             prev: '<i class="fa fa-angle-left"></i>',
             total: 24,
             page: 1,
-            maxVisible: 6 
-        }).on('page', function(event, num){
+            maxVisible: 6
+        }).on('page', function (event, num) {
             $("#dynamic_pager_content2").html("Page " + num + " content here"); // or some ajax content loading...
         });
     }
@@ -67,6 +67,6 @@ var UIGeneral = function () {
 
 }();
 
-jQuery(document).ready(function() {    
-   UIGeneral.init();
+jQuery(document).ready(function () {
+    UIGeneral.init();
 });

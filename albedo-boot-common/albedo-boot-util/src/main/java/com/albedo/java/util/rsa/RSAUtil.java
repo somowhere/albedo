@@ -11,12 +11,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RSAUtil {
-	
-	/**
+
+    /**
      * 加密算法RSA
      */
     public static final String KEY_ALGORITHM = "RSA";
-    
+
     /**
      * 签名算法
      */
@@ -26,17 +26,17 @@ public class RSAUtil {
      * 获取公钥的key
      */
     private static final String PUBLIC_KEY = "RSAPublicKey";
-    
+
     /**
      * 获取私钥的key
      */
     private static final String PRIVATE_KEY = "RSAPrivateKey";
-    
+
     /**
      * RSA最大加密明文大小
      */
     private static final int MAX_ENCRYPT_BLOCK = 117;
-    
+
     /**
      * RSA最大解密密文大小
      */
@@ -46,7 +46,7 @@ public class RSAUtil {
      * <p>
      * 生成密钥对(公钥和私钥)
      * </p>
-     * 
+     *
      * @return
      * @throws Exception
      */
@@ -61,17 +61,18 @@ public class RSAUtil {
         keyMap.put(PRIVATE_KEY, privateKey);
         return keyMap;
     }
+
     public static String signStr(String data, String privateKey) throws Exception {
-    	return data!=null ? sign(data.getBytes(), privateKey) : null;
+        return data != null ? sign(data.getBytes(), privateKey) : null;
     }
+
     /**
      * <p>
      * 用私钥对信息生成数字签名
      * </p>
-     * 
-     * @param data 已加密数据
+     *
+     * @param data       已加密数据
      * @param privateKey 私钥(BASE64编码)
-     * 
      * @return
      * @throws Exception
      */
@@ -85,21 +86,21 @@ public class RSAUtil {
         signature.update(data);
         return Base64Util.encode(signature.sign());
     }
+
     public static boolean verifyStr(String encodedData, String publicKey, String sign) throws Exception {
-		return encodedData!=null ? verify(encodedData.getBytes(), publicKey, sign) : null;
-	}
+        return encodedData != null ? verify(encodedData.getBytes(), publicKey, sign) : null;
+    }
+
     /**
      * <p>
      * 校验数字签名
      * </p>
-     * 
-     * @param data 已加密数据
+     *
+     * @param data      已加密数据
      * @param publicKey 公钥(BASE64编码)
-     * @param sign 数字签名
-     * 
+     * @param sign      数字签名
      * @return
      * @throws Exception
-     * 
      */
     public static boolean verify(byte[] data, String publicKey, String sign)
             throws Exception {
@@ -112,18 +113,21 @@ public class RSAUtil {
         signature.update(data);
         return signature.verify(Base64Util.decode(sign));
     }
+
     public static String decryptByPrivateKeyStr(String encryptedData, String privateKey)
             throws Exception {
-    	return encryptedData!=null ? new String(decryptByPrivateKey(Base64Util.decode(encryptedData), privateKey)) : null;
+        return encryptedData != null ? new String(decryptByPrivateKey(Base64Util.decode(encryptedData), privateKey)) : null;
     }
+
     /**
      * <P>
      * 私钥解密
      * </p>
      * // android 需要修改 "RSA/ECB/PKCS1Padding"
-     *  Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
+     * Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
+     *
      * @param encryptedData 已加密数据
-     * @param privateKey 私钥(BASE64编码)
+     * @param privateKey    私钥(BASE64编码)
      * @return
      * @throws Exception
      */
@@ -133,7 +137,7 @@ public class RSAUtil {
         PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(keyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
         Key privateK = keyFactory.generatePrivate(pkcs8KeySpec);
-        
+
         Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
         cipher.init(Cipher.DECRYPT_MODE, privateK);
         int inputLen = encryptedData.length;
@@ -156,17 +160,19 @@ public class RSAUtil {
         out.close();
         return decryptedData;
     }
+
     public static String decryptByPublicKeyStr(String encryptedData, String publicKey)
             throws Exception {
-    	return encryptedData!=null ? Base64Util.encode(encryptByPrivateKey(Base64Util.decode(encryptedData), publicKey)) : null;
+        return encryptedData != null ? Base64Util.encode(encryptByPrivateKey(Base64Util.decode(encryptedData), publicKey)) : null;
     }
+
     /**
      * <p>
      * 公钥解密
      * </p>
-     * 
+     *
      * @param encryptedData 已加密数据
-     * @param publicKey 公钥(BASE64编码)
+     * @param publicKey     公钥(BASE64编码)
      * @return
      * @throws Exception
      */
@@ -199,17 +205,17 @@ public class RSAUtil {
         return decryptedData;
     }
 
-    public static String encryptByPublicKeyStr(String data, String publicKey) throws Exception{
-		return data!=null ? Base64Util.encode(encryptByPublicKey(data.getBytes(), publicKey)) : null;
+    public static String encryptByPublicKeyStr(String data, String publicKey) throws Exception {
+        return data != null ? Base64Util.encode(encryptByPublicKey(data.getBytes(), publicKey)) : null;
     }
-   
-    
+
+
     /**
      * <p>
      * 公钥加密
      * </p>
-     * 
-     * @param data 源数据
+     *
+     * @param data      源数据
      * @param publicKey 公钥(BASE64编码)
      * @return
      * @throws Exception
@@ -243,16 +249,18 @@ public class RSAUtil {
         out.close();
         return encryptedData;
     }
+
     public static String encryptByPrivateKeyStr(String data, String privateKey)
             throws Exception {
-		return data!=null ? Base64Util.encode(encryptByPrivateKey(data.getBytes(), privateKey)) : null;
+        return data != null ? Base64Util.encode(encryptByPrivateKey(data.getBytes(), privateKey)) : null;
     }
+
     /**
      * <p>
      * 私钥加密
      * </p>
-     * 
-     * @param data 源数据
+     *
+     * @param data       源数据
      * @param privateKey 私钥(BASE64编码)
      * @return
      * @throws Exception
@@ -290,7 +298,7 @@ public class RSAUtil {
      * <p>
      * 获取私钥
      * </p>
-     * 
+     *
      * @param keyMap 密钥对
      * @return
      * @throws Exception
@@ -305,7 +313,7 @@ public class RSAUtil {
      * <p>
      * 获取公钥
      * </p>
-     * 
+     *
      * @param keyMap 密钥对
      * @return
      * @throws Exception

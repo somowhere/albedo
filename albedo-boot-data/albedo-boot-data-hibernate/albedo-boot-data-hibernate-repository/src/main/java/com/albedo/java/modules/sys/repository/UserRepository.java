@@ -10,7 +10,7 @@ import java.util.Optional;
 /**
  * Spring Data JPA repository for the User entity.
  */
-public interface UserRepository extends DataRepository<User, String>  {
+public interface UserRepository extends DataRepository<User, String> {
 
     Optional<User> findOneByActivationKey(String activationKey);
 
@@ -19,7 +19,7 @@ public interface UserRepository extends DataRepository<User, String>  {
     Optional<User> findOneByResetKey(String resetKey);
 
     Optional<User> findOneByEmail(String email);
-    
+
     Optional<User> findOneByLoginId(String loginId);
-    
+
 }

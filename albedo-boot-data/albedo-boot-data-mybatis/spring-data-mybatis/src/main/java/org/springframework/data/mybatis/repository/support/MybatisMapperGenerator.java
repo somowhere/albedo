@@ -43,7 +43,7 @@ import static org.springframework.data.repository.query.parser.Part.Type.*;
 public class MybatisMapperGenerator {
 
 
-    private final Dialect                    dialect;
+    private final Dialect dialect;
     private final MybatisPersistentEntity<?> persistentEntity;
 
     public MybatisMapperGenerator(Dialect dialect, MybatisPersistentEntity<?> persistentEntity) {

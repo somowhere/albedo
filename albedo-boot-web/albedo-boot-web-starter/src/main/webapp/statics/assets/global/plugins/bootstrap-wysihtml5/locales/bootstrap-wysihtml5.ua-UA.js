@@ -1,7 +1,7 @@
 /**
  * Ukrainian translation for bootstrap-wysihtml5
  */
-(function($){
+(function ($) {
     $.fn.wysihtml5.locale["ua-UA"] = {
         font_styles: {
             normal: "Звичайний текст",

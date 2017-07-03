@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: VB.NET mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel="stylesheet" href="../../lib/codemirror.css">
 <link href="http://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css">
@@ -13,12 +13,12 @@
         height: 210px;
         height: auto;
     }
-    
+
     .CodeMirror-scroll {
         overflow-x: auto;
         overflow-y: hidden;
     }
-    
+
     .CodeMirror pre {
         font-family: Inconsolata;
         font-size: 14px
@@ -32,43 +32,40 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">VB.NET</a>
+        <li>
+            <a class=active href="#">VB.NET</a>
     </ul>
 </div>
 <article>
     <h2>VB.NET mode</h2>
     <script type="text/javascript">
-        function test(golden, text)
-        {
+        function test(golden, text) {
             var ok = true;
             var i = 0;
 
-            function callback(token, style, lineNo, pos)
-            {
+            function callback(token, style, lineNo, pos) {
                 //console.log(String(token) + " " + String(style) + " " + String(lineNo) + " " + String(pos));
                 var result = [String(token), String(style)];
-                if (golden[i][0] != result[0] || golden[i][1] != result[1])
-                {
+                if (golden[i][0] != result[0] || golden[i][1] != result[1]) {
                     return "Error, expected: " + String(golden[i]) + ", got: " + String(result);
                     ok = false;
                 }
                 i++;
             }
+
             CodeMirror.runMode(text, "text/x-vb", callback);
             if (ok) return "Tests OK";
         }
 
-        function testTypes()
-        {
+        function testTypes() {
             var golden = [
                 ['Integer', 'keyword'],
                 [' ', 'null'],
@@ -78,8 +75,7 @@
             return test(golden, text);
         }
 
-        function testIf()
-        {
+        function testIf() {
             var golden = [
                 ['If', 'keyword'],
                 [' ', 'null'],
@@ -93,8 +89,7 @@
             return test(golden, text);
         }
 
-        function testDecl()
-        {
+        function testDecl() {
             var golden = [
                 ['Dim', 'keyword'],
                 [' ', 'null'],
@@ -108,8 +103,7 @@
             return test(golden, text);
         }
 
-        function testAll()
-        {
+        function testAll() {
             var result = "";
             result += testTypes() + "\n";
             result += testIf() + "\n";
@@ -117,26 +111,23 @@
             return result;
         }
 
-        function initText(editor)
-        {
+        function initText(editor) {
             var content = 'Class rocket\nPrivate quality as Double\nPublic Sub launch() as String\nif quality > 0.8\nlaunch = "Successful"\nElse\nlaunch = "Failed"\nEnd If\nEnd sub\nEnd class\n';
             editor.setValue(content);
             for (var i = 0; i < editor.lineCount(); i++) editor.indentLine(i);
         }
 
-        function init()
-        {
+        function init() {
             editor = CodeMirror.fromTextArea(document.getElementById("solution"),
-            {
-                lineNumbers: true,
-                mode: "text/x-vb",
-                readOnly: false
-            });
+                {
+                    lineNumbers: true,
+                    mode: "text/x-vb",
+                    readOnly: false
+                });
             runTest();
         }
 
-        function runTest()
-        {
+        function runTest() {
             document.getElementById('testresult').innerHTML = testAll();
             initText(editor);
         }
@@ -144,6 +135,7 @@
     </script>
     <div id="edit">
         <textarea style="width:95%;height:200px;padding:5px;" name="solution" id="solution"></textarea>
-    </div> <pre id="testresult"></pre>
+    </div>
+    <pre id="testresult"></pre>
     <p>MIME type defined: <code>text/x-vb</code>.</p>
 </article>

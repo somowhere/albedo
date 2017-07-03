@@ -23,6 +23,6 @@ var SessionTimeout = function () {
 
 }();
 
-jQuery(document).ready(function() {    
-   SessionTimeout.init();
+jQuery(document).ready(function () {
+    SessionTimeout.init();
 });

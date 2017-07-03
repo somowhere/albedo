@@ -1,6 +1,6 @@
 var ComponentsContextMenu = function () {
 
-    var demo2 = function() {
+    var demo2 = function () {
         $('#main').contextmenu({
             target: '#context-menu2',
             before: function (e) {
@@ -18,7 +18,7 @@ var ComponentsContextMenu = function () {
         });
     }
 
-    var demo3 = function() {
+    var demo3 = function () {
         // Demo 3
         $('#context2').contextmenu({
             target: '#context-menu2',
@@ -46,7 +46,7 @@ var ComponentsContextMenu = function () {
 
     return {
         //main function to initiate the module
-        
+
         init: function () {
             demo2();
             demo3();
@@ -56,6 +56,6 @@ var ComponentsContextMenu = function () {
 
 }();
 
-jQuery(document).ready(function() {    
-   ComponentsContextMenu.init(); 
+jQuery(document).ready(function () {
+    ComponentsContextMenu.init();
 });

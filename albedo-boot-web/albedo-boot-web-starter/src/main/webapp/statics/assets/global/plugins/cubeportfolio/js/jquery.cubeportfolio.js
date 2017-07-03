@@ -9,7 +9,7 @@
  *
  */
 
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     'use strict';
 
     function CubePortfolio(obj, options, callback) {
@@ -90,7 +90,7 @@
         t.wrapInner(t.blocks, 'cbp-item-wrapper');
 
         // plugins
-        t.plugins = $.map(CubePortfolio.Plugins, function(pluginName) {
+        t.plugins = $.map(CubePortfolio.Plugins, function (pluginName) {
             return pluginName(t);
         });
 
@@ -100,12 +100,12 @@
 
 
     $.extend(CubePortfolio.prototype, {
-        storeData: function(blocks, indexStart) {
+        storeData: function (blocks, indexStart) {
             var t = this;
 
             indexStart = indexStart || 0; // used by loadMore
 
-            blocks.each(function(index, el) {
+            blocks.each(function (index, el) {
                 var item = $(el),
                     width = item.width(),
                     height = item.height();
@@ -135,7 +135,7 @@
 
 
         // http://bit.ly/pure-js-wrap
-        wrapInner: function(items, classAttr) {
+        wrapInner: function (items, classAttr) {
             var t = this,
                 item, i, div;
 
@@ -166,12 +166,12 @@
         /**
          * Wait to load all images
          */
-        loadImages: function(elems, callback) {
+        loadImages: function (elems, callback) {
             var t = this;
 
             // wait a frame (Safari bug)
-            requestAnimationFrame(function() {
-                var src = elems.find('img').map(function(index, el) {
+            requestAnimationFrame(function () {
+                var src = elems.find('img').map(function (index, el) {
                     return t.checkSrc(el.src);
                 });
 
@@ -182,8 +182,8 @@
                     return;
                 }
 
-                $.each(src, function(i, el) {
-                    $('<img>').on('load.cbp error.cbp', function() {
+                $.each(src, function (i, el) {
+                    $('<img>').on('load.cbp error.cbp', function () {
                         srcLength--;
 
                         if (srcLength === 0) {
@@ -195,7 +195,7 @@
         },
 
 
-        checkSrc: function(src) {
+        checkSrc: function (src) {
             if (src === '') {
                 return null;
             }
@@ -214,7 +214,7 @@
         /**
          * Show the plugin
          */
-        display: function() {
+        display: function () {
             var t = this;
 
             // store main container width
@@ -228,7 +228,7 @@
 
             // create mark-up for slider layout
             if (t.options.layoutMode === 'slider') {
-                t.registerEvent('gridAdjust', function() {
+                t.registerEvent('gridAdjust', function () {
                     t.sliderMarkup();
                 }, true);
             }
@@ -246,10 +246,10 @@
         },
 
 
-        delayFrame: function() {
+        delayFrame: function () {
             var t = this;
 
-            requestAnimationFrame(function() {
+            requestAnimationFrame(function () {
                 t.resizeEvent();
 
                 t.triggerEvent('initFinish');
@@ -266,13 +266,13 @@
         /**
          * Add resize event when browser width changes
          */
-        resizeEvent: function() {
+        resizeEvent: function () {
             var t = this,
                 gridWidth;
 
             CubePortfolio.Private.initResizeEvent({
                 instance: t,
-                fn: function() {
+                fn: function () {
                     var tt = this;
 
                     // used by wp fullWidth force option
@@ -305,7 +305,7 @@
         },
 
 
-        gridAdjust: function() {
+        gridAdjust: function () {
             var t = this;
 
             // if responsive
@@ -318,7 +318,7 @@
                 // Note: reset height if it was set for addHeightToBlocks
                 t.blocks.removeAttr('style');
 
-                t.blocks.each(function(index, el) {
+                t.blocks.each(function (index, el) {
                     var data = $(el).data('cbp'),
                         bound = el.getBoundingClientRect(),
                         width = t.columnWidthTruncate(bound.right - bound.left),
@@ -339,7 +339,7 @@
         },
 
 
-        layoutAndAdjustment: function() {
+        layoutAndAdjustment: function () {
             var t = this;
 
             t.gridAdjust();
@@ -351,7 +351,7 @@
         /**
          * Build the layout
          */
-        layout: function() {
+        layout: function () {
             var t = this;
 
             t.computeBlocks(t.filterConcat(t.defaultFilter));
@@ -373,7 +373,7 @@
         },
 
 
-        computeFilter: function(expression) {
+        computeFilter: function (expression) {
             var t = this;
 
             t.computeBlocks(expression);
@@ -389,13 +389,13 @@
         /**
          *  Default filter layout if nothing overrides
          */
-        filterLayout: function() {
+        filterLayout: function () {
             var t = this;
 
             t.blocksOff.addClass('cbp-item-off');
 
             t.blocksOn.removeClass('cbp-item-off')
-                .each(function(index, el) {
+                .each(function (index, el) {
                     var data = $(el).data('cbp');
 
                     data.left = data.leftNew;
@@ -415,7 +415,7 @@
         /**
          *  Trigger when a filter is finished
          */
-        filterFinish: function() {
+        filterFinish: function () {
             var t = this;
 
             // if blocks are sorted (the index ascending is broken) revert
@@ -431,7 +431,7 @@
         },
 
 
-        computeBlocks: function(expression) {
+        computeBlocks: function (expression) {
             var t = this;
 
             // blocks that are visible before applying the filter
@@ -450,7 +450,7 @@
         /**
          * Make this plugin responsive
          */
-        responsiveLayout: function() {
+        responsiveLayout: function () {
             var t = this;
 
             // calculate numbers of cols
@@ -464,7 +464,7 @@
                 t.getMosaicWidthReference();
             }
 
-            t.blocks.each(function(index, el) {
+            t.blocks.each(function (index, el) {
                 var data = $(el).data('cbp'),
                     cols = 1, // grid & slider layoutMode must be 1
                     width;
@@ -483,7 +483,7 @@
                 el.style.height = '';
             });
 
-            t.blocks.each(function(index, el) {
+            t.blocks.each(function (index, el) {
                 var data = $(el).data('cbp'),
                     bound = el.getBoundingClientRect(),
                     height = Math.round(bound.bottom - bound.top);
@@ -494,16 +494,16 @@
         },
 
 
-        getMosaicWidthReference: function() {
+        getMosaicWidthReference: function () {
             var t = this,
                 arrWidth = [];
 
-            t.blocks.each(function(index, el) {
+            t.blocks.each(function (index, el) {
                 var data = $(el).data('cbp');
                 arrWidth.push(data.widthInitial);
             });
 
-            arrWidth.sort(function(a, b) {
+            arrWidth.sort(function (a, b) {
                 return a - b;
             });
 
@@ -515,7 +515,7 @@
         },
 
 
-        getColsMosaic: function(widthInitial) {
+        getColsMosaic: function (widthInitial) {
             var t = this;
 
             if (widthInitial === t.width) {
@@ -537,7 +537,7 @@
         /**
          * Get numbers of columns when t.options.mediaQueries is not an array
          */
-        getColumnsAuto: function() {
+        getColumnsAuto: function () {
             var t = this;
 
             if (t.blocks.length === 0) {
@@ -553,12 +553,12 @@
         /**
          * Get numbers of columns if t.options.mediaQueries is an array
          */
-        getColumnsBreakpoints: function() {
+        getColumnsBreakpoints: function () {
             var t = this,
                 gridWidth = t.width,
                 columns;
 
-            $.each(t.options.mediaQueries, function(index, val) {
+            $.each(t.options.mediaQueries, function (index, val) {
                 if (gridWidth >= val.width) {
                     columns = val.cols;
                     return false;
@@ -589,17 +589,17 @@
          *  The initial behaviour was return Math.floor
          *
          */
-        columnWidthTruncate: function(value) {
+        columnWidthTruncate: function (value) {
             return Math.floor(value);
         },
 
 
-        positionateItems: function() {
+        positionateItems: function () {
             var t = this,
                 data;
 
             t.blocksOn.removeClass('cbp-item-off')
-                .each(function(index, el) {
+                .each(function (index, el) {
                     data = $(el).data('cbp');
 
                     data.left = data.leftNew;
@@ -622,7 +622,7 @@
         /**
          * Resize main container vertically
          */
-        resizeMainContainer: function() {
+        resizeMainContainer: function () {
             var t = this,
                 height = Math.max(t.freeSpaces.slice(-1)[0].topStart - t.options.gapHorizontal, 0),
                 maxWidth;
@@ -631,7 +631,7 @@
             if (t.options.gridAdjustment === 'alignCenter') {
                 maxWidth = 0;
 
-                t.blocksOn.each(function(index, el) {
+                t.blocksOn.each(function (index, el) {
                     var data = $(el).data('cbp'),
                         rightEdge = data.left + data.width;
 
@@ -653,7 +653,7 @@
             // if resizeMainContainer is called for the first time skip this event trigger
             if (t.height !== undefined) {
                 if (CubePortfolio.Private.modernBrowser) {
-                    t.$obj.one(CubePortfolio.Private.transitionend, function() {
+                    t.$obj.one(CubePortfolio.Private.transitionend, function () {
                         t.$obj.trigger('pluginResize.cbp');
                     });
                 } else {
@@ -667,12 +667,12 @@
         },
 
 
-        filterConcat: function(filter) {
+        filterConcat: function (filter) {
             return filter.replace(/\|/gi, '');
         },
 
 
-        pushQueue: function(name, deferred) {
+        pushQueue: function (name, deferred) {
             var t = this;
 
             t.queue[name] = t.queue[name] || [];
@@ -680,7 +680,7 @@
         },
 
 
-        runQueue: function(name, fn) {
+        runQueue: function (name, fn) {
             var t = this,
                 queue = t.queue[name] || [];
 
@@ -688,7 +688,7 @@
         },
 
 
-        clearQueue: function(name) {
+        clearQueue: function (name) {
             var t = this;
 
             t.queue[name] = [];
@@ -698,7 +698,7 @@
         /**
          *  Register event
          */
-        registerEvent: function(name, callbackFunction, oneTime) {
+        registerEvent: function (name, callbackFunction, oneTime) {
             var t = this;
 
             if (!t.registeredEvents[name]) {
@@ -715,7 +715,7 @@
         /**
          *  Trigger event
          */
-        triggerEvent: function(name, param) {
+        triggerEvent: function (name, param) {
             var t = this,
                 i, len;
 
@@ -736,7 +736,7 @@
         },
 
 
-        addItems: function(items, callback) {
+        addItems: function (items, callback) {
             var t = this;
 
             // wrap .cbp-item-wrap div inside .cbp-item
@@ -748,14 +748,14 @@
             }).appendTo(t.$ul);
 
             if (CubePortfolio.Private.modernBrowser) {
-                items.last().one(CubePortfolio.Private.animationend, function() {
+                items.last().one(CubePortfolio.Private.animationend, function () {
                     t.addItemsFinish(items, callback);
                 });
             } else {
                 t.addItemsFinish(items, callback); // @todo - on ie8 & ie9 callback trigger to early
             }
 
-            t.loadImages(items, function() {
+            t.loadImages(items, function () {
                 t.$obj.addClass('cbp-addItems');
 
                 // push to data values of items
@@ -780,7 +780,7 @@
         },
 
 
-        addItemsFinish: function(items, callback) {
+        addItemsFinish: function (items, callback) {
             var t = this;
 
             t.isAnimating = false;
@@ -798,8 +798,8 @@
     /**
      * jQuery plugin initializer
      */
-    $.fn.cubeportfolio = function(method, options, callback) {
-        return this.each(function() {
+    $.fn.cubeportfolio = function (method, options, callback) {
+        return this.each(function () {
             if (typeof method === 'object' || !method) {
                 return CubePortfolio.Public.init.call(this, method, options);
             } else if (CubePortfolio.Public[method]) {
@@ -814,7 +814,7 @@
     $.fn.cubeportfolio.Constructor = CubePortfolio;
 })(jQuery, window, document);
 
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     'use strict';
 
     var CubePortfolio = $.fn.cubeportfolio.Constructor;
@@ -833,7 +833,7 @@
         t.registerFilter();
     }
 
-    Filters.prototype.registerFilter = function() {
+    Filters.prototype.registerFilter = function () {
         var t = this,
             parent = t.parent,
             filtersCallback,
@@ -841,15 +841,15 @@
 
         t.wrap = t.filters.find('.cbp-l-filters-dropdownWrap')
             .on({
-                'mouseover.cbp': function() {
+                'mouseover.cbp': function () {
                     $(this).addClass('cbp-l-filters-dropdownWrap-open');
                 },
-                'mouseleave.cbp': function() {
+                'mouseleave.cbp': function () {
                     $(this).removeClass('cbp-l-filters-dropdownWrap-open');
                 }
             });
 
-        t.filters.each(function(index, el) {
+        t.filters.each(function (index, el) {
             var filter = $(el),
                 filterName = '*',
                 items = filter.find('.cbp-filter-item'),
@@ -864,7 +864,7 @@
             // activate counter for filters
             parent.$obj.cubeportfolio('showCounter', items);
 
-            $.each(arr, function(index, val) {
+            $.each(arr, function (index, val) {
                 if (items.filter('[data-filter="' + val + '"]').length) {
                     filterName = val;
                     arr.splice(index, 1);
@@ -877,7 +877,7 @@
 
             t.filtersCallback(dropdown, items.filter('[data-filter="' + filterName + '"]'));
 
-            items.on('click.cbp', function() {
+            items.on('click.cbp', function () {
                 var item = $(this);
 
                 if (item.hasClass('cbp-filter-item-active') || parent.isAnimating) {
@@ -888,7 +888,7 @@
 
                 $.data(el, 'filterName', item.data('filter'));
 
-                var name = $.map(t.filterData, function(el, index) {
+                var name = $.map(t.filterData, function (el, index) {
                     var f = $.data(el, 'filterName');
                     return (f !== "" && f !== '*') ? f : null;
                 });
@@ -907,7 +907,7 @@
         });
     };
 
-    Filters.prototype.filtersCallback = function(dropdown, item) {
+    Filters.prototype.filtersCallback = function (dropdown, item) {
         if (!$.isEmptyObject(dropdown)) {
             dropdown.wrap.trigger('mouseleave.cbp');
 
@@ -924,7 +924,7 @@
     /**
      * Check if filters is present in url
      */
-    Filters.prototype.filterFromUrl = function() {
+    Filters.prototype.filterFromUrl = function () {
         var match = /#cbpf=(.*?)([#\?&]|$)/gi.exec(location.href);
 
         if (match !== null) {
@@ -932,14 +932,14 @@
         }
     };
 
-    Filters.prototype.destroy = function() {
+    Filters.prototype.destroy = function () {
         var t = this;
 
         t.filters.find('.cbp-filter-item').off('.cbp');
         t.wrap.off('.cbp');
     };
 
-    CubePortfolio.Plugins.Filters = function(parent) {
+    CubePortfolio.Plugins.Filters = function (parent) {
         if (parent.options.filters === '') {
             return null;
         }
@@ -948,7 +948,7 @@
     };
 })(jQuery, window, document);
 
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     'use strict';
 
     var CubePortfolio = $.fn.cubeportfolio.Constructor;
@@ -967,11 +967,11 @@
 
     }
 
-    LoadMore.prototype.click = function() {
+    LoadMore.prototype.click = function () {
         var t = this,
             numberOfClicks = 0;
 
-        t.loadMore.on('click.cbp', function(e) {
+        t.loadMore.on('click.cbp', function (e) {
             var item = $(this);
 
             e.preventDefault();
@@ -990,21 +990,21 @@
                 url: t.loadMore.attr('href'),
                 type: 'GET',
                 dataType: 'HTML'
-            }).done(function(result) {
+            }).done(function (result) {
                 var items, itemsNext;
 
                 // find current container
-                items = $(result).filter(function() {
+                items = $(result).filter(function () {
                     return $(this).is('div' + '.cbp-loadMore-block' + numberOfClicks);
                 });
 
-                t.parent.$obj.cubeportfolio('appendItems', items.children(), function() {
+                t.parent.$obj.cubeportfolio('appendItems', items.children(), function () {
 
                     // put the original message back
                     item.removeClass('cbp-l-loadMore-loading');
 
                     // check if we have more works
-                    itemsNext = $(result).filter(function() {
+                    itemsNext = $(result).filter(function () {
                         return $(this).is('div' + '.cbp-loadMore-block' + (numberOfClicks + 1));
                     });
 
@@ -1013,7 +1013,7 @@
                     }
                 });
 
-            }).fail(function() {
+            }).fail(function () {
                 // error
             });
 
@@ -1021,12 +1021,12 @@
     };
 
 
-    LoadMore.prototype.auto = function() {
+    LoadMore.prototype.auto = function () {
         var t = this;
 
-        t.parent.$obj.on('initComplete.cbp', function() {
+        t.parent.$obj.on('initComplete.cbp', function () {
             Object.create({
-                init: function() {
+                init: function () {
                     var self = this;
 
                     // the job inactive
@@ -1047,19 +1047,19 @@
                     self.getNewItems();
                 },
 
-                addEvents: function() {
+                addEvents: function () {
                     var self = this,
                         timeout;
 
-                    t.loadMore.on('click.cbp', function(e) {
+                    t.loadMore.on('click.cbp', function (e) {
                         e.preventDefault();
                     });
 
-                    self.window.on('scroll.loadMoreObject', function() {
+                    self.window.on('scroll.loadMoreObject', function () {
 
                         clearTimeout(timeout);
 
-                        timeout = setTimeout(function() {
+                        timeout = setTimeout(function () {
                             if (!t.parent.isAnimating) {
                                 // get new items on scroll
                                 self.getNewItems();
@@ -1069,12 +1069,12 @@
                     });
 
                     // when the filter is completed
-                    t.parent.$obj.on('filterComplete.cbp', function() {
+                    t.parent.$obj.on('filterComplete.cbp', function () {
                         self.getNewItems();
                     });
                 },
 
-                getNewItems: function() {
+                getNewItems: function () {
                     var self = this,
                         topLoadMore, topWindow;
 
@@ -1097,22 +1097,22 @@
 
                     // perform ajax request
                     $.ajax({
-                            url: t.loadMore.attr('href'),
-                            type: 'GET',
-                            dataType: 'HTML',
-                            cache: true
-                        })
-                        .done(function(result) {
+                        url: t.loadMore.attr('href'),
+                        type: 'GET',
+                        dataType: 'HTML',
+                        cache: true
+                    })
+                        .done(function (result) {
                             var items, itemsNext;
 
                             // find current container
-                            items = $(result).filter(function() {
+                            items = $(result).filter(function () {
                                 return $(this).is('div' + '.cbp-loadMore-block' + self.numberOfClicks);
                             });
 
-                            t.parent.$obj.cubeportfolio('appendItems', items.html(), function() {
+                            t.parent.$obj.cubeportfolio('appendItems', items.html(), function () {
                                 // check if we have more works
-                                itemsNext = $(result).filter(function() {
+                                itemsNext = $(result).filter(function () {
                                     return $(this).is('div' + '.cbp-loadMore-block' + (self.numberOfClicks + 1));
                                 });
 
@@ -1130,7 +1130,7 @@
                                 }
                             });
                         })
-                        .fail(function() {
+                        .fail(function () {
                             // make the job inactive
                             self.isActive = false;
                         });
@@ -1141,7 +1141,7 @@
     };
 
 
-    LoadMore.prototype.destroy = function() {
+    LoadMore.prototype.destroy = function () {
         var t = this;
 
         t.loadMore.off('.cbp');
@@ -1149,7 +1149,7 @@
         $(window).off('scroll.loadMoreObject');
     };
 
-    CubePortfolio.Plugins.LoadMore = function(parent) {
+    CubePortfolio.Plugins.LoadMore = function (parent) {
 
         if (parent.options.loadMore === '') {
             return null;
@@ -1439,7 +1439,7 @@ jQuery.fn.cubeportfolio.options = {
      *  @param element = the item clicked
      *  Values: function
      */
-    singlePageCallback: function(url, element) {
+    singlePageCallback: function (url, element) {
         // to update singlePage content use the following method: this.updateSinglePage(yourContent)
     },
 
@@ -1471,12 +1471,12 @@ jQuery.fn.cubeportfolio.options = {
      *  @param element = the item clicked
      *  Values: function
      */
-    singlePageInlineCallback: function(url, element) {
+    singlePageInlineCallback: function (url, element) {
         // to update singlePage Inline content use the following method: this.updateSinglePageInline(yourContent)
     },
 };
 
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     'use strict';
 
     var CubePortfolio = $.fn.cubeportfolio.Constructor;
@@ -1488,7 +1488,7 @@ jQuery.fn.cubeportfolio.options = {
          * @param cubeportfolio = cubeportfolio instance
          * @param type =  'lightbox' or 'singlePage'
          */
-        init: function(cubeportfolio, type) {
+        init: function (cubeportfolio, type) {
             var t = this,
                 currentBlock;
 
@@ -1504,7 +1504,7 @@ jQuery.fn.cubeportfolio.options = {
             t.options = t.cubeportfolio.options;
 
             if (type === 'lightbox') {
-                t.cubeportfolio.registerEvent('resizeWindow', function() {
+                t.cubeportfolio.registerEvent('resizeWindow', function () {
                     t.resizeImage();
                 });
             }
@@ -1518,7 +1518,7 @@ jQuery.fn.cubeportfolio.options = {
                 // create markup, css and add events for SinglePageInline
                 t.createMarkupSinglePageInline();
 
-                t.cubeportfolio.registerEvent('resizeGrid', function() {
+                t.cubeportfolio.registerEvent('resizeGrid', function () {
                     if (t.isOpen) {
                         // @todo must add support for this features in the future
                         t.close(); // workaround
@@ -1533,7 +1533,7 @@ jQuery.fn.cubeportfolio.options = {
 
             if (type === 'singlePage') {
 
-                t.cubeportfolio.registerEvent('resizeWindow', function() {
+                t.cubeportfolio.registerEvent('resizeWindow', function () {
                     if (t.options.singlePageStickyNavigation) {
 
                         var width = t.wrap[0].clientWidth;
@@ -1558,9 +1558,9 @@ jQuery.fn.cubeportfolio.options = {
                     var links = t.url.split('#cbp=');
                     var url = links.shift(); // remove first item
 
-                    $.each(links, function(index, link) {
+                    $.each(links, function (index, link) {
 
-                        t.cubeportfolio.blocksOn.each(function(index1, el) {
+                        t.cubeportfolio.blocksOn.each(function (index1, el) {
                             var singlePage = $(el).find(t.options.singlePageDelegate + '[href="' + link + '"]');
 
                             if (singlePage.length) {
@@ -1587,11 +1587,11 @@ jQuery.fn.cubeportfolio.options = {
                         if (gallery) {
                             blocks = self.closest($('.cbp-item')).find('[data-cbp-singlePage="' + gallery + '"]');
                         } else {
-                            t.cubeportfolio.blocksOn.each(function(index, el) {
+                            t.cubeportfolio.blocksOn.each(function (index, el) {
                                 var item = $(el);
 
                                 if (item.not('.cbp-item-off')) {
-                                    item.find(t.options.singlePageDelegate).each(function(index2, el2) {
+                                    item.find(t.options.singlePageDelegate).each(function (index2, el2) {
                                         if (!$(el2).attr('data-cbp-singlePage')) {
                                             blocks.push(el2);
                                         }
@@ -1616,7 +1616,7 @@ jQuery.fn.cubeportfolio.options = {
         /**
          * Create markup, css and add events
          */
-        createMarkup: function() {
+        createMarkup: function () {
             var t = this,
                 animationCls = '';
 
@@ -1630,7 +1630,7 @@ jQuery.fn.cubeportfolio.options = {
             t.wrap = $('<div/>', {
                 'class': 'cbp-popup-wrap cbp-popup-' + t.type + animationCls,
                 'data-action': (t.type === 'lightbox') ? 'close' : ''
-            }).on('click.cbp', function(e) {
+            }).on('click.cbp', function (e) {
                 if (t.stopEvents) {
                     return;
                 }
@@ -1702,7 +1702,7 @@ jQuery.fn.cubeportfolio.options = {
                     t.counter.text('');
                 }
 
-                t.content.on('click.cbp', t.options.singlePageDelegate, function(e) {
+                t.content.on('click.cbp', t.options.singlePageDelegate, function (e) {
                     e.preventDefault();
                     var i,
                         len = t.dataArray.length,
@@ -1720,13 +1720,13 @@ jQuery.fn.cubeportfolio.options = {
                 });
 
                 // if there are some events than overrides the default scroll behaviour don't go to them
-                t.wrap.on('mousewheel.cbp' + ' DOMMouseScroll.cbp', function(e) {
+                t.wrap.on('mousewheel.cbp' + ' DOMMouseScroll.cbp', function (e) {
                     e.stopImmediatePropagation();
                 });
 
             }
 
-            $(document).on('keydown.cbp', function(e) {
+            $(document).on('keydown.cbp', function (e) {
 
                 // if is not open => return
                 if (!t.isOpen) {
@@ -1749,13 +1749,13 @@ jQuery.fn.cubeportfolio.options = {
 
         },
 
-        createMarkupSinglePageInline: function() {
+        createMarkupSinglePageInline: function () {
             var t = this;
 
             // wrap element
             t.wrap = $('<div/>', {
                 'class': 'cbp-popup-singlePageInline'
-            }).on('click.cbp', function(e) {
+            }).on('click.cbp', function (e) {
                 if (t.stopEvents) {
                     return;
                 }
@@ -1792,7 +1792,7 @@ jQuery.fn.cubeportfolio.options = {
 
         },
 
-        destroy: function() {
+        destroy: function () {
             var t = this,
                 body = $('body');
 
@@ -1816,7 +1816,7 @@ jQuery.fn.cubeportfolio.options = {
             t.wrap.remove();
         },
 
-        openLightbox: function(blocks, currentBlock) {
+        openLightbox: function (blocks, currentBlock) {
             var t = this,
                 i = 0,
                 currentBlockHref, tempHref = [],
@@ -1843,7 +1843,7 @@ jQuery.fn.cubeportfolio.options = {
                 throw new Error('HEI! Your clicked element doesn\'t have a href attribute.');
             }
 
-            $.each(blocks, function(index, item) {
+            $.each(blocks, function (index, item) {
                 var href = item.getAttribute('href'),
                     src = href, // default if element is image
                     type = 'isImage', // default if element is image
@@ -1967,7 +1967,7 @@ jQuery.fn.cubeportfolio.options = {
 
         },
 
-        openSinglePage: function(blocks, currentBlock) {
+        openSinglePage: function (blocks, currentBlock) {
             var t = this,
                 i = 0,
                 currentBlockHref, tempHref = [];
@@ -1999,7 +1999,7 @@ jQuery.fn.cubeportfolio.options = {
             }
 
 
-            $.each(blocks, function(index, item) {
+            $.each(blocks, function (index, item) {
                 var href = item.getAttribute('href');
 
                 if ($.inArray(href, tempHref) === -1) {
@@ -2051,7 +2051,7 @@ jQuery.fn.cubeportfolio.options = {
 
             // if transitionend is not fulfilled
             t.navigationMobile = $();
-            t.wrap.one(CubePortfolio.Private.transitionend, function() {
+            t.wrap.one(CubePortfolio.Private.transitionend, function () {
                 var width;
 
                 // make the navigation sticky
@@ -2067,7 +2067,7 @@ jQuery.fn.cubeportfolio.options = {
                         t.navigationMobile = $('<div/>', {
                             'class': 'cbp-popup-singlePage cbp-popup-singlePage-sticky',
                             'id': t.wrap.attr('id')
-                        }).on('click.cbp', function(e) {
+                        }).on('click.cbp', function (e) {
                             if (t.stopEvents) {
                                 return;
                             }
@@ -2100,7 +2100,7 @@ jQuery.fn.cubeportfolio.options = {
 
                     t.navigationWrap.width(width);
 
-                    setTimeout(function() {
+                    setTimeout(function () {
                         t.wrap.addClass('cbp-popup-singlePage-sticky');
                     }, 1000);
 
@@ -2130,7 +2130,7 @@ jQuery.fn.cubeportfolio.options = {
         },
 
 
-        openSinglePageInline: function(blocks, currentBlock, fromOpen) {
+        openSinglePageInline: function (blocks, currentBlock, fromOpen) {
             var t = this,
                 start = 0,
                 currentBlockHref,
@@ -2183,7 +2183,7 @@ jQuery.fn.cubeportfolio.options = {
 
             cbpitem = $(currentBlock).closest('.cbp-item')[0];
 
-            blocks.each(function(index, el) {
+            blocks.each(function (index, el) {
                 if (cbpitem === el) {
                     t.current = index;
                 }
@@ -2248,10 +2248,10 @@ jQuery.fn.cubeportfolio.options = {
 
                 if (t.scrollTop !== goToScroll) {
                     $('html,body').animate({
-                            scrollTop: goToScroll
-                        }, 350)
+                        scrollTop: goToScroll
+                    }, 350)
                         .promise()
-                        .then(function() {
+                        .then(function () {
                             t.resizeSinglePageInline();
                             t.deferredInline.resolve();
                         });
@@ -2276,12 +2276,12 @@ jQuery.fn.cubeportfolio.options = {
             }
         },
 
-        resizeSinglePageInline: function() {
+        resizeSinglePageInline: function () {
             var t = this;
 
             t.height = (t.firstRow || t.lastRow) ? t.wrap.outerHeight(true) : t.wrap.outerHeight(true) - t.options.gapHorizontal;
 
-            t.storeBlocks.each(function(index, el) {
+            t.storeBlocks.each(function (index, el) {
                 if (index < t.startInline) {
                     if (CubePortfolio.Private.modernBrowser) {
                         el.style[CubePortfolio.Private.transform] = '';
@@ -2300,13 +2300,13 @@ jQuery.fn.cubeportfolio.options = {
             t.cubeportfolio.obj.style.height = t.cubeportfolio.height + t.height + 'px';
         },
 
-        revertResizeSinglePageInline: function() {
+        revertResizeSinglePageInline: function () {
             var t = this;
 
             // reset deferred object
             t.deferredInline = $.Deferred();
 
-            t.storeBlocks.each(function(index, el) {
+            t.storeBlocks.each(function (index, el) {
                 if (CubePortfolio.Private.modernBrowser) {
                     el.style[CubePortfolio.Private.transform] = '';
                 } else {
@@ -2317,17 +2317,17 @@ jQuery.fn.cubeportfolio.options = {
             t.cubeportfolio.obj.style.height = t.cubeportfolio.height + 'px';
         },
 
-        appendScriptsToWrap: function(scripts) {
+        appendScriptsToWrap: function (scripts) {
             var t = this,
                 index = 0,
-                loadScripts = function(item) {
+                loadScripts = function (item) {
                     var script = document.createElement('script'),
                         src = item.src;
 
                     script.type = 'text/javascript';
 
                     if (script.readyState) { // ie
-                        script.onreadystatechange = function() {
+                        script.onreadystatechange = function () {
                             if (script.readyState == 'loaded' || script.readyState == 'complete') {
                                 script.onreadystatechange = null;
                                 index++;
@@ -2337,7 +2337,7 @@ jQuery.fn.cubeportfolio.options = {
                             }
                         };
                     } else {
-                        script.onload = function() {
+                        script.onload = function () {
                             index++;
                             if (scripts[index]) {
                                 loadScripts(scripts[index]);
@@ -2358,7 +2358,7 @@ jQuery.fn.cubeportfolio.options = {
             loadScripts(scripts[0]);
         },
 
-        updateSinglePage: function(html, scripts, isWrap) {
+        updateSinglePage: function (html, scripts, isWrap) {
             var t = this,
                 counterMarkup,
                 animationFinish;
@@ -2391,7 +2391,7 @@ jQuery.fn.cubeportfolio.options = {
             }
         },
 
-        updateSinglePageIsOpen: function() {
+        updateSinglePageIsOpen: function () {
             var t = this,
                 selectorSlider;
 
@@ -2430,7 +2430,7 @@ jQuery.fn.cubeportfolio.options = {
         },
 
 
-        updateSinglePageInline: function(html, scripts) {
+        updateSinglePageInline: function (html, scripts) {
             var t = this;
 
             t.content.html(html);
@@ -2445,7 +2445,7 @@ jQuery.fn.cubeportfolio.options = {
 
         },
 
-        singlePageInlineIsOpen: function() {
+        singlePageInlineIsOpen: function () {
             var t = this;
 
             function finishLoading() {
@@ -2459,18 +2459,18 @@ jQuery.fn.cubeportfolio.options = {
             }
 
             // wait to load all images
-            t.cubeportfolio.loadImages(t.wrap, function() {
+            t.cubeportfolio.loadImages(t.wrap, function () {
                 // instantiate slider if exists
                 var selectorSlider = t.content.find('.cbp-slider');
 
                 if (selectorSlider.length) {
                     selectorSlider.find('.cbp-slider-item').addClass('cbp-item');
 
-                    selectorSlider.one('initComplete.cbp', function() {
+                    selectorSlider.one('initComplete.cbp', function () {
                         t.deferredInline.done(finishLoading);
                     });
 
-                    selectorSlider.on('pluginResize.cbp', function() {
+                    selectorSlider.on('pluginResize.cbp', function () {
                         t.deferredInline.done(finishLoading);
                     });
 
@@ -2494,52 +2494,52 @@ jQuery.fn.cubeportfolio.options = {
         },
 
 
-        isImage: function(el) {
+        isImage: function (el) {
             var t = this,
                 img = new Image();
 
             t.tooggleLoading(true);
 
-            t.cubeportfolio.loadImages($('<div><img src="' + el.src + '"></div>'), function() {
+            t.cubeportfolio.loadImages($('<div><img src="' + el.src + '"></div>'), function () {
                 t.updateImagesMarkup(el.src, el.title, t.getCounterMarkup(t.options.lightboxCounter, t.current + 1, t.counterTotal));
 
                 t.tooggleLoading(false);
             });
         },
 
-        isVimeo: function(el) {
+        isVimeo: function (el) {
             var t = this;
 
             t.updateVideoMarkup(el.src, el.title, t.getCounterMarkup(t.options.lightboxCounter, t.current + 1, t.counterTotal));
         },
 
-        isYoutube: function(el) {
+        isYoutube: function (el) {
             var t = this;
             t.updateVideoMarkup(el.src, el.title, t.getCounterMarkup(t.options.lightboxCounter, t.current + 1, t.counterTotal));
 
         },
 
-        isTed: function(el) {
+        isTed: function (el) {
             var t = this;
             t.updateVideoMarkup(el.src, el.title, t.getCounterMarkup(t.options.lightboxCounter, t.current + 1, t.counterTotal));
         },
 
-        isSoundCloud: function(el) {
+        isSoundCloud: function (el) {
             var t = this;
             t.updateVideoMarkup(el.src, el.title, t.getCounterMarkup(t.options.lightboxCounter, t.current + 1, t.counterTotal));
         },
 
-        isSelfHostedVideo: function(el) {
+        isSelfHostedVideo: function (el) {
             var t = this;
             t.updateSelfHostedVideo(el.src, el.title, t.getCounterMarkup(t.options.lightboxCounter, t.current + 1, t.counterTotal));
         },
 
-        isSelfHostedAudio: function(el) {
+        isSelfHostedAudio: function (el) {
             var t = this;
             t.updateSelfHostedAudio(el.src, el.title, t.getCounterMarkup(t.options.lightboxCounter, t.current + 1, t.counterTotal));
         },
 
-        getCounterMarkup: function(markup, current, total) {
+        getCounterMarkup: function (markup, current, total) {
             if (!markup.length) {
                 return '';
             }
@@ -2549,12 +2549,12 @@ jQuery.fn.cubeportfolio.options = {
                 total: total
             };
 
-            return markup.replace(/\{\{current}}|\{\{total}}/gi, function(matched) {
+            return markup.replace(/\{\{current}}|\{\{total}}/gi, function (matched) {
                 return mapObj[matched.slice(2, -2)];
             });
         },
 
-        updateSelfHostedVideo: function(src, title, counter) {
+        updateSelfHostedVideo: function (src, title, counter) {
             var t = this,
                 i;
 
@@ -2588,7 +2588,7 @@ jQuery.fn.cubeportfolio.options = {
             t.preloadNearbyImages();
         },
 
-        updateSelfHostedAudio: function(src, title, counter) {
+        updateSelfHostedAudio: function (src, title, counter) {
             var t = this,
                 i;
 
@@ -2612,7 +2612,7 @@ jQuery.fn.cubeportfolio.options = {
             t.preloadNearbyImages();
         },
 
-        updateVideoMarkup: function(src, title, counter) {
+        updateVideoMarkup: function (src, title, counter) {
             var t = this;
             t.wrap.addClass('cbp-popup-lightbox-isIframe');
 
@@ -2629,7 +2629,7 @@ jQuery.fn.cubeportfolio.options = {
             t.preloadNearbyImages();
         },
 
-        updateImagesMarkup: function(src, title, counter) {
+        updateImagesMarkup: function (src, title, counter) {
             var t = this;
 
             t.wrap.removeClass('cbp-popup-lightbox-isIframe');
@@ -2651,17 +2651,17 @@ jQuery.fn.cubeportfolio.options = {
             t.preloadNearbyImages();
         },
 
-        next: function() {
+        next: function () {
             var t = this;
             t[t.type + 'JumpTo'](1);
         },
 
-        prev: function() {
+        prev: function () {
             var t = this;
             t[t.type + 'JumpTo'](-1);
         },
 
-        lightboxJumpTo: function(index) {
+        lightboxJumpTo: function (index) {
             var t = this,
                 el;
 
@@ -2675,7 +2675,7 @@ jQuery.fn.cubeportfolio.options = {
         },
 
 
-        singlePageJumpTo: function(index) {
+        singlePageJumpTo: function (index) {
             var t = this;
 
             t.current = t.getIndex(t.current + index);
@@ -2696,7 +2696,7 @@ jQuery.fn.cubeportfolio.options = {
             }
         },
 
-        resetWrap: function() {
+        resetWrap: function () {
             var t = this;
 
             if (t.type === 'singlePage' && t.options.singlePageDeeplinking) {
@@ -2704,7 +2704,7 @@ jQuery.fn.cubeportfolio.options = {
             }
         },
 
-        getIndex: function(index) {
+        getIndex: function (index) {
             var t = this;
 
             // go to interval [0, (+ or -)this.counterTotal.length - 1]
@@ -2718,7 +2718,7 @@ jQuery.fn.cubeportfolio.options = {
             return index;
         },
 
-        close: function(method, data) {
+        close: function (method, data) {
             var t = this;
 
             function finishClose() {
@@ -2740,10 +2740,10 @@ jQuery.fn.cubeportfolio.options = {
             function checkFocusInline() {
                 if (t.options.singlePageInlineInFocus && method !== 'promise') {
                     $('html,body').animate({
-                            scrollTop: t.scrollTop
-                        }, 350)
+                        scrollTop: t.scrollTop
+                    }, 350)
                         .promise()
-                        .then(function() {
+                        .then(function () {
                             finishClose();
                         });
                 } else {
@@ -2779,7 +2779,7 @@ jQuery.fn.cubeportfolio.options = {
                     t.cubeportfolio.$obj.find('.cbp-item').removeClass('cbp-singlePageInline-active');
 
                     if (CubePortfolio.Private.modernBrowser) {
-                        t.wrap.one(CubePortfolio.Private.transitionend, function() {
+                        t.wrap.one(CubePortfolio.Private.transitionend, function () {
                             checkFocusInline();
                         });
                     } else {
@@ -2806,7 +2806,7 @@ jQuery.fn.cubeportfolio.options = {
                 $(window).scrollTop(t.scrollTop);
 
                 // weird bug on mozilla. fixed with setTimeout
-                setTimeout(function() {
+                setTimeout(function () {
                     t.stopScroll = true;
 
                     t.navigationWrap.css({
@@ -2833,7 +2833,7 @@ jQuery.fn.cubeportfolio.options = {
 
                 }, 0);
 
-                t.wrap.one(CubePortfolio.Private.transitionend, function() {
+                t.wrap.one(CubePortfolio.Private.transitionend, function () {
 
                     // reset content
                     t.content.html('');
@@ -2873,14 +2873,14 @@ jQuery.fn.cubeportfolio.options = {
             }
         },
 
-        tooggleLoading: function(state) {
+        tooggleLoading: function (state) {
             var t = this;
 
             t.stopEvents = state;
             t.wrap[(state) ? 'addClass' : 'removeClass']('cbp-popup-loading');
         },
 
-        resizeImage: function() {
+        resizeImage: function () {
             // if lightbox is not open go out
             if (!this.isOpen) {
                 return;
@@ -2893,7 +2893,7 @@ jQuery.fn.cubeportfolio.options = {
             img.css('max-height', (height - padding) + 'px');
         },
 
-        preloadNearbyImages: function() {
+        preloadNearbyImages: function () {
             var arr = [],
                 img, t = this,
                 src;
@@ -2930,7 +2930,7 @@ jQuery.fn.cubeportfolio.options = {
         }
 
         // @todo - schedule this in  future
-        parent.registerEvent('initStartRead', function() {
+        parent.registerEvent('initStartRead', function () {
             t.run();
         }, true);
     }
@@ -2938,7 +2938,7 @@ jQuery.fn.cubeportfolio.options = {
     var lightboxInit = false,
         singlePageInit = false;
 
-    PopUp.prototype.run = function() {
+    PopUp.prototype.run = function () {
         var t = this,
             p = t.parent,
             body = $(document.body);
@@ -2956,7 +2956,7 @@ jQuery.fn.cubeportfolio.options = {
 
             p.lightbox.init(p, 'lightbox');
 
-            body.on('click.cbp', p.options.lightboxDelegate, function(e) {
+            body.on('click.cbp', p.options.lightboxDelegate, function (e) {
                 e.preventDefault();
 
                 var self = $(this),
@@ -2968,11 +2968,11 @@ jQuery.fn.cubeportfolio.options = {
                 // is inside a cbp
                 if (cbp) {
 
-                    cbp.blocksOn.each(function(index, el) {
+                    cbp.blocksOn.each(function (index, el) {
                         var item = $(el);
 
                         if (item.not('.cbp-item-off')) {
-                            item.find(p.options.lightboxDelegate).each(function(index2, el2) {
+                            item.find(p.options.lightboxDelegate).each(function (index2, el2) {
                                 if (gallery) {
                                     if ($(el2).attr('data-cbp-lightbox') === gallery) {
                                         blocks.push(el2);
@@ -3010,7 +3010,7 @@ jQuery.fn.cubeportfolio.options = {
 
             p.singlePage.init(p, 'singlePage');
 
-            body.on('click.cbp', p.options.singlePageDelegate, function(e) {
+            body.on('click.cbp', p.options.singlePageDelegate, function (e) {
                 e.preventDefault();
 
                 var self = $(this),
@@ -3021,11 +3021,11 @@ jQuery.fn.cubeportfolio.options = {
 
                 // is inside a cbp
                 if (cbp) {
-                    cbp.blocksOn.each(function(index, el) {
+                    cbp.blocksOn.each(function (index, el) {
                         var item = $(el);
 
                         if (item.not('.cbp-item-off')) {
-                            item.find(p.options.singlePageDelegate).each(function(index2, el2) {
+                            item.find(p.options.singlePageDelegate).each(function (index2, el2) {
                                 if (gallery) {
                                     if ($(el2).attr('data-cbp-singlePage') === gallery) {
                                         blocks.push(el2);
@@ -3061,7 +3061,7 @@ jQuery.fn.cubeportfolio.options = {
 
             p.singlePageInline.init(p, 'singlePageInline');
 
-            p.$obj.on('click.cbp', p.options.singlePageInlineDelegate, function(e) {
+            p.$obj.on('click.cbp', p.options.singlePageInlineDelegate, function (e) {
                 e.preventDefault();
                 p.singlePageInline.openSinglePageInline(p.blocksOn, this);
             });
@@ -3069,7 +3069,7 @@ jQuery.fn.cubeportfolio.options = {
         }
     };
 
-    PopUp.prototype.detectScope = function(item) {
+    PopUp.prototype.detectScope = function (item) {
         var singlePageInline,
             singlePage,
             cbp;
@@ -3091,7 +3091,7 @@ jQuery.fn.cubeportfolio.options = {
 
     };
 
-    PopUp.prototype.destroy = function() {
+    PopUp.prototype.destroy = function () {
         var p = this.parent;
 
         $(document.body).off('click.cbp');
@@ -3116,13 +3116,13 @@ jQuery.fn.cubeportfolio.options = {
         }
     };
 
-    CubePortfolio.Plugins.PopUp = function(parent) {
+    CubePortfolio.Plugins.PopUp = function (parent) {
         return new PopUp(parent);
     };
 
 })(jQuery, window, document);
 
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     'use strict';
 
     var CubePortfolio = $.fn.cubeportfolio.Constructor;
@@ -3131,7 +3131,7 @@ jQuery.fn.cubeportfolio.options = {
         // array or objects: {instance: instance, fn: fn}
         resizeEventArray: [],
 
-        initResizeEvent: function(obj) {
+        initResizeEvent: function (obj) {
             var t = CubePortfolio.Private;
 
             if (t.resizeEventArray.length === 0) {
@@ -3141,10 +3141,10 @@ jQuery.fn.cubeportfolio.options = {
             t.resizeEventArray.push(obj);
         },
 
-        destroyResizeEvent: function(instance) {
+        destroyResizeEvent: function (instance) {
             var t = CubePortfolio.Private;
 
-            var newResizeEvent = $.map(t.resizeEventArray, function(val, index) {
+            var newResizeEvent = $.map(t.resizeEventArray, function (val, index) {
                 if (val.instance !== instance) {
                     return val;
                 }
@@ -3158,21 +3158,21 @@ jQuery.fn.cubeportfolio.options = {
             }
         },
 
-        resizeEvent: function() {
+        resizeEvent: function () {
             var t = CubePortfolio.Private,
                 timeout;
 
             // resize
-            $(window).on('resize.cbp', function() {
+            $(window).on('resize.cbp', function () {
                 clearTimeout(timeout);
 
-                timeout = setTimeout(function() {
+                timeout = setTimeout(function () {
                     if (window.innerHeight == screen.height) {
                         // this is fulll screen mode. don't need to trigger a resize
                         return;
                     }
 
-                    $.each(t.resizeEventArray, function(index, val) {
+                    $.each(t.resizeEventArray, function (index, val) {
                         val.fn.call(val.instance);
                     });
                 }, 50);
@@ -3182,7 +3182,7 @@ jQuery.fn.cubeportfolio.options = {
         /**
          * Check if cubeportfolio instance exists on current element
          */
-        checkInstance: function(method) {
+        checkInstance: function (method) {
             var t = $.data(this, 'cubeportfolio');
 
             if (!t) {
@@ -3197,7 +3197,7 @@ jQuery.fn.cubeportfolio.options = {
         /**
          * Get info about client browser
          */
-        browserInfo: function() {
+        browserInfo: function () {
             var t = CubePortfolio.Private,
                 appVersion = navigator.appVersion,
                 transition, animation, perspective;
@@ -3264,7 +3264,7 @@ jQuery.fn.cubeportfolio.options = {
         /**
          * Feature testing for css3
          */
-        styleSupport: function(prop) {
+        styleSupport: function (prop) {
             var supportedProp,
                 // capitalize first character of the prop to test vendor prefix
                 webkitProp = 'Webkit' + prop.charAt(0).toUpperCase() + prop.slice(1),
@@ -3289,7 +3289,7 @@ jQuery.fn.cubeportfolio.options = {
 
 })(jQuery, window, document);
 
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     'use strict';
 
     var CubePortfolio = $.fn.cubeportfolio.Constructor;
@@ -3299,14 +3299,14 @@ jQuery.fn.cubeportfolio.options = {
         /*
          * Init the plugin
          */
-        init: function(options, callback) {
+        init: function (options, callback) {
             new CubePortfolio(this, options, callback);
         },
 
         /*
          * Destroy the plugin
          */
-        destroy: function(callback) {
+        destroy: function (callback) {
             var t = CubePortfolio.Private.checkInstance.call(this, 'destroy');
 
             t.triggerEvent('beforeDestroy');
@@ -3347,7 +3347,7 @@ jQuery.fn.cubeportfolio.options = {
                 t.blocks.unwrap();
             }
 
-            $.each(t.plugins, function(i, item) {
+            $.each(t.plugins, function (i, item) {
                 if (typeof item.destroy === 'function') {
                     item.destroy();
                 }
@@ -3363,7 +3363,7 @@ jQuery.fn.cubeportfolio.options = {
         /*
          * Filter the plugin by filterName
          */
-        filter: function(param, callback) {
+        filter: function (param, callback) {
             var t = CubePortfolio.Private.checkInstance.call(this, 'filter'),
                 expression;
 
@@ -3381,7 +3381,7 @@ jQuery.fn.cubeportfolio.options = {
             if ($.isFunction(param)) {
                 expression = param.call(t, t.blocks);
 
-                if(expression === undefined) {
+                if (expression === undefined) {
                     throw new Error('When you call cubeportfolio API `filter` method with a param of type function you must return the blocks that will be visible.');
                 }
             } else {
@@ -3400,7 +3400,7 @@ jQuery.fn.cubeportfolio.options = {
 
             if (t.singlePageInline && t.singlePageInline.isOpen) {
                 t.singlePageInline.close('promise', {
-                    callback: function() {
+                    callback: function () {
                         t.computeFilter(expression);
                     }
                 });
@@ -3412,12 +3412,12 @@ jQuery.fn.cubeportfolio.options = {
         /*
          * Show counter for filters
          */
-        showCounter: function(elems, callback) {
+        showCounter: function (elems, callback) {
             var t = CubePortfolio.Private.checkInstance.call(this, 'showCounter');
 
             t.elems = elems;
 
-            $.each(elems, function() {
+            $.each(elems, function () {
                 var el = $(this),
                     filterName = el.data('filter'),
                     count;
@@ -3434,7 +3434,7 @@ jQuery.fn.cubeportfolio.options = {
         /*
          * ApendItems elements
          */
-        appendItems: function(els, callback) {
+        appendItems: function (els, callback) {
             var t = CubePortfolio.Private.checkInstance.call(this, 'appendItems'),
                 items = $(els).filter('.cbp-item');
 
@@ -3450,7 +3450,7 @@ jQuery.fn.cubeportfolio.options = {
 
             if (t.singlePageInline && t.singlePageInline.isOpen) {
                 t.singlePageInline.close('promise', {
-                    callback: function() {
+                    callback: function () {
                         t.addItems(items, callback);
                     }
                 });
@@ -3463,7 +3463,7 @@ jQuery.fn.cubeportfolio.options = {
 
 })(jQuery, window, document);
 
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     'use strict';
 
     var CubePortfolio = $.fn.cubeportfolio.Constructor;
@@ -3475,7 +3475,7 @@ jQuery.fn.cubeportfolio.options = {
 
         t.searchInput = $(parent.options.search);
 
-        t.searchInput.each(function(index, el) {
+        t.searchInput.each(function (index, el) {
             var selector = el.getAttribute('data-search');
 
             if (!selector) {
@@ -3490,13 +3490,13 @@ jQuery.fn.cubeportfolio.options = {
 
         var timeout = null;
 
-        t.searchInput.on('keyup.cbp paste.cbp', function(e) {
+        t.searchInput.on('keyup.cbp paste.cbp', function (e) {
             e.preventDefault();
 
             var el = $(this);
 
             clearTimeout(timeout);
-            timeout = setTimeout(function() {
+            timeout = setTimeout(function () {
                 t.runEvent.call(t, el);
             }, 300);
         });
@@ -3505,14 +3505,14 @@ jQuery.fn.cubeportfolio.options = {
         t.searchNothingHeight = null;
         t.searchNothingHTML = t.searchNothing.html();
 
-        t.searchInput.siblings('.cbp-search-icon').on('click.cbp', function(e) {
+        t.searchInput.siblings('.cbp-search-icon').on('click.cbp', function (e) {
             e.preventDefault();
 
             t.runEvent.call(t, $(this).prev().val(''));
         });
     }
 
-    Search.prototype.runEvent = function(el) {
+    Search.prototype.runEvent = function (el) {
         var t = this,
             value = el.val(),
             searchData = el.data('searchData'),
@@ -3530,8 +3530,8 @@ jQuery.fn.cubeportfolio.options = {
             el.removeAttr('value');
         }
 
-        t.parent.$obj.cubeportfolio('filter', function(blocks) {
-            var blocksNew = blocks.filter(function(index, block) {
+        t.parent.$obj.cubeportfolio('filter', function (blocks) {
+            var blocksNew = blocks.filter(function (index, block) {
                 var text = $(block).find(searchData.el).text();
 
                 if (text.search(reg) > -1) {
@@ -3549,7 +3549,7 @@ jQuery.fn.cubeportfolio.options = {
                     t.searchNothingHeight = t.searchNothing.outerHeight(true);
                 }
 
-                t.parent.registerEvent('resizeMainContainer', function() {
+                t.parent.registerEvent('resizeMainContainer', function () {
                     t.parent.height = t.parent.height + t.searchNothingHeight;
                     t.parent.obj.style.height = t.parent.height + 'px';
                 }, true);
@@ -3558,23 +3558,23 @@ jQuery.fn.cubeportfolio.options = {
             }
 
             return blocksNew;
-        }, function() {
+        }, function () {
             el.trigger('keyup.cbp');
         });
     };
 
-    Search.prototype.destroy = function() {
+    Search.prototype.destroy = function () {
         var t = this;
 
         t.searchInput.off('.cbp');
         t.searchInput.next('.cbp-search-icon').off('.cbp');
 
-        t.searchInput.each(function(index, el) {
+        t.searchInput.each(function (index, el) {
             $.removeData(el);
         });
     };
 
-    CubePortfolio.Plugins.Search = function(parent) {
+    CubePortfolio.Plugins.Search = function (parent) {
         if (parent.options.search === '') {
             return null;
         }
@@ -3584,8 +3584,10 @@ jQuery.fn.cubeportfolio.options = {
 })(jQuery, window, document);
 
 if (typeof Object.create !== 'function') {
-    Object.create = function(obj) {
-        function F() {}
+    Object.create = function (obj) {
+        function F() {
+        }
+
         F.prototype = obj;
         return new F();
     };
@@ -3598,7 +3600,7 @@ if (typeof Object.create !== 'function') {
 
 // MIT license
 
-(function() {
+(function () {
     var lastTime = 0;
     var vendors = ['moz', 'webkit'];
     for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
@@ -3607,10 +3609,10 @@ if (typeof Object.create !== 'function') {
     }
 
     if (!window.requestAnimationFrame)
-        window.requestAnimationFrame = function(callback, element) {
+        window.requestAnimationFrame = function (callback, element) {
             var currTime = new Date().getTime();
             var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-            var id = window.setTimeout(function() {
+            var id = window.setTimeout(function () {
                     callback(currTime + timeToCall);
                 },
                 timeToCall);
@@ -3619,12 +3621,12 @@ if (typeof Object.create !== 'function') {
         };
 
     if (!window.cancelAnimationFrame)
-        window.cancelAnimationFrame = function(id) {
+        window.cancelAnimationFrame = function (id) {
             clearTimeout(id);
         };
 }());
 
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     'use strict';
 
     var CubePortfolio = $.fn.cubeportfolio.Constructor;
@@ -3636,21 +3638,21 @@ if (typeof Object.create !== 'function') {
 
         parent.filterLayout = t.filterLayout;
 
-        parent.registerEvent('computeBlocksFinish', function(expression) {
+        parent.registerEvent('computeBlocksFinish', function (expression) {
             parent.blocksOn2On = parent.blocksOnInitial.filter(expression);
             parent.blocksOn2Off = parent.blocksOnInitial.not(expression);
         });
     }
 
     // here this value point to parent grid
-    AnimationClassic.prototype.filterLayout = function() {
+    AnimationClassic.prototype.filterLayout = function () {
         var t = this;
 
         t.$obj.addClass('cbp-animation-' + t.options.animationType);
 
         // [1] - blocks that are only moving with translate
         t.blocksOn2On.addClass('cbp-item-on2on')
-            .each(function(index, el) {
+            .each(function (index, el) {
                 var data = $(el).data('cbp');
                 el.style[CubePortfolio.Private.transform] = 'translate3d(' + (data.leftNew - data.left) + 'px, ' + (data.topNew - data.top) + 'px, 0)';
             });
@@ -3663,7 +3665,7 @@ if (typeof Object.create !== 'function') {
             .filter('.cbp-item-off')
             .removeClass('cbp-item-off')
             .addClass('cbp-item-off2on')
-            .each(function(index, el) {
+            .each(function (index, el) {
                 var data = $(el).data('cbp');
 
                 el.style.left = data.leftNew + 'px';
@@ -3683,7 +3685,7 @@ if (typeof Object.create !== 'function') {
 
         function animationend() {
             t.blocks.removeClass('cbp-item-on2off cbp-item-off2on cbp-item-on2on')
-                .each(function(index, el) {
+                .each(function (index, el) {
                     var data = $(el).data('cbp');
 
                     data.left = data.leftNew;
@@ -3703,12 +3705,12 @@ if (typeof Object.create !== 'function') {
         }
     };
 
-    AnimationClassic.prototype.destroy = function() {
+    AnimationClassic.prototype.destroy = function () {
         var parent = this.parent;
         parent.$obj.removeClass('cbp-animation-' + parent.options.animationType);
     };
 
-    CubePortfolio.Plugins.AnimationClassic = function(parent) {
+    CubePortfolio.Plugins.AnimationClassic = function (parent) {
         if (!CubePortfolio.Private.modernBrowser || $.inArray(parent.options.animationType, ['boxShadow', 'fadeOut', 'flipBottom', 'flipOut', 'quicksand', 'scaleSides', 'skew']) < 0) {
             return null;
         }
@@ -3717,7 +3719,7 @@ if (typeof Object.create !== 'function') {
     };
 })(jQuery, window, document);
 
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     'use strict';
 
     var CubePortfolio = $.fn.cubeportfolio.Constructor;
@@ -3731,20 +3733,20 @@ if (typeof Object.create !== 'function') {
     }
 
     // here this value point to parent grid
-    AnimationClone.prototype.filterLayout = function() {
+    AnimationClone.prototype.filterLayout = function () {
         var t = this,
             ulClone = t.$ul[0].cloneNode(true);
 
         ulClone.setAttribute('class', 'cbp-wrapper-helper');
         t.wrapper[0].insertBefore(ulClone, t.$ul[0]);
 
-        requestAnimationFrame(function() {
+        requestAnimationFrame(function () {
             t.$obj.addClass('cbp-animation-' + t.options.animationType);
 
             t.blocksOff.addClass('cbp-item-off');
 
             t.blocksOn.removeClass('cbp-item-off')
-                .each(function(index, el) {
+                .each(function (index, el) {
                     var data = $(el).data('cbp');
 
                     data.left = data.leftNew;
@@ -3774,7 +3776,7 @@ if (typeof Object.create !== 'function') {
             t.wrapper[0].removeChild(ulClone);
 
             if (t.options.animationType === 'sequentially') {
-                t.blocksOn.each(function(index, el) {
+                t.blocksOn.each(function (index, el) {
                     $(el).data('cbp').wrapper[0].style[CubePortfolio.Private.animationDelay] = '';
                 });
             }
@@ -3785,12 +3787,12 @@ if (typeof Object.create !== 'function') {
         }
     };
 
-    AnimationClone.prototype.destroy = function() {
+    AnimationClone.prototype.destroy = function () {
         var parent = this.parent;
         parent.$obj.removeClass('cbp-animation-' + parent.options.animationType);
     };
 
-    CubePortfolio.Plugins.AnimationClone = function(parent) {
+    CubePortfolio.Plugins.AnimationClone = function (parent) {
         if (!CubePortfolio.Private.modernBrowser || $.inArray(parent.options.animationType, ['fadeOutTop', 'slideLeft', 'sequentially']) < 0) {
             return null;
         }
@@ -3799,7 +3801,7 @@ if (typeof Object.create !== 'function') {
     };
 })(jQuery, window, document);
 
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     'use strict';
 
     var CubePortfolio = $.fn.cubeportfolio.Constructor;
@@ -3813,7 +3815,7 @@ if (typeof Object.create !== 'function') {
     }
 
     // here this value point to parent grid
-    AnimationCloneDelay.prototype.filterLayout = function() {
+    AnimationCloneDelay.prototype.filterLayout = function () {
         var t = this,
             ulClone = t.$ul.clone(true, true);
 
@@ -3824,17 +3826,17 @@ if (typeof Object.create !== 'function') {
         // on cbp-item-wrapper before I clone the t.$ul
         var items = ulClone.find('.cbp-item').not('.cbp-item-off');
         t.sortBlocks(items, 'top');
-        items.children('.cbp-item-wrapper').each(function(index, el) {
+        items.children('.cbp-item-wrapper').each(function (index, el) {
             el.style[CubePortfolio.Private.animationDelay] = (index * 50) + 'ms';
         });
 
-        requestAnimationFrame(function() {
+        requestAnimationFrame(function () {
             t.$obj.addClass('cbp-animation-' + t.options.animationType);
 
             t.blocksOff.addClass('cbp-item-off');
 
             t.blocksOn.removeClass('cbp-item-off')
-                .each(function(index, el) {
+                .each(function (index, el) {
                     var data = $(el).data('cbp');
 
                     data.left = data.leftNew;
@@ -3866,7 +3868,7 @@ if (typeof Object.create !== 'function') {
 
             t.$obj.removeClass('cbp-animation-' + t.options.animationType);
 
-            t.blocks.each(function(index, el) {
+            t.blocks.each(function (index, el) {
                 $(el).data('cbp').wrapper[0].style[CubePortfolio.Private.animationDelay] = '';
             });
 
@@ -3874,12 +3876,12 @@ if (typeof Object.create !== 'function') {
         }
     };
 
-    AnimationCloneDelay.prototype.destroy = function() {
+    AnimationCloneDelay.prototype.destroy = function () {
         var parent = this.parent;
         parent.$obj.removeClass('cbp-animation-' + parent.options.animationType);
     };
 
-    CubePortfolio.Plugins.AnimationCloneDelay = function(parent) {
+    CubePortfolio.Plugins.AnimationCloneDelay = function (parent) {
         if (!CubePortfolio.Private.modernBrowser || $.inArray(parent.options.animationType, ['3dflip', 'flipOutDelay', 'foldLeft', 'frontRow', 'rotateRoom', 'rotateSides', 'scaleDown', 'slideDelay', 'unfold']) < 0) {
             return null;
         }
@@ -3888,7 +3890,7 @@ if (typeof Object.create !== 'function') {
     };
 })(jQuery, window, document);
 
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     'use strict';
 
     var CubePortfolio = $.fn.cubeportfolio.Constructor;
@@ -3902,20 +3904,20 @@ if (typeof Object.create !== 'function') {
     }
 
     // here this value point to parent grid
-    AnimationWrapper.prototype.filterLayout = function() {
+    AnimationWrapper.prototype.filterLayout = function () {
         var t = this,
             ulClone = t.$ul[0].cloneNode(true);
 
         ulClone.setAttribute('class', 'cbp-wrapper-helper');
         t.wrapper[0].insertBefore(ulClone, t.$ul[0]);
 
-        requestAnimationFrame(function() {
+        requestAnimationFrame(function () {
             t.$obj.addClass('cbp-animation-' + t.options.animationType);
 
             t.blocksOff.addClass('cbp-item-off');
 
             t.blocksOn.removeClass('cbp-item-off')
-                .each(function(index, el) {
+                .each(function (index, el) {
                     var data = $(el).data('cbp');
 
                     data.left = data.leftNew;
@@ -3946,12 +3948,12 @@ if (typeof Object.create !== 'function') {
         }
     };
 
-    AnimationWrapper.prototype.destroy = function() {
+    AnimationWrapper.prototype.destroy = function () {
         var parent = this.parent;
         parent.$obj.removeClass('cbp-animation-' + parent.options.animationType);
     };
 
-    CubePortfolio.Plugins.AnimationWrapper = function(parent) {
+    CubePortfolio.Plugins.AnimationWrapper = function (parent) {
         if (!CubePortfolio.Private.modernBrowser || $.inArray(parent.options.animationType, ['bounceBottom', 'bounceLeft', 'bounceTop', 'moveLeft']) < 0) {
             return null;
         }
@@ -3960,7 +3962,7 @@ if (typeof Object.create !== 'function') {
     };
 })(jQuery, window, document);
 
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     'use strict';
 
     var CubePortfolio = $.fn.cubeportfolio.Constructor;
@@ -3970,8 +3972,8 @@ if (typeof Object.create !== 'function') {
 
         t.parent = parent;
 
-        parent.registerEvent('initFinish', function() {
-            parent.$obj.on('click.cbp', '.cbp-caption-defaultWrap', function(e) {
+        parent.registerEvent('initFinish', function () {
+            parent.$obj.on('click.cbp', '.cbp-caption-defaultWrap', function (e) {
                 e.preventDefault();
 
                 if (parent.isAnimating) {
@@ -4004,7 +4006,7 @@ if (typeof Object.create !== 'function') {
 
                 activeWrap.css(endStyle);
 
-                parent.$obj.one('pluginResize.cbp', function() {
+                parent.$obj.one('pluginResize.cbp', function () {
                     parent.isAnimating = false;
                     parent.$obj.removeClass('cbp-caption-expand-active');
 
@@ -4021,7 +4023,7 @@ if (typeof Object.create !== 'function') {
                 activeWrap.css(startStyle);
 
                 // delay animation
-                requestAnimationFrame(function() {
+                requestAnimationFrame(function () {
                     caption.addClass('cbp-caption-expand-open');
 
                     activeWrap.css(endStyle);
@@ -4036,11 +4038,11 @@ if (typeof Object.create !== 'function') {
         }, true);
     }
 
-    CaptionExpand.prototype.destroy = function() {
+    CaptionExpand.prototype.destroy = function () {
         this.parent.$obj.find('.cbp-caption-defaultWrap').off('click.cbp').parent().removeClass('cbp-caption-expand-active');
     };
 
-    CubePortfolio.Plugins.CaptionExpand = function(parent) {
+    CubePortfolio.Plugins.CaptionExpand = function (parent) {
 
         if (parent.options.caption !== 'expand') {
             return null;
@@ -4051,7 +4053,7 @@ if (typeof Object.create !== 'function') {
 
 })(jQuery, window, document);
 
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     'use strict';
 
     var CubePortfolio = $.fn.cubeportfolio.Constructor;
@@ -4061,18 +4063,18 @@ if (typeof Object.create !== 'function') {
 
         parent.pushQueue('delayFrame', deferred);
 
-        parent.registerEvent('initEndWrite', function() {
-            parent.blocksOn.each(function(index, el) {
+        parent.registerEvent('initEndWrite', function () {
+            parent.blocksOn.each(function (index, el) {
                 el.style[CubePortfolio.Private.animationDelay] = (index * parent.options.displayTypeSpeed) + 'ms';
             });
 
             parent.$obj.addClass('cbp-displayType-bottomToTop');
 
             // get last element
-            parent.blocksOn.last().one(CubePortfolio.Private.animationend, function() {
+            parent.blocksOn.last().one(CubePortfolio.Private.animationend, function () {
                 parent.$obj.removeClass('cbp-displayType-bottomToTop');
 
-                parent.blocksOn.each(function(index, el) {
+                parent.blocksOn.each(function (index, el) {
                     el.style[CubePortfolio.Private.animationDelay] = '';
                 });
 
@@ -4082,7 +4084,7 @@ if (typeof Object.create !== 'function') {
         }, true);
     }
 
-    CubePortfolio.Plugins.BottomToTop = function(parent) {
+    CubePortfolio.Plugins.BottomToTop = function (parent) {
         if (!CubePortfolio.Private.modernBrowser || parent.options.displayType !== 'bottomToTop' || parent.blocksOn.length === 0) {
             return null;
         }
@@ -4091,7 +4093,7 @@ if (typeof Object.create !== 'function') {
     };
 })(jQuery, window, document);
 
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     'use strict';
 
     var CubePortfolio = $.fn.cubeportfolio.Constructor;
@@ -4101,12 +4103,12 @@ if (typeof Object.create !== 'function') {
 
         parent.pushQueue('delayFrame', deferred);
 
-        parent.registerEvent('initEndWrite', function() {
+        parent.registerEvent('initEndWrite', function () {
             parent.obj.style[CubePortfolio.Private.animationDuration] = parent.options.displayTypeSpeed + 'ms';
 
             parent.$obj.addClass('cbp-displayType-fadeInToTop');
 
-            parent.$obj.one(CubePortfolio.Private.animationend, function() {
+            parent.$obj.one(CubePortfolio.Private.animationend, function () {
                 parent.$obj.removeClass('cbp-displayType-fadeInToTop');
 
                 parent.obj.style[CubePortfolio.Private.animationDuration] = '';
@@ -4117,7 +4119,7 @@ if (typeof Object.create !== 'function') {
         }, true);
     }
 
-    CubePortfolio.Plugins.FadeInToTop = function(parent) {
+    CubePortfolio.Plugins.FadeInToTop = function (parent) {
         if (!CubePortfolio.Private.modernBrowser || parent.options.displayType !== 'fadeInToTop' || parent.blocksOn.length === 0) {
             return null;
         }
@@ -4126,7 +4128,7 @@ if (typeof Object.create !== 'function') {
     };
 })(jQuery, window, document);
 
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     'use strict';
 
     var CubePortfolio = $.fn.cubeportfolio.Constructor;
@@ -4136,12 +4138,12 @@ if (typeof Object.create !== 'function') {
 
         parent.pushQueue('delayFrame', deferred);
 
-        parent.registerEvent('initEndWrite', function() {
+        parent.registerEvent('initEndWrite', function () {
             parent.obj.style[CubePortfolio.Private.animationDuration] = parent.options.displayTypeSpeed + 'ms';
 
             parent.$obj.addClass('cbp-displayType-lazyLoading');
 
-            parent.$obj.one(CubePortfolio.Private.animationend, function() {
+            parent.$obj.one(CubePortfolio.Private.animationend, function () {
                 parent.$obj.removeClass('cbp-displayType-lazyLoading');
 
                 parent.obj.style[CubePortfolio.Private.animationDuration] = '';
@@ -4152,7 +4154,7 @@ if (typeof Object.create !== 'function') {
         }, true);
     }
 
-    CubePortfolio.Plugins.LazyLoading = function(parent) {
+    CubePortfolio.Plugins.LazyLoading = function (parent) {
         if (!CubePortfolio.Private.modernBrowser || (parent.options.displayType !== 'lazyLoading' && parent.options.displayType !== 'fadeIn') || parent.blocksOn.length === 0) {
             return null;
         }
@@ -4161,7 +4163,7 @@ if (typeof Object.create !== 'function') {
     };
 })(jQuery, window, document);
 
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     'use strict';
 
     var CubePortfolio = $.fn.cubeportfolio.Constructor;
@@ -4171,18 +4173,18 @@ if (typeof Object.create !== 'function') {
 
         parent.pushQueue('delayFrame', deferred);
 
-        parent.registerEvent('initEndWrite', function() {
-            parent.blocksOn.each(function(index, el) {
+        parent.registerEvent('initEndWrite', function () {
+            parent.blocksOn.each(function (index, el) {
                 el.style[CubePortfolio.Private.animationDelay] = (index * parent.options.displayTypeSpeed) + 'ms';
             });
 
             parent.$obj.addClass('cbp-displayType-sequentially');
 
             // get last element
-            parent.blocksOn.last().one(CubePortfolio.Private.animationend, function() {
+            parent.blocksOn.last().one(CubePortfolio.Private.animationend, function () {
                 parent.$obj.removeClass('cbp-displayType-sequentially');
 
-                parent.blocksOn.each(function(index, el) {
+                parent.blocksOn.each(function (index, el) {
                     el.style[CubePortfolio.Private.animationDelay] = '';
                 });
 
@@ -4192,7 +4194,7 @@ if (typeof Object.create !== 'function') {
         }, true);
     }
 
-    CubePortfolio.Plugins.DisplaySequentially = function(parent) {
+    CubePortfolio.Plugins.DisplaySequentially = function (parent) {
         if (!CubePortfolio.Private.modernBrowser || parent.options.displayType !== 'sequentially' || parent.blocksOn.length === 0) {
             return null;
         }
@@ -4201,26 +4203,26 @@ if (typeof Object.create !== 'function') {
     };
 })(jQuery, window, document);
 
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     'use strict';
 
     var CubePortfolio = $.fn.cubeportfolio.Constructor;
 
     $.extend(CubePortfolio.prototype, {
-        mosaicLayoutReset: function() {
+        mosaicLayoutReset: function () {
             var t = this;
 
             // flag to be set after the blocks sorting is done
             t.blocksAreSorted = false;
 
             // when I start layout all blocks must not be positionated
-            t.blocksOn.each(function(index, el) {
+            t.blocksOn.each(function (index, el) {
                 $(el).data('cbp').pack = false;
             });
         },
 
 
-        mosaicLayout: function() {
+        mosaicLayout: function () {
             var t = this,
                 blocksLen = t.blocksOn.length,
                 i, spaceIndexAndBlock = {},
@@ -4271,15 +4273,15 @@ if (typeof Object.create !== 'function') {
          * is set to true then sort the blocks and start the layout once again
          * Decide the free rectangle Fi from F to pack the rectangle R into.
          */
-        getSpaceIndexAndBlock: function() {
+        getSpaceIndexAndBlock: function () {
             var t = this,
                 spaceIndexAndBlock = null;
 
-            $.each(t.freeSpaces, function(index1, space) {
+            $.each(t.freeSpaces, function (index1, space) {
                 var widthSpace = space.leftEnd - space.leftStart,
                     heightSpace = space.topEnd - space.topStart;
 
-                t.blocksOn.each(function(index2, block) {
+                t.blocksOn.each(function (index2, block) {
                     var data = $(block).data('cbp');
 
                     if (data.pack === true) {
@@ -4325,7 +4327,7 @@ if (typeof Object.create !== 'function') {
          * then remove that space from spaces
          * Insert F1 & F2 in F in place of Fi
          */
-        generateF1F2: function(spaceIndex, block) {
+        generateF1F2: function (spaceIndex, block) {
             var t = this,
                 space = t.freeSpaces[spaceIndex];
 
@@ -4360,12 +4362,12 @@ if (typeof Object.create !== 'function') {
         /**
          * Generate G1, G2, G3, G4 from intersaction of t.freeSpaces with block
          */
-        generateG1G2G3G4: function(block) {
+        generateG1G2G3G4: function (block) {
             var t = this;
 
             var spaces = [];
 
-            $.each(t.freeSpaces, function(index, space) {
+            $.each(t.freeSpaces, function (index, space) {
                 var intersectSpace = t.intersectSpaces(space, block);
 
                 // if block & space are the same push space in spaces and return
@@ -4388,7 +4390,7 @@ if (typeof Object.create !== 'function') {
          * Return the intersected rectagle of Fi and block
          * If the two spaces don't intersect or are the same return null
          */
-        intersectSpaces: function(space1, block) {
+        intersectSpaces: function (space1, block) {
             var t = this,
                 space2 = {
                     leftStart: block.leftNew,
@@ -4425,7 +4427,7 @@ if (typeof Object.create !== 'function') {
         /**
          * The top subdivide space
          */
-        generateG1: function(space, intersectSpace, spaces) {
+        generateG1: function (space, intersectSpace, spaces) {
             if (space.topStart === intersectSpace.topStart) {
                 return;
             }
@@ -4442,7 +4444,7 @@ if (typeof Object.create !== 'function') {
         /**
          * The right subdivide space
          */
-        generateG2: function(space, intersectSpace, spaces) {
+        generateG2: function (space, intersectSpace, spaces) {
             if (space.leftEnd === intersectSpace.leftEnd) {
                 return;
             }
@@ -4459,7 +4461,7 @@ if (typeof Object.create !== 'function') {
         /**
          * The bottom subdivide space
          */
-        generateG3: function(space, intersectSpace, spaces) {
+        generateG3: function (space, intersectSpace, spaces) {
             if (space.topEnd === intersectSpace.topEnd) {
                 return;
             }
@@ -4476,7 +4478,7 @@ if (typeof Object.create !== 'function') {
         /**
          * The left subdivide space
          */
-        generateG4: function(space, intersectSpace, spaces) {
+        generateG4: function (space, intersectSpace, spaces) {
             if (space.leftStart === intersectSpace.leftStart) {
                 return;
             }
@@ -4494,11 +4496,11 @@ if (typeof Object.create !== 'function') {
          * For every Fi check if is another Fj so Fj contains Fi
          * @todo - refactor
          */
-        cleanFreeSpaces: function() {
+        cleanFreeSpaces: function () {
             var t = this;
 
             // sort space from top to bottom and left to right
-            t.freeSpaces.sort(function(space1, space2) {
+            t.freeSpaces.sort(function (space1, space2) {
                 if (space1.topStart > space2.topStart) {
                     return 1;
                 } else if (space1.topStart < space2.topStart) {
@@ -4523,7 +4525,7 @@ if (typeof Object.create !== 'function') {
         /**
          * If topStart values for spaces are <= 1px then align those spaces
          */
-        correctSubPixelValues: function() {
+        correctSubPixelValues: function () {
             var t = this,
                 i, len, diff, space1, space2;
 
@@ -4542,13 +4544,13 @@ if (typeof Object.create !== 'function') {
          * Remove spaces that are not maximal
          * If Fi contains Fj then remove Fj from F
          */
-        removeNonMaximalFreeSpaces: function() {
+        removeNonMaximalFreeSpaces: function () {
             var t = this;
 
             t.uniqueFreeSpaces();
 
-            t.freeSpaces = $.map(t.freeSpaces, function(space1, index1) {
-                $.each(t.freeSpaces, function(index2, space2) {
+            t.freeSpaces = $.map(t.freeSpaces, function (space1, index1) {
+                $.each(t.freeSpaces, function (index2, space2) {
                     // don't compare the same free spaces
                     if (index1 === index2) {
                         return;
@@ -4572,12 +4574,12 @@ if (typeof Object.create !== 'function') {
         /**
          * Remove duplicates spaces from freeSpaces
          */
-        uniqueFreeSpaces: function() {
+        uniqueFreeSpaces: function () {
             var t = this,
                 result = [];
 
-            $.each(t.freeSpaces, function(index1, space1) {
-                $.each(result, function(index2, space2) {
+            $.each(t.freeSpaces, function (index1, space1) {
+                $.each(result, function (index2, space2) {
                     if (space2.leftStart === space1.leftStart &&
                         space2.leftEnd === space1.leftEnd &&
                         space2.topStart === space1.topStart &&
@@ -4601,7 +4603,7 @@ if (typeof Object.create !== 'function') {
          * If freeSpaces have only one space and that space overlap the
          * height of the bottom blocks with 1px cut those blocks
          */
-        addHeightToBlocks: function() {
+        addHeightToBlocks: function () {
             var t = this;
 
             if (t.freeSpaces.length > 1) {
@@ -4610,7 +4612,7 @@ if (typeof Object.create !== 'function') {
 
             var topStart = t.freeSpaces[0].topStart;
 
-            t.blocksOn.each(function(index, block) {
+            t.blocksOn.each(function (index, block) {
                 var data = $(block).data('cbp');
 
                 if (data.pack !== true) {
@@ -4629,13 +4631,13 @@ if (typeof Object.create !== 'function') {
         /**
          * Sort by the longer width first, followed by a comparison of the shorter height
          */
-        sortBlocksToPreventGaps: function() {
+        sortBlocksToPreventGaps: function () {
             var t = this;
 
             t.blocksAreSorted = true;
 
             // sort based on timestamp attribute
-            t.blocksOn.sort(function(block1, block2) {
+            t.blocksOn.sort(function (block1, block2) {
                 var data1 = $(block1).data('cbp'),
                     data2 = $(block2).data('cbp');
 
@@ -4663,7 +4665,7 @@ if (typeof Object.create !== 'function') {
 
             // when I start the layout again all blocks must not be positionated
             // reset height if it was set for addHeightToBlocks
-            t.blocksOn.each(function(index, el) {
+            t.blocksOn.each(function (index, el) {
                 $(el).data('cbp').pack = false;
                 el.style.height = '';
             });
@@ -4673,10 +4675,10 @@ if (typeof Object.create !== 'function') {
         /**
          * Generic sort block function from lower to highest values
          */
-        sortBlocks: function(blocks, compare) {
+        sortBlocks: function (blocks, compare) {
             var t = this;
 
-            blocks.sort(function(block1, block2) {
+            blocks.sort(function (block1, block2) {
                 var data1 = $(block1).data('cbp'),
                     data2 = $(block2).data('cbp');
 
@@ -4699,7 +4701,7 @@ if (typeof Object.create !== 'function') {
     });
 })(jQuery, window, document);
 
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     'use strict';
 
     var CubePortfolio = $.fn.cubeportfolio.Constructor;
@@ -4708,14 +4710,14 @@ if (typeof Object.create !== 'function') {
     // pt slider ca as extinde pe CubePortfolio.prototype la fiecare initializare
     $.extend(CubePortfolio.prototype, {
         // create mark
-        sliderMarkup: function() {
+        sliderMarkup: function () {
             var t = this;
 
             t.sliderStopEvents = false;
 
             t.sliderActive = 0;
 
-            t.$obj.one('initComplete.cbp', function() {
+            t.$obj.one('initComplete.cbp', function () {
                 t.$obj.addClass('cbp-mode-slider');
             });
 
@@ -4723,7 +4725,7 @@ if (typeof Object.create !== 'function') {
                 'class': 'cbp-nav'
             });
 
-            t.nav.on('click.cbp', '[data-slider-action]', function(e) {
+            t.nav.on('click.cbp', '[data-slider-action]', function (e) {
                 e.preventDefault();
                 e.stopImmediatePropagation();
                 e.stopPropagation();
@@ -4773,10 +4775,10 @@ if (typeof Object.create !== 'function') {
             if (t.options.auto) {
                 if (t.options.autoPauseOnHover) {
                     t.mouseIsEntered = false;
-                    t.$obj.on('mouseenter.cbp', function(e) {
+                    t.$obj.on('mouseenter.cbp', function (e) {
                         t.mouseIsEntered = true;
                         t.stopSliderAuto();
-                    }).on('mouseleave.cbp', function(e) {
+                    }).on('mouseleave.cbp', function (e) {
                         t.mouseIsEntered = false;
                         t.startSliderAuto();
                     });
@@ -4790,7 +4792,7 @@ if (typeof Object.create !== 'function') {
             }
         },
 
-        updateSlider: function() {
+        updateSlider: function () {
             var t = this;
 
             t.updateSliderPosition();
@@ -4798,7 +4800,7 @@ if (typeof Object.create !== 'function') {
             t.updateSliderPagination();
         },
 
-        updateSliderPagination: function() {
+        updateSliderPagination: function () {
             var t = this,
                 pages,
                 i;
@@ -4822,7 +4824,7 @@ if (typeof Object.create !== 'function') {
             t.enableDisableNavSlider();
         },
 
-        destroySlider: function() {
+        destroySlider: function () {
             var t = this;
 
             if (t.options.layoutMode !== 'slider') {
@@ -4853,7 +4855,7 @@ if (typeof Object.create !== 'function') {
             }
         },
 
-        nextSlider: function(el) {
+        nextSlider: function (el) {
             var t = this;
 
             if (t.isEndSlider()) {
@@ -4873,7 +4875,7 @@ if (typeof Object.create !== 'function') {
             t.goToSlider();
         },
 
-        prevSlider: function(el) {
+        prevSlider: function (el) {
             var t = this;
 
             if (t.isStartSlider()) {
@@ -4893,7 +4895,7 @@ if (typeof Object.create !== 'function') {
             t.goToSlider();
         },
 
-        jumpToSlider: function(el) {
+        jumpToSlider: function (el) {
             var t = this,
                 index = Math.min(el.index() * t.cols, t.blocksOn.length - t.cols);
 
@@ -4906,7 +4908,7 @@ if (typeof Object.create !== 'function') {
             t.goToSlider();
         },
 
-        jumpDragToSlider: function(pos) {
+        jumpDragToSlider: function (pos) {
             var t = this,
                 jumpWidth,
                 offset,
@@ -4938,16 +4940,16 @@ if (typeof Object.create !== 'function') {
             t.goToSlider();
         },
 
-        isStartSlider: function() {
+        isStartSlider: function () {
             return this.sliderActive === 0;
         },
 
-        isEndSlider: function() {
+        isEndSlider: function () {
             var t = this;
             return (t.sliderActive + t.cols) > t.blocksOn.length - 1;
         },
 
-        goToSlider: function() {
+        goToSlider: function () {
             var t = this;
 
             // enable disable the nav
@@ -4956,7 +4958,7 @@ if (typeof Object.create !== 'function') {
             t.updateSliderPosition();
         },
 
-        startSliderAuto: function() {
+        startSliderAuto: function () {
             var t = this;
 
             if (t.isDrag) {
@@ -4964,7 +4966,7 @@ if (typeof Object.create !== 'function') {
                 return;
             }
 
-            t.timeout = setTimeout(function() {
+            t.timeout = setTimeout(function () {
                 // go to next slide
                 t.nextSlider();
 
@@ -4974,11 +4976,11 @@ if (typeof Object.create !== 'function') {
             }, t.options.autoTimeout);
         },
 
-        stopSliderAuto: function() {
+        stopSliderAuto: function () {
             clearTimeout(this.timeout);
         },
 
-        enableDisableNavSlider: function() {
+        enableDisableNavSlider: function () {
             var t = this,
                 page,
                 method;
@@ -5012,7 +5014,7 @@ if (typeof Object.create !== 'function') {
         /**
          * If slider loop is enabled don't add classes to `next` and `prev` buttons
          */
-        isRewindNav: function() {
+        isRewindNav: function () {
             var t = this;
 
             if (!t.options.showNavigation) {
@@ -5030,17 +5032,17 @@ if (typeof Object.create !== 'function') {
             return false;
         },
 
-        sliderItemsLength: function() {
+        sliderItemsLength: function () {
             return this.blocksOn.length <= this.cols;
         },
 
         /**
          * Arrange the items in a slider layout
          */
-        sliderLayout: function() {
+        sliderLayout: function () {
             var t = this;
 
-            t.blocksOn.each(function(index, el) {
+            t.blocksOn.each(function (index, el) {
                 var data = $(el).data('cbp');
 
                 // update the values with the new ones
@@ -5057,12 +5059,12 @@ if (typeof Object.create !== 'function') {
             t.$ul.width(t.columnWidth * t.blocksOn.length - t.options.gapVertical);
         },
 
-        getFreeSpacesForSlider: function() {
+        getFreeSpacesForSlider: function () {
             var t = this;
 
             t.freeSpaces = t.sliderFreeSpaces.slice(t.sliderActive, t.sliderActive + t.cols);
 
-            t.freeSpaces.sort(function(space1, space2) {
+            t.freeSpaces.sort(function (space1, space2) {
                 if (space1.topStart > space2.topStart) {
                     return 1;
                 } else if (space1.topStart < space2.topStart) {
@@ -5071,7 +5073,7 @@ if (typeof Object.create !== 'function') {
             });
         },
 
-        updateSliderPosition: function() {
+        updateSliderPosition: function () {
             var t = this,
                 value = -t.sliderActive * t.columnWidth;
 
@@ -5086,7 +5088,7 @@ if (typeof Object.create !== 'function') {
             t.resizeMainContainer();
         },
 
-        dragSlider: function() {
+        dragSlider: function () {
             var t = this,
                 $document = $(document),
                 posInitial,
@@ -5137,7 +5139,7 @@ if (typeof Object.create !== 'function') {
                 }
 
                 if (isAnimating) {
-                    $(target).one('click.cbp', function() {
+                    $(target).one('click.cbp', function () {
                         return false;
                     });
                     return;
@@ -5162,7 +5164,7 @@ if (typeof Object.create !== 'function') {
                 isAnimating = true;
 
                 if (pos !== 0) {
-                    target.one('click.cbp', function() {
+                    target.one('click.cbp', function () {
                         return false;
                     });
 
@@ -5231,7 +5233,7 @@ if (typeof Object.create !== 'function') {
         /**
          * Reset the slider layout
          */
-        sliderLayoutReset: function() {
+        sliderLayoutReset: function () {
             var t = this;
 
             t.freeSpaces = [];

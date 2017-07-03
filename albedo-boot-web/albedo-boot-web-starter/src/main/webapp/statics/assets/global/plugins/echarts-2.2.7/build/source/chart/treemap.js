@@ -69,6 +69,7 @@ define('echarts/chart/treemap', [
     var zrEvent = require('zrender/tool/event');
     var zrUtil = require('zrender/tool/util');
     var zrColor = require('zrender/tool/color');
+
     function Treemap(ecTheme, messageCenter, zr, option, myChart) {
         ChartBase.call(this, ecTheme, messageCenter, zr, option, myChart);
         this.refresh(option);
@@ -78,6 +79,7 @@ define('echarts/chart/treemap', [
         };
         self.zr.on(zrConfig.EVENT.CLICK, self._onclick);
     }
+
     Treemap.prototype = {
         type: ecConfig.CHART_TYPE_TREEMAP,
         refresh: function (newOption) {
@@ -376,7 +378,8 @@ define('echarts/chart/treemap', [
     zrUtil.inherits(Treemap, ChartBase);
     require('../chart').define('treemap', Treemap);
     return Treemap;
-});define('echarts/layout/TreeMap', ['require'], function (require) {
+});
+define('echarts/layout/TreeMap', ['require'], function (require) {
     function TreeMapLayout(opts) {
         var row = {
             x: opts.x,
@@ -389,6 +392,7 @@ define('echarts/chart/treemap', [
         this.width = opts.width;
         this.height = opts.height;
     }
+
     TreeMapLayout.prototype.run = function (areas) {
         var out = [];
         this._squarify(areas, {
@@ -458,9 +462,9 @@ define('echarts/chart/treemap', [
     TreeMapLayout.prototype._getShapeListInAbstractRow = function (areas, width, height) {
         if (areas.length === 1) {
             return [{
-                    width: width,
-                    height: height
-                }];
+                width: width,
+                height: height
+            }];
         }
         for (var count = 1; count < areas.length; count++) {
             var shapeArr0 = this._placeFixedNumberRectangles(areas.slice(0, count), width, height);
@@ -498,11 +502,13 @@ define('echarts/chart/treemap', [
         return false;
     };
     return TreeMapLayout;
-});define('echarts/data/Tree', [
+});
+define('echarts/data/Tree', [
     'require',
     'zrender/tool/util'
 ], function (require) {
     var zrUtil = require('zrender/tool/util');
+
     function TreeNode(id, data) {
         this.id = id;
         this.depth = 0;
@@ -511,6 +517,7 @@ define('echarts/chart/treemap', [
         this.parent = null;
         this.data = data || null;
     }
+
     TreeNode.prototype.add = function (child) {
         var children = this.children;
         if (child.parent === this) {
@@ -559,6 +566,7 @@ define('echarts/chart/treemap', [
     function Tree(id) {
         this.root = new TreeNode(id);
     }
+
     Tree.prototype.traverse = function (cb, context) {
         this.root.traverse(cb, context);
     };
@@ -590,6 +598,7 @@ define('echarts/chart/treemap', [
                 }
             }
         }
+
         for (var i = 0; i < data.length; i++) {
             buildHierarchy(data[i], rootNode);
         }
@@ -606,6 +615,7 @@ define('echarts/chart/treemap', [
                 buildHierarchy(childTreeNode);
             }
         }
+
         var treeMap = {};
         var treeNodesMap = {};
         for (var i = 0; i < graph.nodes.length; i++) {

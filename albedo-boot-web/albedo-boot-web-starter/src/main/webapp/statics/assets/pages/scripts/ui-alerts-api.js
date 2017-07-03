@@ -1,7 +1,7 @@
 var UIAlertsApi = function () {
 
-    var handleDemo = function() {        
-        $('#alert_show').click(function(){
+    var handleDemo = function () {
+        $('#alert_show').click(function () {
             App.alert({
                 container: $('#alert_container').val(), // alerts parent container(by default placed after the page breadcrumbs)
                 place: $('#alert_place').val(), // append or prepent in container 
@@ -16,7 +16,7 @@ var UIAlertsApi = function () {
         });
     }
 
-    var handleCode = function() {
+    var handleCode = function () {
         var myTextArea = document.getElementById('code_editor_demo');
         var myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
             lineNumbers: true,
@@ -42,6 +42,6 @@ var UIAlertsApi = function () {
 
 }();
 
-jQuery(document).ready(function() {    
-   UIAlertsApi.init();
+jQuery(document).ready(function () {
+    UIAlertsApi.init();
 });

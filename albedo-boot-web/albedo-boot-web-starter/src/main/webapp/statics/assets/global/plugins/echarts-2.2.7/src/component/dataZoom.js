@@ -22,9 +22,9 @@ define(function (require) {
         orient: 'horizontal',      // 布局方式，默认为水平布局，可选为：
                                    // 'horizontal' ¦ 'vertical'
         // x: {number},            // 水平安放位置，默认为根据grid参数适配，可选为：
-                                   // {number}（x坐标，单位px）
+        // {number}（x坐标，单位px）
         // y: {number},            // 垂直安放位置，默认为根据grid参数适配，可选为：
-                                   // {number}（y坐标，单位px）
+        // {number}（y坐标，单位px）
         // width: {number},        // 指定宽度，横向布局时默认为根据grid参数适配
         // height: {number},       // 指定高度，纵向布局时默认为根据grid参数适配
         backgroundColor: 'rgba(0,0,0,0)',       // 背景颜色
@@ -84,7 +84,7 @@ define(function (require) {
         // 位置参数，通过计算所得x, y, width, height
         this._location = this._getLocation();
         // 缩放参数
-        this._zoom =  this._getZoom();
+        this._zoom = this._getZoom();
         this._backupData();
 
         if (this.option.dataZoom.show) {
@@ -94,8 +94,8 @@ define(function (require) {
     }
 
     DataZoom.prototype = {
-        type : ecConfig.COMPONENT_TYPE_DATAZOOM,
-        _buildShape : function () {
+        type: ecConfig.COMPONENT_TYPE_DATAZOOM,
+        _buildShape: function () {
             this._buildBackground();
             this._buildFiller();
             this._buildHandle();
@@ -110,7 +110,7 @@ define(function (require) {
         /**
          * 根据选项计算实体的位置坐标
          */
-        _getLocation : function () {
+        _getLocation: function () {
             var x;
             var y;
             var width;
@@ -134,10 +134,10 @@ define(function (require) {
             }
 
             return {
-                x : x,
-                y : y,
-                width : width,
-                height : height
+                x: x,
+                y: y,
+                width: width,
+                height: height
             };
         },
 
@@ -145,7 +145,7 @@ define(function (require) {
          * 计算缩放参数
          * 修正单坐标轴只传对象为数组。
          */
-        _getZoom : function () {
+        _getZoom: function () {
             var series = this.option.series;
             var xAxis = this.option.xAxis;
             if (xAxis && !(xAxis instanceof Array)) {
@@ -234,19 +234,19 @@ define(function (require) {
                     && serie.data
                     && this.getDataFromOption(serie.data[0]) instanceof Array
                     && (serie.type == ecConfig.CHART_TYPE_SCATTER
-                        || serie.type == ecConfig.CHART_TYPE_LINE
-                        || serie.type == ecConfig.CHART_TYPE_BAR)
+                    || serie.type == ecConfig.CHART_TYPE_LINE
+                    || serie.type == ecConfig.CHART_TYPE_BAR)
                 ) {
                     zoomSeriesIndex.push(i);
                 }
             }
 
             var start = this._zoom.start != null
-                        ? this._zoom.start
-                        : (this.zoomOption.start != null ? this.zoomOption.start : 0);
+                ? this._zoom.start
+                : (this.zoomOption.start != null ? this.zoomOption.start : 0);
             var end = this._zoom.end != null
-                      ? this._zoom.end
-                      : (this.zoomOption.end != null ? this.zoomOption.end : 100);
+                ? this._zoom.end
+                : (this.zoomOption.end != null ? this.zoomOption.end : 100);
 
             if (start > end) {
                 // 大小颠倒自动翻转
@@ -258,27 +258,27 @@ define(function (require) {
                 (end - start) / 100
                 * (
                     this.zoomOption.orient == 'horizontal'
-                    ? this._location.width : this._location.height
+                        ? this._location.width : this._location.height
                 )
             );
             return {
-                start : start,
-                end : end,
-                start2 : 0,
-                end2 : 100,
-                size : size,
-                xAxisIndex : xAxisIndex,
-                yAxisIndex : yAxisIndex,
-                seriesIndex : zoomSeriesIndex,
-                scatterMap : this._zoom.scatterMap || {}
+                start: start,
+                end: end,
+                start2: 0,
+                end2: 100,
+                size: size,
+                xAxisIndex: xAxisIndex,
+                yAxisIndex: yAxisIndex,
+                seriesIndex: zoomSeriesIndex,
+                scatterMap: this._zoom.scatterMap || {}
             };
         },
 
-        _backupData : function () {
+        _backupData: function () {
             this._originalData = {
-                xAxis : {},
-                yAxis : {},
-                series : {}
+                xAxis: {},
+                yAxis: {},
+                series: {}
             };
             var xAxis = this.option.xAxis;
             var xAxisIndex = this._zoom.xAxisIndex;
@@ -301,8 +301,8 @@ define(function (require) {
                 if (serie.data
                     && this.getDataFromOption(serie.data[0]) instanceof Array
                     && (serie.type == ecConfig.CHART_TYPE_SCATTER
-                        || serie.type == ecConfig.CHART_TYPE_LINE
-                        || serie.type == ecConfig.CHART_TYPE_BAR)
+                    || serie.type == ecConfig.CHART_TYPE_LINE
+                    || serie.type == ecConfig.CHART_TYPE_BAR)
                 ) {
                     this._backupScale();
                     this._calculScatterMap(seriesIndex[i]);
@@ -311,7 +311,7 @@ define(function (require) {
         },
 
         // 不止是scatter，双数值轴也使用此方法
-        _calculScatterMap : function (seriesIndex) {
+        _calculScatterMap: function (seriesIndex) {
             this._zoom.scatterMap = this._zoom.scatterMap || {};
             this._zoom.scatterMap[seriesIndex] = this._zoom.scatterMap[seriesIndex] || {};
             var componentLibrary = require('../component');
@@ -333,7 +333,7 @@ define(function (require) {
                 false,  // this.zr
                 {
                     xAxis: axisOption,
-                    series : this.option.series
+                    series: this.option.series
                 },
                 this,
                 'xAxis'
@@ -358,7 +358,7 @@ define(function (require) {
                 false,  // this.zr
                 {
                     yAxis: axisOption,
-                    series : this.option.series
+                    series: this.option.series
                 },
                 this,
                 'yAxis'
@@ -369,7 +369,7 @@ define(function (require) {
             // console.log(this._zoom.scatterMap);
         },
 
-        _buildBackground : function () {
+        _buildBackground: function () {
             var width = this._location.width;
             var height = this._location.height;
 
@@ -377,13 +377,13 @@ define(function (require) {
             this.shapeList.push(new RectangleShape({
                 zlevel: this.getZlevelBase(),
                 z: this.getZBase(),
-                hoverable :false,
-                style : {
-                    x : this._location.x,
-                    y : this._location.y,
-                    width : width,
-                    height : height,
-                    color : this.zoomOption.backgroundColor
+                hoverable: false,
+                style: {
+                    x: this._location.x,
+                    y: this._location.y,
+                    width: width,
+                    height: height,
+                    color: this.zoomOption.backgroundColor
                 }
             }));
 
@@ -429,7 +429,7 @@ define(function (require) {
             if (this.zoomOption.orient == 'horizontal' && x < 1) {
                 step = Math.floor(maxLength * 3 / width);
             }
-            else if (this.zoomOption.orient == 'vertical' && y < 1){
+            else if (this.zoomOption.orient == 'vertical' && y < 1) {
                 step = Math.floor(maxLength * 3 / height);
             }
 
@@ -479,68 +479,68 @@ define(function (require) {
             this.shapeList.push(new PolygonShape({
                 zlevel: this.getZlevelBase(),
                 z: this.getZBase(),
-                style : {
-                    pointList : pointList,
-                    color : this.zoomOption.dataBackgroundColor
+                style: {
+                    pointList: pointList,
+                    color: this.zoomOption.dataBackgroundColor
                 },
-                hoverable : false
+                hoverable: false
             }));
         },
 
         /**
          * 构建填充物
          */
-        _buildFiller : function () {
+        _buildFiller: function () {
             this._fillerShae = {
                 zlevel: this.getZlevelBase(),
                 z: this.getZBase(),
-                draggable : true,
-                ondrift : this._ondrift,
-                ondragend : this._ondragend,
-                _type : 'filler'
+                draggable: true,
+                ondrift: this._ondrift,
+                ondragend: this._ondragend,
+                _type: 'filler'
             };
 
             if (this.zoomOption.orient == 'horizontal') {
                 // 横向
                 this._fillerShae.style = {
-                    x : this._location.x
-                        + Math.round(this._zoom.start / 100 * this._location.width)
-                        + this._handleSize,
-                    y : this._location.y,
-                    width : this._zoom.size - this._handleSize * 2,
-                    height : this._location.height,
-                    color : this.zoomOption.fillerColor,
+                    x: this._location.x
+                    + Math.round(this._zoom.start / 100 * this._location.width)
+                    + this._handleSize,
+                    y: this._location.y,
+                    width: this._zoom.size - this._handleSize * 2,
+                    height: this._location.height,
+                    color: this.zoomOption.fillerColor,
                     // strokeColor : '#fff', // this.zoomOption.handleColor,
                     // lineWidth: 2,
-                    text : ':::',
-                    textPosition : 'inside'
+                    text: ':::',
+                    textPosition: 'inside'
                 };
             }
             else {
                 // 纵向
-                this._fillerShae.style ={
-                    x : this._location.x,
-                    y : this._location.y
-                        + Math.round(this._zoom.start / 100 * this._location.height)
-                        + this._handleSize,
-                    width :  this._location.width,
-                    height : this._zoom.size - this._handleSize * 2,
-                    color : this.zoomOption.fillerColor,
+                this._fillerShae.style = {
+                    x: this._location.x,
+                    y: this._location.y
+                    + Math.round(this._zoom.start / 100 * this._location.height)
+                    + this._handleSize,
+                    width: this._location.width,
+                    height: this._zoom.size - this._handleSize * 2,
+                    color: this.zoomOption.fillerColor,
                     // strokeColor : '#fff', // this.zoomOption.handleColor,
                     // lineWidth: 2,
-                    text : '::',
-                    textPosition : 'inside'
+                    text: '::',
+                    textPosition: 'inside'
                 };
             }
 
             this._fillerShae.highlightStyle = {
                 brushType: 'fill',
-                color : 'rgba(0,0,0,0)'
+                color: 'rgba(0,0,0,0)'
                 /*
-                color : require('zrender/tool/color').alpha(
-                            this._fillerShae.style.color, 0
-                        )
-                */
+                 color : require('zrender/tool/color').alpha(
+                 this._fillerShae.style.color, 0
+                 )
+                 */
             };
             this._fillerShae = new RectangleShape(this._fillerShae);
             this.shapeList.push(this._fillerShae);
@@ -549,13 +549,13 @@ define(function (require) {
         /**
          * 构建拖拽手柄
          */
-        _buildHandle : function () {
-            var detail = this.zoomOption.showDetail ? this._getDetail() : {start: '',end: ''};
+        _buildHandle: function () {
+            var detail = this.zoomOption.showDetail ? this._getDetail() : {start: '', end: ''};
             this._startShape = {
                 zlevel: this.getZlevelBase(),
                 z: this.getZBase(),
-                draggable : true,
-                style : {
+                draggable: true,
+                style: {
                     iconType: 'rectangle',
                     x: this._location.x,
                     y: this._location.y,
@@ -579,7 +579,7 @@ define(function (require) {
                 this._endShape = zrUtil.clone(this._startShape);
 
                 this._startShape.style.x = this._fillerShae.style.x - this._handleSize,
-                this._endShape.style.x = this._fillerShae.style.x + this._fillerShae.style.width;
+                    this._endShape.style.x = this._fillerShae.style.x + this._fillerShae.style.width;
                 this._endShape.highlightStyle.text = detail.end;
                 this._endShape.highlightStyle.textPosition = 'right';
             }
@@ -603,22 +603,22 @@ define(function (require) {
         /**
          * 构建特效边框
          */
-        _buildFrame : function () {
+        _buildFrame: function () {
             // 特效框线，亚像素优化
             var x = this.subPixelOptimize(this._location.x, 1);
             var y = this.subPixelOptimize(this._location.y, 1);
             this._startFrameShape = {
                 zlevel: this.getZlevelBase(),
                 z: this.getZBase(),
-                hoverable :false,
-                style : {
-                    x : x,
-                    y : y,
-                    width : this._location.width - (x > this._location.x ? 1 : 0),
-                    height : this._location.height - (y > this._location.y ? 1 : 0),
+                hoverable: false,
+                style: {
+                    x: x,
+                    y: y,
+                    width: this._location.width - (x > this._location.x ? 1 : 0),
+                    height: this._location.height - (y > this._location.y ? 1 : 0),
                     lineWidth: 1,
                     brushType: 'stroke',
-                    strokeColor : this.zoomOption.handleColor
+                    strokeColor: this.zoomOption.handleColor
                 }
             };
             this._endFrameShape = zrUtil.clone(this._startFrameShape);
@@ -630,30 +630,30 @@ define(function (require) {
             return;
         },
 
-        _syncHandleShape : function () {
+        _syncHandleShape: function () {
             if (this.zoomOption.orient == 'horizontal') {
                 this._startShape.style.x = this._fillerShae.style.x - this._handleSize;
                 this._endShape.style.x = this._fillerShae.style.x + this._fillerShae.style.width;
 
                 this._zoom.start = (
-                    this._startShape.style.x - this._location.x
-                ) / this._location.width * 100;
+                        this._startShape.style.x - this._location.x
+                    ) / this._location.width * 100;
                 this._zoom.end = (
-                    this._endShape.style.x + this._handleSize - this._location.x
-                ) / this._location.width * 100;
+                        this._endShape.style.x + this._handleSize - this._location.x
+                    ) / this._location.width * 100;
             }
             else {
                 this._startShape.style.y = this._fillerShae.style.y + this._fillerShae.style.height;
                 this._endShape.style.y = this._fillerShae.style.y - this._handleSize;
 
                 this._zoom.start = (
-                    this._location.y + this._location.height
-                    - this._startShape.style.y
-                ) / this._location.height * 100;
+                        this._location.y + this._location.height
+                        - this._startShape.style.y
+                    ) / this._location.height * 100;
                 this._zoom.end = (
-                    this._location.y + this._location.height
-                    - this._endShape.style.y - this._handleSize
-                ) / this._location.height * 100;
+                        this._location.y + this._location.height
+                        - this._endShape.style.y - this._handleSize
+                    ) / this._location.height * 100;
             }
             this.zr.modShape(this._startShape.id);
             this.zr.modShape(this._endShape.id);
@@ -664,7 +664,7 @@ define(function (require) {
             this.zr.refreshNextFrame();
         },
 
-        _syncFillerShape : function () {
+        _syncFillerShape: function () {
             var a;
             var b;
             if (this.zoomOption.orient == 'horizontal') {
@@ -673,11 +673,11 @@ define(function (require) {
                 this._fillerShae.style.x = Math.min(a, b) + this._handleSize;
                 this._fillerShae.style.width = Math.abs(a - b) - this._handleSize;
                 this._zoom.start = (
-                    Math.min(a, b) - this._location.x
-                ) / this._location.width * 100;
+                        Math.min(a, b) - this._location.x
+                    ) / this._location.width * 100;
                 this._zoom.end = (
-                    Math.max(a, b) + this._handleSize - this._location.x
-                ) / this._location.width * 100;
+                        Math.max(a, b) + this._handleSize - this._location.x
+                    ) / this._location.width * 100;
             }
             else {
                 a = this._startShape.style.y;
@@ -685,11 +685,11 @@ define(function (require) {
                 this._fillerShae.style.y = Math.min(a, b) + this._handleSize;
                 this._fillerShae.style.height = Math.abs(a - b) - this._handleSize;
                 this._zoom.start = (
-                    this._location.y + this._location.height - Math.max(a, b)
-                ) / this._location.height * 100;
+                        this._location.y + this._location.height - Math.max(a, b)
+                    ) / this._location.height * 100;
                 this._zoom.end = (
-                    this._location.y + this._location.height - Math.min(a, b) - this._handleSize
-                ) / this._location.height * 100;
+                        this._location.y + this._location.height - Math.min(a, b) - this._handleSize
+                    ) / this._location.height * 100;
             }
 
             this.zr.modShape(this._fillerShae.id);
@@ -700,7 +700,7 @@ define(function (require) {
             this.zr.refreshNextFrame();
         },
 
-        _syncFrameShape : function () {
+        _syncFrameShape: function () {
             if (this.zoomOption.orient == 'horizontal') {
                 this._startFrameShape.style.width =
                     this._fillerShae.style.x - this._location.x;
@@ -722,34 +722,34 @@ define(function (require) {
             this.zr.modShape(this._endFrameShape.id);
         },
 
-        _syncShape : function () {
+        _syncShape: function () {
             if (!this.zoomOption.show) {
                 // 没有伸缩控件
                 return;
             }
             if (this.zoomOption.orient == 'horizontal') {
                 this._startShape.style.x = this._location.x
-                                           + this._zoom.start / 100 * this._location.width;
-                this._endShape.style.x   = this._location.x
-                                           + this._zoom.end / 100 * this._location.width
-                                           - this._handleSize;
+                    + this._zoom.start / 100 * this._location.width;
+                this._endShape.style.x = this._location.x
+                    + this._zoom.end / 100 * this._location.width
+                    - this._handleSize;
 
-                this._fillerShae.style.x     = this._startShape.style.x + this._handleSize;
+                this._fillerShae.style.x = this._startShape.style.x + this._handleSize;
                 this._fillerShae.style.width = this._endShape.style.x
-                                               - this._startShape.style.x
-                                               - this._handleSize;
+                    - this._startShape.style.x
+                    - this._handleSize;
             }
             else {
                 this._startShape.style.y = this._location.y + this._location.height
-                                           - this._zoom.start / 100 * this._location.height;
-                this._endShape.style.y   = this._location.y + this._location.height
-                                           - this._zoom.end / 100 * this._location.height
-                                           - this._handleSize;
+                    - this._zoom.start / 100 * this._location.height;
+                this._endShape.style.y = this._location.y + this._location.height
+                    - this._zoom.end / 100 * this._location.height
+                    - this._handleSize;
 
-                this._fillerShae.style.y      = this._endShape.style.y + this._handleSize;
+                this._fillerShae.style.y = this._endShape.style.y + this._handleSize;
                 this._fillerShae.style.height = this._startShape.style.y
-                                                - this._endShape.style.y
-                                                - this._handleSize;
+                    - this._endShape.style.y
+                    - this._handleSize;
             }
 
             this.zr.modShape(this._startShape.id);
@@ -760,7 +760,7 @@ define(function (require) {
             this.zr.refresh();
         },
 
-         _syncData : function (dispatchNow) {
+        _syncData: function (dispatchNow) {
             var target;
             var start;
             var end;
@@ -805,7 +805,7 @@ define(function (require) {
             //this.zoomOption.end = this._zoom.end;
         },
 
-        _synScatterData : function (seriesIndex, data) {
+        _synScatterData: function (seriesIndex, data) {
             if (this._zoom.start === 0
                 && this._zoom.end == 100
                 && this._zoom.start2 === 0
@@ -870,14 +870,14 @@ define(function (require) {
         /**
          * 发生缩放后修改axis的scale
          */
-        _setScale: function() {
+        _setScale: function () {
             var needScale = this._zoom.start !== 0
-                            || this._zoom.end !== 100
-                            || this._zoom.start2 !== 0
-                            || this._zoom.end2 !== 100;
+                || this._zoom.end !== 100
+                || this._zoom.start2 !== 0
+                || this._zoom.end2 !== 100;
             var axis = {
-                xAxis : this.option.xAxis,
-                yAxis : this.option.yAxis
+                xAxis: this.option.xAxis,
+                yAxis: this.option.yAxis
             };
             for (var key in axis) {
                 for (var i = 0, l = axis[key].length; i < l; i++) {
@@ -889,10 +889,10 @@ define(function (require) {
         /**
          * 备份可能存在的scale设置
          */
-        _backupScale: function() {
+        _backupScale: function () {
             var axis = {
-                xAxis : this.option.xAxis,
-                yAxis : this.option.yAxis
+                xAxis: this.option.xAxis,
+                yAxis: this.option.yAxis
             };
             for (var key in axis) {
                 for (var i = 0, l = axis[key].length; i < l; i++) {
@@ -904,7 +904,7 @@ define(function (require) {
         /**
          * 获取当前定位
          */
-        _getDetail : function () {
+        _getDetail: function () {
             var key = ['xAxis', 'yAxis'];
             for (var i = 0, l = key.length; i < l; i++) {
                 var target = this._originalData[key[i]];
@@ -918,8 +918,8 @@ define(function (require) {
                     var end = Math.ceil(this._zoom.end / 100 * length);
                     end -= end > 0 ? 1 : 0;
                     return {
-                        start : this.getDataFromOption(data[start]),
-                        end : this.getDataFromOption(data[end])
+                        start: this.getDataFromOption(data[start]),
+                        end: this.getDataFromOption(data[end])
                     };
                 }
             }
@@ -934,8 +934,8 @@ define(function (require) {
 
             if (axisType == 'value') {
                 return {
-                    start : min + gap * this._zoom.start / 100,
-                    end : min + gap * this._zoom.end / 100
+                    start: min + gap * this._zoom.start / 100,
+                    end: min + gap * this._zoom.end / 100
                 };
             }
             else if (axisType == 'time') {
@@ -944,21 +944,21 @@ define(function (require) {
                 min = min + gap * this._zoom.start / 100;
                 var formatter = ecDate.getAutoFormatter(min, max).formatter;
                 return {
-                    start : ecDate.format(formatter, min),
-                    end : ecDate.format(formatter, max)
+                    start: ecDate.format(formatter, min),
+                    end: ecDate.format(formatter, max)
                 };
             }
 
             return {
-                start : '',
-                end : ''
+                start: '',
+                end: ''
             };
         },
 
         /**
          * 拖拽范围控制
          */
-        __ondrift : function (shape, dx, dy) {
+        __ondrift: function (shape, dx, dy) {
             if (this.zoomOption.zoomLock) {
                 // zoomLock时把handle转成filler的拖拽
                 shape = this._fillerShae;
@@ -970,10 +970,10 @@ define(function (require) {
                     shape.style.x = this._location.x + detailSize;
                 }
                 else if (shape.style.x + dx + shape.style.width + detailSize
-                         >= this._location.x + this._location.width
+                    >= this._location.x + this._location.width
                 ) {
                     shape.style.x = this._location.x + this._location.width
-                                - shape.style.width - detailSize;
+                        - shape.style.width - detailSize;
                 }
                 else {
                     shape.style.x += dx;
@@ -984,10 +984,10 @@ define(function (require) {
                     shape.style.y = this._location.y + detailSize;
                 }
                 else if (shape.style.y + dy + shape.style.height + detailSize
-                         >= this._location.y + this._location.height
+                    >= this._location.y + this._location.height
                 ) {
                     shape.style.y = this._location.y + this._location.height
-                                - shape.style.height - detailSize;
+                        - shape.style.height - detailSize;
                 }
                 else {
                     shape.style.y += dy;
@@ -1015,7 +1015,7 @@ define(function (require) {
             return true;
         },
 
-        __ondragend : function () {
+        __ondragend: function () {
             if (this.zoomOption.showDetail) {
                 this._startShape.style.text = this._endShape.style.text = '=';
                 this._startShape.style.textPosition = this._endShape.style.textPosition = 'inside';
@@ -1029,7 +1029,7 @@ define(function (require) {
         /**
          * 数据项被拖拽出去
          */
-        ondragend : function (param, status) {
+        ondragend: function (param, status) {
             if (!this.isDragend || !param.target) {
                 // 没有在当前实例上发生拖拽行为则直接返回
                 return;
@@ -1055,12 +1055,12 @@ define(function (require) {
             return;
         },
 
-        ondataZoom : function (param, status) {
+        ondataZoom: function (param, status) {
             status.needRefresh = true;
             return;
         },
 
-        absoluteZoom : function (param) {
+        absoluteZoom: function (param) {
             this._zoom.start = param.start;
             this._zoom.end = param.end;
             this._zoom.start2 = param.start2;
@@ -1070,7 +1070,7 @@ define(function (require) {
             return;
         },
 
-        rectZoom : function (param) {
+        rectZoom: function (param) {
             if (!param) {
                 // 重置拖拽
                 //this.zoomOption.start =
@@ -1087,10 +1087,10 @@ define(function (require) {
             }
             var gridArea = this.component.grid.getArea();
             var rect = {
-                x : param.x,
-                y : param.y,
-                width : param.width,
-                height : param.height
+                x: param.x,
+                y: param.y,
+                width: param.width,
+                height: param.height
             };
             // 修正方向框选
             if (rect.width < 0) {
@@ -1154,7 +1154,7 @@ define(function (require) {
             return this._zoom;
         },
 
-        syncBackupData : function (curOption) {
+        syncBackupData: function (curOption) {
             var start;
             var target = this._originalData['series'];
             var curSeries = curOption.series;
@@ -1179,7 +1179,7 @@ define(function (require) {
             }
         },
 
-        syncOption : function(magicOption) {
+        syncOption: function (magicOption) {
             this.silence(true);
             this.option = magicOption;
             this.option.dataZoom = this.reformOption(this.option.dataZoom);
@@ -1193,7 +1193,7 @@ define(function (require) {
             // 位置参数，通过计算所得x, y, width, height
             this._location = this._getLocation();
             // 缩放参数
-            this._zoom =  this._getZoom();
+            this._zoom = this._getZoom();
 
             this._backupData();
             if (this.option.dataZoom && this.option.dataZoom.show) {
@@ -1204,11 +1204,11 @@ define(function (require) {
             this.silence(false);
         },
 
-        silence : function (s) {
+        silence: function (s) {
             this._isSilence = s;
         },
 
-        getRealDataIndex : function (sIdx, dIdx) {
+        getRealDataIndex: function (sIdx, dIdx) {
             if (!this._originalData || (this._zoom.start === 0 && this._zoom.end == 100)) {
                 return dIdx;
             }
@@ -1222,13 +1222,13 @@ define(function (require) {
         /**
          * 避免dataZoom带来两次refresh，不设refresh接口，resize重复一下buildshape逻辑
          */
-        resize : function () {
+        resize: function () {
             this.clear();
 
             // 位置参数，通过计算所得x, y, width, height
             this._location = this._getLocation();
             // 缩放参数
-            this._zoom =  this._getZoom();
+            this._zoom = this._getZoom();
 
             if (this.option.dataZoom.show) {
                 this._buildShape();

@@ -1,6 +1,6 @@
 var ComponentsBootstrapSelect = function () {
 
-    var handleBootstrapSelect = function() {
+    var handleBootstrapSelect = function () {
         $('.bs-select').selectpicker({
             iconBase: 'fa',
             tickIcon: 'fa-check'
@@ -9,7 +9,7 @@ var ComponentsBootstrapSelect = function () {
 
     return {
         //main function to initiate the module
-        init: function () {      
+        init: function () {
             handleBootstrapSelect();
         }
     };
@@ -17,7 +17,7 @@ var ComponentsBootstrapSelect = function () {
 }();
 
 if (App.isAngularJsApp() === false) {
-    jQuery(document).ready(function() {    
-        ComponentsBootstrapSelect.init(); 
+    jQuery(document).ready(function () {
+        ComponentsBootstrapSelect.init();
     });
 }

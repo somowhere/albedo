@@ -56,7 +56,7 @@ class MybatisRepositoriesAutoConfigureRegistrar extends AbstractRepositoryConfig
     private MybatisProperties properties;
 
     private ResourceLoader resourceLoader;
-    private Environment    environment;
+    private Environment environment;
 
     @Override
     protected Class<? extends Annotation> getAnnotation() {

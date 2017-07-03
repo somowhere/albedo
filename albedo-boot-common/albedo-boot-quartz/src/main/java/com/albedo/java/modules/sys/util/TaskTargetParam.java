@@ -6,16 +6,14 @@ import com.alibaba.fastjson.annotation.JSONField;
 /**
  * Created by ftp on 2017/1/24.
  */
-public class TaskTargetParam{
-    private String attrType="String";
+public class TaskTargetParam {
+    private String attrType = "String";
     private String format;
     private String value;
 
-    public String getAttrType() {
-        return attrType;
-    }
     public TaskTargetParam() {
     }
+
     public TaskTargetParam(String value) {
         this.value = value;
     }
@@ -30,6 +28,10 @@ public class TaskTargetParam{
         this.attrType = attrType;
         this.format = format;
         this.value = value;
+    }
+
+    public String getAttrType() {
+        return attrType;
     }
 
     public void setAttrType(String attrType) {

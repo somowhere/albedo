@@ -2,7 +2,7 @@
  * Spanish Argenina translation for bootstrap-wysihtml5
  */
 
-(function($){
+(function ($) {
     $.fn.wysihtml5.locale["es-AR"] = {
         font_styles: {
             normal: "Texto normal",

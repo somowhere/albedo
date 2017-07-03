@@ -40,8 +40,8 @@ public abstract class MybatisEntityInformationSupport<T, ID extends Serializable
 
 
     protected final PersistentEntity<T, ?> persistentEntity;
-    protected final AuditorAware<?>        auditorAware;
-    protected final AuditDateAware<?>      auditDateAware;
+    protected final AuditorAware<?> auditorAware;
+    protected final AuditDateAware<?> auditDateAware;
 
     /**
      * Creates a new {@link AbstractEntityInformation} from the given domain class.
@@ -59,18 +59,6 @@ public abstract class MybatisEntityInformationSupport<T, ID extends Serializable
         this.auditDateAware = auditDateAware;
     }
 
-    @Override
-    public String getEntityName() {
-        Class<T> domainClass = getJavaType();
-        Entity entity = domainClass.getAnnotation(Entity.class);
-        if (null != entity && StringUtils.hasText(entity.name())) {
-            return entity.name();
-        }
-
-        return domainClass.getSimpleName();
-    }
-
-
     public static <T, ID extends Serializable> MybatisEntityInformation<T, ID> getEntityInformation(MybatisMappingContext mappingContext,
                                                                                                     AuditorAware<?> auditorAware,
                                                                                                     AuditDateAware<?> auditDateAware,
@@ -82,6 +70,17 @@ public abstract class MybatisEntityInformationSupport<T, ID extends Serializable
         }
 
         return new MybatisMetamodelEntityInformation<T, ID>(persistentEntity, auditorAware, auditDateAware, domainClass);
+    }
+
+    @Override
+    public String getEntityName() {
+        Class<T> domainClass = getJavaType();
+        Entity entity = domainClass.getAnnotation(Entity.class);
+        if (null != entity && StringUtils.hasText(entity.name())) {
+            return entity.name();
+        }
+
+        return domainClass.getSimpleName();
     }
 
 }

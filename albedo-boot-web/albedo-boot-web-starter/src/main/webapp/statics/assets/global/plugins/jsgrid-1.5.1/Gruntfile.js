@@ -1,4 +1,4 @@
-﻿module.exports = function(grunt) {
+﻿module.exports = function (grunt) {
     "use strict"
 
     var banner =
@@ -23,7 +23,7 @@
                 cwd: "src/i18n/",
                 src: "*.js",
                 dest: "dist/i18n/",
-                rename: function(dest, src) {
+                rename: function (dest, src) {
                     return dest + "jsgrid-" + src;
                 }
             }
@@ -78,7 +78,7 @@
 
         imageEmbed: {
             options: {
-                deleteAfterEncoding : true
+                deleteAfterEncoding: true
             },
             theme: {
                 src: "<%= concat.theme.dest %>",
@@ -87,7 +87,7 @@
         },
 
         uglify: {
-            options : {
+            options: {
                 banner: banner + "\n"
             },
             js: {
@@ -97,7 +97,7 @@
         },
 
         cssmin: {
-            options : {
+            options: {
                 banner: banner
             },
             css: {

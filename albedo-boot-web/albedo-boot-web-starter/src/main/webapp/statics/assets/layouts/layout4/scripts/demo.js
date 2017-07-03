@@ -1,6 +1,6 @@
 /**
-Demo script to handle the theme demo
-**/
+ Demo script to handle the theme demo
+ **/
 var Demo = function () {
 
     // Handle Theme Settings
@@ -21,12 +21,7 @@ var Demo = function () {
 
         //handle theme layout
         var resetLayout = function () {
-            $("body").
-            removeClass("page-boxed").
-            removeClass("page-footer-fixed").
-            removeClass("page-sidebar-fixed").
-            removeClass("page-header-fixed").
-            removeClass("page-sidebar-reversed");
+            $("body").removeClass("page-boxed").removeClass("page-footer-fixed").removeClass("page-sidebar-fixed").removeClass("page-header-fixed").removeClass("page-sidebar-reversed");
 
             $('.page-header > .page-header-inner').removeClass("container");
 
@@ -146,7 +141,7 @@ var Demo = function () {
                     alert("Hover Sidebar Menu is not compatible with Fixed Sidebar Mode. Select Default Sidebar Mode Instead.");
                 } else {
                     $(".page-sidebar-menu").addClass("page-sidebar-menu-hover-submenu");
-                }                
+                }
             } else {
                 $(".page-sidebar-menu").removeClass("page-sidebar-menu-hover-submenu");
             }
@@ -230,20 +225,20 @@ var Demo = function () {
 
         if ($(".page-sidebar-menu").hasClass("page-sidebar-menu-hover-submenu")) {
             $('.sidebar-menu-option', panel).val("hover");
-        }        
+        }
 
         var sidebarOption = $('.sidebar-option', panel).val();
-            var headerOption = $('.page-header-option', panel).val();
-            var footerOption = $('.page-footer-option', panel).val();
-            var sidebarPosOption = $('.sidebar-pos-option', panel).val();
-            var sidebarStyleOption = $('.sidebar-style-option', panel).val();
-            var sidebarMenuOption = $('.sidebar-menu-option', panel).val();
+        var headerOption = $('.page-header-option', panel).val();
+        var footerOption = $('.page-footer-option', panel).val();
+        var sidebarPosOption = $('.sidebar-pos-option', panel).val();
+        var sidebarStyleOption = $('.sidebar-style-option', panel).val();
+        var sidebarMenuOption = $('.sidebar-menu-option', panel).val();
 
         $('.layout-option, .page-header-top-dropdown-style-option, .page-header-option, .sidebar-option, .page-footer-option, .sidebar-pos-option, .sidebar-style-option, .sidebar-menu-option', panel).change(setLayout);
     };
 
     // handle theme style
-    var setThemeStyle = function(style) {
+    var setThemeStyle = function (style) {
         var file = (style === 'rounded' ? 'components-rounded' : 'components');
         file = (App.isRTL() ? file + '-rtl' : file);
 
@@ -257,27 +252,27 @@ var Demo = function () {
     return {
 
         //main function to initiate the theme
-        init: function() {
+        init: function () {
             // handles style customer tool
-            handleTheme(); 
+            handleTheme();
 
             // handle layout style change
-            $('.theme-panel .layout-style-option').change(function() {
-                 setThemeStyle($(this).val());
+            $('.theme-panel .layout-style-option').change(function () {
+                setThemeStyle($(this).val());
             });
 
             // set layout style from cookie
             if (typeof Cookies !== "undefined" && Cookies.get('layout-style-option') === 'rounded') {
                 setThemeStyle(Cookies.get('layout-style-option'));
                 $('.theme-panel .layout-style-option').val(Cookies.get('layout-style-option'));
-            }             
+            }
         }
     };
 
 }();
 
 if (App.isAngularJsApp() === false) {
-    jQuery(document).ready(function() {    
-       Demo.init(); // init metronic core componets
+    jQuery(document).ready(function () {
+        Demo.init(); // init metronic core componets
     });
 }

@@ -29,16 +29,18 @@ define('echarts/chart/scatter', [
         large: false,
         largeThreshold: 2000,
         itemStyle: {
-            normal: { label: { show: false } },
-            emphasis: { label: { show: false } }
+            normal: {label: {show: false}},
+            emphasis: {label: {show: false}}
         }
     };
     var zrUtil = require('zrender/tool/util');
     var zrColor = require('zrender/tool/color');
+
     function Scatter(ecTheme, messageCenter, zr, option, myChart) {
         ChartBase.call(this, ecTheme, messageCenter, zr, option, myChart);
         this.refresh(option);
     }
+
     Scatter.prototype = {
         type: ecConfig.CHART_TYPE_SCATTER,
         _buildShape: function () {
@@ -303,7 +305,7 @@ define('echarts/chart/scatter', [
                     color: nColor,
                     strokeColor: nColor
                 },
-                highlightStyle: { pointList: [] }
+                highlightStyle: {pointList: []}
             });
         },
         getMarkCoord: function (seriesIndex, mpData) {
@@ -347,7 +349,8 @@ define('echarts/chart/scatter', [
     zrUtil.inherits(Scatter, ChartBase);
     require('../chart').define('scatter', Scatter);
     return Scatter;
-});define('echarts/component/dataRange', [
+});
+define('echarts/component/dataRange', [
     'require',
     './base',
     'zrender/shape/Text',
@@ -390,12 +393,13 @@ define('echarts/chart/scatter', [
             '#006edd',
             '#e0ffff'
         ],
-        textStyle: { color: '#333' }
+        textStyle: {color: '#333'}
     };
     var zrUtil = require('zrender/tool/util');
     var zrEvent = require('zrender/tool/event');
     var zrArea = require('zrender/tool/area');
     var zrColor = require('zrender/tool/color');
+
     function DataRange(ecTheme, messageCenter, zr, option, myChart) {
         Base.call(this, ecTheme, messageCenter, zr, option, myChart);
         var self = this;
@@ -419,6 +423,7 @@ define('echarts/chart/scatter', [
         this.refresh(option);
         messageCenter.bind(ecConfig.EVENT.HOVER, this._onhoverlink);
     }
+
     DataRange.prototype = {
         type: ecConfig.COMPONENT_TYPE_DATARANGE,
         _textGap: 10,
@@ -492,7 +497,7 @@ define('echarts/chart/scatter', [
                             textFont: font,
                             textBaseline: 'top'
                         },
-                        highlightStyle: { brushType: 'fill' }
+                        highlightStyle: {brushType: 'fill'}
                     };
                     if (this.dataRangeOption.orient == 'vertical' && this.dataRangeOption.x == 'right') {
                         textShape.style.x -= itemWidth + 10;
@@ -1139,36 +1144,36 @@ define('echarts/chart/scatter', [
             var x;
             var zrWidth = this.zr.getWidth();
             switch (this.dataRangeOption.x) {
-            case 'center':
-                x = Math.floor((zrWidth - totalWidth) / 2);
-                break;
-            case 'left':
-                x = padding[3] + this.dataRangeOption.borderWidth;
-                break;
-            case 'right':
-                x = zrWidth - totalWidth - padding[1] - this.dataRangeOption.borderWidth;
-                break;
-            default:
-                x = this.parsePercent(this.dataRangeOption.x, zrWidth);
-                x = isNaN(x) ? 0 : x;
-                break;
+                case 'center':
+                    x = Math.floor((zrWidth - totalWidth) / 2);
+                    break;
+                case 'left':
+                    x = padding[3] + this.dataRangeOption.borderWidth;
+                    break;
+                case 'right':
+                    x = zrWidth - totalWidth - padding[1] - this.dataRangeOption.borderWidth;
+                    break;
+                default:
+                    x = this.parsePercent(this.dataRangeOption.x, zrWidth);
+                    x = isNaN(x) ? 0 : x;
+                    break;
             }
             var y;
             var zrHeight = this.zr.getHeight();
             switch (this.dataRangeOption.y) {
-            case 'top':
-                y = padding[0] + this.dataRangeOption.borderWidth;
-                break;
-            case 'bottom':
-                y = zrHeight - totalHeight - padding[2] - this.dataRangeOption.borderWidth;
-                break;
-            case 'center':
-                y = Math.floor((zrHeight - totalHeight) / 2);
-                break;
-            default:
-                y = this.parsePercent(this.dataRangeOption.y, zrHeight);
-                y = isNaN(y) ? 0 : y;
-                break;
+                case 'top':
+                    y = padding[0] + this.dataRangeOption.borderWidth;
+                    break;
+                case 'bottom':
+                    y = zrHeight - totalHeight - padding[2] - this.dataRangeOption.borderWidth;
+                    break;
+                case 'center':
+                    y = Math.floor((zrHeight - totalHeight) / 2);
+                    break;
+                default:
+                    y = this.parsePercent(this.dataRangeOption.y, zrHeight);
+                    y = isNaN(y) ? 0 : y;
+                    break;
             }
             if (this.dataRangeOption.calculable) {
                 var handlerWidth = Math.max(zrArea.getTextWidth(this.dataRangeOption.max, font), zrArea.getTextWidth(this.dataRangeOption.min, font)) + textHeight;
@@ -1674,7 +1679,8 @@ define('echarts/chart/scatter', [
     zrUtil.inherits(DataRange, Base);
     require('../component').define('dataRange', DataRange);
     return DataRange;
-});define('echarts/util/shape/HandlePolygon', [
+});
+define('echarts/util/shape/HandlePolygon', [
     'require',
     'zrender/shape/Base',
     'zrender/shape/Polygon',
@@ -1683,9 +1689,11 @@ define('echarts/chart/scatter', [
     var Base = require('zrender/shape/Base');
     var PolygonShape = require('zrender/shape/Polygon');
     var zrUtil = require('zrender/tool/util');
+
     function HandlePolygon(options) {
         Base.call(this, options);
     }
+
     HandlePolygon.prototype = {
         type: 'handle-polygon',
         buildPath: function (ctx, style) {

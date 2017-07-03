@@ -8,6 +8,7 @@ import java.util.Map;
 
 /**
  * Persist AuditEvent managed by the Spring Boot actuator
+ *
  * @see org.springframework.boot.actuate.audit.AuditEvent
  */
 @Entity
@@ -31,7 +32,7 @@ public class PersistentAuditEvent {
     @ElementCollection
     @MapKeyColumn(name = "name")
     @Column(name = "value")
-    @CollectionTable(name = "jhi_persistent_audit_evt_data", joinColumns=@JoinColumn(name="event_id"))
+    @CollectionTable(name = "jhi_persistent_audit_evt_data", joinColumns = @JoinColumn(name = "event_id"))
     private Map<String, String> data = new HashMap<>();
 
     public Long getId() {

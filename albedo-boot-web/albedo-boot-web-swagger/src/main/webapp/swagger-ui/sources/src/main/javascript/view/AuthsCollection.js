@@ -1,7 +1,7 @@
 'use strict';
 
 SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
-    constructor: function() {
+    constructor: function () {
         var args = Array.prototype.slice.call(arguments);
 
         args[0] = this.parse(args[0]);
@@ -13,7 +13,7 @@ SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
         var args = Array.prototype.slice.call(arguments);
 
         if (Array.isArray(model)) {
-            args[0] = _.map(model, function(val) {
+            args[0] = _.map(model, function (val) {
                 return this.handleOne(val);
             }, this);
         } else {
@@ -26,7 +26,7 @@ SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
     handleOne: function (model) {
         var result = model;
 
-        if (! (model instanceof Backbone.Model) ) {
+        if (!(model instanceof Backbone.Model)) {
             switch (model.type) {
                 case 'oauth2':
                     result = new SwaggerUi.Models.Oauth2Model(model);
@@ -48,7 +48,7 @@ SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
     isValid: function () {
         var valid = true;
 
-        this.models.forEach(function(model) {
+        this.models.forEach(function (model) {
             if (!model.validate()) {
                 valid = false;
             }
@@ -58,11 +58,11 @@ SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
     },
 
     isAuthorized: function () {
-        return this.length === this.where({ isLogout: true }).length;
+        return this.length === this.where({isLogout: true}).length;
     },
 
     isPartiallyAuthorized: function () {
-        return this.where({ isLogout: true }).length > 0;
+        return this.where({isLogout: true}).length > 0;
     },
 
     parse: function (data) {

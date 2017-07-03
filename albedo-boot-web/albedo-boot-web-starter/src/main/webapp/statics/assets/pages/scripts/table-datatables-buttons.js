@@ -27,12 +27,12 @@ var TableDatatablesButtons = function () {
 
 
             buttons: [
-                { extend: 'print', className: 'btn dark btn-outline' },
-                { extend: 'copy', className: 'btn red btn-outline' },
-                { extend: 'pdf', className: 'btn green btn-outline' },
-                { extend: 'excel', className: 'btn yellow btn-outline ' },
-                { extend: 'csv', className: 'btn purple btn-outline ' },
-                { extend: 'colvis', className: 'btn dark btn-outline', text: 'Columns'}
+                {extend: 'print', className: 'btn dark btn-outline'},
+                {extend: 'copy', className: 'btn red btn-outline'},
+                {extend: 'pdf', className: 'btn green btn-outline'},
+                {extend: 'excel', className: 'btn yellow btn-outline '},
+                {extend: 'csv', className: 'btn purple btn-outline '},
+                {extend: 'colvis', className: 'btn dark btn-outline', text: 'Columns'}
             ],
 
             // setup responsive extension: http://datatables.net/extensions/responsive/
@@ -44,7 +44,7 @@ var TableDatatablesButtons = function () {
             "order": [
                 [0, 'asc']
             ],
-            
+
             "lengthMenu": [
                 [5, 10, 15, 20, -1],
                 [5, 10, 15, 20, "All"] // change per page values here
@@ -87,15 +87,15 @@ var TableDatatablesButtons = function () {
             //},
 
             buttons: [
-                { extend: 'print', className: 'btn default' },
-                { extend: 'copy', className: 'btn default' },
-                { extend: 'pdf', className: 'btn default' },
-                { extend: 'excel', className: 'btn default' },
-                { extend: 'csv', className: 'btn default' },
+                {extend: 'print', className: 'btn default'},
+                {extend: 'copy', className: 'btn default'},
+                {extend: 'pdf', className: 'btn default'},
+                {extend: 'excel', className: 'btn default'},
+                {extend: 'csv', className: 'btn default'},
                 {
                     text: 'Reload',
                     className: 'btn default',
-                    action: function ( e, dt, node, config ) {
+                    action: function (e, dt, node, config) {
                         //dt.ajax.reload();
                         alert('Custom Button');
                     }
@@ -105,7 +105,7 @@ var TableDatatablesButtons = function () {
             "order": [
                 [0, 'asc']
             ],
-            
+
             "lengthMenu": [
                 [5, 10, 15, 20, -1],
                 [5, 10, 15, 20, "All"] // change per page values here
@@ -139,6 +139,6 @@ var TableDatatablesButtons = function () {
 
 }();
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     TableDatatablesButtons.init();
 });

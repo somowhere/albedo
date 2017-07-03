@@ -40,7 +40,7 @@
                 if (d.hasClass("first") || b.onPrevious && "function" === typeof b.onPrevious && !1 === b.onPrevious(f, c, a.previousIndex())) return !1;
                 $index = a.previousIndex();
                 0 > $index || c.find('li:has([data-toggle="tab"]):eq(' + $index + ") a").tab("show")
-        };
+            };
         this.first = function (h) {
             if (b.onFirst && "function" === typeof b.onFirst && !1 === b.onFirst(f, c, a.firstIndex()) || d.hasClass("disabled")) return !1;
             c.find('li:has([data-toggle="tab"]):eq(0) a').tab("show")
@@ -68,7 +68,7 @@
         this.previousIndex =
             function () {
                 return c.find('li:has([data-toggle="tab"])').index(f) - 1
-        };
+            };
         this.navigationLength = function () {
             return c.find('li:has([data-toggle="tab"])').length - 1
         };

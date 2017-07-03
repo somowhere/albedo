@@ -5,22 +5,25 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 -->
 <html>
 
-    <head>
-        <meta charset="utf-8">
-        <title>Replace Textarea by Code &mdash; CKEditor Sample</title>
-        <script src="../ckeditor.js"></script>
-        <link href="sample.css" rel="stylesheet"> </head>
+<head>
+    <meta charset="utf-8">
+    <title>Replace Textarea by Code &mdash; CKEditor Sample</title>
+    <script src="../ckeditor.js"></script>
+    <link href="sample.css" rel="stylesheet">
+</head>
 
-    <body>
-        <h1 class="samples">
-            <a href="index.html">CKEditor Samples</a> &raquo; Replace Textarea Elements Using JavaScript Code </h1>
-        <form action="sample_posteddata.php" method="post">
-            <div class="description">
-                <p> This editor is using an <code>&lt;iframe&gt;</code> element-based editing area, provided by the
-                    <strong>Wysiwygarea</strong> plugin. </p> <pre class="samples">
+<body>
+<h1 class="samples">
+    <a href="index.html">CKEditor Samples</a> &raquo; Replace Textarea Elements Using JavaScript Code </h1>
+<form action="sample_posteddata.php" method="post">
+    <div class="description">
+        <p> This editor is using an <code>&lt;iframe&gt;</code> element-based editing area, provided by the
+            <strong>Wysiwygarea</strong> plugin. </p>
+        <pre class="samples">
 CKEDITOR.replace( '<em>textarea_id</em>' )
-</pre> </div>
-            <textarea cols="80" id="editor1" name="editor1" rows="10"> &lt;h1&gt;&lt;img alt=&quot;Saturn V carrying Apollo 11&quot; class=&quot;right&quot; src=&quot;assets/sample.jpg&quot;/&gt; Apollo 11&lt;/h1&gt; &lt;p&gt;&lt;b&gt;Apollo 11&lt;/b&gt; was the spaceflight that landed the first humans, Americans
+</pre>
+    </div>
+    <textarea cols="80" id="editor1" name="editor1" rows="10"> &lt;h1&gt;&lt;img alt=&quot;Saturn V carrying Apollo 11&quot; class=&quot;right&quot; src=&quot;assets/sample.jpg&quot;/&gt; Apollo 11&lt;/h1&gt; &lt;p&gt;&lt;b&gt;Apollo 11&lt;/b&gt; was the spaceflight that landed the first humans, Americans
                 &lt;a href=&quot;http://en.wikipedia.org/wiki/Neil_Armstrong&quot; title=&quot;Neil Armstrong&quot;&gt;Neil Armstrong&lt;/a&gt; and &lt;a href=&quot;http://en.wikipedia.org/wiki/Buzz_Aldrin&quot; title=&quot;Buzz Aldrin&quot;&gt;Buzz Aldrin&lt;/a&gt;,
                 on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.&lt;/p&gt; &lt;p&gt;Armstrong spent about &lt;s&gt;three and a half&lt;/s&gt; two and a half hours
                 outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&amp;nbsp;kg) of lunar material for return to Earth. A third member of the mission, &lt;a href=&quot;http://en.wikipedia.org/wiki/Michael_Collins_(astronaut)&quot;
@@ -41,25 +44,25 @@ CKEDITOR.replace( '<em>textarea_id</em>' )
                 title=&quot;Mare Tranquillitatis&quot;&gt;Sea of Tranquility&lt;/a&gt;. They stayed a total of about 21 and a half hours on the lunar surface. After lifting off in the upper part of the Lunar Module and rejoining Collins in the Command
                 Module, they returned to Earth and landed in the &lt;a href=&quot;http://en.wikipedia.org/wiki/Pacific_Ocean&quot; title=&quot;Pacific Ocean&quot;&gt;Pacific Ocean&lt;/a&gt; on July 24.&lt;/p&gt; &lt;hr/&gt; &lt;p style=&quot;text-align:
                 right;&quot;&gt;&lt;small&gt;Source: &lt;a href=&quot;http://en.wikipedia.org/wiki/Apollo_11&quot;&gt;Wikipedia.org&lt;/a&gt;&lt;/small&gt;&lt;/p&gt; </textarea>
-            <script>
-                // This call can be placed at any point after the
-                // <textarea>, or inside a <head><script> in a
-                // window.onload event handler.
-                // Replace the <textarea id="editor"> with an CKEditor
-                // instance, using default configurations.
-                CKEDITOR.replace('editor1');
-            </script>
-            <p>
-                <input type="submit" value="Submit"> </p>
-        </form>
-        <div id="footer">
-            <hr>
-            <p> CKEditor - The text editor for the Internet -
-                <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
-            </p>
-            <p id="copy"> Copyright &copy; 2003-2014,
-                <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved. </p>
-        </div>
-    </body>
+    <script>
+        // This call can be placed at any point after the
+        // <textarea>, or inside a <head><script> in a
+        // window.onload event handler.
+        // Replace the <textarea id="editor"> with an CKEditor
+        // instance, using default configurations.
+        CKEDITOR.replace('editor1');
+    </script>
+    <p>
+        <input type="submit" value="Submit"></p>
+</form>
+<div id="footer">
+    <hr>
+    <p> CKEditor - The text editor for the Internet -
+        <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+    </p>
+    <p id="copy"> Copyright &copy; 2003-2014,
+        <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved. </p>
+</div>
+</body>
 
 </html>

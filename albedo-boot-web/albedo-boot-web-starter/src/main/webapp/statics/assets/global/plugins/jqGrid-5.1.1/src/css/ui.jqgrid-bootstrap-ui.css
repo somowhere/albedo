@@ -8,17 +8,23 @@ and open the template in the editor.
     Author     : tony
 */
 
-.ui-jqgrid tr.jqgrow td { height: 26px;}
-.ui-jqgrid .ui-pg-input,.ui-jqgrid .ui-jqgrid-toppager .ui-pg-input { height:20px }
-.ui-state-hover
-{
+.ui-jqgrid tr.jqgrow td {
+    height: 26px;
+}
+
+.ui-jqgrid .ui-pg-input, .ui-jqgrid .ui-jqgrid-toppager .ui-pg-input {
+    height: 20px
+}
+
+.ui-state-hover {
     border: .15em solid;
-	border-color: inherit;
+    border-color: inherit;
 
 }
-.ui-jqdialog .ui-jqdialog-titlebar  {
-	height:29px;
-	border-color: inherit;
+
+.ui-jqdialog .ui-jqdialog-titlebar {
+    height: 29px;
+    border-color: inherit;
 }
 
 .ui-jqdialog-content input.FormElement {
@@ -26,6 +32,10 @@ and open the template in the editor.
 }
 
 .fm-button {
-    height:30px;
+    height: 30px;
 }
-#nData, #pData { height:20px; width:18px; }
+
+#nData, #pData {
+    height: 20px;
+    width: 18px;
+}

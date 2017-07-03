@@ -15,17 +15,17 @@ glob('geoJson/*.json', {}, function (err, files) {
         if (!features) {
             return;
         }
-        features.forEach(function (feature){
+        features.forEach(function (feature) {
             var encodeOffsets = feature.geometry.encodeOffsets = [];
             var coordinates = feature.geometry.coordinates;
             if (feature.geometry.type === 'Polygon') {
-                coordinates.forEach(function (coordinate, idx){
+                coordinates.forEach(function (coordinate, idx) {
                     coordinates[idx] = encodePolygon(
                         coordinate, encodeOffsets[idx] = []
                     );
                 });
-            } else if(feature.geometry.type === 'MultiPolygon') {
-                coordinates.forEach(function (polygon, idx1){
+            } else if (feature.geometry.type === 'MultiPolygon') {
+                coordinates.forEach(function (polygon, idx1) {
                     encodeOffsets[idx1] = [];
                     polygon.forEach(function (coordinate, idx2) {
                         coordinates[idx1][idx2] = encodePolygon(
@@ -52,8 +52,8 @@ function encodePolygon(coordinate, encodeOffsets) {
 
     for (var i = 0; i < coordinate.length; i++) {
         var point = coordinate[i];
-        result+=encode(point[0], prevX);
-        result+=encode(point[1], prevY);
+        result += encode(point[0], prevX);
+        result += encode(point[1], prevY);
 
         prevX = quantize(point[0]);
         prevY = quantize(point[1]);
@@ -64,25 +64,25 @@ function encodePolygon(coordinate, encodeOffsets) {
 
 function addAMDWrapper(jsonStr) {
     return ['define(function() {',
-                '    return ' + jsonStr + ';',
-            '});'].join('\n');
+        '    return ' + jsonStr + ';',
+        '});'].join('\n');
 }
 
-function encode(val, prev){
+function encode(val, prev) {
     // Quantization
     val = quantize(val);
     // var tmp = val;
     // Delta
     val = val - prev;
 
-    if (((val << 1) ^ (val >> 15)) + 64 === 8232) { 
+    if (((val << 1) ^ (val >> 15)) + 64 === 8232) {
         //WTF, 8232 will get syntax error in js code
         val--;
     }
     // ZigZag
     val = (val << 1) ^ (val >> 15);
     // add offset and get unicode
-    return String.fromCharCode(val+64);
+    return String.fromCharCode(val + 64);
     // var tmp = {'tmp' : str};
     // try{
     //     eval("(" + JSON.stringify(tmp) + ")");

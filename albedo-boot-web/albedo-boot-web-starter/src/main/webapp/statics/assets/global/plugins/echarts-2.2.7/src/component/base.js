@@ -11,11 +11,11 @@ define(function (require) {
     var ecQuery = require('../util/ecQuery');
     var number = require('../util/number');
     var zrUtil = require('zrender/tool/util');
-    
-    function Base(ecTheme, messageCenter, zr, option, myChart){
+
+    function Base(ecTheme, messageCenter, zr, option, myChart) {
         this.ecTheme = ecTheme;
         this.messageCenter = messageCenter;
-        this.zr =zr;
+        this.zr = zr;
         this.option = option;
         this.series = option.series;
         this.myChart = myChart;
@@ -23,20 +23,20 @@ define(function (require) {
 
         this.shapeList = [];
         this.effectList = [];
-        
+
         var self = this;
-        
-        self._onlegendhoverlink = function(param) {
+
+        self._onlegendhoverlink = function (param) {
             if (self.legendHoverLink) {
                 var targetName = param.target;
                 var name;
                 for (var i = self.shapeList.length - 1; i >= 0; i--) {
                     name = self.type == ecConfig.CHART_TYPE_PIE
-                           || self.type == ecConfig.CHART_TYPE_FUNNEL
-                           ? ecData.get(self.shapeList[i], 'name')
-                           : (ecData.get(self.shapeList[i], 'series') || {}).name;
-                    if (name == targetName 
-                        && !self.shapeList[i].invisible 
+                    || self.type == ecConfig.CHART_TYPE_FUNNEL
+                        ? ecData.get(self.shapeList[i], 'name')
+                        : (ecData.get(self.shapeList[i], 'series') || {}).name;
+                    if (name == targetName
+                        && !self.shapeList[i].invisible
                         && !self.shapeList[i].__animating
                     ) {
                         self.zr.addHoverShape(self.shapeList[i]);
@@ -54,7 +54,7 @@ define(function (require) {
      */
     Base.prototype = {
         canvasSupported: require('zrender/tool/env').canvasSupported,
-        _getZ : function(zWhat) {
+        _getZ: function (zWhat) {
             if (this[zWhat] != null) {
                 return this[zWhat];
             }
@@ -75,11 +75,11 @@ define(function (require) {
         getZlevelBase: function () {
             return this._getZ('zlevel');
         },
-        
+
         /**
          * 获取z基数配置
          */
-        getZBase: function() {
+        getZBase: function () {
             return this._getZ('z');
         },
 
@@ -92,17 +92,17 @@ define(function (require) {
         reformOption: function (opt) {
             // 默认配置项动态多级合并，依赖加载的组件选项未被merge到ecTheme里，需要从config里取
             opt = zrUtil.merge(
-                       zrUtil.merge(
-                           opt || {},
-                           zrUtil.clone(this.ecTheme[this.type] || {})
-                       ),
-                       zrUtil.clone(ecConfig[this.type] || {})
-                   );
+                zrUtil.merge(
+                    opt || {},
+                    zrUtil.clone(this.ecTheme[this.type] || {})
+                ),
+                zrUtil.clone(ecConfig[this.type] || {})
+            );
             this.z = opt.z;
             this.zlevel = opt.zlevel;
             return opt;
         },
-        
+
         /**
          * css类属性数组补全，如padding，margin等~
          */
@@ -125,8 +125,8 @@ define(function (require) {
                 return [p, p, p, p];
             }
         },
-        
-        getShapeById: function(id) {
+
+        getShapeById: function (id) {
             for (var i = 0, l = this.shapeList.length; i < l; i++) {
                 if (this.shapeList[i].id === id) {
                     return this.shapeList[i];
@@ -134,7 +134,7 @@ define(function (require) {
             }
             return null;
         },
-        
+
         /**
          * 获取自定义和默认配置合并后的字体设置
          */
@@ -143,38 +143,38 @@ define(function (require) {
                 zrUtil.clone(textStyle)
             );
             return finalTextStyle.fontStyle + ' '
-                   + finalTextStyle.fontWeight + ' '
-                   + finalTextStyle.fontSize + 'px '
-                   + finalTextStyle.fontFamily;
+                + finalTextStyle.fontWeight + ' '
+                + finalTextStyle.fontSize + 'px '
+                + finalTextStyle.fontFamily;
         },
 
         /**
          * 获取统一主题字体样式
          */
-        getTextStyle: function(targetStyle) {
+        getTextStyle: function (targetStyle) {
             return zrUtil.merge(
-                       zrUtil.merge(
-                           targetStyle || {},
-                           this.ecTheme.textStyle
-                       ),
-                       ecConfig.textStyle
-                   );
+                zrUtil.merge(
+                    targetStyle || {},
+                    this.ecTheme.textStyle
+                ),
+                ecConfig.textStyle
+            );
         },
-        
+
         getItemStyleColor: function (itemColor, seriesIndex, dataIndex, data) {
             return typeof itemColor === 'function'
-                   ? itemColor.call(
-                        this.myChart,
-                        {
-                            seriesIndex: seriesIndex,
-                            series: this.series[seriesIndex],
-                            dataIndex: dataIndex,
-                            data: data
-                        }
-                   )
-                   : itemColor;
-            
-        }, 
+                ? itemColor.call(
+                    this.myChart,
+                    {
+                        seriesIndex: seriesIndex,
+                        series: this.series[seriesIndex],
+                        dataIndex: dataIndex,
+                        data: data
+                    }
+                )
+                : itemColor;
+
+        },
 
         /**
          * @parmas {object | number} data 目标data
@@ -183,7 +183,7 @@ define(function (require) {
         getDataFromOption: function (data, defaultData) {
             return data != null ? (data.value != null ? data.value : data) : defaultData;
         },
-        
+
         // 亚像素优化
         subPixelOptimize: function (position, lineWidth) {
             if (lineWidth % 2 === 1) {
@@ -195,21 +195,21 @@ define(function (require) {
             }
             return position;
         },
-        
+
         // 默认resize
         resize: function () {
             this.refresh && this.refresh();
             this.clearEffectShape && this.clearEffectShape(true);
             var self = this;
-            setTimeout(function(){
+            setTimeout(function () {
                 self.animationEffect && self.animationEffect();
-            },200);
+            }, 200);
         },
 
         /**
          * 清除图形数据，实例仍可用
          */
-        clear :function () {
+        clear: function () {
             this.clearEffectShape && this.clearEffectShape();
             this.zr && this.zr.delShape(this.shapeList);
             this.shapeList = [];
@@ -228,11 +228,11 @@ define(function (require) {
             );
             this.onafterDispose && this.onafterDispose();
         },
-        
+
         query: ecQuery.query,
         deepQuery: ecQuery.deepQuery,
         deepMerge: ecQuery.deepMerge,
-        
+
         parsePercent: number.parsePercent,
         parseCenter: number.parseCenter,
         parseRadius: number.parseRadius,
@@ -240,6 +240,6 @@ define(function (require) {
 
         getPrecision: number.getPrecision
     };
-    
+
     return Base;
 });

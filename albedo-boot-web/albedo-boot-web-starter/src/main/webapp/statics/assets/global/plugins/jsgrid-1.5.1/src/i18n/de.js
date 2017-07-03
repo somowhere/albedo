@@ -1,4 +1,4 @@
-(function(jsGrid) {
+(function (jsGrid) {
 
     jsGrid.locales.de = {
         grid: {
@@ -32,14 +32,14 @@
         },
 
         validators: {
-            required: { message: "Dies ist ein Pflichtfeld" },
-            rangeLength: { message: "Die Länge der Eingabe liegt außerhalb des zulässigen Bereichs" },
-            minLength: { message: "Die Eingabe ist zu kurz" },
-            maxLength: { message: "Die Eingabe ist zu lang" },
-            pattern: { message: "Die Eingabe entspricht nicht dem gewünschten Muster" },
-            range: { message: "Der eingegebene Wert liegt außerhalb des zulässigen Bereichs" },
-            min: { message: "Der eingegebene Wert ist zu niedrig" },
-            max: { message: "Der eingegebene Wert ist zu hoch" }
+            required: {message: "Dies ist ein Pflichtfeld"},
+            rangeLength: {message: "Die Länge der Eingabe liegt außerhalb des zulässigen Bereichs"},
+            minLength: {message: "Die Eingabe ist zu kurz"},
+            maxLength: {message: "Die Eingabe ist zu lang"},
+            pattern: {message: "Die Eingabe entspricht nicht dem gewünschten Muster"},
+            range: {message: "Der eingegebene Wert liegt außerhalb des zulässigen Bereichs"},
+            min: {message: "Der eingegebene Wert ist zu niedrig"},
+            max: {message: "Der eingegebene Wert ist zu hoch"}
         }
     };
 

@@ -203,7 +203,7 @@ public class MybatisSimpleRepositoryMapperGenerator {
                     builder.append(dialect.wrapColumnName(property.getColumnName())).append("=").append(dialect.wrapColumnName(property.getColumnName())).append("+1,");
                     return;
                 }
-                if(!property.updatable()) return;
+                if (!property.updatable()) return;
                 if (ignoreNull) {
                     builder.append("<if test=\"" + property.getName() + " != null\">");
                 }
@@ -243,7 +243,7 @@ public class MybatisSimpleRepositoryMapperGenerator {
 
                 if ((ass instanceof MybatisManyToOneAssociation)) {
                     MybatisManyToOneAssociation association = (MybatisManyToOneAssociation) ass;
-                    if(!association.updatable()) return;
+                    if (!association.updatable()) return;
                     if (ignoreNull) {
                         builder.append("<if test=\"" + association.getInverse().getName() + " != null and " + association.getInverse().getName() + "." + association.getObverse().getName() + " != null\">");
                     }
@@ -460,7 +460,7 @@ public class MybatisSimpleRepositoryMapperGenerator {
 
     private String buildCondition() {
         final StringBuilder builder = new StringBuilder();
-        if(persistentEntity.findAnnotation(DynamicSearch.class) != null){
+        if (persistentEntity.findAnnotation(DynamicSearch.class) != null) {
             builder.append(" ${_sqlConditionDsf} ");
         }
         persistentEntity.doWithProperties(new PropertyHandler<MybatisPersistentProperty>() {
@@ -683,7 +683,7 @@ public class MybatisSimpleRepositoryMapperGenerator {
                         return;
                     }
                 }
-                if(!property.insertable()) return;
+                if (!property.insertable()) return;
                 builder.append(dialect.wrapColumnName(property.getColumnName())).append(",");
             }
         });
@@ -709,7 +709,7 @@ public class MybatisSimpleRepositoryMapperGenerator {
 
                 if ((ass instanceof MybatisManyToOneAssociation)) {
                     MybatisManyToOneAssociation association = (MybatisManyToOneAssociation) ass;
-                    if(!association.insertable()) return;
+                    if (!association.insertable()) return;
                     builder.append(dialect.wrapColumnName(association.getJoinColumnName())).append(",");
                     return;
                 }
@@ -741,7 +741,7 @@ public class MybatisSimpleRepositoryMapperGenerator {
                         }
                         return;
                     }
-                    if(!property.insertable()) return;
+                    if (!property.insertable()) return;
                     IdentityColumnSupport identityColumnSupport = dialect.getIdentityColumnSupport();
                     if (property.getIdGenerationType() == IDENTITY || (property.getIdGenerationType() == AUTO && identityColumnSupport.supportsIdentityColumns())) {
                         return;
@@ -774,7 +774,7 @@ public class MybatisSimpleRepositoryMapperGenerator {
                 }
                 if ((ass instanceof MybatisManyToOneAssociation)) {
                     MybatisManyToOneAssociation association = (MybatisManyToOneAssociation) ass;
-                    if(!association.insertable()) return;
+                    if (!association.insertable()) return;
                     builder.append("#{").append(association.getInverse().getName()).append(".").append(association.getObverse().getName()).append(",jdbcType=").append(association.getObverse().getJdbcType()).append("},");
                     return;
                 }

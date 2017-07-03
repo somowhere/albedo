@@ -63,9 +63,11 @@ exports.modules = {
         {name: 'echarts/chart/treemap', weight: 10},
         {name: 'echarts/chart/tree', weight: 10},
         {name: 'echarts/chart/wordCloud', weight: 10},
-        {name: 'echarts/chart/heatmap', weight: 10, includeShallow: [
+        {
+            name: 'echarts/chart/heatmap', weight: 10, includeShallow: [
             'echarts/layer/heatmap'
-        ]}
+        ]
+        }
     ]
 };
 

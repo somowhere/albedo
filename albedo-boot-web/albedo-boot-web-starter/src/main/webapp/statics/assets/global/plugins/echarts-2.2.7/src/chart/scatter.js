@@ -7,7 +7,7 @@
  */
 define(function (require) {
     var ChartBase = require('./base');
-    
+
     // 图形依赖
     var SymbolShape = require('../util/shape/Symbol');
     // 组件依赖
@@ -15,7 +15,7 @@ define(function (require) {
     require('../component/grid');
     require('../component/dataZoom');
     require('../component/dataRange');
-    
+
     var ecConfig = require('../config');
     // 散点图默认参数
     ecConfig.scatter = {
@@ -56,7 +56,7 @@ define(function (require) {
 
     var zrUtil = require('zrender/tool/util');
     var zrColor = require('zrender/tool/color');
-    
+
     /**
      * 构造函数
      * @param {Object} messageCenter echart消息中心
@@ -64,13 +64,13 @@ define(function (require) {
      * @param {Object} series 数据
      * @param {Object} component 组件
      */
-    function Scatter(ecTheme, messageCenter, zr, option, myChart){
+    function Scatter(ecTheme, messageCenter, zr, option, myChart) {
         // 图表基类
         ChartBase.call(this, ecTheme, messageCenter, zr, option, myChart);
 
         this.refresh(option);
     }
-    
+
     Scatter.prototype = {
         type: ecConfig.CHART_TYPE_SCATTER,
         /**
@@ -81,10 +81,10 @@ define(function (require) {
             this._sIndex2ColorMap = {};  // series默认颜色索引，seriesIndex索引到color
             this._symbol = this.option.symbolList;
             this._sIndex2ShapeMap = {};  // series图形类型，seriesIndex索引到_symbol
-            
+
             this.selectedMap = {};
             this.xMarkMap = {};
-            
+
             var legend = this.component.legend;
             var seriesArray = [];
             var serie;                              // 临时映射变量
@@ -98,30 +98,30 @@ define(function (require) {
                     series[i] = this.reformOption(series[i]);
                     this.legendHoverLink = series[i].legendHoverLink || this.legendHoverLink;
                     this._sIndex2ShapeMap[i] = this.query(serie, 'symbol')
-                                          || this._symbol[i % this._symbol.length];
-                    if (legend){
+                        || this._symbol[i % this._symbol.length];
+                    if (legend) {
                         this.selectedMap[serieName] = legend.isSelected(serieName);
                         this._sIndex2ColorMap[i] = zrColor.alpha(legend.getColor(serieName), 0.5);
-                            
+
                         iconShape = legend.getItemShape(serieName);
                         if (iconShape) {
                             // 回调legend，换一个更形象的icon
                             var iconType = this._sIndex2ShapeMap[i];
                             iconShape.style.brushType = iconType.match('empty') ? 'stroke' : 'both';
                             iconType = iconType.replace('empty', '').toLowerCase();
-                            
+
                             if (iconType.match('rectangle')) {
                                 iconShape.style.x += Math.round(
                                     (iconShape.style.width - iconShape.style.height) / 2
                                 );
                                 iconShape.style.width = iconShape.style.height;
                             }
-                            
+
                             if (iconType.match('star')) {
-                                iconShape.style.n = (iconType.replace('star','') - 0) || 5;
+                                iconShape.style.n = (iconType.replace('star', '') - 0) || 5;
                                 iconType = 'star';
                             }
-                            
+
                             if (iconType.match('image')) {
                                 iconShape.style.image = iconType.replace(
                                     new RegExp('^image:\\/\\/'), ''
@@ -132,24 +132,24 @@ define(function (require) {
                                 iconShape.style.width = iconShape.style.height;
                                 iconType = 'image';
                             }
-            
+
                             iconShape.style.iconType = iconType;
                             legend.setItemShape(serieName, iconShape);
                         }
-                    } 
+                    }
                     else {
                         this.selectedMap[serieName] = true;
                         this._sIndex2ColorMap[i] = zrColor.alpha(this.zr.getColor(i), 0.5);
                     }
-                      
+
                     if (this.selectedMap[serieName]) {
                         seriesArray.push(i);
                     }
                 }
             }
-            
+
             this._buildSeries(seriesArray);
-            
+
             this.addShapeList();
         },
 
@@ -166,7 +166,7 @@ define(function (require) {
             var data;
             var value;
             var xAxis;
-            var yAxis; 
+            var yAxis;
 
             var pointList = {};
             var x;
@@ -177,10 +177,10 @@ define(function (require) {
                 if (serie.data.length === 0) {
                     continue;
                 }
-                
+
                 xAxis = this.component.xAxis.getAxis(serie.xAxisIndex || 0);
                 yAxis = this.component.yAxis.getAxis(serie.yAxisIndex || 0);
-                
+
                 pointList[seriesIndex] = [];
                 for (var i = 0, l = serie.data.length; i < l; i++) {
                     data = serie.data[i];
@@ -197,18 +197,18 @@ define(function (require) {
                         i,                  // 数据index
                         data.name || ''     // 名称
                     ]);
-                    
+
                 }
                 this.xMarkMap[seriesIndex] = this._markMap(
                     xAxis, yAxis, serie.data, pointList[seriesIndex]
-                ); 
+                );
                 this.buildMark(seriesIndex);
             }
-            
+
             // console.log(pointList)
             this._buildPointList(pointList);
         },
-        
+
         _markMap: function (xAxis, yAxis, data, pointList) {
             var xMarkMap = {
                 min0: Number.POSITIVE_INFINITY,
@@ -225,10 +225,10 @@ define(function (require) {
             var value;
             for (var i = 0, l = pointList.length; i < l; i++) {
                 /**
-                x,                  // 横坐标
-                y,                  // 纵坐标
-                i,                  // 数据index
-                data.name || ''     // 名称 
+                 x,                  // 横坐标
+                 y,                  // 纵坐标
+                 i,                  // 数据index
+                 data.name || ''     // 名称
                  */
                 value = data[pointList[i][2]].value || data[pointList[i][2]];
                 // 横轴
@@ -244,7 +244,7 @@ define(function (require) {
                 }
                 xMarkMap.sum0 += value[0];
                 xMarkMap.counter0++;
-                
+
                 // 纵轴
                 if (xMarkMap.min1 > value[1]) {
                     xMarkMap.min1 = value[1];
@@ -259,14 +259,14 @@ define(function (require) {
                 xMarkMap.sum1 += value[1];
                 xMarkMap.counter1++;
             }
-            
+
             var gridX = this.component.grid.getX();
             var gridXend = this.component.grid.getXend();
             var gridY = this.component.grid.getY();
             var gridYend = this.component.grid.getYend();
-            
+
             xMarkMap.average0 = xMarkMap.sum0 / xMarkMap.counter0;
-            var x = xAxis.getCoord(xMarkMap.average0); 
+            var x = xAxis.getCoord(xMarkMap.average0);
             // 横轴平均纵向
             xMarkMap.averageLine0 = [
                 [x, gridYend],
@@ -280,7 +280,7 @@ define(function (require) {
                 [xMarkMap.maxX0, gridYend],
                 [xMarkMap.maxX0, gridY]
             ];
-            
+
             xMarkMap.average1 = xMarkMap.sum1 / xMarkMap.counter1;
             var y = yAxis.getCoord(xMarkMap.average1);
             // 纵轴平均横向
@@ -296,10 +296,10 @@ define(function (require) {
                 [gridX, xMarkMap.maxY1],
                 [gridXend, xMarkMap.maxY1]
             ];
-            
+
             return xMarkMap;
         },
-        
+
         /**
          * 生成折线和折线上的拐点
          */
@@ -311,11 +311,11 @@ define(function (require) {
             var shape;
             for (var seriesIndex in pointList) {
                 serie = series[seriesIndex];
-                seriesPL = pointList[seriesIndex];                
+                seriesPL = pointList[seriesIndex];
                 if (serie.large && serie.data.length > serie.largeThreshold) {
                     this.shapeList.push(this._getLargeSymbol(
                         serie,
-                        seriesPL, 
+                        seriesPL,
                         this.getItemStyleColor(
                             this.query(
                                 serie, 'itemStyle.normal.color'
@@ -335,7 +335,7 @@ define(function (require) {
                  *      3  名称
                  * ]
                  */
-                
+
                 for (var i = 0, l = seriesPL.length; i < l; i++) {
                     singlePoint = seriesPL[i];
                     shape = this._getSymbol(
@@ -358,13 +358,13 @@ define(function (require) {
             var series = this.series;
             var serie = series[seriesIndex];
             var data = serie.data[dataIndex];
-            
+
             var dataRange = this.component.dataRange;
             var rangColor;
             if (dataRange) {
-                rangColor = isNaN(data[2]) 
-                            ? this._sIndex2ColorMap[seriesIndex]
-                            : dataRange.getColor(data[2]);
+                rangColor = isNaN(data[2])
+                    ? this._sIndex2ColorMap[seriesIndex]
+                    : dataRange.getColor(data[2]);
                 if (!rangColor) {
                     return null;
                 }
@@ -372,22 +372,22 @@ define(function (require) {
             else {
                 rangColor = this._sIndex2ColorMap[seriesIndex];
             }
-            
+
             var itemShape = this.getSymbolShape(
-                serie, seriesIndex, data, dataIndex, name, 
+                serie, seriesIndex, data, dataIndex, name,
                 x, y,
-                this._sIndex2ShapeMap[seriesIndex], 
+                this._sIndex2ShapeMap[seriesIndex],
                 rangColor,
                 'rgba(0,0,0,0)',
                 'vertical'
             );
             itemShape.zlevel = serie.zlevel;
             itemShape.z = serie.z;
-            
+
             itemShape._main = true;
             return itemShape;
         },
-        
+
         _getLargeSymbol: function (serie, pointList, nColor) {
             return new SymbolShape({
                 zlevel: serie.zlevel,
@@ -404,7 +404,7 @@ define(function (require) {
                 }
             });
         },
-        
+
         // 位置转换
         getMarkCoord: function (seriesIndex, mpData) {
             var serie = this.series[seriesIndex];
@@ -412,7 +412,7 @@ define(function (require) {
             var xAxis = this.component.xAxis.getAxis(serie.xAxisIndex);
             var yAxis = this.component.yAxis.getAxis(serie.yAxisIndex);
             var pos;
-            
+
             if (mpData.type
                 && (mpData.type === 'max' || mpData.type === 'min' || mpData.type === 'average')
             ) {
@@ -431,13 +431,13 @@ define(function (require) {
                     typeof mpData.xAxis != 'string' && xAxis.getCoordByIndex
                         ? xAxis.getCoordByIndex(mpData.xAxis || 0)
                         : xAxis.getCoord(mpData.xAxis || 0),
-                    
+
                     typeof mpData.yAxis != 'string' && yAxis.getCoordByIndex
                         ? yAxis.getCoordByIndex(mpData.yAxis || 0)
                         : yAxis.getCoord(mpData.yAxis || 0)
                 ];
             }
-            
+
             return pos;
         },
 
@@ -449,11 +449,11 @@ define(function (require) {
                 this.option = newOption;
                 this.series = newOption.series;
             }
-            
+
             this.backupShapeList();
             this._buildShape();
         },
-        
+
         /**
          * 值域响应
          * @param {Object} param
@@ -467,11 +467,11 @@ define(function (require) {
             return;
         }
     };
-    
+
     zrUtil.inherits(Scatter, ChartBase);
-    
+
     // 图表注册
     require('../chart').define('scatter', Scatter);
-    
+
     return Scatter;
 });

@@ -1,5 +1,4 @@
 describe 'Morris.Grid#yLabelFormat', ->
-
   it 'should use custom formatter for y labels', ->
     formatter = (label) ->
       flabel = parseFloat(label) / 1000

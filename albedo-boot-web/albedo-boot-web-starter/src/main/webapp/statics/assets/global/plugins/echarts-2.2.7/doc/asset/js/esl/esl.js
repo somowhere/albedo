@@ -83,16 +83,16 @@ var esl;
      * @type {Object}
      */
     var requireConf = {
-        baseUrl    : './',
-        paths      : {},
-        config     : {},
-        map        : {},
-        packages   : [],
+        baseUrl: './',
+        paths: {},
+        config: {},
+        map: {},
+        packages: [],
         // #begin-ignore
         waitSeconds: 0,
         // #end-ignore
-        noRequests : {},
-        urlArgs    : {}
+        noRequests: {},
+        urlArgs: {}
     };
     /* eslint-enable key-spacing */
 
@@ -250,6 +250,7 @@ var esl;
             );
         }
     }
+
     // #end-ignore
 
     /**
@@ -385,19 +386,19 @@ var esl;
         if (!modModules[id]) {
             /* eslint-disable key-spacing */
             modModules[id] = {
-                id          : id,
-                depsDec     : dependencies,
-                deps        : dependencies || ['require', 'exports', 'module'],
-                factoryDeps : [],
-                factory     : factory,
-                exports     : {},
-                config      : moduleConfigGetter,
-                state       : MODULE_PRE_DEFINED,
-                require     : createLocalRequire(id),
-                depMs       : [],
-                depMkv      : {},
-                depRs       : [],
-                depPMs      : []
+                id: id,
+                depsDec: dependencies,
+                deps: dependencies || ['require', 'exports', 'module'],
+                factoryDeps: [],
+                factory: factory,
+                exports: {},
+                config: moduleConfigGetter,
+                state: MODULE_PRE_DEFINED,
+                require: createLocalRequire(id),
+                depMs: [],
+                depMkv: {},
+                depRs: [],
+                depPMs: []
             };
             /* eslint-enable key-spacing */
         }
@@ -821,8 +822,8 @@ var esl;
 
                         if (!noRequests[id]) {
                             (id.indexOf('!') > 0
-                                ? loadResource
-                                : loadModule
+                                    ? loadResource
+                                    : loadModule
                             )(id, baseId);
                         }
 
@@ -1264,6 +1265,7 @@ var esl;
      */
     function createLocalRequire(baseId) {
         var requiredCache = {};
+
         function req(requireId, callback) {
             if (typeof requireId === 'string') {
                 if (!requiredCache[requireId]) {
@@ -1418,7 +1420,7 @@ var esl;
                     function (resId) {
                         return normalize(resId, baseId);
                     }
-                  )
+                )
                 : normalize(resourceId, baseId);
 
             moduleId += '!' + resourceId;

@@ -1,11 +1,11 @@
 /**
-Custom module for you to write your own javascript functions
-**/
+ Custom module for you to write your own javascript functions
+ **/
 var Custom = function () {
 
     // private functions & variables
 
-    var myFunc = function(text) {
+    var myFunc = function (text) {
         alert(text);
     }
 
@@ -26,11 +26,11 @@ var Custom = function () {
 
 }();
 
-jQuery(document).ready(function() {    
-   Custom.init(); 
+jQuery(document).ready(function () {
+    Custom.init();
 });
 
 /***
-Usage
-***/
+ Usage
+ ***/
 //Custom.doSomeStuff();

@@ -36,10 +36,10 @@ public class PageableParameterBuilderPlugin implements ParameterBuilderPlugin {
     private Function<ResolvedType, ? extends ModelReference>
     createModelRefFactory(ParameterContext context) {
         ModelContext modelContext = ModelContext.inputParam(context.methodParameter().getParameterType(),
-            context.getDocumentationType(),
-            context.getAlternateTypeProvider(),
-            context.getGenericNamingStrategy(),
-            context.getIgnorableParameterTypes());
+                context.getDocumentationType(),
+                context.getAlternateTypeProvider(),
+                context.getGenericNamingStrategy(),
+                context.getIgnorableParameterTypes());
         return ResolvedTypes.modelRefFactory(modelContext, nameExtractor);
     }
 
@@ -49,24 +49,24 @@ public class PageableParameterBuilderPlugin implements ParameterBuilderPlugin {
         Class<?> type = parameter.getParameterType();
         if (type != null && Pageable.class.isAssignableFrom(type)) {
             Function<ResolvedType, ? extends ModelReference> factory =
-                createModelRefFactory(context);
+                    createModelRefFactory(context);
 
             ModelReference intModel = factory.apply(resolver.resolve(Integer.TYPE));
             ModelReference stringModel = factory.apply(resolver.resolve(List.class, String.class));
 
             List<Parameter> parameters = Lists.newArrayList(
-                context.parameterBuilder()
-                    .parameterType("query").name("page").modelRef(intModel)
-                    .description("Page number of the requested page")
-                    .build(),
-                context.parameterBuilder()
-                    .parameterType("query").name("size").modelRef(intModel)
-                    .description("Size of a page")
-                    .build(),
-                context.parameterBuilder()
-                    .parameterType("query").name("sort").modelRef(stringModel).allowMultiple(true)
-                    .description("Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.")
-                    .build(),
+                    context.parameterBuilder()
+                            .parameterType("query").name("page").modelRef(intModel)
+                            .description("Page number of the requested page")
+                            .build(),
+                    context.parameterBuilder()
+                            .parameterType("query").name("size").modelRef(intModel)
+                            .description("Size of a page")
+                            .build(),
+                    context.parameterBuilder()
+                            .parameterType("query").name("sort").modelRef(stringModel).allowMultiple(true)
+                            .description("Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.")
+                            .build(),
                     context.parameterBuilder()
                             .parameterType("query").name("queryConditionJson").modelRef(stringModel).allowMultiple(true)
                             .description("search json [{\"fieldName\":\"name\",\"attrType\":\"String\",\"fieldNode\":\"\",\"operate\":\"like\",\"weight\":0,\"value\":\"g\"},{\"fieldName\":\"status\",\"attrType\":\"Integer\",\"fieldNode\":\"\",\"operate\":\"in\",\"weight\":0,\"value\":\"-1\"}]}")

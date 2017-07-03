@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: Mathematica mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel=stylesheet href=../../lib/codemirror.css>
 <script src=../../lib/codemirror.js></script>
@@ -20,16 +20,16 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">Mathematica</a>
+        <li>
+            <a class=active href="#">Mathematica</a>
     </ul>
 </div>
 <article>
@@ -40,11 +40,11 @@
         *) vars = Join[xv, lv]; dual = GroebnerBasis[polys, uv, vars]; (* Ersetze u mit x im Ergebnis. *) ReplaceAll[dual, Rule[u, x]] ] ] </textarea>
     <script>
         var mathematicaEditor = CodeMirror.fromTextArea(document.getElementById('mathematicaCode'),
-        {
-            mode: 'text/x-mathematica',
-            lineNumbers: true,
-            matchBrackets: true
-        });
+            {
+                mode: 'text/x-mathematica',
+                lineNumbers: true,
+                matchBrackets: true
+            });
     </script>
     <p>
         <strong>MIME types defined:</strong> <code>text/x-mathematica</code> (Mathematica).</p>

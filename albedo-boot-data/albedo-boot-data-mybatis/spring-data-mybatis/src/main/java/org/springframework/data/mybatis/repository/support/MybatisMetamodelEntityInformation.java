@@ -100,19 +100,19 @@ public class MybatisMetamodelEntityInformation<T, ID extends Serializable> exten
         Matcher m = p.matcher(srcText);
         while (m.find()) {
             count++;
-            if(position==count)break;
+            if (position == count) break;
         }
         return m.start();
     }
 
-    private Method getAnnotaionMethod(T entity, Class annotationClass){
+    private Method getAnnotaionMethod(T entity, Class annotationClass) {
         String className = entity.getClass().getName(), baseName = className.substring(0, appearNumber(className, ".", 3));
         Method method = null;
         Class<?> temp = entity.getClass();
         while (method == null && temp.toString().contains(baseName)) {
             Method[] methods = temp.getDeclaredMethods();
-            for (Method item : methods){
-                if(item.getAnnotation(annotationClass)!=null) return item;
+            for (Method item : methods) {
+                if (item.getAnnotation(annotationClass) != null) return item;
             }
             temp = temp.getSuperclass();
         }
@@ -125,8 +125,8 @@ public class MybatisMetamodelEntityInformation<T, ID extends Serializable> exten
 
         Method method = getAnnotaionMethod(entity, PreInssert.class);
         try {
-            if(method!=null)
-            method.invoke(entity);
+            if (method != null)
+                method.invoke(entity);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -136,7 +136,7 @@ public class MybatisMetamodelEntityInformation<T, ID extends Serializable> exten
     public void preUpdate(T entity) {
         Method method = getAnnotaionMethod(entity, PreUpdate.class);
         try {
-            if(method!=null)
+            if (method != null)
                 method.invoke(entity);
         } catch (Exception e) {
             e.printStackTrace();

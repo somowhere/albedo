@@ -23,25 +23,26 @@ import java.io.IOException;
 public class Http401UnauthorizedEntryPoint implements AuthenticationEntryPoint {
 
     private final Logger log = LoggerFactory.getLogger(Http401UnauthorizedEntryPoint.class);
-    @Autowired  
-    private AlbedoProperties albedoProperties; 
+    @Autowired
+    private AlbedoProperties albedoProperties;
+
     /**
      * Always returns a 401 error code to the client.
      */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException arg2)
-        throws IOException,
-        ServletException {
+            throws IOException,
+            ServletException {
 
         log.debug("Pre-authenticated entry point called. Rejecting access");
 //        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access Denied");
         String requestType = request.getHeader("X-Requested-With");
-		if ("XMLHttpRequest".equals(requestType)) {
+        if ("XMLHttpRequest".equals(requestType)) {
             BaseResource.writeJsonHttpResponse(CustomMessage.createError("登录超时,请重新登陆"), response);
 
-		} else{
-			response.sendRedirect(PublicUtil.toAppendStr(albedoProperties.getAdminPath(), "/login"));
-		}
-        
+        } else {
+            response.sendRedirect(PublicUtil.toAppendStr(albedoProperties.getAdminPath(), "/login"));
+        }
+
     }
 }

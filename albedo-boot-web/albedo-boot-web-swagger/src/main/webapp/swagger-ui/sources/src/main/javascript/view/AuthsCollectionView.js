@@ -2,7 +2,7 @@
 
 SwaggerUi.Views.AuthsCollectionView = Backbone.View.extend({
 
-    initialize: function(opts) {
+    initialize: function (opts) {
         this.options = opts || {};
         this.options.data = this.options.data || {};
         this.router = this.options.router;

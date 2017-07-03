@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: Shell mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel=stylesheet href=../../lib/codemirror.css>
 <script src=../../lib/codemirror.js></script>
@@ -20,16 +20,16 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">Shell</a>
+        <li>
+            <a class=active href="#">Shell</a>
     </ul>
 </div>
 <article>
@@ -39,11 +39,11 @@
         `ps aux | grep 'node ../server.js' | awk '{print $2}'` ; do sudo kill -9 $pid 2&gt; /dev/null done exit 0</textarea>
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById('code'),
-        {
-            mode: 'shell',
-            lineNumbers: true,
-            matchBrackets: true
-        });
+            {
+                mode: 'shell',
+                lineNumbers: true,
+                matchBrackets: true
+            });
     </script>
     <p>
         <strong>MIME types defined:</strong> <code>text/x-sh</code>.</p>

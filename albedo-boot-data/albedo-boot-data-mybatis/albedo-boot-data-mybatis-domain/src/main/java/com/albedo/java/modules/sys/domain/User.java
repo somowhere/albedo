@@ -35,32 +35,33 @@ import java.util.Set;
 @NoArgsConstructor
 public class User extends IdEntity {
 
-    private static final long serialVersionUID = 1L;
     /*** F_LOGINID */
-	public static final String F_LOGINID = "loginId";
-	/*** F_LOGINID */
-	public static final String F_EMAIL = "email";
-	@NotBlank
+    public static final String F_LOGINID = "loginId";
+    /*** F_LOGINID */
+    public static final String F_EMAIL = "email";
+    private static final long serialVersionUID = 1L;
+    @NotBlank
     @Pattern(regexp = Globals.LOGIN_REGEX)
     @Size(min = 1, max = 50)
-    @Column(name="login_id") @SearchField
+    @Column(name = "login_id")
+    @SearchField
     private String loginId;
 
-    @JSONField(serialize=false)
+    @JSONField(serialize = false)
     @NotBlank
     @Size(min = 60, max = 60)
     @Column(name = "password_hash")
     private String password;
-    
+
     @Size(max = 32)
     @Column(name = "org_id")
     private String orgId;
-    
+
     @ManyToOne
-    @JoinColumn(name = "org_id",insertable = false, updatable = false)
-    @ApiModelProperty(hidden=true)
+    @JoinColumn(name = "org_id", insertable = false, updatable = false)
+    @ApiModelProperty(hidden = true)
     private Org org;
-    
+
     @Size(max = 50)
     @Column(name = "name_")
     private String name;
@@ -70,11 +71,11 @@ public class User extends IdEntity {
 
     @Email
     @Size(max = 100)
-    @Column(name="email_")
+    @Column(name = "email_")
     private String email;
 
     @NotNull
-    @Column(name="activated_")
+    @Column(name = "activated_")
     private boolean activated = false;
 
     @Size(min = 2, max = 5)
@@ -83,7 +84,7 @@ public class User extends IdEntity {
 
     @Size(max = 20)
     @Column(name = "activation_key")
-    @JSONField(serialize=false)
+    @JSONField(serialize = false)
     private String activationKey;
 
     @Size(max = 20)
@@ -92,41 +93,41 @@ public class User extends IdEntity {
 
     @Column(name = "reset_date")
     private Date resetDate = null;
-
-    public User(String id){
-        this.id=id;
-    }
-
     @ManyToMany
     @JoinTable(
-        name = "sys_user_role_t",
-        joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id_")},
-        inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id_")})
-    @ApiModelProperty(hidden=true)@JSONField(serialize=false)
+            name = "sys_user_role_t",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id_")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id_")})
+    @ApiModelProperty(hidden = true)
+    @JSONField(serialize = false)
     private Set<Role> roles = Sets.newHashSet();
-
-    @JSONField(serialize=false)
-    @OneToMany @ApiModelProperty(hidden=true)
-    @JoinColumn(name="user_id")
-    private Set<PersistentToken> persistentTokens =  Sets.newHashSet();    
-    
-    @Transient@ApiModelProperty(hidden=true)
+    @JSONField(serialize = false)
+    @OneToMany
+    @ApiModelProperty(hidden = true)
+    @JoinColumn(name = "user_id")
+    private Set<PersistentToken> persistentTokens = Sets.newHashSet();
+    @Transient
+    @ApiModelProperty(hidden = true)
     private String roleNames;
     @Transient
     private List<String> roleIdList;
-    
-    
-    /** 用户拥有的角色名称字符串, 多个角色名称用','分隔. */
-	public String getRoleNames() {
-		if (PublicUtil.isEmpty(roleNames) && PublicUtil.isNotEmpty(roles)) {
-			roleNames = Collections3.extractToString(roles, "name", ", ");
-		}
-		return roleNames;
-	}
+    public User(String id) {
+        this.id = id;
+    }
 
-	public void setRoleNames(String roleNames) {
-		this.roleNames = roleNames;
-	}
+    /**
+     * 用户拥有的角色名称字符串, 多个角色名称用','分隔.
+     */
+    public String getRoleNames() {
+        if (PublicUtil.isEmpty(roleNames) && PublicUtil.isNotEmpty(roles)) {
+            roleNames = Collections3.extractToString(roles, "name", ", ");
+        }
+        return roleNames;
+    }
+
+    public void setRoleNames(String roleNames) {
+        this.roleNames = roleNames;
+    }
 
     public String getLoginId() {
         return loginId;
@@ -145,19 +146,15 @@ public class User extends IdEntity {
         this.password = password;
     }
 
-    public void setName(String name) {
-		this.name = name;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getEmail() {
+    public String getEmail() {
         return email;
     }
 
@@ -190,15 +187,19 @@ public class User extends IdEntity {
     }
 
     public String getName() {
-		return name;
-	}
+        return name;
+    }
 
-	public Date getResetDate() {
-       return resetDate;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getResetDate() {
+        return resetDate;
     }
 
     public void setResetDate(Date resetDate) {
-       this.resetDate = resetDate;
+        this.resetDate = resetDate;
     }
 
     public String getLangKey() {
@@ -211,14 +212,14 @@ public class User extends IdEntity {
 
 
     public Set<Role> getRoles() {
-		return roles;
-	}
+        return roles;
+    }
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
-	public Set<PersistentToken> getPersistentTokens() {
+    public Set<PersistentToken> getPersistentTokens() {
         return persistentTokens;
     }
 
@@ -226,32 +227,37 @@ public class User extends IdEntity {
         this.persistentTokens = persistentTokens;
     }
 
-	public Org getOrg() {
-		return org;
-	}
+    public Org getOrg() {
+        return org;
+    }
 
-	public void setOrg(Org org) {
-		this.org = org;
-	}
+    public void setOrg(Org org) {
+        this.org = org;
+    }
 
-	public List<String> getRoleIdList() {
-		if (PublicUtil.isEmpty(roleIdList) && PublicUtil.isNotEmpty(roles)) {
-			roleIdList = Lists.newArrayList();
-			roles.forEach(m -> {if(PublicUtil.isNotEmpty(m))roleIdList.add(m.getId());});
-		}
-		return roleIdList;
-	}
-	public String getRoleIds() {
-		return Collections3.convertToString(getRoleIdList(), ",");
-	}
+    public List<String> getRoleIdList() {
+        if (PublicUtil.isEmpty(roleIdList) && PublicUtil.isNotEmpty(roles)) {
+            roleIdList = Lists.newArrayList();
+            roles.forEach(m -> {
+                if (PublicUtil.isNotEmpty(m)) roleIdList.add(m.getId());
+            });
+        }
+        return roleIdList;
+    }
 
-	public void setRoleIdList(List<String> roleIdList) {
-		this.roleIdList = roleIdList;
-		if (PublicUtil.isNotEmpty(roleIdList)) {
-			roles = Sets.newHashSet();
-			roleIdList.forEach(m -> {if(PublicUtil.isNotEmpty(m))roles.add(new Role(m));});
-		}
-	}
+    public void setRoleIdList(List<String> roleIdList) {
+        this.roleIdList = roleIdList;
+        if (PublicUtil.isNotEmpty(roleIdList)) {
+            roles = Sets.newHashSet();
+            roleIdList.forEach(m -> {
+                if (PublicUtil.isNotEmpty(m)) roles.add(new Role(m));
+            });
+        }
+    }
+
+    public String getRoleIds() {
+        return Collections3.convertToString(getRoleIdList(), ",");
+    }
 
 
 }

@@ -39,12 +39,12 @@ import java.io.Serializable;
 public class MybatisRepositoryFactoryBean<T extends Repository<S, ID>, S, ID extends Serializable> extends
         TransactionalRepositoryFactoryBeanSupport<T, S, ID> {
 
-    private SqlSessionTemplate    sqlSessionTemplate;
-    private Dialect               dialect;
+    private SqlSessionTemplate sqlSessionTemplate;
+    private Dialect dialect;
     private MybatisMappingContext mappingContext;
 
     @Autowired(required = false)
-    private AuditorAware<?>   auditorAware;
+    private AuditorAware<?> auditorAware;
     @Autowired(required = false)
     private AuditDateAware<?> auditDateAware;
 

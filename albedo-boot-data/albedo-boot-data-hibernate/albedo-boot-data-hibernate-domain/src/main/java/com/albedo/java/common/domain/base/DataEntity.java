@@ -27,50 +27,59 @@ public abstract class DataEntity extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    
-    
-    
+
     @CreatedBy
     @Column(name = "created_by", nullable = false, length = 50, updatable = false)
-    @JSONField(serialize = false)@ApiModelProperty(hidden=true)
+    @JSONField(serialize = false)
+    @ApiModelProperty(hidden = true)
     protected String createdBy;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by", updatable = false, insertable=false)
-    @NotFound(action = NotFoundAction.IGNORE) @JSONField(serialize = false) @JsonField @ApiModelProperty(hidden=true)
+    @JoinColumn(name = "created_by", updatable = false, insertable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JSONField(serialize = false)
+    @JsonField
+    @ApiModelProperty(hidden = true)
     protected User creator;
 
     @CreatedDate
-    @Column(name = "created_date", nullable = false)@ApiModelProperty(hidden=true)
+    @Column(name = "created_date", nullable = false)
+    @ApiModelProperty(hidden = true)
     protected Date createdDate = PublicUtil.getCurrentDate();
 
     @LastModifiedBy
-    @Column(name = "last_modified_by", length = 50)@ApiModelProperty(hidden=true)
+    @Column(name = "last_modified_by", length = 50)
+    @ApiModelProperty(hidden = true)
     protected String lastModifiedBy;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "last_modified_by", updatable = false, insertable=false)
-    @NotFound(action = NotFoundAction.IGNORE) @JSONField(serialize = false) @JsonField@ApiModelProperty(hidden=true)
+    @JoinColumn(name = "last_modified_by", updatable = false, insertable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JSONField(serialize = false)
+    @JsonField
+    @ApiModelProperty(hidden = true)
     protected User modifier;
-    
+
     @LastModifiedDate
-    @Column(name = "last_modified_date")@ApiModelProperty(hidden=true)
+    @Column(name = "last_modified_date")
+    @ApiModelProperty(hidden = true)
     protected Date lastModifiedDate = PublicUtil.getCurrentDate();
 
     /*** 默认0，必填，离线乐观锁 */
-	@Version
-	@Column(name = "version_")
-	@JSONField(serialize = false)
-	@XmlTransient@ApiModelProperty(hidden=true)
-	protected Integer version = 0;
+    @Version
+    @Column(name = "version_")
+    @JSONField(serialize = false)
+    @XmlTransient
+    @ApiModelProperty(hidden = true)
+    protected Integer version = 0;
 
-	/*** 备注 */
-	@Length(min = 0, max = 255)
-	@Column(name = "description_")
-	@XmlTransient
-	protected String description;
-    
-    
+    /*** 备注 */
+    @Length(min = 0, max = 255)
+    @Column(name = "description_")
+    @XmlTransient
+    protected String description;
+
+
     public String getCreatedBy() {
         return createdBy;
     }
@@ -103,35 +112,35 @@ public abstract class DataEntity extends BaseEntity {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-	public User getModifier() {
-		return modifier;
-	}
+    public User getModifier() {
+        return modifier;
+    }
 
-	public void setModifier(User modifier) {
-		this.modifier = modifier;
-	}
+    public void setModifier(User modifier) {
+        this.modifier = modifier;
+    }
 
-	public void setCreator(User creator) {
-		this.creator = creator;
-	}
+    public User getCreator() {
+        return creator;
+    }
 
-	public User getCreator() {
-		return creator;
-	}
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
 
-	public Integer getVersion() {
-		return version;
-	}
+    public Integer getVersion() {
+        return version;
+    }
 
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

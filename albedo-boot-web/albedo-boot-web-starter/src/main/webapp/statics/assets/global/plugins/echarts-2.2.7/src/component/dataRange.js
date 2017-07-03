@@ -53,7 +53,7 @@ define(function (require) {
         selectedMode: true,        // 选择模式，默认开启值域开关
         hoverLink: true,
         realtime: true,
-        color:['#006edd','#e0ffff'],//颜色
+        color: ['#006edd', '#e0ffff'],//颜色
         // formatter: null,
         // text:['高','低'],         // 文本，默认为数值文本
         textStyle: {
@@ -77,19 +77,19 @@ define(function (require) {
         Base.call(this, ecTheme, messageCenter, zr, option, myChart);
 
         var self = this;
-        self._ondrift = function(dx, dy) {
+        self._ondrift = function (dx, dy) {
             return self.__ondrift(this, dx, dy);
         };
-        self._ondragend = function() {
+        self._ondragend = function () {
             return self.__ondragend();
         };
-        self._dataRangeSelected = function(param) {
+        self._dataRangeSelected = function (param) {
             return self.__dataRangeSelected(param);
         };
-        self._dispatchHoverLink = function(param) {
+        self._dispatchHoverLink = function (param) {
             return self.__dispatchHoverLink(param);
         };
-        self._onhoverlink = function(params) {
+        self._onhoverlink = function (params) {
             return self.__onhoverlink(params);
         };
         this._selectedMap = {};
@@ -101,9 +101,9 @@ define(function (require) {
     }
 
     DataRange.prototype = {
-        type : ecConfig.COMPONENT_TYPE_DATARANGE,
-        _textGap : 10, // 非值文字间隔
-        _buildShape : function () {
+        type: ecConfig.COMPONENT_TYPE_DATARANGE,
+        _textGap: 10, // 非值文字间隔
+        _buildShape: function () {
             // 值域元素组的位置参数，通过计算所得x, y, width, height
             this._itemGroupLocation = this._getItemGroupLocation();
             this._buildBackground();
@@ -126,7 +126,7 @@ define(function (require) {
         /**
          * 构建图例型的值域元素
          */
-        _buildItem : function () {
+        _buildItem: function () {
             var data = this._valueTextList;
             var dataLength = data.length;
             var itemName;
@@ -146,8 +146,8 @@ define(function (require) {
                 && this.dataRangeOption.x == 'right'
             ) {
                 lastX = this._itemGroupLocation.x
-                        + this._itemGroupLocation.width
-                        - itemWidth;
+                    + this._itemGroupLocation.width
+                    - itemWidth;
             }
             var needValueText = true;
             if (this.dataRangeOption.text) {
@@ -159,10 +159,10 @@ define(function (require) {
                     );
                     if (this.dataRangeOption.orient == 'horizontal') {
                         lastX += zrArea.getTextWidth(
-                                     this.dataRangeOption.text[0],
-                                     font
-                                 )
-                                 + this._textGap;
+                                this.dataRangeOption.text[0],
+                                font
+                            )
+                            + this._textGap;
                     }
                     else {
                         lastY += textHeight + this._textGap;
@@ -195,17 +195,17 @@ define(function (require) {
                     textShape = {
                         zlevel: this.getZlevelBase(),
                         z: this.getZBase(),
-                        style : {
-                            x : lastX + itemWidth + 5,
-                            y : lastY,
-                            color : this._selectedMap[i]
-                                    ? this.dataRangeOption.textStyle.color
-                                    : '#ccc',
+                        style: {
+                            x: lastX + itemWidth + 5,
+                            y: lastY,
+                            color: this._selectedMap[i]
+                                ? this.dataRangeOption.textStyle.color
+                                : '#ccc',
                             text: data[i],
                             textFont: font,
                             textBaseline: 'top'
                         },
-                        highlightStyle:{
+                        highlightStyle: {
                             brushType: 'fill'
                         }
                     };
@@ -226,11 +226,11 @@ define(function (require) {
 
                 if (this.dataRangeOption.orient == 'horizontal') {
                     lastX += itemWidth
-                             + (needValueText ? 5 : 0)
-                             + (needValueText
-                               ? zrArea.getTextWidth(itemName, font)
-                               : 0)
-                             + itemGap;
+                        + (needValueText ? 5 : 0)
+                        + (needValueText
+                            ? zrArea.getTextWidth(itemName, font)
+                            : 0)
+                        + itemGap;
                 }
                 else {
                     lastY += itemHeight + itemGap;
@@ -261,7 +261,7 @@ define(function (require) {
         /**
          * 构建渐变型的值域元素
          */
-        _buildGradient : function () {
+        _buildGradient: function () {
             var itemShape;
             var textShape;
             var font = this.getFont(this.dataRangeOption.textStyle);
@@ -284,10 +284,10 @@ define(function (require) {
                     );
                     if (this.dataRangeOption.orient == 'horizontal') {
                         lastX += zrArea.getTextWidth(
-                                     this.dataRangeOption.text[0],
-                                     font
-                                 )
-                                 + this._textGap;
+                                this.dataRangeOption.text[0],
+                                font
+                            )
+                            + this._textGap;
                     }
                     else {
                         lastY += textHeight + this._textGap;
@@ -308,17 +308,17 @@ define(function (require) {
                 itemShape = {
                     zlevel: this.getZlevelBase(),
                     z: this.getZBase(),
-                    style : {
-                        x : lastX,
-                        y : lastY,
-                        width : itemWidth * mSize,
-                        height : itemHeight,
-                        color : zrColor.getLinearGradient(
+                    style: {
+                        x: lastX,
+                        y: lastY,
+                        width: itemWidth * mSize,
+                        height: itemHeight,
+                        color: zrColor.getLinearGradient(
                             lastX, lastY, lastX + itemWidth * mSize, lastY,
                             colorList
                         )
                     },
-                    hoverable : false
+                    hoverable: false
                 };
                 lastX += itemWidth * mSize + this._textGap;
             }
@@ -326,17 +326,17 @@ define(function (require) {
                 itemShape = {
                     zlevel: this.getZlevelBase(),
                     z: this.getZBase(),
-                    style : {
-                        x : lastX,
-                        y : lastY,
-                        width : itemWidth,
-                        height : itemHeight * mSize,
-                        color : zrColor.getLinearGradient(
+                    style: {
+                        x: lastX,
+                        y: lastY,
+                        width: itemWidth,
+                        height: itemHeight * mSize,
+                        color: zrColor.getLinearGradient(
                             lastX, lastY, lastX, lastY + itemHeight * mSize,
                             colorList
                         )
                     },
-                    hoverable : false
+                    hoverable: false
                 };
                 lastY += itemHeight * mSize + this._textGap;
             }
@@ -363,7 +363,7 @@ define(function (require) {
         /**
          * 构建指示器
          */
-        _buildIndicator : function() {
+        _buildIndicator: function () {
             var x = this._calculableLocation.x;
             var y = this._calculableLocation.y;
             var width = this._calculableLocation.width;
@@ -415,20 +415,20 @@ define(function (require) {
                 }
             }
             this._indicatorShape = {
-                style : {
-                    pointList : pointList,
-                    color : '#fff',
-                    __rect : {
-                        x : Math.min(pointList[0][0], pointList[1][0]),
-                        y : Math.min(pointList[0][1], pointList[1][1]),
-                        width : size * (this.dataRangeOption.orient == 'horizontal' ? 2 : 1),
-                        height : size * (this.dataRangeOption.orient == 'horizontal' ? 1 : 2)
+                style: {
+                    pointList: pointList,
+                    color: '#fff',
+                    __rect: {
+                        x: Math.min(pointList[0][0], pointList[1][0]),
+                        y: Math.min(pointList[0][1], pointList[1][1]),
+                        width: size * (this.dataRangeOption.orient == 'horizontal' ? 2 : 1),
+                        height: size * (this.dataRangeOption.orient == 'horizontal' ? 1 : 2)
                     }
                 },
-                highlightStyle : {
-                    brushType : 'fill',
-                    textPosition : textPosition,
-                    textColor : this.dataRangeOption.textStyle.color
+                highlightStyle: {
+                    brushType: 'fill',
+                    textPosition: textPosition,
+                    textColor: this.dataRangeOption.textStyle.color
                 },
                 hoverable: false
             };
@@ -438,26 +438,26 @@ define(function (require) {
         /**
          * 构建填充物
          */
-        _buildFiller : function () {
+        _buildFiller: function () {
             this._fillerShape = {
                 zlevel: this.getZlevelBase(),
                 z: this.getZBase() + 1,
-                style : {
-                    x : this._calculableLocation.x,
-                    y : this._calculableLocation.y,
-                    width : this._calculableLocation.width,
-                    height : this._calculableLocation.height,
-                    color : 'rgba(255,255,255,0)'
+                style: {
+                    x: this._calculableLocation.x,
+                    y: this._calculableLocation.y,
+                    width: this._calculableLocation.width,
+                    height: this._calculableLocation.height,
+                    color: 'rgba(255,255,255,0)'
                 },
-                highlightStyle : {
-                    strokeColor : 'rgba(255,255,255,0.5)',
-                    lineWidth : 1
+                highlightStyle: {
+                    strokeColor: 'rgba(255,255,255,0.5)',
+                    lineWidth: 1
                 },
-                draggable : true,
-                ondrift : this._ondrift,
-                ondragend : this._ondragend,
-                onmousemove : this._dispatchHoverLink,
-                _type : 'filler'
+                draggable: true,
+                ondrift: this._ondrift,
+                ondragend: this._ondragend,
+                onmousemove: this._dispatchHoverLink,
+                _type: 'filler'
             };
             this._fillerShape = new RectangleShape(this._fillerShape);
             this.shapeList.push(this._fillerShape);
@@ -466,7 +466,7 @@ define(function (require) {
         /**
          * 构建拖拽手柄
          */
-        _bulidHandle : function () {
+        _bulidHandle: function () {
             var x = this._calculableLocation.x;
             var y = this._calculableLocation.y;
             var width = this._calculableLocation.width;
@@ -502,10 +502,10 @@ define(function (require) {
                     textXStart = x - textWidth / 2 - textHeight;
                     textYStart = y + height + textHeight / 2 + 2;
                     coverRectStart = {
-                        x : x - textWidth - textHeight,
-                        y : y + height,
-                        width : textWidth + textHeight,
-                        height : textHeight
+                        x: x - textWidth - textHeight,
+                        y: y + height,
+                        width: textWidth + textHeight,
+                        height: textHeight
                     };
 
                     pointListEnd = [
@@ -518,10 +518,10 @@ define(function (require) {
                     textXEnd = x + width + textWidth / 2 + textHeight;
                     textYEnd = textYStart;
                     coverRectEnd = {
-                        x : x + width,
-                        y : y + height,
-                        width : textWidth + textHeight,
-                        height : textHeight
+                        x: x + width,
+                        y: y + height,
+                        width: textWidth + textHeight,
+                        height: textHeight
                     };
                 }
                 else {
@@ -537,10 +537,10 @@ define(function (require) {
                     textXStart = x - textWidth / 2 - textHeight;
                     textYStart = y - textHeight / 2 - 2;
                     coverRectStart = {
-                        x : x - textWidth - textHeight,
-                        y : y - textHeight,
-                        width : textWidth + textHeight,
-                        height : textHeight
+                        x: x - textWidth - textHeight,
+                        y: y - textHeight,
+                        width: textWidth + textHeight,
+                        height: textHeight
                     };
 
                     pointListEnd = [
@@ -553,10 +553,10 @@ define(function (require) {
                     textXEnd = x + width + textWidth / 2 + textHeight;
                     textYEnd = textYStart;
                     coverRectEnd = {
-                        x : x + width,
-                        y : y - textHeight,
-                        width : textWidth + textHeight,
-                        height : textHeight
+                        x: x + width,
+                        y: y - textHeight,
+                        width: textWidth + textHeight,
+                        height: textHeight
                     };
                 }
             }
@@ -575,10 +575,10 @@ define(function (require) {
                     textXStart = x + width + textWidth / 2 + textHeight / 2;
                     textYStart = y - textHeight / 2;
                     coverRectStart = {
-                        x : x + width,
-                        y : y - textHeight,
-                        width : textWidth + textHeight,
-                        height : textHeight
+                        x: x + width,
+                        y: y - textHeight,
+                        width: textWidth + textHeight,
+                        height: textHeight
                     };
 
                     pointListEnd = [
@@ -589,12 +589,12 @@ define(function (require) {
                         [x, y + height + 1]
                     ];
                     textXEnd = textXStart;
-                    textYEnd = y  + height + textHeight / 2;
+                    textYEnd = y + height + textHeight / 2;
                     coverRectEnd = {
-                        x : x + width,
-                        y : y + height,
-                        width : textWidth + textHeight,
-                        height : textHeight
+                        x: x + width,
+                        y: y + height,
+                        width: textWidth + textHeight,
+                        height: textHeight
                     };
                 }
                 else {
@@ -609,10 +609,10 @@ define(function (require) {
                     textXStart = x - textWidth / 2 - textHeight / 2;
                     textYStart = y - textHeight / 2;
                     coverRectStart = {
-                        x : x - textWidth - textHeight,
-                        y : y - textHeight,
-                        width : textWidth + textHeight,
-                        height : textHeight
+                        x: x - textWidth - textHeight,
+                        y: y - textHeight,
+                        width: textWidth + textHeight,
+                        height: textHeight
                     };
 
                     pointListEnd = [
@@ -623,72 +623,72 @@ define(function (require) {
                         [x + width, y + height + 1]
                     ];
                     textXEnd = textXStart;
-                    textYEnd = y  + height + textHeight / 2;
+                    textYEnd = y + height + textHeight / 2;
                     coverRectEnd = {
-                        x : x - textWidth - textHeight,
-                        y : y + height,
-                        width : textWidth + textHeight,
-                        height : textHeight
+                        x: x - textWidth - textHeight,
+                        y: y + height,
+                        width: textWidth + textHeight,
+                        height: textHeight
                     };
                 }
             }
 
             this._startShape = {
-                style : {
-                    pointList : pointListStart,
-                    text : this._textFormat(this.dataRangeOption.max),
-                    textX : textXStart,
-                    textY : textYStart,
+                style: {
+                    pointList: pointListStart,
+                    text: this._textFormat(this.dataRangeOption.max),
+                    textX: textXStart,
+                    textY: textYStart,
                     textFont: font,
-                    color : this.getColor(this.dataRangeOption.max),
-                    rect : coverRectStart,
-                    x : pointListStart[0][0],
-                    y : pointListStart[0][1],
-                    _x : pointListStart[0][0],   // 拖拽区域控制缓存
-                    _y : pointListStart[0][1]
+                    color: this.getColor(this.dataRangeOption.max),
+                    rect: coverRectStart,
+                    x: pointListStart[0][0],
+                    y: pointListStart[0][1],
+                    _x: pointListStart[0][0],   // 拖拽区域控制缓存
+                    _y: pointListStart[0][1]
                 }
             };
             this._startShape.highlightStyle = {
-                strokeColor : this._startShape.style.color,
-                lineWidth : 1
+                strokeColor: this._startShape.style.color,
+                lineWidth: 1
             };
 
             this._endShape = {
-                style : {
-                    pointList : pointListEnd,
-                    text : this._textFormat(this.dataRangeOption.min),
-                    textX : textXEnd,
-                    textY : textYEnd,
+                style: {
+                    pointList: pointListEnd,
+                    text: this._textFormat(this.dataRangeOption.min),
+                    textX: textXEnd,
+                    textY: textYEnd,
                     textFont: font,
-                    color : this.getColor(this.dataRangeOption.min),
-                    rect : coverRectEnd,
-                    x : pointListEnd[0][0],
-                    y : pointListEnd[0][1],
-                    _x : pointListEnd[0][0],   // 拖拽区域控制缓存
-                    _y : pointListEnd[0][1]
+                    color: this.getColor(this.dataRangeOption.min),
+                    rect: coverRectEnd,
+                    x: pointListEnd[0][0],
+                    y: pointListEnd[0][1],
+                    _x: pointListEnd[0][0],   // 拖拽区域控制缓存
+                    _y: pointListEnd[0][1]
                 }
             };
             this._endShape.highlightStyle = {
-                strokeColor : this._endShape.style.color,
-                lineWidth : 1
+                strokeColor: this._endShape.style.color,
+                lineWidth: 1
             };
 
             // 统一参数
-            this._startShape.zlevel              = this._endShape.zlevel    = this.getZlevelBase();
-            this._startShape.z                   = this._endShape.z         = this.getZBase() + 1;
-            this._startShape.draggable           = this._endShape.draggable = true;
-            this._startShape.ondrift             = this._endShape.ondrift   = this._ondrift;
-            this._startShape.ondragend           = this._endShape.ondragend = this._ondragend;
+            this._startShape.zlevel = this._endShape.zlevel = this.getZlevelBase();
+            this._startShape.z = this._endShape.z = this.getZBase() + 1;
+            this._startShape.draggable = this._endShape.draggable = true;
+            this._startShape.ondrift = this._endShape.ondrift = this._ondrift;
+            this._startShape.ondragend = this._endShape.ondragend = this._ondragend;
 
-            this._startShape.style.textColor     = this._endShape.style.textColor
-                                                            = this.dataRangeOption.textStyle.color;
-            this._startShape.style.textAlign     = this._endShape.style.textAlign     = 'center';
-            this._startShape.style.textPosition  = this._endShape.style.textPosition  = 'specific';
-            this._startShape.style.textBaseline  = this._endShape.style.textBaseline  = 'middle';
+            this._startShape.style.textColor = this._endShape.style.textColor
+                = this.dataRangeOption.textStyle.color;
+            this._startShape.style.textAlign = this._endShape.style.textAlign = 'center';
+            this._startShape.style.textPosition = this._endShape.style.textPosition = 'specific';
+            this._startShape.style.textBaseline = this._endShape.style.textBaseline = 'middle';
             // for ondrif计算统一
-            this._startShape.style.width         = this._endShape.style.width         = 0;
-            this._startShape.style.height        = this._endShape.style.height        = 0;
-            this._startShape.style.textPosition  = this._endShape.style.textPosition  = 'specific';
+            this._startShape.style.width = this._endShape.style.width = 0;
+            this._startShape.style.height = this._endShape.style.height = 0;
+            this._startShape.style.textPosition = this._endShape.style.textPosition = 'specific';
 
             this._startShape = new HandlePolygonShape(this._startShape);
             this._endShape = new HandlePolygonShape(this._endShape);
@@ -696,7 +696,7 @@ define(function (require) {
             this.shapeList.push(this._endShape);
         },
 
-        _bulidMask : function () {
+        _bulidMask: function () {
             var x = this._calculableLocation.x;
             var y = this._calculableLocation.y;
             var width = this._calculableLocation.width;
@@ -704,32 +704,32 @@ define(function (require) {
             this._startMask = {
                 zlevel: this.getZlevelBase(),
                 z: this.getZBase() + 1,
-                style : {
-                    x : x,
-                    y : y,
-                    width : this.dataRangeOption.orient == 'horizontal'
-                            ? 0 : width,
-                    height : this.dataRangeOption.orient == 'horizontal'
-                             ? height : 0,
-                    color : '#ccc'
+                style: {
+                    x: x,
+                    y: y,
+                    width: this.dataRangeOption.orient == 'horizontal'
+                        ? 0 : width,
+                    height: this.dataRangeOption.orient == 'horizontal'
+                        ? height : 0,
+                    color: '#ccc'
                 },
-                hoverable:false
+                hoverable: false
             };
             this._endMask = {
                 zlevel: this.getZlevelBase(),
                 z: this.getZBase() + 1,
-                style : {
-                    x : this.dataRangeOption.orient == 'horizontal'
+                style: {
+                    x: this.dataRangeOption.orient == 'horizontal'
                         ? x + width : x,
-                    y : this.dataRangeOption.orient == 'horizontal'
+                    y: this.dataRangeOption.orient == 'horizontal'
                         ? y : y + height,
-                    width : this.dataRangeOption.orient == 'horizontal'
-                            ? 0 : width,
-                    height : this.dataRangeOption.orient == 'horizontal'
-                             ? height : 0,
-                    color : '#ccc'
+                    width: this.dataRangeOption.orient == 'horizontal'
+                        ? 0 : width,
+                    height: this.dataRangeOption.orient == 'horizontal'
+                        ? height : 0,
+                    color: '#ccc'
                 },
-                hoverable:false
+                hoverable: false
             };
             this._startMask = new RectangleShape(this._startMask);
             this._endMask = new RectangleShape(this._endMask);
@@ -737,23 +737,23 @@ define(function (require) {
             this.shapeList.push(this._endMask);
         },
 
-        _buildBackground : function () {
+        _buildBackground: function () {
             var padding = this.reformCssArray(this.dataRangeOption.padding);
 
             this.shapeList.push(new RectangleShape({
                 zlevel: this.getZlevelBase(),
                 z: this.getZBase(),
-                hoverable :false,
-                style : {
-                    x : this._itemGroupLocation.x - padding[3],
-                    y : this._itemGroupLocation.y - padding[0],
-                    width : this._itemGroupLocation.width + padding[3] + padding[1],
-                    height : this._itemGroupLocation.height + padding[0] + padding[2],
-                    brushType : this.dataRangeOption.borderWidth === 0
-                                ? 'fill' : 'both',
-                    color : this.dataRangeOption.backgroundColor,
-                    strokeColor : this.dataRangeOption.borderColor,
-                    lineWidth : this.dataRangeOption.borderWidth
+                hoverable: false,
+                style: {
+                    x: this._itemGroupLocation.x - padding[3],
+                    y: this._itemGroupLocation.y - padding[0],
+                    width: this._itemGroupLocation.width + padding[3] + padding[1],
+                    height: this._itemGroupLocation.height + padding[0] + padding[2],
+                    brushType: this.dataRangeOption.borderWidth === 0
+                        ? 'fill' : 'both',
+                    color: this.dataRangeOption.backgroundColor,
+                    strokeColor: this.dataRangeOption.borderColor,
+                    lineWidth: this.dataRangeOption.borderWidth
                 }
             }));
         },
@@ -761,7 +761,7 @@ define(function (require) {
         /**
          * 根据选项计算值域实体的位置坐标
          */
-        _getItemGroupLocation : function () {
+        _getItemGroupLocation: function () {
             var data = this._valueTextList;
             var dataLength = data.length;
             var itemGap = this.dataRangeOption.itemGap;
@@ -779,33 +779,33 @@ define(function (require) {
                     // 指定文字或线性渐变
                     totalWidth =
                         (this._isContinuity()
-                          ? (itemWidth * mSize + itemGap)
-                          : dataLength * (itemWidth + itemGap))
+                            ? (itemWidth * mSize + itemGap)
+                            : dataLength * (itemWidth + itemGap))
                         + (this.dataRangeOption.text
-                           && typeof this.dataRangeOption.text[0] != 'undefined'
-                           ? (zrArea.getTextWidth(
-                                  this.dataRangeOption.text[0],
-                                  font
-                              ) + this._textGap)
-                           : 0)
+                        && typeof this.dataRangeOption.text[0] != 'undefined'
+                            ? (zrArea.getTextWidth(
+                                this.dataRangeOption.text[0],
+                                font
+                            ) + this._textGap)
+                            : 0)
                         + (this.dataRangeOption.text
-                           && typeof this.dataRangeOption.text[1] != 'undefined'
-                           ? (zrArea.getTextWidth(
-                                  this.dataRangeOption.text[1],
-                                  font
-                              ) + this._textGap)
-                           : 0);
+                        && typeof this.dataRangeOption.text[1] != 'undefined'
+                            ? (zrArea.getTextWidth(
+                                this.dataRangeOption.text[1],
+                                font
+                            ) + this._textGap)
+                            : 0);
                 }
                 else {
                     // 值标签
                     itemWidth += 5;
                     for (var i = 0; i < dataLength; i++) {
                         totalWidth += itemWidth
-                                      + zrArea.getTextWidth(
-                                            data[i],
-                                            font
-                                        )
-                                      + itemGap;
+                            + zrArea.getTextWidth(
+                                data[i],
+                                font
+                            )
+                            + itemGap;
                     }
                 }
                 totalWidth -= itemGap;      // 减去最后一个的itemGap
@@ -818,14 +818,14 @@ define(function (require) {
                     // 指定文字或线性渐变
                     totalHeight =
                         (this._isContinuity()
-                          ? (itemHeight * mSize + itemGap)
-                          : dataLength * (itemHeight + itemGap))
+                            ? (itemHeight * mSize + itemGap)
+                            : dataLength * (itemHeight + itemGap))
                         + (this.dataRangeOption.text
-                           && typeof this.dataRangeOption.text[0] != 'undefined'
+                        && typeof this.dataRangeOption.text[0] != 'undefined'
                             ? (this._textGap + textHeight)
                             : 0)
                         + (this.dataRangeOption.text
-                           && typeof this.dataRangeOption.text[1] != 'undefined'
+                        && typeof this.dataRangeOption.text[1] != 'undefined'
                             ? (this._textGap + textHeight)
                             : 0);
 
@@ -908,9 +908,9 @@ define(function (require) {
             if (this.dataRangeOption.calculable) {
                 // 留出手柄控件
                 var handlerWidth = Math.max(
-                    zrArea.getTextWidth(this.dataRangeOption.max, font),
-                    zrArea.getTextWidth(this.dataRangeOption.min, font)
-                ) + textHeight;
+                        zrArea.getTextWidth(this.dataRangeOption.max, font),
+                        zrArea.getTextWidth(this.dataRangeOption.min, font)
+                    ) + textHeight;
                 if (this.dataRangeOption.orient == 'horizontal') {
                     if (x < handlerWidth) {
                         x = handlerWidth;
@@ -930,56 +930,56 @@ define(function (require) {
             }
 
             return {
-                x : x,
-                y : y,
-                width : totalWidth,
-                height : totalHeight
+                x: x,
+                y: y,
+                width: totalWidth,
+                height: totalHeight
             };
         },
 
         // 指定文本
-        _getTextShape : function (x, y, text) {
+        _getTextShape: function (x, y, text) {
             return {
                 zlevel: this.getZlevelBase(),
                 z: this.getZBase(),
-                style : {
-                    x : (this.dataRangeOption.orient == 'horizontal'
-                        ? x
-                        : this._itemGroupLocation.x
-                          + this._itemGroupLocation.width / 2
-                        ),
-                    y : (this.dataRangeOption.orient == 'horizontal'
-                        ? this._itemGroupLocation.y
-                          + this._itemGroupLocation.height / 2
-                        : y
-                        ),
-                    color : this.dataRangeOption.textStyle.color,
+                style: {
+                    x: (this.dataRangeOption.orient == 'horizontal'
+                            ? x
+                            : this._itemGroupLocation.x
+                            + this._itemGroupLocation.width / 2
+                    ),
+                    y: (this.dataRangeOption.orient == 'horizontal'
+                            ? this._itemGroupLocation.y
+                            + this._itemGroupLocation.height / 2
+                            : y
+                    ),
+                    color: this.dataRangeOption.textStyle.color,
                     text: text,
                     textFont: this.getFont(this.dataRangeOption.textStyle),
                     textBaseline: (this.dataRangeOption.orient == 'horizontal'
-                                   ? 'middle' : 'top'),
+                        ? 'middle' : 'top'),
                     textAlign: (this.dataRangeOption.orient == 'horizontal'
-                               ? 'left' : 'center')
+                        ? 'left' : 'center')
                 },
-                hoverable : false
+                hoverable: false
             };
         },
 
         // 色尺legend item shape
-        _getItemShape : function (x, y, width, height, color) {
+        _getItemShape: function (x, y, width, height, color) {
             return {
                 zlevel: this.getZlevelBase(),
                 z: this.getZBase(),
-                style : {
-                    x : x,
-                    y : y + 1,
-                    width : width,
-                    height : height - 2,
-                    color : color
+                style: {
+                    x: x,
+                    y: y + 1,
+                    width: width,
+                    height: height - 2,
+                    color: color
                 },
                 highlightStyle: {
                     strokeColor: color,
-                    lineWidth : 1
+                    lineWidth: 1
                 }
             };
         },
@@ -987,7 +987,7 @@ define(function (require) {
         /**
          * 拖拽范围控制
          */
-        __ondrift : function (shape, dx, dy) {
+        __ondrift: function (shape, dx, dy) {
             var x = this._calculableLocation.x;
             var y = this._calculableLocation.y;
             var width = this._calculableLocation.width;
@@ -1030,14 +1030,14 @@ define(function (require) {
             return true;
         },
 
-        __ondragend : function () {
+        __ondragend: function () {
             this.isDragend = true;
         },
 
         /**
          * 数据项被拖拽出去
          */
-        ondragend : function (param, status) {
+        ondragend: function (param, status) {
             if (!this.isDragend || !param.target) {
                 // 没有在当前实例上发生拖拽行为则直接返回
                 return;
@@ -1059,7 +1059,7 @@ define(function (require) {
         },
 
         // 外部传入range （calculable为true时有意义）
-        _syncShapeFromRange : function () {
+        _syncShapeFromRange: function () {
             var range = this.dataRangeOption.range || {};
             var optRangeStart = range.start;
             var optRangeEnd = range.end;
@@ -1099,7 +1099,7 @@ define(function (require) {
             }
         },
 
-        _syncHandleShape : function () {
+        _syncHandleShape: function () {
             var x = this._calculableLocation.x;
             var y = this._calculableLocation.y;
             var width = this._calculableLocation.width;
@@ -1110,7 +1110,7 @@ define(function (require) {
                 this._startMask.style.width = this._startShape.style.x - x;
 
                 this._endShape.style.x = this._fillerShape.style.x
-                                    + this._fillerShape.style.width;
+                    + this._fillerShape.style.width;
                 this._endMask.style.x = this._endShape.style.x;
                 this._endMask.style.width = x + width - this._endShape.style.x;
 
@@ -1126,7 +1126,7 @@ define(function (require) {
                 this._startMask.style.height = this._startShape.style.y - y;
 
                 this._endShape.style.y = this._fillerShape.style.y
-                                    + this._fillerShape.style.height;
+                    + this._fillerShape.style.height;
                 this._endMask.style.y = this._endShape.style.y;
                 this._endMask.style.height = y + height - this._endShape.style.y;
 
@@ -1141,7 +1141,7 @@ define(function (require) {
             this._syncShape();
         },
 
-        _syncFillerShape : function (e) {
+        _syncFillerShape: function (e) {
             var x = this._calculableLocation.x;
             var y = this._calculableLocation.y;
             var width = this._calculableLocation.width;
@@ -1197,7 +1197,7 @@ define(function (require) {
             this._syncShape();
         },
 
-        _syncShape : function () {
+        _syncShape: function () {
             this._startShape.position = [
                 this._startShape.style.x - this._startShape.style._x,
                 this._startShape.style.y - this._startShape.style._y
@@ -1210,8 +1210,8 @@ define(function (require) {
             this._startShape.style.color
                 = this._startShape.highlightStyle.strokeColor
                 = this.getColor(
-                    this._gap * this._range.start + this.dataRangeOption.min
-                );
+                this._gap * this._range.start + this.dataRangeOption.min
+            );
 
             this._endShape.position = [
                 this._endShape.style.x - this._endShape.style._x,
@@ -1225,8 +1225,8 @@ define(function (require) {
             this._endShape.style.color
                 = this._endShape.highlightStyle.strokeColor
                 = this.getColor(
-                    this._gap * this._range.end + this.dataRangeOption.min
-                );
+                this._gap * this._range.end + this.dataRangeOption.min
+            );
 
             this.zr.modShape(this._startShape.id);
             this.zr.modShape(this._endShape.id);
@@ -1236,14 +1236,14 @@ define(function (require) {
             this.zr.refreshNextFrame();
         },
 
-        _dispatchDataRange : function () {
+        _dispatchDataRange: function () {
             this.messageCenter.dispatch(
                 ecConfig.EVENT.DATA_RANGE,
                 null,
                 {
-                    range : {
-                        start : this._range.end,
-                        end : this._range.start
+                    range: {
+                        start: this._range.end,
+                        end: this._range.start
                     }
                 },
                 this.myChart
@@ -1251,7 +1251,7 @@ define(function (require) {
         },
 
 
-        __dataRangeSelected : function (param) {
+        __dataRangeSelected: function (param) {
             if (this.dataRangeOption.selectedMode === 'single') {
                 for (var k in this._selectedMap) {
                     this._selectedMap[k] = false;
@@ -1289,7 +1289,7 @@ define(function (require) {
         /**
          * 产生hover link事件
          */
-        __dispatchHoverLink : function(param) {
+        __dispatchHoverLink: function (param) {
             var valueMin;
             var valueMax;
             if (this.dataRangeOption.calculable) {
@@ -1297,13 +1297,13 @@ define(function (require) {
                 var curValue;
                 if (this.dataRangeOption.orient == 'horizontal') {
                     curValue = (1 - (zrEvent.getX(param.event) - this._calculableLocation.x)
-                               / this._calculableLocation.width)
-                               * totalValue;
+                        / this._calculableLocation.width)
+                        * totalValue;
                 }
                 else {
                     curValue = (1 - (zrEvent.getY(param.event) - this._calculableLocation.y)
-                               / this._calculableLocation.height)
-                               * totalValue;
+                        / this._calculableLocation.height)
+                        * totalValue;
                 }
                 valueMin = curValue - totalValue * 0.05;
                 valueMax = curValue + totalValue * 0.05;
@@ -1323,8 +1323,8 @@ define(function (require) {
                 ecConfig.EVENT.DATA_RANGE_HOVERLINK,
                 param.event,
                 {
-                    valueMin : valueMin,
-                    valueMax : valueMax
+                    valueMin: valueMin,
+                    valueMax: valueMax
                 },
                 this.myChart
             );
@@ -1332,7 +1332,7 @@ define(function (require) {
             // console.log(param,curValue);
         },
 
-        __onhoverlink: function(param) {
+        __onhoverlink: function (param) {
             if (this.dataRangeOption.show
                 && this.dataRangeOption.hoverLink
                 && this._indicatorShape
@@ -1372,7 +1372,7 @@ define(function (require) {
             }
         },
 
-        _textFormat : function(valueStart, valueEnd) {
+        _textFormat: function (valueStart, valueEnd) {
             var dataRangeOption = this.dataRangeOption;
             if (valueStart !== -Number.MAX_VALUE) {
                 valueStart = (+valueStart).toFixed(dataRangeOption.precision);
@@ -1467,8 +1467,8 @@ define(function (require) {
                 this.dataRangeOption.precision = precision;
 
                 this._gap = (
-                    (this.dataRangeOption.max - this.dataRangeOption.min) / splitNumber
-                ).toFixed(precision) - 0;
+                        (this.dataRangeOption.max - this.dataRangeOption.min) / splitNumber
+                    ).toFixed(precision) - 0;
             }
         },
 
@@ -1544,7 +1544,7 @@ define(function (require) {
         /**
          * 刷新
          */
-        refresh : function (newOption) {
+        refresh: function (newOption) {
             if (newOption) {
                 this.option = newOption;
                 this.option.dataRange = this.reformOption(this.option.dataRange);
@@ -1564,8 +1564,8 @@ define(function (require) {
                 var splitNumber = this._isContinuity()
                     ? 100
                     : (this._useCustomizedSplit()
-                        ? dataRangeOption.splitList.length
-                        : dataRangeOption.splitNumber
+                            ? dataRangeOption.splitList.length
+                            : dataRangeOption.splitNumber
                     );
 
                 this._buildSplitList();
@@ -1578,7 +1578,7 @@ define(function (require) {
             this._buildShape();
         },
 
-        getColor : function (value) {
+        getColor: function (value) {
             if (isNaN(value)) {
                 return null;
             }
@@ -1599,15 +1599,15 @@ define(function (require) {
                 if (this.dataRangeOption.calculable) {
                     if (value - (this._gap * this._range.start + this.dataRangeOption.min) > 0.00005
                         || value - (this._gap * this._range.end + this.dataRangeOption.min) < -0.00005) {
-                         return null;
+                        return null;
                     }
                 }
 
                 idx = this._colorList.length - Math.ceil(
-                    (value - this.dataRangeOption.min)
-                    / (this.dataRangeOption.max - this.dataRangeOption.min)
-                    * this._colorList.length
-                );
+                        (value - this.dataRangeOption.min)
+                        / (this.dataRangeOption.max - this.dataRangeOption.min)
+                        * this._colorList.length
+                    );
                 if (idx == this._colorList.length) {
                     idx--;
                 }
@@ -1631,7 +1631,7 @@ define(function (require) {
             }
         },
 
-        getColorByIndex : function (idx) {
+        getColorByIndex: function (idx) {
             if (idx >= this._colorList.length) {
                 idx = this._colorList.length - 1;
             }
@@ -1644,7 +1644,7 @@ define(function (require) {
         /**
          * 释放后实例不可用
          */
-        onbeforDispose : function () {
+        onbeforDispose: function () {
             this.messageCenter.unbind(ecConfig.EVENT.HOVER, this._onhoverlink);
         }
     };

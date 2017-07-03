@@ -26,65 +26,9 @@ import java.util.Properties;
  */
 @Configuration
 @EnableScheduling
-@AutoConfigureAfter(value = { DataSourceAutoConfiguration.class })
+@AutoConfigureAfter(value = {DataSourceAutoConfiguration.class})
 @ConditionalOnProperty(name = Globals.ALBEDO_QUARTZENABLED)
 public class SchedulerConfiguration {
-
-    @Bean
-    public JobFactory jobFactory(ApplicationContext applicationContext)
-    {
-        AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
-        jobFactory.setApplicationContext(applicationContext);
-        return jobFactory;
-    }
-    /**
-	 * 调度工厂bean
-	 * 
-	 * @param jobFactory
-	 * @param sampleJobTrigger
-	 * @return
-	 * @author LDX
-	 * @throws IOException
-	 */
-	@Bean
-	public SchedulerFactoryBean schedulerFactoryBean(JobFactory jobFactory
-//    		, @Qualifier("sampleJobTrigger") Trigger sampleJobTrigger
-//			, DataSource dataSource
-	) throws IOException{
-		SchedulerFactoryBean factory = new SchedulerFactoryBean();
-		// this allows to update triggers in DB when updating settings in config file:
-		// 用于quartz集群,QuartzScheduler 启动时更新己存在的Job，这样就不用每次修改targetObject后删除qrtz_job_details表对应记录了
-		factory.setOverwriteExistingJobs(true);
-		// 用于quartz集群,加载quartz数据源
-//		factory.setDataSource(dataSource);
-		factory.setJobFactory(jobFactory);
-		// QuartzScheduler 延时启动，应用启动完20秒后 QuartzScheduler 再启动
-		factory.setStartupDelay(10);
-		// 用于quartz集群,加载quartz数据源配置
-//		 factory.setQuartzProperties(quartzProperties());
-		// 注册触发器
-//       factory.setTriggers(sampleJobTrigger);
-		return factory;
-	}
-
-    @Bean
-    public Properties quartzProperties() throws IOException {
-        PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
-        propertiesFactoryBean.setLocation(new ClassPathResource("/quartz.properties"));
-        propertiesFactoryBean.afterPropertiesSet();
-        return propertiesFactoryBean.getObject();
-    }
-
-//    @Bean
-//    public JobDetailFactoryBean sampleJobDetail() {
-//        return createJobDetail(SampleJob.class);
-//    }
-
-//    @Bean(name = "sampleJobTrigger")
-//    public SimpleTriggerFactoryBean sampleJobTrigger(@Qualifier("sampleJobDetail") JobDetail jobDetail,
-//                                                     @Value("${samplejob.frequency}") long frequency) {
-//        return createTrigger(jobDetail, frequency);
-//    }
 
     public static JobDetailFactoryBean createJobDetail(Class jobClass) {
         JobDetailFactoryBean factoryBean = new JobDetailFactoryBean();
@@ -112,6 +56,62 @@ public class SchedulerConfiguration {
         factoryBean.setCronExpression(cronExpression);
         factoryBean.setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
         return factoryBean;
+    }
+
+//    @Bean
+//    public JobDetailFactoryBean sampleJobDetail() {
+//        return createJobDetail(SampleJob.class);
+//    }
+
+//    @Bean(name = "sampleJobTrigger")
+//    public SimpleTriggerFactoryBean sampleJobTrigger(@Qualifier("sampleJobDetail") JobDetail jobDetail,
+//                                                     @Value("${samplejob.frequency}") long frequency) {
+//        return createTrigger(jobDetail, frequency);
+//    }
+
+    @Bean
+    public JobFactory jobFactory(ApplicationContext applicationContext) {
+        AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
+        jobFactory.setApplicationContext(applicationContext);
+        return jobFactory;
+    }
+
+    /**
+     * 调度工厂bean
+     *
+     * @param jobFactory
+     * @param sampleJobTrigger
+     * @return
+     * @throws IOException
+     * @author LDX
+     */
+    @Bean
+    public SchedulerFactoryBean schedulerFactoryBean(JobFactory jobFactory
+//    		, @Qualifier("sampleJobTrigger") Trigger sampleJobTrigger
+//			, DataSource dataSource
+    ) throws IOException {
+        SchedulerFactoryBean factory = new SchedulerFactoryBean();
+        // this allows to update triggers in DB when updating settings in config file:
+        // 用于quartz集群,QuartzScheduler 启动时更新己存在的Job，这样就不用每次修改targetObject后删除qrtz_job_details表对应记录了
+        factory.setOverwriteExistingJobs(true);
+        // 用于quartz集群,加载quartz数据源
+//		factory.setDataSource(dataSource);
+        factory.setJobFactory(jobFactory);
+        // QuartzScheduler 延时启动，应用启动完20秒后 QuartzScheduler 再启动
+        factory.setStartupDelay(10);
+        // 用于quartz集群,加载quartz数据源配置
+//		 factory.setQuartzProperties(quartzProperties());
+        // 注册触发器
+//       factory.setTriggers(sampleJobTrigger);
+        return factory;
+    }
+
+    @Bean
+    public Properties quartzProperties() throws IOException {
+        PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
+        propertiesFactoryBean.setLocation(new ClassPathResource("/quartz.properties"));
+        propertiesFactoryBean.afterPropertiesSet();
+        return propertiesFactoryBean.getObject();
     }
 
 }

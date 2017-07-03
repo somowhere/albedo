@@ -36,7 +36,7 @@ define(function (require) {
      *
      * 布局结果保存在第一个 Graph 的每个节点的 layout.startAngle 和 layout.endAngle.
      * 以及每个图的边的 layout.startAngle 和 layout.endAngle
-     * 
+     *
      * @param {Array.<module:echarts/data/Graph>|module:echarts/data/Graph} graphs
      */
     ChordLayout.prototype.run = function (graphs) {

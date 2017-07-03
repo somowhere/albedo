@@ -9,6 +9,6 @@ var Lock = function () {
 
 }();
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     Lock.init();
 });

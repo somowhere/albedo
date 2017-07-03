@@ -10,9 +10,10 @@ import java.util.List;
  */
 public interface ModuleRepository extends TreeRepository<Module, String> {
 
-	List<Module> findAllByStatusOrderBySort(Integer flagNormal);
-	Module findOneByParentIdOrderBySort(Integer parentId);
-	
-	Module findFirstByParentIdAndStatusNot(String id, Integer flagDelete);
+    List<Module> findAllByStatusOrderBySort(Integer flagNormal);
+
+    Module findOneByParentIdOrderBySort(Integer parentId);
+
+    Module findFirstByParentIdAndStatusNot(String id, Integer flagDelete);
 
 }

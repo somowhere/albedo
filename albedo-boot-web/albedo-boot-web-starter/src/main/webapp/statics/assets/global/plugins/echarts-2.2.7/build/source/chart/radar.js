@@ -22,23 +22,25 @@ define('echarts/chart/radar', [
         polarIndex: 0,
         itemStyle: {
             normal: {
-                label: { show: false },
+                label: {show: false},
                 lineStyle: {
                     width: 2,
                     type: 'solid'
                 }
             },
-            emphasis: { label: { show: false } }
+            emphasis: {label: {show: false}}
         },
         symbolSize: 2
     };
     var ecData = require('../util/ecData');
     var zrUtil = require('zrender/tool/util');
     var zrColor = require('zrender/tool/color');
+
     function Radar(ecTheme, messageCenter, zr, option, myChart) {
         ChartBase.call(this, ecTheme, messageCenter, zr, option, myChart);
         this.refresh(option);
     }
+
     Radar.prototype = {
         type: ecConfig.CHART_TYPE_RADAR,
         _buildShape: function () {
@@ -248,7 +250,8 @@ define('echarts/chart/radar', [
     zrUtil.inherits(Radar, ChartBase);
     require('../chart').define('radar', Radar);
     return Radar;
-});define('echarts/component/polar', [
+});
+define('echarts/component/polar', [
     'require',
     './base',
     'zrender/shape/Text',
@@ -286,7 +289,7 @@ define('echarts/chart/radar', [
         splitNumber: 5,
         name: {
             show: true,
-            textStyle: { color: '#333' }
+            textStyle: {color: '#333'}
         },
         axisLine: {
             show: true,
@@ -298,7 +301,7 @@ define('echarts/chart/radar', [
         },
         axisLabel: {
             show: false,
-            textStyle: { color: '#333' }
+            textStyle: {color: '#333'}
         },
         splitArea: {
             show: true,
@@ -320,10 +323,12 @@ define('echarts/chart/radar', [
     };
     var zrUtil = require('zrender/tool/util');
     var ecCoordinates = require('../util/coordinates');
+
     function Polar(ecTheme, messageCenter, zr, option, myChart) {
         Base.call(this, ecTheme, messageCenter, zr, option, myChart);
         this.refresh(option);
     }
+
     Polar.prototype = {
         type: ecConfig.COMPONENT_TYPE_POLAR,
         _buildShape: function () {
@@ -768,10 +773,10 @@ define('echarts/chart/radar', [
                 serieData = serie.data || [];
                 for (var j = 0; j < serieData.length; j++) {
                     polarIndex = this.deepQuery([
-                        serieData[j],
-                        serie,
-                        this.option
-                    ], 'polarIndex') || 0;
+                            serieData[j],
+                            serie,
+                            this.option
+                        ], 'polarIndex') || 0;
                     if (polarIndex == index && (!legend || legend.isSelected(serieData[j].name))) {
                         data.push(serieData[j]);
                     }
@@ -790,6 +795,7 @@ define('echarts/chart/radar', [
                 (item > max || max === undefined) && (max = item);
                 (item < min || min === undefined) && (min = item);
             }
+
             if (data.length == 1) {
                 min = 0;
             }
@@ -837,15 +843,15 @@ define('echarts/chart/radar', [
                 return center;
             }
             switch (value) {
-            case 'min':
-                value = min;
-                break;
-            case 'max':
-                value = max;
-                break;
-            case 'center':
-                value = (max + min) / 2;
-                break;
+                case 'min':
+                    value = min;
+                    break;
+                case 'max':
+                    value = max;
+                    break;
+                case 'center':
+                    value = (max + min) / 2;
+                    break;
             }
             if (max != min) {
                 alpha = (value - min) / (max - min);
@@ -918,23 +924,27 @@ define('echarts/chart/radar', [
     zrUtil.inherits(Polar, Base);
     require('../component').define('polar', Polar);
     return Polar;
-});define('echarts/util/coordinates', [
+});
+define('echarts/util/coordinates', [
     'require',
     'zrender/tool/math'
 ], function (require) {
     var zrMath = require('zrender/tool/math');
+
     function polar2cartesian(r, theta) {
         return [
             r * zrMath.sin(theta),
             r * zrMath.cos(theta)
         ];
     }
+
     function cartesian2polar(x, y) {
         return [
             Math.sqrt(x * x + y * y),
             Math.atan(y / x)
         ];
     }
+
     return {
         polar2cartesian: polar2cartesian,
         cartesian2polar: cartesian2polar

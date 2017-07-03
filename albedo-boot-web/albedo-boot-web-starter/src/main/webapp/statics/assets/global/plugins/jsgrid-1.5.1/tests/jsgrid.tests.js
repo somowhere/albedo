@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
 
     var Grid = jsGrid.Grid,
 
@@ -9,7 +9,7 @@ $(function() {
 
     module("basic");
 
-    test("default creation", function() {
+    test("default creation", function () {
         var gridOptions = {
                 simpleOption: "test",
                 complexOption: {
@@ -26,7 +26,7 @@ $(function() {
         equal(grid.complexOption, gridOptions.complexOption, "non-primitive option extended");
     });
 
-    test("jquery adapter creation", function() {
+    test("jquery adapter creation", function () {
         var gridOptions = {
                 option: "test"
             },
@@ -39,7 +39,7 @@ $(function() {
         equal(grid.option, "test", "options provided");
     });
 
-    test("destroy", function() {
+    test("destroy", function () {
         var $element = $("#jsGrid"),
             grid;
 
@@ -52,7 +52,7 @@ $(function() {
         strictEqual($element.data(JSGRID_DATA_KEY), undefined, "jquery data is removed");
     });
 
-    test("jquery adapter second call changes option value", function() {
+    test("jquery adapter second call changes option value", function () {
         var $element = $("#jsGrid"),
             gridOptions = {
                 option: "test"
@@ -69,11 +69,11 @@ $(function() {
         equal(grid.option, "new test", "option changed");
     });
 
-    test("jquery adapter invokes jsGrid method", function() {
+    test("jquery adapter invokes jsGrid method", function () {
         var methodResult = "",
             $element = $("#jsGrid"),
             gridOptions = {
-                method: function(str) {
+                method: function (str) {
                     methodResult = "test_" + str;
                 }
             };
@@ -84,11 +84,11 @@ $(function() {
         equal(methodResult, "test_invoke", "method invoked");
     });
 
-    test("onInit callback", function() {
+    test("onInit callback", function () {
         var $element = $("#jsGrid"),
             onInitArguments,
             gridOptions = {
-                onInit: function(args) {
+                onInit: function (args) {
                     onInitArguments = args;
                 }
             };
@@ -98,7 +98,7 @@ $(function() {
         equal(onInitArguments.grid, grid, "grid instance is provided in onInit callback arguments");
     });
 
-    test("controller methods are $.noop when not specified", function() {
+    test("controller methods are $.noop when not specified", function () {
         var $element = $("#jsGrid"),
             gridOptions = {
                 controller: {}
@@ -115,7 +115,7 @@ $(function() {
         }, "controller has stub methods");
     });
 
-    test("option method", function() {
+    test("option method", function () {
         var $element = $("#jsGrid"),
             gridOptions = {
                 test: "value"
@@ -132,7 +132,7 @@ $(function() {
         equal(testOption, "new_value", "set option value");
     });
 
-    test("fieldOption method", function() {
+    test("fieldOption method", function () {
         var dataLoadedCount = 0;
         var $element = $("#jsGrid"),
             gridOptions = {
@@ -141,14 +141,14 @@ $(function() {
                 autoload: true,
 
                 controller: {
-                    loadData: function() {
+                    loadData: function () {
                         dataLoadedCount++;
-                        return [{ prop1: "value1", prop2: "value2", prop3: "value3" }];
+                        return [{prop1: "value1", prop2: "value2", prop3: "value3"}];
                     }
                 },
 
                 fields: [
-                    { name: "prop1", title: "_" }
+                    {name: "prop1", title: "_"}
                 ]
             };
 
@@ -165,7 +165,7 @@ $(function() {
         equal($element.text(), "_value3", "set field option by field index");
     });
 
-    test("option changing event handlers", function() {
+    test("option changing event handlers", function () {
         var $element = $("#jsGrid"),
             optionChangingEventArgs,
             optionChangedEventArgs,
@@ -173,13 +173,13 @@ $(function() {
             gridOptions = {
                 test: "testValue",
                 another: "anotherValue",
-                onOptionChanging: function(e) {
+                onOptionChanging: function (e) {
                     optionChangingEventArgs = $.extend({}, e);
 
                     e.option = "another";
                     e.newValue = e.newValue + "_" + this.another;
                 },
-                onOptionChanged: function(e) {
+                onOptionChanged: function (e) {
                     optionChangedEventArgs = $.extend({}, e);
                 }
             },
@@ -199,7 +199,7 @@ $(function() {
         equal(optionChangedEventArgs.value, "newTestValue_anotherValue", "option value is provided in args of optionChanged");
     });
 
-    test("common layout rendering", function() {
+    test("common layout rendering", function () {
         var $element = $("#jsGrid"),
             grid = new Grid($element, {}),
             $headerGrid,
@@ -230,7 +230,7 @@ $(function() {
         equal($bodyGridTable.text(), grid.noDataContent, "no data text");
     });
 
-    test("set default options with setDefaults", function() {
+    test("set default options with setDefaults", function () {
         jsGrid.setDefaults({
             defaultOption: "test"
         });
@@ -243,16 +243,16 @@ $(function() {
 
     module("loading");
 
-    test("loading with controller", function() {
+    test("loading with controller", function () {
         var $element = $("#jsGrid"),
             data = [
-                { test: "test1" },
-                { test: "test2" }
+                {test: "test1"},
+                {test: "test2"}
             ],
 
             gridOptions = {
                 controller: {
-                    loadData: function() {
+                    loadData: function () {
                         return data;
                     }
                 }
@@ -265,28 +265,28 @@ $(function() {
         equal(grid.option("data"), data, "loadData loads data");
     });
 
-    test("loadData throws exception when controller method not found", function() {
+    test("loadData throws exception when controller method not found", function () {
         var $element = $("#jsGrid");
         var grid = new Grid($element);
         grid._controller = {};
 
-        throws(function() {
+        throws(function () {
             grid.loadData();
         }, /loadData/, "loadData threw an exception");
     });
 
-    test("onError event should be fired on controller fail", function() {
+    test("onError event should be fired on controller fail", function () {
         var errorArgs,
             errorFired = 0,
             $element = $("#jsGrid"),
 
             gridOptions = {
                 controller: {
-                    loadData: function() {
-                        return $.Deferred().reject({ value: 1 }, "test").promise();
+                    loadData: function () {
+                        return $.Deferred().reject({value: 1}, "test").promise();
                     }
                 },
-                onError: function(args) {
+                onError: function (args) {
                     errorFired++;
                     errorArgs = args;
                 }
@@ -297,14 +297,14 @@ $(function() {
         grid.loadData();
 
         equal(errorFired, 1, "onError handler fired");
-        deepEqual(errorArgs, { grid: grid, args: [{ value: 1 }, "test"] }, "error has correct params");
+        deepEqual(errorArgs, {grid: grid, args: [{value: 1}, "test"]}, "error has correct params");
     });
 
-    asyncTest("autoload should call loadData after render", 1, function() {
+    asyncTest("autoload should call loadData after render", 1, function () {
         new Grid($("#jsGrid"), {
             autoload: true,
             controller: {
-                loadData: function() {
+                loadData: function () {
                     ok(true, "autoload calls loadData on creation");
                     start();
                     return [];
@@ -313,16 +313,16 @@ $(function() {
         });
     });
 
-    test("loading filtered data", function() {
+    test("loading filtered data", function () {
         var filteredData,
             loadingArgs,
             loadedArgs,
             $element = $("#jsGrid"),
             data = [
-                { field: "test" },
-                { field: "test_another" },
-                { field: "test_another" },
-                { field: "test" }
+                {field: "test"},
+                {field: "test_another"},
+                {field: "test_another"},
+                {field: "test"}
             ],
 
             gridOptions = {
@@ -330,20 +330,20 @@ $(function() {
                 fields: [
                     {
                         name: "field",
-                        filterValue: function(value) {
+                        filterValue: function (value) {
                             return "test";
                         }
                     }
                 ],
-                onDataLoading: function(e) {
+                onDataLoading: function (e) {
                     loadingArgs = $.extend(true, {}, e);
                 },
-                onDataLoaded: function(e) {
+                onDataLoaded: function (e) {
                     loadedArgs = $.extend(true, {}, e);
                 },
                 controller: {
-                    loadData: function(filter) {
-                        filteredData = $.grep(data, function(item) {
+                    loadData: function (filter) {
+                        filteredData = $.grep(data, function (item) {
                             return item.field === filter.field;
                         });
                         return filteredData;
@@ -360,7 +360,7 @@ $(function() {
         deepEqual(loadedArgs.data, filteredData);
     });
 
-    asyncTest("loading indication", function() {
+    asyncTest("loading indication", function () {
         var timeout = 10,
             stage = "initial",
             $element = $("#jsGrid"),
@@ -370,31 +370,31 @@ $(function() {
                 loadIndicationDelay: timeout,
                 loadMessage: "loading...",
 
-                loadIndicator: function(config) {
+                loadIndicator: function (config) {
                     equal(config.message, gridOptions.loadMessage, "message provided");
                     ok(config.container.jquery, "grid container is provided");
 
                     return {
-                        show: function() {
+                        show: function () {
                             stage = "started";
                         },
-                        hide: function() {
+                        hide: function () {
                             stage = "finished";
                         }
                     };
                 },
 
                 fields: [
-                    { name: "field" }
+                    {name: "field"}
                 ],
 
                 controller: {
-                    loadData: function() {
+                    loadData: function () {
                         var deferred = $.Deferred();
 
                         equal(stage, "initial", "initial stage");
 
-                        setTimeout(function() {
+                        setTimeout(function () {
                             equal(stage, "started", "loading started");
 
                             deferred.resolve([]);
@@ -413,7 +413,7 @@ $(function() {
         grid.loadData();
     });
 
-    asyncTest("loadingIndication=false should not show loading", 0, function() {
+    asyncTest("loadingIndication=false should not show loading", 0, function () {
         var $element = $("#jsGrid"),
             timeout = 10,
 
@@ -421,26 +421,26 @@ $(function() {
                 loadIndication: false,
                 loadIndicationDelay: timeout,
 
-                loadIndicator: function() {
+                loadIndicator: function () {
                     return {
-                        show: function() {
+                        show: function () {
                             ok(false, "should not call show");
                         },
-                        hide: function() {
+                        hide: function () {
                             ok(false, "should not call hide");
                         }
                     };
                 },
 
                 fields: [
-                    { name: "field" }
+                    {name: "field"}
                 ],
 
                 controller: {
-                    loadData: function() {
+                    loadData: function () {
                         var deferred = $.Deferred();
 
-                        setTimeout(function() {
+                        setTimeout(function () {
                             deferred.resolve([]);
                             start();
                         }, timeout);
@@ -455,13 +455,13 @@ $(function() {
         grid.loadData();
     });
 
-    test("search", function() {
+    test("search", function () {
         var $element = $("#jsGrid"),
             data = [
-                { field: "test" },
-                { field: "test_another" },
-                { field: "test_another" },
-                { field: "test" }
+                {field: "test"},
+                {field: "test_another"},
+                {field: "test_another"},
+                {field: "test"}
             ],
 
             gridOptions = {
@@ -472,14 +472,14 @@ $(function() {
                 fields: [
                     {
                         name: "field",
-                        filterValue: function(value) {
+                        filterValue: function (value) {
                             return "test";
                         }
                     }
                 ],
                 controller: {
-                    loadData: function(filter) {
-                        var filteredData = $.grep(data, function(item) {
+                    loadData: function (filter) {
+                        var filteredData = $.grep(data, function (item) {
                             return item.field === filter.field;
                         });
                         return filteredData;
@@ -496,12 +496,12 @@ $(function() {
         strictEqual(grid._sortOrder, "asc", "sortOrder reset");
     });
 
-    test("change loadStrategy on the fly", function() {
+    test("change loadStrategy on the fly", function () {
         var $element = $("#jsGrid");
 
         var gridOptions = {
             controller: {
-                loadData: function() {
+                loadData: function () {
                     return [];
                 }
             }
@@ -510,19 +510,19 @@ $(function() {
         var grid = new Grid($element, gridOptions);
 
         grid.option("loadStrategy", {
-            firstDisplayIndex: function() {
+            firstDisplayIndex: function () {
                 return 0;
             },
 
-            lastDisplayIndex: function() {
+            lastDisplayIndex: function () {
                 return 1;
             },
 
-            loadParams: function() {
+            loadParams: function () {
                 return [];
             },
 
-            finishLoad: function() {
+            finishLoad: function () {
                 grid.option("data", [{}]);
             }
         });
@@ -535,7 +535,7 @@ $(function() {
 
     module("filtering");
 
-    test("filter rendering", function() {
+    test("filter rendering", function () {
         var $element = $("#jsGrid"),
             gridOptions = {
                 filtering: true,
@@ -544,7 +544,7 @@ $(function() {
                         name: "test",
                         align: "right",
                         filtercss: "filter-class",
-                        filterTemplate: function() {
+                        filterTemplate: function () {
                             var result = this.filterControl = $("<input>").attr("type", "text").addClass("filter-input");
                             return result;
                         }
@@ -560,22 +560,22 @@ $(function() {
         ok(grid.fields[0].filterControl.is("input[type=text]"), "filter control saved in field");
     });
 
-    test("filter get/clear", function() {
+    test("filter get/clear", function () {
         var $element = $("#jsGrid"),
             gridOptions = {
                 filtering: true,
                 controller: {
-                    loadData: function() {
+                    loadData: function () {
                         return [];
                     }
                 },
                 fields: [
                     {
                         name: "field",
-                        filterTemplate: function() {
+                        filterTemplate: function () {
                             return this.filterControl = $("<input>").attr("type", "text");
                         },
-                        filterValue: function() {
+                        filterValue: function () {
                             return this.filterControl.val();
                         }
                     }
@@ -584,22 +584,22 @@ $(function() {
             grid = new Grid($element, gridOptions);
 
         grid.fields[0].filterControl.val("test");
-        deepEqual(grid.getFilter(), { field: "test" }, "get filter");
+        deepEqual(grid.getFilter(), {field: "test"}, "get filter");
 
         grid.clearFilter();
-        deepEqual(grid.getFilter(), { field: "" }, "filter cleared");
+        deepEqual(grid.getFilter(), {field: ""}, "filter cleared");
         equal(grid.fields[0].filterControl.val(), "", "grid field filterControl cleared");
     });
 
-    test("field without filtering", function() {
+    test("field without filtering", function () {
         var $element = $("#jsGrid"),
             jsGridFieldConfig = {
-                filterTemplate: function() {
+                filterTemplate: function () {
                     var result = this.filterControl = $("<input>").attr("type", "text");
                     return result;
                 },
-                filterValue: function(value) {
-                    if(!arguments.length) {
+                filterValue: function (value) {
+                    if (!arguments.length) {
                         return this.filterControl.val();
                     }
                     this.filterControl.val(value);
@@ -623,16 +623,16 @@ $(function() {
 
         grid.fields[0].filterControl.val("test1");
         grid.fields[1].filterControl.val("test2");
-        deepEqual(grid.getFilter(), { field2: "test2" }, "field with filtering=false is not included in filter");
+        deepEqual(grid.getFilter(), {field2: "test2"}, "field with filtering=false is not included in filter");
     });
 
-    test("search with filter", function() {
+    test("search with filter", function () {
         var $element = $("#jsGrid"),
             data = [
-                { field: "test" },
-                { field: "test_another" },
-                { field: "test_another" },
-                { field: "test" }
+                {field: "test"},
+                {field: "test_another"},
+                {field: "test_another"},
+                {field: "test"}
             ],
 
             gridOptions = {
@@ -642,8 +642,8 @@ $(function() {
                     }
                 ],
                 controller: {
-                    loadData: function(filter) {
-                        var filteredData = $.grep(data, function(item) {
+                    loadData: function (filter) {
+                        var filteredData = $.grep(data, function (item) {
                             return item.field === filter.field;
                         });
                         return filteredData;
@@ -653,20 +653,20 @@ $(function() {
 
             grid = new Grid($element, gridOptions);
 
-        grid.search({ field: "test" });
+        grid.search({field: "test"});
         equal(grid.option("data").length, 2, "data filtered");
     });
 
-    test("filtering with static data should not do actual filtering", function() {
+    test("filtering with static data should not do actual filtering", function () {
         var $element = $("#jsGrid"),
             gridOptions = {
                 filtering: true,
                 fields: [
-                    { type: "text", name: "field" }
+                    {type: "text", name: "field"}
                 ],
                 data: [
-                    { name: "value1" },
-                    { name: "value2" }
+                    {name: "value1"},
+                    {name: "value2"}
                 ]
             },
             grid = new Grid($element, gridOptions);
@@ -680,7 +680,7 @@ $(function() {
 
     module("nodatarow");
 
-    test("nodatarow after bind on empty array", function() {
+    test("nodatarow after bind on empty array", function () {
         var $element = $("#jsGrid"),
             gridOptions = {},
             grid = new Grid($element, gridOptions);
@@ -691,11 +691,11 @@ $(function() {
         equal(grid._content.text(), grid.noDataContent, "no data text rendered");
     });
 
-    test("nodatarow customize content", function() {
+    test("nodatarow customize content", function () {
         var noDataMessage = "NoData Custom Content",
             $element = $("#jsGrid"),
             gridOptions = {
-                noDataContent: function() {
+                noDataContent: function () {
                     return noDataMessage;
                 }
             },
@@ -708,16 +708,16 @@ $(function() {
 
 
     module("row rendering", {
-        setup: function() {
+        setup: function () {
             this.testData = [
-                { id: 1, text: "test1" },
-                { id: 2, text: "test2" },
-                { id: 3, text: "test3" }
+                {id: 1, text: "test1"},
+                {id: 2, text: "test2"},
+                {id: 3, text: "test3"}
             ];
         }
     });
 
-    test("rows rendered correctly", function() {
+    test("rows rendered correctly", function () {
         var $element = $("#jsGrid"),
             gridOptions = {
                 data: this.testData
@@ -729,7 +729,7 @@ $(function() {
         equal(grid._content.find("." + grid.evenRowClass).length, 1, "one even row for 3 items");
     });
 
-    test("custom rowClass", function() {
+    test("custom rowClass", function () {
         var $element = $("#jsGrid"),
             gridOptions = {
                 data: this.testData,
@@ -742,11 +742,11 @@ $(function() {
         equal(grid._content.find(".custom-row-cls").length, 3, "custom row class");
     });
 
-    test("custom rowClass callback", function() {
+    test("custom rowClass callback", function () {
         var $element = $("#jsGrid"),
             gridOptions = {
                 data: this.testData,
-                rowClass: function(item, index) {
+                rowClass: function (item, index) {
                     return item.text;
                 }
             },
@@ -759,10 +759,10 @@ $(function() {
         equal(grid._content.find(".test3").length, 1, "custom row class");
     });
 
-    test("rowClick standard handler", function() {
+    test("rowClick standard handler", function () {
         var $element = $("#jsGrid"),
             $secondRow,
-            grid = new Grid($element, { editing: true });
+            grid = new Grid($element, {editing: true});
 
         grid.option("data", this.testData);
 
@@ -772,12 +772,12 @@ $(function() {
         equal(grid._editingRow.get(0), $secondRow.get(0), "clicked row is editingRow");
     });
 
-    test("rowClick handler", function() {
+    test("rowClick handler", function () {
         var rowClickArgs,
             $element = $("#jsGrid"),
             $secondRow,
             gridOptions = {
-                rowClick: function(args) {
+                rowClick: function (args) {
                     rowClickArgs = args;
                 }
             },
@@ -793,7 +793,7 @@ $(function() {
         equal(rowClickArgs.itemIndex, 1, "itemIndex arg");
     });
 
-    test("row selecting with selectedRowClass", function() {
+    test("row selecting with selectedRowClass", function () {
         var $element = $("#jsGrid"),
             $secondRow,
             gridOptions = {
@@ -812,7 +812,7 @@ $(function() {
         ok(!$secondRow.hasClass(grid.selectedRowClass), "mouseleave removes selectedRowClass");
     });
 
-    test("no row selecting while selection is disabled", function() {
+    test("no row selecting while selection is disabled", function () {
         var $element = $("#jsGrid"),
             $secondRow,
             gridOptions = {
@@ -827,18 +827,18 @@ $(function() {
         ok(!$secondRow.hasClass(grid.selectedRowClass), "mouseenter doesn't add selectedRowClass");
     });
 
-    test("refreshing and refreshed callbacks", function() {
+    test("refreshing and refreshed callbacks", function () {
         var refreshingEventArgs,
             refreshedEventArgs,
             $element = $("#jsGrid"),
             grid = new Grid($element, {});
 
-        grid.onRefreshing = function(e) {
+        grid.onRefreshing = function (e) {
             refreshingEventArgs = e;
             equal(grid._content.find("." + grid.oddRowClass).length, 0, "no items before refresh");
         };
 
-        grid.onRefreshed = function(e) {
+        grid.onRefreshed = function (e) {
             refreshedEventArgs = e;
             equal(grid._content.find("." + grid.oddRowClass).length, 2, "items rendered after refresh");
         };
@@ -850,8 +850,8 @@ $(function() {
         equal(grid._content.find("." + grid.oddRowClass).length, 2, "items rendered");
     });
 
-    test("grid fields normalization", function() {
-        var CustomField = function(config) {
+    test("grid fields normalization", function () {
+        var CustomField = function (config) {
             $.extend(true, this, config);
         };
 
@@ -895,30 +895,34 @@ $(function() {
         }
     });
 
-    test("'0' itemTemplate should be rendered", function() {
+    test("'0' itemTemplate should be rendered", function () {
         var $element = $("#jsGrid"),
             grid = new Grid($element, {
                 data: [{}],
                 fields: [
-                    new jsGrid.Field({ name: "id", itemTemplate: function() { return 0; } })
+                    new jsGrid.Field({
+                        name: "id", itemTemplate: function () {
+                            return 0;
+                        }
+                    })
                 ]
             });
 
         equal(grid._bodyGrid.text(), "0", "item template is rendered");
     });
 
-    test("grid field name used for header if title is not specified", function() {
+    test("grid field name used for header if title is not specified", function () {
         var $element = $("#jsGrid"),
             grid = new Grid($element, {
                 fields: [
-                    new jsGrid.Field({ name: "id" })
+                    new jsGrid.Field({name: "id"})
                 ]
             });
 
         equal(grid._headerRow.text(), "id", "name is rendered in header");
     });
 
-    test("grid fields header and item rendering", function() {
+    test("grid fields header and item rendering", function () {
         var $element = $("#jsGrid"),
             $secondRow,
             gridOptions = {
@@ -948,8 +952,8 @@ $(function() {
         ok($secondRow.find(".cell-class").hasClass("jsgrid-align-right"), "align class added to cell");
     });
 
-    test("grid field cellRenderer", function() {
-        var testItem = { text: "test" },
+    test("grid field cellRenderer", function () {
+        var testItem = {text: "test"},
             args;
 
         var $grid = $("#jsGrid");
@@ -959,7 +963,7 @@ $(function() {
             fields: [
                 {
                     name: "text",
-                    cellRenderer: function(value, item) {
+                    cellRenderer: function (value, item) {
                         args = {
                             value: value,
                             item: item
@@ -975,17 +979,17 @@ $(function() {
 
         equal($customCell.length, 1, "custom cell rendered");
         equal($customCell.text(), "test");
-        deepEqual(args, { value: "test", item: testItem }, "cellRenderer args provided");
+        deepEqual(args, {value: "test", item: testItem}, "cellRenderer args provided");
     });
 
-    test("grid field 'visible' option", function() {
+    test("grid field 'visible' option", function () {
         var $grid = $("#jsGrid");
 
         var gridOptions = {
             editing: true,
             fields: [
-                { name: "id", visible: false },
-                { name: "test" }
+                {name: "id", visible: false},
+                {name: "test"}
             ]
         };
 
@@ -1007,7 +1011,7 @@ $(function() {
 
     module("inserting");
 
-    test("inserting rendering", function() {
+    test("inserting rendering", function () {
         var $element = $("#jsGrid"),
             gridOptions = {
                 inserting: true,
@@ -1016,7 +1020,7 @@ $(function() {
                         name: "test",
                         align: "right",
                         insertcss: "insert-class",
-                        insertTemplate: function() {
+                        insertTemplate: function () {
                             var result = this.insertControl = $("<input>").attr("type", "text").addClass("insert-input");
                             return result;
                         }
@@ -1032,14 +1036,14 @@ $(function() {
         ok(grid.fields[0].insertControl.is("input[type=text]"), "insert control saved in field");
     });
 
-    test("field without inserting", function() {
+    test("field without inserting", function () {
         var $element = $("#jsGrid"),
             jsGridFieldConfig = {
-                insertTemplate: function() {
+                insertTemplate: function () {
                     var result = this.insertControl = $("<input>").attr("type", "text");
                     return result;
                 },
-                insertValue: function() {
+                insertValue: function () {
                     return this.insertControl.val();
                 }
             },
@@ -1061,10 +1065,10 @@ $(function() {
 
         grid.fields[0].insertControl.val("test1");
         grid.fields[1].insertControl.val("test2");
-        deepEqual(grid._getInsertItem(), { field2: "test2" }, "field with inserting=false is not included in inserting item");
+        deepEqual(grid._getInsertItem(), {field2: "test2"}, "field with inserting=false is not included in inserting item");
     });
 
-    test("insert data", function() {
+    test("insert data", function () {
         var $element = $("#jsGrid"),
 
             inserted = false,
@@ -1077,23 +1081,23 @@ $(function() {
                 fields: [
                     {
                         name: "field",
-                        insertTemplate: function() {
+                        insertTemplate: function () {
                             var result = this.insertControl = $("<input>").attr("type", "text");
                             return result;
                         },
-                        insertValue: function() {
+                        insertValue: function () {
                             return this.insertControl.val();
                         }
                     }
                 ],
-                onItemInserting: function(e) {
+                onItemInserting: function (e) {
                     insertingArgs = $.extend(true, {}, e);
                 },
-                onItemInserted: function(e) {
+                onItemInserted: function (e) {
                     insertedArgs = $.extend(true, {}, e);
                 },
                 controller: {
-                    insertItem: function() {
+                    insertItem: function () {
                         inserted = true;
                     }
                 }
@@ -1107,13 +1111,13 @@ $(function() {
         equal(insertingArgs.item.field, "test", "field is provided in inserting args");
         equal(grid.option("data").length, 1, "data is inserted");
         ok(inserted, "controller insertItem was called");
-        deepEqual(grid.option("data")[0], { field: "test" }, "correct data is inserted");
+        deepEqual(grid.option("data")[0], {field: "test"}, "correct data is inserted");
         equal(insertedArgs.item.field, "test", "field is provided in inserted args");
     });
 
-    test("insertItem accepts item to insert", function() {
+    test("insertItem accepts item to insert", function () {
         var $element = $("#jsGrid"),
-            itemToInsert = { field: "test" },
+            itemToInsert = {field: "test"},
             insertedItem,
 
             gridOptions = {
@@ -1124,7 +1128,7 @@ $(function() {
                     }
                 ],
                 controller: {
-                    insertItem: function(item) {
+                    insertItem: function (item) {
                         insertedItem = item;
                     }
                 }
@@ -1140,7 +1144,7 @@ $(function() {
 
     module("editing");
 
-    test("editing rendering", function() {
+    test("editing rendering", function () {
         var $element = $("#jsGrid"),
             $editRow,
             data = [{
@@ -1154,7 +1158,7 @@ $(function() {
                         name: "test",
                         align: "right",
                         editcss: "edit-class",
-                        editTemplate: function(value) {
+                        editTemplate: function (value) {
                             var result = this.editControl = $("<input>").attr("type", "text").val(value).addClass("edit-input");
                             return result;
                         }
@@ -1181,17 +1185,17 @@ $(function() {
         equal(grid.fields[0].editControl.val(), "value", "edit control value");
     });
 
-    test("editItem accepts row to edit", function() {
+    test("editItem accepts row to edit", function () {
         var $element = $("#jsGrid"),
             $editRow,
             data = [
-                { test: "value" }
+                {test: "value"}
             ],
 
             gridOptions = {
                 editing: true,
                 fields: [
-                    { name: "test" }
+                    {name: "test"}
                 ]
             },
 
@@ -1212,7 +1216,7 @@ $(function() {
         equal($editRow.length, 1, "edit row rendered");
     });
 
-    test("edit item", function() {
+    test("edit item", function () {
         var $element = $("#jsGrid"),
             editingArgs,
             editingRow,
@@ -1230,29 +1234,29 @@ $(function() {
                 fields: [
                     {
                         name: "field",
-                        editTemplate: function(value) {
+                        editTemplate: function (value) {
                             var result = this.editControl = $("<input>").attr("type", "text").val(value);
                             return result;
                         },
-                        editValue: function() {
+                        editValue: function () {
                             return this.editControl.val();
                         }
                     }
                 ],
                 controller: {
-                    updateItem: function(updatingItem) {
+                    updateItem: function (updatingItem) {
                         updated = true;
                     }
                 },
-                onItemEditing: function(e) {
+                onItemEditing: function (e) {
                     editingArgs = $.extend(true, {}, e);
                     editingRow = grid.rowByItem(data[0])[0];
                 },
-                onItemUpdating: function(e) {
+                onItemUpdating: function (e) {
                     updatingArgs = $.extend(true, {}, e);
                     updatingRow = grid.rowByItem(data[0])[0];
                 },
-                onItemUpdated: function(e) {
+                onItemUpdated: function (e) {
                     updatedArgs = $.extend(true, {}, e);
                     updatedRow = grid.rowByItem(data[0])[0];
                 }
@@ -1264,28 +1268,28 @@ $(function() {
 
         grid.editItem(data[0]);
 
-        deepEqual(editingArgs.item, { field: "value" }, "item before editing is provided in editing event args");
+        deepEqual(editingArgs.item, {field: "value"}, "item before editing is provided in editing event args");
         equal(editingArgs.itemIndex, 0, "itemIndex is provided in editing event args");
         equal(editingArgs.row[0], editingRow, "row element is provided in editing event args");
 
         grid.fields[0].editControl.val("new value");
         grid.updateItem();
 
-        deepEqual(updatingArgs.previousItem, { field: "value" }, "item before editing is provided in updating event args");
-        deepEqual(updatingArgs.item, { field: "new value" }, "updating item is provided in updating event args");
+        deepEqual(updatingArgs.previousItem, {field: "value"}, "item before editing is provided in updating event args");
+        deepEqual(updatingArgs.item, {field: "new value"}, "updating item is provided in updating event args");
         equal(updatingArgs.itemIndex, 0, "itemIndex is provided in updating event args");
         equal(updatingArgs.row[0], updatingRow, "row element is provided in updating event args");
         ok(updated, "controller updateItem called");
-        deepEqual(grid.option("data")[0], { field: "new value" }, "correct data updated");
+        deepEqual(grid.option("data")[0], {field: "new value"}, "correct data updated");
         equal(grid._content.find("." + grid.editRowClass).length, 0, "edit row removed");
         equal(grid._content.find("." + grid.oddRowClass).length, 1, "data row rendered");
-        deepEqual(updatedArgs.previousItem, { field: "value" }, "item before editing is provided in updated event args");
-        deepEqual(updatedArgs.item, { field: "new value" }, "updated item is provided in updated event args");
+        deepEqual(updatedArgs.previousItem, {field: "value"}, "item before editing is provided in updated event args");
+        deepEqual(updatedArgs.item, {field: "new value"}, "updated item is provided in updated event args");
         equal(updatedArgs.itemIndex, 0, "itemIndex is provided in updated event args");
         equal(updatedArgs.row[0], updatedRow, "row element is provided in updated event args");
     });
 
-    test("cancel edit", function() {
+    test("cancel edit", function () {
         var $element = $("#jsGrid"),
             updated = false,
             data = [{
@@ -1297,17 +1301,17 @@ $(function() {
                 fields: [
                     {
                         name: "field",
-                        editTemplate: function(value) {
+                        editTemplate: function (value) {
                             var result = this.editControl = $("<input>").attr("type", "text").val(value);
                             return result;
                         },
-                        editValue: function() {
+                        editValue: function () {
                             return this.editControl.val();
                         }
                     }
                 ],
                 controller: {
-                    updateData: function(updatingItem) {
+                    updateData: function (updatingItem) {
                         updated = true;
                     }
                 }
@@ -1322,12 +1326,12 @@ $(function() {
         grid.cancelEdit();
 
         ok(!updated, "controller updateItem was not called");
-        deepEqual(grid.option("data")[0], { field: "value" }, "data were not updated");
+        deepEqual(grid.option("data")[0], {field: "value"}, "data were not updated");
         equal(grid._content.find("." + grid.editRowClass).length, 0, "edit row removed");
         equal(grid._content.find("." + grid.oddRowClass).length, 1, "data row restored");
     });
 
-    test("updateItem accepts item to update and new item", function() {
+    test("updateItem accepts item to update and new item", function () {
         var $element = $("#jsGrid"),
             updatingItem,
             data = [{
@@ -1336,10 +1340,10 @@ $(function() {
 
             gridOptions = {
                 fields: [
-                    { name: "field" }
+                    {name: "field"}
                 ],
                 controller: {
-                    updateItem: function(item) {
+                    updateItem: function (item) {
                         return updatingItem = item;
                     }
                 }
@@ -1349,13 +1353,13 @@ $(function() {
 
         grid.option("data", data);
 
-        grid.updateItem(data[0], { field: "new value" });
+        grid.updateItem(data[0], {field: "new value"});
 
-        deepEqual(updatingItem, { field: "new value" }, "controller updateItem called correctly");
-        deepEqual(grid.option("data")[0], { field: "new value" }, "correct data updated");
+        deepEqual(updatingItem, {field: "new value"}, "controller updateItem called correctly");
+        deepEqual(grid.option("data")[0], {field: "new value"}, "correct data updated");
     });
 
-    test("updateItem accepts single argument - item to update", function() {
+    test("updateItem accepts single argument - item to update", function () {
         var $element = $("#jsGrid"),
             updatingItem,
             data = [{
@@ -1364,10 +1368,10 @@ $(function() {
 
             gridOptions = {
                 fields: [
-                    { name: "field" }
+                    {name: "field"}
                 ],
                 controller: {
-                    updateItem: function(item) {
+                    updateItem: function (item) {
                         return updatingItem = item;
                     }
                 }
@@ -1381,14 +1385,14 @@ $(function() {
 
         grid.updateItem(data[0]);
 
-        deepEqual(updatingItem, { field: "new value" }, "controller updateItem called correctly");
-        deepEqual(grid.option("data")[0], { field: "new value" }, "correct data updated");
+        deepEqual(updatingItem, {field: "new value"}, "controller updateItem called correctly");
+        deepEqual(grid.option("data")[0], {field: "new value"}, "correct data updated");
     });
 
 
     module("deleting");
 
-    test("delete item", function() {
+    test("delete item", function () {
         var $element = $("#jsGrid"),
             deleted = false,
             deletingArgs,
@@ -1400,17 +1404,17 @@ $(function() {
             gridOptions = {
                 confirmDeleting: false,
                 fields: [
-                    { name: "field" }
+                    {name: "field"}
                 ],
                 controller: {
-                    deleteItem: function(deletingItem) {
+                    deleteItem: function (deletingItem) {
                         deleted = true;
                     }
                 },
-                onItemDeleting: function(e) {
+                onItemDeleting: function (e) {
                     deletingArgs = $.extend(true, {}, e);
                 },
-                onItemDeleted: function(e) {
+                onItemDeleted: function (e) {
                     deletedArgs = $.extend(true, {}, e);
                 }
             },
@@ -1421,17 +1425,17 @@ $(function() {
 
         grid.deleteItem(data[0]);
 
-        deepEqual(deletingArgs.item, { field: "value" }, "field and value is provided in deleting event args");
+        deepEqual(deletingArgs.item, {field: "value"}, "field and value is provided in deleting event args");
         equal(deletingArgs.itemIndex, 0, "itemIndex is provided in updating event args");
         equal(deletingArgs.row.length, 1, "row element is provided in updating event args");
         ok(deleted, "controller deleteItem called");
         equal(grid.option("data").length, 0, "data row deleted");
-        deepEqual(deletedArgs.item, { field: "value" }, "item is provided in updating event args");
+        deepEqual(deletedArgs.item, {field: "value"}, "item is provided in updating event args");
         equal(deletedArgs.itemIndex, 0, "itemIndex is provided in updating event args");
         equal(deletedArgs.row.length, 1, "row element is provided in updating event args");
     });
 
-    test("deleteItem accepts row", function() {
+    test("deleteItem accepts row", function () {
         var $element = $("#jsGrid"),
             deletedItem,
             itemToDelete = {
@@ -1442,10 +1446,10 @@ $(function() {
             gridOptions = {
                 confirmDeleting: false,
                 fields: [
-                    { name: "field" }
+                    {name: "field"}
                 ],
                 controller: {
-                    deleteItem: function(deletingItem) {
+                    deleteItem: function (deletingItem) {
                         deletedItem = deletingItem;
                     }
                 }
@@ -1466,7 +1470,7 @@ $(function() {
 
     module("paging");
 
-    test("pager is rendered if necessary", function() {
+    test("pager is rendered if necessary", function () {
         var $element = $("#jsGrid"),
 
             grid = new Grid($element, {
@@ -1488,7 +1492,7 @@ $(function() {
         ok(grid._pagerContainer.html(), "pager is rendered for single page when paging=true");
     });
 
-    test("external pagerContainer", function() {
+    test("external pagerContainer", function () {
         var $pagerContainer = $("<div>").appendTo("#qunit-fixture").hide(),
             $element = $("#jsGrid");
 
@@ -1503,13 +1507,13 @@ $(function() {
         ok($pagerContainer.html(), "external pager rendered");
     });
 
-    test("pager functionality", function() {
+    test("pager functionality", function () {
         var $element = $("#jsGrid"),
             pager,
             pageChangedArgs,
             grid = new Grid($element, {
                 data: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
-                onPageChanged: function(args) {
+                onPageChanged: function (args) {
                     pageChangedArgs = args;
                 },
                 paging: true,
@@ -1548,7 +1552,7 @@ $(function() {
         equal(grid._firstDisplayingPage, 2, "opening prev non-visible page moves first displaying page backward");
     });
 
-    test("pager format", function() {
+    test("pager format", function () {
         var $element = $("#jsGrid"),
             grid = new Grid($element, {
                 data: [{}, {}, {}, {}, {}, {}],
@@ -1571,7 +1575,7 @@ $(function() {
         equal($.trim(grid._pagerContainer.text()), "a 2 << < pp2np > >> 3 6 z", "pager text follows the format specified");
     });
 
-    test("pagerRenderer", function() {
+    test("pagerRenderer", function () {
         var $element = $("#jsGrid");
         var pagerRendererConfig;
         var pageSize = 2;
@@ -1582,23 +1586,23 @@ $(function() {
             data: items,
             paging: true,
             pageSize: pageSize,
-            pagerRenderer: function(pagerConfig) {
+            pagerRenderer: function (pagerConfig) {
                 pagerRendererConfig = pagerConfig;
             }
         });
 
-        deepEqual(pagerRendererConfig, { pageIndex: 1, pageCount: pageCount });
+        deepEqual(pagerRendererConfig, {pageIndex: 1, pageCount: pageCount});
 
         grid.openPage(2);
-        deepEqual(pagerRendererConfig, { pageIndex: 2, pageCount: pageCount });
+        deepEqual(pagerRendererConfig, {pageIndex: 2, pageCount: pageCount});
     });
 
-    test("loading by page", function() {
+    test("loading by page", function () {
         var $element = $("#jsGrid"),
             data = [],
             itemCount = 20;
 
-        for(var i = 1; i <= itemCount; i += 1) {
+        for (var i = 1; i <= itemCount; i += 1) {
             data.push({
                 value: i
             });
@@ -1609,10 +1613,10 @@ $(function() {
             paging: true,
             pageSize: 7,
             fields: [
-                { name: "value" }
+                {name: "value"}
             ],
             controller: {
-                loadData: function(filter) {
+                loadData: function (filter) {
                     var startIndex = (filter.pageIndex - 1) * filter.pageSize,
                         result = data.slice(startIndex, startIndex + filter.pageSize);
                     return {
@@ -1646,7 +1650,7 @@ $(function() {
         equal(pager.find("." + grid.pageClass).length, 3, "three pages displayed");
     });
 
-    test("'openPage' method ignores indexes out of range", function() {
+    test("'openPage' method ignores indexes out of range", function () {
         var $element = $("#jsGrid"),
             grid = new Grid($element, {
                 data: [{}, {}],
@@ -1664,18 +1668,18 @@ $(function() {
 
     module("sorting");
 
-    test("sorting", function() {
+    test("sorting", function () {
         var $element = $("#jsGrid"),
 
             gridOptions = {
                 sorting: true,
                 data: [
-                    { value: 3 },
-                    { value: 2 },
-                    { value: 1 }
+                    {value: 3},
+                    {value: 2},
+                    {value: 1}
                 ],
                 fields: [
-                    { name: "value", sorter: "number" }
+                    {name: "value", sorter: "number"}
                 ]
             },
             grid = new Grid($element, gridOptions);
@@ -1704,7 +1708,7 @@ $(function() {
         ok($th.hasClass(grid.sortDescClass));
     });
 
-    test("sorting with pageLoading", function() {
+    test("sorting with pageLoading", function () {
         var $element = $("#jsGrid"),
             loadFilter,
 
@@ -1712,12 +1716,12 @@ $(function() {
                 sorting: true,
                 pageLoading: true,
                 data: [
-                    { value: 3 },
-                    { value: 2 },
-                    { value: 1 }
+                    {value: 3},
+                    {value: 2},
+                    {value: 1}
                 ],
                 controller: {
-                    loadData: function(filter) {
+                    loadData: function (filter) {
                         loadFilter = filter;
                         return {
                             itemsCount: 0,
@@ -1726,7 +1730,7 @@ $(function() {
                     }
                 },
                 fields: [
-                    { name: "value", sorter: "number" }
+                    {name: "value", sorter: "number"}
                 ]
             },
 
@@ -1748,18 +1752,18 @@ $(function() {
         equal(loadFilter.sortField, "value", "sort field is provided in loadFilter");
     });
 
-    test("no sorting for column with sorting = false", function() {
+    test("no sorting for column with sorting = false", function () {
         var $element = $("#jsGrid");
 
         var gridOptions = {
             sorting: true,
             data: [
-                { value: 3 },
-                { value: 2 },
-                { value: 1 }
+                {value: 3},
+                {value: 2},
+                {value: 1}
             ],
             fields: [
-                { name: "value", sorting: false }
+                {name: "value", sorting: false}
             ]
         };
 
@@ -1778,31 +1782,31 @@ $(function() {
         equal($th.hasClass(grid.sortAscClass), false, "no sorting css for field with sorting=false");
     });
 
-    test("sort accepts sorting config", function() {
+    test("sort accepts sorting config", function () {
         var $element = $("#jsGrid"),
             gridOptions = {
                 sorting: true,
                 data: [
-                    { value: 3 },
-                    { value: 2 },
-                    { value: 1 }
+                    {value: 3},
+                    {value: 2},
+                    {value: 1}
                 ],
                 fields: [
-                    { name: "value", sorter: "number" }
+                    {name: "value", sorter: "number"}
                 ]
             },
             grid = new Grid($element, gridOptions);
 
         var gridData = grid.option("data");
 
-        grid.sort({ field: "value", order: "asc" });
+        grid.sort({field: "value", order: "asc"});
         equal(grid._sortOrder, "asc", "asc sorting order is set");
         equal(grid._sortField, grid.fields[0], "sort field is set");
         equal(gridData[0].value, 1);
         equal(gridData[1].value, 2);
         equal(gridData[2].value, 3);
 
-        grid.sort({ field: 0 });
+        grid.sort({field: 0});
         equal(grid._sortOrder, "desc", "desc sorting order for already set asc sorting");
         equal(grid._sortField, grid.fields[0], "sort field is set");
         equal(gridData[0].value, 3);
@@ -1818,36 +1822,36 @@ $(function() {
         equal(grid._sortField, grid.fields[0], "sort field is set");
     });
 
-    test("getSorting returns current sorting", function() {
+    test("getSorting returns current sorting", function () {
         var $element = $("#jsGrid"),
             gridOptions = {
                 sorting: true,
                 data: [
-                    { value: 3 },
-                    { value: 2 },
-                    { value: 1 }
+                    {value: 3},
+                    {value: 2},
+                    {value: 1}
                 ],
                 fields: [
-                    { name: "value", sorter: "number" }
+                    {name: "value", sorter: "number"}
                 ]
             },
             grid = new Grid($element, gridOptions);
 
-        deepEqual(grid.getSorting(), { field: undefined, order: undefined }, "undefined field and order before sorting");
+        deepEqual(grid.getSorting(), {field: undefined, order: undefined}, "undefined field and order before sorting");
 
         grid.sort("value");
-        deepEqual(grid.getSorting(), { field: "value", order: "asc" }, "current sorting returned");
+        deepEqual(grid.getSorting(), {field: "value", order: "asc"}, "current sorting returned");
     });
 
-    test("sorting css attached correctly when a field is hidden", function() {
+    test("sorting css attached correctly when a field is hidden", function () {
         var $element = $("#jsGrid");
 
         var gridOptions = {
             sorting: true,
             data: [],
             fields: [
-                { name: "field1", visible: false },
-                { name: "field2" }
+                {name: "field1", visible: false},
+                {name: "field2"}
             ]
         };
 
@@ -1863,25 +1867,25 @@ $(function() {
 
     module("canceling events");
 
-    test("cancel item edit", function() {
+    test("cancel item edit", function () {
         var $element = $("#jsGrid");
         var data = [{}];
 
         var gridOptions = {
             editing: true,
 
-            onItemEditing: function(e) {
+            onItemEditing: function (e) {
                 e.cancel = true;
             },
 
             controller: {
-                loadData: function() {
+                loadData: function () {
                     return data;
                 }
             },
 
             fields: [
-                { name: "test" }
+                {name: "test"}
             ]
         };
 
@@ -1892,23 +1896,23 @@ $(function() {
         strictEqual(grid._editingRow, null, "no editing row");
     });
 
-    test("cancel controller.loadData", function() {
+    test("cancel controller.loadData", function () {
         var $element = $("#jsGrid");
 
         var gridOptions = {
 
-            onDataLoading: function(e) {
+            onDataLoading: function (e) {
                 e.cancel = true;
             },
 
             controller: {
-                loadData: function() {
+                loadData: function () {
                     return [{}];
                 }
             },
 
             fields: [
-                { name: "test" }
+                {name: "test"}
             ]
         };
 
@@ -1919,38 +1923,38 @@ $(function() {
         equal(grid.option("data").length, 0, "no data loaded");
     });
 
-    test("cancel controller.insertItem", function() {
+    test("cancel controller.insertItem", function () {
         var $element = $("#jsGrid");
         var insertedItem = null;
 
         var gridOptions = {
 
-            onItemInserting: function(e) {
+            onItemInserting: function (e) {
                 e.cancel = true;
             },
 
             controller: {
-                insertItem: function(item) {
+                insertItem: function (item) {
                     insertedItem = item;
                 }
             },
 
             fields: [
-                { name: "test" }
+                {name: "test"}
             ]
         };
 
         var grid = new Grid($element, gridOptions);
 
-        grid.insertItem({ test: "value" });
+        grid.insertItem({test: "value"});
 
         strictEqual(insertedItem, null, "item was not inserted");
     });
 
-    test("cancel controller.updateItem", function() {
+    test("cancel controller.updateItem", function () {
         var $element = $("#jsGrid");
         var updatedItem = null;
-        var existingItem = { test: "value" };
+        var existingItem = {test: "value"};
 
         var gridOptions = {
 
@@ -1958,31 +1962,31 @@ $(function() {
                 existingItem
             ],
 
-            onItemUpdating: function(e) {
+            onItemUpdating: function (e) {
                 e.cancel = true;
             },
 
             controller: {
-                updateItem: function(item) {
+                updateItem: function (item) {
                     updatedItem = item;
                 }
             },
 
             fields: [
-                { name: "test" }
+                {name: "test"}
             ]
         };
 
         var grid = new Grid($element, gridOptions);
 
-        grid.updateItem(existingItem, { test: "new_value" });
+        grid.updateItem(existingItem, {test: "new_value"});
 
         strictEqual(updatedItem, null, "item was not updated");
     });
 
-    test("cancel controller.deleteItem", function() {
+    test("cancel controller.deleteItem", function () {
         var $element = $("#jsGrid");
-        var deletingItem = { test: "value" };
+        var deletingItem = {test: "value"};
         var deletedItem = null;
 
         var gridOptions = {
@@ -1993,18 +1997,18 @@ $(function() {
 
             confirmDeleting: false,
 
-            onItemDeleting: function(e) {
+            onItemDeleting: function (e) {
                 e.cancel = true;
             },
 
             controller: {
-                deleteItem: function(item) {
+                deleteItem: function (item) {
                     deletedItem = item;
                 }
             },
 
             fields: [
-                { name: "test" }
+                {name: "test"}
             ]
         };
 
@@ -2018,7 +2022,7 @@ $(function() {
 
     module("complex properties binding");
 
-    test("rendering", function() {
+    test("rendering", function () {
         var $element = $("#jsGrid");
 
         var gridOptions = {
@@ -2026,11 +2030,11 @@ $(function() {
             loadMessage: "",
 
             data: [
-                { complexProp: { prop: "test" } }
+                {complexProp: {prop: "test"}}
             ],
 
             fields: [
-                { name: "complexProp.prop", title: "" }
+                {name: "complexProp.prop", title: ""}
             ]
         };
 
@@ -2039,7 +2043,7 @@ $(function() {
         equal($element.text(), "test", "complex property value rendered");
     });
 
-    test("editing", function() {
+    test("editing", function () {
         var $element = $("#jsGrid");
 
         var gridOptions = {
@@ -2047,11 +2051,11 @@ $(function() {
             editing: true,
 
             data: [
-                { complexProp: { prop: "test" } }
+                {complexProp: {prop: "test"}}
             ],
 
             fields: [
-                { type: "text", name: "complexProp.prop" }
+                {type: "text", name: "complexProp.prop"}
             ]
         };
 
@@ -2061,7 +2065,7 @@ $(function() {
         equal(grid.fields[0].editControl.val(), "test", "complex property value set in editor");
     });
 
-    test("should not fail if property is absent", function() {
+    test("should not fail if property is absent", function () {
         var $element = $("#jsGrid");
 
         var gridOptions = {
@@ -2069,11 +2073,11 @@ $(function() {
             loadMessage: "",
 
             data: [
-                { complexProp: { } }
+                {complexProp: {}}
             ],
 
             fields: [
-                { name: "complexProp.subprop.prop", title: "" }
+                {name: "complexProp.subprop.prop", title: ""}
             ]
         };
 
@@ -2082,7 +2086,7 @@ $(function() {
         equal($element.text(), "", "rendered empty value");
     });
 
-    test("inserting", function() {
+    test("inserting", function () {
         var $element = $("#jsGrid");
         var insertingItem;
 
@@ -2090,10 +2094,10 @@ $(function() {
             inserting: true,
 
             fields: [
-                { type: "text", name: "complexProp.prop" }
+                {type: "text", name: "complexProp.prop"}
             ],
 
-            onItemInserting: function(args) {
+            onItemInserting: function (args) {
                 insertingItem = args.item;
             }
         };
@@ -2103,10 +2107,10 @@ $(function() {
         grid.fields[0].insertControl.val("test");
         grid.insertItem();
 
-        deepEqual(insertingItem, { complexProp: { prop: "test" } }, "inserting item has complex properties");
+        deepEqual(insertingItem, {complexProp: {prop: "test"}}, "inserting item has complex properties");
     });
 
-    test("filtering", function() {
+    test("filtering", function () {
         var $element = $("#jsGrid");
         var loadFilter;
 
@@ -2114,11 +2118,11 @@ $(function() {
             filtering: true,
 
             fields: [
-                { type: "text", name: "complexProp.prop" }
+                {type: "text", name: "complexProp.prop"}
             ],
 
             controller: {
-                loadData: function(filter) {
+                loadData: function (filter) {
                     loadFilter = filter;
                 }
             }
@@ -2129,10 +2133,10 @@ $(function() {
         grid.fields[0].filterControl.val("test");
         grid.search();
 
-        deepEqual(loadFilter, { complexProp: { prop: "test" } }, "filter has complex properties");
+        deepEqual(loadFilter, {complexProp: {prop: "test"}}, "filter has complex properties");
     });
 
-    test("updating", function() {
+    test("updating", function () {
         var $element = $("#jsGrid");
         var updatingItem;
 
@@ -2140,14 +2144,14 @@ $(function() {
             editing: true,
 
             data: [
-                { complexProp: { } }
+                {complexProp: {}}
             ],
 
             fields: [
-                { type: "text", name: "complexProp.prop" }
+                {type: "text", name: "complexProp.prop"}
             ],
 
-            onItemUpdating: function(args) {
+            onItemUpdating: function (args) {
                 updatingItem = args.item;
             }
         };
@@ -2158,10 +2162,10 @@ $(function() {
         grid.fields[0].editControl.val("test");
         grid.updateItem();
 
-        deepEqual(updatingItem, { complexProp: { prop: "test" } }, "updating item has complex properties");
+        deepEqual(updatingItem, {complexProp: {prop: "test"}}, "updating item has complex properties");
     });
 
-    test("update nested prop", function() {
+    test("update nested prop", function () {
         var $element = $("#jsGrid");
         var updatingItem;
         var previousItem;
@@ -2170,15 +2174,15 @@ $(function() {
             editing: true,
 
             data: [
-                { prop: { subprop1: "test1", subprop2: "test2" } }
+                {prop: {subprop1: "test1", subprop2: "test2"}}
             ],
 
             fields: [
-                { type: "text", name: "prop.subprop1" },
-                { type: "text", name: "prop.subprop2" }
+                {type: "text", name: "prop.subprop1"},
+                {type: "text", name: "prop.subprop2"}
             ],
 
-            onItemUpdating: function(args) {
+            onItemUpdating: function (args) {
                 updatingItem = args.item;
             }
         };
@@ -2199,7 +2203,7 @@ $(function() {
         deepEqual(updatingItem, expectedUpdatingItem, "updating item has nested properties");
     });
 
-    test("updating deeply nested prop", function() {
+    test("updating deeply nested prop", function () {
         var $element = $("#jsGrid");
         var updatingItem;
         var previousItem;
@@ -2208,15 +2212,15 @@ $(function() {
             editing: true,
 
             data: [
-                { complexProp: { subprop1: { another_prop: "test" } } }
+                {complexProp: {subprop1: {another_prop: "test"}}}
             ],
 
             fields: [
-                { type: "text", name: "complexProp.subprop1.prop1" },
-                { type: "text", name: "complexProp.subprop1.subprop2.prop12" }
+                {type: "text", name: "complexProp.subprop1.prop1"},
+                {type: "text", name: "complexProp.subprop1.subprop2.prop12"}
             ],
 
-            onItemUpdating: function(args) {
+            onItemUpdating: function (args) {
                 updatingItem = args.item;
                 previousItem = args.previousItem;
             }
@@ -2234,7 +2238,7 @@ $(function() {
                 subprop1: {
                     another_prop: "test",
                     prop1: "test1",
-                    subprop2: { prop12: "test2" }
+                    subprop2: {prop12: "test2"}
                 }
             }
         };
@@ -2254,9 +2258,9 @@ $(function() {
 
     module("validation");
 
-    test("insertItem should call validation.validate", function() {
+    test("insertItem should call validation.validate", function () {
         var $element = $("#jsGrid");
-        var fieldValidationRules = { test: "value" };
+        var fieldValidationRules = {test: "value"};
         var validatingArgs;
 
         var gridOptions = {
@@ -2264,13 +2268,13 @@ $(function() {
             inserting: true,
             invalidNotify: $.noop,
             validation: {
-                validate: function(args) {
+                validate: function (args) {
                     validatingArgs = args;
                     return [];
                 }
             },
             fields: [
-                { type: "text", name: "Name", validate: fieldValidationRules }
+                {type: "text", name: "Name", validate: fieldValidationRules}
             ]
         };
 
@@ -2279,11 +2283,13 @@ $(function() {
         grid.fields[0].insertControl.val("test");
         grid.insertItem();
 
-        deepEqual(validatingArgs, { value: "test", item: { Name: "test" }, itemIndex: -1,
-            row: grid._insertRow, rules: fieldValidationRules }, "validating args is provided");
+        deepEqual(validatingArgs, {
+            value: "test", item: {Name: "test"}, itemIndex: -1,
+            row: grid._insertRow, rules: fieldValidationRules
+        }, "validating args is provided");
     });
 
-    test("insertItem rejected when data is not valid", function() {
+    test("insertItem rejected when data is not valid", function () {
         var $element = $("#jsGrid");
 
         var gridOptions = {
@@ -2291,26 +2297,26 @@ $(function() {
             inserting: true,
             invalidNotify: $.noop,
             validation: {
-                validate: function() {
+                validate: function () {
                     return ["Error"];
                 }
             },
             fields: [
-                { type: "text", name: "Name", validate: true }
+                {type: "text", name: "Name", validate: true}
             ]
         };
 
         var grid = new Grid($element, gridOptions);
 
         grid.fields[0].insertControl.val("test");
-        grid.insertItem().done(function() {
+        grid.insertItem().done(function () {
             ok(false, "insertItem should not be completed");
-        }).fail(function() {
+        }).fail(function () {
             ok(true, "insertItem should fail");
         });
     });
 
-    test("invalidClass is attached on invalid cell on inserting", function() {
+    test("invalidClass is attached on invalid cell on inserting", function () {
         var $element = $("#jsGrid");
 
         var gridOptions = {
@@ -2318,13 +2324,13 @@ $(function() {
             inserting: true,
             invalidNotify: $.noop,
             validation: {
-                validate: function() {
+                validate: function () {
                     return ["Error"];
                 }
             },
             fields: [
-                { type: "text", name: "Id", visible: false },
-                { type: "text", name: "Name", validate: true }
+                {type: "text", name: "Id", visible: false},
+                {type: "text", name: "Name", validate: true}
             ]
         };
 
@@ -2337,7 +2343,7 @@ $(function() {
         equal($insertCell.attr("title"), "Error", "cell tooltip contains error message");
     });
 
-    test("onItemInvalid callback", function() {
+    test("onItemInvalid callback", function () {
         var $element = $("#jsGrid");
         var errors = ["Error"];
         var onItemInvalidCalled = 0;
@@ -2347,18 +2353,18 @@ $(function() {
             data: [],
             inserting: true,
             invalidNotify: $.noop,
-            onItemInvalid: function(args) {
+            onItemInvalid: function (args) {
                 onItemInvalidCalled++;
                 onItemInvalidArgs = args;
             },
 
             validation: {
-                validate: function(args) {
+                validate: function (args) {
                     return !args.value ? errors : [];
                 }
             },
             fields: [
-                { type: "text", name: "Name", validate: true }
+                {type: "text", name: "Name", validate: true}
             ]
         };
 
@@ -2367,8 +2373,10 @@ $(function() {
         grid.insertItem();
 
         equal(onItemInvalidCalled, 1, "onItemInvalid is called, when item data is invalid");
-        deepEqual(onItemInvalidArgs, { grid: grid, errors: [{ field: grid.fields[0], message: "Error" }],
-            item: { Name: "" }, itemIndex: -1, row: grid._insertRow }, "arguments provided");
+        deepEqual(onItemInvalidArgs, {
+            grid: grid, errors: [{field: grid.fields[0], message: "Error"}],
+            item: {Name: ""}, itemIndex: -1, row: grid._insertRow
+        }, "arguments provided");
 
         grid.fields[0].insertControl.val("test");
         grid.insertItem();
@@ -2376,7 +2384,7 @@ $(function() {
         equal(onItemInvalidCalled, 1, "onItemInvalid was not called, when data is valid");
     });
 
-    test("invalidNotify", function() {
+    test("invalidNotify", function () {
         var $element = $("#jsGrid");
         var errors = ["Error"];
         var invalidNotifyCalled = 0;
@@ -2386,18 +2394,18 @@ $(function() {
             data: [],
             inserting: true,
 
-            invalidNotify: function(args) {
+            invalidNotify: function (args) {
                 invalidNotifyCalled++;
                 invalidNotifyArgs = args;
             },
 
             validation: {
-                validate: function(args) {
+                validate: function (args) {
                     return !args.value ? errors : [];
                 }
             },
             fields: [
-                { type: "text", name: "Name", validate: true }
+                {type: "text", name: "Name", validate: true}
             ]
         };
 
@@ -2406,8 +2414,10 @@ $(function() {
         grid.insertItem();
 
         equal(invalidNotifyCalled, 1, "invalidNotify is called, when item data is invalid");
-        deepEqual(invalidNotifyArgs, { grid: grid, errors: [{ field: grid.fields[0], message: "Error" }],
-            row: grid._insertRow, item: { Name: "" }, itemIndex: -1 }, "arguments provided");
+        deepEqual(invalidNotifyArgs, {
+            grid: grid, errors: [{field: grid.fields[0], message: "Error"}],
+            row: grid._insertRow, item: {Name: ""}, itemIndex: -1
+        }, "arguments provided");
 
         grid.fields[0].insertControl.val("test");
         grid.insertItem();
@@ -2415,18 +2425,18 @@ $(function() {
         equal(invalidNotifyCalled, 1, "invalidNotify was not called, when data is valid");
     });
 
-    test("invalidMessage", function() {
+    test("invalidMessage", function () {
         var $element = $("#jsGrid");
         var invalidMessage;
         var originalAlert = window.alert;
 
-        window.alert = function(message) {
+        window.alert = function (message) {
             invalidMessage = message;
         };
 
         try {
             Grid.prototype.invalidMessage = "InvalidTest";
-            Grid.prototype.invalidNotify({ errors: [{ message: "Message1" }, { message: "Message2" }] });
+            Grid.prototype.invalidNotify({errors: [{message: "Message1"}, {message: "Message2"}]});
 
             var expectedInvalidMessage = ["InvalidTest", "Message1", "Message2"].join("\n");
             equal(invalidMessage, expectedInvalidMessage, "message contains invalidMessage and field error messages");
@@ -2435,24 +2445,24 @@ $(function() {
         }
     });
 
-    test("updateItem should call validation.validate", function() {
+    test("updateItem should call validation.validate", function () {
         var $element = $("#jsGrid");
         var validatingArgs;
 
         var gridOptions = {
-            data: [{ Name: "" }],
+            data: [{Name: ""}],
             editing: true,
 
             invalidNotify: $.noop,
             validation: {
-                validate: function(args) {
+                validate: function (args) {
                     validatingArgs = args;
                     return ["Error"];
                 }
             },
 
             fields: [
-                { type: "text", name: "Name", validate: "required" }
+                {type: "text", name: "Name", validate: "required"}
             ]
         };
 
@@ -2463,11 +2473,13 @@ $(function() {
         grid.fields[0].editControl.val("test");
         grid.updateItem();
 
-        deepEqual(validatingArgs, { value: "test", item: { Name: "test" }, itemIndex: 0,
-            row: grid._getEditRow(), rules: "required" }, "validating args is provided");
+        deepEqual(validatingArgs, {
+            value: "test", item: {Name: "test"}, itemIndex: 0,
+            row: grid._getEditRow(), rules: "required"
+        }, "validating args is provided");
     });
 
-    test("invalidClass is attached on invalid cell on updating", function() {
+    test("invalidClass is attached on invalid cell on updating", function () {
         var $element = $("#jsGrid");
 
         var gridOptions = {
@@ -2475,12 +2487,12 @@ $(function() {
             editing: true,
             invalidNotify: $.noop,
             validation: {
-                validate: function() {
+                validate: function () {
                     return ["Error"];
                 }
             },
             fields: [
-                { type: "text", name: "Name", validate: true }
+                {type: "text", name: "Name", validate: true}
             ]
         };
 
@@ -2495,26 +2507,26 @@ $(function() {
         equal($editCell.attr("title"), "Error", "cell tooltip contains error message");
     });
 
-    test("validation should ignore not editable fields", function() {
+    test("validation should ignore not editable fields", function () {
         var invalidNotifyCalled = 0;
         var $element = $("#jsGrid");
         var validatingArgs;
 
         var gridOptions = {
-            data: [{ Name: "" }],
+            data: [{Name: ""}],
             editing: true,
 
-            invalidNotify: function() {
+            invalidNotify: function () {
                 invalidNotifyCalled++;
             },
             validation: {
-                validate: function() {
+                validate: function () {
                     return ["Error"];
                 }
             },
 
             fields: [
-                { type: "text", name: "Name", editing: false, validate: "required" }
+                {type: "text", name: "Name", editing: false, validate: "required"}
             ]
         };
 
@@ -2527,8 +2539,8 @@ $(function() {
 
     module("api");
 
-    test("reset method should go the first page when pageLoading is truned on", function() {
-        var items = [{ Name: "1" }, { Name: "2" }];
+    test("reset method should go the first page when pageLoading is truned on", function () {
+        var items = [{Name: "1"}, {Name: "2"}];
         var $element = $("#jsGrid");
 
         var gridOptions = {
@@ -2537,7 +2549,7 @@ $(function() {
             pageLoading: true,
             autoload: true,
             controller: {
-                loadData: function(args) {
+                loadData: function (args) {
                     return {
                         data: [items[args.pageIndex - 1]],
                         itemsCount: items.length
@@ -2546,7 +2558,7 @@ $(function() {
             },
 
             fields: [
-                { type: "text", name: "Name" }
+                {type: "text", name: "Name"}
             ]
         };
 
@@ -2560,7 +2572,7 @@ $(function() {
 
     module("i18n");
 
-    test("set locale by name", function() {
+    test("set locale by name", function () {
         jsGrid.locales.my_lang = {
             grid: {
                 test: "test_text"
@@ -2574,8 +2586,8 @@ $(function() {
         equal($element.jsGrid("option", "test"), "test_text", "option localized");
     });
 
-    test("set locale by config", function() {
-        jsGrid.locale( {
+    test("set locale by config", function () {
+        jsGrid.locale({
             grid: {
                 test: "test_text"
             }
@@ -2586,8 +2598,8 @@ $(function() {
         equal($element.jsGrid("option", "test"), "test_text", "option localized");
     });
 
-    test("locale throws exception for unknown locale", function() {
-        throws(function() {
+    test("locale throws exception for unknown locale", function () {
+        throws(function () {
             jsGrid.locale("unknown_lang");
         }, /unknown_lang/, "locale threw an exception");
     });
@@ -2595,15 +2607,15 @@ $(function() {
 
     module("controller promise");
 
-    asyncTest("should support jQuery promise success callback", 1, function() {
+    asyncTest("should support jQuery promise success callback", 1, function () {
         var data = [];
         var gridOptions = {
             autoload: false,
             controller: {
-                loadData: function() {
+                loadData: function () {
                     var d = $.Deferred();
 
-                    setTimeout(function() {
+                    setTimeout(function () {
                         d.resolve(data);
                         start();
                     });
@@ -2616,20 +2628,20 @@ $(function() {
         var grid = new Grid($("#jsGrid"), gridOptions);
 
         var promise = grid._controllerCall("loadData", {}, false, $.noop);
-        promise.done(function(result) {
+        promise.done(function (result) {
             equal(result, data, "data provided to done callback");
         });
     });
 
-    asyncTest("should support jQuery promise fail callback", 1, function() {
+    asyncTest("should support jQuery promise fail callback", 1, function () {
         var failArgs = {};
         var gridOptions = {
             autoload: false,
             controller: {
-                loadData: function() {
+                loadData: function () {
                     var d = $.Deferred();
 
-                    setTimeout(function() {
+                    setTimeout(function () {
                         d.reject(failArgs);
                         start();
                     });
@@ -2642,13 +2654,13 @@ $(function() {
         var grid = new Grid($("#jsGrid"), gridOptions);
 
         var promise = grid._controllerCall("loadData", {}, false, $.noop);
-        promise.fail(function(result) {
+        promise.fail(function (result) {
             equal(result, failArgs, "fail args provided to fail callback");
         });
     });
 
-    asyncTest("should support JS promise success callback", 1, function() {
-        if(!Promise) {
+    asyncTest("should support JS promise success callback", 1, function () {
+        if (!Promise) {
             ok(true, "Promise not supported");
             return;
         }
@@ -2657,9 +2669,9 @@ $(function() {
         var gridOptions = {
             autoload: false,
             controller: {
-                loadData: function() {
-                    return new Promise(function(resolve, reject) {
-                        setTimeout(function() {
+                loadData: function () {
+                    return new Promise(function (resolve, reject) {
+                        setTimeout(function () {
                             resolve(data);
                             start();
                         });
@@ -2671,13 +2683,13 @@ $(function() {
         var grid = new Grid($("#jsGrid"), gridOptions);
 
         var promise = grid._controllerCall("loadData", {}, false, $.noop);
-        promise.done(function(result) {
+        promise.done(function (result) {
             equal(result, data, "data provided to done callback");
         });
     });
 
-    asyncTest("should support JS promise fail callback", 1, function() {
-        if(!Promise) {
+    asyncTest("should support JS promise fail callback", 1, function () {
+        if (!Promise) {
             ok(true, "Promise not supported");
             return;
         }
@@ -2686,9 +2698,9 @@ $(function() {
         var gridOptions = {
             autoload: false,
             controller: {
-                loadData: function() {
-                    return new Promise(function(resolve, reject) {
-                        setTimeout(function() {
+                loadData: function () {
+                    return new Promise(function (resolve, reject) {
+                        setTimeout(function () {
                             reject(failArgs);
                             start();
                         });
@@ -2700,17 +2712,17 @@ $(function() {
         var grid = new Grid($("#jsGrid"), gridOptions);
 
         var promise = grid._controllerCall("loadData", {}, false, $.noop);
-        promise.fail(function(result) {
+        promise.fail(function (result) {
             equal(result, failArgs, "fail args provided to fail callback");
         });
     });
 
-    test("should support non-promise result", 1, function() {
+    test("should support non-promise result", 1, function () {
         var data = [];
         var gridOptions = {
             autoload: false,
             controller: {
-                loadData: function() {
+                loadData: function () {
                     return data;
                 }
             }
@@ -2719,7 +2731,7 @@ $(function() {
         var grid = new Grid($("#jsGrid"), gridOptions);
 
         var promise = grid._controllerCall("loadData", {}, false, $.noop);
-        promise.done(function(result) {
+        promise.done(function (result) {
             equal(result, data, "data provided to done callback");
         });
     });
@@ -2727,17 +2739,17 @@ $(function() {
 
     module("renderTemplate");
 
-    test("should pass undefined and null arguments to the renderer", function() {
+    test("should pass undefined and null arguments to the renderer", function () {
         var rendererArgs;
         var rendererContext;
         var context = {};
 
-        var renderer = function() {
+        var renderer = function () {
             rendererArgs = arguments;
             rendererContext = this;
         };
 
-        Grid.prototype.renderTemplate(renderer, context, { arg1: undefined, arg2: null, arg3: "test" });
+        Grid.prototype.renderTemplate(renderer, context, {arg1: undefined, arg2: null, arg3: "test"});
 
         equal(rendererArgs.length, 3);
         strictEqual(rendererArgs[0], undefined, "undefined passed");

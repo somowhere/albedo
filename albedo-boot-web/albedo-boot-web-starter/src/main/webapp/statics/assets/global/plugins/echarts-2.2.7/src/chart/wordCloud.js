@@ -20,9 +20,9 @@ define(function (require) {
         zlevel: 0,
         z: 2,
         clickable: true,
-        
+
         center: ['50%', '50%'],
-        
+
         size: ['40%', '40%'],
 
         // 字体旋转角度, 随机从指定数组中取
@@ -53,7 +53,7 @@ define(function (require) {
     function Cloud(ecTheme, messageCenter, zr, option, myChart) {
         ChartBase.call(this, ecTheme, messageCenter, zr, option, myChart);
 
-        this.refresh(option); 
+        this.refresh(option);
     }
 
     Cloud.prototype = {
@@ -87,7 +87,7 @@ define(function (require) {
 
                     this.selectedMap[serieName] = legend ? legend.isSelected(serieName) : true;
 
-                    if (! this.selectedMap[serieName]) {
+                    if (!this.selectedMap[serieName]) {
                         continue;
                     }
 
@@ -99,7 +99,7 @@ define(function (require) {
         },
 
         _initSerie: function (serie) {
-            
+
             var textStyle = serie.itemStyle.normal.textStyle;
 
             var size = [
@@ -187,12 +187,12 @@ define(function (require) {
                 || defaultColor;
 
             var emphasisColor = this.getItemStyleColor(
-                emphasis.color, seriesIndex, dataIndex, data
-            )
+                    emphasis.color, seriesIndex, dataIndex, data
+                )
                 || (typeof normalColor === 'string'
-                    ? zrColor.lift(normalColor, -0.2)
-                    : normalColor
-                    );
+                        ? zrColor.lift(normalColor, -0.2)
+                        : normalColor
+                );
 
             var textShape = new TextShape({
                 zlevel: serie.zlevel,
@@ -205,9 +205,9 @@ define(function (require) {
                     text: oneText.text,
                     color: normalColor,
                     textFont: [oneText.style,
-                                oneText.weight,
-                                oneText.size + 'px',
-                                oneText.font].join(' '),
+                        oneText.weight,
+                        oneText.size + 'px',
+                        oneText.font].join(' '),
                     textBaseline: 'alphabetic',
                     textAlign: 'center'
                 },

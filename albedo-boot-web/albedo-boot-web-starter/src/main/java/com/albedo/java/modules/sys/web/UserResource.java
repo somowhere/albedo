@@ -34,7 +34,7 @@ import java.net.URISyntaxException;
 
 /**
  * REST controller for managing user.
- *
+ * <p>
  * <p>
  * This class accesses the User entity, and needs to fetch its collection of
  * authorities.
@@ -70,120 +70,126 @@ import java.net.URISyntaxException;
 @RequestMapping("${albedo.adminPath}/sys/user")
 public class UserResource extends DataResource<UserService, User> {
 
-	private final Logger log = LoggerFactory.getLogger(UserResource.class);
-	@Autowired(required = false)
-	private PasswordEncoder passwordEncoder;
-	@Resource
-	private UserService userService;
+    private final Logger log = LoggerFactory.getLogger(UserResource.class);
+    @Autowired(required = false)
+    private PasswordEncoder passwordEncoder;
+    @Resource
+    private UserService userService;
 
-	@ModelAttribute
-	public User get(@RequestParam(required = false) String id) throws Exception {
-		String path = request.getRequestURI();
-		if (path != null && !path.contains("checkBy") && !path.contains("find") && PublicUtil.isNotEmpty(id)) {
-			return userService.findOne(id);
-		} else {
-			return new User();
-		}
-	}
+    @ModelAttribute
+    public User get(@RequestParam(required = false) String id) throws Exception {
+        String path = request.getRequestURI();
+        if (path != null && !path.contains("checkBy") && !path.contains("find") && PublicUtil.isNotEmpty(id)) {
+            return userService.findOne(id);
+        } else {
+            return new User();
+        }
+    }
 
-	@RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed
-	public String list() {
-		return "modules/sys/userList";
-	}
-	/**
-	 * 分页
-	 * @param pm
-	 */
-	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public ResponseEntity getPage(PageModel pm) {
-		pm = userService.findPage(pm, SecurityUtil.dataScopeFilter());
-		JSON rs = JsonUtil.getInstance().setFreeFilters("roleIdList").setRecurrenceStr("org_name").toJsonObject(pm);
-		return ResultBuilder.buildObject(rs);
-	}
-	
-	@RequestMapping(value = "/edit", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public String list() {
+        return "modules/sys/userList";
+    }
+
+    /**
+     * 分页
+     *
+     * @param pm
+     */
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    public ResponseEntity getPage(PageModel pm) {
+        pm = userService.findPage(pm, SecurityUtil.dataScopeFilter());
+        JSON rs = JsonUtil.getInstance().setFreeFilters("roleIdList").setRecurrenceStr("org_name").toJsonObject(pm);
+        return ResultBuilder.buildObject(rs);
+    }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
 //	@Secured(AuthoritiesConstants.ADMIN)
-	public String form(User user, @RequestParam(required=false) Boolean isModal) {
-		request.setAttribute("allRoles", FormDirective.convertComboDataList(SecurityUtil.getRoleList(), Role.F_ID, Role.F_NAME));
-		return PublicUtil.toAppendStr("modules/sys/userForm", isModal ? "Modal" : "");
-	}
+    public String form(User user, @RequestParam(required = false) Boolean isModal) {
+        request.setAttribute("allRoles", FormDirective.convertComboDataList(SecurityUtil.getRoleList(), Role.F_ID, Role.F_NAME));
+        return PublicUtil.toAppendStr("modules/sys/userForm", isModal ? "Modal" : "");
+    }
 
-	/**
-	 * 保存
-	 * @param userForm
-	 * @param confirmPassword
-	 * @return
-	 * @throws URISyntaxException
-	 */
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed @ApiImplicitParams(@ApiImplicitParam(paramType = "query",name = "confirmPassword"))
+    /**
+     * 保存
+     *
+     * @param userForm
+     * @param confirmPassword
+     * @return
+     * @throws URISyntaxException
+     */
+    @RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @ApiImplicitParams(@ApiImplicitParam(paramType = "query", name = "confirmPassword"))
 //	@Secured(AuthoritiesConstants.ADMIN)
-	public ResponseEntity save(UserForm userForm, String confirmPassword){
-		log.debug("REST request to save userForm : {}", userForm);
-		// beanValidatorAjax(user);
-		if (PublicUtil.isNotEmpty(userForm.getPassword()) && !userForm.getPassword().equals(confirmPassword)) {
-			throw new RuntimeMsgException("两次输入密码不一致");
-		}
-		// Lowercase the user login before comparing with database
-		if (!checkByProperty(Reflections.createObj(User.class, Lists.newArrayList(User.F_ID, User.F_LOGINID),
-				userForm.getId(), userForm.getLoginId()))) {
-			throw new RuntimeMsgException("登录Id已存在");
-		}
-		if (!PublicUtil.isNotEmpty(userForm.getEmail()) && checkByProperty(Reflections.createObj(User.class,
-				Lists.newArrayList(User.F_ID, User.F_EMAIL), userForm.getId(), userForm.getEmail()))) {
-			throw new RuntimeMsgException("邮箱已存在");
-		}
-		if(PublicUtil.isNotEmpty(userForm.getId())){
-			User temp = userService.findOne(userForm.getId());
-			userForm.setPassword(PublicUtil.isEmpty(userForm.getPassword()) ? temp.getPassword() : passwordEncoder.encode(userForm.getPassword()));
-		}else{
-			userForm.setPassword(passwordEncoder.encode(userForm.getPassword()));
-		}
-		userService.save(userForm);
-		SecurityUtil.clearUserJedisCache();
-		SecurityUtil.clearUserLocalCache();
-		// if(PublicUtil.isEmpty(user.getId()) &&
-		// PublicUtil.isNotEmpty(user.getEmail())){
-		// String baseUrl = request.getParameter("basePath");
-		// mailService.sendCreationEmail(newUser, baseUrl);
-		// }
-		return ResultBuilder.buildOk("保存", userForm.getLoginId(), "成功");
-	}
+    public ResponseEntity save(UserForm userForm, String confirmPassword) {
+        log.debug("REST request to save userForm : {}", userForm);
+        // beanValidatorAjax(user);
+        if (PublicUtil.isNotEmpty(userForm.getPassword()) && !userForm.getPassword().equals(confirmPassword)) {
+            throw new RuntimeMsgException("两次输入密码不一致");
+        }
+        // Lowercase the user login before comparing with database
+        if (!checkByProperty(Reflections.createObj(User.class, Lists.newArrayList(User.F_ID, User.F_LOGINID),
+                userForm.getId(), userForm.getLoginId()))) {
+            throw new RuntimeMsgException("登录Id已存在");
+        }
+        if (!PublicUtil.isNotEmpty(userForm.getEmail()) && checkByProperty(Reflections.createObj(User.class,
+                Lists.newArrayList(User.F_ID, User.F_EMAIL), userForm.getId(), userForm.getEmail()))) {
+            throw new RuntimeMsgException("邮箱已存在");
+        }
+        if (PublicUtil.isNotEmpty(userForm.getId())) {
+            User temp = userService.findOne(userForm.getId());
+            userForm.setPassword(PublicUtil.isEmpty(userForm.getPassword()) ? temp.getPassword() : passwordEncoder.encode(userForm.getPassword()));
+        } else {
+            userForm.setPassword(passwordEncoder.encode(userForm.getPassword()));
+        }
+        userService.save(userForm);
+        SecurityUtil.clearUserJedisCache();
+        SecurityUtil.clearUserLocalCache();
+        // if(PublicUtil.isEmpty(user.getId()) &&
+        // PublicUtil.isNotEmpty(user.getEmail())){
+        // String baseUrl = request.getParameter("basePath");
+        // mailService.sendCreationEmail(newUser, baseUrl);
+        // }
+        return ResultBuilder.buildOk("保存", userForm.getLoginId(), "成功");
+    }
 
-	/**
-	 * 批量删除
-	 * @param ids
-	 * @return
-	 */
-	@RequestMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
-			+ "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed
+    /**
+     * 批量删除
+     *
+     * @param ids
+     * @return
+     */
+    @RequestMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
+            + "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
 //	@Secured(AuthoritiesConstants.ADMIN)
-	public ResponseEntity delete(@PathVariable String ids) {
-		log.debug("REST request to delete User: {}", ids);
-		userService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
-		SecurityUtil.clearUserJedisCache();
-		SecurityUtil.clearUserLocalCache();
-		return ResultBuilder.buildOk("删除成功");
-	}
+    public ResponseEntity delete(@PathVariable String ids) {
+        log.debug("REST request to delete User: {}", ids);
+        userService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        SecurityUtil.clearUserJedisCache();
+        SecurityUtil.clearUserLocalCache();
+        return ResultBuilder.buildOk("删除成功");
+    }
 
-	/**
-	 * 锁定or解锁
-	 * @param ids
-	 * @return
-	 */
-	@RequestMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
-			+ "}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed
+    /**
+     * 锁定or解锁
+     *
+     * @param ids
+     * @return
+     */
+    @RequestMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
+            + "}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
 //	@Secured(AuthoritiesConstants.ADMIN)
-	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
-		log.debug("REST request to lockOrUnLock User: {}", ids);
-		userService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
-		SecurityUtil.clearUserJedisCache();
-		SecurityUtil.clearUserLocalCache();
-		return ResultBuilder.buildOk("操作成功");
-	}
-	
+    public ResponseEntity lockOrUnLock(@PathVariable String ids) {
+        log.debug("REST request to lockOrUnLock User: {}", ids);
+        userService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        SecurityUtil.clearUserJedisCache();
+        SecurityUtil.clearUserLocalCache();
+        return ResultBuilder.buildOk("操作成功");
+    }
+
 }

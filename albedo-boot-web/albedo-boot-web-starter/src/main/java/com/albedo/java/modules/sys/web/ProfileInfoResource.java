@@ -24,8 +24,8 @@ public class ProfileInfoResource {
     private AlbedoProperties albedoProperties;
 
     @RequestMapping(value = "/profile-info",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ProfileInfoResponse getActiveProfiles() {
         return new ProfileInfoResponse(DefaultProfileUtil.getActiveProfiles(env), getRibbonEnv());
     }

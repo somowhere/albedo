@@ -22,7 +22,7 @@ SwaggerUi.Views.BasicAuthView = Backbone.View.extend({
 
     template: Handlebars.templates.basic_auth,
 
-    render: function(){
+    render: function () {
         $(this.el).html(this.template(this.model.toJSON()));
 
         return this;

@@ -44,11 +44,11 @@ import static org.springframework.data.querydsl.QueryDslUtils.QUERY_DSL_PRESENT;
  */
 public class MybatisRepositoryFactory extends RepositoryFactorySupport {
 
-    private final SqlSessionTemplate    sessionTemplate;
-    private final Dialect               dialect;
+    private final SqlSessionTemplate sessionTemplate;
+    private final Dialect dialect;
     private final MybatisMappingContext mappingContext;
-    private final AuditorAware<?>       auditorAware;
-    private final AuditDateAware<?>     auditDateAware;
+    private final AuditorAware<?> auditorAware;
+    private final AuditDateAware<?> auditDateAware;
 
     public MybatisRepositoryFactory(final MybatisMappingContext mappingContext,
                                     final SqlSessionTemplate sessionTemplate,

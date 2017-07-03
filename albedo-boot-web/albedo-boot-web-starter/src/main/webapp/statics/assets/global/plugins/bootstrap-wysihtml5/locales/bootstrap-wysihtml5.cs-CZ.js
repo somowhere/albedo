@@ -1,7 +1,7 @@
 /**
  * Czech translation for bootstrap-wysihtml5
  */
-(function($){
+(function ($) {
     $.fn.wysihtml5.locale["cs-CZ"] = {
         font_styles: {
             normal: "Normální text",

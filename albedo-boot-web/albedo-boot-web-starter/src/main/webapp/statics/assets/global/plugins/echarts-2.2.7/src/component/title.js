@@ -7,11 +7,11 @@
  */
 define(function (require) {
     var Base = require('./base');
-    
+
     // 图形依赖
     var TextShape = require('zrender/shape/Text');
     var RectangleShape = require('zrender/shape/Rectangle');
-    
+
     var ecConfig = require('../config');
     // 图表标题
     ecConfig.title = {
@@ -46,11 +46,11 @@ define(function (require) {
             color: '#aaa'          // 副标题文字颜色
         }
     };
-    
+
     var zrUtil = require('zrender/tool/util');
     var zrArea = require('zrender/tool/area');
     var zrColor = require('zrender/tool/color');
-    
+
     /**
      * 构造函数
      * @param {Object} messageCenter echart消息中心
@@ -59,10 +59,10 @@ define(function (require) {
      */
     function Title(ecTheme, messageCenter, zr, option, myChart) {
         Base.call(this, ecTheme, messageCenter, zr, option, myChart);
-        
+
         this.refresh(option);
     }
-    
+
     Title.prototype = {
         type: ecConfig.COMPONENT_TYPE_TITLE,
         _buildShape: function () {
@@ -92,12 +92,12 @@ define(function (require) {
             var subtarget = this.titleOption.subtarget;
             var font = this.getFont(this.titleOption.textStyle);
             var subfont = this.getFont(this.titleOption.subtextStyle);
-            
+
             var x = this._itemGroupLocation.x;
             var y = this._itemGroupLocation.y;
             var width = this._itemGroupLocation.width;
             var height = this._itemGroupLocation.height;
-            
+
             var textShape = {
                 zlevel: this.getZlevelBase(),
                 z: this.getZBase(),
@@ -117,7 +117,7 @@ define(function (require) {
             if (link) {
                 textShape.hoverable = true;
                 textShape.clickable = true;
-                textShape.onclick = function (){
+                textShape.onclick = function () {
                     if (!target || target != 'self') {
                         window.open(link);
                     }
@@ -126,7 +126,7 @@ define(function (require) {
                     }
                 };
             }
-            
+
             var subtextShape = {
                 zlevel: this.getZlevelBase(),
                 z: this.getZBase(),
@@ -146,7 +146,7 @@ define(function (require) {
             if (sublink) {
                 subtextShape.hoverable = true;
                 subtextShape.clickable = true;
-                subtextShape.onclick = function (){
+                subtextShape.onclick = function () {
                     if (!subtarget || subtarget != 'self') {
                         window.open(sublink);
                     }
@@ -159,18 +159,18 @@ define(function (require) {
             switch (this.titleOption.x) {
                 case 'center' :
                     textShape.style.x = subtextShape.style.x = x + width / 2;
-                    textShape.style.textAlign = subtextShape.style.textAlign 
-                                              = 'center';
+                    textShape.style.textAlign = subtextShape.style.textAlign
+                        = 'center';
                     break;
                 case 'left' :
                     textShape.style.x = subtextShape.style.x = x;
-                    textShape.style.textAlign = subtextShape.style.textAlign 
-                                              = 'left';
+                    textShape.style.textAlign = subtextShape.style.textAlign
+                        = 'left';
                     break;
                 case 'right' :
                     textShape.style.x = subtextShape.style.x = x + width;
-                    textShape.style.textAlign = subtextShape.style.textAlign 
-                                              = 'right';
+                    textShape.style.textAlign = subtextShape.style.textAlign
+                        = 'right';
                     break;
                 default :
                     x = this.titleOption.x - 0;
@@ -178,10 +178,10 @@ define(function (require) {
                     textShape.style.x = subtextShape.style.x = x;
                     break;
             }
-            
+
             if (this.titleOption.textAlign) {
-                textShape.style.textAlign = subtextShape.style.textAlign 
-                                          = this.titleOption.textAlign;
+                textShape.style.textAlign = subtextShape.style.textAlign
+                    = this.titleOption.textAlign;
             }
 
             this.shapeList.push(new TextShape(textShape));
@@ -194,7 +194,7 @@ define(function (require) {
             this.shapeList.push(new RectangleShape({
                 zlevel: this.getZlevelBase(),
                 z: this.getZBase(),
-                hoverable :false,
+                hoverable: false,
                 style: {
                     x: this._itemGroupLocation.x - padding[3],
                     y: this._itemGroupLocation.y - padding[0],
@@ -217,17 +217,17 @@ define(function (require) {
             var subtext = this.titleOption.subtext;
             var font = this.getFont(this.titleOption.textStyle);
             var subfont = this.getFont(this.titleOption.subtextStyle);
-            
+
             var totalWidth = Math.max(
-                    zrArea.getTextWidth(text, font),
-                    zrArea.getTextWidth(subtext, subfont)
-                );
+                zrArea.getTextWidth(text, font),
+                zrArea.getTextWidth(subtext, subfont)
+            );
             var totalHeight = zrArea.getTextHeight(text, font)
-                              + (subtext === ''
-                                 ? 0
-                                 : (this.titleOption.itemGap
-                                    + zrArea.getTextHeight(subtext, subfont))
-                                );
+                + (subtext === ''
+                        ? 0
+                        : (this.titleOption.itemGap
+                        + zrArea.getTextHeight(subtext, subfont))
+                );
 
             var x;
             var zrWidth = this.zr.getWidth();
@@ -278,7 +278,7 @@ define(function (require) {
                 height: totalHeight
             };
         },
-        
+
         /**
          * 刷新
          */
@@ -295,16 +295,16 @@ define(function (require) {
                     this.titleOption.subtextStyle
                 );
             }
-            
+
             this.clear();
             this._buildShape();
         }
     };
-    
+
     zrUtil.inherits(Title, Base);
-    
+
     require('../component').define('title', Title);
-    
+
     return Title;
 });
 

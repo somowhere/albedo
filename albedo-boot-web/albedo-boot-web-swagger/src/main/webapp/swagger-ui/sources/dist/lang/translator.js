@@ -15,25 +15,25 @@
  */
 window.SwaggerTranslator = {
 
-    _words:[],
+    _words: [],
 
-    translate: function(sel) {
-      var $this = this;
-      sel = sel || '[data-sw-translate]';
+    translate: function (sel) {
+        var $this = this;
+        sel = sel || '[data-sw-translate]';
 
-      $(sel).each(function() {
-        $(this).html($this._tryTranslate($(this).html()));
+        $(sel).each(function () {
+            $(this).html($this._tryTranslate($(this).html()));
 
-        $(this).val($this._tryTranslate($(this).val()));
-        $(this).attr('title', $this._tryTranslate($(this).attr('title')));
-      });
+            $(this).val($this._tryTranslate($(this).val()));
+            $(this).attr('title', $this._tryTranslate($(this).attr('title')));
+        });
     },
 
-    _tryTranslate: function(word) {
-      return this._words[$.trim(word)] !== undefined ? this._words[$.trim(word)] : word;
+    _tryTranslate: function (word) {
+        return this._words[$.trim(word)] !== undefined ? this._words[$.trim(word)] : word;
     },
 
-    learn: function(wordsMap) {
-      this._words = wordsMap;
+    learn: function (wordsMap) {
+        this._words = wordsMap;
     }
 };

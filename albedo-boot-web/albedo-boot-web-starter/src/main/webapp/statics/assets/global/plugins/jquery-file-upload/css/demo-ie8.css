@@ -11,11 +11,12 @@
  */
 
 .navigation {
-  list-style: none;
-  padding: 0;
-  margin: 1em 0;
+    list-style: none;
+    padding: 0;
+    margin: 1em 0;
 }
+
 .navigation li {
-  display: inline;
-  margin-right: 10px;
+    display: inline;
+    margin-right: 10px;
 }

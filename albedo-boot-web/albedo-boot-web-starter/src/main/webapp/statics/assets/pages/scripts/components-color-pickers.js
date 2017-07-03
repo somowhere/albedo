@@ -1,4 +1,4 @@
-var ComponentsColorPickers = function() {
+var ComponentsColorPickers = function () {
 
     var handleColorPicker = function () {
         if (!jQuery().colorpicker) {
@@ -10,8 +10,8 @@ var ComponentsColorPickers = function() {
         $('.colorpicker-rgba').colorpicker();
     }
 
-    var handleMiniColors = function() {
-        $('.demo').each(function() {
+    var handleMiniColors = function () {
+        $('.demo').each(function () {
             //
             // Dear reader, it's actually very easy to initialize MiniColors. For example:
             //
@@ -28,7 +28,7 @@ var ComponentsColorPickers = function() {
                 letterCase: $(this).attr('data-letterCase') || 'lowercase',
                 opacity: $(this).attr('data-opacity'),
                 position: $(this).attr('data-position') || 'bottom left',
-                change: function(hex, opacity) {
+                change: function (hex, opacity) {
                     if (!hex) return;
                     if (opacity) hex += ', ' + opacity;
                     if (typeof console === 'object') {
@@ -43,7 +43,7 @@ var ComponentsColorPickers = function() {
 
     return {
         //main function to initiate the module
-        init: function() {
+        init: function () {
             handleMiniColors();
             handleColorPicker();
         }
@@ -51,6 +51,6 @@ var ComponentsColorPickers = function() {
 
 }();
 
-jQuery(document).ready(function() {    
-   ComponentsColorPickers.init(); 
+jQuery(document).ready(function () {
+    ComponentsColorPickers.init();
 });

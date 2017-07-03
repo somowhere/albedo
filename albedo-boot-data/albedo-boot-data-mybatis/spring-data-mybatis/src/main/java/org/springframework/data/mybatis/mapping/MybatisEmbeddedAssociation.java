@@ -36,5 +36,4 @@ public class MybatisEmbeddedAssociation extends MybatisAssociation {
     }
 
 
-
 }

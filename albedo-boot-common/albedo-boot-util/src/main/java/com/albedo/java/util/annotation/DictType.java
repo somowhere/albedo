@@ -11,11 +11,13 @@ import static java.lang.annotation.ElementType.METHOD;
 /**
  * bean中文名注解
  */
-@Target({ METHOD, FIELD })
+@Target({METHOD, FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface DictType {
 
-	/** 如果是字典类型，请设置字典的name值 */
-	String name() default "";
+    /**
+     * 如果是字典类型，请设置字典的name值
+     */
+    String name() default "";
 }

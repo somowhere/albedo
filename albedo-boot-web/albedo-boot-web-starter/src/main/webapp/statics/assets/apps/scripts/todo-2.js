@@ -1,12 +1,12 @@
 /**
-Todo 2 Module
-**/
+ Todo 2 Module
+ **/
 var AppTodo2 = function () {
 
     // private functions & variables
 
-    var _initComponents = function() {
-        
+    var _initComponents = function () {
+
         // init datepicker
         $('.todo-taskbody-due').datepicker({
             rtl: App.isRTL(),
@@ -20,7 +20,7 @@ var AppTodo2 = function () {
         });
     }
 
-    var _handleProjectListMenu = function() {
+    var _handleProjectListMenu = function () {
         if (App.getViewPort().width <= 992) {
             $('.todo-project-list-content').addClass("collapse");
         } else {
@@ -33,12 +33,12 @@ var AppTodo2 = function () {
 
         //main function
         init: function () {
-            _initComponents();     
+            _initComponents();
             _handleProjectListMenu();
 
-            App.addResizeHandler(function(){
-                _handleProjectListMenu();    
-            });       
+            App.addResizeHandler(function () {
+                _handleProjectListMenu();
+            });
         }
 
     };
@@ -46,7 +46,7 @@ var AppTodo2 = function () {
 }();
 
 if (App.isAngularJsApp() === false) {
-    jQuery(document).ready(function() {
+    jQuery(document).ready(function () {
         AppTodo2.init();
     });
 }

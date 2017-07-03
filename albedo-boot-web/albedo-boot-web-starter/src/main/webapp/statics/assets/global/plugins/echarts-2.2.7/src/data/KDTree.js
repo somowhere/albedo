@@ -66,7 +66,7 @@ define(function (require) {
         axis = (axis + 1) % this.dimension;
         if (right > left) {
             node.left = this._buildTree(points, left, medianIndex - 1, axis);
-            node.right = this._buildTree(points, medianIndex + 1, right, axis);   
+            node.right = this._buildTree(points, medianIndex + 1, right, axis);
         }
 
         return node;
@@ -140,7 +140,7 @@ define(function (require) {
         // Insert to the right position
         // Sort from small to large
         for (var i = found - 1; i > 0; i--) {
-            if (dist >= nearestNList[i - 1].dist) {                
+            if (dist >= nearestNList[i - 1].dist) {
                 break;
             }
             else {

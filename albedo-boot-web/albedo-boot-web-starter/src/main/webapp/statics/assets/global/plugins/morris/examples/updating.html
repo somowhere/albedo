@@ -8,12 +8,13 @@
     <script src="lib/example.js"></script>
     <link rel="stylesheet" href="lib/example.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/prettify/r224/prettify.min.css">
-    <link rel="stylesheet" href="../morris.css"> </head>
+    <link rel="stylesheet" href="../morris.css">
+</head>
 
 <body>
-    <h1>Updating data</h1>
-    <div id="graph"></div>
-    <div id="reloadStatus"> <pre id="code" class="prettyprint linenums">
+<h1>Updating data</h1>
+<div id="graph"></div>
+<div id="reloadStatus"> <pre id="code" class="prettyprint linenums">
 
 var nReloads = 0;
 function data(offset) {
@@ -45,4 +46,5 @@ function update() {
   $('#reloadStatus').text(nReloads + ' reloads');
 }
 setInterval(update, 100);
-</pre> </body>
+</pre>
+</body>

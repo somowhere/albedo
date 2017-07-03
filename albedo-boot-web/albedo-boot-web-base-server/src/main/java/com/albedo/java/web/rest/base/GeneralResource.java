@@ -25,17 +25,19 @@ import java.util.Date;
  */
 public class GeneralResource {
 
-    protected final String RESPONSE_JSON = "text/json; charset=UTF-8";
-    protected final String ENCODING_UTF8 = "UTF-8";
     /*** 返回消息状态头 type */
     public static final String MSG_TYPE = "status";
     /*** 返回消息内容头 msg */
     public static final String MSG = "message";
     /*** 返回消息内容头 msg */
     public static final String DATA = "data";
-    /** 日志对象 */
-    protected Logger log = LoggerFactory.getLogger(getClass());
     protected static Logger logger = LoggerFactory.getLogger(GeneralResource.class);
+    protected final String RESPONSE_JSON = "text/json; charset=UTF-8";
+    protected final String ENCODING_UTF8 = "UTF-8";
+    /**
+     * 日志对象
+     */
+    protected Logger log = LoggerFactory.getLogger(getClass());
     /**
      * 1 管理基础路径
      */
@@ -52,20 +54,15 @@ public class GeneralResource {
      */
     @Value("${albedo.urlSuffix}")
     protected String urlSuffix;
-    /** 验证Bean实例对象 */
+    /**
+     * 验证Bean实例对象
+     */
     @Resource
     protected Validator validator;
     @Resource
     protected HttpServletRequest request;
     protected HttpServletResponse response;
     protected HttpSession session;
-
-    @ModelAttribute
-    public void setReqAndRes(HttpServletResponse response) {
-        this.response = response;
-        this.session = request.getSession();
-    }
-
 
     public static final void writeStringHttpResponse(String str, HttpServletResponse response) {
         if (str == null)
@@ -96,7 +93,16 @@ public class GeneralResource {
             throw new RuntimeException(e);
         }
     }
-    /** 初始化数据绑定 1. 将所有传递进来的String进行HTML编码，防止XSS攻击 2. 将字段中Date类型转换为String类型 */
+
+    @ModelAttribute
+    public void setReqAndRes(HttpServletResponse response) {
+        this.response = response;
+        this.session = request.getSession();
+    }
+
+    /**
+     * 初始化数据绑定 1. 将所有传递进来的String进行HTML编码，防止XSS攻击 2. 将字段中Date类型转换为String类型
+     */
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         // String类型转换，将所有传递进来的String进行HTML编码，防止XSS攻击

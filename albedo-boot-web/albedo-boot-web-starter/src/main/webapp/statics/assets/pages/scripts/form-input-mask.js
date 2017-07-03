@@ -1,7 +1,7 @@
 var FormInputMask = function () {
-    
+
     var handleInputMasks = function () {
-        
+
 
         $("#mask_date").inputmask("d/m/y", {
             autoUnmask: true
@@ -59,8 +59,8 @@ var FormInputMask = function () {
 
 }();
 
-if (App.isAngularJsApp() === false) { 
-    jQuery(document).ready(function() {
+if (App.isAngularJsApp() === false) {
+    jQuery(document).ready(function () {
         FormInputMask.init(); // init metronic core componets
     });
 }

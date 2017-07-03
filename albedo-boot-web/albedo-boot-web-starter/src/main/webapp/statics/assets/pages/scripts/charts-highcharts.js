@@ -1,61 +1,61 @@
-jQuery(document).ready(function() {
-  // HIGHCHARTS DEMOS
+jQuery(document).ready(function () {
+    // HIGHCHARTS DEMOS
 
-  	// LINE CHART 1
-	$('#highchart_1').highcharts({
-        chart : {
+    // LINE CHART 1
+    $('#highchart_1').highcharts({
+        chart: {
             style: {
                 fontFamily: 'Open Sans'
             }
         },
-		title: {
-			text: 'Monthly Average Temperature',
-			x: -20 //center
-		},
-		subtitle: {
-			text: 'Source: WorldClimate.com',
-			x: -20
-		},
-		xAxis: {
-			categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-				'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-		},
-		yAxis: {
-			title: {
-				text: 'Temperature (°C)'
-			},
-			plotLines: [{
-				value: 0,
-				width: 1,
-				color: '#808080'
-			}]
-		},
-		tooltip: {
-			valueSuffix: '°C'
-		},
-		legend: {
-			layout: 'vertical',
-			align: 'right',
-			verticalAlign: 'middle',
-			borderWidth: 0
-		},
-		series: [{
-			name: 'Tokyo',
-			data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-		}, {
-			name: 'New York',
-			data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
-		}, {
-			name: 'Berlin',
-			data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
-		}, {
-			name: 'London',
-			data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-		}]
-	});
+        title: {
+            text: 'Monthly Average Temperature',
+            x: -20 //center
+        },
+        subtitle: {
+            text: 'Source: WorldClimate.com',
+            x: -20
+        },
+        xAxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        yAxis: {
+            title: {
+                text: 'Temperature (°C)'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '°C'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: 'Tokyo',
+            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+        }, {
+            name: 'New York',
+            data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
+        }, {
+            name: 'Berlin',
+            data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
+        }, {
+            name: 'London',
+            data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+        }]
+    });
 
-	// LINE CHART 2
-	$.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=usdeur.json&callback=?', function (data) {
+    // LINE CHART 2
+    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=usdeur.json&callback=?', function (data) {
 
         $('#highchart_2').highcharts({
             chart: {
@@ -69,7 +69,7 @@ jQuery(document).ready(function() {
             },
             subtitle: {
                 text: document.ontouchstart === undefined ?
-                        'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
             },
             xAxis: {
                 type: 'datetime'
@@ -117,8 +117,8 @@ jQuery(document).ready(function() {
         });
     });
 
-	// AREA CHART
-	$('#highchart_3').highcharts({
+    // AREA CHART
+    $('#highchart_3').highcharts({
         chart: {
             type: 'area',
             style: {
@@ -180,15 +180,15 @@ jQuery(document).ready(function() {
             data: [2, 2, 2, 6, 13, 30, 46]
         }]
     });
- 
- 	// BAR CHART
- 	// Age categories
+
+    // BAR CHART
+    // Age categories
     var categories = ['0-4', '5-9', '10-14', '15-19',
-            '20-24', '25-29', '30-34', '35-39', '40-44',
-            '45-49', '50-54', '55-59', '60-64', '65-69',
-            '70-74', '75-79', '80-84', '85-89', '90-94',
-            '95-99', '100 + '];
-   
+        '20-24', '25-29', '30-34', '35-39', '40-44',
+        '45-49', '50-54', '55-59', '60-64', '65-69',
+        '70-74', '75-79', '80-84', '85-89', '90-94',
+        '95-99', '100 + '];
+
     $('#highchart_4').highcharts({
         chart: {
             type: 'bar',
@@ -254,8 +254,8 @@ jQuery(document).ready(function() {
         }]
     });
 
-	// DONUT CHART
-	var colors = Highcharts.getOptions().colors,
+    // DONUT CHART
+    var colors = Highcharts.getOptions().colors,
         categories = ['MSIE', 'Firefox', 'Chrome', 'Safari', 'Opera'],
         data = [{
             y: 56.33,
@@ -282,7 +282,7 @@ jQuery(document).ready(function() {
                 name: 'Chrome versions',
                 categories: ['Chrome v30.0', 'Chrome v31.0', 'Chrome v32.0', 'Chrome v33.0', 'Chrome v34.0',
                     'Chrome v35.0', 'Chrome v36.0', 'Chrome v37.0', 'Chrome v38.0', 'Chrome v39.0', 'Chrome v40.0', 'Chrome v41.0', 'Chrome v42.0', 'Chrome v43.0'
-                    ],
+                ],
                 data: [0.14, 1.24, 0.55, 0.19, 0.14, 0.85, 2.53, 0.38, 0.6, 2.96, 5, 4.32, 3.68, 1.45],
                 color: colors[2]
             }
@@ -397,7 +397,6 @@ jQuery(document).ready(function() {
             }
         }]
     });
-
 
 
 });

@@ -1,20 +1,20 @@
 //经济指标命名映射
 var eNameMap = {
-    'GDP' : 'GDP',
-    'Financial' : '金融',
-    'Estate' : '房地产',
-    'PI' : '第一产业',
-    'SI' : '第二产业',
-    'TI' : '第三产业'
+    'GDP': 'GDP',
+    'Financial': '金融',
+    'Estate': '房地产',
+    'PI': '第一产业',
+    'SI': '第二产业',
+    'TI': '第三产业'
 };
 //颜色映射
 var eColorMap = {
-    'GDP' : '#1e90ff',
-    'Financial' : '#ff7f50',
-    'Estate' : '#da70d6',
-    'PI' : '#32cd32',
-    'SI' : '#6495ed',
-    'TI' : '#ff69b4'
+    'GDP': '#1e90ff',
+    'Financial': '#ff7f50',
+    'Estate': '#da70d6',
+    'PI': '#32cd32',
+    'SI': '#6495ed',
+    'TI': '#ff69b4'
 };
 //---------
 
@@ -39,11 +39,12 @@ if (developMode) {
             script.onload = fireLoad;
         }
         (document.getElementsByTagName('head')[0] || document.body).appendChild(script);
-        
+
         function fireLoad() {
             script.onload = script.onreadystatechange = null;
-            setTimeout(loadedListener,100);
+            setTimeout(loadedListener, 100);
         }
+
         function loadedListener() {
             // for develop
             require.config({
@@ -101,7 +102,7 @@ function launchExample() {
         ],
         function (ec) {
             EC_READY = true;
-            myChart0 = ec.init(document.getElementById('g0')).setOption(option0()); 
+            myChart0 = ec.init(document.getElementById('g0')).setOption(option0());
             showTabContent(1);
         }
     );
@@ -115,7 +116,7 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         return;
     }
     hideTabContent(curTabIdx);
-    curTabIdx = e.target.id.replace('tab','');
+    curTabIdx = e.target.id.replace('tab', '');
     showTabContent(curTabIdx);
 });
 
@@ -145,19 +146,19 @@ function hideTabContent(idx) {
 // last chart
 var myChart3;
 var curSelected = {
-    'GDP' : true,
-    '金融' : false,
-    '房地产' : true,
-    '第一产业' : false,
-    '第二产业' : false,
-    '第三产业' : false
+    'GDP': true,
+    '金融': false,
+    '房地产': true,
+    '第一产业': false,
+    '第二产业': false,
+    '第三产业': false
 };
 functionMap.chart3 = function (idx) {
     functionMap.chart3dispose(idx);
     myChart3 = require('echarts').init(document.getElementById('g' + idx));
     myChart3.setOption(option1(curSelected));
     // 图例状态保持
-    myChart3.on(require('echarts/config').EVENT.LEGEND_SELECTED, function (param){
+    myChart3.on(require('echarts/config').EVENT.LEGEND_SELECTED, function (param) {
         curSelected = param.selected;
     });
 }
@@ -184,7 +185,7 @@ functionMap.chart2 = function (idx) {
     myChart23 = ec.init(document.getElementById('g23'));
     myChart24 = ec.init(document.getElementById('g24'));
     myChart25 = ec.init(document.getElementById('g25'));
-    
+
     myChart20.setOption(option2('GDP'));
     myChart21.setOption(option2('Financial'));
     myChart22.setOption(option2('Estate'));
@@ -200,7 +201,7 @@ functionMap.chart2dispose = function () {
         myChart23.dispose();
         myChart24.dispose();
         myChart25.dispose();
-        myChart20 = false; 
+        myChart20 = false;
         myChart21 = false;
         myChart22 = false;
         myChart23 = false;
@@ -220,14 +221,14 @@ functionMap.chart1 = function (idx) {
 functionMap.chart1dispose = function () {
     if (myChart1) {
         myChart1.dispose();
-        myChart1 = false; 
+        myChart1 = false;
     }
 }
 var resizeTicket;
 window.onload = function () {
     window.onresize = function () {
         clearTimeout(resizeTicket);
-        resizeTicket = setTimeout(function (){
+        resizeTicket = setTimeout(function () {
             myChart0.resize();
             if (curTabIdx == 1) {
                 myChart1.resize();
@@ -241,9 +242,9 @@ window.onload = function () {
                 myChart25.resize();
             }
             else {
-                
+
                 myChart3.resize();
             }
-        },200);
+        }, 200);
     }
 }

@@ -3,6 +3,7 @@ package com.albedo.java.util;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+
 /**
  * Created by lijie on 2017/5/8.
  */

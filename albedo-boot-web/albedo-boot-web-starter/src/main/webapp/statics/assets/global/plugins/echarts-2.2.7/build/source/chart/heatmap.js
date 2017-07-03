@@ -25,6 +25,7 @@ define('echarts/chart/heatmap', [
         ChartBase.call(this, ecTheme, messageCenter, zr, option, myChart);
         this.refresh(option);
     }
+
     Heatmap.prototype = {
         type: ecConfig.CHART_TYPE_HEATMAP,
         refresh: function (newOption) {
@@ -71,7 +72,8 @@ define('echarts/chart/heatmap', [
     zrUtil.inherits(Heatmap, ChartBase);
     require('../chart').define('heatmap', Heatmap);
     return Heatmap;
-});define('echarts/layer/heatmap', ['require'], function (require) {
+});
+define('echarts/layer/heatmap', ['require'], function (require) {
     var defaultOptions = {
         blurSize: 30,
         gradientColors: [
@@ -87,6 +89,7 @@ define('echarts/chart/heatmap', [
     };
     var BRUSH_SIZE = 20;
     var GRADIENT_LEVELS = 256;
+
     function Heatmap(opt) {
         this.option = opt;
         if (opt) {
@@ -101,6 +104,7 @@ define('echarts/chart/heatmap', [
             this.option = defaultOptions;
         }
     }
+
     Heatmap.prototype = {
         getCanvas: function (data, width, height) {
             var brush = this._getBrush();
@@ -177,7 +181,8 @@ define('echarts/chart/heatmap', [
         }
     };
     return Heatmap;
-});define('echarts/layer/heatmap', ['require'], function (require) {
+});
+define('echarts/layer/heatmap', ['require'], function (require) {
     var defaultOptions = {
         blurSize: 30,
         gradientColors: [
@@ -193,6 +198,7 @@ define('echarts/chart/heatmap', [
     };
     var BRUSH_SIZE = 20;
     var GRADIENT_LEVELS = 256;
+
     function Heatmap(opt) {
         this.option = opt;
         if (opt) {
@@ -207,6 +213,7 @@ define('echarts/chart/heatmap', [
             this.option = defaultOptions;
         }
     }
+
     Heatmap.prototype = {
         getCanvas: function (data, width, height) {
             var brush = this._getBrush();

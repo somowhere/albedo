@@ -1,11 +1,11 @@
-$(function() {
+$(function () {
 
     var sortStrategies = jsGrid.sortStrategies;
 
 
     module("sortStrategies");
 
-    test("string sorting", function() {
+    test("string sorting", function () {
         var data = ["c", "a", "d", "b"];
 
         data.sort(sortStrategies["string"]);
@@ -13,7 +13,7 @@ $(function() {
         deepEqual(data, ["a", "b", "c", "d"]);
     });
 
-    test("string sorting should be robust", function() {
+    test("string sorting should be robust", function () {
         var data = ["a", 1, true, "b"];
 
         data.sort(sortStrategies["string"]);
@@ -21,7 +21,7 @@ $(function() {
         deepEqual(data, [1, "a", "b", true]);
     });
 
-    test("number sorting", function() {
+    test("number sorting", function () {
         var data = [5, 3.2, 1e2, 4];
 
         data.sort(sortStrategies["number"]);
@@ -29,7 +29,7 @@ $(function() {
         deepEqual(data, [3.2, 4, 5, 100]);
     });
 
-    test("date sorting", function() {
+    test("date sorting", function () {
         var date1 = new Date(2010, 0, 1),
             date2 = new Date(2011, 0, 1),
             date3 = new Date(2012, 0, 1);
@@ -41,7 +41,7 @@ $(function() {
         deepEqual(data, [date1, date2, date3]);
     });
 
-    test("numberAsString sorting", function() {
+    test("numberAsString sorting", function () {
         var data = [".1", "2.1", "4e5", "2"];
 
         data.sort(sortStrategies["numberAsString"]);

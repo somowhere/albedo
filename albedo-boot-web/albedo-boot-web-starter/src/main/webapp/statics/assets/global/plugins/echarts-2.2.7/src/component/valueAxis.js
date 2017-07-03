@@ -40,7 +40,7 @@ define(function (require) {
         axisTick: {            // 坐标轴小标记
             show: false,       // 属性show控制显示与否，默认不显示
             inside: false,     // 控制小标记是否在grid里
-            length :5,         // 属性length控制线长
+            length: 5,         // 属性length控制线长
             lineStyle: {       // 属性lineStyle控制线条样式
                 color: '#333',
                 width: 1
@@ -67,7 +67,7 @@ define(function (require) {
         splitArea: {           // 分隔区域
             show: false,       // 默认不显示，属性show控制显示与否
             areaStyle: {       // 属性areaStyle（详见areaStyle）控制区域样式
-                color: ['rgba(250,250,250,0.3)','rgba(200,200,200,0.3)']
+                color: ['rgba(250,250,250,0.3)', 'rgba(200,200,200,0.3)']
             }
         }
     };
@@ -125,20 +125,20 @@ define(function (require) {
         // 小标记
         _buildAxisTick: function () {
             var axShape;
-            var data       = this._valueList;
+            var data = this._valueList;
             var dataLength = this._valueList.length;
             var tickOption = this.option.axisTick;
-            var length     = tickOption.length;
-            var color      = tickOption.lineStyle.color;
-            var lineWidth  = tickOption.lineStyle.width;
+            var length = tickOption.length;
+            var color = tickOption.lineStyle.color;
+            var lineWidth = tickOption.lineStyle.width;
 
             if (this.isHorizontal()) {
                 // 横向
                 var yPosition = this.option.position === 'bottom'
-                        ? (tickOption.inside
-                           ? (this.grid.getYend() - length - 1) : (this.grid.getYend()) + 1)
-                        : (tickOption.inside
-                           ? (this.grid.getY() + 1) : (this.grid.getY() - length - 1));
+                    ? (tickOption.inside
+                        ? (this.grid.getYend() - length - 1) : (this.grid.getYend()) + 1)
+                    : (tickOption.inside
+                        ? (this.grid.getY() + 1) : (this.grid.getY() - length - 1));
                 var x;
                 for (var i = 0; i < dataLength; i++) {
                     // 亚像素优化
@@ -164,9 +164,9 @@ define(function (require) {
                 // 纵向
                 var xPosition = this.option.position === 'left'
                     ? (tickOption.inside
-                       ? (this.grid.getX() + 1) : (this.grid.getX() - length - 1))
+                        ? (this.grid.getX() + 1) : (this.grid.getX() - length - 1))
                     : (tickOption.inside
-                       ? (this.grid.getXend() - length - 1) : (this.grid.getXend() + 1));
+                        ? (this.grid.getXend() - length - 1) : (this.grid.getXend() + 1));
 
                 var y;
                 for (var i = 0; i < dataLength; i++) {
@@ -194,12 +194,12 @@ define(function (require) {
         // 坐标轴文本
         _buildAxisLabel: function () {
             var axShape;
-            var data       = this._valueList;
+            var data = this._valueList;
             var dataLength = this._valueList.length;
-            var rotate     = this.option.axisLabel.rotate;
-            var margin     = this.option.axisLabel.margin;
-            var clickable  = this.option.axisLabel.clickable;
-            var textStyle  = this.option.axisLabel.textStyle;
+            var rotate = this.option.axisLabel.rotate;
+            var margin = this.option.axisLabel.margin;
+            var clickable = this.option.axisLabel.clickable;
+            var textStyle = this.option.axisLabel.textStyle;
 
             if (this.isHorizontal()) {
                 // 横向
@@ -217,13 +217,13 @@ define(function (require) {
                 for (var i = 0; i < dataLength; i++) {
                     axShape = {
                         zlevel: this.getZlevelBase(),
-                        z: this.getZBase() +3,
+                        z: this.getZBase() + 3,
                         hoverable: false,
                         style: {
                             x: this.getCoord(data[i]),
                             y: yPosition,
                             color: typeof textStyle.color === 'function'
-                                   ? textStyle.color(data[i]) : textStyle.color,
+                                ? textStyle.color(data[i]) : textStyle.color,
                             text: this._valueLabel[i],
                             textFont: this.getFont(textStyle),
                             textAlign: textStyle.align || 'center',
@@ -232,10 +232,10 @@ define(function (require) {
                     };
                     if (rotate) {
                         axShape.style.textAlign = rotate > 0
-                                                  ? (this.option.position === 'bottom'
-                                                    ? 'right' : 'left')
-                                                  : (this.option.position === 'bottom'
-                                                    ? 'left' : 'right');
+                            ? (this.option.position === 'bottom'
+                                ? 'right' : 'left')
+                            : (this.option.position === 'bottom'
+                                ? 'left' : 'right');
                         axShape.rotation = [
                             rotate * Math.PI / 180,
                             axShape.style.x,
@@ -269,16 +269,16 @@ define(function (require) {
                             x: xPosition,
                             y: this.getCoord(data[i]),
                             color: typeof textStyle.color === 'function'
-                                   ? textStyle.color(data[i]) : textStyle.color,
+                                ? textStyle.color(data[i]) : textStyle.color,
                             text: this._valueLabel[i],
                             textFont: this.getFont(textStyle),
                             textAlign: textStyle.align || align,
                             textBaseline: textStyle.baseline
-                                          || (
-                                              (i === 0 && this.option.name !== '')
-                                              ? 'bottom'
-                                                : (i === dataLength - 1 && this.option.name !== '') ? 'top' : 'middle'
-                                          )
+                            || (
+                                (i === 0 && this.option.name !== '')
+                                    ? 'bottom'
+                                    : (i === dataLength - 1 && this.option.name !== '') ? 'top' : 'middle'
+                            )
                         }
                     };
 
@@ -298,12 +298,12 @@ define(function (require) {
 
         _buildSplitLine: function () {
             var axShape;
-            var data        = this._valueList;
-            var dataLength  = this._valueList.length;
+            var data = this._valueList;
+            var dataLength = this._valueList.length;
             var sLineOption = this.option.splitLine;
-            var lineType    = sLineOption.lineStyle.type;
-            var lineWidth   = sLineOption.lineStyle.width;
-            var color       = sLineOption.lineStyle.color;
+            var lineType = sLineOption.lineStyle.type;
+            var lineWidth = sLineOption.lineStyle.width;
+            var color = sLineOption.lineStyle.color;
             color = color instanceof Array ? color : [color];
             var colorLength = color.length;
 
@@ -386,8 +386,8 @@ define(function (require) {
             else {
                 // 多颜色
                 var colorLength = color.length;
-                var data        = this._valueList;
-                var dataLength  = this._valueList.length;
+                var data = this._valueList;
+                var dataLength = this._valueList.length;
 
                 if (this.isHorizontal()) {
                     // 横向
@@ -398,8 +398,8 @@ define(function (require) {
 
                     for (var i = 0; i <= dataLength; i++) {
                         curX = i < dataLength
-                               ? this.getCoord(data[i])
-                               : this.grid.getXend();
+                            ? this.getCoord(data[i])
+                            : this.grid.getXend();
                         axShape = {
                             zlevel: this.getZlevelBase(),
                             z: this.getZBase(),
@@ -426,8 +426,8 @@ define(function (require) {
 
                     for (var i = 0; i <= dataLength; i++) {
                         curY = i < dataLength
-                               ? this.getCoord(data[i])
-                               : this.grid.getY();
+                            ? this.getCoord(data[i])
+                            : this.grid.getY();
                         axShape = {
                             zlevel: this.getZlevelBase(),
                             z: this.getZBase(),
@@ -470,7 +470,7 @@ define(function (require) {
                         continue;
                     }
                     // 请允许我写开，跟上面一个不是一样东西
-                    if (legend && !legend.isSelected(this.series[i].name)){
+                    if (legend && !legend.isSelected(this.series[i].name)) {
                         continue;
                     }
 
@@ -489,10 +489,10 @@ define(function (require) {
 
                 // 找极值
                 var oriData;            // 原始数据
-                for (var i in data){
+                for (var i in data) {
                     oriData = data[i];
                     for (var j = 0, k = oriData.length; j < k; j++) {
-                        if (!isNaN(oriData[j])){
+                        if (!isNaN(oriData[j])) {
                             this._hasData = true;
                             this._min = oriData[j];
                             this._max = oriData[j];
@@ -503,10 +503,10 @@ define(function (require) {
                         break;
                     }
                 }
-                for (var i in data){
+                for (var i in data) {
                     oriData = data[i];
                     for (var j = 0, k = oriData.length; j < k; j++) {
-                        if (!isNaN(oriData[j])){
+                        if (!isNaN(oriData[j])) {
                             this._min = Math.min(this._min, oriData[j]);
                             this._max = Math.max(this._max, oriData[j]);
                         }
@@ -518,12 +518,12 @@ define(function (require) {
                 var boundaryGap = this.option.type !== 'log' ? this.option.boundaryGap : [0, 0];
                 var gap = Math.abs(this._max - this._min);
                 this._min = isNaN(this.option.min - 0)
-                       ? (this._min - Math.abs(gap * boundaryGap[0]))
-                       : (this.option.min - 0);    // 指定min忽略boundaryGay[0]
+                    ? (this._min - Math.abs(gap * boundaryGap[0]))
+                    : (this.option.min - 0);    // 指定min忽略boundaryGay[0]
 
                 this._max = isNaN(this.option.max - 0)
-                       ? (this._max + Math.abs(gap * boundaryGap[1]))
-                       : (this.option.max - 0);    // 指定max忽略boundaryGay[1]
+                    ? (this._max + Math.abs(gap * boundaryGap[1]))
+                    : (this.option.max - 0);    // 指定max忽略boundaryGay[1]
                 if (this._min === this._max) {
                     if (this._max === 0) {
                         // 修复全0数据
@@ -590,13 +590,13 @@ define(function (require) {
                             if (this.option.xAxisIndex != -1) {
                                 data[key].push(
                                     this.option.type != 'time'
-                                    ? value[0] : ecDate.getNewDate(value[0])
+                                        ? value[0] : ecDate.getNewDate(value[0])
                                 );
                             }
                             if (this.option.yAxisIndex != -1) {
                                 data[key].push(
                                     this.option.type != 'time'
-                                    ? value[1] : ecDate.getNewDate(value[1])
+                                        ? value[1] : ecDate.getNewDate(value[1])
                                 );
                             }
                         }
@@ -688,7 +688,7 @@ define(function (require) {
         /**
          * 格式化时间值
          */
-        _reformTimeValue : function() {
+        _reformTimeValue: function () {
             var splitNumber = this.option.splitNumber != null ? this.option.splitNumber : 5;
 
             // 最优解
@@ -771,7 +771,7 @@ define(function (require) {
             this._reformLabelData();
         },
 
-        _reformLogValue: function() {
+        _reformLogValue: function () {
             // log数轴本质就是缩放，相当于默认this.option.scale === true，所以不修正_min和_max到0。
             var thisOption = this.option;
             var result = require('../util/smartLogSteps')({
@@ -807,7 +807,7 @@ define(function (require) {
                         this._valueLabel.push(
                             innerFormatter
                                 ? ecDate.format(formatter, this._valueList[i])
-                                : formatter.replace('{value}',this._valueList[i])
+                                : formatter.replace('{value}', this._valueList[i])
                         );
                     }
                 }
@@ -866,25 +866,25 @@ define(function (require) {
             if (!this.isHorizontal()) {
                 // 纵向
                 result = this.grid.getYend()
-                         - (value - this._min)
-                           / (this._max - this._min)
-                           * this.grid.getHeight();
+                    - (value - this._min)
+                    / (this._max - this._min)
+                    * this.grid.getHeight();
             }
             else {
                 // 横向
                 result = this.grid.getX()
-                         + (value - this._min)
-                           / (this._max - this._min)
-                           * this.grid.getWidth();
+                    + (value - this._min)
+                    / (this._max - this._min)
+                    * this.grid.getWidth();
             }
 
             return result;
             // Math.floor可能引起一些偏差，但性能会更好
             /* 准确更重要
-            return (value === this._min || value === this._max)
-                   ? result
-                   : Math.floor(result);
-            */
+             return (value === this._min || value === this._max)
+             ? result
+             : Math.floor(result);
+             */
         },
 
         // 根据值换算绝对大小
@@ -900,7 +900,7 @@ define(function (require) {
         },
 
         // 根据位置换算值
-        getValueFromCoord: function(coord) {
+        getValueFromCoord: function (coord) {
             var result;
 
             if (!this.isHorizontal()) {
@@ -908,18 +908,18 @@ define(function (require) {
                 coord = coord < this.grid.getY() ? this.grid.getY() : coord;
                 coord = coord > this.grid.getYend() ? this.grid.getYend() : coord;
                 result = this._max
-                         - (coord - this.grid.getY())
-                           / this.grid.getHeight()
-                           * (this._max - this._min);
+                    - (coord - this.grid.getY())
+                    / this.grid.getHeight()
+                    * (this._max - this._min);
             }
             else {
                 // 横向
                 coord = coord < this.grid.getX() ? this.grid.getX() : coord;
                 coord = coord > this.grid.getXend() ? this.grid.getXend() : coord;
                 result = this._min
-                         + (coord - this.grid.getX())
-                           / this.grid.getWidth()
-                           * (this._max - this._min);
+                    + (coord - this.grid.getX())
+                    / this.grid.getWidth()
+                    * (this._max - this._min);
             }
 
             if (this._dataMappingMethods) {
@@ -929,7 +929,7 @@ define(function (require) {
             return result.toFixed(2) - 0;
         },
 
-        isMaindAxis : function (value) {
+        isMaindAxis: function (value) {
             for (var i = 0, l = this._valueList.length; i < l; i++) {
                 if (this._valueList[i] === value) {
                     return true;

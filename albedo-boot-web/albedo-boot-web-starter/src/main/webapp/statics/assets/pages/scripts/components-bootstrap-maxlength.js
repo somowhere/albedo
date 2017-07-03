@@ -1,10 +1,10 @@
 var ComponentsBootstrapMaxlength = function () {
 
-    var handleBootstrapMaxlength = function() {
+    var handleBootstrapMaxlength = function () {
         $('#maxlength_defaultconfig').maxlength({
             limitReachedClass: "label label-danger",
         })
-    
+
         $('#maxlength_thresholdconfig').maxlength({
             limitReachedClass: "label label-danger",
             threshold: 20
@@ -41,6 +41,6 @@ var ComponentsBootstrapMaxlength = function () {
 
 }();
 
-jQuery(document).ready(function() {    
-   ComponentsBootstrapMaxlength.init(); 
+jQuery(document).ready(function () {
+    ComponentsBootstrapMaxlength.init();
 });

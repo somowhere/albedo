@@ -43,15 +43,15 @@ define(function (require) {
         }
     }
 
-    MarkLine.prototype =  {
-        type : 'mark-line',
+    MarkLine.prototype = {
+        type: 'mark-line',
         /**
          * 画刷
          * @param ctx 画布句柄
          * @param isHighlight   是否为高亮状态
          * @param updateCallback 让painter更新视图，base.brush没用，需要的话重载brush
          */
-        brush : function (ctx, isHighlight) {
+        brush: function (ctx, isHighlight) {
             var style = this.style;
 
             if (isHighlight) {
@@ -87,7 +87,7 @@ define(function (require) {
          * @param {Context2D} ctx Canvas 2D上下文
          * @param {Object} style 样式
          */
-        buildPath : function (ctx, style) {
+        buildPath: function (ctx, style) {
             var lineType = style.lineType || 'solid';
 
             ctx.moveTo(style.xStart, style.yStart);
@@ -105,7 +105,7 @@ define(function (require) {
                 if (lineDash && ctx.setLineDash) {
                     ctx.setLineDash(lineDash);
                 }
-                
+
                 ctx.quadraticCurveTo(
                     style.cpX1, style.cpY1, style.xEnd, style.yEnd
                 );
@@ -115,7 +115,7 @@ define(function (require) {
                     ctx.lineTo(style.xEnd, style.yEnd);
                 }
                 else {
-                    var dashLength = (style.lineWidth || 1) 
+                    var dashLength = (style.lineWidth || 1)
                         * (style.lineType == 'dashed' ? 5 : 1);
                     dashedLineTo(
                         ctx, style.xStart, style.yStart,
@@ -138,7 +138,7 @@ define(function (require) {
             var x2 = style.xEnd;
             var y2 = style.yEnd;
             var x1 = (x0 + x2) / 2 - inv * (y0 - y2) * curveness;
-            var y1 =(y0 + y2) / 2 - inv * (x2 - x0) * curveness;
+            var y1 = (y0 + y2) / 2 - inv * (x2 - x0) * curveness;
 
             style.cpX1 = x1;
             style.cpY1 = y1;
@@ -147,7 +147,7 @@ define(function (require) {
         /**
          * 标线始末标注
          */
-        brushSymbol : function (ctx, style, idx) {
+        brushSymbol: function (ctx, style, idx) {
             if (style.symbol[idx] == 'none') {
                 return;
             }
@@ -158,7 +158,7 @@ define(function (require) {
             ctx.strokeStyle = style.symbolBorderColor;
             // symbol
             var symbol = style.symbol[idx].replace('empty', '')
-                                              .toLowerCase();
+                .toLowerCase();
             if (style.symbol[idx].match('empty')) {
                 ctx.fillStyle = '#fff'; //'rgba(0, 0, 0, 0)';
             }
@@ -176,10 +176,10 @@ define(function (require) {
 
             if (symbol == 'arrow' && rotate === 0) {
                 if (curveness === 0) {
-                    var sign = idx === 0 ? -1 : 1; 
+                    var sign = idx === 0 ? -1 : 1;
                     rotate = Math.PI / 2 + Math.atan2(
-                        sign * (y2 - y0), sign * (x2 - x0)
-                    );
+                            sign * (y2 - y0), sign * (x2 - x0)
+                        );
                 }
                 else {
                     var x1 = style.cpX1;
@@ -192,7 +192,7 @@ define(function (require) {
                     rotate = Math.PI / 2 + Math.atan2(dy, dx);
                 }
             }
-            
+
             ctx.translate(x, y);
 
             if (rotate !== 0) {
@@ -219,13 +219,13 @@ define(function (require) {
          * 返回矩形区域，用于局部刷新和文字定位
          * @param {Object} style
          */
-        getRect : function (style) {
+        getRect: function (style) {
             style.curveness > 0 ? curveInstance.getRect(style)
                 : lineInstance.getRect(style);
             return style.__rect;
         },
 
-        isCover : function (x, y) {
+        isCover: function (x, y) {
             var originPos = this.transformCoordToLocal(x, y);
             x = originPos[0];
             y = originPos[1];
@@ -234,8 +234,8 @@ define(function (require) {
             if (this.isCoverRect(x, y)) {
                 // 矩形内
                 return this.style.curveness > 0
-                       ? area.isInside(curveInstance, this.style, x, y)
-                       : area.isInside(lineInstance, this.style, x, y);
+                    ? area.isInside(curveInstance, this.style, x, y)
+                    : area.isInside(lineInstance, this.style, x, y);
             }
 
             return false;

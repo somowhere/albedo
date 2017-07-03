@@ -98,17 +98,17 @@ var esl;
      * @type {Object}
      */
     var requireConf = {
-        baseUrl    : './',
-        paths      : {},
-        config     : {},
-        map        : {},
-        packages   : [],
-        shim       : {},
+        baseUrl: './',
+        paths: {},
+        config: {},
+        map: {},
+        packages: [],
+        shim: {},
         // #begin-ignore
         waitSeconds: 0,
         // #end-ignore
-        bundles    : {},
-        urlArgs    : {}
+        bundles: {},
+        urlArgs: {}
     };
     /* eslint-enable key-spacing */
 
@@ -264,6 +264,7 @@ var esl;
             );
         }
     }
+
     // #end-ignore
 
     /**
@@ -397,18 +398,18 @@ var esl;
         if (!modModules[id]) {
             /* eslint-disable key-spacing */
             modModules[id] = {
-                id          : id,
-                depsDec     : dependencies,
-                deps        : dependencies || ['require', 'exports', 'module'],
-                factoryDeps : [],
-                factory     : factory,
-                exports     : {},
-                config      : moduleConfigGetter,
-                state       : MODULE_PRE_DEFINED,
-                require     : createLocalRequire(id),
-                depMs       : [],
-                depMkv      : {},
-                depRs       : []
+                id: id,
+                depsDec: dependencies,
+                deps: dependencies || ['require', 'exports', 'module'],
+                factoryDeps: [],
+                factory: factory,
+                exports: {},
+                config: moduleConfigGetter,
+                state: MODULE_PRE_DEFINED,
+                require: createLocalRequire(id),
+                depMs: [],
+                depMkv: {},
+                depRs: []
             };
             /* eslint-enable key-spacing */
         }
@@ -629,13 +630,13 @@ var esl;
                     var factory = mod.factory;
                     var exports = typeof factory === 'function'
                         ? factory.apply(global, modGetModulesExports(
-                                mod.factoryDeps,
-                                {
-                                    require: mod.require,
-                                    exports: mod.exports,
-                                    module: mod
-                                }
-                            ))
+                            mod.factoryDeps,
+                            {
+                                require: mod.require,
+                                exports: mod.exports,
+                                module: mod
+                            }
+                        ))
                         : factory;
 
                     if (exports != null) {
@@ -650,7 +651,7 @@ var esl;
                         // 所以把它加入强依赖中
                         var hardCirclurDep = mod.depMkv[RegExp.$1];
                         hardCirclurDep && (hardCirclurDep.hard = 1);
-                        
+
                         // 如果是模块本身有问题导致的运行错误
                         // 就不要把invoking置回去了，避免影响autoInvoke其他模块的初始化
                         invoking = 0;
@@ -757,7 +758,7 @@ var esl;
         var mod = modModules[id];
         mod.state = MODULE_DEFINED;
         delete modAutoDefineModules[id];
-        
+
         var listeners = modDefinedListeners[id] || [];
         var len = listeners.length;
         while (len--) {
@@ -787,8 +788,8 @@ var esl;
             if (!(BUILDIN_MODULE[id] || modIs(id, MODULE_DEFINED))) {
                 modAddDefinedListener(id, tryFinishRequire);
                 (id.indexOf('!') > 0
-                    ? loadResource
-                    : loadModule
+                        ? loadResource
+                        : loadModule
                 )(id, baseId);
             }
         });
@@ -1133,6 +1134,7 @@ var esl;
         function bundlesIterator(id) {
             bundlesIndex[id] = key;
         }
+
         /* eslint-enable no-use-before-define */
         for (var key in requireConf.bundles) {
             each(requireConf.bundles[key], bundlesIterator);
@@ -1365,7 +1367,7 @@ var esl;
                     function (resId) {
                         return normalize(resId, baseId);
                     }
-                  )
+                )
                 : normalize(resourceId, baseId);
 
             moduleId += '!' + resourceId;
@@ -1542,6 +1544,7 @@ var esl;
                 onload();
             }
         }
+
         currentlyAddingScript = script;
 
         // If BASE tag is in play, using appendChild is a problem for IE6.
@@ -1618,7 +1621,9 @@ var esl;
         esl = globalRequire;
     }
 })(this);
-define('echarts', ['echarts/echarts'], function (main) {return main;});
+define('echarts', ['echarts/echarts'], function (main) {
+    return main;
+});
 define('echarts/echarts', [
     'require',
     './config',
@@ -1656,7 +1661,7 @@ define('echarts/echarts', [
     var _instances = {};
     var DOM_ATTRIBUTE_KEY = '_echarts_instance_';
     self.version = '2.2.7';
-    self.dependencies = { zrender: '2.1.1' };
+    self.dependencies = {zrender: '2.1.1'};
     self.init = function (dom, theme) {
         var zrender = require('zrender');
         if (zrender.version.replace('.', '') - 0 < self.dependencies.zrender.replace('.', '') - 0) {
@@ -1683,6 +1688,7 @@ define('echarts/echarts', [
     function MessageCenter() {
         zrEvent.Dispatcher.call(this);
     }
+
     zrUtil.merge(MessageCenter.prototype, zrEvent.Dispatcher.prototype, true);
     function Echarts(dom) {
         dom.innerHTML = '';
@@ -1701,6 +1707,7 @@ define('echarts/echarts', [
         this.resize = this.resize();
         this._init();
     }
+
     var ZR_EVENT = require('zrender/config').EVENT;
     var ZR_EVENT_LISTENS = [
         'CLICK',
@@ -1714,6 +1721,7 @@ define('echarts/echarts', [
         'DRAGLEAVE',
         'DROP'
     ];
+
     function callChartListMethodReverse(ecInstance, methodName, arg0, arg1, arg2) {
         var chartList = ecInstance._chartList;
         var len = chartList.length;
@@ -1724,6 +1732,7 @@ define('echarts/echarts', [
             }
         }
     }
+
     Echarts.prototype = {
         _init: function () {
             var self = this;
@@ -1777,65 +1786,65 @@ define('echarts/echarts', [
                 this._curEventType = param.type;
             }
             switch (param.type) {
-            case ecConfig.EVENT.LEGEND_SELECTED:
-                this._onlegendSelected(param);
-                break;
-            case ecConfig.EVENT.DATA_ZOOM:
-                if (!fromMyself) {
-                    var dz = this.component.dataZoom;
-                    if (dz) {
-                        dz.silence(true);
-                        dz.absoluteZoom(param.zoom);
-                        dz.silence(false);
+                case ecConfig.EVENT.LEGEND_SELECTED:
+                    this._onlegendSelected(param);
+                    break;
+                case ecConfig.EVENT.DATA_ZOOM:
+                    if (!fromMyself) {
+                        var dz = this.component.dataZoom;
+                        if (dz) {
+                            dz.silence(true);
+                            dz.absoluteZoom(param.zoom);
+                            dz.silence(false);
+                        }
                     }
-                }
-                this._ondataZoom(param);
-                break;
-            case ecConfig.EVENT.DATA_RANGE:
-                fromMyself && this._ondataRange(param);
-                break;
-            case ecConfig.EVENT.MAGIC_TYPE_CHANGED:
-                if (!fromMyself) {
-                    var tb = this.component.toolbox;
-                    if (tb) {
-                        tb.silence(true);
-                        tb.setMagicType(param.magicType);
-                        tb.silence(false);
+                    this._ondataZoom(param);
+                    break;
+                case ecConfig.EVENT.DATA_RANGE:
+                    fromMyself && this._ondataRange(param);
+                    break;
+                case ecConfig.EVENT.MAGIC_TYPE_CHANGED:
+                    if (!fromMyself) {
+                        var tb = this.component.toolbox;
+                        if (tb) {
+                            tb.silence(true);
+                            tb.setMagicType(param.magicType);
+                            tb.silence(false);
+                        }
                     }
-                }
-                this._onmagicTypeChanged(param);
-                break;
-            case ecConfig.EVENT.DATA_VIEW_CHANGED:
-                fromMyself && this._ondataViewChanged(param);
-                break;
-            case ecConfig.EVENT.TOOLTIP_HOVER:
-                fromMyself && this._tooltipHover(param);
-                break;
-            case ecConfig.EVENT.RESTORE:
-                this._onrestore();
-                break;
-            case ecConfig.EVENT.REFRESH:
-                fromMyself && this._onrefresh(param);
-                break;
-            case ecConfig.EVENT.TOOLTIP_IN_GRID:
-            case ecConfig.EVENT.TOOLTIP_OUT_GRID:
-                if (!fromMyself) {
-                    var grid = this.component.grid;
-                    if (grid) {
-                        this._zr.trigger('mousemove', {
-                            connectTrigger: true,
-                            zrenderX: grid.getX() + param.x * grid.getWidth(),
-                            zrenderY: grid.getY() + param.y * grid.getHeight()
-                        });
+                    this._onmagicTypeChanged(param);
+                    break;
+                case ecConfig.EVENT.DATA_VIEW_CHANGED:
+                    fromMyself && this._ondataViewChanged(param);
+                    break;
+                case ecConfig.EVENT.TOOLTIP_HOVER:
+                    fromMyself && this._tooltipHover(param);
+                    break;
+                case ecConfig.EVENT.RESTORE:
+                    this._onrestore();
+                    break;
+                case ecConfig.EVENT.REFRESH:
+                    fromMyself && this._onrefresh(param);
+                    break;
+                case ecConfig.EVENT.TOOLTIP_IN_GRID:
+                case ecConfig.EVENT.TOOLTIP_OUT_GRID:
+                    if (!fromMyself) {
+                        var grid = this.component.grid;
+                        if (grid) {
+                            this._zr.trigger('mousemove', {
+                                connectTrigger: true,
+                                zrenderX: grid.getX() + param.x * grid.getWidth(),
+                                zrenderY: grid.getY() + param.y * grid.getHeight()
+                            });
+                        }
+                    } else if (this._connected) {
+                        var grid = this.component.grid;
+                        if (grid) {
+                            param.x = (param.event.zrenderX - grid.getX()) / grid.getWidth();
+                            param.y = (param.event.zrenderY - grid.getY()) / grid.getHeight();
+                        }
                     }
-                } else if (this._connected) {
-                    var grid = this.component.grid;
-                    if (grid) {
-                        param.x = (param.event.zrenderX - grid.getX()) / grid.getWidth();
-                        param.y = (param.event.zrenderY - grid.getY()) / grid.getHeight();
-                    }
-                }
-                break;
+                    break;
             }
             if (this._connected && fromMyself && this._curEventType === param.type) {
                 for (var c in this._connected) {
@@ -1985,9 +1994,9 @@ define('echarts/echarts', [
                 }
             }
             var loadOption = this._option && this._option.noDataLoadingOption || this._themeConfig.noDataLoadingOption || ecConfig.noDataLoadingOption || {
-                text: this._option && this._option.noDataText || this._themeConfig.noDataText || ecConfig.noDataText,
-                effect: this._option && this._option.noDataEffect || this._themeConfig.noDataEffect || ecConfig.noDataEffect
-            };
+                    text: this._option && this._option.noDataText || this._themeConfig.noDataText || ecConfig.noDataText,
+                    effect: this._option && this._option.noDataEffect || this._themeConfig.noDataEffect || ecConfig.noDataEffect
+                };
             this.clear();
             this.showLoading(loadOption);
             return true;
@@ -2219,6 +2228,7 @@ define('echarts/echarts', [
         getOption: function () {
             var magicOption = zrUtil.clone(this._option);
             var self = this;
+
             function restoreOption(prop) {
                 var restoreSource = self._optionRestore[prop];
                 if (restoreSource) {
@@ -2232,6 +2242,7 @@ define('echarts/echarts', [
                     }
                 }
             }
+
             restoreOption('xAxis');
             restoreOption('yAxis');
             restoreOption('series');
@@ -2239,7 +2250,7 @@ define('echarts/echarts', [
         },
         setSeries: function (series, notMerge) {
             if (!notMerge) {
-                this.setOption({ series: series });
+                this.setOption({series: series});
             } else {
                 this._option.series = series;
                 this.setOption(this._option, notMerge);
@@ -2259,12 +2270,12 @@ define('echarts/echarts', [
         },
         addData: function (seriesIdx, data, isHead, dataGrow, additionData) {
             var params = seriesIdx instanceof Array ? seriesIdx : [[
-                    seriesIdx,
-                    data,
-                    isHead,
-                    dataGrow,
-                    additionData
-                ]];
+                seriesIdx,
+                data,
+                isHead,
+                dataGrow,
+                additionData
+            ]];
             var magicOption = this.getOption();
             var optionRestore = this._optionRestore;
             var self = this;
@@ -2354,8 +2365,9 @@ define('echarts/echarts', [
                 for (var i = 0, l = chartList.length; i < l; i++) {
                     chartList[i].motionlessOnce = magicOption.addDataAnimation && chartList[i].addDataAnimation;
                 }
-                self._messageCenter.dispatch(ecConfig.EVENT.REFRESH, null, { option: magicOption }, self);
+                self._messageCenter.dispatch(ecConfig.EVENT.REFRESH, null, {option: magicOption}, self);
             }
+
             if (!magicOption.addDataAnimation) {
                 setTimeout(animationDone, 0);
             }
@@ -2375,8 +2387,8 @@ define('echarts/echarts', [
                 var seriesRItem = seriesR[seriesIdx];
                 var markOpt = seriesItem[markType];
                 var markOptR = seriesRItem[markType];
-                markOpt = seriesItem[markType] = markOpt || { data: [] };
-                markOptR = seriesRItem[markType] = markOptR || { data: [] };
+                markOpt = seriesItem[markType] = markOpt || {data: []};
+                markOptR = seriesRItem[markType] = markOptR || {data: []};
                 for (var key in markData) {
                     if (key === 'data') {
                         markOpt.data = markOpt.data.concat(markData.data);
@@ -2449,10 +2461,10 @@ define('echarts/echarts', [
             var tooltip = this.component.tooltip;
             tooltip && tooltip.hideTip();
             switch (imgType) {
-            case 'jpeg':
-                break;
-            default:
-                imgType = 'png';
+                case 'jpeg':
+                    break;
+                default:
+                    imgType = 'png';
             }
             var bgColor = this._option.backgroundColor;
             if (bgColor && bgColor.replace(' ', '') === 'rgba(0,0,0,0)') {
@@ -2624,14 +2636,14 @@ define('echarts/echarts', [
             if (theme) {
                 if (typeof theme === 'string') {
                     switch (theme) {
-                    case 'macarons':
-                        theme = require('./theme/macarons');
-                        break;
-                    case 'infographic':
-                        theme = require('./theme/infographic');
-                        break;
-                    default:
-                        theme = {};
+                        case 'macarons':
+                            theme = require('./theme/macarons');
+                            break;
+                        case 'infographic':
+                            theme = require('./theme/infographic');
+                            break;
+                        default:
+                            theme = {};
                     }
                 } else {
                     theme = theme || {};
@@ -2670,7 +2682,7 @@ define('echarts/echarts', [
             };
         },
         _clearEffect: function () {
-            this._zr.modLayer(ecConfig.EFFECT_ZLEVEL, { motionBlur: false });
+            this._zr.modLayer(ecConfig.EFFECT_ZLEVEL, {motionBlur: false});
             this._zr.painter.clearLayer(ecConfig.EFFECT_ZLEVEL);
         },
         clear: function () {
@@ -2694,7 +2706,8 @@ define('echarts/echarts', [
         }
     };
     return self;
-});define('echarts/config', [], function () {
+});
+define('echarts/config', [], function () {
     var config = {
         CHART_TYPE_LINE: 'line',
         CHART_TYPE_BAR: 'bar',
@@ -2774,7 +2787,7 @@ define('echarts/echarts', [
                         position: 'inside'
                     }
                 },
-                emphasis: { label: { show: true } }
+                emphasis: {label: {show: true}}
             }
         },
         markLine: {
@@ -2806,10 +2819,10 @@ define('echarts/echarts', [
                         show: true,
                         position: 'end'
                     },
-                    lineStyle: { type: 'dashed' }
+                    lineStyle: {type: 'dashed'}
                 },
                 emphasis: {
-                    label: { show: false },
+                    label: {show: false},
                     lineStyle: {}
                 }
             }
@@ -2879,7 +2892,8 @@ define('echarts/echarts', [
         animationEasing: 'ExponentialOut'
     };
     return config;
-});define('zrender/tool/util', [
+});
+define('zrender/tool/util', [
     'require',
     '../dep/excanvas'
 ], function (require) {
@@ -2895,9 +2909,11 @@ define('echarts/echarts', [
         '[object CanvasGradient]': 1
     };
     var objToString = Object.prototype.toString;
+
     function isDom(obj) {
         return obj && obj.nodeType === 1 && typeof obj.nodeName == 'string';
     }
+
     function clone(source) {
         if (typeof source == 'object' && source !== null) {
             var result = source;
@@ -2918,6 +2934,7 @@ define('echarts/echarts', [
         }
         return source;
     }
+
     function mergeItem(target, source, key, overwrite) {
         if (source.hasOwnProperty(key)) {
             var targetProp = target[key];
@@ -2928,13 +2945,16 @@ define('echarts/echarts', [
             }
         }
     }
+
     function merge(target, source, overwrite) {
         for (var i in source) {
             mergeItem(target, source, i, overwrite);
         }
         return target;
     }
+
     var _ctx;
+
     function getContext() {
         if (!_ctx) {
             require('../dep/excanvas');
@@ -2950,6 +2970,7 @@ define('echarts/echarts', [
         }
         return _ctx;
     }
+
     function indexOf(array, value) {
         if (array.indexOf) {
             return array.indexOf(value);
@@ -2961,10 +2982,13 @@ define('echarts/echarts', [
         }
         return -1;
     }
+
     function inherits(clazz, baseClazz) {
         var clazzPrototype = clazz.prototype;
+
         function F() {
         }
+
         F.prototype = baseClazz.prototype;
         clazz.prototype = new F();
         for (var prop in clazzPrototype) {
@@ -2972,6 +2996,7 @@ define('echarts/echarts', [
         }
         clazz.constructor = clazz;
     }
+
     function each(obj, cb, context) {
         if (!(obj && cb)) {
             return;
@@ -2990,6 +3015,7 @@ define('echarts/echarts', [
             }
         }
     }
+
     function map(obj, cb, context) {
         if (!(obj && cb)) {
             return;
@@ -3004,6 +3030,7 @@ define('echarts/echarts', [
             return result;
         }
     }
+
     function filter(obj, cb, context) {
         if (!(obj && cb)) {
             return;
@@ -3020,11 +3047,13 @@ define('echarts/echarts', [
             return result;
         }
     }
+
     function bind(func, context) {
         return function () {
             func.apply(context, arguments);
         };
     }
+
     return {
         inherits: inherits,
         clone: clone,
@@ -3036,21 +3065,26 @@ define('echarts/echarts', [
         filter: filter,
         bind: bind
     };
-});define('zrender/tool/event', [
+});
+define('zrender/tool/event', [
     'require',
     '../mixin/Eventful'
 ], function (require) {
     'use strict';
     var Eventful = require('../mixin/Eventful');
+
     function getX(e) {
         return typeof e.zrenderX != 'undefined' && e.zrenderX || typeof e.offsetX != 'undefined' && e.offsetX || typeof e.layerX != 'undefined' && e.layerX || typeof e.clientX != 'undefined' && e.clientX;
     }
+
     function getY(e) {
         return typeof e.zrenderY != 'undefined' && e.zrenderY || typeof e.offsetY != 'undefined' && e.offsetY || typeof e.layerY != 'undefined' && e.layerY || typeof e.clientY != 'undefined' && e.clientY;
     }
+
     function getDelta(e) {
         return typeof e.zrenderDelta != 'undefined' && e.zrenderDelta || typeof e.wheelDelta != 'undefined' && e.wheelDelta || typeof e.detail != 'undefined' && -e.detail;
     }
+
     var stop = typeof window.addEventListener === 'function' ? function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -3066,7 +3100,8 @@ define('echarts/echarts', [
         stop: stop,
         Dispatcher: Eventful
     };
-});define('zrender/tool/env', [], function () {
+});
+define('zrender/tool/env', [], function () {
     function detect(ua) {
         var os = this.os = {};
         var browser = this.browser = {};
@@ -3137,8 +3172,12 @@ define('echarts/echarts', [
             canvasSupported: document.createElement('canvas').getContext ? true : false
         };
     }
+
     return detect(navigator.userAgent);
-});define('zrender', ['zrender/zrender'], function (main) {return main;});
+});
+define('zrender', ['zrender/zrender'], function (main) {
+    return main;
+});
 define('zrender/zrender', [
     'require',
     './dep/excanvas',
@@ -3192,13 +3231,14 @@ define('zrender/zrender', [
             }
         };
     }
+
     var ZRender = function (id, dom) {
         this.id = id;
         this.env = require('./tool/env');
         this.storage = new Storage();
         this.painter = new Painter(dom, this.storage);
         this.handler = new Handler(dom, this.storage, this.painter);
-        this.animation = new Animation({ stage: { update: getFrameCallback(this) } });
+        this.animation = new Animation({stage: {update: getFrameCallback(this)}});
         this.animation.start();
         var self = this;
         this.painter.refreshNextFrame = function () {
@@ -3321,7 +3361,7 @@ define('zrender/zrender', [
                 el.__animators = [];
             }
             var animators = el.__animators;
-            var animator = this.animation.animate(target, { loop: loop }).during(function () {
+            var animator = this.animation.animate(target, {loop: loop}).during(function () {
                 self.modShape(el);
             }).done(function () {
                 var idx = util.indexOf(el.__animators, animator);
@@ -3398,7 +3438,8 @@ define('zrender/zrender', [
         zrender.delInstance(this.id);
     };
     return zrender;
-});define('zrender/config', [], function () {
+});
+define('zrender/config', [], function () {
     var config = {
         EVENT: {
             RESIZE: 'resize',
@@ -3425,7 +3466,8 @@ define('zrender/zrender', [
         devicePixelRatio: Math.max(window.devicePixelRatio || 1, 1)
     };
     return config;
-});define('echarts/chart/island', [
+});
+define('echarts/chart/island', [
     'require',
     './base',
     'zrender/shape/Circle',
@@ -3449,6 +3491,7 @@ define('zrender/zrender', [
     var ecData = require('../util/ecData');
     var zrUtil = require('zrender/tool/util');
     var zrEvent = require('zrender/tool/event');
+
     function Island(ecTheme, messageCenter, zr, option, myChart) {
         ChartBase.call(this, ecTheme, messageCenter, zr, option, myChart);
         this._nameConnector;
@@ -3475,6 +3518,7 @@ define('zrender/zrender', [
             zrEvent.stop(event);
         };
     }
+
     Island.prototype = {
         type: ecConfig.CHART_TYPE_ISLAND,
         _combine: function (tarShape, srcShape) {
@@ -3545,7 +3589,7 @@ define('zrender/zrender', [
             }
             this.setCalculable(islandShape);
             islandShape.dragEnableTime = 0;
-            ecData.pack(islandShape, { name: seriesName }, -1, value, -1, name);
+            ecData.pack(islandShape, {name: seriesName}, -1, value, -1, name);
             islandShape = new CircleShape(islandShape);
             this.shapeList.push(islandShape);
             this.zr.addShape(islandShape);
@@ -3594,7 +3638,8 @@ define('zrender/zrender', [
     zrUtil.inherits(Island, ChartBase);
     require('../chart').define('island', Island);
     return Island;
-});define('echarts/component/toolbox', [
+});
+define('echarts/component/toolbox', [
     'require',
     './base',
     'zrender/shape/Line',
@@ -3698,6 +3743,7 @@ define('zrender/zrender', [
     var zrEvent = require('zrender/tool/event');
     var _MAGICTYPE_STACK = 'stack';
     var _MAGICTYPE_TILED = 'tiled';
+
     function Toolbox(ecTheme, messageCenter, zr, option, myChart) {
         Base.call(this, ecTheme, messageCenter, zr, option, myChart);
         this.dom = myChart.dom;
@@ -3757,6 +3803,7 @@ define('zrender/zrender', [
             return self.__onclick(param);
         };
     }
+
     Toolbox.prototype = {
         type: ecConfig.COMPONENT_TYPE_TOOLBOX,
         _buildShape: function () {
@@ -3769,56 +3816,56 @@ define('zrender/zrender', [
             for (var key in feature) {
                 if (feature[key].show) {
                     switch (key) {
-                    case 'mark':
-                        iconName.push({
-                            key: key,
-                            name: 'mark'
-                        });
-                        iconName.push({
-                            key: key,
-                            name: 'markUndo'
-                        });
-                        iconName.push({
-                            key: key,
-                            name: 'markClear'
-                        });
-                        break;
-                    case 'magicType':
-                        for (var i = 0, l = feature[key].type.length; i < l; i++) {
-                            feature[key].title[feature[key].type[i] + 'Chart'] = feature[key].title[feature[key].type[i]];
-                            if (feature[key].option) {
-                                feature[key].option[feature[key].type[i] + 'Chart'] = feature[key].option[feature[key].type[i]];
+                        case 'mark':
+                            iconName.push({
+                                key: key,
+                                name: 'mark'
+                            });
+                            iconName.push({
+                                key: key,
+                                name: 'markUndo'
+                            });
+                            iconName.push({
+                                key: key,
+                                name: 'markClear'
+                            });
+                            break;
+                        case 'magicType':
+                            for (var i = 0, l = feature[key].type.length; i < l; i++) {
+                                feature[key].title[feature[key].type[i] + 'Chart'] = feature[key].title[feature[key].type[i]];
+                                if (feature[key].option) {
+                                    feature[key].option[feature[key].type[i] + 'Chart'] = feature[key].option[feature[key].type[i]];
+                                }
+                                iconName.push({
+                                    key: key,
+                                    name: feature[key].type[i] + 'Chart'
+                                });
                             }
+                            break;
+                        case 'dataZoom':
                             iconName.push({
                                 key: key,
-                                name: feature[key].type[i] + 'Chart'
+                                name: 'dataZoom'
                             });
-                        }
-                        break;
-                    case 'dataZoom':
-                        iconName.push({
-                            key: key,
-                            name: 'dataZoom'
-                        });
-                        iconName.push({
-                            key: key,
-                            name: 'dataZoomReset'
-                        });
-                        break;
-                    case 'saveAsImage':
-                        if (this.canvasSupported) {
                             iconName.push({
                                 key: key,
-                                name: 'saveAsImage'
+                                name: 'dataZoomReset'
                             });
-                        }
-                        break;
-                    default:
-                        iconName.push({
-                            key: key,
-                            name: key
-                        });
-                        break;
+                            break;
+                        case 'saveAsImage':
+                            if (this.canvasSupported) {
+                                iconName.push({
+                                    key: key,
+                                    name: 'saveAsImage'
+                                });
+                            }
+                            break;
+                        default:
+                            iconName.push({
+                                key: key,
+                                name: key
+                            });
+                            break;
                     }
                 }
             }
@@ -3925,42 +3972,42 @@ define('zrender/zrender', [
                     }
                 }
                 switch (this._iconList[i]) {
-                case 'mark':
-                    itemShape.onclick = self._onMark;
-                    break;
-                case 'markUndo':
-                    itemShape.onclick = self._onMarkUndo;
-                    break;
-                case 'markClear':
-                    itemShape.onclick = self._onMarkClear;
-                    break;
-                case 'dataZoom':
-                    itemShape.onclick = self._onDataZoom;
-                    break;
-                case 'dataZoomReset':
-                    itemShape.onclick = self._onDataZoomReset;
-                    break;
-                case 'dataView':
-                    if (!this._dataView) {
-                        var DataView = require('./dataView');
-                        this._dataView = new DataView(this.ecTheme, this.messageCenter, this.zr, this.option, this.myChart);
-                    }
-                    itemShape.onclick = self._onDataView;
-                    break;
-                case 'restore':
-                    itemShape.onclick = self._onRestore;
-                    break;
-                case 'saveAsImage':
-                    itemShape.onclick = self._onSaveAsImage;
-                    break;
-                default:
-                    if (this._iconList[i].match('Chart')) {
-                        itemShape._name = this._iconList[i].replace('Chart', '');
-                        itemShape.onclick = self._onMagicType;
-                    } else {
-                        itemShape.onclick = self._onCustomHandler;
-                    }
-                    break;
+                    case 'mark':
+                        itemShape.onclick = self._onMark;
+                        break;
+                    case 'markUndo':
+                        itemShape.onclick = self._onMarkUndo;
+                        break;
+                    case 'markClear':
+                        itemShape.onclick = self._onMarkClear;
+                        break;
+                    case 'dataZoom':
+                        itemShape.onclick = self._onDataZoom;
+                        break;
+                    case 'dataZoomReset':
+                        itemShape.onclick = self._onDataZoomReset;
+                        break;
+                    case 'dataView':
+                        if (!this._dataView) {
+                            var DataView = require('./dataView');
+                            this._dataView = new DataView(this.ecTheme, this.messageCenter, this.zr, this.option, this.myChart);
+                        }
+                        itemShape.onclick = self._onDataView;
+                        break;
+                    case 'restore':
+                        itemShape.onclick = self._onRestore;
+                        break;
+                    case 'saveAsImage':
+                        itemShape.onclick = self._onSaveAsImage;
+                        break;
+                    default:
+                        if (this._iconList[i].match('Chart')) {
+                            itemShape._name = this._iconList[i].replace('Chart', '');
+                            itemShape.onclick = self._onMagicType;
+                        } else {
+                            itemShape.onclick = self._onCustomHandler;
+                        }
+                        break;
                 }
                 if (itemShape.type === 'icon') {
                     itemShape = new IconShape(itemShape);
@@ -4013,36 +4060,36 @@ define('zrender/zrender', [
             var x;
             var zrWidth = this.zr.getWidth();
             switch (toolboxOption.x) {
-            case 'center':
-                x = Math.floor((zrWidth - totalWidth) / 2);
-                break;
-            case 'left':
-                x = padding[3] + toolboxOption.borderWidth;
-                break;
-            case 'right':
-                x = zrWidth - totalWidth - padding[1] - toolboxOption.borderWidth;
-                break;
-            default:
-                x = toolboxOption.x - 0;
-                x = isNaN(x) ? 0 : x;
-                break;
+                case 'center':
+                    x = Math.floor((zrWidth - totalWidth) / 2);
+                    break;
+                case 'left':
+                    x = padding[3] + toolboxOption.borderWidth;
+                    break;
+                case 'right':
+                    x = zrWidth - totalWidth - padding[1] - toolboxOption.borderWidth;
+                    break;
+                default:
+                    x = toolboxOption.x - 0;
+                    x = isNaN(x) ? 0 : x;
+                    break;
             }
             var y;
             var zrHeight = this.zr.getHeight();
             switch (toolboxOption.y) {
-            case 'top':
-                y = padding[0] + toolboxOption.borderWidth;
-                break;
-            case 'bottom':
-                y = zrHeight - totalHeight - padding[2] - toolboxOption.borderWidth;
-                break;
-            case 'center':
-                y = Math.floor((zrHeight - totalHeight) / 2);
-                break;
-            default:
-                y = toolboxOption.y - 0;
-                y = isNaN(y) ? 0 : y;
-                break;
+                case 'top':
+                    y = padding[0] + toolboxOption.borderWidth;
+                    break;
+                case 'bottom':
+                    y = zrHeight - totalHeight - padding[2] - toolboxOption.borderWidth;
+                    break;
+                case 'center':
+                    y = Math.floor((zrHeight - totalHeight) / 2);
+                    break;
+                default:
+                    y = toolboxOption.y - 0;
+                    y = isNaN(y) ? 0 : y;
+                    break;
             }
             return {
                 x: x,
@@ -4155,7 +4202,7 @@ define('zrender/zrender', [
                 this.zr.refreshNextFrame();
             } else {
                 this._resetZoom();
-                this.zr.modShape(target.id, { style: { strokeColor: this._enableColor } });
+                this.zr.modShape(target.id, {style: {strokeColor: this._enableColor}});
                 this.zr.refreshNextFrame();
                 this._markStart = true;
                 var self = this;
@@ -4206,7 +4253,7 @@ define('zrender/zrender', [
                 this.dom.style.cursor = 'default';
             } else {
                 this._resetMark();
-                this.zr.modShape(target.id, { style: { strokeColor: this._enableColor } });
+                this.zr.modShape(target.id, {style: {strokeColor: this._enableColor}});
                 this.zr.refreshNextFrame();
                 this._zoomStart = true;
                 var self = this;
@@ -4236,7 +4283,7 @@ define('zrender/zrender', [
             if (this._markStart) {
                 this._markStart = false;
                 if (this._iconShapeMap['mark']) {
-                    this.zr.modShape(this._iconShapeMap['mark'].id, { style: { strokeColor: this._iconShapeMap['mark'].highlightStyle.strokeColor } });
+                    this.zr.modShape(this._iconShapeMap['mark'].id, {style: {strokeColor: this._iconShapeMap['mark'].highlightStyle.strokeColor}});
                 }
                 this.zr.un(zrConfig.EVENT.CLICK, this._onclick);
                 this.zr.un(zrConfig.EVENT.MOUSEMOVE, this._onmousemove);
@@ -4247,7 +4294,7 @@ define('zrender/zrender', [
             if (this._zoomStart) {
                 this._zoomStart = false;
                 if (this._iconShapeMap['dataZoom']) {
-                    this.zr.modShape(this._iconShapeMap['dataZoom'].id, { style: { strokeColor: this._iconShapeMap['dataZoom'].highlightStyle.strokeColor } });
+                    this.zr.modShape(this._iconShapeMap['dataZoom'].id, {style: {strokeColor: this._iconShapeMap['dataZoom'].highlightStyle.strokeColor}});
                 }
                 this.zr.un(zrConfig.EVENT.MOUSEDOWN, this._onmousedown);
                 this.zr.un(zrConfig.EVENT.MOUSEUP, this._onmouseup);
@@ -4259,13 +4306,13 @@ define('zrender/zrender', [
                 this.zr.modShape(target.id, {
                     hoverable: false,
                     clickable: false,
-                    style: { strokeColor: this._disableColor }
+                    style: {strokeColor: this._disableColor}
                 });
             } else {
                 this.zr.modShape(target.id, {
                     hoverable: false,
                     clickable: false,
-                    style: { opacity: 0.3 }
+                    style: {opacity: 0.3}
                 });
             }
         },
@@ -4274,13 +4321,13 @@ define('zrender/zrender', [
                 this.zr.modShape(target.id, {
                     hoverable: true,
                     clickable: true,
-                    style: { strokeColor: target.highlightStyle.strokeColor }
+                    style: {strokeColor: target.highlightStyle.strokeColor}
                 });
             } else {
                 this.zr.modShape(target.id, {
                     hoverable: true,
                     clickable: true,
-                    style: { opacity: 0.8 }
+                    style: {opacity: 0.8}
                 });
             }
         },
@@ -4357,14 +4404,14 @@ define('zrender/zrender', [
                 } else if (itemName === _MAGICTYPE_TILED) {
                     this._magicType[_MAGICTYPE_STACK] = false;
                 }
-                this.messageCenter.dispatch(ecConfig.EVENT.MAGIC_TYPE_CHANGED, param.event, { magicType: this._magicType }, this.myChart);
+                this.messageCenter.dispatch(ecConfig.EVENT.MAGIC_TYPE_CHANGED, param.event, {magicType: this._magicType}, this.myChart);
             }
             return true;
         },
         setMagicType: function (magicType) {
             this._resetMark();
             this._magicType = magicType;
-            !this._isSilence && this.messageCenter.dispatch(ecConfig.EVENT.MAGIC_TYPE_CHANGED, null, { magicType: this._magicType }, this.myChart);
+            !this._isSilence && this.messageCenter.dispatch(ecConfig.EVENT.MAGIC_TYPE_CHANGED, null, {magicType: this._magicType}, this.myChart);
         },
         __onCustomHandler: function (param) {
             var target = param.target.style.iconType;
@@ -4422,11 +4469,11 @@ define('zrender/zrender', [
                     start = start - end;
                 }
                 this._zoomQueue = [{
-                        start: start,
-                        end: end,
-                        start2: 0,
-                        end2: 100
-                    }];
+                    start: start,
+                    end: end,
+                    start2: 0,
+                    end2: 100
+                }];
             } else {
                 this._zoomQueue = [];
             }
@@ -4536,7 +4583,8 @@ define('zrender/zrender', [
     zrUtil.inherits(Toolbox, Base);
     require('../component').define('toolbox', Toolbox);
     return Toolbox;
-});define('echarts/component', [], function () {
+});
+define('echarts/component', [], function () {
     var self = {};
     var _componentLibrary = {};
     self.define = function (name, clazz) {
@@ -4547,7 +4595,8 @@ define('zrender/zrender', [
         return _componentLibrary[name];
     };
     return self;
-});define('echarts/component/title', [
+});
+define('echarts/component/title', [
     'require',
     './base',
     'zrender/shape/Text',
@@ -4580,15 +4629,17 @@ define('zrender/zrender', [
             fontWeight: 'bolder',
             color: '#333'
         },
-        subtextStyle: { color: '#aaa' }
+        subtextStyle: {color: '#aaa'}
     };
     var zrUtil = require('zrender/tool/util');
     var zrArea = require('zrender/tool/area');
     var zrColor = require('zrender/tool/color');
+
     function Title(ecTheme, messageCenter, zr, option, myChart) {
         Base.call(this, ecTheme, messageCenter, zr, option, myChart);
         this.refresh(option);
     }
+
     Title.prototype = {
         type: ecConfig.COMPONENT_TYPE_TITLE,
         _buildShape: function () {
@@ -4670,23 +4721,23 @@ define('zrender/zrender', [
                 };
             }
             switch (this.titleOption.x) {
-            case 'center':
-                textShape.style.x = subtextShape.style.x = x + width / 2;
-                textShape.style.textAlign = subtextShape.style.textAlign = 'center';
-                break;
-            case 'left':
-                textShape.style.x = subtextShape.style.x = x;
-                textShape.style.textAlign = subtextShape.style.textAlign = 'left';
-                break;
-            case 'right':
-                textShape.style.x = subtextShape.style.x = x + width;
-                textShape.style.textAlign = subtextShape.style.textAlign = 'right';
-                break;
-            default:
-                x = this.titleOption.x - 0;
-                x = isNaN(x) ? 0 : x;
-                textShape.style.x = subtextShape.style.x = x;
-                break;
+                case 'center':
+                    textShape.style.x = subtextShape.style.x = x + width / 2;
+                    textShape.style.textAlign = subtextShape.style.textAlign = 'center';
+                    break;
+                case 'left':
+                    textShape.style.x = subtextShape.style.x = x;
+                    textShape.style.textAlign = subtextShape.style.textAlign = 'left';
+                    break;
+                case 'right':
+                    textShape.style.x = subtextShape.style.x = x + width;
+                    textShape.style.textAlign = subtextShape.style.textAlign = 'right';
+                    break;
+                default:
+                    x = this.titleOption.x - 0;
+                    x = isNaN(x) ? 0 : x;
+                    textShape.style.x = subtextShape.style.x = x;
+                    break;
             }
             if (this.titleOption.textAlign) {
                 textShape.style.textAlign = subtextShape.style.textAlign = this.titleOption.textAlign;
@@ -4723,36 +4774,36 @@ define('zrender/zrender', [
             var x;
             var zrWidth = this.zr.getWidth();
             switch (this.titleOption.x) {
-            case 'center':
-                x = Math.floor((zrWidth - totalWidth) / 2);
-                break;
-            case 'left':
-                x = padding[3] + this.titleOption.borderWidth;
-                break;
-            case 'right':
-                x = zrWidth - totalWidth - padding[1] - this.titleOption.borderWidth;
-                break;
-            default:
-                x = this.titleOption.x - 0;
-                x = isNaN(x) ? 0 : x;
-                break;
+                case 'center':
+                    x = Math.floor((zrWidth - totalWidth) / 2);
+                    break;
+                case 'left':
+                    x = padding[3] + this.titleOption.borderWidth;
+                    break;
+                case 'right':
+                    x = zrWidth - totalWidth - padding[1] - this.titleOption.borderWidth;
+                    break;
+                default:
+                    x = this.titleOption.x - 0;
+                    x = isNaN(x) ? 0 : x;
+                    break;
             }
             var y;
             var zrHeight = this.zr.getHeight();
             switch (this.titleOption.y) {
-            case 'top':
-                y = padding[0] + this.titleOption.borderWidth;
-                break;
-            case 'bottom':
-                y = zrHeight - totalHeight - padding[2] - this.titleOption.borderWidth;
-                break;
-            case 'center':
-                y = Math.floor((zrHeight - totalHeight) / 2);
-                break;
-            default:
-                y = this.titleOption.y - 0;
-                y = isNaN(y) ? 0 : y;
-                break;
+                case 'top':
+                    y = padding[0] + this.titleOption.borderWidth;
+                    break;
+                case 'bottom':
+                    y = zrHeight - totalHeight - padding[2] - this.titleOption.borderWidth;
+                    break;
+                case 'center':
+                    y = Math.floor((zrHeight - totalHeight) / 2);
+                    break;
+                default:
+                    y = this.titleOption.y - 0;
+                    y = isNaN(y) ? 0 : y;
+                    break;
             }
             return {
                 x: x,
@@ -4776,7 +4827,8 @@ define('zrender/zrender', [
     zrUtil.inherits(Title, Base);
     require('../component').define('title', Title);
     return Title;
-});define('echarts/component/tooltip', [
+});
+define('echarts/component/tooltip', [
     'require',
     './base',
     '../util/shape/Cross',
@@ -4832,7 +4884,7 @@ define('zrender/zrender', [
                 type: 'default'
             }
         },
-        textStyle: { color: '#fff' }
+        textStyle: {color: '#fff'}
     };
     var ecData = require('../util/ecData');
     var zrConfig = require('zrender/config');
@@ -4841,6 +4893,7 @@ define('zrender/zrender', [
     var zrColor = require('zrender/tool/color');
     var zrUtil = require('zrender/tool/util');
     var zrShapeBase = require('zrender/shape/Base');
+
     function Tooltip(ecTheme, messageCenter, zr, option, myChart) {
         Base.call(this, ecTheme, messageCenter, zr, option, myChart);
         this.dom = myChart.dom;
@@ -4908,6 +4961,7 @@ define('zrender/zrender', [
         this.showing = false;
         this.refresh(option);
     }
+
     Tooltip.prototype = {
         type: ecConfig.COMPONENT_TYPE_TOOLTIP,
         _gCssText: 'position:absolute;display:block;border-style:solid;white-space:nowrap;',
@@ -5374,7 +5428,7 @@ define('zrender/zrender', [
                         }
                         data = data != null ? data : {
                             name: '',
-                            value: { dataIndex: '-' }
+                            value: {dataIndex: '-'}
                         };
                         value = this.getDataFromOption(data.value[dataIndex]);
                         params.push({
@@ -5816,116 +5870,116 @@ define('zrender/zrender', [
             }
             var chart = this.myChart.chart[serie.type];
             var isAxisTrigger = this.deepQuery([
-                serie,
-                this.option
-            ], 'tooltip.trigger') === 'axis';
+                    serie,
+                    this.option
+                ], 'tooltip.trigger') === 'axis';
             if (!chart) {
                 return;
             }
             if (isAxisTrigger) {
                 var dataIndex = params.dataIndex;
                 switch (chart.type) {
-                case ecConfig.CHART_TYPE_LINE:
-                case ecConfig.CHART_TYPE_BAR:
-                case ecConfig.CHART_TYPE_K:
-                case ecConfig.CHART_TYPE_RADAR:
-                    if (this.component.polar == null || serie.data[0].value.length <= dataIndex) {
-                        return;
-                    }
-                    var polarIndex = serie.polarIndex || 0;
-                    var vector = this.component.polar.getVector(polarIndex, dataIndex, 'max');
-                    this._event = {
-                        zrenderX: vector[0],
-                        zrenderY: vector[1]
-                    };
-                    this._showPolarTrigger(polarIndex, dataIndex);
-                    break;
+                    case ecConfig.CHART_TYPE_LINE:
+                    case ecConfig.CHART_TYPE_BAR:
+                    case ecConfig.CHART_TYPE_K:
+                    case ecConfig.CHART_TYPE_RADAR:
+                        if (this.component.polar == null || serie.data[0].value.length <= dataIndex) {
+                            return;
+                        }
+                        var polarIndex = serie.polarIndex || 0;
+                        var vector = this.component.polar.getVector(polarIndex, dataIndex, 'max');
+                        this._event = {
+                            zrenderX: vector[0],
+                            zrenderY: vector[1]
+                        };
+                        this._showPolarTrigger(polarIndex, dataIndex);
+                        break;
                 }
             } else {
                 var shapeList = chart.shapeList;
                 var x;
                 var y;
                 switch (chart.type) {
-                case ecConfig.CHART_TYPE_LINE:
-                case ecConfig.CHART_TYPE_BAR:
-                case ecConfig.CHART_TYPE_K:
-                case ecConfig.CHART_TYPE_TREEMAP:
-                case ecConfig.CHART_TYPE_SCATTER:
-                    var dataIndex = params.dataIndex;
-                    for (var i = 0, l = shapeList.length; i < l; i++) {
-                        if (shapeList[i]._mark == null && ecData.get(shapeList[i], 'seriesIndex') == seriesIndex && ecData.get(shapeList[i], 'dataIndex') == dataIndex) {
-                            this._curTarget = shapeList[i];
-                            x = shapeList[i].style.x;
-                            y = chart.type != ecConfig.CHART_TYPE_K ? shapeList[i].style.y : shapeList[i].style.y[0];
-                            break;
+                    case ecConfig.CHART_TYPE_LINE:
+                    case ecConfig.CHART_TYPE_BAR:
+                    case ecConfig.CHART_TYPE_K:
+                    case ecConfig.CHART_TYPE_TREEMAP:
+                    case ecConfig.CHART_TYPE_SCATTER:
+                        var dataIndex = params.dataIndex;
+                        for (var i = 0, l = shapeList.length; i < l; i++) {
+                            if (shapeList[i]._mark == null && ecData.get(shapeList[i], 'seriesIndex') == seriesIndex && ecData.get(shapeList[i], 'dataIndex') == dataIndex) {
+                                this._curTarget = shapeList[i];
+                                x = shapeList[i].style.x;
+                                y = chart.type != ecConfig.CHART_TYPE_K ? shapeList[i].style.y : shapeList[i].style.y[0];
+                                break;
+                            }
                         }
-                    }
-                    break;
-                case ecConfig.CHART_TYPE_RADAR:
-                    var dataIndex = params.dataIndex;
-                    for (var i = 0, l = shapeList.length; i < l; i++) {
-                        if (shapeList[i].type === 'polygon' && ecData.get(shapeList[i], 'seriesIndex') == seriesIndex && ecData.get(shapeList[i], 'dataIndex') == dataIndex) {
-                            this._curTarget = shapeList[i];
-                            var vector = this.component.polar.getCenter(serie.polarIndex || 0);
-                            x = vector[0];
-                            y = vector[1];
-                            break;
+                        break;
+                    case ecConfig.CHART_TYPE_RADAR:
+                        var dataIndex = params.dataIndex;
+                        for (var i = 0, l = shapeList.length; i < l; i++) {
+                            if (shapeList[i].type === 'polygon' && ecData.get(shapeList[i], 'seriesIndex') == seriesIndex && ecData.get(shapeList[i], 'dataIndex') == dataIndex) {
+                                this._curTarget = shapeList[i];
+                                var vector = this.component.polar.getCenter(serie.polarIndex || 0);
+                                x = vector[0];
+                                y = vector[1];
+                                break;
+                            }
                         }
-                    }
-                    break;
-                case ecConfig.CHART_TYPE_PIE:
-                    var name = params.name;
-                    for (var i = 0, l = shapeList.length; i < l; i++) {
-                        if (shapeList[i].type === 'sector' && ecData.get(shapeList[i], 'seriesIndex') == seriesIndex && ecData.get(shapeList[i], 'name') == name) {
-                            this._curTarget = shapeList[i];
-                            var style = this._curTarget.style;
-                            var midAngle = (style.startAngle + style.endAngle) / 2 * Math.PI / 180;
-                            x = this._curTarget.style.x + Math.cos(midAngle) * style.r / 1.5;
-                            y = this._curTarget.style.y - Math.sin(midAngle) * style.r / 1.5;
-                            break;
+                        break;
+                    case ecConfig.CHART_TYPE_PIE:
+                        var name = params.name;
+                        for (var i = 0, l = shapeList.length; i < l; i++) {
+                            if (shapeList[i].type === 'sector' && ecData.get(shapeList[i], 'seriesIndex') == seriesIndex && ecData.get(shapeList[i], 'name') == name) {
+                                this._curTarget = shapeList[i];
+                                var style = this._curTarget.style;
+                                var midAngle = (style.startAngle + style.endAngle) / 2 * Math.PI / 180;
+                                x = this._curTarget.style.x + Math.cos(midAngle) * style.r / 1.5;
+                                y = this._curTarget.style.y - Math.sin(midAngle) * style.r / 1.5;
+                                break;
+                            }
                         }
-                    }
-                    break;
-                case ecConfig.CHART_TYPE_MAP:
-                    var name = params.name;
-                    var mapType = serie.mapType;
-                    for (var i = 0, l = shapeList.length; i < l; i++) {
-                        if (shapeList[i].type === 'text' && shapeList[i]._mapType === mapType && shapeList[i].style._name === name) {
-                            this._curTarget = shapeList[i];
-                            x = this._curTarget.style.x + this._curTarget.position[0];
-                            y = this._curTarget.style.y + this._curTarget.position[1];
-                            break;
+                        break;
+                    case ecConfig.CHART_TYPE_MAP:
+                        var name = params.name;
+                        var mapType = serie.mapType;
+                        for (var i = 0, l = shapeList.length; i < l; i++) {
+                            if (shapeList[i].type === 'text' && shapeList[i]._mapType === mapType && shapeList[i].style._name === name) {
+                                this._curTarget = shapeList[i];
+                                x = this._curTarget.style.x + this._curTarget.position[0];
+                                y = this._curTarget.style.y + this._curTarget.position[1];
+                                break;
+                            }
                         }
-                    }
-                    break;
-                case ecConfig.CHART_TYPE_CHORD:
-                    var name = params.name;
-                    for (var i = 0, l = shapeList.length; i < l; i++) {
-                        if (shapeList[i].type === 'sector' && ecData.get(shapeList[i], 'name') == name) {
-                            this._curTarget = shapeList[i];
-                            var style = this._curTarget.style;
-                            var midAngle = (style.startAngle + style.endAngle) / 2 * Math.PI / 180;
-                            x = this._curTarget.style.x + Math.cos(midAngle) * (style.r - 2);
-                            y = this._curTarget.style.y - Math.sin(midAngle) * (style.r - 2);
-                            this.zr.trigger(zrConfig.EVENT.MOUSEMOVE, {
-                                zrenderX: x,
-                                zrenderY: y
-                            });
-                            return;
+                        break;
+                    case ecConfig.CHART_TYPE_CHORD:
+                        var name = params.name;
+                        for (var i = 0, l = shapeList.length; i < l; i++) {
+                            if (shapeList[i].type === 'sector' && ecData.get(shapeList[i], 'name') == name) {
+                                this._curTarget = shapeList[i];
+                                var style = this._curTarget.style;
+                                var midAngle = (style.startAngle + style.endAngle) / 2 * Math.PI / 180;
+                                x = this._curTarget.style.x + Math.cos(midAngle) * (style.r - 2);
+                                y = this._curTarget.style.y - Math.sin(midAngle) * (style.r - 2);
+                                this.zr.trigger(zrConfig.EVENT.MOUSEMOVE, {
+                                    zrenderX: x,
+                                    zrenderY: y
+                                });
+                                return;
+                            }
                         }
-                    }
-                    break;
-                case ecConfig.CHART_TYPE_FORCE:
-                    var name = params.name;
-                    for (var i = 0, l = shapeList.length; i < l; i++) {
-                        if (shapeList[i].type === 'circle' && ecData.get(shapeList[i], 'name') == name) {
-                            this._curTarget = shapeList[i];
-                            x = this._curTarget.position[0];
-                            y = this._curTarget.position[1];
-                            break;
+                        break;
+                    case ecConfig.CHART_TYPE_FORCE:
+                        var name = params.name;
+                        for (var i = 0, l = shapeList.length; i < l; i++) {
+                            if (shapeList[i].type === 'circle' && ecData.get(shapeList[i], 'name') == name) {
+                                this._curTarget = shapeList[i];
+                                x = this._curTarget.position[0];
+                                y = this._curTarget.position[1];
+                                break;
+                            }
                         }
-                    }
-                    break;
+                        break;
                 }
                 if (x != null && y != null) {
                     this._event = {
@@ -6004,7 +6058,8 @@ define('zrender/zrender', [
     zrUtil.inherits(Tooltip, Base);
     require('../component').define('tooltip', Tooltip);
     return Tooltip;
-});define('echarts/component/legend', [
+});
+define('echarts/component/legend', [
     'require',
     './base',
     'zrender/shape/Text',
@@ -6038,11 +6093,12 @@ define('zrender/zrender', [
         itemGap: 10,
         itemWidth: 20,
         itemHeight: 14,
-        textStyle: { color: '#333' },
+        textStyle: {color: '#333'},
         selectedMode: true
     };
     var zrUtil = require('zrender/tool/util');
     var zrArea = require('zrender/tool/area');
+
     function Legend(ecTheme, messageCenter, zr, option, myChart) {
         if (!this.query(option, 'legend.data')) {
             console.error('option.legend.data has not been defined.');
@@ -6062,6 +6118,7 @@ define('zrender/zrender', [
         this._hasDataMap = {};
         this.refresh(option);
     }
+
     Legend.prototype = {
         type: ecConfig.COMPONENT_TYPE_LEGEND,
         _buildShape: function () {
@@ -6294,33 +6351,33 @@ define('zrender/zrender', [
             zrHeight = this.zr.getHeight();
             var x;
             switch (this.legendOption.x) {
-            case 'center':
-                x = Math.floor((zrWidth - totalWidth) / 2);
-                break;
-            case 'left':
-                x = padding[3] + this.legendOption.borderWidth;
-                break;
-            case 'right':
-                x = zrWidth - totalWidth - padding[1] - padding[3] - this.legendOption.borderWidth * 2;
-                break;
-            default:
-                x = this.parsePercent(this.legendOption.x, zrWidth);
-                break;
+                case 'center':
+                    x = Math.floor((zrWidth - totalWidth) / 2);
+                    break;
+                case 'left':
+                    x = padding[3] + this.legendOption.borderWidth;
+                    break;
+                case 'right':
+                    x = zrWidth - totalWidth - padding[1] - padding[3] - this.legendOption.borderWidth * 2;
+                    break;
+                default:
+                    x = this.parsePercent(this.legendOption.x, zrWidth);
+                    break;
             }
             var y;
             switch (this.legendOption.y) {
-            case 'top':
-                y = padding[0] + this.legendOption.borderWidth;
-                break;
-            case 'bottom':
-                y = zrHeight - totalHeight - padding[0] - padding[2] - this.legendOption.borderWidth * 2;
-                break;
-            case 'center':
-                y = Math.floor((zrHeight - totalHeight) / 2);
-                break;
-            default:
-                y = this.parsePercent(this.legendOption.y, zrHeight);
-                break;
+                case 'top':
+                    y = padding[0] + this.legendOption.borderWidth;
+                    break;
+                case 'bottom':
+                    y = zrHeight - totalHeight - padding[0] - padding[2] - this.legendOption.borderWidth * 2;
+                    break;
+                case 'center':
+                    y = Math.floor((zrHeight - totalHeight) / 2);
+                    break;
+                default:
+                    y = this.parsePercent(this.legendOption.y, zrHeight);
+                    break;
             }
             return {
                 x: x,
@@ -6395,36 +6452,36 @@ define('zrender/zrender', [
                 itemType = 'image';
             }
             switch (itemType) {
-            case 'line':
-                itemShape.style.brushType = 'stroke';
-                itemShape.highlightStyle.lineWidth = 3;
-                break;
-            case 'radar':
-            case 'venn':
-            case 'tree':
-            case 'treemap':
-            case 'scatter':
-                itemShape.highlightStyle.lineWidth = 3;
-                break;
-            case 'k':
-                itemShape.style.brushType = 'both';
-                itemShape.highlightStyle.lineWidth = 3;
-                itemShape.highlightStyle.color = itemShape.style.color = this.deepQuery([
-                    this.ecTheme,
-                    ecConfig
-                ], 'k.itemStyle.normal.color') || '#fff';
-                itemShape.style.strokeColor = color != '#ccc' ? this.deepQuery([
-                    this.ecTheme,
-                    ecConfig
-                ], 'k.itemStyle.normal.lineStyle.color') || '#ff3200' : color;
-                break;
-            case 'image':
-                itemShape.style.iconType = 'image';
-                itemShape.style.image = imageLocation;
-                if (color === '#ccc') {
-                    itemShape.style.opacity = 0.5;
-                }
-                break;
+                case 'line':
+                    itemShape.style.brushType = 'stroke';
+                    itemShape.highlightStyle.lineWidth = 3;
+                    break;
+                case 'radar':
+                case 'venn':
+                case 'tree':
+                case 'treemap':
+                case 'scatter':
+                    itemShape.highlightStyle.lineWidth = 3;
+                    break;
+                case 'k':
+                    itemShape.style.brushType = 'both';
+                    itemShape.highlightStyle.lineWidth = 3;
+                    itemShape.highlightStyle.color = itemShape.style.color = this.deepQuery([
+                            this.ecTheme,
+                            ecConfig
+                        ], 'k.itemStyle.normal.color') || '#fff';
+                    itemShape.style.strokeColor = color != '#ccc' ? this.deepQuery([
+                            this.ecTheme,
+                            ecConfig
+                        ], 'k.itemStyle.normal.lineStyle.color') || '#ff3200' : color;
+                    break;
+                case 'image':
+                    itemShape.style.iconType = 'image';
+                    itemShape.style.image = imageLocation;
+                    if (color === '#ccc') {
+                        itemShape.style.opacity = 0.5;
+                    }
+                    break;
             }
             return itemShape;
         },
@@ -6442,7 +6499,7 @@ define('zrender/zrender', [
             }, this.myChart);
         },
         __dispatchHoverLink: function (param) {
-            this.messageCenter.dispatch(ecConfig.EVENT.LEGEND_HOVERLINK, param.event, { target: param.target._name }, this.myChart);
+            this.messageCenter.dispatch(ecConfig.EVENT.LEGEND_HOVERLINK, param.event, {target: param.target._name}, this.myChart);
             return;
         },
         refresh: function (newOption) {
@@ -6690,7 +6747,8 @@ define('zrender/zrender', [
     zrUtil.inherits(Legend, Base);
     require('../component').define('legend', Legend);
     return Legend;
-});define('echarts/util/ecData', [], function () {
+});
+define('echarts/util/ecData', [], function () {
     function pack(shape, series, seriesIndex, data, dataIndex, name, special, special2) {
         var value;
         if (typeof data != 'undefined') {
@@ -6708,39 +6766,42 @@ define('zrender/zrender', [
         };
         return shape._echartsData;
     }
+
     function get(shape, key) {
         var data = shape._echartsData;
         if (!key) {
             return data;
         }
         switch (key) {
-        case 'series':
-        case 'seriesIndex':
-        case 'data':
-        case 'dataIndex':
-        case 'name':
-        case 'value':
-        case 'special':
-        case 'special2':
-            return data && data['_' + key];
+            case 'series':
+            case 'seriesIndex':
+            case 'data':
+            case 'dataIndex':
+            case 'name':
+            case 'value':
+            case 'special':
+            case 'special2':
+                return data && data['_' + key];
         }
         return null;
     }
+
     function set(shape, key, value) {
         shape._echartsData = shape._echartsData || {};
         switch (key) {
-        case 'series':
-        case 'seriesIndex':
-        case 'data':
-        case 'dataIndex':
-        case 'name':
-        case 'value':
-        case 'special':
-        case 'special2':
-            shape._echartsData['_' + key] = value;
-            break;
+            case 'series':
+            case 'seriesIndex':
+            case 'data':
+            case 'dataIndex':
+            case 'name':
+            case 'value':
+            case 'special':
+            case 'special2':
+                shape._echartsData['_' + key] = value;
+                break;
         }
     }
+
     function clone(source, target) {
         target._echartsData = {
             '_series': source._echartsData._series,
@@ -6753,13 +6814,15 @@ define('zrender/zrender', [
             '_special2': source._echartsData._special2
         };
     }
+
     return {
         pack: pack,
         set: set,
         get: get,
         clone: clone
     };
-});define('echarts/chart', [], function () {
+});
+define('echarts/chart', [], function () {
     var self = {};
     var _chartLibrary = {};
     self.define = function (name, clazz) {
@@ -6770,7 +6833,8 @@ define('zrender/zrender', [
         return _chartLibrary[name];
     };
     return self;
-});define('zrender/tool/color', [
+});
+define('zrender/tool/color', [
     'require',
     '../tool/util'
 ], function (require) {
@@ -6961,26 +7025,33 @@ define('zrender/zrender', [
         yellow: '#ff0',
         yellowgreen: '#9acd32'
     };
+
     function customPalette(userPalete) {
         palette = userPalete;
     }
+
     function resetPalette() {
         palette = _palette;
     }
+
     function getColor(idx, userPalete) {
         idx = idx | 0;
         userPalete = userPalete || palette;
         return userPalete[idx % userPalete.length];
     }
+
     function customHighlight(userHighlightColor) {
         highlightColor = userHighlightColor;
     }
+
     function resetHighlight() {
         _highlightColor = highlightColor;
     }
+
     function getHighlightColor() {
         return highlightColor;
     }
+
     function getRadialGradient(x0, y0, r0, x1, y1, r1, colorList) {
         if (!_ctx) {
             _ctx = util.getContext();
@@ -6992,6 +7063,7 @@ define('zrender/zrender', [
         gradient.__nonRecursion = true;
         return gradient;
     }
+
     function getLinearGradient(x0, y0, x1, y1, colorList) {
         if (!_ctx) {
             _ctx = util.getContext();
@@ -7003,6 +7075,7 @@ define('zrender/zrender', [
         gradient.__nonRecursion = true;
         return gradient;
     }
+
     function getStepColors(start, end, step) {
         start = toRGBA(start);
         end = toRGBA(end);
@@ -7046,6 +7119,7 @@ define('zrender/zrender', [
         ], 'rgba');
         return colors;
     }
+
     function getGradientColors(colors, step) {
         var ret = [];
         var len = colors.length;
@@ -7065,6 +7139,7 @@ define('zrender/zrender', [
         }
         return ret;
     }
+
     function toColor(data, format) {
         format = format || 'rgb';
         if (data && (data.length === 3 || data.length === 4)) {
@@ -7093,6 +7168,7 @@ define('zrender/zrender', [
             return format + '(' + data.slice(0, 3).join(',') + ')';
         }
     }
+
     function toArray(color) {
         color = trim(color);
         if (color.indexOf('rgba') < 0) {
@@ -7110,6 +7186,7 @@ define('zrender/zrender', [
         });
         return data;
     }
+
     function convert(color, format) {
         if (!isCalculableColor(color)) {
             return color;
@@ -7132,33 +7209,43 @@ define('zrender/zrender', [
         data[3] = alpha;
         return toColor(data, format);
     }
+
     function toRGBA(color) {
         return convert(color, 'rgba');
     }
+
     function toRGB(color) {
         return convert(color, 'rgb');
     }
+
     function toHex(color) {
         return convert(color, 'hex');
     }
+
     function toHSVA(color) {
         return convert(color, 'hsva');
     }
+
     function toHSV(color) {
         return convert(color, 'hsv');
     }
+
     function toHSBA(color) {
         return convert(color, 'hsba');
     }
+
     function toHSB(color) {
         return convert(color, 'hsb');
     }
+
     function toHSLA(color) {
         return convert(color, 'hsla');
     }
+
     function toHSL(color) {
         return convert(color, 'hsl');
     }
+
     function toName(color) {
         for (var key in _nameColors) {
             if (toHex(_nameColors[key]) === toHex(color)) {
@@ -7167,9 +7254,11 @@ define('zrender/zrender', [
         }
         return null;
     }
+
     function trim(color) {
         return String(color).replace(/\s+/g, '');
     }
+
     function normalize(color) {
         if (_nameColors[color]) {
             color = _nameColors[color];
@@ -7185,6 +7274,7 @@ define('zrender/zrender', [
         }
         return color;
     }
+
     function lift(color, level) {
         if (!isCalculableColor(color)) {
             return color;
@@ -7205,6 +7295,7 @@ define('zrender/zrender', [
         }
         return 'rgb(' + data.join(',') + ')';
     }
+
     function reverse(color) {
         if (!isCalculableColor(color)) {
             return color;
@@ -7215,6 +7306,7 @@ define('zrender/zrender', [
         });
         return toColor(data, 'rgb');
     }
+
     function mix(color1, color2, weight) {
         if (!isCalculableColor(color1) || !isCalculableColor(color2)) {
             return color1;
@@ -7223,9 +7315,9 @@ define('zrender/zrender', [
             weight = 0.5;
         }
         weight = 1 - adjust(weight, [
-            0,
-            1
-        ]);
+                0,
+                1
+            ]);
         var w = weight * 2 - 1;
         var data1 = getData(toRGBA(color1));
         var data2 = getData(toRGBA(color2));
@@ -7244,9 +7336,11 @@ define('zrender/zrender', [
         data[3] = alpha;
         return toColor(data, 'rgba');
     }
+
     function random() {
         return '#' + (Math.random().toString(16) + '0000').slice(2, 8);
     }
+
     function getData(color) {
         color = normalize(color);
         var r = color.match(colorRegExp);
@@ -7312,6 +7406,7 @@ define('zrender/zrender', [
         }
         return data;
     }
+
     function alpha(color, a) {
         if (!isCalculableColor(color)) {
             return color;
@@ -7326,6 +7421,7 @@ define('zrender/zrender', [
         ]);
         return toColor(data, 'rgba');
     }
+
     function map(array, fun) {
         if (typeof fun !== 'function') {
             throw new TypeError();
@@ -7336,6 +7432,7 @@ define('zrender/zrender', [
         }
         return array;
     }
+
     function adjust(value, region) {
         if (value <= region[0]) {
             value = region[0];
@@ -7344,9 +7441,11 @@ define('zrender/zrender', [
         }
         return value;
     }
+
     function isCalculableColor(color) {
         return color instanceof Array || typeof color === 'string';
     }
+
     function _HSV_2_RGB(data) {
         var H = data[0];
         var S = data[1];
@@ -7405,6 +7504,7 @@ define('zrender/zrender', [
             B
         ];
     }
+
     function _HSL_2_RGB(data) {
         var H = data[0];
         var S = data[1];
@@ -7434,6 +7534,7 @@ define('zrender/zrender', [
             B
         ];
     }
+
     function _HUE_2_RGB(v1, v2, vH) {
         if (vH < 0) {
             vH += 1;
@@ -7452,6 +7553,7 @@ define('zrender/zrender', [
         }
         return v1;
     }
+
     function _RGB_2_HSB(data) {
         var R = data[0] / 255;
         var G = data[1] / 255;
@@ -7493,6 +7595,7 @@ define('zrender/zrender', [
             V
         ];
     }
+
     function _RGB_2_HSL(data) {
         var R = data[0] / 255;
         var G = data[1] / 255;
@@ -7538,6 +7641,7 @@ define('zrender/zrender', [
             L
         ];
     }
+
     return {
         customPalette: customPalette,
         resetPalette: resetPalette,
@@ -7569,7 +7673,8 @@ define('zrender/zrender', [
         alpha: alpha,
         getData: getData
     };
-});define('echarts/component/timeline', [
+});
+define('echarts/component/timeline', [
     'require',
     './base',
     'zrender/shape/Rectangle',
@@ -7614,7 +7719,7 @@ define('zrender/zrender', [
             show: true,
             interval: 'auto',
             rotate: 0,
-            textStyle: { color: '#333' }
+            textStyle: {color: '#333'}
         },
         checkpointStyle: {
             symbol: 'auto',
@@ -7624,14 +7729,14 @@ define('zrender/zrender', [
             borderWidth: 'auto',
             label: {
                 show: false,
-                textStyle: { color: 'auto' }
+                textStyle: {color: 'auto'}
             }
         },
         controlStyle: {
             itemSize: 15,
             itemGap: 5,
-            normal: { color: '#333' },
-            emphasis: { color: '#1e90ff' }
+            normal: {color: '#333'},
+            emphasis: {color: '#1e90ff'}
         },
         symbol: 'emptyDiamond',
         symbolSize: 4,
@@ -7640,6 +7745,7 @@ define('zrender/zrender', [
     var zrUtil = require('zrender/tool/util');
     var zrArea = require('zrender/tool/area');
     var zrEvent = require('zrender/tool/event');
+
     function Timeline(ecTheme, messageCenter, zr, option, myChart) {
         Base.call(this, ecTheme, messageCenter, zr, option, myChart);
         var self = this;
@@ -7695,6 +7801,7 @@ define('zrender/zrender', [
             }, this.ecTheme.animationDuration != null ? this.ecTheme.animationDuration : ecConfig.animationDuration);
         }
     }
+
     Timeline.prototype = {
         type: ecConfig.COMPONENT_TYPE_TIMELINE,
         _buildShape: function () {
@@ -7816,9 +7923,11 @@ define('zrender/zrender', [
             var y = this._location.y + this._location.height / 4 * 3;
             var width = this._location.x2 - this._location.x;
             var len = data.length;
+
             function _getName(i) {
                 return data[i].name != null ? data[i].name : data[i] + '';
             }
+
             var xList = [];
             if (len > 1) {
                 var boundaryGap = width / len;
@@ -8270,11 +8379,13 @@ define('zrender/zrender', [
             });
         }
     }
+
     IconShape.prototype.iconLibrary['timelineControl'] = timelineControl;
     zrUtil.inherits(Timeline, Base);
     require('../component').define('timeline', Timeline);
     return Timeline;
-});define('zrender/shape/Image', [
+});
+define('zrender/shape/Image', [
     'require',
     './Base',
     '../tool/util'
@@ -8376,7 +8487,8 @@ define('zrender/zrender', [
     };
     require('../tool/util').inherits(ZImage, Base);
     return ZImage;
-});define('zrender/loadingEffect/Bar', [
+});
+define('zrender/loadingEffect/Bar', [
     'require',
     './Base',
     '../tool/util',
@@ -8387,13 +8499,15 @@ define('zrender/zrender', [
     var util = require('../tool/util');
     var zrColor = require('../tool/color');
     var RectangleShape = require('../shape/Rectangle');
+
     function Bar(options) {
         Base.call(this, options);
     }
+
     util.inherits(Bar, Base);
     Bar.prototype._start = function (addShapeHandle, refreshHandle) {
         var options = util.merge(this.options, {
-            textStyle: { color: '#888' },
+            textStyle: {color: '#888'},
             backgroundColor: 'rgba(250, 250, 250, 0.8)',
             effectOption: {
                 x: 0,
@@ -8407,27 +8521,27 @@ define('zrender/zrender', [
         var textShape = this.createTextShape(options.textStyle);
         var background = this.createBackgroundShape(options.backgroundColor);
         var effectOption = options.effectOption;
-        var barShape = new RectangleShape({ highlightStyle: util.clone(effectOption) });
+        var barShape = new RectangleShape({highlightStyle: util.clone(effectOption)});
         barShape.highlightStyle.color = effectOption.color || zrColor.getLinearGradient(effectOption.x, effectOption.y, effectOption.x + effectOption.width, effectOption.y + effectOption.height, [
-            [
-                0,
-                '#ff6400'
-            ],
-            [
-                0.5,
-                '#ffe100'
-            ],
-            [
-                1,
-                '#b1ff00'
-            ]
-        ]);
+                [
+                    0,
+                    '#ff6400'
+                ],
+                [
+                    0.5,
+                    '#ffe100'
+                ],
+                [
+                    1,
+                    '#b1ff00'
+                ]
+            ]);
         if (options.progress != null) {
             addShapeHandle(background);
             barShape.highlightStyle.width = this.adjust(options.progress, [
-                0,
-                1
-            ]) * options.effectOption.width;
+                    0,
+                    1
+                ]) * options.effectOption.width;
             addShapeHandle(barShape);
             addShapeHandle(textShape);
             refreshHandle();
@@ -8448,7 +8562,8 @@ define('zrender/zrender', [
         }
     };
     return Bar;
-});define('zrender/loadingEffect/Bubble', [
+});
+define('zrender/loadingEffect/Bubble', [
     'require',
     './Base',
     '../tool/util',
@@ -8459,13 +8574,15 @@ define('zrender/zrender', [
     var util = require('../tool/util');
     var zrColor = require('../tool/color');
     var CircleShape = require('../shape/Circle');
+
     function Bubble(options) {
         Base.call(this, options);
     }
+
     util.inherits(Bubble, Base);
     Bubble.prototype._start = function (addShapeHandle, refreshHandle) {
         var options = util.merge(this.options, {
-            textStyle: { color: '#888' },
+            textStyle: {color: '#888'},
             backgroundColor: 'rgba(250, 250, 250, 0.8)',
             effect: {
                 n: 50,
@@ -8515,7 +8632,8 @@ define('zrender/zrender', [
         }, effectOption.timeInterval);
     };
     return Bubble;
-});define('zrender/loadingEffect/DynamicLine', [
+});
+define('zrender/loadingEffect/DynamicLine', [
     'require',
     './Base',
     '../tool/util',
@@ -8526,13 +8644,15 @@ define('zrender/zrender', [
     var util = require('../tool/util');
     var zrColor = require('../tool/color');
     var LineShape = require('../shape/Line');
+
     function DynamicLine(options) {
         Base.call(this, options);
     }
+
     util.inherits(DynamicLine, Base);
     DynamicLine.prototype._start = function (addShapeHandle, refreshHandle) {
         var options = util.merge(this.options, {
-            textStyle: { color: '#fff' },
+            textStyle: {color: '#fff'},
             backgroundColor: 'rgba(0, 0, 0, 0.8)',
             effectOption: {
                 n: 30,
@@ -8587,7 +8707,8 @@ define('zrender/zrender', [
         }, effectOption.timeInterval);
     };
     return DynamicLine;
-});define('zrender/loadingEffect/Ring', [
+});
+define('zrender/loadingEffect/Ring', [
     'require',
     './Base',
     '../tool/util',
@@ -8600,13 +8721,15 @@ define('zrender/zrender', [
     var zrColor = require('../tool/color');
     var RingShape = require('../shape/Ring');
     var SectorShape = require('../shape/Sector');
+
     function Ring(options) {
         Base.call(this, options);
     }
+
     util.inherits(Ring, Base);
     Ring.prototype._start = function (addShapeHandle, refreshHandle) {
         var options = util.merge(this.options, {
-            textStyle: { color: '#07a' },
+            textStyle: {color: '#07a'},
             backgroundColor: 'rgba(250, 250, 250, 0.8)',
             effect: {
                 x: this.canvasWidth / 2,
@@ -8637,7 +8760,7 @@ define('zrender/zrender', [
         var r = effectOption.r - 6;
         var color = effectOption.color;
         var darkColor = zrColor.lift(color, 0.1);
-        var shapeRing = new RingShape({ highlightStyle: util.clone(effectOption) });
+        var shapeRing = new RingShape({highlightStyle: util.clone(effectOption)});
         var shapeList = [];
         var clolrList = zrColor.getGradientColors([
             '#ff6400',
@@ -8701,9 +8824,9 @@ define('zrender/zrender', [
         if (options.progress != null) {
             addShapeHandle(background);
             n = this.adjust(options.progress, [
-                0,
-                1
-            ]).toFixed(2) * 100 / 5;
+                    0,
+                    1
+                ]).toFixed(2) * 100 / 5;
             shapeRing.highlightStyle.text = n * 5 + '%';
             addShapeHandle(shapeRing);
             for (var i = 0; i < 20; i++) {
@@ -8727,7 +8850,8 @@ define('zrender/zrender', [
         }, effectOption.timeInterval);
     };
     return Ring;
-});define('zrender/loadingEffect/Spin', [
+});
+define('zrender/loadingEffect/Spin', [
     'require',
     './Base',
     '../tool/util',
@@ -8740,9 +8864,11 @@ define('zrender/zrender', [
     var zrColor = require('../tool/color');
     var zrArea = require('../tool/area');
     var SectorShape = require('../shape/Sector');
+
     function Spin(options) {
         Base.call(this, options);
     }
+
     util.inherits(Spin, Base);
     Spin.prototype._start = function (addShapeHandle, refreshHandle) {
         var options = util.merge(this.options, {
@@ -8807,7 +8933,8 @@ define('zrender/zrender', [
         }, effectOption.timeInterval);
     };
     return Spin;
-});define('zrender/loadingEffect/Whirling', [
+});
+define('zrender/loadingEffect/Whirling', [
     'require',
     './Base',
     '../tool/util',
@@ -8822,9 +8949,11 @@ define('zrender/zrender', [
     var RingShape = require('../shape/Ring');
     var DropletShape = require('../shape/Droplet');
     var CircleShape = require('../shape/Circle');
+
     function Whirling(options) {
         Base.call(this, options);
     }
+
     util.inherits(Whirling, Base);
     Whirling.prototype._start = function (addShapeHandle, refreshHandle) {
         var options = util.merge(this.options, {
@@ -8892,7 +9021,8 @@ define('zrender/zrender', [
         }, effectOption.timeInterval);
     };
     return Whirling;
-});define('echarts/theme/macarons', [], function () {
+});
+define('echarts/theme/macarons', [], function () {
     var theme = {
         color: [
             '#2ec7c9',
@@ -8942,9 +9072,9 @@ define('zrender/zrender', [
             backgroundColor: 'rgba(50,50,50,0.5)',
             axisPointer: {
                 type: 'line',
-                lineStyle: { color: '#008acd' },
-                crossStyle: { color: '#008acd' },
-                shadowStyle: { color: 'rgba(200,200,200,0.2)' }
+                lineStyle: {color: '#008acd'},
+                crossStyle: {color: '#008acd'},
+                shadowStyle: {color: 'rgba(200,200,200,0.2)'}
             }
         },
         dataZoom: {
@@ -8952,13 +9082,13 @@ define('zrender/zrender', [
             fillerColor: 'rgba(182,162,222,0.2)',
             handleColor: '#008acd'
         },
-        grid: { borderColor: '#eee' },
+        grid: {borderColor: '#eee'},
         categoryAxis: {
-            axisLine: { lineStyle: { color: '#008acd' } },
-            splitLine: { lineStyle: { color: ['#eee'] } }
+            axisLine: {lineStyle: {color: '#008acd'}},
+            splitLine: {lineStyle: {color: ['#eee']}}
         },
         valueAxis: {
-            axisLine: { lineStyle: { color: '#008acd' } },
+            axisLine: {lineStyle: {color: '#008acd'}},
             splitArea: {
                 show: true,
                 areaStyle: {
@@ -8968,10 +9098,10 @@ define('zrender/zrender', [
                     ]
                 }
             },
-            splitLine: { lineStyle: { color: ['#eee'] } }
+            splitLine: {lineStyle: {color: ['#eee']}}
         },
         polar: {
-            axisLine: { lineStyle: { color: '#ddd' } },
+            axisLine: {lineStyle: {color: '#ddd'}},
             splitArea: {
                 show: true,
                 areaStyle: {
@@ -8981,21 +9111,21 @@ define('zrender/zrender', [
                     ]
                 }
             },
-            splitLine: { lineStyle: { color: '#ddd' } }
+            splitLine: {lineStyle: {color: '#ddd'}}
         },
         timeline: {
-            lineStyle: { color: '#008acd' },
+            lineStyle: {color: '#008acd'},
             controlStyle: {
-                normal: { color: '#008acd' },
-                emphasis: { color: '#008acd' }
+                normal: {color: '#008acd'},
+                emphasis: {color: '#008acd'}
             },
             symbol: 'emptyCircle',
             symbolSize: 3
         },
         bar: {
             itemStyle: {
-                normal: { barBorderRadius: 5 },
-                emphasis: { barBorderRadius: 5 }
+                normal: {barBorderRadius: 5},
+                emphasis: {barBorderRadius: 5}
             }
         },
         line: {
@@ -9026,24 +9156,24 @@ define('zrender/zrender', [
         map: {
             itemStyle: {
                 normal: {
-                    areaStyle: { color: '#ddd' },
-                    label: { textStyle: { color: '#d87a80' } }
+                    areaStyle: {color: '#ddd'},
+                    label: {textStyle: {color: '#d87a80'}}
                 },
-                emphasis: { areaStyle: { color: '#fe994e' } }
+                emphasis: {areaStyle: {color: '#fe994e'}}
             }
         },
-        force: { itemStyle: { normal: { linkStyle: { color: '#1e90ff' } } } },
+        force: {itemStyle: {normal: {linkStyle: {color: '#1e90ff'}}}},
         chord: {
             itemStyle: {
                 normal: {
                     borderWidth: 1,
                     borderColor: 'rgba(128, 128, 128, 0.5)',
-                    chordStyle: { lineStyle: { color: 'rgba(128, 128, 128, 0.5)' } }
+                    chordStyle: {lineStyle: {color: 'rgba(128, 128, 128, 0.5)'}}
                 },
                 emphasis: {
                     borderWidth: 1,
                     borderColor: 'rgba(128, 128, 128, 0.5)',
-                    chordStyle: { lineStyle: { color: 'rgba(128, 128, 128, 0.5)' } }
+                    chordStyle: {lineStyle: {color: 'rgba(128, 128, 128, 0.5)'}}
                 }
             }
         },
@@ -9070,18 +9200,19 @@ define('zrender/zrender', [
             axisTick: {
                 splitNumber: 10,
                 length: 15,
-                lineStyle: { color: 'auto' }
+                lineStyle: {color: 'auto'}
             },
             splitLine: {
                 length: 22,
-                lineStyle: { color: 'auto' }
+                lineStyle: {color: 'auto'}
             },
-            pointer: { width: 5 }
+            pointer: {width: 5}
         },
-        textStyle: { fontFamily: '微软雅黑, Arial, Verdana, sans-serif' }
+        textStyle: {fontFamily: '微软雅黑, Arial, Verdana, sans-serif'}
     };
     return theme;
-});define('echarts/theme/infographic', [], function () {
+});
+define('echarts/theme/infographic', [], function () {
     var theme = {
         color: [
             '#C1232B',
@@ -9139,8 +9270,8 @@ define('zrender/zrender', [
                     color: '#27727B',
                     type: 'dashed'
                 },
-                crossStyle: { color: '#27727B' },
-                shadowStyle: { color: 'rgba(200,200,200,0.3)' }
+                crossStyle: {color: '#27727B'},
+                shadowStyle: {color: 'rgba(200,200,200,0.3)'}
             }
         },
         dataZoom: {
@@ -9148,14 +9279,14 @@ define('zrender/zrender', [
             fillerColor: 'rgba(181,195,52,0.2)',
             handleColor: '#27727B'
         },
-        grid: { borderWidth: 0 },
+        grid: {borderWidth: 0},
         categoryAxis: {
-            axisLine: { lineStyle: { color: '#27727B' } },
-            splitLine: { show: false }
+            axisLine: {lineStyle: {color: '#27727B'}},
+            splitLine: {show: false}
         },
         valueAxis: {
-            axisLine: { show: false },
-            splitArea: { show: false },
+            axisLine: {show: false},
+            splitArea: {show: false},
             splitLine: {
                 lineStyle: {
                     color: ['#ccc'],
@@ -9164,7 +9295,7 @@ define('zrender/zrender', [
             }
         },
         polar: {
-            axisLine: { lineStyle: { color: '#ddd' } },
+            axisLine: {lineStyle: {color: '#ddd'}},
             splitArea: {
                 show: true,
                 areaStyle: {
@@ -9174,13 +9305,13 @@ define('zrender/zrender', [
                     ]
                 }
             },
-            splitLine: { lineStyle: { color: '#ddd' } }
+            splitLine: {lineStyle: {color: '#ddd'}}
         },
         timeline: {
-            lineStyle: { color: '#27727B' },
+            lineStyle: {color: '#27727B'},
             controlStyle: {
-                normal: { color: '#27727B' },
-                emphasis: { color: '#27727B' }
+                normal: {color: '#27727B'},
+                emphasis: {color: '#27727B'}
             },
             symbol: 'emptyCircle',
             symbolSize: 3
@@ -9190,9 +9321,9 @@ define('zrender/zrender', [
                 normal: {
                     borderWidth: 2,
                     borderColor: '#fff',
-                    lineStyle: { width: 3 }
+                    lineStyle: {width: 3}
                 },
-                emphasis: { borderWidth: 0 }
+                emphasis: {borderWidth: 0}
             },
             symbol: 'circle',
             symbolSize: 3.5
@@ -9216,7 +9347,7 @@ define('zrender/zrender', [
                     borderWidth: 1,
                     borderColor: 'rgba(200,200,200,0.5)'
                 },
-                emphasis: { borderWidth: 0 }
+                emphasis: {borderWidth: 0}
             },
             symbol: 'star4',
             symbolSize: 4
@@ -9228,27 +9359,27 @@ define('zrender/zrender', [
         map: {
             itemStyle: {
                 normal: {
-                    areaStyle: { color: '#ddd' },
-                    label: { textStyle: { color: '#C1232B' } }
+                    areaStyle: {color: '#ddd'},
+                    label: {textStyle: {color: '#C1232B'}}
                 },
                 emphasis: {
-                    areaStyle: { color: '#fe994e' },
-                    label: { textStyle: { color: 'rgb(100,0,0)' } }
+                    areaStyle: {color: '#fe994e'},
+                    label: {textStyle: {color: 'rgb(100,0,0)'}}
                 }
             }
         },
-        force: { itemStyle: { normal: { linkStyle: { color: '#27727B' } } } },
+        force: {itemStyle: {normal: {linkStyle: {color: '#27727B'}}}},
         chord: {
             itemStyle: {
                 normal: {
                     borderWidth: 1,
                     borderColor: 'rgba(128, 128, 128, 0.5)',
-                    chordStyle: { lineStyle: { color: 'rgba(128, 128, 128, 0.5)' } }
+                    chordStyle: {lineStyle: {color: 'rgba(128, 128, 128, 0.5)'}}
                 },
                 emphasis: {
                     borderWidth: 1,
                     borderColor: 'rgba(128, 128, 128, 0.5)',
-                    chordStyle: { lineStyle: { color: 'rgba(128, 128, 128, 0.5)' } }
+                    chordStyle: {lineStyle: {color: 'rgba(128, 128, 128, 0.5)'}}
                 }
             }
         },
@@ -9283,7 +9414,7 @@ define('zrender/zrender', [
             axisTick: {
                 splitNumber: 2,
                 length: 5,
-                lineStyle: { color: '#fff' }
+                lineStyle: {color: '#fff'}
             },
             axisLabel: {
                 textStyle: {
@@ -9293,7 +9424,7 @@ define('zrender/zrender', [
             },
             splitLine: {
                 length: '5%',
-                lineStyle: { color: '#fff' }
+                lineStyle: {color: '#fff'}
             },
             pointer: {
                 width: '40%',
@@ -9321,10 +9452,11 @@ define('zrender/zrender', [
                 }
             }
         },
-        textStyle: { fontFamily: '微软雅黑, Arial, Verdana, sans-serif' }
+        textStyle: {fontFamily: '微软雅黑, Arial, Verdana, sans-serif'}
     };
     return theme;
-});define('zrender/dep/excanvas', ['require'], function (require) {
+});
+define('zrender/dep/excanvas', ['require'], function (require) {
     if (!document.createElement('canvas').getContext) {
         (function () {
             var m = Math;
@@ -9336,24 +9468,30 @@ define('zrender/zrender', [
             var Z = 10;
             var Z2 = Z / 2;
             var IE_VERSION = +navigator.userAgent.match(/MSIE ([\d.]+)?/)[1];
+
             function getContext() {
                 return this.context_ || (this.context_ = new CanvasRenderingContext2D_(this));
             }
+
             var slice = Array.prototype.slice;
+
             function bind(f, obj, var_args) {
                 var a = slice.call(arguments, 2);
                 return function () {
                     return f.apply(obj, a.concat(slice.call(arguments)));
                 };
             }
+
             function encodeHtmlAttribute(s) {
                 return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
             }
+
             function addNamespace(doc, prefix, urn) {
                 if (!doc.namespaces[prefix]) {
                     doc.namespaces.add(prefix, urn, '#default#VML');
                 }
             }
+
             function addNamespacesAndStylesheet(doc) {
                 addNamespace(doc, 'g_vml_', 'urn:schemas-microsoft-com:vml');
                 addNamespace(doc, 'g_o_', 'urn:schemas-microsoft-com:office:office');
@@ -9363,6 +9501,7 @@ define('zrender/zrender', [
                     ss.cssText = 'canvas{display:inline-block;overflow:hidden;' + 'text-align:left;width:300px;height:150px}';
                 }
             }
+
             addNamespacesAndStylesheet(document);
             var G_vmlCanvasManager_ = {
                 init: function (opt_doc) {
@@ -9398,21 +9537,23 @@ define('zrender/zrender', [
                     return el;
                 }
             };
+
             function onPropertyChange(e) {
                 var el = e.srcElement;
                 switch (e.propertyName) {
-                case 'width':
-                    el.getContext().clearRect();
-                    el.style.width = el.attributes.width.nodeValue + 'px';
-                    el.firstChild.style.width = el.clientWidth + 'px';
-                    break;
-                case 'height':
-                    el.getContext().clearRect();
-                    el.style.height = el.attributes.height.nodeValue + 'px';
-                    el.firstChild.style.height = el.clientHeight + 'px';
-                    break;
+                    case 'width':
+                        el.getContext().clearRect();
+                        el.style.width = el.attributes.width.nodeValue + 'px';
+                        el.firstChild.style.width = el.clientWidth + 'px';
+                        break;
+                    case 'height':
+                        el.getContext().clearRect();
+                        el.style.height = el.attributes.height.nodeValue + 'px';
+                        el.firstChild.style.height = el.clientHeight + 'px';
+                        break;
                 }
             }
+
             function onResize(e) {
                 var el = e.srcElement;
                 if (el.firstChild) {
@@ -9420,6 +9561,7 @@ define('zrender/zrender', [
                     el.firstChild.style.height = el.clientHeight + 'px';
                 }
             }
+
             G_vmlCanvasManager_.init();
             var decToHex = [];
             for (var i = 0; i < 16; i++) {
@@ -9446,6 +9588,7 @@ define('zrender/zrender', [
                     ]
                 ];
             }
+
             function matrixMultiply(m1, m2) {
                 var result = createMatrixIdentity();
                 for (var x = 0; x < 3; x++) {
@@ -9459,6 +9602,7 @@ define('zrender/zrender', [
                 }
                 return result;
             }
+
             function copyState(o1, o2) {
                 o2.fillStyle = o1.fillStyle;
                 o2.lineCap = o1.lineCap;
@@ -9478,6 +9622,7 @@ define('zrender/zrender', [
                 o2.scaleY_ = o1.scaleY_;
                 o2.lineScale_ = o1.lineScale_;
             }
+
             var colorData = {
                 aliceblue: '#F0F8FF',
                 antiquewhite: '#FAEBD7',
@@ -9611,6 +9756,7 @@ define('zrender/zrender', [
                 whitesmoke: '#F5F5F5',
                 yellowgreen: '#9ACD32'
             };
+
             function getRgbHslContent(styleString) {
                 var start = styleString.indexOf('(', 3);
                 var end = styleString.indexOf(')', start + 1);
@@ -9620,12 +9766,15 @@ define('zrender/zrender', [
                 }
                 return parts;
             }
+
             function percent(s) {
                 return parseFloat(s) / 100;
             }
+
             function clamp(v, min, max) {
                 return Math.min(max, Math.max(min, v));
             }
+
             function hslToRgb(parts) {
                 var r, g, b, h, s, l;
                 h = parseFloat(parts[0]) / 360 % 360;
@@ -9644,6 +9793,7 @@ define('zrender/zrender', [
                 }
                 return '#' + decToHex[Math.floor(r * 255)] + decToHex[Math.floor(g * 255)] + decToHex[Math.floor(b * 255)];
             }
+
             function hueToRgb(m1, m2, h) {
                 if (h < 0)
                     h++;
@@ -9658,7 +9808,9 @@ define('zrender/zrender', [
                 else
                     return m1;
             }
+
             var processStyleCache = {};
+
             function processStyle(styleString) {
                 if (styleString in processStyleCache) {
                     return processStyleCache[styleString];
@@ -9691,6 +9843,7 @@ define('zrender/zrender', [
                     alpha: alpha
                 };
             }
+
             var DEFAULT_STYLE = {
                 style: 'normal',
                 variant: 'normal',
@@ -9699,6 +9852,7 @@ define('zrender/zrender', [
                 family: '微软雅黑'
             };
             var fontStyleCache = {};
+
             function processFontStyle(styleString) {
                 if (fontStyleCache[styleString]) {
                     return fontStyleCache[styleString];
@@ -9719,6 +9873,7 @@ define('zrender/zrender', [
                     family: fontFamily || DEFAULT_STYLE.family
                 };
             }
+
             function getComputedStyle(style, element) {
                 var computedStyle = {};
                 for (var p in style) {
@@ -9740,16 +9895,20 @@ define('zrender/zrender', [
                 }
                 return computedStyle;
             }
+
             function buildStyle(style) {
                 return style.style + ' ' + style.variant + ' ' + style.weight + ' ' + style.size + 'px \'' + style.family + '\'';
             }
+
             var lineCapMap = {
                 'butt': 'flat',
                 'round': 'round'
             };
+
             function processLineCap(lineCap) {
                 return lineCapMap[lineCap] || 'square';
             }
+
             function CanvasRenderingContext2D_(canvasElement) {
                 this.m_ = createMatrixIdentity();
                 this.mStack_ = [];
@@ -9779,6 +9938,7 @@ define('zrender/zrender', [
                 this.scaleY_ = 1;
                 this.lineScale_ = 1;
             }
+
             var contextPrototype = CanvasRenderingContext2D_.prototype;
             contextPrototype.clearRect = function () {
                 if (this.textMeasureEl_) {
@@ -9829,6 +9989,7 @@ define('zrender/zrender', [
                 self.currentX_ = p.x;
                 self.currentY_ = p.y;
             }
+
             contextPrototype.quadraticCurveTo = function (aCPx, aCPy, aX, aY) {
                 var cp = getCoords(this, aCPx, aCPy);
                 var p = getCoords(this, aX, aY);
@@ -10005,24 +10166,24 @@ define('zrender/zrender', [
                     var p = this.currentPath_[i];
                     var c;
                     switch (p.type) {
-                    case 'moveTo':
-                        c = p;
-                        lineStr.push(' m ', mr(p.x), ',', mr(p.y));
-                        break;
-                    case 'lineTo':
-                        lineStr.push(' l ', mr(p.x), ',', mr(p.y));
-                        break;
-                    case 'close':
-                        lineStr.push(' x ');
-                        p = null;
-                        break;
-                    case 'bezierCurveTo':
-                        lineStr.push(' c ', mr(p.cp1x), ',', mr(p.cp1y), ',', mr(p.cp2x), ',', mr(p.cp2y), ',', mr(p.x), ',', mr(p.y));
-                        break;
-                    case 'at':
-                    case 'wa':
-                        lineStr.push(' ', p.type, ' ', mr(p.x - this.scaleX_ * p.radius), ',', mr(p.y - this.scaleY_ * p.radius), ' ', mr(p.x + this.scaleX_ * p.radius), ',', mr(p.y + this.scaleY_ * p.radius), ' ', mr(p.xStart), ',', mr(p.yStart), ' ', mr(p.xEnd), ',', mr(p.yEnd));
-                        break;
+                        case 'moveTo':
+                            c = p;
+                            lineStr.push(' m ', mr(p.x), ',', mr(p.y));
+                            break;
+                        case 'lineTo':
+                            lineStr.push(' l ', mr(p.x), ',', mr(p.y));
+                            break;
+                        case 'close':
+                            lineStr.push(' x ');
+                            p = null;
+                            break;
+                        case 'bezierCurveTo':
+                            lineStr.push(' c ', mr(p.cp1x), ',', mr(p.cp1y), ',', mr(p.cp2x), ',', mr(p.cp2y), ',', mr(p.x), ',', mr(p.y));
+                            break;
+                        case 'at':
+                        case 'wa':
+                            lineStr.push(' ', p.type, ' ', mr(p.x - this.scaleX_ * p.radius), ',', mr(p.y - this.scaleY_ * p.radius), ' ', mr(p.x + this.scaleX_ * p.radius), ',', mr(p.y + this.scaleY_ * p.radius), ' ', mr(p.xStart), ',', mr(p.yStart), ' ', mr(p.xEnd), ',', mr(p.yEnd));
+                            break;
                     }
                     if (p) {
                         if (min.x == null || p.x < min.x) {
@@ -10058,6 +10219,7 @@ define('zrender/zrender', [
                 }
                 lineStr.push('<g_vml_:stroke', ' opacity="', opacity, '"', ' joinstyle="', ctx.lineJoin, '"', ' miterlimit="', ctx.miterLimit, '"', ' endcap="', processLineCap(ctx.lineCap), '"', ' weight="', lineWidth, 'px"', ' color="', color, '" />');
             }
+
             function appendFill(ctx, lineStr, min, max) {
                 var fillStyle = ctx.fillStyle;
                 var arcScaleX = ctx.scaleX_;
@@ -10128,11 +10290,12 @@ define('zrender/zrender', [
                     lineStr.push('<g_vml_:fill color="', color, '" opacity="', opacity, '" />');
                 }
             }
+
             contextPrototype.fill = function () {
                 this.stroke(true);
             };
             contextPrototype.closePath = function () {
-                this.currentPath_.push({ type: 'close' });
+                this.currentPath_.push({type: 'close'});
             };
             function getCoords(ctx, aX, aY) {
                 var m = ctx.m_;
@@ -10158,6 +10321,7 @@ define('zrender/zrender', [
             function matrixIsFinite(m) {
                 return isFinite(m[0][0]) && isFinite(m[0][1]) && isFinite(m[1][0]) && isFinite(m[1][1]) && isFinite(m[2][0]) && isFinite(m[2][1]);
             }
+
             function setM(ctx, m, updateLineScale) {
                 if (!matrixIsFinite(m)) {
                     return;
@@ -10170,6 +10334,7 @@ define('zrender/zrender', [
                     ctx.lineScale_ = sqrt(abs(det));
                 }
             }
+
             contextPrototype.translate = function (aX, aY) {
                 var m1 = [
                     [
@@ -10274,50 +10439,50 @@ define('zrender/zrender', [
             };
             contextPrototype.drawText_ = function (text, x, y, maxWidth, stroke) {
                 var m = this.m_, delta = 1000, left = 0, right = delta, offset = {
-                        x: 0,
-                        y: 0
-                    }, lineStr = [];
+                    x: 0,
+                    y: 0
+                }, lineStr = [];
                 var fontStyle = getComputedStyle(processFontStyle(this.font), this.element_);
                 var fontStyleString = buildStyle(fontStyle);
                 var elementStyle = this.element_.currentStyle;
                 var textAlign = this.textAlign.toLowerCase();
                 switch (textAlign) {
-                case 'left':
-                case 'center':
-                case 'right':
-                    break;
-                case 'end':
-                    textAlign = elementStyle.direction == 'ltr' ? 'right' : 'left';
-                    break;
-                case 'start':
-                    textAlign = elementStyle.direction == 'rtl' ? 'right' : 'left';
-                    break;
-                default:
-                    textAlign = 'left';
+                    case 'left':
+                    case 'center':
+                    case 'right':
+                        break;
+                    case 'end':
+                        textAlign = elementStyle.direction == 'ltr' ? 'right' : 'left';
+                        break;
+                    case 'start':
+                        textAlign = elementStyle.direction == 'rtl' ? 'right' : 'left';
+                        break;
+                    default:
+                        textAlign = 'left';
                 }
                 switch (this.textBaseline) {
-                case 'hanging':
-                case 'top':
-                    offset.y = fontStyle.size / 1.75;
-                    break;
-                case 'middle':
-                    break;
-                default:
-                case null:
-                case 'alphabetic':
-                case 'ideographic':
-                case 'bottom':
-                    offset.y = -fontStyle.size / 2.25;
-                    break;
+                    case 'hanging':
+                    case 'top':
+                        offset.y = fontStyle.size / 1.75;
+                        break;
+                    case 'middle':
+                        break;
+                    default:
+                    case null:
+                    case 'alphabetic':
+                    case 'ideographic':
+                    case 'bottom':
+                        offset.y = -fontStyle.size / 2.25;
+                        break;
                 }
                 switch (textAlign) {
-                case 'right':
-                    left = delta;
-                    right = 0.05;
-                    break;
-                case 'center':
-                    left = right = delta / 2;
-                    break;
+                    case 'right':
+                        left = delta;
+                        right = 0.05;
+                        break;
+                    case 'center':
+                        left = right = delta / 2;
+                        break;
                 }
                 var d = getCoords(this, x + offset.x, y + offset.y);
                 lineStr.push('<g_vml_:line from="', -left, ' 0" to="', right, ' 0.05" ', ' coordsize="100 100" coordorigin="0 0"', ' filled="', !stroke, '" stroked="', !!stroke, '" style="position:absolute;width:1px;height:1px;">');
@@ -10356,7 +10521,7 @@ define('zrender/zrender', [
                 } catch (ex) {
                 }
                 this.textMeasureEl_.appendChild(doc.createTextNode(text));
-                return { width: this.textMeasureEl_.offsetWidth };
+                return {width: this.textMeasureEl_.offsetWidth};
             };
             contextPrototype.clip = function () {
             };
@@ -10375,6 +10540,7 @@ define('zrender/zrender', [
                 this.r1_ = 0;
                 this.colors_ = [];
             }
+
             CanvasGradient_.prototype.addColorStop = function (aOffset, aColor) {
                 aColor = processStyle(aColor);
                 this.colors_.push({
@@ -10386,26 +10552,28 @@ define('zrender/zrender', [
             function CanvasPattern_(image, repetition) {
                 assertImageIsValid(image);
                 switch (repetition) {
-                case 'repeat':
-                case null:
-                case '':
-                    this.repetition_ = 'repeat';
-                    break;
-                case 'repeat-x':
-                case 'repeat-y':
-                case 'no-repeat':
-                    this.repetition_ = repetition;
-                    break;
-                default:
-                    throwException('SYNTAX_ERR');
+                    case 'repeat':
+                    case null:
+                    case '':
+                        this.repetition_ = 'repeat';
+                        break;
+                    case 'repeat-x':
+                    case 'repeat-y':
+                    case 'no-repeat':
+                        this.repetition_ = repetition;
+                        break;
+                    default:
+                        throwException('SYNTAX_ERR');
                 }
                 this.src_ = image.src;
                 this.width_ = image.width;
                 this.height_ = image.height;
             }
+
             function throwException(s) {
                 throw new DOMException_(s);
             }
+
             function assertImageIsValid(img) {
                 if (!img || img.nodeType != 1 || img.tagName != 'IMG') {
                     throwException('TYPE_MISMATCH_ERR');
@@ -10414,10 +10582,12 @@ define('zrender/zrender', [
                     throwException('INVALID_STATE_ERR');
                 }
             }
+
             function DOMException_(s) {
                 this.code = this[s];
                 this.message = s + ': DOM Exception ' + this.code;
             }
+
             var p = DOMException_.prototype = new Error();
             p.INDEX_SIZE_ERR = 1;
             p.DOMSTRING_SIZE_ERR = 2;
@@ -10446,7 +10616,8 @@ define('zrender/zrender', [
         G_vmlCanvasManager = false;
     }
     return G_vmlCanvasManager;
-});define('zrender/mixin/Eventful', ['require'], function (require) {
+});
+define('zrender/mixin/Eventful', ['require'], function (require) {
     var Eventful = function () {
         this._handlers = {};
     };
@@ -10515,18 +10686,18 @@ define('zrender/zrender', [
             var len = _h.length;
             for (var i = 0; i < len;) {
                 switch (argLen) {
-                case 1:
-                    _h[i]['h'].call(_h[i]['ctx']);
-                    break;
-                case 2:
-                    _h[i]['h'].call(_h[i]['ctx'], args[1]);
-                    break;
-                case 3:
-                    _h[i]['h'].call(_h[i]['ctx'], args[1], args[2]);
-                    break;
-                default:
-                    _h[i]['h'].apply(_h[i]['ctx'], args);
-                    break;
+                    case 1:
+                        _h[i]['h'].call(_h[i]['ctx']);
+                        break;
+                    case 2:
+                        _h[i]['h'].call(_h[i]['ctx'], args[1]);
+                        break;
+                    case 3:
+                        _h[i]['h'].call(_h[i]['ctx'], args[1], args[2]);
+                        break;
+                    default:
+                        _h[i]['h'].apply(_h[i]['ctx'], args);
+                        break;
                 }
                 if (_h[i]['one']) {
                     _h.splice(i, 1);
@@ -10550,18 +10721,18 @@ define('zrender/zrender', [
             var len = _h.length;
             for (var i = 0; i < len;) {
                 switch (argLen) {
-                case 1:
-                    _h[i]['h'].call(ctx);
-                    break;
-                case 2:
-                    _h[i]['h'].call(ctx, args[1]);
-                    break;
-                case 3:
-                    _h[i]['h'].call(ctx, args[1], args[2]);
-                    break;
-                default:
-                    _h[i]['h'].apply(ctx, args);
-                    break;
+                    case 1:
+                        _h[i]['h'].call(ctx);
+                        break;
+                    case 2:
+                        _h[i]['h'].call(ctx, args[1]);
+                        break;
+                    case 3:
+                        _h[i]['h'].call(ctx, args[1], args[2]);
+                        break;
+                    default:
+                        _h[i]['h'].apply(ctx, args);
+                        break;
                 }
                 if (_h[i]['one']) {
                     _h.splice(i, 1);
@@ -10574,7 +10745,8 @@ define('zrender/zrender', [
         return this;
     };
     return Eventful;
-});define('zrender/tool/log', [
+});
+define('zrender/tool/log', [
     'require',
     '../config'
 ], function (require) {
@@ -10592,12 +10764,14 @@ define('zrender/zrender', [
             }
         }
     };
-});define('zrender/tool/guid', [], function () {
+});
+define('zrender/tool/guid', [], function () {
     var idStart = 2311;
     return function () {
         return 'zrender__' + idStart++;
     };
-});define('zrender/Handler', [
+});
+define('zrender/Handler', [
     'require',
     './config',
     './tool/env',
@@ -10860,16 +11034,19 @@ define('zrender/zrender', [
             this.painter.clearHover();
         }
     };
+
     function bind2Arg(handler, context) {
         return function (arg1, arg2) {
             return handler.call(context, arg1, arg2);
         };
     }
+
     function bind3Arg(handler, context) {
         return function (arg1, arg2, arg3) {
             return handler.call(context, arg1, arg2, arg3);
         };
     }
+
     function initDomHandler(instance) {
         var len = domHandlerNames.length;
         while (len--) {
@@ -10877,6 +11054,7 @@ define('zrender/zrender', [
             instance['_' + name + 'Handler'] = bind2Arg(domHandlers[name], instance);
         }
     }
+
     var Handler = function (root, storage, painter) {
         Eventful.call(this);
         this.root = root;
@@ -10923,16 +11101,16 @@ define('zrender/zrender', [
     };
     Handler.prototype.trigger = function (eventName, eventArgs) {
         switch (eventName) {
-        case EVENT.RESIZE:
-        case EVENT.CLICK:
-        case EVENT.DBLCLICK:
-        case EVENT.MOUSEWHEEL:
-        case EVENT.MOUSEMOVE:
-        case EVENT.MOUSEDOWN:
-        case EVENT.MOUSEUP:
-        case EVENT.MOUSEOUT:
-            this['_' + eventName + 'Handler'](eventArgs, true);
-            break;
+            case EVENT.RESIZE:
+            case EVENT.CLICK:
+            case EVENT.DBLCLICK:
+            case EVENT.MOUSEWHEEL:
+            case EVENT.MOUSEMOVE:
+            case EVENT.MOUSEDOWN:
+            case EVENT.MOUSEUP:
+            case EVENT.MOUSEOUT:
+                this['_' + eventName + 'Handler'](eventArgs, true);
+                break;
         }
     };
     Handler.prototype.dispose = function () {
@@ -11086,13 +11264,13 @@ define('zrender/zrender', [
         };
     }();
     var MOBILE_TOUCH_OFFSETS = [
-        { x: 10 },
-        { x: -20 },
+        {x: 10},
+        {x: -20},
         {
             x: 10,
             y: 10
         },
-        { y: -20 }
+        {y: -20}
     ];
     Handler.prototype._mobileFindFixed = function (event) {
         this._lastHover = null;
@@ -11140,6 +11318,7 @@ define('zrender/zrender', [
         }
         return false;
     }
+
     Handler.prototype._zrenderEventFixed = function (event, isTouch) {
         if (event.zrenderFixed) {
             return event;
@@ -11164,7 +11343,8 @@ define('zrender/zrender', [
     };
     util.merge(Handler.prototype, Eventful.prototype, true);
     return Handler;
-});define('zrender/Painter', [
+});
+define('zrender/Painter', [
     'require',
     './config',
     './tool/util',
@@ -11179,11 +11359,14 @@ define('zrender/zrender', [
     var log = require('./tool/log');
     var BaseLoadingEffect = require('./loadingEffect/Base');
     var Layer = require('./Layer');
+
     function returnFalse() {
         return false;
     }
+
     function doNothing() {
     }
+
     function isLayerValid(layer) {
         if (!layer) {
             return false;
@@ -11196,6 +11379,7 @@ define('zrender/zrender', [
         }
         return true;
     }
+
     var Painter = function (root, storage) {
         this.root = root;
         root.style['-webkit-tap-highlight-color'] = 'transparent';
@@ -11664,7 +11848,8 @@ define('zrender/zrender', [
         };
     };
     return Painter;
-});define('zrender/Storage', [
+});
+define('zrender/Storage', [
     'require',
     './tool/util',
     './Group'
@@ -11677,6 +11862,7 @@ define('zrender/zrender', [
         normal: 'down',
         update: false
     };
+
     function shapeCompareFunc(a, b) {
         if (a.zlevel == b.zlevel) {
             if (a.z == b.z) {
@@ -11686,6 +11872,7 @@ define('zrender/zrender', [
         }
         return a.zlevel - b.zlevel;
     }
+
     var Storage = function () {
         this._elements = {};
         this._hoverElements = [];
@@ -11710,21 +11897,21 @@ define('zrender/zrender', [
             this.updateShapeList();
         }
         switch (option.normal) {
-        case 'down':
-            var l = this._shapeList.length;
-            while (l--) {
-                if (fun(this._shapeList[l])) {
-                    return this;
+            case 'down':
+                var l = this._shapeList.length;
+                while (l--) {
+                    if (fun(this._shapeList[l])) {
+                        return this;
+                    }
                 }
-            }
-            break;
-        default:
-            for (var i = 0, l = this._shapeList.length; i < l; i++) {
-                if (fun(this._shapeList[i])) {
-                    return this;
+                break;
+            default:
+                for (var i = 0, l = this._shapeList.length; i < l; i++) {
+                    if (fun(this._shapeList[i])) {
+                        return this;
+                    }
                 }
-            }
-            break;
+                break;
         }
         return this;
     };
@@ -11920,7 +12107,8 @@ define('zrender/zrender', [
         this._elements = this._renderList = this._roots = this._hoverElements = null;
     };
     return Storage;
-});define('zrender/animation/Animation', [
+});
+define('zrender/animation/Animation', [
     'require',
     './Clip',
     '../tool/color',
@@ -11933,14 +12121,14 @@ define('zrender/zrender', [
     var util = require('../tool/util');
     var Dispatcher = require('../tool/event').Dispatcher;
     var requestAnimationFrame = window.requestAnimationFrame || window.msRequestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || function (func) {
-        setTimeout(func, 16);
-    };
+            setTimeout(func, 16);
+        };
     var arraySlice = Array.prototype.slice;
     var Animation = function (options) {
         options = options || {};
         this.stage = options.stage || {};
         this.onframe = options.onframe || function () {
-        };
+            };
         this._clips = [];
         this._running = false;
         this._time = 0;
@@ -12006,6 +12194,7 @@ define('zrender/zrender', [
                     self._update();
                 }
             }
+
             this._time = new Date().getTime();
             requestAnimationFrame(step);
         },
@@ -12027,12 +12216,15 @@ define('zrender/zrender', [
     function _defaultGetter(target, key) {
         return target[key];
     }
+
     function _defaultSetter(target, key, value) {
         target[key] = value;
     }
+
     function _interpolateNumber(p0, p1, percent) {
         return (p1 - p0) * percent + p0;
     }
+
     function _interpolateArray(p0, p1, percent, out, arrDim) {
         var len = p0.length;
         if (arrDim == 1) {
@@ -12048,14 +12240,16 @@ define('zrender/zrender', [
             }
         }
     }
+
     function _isArrayLike(data) {
         switch (typeof data) {
-        case 'undefined':
-        case 'string':
-            return false;
+            case 'undefined':
+            case 'string':
+                return false;
         }
         return typeof data.length !== 'undefined';
     }
+
     function _catmullRomInterpolateArray(p0, p1, p2, p3, t, t2, t3, out, arrDim) {
         var len = p0.length;
         if (arrDim == 1) {
@@ -12071,11 +12265,13 @@ define('zrender/zrender', [
             }
         }
     }
+
     function _catmullRomInterpolate(p0, p1, p2, p3, t, t2, t3) {
         var v0 = (p2 - p0) * 0.5;
         var v1 = (p3 - p1) * 0.5;
         return (2 * (p1 - p2) + v0 + v1) * t3 + (-3 * (p1 - p2) - 2 * v0 - v1) * t2 + v0 * t + p1;
     }
+
     function _cloneValue(value) {
         if (_isArrayLike(value)) {
             var len = value.length;
@@ -12092,12 +12288,14 @@ define('zrender/zrender', [
             return value;
         }
     }
+
     function rgba2String(rgba) {
         rgba[0] = Math.floor(rgba[0]);
         rgba[1] = Math.floor(rgba[1]);
         rgba[2] = Math.floor(rgba[2]);
         return 'rgba(' + rgba.join(',') + ')';
     }
+
     var Animator = function (target, loop, getter, setter) {
         this._tracks = {};
         this._target = target;
@@ -12297,7 +12495,8 @@ define('zrender/zrender', [
         }
     };
     return Animation;
-});define('zrender/tool/vector', [], function () {
+});
+define('zrender/tool/vector', [], function () {
     var ArrayCtor = typeof Float32Array === 'undefined' ? Array : Float32Array;
     var vector = {
         create: function (x, y) {
@@ -12411,7 +12610,8 @@ define('zrender/zrender', [
     vector.dist = vector.distance;
     vector.distSquare = vector.distanceSquare;
     return vector;
-});define('zrender/tool/matrix', [], function () {
+});
+define('zrender/tool/matrix', [], function () {
     var ArrayCtor = typeof Float32Array === 'undefined' ? Array : Float32Array;
     var matrix = {
         create: function () {
@@ -12505,7 +12705,8 @@ define('zrender/zrender', [
         }
     };
     return matrix;
-});define('zrender/loadingEffect/Base', [
+});
+define('zrender/loadingEffect/Base', [
     'require',
     '../tool/util',
     '../shape/Text',
@@ -12516,9 +12717,11 @@ define('zrender/zrender', [
     var RectangleShape = require('../shape/Rectangle');
     var DEFAULT_TEXT = 'Loading...';
     var DEFAULT_TEXT_FONT = 'normal 16px Arial';
+
     function Base(options) {
         this.setOptions(options);
     }
+
     Base.prototype.createTextShape = function (textStyle) {
         return new TextShape({
             highlightStyle: util.merge({
@@ -12551,9 +12754,11 @@ define('zrender/zrender', [
         function addShapeHandle(param) {
             painter.storage.addHover(param);
         }
+
         function refreshHandle() {
             painter.refreshHover();
         }
+
         this.loadingTimer = this._start(addShapeHandle, refreshHandle);
     };
     Base.prototype._start = function () {
@@ -12577,27 +12782,27 @@ define('zrender/zrender', [
     Base.prototype.getLocation = function (loc, totalWidth, totalHeight) {
         var x = loc.x != null ? loc.x : 'center';
         switch (x) {
-        case 'center':
-            x = Math.floor((this.canvasWidth - totalWidth) / 2);
-            break;
-        case 'left':
-            x = 0;
-            break;
-        case 'right':
-            x = this.canvasWidth - totalWidth;
-            break;
+            case 'center':
+                x = Math.floor((this.canvasWidth - totalWidth) / 2);
+                break;
+            case 'left':
+                x = 0;
+                break;
+            case 'right':
+                x = this.canvasWidth - totalWidth;
+                break;
         }
         var y = loc.y != null ? loc.y : 'center';
         switch (y) {
-        case 'center':
-            y = Math.floor((this.canvasHeight - totalHeight) / 2);
-            break;
-        case 'top':
-            y = 0;
-            break;
-        case 'bottom':
-            y = this.canvasHeight - totalHeight;
-            break;
+            case 'center':
+                y = Math.floor((this.canvasHeight - totalHeight) / 2);
+                break;
+            case 'top':
+                y = 0;
+                break;
+            case 'bottom':
+                y = this.canvasHeight - totalHeight;
+                break;
         }
         return {
             x: x,
@@ -12607,7 +12812,8 @@ define('zrender/zrender', [
         };
     };
     return Base;
-});define('zrender/Layer', [
+});
+define('zrender/Layer', [
     'require',
     './mixin/Transformable',
     './tool/util',
@@ -12617,9 +12823,11 @@ define('zrender/zrender', [
     var util = require('./tool/util');
     var vmlCanvasManager = window['G_vmlCanvasManager'];
     var config = require('./config');
+
     function returnFalse() {
         return false;
     }
+
     function createDom(id, type, painter) {
         var newDom = document.createElement(type);
         var width = painter.getWidth();
@@ -12634,6 +12842,7 @@ define('zrender/zrender', [
         newDom.setAttribute('data-zr-dom-id', id);
         return newDom;
     }
+
     var Layer = function (id, painter) {
         this.id = id;
         this.dom = createDom(id, 'canvas', painter);
@@ -12728,7 +12937,8 @@ define('zrender/zrender', [
     };
     util.merge(Layer.prototype, Transformable.prototype);
     return Layer;
-});define('zrender/shape/Text', [
+});
+define('zrender/shape/Text', [
     'require',
     '../tool/area',
     './Base',
@@ -12773,33 +12983,33 @@ define('zrender/zrender', [
             for (var i = 0, l = text.length; i < l; i++) {
                 if (style.maxWidth) {
                     switch (style.brushType) {
-                    case 'fill':
-                        ctx.fillText(text[i], x, y, style.maxWidth);
-                        break;
-                    case 'stroke':
-                        ctx.strokeText(text[i], x, y, style.maxWidth);
-                        break;
-                    case 'both':
-                        ctx.fillText(text[i], x, y, style.maxWidth);
-                        ctx.strokeText(text[i], x, y, style.maxWidth);
-                        break;
-                    default:
-                        ctx.fillText(text[i], x, y, style.maxWidth);
+                        case 'fill':
+                            ctx.fillText(text[i], x, y, style.maxWidth);
+                            break;
+                        case 'stroke':
+                            ctx.strokeText(text[i], x, y, style.maxWidth);
+                            break;
+                        case 'both':
+                            ctx.fillText(text[i], x, y, style.maxWidth);
+                            ctx.strokeText(text[i], x, y, style.maxWidth);
+                            break;
+                        default:
+                            ctx.fillText(text[i], x, y, style.maxWidth);
                     }
                 } else {
                     switch (style.brushType) {
-                    case 'fill':
-                        ctx.fillText(text[i], x, y);
-                        break;
-                    case 'stroke':
-                        ctx.strokeText(text[i], x, y);
-                        break;
-                    case 'both':
-                        ctx.fillText(text[i], x, y);
-                        ctx.strokeText(text[i], x, y);
-                        break;
-                    default:
-                        ctx.fillText(text[i], x, y);
+                        case 'fill':
+                            ctx.fillText(text[i], x, y);
+                            break;
+                        case 'stroke':
+                            ctx.strokeText(text[i], x, y);
+                            break;
+                        case 'both':
+                            ctx.fillText(text[i], x, y);
+                            ctx.strokeText(text[i], x, y);
+                            break;
+                        default:
+                            ctx.fillText(text[i], x, y);
                     }
                 }
                 y += lineHeight;
@@ -12838,7 +13048,8 @@ define('zrender/zrender', [
     };
     require('../tool/util').inherits(Text, Base);
     return Text;
-});define('zrender/shape/Rectangle', [
+});
+define('zrender/shape/Rectangle', [
     'require',
     './Base',
     '../tool/util'
@@ -12945,7 +13156,8 @@ define('zrender/zrender', [
     };
     require('../tool/util').inherits(Rectangle, Base);
     return Rectangle;
-});define('zrender/tool/area', [
+});
+define('zrender/tool/area', [
     'require',
     './util',
     './curve'
@@ -12960,6 +13172,7 @@ define('zrender/zrender', [
     var _textHeightCacheCounter = 0;
     var TEXT_CACHE_MAX = 5000;
     var PI2 = Math.PI * 2;
+
     function normalizeRadian(angle) {
         angle %= PI2;
         if (angle < 0) {
@@ -12967,6 +13180,7 @@ define('zrender/zrender', [
         }
         return angle;
     }
+
     function isInside(shape, area, x, y) {
         if (!area || !shape) {
             return false;
@@ -12981,64 +13195,68 @@ define('zrender/zrender', [
             return _buildPathMethod(shape, _ctx, area, x, y);
         }
         switch (zoneType) {
-        case 'ellipse':
-            return true;
-        case 'trochoid':
-            var _r = area.location == 'out' ? area.r1 + area.r2 + area.d : area.r1 - area.r2 + area.d;
-            return isInsideCircle(area, x, y, _r);
-        case 'rose':
-            return isInsideCircle(area, x, y, area.maxr);
-        default:
-            return false;
+            case 'ellipse':
+                return true;
+            case 'trochoid':
+                var _r = area.location == 'out' ? area.r1 + area.r2 + area.d : area.r1 - area.r2 + area.d;
+                return isInsideCircle(area, x, y, _r);
+            case 'rose':
+                return isInsideCircle(area, x, y, area.maxr);
+            default:
+                return false;
         }
     }
+
     function _mathMethod(shape, area, x, y) {
         var zoneType = shape.type;
         switch (zoneType) {
-        case 'bezier-curve':
-            if (typeof area.cpX2 === 'undefined') {
-                return isInsideQuadraticStroke(area.xStart, area.yStart, area.cpX1, area.cpY1, area.xEnd, area.yEnd, area.lineWidth, x, y);
-            }
-            return isInsideCubicStroke(area.xStart, area.yStart, area.cpX1, area.cpY1, area.cpX2, area.cpY2, area.xEnd, area.yEnd, area.lineWidth, x, y);
-        case 'line':
-            return isInsideLine(area.xStart, area.yStart, area.xEnd, area.yEnd, area.lineWidth, x, y);
-        case 'polyline':
-            return isInsidePolyline(area.pointList, area.lineWidth, x, y);
-        case 'ring':
-            return isInsideRing(area.x, area.y, area.r0, area.r, x, y);
-        case 'circle':
-            return isInsideCircle(area.x, area.y, area.r, x, y);
-        case 'sector':
-            var startAngle = area.startAngle * Math.PI / 180;
-            var endAngle = area.endAngle * Math.PI / 180;
-            if (!area.clockWise) {
-                startAngle = -startAngle;
-                endAngle = -endAngle;
-            }
-            return isInsideSector(area.x, area.y, area.r0, area.r, startAngle, endAngle, !area.clockWise, x, y);
-        case 'path':
-            return area.pathArray && isInsidePath(area.pathArray, Math.max(area.lineWidth, 5), area.brushType, x, y);
-        case 'polygon':
-        case 'star':
-        case 'isogon':
-            return isInsidePolygon(area.pointList, x, y);
-        case 'text':
-            var rect = area.__rect || shape.getRect(area);
-            return isInsideRect(rect.x, rect.y, rect.width, rect.height, x, y);
-        case 'rectangle':
-        case 'image':
-            return isInsideRect(area.x, area.y, area.width, area.height, x, y);
+            case 'bezier-curve':
+                if (typeof area.cpX2 === 'undefined') {
+                    return isInsideQuadraticStroke(area.xStart, area.yStart, area.cpX1, area.cpY1, area.xEnd, area.yEnd, area.lineWidth, x, y);
+                }
+                return isInsideCubicStroke(area.xStart, area.yStart, area.cpX1, area.cpY1, area.cpX2, area.cpY2, area.xEnd, area.yEnd, area.lineWidth, x, y);
+            case 'line':
+                return isInsideLine(area.xStart, area.yStart, area.xEnd, area.yEnd, area.lineWidth, x, y);
+            case 'polyline':
+                return isInsidePolyline(area.pointList, area.lineWidth, x, y);
+            case 'ring':
+                return isInsideRing(area.x, area.y, area.r0, area.r, x, y);
+            case 'circle':
+                return isInsideCircle(area.x, area.y, area.r, x, y);
+            case 'sector':
+                var startAngle = area.startAngle * Math.PI / 180;
+                var endAngle = area.endAngle * Math.PI / 180;
+                if (!area.clockWise) {
+                    startAngle = -startAngle;
+                    endAngle = -endAngle;
+                }
+                return isInsideSector(area.x, area.y, area.r0, area.r, startAngle, endAngle, !area.clockWise, x, y);
+            case 'path':
+                return area.pathArray && isInsidePath(area.pathArray, Math.max(area.lineWidth, 5), area.brushType, x, y);
+            case 'polygon':
+            case 'star':
+            case 'isogon':
+                return isInsidePolygon(area.pointList, x, y);
+            case 'text':
+                var rect = area.__rect || shape.getRect(area);
+                return isInsideRect(rect.x, rect.y, rect.width, rect.height, x, y);
+            case 'rectangle':
+            case 'image':
+                return isInsideRect(area.x, area.y, area.width, area.height, x, y);
         }
     }
+
     function _buildPathMethod(shape, context, area, x, y) {
         context.beginPath();
         shape.buildPath(context, area);
         context.closePath();
         return context.isPointInPath(x, y);
     }
+
     function isOutside(shape, area, x, y) {
         return !isInside(shape, area, x, y);
     }
+
     function isInsideLine(x0, y0, x1, y1, lineWidth, x, y) {
         if (lineWidth === 0) {
             return false;
@@ -13059,6 +13277,7 @@ define('zrender/zrender', [
         var _s = tmp * tmp / (_a * _a + 1);
         return _s <= _l / 2 * _l / 2;
     }
+
     function isInsideCubicStroke(x0, y0, x1, y1, x2, y2, x3, y3, lineWidth, x, y) {
         if (lineWidth === 0) {
             return false;
@@ -13070,6 +13289,7 @@ define('zrender/zrender', [
         var d = curve.cubicProjectPoint(x0, y0, x1, y1, x2, y2, x3, y3, x, y, null);
         return d <= _l / 2;
     }
+
     function isInsideQuadraticStroke(x0, y0, x1, y1, x2, y2, lineWidth, x, y) {
         if (lineWidth === 0) {
             return false;
@@ -13081,6 +13301,7 @@ define('zrender/zrender', [
         var d = curve.quadraticProjectPoint(x0, y0, x1, y1, x2, y2, x, y, null);
         return d <= _l / 2;
     }
+
     function isInsideArcStroke(cx, cy, r, startAngle, endAngle, anticlockwise, lineWidth, x, y) {
         if (lineWidth === 0) {
             return false;
@@ -13112,6 +13333,7 @@ define('zrender/zrender', [
         }
         return angle >= startAngle && angle <= endAngle || angle + PI2 >= startAngle && angle + PI2 <= endAngle;
     }
+
     function isInsidePolyline(points, lineWidth, x, y) {
         var lineWidth = Math.max(lineWidth, 10);
         for (var i = 0, l = points.length - 1; i < l; i++) {
@@ -13125,19 +13347,24 @@ define('zrender/zrender', [
         }
         return false;
     }
+
     function isInsideRing(cx, cy, r0, r, x, y) {
         var d = (x - cx) * (x - cx) + (y - cy) * (y - cy);
         return d < r * r && d > r0 * r0;
     }
+
     function isInsideRect(x0, y0, width, height, x, y) {
         return x >= x0 && x <= x0 + width && y >= y0 && y <= y0 + height;
     }
+
     function isInsideCircle(x0, y0, r, x, y) {
         return (x - x0) * (x - x0) + (y - y0) * (y - y0) < r * r;
     }
+
     function isInsideSector(cx, cy, r0, r, startAngle, endAngle, anticlockwise, x, y) {
         return isInsideArcStroke(cx, cy, (r0 + r) / 2, startAngle, endAngle, anticlockwise, r - r0, x, y);
     }
+
     function isInsidePolygon(points, x, y) {
         var N = points.length;
         var w = 0;
@@ -13151,6 +13378,7 @@ define('zrender/zrender', [
         }
         return w !== 0;
     }
+
     function windingLine(x0, y0, x1, y1, x, y) {
         if (y > y0 && y > y1 || y < y0 && y < y1) {
             return 0;
@@ -13163,6 +13391,7 @@ define('zrender/zrender', [
         var x_ = t * (x1 - x0) + x0;
         return x_ > x ? dir : 0;
     }
+
     var roots = [
         -1,
         -1,
@@ -13172,11 +13401,13 @@ define('zrender/zrender', [
         -1,
         -1
     ];
+
     function swapExtrema() {
         var tmp = extrema[0];
         extrema[0] = extrema[1];
         extrema[1] = tmp;
     }
+
     function windingCubic(x0, y0, x1, y1, x2, y2, x3, y3, x, y) {
         if (y > y0 && y > y1 && y > y2 && y > y3 || y < y0 && y < y1 && y < y2 && y < y3) {
             return 0;
@@ -13223,6 +13454,7 @@ define('zrender/zrender', [
             return w;
         }
     }
+
     function windingQuadratic(x0, y0, x1, y1, x2, y2, x, y) {
         if (y > y0 && y > y1 && y > y2 || y < y0 && y < y1 && y < y2) {
             return 0;
@@ -13256,6 +13488,7 @@ define('zrender/zrender', [
             }
         }
     }
+
     function windingArc(cx, cy, r, startAngle, endAngle, anticlockwise, x, y) {
         y -= cy;
         if (y > r || y < -r) {
@@ -13304,6 +13537,7 @@ define('zrender/zrender', [
         }
         return w;
     }
+
     function isInsidePath(pathArray, lineWidth, brushType, x, y) {
         var w = 0;
         var xi = 0;
@@ -13337,82 +13571,82 @@ define('zrender/zrender', [
                 }
             }
             switch (seg.command) {
-            case 'M':
-                xi = p[0];
-                yi = p[1];
-                break;
-            case 'L':
-                if (hasStroke) {
-                    if (isInsideLine(xi, yi, p[0], p[1], lineWidth, x, y)) {
-                        return true;
+                case 'M':
+                    xi = p[0];
+                    yi = p[1];
+                    break;
+                case 'L':
+                    if (hasStroke) {
+                        if (isInsideLine(xi, yi, p[0], p[1], lineWidth, x, y)) {
+                            return true;
+                        }
                     }
-                }
-                if (hasFill) {
-                    w += windingLine(xi, yi, p[0], p[1], x, y);
-                }
-                xi = p[0];
-                yi = p[1];
-                break;
-            case 'C':
-                if (hasStroke) {
-                    if (isInsideCubicStroke(xi, yi, p[0], p[1], p[2], p[3], p[4], p[5], lineWidth, x, y)) {
-                        return true;
+                    if (hasFill) {
+                        w += windingLine(xi, yi, p[0], p[1], x, y);
                     }
-                }
-                if (hasFill) {
-                    w += windingCubic(xi, yi, p[0], p[1], p[2], p[3], p[4], p[5], x, y);
-                }
-                xi = p[4];
-                yi = p[5];
-                break;
-            case 'Q':
-                if (hasStroke) {
-                    if (isInsideQuadraticStroke(xi, yi, p[0], p[1], p[2], p[3], lineWidth, x, y)) {
-                        return true;
+                    xi = p[0];
+                    yi = p[1];
+                    break;
+                case 'C':
+                    if (hasStroke) {
+                        if (isInsideCubicStroke(xi, yi, p[0], p[1], p[2], p[3], p[4], p[5], lineWidth, x, y)) {
+                            return true;
+                        }
                     }
-                }
-                if (hasFill) {
-                    w += windingQuadratic(xi, yi, p[0], p[1], p[2], p[3], x, y);
-                }
-                xi = p[2];
-                yi = p[3];
-                break;
-            case 'A':
-                var cx = p[0];
-                var cy = p[1];
-                var rx = p[2];
-                var ry = p[3];
-                var theta = p[4];
-                var dTheta = p[5];
-                var x1 = Math.cos(theta) * rx + cx;
-                var y1 = Math.sin(theta) * ry + cy;
-                if (!firstCmd) {
-                    w += windingLine(xi, yi, x1, y1);
-                } else {
-                    firstCmd = false;
-                    x0 = x1;
-                    y0 = y1;
-                }
-                var _x = (x - cx) * ry / rx + cx;
-                if (hasStroke) {
-                    if (isInsideArcStroke(cx, cy, ry, theta, theta + dTheta, 1 - p[7], lineWidth, _x, y)) {
-                        return true;
+                    if (hasFill) {
+                        w += windingCubic(xi, yi, p[0], p[1], p[2], p[3], p[4], p[5], x, y);
                     }
-                }
-                if (hasFill) {
-                    w += windingArc(cx, cy, ry, theta, theta + dTheta, 1 - p[7], _x, y);
-                }
-                xi = Math.cos(theta + dTheta) * rx + cx;
-                yi = Math.sin(theta + dTheta) * ry + cy;
-                break;
-            case 'z':
-                if (hasStroke) {
-                    if (isInsideLine(xi, yi, x0, y0, lineWidth, x, y)) {
-                        return true;
+                    xi = p[4];
+                    yi = p[5];
+                    break;
+                case 'Q':
+                    if (hasStroke) {
+                        if (isInsideQuadraticStroke(xi, yi, p[0], p[1], p[2], p[3], lineWidth, x, y)) {
+                            return true;
+                        }
                     }
-                }
-                beginSubpath = true;
-                break;
+                    if (hasFill) {
+                        w += windingQuadratic(xi, yi, p[0], p[1], p[2], p[3], x, y);
+                    }
+                    xi = p[2];
+                    yi = p[3];
+                    break;
+                case 'A':
+                    var cx = p[0];
+                    var cy = p[1];
+                    var rx = p[2];
+                    var ry = p[3];
+                    var theta = p[4];
+                    var dTheta = p[5];
+                    var x1 = Math.cos(theta) * rx + cx;
+                    var y1 = Math.sin(theta) * ry + cy;
+                    if (!firstCmd) {
+                        w += windingLine(xi, yi, x1, y1);
+                    } else {
+                        firstCmd = false;
+                        x0 = x1;
+                        y0 = y1;
+                    }
+                    var _x = (x - cx) * ry / rx + cx;
+                    if (hasStroke) {
+                        if (isInsideArcStroke(cx, cy, ry, theta, theta + dTheta, 1 - p[7], lineWidth, _x, y)) {
+                            return true;
+                        }
+                    }
+                    if (hasFill) {
+                        w += windingArc(cx, cy, ry, theta, theta + dTheta, 1 - p[7], _x, y);
+                    }
+                    xi = Math.cos(theta + dTheta) * rx + cx;
+                    yi = Math.sin(theta + dTheta) * ry + cy;
+                    break;
+                case 'z':
+                    if (hasStroke) {
+                        if (isInsideLine(xi, yi, x0, y0, lineWidth, x, y)) {
+                            return true;
+                        }
+                    }
+                    beginSubpath = true;
+                    break;
             }
         }
         if (hasFill) {
@@ -13420,6 +13654,7 @@ define('zrender/zrender', [
         }
         return w !== 0;
     }
+
     function getTextWidth(text, textFont) {
         var key = text + ':' + textFont;
         if (_textWidthCache[key]) {
@@ -13443,6 +13678,7 @@ define('zrender/zrender', [
         }
         return width;
     }
+
     function getTextHeight(text, textFont) {
         var key = text + ':' + textFont;
         if (_textHeightCache[key]) {
@@ -13463,6 +13699,7 @@ define('zrender/zrender', [
         }
         return height;
     }
+
     return {
         isInside: isInside,
         isOutside: isOutside,
@@ -13478,7 +13715,8 @@ define('zrender/zrender', [
         isInsideCubicStroke: isInsideCubicStroke,
         isInsideQuadraticStroke: isInsideQuadraticStroke
     };
-});define('zrender/shape/Base', [
+});
+define('zrender/shape/Base', [
     'require',
     '../tool/matrix',
     '../tool/guid',
@@ -13496,6 +13734,7 @@ define('zrender/zrender', [
     var log = require('../tool/log');
     var Transformable = require('../mixin/Transformable');
     var Eventful = require('../mixin/Eventful');
+
     function _fillText(ctx, text, x, y, textFont, textAlign, textBaseline) {
         if (textFont) {
             ctx.font = textFont;
@@ -13506,42 +13745,43 @@ define('zrender/zrender', [
         text = (text + '').split('\n');
         var lineHeight = require('../tool/area').getTextHeight('国', textFont);
         switch (textBaseline) {
-        case 'top':
-            y = rect.y;
-            break;
-        case 'bottom':
-            y = rect.y + lineHeight;
-            break;
-        default:
-            y = rect.y + lineHeight / 2;
+            case 'top':
+                y = rect.y;
+                break;
+            case 'bottom':
+                y = rect.y + lineHeight;
+                break;
+            default:
+                y = rect.y + lineHeight / 2;
         }
         for (var i = 0, l = text.length; i < l; i++) {
             ctx.fillText(text[i], x, y);
             y += lineHeight;
         }
     }
+
     function _getTextRect(text, x, y, textFont, textAlign, textBaseline) {
         var area = require('../tool/area');
         var width = area.getTextWidth(text, textFont);
         var lineHeight = area.getTextHeight('国', textFont);
         text = (text + '').split('\n');
         switch (textAlign) {
-        case 'end':
-        case 'right':
-            x -= width;
-            break;
-        case 'center':
-            x -= width / 2;
-            break;
+            case 'end':
+            case 'right':
+                x -= width;
+                break;
+            case 'center':
+                x -= width / 2;
+                break;
         }
         switch (textBaseline) {
-        case 'top':
-            break;
-        case 'bottom':
-            y -= lineHeight * text.length;
-            break;
-        default:
-            y -= lineHeight * text.length / 2;
+            case 'top':
+                break;
+            case 'bottom':
+                y -= lineHeight * text.length;
+                break;
+            default:
+                y -= lineHeight * text.length / 2;
         }
         return {
             x: x,
@@ -13550,6 +13790,7 @@ define('zrender/zrender', [
             height: lineHeight * text.length
         };
     }
+
     var Base = function (options) {
         options = options || {};
         this.id = options.id || guid();
@@ -13576,13 +13817,13 @@ define('zrender/zrender', [
         ctx.beginPath();
         this.buildPath(ctx, style);
         switch (style.brushType) {
-        case 'both':
-            ctx.fill();
-        case 'stroke':
-            style.lineWidth > 0 && ctx.stroke();
-            break;
-        default:
-            ctx.fill();
+            case 'both':
+                ctx.fill();
+            case 'stroke':
+                style.lineWidth > 0 && ctx.stroke();
+                break;
+            default:
+                ctx.fill();
         }
         this.drawText(ctx, style, this.style);
         this.afterBrush(ctx);
@@ -13751,117 +13992,117 @@ define('zrender/zrender', [
         var ty;
         var textPosition = style.textPosition || this.textPosition || 'top';
         switch (textPosition) {
-        case 'inside':
-        case 'top':
-        case 'bottom':
-        case 'left':
-        case 'right':
-            if (this.getRect) {
-                var rect = (normalStyle || style).__rect || this.getRect(normalStyle || style);
-                switch (textPosition) {
-                case 'inside':
-                    tx = rect.x + rect.width / 2;
-                    ty = rect.y + rect.height / 2;
-                    al = 'center';
-                    bl = 'middle';
-                    if (style.brushType != 'stroke' && textColor == style.color) {
-                        ctx.fillStyle = '#fff';
+            case 'inside':
+            case 'top':
+            case 'bottom':
+            case 'left':
+            case 'right':
+                if (this.getRect) {
+                    var rect = (normalStyle || style).__rect || this.getRect(normalStyle || style);
+                    switch (textPosition) {
+                        case 'inside':
+                            tx = rect.x + rect.width / 2;
+                            ty = rect.y + rect.height / 2;
+                            al = 'center';
+                            bl = 'middle';
+                            if (style.brushType != 'stroke' && textColor == style.color) {
+                                ctx.fillStyle = '#fff';
+                            }
+                            break;
+                        case 'left':
+                            tx = rect.x - dd;
+                            ty = rect.y + rect.height / 2;
+                            al = 'end';
+                            bl = 'middle';
+                            break;
+                        case 'right':
+                            tx = rect.x + rect.width + dd;
+                            ty = rect.y + rect.height / 2;
+                            al = 'start';
+                            bl = 'middle';
+                            break;
+                        case 'top':
+                            tx = rect.x + rect.width / 2;
+                            ty = rect.y - dd;
+                            al = 'center';
+                            bl = 'bottom';
+                            break;
+                        case 'bottom':
+                            tx = rect.x + rect.width / 2;
+                            ty = rect.y + rect.height + dd;
+                            al = 'center';
+                            bl = 'top';
+                            break;
                     }
-                    break;
-                case 'left':
-                    tx = rect.x - dd;
-                    ty = rect.y + rect.height / 2;
-                    al = 'end';
-                    bl = 'middle';
-                    break;
-                case 'right':
-                    tx = rect.x + rect.width + dd;
-                    ty = rect.y + rect.height / 2;
-                    al = 'start';
-                    bl = 'middle';
-                    break;
-                case 'top':
-                    tx = rect.x + rect.width / 2;
-                    ty = rect.y - dd;
+                }
+                break;
+            case 'start':
+            case 'end':
+                var pointList = style.pointList || [
+                        [
+                            style.xStart || 0,
+                            style.yStart || 0
+                        ],
+                        [
+                            style.xEnd || 0,
+                            style.yEnd || 0
+                        ]
+                    ];
+                var length = pointList.length;
+                if (length < 2) {
+                    return;
+                }
+                var xStart;
+                var xEnd;
+                var yStart;
+                var yEnd;
+                switch (textPosition) {
+                    case 'start':
+                        xStart = pointList[1][0];
+                        xEnd = pointList[0][0];
+                        yStart = pointList[1][1];
+                        yEnd = pointList[0][1];
+                        break;
+                    case 'end':
+                        xStart = pointList[length - 2][0];
+                        xEnd = pointList[length - 1][0];
+                        yStart = pointList[length - 2][1];
+                        yEnd = pointList[length - 1][1];
+                        break;
+                }
+                tx = xEnd;
+                ty = yEnd;
+                var angle = Math.atan((yStart - yEnd) / (xEnd - xStart)) / Math.PI * 180;
+                if (xEnd - xStart < 0) {
+                    angle += 180;
+                } else if (yStart - yEnd < 0) {
+                    angle += 360;
+                }
+                dd = 5;
+                if (angle >= 30 && angle <= 150) {
                     al = 'center';
                     bl = 'bottom';
-                    break;
-                case 'bottom':
-                    tx = rect.x + rect.width / 2;
-                    ty = rect.y + rect.height + dd;
+                    ty -= dd;
+                } else if (angle > 150 && angle < 210) {
+                    al = 'right';
+                    bl = 'middle';
+                    tx -= dd;
+                } else if (angle >= 210 && angle <= 330) {
                     al = 'center';
                     bl = 'top';
-                    break;
+                    ty += dd;
+                } else {
+                    al = 'left';
+                    bl = 'middle';
+                    tx += dd;
                 }
-            }
-            break;
-        case 'start':
-        case 'end':
-            var pointList = style.pointList || [
-                [
-                    style.xStart || 0,
-                    style.yStart || 0
-                ],
-                [
-                    style.xEnd || 0,
-                    style.yEnd || 0
-                ]
-            ];
-            var length = pointList.length;
-            if (length < 2) {
-                return;
-            }
-            var xStart;
-            var xEnd;
-            var yStart;
-            var yEnd;
-            switch (textPosition) {
-            case 'start':
-                xStart = pointList[1][0];
-                xEnd = pointList[0][0];
-                yStart = pointList[1][1];
-                yEnd = pointList[0][1];
                 break;
-            case 'end':
-                xStart = pointList[length - 2][0];
-                xEnd = pointList[length - 1][0];
-                yStart = pointList[length - 2][1];
-                yEnd = pointList[length - 1][1];
+            case 'specific':
+                tx = style.textX || 0;
+                ty = style.textY || 0;
+                al = 'start';
+                bl = 'middle';
                 break;
-            }
-            tx = xEnd;
-            ty = yEnd;
-            var angle = Math.atan((yStart - yEnd) / (xEnd - xStart)) / Math.PI * 180;
-            if (xEnd - xStart < 0) {
-                angle += 180;
-            } else if (yStart - yEnd < 0) {
-                angle += 360;
-            }
-            dd = 5;
-            if (angle >= 30 && angle <= 150) {
-                al = 'center';
-                bl = 'bottom';
-                ty -= dd;
-            } else if (angle > 150 && angle < 210) {
-                al = 'right';
-                bl = 'middle';
-                tx -= dd;
-            } else if (angle >= 210 && angle <= 330) {
-                al = 'center';
-                bl = 'top';
-                ty += dd;
-            } else {
-                al = 'left';
-                bl = 'middle';
-                tx += dd;
-            }
-            break;
-        case 'specific':
-            tx = style.textX || 0;
-            ty = style.textY || 0;
-            al = 'start';
-            bl = 'middle';
-            break;
         }
         if (tx != null && ty != null) {
             _fillText(ctx, style.text, tx, ty, style.textFont, style.textAlign || al, style.textBaseline || bl);
@@ -13882,7 +14123,8 @@ define('zrender/zrender', [
     util.merge(Base.prototype, Transformable.prototype, true);
     util.merge(Base.prototype, Eventful.prototype, true);
     return Base;
-});define('zrender/tool/curve', [
+});
+define('zrender/tool/curve', [
     'require',
     './vector'
 ], function (require) {
@@ -13894,20 +14136,25 @@ define('zrender/zrender', [
     var _v0 = vector.create();
     var _v1 = vector.create();
     var _v2 = vector.create();
+
     function isAroundZero(val) {
         return val > -EPSILON && val < EPSILON;
     }
+
     function isNotAroundZero(val) {
         return val > EPSILON || val < -EPSILON;
     }
+
     function cubicAt(p0, p1, p2, p3, t) {
         var onet = 1 - t;
         return onet * onet * (onet * p0 + 3 * t * p1) + t * t * (t * p3 + 3 * onet * p2);
     }
+
     function cubicDerivativeAt(p0, p1, p2, p3, t) {
         var onet = 1 - t;
         return 3 * (((p1 - p0) * onet + 2 * (p2 - p1) * t) * onet + (p3 - p2) * t * t);
     }
+
     function cubicRootAt(p0, p1, p2, p3, val, roots) {
         var a = p3 + 3 * (p1 - p2) - p0;
         var b = 3 * (p2 - p1 * 2 + p0);
@@ -13977,6 +14224,7 @@ define('zrender/zrender', [
         }
         return n;
     }
+
     function cubicExtrema(p0, p1, p2, p3, extrema) {
         var b = 6 * p2 - 12 * p1 + 6 * p0;
         var a = 9 * p1 + 3 * p3 - 3 * p0 - 9 * p2;
@@ -14007,6 +14255,7 @@ define('zrender/zrender', [
         }
         return n;
     }
+
     function cubicSubdivide(p0, p1, p2, p3, t, out) {
         var p01 = (p1 - p0) * t + p0;
         var p12 = (p2 - p1) * t + p1;
@@ -14023,6 +14272,7 @@ define('zrender/zrender', [
         out[6] = p23;
         out[7] = p3;
     }
+
     function cubicProjectPoint(x0, y0, x1, y1, x2, y2, x3, y3, x, y, out) {
         var t;
         var interval = 0.005;
@@ -14069,13 +14319,16 @@ define('zrender/zrender', [
         }
         return Math.sqrt(d);
     }
+
     function quadraticAt(p0, p1, p2, t) {
         var onet = 1 - t;
         return onet * (onet * p0 + 2 * t * p1) + t * t * p2;
     }
+
     function quadraticDerivativeAt(p0, p1, p2, t) {
         return 2 * ((1 - t) * (p1 - p0) + t * (p2 - p1));
     }
+
     function quadraticRootAt(p0, p1, p2, val, roots) {
         var a = p0 - 2 * p1 + p2;
         var b = 2 * (p1 - p0);
@@ -14109,6 +14362,7 @@ define('zrender/zrender', [
         }
         return n;
     }
+
     function quadraticExtremum(p0, p1, p2) {
         var divider = p0 + p2 - 2 * p1;
         if (divider === 0) {
@@ -14117,6 +14371,7 @@ define('zrender/zrender', [
             return (p0 - p1) / divider;
         }
     }
+
     function quadraticSubdivide(p0, p1, p2, t, out) {
         var p01 = (p1 - p0) * t + p0;
         var p12 = (p2 - p1) * t + p1;
@@ -14128,6 +14383,7 @@ define('zrender/zrender', [
         out[4] = p12;
         out[5] = p2;
     }
+
     function quadraticProjectPoint(x0, y0, x1, y1, x2, y2, x, y, out) {
         var t;
         var interval = 0.005;
@@ -14174,6 +14430,7 @@ define('zrender/zrender', [
         }
         return Math.sqrt(d);
     }
+
     return {
         cubicAt: cubicAt,
         cubicDerivativeAt: cubicDerivativeAt,
@@ -14188,7 +14445,8 @@ define('zrender/zrender', [
         quadraticSubdivide: quadraticSubdivide,
         quadraticProjectPoint: quadraticProjectPoint
     };
-});define('zrender/mixin/Transformable', [
+});
+define('zrender/mixin/Transformable', [
     'require',
     '../tool/matrix',
     '../tool/vector'
@@ -14202,12 +14460,15 @@ define('zrender/zrender', [
     ];
     var mTranslate = matrix.translate;
     var EPSILON = 0.00005;
+
     function isAroundZero(val) {
         return val > -EPSILON && val < EPSILON;
     }
+
     function isNotAroundZero(val) {
         return val > EPSILON || val < -EPSILON;
     }
+
     var Transformable = function () {
         if (!this.position) {
             this.position = [
@@ -14362,7 +14623,8 @@ define('zrender/zrender', [
         }
     };
     return Transformable;
-});define('zrender/Group', [
+});
+define('zrender/Group', [
     'require',
     './tool/guid',
     './tool/util',
@@ -14487,11 +14749,13 @@ define('zrender/zrender', [
     util.merge(Group.prototype, Transformable.prototype, true);
     util.merge(Group.prototype, Eventful.prototype, true);
     return Group;
-});define('zrender/animation/Clip', [
+});
+define('zrender/animation/Clip', [
     'require',
     './easing'
 ], function (require) {
     var Easing = require('./easing');
+
     function Clip(options) {
         this._targetPool = options.target || {};
         if (!(this._targetPool instanceof Array)) {
@@ -14508,6 +14772,7 @@ define('zrender/zrender', [
         this.ondestroy = options.ondestroy;
         this.onrestart = options.onrestart;
     }
+
     Clip.prototype = {
         step: function (time) {
             var percent = (time - this._startTime) / this._life;
@@ -14544,7 +14809,8 @@ define('zrender/zrender', [
         constructor: Clip
     };
     return Clip;
-});define('zrender/animation/easing', [], function () {
+});
+define('zrender/animation/easing', [], function () {
     var easing = {
         Linear: function (k) {
             return k;
@@ -14730,7 +14996,8 @@ define('zrender/zrender', [
         }
     };
     return easing;
-});define('echarts/chart/base', [
+});
+define('echarts/chart/base', [
     'require',
     'zrender/shape/Image',
     '../util/shape/Icon',
@@ -14763,9 +15030,11 @@ define('zrender/zrender', [
     var EdgeBundling = require('../layout/EdgeBundling');
     var zrUtil = require('zrender/tool/util');
     var zrArea = require('zrender/tool/area');
+
     function isCoordAvailable(coord) {
         return coord.x != null && coord.y != null;
     }
+
     function Base(ecTheme, messageCenter, zr, option, myChart) {
         ComponentBase.call(this, ecTheme, messageCenter, zr, option, myChart);
         var self = this;
@@ -14804,6 +15073,7 @@ define('zrender/zrender', [
             }
         };
     }
+
     Base.prototype = {
         setCalculable: function (shape) {
             shape.dragEnableTime = this.ecTheme.DRAG_ENABLE_TIME || ecConfig.DRAG_ENABLE_TIME;
@@ -14958,17 +15228,17 @@ define('zrender/zrender', [
                 return;
             }
             switch (position) {
-            case 'bottom':
-            case 'top':
-                this._buildHorizontal(seriesArray, maxDataLength, locationMap, this.xMarkMap);
-                break;
-            case 'left':
-            case 'right':
-                this._buildVertical(seriesArray, maxDataLength, locationMap, this.xMarkMap);
-                break;
-            case 'other':
-                this._buildOther(seriesArray, maxDataLength, locationMap, this.xMarkMap);
-                break;
+                case 'bottom':
+                case 'top':
+                    this._buildHorizontal(seriesArray, maxDataLength, locationMap, this.xMarkMap);
+                    break;
+                case 'left':
+                case 'right':
+                    this._buildVertical(seriesArray, maxDataLength, locationMap, this.xMarkMap);
+                    break;
+                case 'other':
+                    this._buildOther(seriesArray, maxDataLength, locationMap, this.xMarkMap);
+                    break;
             }
             for (var i = 0, l = seriesArray.length; i < l; i++) {
                 this.buildMark(seriesArray[i]);
@@ -15261,7 +15531,7 @@ define('zrender/zrender', [
             var shapeList = this._markLine(seriesIndex, markLine);
             var isLarge = markLine.large;
             if (isLarge) {
-                var shapeBundle = new ShapeBundle({ style: { shapeList: shapeList } });
+                var shapeBundle = new ShapeBundle({style: {shapeList: shapeList}});
                 var firstShape = shapeList[0];
                 if (firstShape) {
                     zrUtil.merge(shapeBundle.style, firstShape.style);
@@ -15338,7 +15608,7 @@ define('zrender/zrender', [
                         }
                     }
                     color = color == null ? this.zr.getColor(seriesIndex) : color;
-                    data[i].tooltip = data[i].tooltip || mpOption.tooltip || { trigger: 'item' };
+                    data[i].tooltip = data[i].tooltip || mpOption.tooltip || {trigger: 'item'};
                     data[i].name = data[i].name != null ? data[i].name : '';
                     data[i].value = value;
                     itemShape = this.getSymbolShape(mpOption, seriesIndex, data[i], i, data[i].name, this.parsePercent(data[i].x, zrWidth), this.parsePercent(data[i].y, zrHeight), 'pin', color, 'rgba(0,0,0,0)', 'horizontal');
@@ -15373,6 +15643,7 @@ define('zrender/zrender', [
                     mlOption[key]
                 ];
             }
+
             return function (seriesIndex, mlOption) {
                 var serie = this.series[seriesIndex];
                 var component = this.component;
@@ -15405,7 +15676,7 @@ define('zrender/zrender', [
                                 continue;
                             }
                         }
-                        mlData[0].tooltip = mergeData.tooltip || mlOption.tooltip || { trigger: 'item' };
+                        mlData[0].tooltip = mergeData.tooltip || mlOption.tooltip || {trigger: 'item'};
                         mlData[0].name = mlData[0].name || '';
                         mlData[1].name = mlData[1].name || '';
                         mlData[0].value = value;
@@ -15772,61 +16043,61 @@ define('zrender/zrender', [
         },
         _animateMod: function (oldShape, newShape, duration, easing, delay, isUpdate) {
             switch (newShape.type) {
-            case 'polyline':
-            case 'half-smooth-polygon':
-                ecAnimation.pointList(this.zr, oldShape, newShape, duration, easing);
-                break;
-            case 'rectangle':
-                ecAnimation.rectangle(this.zr, oldShape, newShape, duration, easing);
-                break;
-            case 'image':
-            case 'icon':
-                ecAnimation.icon(this.zr, oldShape, newShape, duration, easing, delay);
-                break;
-            case 'candle':
-                if (!isUpdate) {
-                    ecAnimation.candle(this.zr, oldShape, newShape, duration, easing);
-                } else {
-                    this.zr.addShape(newShape);
-                }
-                break;
-            case 'ring':
-            case 'sector':
-            case 'circle':
-                if (!isUpdate) {
-                    ecAnimation.ring(this.zr, oldShape, newShape, duration + (ecData.get(newShape, 'dataIndex') || 0) % 20 * 100, easing);
-                } else if (newShape.type === 'sector') {
-                    ecAnimation.sector(this.zr, oldShape, newShape, duration, easing);
-                } else {
-                    this.zr.addShape(newShape);
-                }
-                break;
-            case 'text':
-                ecAnimation.text(this.zr, oldShape, newShape, duration, easing);
-                break;
-            case 'polygon':
-                if (!isUpdate) {
-                    ecAnimation.polygon(this.zr, oldShape, newShape, duration, easing);
-                } else {
+                case 'polyline':
+                case 'half-smooth-polygon':
                     ecAnimation.pointList(this.zr, oldShape, newShape, duration, easing);
-                }
-                break;
-            case 'ribbon':
-                ecAnimation.ribbon(this.zr, oldShape, newShape, duration, easing);
-                break;
-            case 'gauge-pointer':
-                ecAnimation.gaugePointer(this.zr, oldShape, newShape, duration, easing);
-                break;
-            case 'mark-line':
-                ecAnimation.markline(this.zr, oldShape, newShape, duration, easing);
-                break;
-            case 'bezier-curve':
-            case 'line':
-                ecAnimation.line(this.zr, oldShape, newShape, duration, easing);
-                break;
-            default:
-                this.zr.addShape(newShape);
-                break;
+                    break;
+                case 'rectangle':
+                    ecAnimation.rectangle(this.zr, oldShape, newShape, duration, easing);
+                    break;
+                case 'image':
+                case 'icon':
+                    ecAnimation.icon(this.zr, oldShape, newShape, duration, easing, delay);
+                    break;
+                case 'candle':
+                    if (!isUpdate) {
+                        ecAnimation.candle(this.zr, oldShape, newShape, duration, easing);
+                    } else {
+                        this.zr.addShape(newShape);
+                    }
+                    break;
+                case 'ring':
+                case 'sector':
+                case 'circle':
+                    if (!isUpdate) {
+                        ecAnimation.ring(this.zr, oldShape, newShape, duration + (ecData.get(newShape, 'dataIndex') || 0) % 20 * 100, easing);
+                    } else if (newShape.type === 'sector') {
+                        ecAnimation.sector(this.zr, oldShape, newShape, duration, easing);
+                    } else {
+                        this.zr.addShape(newShape);
+                    }
+                    break;
+                case 'text':
+                    ecAnimation.text(this.zr, oldShape, newShape, duration, easing);
+                    break;
+                case 'polygon':
+                    if (!isUpdate) {
+                        ecAnimation.polygon(this.zr, oldShape, newShape, duration, easing);
+                    } else {
+                        ecAnimation.pointList(this.zr, oldShape, newShape, duration, easing);
+                    }
+                    break;
+                case 'ribbon':
+                    ecAnimation.ribbon(this.zr, oldShape, newShape, duration, easing);
+                    break;
+                case 'gauge-pointer':
+                    ecAnimation.gaugePointer(this.zr, oldShape, newShape, duration, easing);
+                    break;
+                case 'mark-line':
+                    ecAnimation.markline(this.zr, oldShape, newShape, duration, easing);
+                    break;
+                case 'bezier-curve':
+                case 'line':
+                    ecAnimation.line(this.zr, oldShape, newShape, duration, easing);
+                    break;
+                default:
+                    this.zr.addShape(newShape);
+                    break;
             }
         },
         animationMark: function (duration, easing, shapeList) {
@@ -15865,7 +16136,7 @@ define('zrender/zrender', [
         clearEffectShape: function (clearMotionBlur) {
             var effectList = this.effectList;
             if (this.zr && effectList && effectList.length > 0) {
-                clearMotionBlur && this.zr.modLayer(ecConfig.EFFECT_ZLEVEL, { motionBlur: false });
+                clearMotionBlur && this.zr.modLayer(ecConfig.EFFECT_ZLEVEL, {motionBlur: false});
                 this.zr.delShape(effectList);
                 for (var i = 0; i < effectList.length; i++) {
                     if (effectList[i].effectAnimator) {
@@ -15921,7 +16192,8 @@ define('zrender/zrender', [
     };
     zrUtil.inherits(Base, ComponentBase);
     return Base;
-});define('zrender/shape/Circle', [
+});
+define('zrender/shape/Circle', [
     'require',
     './Base',
     '../tool/util'
@@ -15959,7 +16231,8 @@ define('zrender/zrender', [
     };
     require('../tool/util').inherits(Circle, Base);
     return Circle;
-});define('echarts/util/accMath', [], function () {
+});
+define('echarts/util/accMath', [], function () {
     function accDiv(arg1, arg2) {
         var s1 = arg1.toString();
         var s2 = arg2.toString();
@@ -15974,6 +16247,7 @@ define('zrender/zrender', [
         }
         return (s1.replace('.', '') - 0) / (s2.replace('.', '') - 0) * Math.pow(10, m);
     }
+
     function accMul(arg1, arg2) {
         var s1 = arg1.toString();
         var s2 = arg2.toString();
@@ -15988,6 +16262,7 @@ define('zrender/zrender', [
         }
         return (s1.replace('.', '') - 0) * (s2.replace('.', '') - 0) / Math.pow(10, m);
     }
+
     function accAdd(arg1, arg2) {
         var r1 = 0;
         var r2 = 0;
@@ -16002,16 +16277,19 @@ define('zrender/zrender', [
         var m = Math.pow(10, Math.max(r1, r2));
         return (Math.round(arg1 * m) + Math.round(arg2 * m)) / m;
     }
+
     function accSub(arg1, arg2) {
         return accAdd(arg1, -arg2);
     }
+
     return {
         accDiv: accDiv,
         accMul: accMul,
         accAdd: accAdd,
         accSub: accSub
     };
-});define('echarts/util/shape/Icon', [
+});
+define('echarts/util/shape/Icon', [
     'require',
     'zrender/tool/util',
     'zrender/shape/Star',
@@ -16021,6 +16299,7 @@ define('zrender/zrender', [
     'zrender/shape/Base'
 ], function (require) {
     var zrUtil = require('zrender/tool/util');
+
     function _iconMark(ctx, style) {
         var x = style.x;
         var y = style.y;
@@ -16039,6 +16318,7 @@ define('zrender/zrender', [
         ctx.moveTo(x + 13 * dx, y + 10 * dy);
         ctx.lineTo(x + 13 * dx, y + style.height);
     }
+
     function _iconMarkUndo(ctx, style) {
         var x = style.x;
         var y = style.y;
@@ -16055,6 +16335,7 @@ define('zrender/zrender', [
         ctx.moveTo(x + 10 * dx, y + 13 * dy);
         ctx.lineTo(x + style.width, y + 13 * dy);
     }
+
     function _iconMarkClear(ctx, style) {
         var x = style.x;
         var y = style.y;
@@ -16077,6 +16358,7 @@ define('zrender/zrender', [
         ctx.lineTo(x + 13 * dx, y + style.height);
         ctx.lineTo(x + style.width, y + 5 * dy);
     }
+
     function _iconDataZoom(ctx, style) {
         var x = style.x;
         var y = style.y;
@@ -16092,6 +16374,7 @@ define('zrender/zrender', [
         ctx.lineTo(x + style.width, y + 3 * dy);
         ctx.lineTo(x + 8 * dx, y + 3 * dy);
     }
+
     function _iconDataZoomReset(ctx, style) {
         var x = style.x;
         var y = style.y;
@@ -16110,6 +16393,7 @@ define('zrender/zrender', [
         ctx.lineTo(x + 14 * dx, y + 13 * dy);
         ctx.lineTo(x + 10 * dx, y + style.height);
     }
+
     function _iconRestore(ctx, style) {
         var x = style.x;
         var y = style.y;
@@ -16127,6 +16411,7 @@ define('zrender/zrender', [
         ctx.lineTo(x + style.width, y + 4 * dy);
         ctx.lineTo(x + 11 * dx, y + 5 * dy);
     }
+
     function _iconLineChart(ctx, style) {
         var x = style.x;
         var y = style.y;
@@ -16140,6 +16425,7 @@ define('zrender/zrender', [
         ctx.lineTo(x + 11 * dx, y + 11 * dy);
         ctx.lineTo(x + 15 * dx, y + 2 * dy);
     }
+
     function _iconBarChart(ctx, style) {
         var x = style.x;
         var y = style.y;
@@ -16161,6 +16447,7 @@ define('zrender/zrender', [
         ctx.lineTo(x + 12 * dx, y + 9 * dy);
         ctx.lineTo(x + 12 * dx, y + 14 * dy);
     }
+
     function _iconPieChart(ctx, style) {
         var x = style.x;
         var y = style.y;
@@ -16177,6 +16464,7 @@ define('zrender/zrender', [
         ctx.lineTo(x + r, y + r);
         ctx.lineWidth = 1.5;
     }
+
     function _iconFunnelChart(ctx, style) {
         var x = style.x;
         var y = style.y;
@@ -16200,6 +16488,7 @@ define('zrender/zrender', [
         ctx.lineTo(x + 8 * dx, y + 15 * dy);
         ctx.lineTo(x + 7 * dx, y + 15 * dy);
     }
+
     function _iconForceChart(ctx, style) {
         var x = style.x;
         var y = style.y;
@@ -16222,6 +16511,7 @@ define('zrender/zrender', [
         ctx.arc(x + 14 * dx, y + 10 * dy, r, 0, Math.PI * 3);
         ctx.lineWidth = 1.5;
     }
+
     function _iconChordChart(ctx, style) {
         var x = style.x;
         var y = style.y;
@@ -16235,6 +16525,7 @@ define('zrender/zrender', [
         ctx.arc(x + width, y + height, r, Math.PI, Math.PI / 2 * 3);
         ctx.lineWidth = 1.5;
     }
+
     function _iconStackChart(ctx, style) {
         var x = style.x;
         var y = style.y;
@@ -16247,6 +16538,7 @@ define('zrender/zrender', [
             ctx.rect(x, y + dy * len + delta, width, 2);
         }
     }
+
     function _iconTiledChart(ctx, style) {
         var x = style.x;
         var y = style.y;
@@ -16259,6 +16551,7 @@ define('zrender/zrender', [
             ctx.rect(x + dx * len + delta, y, 2, height);
         }
     }
+
     function _iconDataView(ctx, style) {
         var x = style.x;
         var y = style.y;
@@ -16277,6 +16570,7 @@ define('zrender/zrender', [
         ctx.moveTo(x + 3 * dx, y + 12 * dx);
         ctx.lineTo(x + 9 * dx, y + 12 * dx);
     }
+
     function _iconSave(ctx, style) {
         var x = style.x;
         var y = style.y;
@@ -16297,6 +16591,7 @@ define('zrender/zrender', [
         ctx.lineTo(x + 10 * dx, y + 11 * dy);
         ctx.lineTo(x + 6 * dx, y + 11 * dy);
     }
+
     function _iconCross(ctx, style) {
         var x = style.x;
         var y = style.y;
@@ -16307,6 +16602,7 @@ define('zrender/zrender', [
         ctx.moveTo(x + width / 2, y);
         ctx.lineTo(x + width / 2, y + height);
     }
+
     function _iconCircle(ctx, style) {
         var width = style.width / 2;
         var height = style.height / 2;
@@ -16315,10 +16611,12 @@ define('zrender/zrender', [
         ctx.arc(style.x + width, style.y + height, r, 0, Math.PI * 2);
         ctx.closePath();
     }
+
     function _iconRectangle(ctx, style) {
         ctx.rect(style.x, style.y, style.width, style.height);
         ctx.closePath();
     }
+
     function _iconTriangle(ctx, style) {
         var width = style.width / 2;
         var height = style.height / 2;
@@ -16331,6 +16629,7 @@ define('zrender/zrender', [
         ctx.lineTo(x, y - symbolSize);
         ctx.closePath();
     }
+
     function _iconDiamond(ctx, style) {
         var width = style.width / 2;
         var height = style.height / 2;
@@ -16344,6 +16643,7 @@ define('zrender/zrender', [
         ctx.lineTo(x, y - symbolSize);
         ctx.closePath();
     }
+
     function _iconArrow(ctx, style) {
         var x = style.x;
         var y = style.y;
@@ -16355,6 +16655,7 @@ define('zrender/zrender', [
         ctx.lineTo(x + 8 * dx, y);
         ctx.closePath();
     }
+
     function _iconStar(ctx, style) {
         var StarShape = require('zrender/shape/Star');
         var width = style.width / 2;
@@ -16366,6 +16667,7 @@ define('zrender/zrender', [
             n: style.n || 5
         });
     }
+
     function _iconHeart(ctx, style) {
         var HeartShape = require('zrender/shape/Heart');
         HeartShape.prototype.buildPath(ctx, {
@@ -16375,6 +16677,7 @@ define('zrender/zrender', [
             b: style.height * 0.8
         });
     }
+
     function _iconDroplet(ctx, style) {
         var DropletShape = require('zrender/shape/Droplet');
         DropletShape.prototype.buildPath(ctx, {
@@ -16384,6 +16687,7 @@ define('zrender/zrender', [
             b: style.height * 0.8
         });
     }
+
     function _iconPin(ctx, style) {
         var x = style.x;
         var y = style.y - style.height / 2 * 1.5;
@@ -16394,18 +16698,22 @@ define('zrender/zrender', [
         ctx.lineTo(x + width, y + height + r * 1.5);
         ctx.closePath();
     }
+
     function _iconImage(ctx, style, refreshNextFrame) {
         var ImageShape = require('zrender/shape/Image');
-        this._imageShape = this._imageShape || new ImageShape({ style: {} });
+        this._imageShape = this._imageShape || new ImageShape({style: {}});
         for (var name in style) {
             this._imageShape.style[name] = style[name];
         }
         this._imageShape.brush(ctx, false, refreshNextFrame);
     }
+
     var Base = require('zrender/shape/Base');
+
     function Icon(options) {
         Base.call(this, options);
     }
+
     Icon.prototype = {
         type: 'icon',
         iconLibrary: {
@@ -16449,13 +16757,13 @@ define('zrender/zrender', [
                 ctx.beginPath();
                 this.buildPath(ctx, style, refreshNextFrame);
                 switch (style.brushType) {
-                case 'both':
-                    ctx.fill();
-                case 'stroke':
-                    style.lineWidth > 0 && ctx.stroke();
-                    break;
-                default:
-                    ctx.fill();
+                    case 'both':
+                        ctx.fill();
+                    case 'stroke':
+                        style.lineWidth > 0 && ctx.stroke();
+                        break;
+                    default:
+                        ctx.fill();
                 }
                 this.drawText(ctx, style, this.style);
                 this.afterBrush(ctx);
@@ -16500,7 +16808,8 @@ define('zrender/zrender', [
     };
     zrUtil.inherits(Icon, Base);
     return Icon;
-});define('echarts/util/shape/MarkLine', [
+});
+define('echarts/util/shape/MarkLine', [
     'require',
     'zrender/shape/Base',
     './Icon',
@@ -16521,6 +16830,7 @@ define('zrender/zrender', [
     var dashedLineTo = require('zrender/shape/util/dashedLineTo');
     var zrUtil = require('zrender/tool/util');
     var curveTool = require('zrender/tool/curve');
+
     function MarkLine(options) {
         Base.call(this, options);
         if (this.style.curveness > 0) {
@@ -16530,6 +16840,7 @@ define('zrender/zrender', [
             this.updatePoints(this.highlightStyle);
         }
     }
+
     MarkLine.prototype = {
         type: 'mark-line',
         brush: function (ctx, isHighlight) {
@@ -16556,18 +16867,18 @@ define('zrender/zrender', [
             if (style.curveness > 0) {
                 var lineDash = null;
                 switch (lineType) {
-                case 'dashed':
-                    lineDash = [
-                        5,
-                        5
-                    ];
-                    break;
-                case 'dotted':
-                    lineDash = [
-                        1,
-                        1
-                    ];
-                    break;
+                    case 'dashed':
+                        lineDash = [
+                            5,
+                            5
+                        ];
+                        break;
+                    case 'dotted':
+                        lineDash = [
+                            1,
+                            1
+                        ];
+                        break;
                 }
                 if (lineDash && ctx.setLineDash) {
                     ctx.setLineDash(lineDash);
@@ -16661,7 +16972,8 @@ define('zrender/zrender', [
     };
     zrUtil.inherits(MarkLine, Base);
     return MarkLine;
-});define('echarts/util/shape/Symbol', [
+});
+define('echarts/util/shape/Symbol', [
     'require',
     'zrender/shape/Base',
     'zrender/shape/Polygon',
@@ -16672,9 +16984,11 @@ define('zrender/zrender', [
     var PolygonShape = require('zrender/shape/Polygon');
     var polygonInstance = new PolygonShape({});
     var zrUtil = require('zrender/tool/util');
+
     function Symbol(options) {
         Base.call(this, options);
     }
+
     Symbol.prototype = {
         type: 'symbol',
         buildPath: function (ctx, style) {
@@ -16717,38 +17031,38 @@ define('zrender/zrender', [
                         ctx.rect(x - halfSize, y - halfSize, curSize, curSize);
                     } else {
                         switch (style.iconType) {
-                        case 'circle':
-                            ctx.moveTo(x, y);
-                            ctx.arc(x, y, halfSize, 0, PI2, true);
-                            break;
-                        case 'diamond':
-                            ctx.moveTo(x, y - halfSize);
-                            ctx.lineTo(x + halfSize / 3, y - halfSize / 3);
-                            ctx.lineTo(x + halfSize, y);
-                            ctx.lineTo(x + halfSize / 3, y + halfSize / 3);
-                            ctx.lineTo(x, y + halfSize);
-                            ctx.lineTo(x - halfSize / 3, y + halfSize / 3);
-                            ctx.lineTo(x - halfSize, y);
-                            ctx.lineTo(x - halfSize / 3, y - halfSize / 3);
-                            ctx.lineTo(x, y - halfSize);
-                            break;
-                        default:
-                            ctx.rect(x - halfSize, y - halfSize, curSize, curSize);
+                            case 'circle':
+                                ctx.moveTo(x, y);
+                                ctx.arc(x, y, halfSize, 0, PI2, true);
+                                break;
+                            case 'diamond':
+                                ctx.moveTo(x, y - halfSize);
+                                ctx.lineTo(x + halfSize / 3, y - halfSize / 3);
+                                ctx.lineTo(x + halfSize, y);
+                                ctx.lineTo(x + halfSize / 3, y + halfSize / 3);
+                                ctx.lineTo(x, y + halfSize);
+                                ctx.lineTo(x - halfSize / 3, y + halfSize / 3);
+                                ctx.lineTo(x - halfSize, y);
+                                ctx.lineTo(x - halfSize / 3, y - halfSize / 3);
+                                ctx.lineTo(x, y - halfSize);
+                                break;
+                            default:
+                                ctx.rect(x - halfSize, y - halfSize, curSize, curSize);
                         }
                     }
                 }
                 ctx.closePath();
                 if (j < subSetLength - 1) {
                     switch (style.brushType) {
-                    case 'both':
-                        ctx.fill();
-                        style.lineWidth > 0 && ctx.stroke();
-                        break;
-                    case 'stroke':
-                        style.lineWidth > 0 && ctx.stroke();
-                        break;
-                    default:
-                        ctx.fill();
+                        case 'both':
+                            ctx.fill();
+                            style.lineWidth > 0 && ctx.stroke();
+                            break;
+                        case 'stroke':
+                            style.lineWidth > 0 && ctx.stroke();
+                            break;
+                        default:
+                            ctx.fill();
                     }
                 }
             }
@@ -16760,7 +17074,8 @@ define('zrender/zrender', [
     };
     zrUtil.inherits(Symbol, Base);
     return Symbol;
-});define('zrender/shape/Polyline', [
+});
+define('zrender/shape/Polyline', [
     'require',
     './Base',
     './util/smoothSpline',
@@ -16830,7 +17145,8 @@ define('zrender/zrender', [
     };
     require('../tool/util').inherits(Polyline, Base);
     return Polyline;
-});define('zrender/shape/ShapeBundle', [
+});
+define('zrender/shape/ShapeBundle', [
     'require',
     './Base',
     '../tool/util'
@@ -16854,13 +17170,13 @@ define('zrender/zrender', [
                 subShape.buildPath(ctx, subShapeStyle);
             }
             switch (style.brushType) {
-            case 'both':
-                ctx.fill();
-            case 'stroke':
-                style.lineWidth > 0 && ctx.stroke();
-                break;
-            default:
-                ctx.fill();
+                case 'both':
+                    ctx.fill();
+                case 'stroke':
+                    style.lineWidth > 0 && ctx.stroke();
+                    break;
+                default:
+                    ctx.fill();
             }
             this.drawText(ctx, style, this.style);
             this.afterBrush(ctx);
@@ -16906,7 +17222,8 @@ define('zrender/zrender', [
     };
     require('../tool/util').inherits(ShapeBundle, Base);
     return ShapeBundle;
-});define('echarts/util/ecAnimation', [
+});
+define('echarts/util/ecAnimation', [
     'require',
     'zrender/tool/util',
     'zrender/tool/curve',
@@ -16914,6 +17231,7 @@ define('zrender/zrender', [
 ], function (require) {
     var zrUtil = require('zrender/tool/util');
     var curveTool = require('zrender/tool/curve');
+
     function pointList(zr, oldShape, newShape, duration, easing) {
         var newPointList = newShape.style.pointList;
         var newPointListLen = newPointList.length;
@@ -16941,7 +17259,7 @@ define('zrender/zrender', [
                 oldPointList[newPointListLen - 1] = zrUtil.clone(newPointList[newPointListLen - 1]);
                 oldPointList[newPointListLen - 2] = zrUtil.clone(newPointList[newPointListLen - 2]);
             }
-            oldShape = { style: { pointList: oldPointList } };
+            oldShape = {style: {pointList: oldPointList}};
         }
         oldPointList = oldShape.style.pointList;
         var oldPointListLen = oldPointList.length;
@@ -16954,7 +17272,7 @@ define('zrender/zrender', [
         }
         zr.addShape(newShape);
         newShape.__animating = true;
-        zr.animate(newShape.id, 'style').when(duration, { pointList: newPointList }).during(function () {
+        zr.animate(newShape.id, 'style').when(duration, {pointList: newPointList}).during(function () {
             if (newShape.updateControlPoints) {
                 newShape.updateControlPoints(newShape.style);
             }
@@ -16962,6 +17280,7 @@ define('zrender/zrender', [
             newShape.__animating = false;
         }).start(easing);
     }
+
     function cloneStyle(target, source) {
         var len = arguments.length;
         for (var i = 2; i < len; i++) {
@@ -16969,6 +17288,7 @@ define('zrender/zrender', [
             target.style[prop] = source.style[prop];
         }
     }
+
     function rectangle(zr, oldShape, newShape, duration, easing) {
         var newShapeStyle = newShape.style;
         if (!oldShape) {
@@ -16994,7 +17314,7 @@ define('zrender/zrender', [
         newShape.position = oldShape.position;
         zr.addShape(newShape);
         if (newPosition[0] != oldShape.position[0] || newPosition[1] != oldShape.position[1]) {
-            zr.animate(newShape.id, '').when(duration, { position: newPosition }).start(easing);
+            zr.animate(newShape.id, '').when(duration, {position: newPosition}).start(easing);
         }
         newShape.__animating = true;
         zr.animate(newShape.id, 'style').when(duration, {
@@ -17006,6 +17326,7 @@ define('zrender/zrender', [
             newShape.__animating = false;
         }).start(easing);
     }
+
     function candle(zr, oldShape, newShape, duration, easing) {
         if (!oldShape) {
             var y = newShape.style.y;
@@ -17024,10 +17345,11 @@ define('zrender/zrender', [
         newShape.style.y = oldShape.style.y;
         zr.addShape(newShape);
         newShape.__animating = true;
-        zr.animate(newShape.id, 'style').when(duration, { y: newY }).done(function () {
+        zr.animate(newShape.id, 'style').when(duration, {y: newY}).done(function () {
             newShape.__animating = false;
         }).start(easing);
     }
+
     function ring(zr, oldShape, newShape, duration, easing) {
         var x = newShape.style.x;
         var y = newShape.style.y;
@@ -17059,11 +17381,12 @@ define('zrender/zrender', [
         } else {
             newShape.style.r0 = newShape.style.r;
             zr.addShape(newShape);
-            zr.animate(newShape.id, 'style').when(duration, { r0: r0 }).done(function () {
+            zr.animate(newShape.id, 'style').when(duration, {r0: r0}).done(function () {
                 newShape.__animating = false;
             }).start(easing);
         }
     }
+
     function sector(zr, oldShape, newShape, duration, easing) {
         if (!oldShape) {
             if (newShape._animationAdd != 'r') {
@@ -17074,7 +17397,7 @@ define('zrender/zrender', [
                     }
                 };
             } else {
-                oldShape = { style: { r0: newShape.style.r } };
+                oldShape = {style: {r0: newShape.style.r}};
             }
         }
         var startAngle = newShape.style.startAngle;
@@ -17089,6 +17412,7 @@ define('zrender/zrender', [
             newShape.__animating = false;
         }).start(easing);
     }
+
     function text(zr, oldShape, newShape, duration, easing) {
         if (!oldShape) {
             oldShape = {
@@ -17110,6 +17434,7 @@ define('zrender/zrender', [
             newShape.__animating = false;
         }).start(easing);
     }
+
     function polygon(zr, oldShape, newShape, duration, easing) {
         var rect = require('zrender/shape/Polygon').prototype.getRect(newShape.style);
         var x = rect.x + rect.width / 2;
@@ -17133,6 +17458,7 @@ define('zrender/zrender', [
             newShape.__animating = false;
         }).start(easing);
     }
+
     function ribbon(zr, oldShape, newShape, duration, easing) {
         if (!oldShape) {
             oldShape = {
@@ -17162,18 +17488,20 @@ define('zrender/zrender', [
             newShape.__animating = false;
         }).start(easing);
     }
+
     function gaugePointer(zr, oldShape, newShape, duration, easing) {
         if (!oldShape) {
-            oldShape = { style: { angle: newShape.style.startAngle } };
+            oldShape = {style: {angle: newShape.style.startAngle}};
         }
         var angle = newShape.style.angle;
         newShape.style.angle = oldShape.style.angle;
         zr.addShape(newShape);
         newShape.__animating = true;
-        zr.animate(newShape.id, 'style').when(duration, { angle: angle }).done(function () {
+        zr.animate(newShape.id, 'style').when(duration, {angle: angle}).done(function () {
             newShape.__animating = false;
         }).start(easing);
     }
+
     function icon(zr, oldShape, newShape, duration, easing, delay) {
         newShape.style._x = newShape.style.x;
         newShape.style._y = newShape.style.y;
@@ -17204,6 +17532,7 @@ define('zrender/zrender', [
             rectangle(zr, oldShape, newShape, duration, easing);
         }
     }
+
     function line(zr, oldShape, newShape, duration, easing) {
         if (!oldShape) {
             oldShape = {
@@ -17231,6 +17560,7 @@ define('zrender/zrender', [
             newShape.__animating = false;
         }).start(easing);
     }
+
     function markline(zr, oldShape, newShape, duration, easing) {
         easing = easing || 'QuinticOut';
         newShape.__animating = true;
@@ -17245,13 +17575,13 @@ define('zrender/zrender', [
         var y2 = newShapeStyle.yEnd;
         if (newShapeStyle.curveness > 0) {
             newShape.updatePoints(newShapeStyle);
-            var obj = { p: 0 };
+            var obj = {p: 0};
             var x1 = newShapeStyle.cpX1;
             var y1 = newShapeStyle.cpY1;
             var newXArr = [];
             var newYArr = [];
             var subdivide = curveTool.quadraticSubdivide;
-            zr.animation.animate(obj).when(duration, { p: 1 }).during(function () {
+            zr.animation.animate(obj).when(duration, {p: 1}).during(function () {
                 subdivide(x0, x1, x2, obj.p, newXArr);
                 subdivide(y0, y1, y2, obj.p, newYArr);
                 newShapeStyle.cpX1 = newXArr[1];
@@ -17270,6 +17600,7 @@ define('zrender/zrender', [
             }).done(animationDone).start(easing);
         }
     }
+
     return {
         pointList: pointList,
         rectangle: rectangle,
@@ -17284,7 +17615,8 @@ define('zrender/zrender', [
         line: line,
         markline: markline
     };
-});define('echarts/util/ecEffect', [
+});
+define('echarts/util/ecEffect', [
     'require',
     '../util/ecData',
     'zrender/shape/Circle',
@@ -17307,6 +17639,7 @@ define('zrender/zrender', [
     var Polyline = require('zrender/shape/Polyline');
     var vec2 = require('zrender/tool/vector');
     var canvasSupported = require('zrender/tool/env').canvasSupported;
+
     function point(zr, effectList, shape, zlevel) {
         var effect = shape.effect;
         var color = effect.color || shape.style.strokeColor || shape.style.color;
@@ -17366,7 +17699,7 @@ define('zrender/zrender', [
             effectShape.style.y -= shape.style.height / 2 * 1.5;
         }
         var duration = (effect.period + Math.random() * 10) * 100;
-        zr.modShape(shape.id, { invisible: true });
+        zr.modShape(shape.id, {invisible: true});
         var centerX = effectShape.style.x + effectShape.style.width / 2 / devicePixelRatio;
         var centerY = effectShape.style.y + effectShape.style.height / 2 / devicePixelRatio;
         if (effect.type === 'scale') {
@@ -17390,12 +17723,13 @@ define('zrender/zrender', [
                 zr.delShape(effectShape.id);
             }).start();
         } else {
-            zr.animate(effectShape.id, 'style', effect.loop).when(duration, { y: effectShape.style.y - distance }).when(duration * 2, { y: effectShape.style.y }).done(function () {
+            zr.animate(effectShape.id, 'style', effect.loop).when(duration, {y: effectShape.style.y - distance}).when(duration * 2, {y: effectShape.style.y}).done(function () {
                 shape.effect.show = false;
                 zr.delShape(effectShape.id);
             }).start();
         }
     }
+
     function largePoint(zr, effectList, shape, zlevel) {
         var effect = shape.effect;
         var color = effect.color || shape.style.strokeColor || shape.style.color;
@@ -17424,7 +17758,7 @@ define('zrender/zrender', [
         });
         effectList.push(effectShape);
         zr.addShape(effectShape);
-        zr.modShape(shape.id, { invisible: true });
+        zr.modShape(shape.id, {invisible: true});
         var duration = Math.round(effect.period * 100);
         var clip1 = {};
         var clip2 = {};
@@ -17438,6 +17772,7 @@ define('zrender/zrender', [
             zr.animate(effectShape.id, 'style', true).when(duration, clip1).when(duration * 2, clip2).when(duration * 3, clip1).when(duration * 4, clip1).delay(Math.random() * duration * i).start();
         }
     }
+
     function line(zr, effectList, shape, zlevel, isLarge) {
         var effect = shape.effect;
         var shapeStyle = shape.style;
@@ -17493,10 +17828,10 @@ define('zrender/zrender', [
                 }
                 distanceList.push(totalDist);
             }
-            var obj = { p: 0 };
-            var animator = zr.animation.animate(obj, { loop: effect.loop });
+            var obj = {p: 0};
+            var animator = zr.animation.animate(obj, {loop: effect.loop});
             for (var i = 0; i < distanceList.length; i++) {
-                animator.when(distanceList[i] * effect.period, { p: i });
+                animator.when(distanceList[i] * effect.period, {p: i});
             }
             animator.during(function () {
                 var i = Math.floor(obj.p);
@@ -17538,7 +17873,7 @@ define('zrender/zrender', [
             if (shape.style.curveness > 0) {
                 var x1 = shapeStyle.cpX1 - offset;
                 var y1 = shapeStyle.cpY1 - offset;
-                effectShape.effectAnimator = zr.animation.animate(effectShape, { loop: effect.loop }).when(duration, { p: 1 }).during(function (target, t) {
+                effectShape.effectAnimator = zr.animation.animate(effectShape, {loop: effect.loop}).when(duration, {p: 1}).during(function (target, t) {
                     effectShape.style.x = curveTool.quadraticAt(x0, x1, x2, t);
                     effectShape.style.y = curveTool.quadraticAt(y0, y1, y2, t);
                     if (!isLarge) {
@@ -17546,7 +17881,7 @@ define('zrender/zrender', [
                     }
                 }).done(effectDone).start();
             } else {
-                effectShape.effectAnimator = zr.animation.animate(effectShape.style, { loop: effect.loop }).when(duration, {
+                effectShape.effectAnimator = zr.animation.animate(effectShape.style, {loop: effect.loop}).when(duration, {
                     x: x2,
                     y: y2
                 }).during(function () {
@@ -17559,9 +17894,10 @@ define('zrender/zrender', [
         }
         return effectShape;
     }
+
     function largeLine(zr, effectList, shape, zlevel) {
         var effectShape = new ShapeBundle({
-            style: { shapeList: [] },
+            style: {shapeList: []},
             zlevel: zlevel,
             hoverable: false
         });
@@ -17594,7 +17930,7 @@ define('zrender/zrender', [
         };
         if (maxDuration) {
             effectShape.__dummy = 0;
-            var animator = zr.animate(effectShape.id, '', effect.loop).when(maxDuration, { __dummy: 1 }).during(function () {
+            var animator = zr.animate(effectShape.id, '', effect.loop).when(maxDuration, {__dummy: 1}).during(function () {
                 zr.modShape(effectShape);
             }).done(function () {
                 shape.effect.show = false;
@@ -17607,13 +17943,15 @@ define('zrender/zrender', [
             };
         }
     }
+
     return {
         point: point,
         largePoint: largePoint,
         line: line,
         largeLine: largeLine
     };
-});define('echarts/component/base', [
+});
+define('echarts/component/base', [
     'require',
     '../config',
     '../util/ecData',
@@ -17627,6 +17965,7 @@ define('zrender/zrender', [
     var ecQuery = require('../util/ecQuery');
     var number = require('../util/number');
     var zrUtil = require('zrender/tool/util');
+
     function Base(ecTheme, messageCenter, zr, option, myChart) {
         this.ecTheme = ecTheme;
         this.messageCenter = messageCenter;
@@ -17652,6 +17991,7 @@ define('zrender/zrender', [
         };
         messageCenter && messageCenter.bind(ecConfig.EVENT.LEGEND_HOVERLINK, this._onlegendhoverlink);
     }
+
     Base.prototype = {
         canvasSupported: require('zrender/tool/env').canvasSupported,
         _getZ: function (zWhat) {
@@ -17683,36 +18023,36 @@ define('zrender/zrender', [
         reformCssArray: function (p) {
             if (p instanceof Array) {
                 switch (p.length + '') {
-                case '4':
-                    return p;
-                case '3':
-                    return [
-                        p[0],
-                        p[1],
-                        p[2],
-                        p[1]
-                    ];
-                case '2':
-                    return [
-                        p[0],
-                        p[1],
-                        p[0],
-                        p[1]
-                    ];
-                case '1':
-                    return [
-                        p[0],
-                        p[0],
-                        p[0],
-                        p[0]
-                    ];
-                case '0':
-                    return [
-                        0,
-                        0,
-                        0,
-                        0
-                    ];
+                    case '4':
+                        return p;
+                    case '3':
+                        return [
+                            p[0],
+                            p[1],
+                            p[2],
+                            p[1]
+                        ];
+                    case '2':
+                        return [
+                            p[0],
+                            p[1],
+                            p[0],
+                            p[1]
+                        ];
+                    case '1':
+                        return [
+                            p[0],
+                            p[0],
+                            p[0],
+                            p[0]
+                        ];
+                    case '0':
+                        return [
+                            0,
+                            0,
+                            0,
+                            0
+                        ];
                 }
             } else {
                 return [
@@ -17788,7 +18128,8 @@ define('zrender/zrender', [
         getPrecision: number.getPrecision
     };
     return Base;
-});define('echarts/layout/EdgeBundling', [
+});
+define('echarts/layout/EdgeBundling', [
     'require',
     '../data/KDTree',
     'zrender/tool/vector'
@@ -17800,6 +18141,7 @@ define('zrender/zrender', [
     var v2Dist = vec2.dist;
     var v2Copy = vec2.copy;
     var v2Clone = vec2.clone;
+
     function squaredDistance(a, b) {
         a = a.array;
         b = b.array;
@@ -17809,6 +18151,7 @@ define('zrender/zrender', [
         var w = b[3] - a[3];
         return x * x + y * y + z * z + w * w;
     }
+
     function CoarsenedEdge(group) {
         this.points = [
             group.mp0,
@@ -17816,6 +18159,7 @@ define('zrender/zrender', [
         ];
         this.group = group;
     }
+
     function Edge(edge) {
         var points = edge.points;
         if (points[0][1] < points[1][1] || edge instanceof CoarsenedEdge) {
@@ -17841,6 +18185,7 @@ define('zrender/zrender', [
         this.edge = edge;
         this.group = null;
     }
+
     Edge.prototype.getStartPoint = function () {
         return this._startPoint;
     };
@@ -17853,6 +18198,7 @@ define('zrender/zrender', [
         this.mp1 = v2Create();
         this.ink = 0;
     }
+
     BundledEdgeGroup.prototype.addEdge = function (edge) {
         edge.group = this;
         this.edgeList.push(edge);
@@ -17866,6 +18212,7 @@ define('zrender/zrender', [
         this.maxTurningAngle = Math.PI / 4;
         this.maxIteration = 20;
     }
+
     EdgeBundling.prototype = {
         constructor: EdgeBundling,
         run: function (rawEdges) {
@@ -17884,9 +18231,11 @@ define('zrender/zrender', [
                 }
             }
             var newEdges = [];
+
             function pointApproxEqual(p0, p1) {
                 return v2DistSquare(p0, p1) < 1e-10;
             }
+
             function cleanEdgePoints(edgePoints, rawEdgePoints) {
                 var res = [];
                 var off = 0;
@@ -17900,6 +18249,7 @@ define('zrender/zrender', [
                 }
                 return res;
             }
+
             var buildNewEdges = function (groups, fromEdgePoints) {
                 var newEdgePoints;
                 for (var i = 0; i < groups.length; i++) {
@@ -18098,7 +18448,8 @@ define('zrender/zrender', [
         }()
     };
     return EdgeBundling;
-});define('zrender/shape/Star', [
+});
+define('zrender/shape/Star', [
     'require',
     '../tool/math',
     './Base',
@@ -18176,7 +18527,8 @@ define('zrender/zrender', [
     };
     require('../tool/util').inherits(Star, Base);
     return Star;
-});define('zrender/shape/Heart', [
+});
+define('zrender/shape/Heart', [
     'require',
     './Base',
     './util/PathProxy',
@@ -18222,7 +18574,8 @@ define('zrender/zrender', [
     };
     require('../tool/util').inherits(Heart, Base);
     return Heart;
-});define('zrender/shape/Droplet', [
+});
+define('zrender/shape/Droplet', [
     'require',
     './Base',
     './util/PathProxy',
@@ -18267,27 +18620,34 @@ define('zrender/zrender', [
     };
     require('../tool/util').inherits(Droplet, Base);
     return Droplet;
-});define('zrender/tool/math', [], function () {
+});
+define('zrender/tool/math', [], function () {
     var _radians = Math.PI / 180;
+
     function sin(angle, isDegrees) {
         return Math.sin(isDegrees ? angle * _radians : angle);
     }
+
     function cos(angle, isDegrees) {
         return Math.cos(isDegrees ? angle * _radians : angle);
     }
+
     function degreeToRadian(angle) {
         return angle * _radians;
     }
+
     function radianToDegree(angle) {
         return angle / _radians;
     }
+
     return {
         sin: sin,
         cos: cos,
         degreeToRadian: degreeToRadian,
         radianToDegree: radianToDegree
     };
-});define('zrender/shape/util/PathProxy', [
+});
+define('zrender/shape/util/PathProxy', [
     'require',
     '../../tool/vector'
 ], function (require) {
@@ -18311,40 +18671,40 @@ define('zrender/zrender', [
             var seg = this.pathCommands[i];
             var p = seg.points;
             switch (seg.command) {
-            case 'M':
-                vector.min(min, min, p);
-                vector.max(max, max, p);
-                break;
-            case 'L':
-                vector.min(min, min, p);
-                vector.max(max, max, p);
-                break;
-            case 'C':
-                for (var j = 0; j < 6; j += 2) {
-                    min[0] = Math.min(min[0], min[0], p[j]);
-                    min[1] = Math.min(min[1], min[1], p[j + 1]);
-                    max[0] = Math.max(max[0], max[0], p[j]);
-                    max[1] = Math.max(max[1], max[1], p[j + 1]);
-                }
-                break;
-            case 'Q':
-                for (var j = 0; j < 4; j += 2) {
-                    min[0] = Math.min(min[0], min[0], p[j]);
-                    min[1] = Math.min(min[1], min[1], p[j + 1]);
-                    max[0] = Math.max(max[0], max[0], p[j]);
-                    max[1] = Math.max(max[1], max[1], p[j + 1]);
-                }
-                break;
-            case 'A':
-                var cx = p[0];
-                var cy = p[1];
-                var rx = p[2];
-                var ry = p[3];
-                min[0] = Math.min(min[0], min[0], cx - rx);
-                min[1] = Math.min(min[1], min[1], cy - ry);
-                max[0] = Math.max(max[0], max[0], cx + rx);
-                max[1] = Math.max(max[1], max[1], cy + ry);
-                break;
+                case 'M':
+                    vector.min(min, min, p);
+                    vector.max(max, max, p);
+                    break;
+                case 'L':
+                    vector.min(min, min, p);
+                    vector.max(max, max, p);
+                    break;
+                case 'C':
+                    for (var j = 0; j < 6; j += 2) {
+                        min[0] = Math.min(min[0], min[0], p[j]);
+                        min[1] = Math.min(min[1], min[1], p[j + 1]);
+                        max[0] = Math.max(max[0], max[0], p[j]);
+                        max[1] = Math.max(max[1], max[1], p[j + 1]);
+                    }
+                    break;
+                case 'Q':
+                    for (var j = 0; j < 4; j += 2) {
+                        min[0] = Math.min(min[0], min[0], p[j]);
+                        min[1] = Math.min(min[1], min[1], p[j + 1]);
+                        max[0] = Math.max(max[0], max[0], p[j]);
+                        max[1] = Math.max(max[1], max[1], p[j + 1]);
+                    }
+                    break;
+                case 'A':
+                    var cx = p[0];
+                    var cy = p[1];
+                    var rx = p[2];
+                    var ry = p[3];
+                    min[0] = Math.min(min[0], min[0], cx - rx);
+                    min[1] = Math.min(min[1], min[1], cy - ry);
+                    max[0] = Math.max(max[0], max[0], cx + rx);
+                    max[1] = Math.max(max[1], max[1], cy + ry);
+                    break;
             }
         }
         return {
@@ -18445,7 +18805,8 @@ define('zrender/zrender', [
     };
     PathProxy.PathSegment = PathSegment;
     return PathProxy;
-});define('zrender/shape/Line', [
+});
+define('zrender/shape/Line', [
     'require',
     './Base',
     './util/dashedLineTo',
@@ -18485,7 +18846,8 @@ define('zrender/zrender', [
     };
     require('../tool/util').inherits(Line, Base);
     return Line;
-});define('zrender/shape/BezierCurve', [
+});
+define('zrender/shape/BezierCurve', [
     'require',
     './Base',
     '../tool/util'
@@ -18535,7 +18897,8 @@ define('zrender/zrender', [
     };
     require('../tool/util').inherits(BezierCurve, Base);
     return BezierCurve;
-});define('zrender/shape/util/dashedLineTo', [], function () {
+});
+define('zrender/shape/util/dashedLineTo', [], function () {
     var dashPattern = [
         5,
         5
@@ -18567,7 +18930,8 @@ define('zrender/zrender', [
         }
         ctx.lineTo(x2, y2);
     };
-});define('zrender/shape/Polygon', [
+});
+define('zrender/shape/Polygon', [
     'require',
     './Base',
     './util/smoothSpline',
@@ -18665,23 +19029,27 @@ define('zrender/zrender', [
     };
     require('../tool/util').inherits(Polygon, Base);
     return Polygon;
-});define('echarts/util/shape/normalIsCover', [], function () {
+});
+define('echarts/util/shape/normalIsCover', [], function () {
     return function (x, y) {
         var originPos = this.transformCoordToLocal(x, y);
         x = originPos[0];
         y = originPos[1];
         return this.isCoverRect(x, y);
     };
-});define('zrender/shape/util/smoothSpline', [
+});
+define('zrender/shape/util/smoothSpline', [
     'require',
     '../../tool/vector'
 ], function (require) {
     var vector = require('../../tool/vector');
+
     function interpolate(p0, p1, p2, p3, t, t2, t3) {
         var v0 = (p2 - p0) * 0.5;
         var v1 = (p3 - p1) * 0.5;
         return (2 * (p1 - p2) + v0 + v1) * t3 + (-3 * (p1 - p2) - 2 * v0 - v1) * t2 + v0 * t + p1;
     }
+
     return function (points, isLoop, constraint) {
         var len = points.length;
         var ret = [];
@@ -18717,7 +19085,8 @@ define('zrender/zrender', [
         }
         return ret;
     };
-});define('zrender/shape/util/smoothBezier', [
+});
+define('zrender/shape/util/smoothBezier', [
     'require',
     '../../tool/vector'
 ], function (require) {
@@ -18790,11 +19159,13 @@ define('zrender/zrender', [
         }
         return cps;
     };
-});define('echarts/util/ecQuery', [
+});
+define('echarts/util/ecQuery', [
     'require',
     'zrender/tool/util'
 ], function (require) {
     var zrUtil = require('zrender/tool/util');
+
     function query(optionTarget, optionLocation) {
         if (typeof optionTarget == 'undefined') {
             return;
@@ -18814,6 +19185,7 @@ define('zrender/zrender', [
         }
         return optionTarget;
     }
+
     function deepQuery(ctrList, optionLocation) {
         var finalOption;
         for (var i = 0, l = ctrList.length; i < l; i++) {
@@ -18823,6 +19195,7 @@ define('zrender/zrender', [
             }
         }
     }
+
     function deepMerge(ctrList, optionLocation) {
         var finalOption;
         var len = ctrList.length;
@@ -18838,15 +19211,18 @@ define('zrender/zrender', [
         }
         return finalOption;
     }
+
     return {
         query: query,
         deepQuery: deepQuery,
         deepMerge: deepMerge
     };
-});define('echarts/util/number', [], function () {
+});
+define('echarts/util/number', [], function () {
     function _trim(str) {
         return str.replace(/^\s+/, '').replace(/\s+$/, '');
     }
+
     function parsePercent(value, maxValue) {
         if (typeof value === 'string') {
             if (_trim(value).match(/%$/)) {
@@ -18856,12 +19232,14 @@ define('zrender/zrender', [
         }
         return value;
     }
+
     function parseCenter(zr, center) {
         return [
             parsePercent(center[0], zr.getWidth()),
             parsePercent(center[1], zr.getHeight())
         ];
     }
+
     function parseRadius(zr, radius) {
         if (!(radius instanceof Array)) {
             radius = [
@@ -18875,6 +19253,7 @@ define('zrender/zrender', [
             parsePercent(radius[1], zrSize)
         ];
     }
+
     function addCommas(x) {
         if (isNaN(x)) {
             return '-';
@@ -18882,6 +19261,7 @@ define('zrender/zrender', [
         x = (x + '').split('.');
         return x[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,') + (x.length > 1 ? '.' + x[1] : '');
     }
+
     function getPrecision(val) {
         var e = 1;
         var count = 0;
@@ -18891,6 +19271,7 @@ define('zrender/zrender', [
         }
         return count;
     }
+
     return {
         parsePercent: parsePercent,
         parseCenter: parseCenter,
@@ -18898,17 +19279,20 @@ define('zrender/zrender', [
         addCommas: addCommas,
         getPrecision: getPrecision
     };
-});define('echarts/data/KDTree', [
+});
+define('echarts/data/KDTree', [
     'require',
     './quickSelect'
 ], function (require) {
     var quickSelect = require('./quickSelect');
+
     function Node(axis, data) {
         this.left = null;
         this.right = null;
         this.axis = axis;
         this.data = data;
     }
+
     var KDTree = function (points, dimension) {
         if (!points.length) {
             return;
@@ -19060,15 +19444,18 @@ define('zrender/zrender', [
         return output;
     };
     return KDTree;
-});define('echarts/data/quickSelect', ['require'], function (require) {
+});
+define('echarts/data/quickSelect', ['require'], function (require) {
     function defaultCompareFunc(a, b) {
         return a - b;
     }
+
     function swapElement(list, idx0, idx1) {
         var tmp = list[idx0];
         list[idx0] = list[idx1];
         list[idx1] = tmp;
     }
+
     function select(list, left, right, nth, compareFunc) {
         var pivotIdx = left;
         while (right > left) {
@@ -19093,6 +19480,7 @@ define('zrender/zrender', [
         }
         return left;
     }
+
     function quickSelect(list, left, right, nth, compareFunc) {
         if (arguments.length <= 3) {
             nth = left;
@@ -19106,8 +19494,10 @@ define('zrender/zrender', [
         }
         return select(list, left, right, nth, compareFunc);
     }
+
     return quickSelect;
-});define('echarts/component/dataView', [
+});
+define('echarts/component/dataView', [
     'require',
     './base',
     '../config',
@@ -19117,6 +19507,7 @@ define('zrender/zrender', [
     var Base = require('./base');
     var ecConfig = require('../config');
     var zrUtil = require('zrender/tool/util');
+
     function DataView(ecTheme, messageCenter, zr, option, myChart) {
         Base.call(this, ecTheme, messageCenter, zr, option, myChart);
         this.dom = myChart.dom;
@@ -19149,6 +19540,7 @@ define('zrender/zrender', [
             this._tDom.attachEvent('onmouseup', this._stop);
         }
     }
+
     DataView.prototype = {
         type: ecConfig.COMPONENT_TYPE_DATAVIEW,
         _lang: [
@@ -19280,7 +19672,7 @@ define('zrender/zrender', [
             this.hide();
             var self = this;
             setTimeout(function () {
-                self.messageCenter && self.messageCenter.dispatch(ecConfig.EVENT.DATA_VIEW_CHANGED, null, { option: self.option }, self.myChart);
+                self.messageCenter && self.messageCenter.dispatch(ecConfig.EVENT.DATA_VIEW_CHANGED, null, {option: self.option}, self.myChart);
             }, self.canvasSupported ? 800 : 100);
         },
         _contentToOption: function (content) {
@@ -19422,7 +19814,8 @@ define('zrender/zrender', [
     zrUtil.inherits(DataView, Base);
     require('../component').define('dataView', DataView);
     return DataView;
-});define('echarts/util/shape/Cross', [
+});
+define('echarts/util/shape/Cross', [
     'require',
     'zrender/shape/Base',
     'zrender/shape/Line',
@@ -19432,9 +19825,11 @@ define('zrender/zrender', [
     var Base = require('zrender/shape/Base');
     var LineShape = require('zrender/shape/Line');
     var zrUtil = require('zrender/tool/util');
+
     function Cross(options) {
         Base.call(this, options);
     }
+
     Cross.prototype = {
         type: 'cross',
         buildPath: function (ctx, style) {
@@ -19455,7 +19850,8 @@ define('zrender/zrender', [
     };
     zrUtil.inherits(Cross, Base);
     return Cross;
-});define('zrender/shape/Sector', [
+});
+define('zrender/shape/Sector', [
     'require',
     '../tool/math',
     '../tool/computeBoundingBox',
@@ -19537,7 +19933,8 @@ define('zrender/zrender', [
     };
     require('../tool/util').inherits(Sector, Base);
     return Sector;
-});define('echarts/util/shape/Candle', [
+});
+define('echarts/util/shape/Candle', [
     'require',
     'zrender/shape/Base',
     'zrender/tool/util',
@@ -19545,9 +19942,11 @@ define('zrender/zrender', [
 ], function (require) {
     var Base = require('zrender/shape/Base');
     var zrUtil = require('zrender/tool/util');
+
     function Candle(options) {
         Base.call(this, options);
     }
+
     Candle.prototype = {
         type: 'candle',
         _numberOrder: function (a, b) {
@@ -19582,13 +19981,15 @@ define('zrender/zrender', [
     };
     zrUtil.inherits(Candle, Base);
     return Candle;
-});define('zrender/tool/computeBoundingBox', [
+});
+define('zrender/tool/computeBoundingBox', [
     'require',
     './vector',
     './curve'
 ], function (require) {
     var vec2 = require('./vector');
     var curve = require('./curve');
+
     function computeBoundingBox(points, min, max) {
         if (points.length === 0) {
             return;
@@ -19617,6 +20018,7 @@ define('zrender/zrender', [
         max[0] = right;
         max[1] = bottom;
     }
+
     function computeCubeBezierBoundingBox(p0, p1, p2, p3, min, max) {
         var xDim = [];
         curve.cubicExtrema(p0[0], p1[0], p2[0], p3[0], xDim);
@@ -19639,6 +20041,7 @@ define('zrender/zrender', [
         max[0] = right;
         max[1] = bottom;
     }
+
     function computeQuadraticBezierBoundingBox(p0, p1, p2, min, max) {
         var t1 = curve.quadraticExtremum(p0[0], p1[0], p2[0]);
         var t2 = curve.quadraticExtremum(p0[1], p1[1], p2[1]);
@@ -19655,6 +20058,7 @@ define('zrender/zrender', [
         max[0] = Math.max(p0[0], p2[0], x1, x2);
         max[1] = Math.max(p0[1], p2[1], y1, y2);
     }
+
     var start = vec2.create();
     var end = vec2.create();
     var extremity = vec2.create();
@@ -19703,7 +20107,8 @@ define('zrender/zrender', [
     computeBoundingBox.quadraticBezier = computeQuadraticBezierBoundingBox;
     computeBoundingBox.arc = computeArcBoundingBox;
     return computeBoundingBox;
-});define('echarts/util/shape/Chain', [
+});
+define('echarts/util/shape/Chain', [
     'require',
     'zrender/shape/Base',
     './Icon',
@@ -19716,9 +20121,11 @@ define('zrender/zrender', [
     var dashedLineTo = require('zrender/shape/util/dashedLineTo');
     var zrUtil = require('zrender/tool/util');
     var matrix = require('zrender/tool/matrix');
+
     function Chain(options) {
         Base.call(this, options);
     }
+
     Chain.prototype = {
         type: 'chain',
         brush: function (ctx, isHighlight) {
@@ -19828,7 +20235,8 @@ define('zrender/zrender', [
     };
     zrUtil.inherits(Chain, Base);
     return Chain;
-});define('zrender/shape/Ring', [
+});
+define('zrender/shape/Ring', [
     'require',
     './Base',
     '../tool/util'
@@ -19866,7 +20274,8 @@ define('zrender/zrender', [
     };
     require('../tool/util').inherits(Ring, Base);
     return Ring;
-});define('echarts/component/axis', [
+});
+define('echarts/component/axis', [
     'require',
     './base',
     'zrender/shape/Line',
@@ -19884,12 +20293,14 @@ define('zrender/zrender', [
     var ecData = require('../util/ecData');
     var zrUtil = require('zrender/tool/util');
     var zrColor = require('zrender/tool/color');
+
     function Axis(ecTheme, messageCenter, zr, option, myChart, axisType) {
         Base.call(this, ecTheme, messageCenter, zr, option, myChart);
         this.axisType = axisType;
         this._axisList = [];
         this.refresh(option);
     }
+
     Axis.prototype = {
         type: ecConfig.COMPONENT_TYPE_AXIS,
         axisBase: {
@@ -19904,42 +20315,42 @@ define('zrender/zrender', [
                 };
                 var grid = this.grid;
                 switch (this.option.position) {
-                case 'left':
-                    axShape.style = {
-                        xStart: grid.getX() - halfLineWidth,
-                        yStart: grid.getYend(),
-                        xEnd: grid.getX() - halfLineWidth,
-                        yEnd: grid.getY(),
-                        lineCap: 'round'
-                    };
-                    break;
-                case 'right':
-                    axShape.style = {
-                        xStart: grid.getXend() + halfLineWidth,
-                        yStart: grid.getYend(),
-                        xEnd: grid.getXend() + halfLineWidth,
-                        yEnd: grid.getY(),
-                        lineCap: 'round'
-                    };
-                    break;
-                case 'bottom':
-                    axShape.style = {
-                        xStart: grid.getX(),
-                        yStart: grid.getYend() + halfLineWidth,
-                        xEnd: grid.getXend(),
-                        yEnd: grid.getYend() + halfLineWidth,
-                        lineCap: 'round'
-                    };
-                    break;
-                case 'top':
-                    axShape.style = {
-                        xStart: grid.getX(),
-                        yStart: grid.getY() - halfLineWidth,
-                        xEnd: grid.getXend(),
-                        yEnd: grid.getY() - halfLineWidth,
-                        lineCap: 'round'
-                    };
-                    break;
+                    case 'left':
+                        axShape.style = {
+                            xStart: grid.getX() - halfLineWidth,
+                            yStart: grid.getYend(),
+                            xEnd: grid.getX() - halfLineWidth,
+                            yEnd: grid.getY(),
+                            lineCap: 'round'
+                        };
+                        break;
+                    case 'right':
+                        axShape.style = {
+                            xStart: grid.getXend() + halfLineWidth,
+                            yStart: grid.getYend(),
+                            xEnd: grid.getXend() + halfLineWidth,
+                            yEnd: grid.getY(),
+                            lineCap: 'round'
+                        };
+                        break;
+                    case 'bottom':
+                        axShape.style = {
+                            xStart: grid.getX(),
+                            yStart: grid.getYend() + halfLineWidth,
+                            xEnd: grid.getXend(),
+                            yEnd: grid.getYend() + halfLineWidth,
+                            lineCap: 'round'
+                        };
+                        break;
+                    case 'top':
+                        axShape.style = {
+                            xStart: grid.getX(),
+                            yStart: grid.getY() - halfLineWidth,
+                            xEnd: grid.getXend(),
+                            yEnd: grid.getY() - halfLineWidth,
+                            lineCap: 'round'
+                        };
+                        break;
                 }
                 var style = axShape.style;
                 if (this.option.name !== '') {
@@ -20022,7 +20433,7 @@ define('zrender/zrender', [
         },
         reformOption: function (opt) {
             if (!opt || opt instanceof Array && opt.length === 0) {
-                opt = [{ type: ecConfig.COMPONENT_TYPE_AXIS_VALUE }];
+                opt = [{type: ecConfig.COMPONENT_TYPE_AXIS_VALUE}];
             } else if (!(opt instanceof Array)) {
                 opt = [opt];
             }
@@ -20103,7 +20514,8 @@ define('zrender/zrender', [
     zrUtil.inherits(Axis, Base);
     require('../component').define('axis', Axis);
     return Axis;
-});define('echarts/component/grid', [
+});
+define('echarts/component/grid', [
     'require',
     './base',
     'zrender/shape/Rectangle',
@@ -20126,10 +20538,12 @@ define('zrender/zrender', [
         borderColor: '#ccc'
     };
     var zrUtil = require('zrender/tool/util');
+
     function Grid(ecTheme, messageCenter, zr, option, myChart) {
         Base.call(this, ecTheme, messageCenter, zr, option, myChart);
         this.refresh(option);
     }
+
     Grid.prototype = {
         type: ecConfig.COMPONENT_TYPE_GRID,
         getX: function () {
@@ -20237,7 +20651,8 @@ define('zrender/zrender', [
     zrUtil.inherits(Grid, Base);
     require('../component').define('grid', Grid);
     return Grid;
-});define('echarts/component/dataZoom', [
+});
+define('echarts/component/dataZoom', [
     'require',
     './base',
     'zrender/shape/Rectangle',
@@ -20268,6 +20683,7 @@ define('zrender/zrender', [
     };
     var ecDate = require('../util/date');
     var zrUtil = require('zrender/tool/util');
+
     function DataZoom(ecTheme, messageCenter, zr, option, myChart) {
         Base.call(this, ecTheme, messageCenter, zr, option, myChart);
         var self = this;
@@ -20294,6 +20710,7 @@ define('zrender/zrender', [
         }
         this._syncData();
     }
+
     DataZoom.prototype = {
         type: ecConfig.COMPONENT_TYPE_DATAZOOM,
         _buildShape: function () {
@@ -20790,7 +21207,7 @@ define('zrender/zrender', [
                 }
             }
             if (!this._isSilence && (this.zoomOption.realtime || dispatchNow)) {
-                this.messageCenter.dispatch(ecConfig.EVENT.DATA_ZOOM, null, { zoom: this._zoom }, this.myChart);
+                this.messageCenter.dispatch(ecConfig.EVENT.DATA_ZOOM, null, {zoom: this._zoom}, this.myChart);
             }
         },
         _synScatterData: function (seriesIndex, data) {
@@ -20965,7 +21382,7 @@ define('zrender/zrender', [
             status.dragOut = true;
             status.dragIn = true;
             if (!this._isSilence && !this.zoomOption.realtime) {
-                this.messageCenter.dispatch(ecConfig.EVENT.DATA_ZOOM, null, { zoom: this._zoom }, this.myChart);
+                this.messageCenter.dispatch(ecConfig.EVENT.DATA_ZOOM, null, {zoom: this._zoom}, this.myChart);
             }
             status.needRefresh = false;
             this.isDragend = false;
@@ -21105,7 +21522,8 @@ define('zrender/zrender', [
     zrUtil.inherits(DataZoom, Base);
     require('../component').define('dataZoom', DataZoom);
     return DataZoom;
-});define('echarts/component/categoryAxis', [
+});
+define('echarts/component/categoryAxis', [
     'require',
     './base',
     'zrender/shape/Text',
@@ -21154,7 +21572,7 @@ define('zrender/zrender', [
             interval: 'auto',
             rotate: 0,
             margin: 8,
-            textStyle: { color: '#333' }
+            textStyle: {color: '#333'}
         },
         splitLine: {
             show: true,
@@ -21176,6 +21594,7 @@ define('zrender/zrender', [
     };
     var zrUtil = require('zrender/tool/util');
     var zrArea = require('zrender/tool/area');
+
     function CategoryAxis(ecTheme, messageCenter, zr, option, myChart, axisBase) {
         if (option.data.length < 1) {
             console.error('option.data.length < 1.');
@@ -21188,6 +21607,7 @@ define('zrender/zrender', [
         }
         this.refresh(option);
     }
+
     CategoryAxis.prototype = {
         type: ecConfig.COMPONENT_TYPE_AXIS_CATEGORY,
         _getReformedLabel: function (idx) {
@@ -21650,7 +22070,8 @@ define('zrender/zrender', [
     zrUtil.inherits(CategoryAxis, Base);
     require('../component').define('categoryAxis', CategoryAxis);
     return CategoryAxis;
-});define('echarts/component/valueAxis', [
+});
+define('echarts/component/valueAxis', [
     'require',
     './base',
     'zrender/shape/Text',
@@ -21703,7 +22124,7 @@ define('zrender/zrender', [
             show: true,
             rotate: 0,
             margin: 8,
-            textStyle: { color: '#333' }
+            textStyle: {color: '#333'}
         },
         splitLine: {
             show: true,
@@ -21725,6 +22146,7 @@ define('zrender/zrender', [
     };
     var ecDate = require('../util/date');
     var zrUtil = require('zrender/tool/util');
+
     function ValueAxis(ecTheme, messageCenter, zr, option, myChart, axisBase, series) {
         if (!series || series.length === 0) {
             console.err('option.series.length == 0.');
@@ -21738,6 +22160,7 @@ define('zrender/zrender', [
         }
         this.refresh(option, series);
     }
+
     ValueAxis.prototype = {
         type: ecConfig.COMPONENT_TYPE_AXIS_VALUE,
         _buildShape: function () {
@@ -22181,31 +22604,31 @@ define('zrender/zrender', [
             this._valueList = [ecDate.getNewDate(this._min)];
             var startGap;
             switch (formatter) {
-            case 'week':
-                startGap = ecDate.nextMonday(this._min);
-                break;
-            case 'month':
-                startGap = ecDate.nextNthOnMonth(this._min, 1);
-                break;
-            case 'quarter':
-                startGap = ecDate.nextNthOnQuarterYear(this._min, 1);
-                break;
-            case 'half-year':
-                startGap = ecDate.nextNthOnHalfYear(this._min, 1);
-                break;
-            case 'year':
-                startGap = ecDate.nextNthOnYear(this._min, 1);
-                break;
-            default:
-                if (gapValue <= 3600000 * 2) {
-                    startGap = (Math.floor(this._min / gapValue) + 1) * gapValue;
-                } else {
-                    startGap = ecDate.getNewDate(this._min - -gapValue);
-                    startGap.setHours(Math.round(startGap.getHours() / 6) * 6);
-                    startGap.setMinutes(0);
-                    startGap.setSeconds(0);
-                }
-                break;
+                case 'week':
+                    startGap = ecDate.nextMonday(this._min);
+                    break;
+                case 'month':
+                    startGap = ecDate.nextNthOnMonth(this._min, 1);
+                    break;
+                case 'quarter':
+                    startGap = ecDate.nextNthOnQuarterYear(this._min, 1);
+                    break;
+                case 'half-year':
+                    startGap = ecDate.nextNthOnHalfYear(this._min, 1);
+                    break;
+                case 'year':
+                    startGap = ecDate.nextNthOnYear(this._min, 1);
+                    break;
+                default:
+                    if (gapValue <= 3600000 * 2) {
+                        startGap = (Math.floor(this._min / gapValue) + 1) * gapValue;
+                    } else {
+                        startGap = ecDate.getNewDate(this._min - -gapValue);
+                        startGap.setHours(Math.round(startGap.getHours() / 6) * 6);
+                        startGap.setMinutes(0);
+                        startGap.setSeconds(0);
+                    }
+                    break;
             }
             if (startGap - this._min < gapValue / 2) {
                 startGap -= -gapValue;
@@ -22340,7 +22763,8 @@ define('zrender/zrender', [
     zrUtil.inherits(ValueAxis, Base);
     require('../component').define('valueAxis', ValueAxis);
     return ValueAxis;
-});define('echarts/util/date', [], function () {
+});
+define('echarts/util/date', [], function () {
     var _timeGap = [
         {
             formatter: 'hh : mm : ss',
@@ -22423,6 +22847,7 @@ define('zrender/zrender', [
             value: 3600000 * 24 * 380
         }
     ];
+
     function getAutoFormatter(min, max, splitNumber) {
         splitNumber = splitNumber > 1 ? splitNumber : 2;
         var curValue;
@@ -22449,9 +22874,11 @@ define('zrender/zrender', [
             gapValue: gapValue
         };
     }
+
     function s2d(v) {
         return v < 10 ? '0' + v : v;
     }
+
     function format(formatter, value) {
         if (formatter == 'week' || formatter == 'month' || formatter == 'quarter' || formatter == 'half-year' || formatter == 'year') {
             formatter = 'MM - dd\nyyyy';
@@ -22477,32 +22904,40 @@ define('zrender/zrender', [
         formatter = formatter.replace('s', s);
         return formatter;
     }
+
     function nextMonday(value) {
         value = getNewDate(value);
         value.setDate(value.getDate() + 8 - value.getDay());
         return value;
     }
+
     function nextNthPerNmonth(value, nth, nmon) {
         value = getNewDate(value);
         value.setMonth(Math.ceil((value.getMonth() + 1) / nmon) * nmon);
         value.setDate(nth);
         return value;
     }
+
     function nextNthOnMonth(value, nth) {
         return nextNthPerNmonth(value, nth, 1);
     }
+
     function nextNthOnQuarterYear(value, nth) {
         return nextNthPerNmonth(value, nth, 3);
     }
+
     function nextNthOnHalfYear(value, nth) {
         return nextNthPerNmonth(value, nth, 6);
     }
+
     function nextNthOnYear(value, nth) {
         return nextNthPerNmonth(value, nth, 12);
     }
+
     function getNewDate(value) {
         return value instanceof Date ? value : new Date(typeof value == 'string' ? value.replace(/-/g, '/') : value);
     }
+
     return {
         getAutoFormatter: getAutoFormatter,
         getNewDate: getNewDate,
@@ -22514,7 +22949,8 @@ define('zrender/zrender', [
         nextNthOnHalfYear: nextNthOnHalfYear,
         nextNthOnYear: nextNthOnYear
     };
-});define('echarts/util/smartSteps', [], function () {
+});
+define('echarts/util/smartSteps', [], function () {
     var mySteps = [
         10,
         20,
@@ -22536,15 +22972,19 @@ define('zrender/zrender', [
     var MATH_FLOOR = MT.floor;
     var MATH_CEIL = MT.ceil;
     var MATH_ABS = MT.abs;
+
     function MATH_LOG(n) {
         return MT.log(MATH_ABS(n)) / MT.LN10;
     }
+
     function MATH_POW(n) {
         return MT.pow(10, n);
     }
+
     function MATH_ISINT(n) {
         return n === MATH_FLOOR(n);
     }
+
     function smartSteps(min, max, section, opts) {
         custOpts = opts || {};
         custSteps = custOpts.steps || mySteps;
@@ -22580,6 +23020,7 @@ define('zrender/zrender', [
         }
         return coreCalc(min, max, section);
     }
+
     function makeResult(newMin, newMax, section, expon) {
         expon = expon || 0;
         var expStep = expNum((newMax - newMin) / section, -1);
@@ -22634,6 +23075,7 @@ define('zrender/zrender', [
             pnts: points
         };
     }
+
     function expNum(num, digit, byFloor) {
         digit = MATH_ROUND(digit % 10) || 2;
         if (digit < 0) {
@@ -22658,6 +23100,7 @@ define('zrender/zrender', [
             e: expon
         };
     }
+
     function expFixTo(expnum1, expnum2, byFloor) {
         var deltaExp = expnum2.e - expnum1.e;
         if (deltaExp) {
@@ -22666,6 +23109,7 @@ define('zrender/zrender', [
             expnum1.c = byFloor ? MATH_FLOOR(expnum1.c) : MATH_CEIL(expnum1.c);
         }
     }
+
     function expFixMin(expnum1, expnum2, byFloor) {
         if (expnum1.e < expnum2.e) {
             expFixTo(expnum2, expnum1, byFloor);
@@ -22673,6 +23117,7 @@ define('zrender/zrender', [
             expFixTo(expnum1, expnum2, byFloor);
         }
     }
+
     function getCeil(num, rounds) {
         rounds = rounds || mySteps;
         num = expNum(num);
@@ -22692,6 +23137,7 @@ define('zrender/zrender', [
         num.c = rounds[i];
         return num;
     }
+
     function coreCalc(min, max, section) {
         var step;
         var secs = section || +custSecs.slice(-1);
@@ -22721,6 +23167,7 @@ define('zrender/zrender', [
         }
         return makeResult(expMin.c, expMax.c, secs, expMax.e);
     }
+
     function look4sections(expMin, expMax) {
         var section;
         var tmpStep, tmpMin, tmpMax;
@@ -22751,6 +23198,7 @@ define('zrender/zrender', [
         expMax.c = reference.max;
         return section < 3 ? section * 2 : section;
     }
+
     function look4step(expMin, expMax, secs) {
         var span;
         var tmpMax;
@@ -22775,6 +23223,7 @@ define('zrender/zrender', [
         expMax.c = tmpMax;
         return tmpStep;
     }
+
     function tryForInt(min, max, section, expMin, expMax, secs) {
         var span = expMax.c - expMin.c;
         var step = span / secs * MATH_POW(expMax.e);
@@ -22799,6 +23248,7 @@ define('zrender/zrender', [
         }
         return secs;
     }
+
     function forInteger(min, max, section) {
         section = section || 5;
         if (minLocked) {
@@ -22815,6 +23265,7 @@ define('zrender/zrender', [
         }
         return makeResult(min, max, section);
     }
+
     function forSpan0(min, max, section) {
         section = section || 5;
         var delta = MT.min(MATH_ABS(max / section), section) / 2.1;
@@ -22828,6 +23279,7 @@ define('zrender/zrender', [
         }
         return coreCalc(min, max, section);
     }
+
     function cross0(min, max, newMin, newMax) {
         if (min >= 0 && newMin < 0) {
             newMax -= newMin;
@@ -22841,10 +23293,12 @@ define('zrender/zrender', [
             newMax
         ];
     }
+
     function decimals(num) {
         num = (+num).toFixed(15).split('.');
         return num.pop().replace(/0+$/, '').length;
     }
+
     function singleLocked(min, max, emin, emax) {
         if (minLocked) {
             var expMin = expNum(min, 4, 1);
@@ -22872,6 +23326,7 @@ define('zrender/zrender', [
             emax.c = expMax.c;
         }
     }
+
     function bothLocked(min, max, section) {
         var trySecs = section ? [section] : custSecs;
         var span = max - min;
@@ -22950,8 +23405,10 @@ define('zrender/zrender', [
         expMax.c = MATH_ROUND(expMax.c + reference.delta / 2);
         return makeResult(expMin.c, expMax.c, reference.secs, expSpan.e);
     }
+
     return smartSteps;
-});define('echarts/util/smartLogSteps', [
+});
+define('echarts/util/smartLogSteps', [
     'require',
     './number'
 ], function (require) {
@@ -22992,6 +23449,7 @@ define('zrender/zrender', [
     var absMin;
     var absMax;
     var tickList;
+
     function smartLogSteps(opts) {
         clearStaticVariables();
         custOpts = opts || {};
@@ -23002,9 +23460,11 @@ define('zrender/zrender', [
             clearStaticVariables()
         ][0];
     }
+
     function clearStaticVariables() {
         logPositive = custOpts = logMappingOffset = lnBase = absMin = absMax = splitNumber = tickList = logLabelBase = logLabelMode = null;
     }
+
     function reformSetting() {
         logLabelBase = custOpts.logLabelBase;
         if (logLabelBase == null) {
@@ -23044,6 +23504,7 @@ define('zrender/zrender', [
         absMin < EPSILON && (absMin = EPSILON);
         absMax < EPSILON && (absMax = EPSILON);
     }
+
     function makeTicksList() {
         tickList = [];
         var maxDataLog = fixAccurate(mathLog(absMax) / lnBase);
@@ -23074,6 +23535,7 @@ define('zrender/zrender', [
                 tickList.push(mathPow(logLabelBase, n));
             }
         }
+
         function detailAnalysis() {
             var minDecimal = toDecimalFrom4Hex(minExpon, 0);
             var endDecimal = minDecimal + 2;
@@ -23092,16 +23554,20 @@ define('zrender/zrender', [
                 tickList.push(mathPow(10, h) * mathPow(2, k));
             }
         }
+
         function toDecimalFrom4Hex(h, k) {
             return h * 3 + k;
         }
+
         function toK(decimal) {
             return decimal - toH(decimal) * 3;
         }
+
         function toH(decimal) {
             return mathFloor(fixAccurate(decimal / 3));
         }
     }
+
     function makeResult() {
         var resultTickList = [];
         for (var i = 0, len = tickList.length; i < len; i++) {
@@ -23125,6 +23591,7 @@ define('zrender/zrender', [
             dataMappingMethods: dataMappingMethods
         };
     }
+
     function makeLabelFormatter() {
         if (logLabelMode === 'exponent') {
             var myLogLabelBase = logLabelBase;
@@ -23149,6 +23616,7 @@ define('zrender/zrender', [
             };
         }
     }
+
     function makeDataMappingMethods() {
         var myLogPositive = logPositive;
         var myLogMappingOffset = logMappingOffset;
@@ -23180,12 +23648,15 @@ define('zrender/zrender', [
             }
         };
     }
+
     function fixAccurate(result) {
         return +Number(+result).toFixed(14);
     }
+
     function formatNumber(num) {
         return Number(num).toFixed(15).replace(/\.?0*$/, '');
     }
+
     function makeSuperscriptExponent(exponent) {
         exponent = formatNumber(Math.round(exponent));
         var result = [];
@@ -23195,8 +23666,10 @@ define('zrender/zrender', [
         }
         return result.join('');
     }
+
     function aroundZero(val) {
         return val > -EPSILON && val < EPSILON;
     }
+
     return smartLogSteps;
 });

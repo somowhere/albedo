@@ -39,11 +39,13 @@
                 return {
                     send: function (headers, completeCallback) {
                         var addParamChar = /\?/.test(s.url) ? '&' : '?';
+
                         function callback(status, statusText, responses, responseHeaders) {
                             xdr.onload = xdr.onerror = xdr.ontimeout = $.noop;
                             xdr = null;
                             completeCallback(status, statusText, responses, responseHeaders);
                         }
+
                         xdr = new XDomainRequest();
                         // XDomainRequest only supports GET and POST:
                         if (s.type === 'DELETE') {

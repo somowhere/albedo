@@ -1,5 +1,4 @@
 describe 'Morris.Bar#colorFor', ->
-
   defaults =
     element: 'graph'
     data: [{x: 'foo', y: 2, z: 3}, {x: 'bar', y: 4, z: 6}]
@@ -25,12 +24,12 @@ describe 'Morris.Bar#colorFor', ->
 
     chart.colorFor(chart.data[0], 0, 'bar')
     stub.should.have.been.calledWith(
-      {x:0, y:2, label:'foo'},
-      {index:0, key:'y', label:'Y'},
+      {x: 0, y: 2, label: 'foo'},
+      {index: 0, key: 'y', label: 'Y'},
       'bar')
 
     chart.colorFor(chart.data[0], 1, 'hover')
     stub.should.have.been.calledWith(
-      {x:0, y:3, label:'foo'},
-      {index:1, key:'z', label:'Z'},
+      {x: 0, y: 3, label: 'foo'},
+      {index: 1, key: 'z', label: 'Z'},
       'hover')

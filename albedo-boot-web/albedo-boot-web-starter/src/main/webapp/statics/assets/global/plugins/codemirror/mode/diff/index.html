@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: Diff mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel="stylesheet" href="../../lib/codemirror.css">
 <script src="../../lib/codemirror.js"></script>
@@ -10,20 +10,20 @@
         border-top: 1px solid #ddd;
         border-bottom: 1px solid #ddd;
     }
-    
+
     span.cm-meta {
         color: #a0b !important;
     }
-    
+
     span.cm-error {
         background-color: black;
         opacity: 0.4;
     }
-    
+
     span.cm-error.cm-string {
         background-color: red;
     }
-    
+
     span.cm-error.cm-tag {
         background-color: #2b2;
     }
@@ -36,16 +36,16 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">Diff</a>
+        <li>
+            <a class=active href="#">Diff</a>
     </ul>
 </div>
 <article>
@@ -54,14 +54,20 @@
         <textarea id="code" name="code"> diff --git a/index.html b/index.html index c1d9156..7764744 100644 --- a/index.html +++ b/index.html @@ -95,7 +95,8 @@ StringStream.prototype = {
             <script>
                 var editor = CodeMirror.fromTextArea(document.getElementById("code"),
-                {
-                    lineNumbers: true,
-                    -autoMatchBrackets: true + autoMatchBrackets: true,
-                    +onGutterClick: function(x)
                     {
-                        console.log(x);
-                    }
-                });
+                        lineNumbers: true,
+                    - autoMatchBrackets
+                :
+                true + autoMatchBrackets
+                :
+                true,
+                    +onGutterClick
+                :
+                function (x) {
+                    console.log(x);
+                }
+                })
+                ;
             </script>
             </body> diff --git a/lib/codemirror.js b/lib/codemirror.js index 04646a9..9a39cc7 100644 --- a/lib/codemirror.js +++ b/lib/codemirror.js @@ -399,10 +399,16 @@ var CodeMirror = (function() { } function onMouseDown(e) { - var start = posFromMouse(e),
             last = start; + var start = posFromMouse(e), last = start, target = e.target(); if (!start) return; setCursor(start.line, start.ch, false); if (e.button() != 1) return; + if (target.parentNode == gutter) { + if (options.onGutterClick) + options.onGutterClick(indexOf(gutter.childNodes,
@@ -77,7 +83,7 @@
     </form>
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById("code"),
-        {});
+            {});
     </script>
     <p>
         <strong>MIME types defined:</strong> <code>text/x-diff</code>.</p>

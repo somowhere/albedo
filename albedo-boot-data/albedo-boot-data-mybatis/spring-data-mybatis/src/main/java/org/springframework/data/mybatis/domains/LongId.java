@@ -31,14 +31,15 @@ import static org.springframework.data.mybatis.annotations.Id.GenerationType.AUT
  *
  * @author Jarvis Song
  */
-@MappedSuperclass @Slf4j
+@MappedSuperclass
+@Slf4j
 public abstract class LongId implements Persistable<Long> {
 
     protected Long id;
 
     @Override
     public void preInssert() {
-       log.info(this.getClass().getName() + "preInssert............");
+        log.info(this.getClass().getName() + "preInssert............");
     }
 
     @Override

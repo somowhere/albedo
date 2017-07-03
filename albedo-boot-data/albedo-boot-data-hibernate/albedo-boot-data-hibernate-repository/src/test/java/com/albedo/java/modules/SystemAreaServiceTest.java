@@ -36,8 +36,9 @@ public class SystemAreaServiceTest {
     @Autowired
     SystemAreaService systemAreaService;
     SystemArea parent = new SystemArea();
+
     @Before
-    public void before(){
+    public void before() {
 
 //        parent.setName("全国");
 //        parent.setCode("0");
@@ -46,48 +47,50 @@ public class SystemAreaServiceTest {
 //        systemAreaRepository.save(parent);
     }
 
-    public String get(int count,char c){
+    public String get(int count, char c) {
         StringBuffer sb = new StringBuffer();
-        for (int i=0; i<count; i++){
+        for (int i = 0; i < count; i++) {
             sb.append(c);
         }
         return sb.toString();
     }
+
     public String replaceBlank(String str) {
         String dest = "";
-        if (str!=null) {
+        if (str != null) {
             Pattern p = Pattern.compile("\\s*|\t|\r|\n");
             Matcher m = p.matcher(str);
             dest = m.replaceAll("");
         }
         return dest;
     }
-    public SystemArea convert(String data){
+
+    public SystemArea convert(String data) {
         String[] strs = data.split("-");
         SystemArea systemArea = new SystemArea();
         systemArea.setCode(strs[0]);
         systemArea.setName(strs[1]);
-        systemArea.setLevel(systemArea.getCode().endsWith("0000")? 1 :
+        systemArea.setLevel(systemArea.getCode().endsWith("0000") ? 1 :
                 systemArea.getCode().endsWith("00") ? 2 : 3);
         String code = systemArea.getCode();
-        while (code.endsWith("00")){
-            code = code.substring(0, code.length()-2);
+        while (code.endsWith("00")) {
+            code = code.substring(0, code.length() - 2);
         }
-        String temp = code.substring(0, code.length()-2);
-        String parentCode = systemArea.getLevel() == 1 ? "0" : temp+get(6-temp.length(), '0');
-        SystemArea area = systemAreaRepository.findByCodeLike("%"+parentCode+"%");
+        String temp = code.substring(0, code.length() - 2);
+        String parentCode = systemArea.getLevel() == 1 ? "0" : temp + get(6 - temp.length(), '0');
+        SystemArea area = systemAreaRepository.findByCodeLike("%" + parentCode + "%");
         systemArea.setParentId(area.getId());
 
-        return  systemArea;
+        return systemArea;
     }
 
     @Test
     public void save() throws Exception {
-        List<String> datas  =  getData();
-        if(PublicUtil.isNotEmpty(datas)){
+        List<String> datas = getData();
+        if (PublicUtil.isNotEmpty(datas)) {
             SystemArea systemArea = null;
-            long index=1;
-            for (String data : datas){
+            long index = 1;
+            for (String data : datas) {
                 systemArea = convert(data);
 //                systemArea.setCode();
                 systemAreaService.save(systemArea);
@@ -99,7 +102,7 @@ public class SystemAreaServiceTest {
         }
     }
 
-    public List<String> getData(){
+    public List<String> getData() {
         List<String> list = Lists.newArrayList();
         try { // 防止文件建立或读取失败，用catch捕捉错误并打印，也可以throw
 

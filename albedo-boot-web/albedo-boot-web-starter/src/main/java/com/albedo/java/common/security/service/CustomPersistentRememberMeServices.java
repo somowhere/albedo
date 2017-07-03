@@ -51,19 +51,14 @@ import java.util.Arrays;
  */
 @Service
 public class CustomPersistentRememberMeServices extends
-    AbstractRememberMeServices{
-
-    private final Logger log = LoggerFactory.getLogger(CustomPersistentRememberMeServices.class);
+        AbstractRememberMeServices {
 
     // Token is valid for one month
     private static final int TOKEN_VALIDITY_DAYS = 31;
-
     private static final int TOKEN_VALIDITY_SECONDS = 60 * 60 * 24 * TOKEN_VALIDITY_DAYS;
-
     private static final int DEFAULT_SERIES_LENGTH = 16;
-
     private static final int DEFAULT_TOKEN_LENGTH = 16;
-
+    private final Logger log = LoggerFactory.getLogger(CustomPersistentRememberMeServices.class);
     private SecureRandom random;
 
     @Autowired
@@ -73,14 +68,14 @@ public class CustomPersistentRememberMeServices extends
     private UserRepository userRepository;
 
     public CustomPersistentRememberMeServices(AlbedoProperties albedoProperties, org.springframework.security.core.userdetails
-        .UserDetailsService userDetailsService) {
+            .UserDetailsService userDetailsService) {
         super(albedoProperties.getSecurity().getRememberMe().getKey(), userDetailsService);
         random = new SecureRandom();
     }
 
     @Override
     protected UserDetails processAutoLoginCookie(String[] cookieTokens, HttpServletRequest request,
-        HttpServletResponse response) {
+                                                 HttpServletResponse response) {
 
         PersistentToken token = getPersistentToken(cookieTokens);
         String login = token.getUser().getLoginId();
@@ -103,7 +98,7 @@ public class CustomPersistentRememberMeServices extends
 
     @Override
     protected void onLoginSuccess(HttpServletRequest request, HttpServletResponse response, Authentication
-        successfulAuthentication) {
+            successfulAuthentication) {
 
         String login = successfulAuthentication.getName();
 
@@ -156,7 +151,7 @@ public class CustomPersistentRememberMeServices extends
     private PersistentToken getPersistentToken(String[] cookieTokens) {
         if (cookieTokens.length != 2) {
             throw new InvalidCookieException("Cookie token did not contain " + 2 +
-                " tokens, but contained '" + Arrays.asList(cookieTokens) + "'");
+                    " tokens, but contained '" + Arrays.asList(cookieTokens) + "'");
         }
         String presentedSeries = cookieTokens[0];
         String presentedToken = cookieTokens[1];
@@ -173,10 +168,10 @@ public class CustomPersistentRememberMeServices extends
             // Token doesn't match series value. Delete this session and throw an exception.
             persistentTokenRepository.delete(token);
             throw new CookieTheftException("Invalid remember-me token (Series/token) mismatch. Implies previous " +
-                "cookie theft attack.");
+                    "cookie theft attack.");
         }
 
-        if (DateUtil.addDays(token.getTokenDate(),TOKEN_VALIDITY_DAYS).before(PublicUtil.getCurrentDate())) {
+        if (DateUtil.addDays(token.getTokenDate(), TOKEN_VALIDITY_DAYS).before(PublicUtil.getCurrentDate())) {
             persistentTokenRepository.delete(token);
             throw new RememberMeAuthenticationException("Remember-me login has expired");
         }
@@ -197,7 +192,7 @@ public class CustomPersistentRememberMeServices extends
 
     private void addCookie(PersistentToken token, HttpServletRequest request, HttpServletResponse response) {
         setCookie(
-            new String[]{token.getSeries(), token.getTokenValue()},
-            TOKEN_VALIDITY_SECONDS, request, response);
+                new String[]{token.getSeries(), token.getTokenValue()},
+                TOKEN_VALIDITY_SECONDS, request, response);
     }
 }

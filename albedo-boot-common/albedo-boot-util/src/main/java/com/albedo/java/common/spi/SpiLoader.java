@@ -43,7 +43,7 @@ public final class SpiLoader {
     @SuppressWarnings("unchecked")
     public static <T> T load(Class<T> clazz, String name) {
         String key = clazz.getName();
-        if(PublicUtil.isNotEmpty(name)) key += ":" + name;
+        if (PublicUtil.isNotEmpty(name)) key += ":" + name;
         Object o = CACHE.get(key);
         if (o == null) {
             T t = load0(clazz, name);
@@ -57,7 +57,7 @@ public final class SpiLoader {
         return load0(clazz, name);
     }
 
-    public static <T> T load0(Class<T>  clazz, String name) {
+    public static <T> T load0(Class<T> clazz, String name) {
         ServiceLoader<T> factories = ServiceLoader.load(clazz);
         T t = filterByName(factories, name);
 

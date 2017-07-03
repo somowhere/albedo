@@ -3,13 +3,13 @@ package com.albedo.java.web.rest.errors;
 /**
  * Custom, parameterized exception, which can be translated on the client side.
  * For example:
- * 
+ * <p>
  * <pre>
  * throw new CustomParameterizedException(&quot;myCustomError&quot;, &quot;hello&quot;, &quot;world&quot;);
  * </pre>
- * 
+ * <p>
  * Can be translated with:
- * 
+ * <p>
  * <pre>
  * "error.myCustomError" :  "The server says {{params[0]}} to {{params[1]}}"
  * </pre>

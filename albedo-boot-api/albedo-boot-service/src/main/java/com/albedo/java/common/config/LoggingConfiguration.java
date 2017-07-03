@@ -23,7 +23,6 @@ public class LoggingConfiguration {
     private String appName;
 
 
-
     @Resource
     private AlbedoProperties albedoProperties;
 

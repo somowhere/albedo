@@ -39,13 +39,13 @@ define(function (require) {
 
         this.refresh(option);
     }
-    
+
     Venn.prototype = {
-        type : ecConfig.CHART_TYPE_VENN,
+        type: ecConfig.CHART_TYPE_VENN,
         /**
          * 绘制图形
          */
-        _buildShape : function () {
+        _buildShape: function () {
             this.selectedMap = {};
             this._symbol = this.option.symbolList;
             this._queryTarget;
@@ -53,14 +53,14 @@ define(function (require) {
             this._vennDataCounter = 0;
             var series = this.series;
             var legend = this.component.legend;
-            
+
             for (var i = 0; i < series.length; i++) {
                 if (series[i].type === ecConfig.CHART_TYPE_VENN) {
                     series[i] = this.reformOption(series[i]);
                     var serieName = series[i].name || '';
 
                     // 系列图例开关
-                    this.selectedMap[serieName] = 
+                    this.selectedMap[serieName] =
                         legend ? legend.isSelected(serieName) : true;
                     if (!this.selectedMap[serieName]) {
                         continue;
@@ -69,7 +69,7 @@ define(function (require) {
                     this._buildVenn(i);
                 }
             }
-            
+
             this.addShapeList();
         },
         /**
@@ -77,7 +77,7 @@ define(function (require) {
          *
          * @param {Object} data 数据
          */
-        _buildVenn : function (seriesIndex) {
+        _buildVenn: function (seriesIndex) {
             var r0;
             var r1;
             var serie = this.series[seriesIndex];
@@ -109,7 +109,7 @@ define(function (require) {
                 );
             }
 
-            var x1 = x0 +  coincideLength;
+            var x1 = x0 + coincideLength;
             var y = this.zr.getHeight() / 2;
             this._buildItem(
                 seriesIndex, 0, data[0],
@@ -172,17 +172,15 @@ define(function (require) {
          * @param {number} coincideLengthAnchorMin 下限
          * @param {number} coincideLengthAnchorMax 上限
          * @return {Node}
-        */
-        _getCoincideLength: function (
-            value0,
-            value1,
-            value2,
-            r0,
-            r1,
-            coincideLengthAnchor,
-            coincideLengthAnchorMin,
-            coincideLengthAnchorMax
-        ) {
+         */
+        _getCoincideLength: function (value0,
+                                      value1,
+                                      value2,
+                                      r0,
+                                      r1,
+                                      coincideLengthAnchor,
+                                      coincideLengthAnchorMin,
+                                      coincideLengthAnchorMax) {
             // 计算
             var x = (r0 * r0 - r1 * r1) / (2 * coincideLengthAnchor) + coincideLengthAnchor / 2;
             var y = coincideLengthAnchor / 2 - (r0 * r0 - r1 * r1) / (2 * coincideLengthAnchor);
@@ -219,10 +217,8 @@ define(function (require) {
         /**
          * 构建单个圆及指标
          */
-        _buildItem : function (
-            seriesIndex, dataIndex, dataItem,
-            x, y, r
-        ) {
+        _buildItem: function (seriesIndex, dataIndex, dataItem,
+                              x, y, r) {
             var series = this.series;
             var serie = series[seriesIndex];
 
@@ -258,29 +254,27 @@ define(function (require) {
             }
         },
 
-        _buildCoincideItem : function (
-            seriesIndex, dataIndex, dataItem,
-            x, y0, y1, r0, r1, rightLargeArcFlag, leftLargeArcFlag
-        ) {
+        _buildCoincideItem: function (seriesIndex, dataIndex, dataItem,
+                                      x, y0, y1, r0, r1, rightLargeArcFlag, leftLargeArcFlag) {
             var series = this.series;
             var serie = series[seriesIndex];
             var queryTarget = [dataItem, serie];
 
             // 多级控制
             var normal = this.deepMerge(
-                queryTarget,
-                'itemStyle.normal'
-            ) || {};
+                    queryTarget,
+                    'itemStyle.normal'
+                ) || {};
             var emphasis = this.deepMerge(
-                queryTarget,
-                'itemStyle.emphasis'
-            ) || {};
+                    queryTarget,
+                    'itemStyle.emphasis'
+                ) || {};
             var normalColor = normal.color || this.zr.getColor(dataIndex);
             var emphasisColor = emphasis.color || this.zr.getColor(dataIndex);
 
             var path = 'M' + x + ',' + y0
-                       + 'A' + r0 + ',' + r0 + ',0,' + rightLargeArcFlag + ',1,' + x + ',' + y1
-                       + 'A' + r1 + ',' + r1 + ',0,' + leftLargeArcFlag + ',1,' + x + ',' + y0;
+                + 'A' + r0 + ',' + r0 + ',0,' + rightLargeArcFlag + ',1,' + x + ',' + y1
+                + 'A' + r1 + ',' + r1 + ',0,' + leftLargeArcFlag + ',1,' + x + ',' + y0;
             var style = {
                 color: normalColor,
                 // path: rx ry x-axis-rotation large-arc-flag sweep-flag x y
@@ -312,24 +306,22 @@ define(function (require) {
         /**
          * 构建圆形
          */
-        getCircle : function (
-            seriesIndex,
-            dataIndex,
-            dataItem,
-            x, y, r
-        ) {
+        getCircle: function (seriesIndex,
+                             dataIndex,
+                             dataItem,
+                             x, y, r) {
             var serie = this.series[seriesIndex];
             var queryTarget = [dataItem, serie];
 
             // 多级控制
             var normal = this.deepMerge(
-                queryTarget,
-                'itemStyle.normal'
-            ) || {};
+                    queryTarget,
+                    'itemStyle.normal'
+                ) || {};
             var emphasis = this.deepMerge(
-                queryTarget,
-                'itemStyle.emphasis'
-            ) || {};
+                    queryTarget,
+                    'itemStyle.emphasis'
+                ) || {};
             var normalColor = normal.color || this.zr.getColor(dataIndex);
             var emphasisColor = emphasis.color || this.zr.getColor(dataIndex);
 
@@ -363,21 +355,19 @@ define(function (require) {
         /**
          * 需要显示则会有返回构建好的shape，否则返回undefined
          */
-        getLabel: function (
-            seriesIndex,
-            dataIndex,
-            dataItem,
-            x, y, r
-        ) {
+        getLabel: function (seriesIndex,
+                            dataIndex,
+                            dataItem,
+                            x, y, r) {
             var serie = this.series[seriesIndex];
             var itemStyle = serie.itemStyle;
             var queryTarget = [dataItem, serie];
 
             // 多级控制
             var normal = this.deepMerge(
-                queryTarget,
-                'itemStyle.normal'
-            ) || {};
+                    queryTarget,
+                    'itemStyle.normal'
+                ) || {};
             var status = 'normal';
             // label配置
             var labelControl = itemStyle[status].label;
@@ -407,7 +397,7 @@ define(function (require) {
         /**
          * 根据lable.format计算label text
          */
-        getLabelText : function (dataIndex, dataItem, status) {
+        getLabelText: function (dataIndex, dataItem, status) {
             var series = this.series;
             var serie = series[0];
             var formatter = this.deepQuery(
@@ -424,12 +414,12 @@ define(function (require) {
                     );
                 }
                 else if (typeof formatter == 'string') {
-                    formatter = formatter.replace('{a}','{a0}')
-                                         .replace('{b}','{b0}')
-                                         .replace('{c}','{c0}');
+                    formatter = formatter.replace('{a}', '{a0}')
+                        .replace('{b}', '{b0}')
+                        .replace('{c}', '{c0}');
                     formatter = formatter.replace('{a0}', serie.name)
-                                         .replace('{b0}', dataItem.name)
-                                         .replace('{c0}', dataItem.value);
+                        .replace('{b0}', dataItem.name)
+                        .replace('{c0}', dataItem.value);
 
                     return formatter;
                 }
@@ -442,7 +432,7 @@ define(function (require) {
         /**
          * 刷新
          */
-        refresh : function (newOption) {
+        refresh: function (newOption) {
             if (newOption) {
                 this.option = newOption;
                 this.series = newOption.series;

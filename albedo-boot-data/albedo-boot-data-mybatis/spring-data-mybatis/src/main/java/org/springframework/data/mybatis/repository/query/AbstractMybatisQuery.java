@@ -191,6 +191,16 @@ public abstract class AbstractMybatisQuery implements RepositoryQuery {
             this.type = type;
         }
 
+        private static boolean isIndexAsString(String source) {
+
+            try {
+                Integer.parseInt(source);
+                return true;
+            } catch (NumberFormatException o_O) {
+                return false;
+            }
+        }
+
         /*
          * (non-Javadoc)
          * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
@@ -200,16 +210,6 @@ public abstract class AbstractMybatisQuery implements RepositoryQuery {
 
             return source;
 
-        }
-
-        private static boolean isIndexAsString(String source) {
-
-            try {
-                Integer.parseInt(source);
-                return true;
-            } catch (NumberFormatException o_O) {
-                return false;
-            }
         }
     }
 

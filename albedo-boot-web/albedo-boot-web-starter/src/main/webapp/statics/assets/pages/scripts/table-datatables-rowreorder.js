@@ -27,20 +27,18 @@ var TableDatatablesRowreorder = function () {
 
             // setup buttons extentension: http://datatables.net/extensions/buttons/
             buttons: [
-                { extend: 'print', className: 'btn dark btn-outline' },
-                { extend: 'pdf', className: 'btn green btn-outline' },
-                { extend: 'csv', className: 'btn purple btn-outline ' }
+                {extend: 'print', className: 'btn dark btn-outline'},
+                {extend: 'pdf', className: 'btn green btn-outline'},
+                {extend: 'csv', className: 'btn purple btn-outline '}
             ],
 
             // setup rowreorder extension: http://datatables.net/extensions/rowreorder/
-            rowReorder: {
-
-            },
+            rowReorder: {},
 
             "order": [
                 [0, 'asc']
             ],
-            
+
             "lengthMenu": [
                 [5, 10, 15, 20, -1],
                 [5, 10, 15, 20, "All"] // change per page values here
@@ -83,27 +81,25 @@ var TableDatatablesRowreorder = function () {
             //},
 
             buttons: [
-                { extend: 'print', className: 'btn default' },
-                { extend: 'pdf', className: 'btn default' },
-                { extend: 'csv', className: 'btn default' }
+                {extend: 'print', className: 'btn default'},
+                {extend: 'pdf', className: 'btn default'},
+                {extend: 'csv', className: 'btn default'}
             ],
 
             // setup colreorder extension: http://datatables.net/extensions/colreorder/
             colReorder: {
                 reorderCallback: function () {
-                    console.log( 'callback' );
+                    console.log('callback');
                 }
             },
 
             // setup rowreorder extension: http://datatables.net/extensions/rowreorder/
-            rowReorder: {
-
-            },
+            rowReorder: {},
 
             "order": [
                 [0, 'asc']
             ],
-            
+
             "lengthMenu": [
                 [5, 10, 15, 20, -1],
                 [5, 10, 15, 20, "All"] // change per page values here
@@ -137,6 +133,6 @@ var TableDatatablesRowreorder = function () {
 
 }();
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     TableDatatablesRowreorder.init();
 });

@@ -39,20 +39,19 @@ public class UserService extends DataService<UserRepository, User, String> {
     @Resource
     private RoleRepository roleRepository;
 
-    public UserResult copyBeanToResult(User user){
+    public UserResult copyBeanToResult(User user) {
         UserResult userResult = new UserResult();
         BeanUtils.copyProperties(user, userResult);
         userResult.setRoleNames(user.getRoleNames());
-        if(user.getOrg()!=null)userResult.setOrgName(user.getOrg().getName());
+        if (user.getOrg() != null) userResult.setOrgName(user.getOrg().getName());
         return userResult;
     }
 
-    public User copyFormToBean(UserForm userForm){
+    public User copyFormToBean(UserForm userForm) {
         User user = new User();
         BeanUtils.copyProperties(userForm, user);
         return user;
     }
-
 
 
     public Optional<UserResult> activateRegistration(String key) {
@@ -134,19 +133,19 @@ public class UserService extends DataService<UserRepository, User, String> {
     }
 
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public UserResult findResult(String id) {
         User user = repository.findOne(id);
         return copyBeanToResult(user);
     }
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public PageModel findAll(PageModel pm, List<QueryCondition> queryConditions) {
         SpecificationDetail<User> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(), queryConditions,
                 QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE), QueryCondition.ne(User.F_ID, "1"));
         Page<User> page = repository.findAll(spec, pm);
         pm.setPageInstance(page);
-        return  pm;
+        return pm;
     }
 
 

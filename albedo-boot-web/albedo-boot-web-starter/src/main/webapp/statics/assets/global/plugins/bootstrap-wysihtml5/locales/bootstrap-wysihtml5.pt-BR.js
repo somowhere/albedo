@@ -1,7 +1,7 @@
 /**
  * Brazilian portuguese translation for bootstrap-wysihtml5
  */
-(function($){
+(function ($) {
     $.fn.wysihtml5.locale["pt-BR"] = {
         font_styles: {
             normal: "Texto normal",

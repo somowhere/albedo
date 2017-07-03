@@ -1,15 +1,15 @@
-jQuery(document).ready(function() {
-  // HIGHSTOCK DEMOS
+jQuery(document).ready(function () {
+    // HIGHSTOCK DEMOS
 
-  // COMPARE MULTIPLE SERIES
-  	var seriesOptions = [],
+    // COMPARE MULTIPLE SERIES
+    var seriesOptions = [],
         seriesCounter = 0,
         names = ['MSFT', 'AAPL', 'GOOG'],
         // create the chart when all data is loaded
         createChart = function () {
 
             $('#highstock_1').highcharts('StockChart', {
-                chart : {
+                chart: {
                     style: {
                         fontFamily: 'Open Sans'
                     }
@@ -49,7 +49,7 @@ jQuery(document).ready(function() {
 
     $.each(names, function (i, name) {
 
-        $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=' + name.toLowerCase() + '-c.json&callback=?',    function (data) {
+        $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=' + name.toLowerCase() + '-c.json&callback=?', function (data) {
 
             seriesOptions[i] = {
                 name: name,
@@ -102,7 +102,7 @@ jQuery(document).ready(function() {
 
         // create the chart
         $('#highstock_2').highcharts('StockChart', {
-            chart : {
+            chart: {
                 style: {
                     fontFamily: 'Open Sans'
                 }
@@ -159,31 +159,31 @@ jQuery(document).ready(function() {
         });
     });
 
-	// OHLC CHART
-	 $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlc.json&callback=?', function (data) {
+    // OHLC CHART
+    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlc.json&callback=?', function (data) {
 
         // create the chart
         $('#highstock_3').highcharts('StockChart', {
-            chart : {
+            chart: {
                 style: {
                     fontFamily: 'Open Sans'
                 }
             },
 
-            rangeSelector : {
-                selected : 2
+            rangeSelector: {
+                selected: 2
             },
 
-            title : {
-                text : 'AAPL Stock Price'
+            title: {
+                text: 'AAPL Stock Price'
             },
 
-            series : [{
-                type : 'ohlc',
-                name : 'AAPL Stock Price',
-                data : data,
-                dataGrouping : {
-                    units : [[
+            series: [{
+                type: 'ohlc',
+                name: 'AAPL Stock Price',
+                data: data,
+                dataGrouping: {
+                    units: [[
                         'week', // unit name
                         [1] // allowed multiples
                     ], [
@@ -195,14 +195,14 @@ jQuery(document).ready(function() {
         });
     });
 
-	// LINE CHART WITH FLAGS
-	$.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=usdeur.json&callback=?', function (data) {
+    // LINE CHART WITH FLAGS
+    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=usdeur.json&callback=?', function (data) {
 
         var year = new Date(data[data.length - 1][0]).getFullYear(); // Get year of last data point
 
         // Create the chart
         $('#highstock_4').highcharts('StockChart', {
-            chart : {
+            chart: {
                 style: {
                     fontFamily: 'Open Sans'
                 }

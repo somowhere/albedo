@@ -1,12 +1,13 @@
 'use strict';
 
 SwaggerUi.Views.ParameterContentTypeView = Backbone.View.extend({
-  initialize: function  () {},
+    initialize: function () {
+    },
 
-  render: function(){
-    this.model.parameterContentTypeId = 'pct' + Math.random();
-    $(this.el).html(Handlebars.templates.parameter_content_type(this.model));
-    return this;
-  }
+    render: function () {
+        this.model.parameterContentTypeId = 'pct' + Math.random();
+        $(this.el).html(Handlebars.templates.parameter_content_type(this.model));
+        return this;
+    }
 
 });

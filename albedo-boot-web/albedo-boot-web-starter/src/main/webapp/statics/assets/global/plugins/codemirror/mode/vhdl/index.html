@@ -1,6 +1,6 @@
 <!doctype html>
 <title>CodeMirror: VHDL mode</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <link rel=stylesheet href="../../doc/docs.css">
 <link rel="stylesheet" href="../../lib/codemirror.css">
 <script src="../../lib/codemirror.js"></script>
@@ -20,16 +20,16 @@
     <ul>
         <li>
             <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
+        <li>
+            <a href="../../doc/manual.html">Manual</a>
+        <li>
+            <a href="https://github.com/codemirror/codemirror">Code</a>
     </ul>
     <ul>
         <li>
             <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">VHDL</a>
+        <li>
+            <a class=active href="#">VHDL</a>
     </ul>
 </div>
 <article>
@@ -43,25 +43,27 @@
     </div>
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById("code"),
-        {
-            lineNumbers: true,
-            matchBrackets: true,
-            mode:
             {
-                name: "vhdl",
-            }
-        });
+                lineNumbers: true,
+                matchBrackets: true,
+                mode: {
+                    name: "vhdl",
+                }
+            });
     </script>
     <p> Syntax highlighting and indentation for the VHDL language.
-        <h2>Configuration options:</h2>
-        <ul>
-            <li>
-                <strong>atoms</strong> - List of atom words. Default: "null"</li>
-            <li>
-                <strong>hooks</strong> - List of meta hooks. Default: ["`", "$"]</li>
-            <li>
-                <strong>multiLineStrings</strong> - Whether multi-line strings are accepted. Default: false</li>
-        </ul>
+    <h2>Configuration options:</h2>
+    <ul>
+        <li>
+            <strong>atoms</strong> - List of atom words. Default: "null"
+        </li>
+        <li>
+            <strong>hooks</strong> - List of meta hooks. Default: ["`", "$"]
+        </li>
+        <li>
+            <strong>multiLineStrings</strong> - Whether multi-line strings are accepted. Default: false
+        </li>
+    </ul>
     </p>
     <p>
         <strong>MIME types defined:</strong> <code>text/x-vhdl</code>.</p>

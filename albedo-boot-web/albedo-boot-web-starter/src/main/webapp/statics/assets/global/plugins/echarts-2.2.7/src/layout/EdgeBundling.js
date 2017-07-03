@@ -101,7 +101,7 @@ define(function (require) {
     }
 
     EdgeBundling.prototype = {
-        
+
         constructor: EdgeBundling,
 
         run: function (rawEdges) {
@@ -127,13 +127,14 @@ define(function (require) {
                 // Use Float32Array may affect the precision
                 return v2DistSquare(p0, p1) < 1e-10;
             }
+
             // Clone all points to make sure all points in edge will not reference to the same array
             // And clean the duplicate points
             function cleanEdgePoints(edgePoints, rawEdgePoints) {
                 var res = [];
                 var off = 0;
                 for (var i = 0; i < edgePoints.length; i++) {
-                    if (! (off > 0 && pointApproxEqual(edgePoints[i], res[off - 1]))) {
+                    if (!(off > 0 && pointApproxEqual(edgePoints[i], res[off - 1]))) {
                         res[off++] = v2Clone(edgePoints[i]);
                     }
                 }
@@ -156,7 +157,7 @@ define(function (require) {
                         for (var j = 0; j < group.edgeList.length; j++) {
                             newGroups.push(group.edgeList[j].edge.group);
                         }
-                        if (! fromEdgePoints) {
+                        if (!fromEdgePoints) {
                             newEdgePoints = [];
                         } else {
                             newEdgePoints = fromEdgePoints.slice();
@@ -168,7 +169,7 @@ define(function (require) {
                         // console.log(group.edgeList.length);
                         for (var j = 0; j < group.edgeList.length; j++) {
                             var edge = group.edgeList[j];
-                            if (! fromEdgePoints) {
+                            if (!fromEdgePoints) {
                                 newEdgePoints = [];
                             } else {
                                 newEdgePoints = fromEdgePoints.slice();
@@ -252,7 +253,7 @@ define(function (require) {
                 if (mostSavingInkEdge) {
                     totalSavedInk += maxSavedInk;
                     var group;
-                    if (! mostSavingInkEdge.group) {
+                    if (!mostSavingInkEdge.group) {
                         group = new BundledEdgeGroup();
                         groups.push(group);
                         group.addEdge(mostSavingInkEdge);

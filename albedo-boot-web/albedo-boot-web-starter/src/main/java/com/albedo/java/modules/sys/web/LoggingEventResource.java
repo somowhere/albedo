@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 
 /**
  * 操作日志Controller 操作日志
+ *
  * @author admin
  * @version 2017-01-03
  */
@@ -25,24 +26,23 @@ import javax.annotation.Resource;
 @RequestMapping(value = "${albedo.adminPath}/sys/loggingEvent")
 public class LoggingEventResource extends BaseResource {
 
-	@Resource
-	private LoggingEventService loggingEventService;
-	
-	@RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed
-	public String list() {
-		return "modules/sys/loggingEventList";
-	}
+    @Resource
+    private LoggingEventService loggingEventService;
 
-	/**
-	 * 
-	 * @param pm
-	 */
-	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public ResponseEntity getPage(PageModel<LoggingEvent> pm) {
-		loggingEventService.findPage(pm);
-		JSON rs = JsonUtil.getInstance().setRecurrenceStr().toJsonObject(pm);
-		return ResultBuilder.buildObject(rs);
-	}
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public String list() {
+        return "modules/sys/loggingEventList";
+    }
+
+    /**
+     * @param pm
+     */
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    public ResponseEntity getPage(PageModel<LoggingEvent> pm) {
+        loggingEventService.findPage(pm);
+        JSON rs = JsonUtil.getInstance().setRecurrenceStr().toJsonObject(pm);
+        return ResultBuilder.buildObject(rs);
+    }
 
 }

@@ -25,6 +25,7 @@ import java.util.Map;
 
 /**
  * 区域管理Service 区域管理
+ *
  * @author admin
  * @version 2017-01-01
  */
@@ -32,44 +33,45 @@ import java.util.Map;
 @Transactional
 public class AreaService extends TreeService<AreaRepository, Area, String> {
 
-	@Transactional(readOnly = true)
-	public List<Map<String, Object>> findTreeData(AreaTreeQuery areaTreeQuery, List<Area> list) {
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> findTreeData(AreaTreeQuery areaTreeQuery, List<Area> list) {
 
-		String extId = areaTreeQuery!=null ? areaTreeQuery.getExtId() : null,
-		 all =  areaTreeQuery!=null ? areaTreeQuery.getAll() : null,
-		parentId =  areaTreeQuery!=null ? areaTreeQuery.getParentId() : null;
-		Integer ltLevel =  areaTreeQuery!=null ? areaTreeQuery.getLtLevel() : null,
-		level =  areaTreeQuery!=null ? areaTreeQuery.getLevel() : null;
-		List<Map<String, Object>> mapList = Lists.newArrayList();
-		for (int i=0; i<list.size(); i++){
-			Area e = list.get(i);
-			if ((StringUtil.isBlank(extId) || (extId!=null && !extId.equals(e.getId()) && e.getParentIds().indexOf(","+extId+",")==-1))
-					&&(all != null || BaseEntity.FLAG_NORMAL.equals(e.getStatus()))
-					&&(ltLevel == null || ltLevel >= e.getLevel())
-					&&(level == null || level.equals(e.getLevel()))
-					&&(PublicUtil.isEmpty(parentId) || e.getParentId().equals(parentId))){
-					Map<String, Object> map = Maps.newHashMap();
-					map.put("id", e.getId());
-					map.put("pId", e.getParentId());
-					map.put("name", e.getName());
-					map.put("iconCls", "fa fa-th-large");
-					map.put("pIds", e.getParentIds());
-					mapList.add(map);
-			}
-		}
-		return mapList;
-	}
-	
-	@Transactional(readOnly = true)
-	public Page<Area> findAll(PageModel<Area> pm, List<QueryCondition> queryConditions) {
-		SpecificationDetail<Area> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
-				queryConditions,
-				QueryCondition.ne(Area.F_STATUS, Area.FLAG_DELETE));
-		return repository.findAll(spec, pm);
-	}
-	@Transactional(readOnly = true)
-	public Area findTopByParentId(String parentId) {
-		return repository.findTopByParentIdAndStatusNotOrderBySortDesc(parentId, Area.FLAG_DELETE);
-	}
+        String extId = areaTreeQuery != null ? areaTreeQuery.getExtId() : null,
+                all = areaTreeQuery != null ? areaTreeQuery.getAll() : null,
+                parentId = areaTreeQuery != null ? areaTreeQuery.getParentId() : null;
+        Integer ltLevel = areaTreeQuery != null ? areaTreeQuery.getLtLevel() : null,
+                level = areaTreeQuery != null ? areaTreeQuery.getLevel() : null;
+        List<Map<String, Object>> mapList = Lists.newArrayList();
+        for (int i = 0; i < list.size(); i++) {
+            Area e = list.get(i);
+            if ((StringUtil.isBlank(extId) || (extId != null && !extId.equals(e.getId()) && e.getParentIds().indexOf("," + extId + ",") == -1))
+                    && (all != null || BaseEntity.FLAG_NORMAL.equals(e.getStatus()))
+                    && (ltLevel == null || ltLevel >= e.getLevel())
+                    && (level == null || level.equals(e.getLevel()))
+                    && (PublicUtil.isEmpty(parentId) || e.getParentId().equals(parentId))) {
+                Map<String, Object> map = Maps.newHashMap();
+                map.put("id", e.getId());
+                map.put("pId", e.getParentId());
+                map.put("name", e.getName());
+                map.put("iconCls", "fa fa-th-large");
+                map.put("pIds", e.getParentIds());
+                mapList.add(map);
+            }
+        }
+        return mapList;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Area> findAll(PageModel<Area> pm, List<QueryCondition> queryConditions) {
+        SpecificationDetail<Area> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
+                queryConditions,
+                QueryCondition.ne(Area.F_STATUS, Area.FLAG_DELETE));
+        return repository.findAll(spec, pm);
+    }
+
+    @Transactional(readOnly = true)
+    public Area findTopByParentId(String parentId) {
+        return repository.findTopByParentIdAndStatusNotOrderBySortDesc(parentId, Area.FLAG_DELETE);
+    }
 
 }

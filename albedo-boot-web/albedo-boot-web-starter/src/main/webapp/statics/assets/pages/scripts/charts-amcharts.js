@@ -1,6 +1,6 @@
-var ChartsAmcharts = function() {
+var ChartsAmcharts = function () {
 
-    var initChartSample1 = function() {
+    var initChartSample1 = function () {
         var chart = AmCharts.makeChart("chart_1", {
             "type": "serial",
             "theme": "light",
@@ -11,9 +11,9 @@ var ChartsAmcharts = function() {
             "marginTop": 10,
             "marginBottom": 26,
 
-            "fontFamily": 'Open Sans',            
-            "color":    '#888',
-            
+            "fontFamily": 'Open Sans',
+            "color": '#888',
+
             "dataProvider": [{
                 "year": 2009,
                 "income": 23.5,
@@ -79,18 +79,18 @@ var ChartsAmcharts = function() {
             }
         });
 
-        $('#chart_1').closest('.portlet').find('.fullscreen').click(function() {
+        $('#chart_1').closest('.portlet').find('.fullscreen').click(function () {
             chart.invalidateSize();
         });
     }
 
-    var initChartSample2 = function() {
+    var initChartSample2 = function () {
         var chart = AmCharts.makeChart("chart_2", {
             "type": "serial",
             "theme": "light",
 
             "fontFamily": 'Open Sans',
-            "color":    '#888888',
+            "color": '#888888',
 
             "legend": {
                 "equalWidths": false,
@@ -316,23 +316,23 @@ var ChartsAmcharts = function() {
             }
         });
 
-        $('#chart_2').closest('.portlet').find('.fullscreen').click(function() {
+        $('#chart_2').closest('.portlet').find('.fullscreen').click(function () {
             chart.invalidateSize();
         });
     }
 
-    var initChartSample3 = function() {
+    var initChartSample3 = function () {
         var chart = AmCharts.makeChart("chart_3", {
             "type": "serial",
             "theme": "light",
 
-            "fontFamily": 'Open Sans',            
-            "color":    '#888888',
-            
+            "fontFamily": 'Open Sans',
+            "color": '#888888',
+
             "pathToImages": App.getGlobalPluginsPath() + "amcharts/amcharts/images/",
 
             "dataProvider": [{
-                "lineColor": "#b7e021",  
+                "lineColor": "#b7e021",
                 "date": "2012-01-01",
                 "duration": 408
             }, {
@@ -423,12 +423,12 @@ var ChartsAmcharts = function() {
             }
         });
 
-        $('#chart_3').closest('.portlet').find('.fullscreen').click(function() {
+        $('#chart_3').closest('.portlet').find('.fullscreen').click(function () {
             chart.invalidateSize();
         });
     }
 
-    var initChartSample4 = function() {
+    var initChartSample4 = function () {
         var chart = AmCharts.makeChart("chart_4", {
             "type": "serial",
             "theme": "light",
@@ -497,20 +497,20 @@ var ChartsAmcharts = function() {
             }
         });
 
-        $('#chart_4').closest('.portlet').find('.fullscreen').click(function() {
+        $('#chart_4').closest('.portlet').find('.fullscreen').click(function () {
             chart.invalidateSize();
         });
     }
 
-    var initChartSample5 = function() {
+    var initChartSample5 = function () {
         var chart = AmCharts.makeChart("chart_5", {
             "theme": "light",
             "type": "serial",
             "startDuration": 2,
 
             "fontFamily": 'Open Sans',
-            
-            "color":    '#888',
+
+            "color": '#888',
 
             "dataProvider": [{
                 "country": "USA",
@@ -619,7 +619,7 @@ var ChartsAmcharts = function() {
             }
         }, 0);
 
-        jQuery('.chart_5_chart_input').off().on('input change', function() {
+        jQuery('.chart_5_chart_input').off().on('input change', function () {
             var property = jQuery(this).data('property');
             var target = chart;
             chart.startDuration = 0;
@@ -632,19 +632,19 @@ var ChartsAmcharts = function() {
             chart.validateNow();
         });
 
-        $('#chart_5').closest('.portlet').find('.fullscreen').click(function() {
+        $('#chart_5').closest('.portlet').find('.fullscreen').click(function () {
             chart.invalidateSize();
         });
     }
 
-    var initChartSample6 = function() {
+    var initChartSample6 = function () {
         var chart = AmCharts.makeChart("chart_6", {
             "type": "pie",
             "theme": "light",
 
             "fontFamily": 'Open Sans',
-            
-            "color":    '#888',
+
+            "color": '#888',
 
             "dataProvider": [{
                 "country": "Lithuania",
@@ -684,19 +684,19 @@ var ChartsAmcharts = function() {
             }
         });
 
-        $('#chart_6').closest('.portlet').find('.fullscreen').click(function() {
+        $('#chart_6').closest('.portlet').find('.fullscreen').click(function () {
             chart.invalidateSize();
         });
     }
 
-    var initChartSample7 = function() {
+    var initChartSample7 = function () {
         var chart = AmCharts.makeChart("chart_7", {
             "type": "pie",
             "theme": "light",
 
             "fontFamily": 'Open Sans',
-            
-            "color":    '#888',
+
+            "color": '#888',
 
             "dataProvider": [{
                 "country": "Lithuania",
@@ -731,7 +731,7 @@ var ChartsAmcharts = function() {
             }
         });
 
-        jQuery('.chart_7_chart_input').off().on('input change', function() {
+        jQuery('.chart_7_chart_input').off().on('input change', function () {
             var property = jQuery(this).data('property');
             var target = chart;
             var value = Number(this.value);
@@ -745,19 +745,19 @@ var ChartsAmcharts = function() {
             chart.validateNow();
         });
 
-        $('#chart_7').closest('.portlet').find('.fullscreen').click(function() {
+        $('#chart_7').closest('.portlet').find('.fullscreen').click(function () {
             chart.invalidateSize();
         });
     }
 
-    var initChartSample8 = function() {
+    var initChartSample8 = function () {
         var chart = AmCharts.makeChart("chart_8", {
             "type": "radar",
             "theme": "light",
 
             "fontFamily": 'Open Sans',
-            
-            "color":    '#888',
+
+            "color": '#888',
 
             "dataProvider": [{
                 "direction": "N",
@@ -824,19 +824,19 @@ var ChartsAmcharts = function() {
             "categoryField": "direction"
         });
 
-        $('#chart_8').closest('.portlet').find('.fullscreen').click(function() {
+        $('#chart_8').closest('.portlet').find('.fullscreen').click(function () {
             chart.invalidateSize();
         });
     }
 
-    var initChartSample9 = function() {
+    var initChartSample9 = function () {
         var chart = AmCharts.makeChart("chart_9", {
             "type": "radar",
             "theme": "light",
 
             "fontFamily": 'Open Sans',
-            
-            "color":    '#888',
+
+            "color": '#888',
 
             "dataProvider": [{
                 "country": "Czech Republic",
@@ -879,18 +879,18 @@ var ChartsAmcharts = function() {
             }
         });
 
-        $('#chart_9').closest('.portlet').find('.fullscreen').click(function() {
+        $('#chart_9').closest('.portlet').find('.fullscreen').click(function () {
             chart.invalidateSize();
         });
     }
 
-    var initChartSample10 = function() {
+    var initChartSample10 = function () {
         /*
-            although ammap has methos like getAreaCenterLatitude and getAreaCenterLongitude,
-            they are not suitable in quite a lot of cases as the center of some countries
-            is even outside the country itself (like US, because of Alaska and Hawaii)
-            That's why wehave the coordinates stored here
-        */
+         although ammap has methos like getAreaCenterLatitude and getAreaCenterLongitude,
+         they are not suitable in quite a lot of cases as the center of some countries
+         is even outside the country itself (like US, because of Alaska and Hawaii)
+         That's why wehave the coordinates stored here
+         */
 
         var latlong = {};
         latlong["AD"] = {
@@ -2721,15 +2721,15 @@ var ChartsAmcharts = function() {
         }
 
         // build map
-        AmCharts.ready(function() {
+        AmCharts.ready(function () {
             AmCharts.theme = AmCharts.themes.dark;
             map = new AmCharts.AmMap();
             map.pathToImages = App.getGlobalPluginsPath() + "amcharts/ammap/images/",
 
-            map.fontFamily = 'Open Sans';
+                map.fontFamily = 'Open Sans';
             map.fontSize = '13';
             map.color = '#888';
-            
+
             map.addTitle("Population of the World in 2011", 14);
             map.addTitle("source: Gapminder", 11);
             map.areasSettings = {
@@ -2771,12 +2771,12 @@ var ChartsAmcharts = function() {
             map.write("chart_10");
         });
 
-        $('#chart_10').closest('.portlet').find('.fullscreen').click(function() {
+        $('#chart_10').closest('.portlet').find('.fullscreen').click(function () {
             map.invalidateSize();
         });
     }
 
-    var initChartSample11 = function() {
+    var initChartSample11 = function () {
         // svg path for target icon
         var targetSVG = "M9,0C4.029,0,0,4.029,0,9s4.029,9,9,9s9-4.029,9-9S13.971,0,9,0z M9,15.93 c-3.83,0-6.93-3.1-6.93-6.93S5.17,2.07,9,2.07s6.93,3.1,6.93,6.93S12.83,15.93,9,15.93 M12.5,9c0,1.933-1.567,3.5-3.5,3.5S5.5,10.933,5.5,9S7.067,5.5,9,5.5 S12.5,7.067,12.5,9z";
         // svg path for plane icon
@@ -2788,82 +2788,82 @@ var ChartsAmcharts = function() {
             pathToImages: App.getGlobalPluginsPath() + "amcharts/ammap/images/",
 
             "fontFamily": 'Open Sans',
-            
-            "color":    '#888',
-            
+
+            "color": '#888',
+
             dataProvider: {
                 map: "worldLow",
                 linkToObject: "london",
                 images: [{
-                        id: "london",
-                        color: "#000000",
-                        svgPath: targetSVG,
-                        title: "London",
-                        latitude: 51.5002,
-                        longitude: -0.1262,
-                        scale: 1.5,
-                        zoomLevel: 2.74,
-                        zoomLongitude: -20.1341,
-                        zoomLatitude: 49.1712,
+                    id: "london",
+                    color: "#000000",
+                    svgPath: targetSVG,
+                    title: "London",
+                    latitude: 51.5002,
+                    longitude: -0.1262,
+                    scale: 1.5,
+                    zoomLevel: 2.74,
+                    zoomLongitude: -20.1341,
+                    zoomLatitude: 49.1712,
 
-                        lines: [{
-                            latitudes: [51.5002, 50.4422],
-                            longitudes: [-0.1262, 30.5367]
-                        }, {
-                            latitudes: [51.5002, 46.9480],
-                            longitudes: [-0.1262, 7.4481]
-                        }, {
-                            latitudes: [51.5002, 59.3328],
-                            longitudes: [-0.1262, 18.0645]
-                        }, {
-                            latitudes: [51.5002, 40.4167],
-                            longitudes: [-0.1262, -3.7033]
-                        }, {
-                            latitudes: [51.5002, 46.0514],
-                            longitudes: [-0.1262, 14.5060]
-                        }, {
-                            latitudes: [51.5002, 48.2116],
-                            longitudes: [-0.1262, 17.1547]
-                        }, {
-                            latitudes: [51.5002, 44.8048],
-                            longitudes: [-0.1262, 20.4781]
-                        }, {
-                            latitudes: [51.5002, 55.7558],
-                            longitudes: [-0.1262, 37.6176]
-                        }, {
-                            latitudes: [51.5002, 38.7072],
-                            longitudes: [-0.1262, -9.1355]
-                        }, {
-                            latitudes: [51.5002, 54.6896],
-                            longitudes: [-0.1262, 25.2799]
-                        }, {
-                            latitudes: [51.5002, 64.1353],
-                            longitudes: [-0.1262, -21.8952]
-                        }, {
-                            latitudes: [51.5002, 40.4300],
-                            longitudes: [-0.1262, -74.0000]
-                        }],
+                    lines: [{
+                        latitudes: [51.5002, 50.4422],
+                        longitudes: [-0.1262, 30.5367]
+                    }, {
+                        latitudes: [51.5002, 46.9480],
+                        longitudes: [-0.1262, 7.4481]
+                    }, {
+                        latitudes: [51.5002, 59.3328],
+                        longitudes: [-0.1262, 18.0645]
+                    }, {
+                        latitudes: [51.5002, 40.4167],
+                        longitudes: [-0.1262, -3.7033]
+                    }, {
+                        latitudes: [51.5002, 46.0514],
+                        longitudes: [-0.1262, 14.5060]
+                    }, {
+                        latitudes: [51.5002, 48.2116],
+                        longitudes: [-0.1262, 17.1547]
+                    }, {
+                        latitudes: [51.5002, 44.8048],
+                        longitudes: [-0.1262, 20.4781]
+                    }, {
+                        latitudes: [51.5002, 55.7558],
+                        longitudes: [-0.1262, 37.6176]
+                    }, {
+                        latitudes: [51.5002, 38.7072],
+                        longitudes: [-0.1262, -9.1355]
+                    }, {
+                        latitudes: [51.5002, 54.6896],
+                        longitudes: [-0.1262, 25.2799]
+                    }, {
+                        latitudes: [51.5002, 64.1353],
+                        longitudes: [-0.1262, -21.8952]
+                    }, {
+                        latitudes: [51.5002, 40.4300],
+                        longitudes: [-0.1262, -74.0000]
+                    }],
 
-                        images: [{
-                            label: "Flights from London",
-                            svgPath: planeSVG,
-                            left: 100,
-                            top: 45,
-                            labelShiftY: 5,
-                            color: "#CC0000",
-                            labelColor: "#CC0000",
-                            labelRollOverColor: "#CC0000",
-                            labelFontSize: 20
-                        }, {
-                            label: "show flights from Vilnius",
-                            left: 106,
-                            top: 70,
-                            labelColor: "#000000",
-                            labelRollOverColor: "#CC0000",
-                            labelFontSize: 11,
-                            linkToObject: "vilnius"
-                        }]
-                    },
+                    images: [{
+                        label: "Flights from London",
+                        svgPath: planeSVG,
+                        left: 100,
+                        top: 45,
+                        labelShiftY: 5,
+                        color: "#CC0000",
+                        labelColor: "#CC0000",
+                        labelRollOverColor: "#CC0000",
+                        labelFontSize: 20
+                    }, {
+                        label: "show flights from Vilnius",
+                        left: 106,
+                        top: 70,
+                        labelColor: "#000000",
+                        labelRollOverColor: "#CC0000",
+                        labelFontSize: 11,
+                        linkToObject: "vilnius"
+                    }]
+                },
 
                     {
                         id: "vilnius",
@@ -3040,12 +3040,12 @@ var ChartsAmcharts = function() {
             linesAboveImages: true
         });
 
-        $('#chart_11').closest('.portlet').find('.fullscreen').click(function() {
+        $('#chart_11').closest('.portlet').find('.fullscreen').click(function () {
             map.invalidateSize();
         });
     }
 
-    var initChartSample12 = function() {
+    var initChartSample12 = function () {
         var chartData = [];
         generateChartData();
 
@@ -3074,8 +3074,8 @@ var ChartsAmcharts = function() {
             "theme": "light",
             pathToImages: App.getGlobalPluginsPath() + "amcharts/amcharts/images/",
             "fontFamily": 'Open Sans',
-            
-            "color":    '#888',
+
+            "color": '#888',
             dataSets: [{
                 color: "#b0de09",
                 fieldMappings: [{
@@ -3188,9 +3188,9 @@ var ChartsAmcharts = function() {
             chartCursorSettings: {
                 valueBalloonsEnabled: true,
                 graphBulletSize: 1,
-                valueLineBalloonEnabled:true,
-                valueLineEnabled:true,
-                valueLineAlpha:0.5
+                valueLineBalloonEnabled: true,
+                valueLineEnabled: true,
+                valueLineAlpha: 0.5
             },
 
             periodSelector: {
@@ -3220,7 +3220,7 @@ var ChartsAmcharts = function() {
             }
         });
 
-        $('#chart_12').closest('.portlet').find('.fullscreen').click(function() {
+        $('#chart_12').closest('.portlet').find('.fullscreen').click(function () {
             chart.invalidateSize();
         });
     }
@@ -3228,7 +3228,7 @@ var ChartsAmcharts = function() {
     return {
         //main function to initiate the module
 
-        init: function() {
+        init: function () {
 
             initChartSample1();
             initChartSample2();
@@ -3248,6 +3248,6 @@ var ChartsAmcharts = function() {
 
 }();
 
-jQuery(document).ready(function() {    
-   ChartsAmcharts.init(); 
+jQuery(document).ready(function () {
+    ChartsAmcharts.init();
 });

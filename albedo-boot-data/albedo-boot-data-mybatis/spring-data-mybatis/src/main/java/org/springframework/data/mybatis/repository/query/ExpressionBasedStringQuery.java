@@ -33,15 +33,15 @@ import java.util.regex.Pattern;
  */
 public class ExpressionBasedStringQuery extends StringQuery {
 
-    private static final String EXPRESSION_PARAMETER        = "?#{";
+    private static final String EXPRESSION_PARAMETER = "?#{";
     private static final String QUOTED_EXPRESSION_PARAMETER = "?__HASH__{";
 
-    private static final Pattern EXPRESSION_PARAMETER_QUOTING   = Pattern.compile(Pattern.quote(EXPRESSION_PARAMETER));
+    private static final Pattern EXPRESSION_PARAMETER_QUOTING = Pattern.compile(Pattern.quote(EXPRESSION_PARAMETER));
     private static final Pattern EXPRESSION_PARAMETER_UNQUOTING = Pattern.compile(Pattern
             .quote(QUOTED_EXPRESSION_PARAMETER));
 
-    private static final String ENTITY_NAME                     = "entityName";
-    private static final String ENTITY_NAME_VARIABLE            = "#" + ENTITY_NAME;
+    private static final String ENTITY_NAME = "entityName";
+    private static final String ENTITY_NAME_VARIABLE = "#" + ENTITY_NAME;
     private static final String ENTITY_NAME_VARIABLE_EXPRESSION = "#{" + ENTITY_NAME_VARIABLE + "}";
 
     public ExpressionBasedStringQuery(String query, MybatisEntityMetadata<?> metadata, SpelExpressionParser parser) {

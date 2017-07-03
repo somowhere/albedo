@@ -7,10 +7,10 @@
  */
 define(function (require) {
     var ChartBase = require('./base');
-    
+
     // 图形依赖
     var CircleShape = require('zrender/shape/Circle');
-    
+
     var ecConfig = require('../config');
     ecConfig.island = {
         zlevel: 0,                  // 一级层叠
@@ -22,7 +22,7 @@ define(function (require) {
     var ecData = require('../util/ecData');
     var zrUtil = require('zrender/tool/util');
     var zrEvent = require('zrender/tool/event');
-    
+
     /**
      * 构造函数
      * @param {Object} messageCenter echart消息中心
@@ -54,8 +54,8 @@ define(function (require) {
             var value = ecData.get(shape, 'value');
             var dvalue = value * self.option.island.calculateStep;
             value = dvalue > 1
-                    ? (Math.round(value - dvalue * delta))
-                    : +(value - dvalue * delta).toFixed(2);
+                ? (Math.round(value - dvalue * delta))
+                : +(value - dvalue * delta).toFixed(2);
 
             var name = ecData.get(shape, 'name');
             shape.style.text = name + ':' + value;
@@ -68,7 +68,7 @@ define(function (require) {
             zrEvent.stop(event);
         };
     }
-    
+
     Island.prototype = {
         type: ecConfig.CHART_TYPE_ISLAND,
         /**
@@ -81,12 +81,12 @@ define(function (require) {
             var zrColor = require('zrender/tool/color');
             var accMath = require('../util/accMath');
             var value = accMath.accAdd(
-                            ecData.get(tarShape, 'value'),
-                            ecData.get(srcShape, 'value')
-                        );
+                ecData.get(tarShape, 'value'),
+                ecData.get(srcShape, 'value')
+            );
             var name = ecData.get(tarShape, 'name')
-                       + this._nameConnector
-                       + ecData.get(srcShape, 'name');
+                + this._nameConnector
+                + ecData.get(srcShape, 'name');
 
             tarShape.style.text = name + this._valueConnector + value;
 
@@ -106,12 +106,12 @@ define(function (require) {
             if (newOption) {
                 newOption.island = this.reformOption(newOption.island);
                 this.option = newOption;
-    
+
                 this._nameConnector = this.option.nameConnector;
                 this._valueConnector = this.option.valueConnector;
             }
         },
-        
+
         getOption: function () {
             return this.option;
         },
@@ -143,8 +143,8 @@ define(function (require) {
             var name = ecData.get(shape, 'name');
             var value = ecData.get(shape, 'value');
             var seriesName = ecData.get(shape, 'series') != null
-                             ? ecData.get(shape, 'series').name
-                             : '';
+                ? ecData.get(shape, 'series').name
+                : '';
             var font = this.getFont(this.option.island.textStyle);
             var islandOption = this.option.island;
             var islandShape = {
@@ -170,7 +170,7 @@ define(function (require) {
             islandShape.dragEnableTime = 0;
             ecData.pack(
                 islandShape,
-                {name:seriesName}, -1,
+                {name: seriesName}, -1,
                 value, -1,
                 name
             );
@@ -241,11 +241,11 @@ define(function (require) {
             return;
         }
     };
-    
+
     zrUtil.inherits(Island, ChartBase);
-    
+
     // 图表注册
     require('../chart').define('island', Island);
-    
+
     return Island;
 });

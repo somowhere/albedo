@@ -5,9 +5,9 @@
  * @author Kener (@Kener-林峰, kener.linfeng@gmail.com)
  *
  */
-define(function(require) {
+define(function (require) {
     var zrUtil = require('zrender/tool/util');
-    
+
     /**
      * 获取嵌套选项的基础方法
      * 返回optionTarget中位于optionLocation上的值，如果没有定义，则返回undefined
@@ -34,7 +34,7 @@ define(function(require) {
 
         return optionTarget;
     }
-        
+
     /**
      * 获取多级控制嵌套属性的基础方法
      * 返回ctrList中优先级最高（最靠前）的非undefined属性，ctrList中均无定义则返回undefined
@@ -48,7 +48,7 @@ define(function(require) {
             }
         }
     }
-    
+
     /**
      * 获取多级控制嵌套属性的基础方法
      * 根据ctrList中优先级合并产出目标属性
@@ -69,13 +69,13 @@ define(function(require) {
                 }
             }
         }
-        
+
         return finalOption;
     }
-    
+
     return {
-        query : query,
-        deepQuery : deepQuery,
-        deepMerge : deepMerge
+        query: query,
+        deepQuery: deepQuery,
+        deepMerge: deepMerge
     };
 });

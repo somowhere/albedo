@@ -8,6 +8,7 @@ import com.albedo.java.modules.sys.domain.LoggingEvent;
 
 /**
  * 操作日志Repository 操作日志
+ *
  * @author admin
  * @version 2017-01-03
  */

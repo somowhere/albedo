@@ -32,4 +32,4 @@ public class GenTableServiceTest {
 //        assertThat(tableList.get(0).ge, is(19));
     }
 
-    }
+}

@@ -69,9 +69,9 @@ define('echarts/chart/force', [
                 }
             },
             emphasis: {
-                label: { show: false },
+                label: {show: false},
                 nodeStyle: {},
-                linkStyle: { opacity: 0 }
+                linkStyle: {opacity: 0}
             }
         }
     };
@@ -79,6 +79,7 @@ define('echarts/chart/force', [
     var zrUtil = require('zrender/tool/util');
     var zrConfig = require('zrender/config');
     var vec2 = require('zrender/tool/vector');
+
     function Force(ecTheme, messageCenter, zr, option, myChart) {
         var self = this;
         ChartBase.call(this, ecTheme, messageCenter, zr, option, myChart);
@@ -105,6 +106,7 @@ define('echarts/chart/force', [
         };
         this.refresh(option);
     }
+
     Force.prototype = {
         constructor: Force,
         type: ecConfig.CHART_TYPE_FORCE,
@@ -213,7 +215,7 @@ define('echarts/chart/force', [
                 n.rawIndex = idx;
             });
             graph.eachEdge(function (e) {
-                e.layout = { weight: e.data.weight };
+                e.layout = {weight: e.data.weight};
             });
             return graph;
         },
@@ -268,7 +270,7 @@ define('echarts/chart/force', [
                 };
             });
             graph.eachEdge(function (e) {
-                e.layout = { weight: e.data.weight == null ? 1 : e.data.weight };
+                e.layout = {weight: e.data.weight == null ? 1 : e.data.weight};
             });
             return graph;
         },
@@ -485,7 +487,7 @@ define('echarts/chart/force', [
                             brushType: 'fill',
                             color: linkShape.style.strokeColor
                         },
-                        highlightStyle: { brushType: 'fill' },
+                        highlightStyle: {brushType: 'fill'},
                         position: [
                             0,
                             0
@@ -643,10 +645,12 @@ define('echarts/chart/force', [
         this.isDragstart = false;
         this.zr.on(zrConfig.EVENT.MOUSEMOVE, this.onmousemove);
     }
+
     function onmousemove() {
         this._layout.temperature = 0.8;
         this._step();
     }
+
     function ondragend(param, status) {
         if (!this.isDragend || !param.target) {
             return;
@@ -658,16 +662,19 @@ define('echarts/chart/force', [
         this.isDragend = false;
         this.zr.un(zrConfig.EVENT.MOUSEMOVE, this.onmousemove);
     }
+
     function _randomInSquare(x, y, size) {
         var v = vec2.create();
         v[0] = (Math.random() - 0.5) * size + x;
         v[1] = (Math.random() - 0.5) * size + y;
         return v;
     }
+
     zrUtil.inherits(Force, ChartBase);
     require('../chart').define('force', Force);
     return Force;
-});define('echarts/data/Graph', [
+});
+define('echarts/data/Graph', [
     'require',
     'zrender/tool/util'
 ], function (require) {
@@ -927,7 +934,8 @@ define('echarts/chart/force', [
         return graph;
     };
     return Graph;
-});define('echarts/layout/Force', [
+});
+define('echarts/layout/Force', [
     'require',
     './forceLayoutWorker',
     'zrender/tool/vector'
@@ -935,10 +943,11 @@ define('echarts/chart/force', [
     var ForceLayoutWorker = require('./forceLayoutWorker');
     var vec2 = require('zrender/tool/vector');
     var requestAnimationFrame = window.requestAnimationFrame || window.msRequestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || function (func) {
-        setTimeout(func, 16);
-    };
+            setTimeout(func, 16);
+        };
     var ArrayCtor = typeof Float32Array == 'undefined' ? Array : Float32Array;
     var workerUrl;
+
     function createWorkerUrl() {
         if (typeof Worker !== 'undefined' && typeof Blob !== 'undefined') {
             try {
@@ -950,6 +959,7 @@ define('echarts/chart/force', [
         }
         return workerUrl;
     }
+
     var ForceLayout = function (opts) {
         if (typeof workerUrl === 'undefined') {
             createWorkerUrl();
@@ -958,9 +968,9 @@ define('echarts/chart/force', [
         this.width = opts.width || 500;
         this.height = opts.height || 500;
         this.center = opts.center || [
-            this.width / 2,
-            this.height / 2
-        ];
+                this.width / 2,
+                this.height / 2
+            ];
         this.ratioScaling = opts.ratioScaling || false;
         this.scaling = opts.scaling || 1;
         this.gravity = typeof opts.gravity !== 'undefined' ? opts.gravity : 1;
@@ -969,7 +979,7 @@ define('echarts/chart/force', [
         this.preventNodeEdgeOverlap = opts.preventNodeEdgeOverlap || false;
         this.maxSpeedIncrease = opts.maxSpeedIncrease || 1;
         this.onupdate = opts.onupdate || function () {
-        };
+            };
         this.temperature = opts.temperature || 1;
         this.coolDown = opts.coolDown || 0.99;
         this._layout = null;
@@ -1124,7 +1134,8 @@ define('echarts/chart/force', [
         this._layout = null;
     };
     return ForceLayout;
-});define('echarts/layout/forceLayoutWorker', [
+});
+define('echarts/layout/forceLayoutWorker', [
     'require',
     'zrender/tool/vector'
 ], function __echartsForceLayoutWorker(require) {
@@ -1203,6 +1214,7 @@ define('echarts/chart/force', [
         vec2 = require('zrender/tool/vector');
     }
     var ArrayCtor = typeof Float32Array == 'undefined' ? Array : Float32Array;
+
     function Region() {
         this.subRegions = [];
         this.nSubRegions = 0;
@@ -1212,6 +1224,7 @@ define('echarts/chart/force', [
         this.bbox = new ArrayCtor(4);
         this.size = 0;
     }
+
     Region.prototype.beforeUpdate = function () {
         for (var i = 0; i < this.nSubRegions; i++) {
             this.subRegions[i].beforeUpdate();
@@ -1307,11 +1320,13 @@ define('echarts/chart/force', [
         this.inDegree = 0;
         this.outDegree = 0;
     }
+
     function GraphEdge(node1, node2) {
         this.node1 = node1;
         this.node2 = node2;
         this.weight = 1;
     }
+
     function ForceLayout() {
         this.barnesHutOptimize = false;
         this.barnesHutTheta = 1.5;
@@ -1337,6 +1352,7 @@ define('echarts/chart/force', [
         this._massArr = null;
         this._k = 0;
     }
+
     ForceLayout.prototype.nodeToNodeRepulsionFactor = function (mass, d, k) {
         return k * k * mass / d;
     };
@@ -1655,41 +1671,41 @@ define('echarts/chart/force', [
                 return;
             }
             switch (e.data.cmd) {
-            case 'init':
-                if (!forceLayout) {
-                    forceLayout = new ForceLayout();
-                }
-                forceLayout.initNodes(e.data.nodesPosition, e.data.nodesMass, e.data.nodesSize);
-                forceLayout.initEdges(e.data.edges, e.data.edgesWeight);
-                break;
-            case 'updateConfig':
-                if (forceLayout) {
-                    for (var name in e.data.config) {
-                        forceLayout[name] = e.data.config[name];
+                case 'init':
+                    if (!forceLayout) {
+                        forceLayout = new ForceLayout();
                     }
-                }
-                break;
-            case 'update':
-                var steps = e.data.steps;
-                if (forceLayout) {
-                    var nNodes = forceLayout.nodes.length;
-                    var positionArr = new Float32Array(nNodes * 2);
-                    forceLayout.temperature = e.data.temperature;
-                    for (var i = 0; i < steps; i++) {
-                        forceLayout.update();
-                        forceLayout.temperature *= e.data.coolDown;
+                    forceLayout.initNodes(e.data.nodesPosition, e.data.nodesMass, e.data.nodesSize);
+                    forceLayout.initEdges(e.data.edges, e.data.edgesWeight);
+                    break;
+                case 'updateConfig':
+                    if (forceLayout) {
+                        for (var name in e.data.config) {
+                            forceLayout[name] = e.data.config[name];
+                        }
                     }
-                    for (var i = 0; i < nNodes; i++) {
-                        var node = forceLayout.nodes[i];
-                        positionArr[i * 2] = node.position[0];
-                        positionArr[i * 2 + 1] = node.position[1];
+                    break;
+                case 'update':
+                    var steps = e.data.steps;
+                    if (forceLayout) {
+                        var nNodes = forceLayout.nodes.length;
+                        var positionArr = new Float32Array(nNodes * 2);
+                        forceLayout.temperature = e.data.temperature;
+                        for (var i = 0; i < steps; i++) {
+                            forceLayout.update();
+                            forceLayout.temperature *= e.data.coolDown;
+                        }
+                        for (var i = 0; i < nNodes; i++) {
+                            var node = forceLayout.nodes[i];
+                            positionArr[i * 2] = node.position[0];
+                            positionArr[i * 2 + 1] = node.position[1];
+                        }
+                        self.postMessage(positionArr.buffer, [positionArr.buffer]);
+                    } else {
+                        var emptyArr = new Float32Array();
+                        self.postMessage(emptyArr.buffer, [emptyArr.buffer]);
                     }
-                    self.postMessage(positionArr.buffer, [positionArr.buffer]);
-                } else {
-                    var emptyArr = new Float32Array();
-                    self.postMessage(emptyArr.buffer, [emptyArr.buffer]);
-                }
-                break;
+                    break;
             }
         };
     }

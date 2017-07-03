@@ -17,8 +17,8 @@ define(function (require) {
         Base.call(this, options);
     }
 
-    Chain.prototype =  {
-        type : 'chain',
+    Chain.prototype = {
+        type: 'chain',
 
         /**
          * 画刷
@@ -28,7 +28,7 @@ define(function (require) {
          * @param updateCallback 需要异步加载资源的shape可以通过这个callback(e)
          *                       让painter更新视图，base.brush没用，需要的话重载brush
          */
-        brush : function (ctx, isHighlight) {
+        brush: function (ctx, isHighlight) {
             var style = this.style;
 
             if (isHighlight) {
@@ -50,7 +50,7 @@ define(function (require) {
             this.buildLinePath(ctx, style);
             ctx.stroke();
             ctx.restore();
-            
+
             this.brushSymbol(ctx, style);
 
             ctx.restore();
@@ -62,7 +62,7 @@ define(function (require) {
          * @param {Context2D} ctx Canvas 2D上下文
          * @param {Object} style 样式
          */
-        buildLinePath : function (ctx, style) {
+        buildLinePath: function (ctx, style) {
             var x = style.x;
             var y = style.y + 5;
             var width = style.width;
@@ -79,7 +79,7 @@ define(function (require) {
             }
             else if (style.lineType == 'dashed' || style.lineType == 'dotted') {
                 var dashLength = (style.lineWidth || 1)
-                             * (style.lineType == 'dashed' ? 5 : 1);
+                    * (style.lineType == 'dashed' ? 5 : 1);
                 dashedLineTo(ctx, x, y + height / 2, x + width, y + height / 2, dashLength);
             }
         },
@@ -87,7 +87,7 @@ define(function (require) {
         /**
          * 标线始末标注
          */
-        brushSymbol : function (ctx, style) {
+        brushSymbol: function (ctx, style) {
             var y = style.y + style.height / 4;
             ctx.save();
 
@@ -101,12 +101,12 @@ define(function (require) {
                     IconShape.prototype.buildPath(
                         ctx,
                         {
-                            iconType : curPoint.symbol,
-                            x : curPoint.x - symbolSize,
-                            y : y - symbolSize,
-                            width : symbolSize * 2,
-                            height : symbolSize * 2,
-                            n : curPoint.n
+                            iconType: curPoint.symbol,
+                            x: curPoint.x - symbolSize,
+                            y: y - symbolSize,
+                            width: symbolSize * 2,
+                            height: symbolSize * 2,
+                            n: curPoint.n
                         }
                     );
                     ctx.fillStyle = curPoint.isEmpty ? '#fff' : style.strokeColor;
@@ -135,7 +135,7 @@ define(function (require) {
             ctx.restore();
         },
 
-        _updateTextTransform : function (ctx, rotation) {
+        _updateTextTransform: function (ctx, rotation) {
             var _transform = matrix.create();
             matrix.identity(_transform);
 
@@ -159,7 +159,7 @@ define(function (require) {
             ctx.transform.apply(ctx, _transform);
         },
 
-        isCover : function (x, y) {
+        isCover: function (x, y) {
             var rect = this.style;
             if (x >= rect.x
                 && x <= (rect.x + rect.width)

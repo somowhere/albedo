@@ -11,10 +11,11 @@ import java.util.Optional;
 
 /**
  * 操作日志Repository 操作日志
+ *
  * @author admin
  * @version 2017-01-03
  */
 public interface LoggingEventRepository extends JpaRepository<LoggingEvent, String>, JpaSpecificationExecutor<LoggingEvent> {
 
-	Optional<LoggingEvent> findOneById(String id);
+    Optional<LoggingEvent> findOneById(String id);
 }

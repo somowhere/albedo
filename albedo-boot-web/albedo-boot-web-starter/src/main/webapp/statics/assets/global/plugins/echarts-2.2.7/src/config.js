@@ -5,7 +5,7 @@
  * @author Kener (@Kener-林峰, kener.linfeng@gmail.com)
  *
  */
-define(function() {
+define(function () {
     // 请原谅我这样写，这显然可以直接返回个对象，但那样的话outline就显示不出来了~~
     var config = {
         // 图表类型
@@ -48,12 +48,12 @@ define(function() {
 
         // 全图默认背景
         backgroundColor: 'rgba(0,0,0,0)',
-        
+
         // 默认色板
-        color: ['#ff7f50','#87cefa','#da70d6','#32cd32','#6495ed',
-                '#ff69b4','#ba55d3','#cd5c5c','#ffa500','#40e0d0',
-                '#1e90ff','#ff6347','#7b68ee','#00fa9a','#ffd700',
-                '#6699FF','#ff6666','#3cb371','#b8860b','#30e0e0'],
+        color: ['#ff7f50', '#87cefa', '#da70d6', '#32cd32', '#6495ed',
+            '#ff69b4', '#ba55d3', '#cd5c5c', '#ffa500', '#40e0d0',
+            '#1e90ff', '#ff6347', '#7b68ee', '#00fa9a', '#ffd700',
+            '#6699FF', '#ff6666', '#3cb371', '#b8860b', '#30e0e0'],
 
         markPoint: {
             clickable: true,
@@ -97,7 +97,7 @@ define(function() {
                 }
             }
         },
-        
+
         markLine: {
             clickable: true,
             // 标线起始和结束的symbol介绍类型，如果都一样，可以直接传string
@@ -203,12 +203,12 @@ define(function() {
             ROAMCONTROLLER: 'roamController'
         },
         DRAG_ENABLE_TIME: 120,   // 降低图表内元素拖拽敏感度，单位ms，不建议外部干预
-        EFFECT_ZLEVEL : 10,       // 特效动画zlevel
+        EFFECT_ZLEVEL: 10,       // 特效动画zlevel
         effectBlendAlpha: 0.95,
         // 主题，默认标志图形类型列表
         symbolList: [
-          'circle', 'rectangle', 'triangle', 'diamond',
-          'emptyCircle', 'emptyRectangle', 'emptyTriangle', 'emptyDiamond'
+            'circle', 'rectangle', 'triangle', 'diamond',
+            'emptyCircle', 'emptyRectangle', 'emptyTriangle', 'emptyDiamond'
         ],
         loadingEffect: 'spin',
         loadingText: '数据读取中...',

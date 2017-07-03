@@ -1,7 +1,7 @@
 /**
  * German translation for bootstrap-wysihtml5
  */
-(function($){
+(function ($) {
     $.fn.wysihtml5.locale["de-DE"] = {
         font_styles: {
             normal: "Normaler Text",

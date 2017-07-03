@@ -37,21 +37,21 @@ public class TreeService<Repository extends TreeRepository<T, PK>, T extends Tre
 
     public T save(T entity) {
         String oldParentIds = entity.getParentIds(); // 获取修改前的parentIds，用于更新子节点的parentIds
-        if(entity.getParentId()!=null){
+        if (entity.getParentId() != null) {
             T parent = repository.findOneById(entity.getParentId());
             if (parent == null || PublicUtil.isEmpty(parent.getId()))
                 throw new RuntimeMsgException("无法获取模块的父节点，插入失败");
-            if(parent!=null){
+            if (parent != null) {
                 parent.setLeaf(false);
                 repository.save(parent);
             }
             entity.setParentIds(PublicUtil.toAppendStr(parent.getParentIds(), parent.getId(), ","));
         }
 
-        if(PublicUtil.isNotEmpty(entity.getId())){
+        if (PublicUtil.isNotEmpty(entity.getId())) {
             T itemTemp = repository.findFirstByParentId(entity.getId());
-            entity.setLeaf(itemTemp == null? true : false);
-        }else{
+            entity.setLeaf(itemTemp == null ? true : false);
+        } else {
             entity.setLeaf(true);
         }
         entity = repository.save(entity);

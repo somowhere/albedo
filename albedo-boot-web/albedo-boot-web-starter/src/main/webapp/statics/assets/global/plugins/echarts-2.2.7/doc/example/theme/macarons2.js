@@ -1,16 +1,16 @@
 define({
     // 全图默认背景
     // backgroundColor: 'rgba(0,0,0,0)',
-    
+
     // 默认色板
-    color: ['#ed9678','#e7dac9','#cb8e85','#f3f39d','#c8e49c',
-            '#f16d7a','#f3d999','#d3758f','#dcc392','#2e4783',
-            '#82b6e9','#ff6347','#a092f1','#0a915d','#eaf889',
-            '#6699FF','#ff6666','#3cb371','#d5b158','#38b6b6'],
-    
+    color: ['#ed9678', '#e7dac9', '#cb8e85', '#f3f39d', '#c8e49c',
+        '#f16d7a', '#f3d999', '#d3758f', '#dcc392', '#2e4783',
+        '#82b6e9', '#ff6347', '#a092f1', '#0a915d', '#eaf889',
+        '#6699FF', '#ff6666', '#3cb371', '#d5b158', '#38b6b6'],
+
     // 值域
     dataRange: {
-        color:['#cb8e85','#e7dac9'],//颜色 
+        color: ['#cb8e85', '#e7dac9'],//颜色 
         //text:['高','低'],         // 文本，默认为数值文本
         textStyle: {
             color: '#333'          // 值域文字颜色
@@ -23,7 +23,7 @@ define({
         barMinHeight: 0,          // 最小高度改为0
         // barWidth: null,        // 默认自适应
         barGap: '30%',            // 柱间距离，默认为柱形宽度的30%，可设固定值
-        barCategoryGap : '20%',   // 类目间柱形距离，默认为类目间距的20%，可设固定值
+        barCategoryGap: '20%',   // 类目间柱形距离，默认为类目间距的20%，可设固定值
         itemStyle: {
             normal: {
                 // color: '各异',
@@ -66,7 +66,7 @@ define({
                 lineStyle: {
                     width: 2,
                     type: 'solid',
-                    shadowColor : 'rgba(0,0,0,0)', //默认透明
+                    shadowColor: 'rgba(0,0,0,0)', //默认透明
                     shadowBlur: 5,
                     shadowOffsetX: 3,
                     shadowOffsetY: 3
@@ -88,7 +88,7 @@ define({
         //symbolRotate : null,  // 拐点图形旋转控制
         showAllSymbol: false    // 标志图形默认只有主轴显示（随主轴标签间隔隐藏策略）
     },
-    
+
     // K线图默认参数
     k: {
         // barWidth : null          // 默认自适应
@@ -112,9 +112,9 @@ define({
 
     // 饼图默认参数
     pie: {
-        center : ['50%', '50%'],    // 默认全局居中
-        radius : [0, '75%'],
-        clockWise : false,          // 默认逆时针
+        center: ['50%', '50%'],    // 默认全局居中
+        radius: [0, '75%'],
+        clockWise: false,          // 默认逆时针
         startAngle: 90,
         minAngle: 0,                // 最小角度改为0
         selectedOffset: 10,         // 选中是扇区偏移量
@@ -126,8 +126,8 @@ define({
                 label: {
                     show: true,
                     position: 'outer',
-                  textStyle: {color: '#1b1b1b'},
-                  lineStyle: {color: '#1b1b1b'}
+                    textStyle: {color: '#1b1b1b'},
+                    lineStyle: {color: '#1b1b1b'}
                     // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
                 },
                 labelLine: {
@@ -142,16 +142,16 @@ define({
             }
         }
     },
-    
+
     map: {
         mapType: 'china',   // 各省的mapType暂时都用中文
         mapLocation: {
-            x : 'center',
-            y : 'center'
+            x: 'center',
+            y: 'center'
             // width    // 自适应
             // height   // 自适应
         },
-        showLegendSymbol : true,       // 显示图例颜色标识（系列标识的小圆点），存在legend时生效
+        showLegendSymbol: true,       // 显示图例颜色标识（系列标识的小圆点），存在legend时生效
         itemStyle: {
             normal: {
                 // color: 各异,
@@ -183,8 +183,8 @@ define({
             }
         }
     },
-    
-    force : {
+
+    force: {
         itemStyle: {
             normal: {
                 // color: 各异,
@@ -192,12 +192,12 @@ define({
                     show: false
                     // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
                 },
-                nodeStyle : {
-                    brushType : 'both',
-                    strokeColor : '#a17e6e'
+                nodeStyle: {
+                    brushType: 'both',
+                    strokeColor: '#a17e6e'
                 },
-                linkStyle : {
-                    strokeColor : '#a17e6e'
+                linkStyle: {
+                    strokeColor: '#a17e6e'
                 }
             },
             emphasis: {
@@ -206,23 +206,23 @@ define({
                     show: false
                     // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
                 },
-                nodeStyle : {},
-                linkStyle : {}
+                nodeStyle: {},
+                linkStyle: {}
             }
         }
     },
 
-    gauge : {
+    gauge: {
         axisLine: {            // 坐标轴线
             show: true,        // 默认显示，属性show控制显示与否
             lineStyle: {       // 属性lineStyle控制线条样式
-                color: [[0.2, '#ed9678'],[0.8, '#e7dac9'],[1, '#cb8e85']], 
+                color: [[0.2, '#ed9678'], [0.8, '#e7dac9'], [1, '#cb8e85']],
                 width: 8
             }
         },
         axisTick: {            // 坐标轴小标记
             splitNumber: 10,   // 每份split细分多少段
-            length :12,        // 属性length控制线长
+            length: 12,        // 属性length控制线长
             lineStyle: {       // 属性lineStyle控制线条样式
                 color: 'auto'
             }
@@ -233,21 +233,21 @@ define({
             }
         },
         splitLine: {           // 分隔线
-            length : 18,         // 属性length控制线长
+            length: 18,         // 属性length控制线长
             lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
                 color: 'auto'
             }
         },
-        pointer : {
-            length : '90%',
-            color : 'auto'
+        pointer: {
+            length: '90%',
+            color: 'auto'
         },
-        title : {
+        title: {
             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
                 color: '#333'
             }
         },
-        detail : {
+        detail: {
             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
                 color: 'auto'
             }

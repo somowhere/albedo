@@ -4,7 +4,7 @@ var ComponentsDateTimePickers = function () {
 
         if (jQuery().datepicker) {
             $('.date-picker').datepicker({
-                language:  'zh-CN',
+                language: 'zh-CN',
                 rtl: App.isRTL(),
                 orientation: "left",
                 autoclose: true
@@ -37,7 +37,7 @@ var ComponentsDateTimePickers = function () {
             });
 
             // handle input group button click
-            $('.timepicker').parent('.input-group').on('click', '.input-group-btn', function(e){
+            $('.timepicker').parent('.input-group').on('click', '.input-group-btn', function (e) {
                 e.preventDefault();
                 $(this).parent('.input-group').find('.timepicker').timepicker('showWidget');
             });
@@ -69,7 +69,7 @@ var ComponentsDateTimePickers = function () {
             function (start, end) {
                 $('#defaultrange input').val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             }
-        );        
+        );
 
         $('#defaultrange_modal').daterangepicker({
                 opens: (App.isRTL() ? 'left' : 'right'),
@@ -83,11 +83,11 @@ var ComponentsDateTimePickers = function () {
             function (start, end) {
                 $('#defaultrange_modal input').val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             }
-        );  
+        );
 
         // this is very important fix when daterangepicker is used in modal. in modal when daterange picker is opened and mouse clicked anywhere bootstrap modal removes the modal-open class from the body element.
         // so the below code will fix this issue.
-        $('#defaultrange_modal').on('click', function(){
+        $('#defaultrange_modal').on('click', function () {
             if ($('#daterangepicker_modal').is(":visible") && $('body').hasClass("modal-open") == false) {
                 $('body').addClass("modal-open");
             }
@@ -145,7 +145,7 @@ var ComponentsDateTimePickers = function () {
         }
 
         $(".form_datetime").datetimepicker({
-            language:  'zh-CN',
+            language: 'zh-CN',
             autoclose: true,
             isRTL: App.isRTL(),
             format: "yyyy-mm-dd hh:ii:ss",
@@ -220,8 +220,8 @@ var ComponentsDateTimePickers = function () {
 
 }();
 
-if (App.isAngularJsApp() === false) { 
-    jQuery(document).ready(function() {    
-        ComponentsDateTimePickers.init(); 
+if (App.isAngularJsApp() === false) {
+    jQuery(document).ready(function () {
+        ComponentsDateTimePickers.init();
     });
 }

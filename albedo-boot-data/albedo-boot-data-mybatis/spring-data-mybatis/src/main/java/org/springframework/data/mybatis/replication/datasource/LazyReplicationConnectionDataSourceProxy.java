@@ -24,8 +24,8 @@ public class LazyReplicationConnectionDataSourceProxy implements DataSource, Ini
     private DataSource master;
     private List<DataSource> slaves = new ArrayList<DataSource>();
 
-    private Boolean                defaultAutoCommit;
-    private Integer                defaultTransactionIsolation;
+    private Boolean defaultAutoCommit;
+    private Integer defaultTransactionIsolation;
     private DatasourceSelectPolicy datasourceSelectPolicy;
 
     public LazyReplicationConnectionDataSourceProxy(DataSource master, List<DataSource> slaves) {

@@ -1,7 +1,7 @@
 /**
  * Russian translation for bootstrap-wysihtml5
  */
-(function($){
+(function ($) {
     $.fn.wysihtml5.locale["ru-RU"] = {
         font_styles: {
             normal: "Обычный текст",

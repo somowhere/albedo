@@ -33,9 +33,13 @@ import java.sql.SQLException;
  */
 public class DialectFactoryBean implements FactoryBean<Dialect>, InitializingBean {
 
-    private Dialect           dialect;
-    private SqlSessionFactory sqlSessionFactory;
     public static final int NO_VERSION = -9999;
+    private Dialect dialect;
+    private SqlSessionFactory sqlSessionFactory;
+
+    private static int interpretVersion(int result) {
+        return result < 0 ? NO_VERSION : result;
+    }
 
     @Override
     public Dialect getObject() throws Exception {
@@ -156,10 +160,6 @@ public class DialectFactoryBean implements FactoryBean<Dialect>, InitializingBea
 
 
         return null;
-    }
-
-    private static int interpretVersion(int result) {
-        return result < 0 ? NO_VERSION : result;
     }
 
     public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
