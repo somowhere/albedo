@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50528
 File Encoding         : 65001
 
-Date: 2017-06-30 15:10:17
+Date: 2017-07-04 16:21:35
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -44,13 +44,6 @@ CREATE TABLE `gen_scheme_t` (
 -- ----------------------------
 -- Records of gen_scheme_t
 -- ----------------------------
-INSERT INTO `gen_scheme_t` VALUES ('57fa576bbbbc40a9b49cc8cba1998e6d', '用户管理', 'curd', '0', 'com.albedo.java.modules', 'sys', '', '用户管理', '用户', 'admin', '95477bf45a234d49a1b09df355292ac0', '-2', '0', '', '1', '2017-03-27 15:13:50', '1', '2017-03-27 15:13:50');
-INSERT INTO `gen_scheme_t` VALUES ('7100dcdc99834a54bafd27526000a86b', '油站管理', 'curd', '0', 'com.albedo.java.modules', 'gas', '', '油站管理', '油站', 'admin', '433f844704204f3190f77e5776a2a3da', '-2', '0', '', '1', '2017-03-27 15:13:56', '1', '2017-03-27 15:13:56');
-INSERT INTO `gen_scheme_t` VALUES ('74f0ae746299418c956c501c53e0106d', '消息管理', 'curd', '0', 'com.albedo.java.modules', 'mpns', '', '消息管理', '消息', 'lijie', '8be3b71107534e31885edb5139d7fec0', '0', '1', '', '1', '2017-03-27 15:27:08', '1', '2017-06-30 15:02:02');
-INSERT INTO `gen_scheme_t` VALUES ('7b1ac13d5dad43ca8975079d001dde9f', '操作日志', 'curd', '0', 'com.albedo.java.modules', 'sys', '', '操作日志', '操作日志', 'admin', '6487595f89e04559ade88b297d6c4da4', '-2', '0', '', '1', '2017-03-27 15:13:54', '1', '2017-03-27 15:13:54');
-INSERT INTO `gen_scheme_t` VALUES ('8f075d27c7364ab6aa2034451cc7f29d', '字典管理', 'curd', '1', 'com.albedo.java.modules', 'sys', '', '字典管理', '字典', 'admin', '494f396184ba4433ba083e8bd9dc2530', '-2', '0', '', '1', '2017-03-27 15:13:52', '1', '2017-03-27 15:13:52');
-INSERT INTO `gen_scheme_t` VALUES ('9590fc0222c848299446031b3be3f2c7', '区域管理', 'treeTable', '1', 'com.albedo.java.modules', 'sys', '', '区域管理', '区域管理', 'admin', '839d689f93dd4933af6fbe77c690b5de', '-2', '0', '', '1', '2017-03-27 15:14:00', '1', '2017-03-27 15:14:00');
-INSERT INTO `gen_scheme_t` VALUES ('989376a334c247cab4e8754b3ae3620a', '油站管理', 'curd', '0', 'com.albedo.java.modules', 'gas', '', '油站管理', '油站', 'admin', '433f844704204f3190f77e5776a2a3da', '-2', '0', '', '1', '2016-12-29 17:14:36', '1', '2016-12-29 17:14:36');
 
 -- ----------------------------
 -- Table structure for gen_table_column_t
@@ -92,139 +85,6 @@ CREATE TABLE `gen_table_column_t` (
 -- ----------------------------
 -- Records of gen_table_column_t
 -- ----------------------------
-INSERT INTO `gen_table_column_t` VALUES ('03a7f29af5874b309707eadbe749b658', '433f844704204f3190f77e5776a2a3da', 'is_groupbuy', '是否有团购', 'tinyint(4)', 'String', 'isGroupbuy', '0', '0', '1', '1', '1', '1', '0', '=', 'radiobox', 'sys_yes_no', null, '310', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('03b6e9834f4b431997f45f6e5c41f9de', '95477bf45a234d49a1b09df355292ac0', 'email_', 'email_', 'varchar(100)', 'String', 'email', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '60', '-2', '0', null, '1', '2017-03-27 15:13:31', '1', '2017-03-27 15:13:31');
-INSERT INTO `gen_table_column_t` VALUES ('05bff3bf6b6c4b52872ec042335ee513', '433f844704204f3190f77e5776a2a3da', 'type_', '加油站类型  1 航油加油站', 'int(11)', 'Long', 'type', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '250', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('088d5827c3ae4960ae6cca13aec0bad7', 'b865f6196888498b8200209721da240c', 'content_', '内容', 'varchar(1024)', 'String', 'content', '0', '0', '1', '1', '1', '1', '0', 'eq', 'textarea', '', null, '60', '0', '1', null, '1', '2017-06-30 15:01:56', '1', '2017-06-30 15:01:56');
-INSERT INTO `gen_table_column_t` VALUES ('09d0868faa044435b6eada3eb678aa24', '494f396184ba4433ba083e8bd9dc2530', 'description_', '描述', 'varchar(255)', 'String', 'description', '0', '0', '1', '1', '1', '0', '0', '=', 'textarea', '', null, '90', '-2', '0', null, '1', '2017-03-27 15:13:41', '1', '2017-03-27 15:13:41');
-INSERT INTO `gen_table_column_t` VALUES ('0a27d220b503417aa3c9d4473c06ca6c', '6487595f89e04559ade88b297d6c4da4', 'caller_method', '操作方法', 'varchar(254)', 'String', 'callerMethod', '0', '0', '0', '1', '1', '1', '0', '=', 'input', '', null, '140', '-2', '0', null, '1', '2017-03-27 15:13:37', '1', '2017-03-27 15:13:37');
-INSERT INTO `gen_table_column_t` VALUES ('0b7577b41f5d4b428d533941339b4d75', '494f396184ba4433ba083e8bd9dc2530', 'show_name', '资源key', 'varchar(255)', 'String', 'showName', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '110', '-2', '0', null, '1', '2017-03-27 15:13:41', '1', '2017-03-27 15:13:41');
-INSERT INTO `gen_table_column_t` VALUES ('0ea96f523a354bcfa38fafba87180f10', '6487595f89e04559ade88b297d6c4da4', 'reference_flag', '引用标识', 'smallint(6)', 'String', 'referenceFlag', '0', '0', '1', '1', '1', '1', '1', '=', 'checkbox', 'sys_yes_no', null, '70', '-2', '0', null, '1', '2017-03-27 15:13:37', '1', '2017-03-27 15:13:37');
-INSERT INTO `gen_table_column_t` VALUES ('10850076f368415ca0708031ceacbaee', '433f844704204f3190f77e5776a2a3da', 'status_', '状态 -2 已删除 -1停用 0 正常', 'char(2)', 'String', 'status', '0', '0', '1', '1', '0', '0', '0', '=', 'radiobox', 'sys_status', null, '260', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('10b46fea848f4d2fbb28c5e6c315f99a', '8be3b71107534e31885edb5139d7fec0', 'os_name', '系统名称', 'varchar(64)', 'String', 'osName', '0', '0', '1', '1', '1', '1', '1', 'eq', 'input', '', null, '40', '0', '0', null, '1', '2017-03-27 16:00:14', '1', '2017-03-27 16:00:14');
-INSERT INTO `gen_table_column_t` VALUES ('13238782329b42418b0aac742db66ff8', '839d689f93dd4933af6fbe77c690b5de', 'description_', '描述', 'varchar(225)', 'String', 'description', '0', '0', '1', '1', '1', '0', '0', '=', 'textarea', '', null, '90', '-2', '0', null, '1', '2017-03-27 15:13:39', '1', '2017-03-27 15:13:39');
-INSERT INTO `gen_table_column_t` VALUES ('13415d2efd904eee928adfc1727f415f', 'b865f6196888498b8200209721da240c', 'client_id', '客户端编号', 'varchar(32)', 'String', 'clientId', '0', '0', '0', '1', '1', '1', '0', 'eq', 'input', '', null, '40', '0', '1', null, '1', '2017-06-30 15:01:56', '1', '2017-06-30 15:01:56');
-INSERT INTO `gen_table_column_t` VALUES ('144c41a3e26844f5b7eae60c68ec9c3c', '433f844704204f3190f77e5776a2a3da', 'description_', '描述', 'varchar(255)', 'String', 'description', '0', '0', '1', '1', '1', '0', '0', '=', 'textarea', '', null, '280', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('152b8220a2c34314b4886d9d25eddb06', '433f844704204f3190f77e5776a2a3da', 'has_shopping', '是否有购物', 'int(1)', 'Integer', 'hasShopping', '0', '0', '1', '1', '1', '1', '0', '=', 'radiobox', 'sys_yes_no', null, '120', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('19952e23453145ad98629a495a8a0ed4', '95477bf45a234d49a1b09df355292ac0', 'reset_key', 'reset_key', 'varchar(20)', 'String', 'resetKey', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '100', '-2', '0', null, '1', '2017-03-27 15:13:31', '1', '2017-03-27 15:13:31');
-INSERT INTO `gen_table_column_t` VALUES ('199867497a6e4bb9ac79a2ea9b96ab76', '494f396184ba4433ba083e8bd9dc2530', 'last_modified_by', 'last_modified_by', 'varchar(50)', 'String', 'lastModifiedBy', '0', '0', '1', '1', '0', '0', '0', '=', 'input', '', null, '160', '-2', '0', null, '1', '2017-03-27 15:13:41', '1', '2017-03-27 15:13:41');
-INSERT INTO `gen_table_column_t` VALUES ('1be974816ed84ec1b616e90596b7aa96', '433f844704204f3190f77e5776a2a3da', 'location_', '地址', 'varchar(255)', 'String', 'location', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '50', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('1e6220f75e8d478aad0cbb893377432c', '8be3b71107534e31885edb5139d7fec0', 'status_', '状态 0 正常 1审核  -1 停用 -2 删除', 'varchar(2)', 'String', 'status', '0', '0', '1', '1', '0', '0', '0', 'eq', 'radio', 'sys_status', null, '140', '0', '0', null, '1', '2017-03-27 16:00:14', '1', '2017-03-27 16:00:14');
-INSERT INTO `gen_table_column_t` VALUES ('1f80a5092cf74c629fc5b4a86b2977d9', 'b865f6196888498b8200209721da240c', 'send_status', '发送状态', 'tinyint(4)', 'String', 'sendStatus', '0', '0', '0', '1', '1', '1', '0', 'eq', 'select', 'send_staus', null, '70', '0', '1', null, '1', '2017-06-30 15:01:56', '1', '2017-06-30 15:01:56');
-INSERT INTO `gen_table_column_t` VALUES ('203efcb4402a4973a19f08105c5384eb', '839d689f93dd4933af6fbe77c690b5de', 'short_name', '区域简称', 'varchar(32)', 'String', 'shortName', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '50', '-2', '0', null, '1', '2017-03-27 15:13:39', '1', '2017-03-27 15:13:39');
-INSERT INTO `gen_table_column_t` VALUES ('208023d174184d0fadddb739d49f0139', '8be3b71107534e31885edb5139d7fec0', 'iv_', 'AESIV', 'varchar(64)', 'String', 'iv', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '80', '0', '0', null, '1', '2017-03-27 16:00:14', '1', '2017-03-27 16:00:14');
-INSERT INTO `gen_table_column_t` VALUES ('21f8bc66e3ca4d61b8b2c5517c5aaed3', '95477bf45a234d49a1b09df355292ac0', 'last_modified_by', 'last_modified_by', 'varchar(50)', 'String', 'lastModifiedBy', '0', '0', '1', '1', '0', '0', '0', '=', 'input', '', null, '140', '-2', '0', null, '1', '2017-03-27 15:13:31', '1', '2017-03-27 15:13:31');
-INSERT INTO `gen_table_column_t` VALUES ('225f30f1ed3e42dcada9be8bf24a9a66', '95477bf45a234d49a1b09df355292ac0', 'last_modified_date', 'last_modified_date', 'timestamp', 'java.util.Date', 'lastModifiedDate', '0', '0', '1', '1', '0', '0', '0', '=', 'dateselect', '', null, '150', '-2', '0', null, '1', '2017-03-27 15:13:31', '1', '2017-03-27 15:13:31');
-INSERT INTO `gen_table_column_t` VALUES ('22766cf080d64568b4e47e3896c9091b', '839d689f93dd4933af6fbe77c690b5de', 'status_', '状态', 'varchar(32)', 'String', 'status', '0', '0', '1', '1', '0', '1', '0', '=', 'radiobox', 'sys_status', null, '100', '-2', '0', null, '1', '2017-03-27 15:13:39', '1', '2017-03-27 15:13:39');
-INSERT INTO `gen_table_column_t` VALUES ('22e5529cc6ef44898d2822064a6d54e6', '8be3b71107534e31885edb5139d7fec0', 'user_id', '用户', 'varchar(32)', 'String', 'userId', '0', '0', '0', '1', '1', '1', '1', 'eq', 'input', '', null, '20', '0', '0', null, '1', '2017-03-27 16:00:14', '1', '2017-03-27 16:00:14');
-INSERT INTO `gen_table_column_t` VALUES ('23ad75ef3a61462bbbebbf2b3608c6d4', '433f844704204f3190f77e5776a2a3da', 'area_id', '区域', 'varchar(32)', 'com.albedo.java.modules.sys.domain.Area', 'area.id|name', '0', '0', '1', '1', '1', '1', '0', '=', 'areaselect', '', null, '100', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('2c5fb8404df54b34ab1149b5bff3f32a', '839d689f93dd4933af6fbe77c690b5de', 'parent_id', '上级区域', 'int(11)', 'String', 'parentId', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '30', '-2', '0', null, '1', '2017-03-27 15:13:39', '1', '2017-03-27 15:13:39');
-INSERT INTO `gen_table_column_t` VALUES ('2ee48dd28568462f868d73380b199b4b', '433f844704204f3190f77e5776a2a3da', 'is_useinvoice', '是否使用加油站', 'int(1)', 'Integer', 'isUseinvoice', '0', '0', '0', '1', '1', '1', '0', '=', 'radiobox', 'sys_yes_no', null, '140', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('2fd9bbdb399d494ebbace429c1ea6c91', '6487595f89e04559ade88b297d6c4da4', 'caller_class', '操作类名', 'varchar(254)', 'String', 'callerClass', '0', '0', '0', '1', '1', '1', '0', '=', 'input', '', null, '130', '-2', '0', null, '1', '2017-03-27 15:13:37', '1', '2017-03-27 15:13:37');
-INSERT INTO `gen_table_column_t` VALUES ('300800d5920b40a3a11ce2dfe498f935', '8be3b71107534e31885edb5139d7fec0', 'created_by', '创建人', 'varchar(50)', 'String', 'createdBy', '0', '0', '0', '1', '0', '0', '0', 'eq', 'input', '', null, '100', '0', '0', null, '1', '2017-03-27 16:00:14', '1', '2017-03-27 16:00:14');
-INSERT INTO `gen_table_column_t` VALUES ('306724e56bc44e96af227a3162b7923c', '6487595f89e04559ade88b297d6c4da4', 'arg3', '参数3', 'varchar(254)', 'String', 'arg3', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '110', '-2', '0', null, '1', '2017-03-27 15:13:37', '1', '2017-03-27 15:13:37');
-INSERT INTO `gen_table_column_t` VALUES ('3790a3870b1d4494a2f4b8efc78dfa77', '839d689f93dd4933af6fbe77c690b5de', 'last_modified_by', 'last_modified_by', 'varchar(50)', 'String', 'lastModifiedBy', '0', '0', '1', '1', '0', '0', '0', '=', 'input', '', null, '140', '-2', '0', null, '1', '2017-03-27 15:13:39', '1', '2017-03-27 15:13:39');
-INSERT INTO `gen_table_column_t` VALUES ('3873cfbb2c184689b38bb0f2c82d515e', '433f844704204f3190f77e5776a2a3da', 'id_', '编号', 'varchar(32)', 'String', 'id', '1', '0', '0', '1', '0', '0', '0', '=', 'input', '', null, '10', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('3918d924f8b14a248ebcd92d19afbc8e', 'b865f6196888498b8200209721da240c', 'version_', '版本', 'int(11)', 'Long', 'version', '0', '0', '1', '1', '0', '0', '0', 'eq', 'input', '', null, '150', '0', '1', null, '1', '2017-06-30 15:01:56', '1', '2017-06-30 15:01:56');
-INSERT INTO `gen_table_column_t` VALUES ('3941688e1b3c4679b8eaf40d6b0e15db', 'b865f6196888498b8200209721da240c', 'description_', '描述', 'varchar(1024)', 'String', 'description', '0', '0', '1', '1', '1', '0', '0', 'eq', 'textarea', '', null, '160', '0', '1', null, '1', '2017-06-30 15:01:56', '1', '2017-06-30 15:01:56');
-INSERT INTO `gen_table_column_t` VALUES ('3a2507536c704b4bbedab3f67f2b4fa2', '839d689f93dd4933af6fbe77c690b5de', 'level_', '区域等级', 'int(11)', 'Integer', 'level', '0', '0', '1', '1', '1', '1', '0', '=', 'radiobox', 'sys_area_type', null, '70', '-2', '0', null, '1', '2017-03-27 15:13:39', '1', '2017-03-27 15:13:39');
-INSERT INTO `gen_table_column_t` VALUES ('3ba78b6e567642398c39ce109f5f4abd', '494f396184ba4433ba083e8bd9dc2530', 'created_by', 'created_by', 'varchar(50)', 'String', 'createdBy', '0', '0', '0', '1', '0', '0', '0', '=', 'input', '', null, '140', '-2', '0', null, '1', '2017-03-27 15:13:41', '1', '2017-03-27 15:13:41');
-INSERT INTO `gen_table_column_t` VALUES ('4100f71d115c4e92a5a7977bc79d5d3f', '8be3b71107534e31885edb5139d7fec0', 'id_', '编号', 'varchar(32)', 'String', 'id', '1', '0', '0', '1', '0', '0', '0', 'eq', 'input', '', null, '10', '0', '0', null, '1', '2017-03-27 16:00:14', '1', '2017-03-27 16:00:14');
-INSERT INTO `gen_table_column_t` VALUES ('432fdcddcca04de7a6bc21a4d104342f', '433f844704204f3190f77e5776a2a3da', 'created_date', 'created_date', 'datetime', 'java.util.Date', 'createdDate', '0', '0', '0', '1', '0', '0', '0', '=', 'dateselect', '', null, '330', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('437c7a918d82452dbe9bcef0c3c4b3b8', '95477bf45a234d49a1b09df355292ac0', 'status_', 'status_', 'int(11)', 'Long', 'status', '0', '0', '1', '1', '0', '0', '0', '=', 'radiobox', 'sys_status', null, '160', '-2', '0', null, '1', '2017-03-27 15:13:31', '1', '2017-03-27 15:13:31');
-INSERT INTO `gen_table_column_t` VALUES ('4446892a37774f24ba7ec230089266a7', 'b865f6196888498b8200209721da240c', 'id_', '编号', 'varchar(32)', 'String', 'id', '1', '0', '0', '1', '0', '0', '0', 'eq', 'input', '', null, '10', '0', '1', null, '1', '2017-06-30 15:01:56', '1', '2017-06-30 15:01:56');
-INSERT INTO `gen_table_column_t` VALUES ('45f29829ccf24cd297a2dbbec287b950', '95477bf45a234d49a1b09df355292ac0', 'activation_key', 'activation_key', 'varchar(20)', 'String', 'activationKey', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '90', '-2', '0', null, '1', '2017-03-27 15:13:31', '1', '2017-03-27 15:13:31');
-INSERT INTO `gen_table_column_t` VALUES ('474e3ad5e4e842299313fd11e6de6806', '433f844704204f3190f77e5776a2a3da', 'last_modified_by', 'last_modified_by', 'varchar(50)', 'String', 'lastModifiedBy', '0', '0', '1', '1', '0', '0', '0', '=', 'input', '', null, '340', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('480dc23422ca441f995dc7451d012962', '494f396184ba4433ba083e8bd9dc2530', 'version_', 'version_', 'int(11)', 'Long', 'version', '0', '0', '1', '1', '0', '0', '0', '=', 'input', '', null, '130', '-2', '0', null, '1', '2017-03-27 15:13:41', '1', '2017-03-27 15:13:41');
-INSERT INTO `gen_table_column_t` VALUES ('4b34baedffd14854b02b7ece9a2c2919', 'b865f6196888498b8200209721da240c', 'created_by', '创建人', 'varchar(50)', 'String', 'createdBy', '0', '0', '0', '1', '0', '0', '0', 'eq', 'input', '', null, '100', '0', '1', null, '1', '2017-06-30 15:01:56', '1', '2017-06-30 15:01:56');
-INSERT INTO `gen_table_column_t` VALUES ('4bd66fdf9400461883d29b0a3cca4775', '433f844704204f3190f77e5776a2a3da', 'is_cooperate', '是否合作站', 'int(1)', 'Integer', 'isCooperate', '0', '0', '0', '1', '1', '1', '0', '=', 'radiobox', 'sys_yes_no', null, '130', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('559e56c2c20e41e582605f9801f945c1', '6487595f89e04559ade88b297d6c4da4', 'caller_filename', '操作文件', 'varchar(254)', 'String', 'callerFilename', '0', '0', '0', '1', '1', '1', '0', '=', 'input', '', null, '120', '-2', '0', null, '1', '2017-03-27 15:13:37', '1', '2017-03-27 15:13:37');
-INSERT INTO `gen_table_column_t` VALUES ('56572ffffa8e4dca919de6369c2ad342', '433f844704204f3190f77e5776a2a3da', 'created_by', 'created_by', 'varchar(50)', 'String', 'createdBy', '0', '0', '0', '1', '0', '0', '0', '=', 'input', '', null, '320', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('57917b12a49e49b8ad34fef6939b50d5', '839d689f93dd4933af6fbe77c690b5de', 'sort_', '序号', 'int(11)', 'Long', 'sort', '0', '0', '0', '1', '1', '1', '0', '=', 'input', '', null, '60', '-2', '0', null, '1', '2017-03-27 15:13:39', '1', '2017-03-27 15:13:39');
-INSERT INTO `gen_table_column_t` VALUES ('5c349a08bc2649af832fa6bb6b040b56', '8be3b71107534e31885edb5139d7fec0', 'created_date', '创建时间', 'datetime', 'java.util.Date', 'createdDate', '0', '0', '0', '1', '0', '0', '0', 'eq', 'dateselect', '', null, '110', '0', '0', null, '1', '2017-03-27 16:00:14', '1', '2017-03-27 16:00:14');
-INSERT INTO `gen_table_column_t` VALUES ('5eca9cc871d4431e90542db9c5e75698', '839d689f93dd4933af6fbe77c690b5de', 'version_', '版本', 'int(11)', 'Long', 'version', '0', '0', '0', '1', '0', '0', '0', '=', 'input', '', null, '110', '-2', '0', null, '1', '2017-03-27 15:13:39', '1', '2017-03-27 15:13:39');
-INSERT INTO `gen_table_column_t` VALUES ('61bbdd5f8a1e46c5be18664f425fcb2e', '494f396184ba4433ba083e8bd9dc2530', 'id_', '编号', 'varchar(32)', 'String', 'id', '1', '0', '0', '1', '0', '0', '0', '=', 'input', '', null, '10', '-2', '0', null, '1', '2017-03-27 15:13:41', '1', '2017-03-27 15:13:41');
-INSERT INTO `gen_table_column_t` VALUES ('61debb1d07d04ce6ba0380096fa59c4d', '8be3b71107534e31885edb5139d7fec0', 'last_modified_date', '最后更新时间', 'datetime', 'java.util.Date', 'lastModifiedDate', '0', '0', '1', '1', '0', '0', '0', 'eq', 'dateselect', '', null, '130', '0', '0', null, '1', '2017-03-27 16:00:14', '1', '2017-03-27 16:00:14');
-INSERT INTO `gen_table_column_t` VALUES ('638f2d40508c40d0b410b6c23116b91a', '839d689f93dd4933af6fbe77c690b5de', 'code_', '区域编码', 'varchar(32)', 'String', 'code', '0', '1', '1', '1', '1', '1', '1', 'like', 'input', '', null, '80', '-2', '0', null, '1', '2017-03-27 15:13:39', '1', '2017-03-27 15:13:39');
-INSERT INTO `gen_table_column_t` VALUES ('6444181c4b5a46e5ab48307caad7571b', '6487595f89e04559ade88b297d6c4da4', 'level_string', '级别', 'varchar(254)', 'String', 'levelString', '0', '0', '0', '1', '1', '1', '1', '=', 'checkbox', 'sys_log_level', null, '50', '-2', '0', null, '1', '2017-03-27 15:13:37', '1', '2017-03-27 15:13:37');
-INSERT INTO `gen_table_column_t` VALUES ('649b41c81e824ff2967a0dadb84d1a36', '433f844704204f3190f77e5776a2a3da', 'user_id', '用户', 'varchar(32)', 'com.albedo.java.modules.sys.domain.User', 'user.id|name', '0', '0', '1', '1', '1', '1', '0', '=', 'userselect', '', null, '30', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('64ddd9f48ff64b2583e283ff26860d87', '433f844704204f3190f77e5776a2a3da', 'company_id', '所属公司', 'varchar(32)', 'String', 'companyId', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '290', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('64fa40d8dd754792926dc59d06d9aa51', '839d689f93dd4933af6fbe77c690b5de', 'last_modified_date', 'last_modified_date', 'datetime', 'java.util.Date', 'lastModifiedDate', '0', '0', '1', '1', '0', '0', '0', '=', 'dateselect', '', null, '150', '-2', '0', null, '1', '2017-03-27 15:13:39', '1', '2017-03-27 15:13:39');
-INSERT INTO `gen_table_column_t` VALUES ('6521c483980a4f3683c33a3ec8bb6ad8', '433f844704204f3190f77e5776a2a3da', 'last_modified_date', 'last_modified_date', 'datetime', 'java.util.Date', 'lastModifiedDate', '0', '0', '1', '1', '0', '0', '0', '=', 'dateselect', '', null, '350', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('664a8d7ad5f940eabff9e07861b5d529', '95477bf45a234d49a1b09df355292ac0', 'login_id', 'login_id', 'varchar(50)', 'String', 'loginId', '0', '0', '0', '1', '1', '1', '0', '=', 'input', '', null, '30', '-2', '0', null, '1', '2017-03-27 15:13:31', '1', '2017-03-27 15:13:31');
-INSERT INTO `gen_table_column_t` VALUES ('664d004cf4a849fe94631cf2b207fe73', '6487595f89e04559ade88b297d6c4da4', 'arg1', '参数1', 'varchar(254)', 'String', 'arg1', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '90', '-2', '0', null, '1', '2017-03-27 15:13:37', '1', '2017-03-27 15:13:37');
-INSERT INTO `gen_table_column_t` VALUES ('6884bbe4f93e4044ab9a9e686acc9a23', '433f844704204f3190f77e5776a2a3da', 'business_hour_start', '营业开始时间', 'varchar(64)', 'String', 'businessHourStart', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '220', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('68f8c9efb8b740dfa30cdb4d73eeeb63', '494f396184ba4433ba083e8bd9dc2530', 'is_leaf', '叶子节点', 'bit(1)', 'String', 'isLeaf', '0', '0', '1', '1', '1', '1', '0', '=', 'radiobox', 'sys_yes_no', null, '70', '-2', '0', null, '1', '2017-03-27 15:13:41', '1', '2017-03-27 15:13:41');
-INSERT INTO `gen_table_column_t` VALUES ('69ac6c86b8c24db5b86410b3dddb4f9e', '494f396184ba4433ba083e8bd9dc2530', 'is_show', '是否显示', 'bit(1)', 'String', 'isShow', '0', '0', '1', '1', '1', '1', '0', '=', 'radiobox', 'sys_yes_no', null, '65', '-2', '0', null, '1', '2017-03-27 15:13:41', '1', '2017-03-27 15:13:41');
-INSERT INTO `gen_table_column_t` VALUES ('6d0267263b5245c5b6b957825177d6db', '95477bf45a234d49a1b09df355292ac0', 'password_hash', 'password_hash', 'varchar(60)', 'String', 'passwordHash', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '40', '-2', '0', null, '1', '2017-03-27 15:13:31', '1', '2017-03-27 15:13:31');
-INSERT INTO `gen_table_column_t` VALUES ('6fcee64e7c1e4374b4de22e6e842d6c8', '494f396184ba4433ba083e8bd9dc2530', 'parent_id', 'parent_id', 'varchar(32)', 'String', 'parentId', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '30', '-2', '0', null, '1', '2017-03-27 15:13:41', '1', '2017-03-27 15:13:41');
-INSERT INTO `gen_table_column_t` VALUES ('73298847174a45f486bde3092227363b', '494f396184ba4433ba083e8bd9dc2530', 'parent_ids', 'parent_ids', 'varchar(2000)', 'String', 'parentIds', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '40', '-2', '0', null, '1', '2017-03-27 15:13:41', '1', '2017-03-27 15:13:41');
-INSERT INTO `gen_table_column_t` VALUES ('7331a39df8e34f658b93ed0f6b5a2e45', '8be3b71107534e31885edb5139d7fec0', 'last_modified_by', '更新人', 'varchar(50)', 'String', 'lastModifiedBy', '0', '0', '1', '1', '0', '0', '0', 'eq', 'input', '', null, '120', '0', '0', null, '1', '2017-03-27 16:00:14', '1', '2017-03-27 16:00:14');
-INSERT INTO `gen_table_column_t` VALUES ('7380a9a3832d4e5aa9a510b29ca4abf2', '839d689f93dd4933af6fbe77c690b5de', 'created_by', 'created_by', 'varchar(50)', 'com.albedo.java.modules.sys.domain.User', 'createdBy', '0', '0', '0', '1', '0', '0', '0', '=', 'input', '', null, '120', '-2', '0', null, '1', '2017-03-27 15:13:39', '1', '2017-03-27 15:13:39');
-INSERT INTO `gen_table_column_t` VALUES ('791aa2c5aa2849a7b30757c54c0bad09', '494f396184ba4433ba083e8bd9dc2530', 'val_', '值', 'varchar(255)', 'String', 'val', '0', '0', '1', '1', '1', '1', '1', '=', 'input', '', null, '50', '-2', '0', null, '1', '2017-03-27 15:13:41', '1', '2017-03-27 15:13:41');
-INSERT INTO `gen_table_column_t` VALUES ('79459212a7044050a1ee8dbf1bbcb55c', '494f396184ba4433ba083e8bd9dc2530', 'status_', 'status_', 'varchar(2)', 'String', 'status', '0', '0', '1', '1', '0', '0', '0', '=', 'radiobox', 'sys_status', null, '100', '-2', '0', null, '1', '2017-03-27 15:13:41', '1', '2017-03-27 15:13:41');
-INSERT INTO `gen_table_column_t` VALUES ('7bf9987cdcab4927b76d13b3613ce84c', 'b865f6196888498b8200209721da240c', 'last_modified_date', '最后更新时间', 'datetime', 'java.util.Date', 'lastModifiedDate', '0', '0', '1', '1', '0', '0', '0', 'eq', 'dateselect', '', null, '130', '0', '1', null, '1', '2017-06-30 15:01:56', '1', '2017-06-30 15:01:56');
-INSERT INTO `gen_table_column_t` VALUES ('7c8009105b884fb28b4dff8246cdacaa', '433f844704204f3190f77e5776a2a3da', 'longitude_', '经度', 'varchar(255)', 'String', 'longitude', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '60', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('80ad0e59b24c424a82b5259e54138b57', '6487595f89e04559ade88b297d6c4da4', 'thread_name', '线程', 'varchar(254)', 'String', 'threadName', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '60', '-2', '0', null, '1', '2017-03-27 15:13:37', '1', '2017-03-27 15:13:37');
-INSERT INTO `gen_table_column_t` VALUES ('824adc18e2af45f2bebead0eb9f226dc', '433f844704204f3190f77e5776a2a3da', 'mark_envir', '环境评分', 'decimal(11,2)', 'Double', 'markEnvir', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '180', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('88330dc3ed4344f7adb677873135c7fc', '839d689f93dd4933af6fbe77c690b5de', 'id_', '区域id', 'int(11)', 'String', 'id', '1', '0', '0', '1', '1', '0', '0', '=', 'input', '', null, '10', '-2', '0', null, '1', '2017-03-27 15:13:39', '1', '2017-03-27 15:13:39');
-INSERT INTO `gen_table_column_t` VALUES ('896b1e54cb6c4a5696e4f4a549b57e05', '433f844704204f3190f77e5776a2a3da', 'phone_', '联系方式', 'varchar(255)', 'String', 'phone', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '90', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('8cc6da6960424f6fbe26e6d4d4f49a64', '433f844704204f3190f77e5776a2a3da', 'name_', '名称', 'varchar(255)', 'String', 'name', '0', '0', '1', '1', '1', '1', '1', 'like', 'input', '', null, '20', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('8e3048243014437398331b8686176a50', '433f844704204f3190f77e5776a2a3da', 'open_time', '开通时间', 'datetime', 'java.util.Date', 'openTime', '0', '0', '1', '1', '1', '1', '0', '=', 'dateselect', '', null, '300', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('8face8acc7e64a3cb38c05f4432cf74c', '433f844704204f3190f77e5776a2a3da', 'latitude_', '纬度', 'varchar(255)', 'String', 'latitude', '0', '0', '0', '1', '1', '1', '0', '=', 'input', '', null, '40', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('8fc533077ddf4aaa8e332bae2945b618', '6487595f89e04559ade88b297d6c4da4', 'timestmp', '创建时间', 'bigint(20)', 'Long', 'timestmp', '0', '0', '0', '1', '1', '1', '0', '=', 'input', '', null, '20', '-2', '0', null, '1', '2017-03-27 15:13:37', '1', '2017-03-27 15:13:37');
-INSERT INTO `gen_table_column_t` VALUES ('917e3aeda044408291f6e4dcdc986706', '494f396184ba4433ba083e8bd9dc2530', 'last_modified_date', 'last_modified_date', 'datetime', 'java.util.Date', 'lastModifiedDate', '0', '0', '1', '1', '0', '0', '0', '=', 'dateselect', '', null, '170', '-2', '0', null, '1', '2017-03-27 15:13:41', '1', '2017-03-27 15:13:41');
-INSERT INTO `gen_table_column_t` VALUES ('93a38da5c74248629f4439be8f46d669', '494f396184ba4433ba083e8bd9dc2530', 'created_date', 'created_date', 'datetime', 'java.util.Date', 'createdDate', '0', '0', '0', '1', '0', '0', '0', '=', 'dateselect', '', null, '150', '-2', '0', null, '1', '2017-03-27 15:13:41', '1', '2017-03-27 15:13:41');
-INSERT INTO `gen_table_column_t` VALUES ('93cb2c5097404136881b2e6e1412fed9', '433f844704204f3190f77e5776a2a3da', 'mark_service', '服务评分', 'decimal(11,2)', 'Double', 'markService', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '190', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('956f345f8e3f430f89e22400510a2f13', '433f844704204f3190f77e5776a2a3da', 'gaode_table_id', '高德地图表格Id', 'varchar(32)', 'String', 'gaodeTableId', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '240', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('975dd9c14c8f4299be495dbf3605c2a0', '6487595f89e04559ade88b297d6c4da4', 'event_id', 'event_id', 'bigint(20)', 'Long', 'eventId', '1', '0', '0', '1', '1', '1', '0', '=', 'input', '', null, '10', '-2', '0', null, '1', '2017-03-27 15:13:37', '1', '2017-03-27 15:13:37');
-INSERT INTO `gen_table_column_t` VALUES ('9840e7b5ad7c45e78ec16a78b0765564', '433f844704204f3190f77e5776a2a3da', 'map_id', '地图Id', 'varchar(32)', 'String', 'mapId', '0', '0', '0', '1', '1', '1', '0', '=', 'input', '', null, '70', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('99327558fc9e4edf8c10fc47b2e61ef6', '8be3b71107534e31885edb5139d7fec0', 'client_key', 'AESKey', 'tinyint(128)', 'String', 'clientKey', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '70', '0', '0', null, '1', '2017-03-27 16:00:14', '1', '2017-03-27 16:00:14');
-INSERT INTO `gen_table_column_t` VALUES ('9af13a2d7af14771b523f5b4994e870d', 'b865f6196888498b8200209721da240c', 'title_', '标题', 'varchar(64)', 'String', 'title', '0', '0', '1', '1', '1', '1', '1', 'like', 'input', '', null, '50', '0', '1', null, '1', '2017-06-30 15:01:56', '1', '2017-06-30 15:01:56');
-INSERT INTO `gen_table_column_t` VALUES ('9b1bd919eed449a88437bf6535963898', '8be3b71107534e31885edb5139d7fec0', 'online_status', '在线状态', 'tinyint(4)', 'String', 'onlineStatus', '0', '0', '0', '1', '1', '1', '1', 'eq', 'radio', 'online_status', null, '90', '0', '0', null, '1', '2017-03-27 16:00:14', '1', '2017-03-27 16:00:14');
-INSERT INTO `gen_table_column_t` VALUES ('9c0a54b10a6349eba6f83218ba716de8', 'b865f6196888498b8200209721da240c', 'msg_id', '消息编号', 'varchar(32)', 'String', 'msgId', '0', '0', '0', '1', '1', '1', '0', 'eq', 'input', '', null, '20', '0', '1', null, '1', '2017-06-30 15:01:56', '1', '2017-06-30 15:01:56');
-INSERT INTO `gen_table_column_t` VALUES ('9f6f755940454d56845b1398c194263c', '8be3b71107534e31885edb5139d7fec0', 'version_', '版本', 'int(11)', 'Long', 'version', '0', '0', '1', '1', '0', '0', '0', 'eq', 'input', '', null, '150', '0', '0', null, '1', '2017-03-27 16:00:14', '1', '2017-03-27 16:00:14');
-INSERT INTO `gen_table_column_t` VALUES ('9fc6904b843040d4bdd207a4a9606223', '433f844704204f3190f77e5776a2a3da', 'business_hour_end', '营业结束时间', 'varchar(64)', 'String', 'businessHourEnd', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '230', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('a38d7c25cb0f4060804b05cb25888671', '494f396184ba4433ba083e8bd9dc2530', 'name_', '名称', 'varchar(255)', 'String', 'name', '0', '0', '1', '1', '1', '1', '1', 'like', 'input', '', null, '20', '-2', '0', null, '1', '2017-03-27 15:13:41', '1', '2017-03-27 15:13:41');
-INSERT INTO `gen_table_column_t` VALUES ('a4884029d2b941f5be32b29eb9432584', 'b865f6196888498b8200209721da240c', 'form_', '来源', 'varchar(32)', 'String', 'form', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '90', '0', '1', null, '1', '2017-06-30 15:01:56', '1', '2017-06-30 15:01:56');
-INSERT INTO `gen_table_column_t` VALUES ('a76d8b8b4dc145958c68ad6f042e0c7c', 'b865f6196888498b8200209721da240c', 'user_id', '用户', 'varchar(32)', 'String', 'userId', '0', '0', '0', '1', '1', '1', '0', 'eq', 'input', '', null, '30', '0', '1', null, '1', '2017-06-30 15:01:56', '1', '2017-06-30 15:01:56');
-INSERT INTO `gen_table_column_t` VALUES ('ac4f736b357844b7800bcd29ae8886c4', '95477bf45a234d49a1b09df355292ac0', 'description_', 'description_', 'varchar(255)', 'String', 'description', '0', '0', '1', '1', '1', '0', '0', '=', 'textarea', '', null, '170', '-2', '0', null, '1', '2017-03-27 15:13:31', '1', '2017-03-27 15:13:31');
-INSERT INTO `gen_table_column_t` VALUES ('b1fa49ecab0d4f7abb80e56cbb7aec46', '8be3b71107534e31885edb5139d7fec0', 'cipher_', '密码', 'varchar(128)', 'String', 'cipher', '0', '0', '0', '1', '1', '1', '0', 'eq', 'input', '', null, '60', '0', '0', null, '1', '2017-03-27 16:00:14', '1', '2017-03-27 16:00:14');
-INSERT INTO `gen_table_column_t` VALUES ('b8f691ee828641fcbfc23e406a0fc5d8', '95477bf45a234d49a1b09df355292ac0', 'lang_key', 'lang_key', 'varchar(5)', 'String', 'langKey', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '80', '-2', '0', null, '1', '2017-03-27 15:13:31', '1', '2017-03-27 15:13:31');
-INSERT INTO `gen_table_column_t` VALUES ('bd2952c551c34564b0b3cf48b53e14aa', '95477bf45a234d49a1b09df355292ac0', 'reset_date', 'reset_date', 'timestamp', 'java.util.Date', 'resetDate', '0', '0', '1', '1', '1', '1', '0', '=', 'dateselect', '', null, '110', '-2', '0', null, '1', '2017-03-27 15:13:31', '1', '2017-03-27 15:13:31');
-INSERT INTO `gen_table_column_t` VALUES ('c589f4945847425e8be781cfd52ce446', '494f396184ba4433ba083e8bd9dc2530', 'code_', '唯一编码', 'varchar(255)', 'String', 'code', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '60', '-2', '0', null, '1', '2017-03-27 15:13:41', '1', '2017-03-27 15:13:41');
-INSERT INTO `gen_table_column_t` VALUES ('c635991a51754cd88e5cb2ac672d2365', '8be3b71107534e31885edb5139d7fec0', 'description_', '描述', 'varchar(1024)', 'String', 'description', '0', '0', '1', '1', '1', '0', '0', 'eq', 'textarea', '', null, '160', '0', '0', null, '1', '2017-03-27 16:00:14', '1', '2017-03-27 16:00:14');
-INSERT INTO `gen_table_column_t` VALUES ('c8cf7be9b8d64968a6b09f08406b3462', '839d689f93dd4933af6fbe77c690b5de', 'is_leaf', '是否叶子节点', 'bit(1)', 'String', 'isLeaf', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '90', '-2', '0', null, '1', '2017-03-27 15:13:39', '1', '2017-03-27 15:13:39');
-INSERT INTO `gen_table_column_t` VALUES ('c9e6b04818174b768e441b45457d3c28', '95477bf45a234d49a1b09df355292ac0', 'created_by', 'created_by', 'varchar(50)', 'String', 'createdBy', '0', '0', '0', '1', '0', '0', '0', '=', 'input', '', null, '120', '-2', '0', null, '1', '2017-03-27 15:13:31', '1', '2017-03-27 15:13:31');
-INSERT INTO `gen_table_column_t` VALUES ('cb8f55b59d2441a4a3847dc5e7b8e68e', '8be3b71107534e31885edb5139d7fec0', 'device_id', '设备编号', 'varchar(64)', 'String', 'deviceId', '0', '0', '0', '1', '1', '1', '1', 'eq', 'input', '', null, '30', '0', '0', null, '1', '2017-03-27 16:00:14', '1', '2017-03-27 16:00:14');
-INSERT INTO `gen_table_column_t` VALUES ('ccd6e3a314e04bc9ba9cb6dfbc929b79', '6487595f89e04559ade88b297d6c4da4', 'formatted_message', '内容', 'text', 'String', 'formattedMessage', '0', '0', '0', '1', '1', '1', '0', '=', 'input', '', null, '30', '-2', '0', null, '1', '2017-03-27 15:13:37', '1', '2017-03-27 15:13:37');
-INSERT INTO `gen_table_column_t` VALUES ('cfc5b391af644cf08a93ddc1e2baf00c', '6487595f89e04559ade88b297d6c4da4', 'logger_name', '名称', 'varchar(254)', 'String', 'loggerName', '0', '0', '0', '1', '1', '1', '1', '=', 'input', '', null, '40', '-2', '0', null, '1', '2017-03-27 15:13:37', '1', '2017-03-27 15:13:37');
-INSERT INTO `gen_table_column_t` VALUES ('d0be56d2b7bd435680cdf1f3c56b36c9', '8be3b71107534e31885edb5139d7fec0', 'os_version', '系统版本', 'varchar(64)', 'String', 'osVersion', '0', '0', '1', '1', '1', '1', '1', 'eq', 'input', '', null, '50', '0', '0', null, '1', '2017-03-27 16:00:14', '1', '2017-03-27 16:00:14');
-INSERT INTO `gen_table_column_t` VALUES ('d0e530b012f3474cb5487fe28f187551', '433f844704204f3190f77e5776a2a3da', 'cooperate_type', '合作类型', 'varchar(12)', 'String', 'cooperateType', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '150', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('d45c3e776a6c4f4faae3dee3fe6c5cbe', '839d689f93dd4933af6fbe77c690b5de', 'name_', '区域名称', 'varchar(32)', 'String', 'name', '0', '0', '1', '1', '1', '1', '1', 'like', 'input', '', null, '40', '-2', '0', null, '1', '2017-03-27 15:13:39', '1', '2017-03-27 15:13:39');
-INSERT INTO `gen_table_column_t` VALUES ('d4f77623576941fd8525e8bc47248c33', 'b865f6196888498b8200209721da240c', 'created_date', '创建时间', 'datetime', 'java.util.Date', 'createdDate', '0', '0', '0', '1', '0', '0', '0', 'eq', 'dateselect', '', null, '110', '0', '1', null, '1', '2017-06-30 15:01:56', '1', '2017-06-30 15:01:56');
-INSERT INTO `gen_table_column_t` VALUES ('d763c1888f5443c88fc5b52fbf5a1ed0', '433f844704204f3190f77e5776a2a3da', 'consume_order', '消费单数', 'int(11)', 'Long', 'consumeOrder', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '210', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('da61e633d55c4d5fa64cd2aea3221602', '6487595f89e04559ade88b297d6c4da4', 'arg2', '参数2', 'varchar(254)', 'String', 'arg2', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '100', '-2', '0', null, '1', '2017-03-27 15:13:37', '1', '2017-03-27 15:13:37');
-INSERT INTO `gen_table_column_t` VALUES ('db9cd4e4d1584351988036219b77a694', '433f844704204f3190f77e5776a2a3da', 'score_', '平均分', 'decimal(11,2)', 'Double', 'score', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '200', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('ddef328eda5b4a7a9b4ff38e09169955', '494f396184ba4433ba083e8bd9dc2530', 'sort_', '排序', 'int(11)', 'Long', 'sort', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '80', '-2', '0', null, '1', '2017-03-27 15:13:41', '1', '2017-03-27 15:13:41');
-INSERT INTO `gen_table_column_t` VALUES ('e05c0b98659a4c2e8c1cb0acb91849b4', '95477bf45a234d49a1b09df355292ac0', 'created_date', 'created_date', 'timestamp', 'java.util.Date', 'createdDate', '0', '0', '0', '1', '0', '0', '0', '=', 'dateselect', '', null, '130', '-2', '0', null, '1', '2017-03-27 15:13:31', '1', '2017-03-27 15:13:31');
-INSERT INTO `gen_table_column_t` VALUES ('e2a962d6e313497b91b6cb7a9eb3942f', 'b865f6196888498b8200209721da240c', 'send_time', '发送时间', 'datetime', 'java.util.Date', 'sendTime', '0', '0', '0', '1', '1', '1', '0', 'eq', 'dateselect', '', null, '80', '0', '1', null, '1', '2017-06-30 15:01:56', '1', '2017-06-30 15:01:56');
-INSERT INTO `gen_table_column_t` VALUES ('e37f9b24a4fb42d88ecb06faad0f013e', '433f844704204f3190f77e5776a2a3da', 'mark_oil', '油评分', 'decimal(11,2)', 'Double', 'markOil', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '170', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('e4bd7a6fde404972a894b1d956a64060', '433f844704204f3190f77e5776a2a3da', 'oil_card_amount', '购买油卡金额', 'decimal(11,2)', 'Double', 'oilCardAmount', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '160', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('ea483bdfb2724656b508dd91b9ed4026', '95477bf45a234d49a1b09df355292ac0', 'name_', 'name_', 'varchar(50)', 'String', 'name', '0', '0', '1', '1', '1', '1', '1', 'like', 'input', '', null, '50', '-2', '0', null, '1', '2017-03-27 15:13:31', '1', '2017-03-27 15:13:31');
-INSERT INTO `gen_table_column_t` VALUES ('ed23d26dc4944401af468f7a70aa23dd', '95477bf45a234d49a1b09df355292ac0', 'id_', 'id_', 'varchar(32)', 'String', 'id', '1', '0', '0', '1', '0', '0', '0', '=', 'input', '', null, '10', '-2', '0', null, '1', '2017-03-27 15:13:31', '1', '2017-03-27 15:13:31');
-INSERT INTO `gen_table_column_t` VALUES ('ed77cb26fe514f98a28dc9bd916f9818', 'b865f6196888498b8200209721da240c', 'status_', '状态 0 正常 1审核  -1 停用 -2 删除', 'varchar(2)', 'String', 'status', '0', '0', '1', '1', '0', '0', '0', 'eq', 'radio', 'sys_status', null, '140', '0', '1', null, '1', '2017-06-30 15:01:56', '1', '2017-06-30 15:01:56');
-INSERT INTO `gen_table_column_t` VALUES ('ee22f73f84854ec3ab4fa1b8c6d1d48d', '6487595f89e04559ade88b297d6c4da4', 'arg0', '参数0', 'varchar(254)', 'String', 'arg0', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '80', '-2', '0', null, '1', '2017-03-27 15:13:37', '1', '2017-03-27 15:13:37');
-INSERT INTO `gen_table_column_t` VALUES ('f0e4732fd296401ebc78d3f9f7696205', '6487595f89e04559ade88b297d6c4da4', 'caller_line', '操作行', 'char(4)', 'String', 'callerLine', '0', '0', '0', '1', '1', '1', '0', '=', 'input', '', null, '150', '-2', '0', null, '1', '2017-03-27 15:13:37', '1', '2017-03-27 15:13:37');
-INSERT INTO `gen_table_column_t` VALUES ('f1c208496e9d4139afff761f62f8b79a', '95477bf45a234d49a1b09df355292ac0', 'activated_', 'activated_', 'bit(1)', 'Integer', 'activated', '0', '0', '0', '1', '1', '1', '0', '=', 'input', '', null, '70', '-2', '0', null, '1', '2017-03-27 15:13:31', '1', '2017-03-27 15:13:31');
-INSERT INTO `gen_table_column_t` VALUES ('f2a082b6e6ad49f2b07334d0eab66f9f', '433f844704204f3190f77e5776a2a3da', 'has_car_wash', '是否有洗车服务', 'int(1)', 'Integer', 'hasCarWash', '0', '0', '0', '1', '1', '1', '0', '=', 'radiobox', 'sys_yes_no', null, '110', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('f5130d9ec7604cd09131544b2c0ef12b', '839d689f93dd4933af6fbe77c690b5de', 'created_date', 'created_date', 'datetime', 'java.util.Date', 'createdDate', '0', '0', '0', '1', '0', '0', '0', '=', 'dateselect', '', null, '130', '-2', '0', null, '1', '2017-03-27 15:13:39', '1', '2017-03-27 15:13:39');
-INSERT INTO `gen_table_column_t` VALUES ('f73dc9cf94b44a6fb1626b1b9648449a', '95477bf45a234d49a1b09df355292ac0', 'version_', 'version_', 'int(11)', 'Long', 'version', '0', '0', '1', '1', '0', '0', '0', '=', 'input', '', null, '180', '-2', '0', null, '1', '2017-03-27 15:13:31', '1', '2017-03-27 15:13:31');
-INSERT INTO `gen_table_column_t` VALUES ('f7873fa00a0b42998c10d9621f3d54b7', 'b865f6196888498b8200209721da240c', 'last_modified_by', '更新人', 'varchar(50)', 'String', 'lastModifiedBy', '0', '0', '1', '1', '0', '0', '0', 'eq', 'input', '', null, '120', '0', '1', null, '1', '2017-06-30 15:01:56', '1', '2017-06-30 15:01:56');
-INSERT INTO `gen_table_column_t` VALUES ('f8211381d246417e9e39e28e426261e6', '433f844704204f3190f77e5776a2a3da', 'version_', '默认0，必填，离线乐观锁', 'int(11)', 'Long', 'version', '0', '0', '1', '1', '0', '0', '0', '=', 'input', '', null, '270', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('f8c924636cea470aac314c76e04af90e', '95477bf45a234d49a1b09df355292ac0', 'org_id', 'org_id', 'varchar(32)', 'com.albedo.java.modules.sys.domain.Org', 'org.id|name', '0', '0', '1', '1', '1', '1', '0', '=', 'orgselect', '', null, '20', '-2', '0', null, '1', '2017-03-27 15:13:31', '1', '2017-03-27 15:13:31');
-INSERT INTO `gen_table_column_t` VALUES ('f95d955c665345449942890d9574bd37', '433f844704204f3190f77e5776a2a3da', 'logo_url', 'LOGO', 'varchar(255)', 'String', 'logoUrl', '0', '0', '1', '1', '1', '1', '0', '=', 'input', '', null, '80', '-2', '0', null, '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_column_t` VALUES ('fbb5e8f90bf547a0b80ea1920bc39bfa', '839d689f93dd4933af6fbe77c690b5de', 'parent_ids', '所有上级区域节点', 'text', 'String', 'parentIds', '0', '0', '0', '1', '1', '1', '0', '=', 'input', '', null, '20', '-2', '0', null, '1', '2017-03-27 15:13:39', '1', '2017-03-27 15:13:39');
 
 -- ----------------------------
 -- Table structure for gen_table_fk_t
@@ -292,13 +152,6 @@ CREATE TABLE `gen_table_t` (
 -- ----------------------------
 -- Records of gen_table_t
 -- ----------------------------
-INSERT INTO `gen_table_t` VALUES ('433f844704204f3190f77e5776a2a3da', 'gas_station', '加油站表', 'Station', '', '', '-2', '0', '', '1', '2017-03-27 15:13:43', '1', '2017-03-27 15:13:43');
-INSERT INTO `gen_table_t` VALUES ('494f396184ba4433ba083e8bd9dc2530', 'sys_dict_t', '字典表', 'Dict', '', '', '-2', '0', '', '1', '2017-03-27 15:13:41', '1', '2017-03-27 15:13:41');
-INSERT INTO `gen_table_t` VALUES ('6487595f89e04559ade88b297d6c4da4', 'logging_event', '日志表', 'LoggingEvent', '', '', '-2', '0', '', '1', '2017-03-27 15:13:37', '1', '2017-03-27 15:13:37');
-INSERT INTO `gen_table_t` VALUES ('839d689f93dd4933af6fbe77c690b5de', 'sys_area_t', '区域表', 'Area', '', '', '-2', '0', '', '1', '2017-03-27 15:13:39', '1', '2017-03-27 15:13:39');
-INSERT INTO `gen_table_t` VALUES ('8be3b71107534e31885edb5139d7fec0', 'mpns_client', '设备表', 'Client', '', '', '0', '0', '', '1', '2017-03-27 15:21:59', '1', '2017-03-27 15:21:59');
-INSERT INTO `gen_table_t` VALUES ('95477bf45a234d49a1b09df355292ac0', 'sys_user_t', '用户表', 'User', '', '', '-2', '0', '', '1', '2017-03-27 15:13:31', '1', '2017-03-27 15:13:30');
-INSERT INTO `gen_table_t` VALUES ('b865f6196888498b8200209721da240c', 'mpns_message', '消息表', 'Message', '', '', '0', '1', '', '1', '2017-03-27 15:21:31', '1', '2017-06-30 15:01:56');
 
 -- ----------------------------
 -- Table structure for gen_template_t
@@ -349,61 +202,11 @@ CREATE TABLE `jhi_persistent_audit_event` (
   `event_type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`event_id`),
   KEY `idx_persistent_audit_event` (`principal`,`event_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=256 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=263 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of jhi_persistent_audit_event
 -- ----------------------------
-INSERT INTO `jhi_persistent_audit_event` VALUES ('206', 'admin', '2017-02-28 20:44:31', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('207', 'admin', '2017-02-28 21:25:39', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('208', 'admin', '2017-02-28 21:29:50', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('209', 'admin', '2017-03-01 09:26:19', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('210', 'admin', '2017-03-01 13:42:39', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('211', 'admin', '2017-03-01 13:52:40', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('212', 'admin', '2017-03-01 13:55:17', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('213', 'admin', '2017-03-01 19:29:48', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('214', 'admin', '2017-03-01 19:36:50', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('215', 'admin', '2017-03-01 20:37:46', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('216', 'admin', '2017-03-01 21:02:05', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('217', 'admin', '2017-03-01 21:23:11', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('218', 'admin', '2017-03-01 21:27:54', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('219', 'admin', '2017-03-02 09:52:54', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('220', 'admin', '2017-03-02 10:41:15', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('221', 'admin', '2017-03-02 11:38:25', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('222', 'admin', '2017-03-02 12:35:11', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('223', 'admin', '2017-03-02 13:33:20', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('224', 'admin', '2017-03-02 13:35:08', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('225', 'admin', '2017-03-02 13:54:35', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('226', 'admin', '2017-03-02 13:59:21', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('227', 'admin', '2017-03-02 14:02:51', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('228', 'admin', '2017-03-02 15:34:31', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('229', 'admin', '2017-03-02 16:20:44', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('230', 'admin', '2017-03-02 16:48:10', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('231', 'admin', '2017-03-02 17:28:43', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('232', 'admin', '2017-03-02 21:27:13', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('233', 'admin', '2017-03-02 22:05:20', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('234', 'admin', '2017-03-02 22:23:05', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('235', 'admin', '2017-03-02 22:24:32', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('236', 'admin', '2017-03-02 22:26:53', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('237', 'admin', '2017-03-02 22:37:05', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('238', 'admin', '2017-03-02 22:48:28', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('239', 'admin', '2017-03-02 22:58:52', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('240', 'admin', '2017-03-02 23:01:16', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('241', 'admin', '2017-03-02 23:06:03', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('242', 'admin', '2017-03-02 23:20:31', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('243', 'admin', '2017-03-02 23:24:04', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('244', 'admin', '2017-03-27 15:13:23', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('245', 'admin', '2017-03-27 15:42:36', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('246', 'admin', '2017-03-27 15:46:28', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('247', 'admin', '2017-03-27 15:50:03', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('248', 'admin', '2017-03-27 15:57:54', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('249', 'admin', '2017-06-30 14:31:20', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('250', 'admin', '2017-06-30 14:52:06', 'AUTHENTICATION_FAILURE');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('251', 'admin', '2017-06-30 14:52:09', 'AUTHENTICATION_FAILURE');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('252', 'admin', '2017-06-30 14:52:13', 'AUTHENTICATION_FAILURE');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('253', 'admin', '2017-06-30 14:52:47', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('254', 'admin', '2017-06-30 14:53:14', 'AUTHENTICATION_SUCCESS');
-INSERT INTO `jhi_persistent_audit_event` VALUES ('255', 'admin', '2017-06-30 14:58:58', 'AUTHENTICATION_SUCCESS');
 
 -- ----------------------------
 -- Table structure for jhi_persistent_audit_evt_data
@@ -421,92 +224,6 @@ CREATE TABLE `jhi_persistent_audit_evt_data` (
 -- ----------------------------
 -- Records of jhi_persistent_audit_evt_data
 -- ----------------------------
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('206', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('206', 'sessionId', 'U49Uy-XelbJAJZa8nRQTWhh1_FZm_Mrloo7ziDZq');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('207', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('207', 'sessionId', 'OSUCX4YlZ16NWWwgPg4G8QEYPsLJjhzEp0d9tvVf');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('208', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('208', 'sessionId', '5rePOkXMfMwBpCauOFtD_yeByroTcpRW634OK5_v');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('209', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('209', 'sessionId', 'yGkQLAYfVMcMojDhSfkHoQ5qgttoCfVrOfG_f32s');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('210', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('210', 'sessionId', 'IFcF-hxRULUPRpjcxa-gB2Ad2KCLCI52hhgp2juG');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('211', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('211', 'sessionId', '-nTwB88TMVOutNx48GxOiWRXbXsOlh4Auqfh4mM-');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('212', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('212', 'sessionId', 'zrCJBRsV-gFf-D8OqZUl3dooVhI6ofHKDEDzslD8');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('213', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('213', 'sessionId', 'aThmN21jKZAGmna44nWA7voNW4lLh_9SOSRrI8Tg');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('214', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('214', 'sessionId', 'KkpbFRZmOqHZsJw5RhS5nFxL6HJKOiXvi7r-bD0a');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('215', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('215', 'sessionId', '5cmhYhrRtuwlTrcAXobJejFHTRtEolwHbd6fTp0E');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('216', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('216', 'sessionId', 'q4GFsbABq9216CKDXMEd2FClCF2p2zUYKPSXfFVn');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('217', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('217', 'sessionId', 'rIOLfXK9tKyikBvA_pTOrkqbgZGJBRk6xkrEOEUD');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('218', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('218', 'sessionId', 'g13nWF3Q-zPEKj-HWeUcDpYqFb0cfGQZhBGCJP2p');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('219', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('219', 'sessionId', 'M1H6KiXDG0nrmDfHNMb2ORrp_Fr1M3VmlPFx65KD');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('220', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('220', 'sessionId', 'wnqf4H8wSZjC5KBRChc-UBluN4oXZsoNVEhj675k');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('221', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('221', 'sessionId', 'X0PuXMkL_qz5OBX4BoBljL7tVanNQumv9C0x2C39');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('222', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('222', 'sessionId', 'rqSlnwxyUiL2Q6ksi5_PG_FphmNldeHJKHJ6jw3M');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('223', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('223', 'sessionId', 'MPpZu6i79DieRGPzXRYQJuDsAgqnQtC79Ke10_mG');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('224', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('224', 'sessionId', 'zvuqlEmd8n5b3q0kkHZBIfeHreLOQw5iihYiP1LJ');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('225', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('225', 'sessionId', 'N_JlufDQxpE9djZAOODIGYfbR905pM03MpQc17Pn');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('226', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('226', 'sessionId', 'nUYMuhYyiyclNyvqR7gSEnPBSdXDrAj8-If1WBOh');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('227', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('227', 'sessionId', 'KlNpF99X1IXSpbzNWKWlGjQirFu68-Wasn6brxim');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('228', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('228', 'sessionId', 'Ot15jUUAmsFwDAXt4hJ_VfzGVpAk2MgZV-4CH8hy');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('229', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('229', 'sessionId', '5DPEVGOFG8gLrN8CsOUZqo1_YVn_7vScyKGLdVaH');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('230', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('230', 'sessionId', 'PlHNGO4p04U-oYVnx8MvOY4MWL0x--M7X7w1upua');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('231', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('231', 'sessionId', '8D_bXX2RuYfr4rbsrRY4IyqSRqjq7cvCx7eBuUiU');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('232', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('232', 'sessionId', 'CobezgkL6ucY195GFtV9fY9rPD0N-VAbtxb_LviA');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('233', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('233', 'sessionId', 'foFkjnp0k1ERe_wVZG8sRX-BQwjxP9F4AN8x1QkR');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('234', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('234', 'sessionId', 'SwGLQmZfRjZFyJtT3mjy26xwJFi-0WKYWsrNAz5E');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('235', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('235', 'sessionId', 'dRgFjb5mlawIS_JyhDsMEXJJy3jp4tcqLtPiH8PP');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('236', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('236', 'sessionId', 'sUi6NPkeOTw5ZlweRg0P51ZGwjYaDK_6slQ6N433');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('237', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('237', 'sessionId', '5KapWrPvNNNX7rYXYylm4QkEc6JUcnOnNVVnSE3O');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('238', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('238', 'sessionId', 'wfALwvn7IbASsxz4EiLUx0SZ43_auE1kajnyszdc');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('239', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('239', 'sessionId', 'gKqH7d9s_T6THBTij5MxnmIJqlPYM7vr__KL_C0P');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('240', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('240', 'sessionId', 'Qc_dgwK47jnLHPrp1FnONFX32Hc1yaw1G6e8gARL');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('241', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('241', 'sessionId', 'l1qVS-jfk9qwbCZszNJWBG6hHPDNc9H1-19hbrT7');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('242', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('242', 'sessionId', 'jpSqmVL85ojJyOAdfGwtesA_hqztNVa6Ir0kQu4B');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('243', 'remoteAddress', '0:0:0:0:0:0:0:1');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('243', 'sessionId', 'yM5YhHIjDG9RM2cjvSxZ96GIwWW1PxHkT7U-tSaD');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('244', 'remoteAddress', '192.168.249.106');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('244', 'sessionId', 'jn__Syqjx-Rnt_DJwy4GwEugohn7NamHqbbCzo-r');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('245', 'remoteAddress', '192.168.249.106');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('245', 'sessionId', 'r0YJGk29rAJl6X5AU1c7vERUljyhRcM9gnp0q2RN');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('246', 'remoteAddress', '192.168.249.106');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('246', 'sessionId', '2b54BUxTiocw0nF0_G_MQsds9TjCBTalKp7hz45x');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('247', 'remoteAddress', '192.168.249.106');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('247', 'sessionId', 'K75Ari5MtX0Dk7qO1cbNKQFvf_N94TXZPgFQ3igv');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('248', 'remoteAddress', '192.168.249.106');
-INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('248', 'sessionId', 'RlaAY-i_DlGqX4YSuNgJcyJKn9fhr3_D-UYfszzK');
 
 -- ----------------------------
 -- Table structure for jhi_persistent_token
@@ -5218,8 +4935,8 @@ INSERT INTO `sys_org_t` VALUES ('1', '平台', '0', '0,', '100000', '1', '\0', '
 INSERT INTO `sys_org_t` VALUES ('186eaa340c934cb49434765f807fdeff', '公司领导', '1', '0,1,', '100001', '1', '', null, '30', '1', '0', '', '2016-12-12 16:32:48', '1', '2017-06-30 14:59:27', '1', '');
 INSERT INTO `sys_org_t` VALUES ('27db8e3b19364a279b1e9721b5a784c7', '人事部', '38c65b8630ff473aa9f618906401efa0', '0,1,38c65b8630ff473aa9f618906401efa0,', '100005', '1', '', null, '20', '1', '0', '', '2016-12-12 16:32:48', '1', '2016-12-28 16:58:12', '0', '');
 INSERT INTO `sys_org_t` VALUES ('38c65b8630ff473aa9f618906401efa0', '综合部', '1', '0,1,', '100004', '1', '\0', null, '0', '1', '0', '', '2016-12-12 16:32:48', '1', '2016-12-28 16:58:39', '0', '');
-INSERT INTO `sys_org_t` VALUES ('588e010702d343fe9082416102e49def', 'fdsa', 'c5fe48b99ad24e83a2271405a43fb8b7', '0,1,c5fe48b99ad24e83a2271405a43fb8b7,', 'dsfas', '1', '', null, '0', '1', '1', '', '2016-12-12 16:32:48', '1', '2016-12-28 16:59:11', '0', '');
-INSERT INTO `sys_org_t` VALUES ('c4f84e7695d94b469d93405fb73060d0', 'dd', '38c65b8630ff473aa9f618906401efa0', '0,1,38c65b8630ff473aa9f618906401efa0,', '', '1', '', null, '30', '1', '0', '', '2017-03-02 22:23:11', '1', '2017-03-02 22:23:11', '0', '');
+INSERT INTO `sys_org_t` VALUES ('588e010702d343fe9082416102e49def', 'fdsa', 'c5fe48b99ad24e83a2271405a43fb8b7', '0,1,c5fe48b99ad24e83a2271405a43fb8b7,', 'dsfas', '1', '', null, '0', '1', '-2', '', '2016-12-12 16:32:48', '1', '2017-06-30 16:40:02', '1', '');
+INSERT INTO `sys_org_t` VALUES ('c4f84e7695d94b469d93405fb73060d0', 'dd', '38c65b8630ff473aa9f618906401efa0', '0,1,38c65b8630ff473aa9f618906401efa0,', '', '1', '', null, '30', '1', '-2', '', '2017-03-02 22:23:11', '1', '2017-06-30 16:39:57', '1', '');
 INSERT INTO `sys_org_t` VALUES ('c5fe48b99ad24e83a2271405a43fb8b7', '技术部', '1', '0,1,', '100003', '1', '\0', null, '20', '1', '0', '', '2016-12-12 16:32:48', null, null, '0', null);
 INSERT INTO `sys_org_t` VALUES ('f93883513a034577a166b424beb93794', '研发部', '1', '0,1,', '100002', '1', '\0', null, '30', '1', '-1', '', '2016-12-12 16:32:48', '1', '2016-12-22 20:43:04', '0', null);
 
@@ -5420,6 +5137,6 @@ CREATE TABLE `sys_user_t` (
 -- ----------------------------
 INSERT INTO `sys_user_t` VALUES ('1', null, 'admin', '$2a$10$gSAhZrxMllrbgj/kkK9UceBPpChGWJA7SYIb1Mqo.n5aNLq1/oRrC', 'Administrator', 'admin@localhost', null, '', 'zh-cn', null, null, null, 'system', '2017-06-30 14:49:34', 'system', null, '0', null, '0');
 INSERT INTO `sys_user_t` VALUES ('2', '1', 'anonymoususer', '$2a$10$j8S5d7Sr7.8VTOYNviDPOeWX8KcYILUVJBsYV83Y5NtECayypx9lO', null, 'anonymous@localhost1', '', '', 'zh-cn', null, '62504648923202974259', '2017-03-02 23:14:34', 'system', '2017-03-02 23:14:35', '1', '2017-03-02 23:14:35', '0', '', '0');
-INSERT INTO `sys_user_t` VALUES ('285398b3ad4f417787842cde87774515', '38c65b8630ff473aa9f618906401efa0', 'admin3', '$2a$10$Pvyd3WhtnZc1mNanBv6Lbem2/kSdAx3rHiI/bQZkxajmFNPRaFeuq', null, '', '', '', 'zh-cn', null, '07324724558601162589', '2017-06-30 14:54:23', 'admin', '2017-06-30 14:54:23', '1', '2017-06-30 14:54:23', '1', 'ddd', '3');
+INSERT INTO `sys_user_t` VALUES ('285398b3ad4f417787842cde87774515', '38c65b8630ff473aa9f618906401efa0', 'admin3', '$2a$10$Pvyd3WhtnZc1mNanBv6Lbem2/kSdAx3rHiI/bQZkxajmFNPRaFeuq', null, '', '', '', 'zh-cn', null, '07324724558601162589', '2017-06-30 14:54:23', 'admin', '2017-07-04 15:44:38', '1', '2017-07-04 15:44:37', '0', 'ddd', '3');
 INSERT INTO `sys_user_t` VALUES ('4', '27db8e3b19364a279b1e9721b5a784c7', 'user', '$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K', null, 'user@localhost', '', '', 'zh-cn', null, '80201723640854367683', '2017-06-30 14:49:39', 'system', '2017-06-30 14:49:39', '1', '2017-06-30 14:49:44', '0', '', '3');
-INSERT INTO `sys_user_t` VALUES ('5', '27db8e3b19364a279b1e9721b5a784c7', 'system', '$2a$10$5CgTzmdgk9dolbvfhUfTSeEZz5hc4p/YtEMxZoGOeFmq/RhAIIyJC', 'System', 'system@localhost', '', '', 'zh-cn', null, '06542895295499066154', '2017-03-02 23:14:42', 'system', '2017-06-30 14:49:34', '1', '2017-03-02 23:14:43', '0', '', '0');
+INSERT INTO `sys_user_t` VALUES ('5', '27db8e3b19364a279b1e9721b5a784c7', 'system', '$2a$10$5CgTzmdgk9dolbvfhUfTSeEZz5hc4p/YtEMxZoGOeFmq/RhAIIyJC', null, 'system@localhost', '', '', 'zh-cn', null, '31774354561297199692', '2017-07-04 15:45:01', 'system', '2017-07-04 15:45:01', '1', '2017-07-04 15:45:01', '0', null, '0');

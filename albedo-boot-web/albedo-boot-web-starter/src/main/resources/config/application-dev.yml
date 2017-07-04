@@ -68,10 +68,9 @@ spring:
         #prefix:
         suffix: .ftl
         template-loader-path: /WEB-INF/views/,/META-INF/resources/WEB-INF/views/,classpath:/META-INF/resources/WEB-INF/views/
-#    redis :
-#      password :
-#      cluster :
-#        nodes :
+#    redis:
+#       host: localhost
+#       port: 6379
 
 
 server:
