@@ -47,7 +47,7 @@ import java.util.Date;
  */
 @Configuration
 @EnableMybatisRepositories(
-        value = {"com.albedo.java.modules.*.repository", "com.qingju.java.modules.*.repository"},
+        value = {"com.albedo.java.modules.*.repository"},
         mapperLocations = "classpath*:/mappings/modules/*/*Mapper.xml"
 )
 @EnableTransactionManagement

@@ -18,8 +18,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import java.util.Date;
 
 @Configuration
-@EntityScan(basePackages = {"com.albedo.java.modules.*.domain", "com.qingju.java.modules.*.domain"}, basePackageClasses = {JSR310PersistenceConverters.class})
-@EnableJpaRepositories(value = {"com.albedo.java.modules.*.repository", "com.qingju.java.modules.*.repository"}, queryLookupStrategy = Key.CREATE_IF_NOT_FOUND)
+@EntityScan(basePackages = {"com.albedo.java.modules.*.domain"}, basePackageClasses = {JSR310PersistenceConverters.class})
+@EnableJpaRepositories(value = {"com.albedo.java.modules.*.repository"}, queryLookupStrategy = Key.CREATE_IF_NOT_FOUND)
 @EnableJpaAuditing(auditorAwareRef = "springSecurityAuditorAware")
 @EnableTransactionManagement
 public class DatabaseAutoConfiguration {
