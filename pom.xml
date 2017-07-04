@@ -49,17 +49,5 @@
         <!--<module>albedo-thrift</module>-->
     </modules>
 
-    <distributionManagement>
-        <repository>
-            <id>Releases</id>
-            <name>Project RELEASE</name>
-            <url>http://121.43.39.46:8081/nexus/content/repositories/releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>Snapshots</id>
-            <name>Porject SNAPSHOTS</name>
-            <url>http://121.43.39.46:8081/nexus/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
 
 </project>
