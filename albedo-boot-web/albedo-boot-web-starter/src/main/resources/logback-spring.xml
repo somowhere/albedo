@@ -145,7 +145,6 @@
         </encoder>
     </appender>
     <logger name="com.albedo.java" level="DEBUG"/>
-    <logger name="com.qingju.java" level="DEBUG"/>
 
     <logger name="javax.activation" level="WARN"/>
     <logger name="javax.mail" level="WARN"/>

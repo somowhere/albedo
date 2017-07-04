@@ -19,10 +19,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.Date;
 
-@EntityScan(basePackages = {"com.albedo.java.modules.*.domain", "com.qingju.java.modules.*.domain"})
+@EntityScan(basePackages = {"com.albedo.java.modules.*.domain"})
 @Configuration
 @EnableMybatisRepositories(
-        value = {"com.albedo.java.modules.*.repository", "com.qingju.java.modules.*.repository"},
+        value = {"com.albedo.java.modules.*.repository"},
         mapperLocations = "classpath*:/mappings/modules/*/*Mapper.xml"
 )
 @EnableTransactionManagement

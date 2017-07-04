@@ -70,9 +70,9 @@ spring:
         suffix: .ftl
         template-loader-path: classpath:/WEB-INF/views/,/WEB-INF/views/ #/WEB-INF/views/
     redis :
-      password : bosheng906!
+      password : 111111
       sentinel :
-        nodes : 182.92.204.180:26377,182.92.204.180:26378
+        nodes : localhost:7005
         master : master
 
 server:
