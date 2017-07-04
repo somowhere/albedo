@@ -1,7 +1,7 @@
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.data.hibernate.persistence.DynamicSpecifications;
-import com.albedo.java.common.data.hibernate.persistence.SpecificationDetail;
+import com.albedo.java.common.data.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.PersistentTokenRepository;

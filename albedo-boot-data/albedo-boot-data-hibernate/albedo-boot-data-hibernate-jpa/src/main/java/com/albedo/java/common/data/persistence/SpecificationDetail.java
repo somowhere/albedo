@@ -1,8 +1,9 @@
-package com.albedo.java.common.data.hibernate.persistence;
+package com.albedo.java.common.data.persistence;
 
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.QueryUtil;
 import com.albedo.java.util.domain.Order;
+import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.domain.QueryCondition.Operator;
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;

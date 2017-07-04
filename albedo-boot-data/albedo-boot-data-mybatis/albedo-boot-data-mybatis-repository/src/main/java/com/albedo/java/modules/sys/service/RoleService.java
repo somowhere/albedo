@@ -28,4 +28,14 @@ public class RoleService extends DataService<RoleRepository, Role, String> {
 //		specificationDetail.setPersistentClass();
         return findBasePage(pm, specificationDetail, false);
     }
+
+    public List<Role> findAllList(boolean admin, List<QueryCondition> authQueryList) {
+        SpecificationDetail<Role> spd = new SpecificationDetail<Role>()
+                .and(QueryCondition.eq(Role.F_STATUS, Role.FLAG_NORMAL));
+        if (admin) {
+            spd.orAll(authQueryList);
+        }
+        spd.orderASC(Role.F_SORT);
+        return findAll(spd);
+    }
 }

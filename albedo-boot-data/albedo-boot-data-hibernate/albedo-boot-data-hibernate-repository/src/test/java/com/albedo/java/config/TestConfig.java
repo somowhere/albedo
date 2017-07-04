@@ -18,21 +18,31 @@
 
 package com.albedo.java.config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.mybatis.domains.AuditDateAware;
+import org.springframework.data.mybatis.replication.datasource.ReplicationRoutingDataSource;
 import org.springframework.data.mybatis.replication.transaction.ReadWriteManagedTransactionFactory;
+import org.springframework.data.mybatis.repository.config.EnableMybatisRepositories;
 import org.springframework.data.mybatis.support.SqlSessionFactoryBean;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.Date;
 
 /**
@@ -48,30 +58,25 @@ public class TestConfig implements ResourceLoaderAware {
 
     private ResourceLoader resourceLoader;
 
-//    @Bean
-//    public DataSource routingDataSource() throws SQLException {
-//        EmbeddedDatabase embeddedDatabase = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
-//                .addScript("classpath:/test-init.sql").build();
-//
-//        ReplicationRoutingDataSource proxy = new ReplicationRoutingDataSource(embeddedDatabase, null);
-//        proxy.addSlave(embeddedDatabase);
-//        proxy.addSlave(embeddedDatabase);
-//        proxy.addSlave(embeddedDatabase);
-//        return proxy;
-//    }
-//
-//    @Bean
-//    public DataSource dataSource(@Qualifier("routingDataSource") DataSource routingDataSource) {
-//        return new LazyConnectionDataSourceProxy(routingDataSource);
-//    }
-
     @Bean
-    public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) {
-        SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
-        factoryBean.setDataSource(dataSource);
-        factoryBean.setTransactionFactory(new ReadWriteManagedTransactionFactory());
-        return factoryBean;
+    public DataSource dataSource() throws SQLException {
+        EmbeddedDatabase embeddedDatabase = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
+                .addScript("classpath:/test-init.sql").build();
+
+        ReplicationRoutingDataSource proxy = new ReplicationRoutingDataSource(embeddedDatabase, null);
+        proxy.addSlave(embeddedDatabase);
+        proxy.addSlave(embeddedDatabase);
+        proxy.addSlave(embeddedDatabase);
+        return new LazyConnectionDataSourceProxy(proxy);
     }
+
+//    @Bean
+//    public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) {
+//        SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
+//        factoryBean.setDataSource(dataSource);
+//        factoryBean.setTransactionFactory(new ReadWriteManagedTransactionFactory());
+//        return factoryBean;
+//    }
 
     @Bean
     public PlatformTransactionManager transactionManager(DataSource dataSource) {

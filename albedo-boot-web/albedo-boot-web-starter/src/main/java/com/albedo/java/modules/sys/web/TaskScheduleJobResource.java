@@ -2,15 +2,17 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.TaskScheduleJob;
-import com.albedo.java.modules.sys.service.impl.TaskScheduleJobService;
+import com.albedo.java.modules.sys.service.impl.TaskScheduleJobExcutorService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataResource;
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
 @ConditionalOnProperty(name = Globals.ALBEDO_QUARTZENABLED)
 @Controller
 @RequestMapping(value = "${albedo.adminPath}/sys/taskScheduleJob")
-public class TaskScheduleJobResource extends DataResource<TaskScheduleJobService, TaskScheduleJob> {
+public class TaskScheduleJobResource extends DataResource<TaskScheduleJobExcutorService, TaskScheduleJob> {
 
 //	@Resource
 //	private ITaskScheduleJobService service;
@@ -92,7 +94,7 @@ public class TaskScheduleJobResource extends DataResource<TaskScheduleJobService
 
     public ResponseEntity delete(@PathVariable String ids) {
         log.debug("REST request to delete TaskScheduleJob: {}", ids);
-        service.delete(ids, SecurityUtil.getCurrentAuditor());
+        service.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
         return ResultBuilder.buildOk("删除任务调度成功");
     }
 
@@ -105,7 +107,7 @@ public class TaskScheduleJobResource extends DataResource<TaskScheduleJobService
 
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {
         log.debug("REST request to lockOrUnLock TaskScheduleJob: {}", ids);
-        service.lockOrUnLock(ids, SecurityUtil.getCurrentAuditor());
+        service.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
         return ResultBuilder.buildOk("操作任务调度成功");
     }
 

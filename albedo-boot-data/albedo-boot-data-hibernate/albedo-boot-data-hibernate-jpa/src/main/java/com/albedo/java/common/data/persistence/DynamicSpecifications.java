@@ -1,4 +1,4 @@
-package com.albedo.java.common.data.hibernate.persistence;
+package com.albedo.java.common.data.persistence;
 
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.QueryCondition;

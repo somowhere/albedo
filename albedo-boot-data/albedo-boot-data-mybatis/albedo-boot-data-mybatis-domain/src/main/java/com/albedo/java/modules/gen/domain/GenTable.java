@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.Transient;
-import org.springframework.data.mybatis.annotations.*;
 
 import java.util.List;
 

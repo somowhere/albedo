@@ -1,5 +1,6 @@
 package com.albedo.java.modules.sys.service;
 
+import com.albedo.java.common.data.persistence.repository.BaseRepository;
 import com.albedo.java.config.TestConfig;
 import com.albedo.java.modules.sys.domain.Module;
 import com.albedo.java.modules.sys.domain.Org;
@@ -9,17 +10,25 @@ import com.albedo.java.modules.sys.repository.ModuleRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.util.domain.PageModel;
 import com.google.common.collect.Sets;
+import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.TestContext;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.*;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
@@ -28,7 +37,8 @@ import static org.springframework.data.domain.Sort.Direction.ASC;
 /**
  * Created by lijie on 2017/4/19.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
+@DataJpaTest
 @ContextConfiguration(classes = TestConfig.class)
 @Transactional
 public class UserServiceTest {
@@ -45,7 +55,29 @@ public class UserServiceTest {
 
     @Autowired
     OrgService orgService;
+    @Autowired
+    ModuleService moduleService;
 
+    @PersistenceContext
+    private EntityManager em;
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.albedo.java.repository.data.support.Itest#getSession()
+     */
+    public Session getSession() {
+        return (Session) em.getDelegate();
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.albedo.java.repository.data.support.Itest#flush()
+     */
+    public void flush() {
+        getSession().flush();
+    }
     // Test fixture
     User user1, user2, user3, user4;
     String id;
@@ -118,7 +150,8 @@ public class UserServiceTest {
 
     }
 
-    private void flushTestUsers() {
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void flushTestUsers() {
         orgParent = orgService.save(orgParent);
         org.setParentId(orgParent.getId());
         org = orgService.save(org);
@@ -142,20 +175,19 @@ public class UserServiceTest {
         user4.setRoles(roles);
         userService.save(user4);
 
-
         id = user1.getId();
 
         assertThat(id, is(notNullValue()));
         assertThat(user2.getId(), is(notNullValue()));
         assertThat(user3.getId(), is(notNullValue()));
         assertThat(user4.getId(), is(notNullValue()));
-
+        getSession().flush();
         assertThat(repository.exists(id), is(true));
         assertThat(repository.exists(user2.getId()), is(true));
         assertThat(repository.exists(user3.getId()), is(true));
         assertThat(repository.exists(user4.getId()), is(true));
-
     }
+
 
     @Test
     public void findPage() throws Exception {
@@ -171,7 +203,7 @@ public class UserServiceTest {
 
         User temp = repository.findOneByLoginId(user1.getLoginId()).get();
 
-        List<Module> modules = moduleRepository.findAllAuthByUser(new User("1"));
+        List<Module> modules = moduleService.findAllAuthByUser("1");
 //        assertThat(modules.size()!=0, is(true));
         assertThat(pm.getData().get(0), is(temp));
 

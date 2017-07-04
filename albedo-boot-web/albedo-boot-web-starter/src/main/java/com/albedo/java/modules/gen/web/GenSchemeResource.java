@@ -72,7 +72,6 @@ public class GenSchemeResource extends DataResource<GenSchemeService, GenScheme>
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     @Timed
     public ResponseEntity getPage(PageModel<GenScheme> pm) {
-
         genSchemeService.findPage(pm);
         JSON rs = JsonUtil.getInstance().setRecurrenceStr("genTable_name").toJsonObject(pm);
         return ResultBuilder.buildObject(rs);

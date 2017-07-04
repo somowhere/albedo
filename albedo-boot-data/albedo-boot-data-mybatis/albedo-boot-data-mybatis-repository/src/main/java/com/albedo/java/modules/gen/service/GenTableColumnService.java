@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class GenTableColumnService extends DataService<GenTableColumnRepository, GenTableColumn, String> {
 
-
     public void deleteByTableId(String id, String currentAuditor) {
         GenTableColumn genTableColumn = repository.findOneByGenTableId(id);
         Assert.assertNotNull(genTableColumn, "id " + id + " genTableColumn 不能为空");

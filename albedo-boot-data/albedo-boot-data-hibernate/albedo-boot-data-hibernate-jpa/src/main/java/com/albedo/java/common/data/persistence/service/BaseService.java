@@ -1,7 +1,7 @@
-package com.albedo.java.common.data.hibernate.persistence.service;
+package com.albedo.java.common.data.persistence.service;
 
-import com.albedo.java.common.data.hibernate.persistence.repository.BaseRepository;
-import com.albedo.java.common.data.hibernate.persistence.repository.JpaCustomeRepository;
+import com.albedo.java.common.data.persistence.repository.BaseRepository;
+import com.albedo.java.common.data.persistence.repository.JpaCustomeRepository;
 import com.albedo.java.common.domain.base.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,14 +13,13 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-@Service
 @Transactional
 public class BaseService<Repository extends BaseRepository<T, PK>, T extends BaseEntity, PK extends Serializable> {
     public final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     public JpaCustomeRepository<T> baseRepository;
-
+    @Autowired
     public Repository repository;
 
     public Class<T> persistentClass;
@@ -42,4 +41,8 @@ public class BaseService<Repository extends BaseRepository<T, PK>, T extends Bas
         return entity;
     }
 
+    public Iterable<T> save(Iterable<T> entitys) {
+        entitys.forEach(item -> save(item));
+        return entitys;
+    }
 }

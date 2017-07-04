@@ -1,12 +1,10 @@
 package com.albedo.java.common.security;
 
 import com.albedo.java.common.config.AlbedoProperties;
-import com.albedo.java.common.data.mybatis.persistence.DynamicSpecifications;
-import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
 import com.albedo.java.modules.sys.domain.*;
-import com.albedo.java.modules.sys.repository.ModuleRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.modules.sys.service.AreaService;
+import com.albedo.java.modules.sys.service.ModuleService;
 import com.albedo.java.modules.sys.service.OrgService;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.util.*;
@@ -50,7 +48,7 @@ public final class SecurityUtil {
     public static AreaService areaService = SpringContextHolder.getBean(AreaService.class);
     public static RoleService roleService = SpringContextHolder.getBean(RoleService.class);
     public static OrgService orgService = SpringContextHolder.getBean(OrgService.class);
-    public static ModuleRepository moduleRepository = SpringContextHolder.getBean(ModuleRepository.class);
+    public static ModuleService moduleService = SpringContextHolder.getBean(ModuleService.class);
     public static AlbedoProperties albedoProperties = SpringContextHolder.getBean(AlbedoProperties.class);
     protected static Logger logger = LoggerFactory.getLogger(SecurityUtil.class);
     private static Map<String, Object> dataMap = Maps.newHashMap();
@@ -166,9 +164,10 @@ public final class SecurityUtil {
             userId = getCurrentUserId();
         List<Module> moduleList = getCacheJsonArray(CACHE_MODULE_LIST, userId, Module.class);
         if (PublicUtil.isEmpty(moduleList) || refresh) {
-            moduleList = isAdmin(userId) ? moduleRepository.findAllByStatusOrderBySort(Module.FLAG_NORMAL)
-                    : moduleRepository.findAllAuthByUser(new User(userId));
-//					baseRepository.findListByHQL("select distinct m from Module m, Role r, User u where m in elements (r.modules) and r in elements (u.roles) and m.status=0 and r.status=0 and u.status=0 and u.id=:p1 order by m.sort", userId);
+            moduleList = isAdmin(userId) ?
+                    moduleService.findAllByStatusOrderBySort(Module.FLAG_NORMAL)
+                    : moduleService.findAllAuthByUser(userId);
+//					;
             putCache(CACHE_MODULE_LIST, Json.toJsonString(moduleList), userId);
         }
         return moduleList;
@@ -177,10 +176,7 @@ public final class SecurityUtil {
     public static List<Area> getAreaList() {
         List<Area> areaList = getCacheJsonArray(CACHE_AREA_LIST, Area.class);
         if (PublicUtil.isEmpty(areaList)) {
-            SpecificationDetail<Area> spd = DynamicSpecifications
-                    .bySearchQueryCondition(QueryCondition.ne(Org.F_STATUS, Org.FLAG_DELETE));
-            spd.orderASC(Area.F_ID);
-            areaList = areaService.findAll(spd);
+            areaList = areaService.findAllList();
             putCache(CACHE_AREA_LIST, Json.toJsonString(areaList));
         }
         return areaList;
@@ -190,13 +186,9 @@ public final class SecurityUtil {
         String userId = getCurrentUserId();
         List<Org> orgList = getCacheJsonArray(CACHE_ORG_LIST, Org.class);
         if (PublicUtil.isEmpty(orgList)) {
-            SpecificationDetail<Org> spd = new SpecificationDetail<Org>()
-                    .and(QueryCondition.ne(Org.F_STATUS, Org.FLAG_DELETE));
-            if (!SecurityUtil.isAdmin(userId)) {
-                spd.orAll(dataScopeFilter(getCurrentUserId(), "this", ""));
-            }
-            spd.orderASC(Org.F_SORT);
-            orgList = orgService.findAll(spd);
+
+            orgList = orgService.findAllList(SecurityUtil.isAdmin(),
+                    SecurityUtil.dataScopeFilter(getCurrentUserId(), "this", ""));
             putCache(CACHE_ORG_LIST, Json.toJsonString(orgList));
         }
         return orgList;
@@ -206,13 +198,8 @@ public final class SecurityUtil {
         String userId = getCurrentUserId();
         List<Role> roleList = getCacheJsonArray(CACHE_ROLE_LIST, Role.class);
         if (PublicUtil.isEmpty(roleList)) {
-            SpecificationDetail<Role> spd = new SpecificationDetail<Role>()
-                    .and(QueryCondition.eq(Role.F_STATUS, Role.FLAG_NORMAL));
-            if (!SecurityUtil.isAdmin(userId)) {
-                spd.orAll(dataScopeFilter(getCurrentUserId(), "org", "creator"));
-            }
-            spd.orderASC(Role.F_SORT);
-            roleList = roleService.findAll(spd);
+            roleList = roleService.findAllList(SecurityUtil.isAdmin(userId),
+                    SecurityUtil.dataScopeFilter(SecurityUtil.getCurrentUserId(), "org", "creator"));
             putCache(CACHE_ROLE_LIST, Json.toJsonString(roleList));
         }
         return roleList;

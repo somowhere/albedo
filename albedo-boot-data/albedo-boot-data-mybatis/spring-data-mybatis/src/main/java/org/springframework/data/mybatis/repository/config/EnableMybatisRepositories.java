@@ -26,8 +26,6 @@ import org.springframework.data.repository.config.DefaultRepositoryBaseClass;
 import org.springframework.data.repository.query.QueryLookupStrategy;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import java.lang.annotation.*;
-
 /**
  * Annotation to enable MyBatis repositories. Will scan the package of the annotated configuration class for Spring Data repositories by default.
  * <p>

@@ -22,4 +22,5 @@ public interface PersistentTokenRepository extends JpaRepository<PersistentToken
 
     PersistentToken findOneBySeries(String presentedSeries);
 
+    List<PersistentToken> findAllByUserId(String id);
 }

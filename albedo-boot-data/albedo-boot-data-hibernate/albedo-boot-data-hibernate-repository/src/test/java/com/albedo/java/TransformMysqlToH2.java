@@ -1,4 +1,4 @@
-package java;
+package com.albedo.java;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  */
 public class TransformMysqlToH2 {
     public static void main(String[] args) throws Exception {
-        File file = new File("F:\\albedo-new.sql");
+        File file = new File("E:\\soft\\hcxd-pay.sql");
         String content = Files.toString(file, Charsets.UTF_8);
 
         content = "SET MODE MYSQL;\n\n" + content;
@@ -23,6 +23,10 @@ public class TransformMysqlToH2 {
         content = content.replaceAll("COMMENT.*'(?=,)", "");
         content = content.replaceAll("\\).*ENGINE.*(?=;)", ")");
         content = content.replaceAll("DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP", " AS CURRENT_TIMESTAMP");
+        content = content.replaceAll("b'0'", "'0'");
+        content = content.replaceAll("b'1'", "'1'");
+        content = content.replaceAll("'\\\\0',", "'0',");
+        content = content.replaceAll("'\u0001'", "'1'");
 
         content = uniqueKey(content);
 

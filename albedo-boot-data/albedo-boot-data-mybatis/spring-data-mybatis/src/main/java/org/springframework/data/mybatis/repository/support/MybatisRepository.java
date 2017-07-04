@@ -47,22 +47,17 @@ public interface MybatisRepository<T, ID extends Serializable>
 
     <S extends T> S saveIgnoreNull(S entity);
 
-    @Override
+
     <S extends T> List<S> save(Iterable<S> entities);
 
-    @Override
     List<T> findAll();
 
-    @Override
     List<T> findAll(Sort sort);
 
-    @Override
     List<T> findAll(Iterable<ID> ids);
 
-    @Override
     <S extends T> List<S> findAll(Example<S> example);
 
-    @Override
     <S extends T> List<S> findAll(Example<S> example, Sort sort);
 
     T findBasicOne(ID id, String... columns);

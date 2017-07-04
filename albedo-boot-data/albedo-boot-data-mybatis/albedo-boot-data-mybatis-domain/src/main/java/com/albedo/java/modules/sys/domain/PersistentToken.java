@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.data.mybatis.annotations.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

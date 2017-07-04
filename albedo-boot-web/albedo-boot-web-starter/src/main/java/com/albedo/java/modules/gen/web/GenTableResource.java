@@ -1,8 +1,6 @@
 package com.albedo.java.modules.gen.web;
 
 import com.albedo.java.common.config.template.tag.FormDirective;
-import com.albedo.java.common.data.mybatis.persistence.DynamicSpecifications;
-import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.gen.domain.GenTable;
@@ -12,7 +10,6 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
-import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataResource;
@@ -64,9 +61,8 @@ public class GenTableResource extends DataResource<GenTableService, GenTable> {
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     @Timed
     public ResponseEntity getPage(PageModel<GenTable> pm) {
-        SpecificationDetail<GenTable> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
-                QueryCondition.ne(GenTable.F_STATUS, GenTable.FLAG_DELETE));
-        pm = genTableService.findPage(pm, spec);
+
+        pm = genTableService.findPage(pm);
         JSON rs = JsonUtil.getInstance().setRecurrenceStr("org_name").toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
     }
@@ -95,7 +91,7 @@ public class GenTableResource extends DataResource<GenTableService, GenTable> {
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity delete(@PathVariable String ids) {
         log.debug("REST request to delete genTable: {}", ids);
-        genTableService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        genTableService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentUserId());
         SecurityUtil.clearUserJedisCache();
         return ResultBuilder.buildOk("删除成功");
     }

@@ -3,6 +3,7 @@
  */
 package com.albedo.java.modules.sys.repository;
 
+import com.albedo.java.common.repository.DataRepository;
 import com.albedo.java.modules.sys.domain.TaskScheduleJob;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -16,9 +17,8 @@ import java.util.Optional;
  * @author lj
  * @version 2017-01-23
  */
-public interface TaskScheduleJobRepository extends JpaRepository<TaskScheduleJob, String>, JpaSpecificationExecutor<TaskScheduleJob> {
+public interface TaskScheduleJobRepository extends JpaRepository<TaskScheduleJob, String>, JpaSpecificationExecutor<TaskScheduleJob>,DataRepository<TaskScheduleJob,String> {
 
-    Optional<TaskScheduleJob> findOneById(String id);
 
     List<TaskScheduleJob> findByStatusAndJobStatus(Integer status, String jobStatus);
 

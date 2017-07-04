@@ -4,8 +4,9 @@ import com.albedo.java.common.domain.base.TreeEntity;
 import com.albedo.java.util.annotation.DictType;
 import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.annotations.*;
+import lombok.ToString;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -21,6 +22,7 @@ import java.util.Set;
 @DynamicInsert
 @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@ToString
 public class Org extends TreeEntity<Org> {
 
     public static final String F_TYPE = "type";

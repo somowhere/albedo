@@ -1,4 +1,4 @@
-package com.albedo.java.common.data.hibernate.persistence.repository;
+package com.albedo.java.common.data.persistence.repository;
 
 import com.albedo.java.common.domain.base.BaseEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

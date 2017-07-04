@@ -1,4 +1,4 @@
-package com.albedo.java.common.data.hibernate.persistence.repository;
+package com.albedo.java.common.data.persistence.repository;
 
 import com.albedo.java.common.domain.base.BaseEntity;
 import com.albedo.java.util.domain.Combo;
@@ -89,9 +89,9 @@ public interface JpaCustomeRepository<T extends BaseEntity> {
 
     Object findByQL(String QL, boolean isSql, boolean isCache, boolean isList, int maxSize, List<QueryCondition> conditionList, Object... params);
 
-    Boolean doCheckByProperty(T entity);
+    boolean doCheckByProperty(T entity);
 
-    Boolean doCheckByPK(T entity);
+    boolean doCheckByPK(T entity);
 
     List<ComboData> findJson(Combo combo);
 
@@ -134,6 +134,5 @@ public interface JpaCustomeRepository<T extends BaseEntity> {
 
     public Long findCountByQL(String QL, boolean isSql, boolean isCache,
                               List<QueryCondition> conditionList, Object... params);
-
 
 }

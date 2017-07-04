@@ -3,6 +3,7 @@ package com.albedo.java.modules.sys.service;
 import com.albedo.java.common.data.mybatis.persistence.BaseEntity;
 import com.albedo.java.common.service.TreeService;
 import com.albedo.java.modules.sys.domain.Module;
+import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.ModuleRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
@@ -119,4 +120,11 @@ public class ModuleService extends TreeService<ModuleRepository, Module, String>
 
     }
 
+    public List<Module> findAllByStatusOrderBySort(Integer flagNormal) {
+        return repository.findAllByStatusOrderBySort(flagNormal);
+    }
+
+    public List<Module> findAllAuthByUser(String userId) {
+        return repository.findAllAuthByUser(new User(userId));
+    }
 }

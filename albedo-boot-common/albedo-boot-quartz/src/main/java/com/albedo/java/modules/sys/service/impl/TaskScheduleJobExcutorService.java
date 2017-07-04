@@ -3,11 +3,10 @@
  */
 package com.albedo.java.modules.sys.service.impl;
 
-import com.albedo.java.common.data.mybatis.persistence.DynamicSpecifications;
-import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.sys.domain.TaskScheduleJob;
 import com.albedo.java.modules.sys.repository.TaskScheduleJobRepository;
+import com.albedo.java.modules.sys.service.TaskScheduleJobService;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.domain.Globals;
@@ -38,9 +37,13 @@ import java.util.Set;
 @ConditionalOnProperty(name = Globals.ALBEDO_QUARTZENABLED)
 @Service
 @Transactional
-public class TaskScheduleJobService extends DataService<TaskScheduleJobRepository, TaskScheduleJob, String>
+public class TaskScheduleJobExcutorService extends DataService<TaskScheduleJobRepository,
+        TaskScheduleJob, String>
 //		implements ITaskScheduleJobService 
 {
+
+    @Autowired
+    TaskScheduleJobService taskScheduleJobService;
 
     @Autowired
     private Scheduler scheduler;
@@ -51,8 +54,7 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
      * @see com.albedo.java.modules.sys.service.ITaskScheduleJobService#
      * afterPropertiesSet()
      */
-    @PostConstruct
-    public void init() throws Exception {
+    public void afterPropertiesSet() {
         // 这里获取任务信息数据
         List<TaskScheduleJob> jobList = repository
                 .findByStatusAndJobStatus(TaskScheduleJob.FLAG_NORMAL, SystemConfig.STR_YES);
@@ -67,15 +69,6 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
         log.info("init database job over...");
     }
 
-
-    public void delete(String taskTaskScheduleJobId, String currentUserId) {
-
-    }
-
-
-    public void lockOrUnLock(String taskTaskScheduleJobId, String currentUserId) {
-
-    }
 
     /*
      * (non-Javadoc)
@@ -104,11 +97,7 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
      */
     @Transactional(readOnly = true)
     public PageModel<TaskScheduleJob> findAll(PageModel<TaskScheduleJob> pm, List<QueryCondition> queryConditions) {
-        SpecificationDetail<TaskScheduleJob> spec = DynamicSpecifications.
-                buildSpecification(pm.getQueryConditionJson(),
-                        queryConditions, persistentClass,
-                        QueryCondition.ne(TaskScheduleJob.F_STATUS, TaskScheduleJob.FLAG_DELETE));
-        return findPage(pm, spec);
+        return taskScheduleJobService.findAll(pm, queryConditions);
     }
 
     /*

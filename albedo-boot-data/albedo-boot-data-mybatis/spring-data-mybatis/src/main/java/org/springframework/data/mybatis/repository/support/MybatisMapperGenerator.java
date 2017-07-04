@@ -23,7 +23,6 @@ import org.springframework.data.mapping.Association;
 import org.springframework.data.mapping.PersistentProperty;
 import org.springframework.data.mapping.SimpleAssociationHandler;
 import org.springframework.data.mapping.SimplePropertyHandler;
-import org.springframework.data.mybatis.mapping.*;
 import org.springframework.data.mybatis.repository.dialect.Dialect;
 import org.springframework.data.repository.query.parser.Part.IgnoreCaseType;
 import org.springframework.data.repository.query.parser.Part.Type;

@@ -1,10 +1,12 @@
 package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.data.mybatis.persistence.BaseEntity;
+import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
 import com.albedo.java.common.service.TreeService;
 import com.albedo.java.modules.sys.domain.Org;
 import com.albedo.java.modules.sys.repository.OrgRepository;
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.vo.sys.query.OrgTreeQuery;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -71,4 +73,13 @@ public class OrgService extends TreeService<OrgRepository, Org, String> {
         return repository.findAllByParentIdAndStatusNot(parentId, Org.FLAG_DELETE);
     }
 
+    public List<Org> findAllList(boolean admin, List<QueryCondition> authQueryList) {
+        SpecificationDetail<Org> spd = new SpecificationDetail<Org>()
+                .and(QueryCondition.ne(Org.F_STATUS, Org.FLAG_DELETE));
+        if (!admin) {
+            spd.orAll(authQueryList);
+        }
+        spd.orderASC(Org.F_SORT);
+        return findAll(spd);
+    }
 }

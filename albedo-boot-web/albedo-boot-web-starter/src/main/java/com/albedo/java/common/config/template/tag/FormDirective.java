@@ -1,6 +1,6 @@
 package com.albedo.java.common.config.template.tag;
 
-import com.albedo.java.common.data.mybatis.persistence.data.JpaCustomeRepository;
+import com.albedo.java.common.data.persistence.repository.JpaCustomeRepository;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.util.DictUtil;
 import com.albedo.java.util.Json;

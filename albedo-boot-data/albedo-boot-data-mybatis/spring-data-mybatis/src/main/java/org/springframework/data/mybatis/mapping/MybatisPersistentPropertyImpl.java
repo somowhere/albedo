@@ -24,7 +24,6 @@ import org.springframework.data.mapping.Association;
 import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.model.AnnotationBasedPersistentProperty;
 import org.springframework.data.mapping.model.SimpleTypeHolder;
-import org.springframework.data.mybatis.annotations.*;
 import org.springframework.data.mybatis.annotations.Id.GenerationType;
 import org.springframework.data.util.ParsingUtils;
 import org.springframework.util.StringUtils;

@@ -3,7 +3,7 @@
  */
 package com.albedo.java.common.repository;
 
-import com.albedo.java.common.data.hibernate.persistence.repository.BaseRepository;
+import com.albedo.java.common.data.persistence.repository.BaseRepository;
 import com.albedo.java.common.domain.base.BaseEntity;
 
 import java.io.Serializable;

@@ -3,8 +3,8 @@
  */
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.data.hibernate.persistence.DynamicSpecifications;
-import com.albedo.java.common.data.hibernate.persistence.SpecificationDetail;
+import com.albedo.java.common.data.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.modules.sys.domain.LoggingEvent;
 import com.albedo.java.modules.sys.repository.LoggingEventRepository;
 import com.albedo.java.util.domain.PageModel;
@@ -34,7 +34,7 @@ public class LoggingEventService {
     }
 
     @Transactional(readOnly = true)
-    public Page<LoggingEvent> findAll(PageModel<LoggingEvent> pm) {
+    public Page<LoggingEvent> findPage(PageModel<LoggingEvent> pm) {
         SpecificationDetail<LoggingEvent> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson());
         return loggingEventRepository.findAll(spec, pm);
     }

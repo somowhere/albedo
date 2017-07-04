@@ -1,11 +1,12 @@
-package com.albedo.java.common.data.hibernate.persistence.repository.impl;
+package com.albedo.java.common.data.persistence.repository.impl;
 
-import com.albedo.java.common.data.hibernate.persistence.repository.JpaCustomeRepository;
+import com.albedo.java.common.data.persistence.repository.JpaCustomeRepository;
 import com.albedo.java.common.domain.base.BaseEntity;
 import com.albedo.java.common.domain.base.GeneralEntity;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.QueryUtil;
 import com.albedo.java.util.base.Reflections;
+import com.albedo.java.util.domain.*;
 import com.albedo.java.util.domain.QueryCondition.Operator;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -122,7 +123,7 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
      * @see com.albedo.java.repository.data.support.Itest#checkByProperty(T)
      */
     @Transactional(readOnly = true)
-    public Boolean doCheckByProperty(T entity) {
+    public boolean doCheckByProperty(T entity) {
         boolean rs = false;
         Map<String, Operator> maps = Maps.newHashMap();
         try {
@@ -154,7 +155,7 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
      * @see com.albedo.java.repository.data.support.Itest#checkByPK(T)
      */
     @Transactional(readOnly = true)
-    public Boolean doCheckByPK(T entity) {
+    public boolean doCheckByPK(T entity) {
         boolean rs = false;
         Map<String, Operator> maps = Maps.newHashMap();
         try {
