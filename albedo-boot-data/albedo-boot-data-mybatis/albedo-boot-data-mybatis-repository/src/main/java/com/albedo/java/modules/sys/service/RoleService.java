@@ -6,8 +6,10 @@ import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.repository.RoleRepository;
+import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
+import org.springframework.data.mybatis.annotations.PreUpdate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,5 +39,20 @@ public class RoleService extends DataService<RoleRepository, Role, String> {
         }
         spd.orderASC(Role.F_SORT);
         return findAll(spd);
+    }
+
+    @Override
+    public Role save(Role entity) {
+        entity = super.save(entity);
+        if(PublicUtil.isNotEmpty(entity.getModuleIdList())){
+            repository.deleteRoleModules(entity);
+            repository.addRoleModules(entity);
+        }
+
+        if(PublicUtil.isNotEmpty(entity.getOrgIdList())){
+            repository.deleteRoleOrgs(entity);
+            repository.addRoleOrgs(entity);
+        }
+        return entity;
     }
 }

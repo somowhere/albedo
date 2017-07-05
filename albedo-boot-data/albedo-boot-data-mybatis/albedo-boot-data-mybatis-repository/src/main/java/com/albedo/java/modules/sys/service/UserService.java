@@ -86,7 +86,11 @@ public class UserService extends DataService<UserRepository, User, String> {
         user.setResetKey(RandomUtil.generateResetKey());
         user.setResetDate(PublicUtil.getCurrentDate());
         user.setActivated(true);
-        user = repository.saveIgnoreNull().save(user);
+        user = repository.save(user);
+        if(PublicUtil.isNotEmpty(user.getRoleIdList())){
+            repository.deleteUserRoles(user);
+            repository.addUserRoles(user);
+        }
         log.debug("Save Information for User: {}", user);
 
         return copyBeanToResult(user);

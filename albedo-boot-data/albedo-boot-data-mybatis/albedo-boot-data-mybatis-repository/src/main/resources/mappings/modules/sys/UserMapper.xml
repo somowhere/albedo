@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.albedo.java.modules.sys.domain.User">
+
+
+    <select id="addUserRoles" parameterType="com.albedo.java.modules.sys.domain.User">
+        insert into sys_user_role_t (user_id,role_id)
+        values
+        <foreach collection="user.roleIdList" item="item" separator="," >
+            (#{user.id},#{item})
+        </foreach>
+    </select>
+
+    <select id="deleteUserRoles" parameterType="com.albedo.java.modules.sys.domain.User">
+        DELETE FROM sys_user_role_t where user_id=#{user.id}
+    </select>
+
+</mapper>

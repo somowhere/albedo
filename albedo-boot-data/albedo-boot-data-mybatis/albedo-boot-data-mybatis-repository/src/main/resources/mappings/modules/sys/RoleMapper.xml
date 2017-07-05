@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.albedo.java.modules.sys.domain.User">
+
+
+    <select id="addRoleOrgs" parameterType="com.albedo.java.modules.sys.domain.Role">
+        insert into sys_role_org_t (role_id, org_id)
+        values
+        <foreach collection="role.orgIdList" item="item" separator="," >
+            (#{role.id},#{item})
+        </foreach>
+    </select>
+
+    <select id="deleteRoleOrgs" parameterType="com.albedo.java.modules.sys.domain.Role">
+        DELETE FROM sys_role_org_t where role_id=#{role.id}
+    </select>
+
+    <select id="addRoleModules" parameterType="com.albedo.java.modules.sys.domain.Role">
+        insert into sys_role_module_t (role_id, module_id)
+        values
+        <foreach collection="role.moduleIdList" item="item" separator="," >
+            (#{role.id},#{item})
+        </foreach>
+    </select>
+    <select id="deleteRoleModules" parameterType="com.albedo.java.modules.sys.domain.Role">
+        DELETE FROM sys_role_module_t where role_id=#{role.id}
+    </select>
+</mapper>
