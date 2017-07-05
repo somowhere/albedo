@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Entity;
+import org.springframework.data.mybatis.annotations.JoinColumn;
 import org.springframework.data.mybatis.repository.dialect.Dialect;
 import org.springframework.util.StringUtils;
 
@@ -225,10 +226,17 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
                 Entity entity = Reflections.getAnnotation(persistentClass, Entity.class);
                 String quota = null != entity && StringUtils.hasText(entity.name()) ? entity.name() :
                         StringUtils.uncapitalize(persistentClass.getSimpleName());
-                Column column = Reflections.getAnnotationByClazz(persistentClass, fieldName, Column.class);
-                if (column != null && PublicUtil.isNotEmpty(column.name())) {
+                String columnName = null;int indexQuote = fieldName.indexOf(".");
+                if(indexQuote!=-1){
+                    JoinColumn column = Reflections.getAnnotationByClazz(persistentClass, fieldName.substring(0, indexQuote), JoinColumn.class);
+                    if(column!=null)columnName = column.name();
+                }else{
+                    Column column = Reflections.getAnnotationByClazz(persistentClass, fieldName, Column.class);
+                    if(column!=null)columnName = column.name();
+                }
+                if (PublicUtil.isNotEmpty(columnName)) {
                     Dialect dialect = SpringContextHolder.getBean(Dialect.class);
-                    fieldNameReal = dialect.openQuote() + quota + dialect.closeQuote() + '.' + column.name();
+                    fieldNameReal = dialect.openQuote() + quota + dialect.closeQuote() + '.' + columnName;
                 }
             }
         } catch (Exception e) {

@@ -67,7 +67,8 @@ public class OrgResource extends DataResource<OrgService, Org> {
     public ResponseEntity getPage(PageModel<Org> pm) {
 
         pm.setSortDefaultName(Direction.DESC, DataEntity.F_LASTMODIFIEDDATE);
-        orgService.findPage(pm);
+        orgService.findPage(pm, SecurityUtil.dataScopeFilter(
+                SecurityUtil.getCurrentUserId(), "this", ""));
         JSON rs = JsonUtil.getInstance().toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
     }

@@ -6,6 +6,7 @@ import com.albedo.java.common.service.TreeService;
 import com.albedo.java.modules.sys.domain.Org;
 import com.albedo.java.modules.sys.repository.OrgRepository;
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.vo.sys.query.OrgTreeQuery;
 import com.google.common.collect.Lists;
@@ -82,4 +83,10 @@ public class OrgService extends TreeService<OrgRepository, Org, String> {
         spd.orderASC(Org.F_SORT);
         return findAll(spd);
     }
+
+    @Transactional(readOnly = true)
+    public PageModel<Org> findPage(PageModel<Org> pm, List<QueryCondition> queryConditions) {
+        return findPageQuery(pm, queryConditions, false);
+    }
+
 }
