@@ -51,7 +51,7 @@
                         <th width="10%" colspan="1"> 所属组织</th>
                         <th width="10%" colspan="1"> 登录Id</th>
                         <th width="10%"> 邮箱</th>
-                        <th width="20%"> 拥有角色</th>
+                        <#--<th width="20%"> 拥有角色</th>-->
                         <th width="10%"> 状态</th>
                         <th width="10%"> 修改时间</th>
                         <th width="10%"> 操作</th>
@@ -76,7 +76,7 @@
                     "columns": [
                         {data: "orgName"}, {data: "loginId"},
                         {data: "email"},
-                        {data: "roleNames", orderable: false},
+//                        {data: "roleNames", orderable: false},
                         {
                             data: "status", render: function (data, type, row) {
                             var cssClass = (data == "正常" ? "info" : "warning");

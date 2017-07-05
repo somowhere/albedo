@@ -31,6 +31,8 @@ public class PageModel<T> implements Pageable, Serializable {
      */
     @JSONField(serialize = false)
     private String queryConditionJson;
+    @JSONField(serialize = false)
+    private String sqlConditionDsf;
     private long recordsFiltered;
     private long recordsTotal;
     private int draw;
@@ -295,4 +297,11 @@ public class PageModel<T> implements Pageable, Serializable {
         return result;
     }
 
+    public String getSqlConditionDsf() {
+        return sqlConditionDsf;
+    }
+
+    public void setSqlConditionDsf(String sqlConditionDsf) {
+        this.sqlConditionDsf = sqlConditionDsf;
+    }
 }

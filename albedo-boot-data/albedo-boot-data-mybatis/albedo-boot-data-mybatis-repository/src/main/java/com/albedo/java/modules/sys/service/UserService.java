@@ -4,6 +4,7 @@ import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.modules.sys.repository.OrgRepository;
 import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
 import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
@@ -36,6 +37,8 @@ public class UserService extends DataService<UserRepository, User, String> {
 
     @Resource
     private RoleRepository roleRepository;
+    @Resource
+    OrgRepository orgRepository;
 
     public UserResult copyBeanToResult(User user) {
         UserResult userResult = new UserResult();
@@ -164,7 +167,10 @@ public class UserService extends DataService<UserRepository, User, String> {
                         QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE), QueryCondition.ne(User.F_ID, "1"));
 //        Page<User> page = repository.findAll(spec, pm);
 //        pm.setPageInstance(page);
-        return findBasePage(pm, spec, false);
+        findBasePage(pm, spec, true);
+        pm.getData().forEach(item -> item.setOrg(orgRepository.findBasicOne(item.getOrgId())));
+
+        return pm;
     }
 
 
