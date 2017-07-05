@@ -11,7 +11,7 @@ import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Entity;
 import org.springframework.data.mybatis.annotations.Id;
 
-import com.albedo.java.common.data.mybatis.persistence.GeneralEntity;
+import com.albedo.java.common.data.persistence.GeneralEntity;
 import com.albedo.java.util.annotation.DictType;
 import com.albedo.java.util.annotation.SearchField;
 

@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.albedo.java.common.data.mybatis.persistence;
+package com.albedo.java.common.data.persistence;
 
 import com.albedo.java.util.annotation.DictType;
 import com.albedo.java.util.annotation.SearchField;

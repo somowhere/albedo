@@ -1,7 +1,7 @@
 package com.albedo.java.modules.gen.service;
 
-import com.albedo.java.common.data.mybatis.persistence.DynamicSpecifications;
-import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
+import com.albedo.java.common.data.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.gen.domain.GenScheme;
 import com.albedo.java.modules.gen.domain.GenTable;

@@ -3,9 +3,9 @@
  */
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.data.mybatis.persistence.BaseEntity;
-import com.albedo.java.common.data.mybatis.persistence.DynamicSpecifications;
-import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
+import com.albedo.java.common.data.persistence.BaseEntity;
+import com.albedo.java.common.data.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.service.TreeService;
 import com.albedo.java.modules.sys.domain.Area;
 import com.albedo.java.modules.sys.domain.Org;

@@ -1,6 +1,6 @@
 package com.albedo.java.modules.gen.service;
 
-import com.albedo.java.common.data.mybatis.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.gen.domain.GenTable;
 import com.albedo.java.modules.gen.domain.GenTableColumn;
@@ -12,6 +12,7 @@ import com.albedo.java.modules.gen.util.GenUtil;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
+import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.base.Collections3;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.exception.RuntimeMsgException;
@@ -228,5 +229,15 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
         }
 
         return map;
+    }
+
+    public void delete(List<String> ids, String currentAuditor) {
+        ids.forEach(id -> {
+            GenTable entity = repository.findOneById(id);
+            Assert.assertNotNull(entity, "对象 " + id + " 信息为空，删除失败");
+            deleteById(id);
+            genTableColumnService.deleteByTableId(id, currentAuditor);
+            log.debug("Deleted GenTable: {}", entity);
+        });
     }
 }

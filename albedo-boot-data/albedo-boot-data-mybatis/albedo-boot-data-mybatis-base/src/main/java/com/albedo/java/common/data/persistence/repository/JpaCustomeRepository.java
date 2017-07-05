@@ -1,6 +1,6 @@
-package com.albedo.java.common.data.mybatis.persistence.data;
+package com.albedo.java.common.data.persistence.repository;
 
-import com.albedo.java.common.data.mybatis.persistence.GeneralEntity;
+import com.albedo.java.common.data.persistence.GeneralEntity;
 import com.albedo.java.util.domain.Combo;
 import com.albedo.java.util.domain.ComboData;
 

@@ -13,8 +13,8 @@ import org.springframework.data.mybatis.annotations.JoinColumn;
 import org.springframework.data.mybatis.annotations.ManyToOne;
 import org.springframework.data.mybatis.annotations.PreInssert;
 
-import com.albedo.java.common.data.mybatis.persistence.GeneralEntity;
-import com.albedo.java.common.data.mybatis.persistence.IdGen;
+import com.albedo.java.common.data.persistence.GeneralEntity;
+import com.albedo.java.common.data.persistence.IdGen;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.annotation.SearchField;
 import com.fasterxml.jackson.annotation.JsonIgnore;

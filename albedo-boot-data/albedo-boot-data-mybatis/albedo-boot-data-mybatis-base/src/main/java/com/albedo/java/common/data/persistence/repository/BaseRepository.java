@@ -1,9 +1,9 @@
 /**
  * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.albedo.java.common.data.mybatis.persistence.repository;
+package com.albedo.java.common.data.persistence.repository;
 
-import com.albedo.java.common.data.mybatis.persistence.GeneralEntity;
+import com.albedo.java.common.data.persistence.GeneralEntity;
 import org.springframework.data.mybatis.repository.support.MybatisRepository;
 
 import java.io.Serializable;

@@ -1,6 +1,6 @@
 package com.albedo.java.modules.gen.service;
 
-import com.albedo.java.common.data.mybatis.persistence.BaseEntity;
+import com.albedo.java.common.data.persistence.BaseEntity;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.gen.domain.GenTableColumn;
 import com.albedo.java.modules.gen.repository.GenTableColumnRepository;

@@ -16,7 +16,7 @@ import org.springframework.data.mybatis.annotations.JoinColumn;
 import org.springframework.data.mybatis.annotations.ManyToOne;
 import org.springframework.data.mybatis.annotations.MappedSuperclass;
 
-import com.albedo.java.common.data.mybatis.persistence.BaseEntity;
+import com.albedo.java.common.data.persistence.BaseEntity;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.util.PublicUtil;
 import com.alibaba.fastjson.annotation.JSONField;

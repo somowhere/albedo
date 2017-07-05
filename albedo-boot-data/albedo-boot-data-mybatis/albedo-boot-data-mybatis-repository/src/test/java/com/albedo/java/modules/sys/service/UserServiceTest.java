@@ -151,7 +151,9 @@ public class UserServiceTest {
         assertThat(user2.getId(), is(notNullValue()));
         assertThat(user3.getId(), is(notNullValue()));
         assertThat(user4.getId(), is(notNullValue()));
-
+//        User userTest = repository.findOne(id);
+//        assertThat(userTest.getRoles()!=null && userTest.getRoles().size()>0,
+//                is(true));
         assertThat(repository.exists(id), is(true));
         assertThat(repository.exists(user2.getId()), is(true));
         assertThat(repository.exists(user3.getId()), is(true));

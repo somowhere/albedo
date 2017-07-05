@@ -1,7 +1,7 @@
-package com.albedo.java.common.data.mybatis.persistence.data.impl;
+package com.albedo.java.common.data.persistence.repository.impl;
 
-import com.albedo.java.common.data.mybatis.persistence.GeneralEntity;
-import com.albedo.java.common.data.mybatis.persistence.data.JpaCustomeRepository;
+import com.albedo.java.common.data.persistence.GeneralEntity;
+import com.albedo.java.common.data.persistence.repository.JpaCustomeRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.Combo;
 import com.albedo.java.util.domain.ComboData;

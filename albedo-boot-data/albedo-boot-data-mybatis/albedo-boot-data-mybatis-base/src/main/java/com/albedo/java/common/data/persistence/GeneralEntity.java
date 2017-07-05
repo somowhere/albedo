@@ -1,4 +1,4 @@
-package com.albedo.java.common.data.mybatis.persistence;
+package com.albedo.java.common.data.persistence;
 
 import com.albedo.java.util.config.SystemConfig;
 import com.alibaba.fastjson.annotation.JSONField;

@@ -3,7 +3,7 @@
  */
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.common.data.mybatis.persistence.repository.BaseRepository;
+import com.albedo.java.common.data.persistence.repository.BaseRepository;
 import com.albedo.java.modules.sys.domain.TaskScheduleJob;
 
 import java.util.List;
