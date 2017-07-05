@@ -1,6 +1,6 @@
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.data.hibernate.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.domain.base.BaseEntity;
 import com.albedo.java.common.service.TreeService;
 import com.albedo.java.modules.sys.domain.Module;
@@ -117,4 +117,16 @@ public class ModuleService extends TreeService<ModuleRepository, Module, String>
 
     }
 
+    /**
+     * 根据用户获取权限
+     * @param userId
+     * @return
+     */
+    public List<Module> findAllAuthByUser(String userId) {
+        return baseRepository.findListByHQL("select distinct m from Module m, Role r, User u where m in elements (r.modules) and r in elements (u.roles) and m.status=0 and r.status=0 and u.status=0 and u.id=:p1 order by m.sort", userId);
+    }
+
+    public List<Module> findAllByStatusOrderBySort(Integer flagNormal) {
+        return repository.findAllByStatusOrderBySort(flagNormal);
+    }
 }

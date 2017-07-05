@@ -3,11 +3,11 @@
  */
 package com.albedo.java.common.service;
 
-import com.albedo.java.common.data.mybatis.persistence.BaseEntity;
-import com.albedo.java.common.data.mybatis.persistence.DynamicSpecifications;
-import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
-import com.albedo.java.common.data.mybatis.persistence.repository.BaseRepository;
-import com.albedo.java.common.data.mybatis.persistence.service.BaseService;
+import com.albedo.java.common.data.persistence.BaseEntity;
+import com.albedo.java.common.data.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.persistence.SpecificationDetail;
+import com.albedo.java.common.data.persistence.repository.BaseRepository;
+import com.albedo.java.common.data.persistence.service.BaseService;
 import com.albedo.java.common.domain.base.DataEntity;
 import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.domain.PageModel;

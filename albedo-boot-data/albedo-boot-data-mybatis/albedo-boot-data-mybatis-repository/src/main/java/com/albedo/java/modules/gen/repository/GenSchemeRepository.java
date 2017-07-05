@@ -1,6 +1,6 @@
 package com.albedo.java.modules.gen.repository;
 
-import com.albedo.java.common.data.mybatis.persistence.repository.BaseRepository;
+import com.albedo.java.common.data.persistence.repository.BaseRepository;
 import com.albedo.java.modules.gen.domain.GenScheme;
 
 import java.util.List;

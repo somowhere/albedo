@@ -1,7 +1,7 @@
 package com.albedo.java.modules.gen.service;
 
-import com.albedo.java.common.data.hibernate.persistence.DynamicSpecifications;
-import com.albedo.java.common.data.hibernate.persistence.SpecificationDetail;
+import com.albedo.java.common.data.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.gen.domain.GenTable;
 import com.albedo.java.modules.gen.domain.GenTableColumn;
@@ -48,7 +48,7 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
         ids.forEach(id -> {
             GenTable entity = repository.findOneById(id);
             Assert.assertNotNull(entity, "对象 " + id + " 信息为空，删除失败");
-            deleteById(id, currentAuditor);
+            deleteById(id);
             genTableColumnService.deleteByTableId(id, currentAuditor);
             log.debug("Deleted GenTable: {}", entity);
         });
@@ -219,4 +219,5 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
 
         return map;
     }
+
 }

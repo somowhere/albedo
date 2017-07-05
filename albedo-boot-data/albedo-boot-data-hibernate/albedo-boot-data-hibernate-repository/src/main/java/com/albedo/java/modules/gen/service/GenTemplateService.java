@@ -1,6 +1,6 @@
 package com.albedo.java.modules.gen.service;
 
-import com.albedo.java.common.data.hibernate.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.gen.domain.GenTable;
 import com.albedo.java.modules.gen.repository.GenTableRepository;

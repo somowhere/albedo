@@ -9,8 +9,9 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.annotations.*;
+import lombok.ToString;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -27,6 +28,7 @@ import java.util.Set;
 @DynamicInsert
 @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@ToString
 public class Role extends IdEntity {
 
     /*** 数据范围(所有数据) */

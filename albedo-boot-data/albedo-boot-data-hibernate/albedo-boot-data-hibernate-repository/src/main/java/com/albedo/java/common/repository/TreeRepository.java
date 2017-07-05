@@ -27,4 +27,7 @@ public interface TreeRepository<T extends BaseEntity, PK extends Serializable> e
 
     <T extends TreeEntity<T>> T findTopByParentIdAndStatusNotOrderBySortDesc(String parentId, Integer status);
 
+    <T extends TreeEntity<T>> List<T> findTop1ByParentIdAndStatusNotOrderBySortDesc(String parentId, Integer flagDelete);
+
+    Long countByParentIdAndStatusNot(String parentId, Integer flagDelete);
 }

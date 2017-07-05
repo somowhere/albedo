@@ -4,13 +4,17 @@ import com.albedo.java.util.base.Encodes;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.annotation.JSONType;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.util.Assert;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @JSONType(ignores = {"data"})
@@ -45,6 +49,12 @@ public class PageModel<T> implements Pageable, Serializable {
      */
     public PageModel(int page, int size) {
         this(page, size, null);
+    }
+
+    public PageModel(int page, int size, List<T> dataList, long recordsTotal) {
+        this(page, size, null);
+        setData(dataList);
+        setRecordsTotal(recordsTotal);
     }
 
     /**
@@ -265,6 +275,24 @@ public class PageModel<T> implements Pageable, Serializable {
      */
     public Pageable first() {
         return new PageRequest(0, getPageSize(), getSort());
+    }
+
+    public <S> PageModel<S> map(Converter<? super T, ? extends S> converter) {
+        return new PageModel(this.getPage(), this.getSize(),
+                this.getConvertedContent(converter), this.getRecordsTotal());
+    }
+
+    protected <S> List<S> getConvertedContent(Converter<? super T, ? extends S> converter) {
+        Assert.notNull(converter, "Converter must not be null!");
+        List<S> result = new ArrayList(this.data.size());
+        Iterator var3 = this.data.iterator();
+
+        while(var3.hasNext()) {
+            T element = (T) var3.next();
+            result.add(converter.convert(element));
+        }
+
+        return result;
     }
 
 }

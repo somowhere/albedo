@@ -1,12 +1,12 @@
 package com.albedo.java.modules.gen.domain.vo;
 
+import java.io.Serializable;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * 业务表Entity

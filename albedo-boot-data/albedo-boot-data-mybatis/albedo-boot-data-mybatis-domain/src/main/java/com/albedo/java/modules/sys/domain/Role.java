@@ -1,5 +1,16 @@
 package com.albedo.java.modules.sys.domain;
 
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mybatis.annotations.Column;
+import org.springframework.data.mybatis.annotations.Entity;
+import org.springframework.data.mybatis.annotations.JoinColumn;
+import org.springframework.data.mybatis.annotations.JoinTable;
+import org.springframework.data.mybatis.annotations.ManyToMany;
+import org.springframework.data.mybatis.annotations.ManyToOne;
+
 import com.albedo.java.common.domain.base.IdEntity;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.annotation.DictType;
@@ -8,16 +19,12 @@ import com.albedo.java.util.base.Collections3;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.mybatis.annotations.*;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午4:32:52

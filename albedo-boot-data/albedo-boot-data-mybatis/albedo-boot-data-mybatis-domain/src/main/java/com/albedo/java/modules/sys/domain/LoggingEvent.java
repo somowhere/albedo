@@ -3,20 +3,22 @@
  */
 package com.albedo.java.modules.sys.domain;
 
-import com.albedo.java.common.data.mybatis.persistence.GeneralEntity;
-import com.albedo.java.util.annotation.DictType;
-import com.albedo.java.util.annotation.SearchField;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Entity;
 import org.springframework.data.mybatis.annotations.Id;
 
-import javax.validation.constraints.NotNull;
+import com.albedo.java.common.data.persistence.GeneralEntity;
+import com.albedo.java.util.annotation.DictType;
+import com.albedo.java.util.annotation.SearchField;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * 操作日志Entity 操作日志

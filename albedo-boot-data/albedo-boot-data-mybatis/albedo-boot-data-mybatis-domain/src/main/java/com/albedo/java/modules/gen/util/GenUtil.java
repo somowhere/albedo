@@ -1,5 +1,18 @@
 package com.albedo.java.modules.gen.util;
 
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.io.Charsets;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+
 import com.albedo.java.common.domain.base.DataEntity;
 import com.albedo.java.common.domain.base.TreeEntity;
 import com.albedo.java.modules.gen.domain.GenScheme;
@@ -20,18 +33,6 @@ import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.mapper.JaxbMapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.apache.commons.io.Charsets;
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 代码生成工具类

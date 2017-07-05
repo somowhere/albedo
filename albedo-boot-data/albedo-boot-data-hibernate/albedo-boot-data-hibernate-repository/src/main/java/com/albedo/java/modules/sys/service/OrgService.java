@@ -1,7 +1,7 @@
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.data.hibernate.persistence.DynamicSpecifications;
-import com.albedo.java.common.data.hibernate.persistence.SpecificationDetail;
+import com.albedo.java.common.data.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.domain.base.BaseEntity;
 import com.albedo.java.common.service.TreeService;
 import com.albedo.java.modules.sys.domain.Org;
@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -77,4 +78,13 @@ public class OrgService extends TreeService<OrgRepository, Org, String> {
         return repository.findAllByParentIdAndStatusNot(parentId, Org.FLAG_DELETE);
     }
 
+    public List<Org> findAllList(boolean admin, Collection<QueryCondition> authQueryList) {
+        SpecificationDetail<Org> spd = new SpecificationDetail<Org>()
+                .and(QueryCondition.ne(Org.F_STATUS, Org.FLAG_DELETE));
+        if (!admin) {
+            spd.orAll(authQueryList);
+        }
+        spd.orderASC(Org.F_SORT);
+        return repository.findAll(spd);
+    }
 }

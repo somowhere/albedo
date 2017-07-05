@@ -1,8 +1,8 @@
 package com.albedo.java.common.service;
 
-import com.albedo.java.common.data.hibernate.persistence.DynamicSpecifications;
-import com.albedo.java.common.data.hibernate.persistence.SpecificationDetail;
-import com.albedo.java.common.data.hibernate.persistence.service.BaseService;
+import com.albedo.java.common.data.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.persistence.SpecificationDetail;
+import com.albedo.java.common.data.persistence.service.BaseService;
 import com.albedo.java.common.domain.base.BaseEntity;
 import com.albedo.java.common.domain.base.DataEntity;
 import com.albedo.java.common.repository.DataRepository;
@@ -10,7 +10,6 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +17,6 @@ import java.io.Serializable;
 import java.util.List;
 
 
-@Service
 @Transactional
 public class DataService<Repository extends DataRepository<T, PK>, T extends DataEntity, PK extends Serializable> extends
         BaseService<Repository, T, PK> {
@@ -28,16 +26,16 @@ public class DataService<Repository extends DataRepository<T, PK>, T extends Dat
      * @param id
      * @return
      */
-    public void deleteById(PK id, String lastModifiedBy) {
-        operateStatusById(id, BaseEntity.FLAG_DELETE, lastModifiedBy);
+    public void deleteById(PK id) {
+        operateStatusById(id, BaseEntity.FLAG_DELETE);
     }
 
-    public void operateStatusById(PK id, Integer status, String lastModifiedBy) {
+    public void operateStatusById(PK id, Integer status) {
         T entity = repository.findOne(id);
         Assert.assertNotNull(entity, "无法查询到对象信息");
         entity.setStatus(status);
-        entity.setLastModifiedBy(lastModifiedBy);
-        entity.setLastModifiedDate(PublicUtil.getCurrentDate());
+//        entity.setLastModifiedBy(lastModifiedBy);
+//        entity.setLastModifiedDate(PublicUtil.getCurrentDate());
         repository.saveAndFlush(entity);
     }
 
@@ -47,29 +45,28 @@ public class DataService<Repository extends DataRepository<T, PK>, T extends Dat
      * @param idList
      * @return
      */
-    public void deleteById(List<PK> idList, String lastModifiedBy) {
+    public void deleteById(List<PK> idList) {
         for (PK id : idList) {
-            deleteById(id, lastModifiedBy);
+            deleteById(id);
         }
     }
 
-    public void delete(List<PK> ids, String currentAuditor) {
+    public void delete(List<PK> ids) {
         Assert.assertNotNull(ids, "ids 信息为空，操作失败");
         ids.forEach(id -> {
             T entity = repository.findOne(id);
             Assert.assertNotNull(entity, "对象 " + id + " 信息为空，删除失败");
-            deleteById(id, currentAuditor);
+            deleteById(id);
             log.debug("Deleted Entity: {}", entity);
         });
     }
 
-    public void lockOrUnLock(List<PK> ids, String currentAuditor) {
+    public void lockOrUnLock(List<PK> ids) {
         Assert.assertNotNull(ids, "ids 信息为空，操作失败");
         ids.forEach(id -> {
             T entity = repository.findOne(id);
             Assert.assertNotNull(entity, "对象 " + id + " 信息为空，操作失败");
-            operateStatusById(id, BaseEntity.FLAG_NORMAL.equals(entity.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL,
-                    currentAuditor);
+            operateStatusById(id, BaseEntity.FLAG_NORMAL.equals(entity.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL);
             log.debug("LockOrUnLock Entity: {}", entity);
 
         });
@@ -81,10 +78,25 @@ public class DataService<Repository extends DataRepository<T, PK>, T extends Dat
     }
 
     @Transactional(readOnly = true)
-    public Page<T> findAll(PageModel<T> pm) {
-        SpecificationDetail<T> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
-                QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
-        return repository.findAll(spec, pm);
+    public PageModel<T> findPage(PageModel<T> pm) {
+        return findPage(pm, null);
     }
 
+    public PageModel<T> findPage(PageModel<T> pm, List<QueryCondition> queryConditions) {
+        SpecificationDetail<T> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
+                QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
+        if(PublicUtil.isNotEmpty(queryConditions)){
+            spec.andAll(queryConditions);
+        }
+        pm.setPageInstance(repository.findAll(spec, pm));
+        return pm;
+    }
+
+    public boolean doCheckByProperty(T entity) {
+        return baseRepository.doCheckByProperty(entity);
+    }
+
+    public boolean doCheckByPK(T entity) {
+        return baseRepository.doCheckByPK(entity);
+    }
 }

@@ -82,11 +82,12 @@ AlbedoBoot 提供了常用工具进行封装，包括日志工具、缓存工具
 
 #### 为了能够快速搭建请首先加入maven的阿里云镜像
 
-1. 具备运行环境：JDK1.7+、Maven3.0+、MySql5+或Oracle10g+。
-2. 修改albedo-boot-web-starter src\main\resources\config\application-dev.yml文件中的数据库设置参数。
-3. 根据修改参数创建对应MySql或Oracle数据库用户和参数。
-4. 运行albedo-new.sql脚本初始化数据库
-5. 最高管理员账号，用户名：admin 密码：admin 
+1. 具备运行环境：JDK1.8、Maven3.0+、MySql5+或Oracle10g+。
+2. 导入ide前，安装lombok插件
+3. 修改albedo-boot-web-starter src\main\resources\config\application-dev.yml文件中的数据库设置参数。
+4. 根据修改参数创建对应MySql或Oracle数据库用户和参数。
+5. 运行albedo-new.sql脚本初始化数据库
+6. 最高管理员账号，用户名：admin 密码：admin 
 
 ## 常见问题
 

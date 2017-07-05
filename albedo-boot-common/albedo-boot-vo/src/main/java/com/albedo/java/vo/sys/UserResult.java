@@ -1,6 +1,6 @@
 package com.albedo.java.vo.sys;
 
-import com.albedo.java.vo.base.GeneralVo;
+import com.albedo.java.vo.base.GeneralEntityVo;
 import lombok.Data;
 import lombok.ToString;
 
@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Data
 @ToString
-public class UserResult extends GeneralVo {
+public class UserResult extends GeneralEntityVo {
 
     /*** F_LOGINID */
     public static final String F_LOGINID = "loginId";

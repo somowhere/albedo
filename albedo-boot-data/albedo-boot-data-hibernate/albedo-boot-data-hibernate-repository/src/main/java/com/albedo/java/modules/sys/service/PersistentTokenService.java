@@ -3,8 +3,8 @@
  */
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.data.hibernate.persistence.DynamicSpecifications;
-import com.albedo.java.common.data.hibernate.persistence.SpecificationDetail;
+import com.albedo.java.common.data.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.modules.sys.domain.PersistentToken;
 import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
 import com.albedo.java.util.domain.PageModel;
@@ -38,7 +38,7 @@ public class PersistentTokenService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PersistentToken> findAll(PageModel<PersistentToken> pm, List<QueryCondition> queryConditions) {
+    public Page<PersistentToken> findPage(PageModel<PersistentToken> pm, List<QueryCondition> queryConditions) {
         SpecificationDetail<PersistentToken> spec = DynamicSpecifications
                 .buildSpecification(pm.getQueryConditionJson(), queryConditions);
         return persistentTokenRepository.findAll(spec, pm);

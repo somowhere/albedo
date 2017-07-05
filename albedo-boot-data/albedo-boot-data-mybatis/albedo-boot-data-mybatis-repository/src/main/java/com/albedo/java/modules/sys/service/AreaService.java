@@ -3,12 +3,16 @@
  */
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.data.mybatis.persistence.BaseEntity;
+import com.albedo.java.common.data.persistence.BaseEntity;
+import com.albedo.java.common.data.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.service.TreeService;
 import com.albedo.java.modules.sys.domain.Area;
+import com.albedo.java.modules.sys.domain.Org;
 import com.albedo.java.modules.sys.repository.AreaRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
+import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.vo.sys.query.AreaTreeQuery;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -56,4 +60,10 @@ public class AreaService extends TreeService<AreaRepository, Area, String> {
         return mapList;
     }
 
+    public List<Area> findAllList() {
+        SpecificationDetail<Area> spd = DynamicSpecifications
+                .bySearchQueryCondition(QueryCondition.ne(Org.F_STATUS, Org.FLAG_DELETE));
+        spd.orderASC(Area.F_ID);
+        return findAll(spd);
+    }
 }

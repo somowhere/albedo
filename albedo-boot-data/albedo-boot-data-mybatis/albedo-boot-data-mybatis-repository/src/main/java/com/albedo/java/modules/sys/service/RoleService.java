@@ -1,8 +1,8 @@
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.data.mybatis.persistence.BaseEntity;
-import com.albedo.java.common.data.mybatis.persistence.DynamicSpecifications;
-import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
+import com.albedo.java.common.data.persistence.BaseEntity;
+import com.albedo.java.common.data.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.repository.RoleRepository;
@@ -27,5 +27,15 @@ public class RoleService extends DataService<RoleRepository, Role, String> {
                 QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
 //		specificationDetail.setPersistentClass();
         return findBasePage(pm, specificationDetail, false);
+    }
+
+    public List<Role> findAllList(boolean admin, List<QueryCondition> authQueryList) {
+        SpecificationDetail<Role> spd = new SpecificationDetail<Role>()
+                .and(QueryCondition.eq(Role.F_STATUS, Role.FLAG_NORMAL));
+        if (admin) {
+            spd.orAll(authQueryList);
+        }
+        spd.orderASC(Role.F_SORT);
+        return findAll(spd);
     }
 }

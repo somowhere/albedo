@@ -531,3 +531,4 @@ CREATE TABLE sys_user_t (
   version_ int(11) DEFAULT NULL,
   PRIMARY KEY (id_)
 );
+

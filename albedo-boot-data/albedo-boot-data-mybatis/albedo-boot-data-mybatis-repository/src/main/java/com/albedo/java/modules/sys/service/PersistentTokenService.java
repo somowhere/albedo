@@ -3,9 +3,9 @@
  */
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.data.mybatis.persistence.DynamicSpecifications;
-import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
-import com.albedo.java.common.data.mybatis.persistence.service.BaseService;
+import com.albedo.java.common.data.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.persistence.SpecificationDetail;
+import com.albedo.java.common.data.persistence.service.BaseService;
 import com.albedo.java.modules.sys.domain.PersistentToken;
 import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
 import com.albedo.java.util.domain.PageModel;

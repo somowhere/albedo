@@ -1,7 +1,7 @@
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.data.mybatis.persistence.DynamicSpecifications;
-import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
+import com.albedo.java.common.data.persistence.DynamicSpecifications;
+import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
@@ -57,6 +57,7 @@ public class UserService extends DataService<UserRepository, User, String> {
 
     public User copyFormToBean(UserForm userForm, User user) {
         BeanUtils.copyProperties(userForm, user);
+        user.setRoleIdList(userForm.getRoleIdList());
         return user;
     }
 
@@ -85,7 +86,7 @@ public class UserService extends DataService<UserRepository, User, String> {
         user.setResetKey(RandomUtil.generateResetKey());
         user.setResetDate(PublicUtil.getCurrentDate());
         user.setActivated(true);
-        user = repository.save(user);
+        user = repository.saveIgnoreNull().save(user);
         log.debug("Save Information for User: {}", user);
 
         return copyBeanToResult(user);

@@ -222,7 +222,7 @@ public class AccountResource extends BaseResource {
     @Timed
     public ResponseEntity<List<PersistentToken>> getCurrentSessions() {
         User user = userRepository.findOneById(SecurityUtil.getCurrentUserId());
-        return new ResponseEntity<>(
+        return new ResponseEntity(
                 persistentTokenRepository.findAllByUserId(user.getId()),
                 HttpStatus.OK);
     }

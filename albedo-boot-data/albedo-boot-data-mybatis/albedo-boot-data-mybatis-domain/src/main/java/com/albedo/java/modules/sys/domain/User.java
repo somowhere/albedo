@@ -1,5 +1,24 @@
 package com.albedo.java.modules.sys.domain;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mybatis.annotations.Column;
+import org.springframework.data.mybatis.annotations.Entity;
+import org.springframework.data.mybatis.annotations.JoinColumn;
+import org.springframework.data.mybatis.annotations.JoinTable;
+import org.springframework.data.mybatis.annotations.ManyToMany;
+import org.springframework.data.mybatis.annotations.ManyToOne;
+import org.springframework.data.mybatis.annotations.OneToMany;
+
 import com.albedo.java.common.domain.base.IdEntity;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.annotation.SearchField;
@@ -8,22 +27,12 @@ import com.albedo.java.util.domain.Globals;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.mybatis.annotations.*;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 /**
  * A user.

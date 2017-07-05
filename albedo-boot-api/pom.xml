@@ -12,7 +12,6 @@
     <artifactId>albedo-boot-api</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>albedo-boot-interface</module>
         <module>albedo-boot-service</module>
     </modules>
 </project>
