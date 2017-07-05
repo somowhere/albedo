@@ -40,6 +40,7 @@ import org.springframework.data.repository.util.TxUtils;
 import org.springframework.util.StringUtils;
 
 import java.lang.annotation.Annotation;
+import java.util.*;
 
 /**
  * Mybatis repository configuration extension for spring data.

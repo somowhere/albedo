@@ -20,6 +20,8 @@ package org.springframework.data.mybatis.repository.annotation;
 
 import org.springframework.data.annotation.QueryAnnotation;
 
+import java.lang.annotation.*;
+
 import static org.springframework.data.mybatis.repository.annotation.Query.Operation.unknown;
 
 /**

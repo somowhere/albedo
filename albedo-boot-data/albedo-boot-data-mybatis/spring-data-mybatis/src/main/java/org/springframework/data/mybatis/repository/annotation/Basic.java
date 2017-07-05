@@ -18,6 +18,8 @@
 
 package org.springframework.data.mybatis.repository.annotation;
 
+import java.lang.annotation.*;
+
 /**
  * Annotated to named query.
  *

@@ -17,6 +17,3 @@ spring:
         properties:
             hibernate.cache.use_second_level_cache: false
             hibernate.cache.use_query_cache: false
-            hibernate.transaction.auto_close_session: true
-            hibernate.transaction.flush_before_completion: true
-            hibernate.hbm2ddl.auto: validate

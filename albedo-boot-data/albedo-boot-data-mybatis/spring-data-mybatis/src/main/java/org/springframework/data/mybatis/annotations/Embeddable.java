@@ -18,6 +18,8 @@
 
 package org.springframework.data.mybatis.annotations;
 
+import java.lang.annotation.*;
+
 /**
  * @author Jarvis Song
  */

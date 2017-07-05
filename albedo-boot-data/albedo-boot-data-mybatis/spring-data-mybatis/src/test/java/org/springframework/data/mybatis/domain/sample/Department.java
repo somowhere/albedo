@@ -18,6 +18,7 @@
 
 package org.springframework.data.mybatis.domain.sample;
 
+import org.springframework.data.annotation.*;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Entity;
 import org.springframework.data.mybatis.annotations.Id;

@@ -1,14 +1,17 @@
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.data.persistence.repository.BaseRepository;
+import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.config.TestConfig;
 import com.albedo.java.modules.sys.domain.Module;
 import com.albedo.java.modules.sys.domain.Org;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.ModuleRepository;
+import com.albedo.java.modules.sys.repository.OrgRepository;
+import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.util.domain.PageModel;
+import com.albedo.java.util.domain.QueryCondition;
 import com.google.common.collect.Sets;
 import org.hibernate.Session;
 import org.junit.Before;
@@ -21,9 +24,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestContext;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -44,10 +45,14 @@ import static org.springframework.data.domain.Sort.Direction.ASC;
 public class UserServiceTest {
 
     @Autowired
-    UserRepository repository;
+    UserRepository userRepository;
     @Autowired
     ModuleRepository moduleRepository;
 
+    @Autowired
+    OrgRepository orgRepository;
+    @Autowired
+    RoleRepository roleRepository;
     @Autowired
     UserService userService;
     @Autowired
@@ -64,7 +69,7 @@ public class UserServiceTest {
     /*
      * (non-Javadoc)
      *
-     * @see com.albedo.java.repository.data.support.Itest#getSession()
+     * @see com.albedo.java.userRepository.data.support.Itest#getSession()
      */
     public Session getSession() {
         return (Session) em.getDelegate();
@@ -73,7 +78,7 @@ public class UserServiceTest {
     /*
      * (non-Javadoc)
      *
-     * @see com.albedo.java.repository.data.support.Itest#flush()
+     * @see com.albedo.java.userRepository.data.support.Itest#flush()
      */
     public void flush() {
         getSession().flush();
@@ -150,29 +155,54 @@ public class UserServiceTest {
 
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void flushTestUsers() {
+        User userAdmin = new User();
+        userAdmin.setId("1");
+        userAdmin.setLoginId("admin");
+        userRepository.findOneByLoginId(userAdmin.getLoginId()).ifPresent(t ->{
+            userAdmin.setId(t.getId());
+        });
+        userRepository.save(userAdmin);
+        getSession().flush();
+        orgRepository.findOneByName(orgParent.getName()).ifPresent(t ->{
+            orgParent.setId(t.getId());
+        });
         orgParent = orgService.save(orgParent);
         org.setParentId(orgParent.getId());
+        orgRepository.findOneByName(org.getName()).ifPresent(t ->{
+            org.setId(t.getId());
+        });
         org = orgService.save(org);
         roles = (Set<Role>) roleService.save(roles);
 
         user1.setOrgId(org.getId());
         user1.setRoles(roles);
+        userRepository.findOneByLoginId(user1.getLoginId()).ifPresent(t ->{
+            user1.setId(t.getId());
+        });
         user1 = userService.save(user1);
 
         user2.setOrgId(org.getId());
         user2.setRoles(roles);
+        userRepository.findOneByLoginId(user2.getLoginId()).ifPresent(t ->{
+            user2.setId(t.getId());
+        });
         userService.save(user2);
 
 
         user3.setOrgId(org.getId());
         user3.setRoles(roles);
+        userRepository.findOneByLoginId(user3.getLoginId()).ifPresent(t ->{
+            user3.setId(t.getId());
+        });
         userService.save(user3);
 
 
         user4.setOrgId(org.getId());
         user4.setRoles(roles);
+        userRepository.findOneByLoginId(user4.getLoginId()).ifPresent(t ->{
+            user4.setId(t.getId());
+        });
         userService.save(user4);
 
         id = user1.getId();
@@ -182,10 +212,10 @@ public class UserServiceTest {
         assertThat(user3.getId(), is(notNullValue()));
         assertThat(user4.getId(), is(notNullValue()));
         getSession().flush();
-        assertThat(repository.exists(id), is(true));
-        assertThat(repository.exists(user2.getId()), is(true));
-        assertThat(repository.exists(user3.getId()), is(true));
-        assertThat(repository.exists(user4.getId()), is(true));
+        assertThat(userRepository.exists(id), is(true));
+        assertThat(userRepository.exists(user2.getId()), is(true));
+        assertThat(userRepository.exists(user3.getId()), is(true));
+        assertThat(userRepository.exists(user4.getId()), is(true));
     }
 
 
@@ -198,14 +228,14 @@ public class UserServiceTest {
         pm.setSort(new Sort(new Sort.Order(Sort.Direction.ASC, "loginId")));
         userService.findPage(pm);
 
-        assertThat(pm.getData().size(), is(4));
-        assertThat(pm.getData().get(0).getLoginId(), is(user1.getLoginId()));
+        assertThat(pm.getData().size(), is(5 ));
+        assertThat(pm.getData().get(1).getLoginId(), is(user1.getLoginId()));
 
-        User temp = repository.findOneByLoginId(user1.getLoginId()).get();
+        User temp = userRepository.findOneByLoginId(user1.getLoginId()).get();
 
         List<Module> modules = moduleService.findAllAuthByUser("1");
 //        assertThat(modules.size()!=0, is(true));
-        assertThat(pm.getData().get(0), is(temp));
+        assertThat(pm.getData().get(1), is(temp));
 
 
     }
@@ -215,7 +245,7 @@ public class UserServiceTest {
 //
 //        flushTestUsers();
 //
-//        Iterable<User> result = repository.findAll(Arrays.asList(user1.getId(), user2.getId()));
+//        Iterable<User> result = userRepository.findAll(Arrays.asList(user1.getId(), user2.getId()));
 //        assertThat(result, hasItems(user1, user2));
 //    }
 
@@ -224,7 +254,7 @@ public class UserServiceTest {
 
         flushTestUsers();
 
-        User foundPerson = repository.findOne(id);
+        User foundPerson = userRepository.findOne(id);
         assertThat(user1.getName(), is(foundPerson.getName()));
     }
 
@@ -233,13 +263,13 @@ public class UserServiceTest {
 
         flushTestUsers();
 
-        assertThat(repository.findOne(id + 27), is(nullValue()));
+        assertThat(userRepository.findOne(id + 27), is(nullValue()));
     }
 
     @Test
     public void savesCollectionCorrectly() throws Exception {
 
-        List<User> result = repository.save(Arrays.asList(user1, user2, user3));
+        List<User> result = userRepository.save(Arrays.asList(user1, user2, user3));
         assertThat(result, is(notNullValue()));
         assertThat(result.size(), is(3));
         assertThat(result, hasItems(user1, user2, user3));
@@ -248,7 +278,7 @@ public class UserServiceTest {
     @Test
     public void savingNullCollectionIsNoOp() throws Exception {
 
-        List<User> result = repository.save((Collection<User>) null);
+        List<User> result = userRepository.save((Collection<User>) null);
         assertThat(result, is(notNullValue()));
         assertThat(result.isEmpty(), is(true));
     }
@@ -256,7 +286,7 @@ public class UserServiceTest {
     @Test
     public void savingEmptyCollectionIsNoOp() throws Exception {
 
-        List<User> result = repository.save(new ArrayList<User>());
+        List<User> result = userRepository.save(new ArrayList<User>());
         assertThat(result, is(notNullValue()));
         assertThat(result.isEmpty(), is(true));
     }
@@ -266,10 +296,10 @@ public class UserServiceTest {
 
         flushTestUsers();
 
-        User foundPerson = repository.findOne(id);
+        User foundPerson = userRepository.findOne(id);
         foundPerson.setName("Schlicht");
 
-        User updatedPerson = repository.findOne(id);
+        User updatedPerson = userRepository.findOne(id);
         assertThat(updatedPerson.getName(), is(foundPerson.getName()));
     }
 
@@ -277,8 +307,8 @@ public class UserServiceTest {
     public void existReturnsWhetherAnEntityCanBeLoaded() throws Exception {
 
         flushTestUsers();
-        assertThat(repository.exists(id), is(true));
-        assertThat(repository.exists(id + 27), is(false));
+        assertThat(userRepository.exists(id), is(true));
+        assertThat(userRepository.exists(id + 27), is(false));
     }
 
     @Test
@@ -286,9 +316,10 @@ public class UserServiceTest {
 
         flushTestUsers();
 
-        repository.delete(user1.getId());
-        assertThat(repository.exists(id), is(false));
-        assertThat(repository.findOne(id), is(nullValue()));
+        userRepository.delete(user1.getId());
+        getSession().flush();
+        assertThat(userRepository.exists(id), is(false));
+        assertThat(userRepository.findOne(id), is(nullValue()));
     }
 
     @Test
@@ -296,22 +327,23 @@ public class UserServiceTest {
 
         flushTestUsers();
 
-        repository.delete(user1);
-        assertThat(repository.exists(id), is(false));
-        assertThat(repository.findOne(id), is(nullValue()));
+        userRepository.delete(user1);
+        getSession().flush();
+        assertThat(userRepository.exists(id), is(false));
+        assertThat(userRepository.findOne(id), is(nullValue()));
     }
 
     @Test
     public void returnsAllSortedCorrectly() throws Exception {
 
         flushTestUsers();
-        List<User> result = repository.findAll(new Sort(ASC, "loginId"));
+        List<User> result = userRepository.findAll(new Sort(ASC, "loginId"));
         assertThat(result, is(notNullValue()));
-        assertThat(result.size(), is(4));
-        assertThat(result.get(0).getLoginId(), is(user1.getLoginId()));
-        assertThat(result.get(1).getLoginId(), is(user2.getLoginId()));
-        assertThat(result.get(2).getLoginId(), is(user3.getLoginId()));
-        assertThat(result.get(3).getLoginId(), is(user4.getLoginId()));
+        assertThat(result.size(), is(5 ));
+        assertThat(result.get(1).getLoginId(), is(user1.getLoginId()));
+        assertThat(result.get(2).getLoginId(), is(user2.getLoginId()));
+        assertThat(result.get(3).getLoginId(), is(user3.getLoginId()));
+        assertThat(result.get(4).getLoginId(), is(user4.getLoginId()));
     }
 
     @Test
@@ -320,14 +352,14 @@ public class UserServiceTest {
         flushTestUsers();
 
         Sort.Order order = new Sort.Order(ASC, "loginId").ignoreCase();
-        List<User> result = repository.findAll(new Sort(order));
+        List<User> result = userRepository.findAll(new Sort(order));
 
         assertThat(result, is(notNullValue()));
-        assertThat(result.size(), is(4));
-        assertThat(result.get(0).getLoginId(), is(user1.getLoginId()));
-        assertThat(result.get(1).getLoginId(), is(user2.getLoginId()));
-        assertThat(result.get(2).getLoginId(), is(user3.getLoginId()));
-        assertThat(result.get(3).getLoginId(), is(user4.getLoginId()));
+        assertThat(result.size(), is(6));
+        assertThat(result.get(1).getLoginId(), is(user1.getLoginId()));
+        assertThat(result.get(2).getLoginId(), is(user2.getLoginId()));
+        assertThat(result.get(3).getLoginId(), is(user3.getLoginId()));
+        assertThat(result.get(4).getLoginId(), is(user4.getLoginId()));
     }
 
     @Test
@@ -335,12 +367,13 @@ public class UserServiceTest {
 
         flushTestUsers();
 
-        long before = repository.count();
+        long before = userRepository.count();
 
-        repository.delete(Arrays.asList(user1, user2));
-        assertThat(repository.exists(user1.getId()), is(false));
-        assertThat(repository.exists(user2.getId()), is(false));
-        assertThat(repository.count(), is(before - 2));
+        userRepository.delete(Arrays.asList(user1, user2));
+        getSession().flush();
+        assertThat(userRepository.exists(user1.getId()), is(false));
+        assertThat(userRepository.exists(user2.getId()), is(false));
+        assertThat(userRepository.count(), is(before - 2));
     }
 
     @Test
@@ -354,8 +387,8 @@ public class UserServiceTest {
 
         flushTestUsers();
 
-        assertThat(repository.count(), is(4L));
-//        assertThat(repository.findAll(), hasItems(user1, user2, user3, user4));
+        assertThat(userRepository.count(), is(5L));
+//        assertThat(userRepository.findAll(), hasItems(user1, user2, user3, user4));
     }
 
     @Test
@@ -363,22 +396,27 @@ public class UserServiceTest {
 
         flushTestUsers();
 
-        repository.deleteAll();
+        userRepository.delete(userRepository.findAll(
+                DynamicSpecifications.bySearchQueryCondition(
+                        QueryCondition.ne(User.F_ID, "1"))
+        ));
 
-        assertThat(repository.count(), is(0L));
+        getSession().flush();
+        assertThat(userRepository.count(), is(1L));
     }
 
     @Test
     public void testCountsCorrectly() {
-
-        long count = repository.count();
+        flushTestUsers();
+        long count = userRepository.count();
 
         User user = new User();
         user.setLoginId("tempLoginId");
         user.setEmail("gierke@synyx.de");
-        repository.save(user);
+        userRepository.save(user);
 
-        assertThat(repository.count() == count + 1, is(true));
+        getSession().flush();
+        assertThat(userRepository.count() == count + 1, is(true));
     }
 
 //    @Test
@@ -387,14 +425,14 @@ public class UserServiceTest {
 //        Pageable pageable = new PageRequest(0, 1);
 //
 //        flushTestUsers();
-//        assertThat(repository.findAll(null, pageable), is(repository.findAll(pageable)));
+//        assertThat(userRepository.findAll(null, pageable), is(userRepository.findAll(pageable)));
 //    }
 
     @Test
     public void returnsSameListIfNoSortIsGiven() throws Exception {
 
         flushTestUsers();
-        assertSameElements(repository.findAll((Sort) null), repository.findAll());
+        assertSameElements(userRepository.findAll((Sort) null), userRepository.findAll());
     }
 
 
@@ -405,14 +443,14 @@ public class UserServiceTest {
 //
 //        user1.addColleague(user2);
 //        user3.addColleague(user1);
-//        repository.save(Arrays.asList(user1, user3));
+//        userRepository.save(Arrays.asList(user1, user3));
 //
-//        List<User> result = repository.findByColleaguesLastname(user2.getLastname());
+//        List<User> result = userRepository.findByColleaguesLastname(user2.getLastname());
 //
 //        assertThat(result.size(), is(1));
 //        assertThat(result, hasItem(user1));
 //
-//        result = repository.findByColleaguesLastname("Gierke");
+//        result = userRepository.findByColleaguesLastname("Gierke");
 //        assertThat(result.size(), is(2));
 //        assertThat(result, hasItems(user3, user2));
 //    }
@@ -421,16 +459,17 @@ public class UserServiceTest {
     public void returnsAllAsPageIfNoPageableIsGiven() throws Exception {
 
         flushTestUsers();
-        assertThat(repository.findAll((Pageable) null), is((Page<User>) new PageImpl<User>(repository.findAll())));
+        assertThat(userRepository.findAll((Pageable) null), is((Page<User>) new PageImpl<User>(userRepository.findAll())));
     }
 
     private void assertDeleteCallDoesNotDeleteAnything(List<User> collection) {
 
         flushTestUsers();
-        long count = repository.count();
+        long count = userRepository.count();
 
-        repository.delete(collection);
-        assertThat(repository.count(), is(count));
+        userRepository.delete(collection);
+        getSession().flush();
+        assertThat(userRepository.count(), is(count));
     }
 
 

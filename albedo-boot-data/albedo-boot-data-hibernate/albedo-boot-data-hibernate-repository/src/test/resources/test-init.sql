@@ -531,4 +531,4 @@ CREATE TABLE sys_user_t (
   version_ int(11) DEFAULT NULL,
   PRIMARY KEY (id_)
 );
-INSERT INTO sys_user_t (id_, org_id, login_id, password_hash, name_, email_, phone_, activated_, lang_key, activation_key, reset_key, reset_date, created_by, created_date, last_modified_by, last_modified_date, status_, description_, version_) VALUES ('1', NULL, 'admin', '$2a$10$gSAhZrxMllrbgj/kkK9UceBPpChGWJA7SYIb1Mqo.n5aNLq1/oRrC', 'Administrator', 'admin@localhost', NULL, '', 'zh-cn', NULL, NULL, NULL, 'system', '2017-06-30 14:49:34', 'system', NULL, '0', NULL, '0');
+

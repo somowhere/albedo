@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.mapping.Association;
 import org.springframework.data.mapping.PropertyPath;
 import org.springframework.data.mapping.model.MappingException;
+import org.springframework.data.mybatis.mapping.*;
 import org.springframework.data.mybatis.repository.dialect.Dialect;
 import org.springframework.data.mybatis.repository.query.MybatisQueryExecution.DeleteExecution;
 import org.springframework.data.mybatis.repository.support.MybatisMapperGenerator;

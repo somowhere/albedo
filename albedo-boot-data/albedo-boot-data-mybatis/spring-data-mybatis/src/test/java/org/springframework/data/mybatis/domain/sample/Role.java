@@ -18,6 +18,7 @@
 
 package org.springframework.data.mybatis.domain.sample;
 
+import org.springframework.data.mybatis.annotations.*;
 import org.springframework.data.repository.query.parser.Part;
 
 

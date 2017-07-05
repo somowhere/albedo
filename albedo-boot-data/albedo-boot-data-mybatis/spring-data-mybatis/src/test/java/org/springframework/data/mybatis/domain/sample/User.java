@@ -19,6 +19,9 @@
 package org.springframework.data.mybatis.domain.sample;
 
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.mybatis.annotations.*;
+
+import java.util.*;
 
 import static org.springframework.data.mybatis.annotations.Id.GenerationType.AUTO;
 import static org.springframework.data.repository.query.parser.Part.Type.LIKE;

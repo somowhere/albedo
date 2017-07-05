@@ -58,20 +58,22 @@ public class TestConfig implements ResourceLoaderAware {
 
     private ResourceLoader resourceLoader;
 
-    @Bean
-    public DataSource dataSource() throws SQLException {
-        EmbeddedDatabase embeddedDatabase = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
-                .addScript("classpath:/test-init.sql").build();
-
-        ReplicationRoutingDataSource proxy = new ReplicationRoutingDataSource(embeddedDatabase, null);
-        proxy.addSlave(embeddedDatabase);
-        proxy.addSlave(embeddedDatabase);
-        proxy.addSlave(embeddedDatabase);
-        return new LazyConnectionDataSourceProxy(proxy);
-    }
-
 //    @Bean
-//    public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) {
+//    public DataSource dataSource() throws SQLException {
+//        EmbeddedDatabase embeddedDatabase = new EmbeddedDatabaseBuilder()
+//                .setType(EmbeddedDatabaseType.H2)
+//                .addScript("classpath:/test-init.sql").build();
+//
+//        ReplicationRoutingDataSource proxy = new ReplicationRoutingDataSource(embeddedDatabase, null);
+//        proxy.addSlave(embeddedDatabase);
+//        proxy.addSlave(embeddedDatabase);
+//        proxy.addSlave(embeddedDatabase);
+//        return new LazyConnectionDataSourceProxy(proxy);
+//    }
+//
+//
+//    @Bean
+//    public SqlSessionFactoryBean sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource) {
 //        SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
 //        factoryBean.setDataSource(dataSource);
 //        factoryBean.setTransactionFactory(new ReadWriteManagedTransactionFactory());
