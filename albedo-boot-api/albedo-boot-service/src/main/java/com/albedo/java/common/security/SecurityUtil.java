@@ -101,8 +101,8 @@ public final class SecurityUtil {
      */
     public static User getByUserId(String userId) {
         User user = CacheUtil.getJson(USER_CACHE, USER_CACHE_ID_ + userId, User.class);
-        if (user == null) {
-            user = userRepository.findOneById(userId);
+        if (user == null || PublicUtil.isEmpty(user.getRoles()) || user.getRoles().size()!=user.getRoleIdList().size()) {
+            user = userRepository.findOne(userId);
             if (user == null)
                 throw new UsernameNotFoundException("User " + userId + " was not found in the database");
             String json = Json.toJsonString(user);
@@ -167,7 +167,6 @@ public final class SecurityUtil {
             moduleList = isAdmin(userId) ?
                     moduleService.findAllByStatusOrderBySort(Module.FLAG_NORMAL)
                     : moduleService.findAllAuthByUser(userId);
-//					;
             putCache(CACHE_MODULE_LIST, Json.toJsonString(moduleList), userId);
         }
         return moduleList;

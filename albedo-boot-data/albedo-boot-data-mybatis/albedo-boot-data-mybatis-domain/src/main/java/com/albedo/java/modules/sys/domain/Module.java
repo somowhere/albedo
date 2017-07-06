@@ -65,13 +65,13 @@ public class Module extends TreeEntity<Module> {
     @Column(name = "show_type")
     private String showType;
 
-    @ManyToMany
-    @JoinTable(
-            name = "sys_role_module_t",
-            joinColumns = {@JoinColumn(name = "module_id", referencedColumnName = "id_")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id_")})
-    @JSONField(serialize = false)
-    private Set<Role> roles = Sets.newHashSet(); // 拥有角色列表
+//    @ManyToMany
+//    @JoinTable(
+//            name = "sys_role_module_t",
+//            joinColumns = {@JoinColumn(name = "module_id", referencedColumnName = "id_")},
+//            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id_")})
+//    @JSONField(serialize = false)
+//    private Set<Role> roles = Sets.newHashSet(); // 拥有角色列表
 
     /*** 父模块名称 */
     @Transient
@@ -161,14 +161,6 @@ public class Module extends TreeEntity<Module> {
 
     public void setShowType(String showType) {
         this.showType = showType;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
     }
 
     public boolean isShow() {
