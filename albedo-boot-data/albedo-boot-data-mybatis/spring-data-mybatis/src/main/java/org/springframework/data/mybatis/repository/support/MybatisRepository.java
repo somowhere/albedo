@@ -84,6 +84,8 @@ public interface MybatisRepository<T, ID extends Serializable>
 
     Page<T> findAll(boolean isBasic, Pageable pageable, Map<String, Object> paramsMap, String... columns);
 
+    Page<T> findAll(String selectStatement, String countStatement, Pageable pageable, Map<String, Object> paramsMap, String... columns);
+
     Long countAll(boolean isBasic, Map<String, Object> paramsMap);
 
 

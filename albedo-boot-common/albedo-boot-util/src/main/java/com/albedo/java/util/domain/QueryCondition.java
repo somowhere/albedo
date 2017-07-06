@@ -1,6 +1,8 @@
 package com.albedo.java.util.domain;
 
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.SecurityHqlUtil;
+import com.albedo.java.util.base.Encodes;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.spring.SpringContextHolder;
 import com.alibaba.fastjson.annotation.JSONField;
@@ -11,6 +13,8 @@ import org.springframework.data.mybatis.annotations.Entity;
 import org.springframework.data.mybatis.annotations.JoinColumn;
 import org.springframework.data.mybatis.repository.dialect.Dialect;
 import org.springframework.util.StringUtils;
+
+import java.io.UnsupportedEncodingException;
 
 @Slf4j
 @Data
@@ -219,13 +223,15 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
     }
 
     @JSONField(serialize = false)
-    public String getFieldRealColumnName() {
+    public String getFieldRealColumnName(String quota) {
         String fieldNameReal = new String(fieldName);
         try {
             if (persistentClass != null && PublicUtil.isNotEmpty(getFieldName())) {
                 Entity entity = Reflections.getAnnotation(persistentClass, Entity.class);
-                String quota = null != entity && StringUtils.hasText(entity.name()) ? entity.name() :
-                        StringUtils.uncapitalize(persistentClass.getSimpleName());
+                if(PublicUtil.isEmpty(quota)){
+                    quota = null != entity && StringUtils.hasText(entity.name()) ? entity.name() :
+                            StringUtils.uncapitalize(persistentClass.getSimpleName());
+                }
                 String columnName = null;int indexQuote = fieldName.indexOf(".");
                 if(indexQuote!=-1){
                     JoinColumn column = Reflections.getAnnotationByClazz(persistentClass, fieldName.substring(0, indexQuote), JoinColumn.class);
@@ -278,8 +284,30 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
     }
 
     public void setValue(Object value) {
+        //字符串编码处理
+        if (value instanceof String) {
+            String tempStr = value.toString();
+            if (tempStr.contains("&")) {
+                try {
+                    value = new String(Encodes.unescapeHtml(tempStr).getBytes("ISO-8859-1"), "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                    log.warn("Illegal query conditions ---------> queryFieldName[",
+                            fieldName, "]  operation[", operate.getOperator(),
+                            "] value[", value, "], please check!!!");
+                }
+            }
+        }
         this.value = value;
     }
+
+    @JSONField(serialize = false)
+    public boolean legalityCheck(){
+        return SecurityHqlUtil.checkStrForHqlWhere(fieldName)
+                && SecurityHqlUtil.checkStrForHqlWhere(operate.getOperator())
+                && SecurityHqlUtil.checkStrForHqlWhere(String.valueOf(value));
+    }
+
 
     public Object getEndValue() {
         return endValue;

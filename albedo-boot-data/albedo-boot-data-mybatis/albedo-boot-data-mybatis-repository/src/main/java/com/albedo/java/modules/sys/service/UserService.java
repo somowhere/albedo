@@ -162,13 +162,17 @@ public class UserService extends DataService<UserRepository, User, String> {
 
     @Transactional(readOnly = true)
     public PageModel<User> findPage(PageModel<User> pm, List<QueryCondition> queryConditions) {
+        //拼接查询动态对象
         SpecificationDetail<User> spec = DynamicSpecifications.
                 buildSpecification(pm.getQueryConditionJson(), queryConditions,
-                        QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE), QueryCondition.ne(User.F_ID, "1"));
+                        QueryCondition.ne("a.status_", User.FLAG_DELETE), QueryCondition.ne("a.id_", "1"));
+        //动态生成sql分页查询
 //        Page<User> page = repository.findAll(spec, pm);
 //        pm.setPageInstance(page);
-        findBasePage(pm, spec, true);
-        pm.getData().forEach(item -> item.setOrg(orgRepository.findBasicOne(item.getOrgId())));
+//        pm.getData().forEach(item -> item.setOrg(orgRepository.findBasicOne(item.getOrgId())));
+        //自定义sql分页查询
+        findBasePage(pm, spec, false, "selectPage", "countPage");
+
 
         return pm;
     }

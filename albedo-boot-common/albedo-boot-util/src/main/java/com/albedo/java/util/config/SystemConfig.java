@@ -54,6 +54,7 @@ public class SystemConfig {
     public static final String CONDITION_AND = "and";
     public static final String SORT_DESC = "desc";
     public static final String SORT_ASC = "asc";
+    public static final String SPACE = " ";
     protected static Logger logger = LoggerFactory.getLogger(SystemConfig.class);
     private static java.util.Properties props = null;
 

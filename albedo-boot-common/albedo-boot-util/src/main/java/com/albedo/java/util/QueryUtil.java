@@ -63,17 +63,28 @@ public class QueryUtil {
         return convertQueryConditionToStr(queryConditionList, argList, paramMap);
     }
 
+    /**
+     * 将查询对象动态拼接为sql条件
+     *
+     * @param andQueryConditionList 并且查询条件
+     * @param orQueryConditionList  或者查询条件
+     * @param argList               前缀
+     * @param paramMap              参数map
+     * @param analytiColumn         （一般自定义sql查询时建议设置为false,动态则设置为true）
+     * @param isMybatis             是否为mybaits
+     * @return
+     */
     public static String convertQueryConditionToStr(List<QueryCondition> andQueryConditionList, List<QueryCondition> orQueryConditionList, List<String> argList,
-                                                    Map<String, Object> paramMap, boolean isMybatis) {
+                                                    Map<String, Object> paramMap, boolean analytiColumn, boolean isMybatis) {
 
-        return PublicUtil.toAppendStr(convertQueryConditionToStr(andQueryConditionList, argList, paramMap, isMybatis, true),
-                convertQueryConditionToStr(orQueryConditionList, argList, paramMap, isMybatis, false));
+        return PublicUtil.toAppendStr(convertQueryConditionToStr(andQueryConditionList, argList, paramMap, analytiColumn, isMybatis, true),
+                convertQueryConditionToStr(orQueryConditionList, argList, paramMap, analytiColumn, isMybatis, false));
     }
 
 
     public static String convertQueryConditionToStr(List<QueryCondition> queryConditionList, List<String> argList,
                                                     Map<String, Object> paramMap) {
-        return convertQueryConditionToStr(queryConditionList, argList, paramMap, false, true);
+        return convertQueryConditionToStr(queryConditionList, argList, paramMap, false, false, true);
     }
 
     /**
@@ -84,18 +95,19 @@ public class QueryUtil {
      * @return
      */
     public static String convertQueryConditionToStr(List<QueryCondition> queryConditionList, List<String> argList,
-                                                    Map<String, Object> paramMap, boolean isMybatis, boolean isAnd) {
+                                                    Map<String, Object> paramMap, boolean analytiColumn, boolean mybatis, boolean isAnd) {
         StringBuffer sb = new StringBuffer();
         if (PublicUtil.isNotEmpty(queryConditionList)) {
             if (paramMap == null)
                 paramMap = Maps.newHashMap();
             java.util.Collections.sort(queryConditionList);
+            //前缀解析
             String argStr = PublicUtil.isNotEmpty(argList) ? Collections3.convertToString(argList, ".") + "." : "", operate = null;
             for (QueryCondition queryCondition : queryConditionList) {
                 if (queryCondition.isIngore())
                     continue;
                 operate = queryCondition.getOperate().getOperator();
-                if (queryCondition.getValue() instanceof String) {
+                if (queryCondition.getValue() instanceof String) { //字符串编码处理
                     String tempStr = queryCondition.getValue().toString();
                     if (tempStr.contains("&")) {
                         try {
@@ -109,12 +121,12 @@ public class QueryUtil {
                         }
                     }
                 }
-                if (queryCondition != null && SecurityHqlUtil.checkStrForHqlWhere(queryCondition.getFieldName())
-                        && SecurityHqlUtil.checkStrForHqlWhere(operate)
-                        && SecurityHqlUtil.checkStrForHqlWhere(String.valueOf(queryCondition.getValue()))) {
+                //sql合法性检查
+                if (queryCondition != null && queryCondition.legalityCheck()) {
                     if (PublicUtil.isEmpty(operate))
                         queryCondition.setOperate(Operator.eq.getOperator());
-                    sb.append(" ").append(isAnd ? "and" : "or").append(" ").append(isMybatis ? queryCondition.getFieldRealColumnName()
+                    sb.append(" ").append(isAnd ? SystemConfig.CONDITION_AND : SystemConfig.CONDITION_OR)
+                            .append(SystemConfig.SPACE).append(analytiColumn ? queryCondition.getFieldRealColumnName(null)
                             : argStr + queryCondition.getFieldName()).append(" ")
                             .append(operate);
                     if (!Operator.isNotNull.equals(queryCondition.getOperate())
@@ -123,47 +135,52 @@ public class QueryUtil {
                                 .replace(".", "_");
                         if (paramFieldName.contains(","))
                             paramFieldName = PublicUtil.getRandomString(6);
-                        if (SystemConfig.CONDITION_IN.equals(operate)
-                                || SystemConfig.CONDITION_NOTIN.equals(operate)) {
-                            if (queryCondition.getValue() instanceof String) {
-                                String val = String.valueOf(queryCondition.getValue());
-                                queryCondition.setValue(val.contains(",") ? Lists.newArrayList(val.split(","))
-                                        : Lists.newArrayList(val));
-                            }
-                            if (queryCondition.getValue() instanceof Collection) {
-                                Collection col = (Collection) queryCondition.getValue();
-                                if (PublicUtil.isNotEmpty(col)) {
-                                    sb.append(" (");
-                                    Integer i = 0;
-                                    for (Iterator iterator = col.iterator(); iterator.hasNext(); i++) {
-                                        buildConditionCaluse(sb, PublicUtil.toAppendStr(paramFieldName, i), isMybatis);
-                                        sb.append(", ");
-                                        paramMap.put(PublicUtil.toAppendStr(paramFieldName, i),
-                                                getQueryValue(queryCondition, iterator.next()));
-                                    }
-                                    sb.delete(sb.lastIndexOf(","), sb.length()).append(")");
+                        switch (operate) {
+                            case SystemConfig.CONDITION_IN:
+                            case SystemConfig.CONDITION_NOTIN:
+                                if (queryCondition.getValue() instanceof String) {
+                                    String val = String.valueOf(queryCondition.getValue());
+                                    queryCondition.setValue(val.contains(",") ? Lists.newArrayList(val.split(","))
+                                            : Lists.newArrayList(val));
                                 }
-                            } else {
-                                logger.warn(PublicUtil.toAppendStr("queryFieldName[", paramFieldName,
-                                        "] operation is '", operate, "', but value[",
-                                        queryCondition.getValue(), "] is not Collection, please check!!!"));
-                            }
-                        } else if (SystemConfig.CONDITION_LIKE.equals(operate)
-                                || SystemConfig.CONDITION_ILIKE.equals(operate)) {
-                            String val = (String) queryCondition.getValue();
-                            buildConditionCaluse(sb, paramFieldName, isMybatis);
-                            paramMap.put(paramFieldName, !val.startsWith("%") && !val.toString().endsWith("%")
-                                    ? PublicUtil.toAppendStr("%", val, "%") : val);
-                        } else if (SystemConfig.CONDITION_BETWEEN.equals(operate)) {
-                            buildConditionCaluse(sb, PublicUtil.toAppendStr(paramFieldName, "1"), isMybatis);
-                            sb.append(" and ");
-                            buildConditionCaluse(sb, PublicUtil.toAppendStr(paramFieldName, "2"), isMybatis);
-                            paramMap.put(paramFieldName + "1", getQueryValue(queryCondition, null));
-                            paramMap.put(paramFieldName + "2",
-                                    getQueryValue(queryCondition, queryCondition.getEndValue()));
-                        } else {
-                            buildConditionCaluse(sb, paramFieldName, isMybatis);
-                            paramMap.put(paramFieldName, getQueryValue(queryCondition, null));
+                                if (queryCondition.getValue() instanceof Collection) {
+                                    Collection col = (Collection) queryCondition.getValue();
+                                    if (PublicUtil.isNotEmpty(col)) {
+                                        sb.append(" (");
+                                        Integer i = 0;
+                                        for (Iterator iterator = col.iterator(); iterator.hasNext(); i++) {
+                                            buildConditionCaluse(sb, PublicUtil.toAppendStr(paramFieldName, i), mybatis);
+                                            sb.append(", ");
+                                            paramMap.put(PublicUtil.toAppendStr(paramFieldName, i),
+                                                    getQueryValue(queryCondition, iterator.next()));
+                                        }
+                                        sb.delete(sb.lastIndexOf(","), sb.length()).append(")");
+                                    }
+                                } else {
+                                    logger.warn(PublicUtil.toAppendStr("queryFieldName[", paramFieldName,
+                                            "] operation is '", operate, "', but value[",
+                                            queryCondition.getValue(), "] is not Collection, please check!!!"));
+                                }
+                                break;
+                            case SystemConfig.CONDITION_LIKE:
+                            case SystemConfig.CONDITION_ILIKE:
+                                String val = (String) queryCondition.getValue();
+                                buildConditionCaluse(sb, paramFieldName, mybatis);
+                                paramMap.put(paramFieldName, !val.startsWith("%") && !val.toString().endsWith("%")
+                                        ? PublicUtil.toAppendStr("%", val, "%") : val);
+                                break;
+                            case SystemConfig.CONDITION_BETWEEN:
+                                buildConditionCaluse(sb, PublicUtil.toAppendStr(paramFieldName, "1"), mybatis);
+                                sb.append(" and ");
+                                buildConditionCaluse(sb, PublicUtil.toAppendStr(paramFieldName, "2"), mybatis);
+                                paramMap.put(paramFieldName + "1", getQueryValue(queryCondition, null));
+                                paramMap.put(paramFieldName + "2",
+                                        getQueryValue(queryCondition, queryCondition.getEndValue()));
+                                break;
+                            default:
+                                buildConditionCaluse(sb, paramFieldName, mybatis);
+                                paramMap.put(paramFieldName, getQueryValue(queryCondition, null));
+                                break;
                         }
                     }
                 } else {
@@ -181,8 +198,8 @@ public class QueryUtil {
         return sb.toString();
     }
 
-    public static void buildConditionCaluse(StringBuffer sb, Object val, boolean isMybatis) {
-        if (isMybatis)
+    public static void buildConditionCaluse(StringBuffer sb, Object val, boolean mybatis) {
+        if (mybatis)
             sb.append("#{").append(val).append("}");
         else
             sb.append(":").append(val);
@@ -243,8 +260,6 @@ public class QueryUtil {
                         }
                         sb.insert(lastIndexWhere + 6, where + " and ");
                     }
-
-
                 }
             }
         }
@@ -310,7 +325,6 @@ public class QueryUtil {
                             }
                         }
                     }
-
                 }
             }
 

@@ -22,16 +22,16 @@
                 <form class="form-inline form-search" role="form">
                     <div class="form-group">
                         <label class="input-label" for="loginId">登录Id </label>
-                        <input type="text" class="form-control" searchItem="searchItem" id="loginId" name="loginId"
+                        <input type="text" class="form-control" searchItem="searchItem" id="loginId" name="a.login_id"
                                placeholder="..."></div>
                     <div class="form-group">
                         <label class="input-label" for="email">邮箱</label>
-                        <input type="text" class="form-control" searchItem="searchItem" id="email" name="email"
+                        <input type="text" class="form-control" searchItem="searchItem" id="email" name="a.email_"
                                placeholder="...">
                     </div>
                     <div class="form-group">
                         <label class="input-label">状态</label>
-                    <@albedo.form name="status" searchItem="searchItem" dictCode="sys_status" boxType="checkbox" operate="in" attrType="Integer"> </@albedo.form>
+                    <@albedo.form name="a.status_" searchItem="searchItem" dictCode="sys_status" boxType="checkbox" operate="in" attrType="Integer"> </@albedo.form>
                     </div>
                     <div class="form-group form-btn">
                         <button class="btn btn-sm green btn-outline filter-submit-table-user margin-bottom"
@@ -74,7 +74,7 @@
                         url: "${ctx}/sys/user/page"
                     },
                     "columns": [
-                        {data: "orgName"}, {data: "loginId"},
+                        {data: "orgName", name:"org.name"}, {data: "loginId"},
                         {data: "email"},
 //                        {data: "roleNames", orderable: false},
                         {

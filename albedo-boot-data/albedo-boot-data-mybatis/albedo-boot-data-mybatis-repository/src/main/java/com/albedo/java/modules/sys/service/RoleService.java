@@ -29,12 +29,13 @@ public class RoleService extends DataService<RoleRepository, Role, String> {
 
     @Transactional(readOnly = true)
     public PageModel<Role> findPage(PageModel<Role> pm, List<QueryCondition> queryConditions) {
-        SpecificationDetail<Role> specificationDetail = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
+        SpecificationDetail<Role> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
                 queryConditions, persistentClass,
                 QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
 //		specificationDetail.setPersistentClass();
-        findBasePage(pm, specificationDetail, true);
-        pm.getData().forEach(item -> item.setOrg(orgRepository.findBasicOne(item.getOrgId())));
+//        findBasePage(pm, spec, true);
+//        pm.getData().forEach(item -> item.setOrg(orgRepository.findBasicOne(item.getOrgId())));
+        findBasePage(pm, spec, true, "selectPage", "countPage");
         return pm;
     }
 

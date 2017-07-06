@@ -2,11 +2,248 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.albedo.java.modules.sys.domain.User">
 
+    <resultMap id="UserResultMap" type="com.albedo.java.modules.sys.domain.User">
+        <id property="id" column="id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="activated" column="activated" javaType="boolean" jdbcType="BIT"/>
+        <result property="activationKey" column="activationKey" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="createdBy" column="createdBy" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="createdDate" column="createdDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        <result property="description" column="description" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="email" column="email" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="loginId" column="loginId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="langKey" column="langKey" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="lastModifiedBy" column="lastModifiedBy" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="lastModifiedDate" column="lastModifiedDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        <result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="orgId" column="orgId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="password" column="password" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="resetKey" column="resetKey" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="resetDate" column="resetDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        <result property="status" column="status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        <result property="version" column="version" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        <association property="creator" javaType="com.albedo.java.modules.sys.domain.User">
+            <id property="id" column="creator.id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="activated" column="creator.activated" javaType="boolean" jdbcType="BIT"/>
+            <result property="activationKey" column="creator.activationKey" javaType="java.lang.String"
+                    jdbcType="VARCHAR"/>
+            <result property="createdBy" column="creator.createdBy" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="createdDate" column="creator.createdDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <result property="description" column="creator.description" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="email" column="creator.email" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="loginId" column="creator.loginId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="langKey" column="creator.langKey" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="lastModifiedBy" column="creator.lastModifiedBy" javaType="java.lang.String"
+                    jdbcType="VARCHAR"/>
+            <result property="lastModifiedDate" column="creator.lastModifiedDate" javaType="java.util.Date"
+                    jdbcType="TIMESTAMP"/>
+            <result property="name" column="creator.name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="orgId" column="creator.orgId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="password" column="creator.password" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="phone" column="creator.phone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="resetKey" column="creator.resetKey" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="resetDate" column="creator.resetDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <result property="status" column="creator.status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <result property="version" column="creator.version" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <association property="creator" javaType="com.albedo.java.modules.sys.domain.User">
+                <result property="id" column="creator.creator.id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            </association>
+            <association property="modifier" javaType="com.albedo.java.modules.sys.domain.User">
+                <result property="id" column="creator.modifier.id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            </association>
+            <association property="org" javaType="com.albedo.java.modules.sys.domain.Org">
+                <result property="id" column="creator.org.id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            </association>
+        </association>
+        <association property="modifier" javaType="com.albedo.java.modules.sys.domain.User">
+            <id property="id" column="modifier.id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="activated" column="modifier.activated" javaType="boolean" jdbcType="BIT"/>
+            <result property="activationKey" column="modifier.activationKey" javaType="java.lang.String"
+                    jdbcType="VARCHAR"/>
+            <result property="createdBy" column="modifier.createdBy" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="createdDate" column="modifier.createdDate" javaType="java.util.Date"
+                    jdbcType="TIMESTAMP"/>
+            <result property="description" column="modifier.description" javaType="java.lang.String"
+                    jdbcType="VARCHAR"/>
+            <result property="email" column="modifier.email" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="loginId" column="modifier.loginId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="langKey" column="modifier.langKey" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="lastModifiedBy" column="modifier.lastModifiedBy" javaType="java.lang.String"
+                    jdbcType="VARCHAR"/>
+            <result property="lastModifiedDate" column="modifier.lastModifiedDate" javaType="java.util.Date"
+                    jdbcType="TIMESTAMP"/>
+            <result property="name" column="modifier.name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="orgId" column="modifier.orgId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="password" column="modifier.password" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="phone" column="modifier.phone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="resetKey" column="modifier.resetKey" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="resetDate" column="modifier.resetDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <result property="status" column="modifier.status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <result property="version" column="modifier.version" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <association property="creator" javaType="com.albedo.java.modules.sys.domain.User">
+                <result property="id" column="modifier.creator.id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            </association>
+            <association property="modifier" javaType="com.albedo.java.modules.sys.domain.User">
+                <result property="id" column="modifier.modifier.id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            </association>
+            <association property="org" javaType="com.albedo.java.modules.sys.domain.Org">
+                <result property="id" column="modifier.org.id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            </association>
+        </association>
+        <association property="org" javaType="com.albedo.java.modules.sys.domain.Org">
+            <id property="id" column="org.id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="code" column="org.code" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="createdBy" column="org.createdBy" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="createdDate" column="org.createdDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <result property="description" column="org.description" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="en" column="org.en" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="grade" column="org.grade" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="isLeaf" column="org.isLeaf" javaType="boolean" jdbcType="BIT"/>
+            <result property="lastModifiedBy" column="org.lastModifiedBy" javaType="java.lang.String"
+                    jdbcType="VARCHAR"/>
+            <result property="lastModifiedDate" column="org.lastModifiedDate" javaType="java.util.Date"
+                    jdbcType="TIMESTAMP"/>
+            <result property="name" column="org.name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="parentId" column="org.parentId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="parentIds" column="org.parentIds" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="sort" column="org.sort" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <result property="status" column="org.status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <result property="type" column="org.type" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="version" column="org.version" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <association property="creator" javaType="com.albedo.java.modules.sys.domain.User">
+                <result property="id" column="org.creator.id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            </association>
+            <association property="modifier" javaType="com.albedo.java.modules.sys.domain.User">
+                <result property="id" column="org.modifier.id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            </association>
+            <association property="parent" javaType="com.albedo.java.modules.sys.domain.Org">
+                <result property="id" column="org.parent.id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            </association>
+        </association>
+    </resultMap>
+    <sql id="pageUserColumn">
+        a.id_ AS `id`,
+        a.activated_ AS `activated`,
+        a.activation_key AS `activationKey`,
+        a.created_by AS `createdBy`,
+        a.created_date AS `createdDate`,
+        a.description_ AS `description`,
+        a.email_ AS `email`,
+        a.login_id AS `loginId`,
+        a.lang_key AS `langKey`,
+        a.last_modified_by AS `lastModifiedBy`,
+        a.last_modified_date AS `lastModifiedDate`,
+        a.name_ AS `name`,
+        a.org_id AS `orgId`,
+        a.password_hash AS `password`,
+        a.phone_ AS `phone`,
+        a.reset_key AS `resetKey`,
+        a.reset_date AS `resetDate`,
+        a.status_ AS `status`,
+        a.version_ AS `version`,
+        b.id_ AS `creator.id`,
+        b.activated_ AS `creator.activated`,
+        b.activation_key AS `creator.activationKey`,
+        b.created_by AS `creator.createdBy`,
+        b.created_date AS `creator.createdDate`,
+        b.description_ AS `creator.description`,
+        b.email_ AS `creator.email`,
+        b.login_id AS `creator.loginId`,
+        b.lang_key AS `creator.langKey`,
+        b.last_modified_by AS `creator.lastModifiedBy`,
+        b.last_modified_date AS `creator.lastModifiedDate`,
+        b.name_ AS `creator.name`,
+        b.org_id AS `creator.orgId`,
+        b.password_hash AS `creator.password`,
+        b.phone_ AS `creator.phone`,
+        b.reset_key AS `creator.resetKey`,
+        b.reset_date AS `creator.resetDate`,
+        b.status_ AS `creator.status`,
+        b.version_ AS `creator.version`,
+        b.created_by AS `creator.creator.id`,
+        b.last_modified_by AS `creator.modifier.id`,
+        b.org_id AS `creator.org.id`,
+        c.id_ AS `modifier.id`,
+        c.activated_ AS `modifier.activated`,
+        c.activation_key AS `modifier.activationKey`,
+        c.created_by AS `modifier.createdBy`,
+        c.created_date AS `modifier.createdDate`,
+        c.description_ AS `modifier.description`,
+        c.email_ AS `modifier.email`,
+        c.login_id AS `modifier.loginId`,
+        c.lang_key AS `modifier.langKey`,
+        c.last_modified_by AS `modifier.lastModifiedBy`,
+        c.last_modified_date AS `modifier.lastModifiedDate`,
+        c.name_ AS `modifier.name`,
+        c.org_id AS `modifier.orgId`,
+        c.password_hash AS `modifier.password`,
+        c.phone_ AS `modifier.phone`,
+        c.reset_key AS `modifier.resetKey`,
+        c.reset_date AS `modifier.resetDate`,
+        c.status_ AS `modifier.status`,
+        c.version_ AS `modifier.version`,
+        c.created_by AS `modifier.creator.id`,
+        c.last_modified_by AS `modifier.modifier.id`,
+        c.org_id AS `modifier.org.id`,
+        d.id_ AS `org.id`,
+        d.code_ AS `org.code`,
+        d.created_by AS `org.createdBy`,
+        d.created_date AS `org.createdDate`,
+        d.description_ AS `org.description`,
+        d.en_ AS `org.en`,
+        d.grade_ AS `org.grade`,
+        d.is_leaf AS `org.isLeaf`,
+        d.last_modified_by AS `org.lastModifiedBy`,
+        d.last_modified_date AS `org.lastModifiedDate`,
+        d.name_ AS `org.name`,
+        d.parent_id AS `org.parentId`,
+        d.parent_ids AS `org.parentIds`,
+        d.sort_ AS `org.sort`,
+        d.status_ AS `org.status`,
+        d.type_ AS `org.type`,
+        d.version_ AS `org.version`,
+        d.created_by AS `org.creator.id`,
+        d.last_modified_by AS `org.modifier.id`,
+        d.parent_id AS `org.parent.id`
+    </sql>
+    <select id="selectPage" parameterType="com.albedo.java.util.domain.PageModel" resultMap="UserResultMap">
+        SELECT
+        <include refid="pageUserColumn"/>
+        FROM
+        sys_user_t a
+        LEFT OUTER JOIN sys_user_t b ON a.created_by = b.id_
+        LEFT OUTER JOIN sys_user_t c ON a.last_modified_by = c.id_
+        LEFT OUTER JOIN sys_org_t d ON a.org_id = d.id_
+        <if test="_condition != null">
+            <trim prefix=" where " prefixOverrides="and |or ">${_sqlConditionDsf}
+                <include refid="SELECT_CONDITION_INNER"/>
+            </trim>
+        </if>
+        <if test="_sorts != null">
+            <bind name="_columnsMap"
+                  value="#{&quot;id&quot;:&quot;a.id_&quot;,&quot;activated&quot;:&quot;a.activated_&quot;,&quot;activationKey&quot;:&quot;a.activation_key&quot;,&quot;createdBy&quot;:&quot;a.created_by&quot;,&quot;createdDate&quot;:&quot;a.created_date&quot;,&quot;description&quot;:&quot;a.description_&quot;,&quot;email&quot;:&quot;a.email_&quot;,&quot;loginId&quot;:&quot;a.login_id&quot;,&quot;langKey&quot;:&quot;a.lang_key&quot;,&quot;lastModifiedBy&quot;:&quot;a.last_modified_by&quot;,&quot;lastModifiedDate&quot;:&quot;a.last_modified_date&quot;,&quot;name&quot;:&quot;a.name_&quot;,&quot;orgId&quot;:&quot;a.org_id&quot;,&quot;password&quot;:&quot;a.password_hash&quot;,&quot;phone&quot;:&quot;a.phone_&quot;,&quot;resetKey&quot;:&quot;a.reset_key&quot;,&quot;resetDate&quot;:&quot;a.reset_date&quot;,&quot;status&quot;:&quot;a.status_&quot;,&quot;version&quot;:&quot;a.version_&quot;,&quot;creator.id&quot;:&quot;b.id_&quot;,&quot;creator.activated&quot;:&quot;b.activated_&quot;,&quot;creator.activationKey&quot;:&quot;b.activation_key&quot;,&quot;creator.createdBy&quot;:&quot;b.created_by&quot;,&quot;creator.createdDate&quot;:&quot;b.created_date&quot;,&quot;creator.description&quot;:&quot;b.description_&quot;,&quot;creator.email&quot;:&quot;b.email_&quot;,&quot;creator.loginId&quot;:&quot;b.login_id&quot;,&quot;creator.langKey&quot;:&quot;b.lang_key&quot;,&quot;creator.lastModifiedBy&quot;:&quot;b.last_modified_by&quot;,&quot;creator.lastModifiedDate&quot;:&quot;b.last_modified_date&quot;,&quot;creator.name&quot;:&quot;b.name_&quot;,&quot;creator.orgId&quot;:&quot;b.org_id&quot;,&quot;creator.password&quot;:&quot;b.password_hash&quot;,&quot;creator.phone&quot;:&quot;b.phone_&quot;,&quot;creator.resetKey&quot;:&quot;b.reset_key&quot;,&quot;creator.resetDate&quot;:&quot;b.reset_date&quot;,&quot;creator.status&quot;:&quot;b.status_&quot;,&quot;creator.version&quot;:&quot;b.version_&quot;,&quot;creator.creator.id&quot;:&quot;b.created_by&quot;,&quot;creator.modifier.id&quot;:&quot;b.last_modified_by&quot;,&quot;creator.org.id&quot;:&quot;b.org_id&quot;,&quot;modifier.id&quot;:&quot;c.id_&quot;,&quot;modifier.activated&quot;:&quot;c.activated_&quot;,&quot;modifier.activationKey&quot;:&quot;c.activation_key&quot;,&quot;modifier.createdBy&quot;:&quot;c.created_by&quot;,&quot;modifier.createdDate&quot;:&quot;c.created_date&quot;,&quot;modifier.description&quot;:&quot;c.description_&quot;,&quot;modifier.email&quot;:&quot;c.email_&quot;,&quot;modifier.loginId&quot;:&quot;c.login_id&quot;,&quot;modifier.langKey&quot;:&quot;c.lang_key&quot;,&quot;modifier.lastModifiedBy&quot;:&quot;c.last_modified_by&quot;,&quot;modifier.lastModifiedDate&quot;:&quot;c.last_modified_date&quot;,&quot;modifier.name&quot;:&quot;c.name_&quot;,&quot;modifier.orgId&quot;:&quot;c.org_id&quot;,&quot;modifier.password&quot;:&quot;c.password_hash&quot;,&quot;modifier.phone&quot;:&quot;c.phone_&quot;,&quot;modifier.resetKey&quot;:&quot;c.reset_key&quot;,&quot;modifier.resetDate&quot;:&quot;c.reset_date&quot;,&quot;modifier.status&quot;:&quot;c.status_&quot;,&quot;modifier.version&quot;:&quot;c.version_&quot;,&quot;modifier.creator.id&quot;:&quot;c.created_by&quot;,&quot;modifier.modifier.id&quot;:&quot;c.last_modified_by&quot;,&quot;modifier.org.id&quot;:&quot;c.org_id&quot;,&quot;org.id&quot;:&quot;d.id_&quot;,&quot;org.code&quot;:&quot;d.code_&quot;,&quot;org.createdBy&quot;:&quot;d.created_by&quot;,&quot;org.createdDate&quot;:&quot;d.created_date&quot;,&quot;org.description&quot;:&quot;d.description_&quot;,&quot;org.en&quot;:&quot;d.en_&quot;,&quot;org.grade&quot;:&quot;d.grade_&quot;,&quot;org.isLeaf&quot;:&quot;d.is_leaf&quot;,&quot;org.lastModifiedBy&quot;:&quot;d.last_modified_by&quot;,&quot;org.lastModifiedDate&quot;:&quot;d.last_modified_date&quot;,&quot;org.name&quot;:&quot;d.name_&quot;,&quot;org.parentId&quot;:&quot;d.parent_id&quot;,&quot;org.parentIds&quot;:&quot;d.parent_ids&quot;,&quot;org.sort&quot;:&quot;d.sort_&quot;,&quot;org.status&quot;:&quot;d.status_&quot;,&quot;org.type&quot;:&quot;d.type_&quot;,&quot;org.version&quot;:&quot;d.version_&quot;,&quot;org.creator.id&quot;:&quot;d.created_by&quot;,&quot;org.modifier.id&quot;:&quot;d.last_modified_by&quot;,&quot;org.parent.id&quot;:&quot;d.parent_id&quot;}"/>
+            order by
+            <foreach item="item" index="idx" collection="_sorts" open="" separator="," close="">
+                <if test="item.ignoreCase">lower(</if>${_columnsMap[item.property]}
+                <if test="item.ignoreCase">)</if>
+                ${item.direction}
+            </foreach>
+        </if>
+        limit #{pageSize} offset #{offset}
+    </select>
+
+    <select id="countPage" resultType="long" lang="XML">select count(*) from sys_user_t a
+        <if test="_condition != null">
+            <trim prefix=" where " prefixOverrides="and |or ">
+                ${_sqlConditionDsf}
+            </trim>
+        </if>
+    </select>
 
     <select id="addUserRoles" parameterType="com.albedo.java.modules.sys.domain.User">
         insert into sys_user_role_t (user_id,role_id)
         values
-        <foreach collection="user.roleIdList" item="item" separator="," >
+        <foreach collection="user.roleIdList" item="item" separator=",">
             (#{user.id},#{item})
         </foreach>
     </select>
