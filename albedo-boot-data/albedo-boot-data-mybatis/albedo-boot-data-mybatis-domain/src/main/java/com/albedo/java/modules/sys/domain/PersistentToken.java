@@ -1,28 +1,20 @@
 package com.albedo.java.modules.sys.domain;
 
-import java.util.Date;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.Length;
-import org.springframework.data.mybatis.annotations.Column;
-import org.springframework.data.mybatis.annotations.Entity;
-import org.springframework.data.mybatis.annotations.Id;
-import org.springframework.data.mybatis.annotations.JoinColumn;
-import org.springframework.data.mybatis.annotations.ManyToOne;
-import org.springframework.data.mybatis.annotations.PreInssert;
-
 import com.albedo.java.common.data.persistence.GeneralEntity;
 import com.albedo.java.common.data.persistence.IdGen;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.annotation.SearchField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.data.mybatis.annotations.*;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Date;
 
 /**
  * Persistent tokens are used by Spring Security to automatically log in users.

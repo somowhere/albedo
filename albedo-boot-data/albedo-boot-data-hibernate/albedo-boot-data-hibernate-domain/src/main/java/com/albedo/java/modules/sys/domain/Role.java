@@ -11,9 +11,7 @@ import com.google.common.collect.Sets;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.ToString;
 import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.*;
 
-import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;

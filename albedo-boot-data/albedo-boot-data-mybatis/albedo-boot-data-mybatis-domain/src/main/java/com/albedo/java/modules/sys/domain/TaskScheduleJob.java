@@ -3,19 +3,17 @@
  */
 package com.albedo.java.modules.sys.domain;
 
+import com.albedo.java.common.domain.base.IdEntity;
+import com.albedo.java.util.annotation.DictType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Entity;
-
-import com.albedo.java.common.domain.base.IdEntity;
-import com.albedo.java.util.annotation.DictType;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 /**
  * 任务调度管理Entity 任务调度

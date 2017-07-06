@@ -10,7 +10,6 @@ import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
-import org.springframework.data.mybatis.annotations.PreUpdate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,12 +28,13 @@ public class RoleService extends DataService<RoleRepository, Role, String> {
 
     @Transactional(readOnly = true)
     public PageModel<Role> findPage(PageModel<Role> pm, List<QueryCondition> queryConditions) {
-        SpecificationDetail<Role> specificationDetail = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
+        SpecificationDetail<Role> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
                 queryConditions, persistentClass,
                 QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
 //		specificationDetail.setPersistentClass();
-        findBasePage(pm, specificationDetail, true);
-        pm.getData().forEach(item -> item.setOrg(orgRepository.findBasicOne(item.getOrgId())));
+//        findBasePage(pm, spec, true);
+//        pm.getData().forEach(item -> item.setOrg(orgRepository.findBasicOne(item.getOrgId())));
+        findBasePage(pm, spec, true, "selectPage", "countPage");
         return pm;
     }
 
@@ -51,12 +51,12 @@ public class RoleService extends DataService<RoleRepository, Role, String> {
     @Override
     public Role save(Role entity) {
         entity = super.save(entity);
-        if(PublicUtil.isNotEmpty(entity.getModuleIdList())){
+        if (PublicUtil.isNotEmpty(entity.getModuleIdList())) {
             repository.deleteRoleModules(entity);
             repository.addRoleModules(entity);
         }
 
-        if(PublicUtil.isNotEmpty(entity.getOrgIdList())){
+        if (PublicUtil.isNotEmpty(entity.getOrgIdList())) {
             repository.deleteRoleOrgs(entity);
             repository.addRoleOrgs(entity);
         }

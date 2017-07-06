@@ -29,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.*;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
@@ -62,9 +61,25 @@ public class UserServiceTest {
     OrgService orgService;
     @Autowired
     ModuleService moduleService;
-
+    // Test fixture
+    User user1, user2, user3, user4;
+    String id;
+    Set<Role> roles = Sets.newHashSet();
+    Role role1, role2;
+    Org org, orgParent;
     @PersistenceContext
     private EntityManager em;
+
+    private static <T> void assertSameElements(Collection<T> first, Collection<T> second) {
+
+        for (T element : first) {
+            assertThat(element, isIn(second));
+        }
+
+        for (T element : second) {
+            assertThat(element, isIn(first));
+        }
+    }
 
     /*
      * (non-Javadoc)
@@ -82,25 +97,6 @@ public class UserServiceTest {
      */
     public void flush() {
         getSession().flush();
-    }
-    // Test fixture
-    User user1, user2, user3, user4;
-    String id;
-    Set<Role> roles = Sets.newHashSet();
-
-    Role role1, role2;
-
-    Org org, orgParent;
-
-    private static <T> void assertSameElements(Collection<T> first, Collection<T> second) {
-
-        for (T element : first) {
-            assertThat(element, isIn(second));
-        }
-
-        for (T element : second) {
-            assertThat(element, isIn(first));
-        }
     }
 
     @Before
@@ -159,17 +155,17 @@ public class UserServiceTest {
         User userAdmin = new User();
         userAdmin.setId("1");
         userAdmin.setLoginId("admin");
-        userRepository.findOneByLoginId(userAdmin.getLoginId()).ifPresent(t ->{
+        userRepository.findOneByLoginId(userAdmin.getLoginId()).ifPresent(t -> {
             userAdmin.setId(t.getId());
         });
         userRepository.save(userAdmin);
         getSession().flush();
-        orgRepository.findOneByName(orgParent.getName()).ifPresent(t ->{
+        orgRepository.findOneByName(orgParent.getName()).ifPresent(t -> {
             orgParent.setId(t.getId());
         });
         orgParent = orgService.save(orgParent);
         org.setParentId(orgParent.getId());
-        orgRepository.findOneByName(org.getName()).ifPresent(t ->{
+        orgRepository.findOneByName(org.getName()).ifPresent(t -> {
             org.setId(t.getId());
         });
         org = orgService.save(org);
@@ -177,14 +173,14 @@ public class UserServiceTest {
 
         user1.setOrgId(org.getId());
         user1.setRoles(roles);
-        userRepository.findOneByLoginId(user1.getLoginId()).ifPresent(t ->{
+        userRepository.findOneByLoginId(user1.getLoginId()).ifPresent(t -> {
             user1.setId(t.getId());
         });
         user1 = userService.save(user1);
 
         user2.setOrgId(org.getId());
         user2.setRoles(roles);
-        userRepository.findOneByLoginId(user2.getLoginId()).ifPresent(t ->{
+        userRepository.findOneByLoginId(user2.getLoginId()).ifPresent(t -> {
             user2.setId(t.getId());
         });
         userService.save(user2);
@@ -192,7 +188,7 @@ public class UserServiceTest {
 
         user3.setOrgId(org.getId());
         user3.setRoles(roles);
-        userRepository.findOneByLoginId(user3.getLoginId()).ifPresent(t ->{
+        userRepository.findOneByLoginId(user3.getLoginId()).ifPresent(t -> {
             user3.setId(t.getId());
         });
         userService.save(user3);
@@ -200,7 +196,7 @@ public class UserServiceTest {
 
         user4.setOrgId(org.getId());
         user4.setRoles(roles);
-        userRepository.findOneByLoginId(user4.getLoginId()).ifPresent(t ->{
+        userRepository.findOneByLoginId(user4.getLoginId()).ifPresent(t -> {
             user4.setId(t.getId());
         });
         userService.save(user4);
@@ -228,7 +224,7 @@ public class UserServiceTest {
         pm.setSort(new Sort(new Sort.Order(Sort.Direction.ASC, "loginId")));
         userService.findPage(pm);
 
-        assertThat(pm.getData().size(), is(5 ));
+        assertThat(pm.getData().size(), is(5));
         assertThat(pm.getData().get(1).getLoginId(), is(user1.getLoginId()));
 
         User temp = userRepository.findOneByLoginId(user1.getLoginId()).get();
@@ -339,7 +335,7 @@ public class UserServiceTest {
         flushTestUsers();
         List<User> result = userRepository.findAll(new Sort(ASC, "loginId"));
         assertThat(result, is(notNullValue()));
-        assertThat(result.size(), is(5 ));
+        assertThat(result.size(), is(5));
         assertThat(result.get(1).getLoginId(), is(user1.getLoginId()));
         assertThat(result.get(2).getLoginId(), is(user2.getLoginId()));
         assertThat(result.get(3).getLoginId(), is(user3.getLoginId()));

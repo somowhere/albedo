@@ -119,6 +119,7 @@ public class ModuleService extends TreeService<ModuleRepository, Module, String>
 
     /**
      * 根据用户获取权限
+     *
      * @param userId
      * @return
      */

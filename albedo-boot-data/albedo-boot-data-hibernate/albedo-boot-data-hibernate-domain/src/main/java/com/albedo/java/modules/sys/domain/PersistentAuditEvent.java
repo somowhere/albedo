@@ -1,6 +1,5 @@
 package com.albedo.java.modules.sys.domain;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.HashMap;

@@ -26,6 +26,7 @@ public interface UserRepository extends BaseRepository<User, String> {
 
     @Query
     void deleteUserRoles(@Param("user") User user);
+
     @Query
     void addUserRoles(@Param("user") User user);
 

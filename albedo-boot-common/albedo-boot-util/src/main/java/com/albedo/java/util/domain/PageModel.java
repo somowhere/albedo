@@ -289,7 +289,7 @@ public class PageModel<T> implements Pageable, Serializable {
         List<S> result = new ArrayList(this.data.size());
         Iterator var3 = this.data.iterator();
 
-        while(var3.hasNext()) {
+        while (var3.hasNext()) {
             T element = (T) var3.next();
             result.add(converter.convert(element));
         }

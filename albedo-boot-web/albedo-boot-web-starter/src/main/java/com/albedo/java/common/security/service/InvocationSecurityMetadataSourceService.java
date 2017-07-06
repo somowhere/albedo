@@ -81,7 +81,7 @@ public class InvocationSecurityMetadataSourceService
                             if (PublicUtil.isNotEmpty(keyList))
                                 keyList.forEach(key -> {
                                 /*
-								 * 判断资源文件和权限的对应关系，如果已经存在相关的资源url，则要通过该url为key提取出权限集合，
+                                 * 判断资源文件和权限的对应关系，如果已经存在相关的资源url，则要通过该url为key提取出权限集合，
 								 * 将权限增加到权限集合中。 sparta
 								 */
                                     if (resourceMap.containsKey(key)) {

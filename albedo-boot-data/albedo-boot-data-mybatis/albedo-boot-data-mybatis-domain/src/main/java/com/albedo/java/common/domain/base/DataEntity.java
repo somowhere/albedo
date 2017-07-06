@@ -1,28 +1,20 @@
 package com.albedo.java.common.domain.base;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import javax.xml.bind.annotation.XmlTransient;
-
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.Persistent;
-import org.springframework.data.annotation.Version;
+import com.albedo.java.common.data.persistence.BaseEntity;
+import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.util.PublicUtil;
+import com.alibaba.fastjson.annotation.JSONField;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.JoinColumn;
 import org.springframework.data.mybatis.annotations.ManyToOne;
 import org.springframework.data.mybatis.annotations.MappedSuperclass;
 
-import com.albedo.java.common.data.persistence.BaseEntity;
-import com.albedo.java.modules.sys.domain.User;
-import com.albedo.java.util.PublicUtil;
-import com.alibaba.fastjson.annotation.JSONField;
-
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Base abstract class for entities which will hold definitions for created, last modified by and created,
