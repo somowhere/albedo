@@ -1,14 +1,5 @@
 package com.albedo.java.modules.gen.domain;
 
-import java.util.List;
-
-import org.hibernate.validator.constraints.Length;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.mybatis.annotations.Column;
-import org.springframework.data.mybatis.annotations.Entity;
-import org.springframework.data.mybatis.annotations.JoinColumn;
-import org.springframework.data.mybatis.annotations.ManyToOne;
-
 import com.albedo.java.common.domain.base.IdEntity;
 import com.albedo.java.common.domain.base.TreeEntity;
 import com.albedo.java.modules.gen.util.GenUtil;
@@ -16,11 +7,18 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.config.SystemConfig;
 import com.google.common.collect.Lists;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mybatis.annotations.Column;
+import org.springframework.data.mybatis.annotations.Entity;
+import org.springframework.data.mybatis.annotations.JoinColumn;
+import org.springframework.data.mybatis.annotations.ManyToOne;
+
+import java.util.List;
 
 /**
  * 业务表字段Entity

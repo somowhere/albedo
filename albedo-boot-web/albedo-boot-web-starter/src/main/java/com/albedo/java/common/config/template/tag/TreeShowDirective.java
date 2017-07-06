@@ -49,7 +49,7 @@ public class TreeShowDirective implements TemplateDirectiveModel {
         StringBuffer sb = new StringBuffer().append("<div class=\"portlet light bordered ").append(id)
                 .append("-portlet\"><div class=\"portlet-title\"><div class=\"caption\"><i class=\"fa fa-gift\"></i>").append(title)
                 /*<div class="portlet-input input-inline" style="width: 195px !important;">'+
-	                             '<div class="input-icon right">'+
+                                 '<div class="input-icon right">'+
 	                                 '<i class="icon-magnifier"></i>'+
 	                                 '<input type="text" id="key" name="key" maxlength="50" class="form-control input-circle tree-search-input" placeholder="search..."> </div>'+
 	                         '</div>*/

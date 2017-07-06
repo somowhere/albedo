@@ -16,7 +16,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**

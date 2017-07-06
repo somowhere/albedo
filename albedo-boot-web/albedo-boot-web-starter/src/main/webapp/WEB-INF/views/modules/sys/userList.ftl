@@ -51,7 +51,7 @@
                         <th width="10%" colspan="1"> 所属组织</th>
                         <th width="10%" colspan="1"> 登录Id</th>
                         <th width="10%"> 邮箱</th>
-                        <#--<th width="20%"> 拥有角色</th>-->
+                    <#--<th width="20%"> 拥有角色</th>-->
                         <th width="10%"> 状态</th>
                         <th width="10%"> 修改时间</th>
                         <th width="10%"> 操作</th>
@@ -74,7 +74,7 @@
                         url: "${ctx}/sys/user/page"
                     },
                     "columns": [
-                        {data: "orgName", name:"org.name"}, {data: "loginId"},
+                        {data: "orgName", name: "org.name"}, {data: "loginId"},
                         {data: "email"},
 //                        {data: "roleNames", orderable: false},
                         {

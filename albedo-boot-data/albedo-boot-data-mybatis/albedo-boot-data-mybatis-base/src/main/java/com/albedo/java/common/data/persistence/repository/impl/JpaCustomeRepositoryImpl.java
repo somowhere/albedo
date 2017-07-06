@@ -10,18 +10,11 @@ import com.google.common.collect.Lists;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mybatis.repository.support.SqlSessionRepositorySupport;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Component
 @Transactional

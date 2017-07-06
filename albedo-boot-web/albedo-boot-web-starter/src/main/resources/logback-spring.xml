@@ -116,27 +116,27 @@
     </appender>
     <!--日志异步到数据库  -->
     <!--<appender name="DBAPPENDER" class="ch.qos.logback.classic.db.DBAppender">-->
-        <!--<connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">-->
-            <!--<dataSource class="com.zaxxer.hikari.HikariDataSource">-->
-                <!--<driverClassName>com.mysql.jdbc.Driver</driverClassName>-->
-                <!--<jdbcUrl>jdbc:mysql://localhost:3306/albedo-new?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false</jdbcUrl>-->
-                <!--<username>root</username>-->
-                <!--<password>123456</password>-->
-                <!--<poolName>HikariPool-logback</poolName>-->
-            <!--</dataSource>-->
-        <!--</connectionSource>-->
-        <!--&lt;!&ndash; 此日志文件只记录info级别的 &ndash;&gt;-->
-        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">-->
-            <!--<level>warn</level>-->
-            <!--<onMatch>ACCEPT</onMatch>-->
-            <!--<onMismatch>DENY</onMismatch>-->
-        <!--</filter>-->
-        <!--&lt;!&ndash; 此日志文件只记录info级别的 &ndash;&gt;-->
-        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">-->
-            <!--<level>error</level>-->
-            <!--<onMatch>ACCEPT</onMatch>-->
-            <!--<onMismatch>DENY</onMismatch>-->
-        <!--</filter>-->
+    <!--<connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">-->
+    <!--<dataSource class="com.zaxxer.hikari.HikariDataSource">-->
+    <!--<driverClassName>com.mysql.jdbc.Driver</driverClassName>-->
+    <!--<jdbcUrl>jdbc:mysql://localhost:3306/albedo-new?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false</jdbcUrl>-->
+    <!--<username>root</username>-->
+    <!--<password>123456</password>-->
+    <!--<poolName>HikariPool-logback</poolName>-->
+    <!--</dataSource>-->
+    <!--</connectionSource>-->
+    <!--&lt;!&ndash; 此日志文件只记录info级别的 &ndash;&gt;-->
+    <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+    <!--<level>warn</level>-->
+    <!--<onMatch>ACCEPT</onMatch>-->
+    <!--<onMismatch>DENY</onMismatch>-->
+    <!--</filter>-->
+    <!--&lt;!&ndash; 此日志文件只记录info级别的 &ndash;&gt;-->
+    <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+    <!--<level>error</level>-->
+    <!--<onMatch>ACCEPT</onMatch>-->
+    <!--<onMismatch>DENY</onMismatch>-->
+    <!--</filter>-->
     <!--</appender>-->
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>

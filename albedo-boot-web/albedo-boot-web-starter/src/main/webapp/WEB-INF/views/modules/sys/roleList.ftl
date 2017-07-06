@@ -79,7 +79,7 @@
                         "dataType": 'json'
                     },
                     "columns": [
-                        {data: "orgName", name:"org.name"}, {data: "name"},
+                        {data: "orgName", name: "org.name"}, {data: "name"},
                         {
                             data: "sysData", render: function (data, type, row) {
                             var cssClass = (data == "是" ? "info" : "warning");

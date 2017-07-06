@@ -1,21 +1,19 @@
 package com.albedo.java.modules.sys.domain;
 
-import java.util.Set;
-
-import org.springframework.data.mybatis.annotations.Column;
-import org.springframework.data.mybatis.annotations.Entity;
-import org.springframework.data.mybatis.annotations.JoinColumn;
-import org.springframework.data.mybatis.annotations.OneToMany;
-
 import com.albedo.java.common.domain.base.TreeEntity;
 import com.albedo.java.util.annotation.DictType;
 import com.alibaba.fastjson.annotation.JSONField;
-
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.mybatis.annotations.Column;
+import org.springframework.data.mybatis.annotations.Entity;
+import org.springframework.data.mybatis.annotations.JoinColumn;
+import org.springframework.data.mybatis.annotations.OneToMany;
+
+import java.util.Set;
 
 /**
  * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午4:30:34

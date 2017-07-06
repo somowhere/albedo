@@ -1,21 +1,19 @@
 package com.albedo.java.modules.sys.domain;
 
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlAttribute;
-
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.mybatis.annotations.Column;
-import org.springframework.data.mybatis.annotations.Entity;
-
 import com.albedo.java.common.domain.base.TreeEntity;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.annotation.DictType;
 import com.albedo.java.util.annotation.SearchField;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mybatis.annotations.Column;
+import org.springframework.data.mybatis.annotations.Entity;
+
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAttribute;
 
 /**
  * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23

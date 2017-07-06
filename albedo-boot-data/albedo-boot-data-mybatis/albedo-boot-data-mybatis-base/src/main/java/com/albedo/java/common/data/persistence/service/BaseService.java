@@ -185,8 +185,8 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
     }
 
     /**
-     *
      * 动态集合查询
+     *
      * @param specificationDetail 动态条件对象
      * @return
      */
@@ -194,11 +194,12 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
     public List<T> findAll(SpecificationDetail specificationDetail) {
         return findAll(specificationDetail, true);
     }
+
     /**
-     *
      * 动态集合查询
+     *
      * @param specificationDetail 动态条件对象
-     * @param analytiColumn 是否解析动态条件查询前缀
+     * @param analytiColumn       是否解析动态条件查询前缀
      * @return
      */
     @Transactional(readOnly = true)
@@ -231,11 +232,12 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
 
     /**
      * 动态分页查询(自定义)
-     * @param pm 分页对象
+     *
+     * @param pm                  分页对象
      * @param specificationDetail 动态条件对象
-     * @param analytiColumn 是否解析动态条件查询前缀（一般自定义sql查询时建议设置为false,动态则设置为true）
-     * @param selectStatement 自定义数据集合sql名称
-     * @param countStatement 自定义数据总数sql名称
+     * @param analytiColumn       是否解析动态条件查询前缀（一般自定义sql查询时建议设置为false,动态则设置为true）
+     * @param selectStatement     自定义数据集合sql名称
+     * @param countStatement      自定义数据总数sql名称
      * @return
      */
     @Transactional(readOnly = true)
@@ -245,9 +247,10 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
 
     /**
      * 动态分页查询
-     * @param pm 分页对象
+     *
+     * @param pm                  分页对象
      * @param specificationDetail 动态条件对象
-     * @param isBasic 是否关联对象查询
+     * @param isBasic             是否关联对象查询
      * @return
      */
     @Transactional(readOnly = true)
@@ -256,14 +259,14 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
     }
 
     /**
-     *
      * 动态分页查询
-     * @param pm 分页对象
+     *
+     * @param pm                  分页对象
      * @param specificationDetail 动态条件对象
-     * @param isBasic 是否关联对象查询
-     * @param analytiColumn 是否解析动态条件查询前缀 （一般自定义sql查询时建议设置为false,动态则设置为true）
-     * @param selectStatement 自定义数据集合sql名称
-     * @param countStatement 自定义数据总数sql名称
+     * @param isBasic             是否关联对象查询
+     * @param analytiColumn       是否解析动态条件查询前缀 （一般自定义sql查询时建议设置为false,动态则设置为true）
+     * @param selectStatement     自定义数据集合sql名称
+     * @param countStatement      自定义数据总数sql名称
      * @return
      */
     @Transactional(readOnly = true)
@@ -282,7 +285,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
                     repository.findAll(selectStatement, countStatement, pm, paramsMap) : repository.findAll(isBasic, pm, paramsMap));
             return pm;
         } catch (Exception e) {
-            log.error("error: {}",e);
+            log.error("error: {}", e);
             Assert.buildException(e.getMessage());
         }
         return null;

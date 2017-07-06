@@ -3,20 +3,18 @@
  */
 package com.albedo.java.modules.sys.domain;
 
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Length;
-import org.springframework.data.mybatis.annotations.Column;
-import org.springframework.data.mybatis.annotations.Entity;
-
 import com.albedo.java.common.domain.base.TreeEntity;
 import com.albedo.java.util.annotation.DictType;
 import com.albedo.java.util.annotation.SearchField;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.data.mybatis.annotations.Column;
+import org.springframework.data.mybatis.annotations.Entity;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * 区域管理Entity 区域管理

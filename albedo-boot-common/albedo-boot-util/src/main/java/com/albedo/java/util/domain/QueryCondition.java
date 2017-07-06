@@ -228,17 +228,18 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
         try {
             if (persistentClass != null && PublicUtil.isNotEmpty(getFieldName())) {
                 Entity entity = Reflections.getAnnotation(persistentClass, Entity.class);
-                if(PublicUtil.isEmpty(quota)){
+                if (PublicUtil.isEmpty(quota)) {
                     quota = null != entity && StringUtils.hasText(entity.name()) ? entity.name() :
                             StringUtils.uncapitalize(persistentClass.getSimpleName());
                 }
-                String columnName = null;int indexQuote = fieldName.indexOf(".");
-                if(indexQuote!=-1){
+                String columnName = null;
+                int indexQuote = fieldName.indexOf(".");
+                if (indexQuote != -1) {
                     JoinColumn column = Reflections.getAnnotationByClazz(persistentClass, fieldName.substring(0, indexQuote), JoinColumn.class);
-                    if(column!=null)columnName = column.name();
-                }else{
+                    if (column != null) columnName = column.name();
+                } else {
                     Column column = Reflections.getAnnotationByClazz(persistentClass, fieldName, Column.class);
-                    if(column!=null)columnName = column.name();
+                    if (column != null) columnName = column.name();
                 }
                 if (PublicUtil.isNotEmpty(columnName)) {
                     Dialect dialect = SpringContextHolder.getBean(Dialect.class);
@@ -255,12 +256,12 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
         return operate;
     }
 
-    public void setOperate(Operator operate) {
-        this.operate = operate;
-    }
-
     public void setOperate(String operate) {
         this.operate = Operator.valueOf(operate);
+    }
+
+    public void setOperate(Operator operate) {
+        this.operate = operate;
     }
 
     public String getAttrType() {
@@ -302,7 +303,7 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
     }
 
     @JSONField(serialize = false)
-    public boolean legalityCheck(){
+    public boolean legalityCheck() {
         return SecurityHqlUtil.checkStrForHqlWhere(fieldName)
                 && SecurityHqlUtil.checkStrForHqlWhere(operate.getOperator())
                 && SecurityHqlUtil.checkStrForHqlWhere(String.valueOf(value));

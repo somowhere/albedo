@@ -790,7 +790,6 @@ public class MybatisSimpleRepositoryMapperGenerator {
         builder.append("</insert>");
 
 
-
     }
 
 

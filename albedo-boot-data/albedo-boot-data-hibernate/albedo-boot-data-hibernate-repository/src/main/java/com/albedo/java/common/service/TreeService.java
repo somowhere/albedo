@@ -5,8 +5,6 @@ import com.albedo.java.common.domain.base.TreeEntity;
 import com.albedo.java.common.repository.TreeRepository;
 import com.albedo.java.modules.sys.domain.Area;
 import com.albedo.java.util.PublicUtil;
-import com.albedo.java.util.exception.RuntimeMsgException;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;

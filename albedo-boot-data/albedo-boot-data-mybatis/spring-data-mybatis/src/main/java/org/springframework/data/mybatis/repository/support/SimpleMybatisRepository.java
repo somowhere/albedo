@@ -349,6 +349,7 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
                 isBasic ? "_countBasicByCondition" : "_countByCondition", null, paramsMap, columns);
 
     }
+
     @Override
     public Page<T> findAll(String selectStatement, String countStatement, Pageable pageable, Map<String, Object> paramsMap, String... columns) {
         return findByPager(pageable, selectStatement, countStatement, null, paramsMap, columns);

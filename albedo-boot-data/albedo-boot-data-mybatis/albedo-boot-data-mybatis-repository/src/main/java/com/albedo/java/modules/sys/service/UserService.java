@@ -33,12 +33,11 @@ import java.util.Optional;
 public class UserService extends DataService<UserRepository, User, String> {
 
     @Resource
+    OrgRepository orgRepository;
+    @Resource
     private PersistentTokenRepository persistentTokenRepository;
-
     @Resource
     private RoleRepository roleRepository;
-    @Resource
-    OrgRepository orgRepository;
 
     public UserResult copyBeanToResult(User user) {
         UserResult userResult = new UserResult();
@@ -90,7 +89,7 @@ public class UserService extends DataService<UserRepository, User, String> {
         user.setResetDate(PublicUtil.getCurrentDate());
         user.setActivated(true);
         user = repository.save(user);
-        if(PublicUtil.isNotEmpty(user.getRoleIdList())){
+        if (PublicUtil.isNotEmpty(user.getRoleIdList())) {
             repository.deleteUserRoles(user);
             repository.addUserRoles(user);
         }

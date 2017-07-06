@@ -99,7 +99,7 @@
                         "dataType": 'json'
                     }, order: [6, 'asc'],
                     "columns": [
-                        {data: "parentName", name:"parent.name"}, {data: "name"},
+                        {data: "parentName", name: "parent.name"}, {data: "name"},
                         {data: "code"}, {data: "key"},
                         {
                             data: "val", render: function (data, type, row) {

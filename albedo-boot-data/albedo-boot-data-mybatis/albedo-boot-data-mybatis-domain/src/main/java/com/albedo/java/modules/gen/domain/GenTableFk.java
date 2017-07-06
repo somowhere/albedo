@@ -1,13 +1,12 @@
 package com.albedo.java.modules.gen.domain;
 
-import org.springframework.data.mybatis.annotations.Column;
-import org.springframework.data.mybatis.annotations.JoinColumn;
-import org.springframework.data.mybatis.annotations.ManyToOne;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.mybatis.annotations.Column;
+import org.springframework.data.mybatis.annotations.JoinColumn;
+import org.springframework.data.mybatis.annotations.ManyToOne;
 
 /**
  * 业务表Entity
