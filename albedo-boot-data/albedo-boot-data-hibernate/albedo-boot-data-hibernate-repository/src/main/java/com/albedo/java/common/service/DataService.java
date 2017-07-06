@@ -10,7 +10,6 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
@@ -85,7 +84,7 @@ public class DataService<Repository extends DataRepository<T, PK>, T extends Dat
     public PageModel<T> findPage(PageModel<T> pm, List<QueryCondition> queryConditions) {
         SpecificationDetail<T> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
                 QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
-        if(PublicUtil.isNotEmpty(queryConditions)){
+        if (PublicUtil.isNotEmpty(queryConditions)) {
             spec.andAll(queryConditions);
         }
         pm.setPageInstance(repository.findAll(spec, pm));

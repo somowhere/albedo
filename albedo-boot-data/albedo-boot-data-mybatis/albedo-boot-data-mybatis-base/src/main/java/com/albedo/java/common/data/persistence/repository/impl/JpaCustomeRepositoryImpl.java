@@ -46,6 +46,7 @@ public class JpaCustomeRepositoryImpl<T extends GeneralEntity>
         return mapList;
     }
 
+
     @Override
     protected String getNamespace() {
         return JpaCustomeRepositoryImpl.class.getName();

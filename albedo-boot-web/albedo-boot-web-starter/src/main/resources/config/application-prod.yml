@@ -25,7 +25,7 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://192.168.88.247:3306/albedo-new?useUnicode=true&characterEncoding=utf8&useSSL=false
+        url: jdbc:mysql://localhost:3306/albedo-new?useUnicode=true&characterEncoding=utf8&useSSL=false
         name:
         username: root
         password: 123456
@@ -70,9 +70,9 @@ spring:
         suffix: .ftl
         template-loader-path: classpath:/WEB-INF/views/,/WEB-INF/views/ #/WEB-INF/views/
     redis :
-      password : bosheng906!
+      password : 111111
       sentinel :
-        nodes : 182.92.204.180:26377,182.92.204.180:26378
+        nodes : localhost:7005
         master : master
 
 server:

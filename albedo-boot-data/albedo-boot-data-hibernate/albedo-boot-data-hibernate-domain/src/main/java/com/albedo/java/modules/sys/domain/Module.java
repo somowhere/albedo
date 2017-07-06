@@ -8,9 +8,7 @@ import com.albedo.java.util.domain.RequestMethod;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.collect.Sets;
 import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.*;
 
-import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -111,12 +109,12 @@ public class Module extends TreeEntity<Module> {
         return requestMethod;
     }
 
-    public void setRequestMethod(RequestMethod requestMethod) {
-        this.requestMethod = requestMethod.name();
-    }
-
     public void setRequestMethod(String requestMethod) {
         this.requestMethod = requestMethod;
+    }
+
+    public void setRequestMethod(RequestMethod requestMethod) {
+        this.requestMethod = requestMethod.name();
     }
 
     public String getParentName() {

@@ -68,10 +68,10 @@ spring:
         #prefix:
         suffix: .ftl
         template-loader-path: /WEB-INF/views/,/META-INF/resources/WEB-INF/views/,classpath:/META-INF/resources/WEB-INF/views/
-    redis :
-      password : bosheng906!
+    redis:
+      password : 111111
       sentinel :
-        nodes : 182.92.204.180:26377,182.92.204.180:26378
+        nodes : localhost:7005
         master : master
 
 security:

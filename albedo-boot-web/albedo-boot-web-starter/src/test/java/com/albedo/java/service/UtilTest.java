@@ -1,4 +1,4 @@
-package com.bosheng.java.service;
+package com.albedo.java.service;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 

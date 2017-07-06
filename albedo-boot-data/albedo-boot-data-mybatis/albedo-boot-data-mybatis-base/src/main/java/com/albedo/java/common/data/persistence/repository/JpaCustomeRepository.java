@@ -10,4 +10,5 @@ public interface JpaCustomeRepository<T extends GeneralEntity> {
 
 
     List<ComboData> findJson(Combo item);
+
 }

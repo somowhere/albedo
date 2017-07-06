@@ -431,7 +431,7 @@ public class MybatisSimpleRepositoryMapperGenerator {
     private void buildCountByCondition(StringBuilder builder) {
         builder.append("<select id=\"_countByCondition\" resultType=\"long\" lang=\"XML\">");
 
-        builder.append("select count(*) from ").append(generator.buildFrom(false));
+        builder.append("select count(*) from ").append(generator.buildFrom(true));
 
         builder.append("<if test=\"_condition != null\">");
         builder.append("<trim prefix=\" where \" prefixOverrides=\"and |or \">");
@@ -788,6 +788,8 @@ public class MybatisSimpleRepositoryMapperGenerator {
         builder.append(")]]>");
 
         builder.append("</insert>");
+
+
     }
 
 

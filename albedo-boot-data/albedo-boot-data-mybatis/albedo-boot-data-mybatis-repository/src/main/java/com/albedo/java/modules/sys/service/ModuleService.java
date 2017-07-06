@@ -37,7 +37,7 @@ public class ModuleService extends TreeService<ModuleRepository, Module, String>
                     continue;
                 }
                 map.put("id", e.getId());
-                map.put("pId", e.getParent() != null ? e.getParent().getId() : 0);
+                map.put("pId", e.getParentId() != null ? e.getParentId() : 0);
                 map.put("name", e.getName());
                 map.put("iconCls", PublicUtil.toAppendStr("fa ", e.getIconCls()));
                 mapList.add(map);

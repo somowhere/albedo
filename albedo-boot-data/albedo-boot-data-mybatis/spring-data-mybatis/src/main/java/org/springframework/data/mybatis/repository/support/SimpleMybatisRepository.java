@@ -351,6 +351,12 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
     }
 
     @Override
+    public Page<T> findAll(String selectStatement, String countStatement, Pageable pageable, Map<String, Object> paramsMap, String... columns) {
+        return findByPager(pageable, selectStatement, countStatement, null, paramsMap, columns);
+
+    }
+
+    @Override
     public Long countAll(boolean isBasic, Map<String, Object> paramsMap) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.putAll(paramsMap);

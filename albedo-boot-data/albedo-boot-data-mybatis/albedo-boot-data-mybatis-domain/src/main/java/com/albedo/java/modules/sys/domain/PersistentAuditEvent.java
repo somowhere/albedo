@@ -1,20 +1,18 @@
 package com.albedo.java.modules.sys.domain;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.validation.constraints.NotNull;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.ElementCollection;
 import org.springframework.data.mybatis.annotations.Entity;
 import org.springframework.data.mybatis.annotations.Id;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Persist AuditEvent managed by the Spring Boot actuator

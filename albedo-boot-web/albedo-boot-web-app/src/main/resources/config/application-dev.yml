@@ -68,21 +68,6 @@ spring:
         #prefix:
         suffix: .html
         template-loader-path: /WEB-INF/views/ #classpath:templates/views
-    jedis :
-      pool :
-        host1 : 182.92.204.180
-        port1 : 7005
-        host2 : 182.92.204.180
-        port2 : 7006
-        host3 : 101.200.126.141
-        port3 : 7006
-        password : bosheng906!
-        sentinel1 : 182.92.204.180:26377
-        sentinel2 : 182.92.204.180:26378
-        config :
-          maxTotal : 100
-          maxIdle : 10
-          maxWaitMillis : 100000
 
 server:
     port: 8090

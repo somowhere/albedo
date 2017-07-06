@@ -1,26 +1,17 @@
 package com.albedo.java.modules.sys.domain;
 
-import java.util.Set;
-
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.mybatis.annotations.Column;
-import org.springframework.data.mybatis.annotations.Entity;
-import org.springframework.data.mybatis.annotations.JoinColumn;
-import org.springframework.data.mybatis.annotations.JoinTable;
-import org.springframework.data.mybatis.annotations.ManyToMany;
-
 import com.albedo.java.common.domain.base.TreeEntity;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.annotation.DictType;
 import com.albedo.java.util.annotation.SearchField;
 import com.albedo.java.util.domain.RequestMethod;
-import com.alibaba.fastjson.annotation.JSONField;
-import com.google.common.collect.Sets;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mybatis.annotations.Column;
+import org.springframework.data.mybatis.annotations.Entity;
 
 /**
  * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午4:29:21
@@ -65,13 +56,13 @@ public class Module extends TreeEntity<Module> {
     @Column(name = "show_type")
     private String showType;
 
-    @ManyToMany
-    @JoinTable(
-            name = "sys_role_module_t",
-            joinColumns = {@JoinColumn(name = "module_id", referencedColumnName = "id_")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id_")})
-    @JSONField(serialize = false)
-    private Set<Role> roles = Sets.newHashSet(); // 拥有角色列表
+//    @ManyToMany
+//    @JoinTable(
+//            name = "sys_role_module_t",
+//            joinColumns = {@JoinColumn(name = "module_id", referencedColumnName = "id_")},
+//            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id_")})
+//    @JSONField(serialize = false)
+//    private Set<Role> roles = Sets.newHashSet(); // 拥有角色列表
 
     /*** 父模块名称 */
     @Transient
@@ -115,12 +106,12 @@ public class Module extends TreeEntity<Module> {
         return requestMethod;
     }
 
-    public void setRequestMethod(RequestMethod requestMethod) {
-        this.requestMethod = requestMethod.name();
-    }
-
     public void setRequestMethod(String requestMethod) {
         this.requestMethod = requestMethod;
+    }
+
+    public void setRequestMethod(RequestMethod requestMethod) {
+        this.requestMethod = requestMethod.name();
     }
 
     public String getParentName() {
@@ -161,14 +152,6 @@ public class Module extends TreeEntity<Module> {
 
     public void setShowType(String showType) {
         this.showType = showType;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
     }
 
     public boolean isShow() {

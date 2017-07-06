@@ -1,12 +1,11 @@
 package com.albedo.java.common.domain.base;
 
+import com.albedo.java.util.annotation.SearchField;
+import com.albedo.java.util.domain.QueryCondition.Operator;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.JoinColumn;
 import org.springframework.data.mybatis.annotations.ManyToOne;
 import org.springframework.data.mybatis.annotations.MappedSuperclass;
-
-import com.albedo.java.util.annotation.SearchField;
-import com.albedo.java.util.domain.QueryCondition.Operator;
 
 /**
  * 数据TreeEntity类

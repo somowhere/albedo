@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 任务调度管理Repository 任务调度
@@ -17,7 +16,7 @@ import java.util.Optional;
  * @author lj
  * @version 2017-01-23
  */
-public interface TaskScheduleJobRepository extends JpaRepository<TaskScheduleJob, String>, JpaSpecificationExecutor<TaskScheduleJob>,DataRepository<TaskScheduleJob,String> {
+public interface TaskScheduleJobRepository extends JpaRepository<TaskScheduleJob, String>, JpaSpecificationExecutor<TaskScheduleJob>, DataRepository<TaskScheduleJob, String> {
 
 
     List<TaskScheduleJob> findByStatusAndJobStatus(Integer status, String jobStatus);

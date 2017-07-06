@@ -6,7 +6,6 @@ import com.albedo.java.common.domain.base.GeneralEntity;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.QueryUtil;
 import com.albedo.java.util.base.Reflections;
-import com.albedo.java.util.domain.*;
 import com.albedo.java.util.domain.QueryCondition.Operator;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -98,7 +97,7 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
      * clearLevel2Cache()
      */
     /*
-	 * (non-Javadoc)
+     * (non-Javadoc)
 	 * 
 	 * @see com.albedo.java.repository.data.support.Itest#createQuery(java.lang.
 	 * String, java.lang.Object)

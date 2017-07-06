@@ -24,8 +24,7 @@ import java.util.List;
 @Service
 @Transactional
 public class TaskScheduleJobService extends DataService<TaskScheduleJobRepository,
-        TaskScheduleJob, String>
-{
+        TaskScheduleJob, String> {
 
     /*
      * (non-Javadoc)
@@ -43,7 +42,6 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
                         QueryCondition.ne(TaskScheduleJob.F_STATUS, TaskScheduleJob.FLAG_DELETE));
         return findBasePage(pm, spec, false);
     }
-
 
 
 }

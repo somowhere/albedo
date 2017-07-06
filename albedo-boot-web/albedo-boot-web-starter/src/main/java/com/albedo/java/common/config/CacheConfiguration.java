@@ -23,7 +23,7 @@ public class CacheConfiguration {
 
     private final Logger log = LoggerFactory.getLogger(CacheConfiguration.class);
 
-//    @PersistenceContext
+    //    @PersistenceContext
 //    private EntityManager entityManager;
     @Autowired
     AlbedoProperties albedoProperties;

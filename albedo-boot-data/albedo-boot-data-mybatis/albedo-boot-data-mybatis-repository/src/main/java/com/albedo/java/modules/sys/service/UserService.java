@@ -4,6 +4,7 @@ import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.modules.sys.repository.OrgRepository;
 import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
 import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
@@ -32,8 +33,9 @@ import java.util.Optional;
 public class UserService extends DataService<UserRepository, User, String> {
 
     @Resource
+    OrgRepository orgRepository;
+    @Resource
     private PersistentTokenRepository persistentTokenRepository;
-
     @Resource
     private RoleRepository roleRepository;
 
@@ -86,7 +88,11 @@ public class UserService extends DataService<UserRepository, User, String> {
         user.setResetKey(RandomUtil.generateResetKey());
         user.setResetDate(PublicUtil.getCurrentDate());
         user.setActivated(true);
-        user = repository.saveIgnoreNull().save(user);
+        user = repository.save(user);
+        if (PublicUtil.isNotEmpty(user.getRoleIdList())) {
+            repository.deleteUserRoles(user);
+            repository.addUserRoles(user);
+        }
         log.debug("Save Information for User: {}", user);
 
         return copyBeanToResult(user);
@@ -155,12 +161,19 @@ public class UserService extends DataService<UserRepository, User, String> {
 
     @Transactional(readOnly = true)
     public PageModel<User> findPage(PageModel<User> pm, List<QueryCondition> queryConditions) {
+        //拼接查询动态对象
         SpecificationDetail<User> spec = DynamicSpecifications.
                 buildSpecification(pm.getQueryConditionJson(), queryConditions,
-                        QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE), QueryCondition.ne(User.F_ID, "1"));
+                        QueryCondition.ne("a.status_", User.FLAG_DELETE), QueryCondition.ne("a.id_", "1"));
+        //动态生成sql分页查询
 //        Page<User> page = repository.findAll(spec, pm);
 //        pm.setPageInstance(page);
-        return findBasePage(pm, spec, false);
+//        pm.getData().forEach(item -> item.setOrg(orgRepository.findBasicOne(item.getOrgId())));
+        //自定义sql分页查询
+        findBasePage(pm, spec, false, "selectPage", "countPage");
+
+
+        return pm;
     }
 
 

@@ -31,6 +31,8 @@ public class PageModel<T> implements Pageable, Serializable {
      */
     @JSONField(serialize = false)
     private String queryConditionJson;
+    @JSONField(serialize = false)
+    private String sqlConditionDsf;
     private long recordsFiltered;
     private long recordsTotal;
     private int draw;
@@ -287,7 +289,7 @@ public class PageModel<T> implements Pageable, Serializable {
         List<S> result = new ArrayList(this.data.size());
         Iterator var3 = this.data.iterator();
 
-        while(var3.hasNext()) {
+        while (var3.hasNext()) {
             T element = (T) var3.next();
             result.add(converter.convert(element));
         }
@@ -295,4 +297,11 @@ public class PageModel<T> implements Pageable, Serializable {
         return result;
     }
 
+    public String getSqlConditionDsf() {
+        return sqlConditionDsf;
+    }
+
+    public void setSqlConditionDsf(String sqlConditionDsf) {
+        this.sqlConditionDsf = sqlConditionDsf;
+    }
 }

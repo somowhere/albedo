@@ -1,6 +1,8 @@
 package com.albedo.java.util.domain;
 
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.SecurityHqlUtil;
+import com.albedo.java.util.base.Encodes;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.spring.SpringContextHolder;
 import com.alibaba.fastjson.annotation.JSONField;
@@ -8,8 +10,11 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Entity;
+import org.springframework.data.mybatis.annotations.JoinColumn;
 import org.springframework.data.mybatis.repository.dialect.Dialect;
 import org.springframework.util.StringUtils;
+
+import java.io.UnsupportedEncodingException;
 
 @Slf4j
 @Data
@@ -218,17 +223,27 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
     }
 
     @JSONField(serialize = false)
-    public String getFieldRealColumnName() {
+    public String getFieldRealColumnName(String quota) {
         String fieldNameReal = new String(fieldName);
         try {
             if (persistentClass != null && PublicUtil.isNotEmpty(getFieldName())) {
                 Entity entity = Reflections.getAnnotation(persistentClass, Entity.class);
-                String quota = null != entity && StringUtils.hasText(entity.name()) ? entity.name() :
-                        StringUtils.uncapitalize(persistentClass.getSimpleName());
-                Column column = Reflections.getAnnotationByClazz(persistentClass, fieldName, Column.class);
-                if (column != null && PublicUtil.isNotEmpty(column.name())) {
+                if (PublicUtil.isEmpty(quota)) {
+                    quota = null != entity && StringUtils.hasText(entity.name()) ? entity.name() :
+                            StringUtils.uncapitalize(persistentClass.getSimpleName());
+                }
+                String columnName = null;
+                int indexQuote = fieldName.indexOf(".");
+                if (indexQuote != -1) {
+                    JoinColumn column = Reflections.getAnnotationByClazz(persistentClass, fieldName.substring(0, indexQuote), JoinColumn.class);
+                    if (column != null) columnName = column.name();
+                } else {
+                    Column column = Reflections.getAnnotationByClazz(persistentClass, fieldName, Column.class);
+                    if (column != null) columnName = column.name();
+                }
+                if (PublicUtil.isNotEmpty(columnName)) {
                     Dialect dialect = SpringContextHolder.getBean(Dialect.class);
-                    fieldNameReal = dialect.openQuote() + quota + dialect.closeQuote() + '.' + column.name();
+                    fieldNameReal = dialect.openQuote() + quota + dialect.closeQuote() + '.' + columnName;
                 }
             }
         } catch (Exception e) {
@@ -241,12 +256,12 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
         return operate;
     }
 
-    public void setOperate(Operator operate) {
-        this.operate = operate;
-    }
-
     public void setOperate(String operate) {
         this.operate = Operator.valueOf(operate);
+    }
+
+    public void setOperate(Operator operate) {
+        this.operate = operate;
     }
 
     public String getAttrType() {
@@ -270,8 +285,30 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
     }
 
     public void setValue(Object value) {
+        //字符串编码处理
+        if (value instanceof String) {
+            String tempStr = value.toString();
+            if (tempStr.contains("&")) {
+                try {
+                    value = new String(Encodes.unescapeHtml(tempStr).getBytes("ISO-8859-1"), "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                    log.warn("Illegal query conditions ---------> queryFieldName[",
+                            fieldName, "]  operation[", operate.getOperator(),
+                            "] value[", value, "], please check!!!");
+                }
+            }
+        }
         this.value = value;
     }
+
+    @JSONField(serialize = false)
+    public boolean legalityCheck() {
+        return SecurityHqlUtil.checkStrForHqlWhere(fieldName)
+                && SecurityHqlUtil.checkStrForHqlWhere(operate.getOperator())
+                && SecurityHqlUtil.checkStrForHqlWhere(String.valueOf(value));
+    }
+
 
     public Object getEndValue() {
         return endValue;
