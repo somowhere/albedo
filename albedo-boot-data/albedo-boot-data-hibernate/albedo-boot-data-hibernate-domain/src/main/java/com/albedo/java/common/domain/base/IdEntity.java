@@ -1,12 +1,12 @@
 package com.albedo.java.common.domain.base;
 
-import com.albedo.java.common.domain.base.pk.IdGen;
-import com.albedo.java.util.annotation.SearchField;
-
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
+
+import com.albedo.java.common.domain.base.pk.IdGen;
+import com.albedo.java.util.annotation.SearchField;
 
 @MappedSuperclass
 public class IdEntity extends DataEntity {

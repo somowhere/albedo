@@ -1,11 +1,17 @@
 package com.albedo.java.web.filter;
 
-import com.albedo.java.common.config.AlbedoProperties;
-
-import javax.servlet.*;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
+
+import com.albedo.java.common.config.AlbedoProperties;
 
 /**
  * This filter is used in production, to put HTTP cache headers with a long (1 month) expiration time.

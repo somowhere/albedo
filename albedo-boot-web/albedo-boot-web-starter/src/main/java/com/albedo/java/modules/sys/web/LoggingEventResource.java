@@ -1,5 +1,13 @@
 package com.albedo.java.modules.sys.web;
 
+import javax.annotation.Resource;
+
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.albedo.java.modules.sys.domain.LoggingEvent;
 import com.albedo.java.modules.sys.service.LoggingEventService;
 import com.albedo.java.util.JsonUtil;
@@ -8,13 +16,6 @@ import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.BaseResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.annotation.Resource;
 
 /**
  * 操作日志Controller 操作日志

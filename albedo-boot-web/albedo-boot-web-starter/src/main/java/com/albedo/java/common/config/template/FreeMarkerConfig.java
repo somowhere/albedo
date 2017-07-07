@@ -1,23 +1,26 @@
 package com.albedo.java.common.config.template;
 
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+
 import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.common.config.template.tag.CustomTags;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.util.DictUtil;
 import com.albedo.java.util.PublicUtil;
 import com.google.common.collect.Maps;
+
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.ext.beans.BeansWrapperBuilder;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateModelException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-
-import javax.annotation.PostConstruct;
-import java.util.Map;
 
 @Configuration
 public class FreeMarkerConfig {

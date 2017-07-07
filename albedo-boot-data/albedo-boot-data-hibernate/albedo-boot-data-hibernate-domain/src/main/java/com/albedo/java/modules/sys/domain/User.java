@@ -1,5 +1,33 @@
 package com.albedo.java.modules.sys.domain;
 
+import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 import com.albedo.java.common.domain.base.IdEntity;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.annotation.SearchField;
@@ -8,20 +36,8 @@ import com.albedo.java.util.domain.Globals;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.annotations.Cache;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.Set;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * A user.
@@ -254,11 +270,11 @@ public class User extends IdEntity {
 
         User user = (User) o;
 
-        if (!loginId.equals(user.loginId)) {
-            return false;
+        if (loginId!=null && user!=null && loginId.equals(user.loginId)) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     @Override

@@ -1,18 +1,28 @@
 package com.albedo.java.modules.sys.domain;
 
-import com.albedo.java.common.domain.base.pk.IdGen;
-import com.albedo.java.util.annotation.SearchField;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.util.Date;
+import com.albedo.java.common.domain.base.pk.IdGen;
+import com.albedo.java.util.annotation.SearchField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Persistent tokens are used by Spring Security to automatically log in users.

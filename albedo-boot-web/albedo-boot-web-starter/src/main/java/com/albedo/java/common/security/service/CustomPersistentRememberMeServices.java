@@ -1,11 +1,11 @@
 package com.albedo.java.common.security.service;
 
-import com.albedo.java.common.config.AlbedoProperties;
-import com.albedo.java.modules.sys.domain.PersistentToken;
-import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
-import com.albedo.java.modules.sys.repository.UserRepository;
-import com.albedo.java.util.DateUtil;
-import com.albedo.java.util.PublicUtil;
+import java.security.SecureRandom;
+import java.util.Arrays;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +21,12 @@ import org.springframework.security.web.authentication.rememberme.RememberMeAuth
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.security.SecureRandom;
-import java.util.Arrays;
+import com.albedo.java.common.config.AlbedoProperties;
+import com.albedo.java.modules.sys.domain.PersistentToken;
+import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
+import com.albedo.java.modules.sys.repository.UserRepository;
+import com.albedo.java.util.DateUtil;
+import com.albedo.java.util.PublicUtil;
 
 /**
  * Custom implementation of Spring Security's RememberMeServices.

@@ -1,6 +1,9 @@
 package com.albedo.java.common.config;
 
-import com.albedo.java.common.async.ExceptionHandlingAsyncTaskExecutor;
+import java.util.concurrent.Executor;
+
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
@@ -12,8 +15,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import javax.annotation.Resource;
-import java.util.concurrent.Executor;
+import com.albedo.java.common.async.ExceptionHandlingAsyncTaskExecutor;
 
 @Configuration
 @EnableAsync

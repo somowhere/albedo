@@ -1,11 +1,10 @@
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.util.PublicUtil;
-import com.albedo.java.util.config.SystemConfig;
-import com.albedo.java.web.rest.ResultBuilder;
-import com.albedo.java.web.rest.base.BaseResource;
-import com.codahale.metrics.servlets.MetricsServlet;
-import com.google.common.collect.Maps;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.config.SystemConfig;
+import com.albedo.java.web.rest.ResultBuilder;
+import com.albedo.java.web.rest.base.BaseResource;
+import com.codahale.metrics.servlets.MetricsServlet;
+import com.google.common.collect.Maps;
 
 /**
  * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午5:44:04

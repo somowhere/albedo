@@ -1,17 +1,12 @@
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.security.SecurityUtil;
-import com.albedo.java.modules.sys.domain.PersistentToken;
-import com.albedo.java.modules.sys.domain.User;
-import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
-import com.albedo.java.modules.sys.repository.UserRepository;
-import com.albedo.java.modules.sys.service.UserService;
-import com.albedo.java.util.PublicUtil;
-import com.albedo.java.util.base.Assert;
-import com.albedo.java.util.exception.RuntimeMsgException;
-import com.albedo.java.web.rest.ResultBuilder;
-import com.albedo.java.web.rest.base.BaseResource;
-import com.codahale.metrics.annotation.Timed;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,11 +21,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.List;
+import com.albedo.java.common.security.SecurityUtil;
+import com.albedo.java.modules.sys.domain.PersistentToken;
+import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
+import com.albedo.java.modules.sys.repository.UserRepository;
+import com.albedo.java.modules.sys.service.UserService;
+import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.base.Assert;
+import com.albedo.java.util.exception.RuntimeMsgException;
+import com.albedo.java.web.rest.ResultBuilder;
+import com.albedo.java.web.rest.base.BaseResource;
+import com.codahale.metrics.annotation.Timed;
 
 //import com.albedo.java.web.rest.vm.KeyAndPasswordVM;
 //import com.albedo.java.web.rest.vm.ManagedUserVM;

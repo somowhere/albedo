@@ -1,9 +1,11 @@
 package com.albedo.java.common.security;
 
-import com.albedo.java.common.config.AlbedoProperties;
-import com.albedo.java.util.PublicUtil;
-import com.albedo.java.util.domain.CustomMessage;
-import com.albedo.java.web.rest.base.BaseResource;
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +13,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import com.albedo.java.common.config.AlbedoProperties;
+import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.domain.CustomMessage;
+import com.albedo.java.web.rest.base.BaseResource;
 
 /**
  * Returns a 401 error code (Unauthorized) to the client.

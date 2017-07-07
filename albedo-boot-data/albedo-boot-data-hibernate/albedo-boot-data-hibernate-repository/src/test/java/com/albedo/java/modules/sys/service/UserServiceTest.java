@@ -1,18 +1,22 @@
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.data.persistence.DynamicSpecifications;
-import com.albedo.java.config.TestConfig;
-import com.albedo.java.modules.sys.domain.Module;
-import com.albedo.java.modules.sys.domain.Org;
-import com.albedo.java.modules.sys.domain.Role;
-import com.albedo.java.modules.sys.domain.User;
-import com.albedo.java.modules.sys.repository.ModuleRepository;
-import com.albedo.java.modules.sys.repository.OrgRepository;
-import com.albedo.java.modules.sys.repository.RoleRepository;
-import com.albedo.java.modules.sys.repository.UserRepository;
-import com.albedo.java.util.domain.PageModel;
-import com.albedo.java.util.domain.QueryCondition;
-import com.google.common.collect.Sets;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isIn;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertThat;
+import static org.springframework.data.domain.Sort.Direction.ASC;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,12 +31,19 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
-import static org.springframework.data.domain.Sort.Direction.ASC;
+import com.albedo.java.common.data.persistence.DynamicSpecifications;
+import com.albedo.java.config.TestConfig;
+import com.albedo.java.modules.sys.domain.Module;
+import com.albedo.java.modules.sys.domain.Org;
+import com.albedo.java.modules.sys.domain.Role;
+import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.modules.sys.repository.ModuleRepository;
+import com.albedo.java.modules.sys.repository.OrgRepository;
+import com.albedo.java.modules.sys.repository.RoleRepository;
+import com.albedo.java.modules.sys.repository.UserRepository;
+import com.albedo.java.util.domain.PageModel;
+import com.albedo.java.util.domain.QueryCondition;
+import com.google.common.collect.Sets;
 
 /**
  * Created by lijie on 2017/4/19.

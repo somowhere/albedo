@@ -1,14 +1,11 @@
 package com.albedo.java.common.security.service;
 
-import com.albedo.java.common.security.AuthoritiesConstants;
-import com.albedo.java.common.security.SecurityUtil;
-import com.albedo.java.common.security.UserNotActivatedException;
-import com.albedo.java.common.security.UserPrincipal;
-import com.albedo.java.modules.sys.domain.User;
-import com.albedo.java.modules.sys.repository.UserRepository;
-import com.albedo.java.util.PublicUtil;
-import com.albedo.java.util.StringUtil;
-import com.google.common.collect.Lists;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,10 +15,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import com.albedo.java.common.security.AuthoritiesConstants;
+import com.albedo.java.common.security.SecurityUtil;
+import com.albedo.java.common.security.UserNotActivatedException;
+import com.albedo.java.common.security.UserPrincipal;
+import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.modules.sys.repository.UserRepository;
+import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.StringUtil;
+import com.google.common.collect.Lists;
 
 /**
  * Authenticate a user from the database.

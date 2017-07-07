@@ -1,17 +1,19 @@
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.config.AlbedoProperties;
-import com.albedo.java.util.spring.DefaultProfileUtil;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.albedo.java.common.config.AlbedoProperties;
+import com.albedo.java.util.spring.DefaultProfileUtil;
 
 @RestController
 @RequestMapping("${albedo.adminPath}/api")

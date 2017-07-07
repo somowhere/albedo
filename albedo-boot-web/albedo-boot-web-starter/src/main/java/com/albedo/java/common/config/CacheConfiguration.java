@@ -1,7 +1,9 @@
 package com.albedo.java.common.config;
 
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.ehcache.InstrumentedEhcache;
+import java.util.SortedSet;
+
+import javax.annotation.PreDestroy;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,8 @@ import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PreDestroy;
-import java.util.SortedSet;
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.ehcache.InstrumentedEhcache;
 
 @Configuration
 @EnableCaching

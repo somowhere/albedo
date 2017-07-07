@@ -1,5 +1,21 @@
 package com.albedo.java.web.interceptor;
 
+import java.text.SimpleDateFormat;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.NamedThreadLocal;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.util.DateUtil;
 import com.albedo.java.util.PublicUtil;
@@ -10,20 +26,6 @@ import com.albedo.java.web.rest.base.BaseResource;
 import com.albedo.java.web.rest.util.RequestUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.NamedThreadLocal;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
 
 public class OperateInterceptor implements HandlerInterceptor {
 

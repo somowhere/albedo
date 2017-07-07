@@ -21,7 +21,7 @@ import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.common.domain.base.BaseEntity;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
-import com.albedo.java.common.repository.service.BaseService;
+import com.albedo.java.common.service.DataService;
 import com.albedo.java.common.security.SecurityUtil;
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
 <#if table.compositeId>
@@ -40,7 +40,7 @@ import com.google.common.collect.Lists;
  */
 @Service
 @Transactional(readOnly = true)
-public class ${ClassName}Service extends BaseService<${ClassName}>{
+public class ${ClassName}Service extends DataService<${ClassName}Repository, ${ClassName}, String>{
 
 	<#list table.childList as c>
 	@Resource
@@ -98,26 +98,6 @@ public class ${ClassName}Service extends BaseService<${ClassName}>{
     	});
     }
 
-
-	public void lockOrUnLock(String ids) {
-		Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id ->{
-			${className}Repository.findOneById(id).map(u -> {
-    			operateStatusById(id, BaseEntity.FLAG_NORMAL.equals(u.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL, SecurityUtil.getCurrentAuditor());
-                log.debug("LockOrUnLock User: {}", u);
-				return u;
-			}).orElseThrow(() -> new RuntimeMsgException("${functionNameSimple} " + id + " 信息为空，操作失败"));
-    	});
-	}
-
-	@Transactional(readOnly=true)
-	public ${ClassName} findOne(String id) {
-		return ${className}Repository.findOne(id);
-	}
-
-	@Transactional(readOnly=true)
-	public Page<${ClassName}> findAll(SpecificationDetail<${ClassName}> spec, PageModel<${ClassName}> pm) {
-		return ${className}Repository.findAll(spec, pm);
-	}
 }
 ]]>
     </content>

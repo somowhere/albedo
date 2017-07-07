@@ -1,12 +1,13 @@
 package com.albedo.java.modules.gen.domain.xml;
 
-import com.albedo.java.modules.sys.domain.Dict;
+import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
-import java.util.List;
+
+import com.albedo.java.modules.sys.domain.Dict;
 
 /**
  * 生成方案Entity

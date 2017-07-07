@@ -1,10 +1,17 @@
 package com.albedo.java.common.domain.base;
 
-import com.albedo.java.util.annotation.SearchField;
-import com.albedo.java.util.domain.QueryCondition.Operator;
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
+
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.constraints.Length;
+
+import com.albedo.java.util.annotation.SearchField;
+import com.albedo.java.util.domain.QueryCondition.Operator;
 
 /**
  * 数据TreeEntity类

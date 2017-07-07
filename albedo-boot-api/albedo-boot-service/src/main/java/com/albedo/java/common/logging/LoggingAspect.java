@@ -1,6 +1,9 @@
 package com.albedo.java.common.logging;
 
-import com.albedo.java.util.domain.Globals;
+import java.util.Arrays;
+
+import javax.annotation.Resource;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -11,8 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 
-import javax.annotation.Resource;
-import java.util.Arrays;
+import com.albedo.java.util.domain.Globals;
 
 /**
  * Aspect for logging execution of service and repository Spring components.

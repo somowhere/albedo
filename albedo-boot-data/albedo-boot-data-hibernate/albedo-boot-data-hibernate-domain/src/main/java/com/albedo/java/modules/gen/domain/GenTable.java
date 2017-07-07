@@ -1,5 +1,29 @@
 package com.albedo.java.modules.gen.domain;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.Where;
+import org.hibernate.validator.constraints.Length;
+
 import com.albedo.java.common.domain.base.DataEntity;
 import com.albedo.java.common.domain.base.IdEntity;
 import com.albedo.java.util.PublicUtil;
@@ -10,14 +34,6 @@ import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.collect.Lists;
-import org.hibernate.annotations.Cache;
-import org.hibernate.validator.constraints.Length;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
-import java.util.List;
 
 /**
  * 业务表Entity
@@ -243,65 +259,58 @@ public class GenTable extends IdEntity {
     public List<String> getImportList() {
         List<String> importList = null;
         if ("treeTable".equalsIgnoreCase(getCategory())) {
-            importList = Lists.newArrayList("org.apache.commons.lang3.builder.EqualsBuilder", "org.apache.commons.lang3.builder.HashCodeBuilder", "org.apache.commons.lang3.builder.ToStringBuilder",
-                    "org.apache.commons.lang3.builder.ToStringStyle", "javax.persistence.Entity", "javax.persistence.Table", "org.hibernate.annotations.Cache", "org.hibernate.annotations.CacheConcurrencyStrategy",
+            importList = Lists.newArrayList("org.apache.commons.lang3.builder.EqualsBuilder", "org.apache.commons.lang3.builder.HashCodeBuilder",
+                    "javax.persistence.*", "org.hibernate.annotations.Cache", "org.hibernate.annotations.CacheConcurrencyStrategy",
                     "org.hibernate.annotations.DynamicInsert", "org.hibernate.annotations.DynamicUpdate", "com.albedo.java.common.domain.base.TreeEntity"); // 引用列表
-            for (GenTableColumn column : getColumnList()) {
-                if (column.getIsNotBaseTreeField()) {
-                    addNoRepeatList(importList, "javax.persistence.Column");
-                    if (column.getIsNotBaseField() || ("1".equals(column.getIsQuery()) && "between".equals(column.getQueryType()) && (DataEntity.F_CREATEDDATE.equals(column.getSimpleJavaField()) || DataEntity.F_LASTMODIFIEDDATE.equals(column.getSimpleJavaField())))) {
-                        // 导入类型依赖包， 如果类型中包含“.”，则需要导入引用。
-                        if (StringUtil.indexOf(column.getJavaType(), ".") != -1) {
-                            addNoRepeatList(importList, column.getJavaType());
-                        }
-                    }
-//					if (column.getIsDateTimeColumn()) {
-//						addNoRepeatList(importList, "javax.persistence.Temporal", "javax.persistence.TemporalType");
-//					}
-                    if (column.getIsNotBaseField()) {
-                        // 导入JSR303、Json等依赖包
-                        for (String ann : column.getAnnotationList()) {
-                            addNoRepeatList(importList, ann.substring(0, ann.indexOf("(")));
-                        }
-                    }
-                    if (!SystemConfig.YES.equals(column.getIsPk()) && !SystemConfig.YES.equals(column.getIsNull()) && column.getJavaType().endsWith("String")) {
-                        addNoRepeatList(importList, "org.hibernate.validator.constraints.NotBlank");
-                    }
-                    if (PublicUtil.isNotEmpty(column.getDictType())) {
-                        addNoRepeatList(importList, "com.albedo.java.util.annotation.DictType");
-                    }
-                    if (column.getUnique()) {
-                        addNoRepeatList(importList, "com.albedo.java.util.annotation.SearchField");
-                    }
-                    if ("userselect".equals(column.getShowType()) || "orgselect".equals(column.getShowType()) || "areaselect".equals(column.getShowType())) {
-                        addNoRepeatList(importList, "javax.persistence.FetchType", "javax.persistence.JoinColumn", "javax.persistence.ManyToOne", "org.hibernate.annotations.NotFound", "org.hibernate.annotations.NotFoundAction");
-                    }
-                }
-            }
+            initImport(importList);
             // 如果有子表，则需要导入List相关引用
             if (getChildList() != null && getChildList().size() > 0) {
-                addNoRepeatList(importList, "javax.persistence.CascadeType", "javax.persistence.OneToMany", "java.util.List", "com.google.common.collect.Lists", "org.hibernate.annotations.FetchMode", "org.hibernate.annotations.Fetch",
+                addNoRepeatList(importList, "java.util.List", "com.google.common.collect.Lists", "org.hibernate.annotations.FetchMode", "org.hibernate.annotations.Fetch",
                         "org.hibernate.annotations.Where");
             }
             if (getParentExists()) {
-                addNoRepeatList(importList, "javax.persistence.FetchType", "javax.persistence.JoinColumn", "javax.persistence.ManyToOne", "org.hibernate.annotations.NotFound", "org.hibernate.annotations.NotFoundAction");
+                addNoRepeatList(importList, "org.hibernate.annotations.NotFound", "org.hibernate.annotations.NotFoundAction");
             }
         } else {
-            importList = Lists.newArrayList("org.apache.commons.lang3.builder.EqualsBuilder", "org.apache.commons.lang3.builder.HashCodeBuilder", "org.apache.commons.lang3.builder.ToStringBuilder",
-                    "org.apache.commons.lang3.builder.ToStringStyle", "javax.persistence.Entity", "javax.persistence.Table", "javax.persistence.PrePersist", "org.hibernate.annotations.Cache",
+            importList = Lists.newArrayList("org.apache.commons.lang3.builder.EqualsBuilder", "org.apache.commons.lang3.builder.HashCodeBuilder",
+                    "javax.persistence.*", "org.hibernate.annotations.Cache",
                     "org.hibernate.annotations.CacheConcurrencyStrategy", "org.hibernate.annotations.DynamicInsert", "org.hibernate.annotations.DynamicUpdate", "com.albedo.java.common.domain.base.DataEntity",
                     "com.albedo.java.util.annotation.SearchField"); // 引用列表
-            for (GenTableColumn column : getColumnList()) {
-                addNoRepeatList(importList, "javax.persistence.Column");
+            initImport(importList);
+            // 如果有子表，则需要导入List相关引用
+            if (getChildList() != null && getChildList().size() > 0) {
+                addNoRepeatList(importList, "java.util.List", "com.google.common.collect.Lists", "org.hibernate.annotations.FetchMode", "org.hibernate.annotations.Fetch",
+                        "org.hibernate.annotations.Where");
+            }
+            if (getPkJavaType().equals("String")) {
+                addNoRepeatList(importList, "com.albedo.java.common.domain.base.pk.IdGen");
+            }
+//            if (isCompositeId()) {
+//                addNoRepeatList(importList, "javax.persistence.EmbeddedId");
+//            } else {
+//                addNoRepeatList(importList, "javax.persistence.Id");
+//            }
+            if (getParentExists()) {
+                addNoRepeatList(importList, "org.hibernate.annotations.NotFound", "org.hibernate.annotations.NotFoundAction");
+            }
+        }
+
+        return importList;
+    }
+
+    private void initImport(List<String> importList){
+        for (GenTableColumn column : getColumnList()) {
+            if (column.getIsNotBaseTreeField()) {
+//                addNoRepeatList(importList, "javax.persistence.Column");
                 if (column.getIsNotBaseField() || ("1".equals(column.getIsQuery()) && "between".equals(column.getQueryType()) && (DataEntity.F_CREATEDDATE.equals(column.getSimpleJavaField()) || DataEntity.F_LASTMODIFIEDDATE.equals(column.getSimpleJavaField())))) {
                     // 导入类型依赖包， 如果类型中包含“.”，则需要导入引用。
                     if (StringUtil.indexOf(column.getJavaType(), ".") != -1) {
                         addNoRepeatList(importList, column.getJavaType());
                     }
                 }
-//				if (column.getIsDateTimeColumn()) {
-//					addNoRepeatList(importList, "javax.persistence.Temporal", "javax.persistence.TemporalType");
-//				}
+//					if (column.getIsDateTimeColumn()) {
+//						addNoRepeatList(importList, "javax.persistence.Temporal", "javax.persistence.TemporalType");
+//					}
                 if (column.getIsNotBaseField()) {
                     // 导入JSR303、Json等依赖包
                     for (String ann : column.getAnnotationList()) {
@@ -317,30 +326,16 @@ public class GenTable extends IdEntity {
                 if (column.getUnique()) {
                     addNoRepeatList(importList, "com.albedo.java.util.annotation.SearchField");
                 }
+                if(column.getName().indexOf("mail")!=-1)
+                    addNoRepeatList(importList, "org.hibernate.validator.constraints.Email");
                 if ("userselect".equals(column.getShowType()) || "orgselect".equals(column.getShowType()) || "areaselect".equals(column.getShowType())) {
-                    addNoRepeatList(importList, "javax.persistence.FetchType", "javax.persistence.JoinColumn", "javax.persistence.ManyToOne", "org.hibernate.annotations.NotFound", "org.hibernate.annotations.NotFoundAction");
+                    addNoRepeatList(importList, "org.hibernate.annotations.NotFound", "org.hibernate.annotations.NotFoundAction");
                 }
-            }
-            // 如果有子表，则需要导入List相关引用
-            if (getChildList() != null && getChildList().size() > 0) {
-                addNoRepeatList(importList, "javax.persistence.CascadeType", "javax.persistence.OneToMany", "java.util.List", "com.google.common.collect.Lists", "org.hibernate.annotations.FetchMode", "org.hibernate.annotations.Fetch",
-                        "org.hibernate.annotations.Where");
-            }
-            if (getPkJavaType().equals("String")) {
-                addNoRepeatList(importList, "com.albedo.java.common.domain.base.pk.IdGen");
-            }
-            if (isCompositeId()) {
-                addNoRepeatList(importList, "javax.persistence.EmbeddedId");
-            } else {
-                addNoRepeatList(importList, "javax.persistence.Id");
-            }
-            if (getParentExists()) {
-                addNoRepeatList(importList, "javax.persistence.FetchType", "javax.persistence.JoinColumn", "javax.persistence.ManyToOne", "org.hibernate.annotations.NotFound", "org.hibernate.annotations.NotFoundAction");
             }
         }
 
-        return importList;
     }
+
 
     private void addNoRepeatList(List<String> list, String... val) {
         if (PublicUtil.isNotEmpty(list)) {

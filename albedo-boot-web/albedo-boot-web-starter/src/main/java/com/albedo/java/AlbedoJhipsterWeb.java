@@ -1,9 +1,13 @@
 package com.albedo.java;
 
-import com.albedo.java.common.config.AlbedoProperties;
-import com.albedo.java.util.domain.Globals;
-import com.albedo.java.util.spring.DefaultProfileUtil;
-import com.albedo.java.util.spring.SpringContextHolder;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.Collection;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -15,12 +19,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.Collection;
+import com.albedo.java.common.config.AlbedoProperties;
+import com.albedo.java.util.domain.Globals;
+import com.albedo.java.util.spring.DefaultProfileUtil;
+import com.albedo.java.util.spring.SpringContextHolder;
 
 @ComponentScan
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})

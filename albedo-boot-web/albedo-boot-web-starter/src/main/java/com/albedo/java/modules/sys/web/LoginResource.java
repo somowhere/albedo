@@ -1,13 +1,10 @@
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.security.SecurityUtil;
-import com.albedo.java.modules.sys.domain.User;
-import com.albedo.java.util.CacheUtil;
-import com.albedo.java.util.PublicUtil;
-import com.albedo.java.util.config.SystemConfig;
-import com.albedo.java.util.domain.Globals;
-import com.albedo.java.web.rest.base.BaseResource;
-import com.google.common.collect.Maps;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -16,9 +13,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
+import com.albedo.java.common.security.SecurityUtil;
+import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.util.CacheUtil;
+import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.config.SystemConfig;
+import com.albedo.java.util.domain.Globals;
+import com.albedo.java.web.rest.base.BaseResource;
+import com.google.common.collect.Maps;
 
 /**
  * REST controller for managing the current user's account.

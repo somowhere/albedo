@@ -3,8 +3,13 @@
  */
 package com.albedo.java.modules.sys.domain;
 
-import com.albedo.java.util.annotation.DictType;
-import com.albedo.java.util.annotation.SearchField;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -16,7 +21,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.NotNull;
+import com.albedo.java.util.annotation.DictType;
+import com.albedo.java.util.annotation.SearchField;
 
 /**
  * 操作日志Entity 操作日志

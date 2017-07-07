@@ -1,5 +1,22 @@
 package com.albedo.java.modules.sys.web;
 
+import java.net.URISyntaxException;
+
+import javax.annotation.Resource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.albedo.java.common.config.template.tag.FormDirective;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Role;
@@ -18,19 +35,9 @@ import com.albedo.java.web.rest.base.DataResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.Lists;
+
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
-import java.net.URISyntaxException;
 
 /**
  * REST controller for managing user.
@@ -99,7 +106,7 @@ public class UserResource extends DataResource<UserService, User> {
      */
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public ResponseEntity getPage(PageModel pm) {
-        pm = userService.findPage(pm, SecurityUtil.dataScopeFilterSql("d", "a"));
+        pm = userService.findPage(pm, SecurityUtil.dataScopeFilter());
         JSON rs = JsonUtil.getInstance().setFreeFilters("roleIdList").setRecurrenceStr("org_name").toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
     }

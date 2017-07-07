@@ -1,18 +1,12 @@
 package com.albedo.java.common.security;
 
-import com.albedo.java.common.config.AlbedoProperties;
-import com.albedo.java.modules.sys.domain.*;
-import com.albedo.java.modules.sys.repository.UserRepository;
-import com.albedo.java.modules.sys.service.AreaService;
-import com.albedo.java.modules.sys.service.ModuleService;
-import com.albedo.java.modules.sys.service.OrgService;
-import com.albedo.java.modules.sys.service.RoleService;
-import com.albedo.java.util.*;
-import com.albedo.java.util.domain.Globals;
-import com.albedo.java.util.domain.QueryCondition;
-import com.albedo.java.util.spring.SpringContextHolder;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -23,8 +17,27 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.security.MessageDigest;
-import java.util.*;
+import com.albedo.java.common.config.AlbedoProperties;
+import com.albedo.java.modules.sys.domain.Area;
+import com.albedo.java.modules.sys.domain.Module;
+import com.albedo.java.modules.sys.domain.Org;
+import com.albedo.java.modules.sys.domain.Role;
+import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.modules.sys.repository.UserRepository;
+import com.albedo.java.modules.sys.service.AreaService;
+import com.albedo.java.modules.sys.service.ModuleService;
+import com.albedo.java.modules.sys.service.OrgService;
+import com.albedo.java.modules.sys.service.RoleService;
+import com.albedo.java.util.CacheUtil;
+import com.albedo.java.util.JedisUtil;
+import com.albedo.java.util.Json;
+import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.StringUtil;
+import com.albedo.java.util.domain.Globals;
+import com.albedo.java.util.domain.QueryCondition;
+import com.albedo.java.util.spring.SpringContextHolder;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /**
  * Utility class for Spring Security.

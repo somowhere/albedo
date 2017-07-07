@@ -1,11 +1,12 @@
 package com.albedo.java.common.listener;
 
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
+
 import com.albedo.java.common.config.template.FreeMarkerConfig;
 import com.albedo.java.common.security.service.InvocationSecurityMetadataSourceService;
 import com.albedo.java.modules.sys.service.impl.TaskScheduleJobExcutorService;
 import com.albedo.java.util.spring.SpringContextHolder;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
 
 /**
  * Created by lijie on 2017/5/17.

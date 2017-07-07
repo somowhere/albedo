@@ -32,7 +32,7 @@ public class RoleService extends DataService<RoleRepository, Role, String> {
 
         SpecificationDetail<Role> spd = new SpecificationDetail<Role>()
                 .and(QueryCondition.eq(Role.F_STATUS, Role.FLAG_NORMAL));
-        if (admin) {
+        if (!admin) {
             spd.orAll(authQueryList);
         }
         spd.orderASC(Role.F_SORT);

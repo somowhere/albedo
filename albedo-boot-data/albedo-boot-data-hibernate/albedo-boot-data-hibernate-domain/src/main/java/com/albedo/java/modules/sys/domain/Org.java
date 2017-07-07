@@ -1,16 +1,30 @@
 package com.albedo.java.modules.sys.domain;
 
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.Where;
+
 import com.albedo.java.common.domain.base.TreeEntity;
 import com.albedo.java.util.annotation.DictType;
 import com.alibaba.fastjson.annotation.JSONField;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.ToString;
-import org.hibernate.annotations.Cache;
-
-import javax.persistence.Entity;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
-import java.util.Set;
 
 /**
  * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午4:30:34

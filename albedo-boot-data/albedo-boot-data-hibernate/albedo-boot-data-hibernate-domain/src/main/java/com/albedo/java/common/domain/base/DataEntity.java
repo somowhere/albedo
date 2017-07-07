@@ -1,19 +1,32 @@
 package com.albedo.java.common.domain.base;
 
-import com.albedo.java.modules.sys.domain.User;
-import com.albedo.java.util.PublicUtil;
-import com.albedo.java.util.annotation.JsonField;
-import com.alibaba.fastjson.annotation.JSONField;
-import io.swagger.annotations.ApiModelProperty;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
+import javax.xml.bind.annotation.XmlTransient;
+
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.xml.bind.annotation.XmlTransient;
-import java.util.Date;
+import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.annotation.JsonField;
+import com.alibaba.fastjson.annotation.JSONField;
+
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Base abstract class for entities which will hold definitions for created, last modified by and created,

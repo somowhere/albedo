@@ -1,13 +1,13 @@
 package com.albedo.java.common.domain.base;
 
-import com.albedo.java.common.domain.base.pk.IdGen;
-import com.albedo.java.util.annotation.SearchField;
-import com.alibaba.fastjson.annotation.JSONField;
-
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
+
+import com.albedo.java.common.domain.base.pk.IdGen;
+import com.albedo.java.util.annotation.SearchField;
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * 数据TreeEntity类

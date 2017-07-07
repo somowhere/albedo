@@ -1,13 +1,17 @@
 package com.albedo.java.common.config;
 
-import com.albedo.java.common.listener.ContextInitListener;
-import com.albedo.java.util.PublicUtil;
-import com.albedo.java.util.domain.Globals;
-import com.albedo.java.web.filter.CachingHttpHeadersFilter;
-import com.albedo.java.web.interceptor.OperateInterceptor;
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.servlet.InstrumentedFilter;
-import com.codahale.metrics.servlets.MetricsServlet;
+import java.io.File;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.EnumSet;
+
+import javax.annotation.Resource;
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +31,14 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import javax.annotation.Resource;
-import javax.servlet.*;
-import java.io.File;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.EnumSet;
+import com.albedo.java.common.listener.ContextInitListener;
+import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.domain.Globals;
+import com.albedo.java.web.filter.CachingHttpHeadersFilter;
+import com.albedo.java.web.interceptor.OperateInterceptor;
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.servlet.InstrumentedFilter;
+import com.codahale.metrics.servlets.MetricsServlet;
 
 /**
  * Configuration of web application with Servlet 3.0 APIs.

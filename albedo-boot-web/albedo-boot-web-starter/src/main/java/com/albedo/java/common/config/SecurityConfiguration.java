@@ -1,15 +1,7 @@
 package com.albedo.java.common.config;
 
-import com.albedo.java.common.security.AuthoritiesConstants;
-import com.albedo.java.common.security.CustomizeAccessDecisionManager;
-import com.albedo.java.common.security.Http401UnauthorizedEntryPoint;
-import com.albedo.java.common.security.handler.AjaxAuthenticationFailureHandler;
-import com.albedo.java.common.security.handler.AjaxAuthenticationSuccessHandler;
-import com.albedo.java.common.security.handler.AjaxLogoutSuccessHandler;
-import com.albedo.java.common.security.handler.CustomAccessDeniedHandler;
-import com.albedo.java.common.security.service.InvocationSecurityMetadataSourceService;
-import com.albedo.java.util.PublicUtil;
-import com.albedo.java.web.filter.CsrfCookieGeneratorFilter;
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +22,16 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.csrf.CsrfFilter;
 
-import javax.annotation.Resource;
+import com.albedo.java.common.security.AuthoritiesConstants;
+import com.albedo.java.common.security.CustomizeAccessDecisionManager;
+import com.albedo.java.common.security.Http401UnauthorizedEntryPoint;
+import com.albedo.java.common.security.handler.AjaxAuthenticationFailureHandler;
+import com.albedo.java.common.security.handler.AjaxAuthenticationSuccessHandler;
+import com.albedo.java.common.security.handler.AjaxLogoutSuccessHandler;
+import com.albedo.java.common.security.handler.CustomAccessDeniedHandler;
+import com.albedo.java.common.security.service.InvocationSecurityMetadataSourceService;
+import com.albedo.java.util.PublicUtil;
+import com.albedo.java.web.filter.CsrfCookieGeneratorFilter;
 
 
 @Configuration

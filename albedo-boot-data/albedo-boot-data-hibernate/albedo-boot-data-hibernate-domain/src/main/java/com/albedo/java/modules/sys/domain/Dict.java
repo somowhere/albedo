@@ -1,20 +1,21 @@
 package com.albedo.java.modules.sys.domain;
 
-import com.albedo.java.common.domain.base.TreeEntity;
-import com.albedo.java.util.PublicUtil;
-import com.albedo.java.util.annotation.DictType;
-import com.albedo.java.util.annotation.SearchField;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAttribute;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
+import com.albedo.java.common.domain.base.TreeEntity;
+import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.annotation.DictType;
+import com.albedo.java.util.annotation.SearchField;
 
 /**
  * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23

@@ -1,5 +1,23 @@
 package com.albedo.java.modules.gen.domain;
 
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.validator.constraints.Length;
+
 import com.albedo.java.common.domain.base.IdEntity;
 import com.albedo.java.common.domain.base.TreeEntity;
 import com.albedo.java.modules.gen.util.GenUtil;
@@ -7,12 +25,6 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.config.SystemConfig;
 import com.google.common.collect.Lists;
-import org.hibernate.annotations.Cache;
-import org.hibernate.validator.constraints.Length;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.util.List;
 
 /**
  * 业务表字段Entity

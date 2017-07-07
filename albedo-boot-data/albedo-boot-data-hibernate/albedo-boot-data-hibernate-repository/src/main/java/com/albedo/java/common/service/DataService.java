@@ -81,11 +81,11 @@ public class DataService<Repository extends DataRepository<T, PK>, T extends Dat
         return findPage(pm, null);
     }
 
-    public PageModel<T> findPage(PageModel<T> pm, List<QueryCondition> queryConditions) {
+    public PageModel<T> findPage(PageModel<T> pm, List<QueryCondition> orQueryConditions) {
         SpecificationDetail<T> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
                 QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
-        if (PublicUtil.isNotEmpty(queryConditions)) {
-            spec.andAll(queryConditions);
+        if (PublicUtil.isNotEmpty(orQueryConditions)) {
+            spec.orAll(orQueryConditions);
         }
         pm.setPageInstance(repository.findAll(spec, pm));
         return pm;

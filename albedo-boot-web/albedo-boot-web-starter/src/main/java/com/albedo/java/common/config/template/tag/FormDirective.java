@@ -1,5 +1,14 @@
 package com.albedo.java.common.config.template.tag;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 import com.albedo.java.common.data.persistence.repository.JpaCustomeRepository;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.util.DictUtil;
@@ -10,19 +19,12 @@ import com.albedo.java.util.domain.Combo;
 import com.albedo.java.util.domain.ComboData;
 import com.albedo.java.util.spring.SpringContextHolder;
 import com.google.common.collect.Lists;
+
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.io.Writer;
-import java.util.List;
-import java.util.Map;
 
 @SuppressWarnings("unchecked")
 @Component

@@ -1,8 +1,16 @@
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.security.SecurityUtil;
-import com.albedo.java.web.rest.ResultBuilder;
-import com.albedo.java.web.rest.base.BaseResource;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.UUID;
+
+import javax.activation.MimetypesFileTypeMap;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -15,15 +23,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.activation.MimetypesFileTypeMap;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
+import com.albedo.java.common.security.SecurityUtil;
+import com.albedo.java.web.rest.ResultBuilder;
+import com.albedo.java.web.rest.base.BaseResource;
 
 @Controller
 @RequestMapping(value = "${albedo.adminPath}/file")
