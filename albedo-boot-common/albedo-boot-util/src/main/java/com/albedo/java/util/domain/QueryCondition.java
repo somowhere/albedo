@@ -15,6 +15,7 @@ import org.springframework.data.mybatis.repository.dialect.Dialect;
 import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 
 @Slf4j
 @Data
@@ -72,6 +73,20 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
      */
     private Integer weight = Integer.valueOf(0x186a0);
 
+    /**
+     * 是否解析动态条件查询前缀（一般自定义sql查询时建议设置为false,动态则设置为true）
+     */
+    @JSONField(serialize = false)
+    private boolean analytiColumn = true;
+
+    /**
+     * 解析动态条件查询前缀
+     */
+    @JSONField(serialize = false)
+    private String analytiColumnPrefix;
+    @JSONField(serialize = false)
+    private String fieldRealColumnName;
+
     public QueryCondition() {
     }
 
@@ -115,6 +130,15 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
      */
     public static QueryCondition ne(String property, Object value) {
         return new QueryCondition(property, QueryCondition.Operator.ne, value);
+    }
+
+    public QueryCondition setAnalytiColumn(boolean flag) {
+        this.analytiColumn=flag;
+        return this;
+    }
+    public QueryCondition setAnalytiColumnPrefix(String analytiPrefix) {
+        this.analytiColumnPrefix=analytiPrefix;
+        return this;
     }
 
     /**
@@ -223,33 +247,47 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
     }
 
     @JSONField(serialize = false)
-    public String getFieldRealColumnName(String quota) {
-        String fieldNameReal = new String(fieldName);
-        try {
-            if (persistentClass != null && PublicUtil.isNotEmpty(getFieldName())) {
-                Entity entity = Reflections.getAnnotation(persistentClass, Entity.class);
-                if (PublicUtil.isEmpty(quota)) {
-                    quota = null != entity && StringUtils.hasText(entity.name()) ? entity.name() :
-                            StringUtils.uncapitalize(persistentClass.getSimpleName());
-                }
-                String columnName = null;
-                int indexQuote = fieldName.indexOf(".");
-                if (indexQuote != -1) {
-                    JoinColumn column = Reflections.getAnnotationByClazz(persistentClass, fieldName.substring(0, indexQuote), JoinColumn.class);
-                    if (column != null) columnName = column.name();
-                } else {
-                    Column column = Reflections.getAnnotationByClazz(persistentClass, fieldName, Column.class);
-                    if (column != null) columnName = column.name();
-                }
-                if (PublicUtil.isNotEmpty(columnName)) {
-                    Dialect dialect = SpringContextHolder.getBean(Dialect.class);
-                    fieldNameReal = dialect.openQuote() + quota + dialect.closeQuote() + '.' + columnName;
+    public String getFieldRealColumnName() {
+        if(fieldRealColumnName==null){
+            String columnName = null, fieldPropery = fieldName;
+            Class<?> targetPersistentClass=persistentClass;
+            if(analytiColumn){
+                try {
+                    if (persistentClass != null && PublicUtil.isNotEmpty(getFieldName())) {
+                        String quota = analytiColumnPrefix;
+                        int indexQuote = fieldPropery.indexOf(".");
+                        if (PublicUtil.isEmpty(quota)) {
+                            Entity entity = Reflections.getAnnotation(targetPersistentClass, Entity.class);
+                            quota = null != entity && StringUtils.hasText(entity.name()) ? entity.name() :
+                                            StringUtils.uncapitalize(targetPersistentClass.getSimpleName());
+                            if(indexQuote != -1){
+                                quota+="."+fieldPropery.substring(0, fieldPropery.lastIndexOf("."));
+                            }
+                        }
+                        if (indexQuote != -1) {
+                            String[] properties = fieldPropery.split("\\.");
+                            int size = properties.length;
+                            for(int i =0;i<size-1;i++){
+                                Field field = Reflections.getAccessibleField(targetPersistentClass, properties[i]);
+                                targetPersistentClass = field.getType();
+                            }
+                            fieldPropery = properties[size-1];
+                        }
+                        Column column = Reflections.getAnnotationByClazz(targetPersistentClass, fieldPropery, Column.class);
+                        if (column != null) columnName = column.name();
+
+                        if (PublicUtil.isNotEmpty(columnName)) {
+                            Dialect dialect = SpringContextHolder.getBean(Dialect.class);
+                            fieldRealColumnName = dialect.openQuote() + quota + dialect.closeQuote() + '.' + columnName;
+                        }
+                    }
+                } catch (Exception e) {
+                    log.warn(e.getMessage());
                 }
             }
-        } catch (Exception e) {
-            log.warn(e.getMessage());
+
         }
-        return fieldNameReal;
+        return fieldRealColumnName;
     }
 
     public Operator getOperate() {

@@ -160,11 +160,13 @@ public class UserService extends DataService<UserRepository, User, String> {
     }
 
     @Transactional(readOnly = true)
-    public PageModel<User> findPage(PageModel<User> pm, List<QueryCondition> queryConditions) {
+    public PageModel<User> findPage(PageModel<User> pm, List<QueryCondition> authQueryConditions) {
         //拼接查询动态对象
         SpecificationDetail<User> spec = DynamicSpecifications.
-                buildSpecification(pm.getQueryConditionJson(), queryConditions,
-                        QueryCondition.ne("a.status_", User.FLAG_DELETE), QueryCondition.ne("a.id_", "1"));
+                buildSpecification(pm.getQueryConditionJson(),
+                        QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE).setAnalytiColumnPrefix("a"),
+                        QueryCondition.ne("a.id_", "1").setAnalytiColumn(false));
+        spec.orAll(authQueryConditions);
         //动态生成sql分页查询
 //        Page<User> page = repository.findAll(spec, pm);
 //        pm.setPageInstance(page);

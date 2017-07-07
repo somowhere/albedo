@@ -233,6 +233,9 @@
     </select>
 
     <select id="countPage" resultType="long" lang="XML">select count(*) from sys_user_t a
+        LEFT OUTER JOIN sys_user_t b ON a.created_by = b.id_
+        LEFT OUTER JOIN sys_user_t c ON a.last_modified_by = c.id_
+        LEFT OUTER JOIN sys_org_t d ON a.org_id = d.id_
         <if test="_condition != null">
             <trim prefix=" where " prefixOverrides="and |or ">
                 ${_sqlConditionDsf}

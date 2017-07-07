@@ -101,8 +101,18 @@ public final class SecurityUtil {
      */
     public static User getByUserId(String userId) {
         User user = CacheUtil.getJson(USER_CACHE, USER_CACHE_ID_ + userId, User.class);
-        if (user == null || PublicUtil.isEmpty(user.getRoles()) || user.getRoles().size() != user.getRoleIdList().size()) {
+        boolean isSearch=false;
+        if(user!=null && PublicUtil.isNotEmpty(user.getRoles()))
+            for (Role role : user.getRoles()) {
+                if(PublicUtil.isEmpty(role.getName())){
+                    isSearch=true;
+                    break;
+                }
+            }
+        if (user == null || isSearch || PublicUtil.isEmpty(user.getRoles()) ||
+                user.getRoles().size() != user.getRoleIdList().size()) {
             user = userRepository.findOne(userId);
+
             if (user == null)
                 throw new UsernameNotFoundException("User " + userId + " was not found in the database");
             String json = Json.toJsonString(user);
@@ -255,7 +265,7 @@ public final class SecurityUtil {
 
     public static <T> List<T> getCacheJsonArray(String key, Class<T> clazz) {
         try {
-            String value = PublicUtil.toStrString(getCacheDefult(key, null, null));
+            String value = PublicUtil.toStrString(getCacheDefult(key, null, getCurrentUserId()));
             return Json.parseArray(value, clazz);
         } catch (Exception e) {
             e.printStackTrace();
@@ -397,16 +407,33 @@ public final class SecurityUtil {
 
         return false;
     }
-
+    /**
+     * 当前用户 数据范围过滤 机构表别名 org 用户表别名 creator
+     *
+     * @return 标准连接条件对象
+     */
+    public static List<QueryCondition> dataScopeFilterSql(String orgAlias, String userAlias) {
+        return dataScopeFilter(getCurrentUserId(), orgAlias, userAlias, true);
+    }
+    /**
+     * 数据范围过滤
+     *
+     * @param userId    当前用户对象，通过“entity.getCurrentUser()”获取
+     * @param orgAlias  机构表别名，多个用“,”逗号隔开。
+     * @param userAlias 用户表别名，多个用“,”逗号隔开，传递空，忽略此参数
+     * @return 标准连接条件对象
+     */
+    public static List<QueryCondition> dataScopeFilterSql(String userId, String orgAlias, String userAlias) {
+        return dataScopeFilter(userId,orgAlias,userAlias,true);
+    }
     /**
      * 当前用户 数据范围过滤 机构表别名 org 用户表别名 creator
      *
      * @return 标准连接条件对象
      */
     public static List<QueryCondition> dataScopeFilter() {
-        return dataScopeFilter(getCurrentUserId(), "creator.org", "creator");
+        return dataScopeFilter(getCurrentUserId(), "creator.org", "creator", false);
     }
-
     /**
      * 数据范围过滤
      *
@@ -416,6 +443,21 @@ public final class SecurityUtil {
      * @return 标准连接条件对象
      */
     public static List<QueryCondition> dataScopeFilter(String userId, String orgAlias, String userAlias) {
+        return dataScopeFilter(userId,orgAlias,userAlias,false);
+    }
+
+    /**
+     *
+     * 数据范围过滤
+     *
+     * @return
+     * @param userId 当前用户对象，通过“entity.getCurrentUser()”获取
+     * @param orgAlias 机构表别名，多个用“,”逗号隔开。
+     * @param userAlias 用户表别名，多个用“,”逗号隔开，传递空，忽略此参数
+     * @param isSql
+     * @return 标准连接条件对象
+     */
+    public static List<QueryCondition> dataScopeFilter(String userId, String orgAlias, String userAlias, boolean isSql) {
         // 进行权限过滤，多个角色权限范围之间为或者关系。
         List<String> dataScope = Lists.newArrayList();
         List<QueryCondition> queryConditions = Lists.newArrayList();
@@ -423,22 +465,22 @@ public final class SecurityUtil {
         if (!SecurityUtil.isAdmin(userId)) {
             User user = getByUserId(userId);
             boolean isDataScopeAll = false;
-            String tempOrgId = null, userOrgId = null;
+            String tempOrgId, userOrgId = null, idSql = isSql ? ".id_" : ".id";
             for (Role r : user.getRoles()) {
                 if (user.getOrg() != null) userOrgId = user.getOrg().getId();
                 for (String oa : StringUtil.splitDefault(orgAlias)) {
                     if (!dataScope.contains(r.getDataScope()) && StringUtil.isNotBlank(oa)) {
-                        tempOrgId = PublicUtil.toAppendStr(oa, ".id");
+                        tempOrgId = PublicUtil.toAppendStr(oa, idSql);
                         if (Role.DATA_SCOPE_ALL.equals(r.getDataScope())) {
                             isDataScopeAll = true;
                         } else if (Role.DATA_SCOPE_ORG_AND_CHILD.equals(r.getDataScope())) {
                             queryConditions.add(QueryCondition.eq(tempOrgId, userOrgId));
-                            queryConditions.add(QueryCondition.like(PublicUtil.toAppendStr(oa, ".parentIds"),
+                            queryConditions.add(QueryCondition.like(PublicUtil.toAppendStr(oa, isSql ? ".parent_ids" : ".parentIds"),
                                     PublicUtil.toAppendStr(user.getOrg().getParentIds(), userOrgId, ",%'")));
                         } else if (Role.DATA_SCOPE_ORG.equals(r.getDataScope())) {
                             queryConditions.add(QueryCondition.eq(tempOrgId, userOrgId));
                             queryConditions
-                                    .add(QueryCondition.eq(PublicUtil.toAppendStr(oa, ".parentId"), userOrgId));
+                                    .add(QueryCondition.eq(PublicUtil.toAppendStr(oa, isSql ? ".parent_id" : ".parentId"), userOrgId));
                         } else if (Role.DATA_SCOPE_SELF.equals(r.getDataScope())
                                 || Role.DATA_SCOPE_CUSTOM.equals(r.getDataScope())) {
                             if (PublicUtil.isNotEmpty(r.getOrgIds())) {
@@ -454,11 +496,11 @@ public final class SecurityUtil {
             if (!isDataScopeAll) {
                 if (StringUtil.isNotBlank(userAlias)) {
                     for (String ua : StringUtil.splitDefault(userAlias)) {
-                        queryConditions.add(QueryCondition.eq(PublicUtil.toAppendStr(ua, ".id"), user.getId()));
+                        queryConditions.add(QueryCondition.eq(PublicUtil.toAppendStr(ua, idSql), user.getId()));
                     }
                 } else {
                     for (String oa : StringUtil.splitDefault(orgAlias)) {
-                        queryConditions.add(QueryCondition.isNull(PublicUtil.toAppendStr(oa, ".id")));
+                        queryConditions.add(QueryCondition.isNull(PublicUtil.toAppendStr(oa, idSql)));
                     }
                 }
             } else {
@@ -466,6 +508,7 @@ public final class SecurityUtil {
                 queryConditions.clear();
             }
         }
+        if(isSql)queryConditions.forEach(item ->item.setAnalytiColumn(false));
         return queryConditions;
     }
 

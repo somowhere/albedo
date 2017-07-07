@@ -22,16 +22,16 @@
                 <form class="form-inline form-search" role="form">
                     <div class="form-group">
                         <label class="input-label" for="loginId">登录Id </label>
-                        <input type="text" class="form-control" searchItem="searchItem" id="loginId" name="a.login_id"
+                        <input type="text" class="form-control" searchItem="searchItem" id="loginId" name="loginId" analytiColumnPrefix="a"
                                placeholder="..."></div>
                     <div class="form-group">
                         <label class="input-label" for="email">邮箱</label>
-                        <input type="text" class="form-control" searchItem="searchItem" id="email" name="a.email_"
+                        <input type="text" class="form-control" searchItem="searchItem" id="email" name="email" analytiColumnPrefix="a"
                                placeholder="...">
                     </div>
                     <div class="form-group">
                         <label class="input-label">状态</label>
-                    <@albedo.form name="a.status_" searchItem="searchItem" dictCode="sys_status" boxType="checkbox" operate="in" attrType="Integer"> </@albedo.form>
+                    <@albedo.form name="a.status_" analytiColumn="false" searchItem="searchItem" dictCode="sys_status" boxType="checkbox" operate="in" attrType="Integer"> </@albedo.form>
                     </div>
                     <div class="form-group form-btn">
                         <button class="btn btn-sm green btn-outline filter-submit-table-user margin-bottom"

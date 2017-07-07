@@ -206,9 +206,15 @@ public class Reflections {
      * 循环向上转型, 获取对象的DeclaredField, 并强制设置为可访问. 如向上转型到Object仍无法找到, 返回null.
      */
     public static Field getAccessibleField(final Object obj, final String fieldName) {
-        Validate.notNull(obj, "object can't be null");
+        return getAccessibleField(obj.getClass(), fieldName);
+    }
+    /**
+     * 循环向上转型, 获取对象的DeclaredField, 并强制设置为可访问. 如向上转型到Object仍无法找到, 返回null.
+     */
+    public static Field getAccessibleField(final Class<?> cls, final String fieldName) {
+        Validate.notNull(cls, "cls can't be null");
         Validate.notBlank(fieldName, "fieldName can't be blank");
-        for (Class<?> superClass = obj.getClass(); superClass != Object.class; superClass = superClass
+        for (Class<?> superClass = cls; superClass != Object.class; superClass = superClass
                 .getSuperclass()) {
             try {
                 Field field = superClass.getDeclaredField(fieldName);

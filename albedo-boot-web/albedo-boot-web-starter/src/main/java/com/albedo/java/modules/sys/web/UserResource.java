@@ -99,7 +99,7 @@ public class UserResource extends DataResource<UserService, User> {
      */
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public ResponseEntity getPage(PageModel pm) {
-        pm = userService.findPage(pm, SecurityUtil.dataScopeFilter());
+        pm = userService.findPage(pm, SecurityUtil.dataScopeFilterSql("d", "a"));
         JSON rs = JsonUtil.getInstance().setFreeFilters("roleIdList").setRecurrenceStr("org_name").toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
     }

@@ -27,10 +27,11 @@ public class RoleService extends DataService<RoleRepository, Role, String> {
     OrgRepository orgRepository;
 
     @Transactional(readOnly = true)
-    public PageModel<Role> findPage(PageModel<Role> pm, List<QueryCondition> queryConditions) {
+    public PageModel<Role> findPage(PageModel<Role> pm, List<QueryCondition> authQueryConditions) {
         SpecificationDetail<Role> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
-                queryConditions, persistentClass,
+                 persistentClass,
                 QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
+        spec.orAll(authQueryConditions);
 //		specificationDetail.setPersistentClass();
 //        findBasePage(pm, spec, true);
 //        pm.getData().forEach(item -> item.setOrg(orgRepository.findBasicOne(item.getOrgId())));
@@ -41,7 +42,7 @@ public class RoleService extends DataService<RoleRepository, Role, String> {
     public List<Role> findAllList(boolean admin, List<QueryCondition> authQueryList) {
         SpecificationDetail<Role> spd = new SpecificationDetail<Role>()
                 .and(QueryCondition.eq(Role.F_STATUS, Role.FLAG_NORMAL));
-        if (admin) {
+        if (!admin) {
             spd.orAll(authQueryList);
         }
         spd.orderASC(Role.F_SORT);

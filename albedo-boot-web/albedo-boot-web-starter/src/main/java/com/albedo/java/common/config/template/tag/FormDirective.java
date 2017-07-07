@@ -94,6 +94,8 @@ public class FormDirective implements TemplateDirectiveModel {
         String name = PublicUtil.toStrString(params.get("name")),
                 searchItem = PublicUtil.toStrString(params.get("searchItem")),
                 operate = PublicUtil.toStrString(params.get("operate")),
+                analytiColumn = PublicUtil.toStrString(params.get("analytiColumn")),
+                analytiColumnPrefix = PublicUtil.toStrString(params.get("analytiColumnPrefix")),
                 itemLabel = PublicUtil.toStrString(params.get("itemLabel")),
                 itemValue = PublicUtil.toStrString(params.get("itemValue")),
                 attrType = PublicUtil.toStrString(params.get("attrType")),
@@ -105,7 +107,9 @@ public class FormDirective implements TemplateDirectiveModel {
         if (FormDirective.BOX_TYPE_SELECT.equals(boxType)) {
             sb.append("<select id=\"").append(id).append("\" name=\"").append(name).append("\" searchItem=\"")
                     .append(searchItem).append("\" attrType=\"").append(attrType).append("\" operate=\"")
-                    .append(operate).append("\" class=\"form-control select2 ").append(cssClass).append("\">");
+                    .append(operate).append("\" \" analytiColumn=\"")
+                    .append(analytiColumn).append("\" \" analytiColumnPrefix=\"")
+                    .append(analytiColumnPrefix).append("\" class=\"form-control select2 ").append(cssClass).append("\">");
 
             if (!cssClass.contains("required")) {
                 sb.append("<option value=\"\">请选择...</option>");
@@ -130,7 +134,9 @@ public class FormDirective implements TemplateDirectiveModel {
                     sb.append("<label class=\"").append(boxType).append("-inline\"><input id=\"")
                             .append(PublicUtil.isEmpty(id) ? name : id).append(i + 1).append("\" name=\"").append(name)
                             .append("\" searchItem=\"").append(searchItem).append("\" attrType=\"").append(attrType)
-                            .append("\" operate=\"").append(operate).append("\" itemLabel=\"").append(itemLabel)
+                            .append("\" operate=\"").append(operate)
+                            .append("\" analytiColumn=\"").append(analytiColumn)
+                            .append("\" analytiColumnPrefix=\"").append(analytiColumnPrefix).append("\" itemLabel=\"").append(itemLabel)
                             .append("\" itemValue=\"").append(itemValue).append("\" type=\"")
                             .append(FormDirective.BOX_TYPE_RADIO.equals(boxType) ? FormDirective.BOX_TYPE_RADIO
                                     : FormDirective.BOX_TYPE_CHECKBOX)

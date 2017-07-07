@@ -28,9 +28,11 @@ public class DynamicSpecifications {
     }
 
     public static <T> SpecificationDetail<T> buildSpecification(String queryConditionJson, QueryCondition... conditions) {
-        return buildSpecification(queryConditionJson, null, conditions);
+        return buildSpecification(queryConditionJson, null, null, conditions);
     }
-
+    public static <T> SpecificationDetail<T> buildSpecification(String queryConditionJson, Class<T> persistentClass, QueryCondition... conditions) {
+        return buildSpecification(queryConditionJson, null, persistentClass, conditions);
+    }
     public static <T> SpecificationDetail<T> buildSpecification(String queryConditionJson,
                                                                 List<QueryCondition> list,
                                                                 Class<T> persistentClass,

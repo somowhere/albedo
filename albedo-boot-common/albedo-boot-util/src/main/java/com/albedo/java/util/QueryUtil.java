@@ -70,21 +70,20 @@ public class QueryUtil {
      * @param orQueryConditionList  或者查询条件
      * @param argList               前缀
      * @param paramMap              参数map
-     * @param analytiColumn         （一般自定义sql查询时建议设置为false,动态则设置为true）
      * @param isMybatis             是否为mybaits
      * @return
      */
     public static String convertQueryConditionToStr(List<QueryCondition> andQueryConditionList, List<QueryCondition> orQueryConditionList, List<String> argList,
-                                                    Map<String, Object> paramMap, boolean analytiColumn, boolean isMybatis) {
+                                                    Map<String, Object> paramMap, boolean isMybatis) {
 
-        return PublicUtil.toAppendStr(convertQueryConditionToStr(andQueryConditionList, argList, paramMap, analytiColumn, isMybatis, true),
-                convertQueryConditionToStr(orQueryConditionList, argList, paramMap, analytiColumn, isMybatis, false));
+        return PublicUtil.toAppendStr(convertQueryConditionToStr(andQueryConditionList, argList, paramMap, isMybatis, true),
+                convertQueryConditionToStr(orQueryConditionList, argList, paramMap, isMybatis, false));
     }
 
 
     public static String convertQueryConditionToStr(List<QueryCondition> queryConditionList, List<String> argList,
                                                     Map<String, Object> paramMap) {
-        return convertQueryConditionToStr(queryConditionList, argList, paramMap, false, false, true);
+        return convertQueryConditionToStr(queryConditionList, argList, paramMap, false, true);
     }
 
     /**
@@ -95,7 +94,7 @@ public class QueryUtil {
      * @return
      */
     public static String convertQueryConditionToStr(List<QueryCondition> queryConditionList, List<String> argList,
-                                                    Map<String, Object> paramMap, boolean analytiColumn, boolean mybatis, boolean isAnd) {
+                                                    Map<String, Object> paramMap, boolean mybatis, boolean isAnd) {
         StringBuffer sb = new StringBuffer();
         if (PublicUtil.isNotEmpty(queryConditionList)) {
             if (paramMap == null)
@@ -126,7 +125,7 @@ public class QueryUtil {
                     if (PublicUtil.isEmpty(operate))
                         queryCondition.setOperate(Operator.eq.getOperator());
                     sb.append(" ").append(isAnd ? SystemConfig.CONDITION_AND : SystemConfig.CONDITION_OR)
-                            .append(SystemConfig.SPACE).append(analytiColumn ? queryCondition.getFieldRealColumnName(null)
+                            .append(SystemConfig.SPACE).append(queryCondition.isAnalytiColumn() ? queryCondition.getFieldRealColumnName()
                             : argStr + queryCondition.getFieldName()).append(" ")
                             .append(operate);
                     if (!Operator.isNotNull.equals(queryCondition.getOperate())

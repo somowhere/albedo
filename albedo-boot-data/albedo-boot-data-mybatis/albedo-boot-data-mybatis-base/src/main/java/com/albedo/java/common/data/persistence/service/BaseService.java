@@ -64,7 +64,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
             List<QueryCondition> conditionList = QueryUtil.convertObjectToQueryCondition(entity, maps, persistentClass);
             String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(conditionList,
                     null,
-                    paramsMap, true, true, true);
+                    paramsMap, true, true);
             paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_DSF, sqlConditionDsf);
             Long obj = countBasicAll(paramsMap);
             if (obj == null || obj == 0) {
@@ -184,6 +184,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
         return orderList;
     }
 
+
     /**
      * 动态集合查询
      *
@@ -192,25 +193,13 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
      */
     @Transactional(readOnly = true)
     public List<T> findAll(SpecificationDetail specificationDetail) {
-        return findAll(specificationDetail, true);
-    }
-
-    /**
-     * 动态集合查询
-     *
-     * @param specificationDetail 动态条件对象
-     * @param analytiColumn       是否解析动态条件查询前缀
-     * @return
-     */
-    @Transactional(readOnly = true)
-    public List<T> findAll(SpecificationDetail specificationDetail, Boolean analytiColumn) {
         try {
             Map<String, Object> paramsMap = Maps.newHashMap();
             specificationDetail.setPersistentClass(persistentClass);
             String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(specificationDetail.getAndQueryConditions(),
                     specificationDetail.getOrQueryConditions(),
                     Lists.newArrayList(DynamicSpecifications.MYBITS_SEARCH_PARAMS_MAP),
-                    paramsMap, analytiColumn, true);
+                    paramsMap, true);
             paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_DSF, sqlConditionDsf);
             paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_CONDITION, new Object());
 
@@ -226,7 +215,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
 
     @Transactional(readOnly = true)
     public PageModel<T> findBasePage(PageModel<T> pm, SpecificationDetail<T> specificationDetail, boolean isBasic) {
-        return findBasePage(pm, specificationDetail, isBasic, true, null, null);
+        return findBasePage(pm, specificationDetail, isBasic, null, null);
     }
 
 
@@ -235,14 +224,13 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
      *
      * @param pm                  分页对象
      * @param specificationDetail 动态条件对象
-     * @param analytiColumn       是否解析动态条件查询前缀（一般自定义sql查询时建议设置为false,动态则设置为true）
      * @param selectStatement     自定义数据集合sql名称
      * @param countStatement      自定义数据总数sql名称
      * @return
      */
     @Transactional(readOnly = true)
-    public PageModel<T> findBasePage(PageModel<T> pm, SpecificationDetail<T> specificationDetail, Boolean analytiColumn, String selectStatement, String countStatement) {
-        return findBasePage(pm, specificationDetail, null, analytiColumn, selectStatement, countStatement);
+    public PageModel<T> findBasePage(PageModel<T> pm, SpecificationDetail<T> specificationDetail, String selectStatement, String countStatement) {
+        return findBasePage(pm, specificationDetail, null, selectStatement, countStatement);
     }
 
     /**
@@ -255,7 +243,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
      */
     @Transactional(readOnly = true)
     public PageModel<T> findBasePage(PageModel<T> pm, SpecificationDetail<T> specificationDetail, Boolean isBasic) {
-        return findBasePage(pm, specificationDetail, isBasic, true, null, null);
+        return findBasePage(pm, specificationDetail, isBasic, null, null);
     }
 
     /**
@@ -264,13 +252,12 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
      * @param pm                  分页对象
      * @param specificationDetail 动态条件对象
      * @param isBasic             是否关联对象查询
-     * @param analytiColumn       是否解析动态条件查询前缀 （一般自定义sql查询时建议设置为false,动态则设置为true）
      * @param selectStatement     自定义数据集合sql名称
      * @param countStatement      自定义数据总数sql名称
      * @return
      */
     @Transactional(readOnly = true)
-    public PageModel<T> findBasePage(PageModel<T> pm, SpecificationDetail<T> specificationDetail, Boolean isBasic, Boolean analytiColumn, String selectStatement, String countStatement) {
+    public PageModel<T> findBasePage(PageModel<T> pm, SpecificationDetail<T> specificationDetail, Boolean isBasic, String selectStatement, String countStatement) {
         try {
             Map<String, Object> paramsMap = Maps.newHashMap();
             specificationDetail.setPersistentClass(persistentClass);
@@ -278,7 +265,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
                     specificationDetail.getAndQueryConditions(),
                     specificationDetail.getOrQueryConditions(),
                     null,
-                    paramsMap, analytiColumn, true);
+                    paramsMap, true);
             paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_DSF, sqlConditionDsf);
             paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_CONDITION, new Object());
             pm.setPageInstance(PublicUtil.isNotEmpty(selectStatement) && PublicUtil.isNotEmpty(countStatement) ?
