@@ -9,6 +9,7 @@ import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.data.persistence.repository.BaseRepository;
 import com.albedo.java.common.data.persistence.service.BaseService;
 import com.albedo.java.common.domain.base.DataEntity;
+import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
@@ -102,6 +103,7 @@ public abstract class DataService<Repository extends BaseRepository<T, PK>, T ex
         SpecificationDetail<T> specificationDetail = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
                 persistentClass,
                 QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
+        if(PublicUtil.isNotEmpty(authQueryConditions))
         specificationDetail.orAll(authQueryConditions);
 //		specificationDetail.setPersistentClass();
         return findBasePage(pm, specificationDetail, isBasic);

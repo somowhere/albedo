@@ -68,7 +68,8 @@ public class GenUtil {
                     || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "TINYINT")
                     || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "BIGINT")
                     || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "NUMBER")
-                    || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "DECIMAL")) {
+                    || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "DECIMAL")
+                    || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "BIT")) {
                 // 如果是浮点型
                 String[] ss = StringUtil.split(StringUtil.substringBetween(column.getJdbcType(), "(", ")"), ",");
                 if (ss != null && ss.length == 2 && Integer.parseInt(ss[1]) > 0) {

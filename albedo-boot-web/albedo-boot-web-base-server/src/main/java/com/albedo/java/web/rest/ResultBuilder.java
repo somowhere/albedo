@@ -52,11 +52,4 @@ public class ResultBuilder {
         return new ResponseEntity(data, HttpStatus.OK);
     }
 
-    public static ResponseEntity buildOk() {
-        return buildOk(null);
-    }
-
-    public static ResponseEntity buildFailed() {
-        return buildFailed(null);
-    }
 }

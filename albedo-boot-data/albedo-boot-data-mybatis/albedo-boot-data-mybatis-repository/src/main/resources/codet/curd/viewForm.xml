@@ -50,7 +50,7 @@
 					<#elseif c.showType == "select" || c.showType == "checkbox" || c.showType == "radio">
 						<<@at/>albedo.form name="${c.javaFieldId}" dictCode="${c.dictType}" cssClass="<#if !c.nullable>required</#if>" boxType="${c.showType}" value="<@jspEl />{(${className}.${c.javaFieldId})!}" > </<@at/>albedo.form>
 					<#elseif c.showType == "dateselect">
-						<div class="input-group date"><input type="text" name="${c.javaFieldId}" readonly class="form-control date-time-picker <#if !c.nullable>required</#if>" value="${"$"}{(${className}.${c.javaFieldId})!}"><span class="input-group-btn"><button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button></span></div>
+						<div class="input-group date"><input type="text" name="${c.javaFieldId}" readonly class="form-control date-time-picker <#if !c.nullable>required</#if>" value="${"$"}{(${className}.${c.javaFieldId})!?string('yyyy-MM-dd HH:mm:ss')}"><span class="input-group-btn"><button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button></span></div>
 					<#elseif c.showType == "userselect">
 						<<@at/>albedo.treeSelect name="${c.simpleJavaField}Id" cssClass="<#if !c.nullable>required</#if>" allowClear="true" labelName="${c.javaFieldShowName}" value="<@jspEl />{(${className}.${c.simpleJavaField}Id)!}" labelValue="<@jspEl />{(${className}.${c.javaFieldName})!}"  
 						title="选择用户" url="<@jspEl/>{ctx}/sys/org/findTreeData?showType=3" notAllowSelectParent="true"> </<@at/>albedo.treeSelect>

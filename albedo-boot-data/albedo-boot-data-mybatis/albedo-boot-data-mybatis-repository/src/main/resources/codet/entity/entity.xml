@@ -91,7 +91,7 @@ public class ${ClassName} extends DataEntity {
 	@ManyToOne
 	@JoinColumn(name = "${column.name}", updatable = false,insertable = false)
 	private ${column.simpleJavaType} ${column.simpleJavaField};
-	<#else>${column.hibernateValidatorExprssion}<#if column.isDateTimeColumn>@Temporal(TemporalType.DATE)</#if>@Column(name = "${column.name}")<#if column.unique>@SearchField</#if><#if column.dictType?? && column.dictType != "">@DictType(name="${column.dictType}")</#if>
+	<#else>${column.hibernateValidatorExprssion}@Column(name = "${column.name}")<#if column.unique>@SearchField</#if><#if column.dictType?? && column.dictType != "">@DictType(name="${column.dictType}")</#if>
 	private ${column.simpleJavaType} ${column.simpleJavaField};
 			</#if>
 		</#if>
