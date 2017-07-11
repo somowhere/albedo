@@ -3,16 +3,14 @@ package com.albedo.java.util.domain;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.SecurityHqlUtil;
 import com.albedo.java.util.base.Encodes;
-import com.albedo.java.util.base.Reflections;
-import com.albedo.java.util.spring.SpringContextHolder;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.mybatis.annotations.Column;
-import org.springframework.data.mybatis.annotations.Entity;
-import org.springframework.data.mybatis.annotations.JoinColumn;
-import org.springframework.data.mybatis.repository.dialect.Dialect;
-import org.springframework.util.StringUtils;
+//import org.springframework.data.mybatis.annotations.Column;
+//import org.springframework.data.mybatis.annotations.Entity;
+//import org.springframework.data.mybatis.annotations.JoinColumn;
+//import org.springframework.data.mybatis.repository.dialect.Dialect;
+//import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
@@ -248,45 +246,45 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
 
     @JSONField(serialize = false)
     public String getFieldRealColumnName() {
-        if(fieldRealColumnName==null){
-            String columnName = null, fieldPropery = fieldName;
-            Class<?> targetPersistentClass=persistentClass;
-            if(analytiColumn){
-                try {
-                    if (persistentClass != null && PublicUtil.isNotEmpty(getFieldName())) {
-                        String quota = analytiColumnPrefix;
-                        int indexQuote = fieldPropery.indexOf(".");
-                        if (PublicUtil.isEmpty(quota)) {
-                            Entity entity = Reflections.getAnnotation(targetPersistentClass, Entity.class);
-                            quota = null != entity && StringUtils.hasText(entity.name()) ? entity.name() :
-                                            StringUtils.uncapitalize(targetPersistentClass.getSimpleName());
-                            if(indexQuote != -1){
-                                quota+="."+fieldPropery.substring(0, fieldPropery.lastIndexOf("."));
-                            }
-                        }
-                        if (indexQuote != -1) {
-                            String[] properties = fieldPropery.split("\\.");
-                            int size = properties.length;
-                            for(int i =0;i<size-1;i++){
-                                Field field = Reflections.getAccessibleField(targetPersistentClass, properties[i]);
-                                targetPersistentClass = field.getType();
-                            }
-                            fieldPropery = properties[size-1];
-                        }
-                        Column column = Reflections.getAnnotationByClazz(targetPersistentClass, fieldPropery, Column.class);
-                        if (column != null) columnName = column.name();
-
-                        if (PublicUtil.isNotEmpty(columnName)) {
-                            Dialect dialect = SpringContextHolder.getBean(Dialect.class);
-                            fieldRealColumnName = dialect.openQuote() + quota + dialect.closeQuote() + '.' + columnName;
-                        }
-                    }
-                } catch (Exception e) {
-                    log.warn(e.getMessage());
-                }
-            }
-
-        }
+//        if(fieldRealColumnName==null){
+//            String columnName = null, fieldPropery = fieldName;
+//            Class<?> targetPersistentClass=persistentClass;
+//            if(analytiColumn){
+//                try {
+//                    if (persistentClass != null && PublicUtil.isNotEmpty(getFieldName())) {
+//                        String quota = analytiColumnPrefix;
+//                        int indexQuote = fieldPropery.indexOf(".");
+//                        if (PublicUtil.isEmpty(quota)) {
+//                            Entity entity = Reflections.getAnnotation(targetPersistentClass, Entity.class);
+//                            quota = null != entity && StringUtils.hasText(entity.name()) ? entity.name() :
+//                                            StringUtils.uncapitalize(targetPersistentClass.getSimpleName());
+//                            if(indexQuote != -1){
+//                                quota+="."+fieldPropery.substring(0, fieldPropery.lastIndexOf("."));
+//                            }
+//                        }
+//                        if (indexQuote != -1) {
+//                            String[] properties = fieldPropery.split("\\.");
+//                            int size = properties.length;
+//                            for(int i =0;i<size-1;i++){
+//                                Field field = Reflections.getAccessibleField(targetPersistentClass, properties[i]);
+//                                targetPersistentClass = field.getType();
+//                            }
+//                            fieldPropery = properties[size-1];
+//                        }
+//                        Column column = Reflections.getAnnotationByClazz(targetPersistentClass, fieldPropery, Column.class);
+//                        if (column != null) columnName = column.name();
+//
+//                        if (PublicUtil.isNotEmpty(columnName)) {
+//                            Dialect dialect = SpringContextHolder.getBean(Dialect.class);
+//                            fieldRealColumnName = dialect.openQuote() + quota + dialect.closeQuote() + '.' + columnName;
+//                        }
+//                    }
+//                } catch (Exception e) {
+//                    log.warn(e.getMessage());
+//                }
+//            }
+//
+//        }
         return fieldRealColumnName;
     }
 
