@@ -92,6 +92,7 @@ AlbedoBoot 提供了常用工具进行封装，包括日志工具、缓存工具
 ## 常见问题
 
 1. 用一段时间提示内存溢出，请修改JVM参数：-Xmx512m -XX:MaxPermSize=256m
+2. 如果坚持使用hibernate版本，请切换分支 albedo-boot-hibernate
 
 ## 如何交流、反馈、参与贡献？
 
