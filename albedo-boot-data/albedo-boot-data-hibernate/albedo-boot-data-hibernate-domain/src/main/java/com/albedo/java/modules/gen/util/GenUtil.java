@@ -7,10 +7,12 @@ import java.util.Map;
 
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
+import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.common.domain.base.DataEntity;
 import com.albedo.java.common.domain.base.TreeEntity;
 import com.albedo.java.modules.gen.domain.GenScheme;
@@ -29,6 +31,7 @@ import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.FreeMarkers;
 import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.mapper.JaxbMapper;
+import com.albedo.java.util.spring.SpringContextHolder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -40,7 +43,7 @@ import com.google.common.collect.Maps;
 public class GenUtil {
 
     private static Logger logger = LoggerFactory.getLogger(GenUtil.class);
-
+    public static AlbedoProperties albedoProperties = SpringContextHolder.getBean(AlbedoProperties.class);
     /**
      * 初始化列属性字段
      *
@@ -334,7 +337,11 @@ public class GenUtil {
      */
     public static String generateToFile(GenTemplate tpl, Map<String, Object> model, boolean isReplaceFile) {
         // 获取生成文件 "c:\\temp\\"//
-        String fileName = StringUtil.getProjectPath() + File.separator
+    	String baseDir=albedoProperties.getGenCodeDir();
+    	if(StringUtils.isEmpty(baseDir)){
+    		baseDir=StringUtil.getProjectPath();
+    	}
+        String fileName = baseDir + File.separator
                 + StringUtil.replaceEach(FreeMarkers.renderString(tpl.getFilePath() + "/", model), new String[]{"//", "/", "."}, new String[]{File.separator, File.separator, File.separator})
                 + FreeMarkers.renderString(tpl.getFileName(), model);
 

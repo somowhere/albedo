@@ -42,8 +42,17 @@ public class AlbedoProperties {
     private String staticFileDirectory = "";
     private String rsaPublicKey = "";
     private String rsaPrivateKey = "";
+    private String genCodeDir="";
 
-    public Async getAsync() {
+    public String getGenCodeDir() {
+		return genCodeDir;
+	}
+
+	public void setGenCodeDir(String genCodeDir) {
+		this.genCodeDir = genCodeDir;
+	}
+
+	public Async getAsync() {
         return async;
     }
 
