@@ -17,5 +17,6 @@
         <module>albedo-boot-web-base</module>
         <module>albedo-boot-web-base-server</module>
         <module>albedo-boot-web-swagger</module>
+        <module>albedo-boot-web-restful</module>
     </modules>
 </project>

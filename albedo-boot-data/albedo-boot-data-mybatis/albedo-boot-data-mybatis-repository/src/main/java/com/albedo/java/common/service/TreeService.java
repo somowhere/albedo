@@ -44,7 +44,7 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
     public T save(T entity) {
         String oldParentIds = entity.getParentIds(); // 获取修改前的parentIds，用于更新子节点的parentIds
         if (entity.getParentId() != null) {
-            T parent = repository.findOneById(entity.getParentId());
+            T parent = repository.findOneById((PK) entity.getParentId());
             if (parent == null || PublicUtil.isEmpty(parent.getId()))
                 throw new RuntimeMsgException("无法获取模块的父节点，插入失败");
             if (parent != null) {
