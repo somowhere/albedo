@@ -11,7 +11,10 @@ import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
+import com.albedo.java.vo.sys.query.DictQuery;
 import com.albedo.java.vo.sys.query.DictTreeQuery;
+import com.albedo.java.vo.sys.query.DictResult;
+import com.albedo.java.vo.sys.query.DictTreeResult;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataResource;
 import com.alibaba.fastjson.JSON;
@@ -27,7 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Station.
@@ -40,24 +43,16 @@ public class DictResource extends DataResource<DictService, Dict> {
     private DictService dictService;
 
 
-    @ModelAttribute
-    public Dict get(@RequestParam(required = false) String id) throws Exception {
-        String path = request.getRequestURI();
-        if (path != null && !path.contains("checkBy") && !path.contains("find") && PublicUtil.isNotEmpty(id)) {
-            return dictService.findOne(id);
-        } else {
-            return new Dict();
-        }
-    }
     @GetMapping(value = "findTreeDataRest")
     public ResponseEntity findTreeDataRest(DictTreeQuery dictTreeQuery) {
-        List<Map<String, Object>> rs = dictService.findTreeData(dictTreeQuery, DictUtil.getDictList());
+        List<DictTreeResult> rs = dictService.findTreeDataRest(dictTreeQuery, DictUtil.getDictList());
         return ResultBuilder.buildOk(rs);
     }
-    @RequestMapping(value = "findTreeData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity findTreeData(DictTreeQuery dictTreeQuery) {
-        List<Map<String, Object>> rs = dictService.findTreeData(dictTreeQuery, DictUtil.getDictList());
-        return ResultBuilder.buildOk(rs);
+
+    @GetMapping(value = "findDataRest")
+    public ResponseEntity findDataRest(DictQuery dictQuery) {
+        return ResultBuilder.buildOk(DictUtil.getDictList(dictQuery).
+                stream().map(item -> dictService.copyBeanToResult(item)).collect(Collectors.toList()));
     }
 
 

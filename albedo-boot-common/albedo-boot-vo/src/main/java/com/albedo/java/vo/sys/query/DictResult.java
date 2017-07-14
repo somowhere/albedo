@@ -10,11 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DictTreeResult {
+public class DictResult {
 
-    private String id;
-    private String pid;
-    private String name;
     private String value;
     private String label;
 
