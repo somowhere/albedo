@@ -10,5 +10,6 @@ public class ModuleTreeQuery {
 
     private String type;
     private String all;
+    private Boolean root;
 
 }

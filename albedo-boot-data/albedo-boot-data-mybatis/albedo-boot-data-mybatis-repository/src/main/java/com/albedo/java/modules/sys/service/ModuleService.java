@@ -9,6 +9,7 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.RequestMethod;
 import com.albedo.java.vo.sys.query.ModuleTreeQuery;
+import com.albedo.java.vo.sys.query.ModuleTreeResult;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,36 @@ import java.util.Map;
 @Service
 @Transactional
 public class ModuleService extends TreeService<ModuleRepository, Module, String> {
+
+    @Transactional(readOnly = true)
+    public List<ModuleTreeResult> findTreeDataRest(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
+        String type = moduleTreeQuery != null ? moduleTreeQuery.getType() : null,
+                all = moduleTreeQuery != null ? moduleTreeQuery.getAll() : null;
+
+        List<ModuleTreeResult> mapList = Lists.newArrayList();
+        for (Module e : moduleList) {
+            ModuleTreeResult moduleTreeResult = null;
+            if ((all != null || (all == null && BaseEntity.FLAG_NORMAL.equals(e.getStatus())))) {
+
+                if ("menu".equals(type) && !Module.TYPE_MENU.equals(e.getType())) {
+                    continue;
+                }
+                if(moduleTreeQuery!=null && moduleTreeQuery.getRoot() && PublicUtil.isEmpty(e.getParentId())){
+                    continue;
+                }
+
+                moduleTreeResult = new ModuleTreeResult();
+                moduleTreeResult.setId(e.getId());
+                moduleTreeResult.setBpid(e.getParentId() != null ? e.getParentId() : "0");
+                moduleTreeResult.setMpid(moduleTreeResult.getBpid());
+                moduleTreeResult.setName(e.getName());
+                moduleTreeResult.setRoute(e.getHref());
+                moduleTreeResult.setIcon(e.getIconCls());
+                mapList.add(moduleTreeResult);
+            }
+        }
+        return mapList;
+    }
 
     @Transactional(readOnly = true)
     public List<Map<String, Object>> findTreeData(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {

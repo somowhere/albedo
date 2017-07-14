@@ -158,7 +158,24 @@ public class UserService extends DataService<UserRepository, User, String> {
         User user = repository.findOne(id);
         return copyBeanToForm(user);
     }
+    @Transactional(readOnly = true)
+    public PageModel<User> findPageRest(PageModel<User> pm, List<QueryCondition> andQueryConditions, List<QueryCondition> orQueryConditions) {
+        //拼接查询动态对象
+        SpecificationDetail<User> spec = DynamicSpecifications.bySearchQueryCondition(
+                    andQueryConditions,
+                        QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE).setAnalytiColumnPrefix("a"),
+                        QueryCondition.ne("a.id_", "1").setAnalytiColumn(false));
+        spec.orAll(orQueryConditions);
+        //动态生成sql分页查询
+//        Page<User> page = repository.findAll(spec, pm);
+//        pm.setPageInstance(page);
+//        pm.getData().forEach(item -> item.setOrg(orgRepository.findBasicOne(item.getOrgId())));
+        //自定义sql分页查询
+        findBasePage(pm, spec, false, "selectPage", "countPage");
 
+
+        return pm;
+    }
     @Transactional(readOnly = true)
     public PageModel<User> findPage(PageModel<User> pm, List<QueryCondition> authQueryConditions) {
         //拼接查询动态对象
