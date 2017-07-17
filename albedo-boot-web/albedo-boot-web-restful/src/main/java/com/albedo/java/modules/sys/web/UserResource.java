@@ -81,8 +81,8 @@ public class UserResource extends DataResource<UserService, User> {
      *
      * @param pm
      */
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
-    public ResponseEntity getPage(PageModel pm) {
+    @GetMapping(value = "/")
+    public ResponseEntity page(PageModel pm) {
         pm = userService.findPage(pm, SecurityUtil.dataScopeFilterSql("d", "a"));
         JSON rs = JsonUtil.getInstance().setFreeFilters("roleIdList").setRecurrenceStr("org_name").toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
@@ -96,28 +96,25 @@ public class UserResource extends DataResource<UserService, User> {
      */
     @GetMapping("/{id:" + Globals.LOGIN_REGEX + "}")
     @Timed
-    public ResponseEntity<UserResult> getUser(@PathVariable String id) {
+    public ResponseEntity getUser(@PathVariable String id) {
         log.debug("REST request to get User : {}", id);
-        return ResultBuilder.wrapOrNotFound(
-                userService.findOneById(id)
-                        .map(item -> userService.copyBeanToResult(item)));
+        return ResultBuilder.buildOk(userService.findOneById(id)
+                .map(item -> userService.copyBeanToResult(item)));
     }
 
     /**
      * 保存
      *
      * @param userForm
-     * @param confirmPassword
      * @return
-     * @throws URISyntaxException
      */
     @PostMapping(value = "/")
     @Timed
     @ApiImplicitParams(@ApiImplicitParam(paramType = "query", name = "confirmPassword"))
-    public ResponseEntity save(@Valid @RequestBody UserForm userForm, String confirmPassword) {
+    public ResponseEntity save(@Valid @RequestBody UserForm userForm) {
         log.debug("REST request to save userForm : {}", userForm);
         // beanValidatorAjax(user);
-        if (PublicUtil.isNotEmpty(userForm.getPassword()) && !userForm.getPassword().equals(confirmPassword)) {
+        if (PublicUtil.isNotEmpty(userForm.getPassword()) && !userForm.getPassword().equals(userForm.getConfirmPassword())) {
             throw new RuntimeMsgException("两次输入密码不一致");
         }
         // Lowercase the user login before comparing with database
@@ -147,7 +144,7 @@ public class UserResource extends DataResource<UserService, User> {
      * @param ids
      * @return
      */
-    @DeleteMapping(value = "/{ids:" + Globals.LOGIN_REGEX + "}")
+    @DeleteMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX + "}")
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
         log.debug("REST request to delete User: {}", ids);

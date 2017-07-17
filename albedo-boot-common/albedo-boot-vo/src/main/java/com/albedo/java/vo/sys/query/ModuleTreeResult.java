@@ -10,9 +10,9 @@ public class ModuleTreeResult {
 
     private String id;
     private String bpid;
-                private String mpid;
-                private String name;
-                private String icon;
-                private String route;
+    private String mpid;
+    private String name;
+    private String icon;
+    private String route;
 
 }

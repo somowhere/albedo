@@ -22,6 +22,7 @@ public class UserForm extends GeneralEntityVo {
     private String id;
     private String loginId;
     private String password;
+    private  String confirmPassword;
     private String orgId;
 
     private String name;

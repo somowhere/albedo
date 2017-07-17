@@ -6,7 +6,7 @@ import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.repository.DictRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.vo.sys.query.DictTreeQuery;
-import com.albedo.java.vo.sys.query.DictResult;
+import com.albedo.java.vo.base.SelectResult;
 import com.albedo.java.vo.sys.query.DictTreeResult;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -60,8 +60,8 @@ public class DictService extends TreeService<DictRepository, Dict, String> {
     }
 
 
-    public DictResult copyBeanToResult(Dict item) {
-        DictResult dictResult = new DictResult(item.getVal(), item.getName());
-        return dictResult;
+    public SelectResult copyBeanToSelect(Dict item) {
+        SelectResult selectResult = new SelectResult(item.getVal(), item.getName());
+        return selectResult;
     }
 }

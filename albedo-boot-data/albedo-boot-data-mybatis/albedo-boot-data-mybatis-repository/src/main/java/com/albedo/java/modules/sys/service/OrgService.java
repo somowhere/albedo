@@ -9,6 +9,7 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.vo.sys.query.OrgTreeQuery;
+import com.albedo.java.vo.sys.query.OrgTreeResult;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,33 @@ import java.util.Map;
 @Transactional
 public class OrgService extends TreeService<OrgRepository, Org, String> {
 
+    @Transactional(readOnly = true)
+    public List<OrgTreeResult> findTreeDataRest(OrgTreeQuery orgTreeQuery, List<Org> list) {
+        String extId = orgTreeQuery != null ? orgTreeQuery.getExtId() : null,
+                showType = orgTreeQuery != null ? orgTreeQuery.getShowType() : null,
+                all = orgTreeQuery != null ? orgTreeQuery.getAll() : null;
+        Long grade = orgTreeQuery != null ? orgTreeQuery.getGrade() : null;
+        List<OrgTreeResult> mapList = Lists.newArrayList();
+        OrgTreeResult orgTreeResult = null;
+        for (Org e : list) {
+            if ((PublicUtil.isEmpty(extId)
+                    || PublicUtil.isEmpty(e.getParentIds()) || (PublicUtil.isNotEmpty(extId) && !extId.equals(e.getId()) && e.getParentIds() != null && e.getParentIds().indexOf("," + extId + ",") == -1))
+                    && (PublicUtil.isEmpty(showType)
+                    || (PublicUtil.isNotEmpty(showType) && (showType.equals("1") ? showType.equals(e.getType()) : true)))
+                    && (PublicUtil.isEmpty(grade) || (PublicUtil.isNotEmpty(grade) && Integer.parseInt(e.getGrade()) <= grade.intValue()))
+                    && (all != null || (all == null && BaseEntity.FLAG_NORMAL.equals(e.getStatus())))) {
+                orgTreeResult = new OrgTreeResult();
+                orgTreeResult.setId(e.getId());
+                orgTreeResult.setPid(e.getParentId());
+                orgTreeResult.setLabel(e.getName());
+                orgTreeResult.setKey(e.getName());
+                orgTreeResult.setValue(e.getId());
+                mapList.add(orgTreeResult);
+            }
+        }
+        return mapList;
+
+    }
 
     @Transactional(readOnly = true)
     public List<Map<String, Object>> findTreeData(OrgTreeQuery orgTreeQuery, List<Org> list) {

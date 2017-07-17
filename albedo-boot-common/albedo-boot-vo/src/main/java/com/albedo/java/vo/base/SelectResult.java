@@ -1,4 +1,4 @@
-package com.albedo.java.vo.sys.query;
+package com.albedo.java.vo.base;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DictResult {
+public class SelectResult {
 
     private String value;
     private String label;
