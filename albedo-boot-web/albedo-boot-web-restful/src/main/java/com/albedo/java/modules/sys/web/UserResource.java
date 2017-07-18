@@ -144,7 +144,7 @@ public class UserResource extends DataResource<UserService, User> {
      * @param ids
      * @return
      */
-    @DeleteMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX + "}")
+    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX + "}")
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
         log.debug("REST request to delete User: {}", ids);
