@@ -108,7 +108,7 @@ public class UserResource extends DataResource<UserService, User> {
      * @param userForm
      * @return
      */
-    @PostMapping(value = "/")
+    @PostMapping(value = "/",consumes="application/json",produces="application/json")
     @Timed
     @ApiImplicitParams(@ApiImplicitParam(paramType = "query", name = "confirmPassword"))
     public ResponseEntity save(@Valid @RequestBody UserForm userForm) {

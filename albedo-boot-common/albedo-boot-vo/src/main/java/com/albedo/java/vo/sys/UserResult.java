@@ -30,6 +30,7 @@ public class UserResult extends GeneralEntityVo {
     private String langKey;
     private String activationKey;
     private String resetKey;
+    private Integer status;
     private ZonedDateTime resetDate = null;
     private String roleNames;
     private List<String> roleIdList;
