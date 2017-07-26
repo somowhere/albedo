@@ -43,7 +43,7 @@ public class RoleResource extends DataResource<RoleService, Role> {
      * @param pm
      * @return
      */
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    @GetMapping(value = "/")
     public ResponseEntity getPage(PageModel<Role> pm) {
         service.findPage(pm, SecurityUtil.dataScopeFilter(SecurityUtil.getCurrentUserId(), "org", "creator"));
         JSON rs = JsonUtil.getInstance().setRecurrenceStr("org_name").toJsonObject(pm);
@@ -51,10 +51,22 @@ public class RoleResource extends DataResource<RoleService, Role> {
     }
 
     /**
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id:" + Globals.LOGIN_REGEX + "}")
+    @Timed
+    public ResponseEntity getUser(@PathVariable String id) {
+        log.debug("REST request to get Role : {}", id);
+        return ResultBuilder.buildOk(service.findOneById(id)
+                .map(item -> service.copyBeanToResult(item)));
+    }
+    /**
      * @param role
      * @return
      */
-    @RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/",produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity save(Role role) {
         log.debug("REST request to save Role : {}", role);

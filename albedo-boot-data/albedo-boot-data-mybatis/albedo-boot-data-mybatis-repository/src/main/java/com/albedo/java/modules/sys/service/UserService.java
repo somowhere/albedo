@@ -53,9 +53,6 @@ public class UserService extends DataService<UserRepository, User, String> {
         return userForm;
     }
 
-    public User copyFormToBean(UserForm userForm) {
-        return copyFormToBean(userForm, new User());
-    }
 
     public User copyFormToBean(UserForm userForm, User user) {
         BeanUtils.copyProperties(userForm, user);

@@ -10,6 +10,9 @@ import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
+import com.albedo.java.vo.sys.RoleForm;
+import com.albedo.java.vo.sys.RoleResult;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +28,26 @@ public class RoleService extends DataService<RoleRepository, Role, String> {
 
     @Resource
     OrgRepository orgRepository;
+
+
+    public RoleResult copyBeanToResult(Role role) {
+        RoleResult userResult = new RoleResult();
+        BeanUtils.copyProperties(role, userResult);
+        if (role.getOrg() != null) userResult.setOrgName(role.getOrg().getName());
+        return userResult;
+    }
+
+    public RoleForm copyBeanToForm(Role user) {
+        RoleForm userForm = new RoleForm();
+        BeanUtils.copyProperties(user, userForm);
+        return userForm;
+    }
+
+
+    public Role copyFormToBean(RoleForm userForm, Role user) {
+        BeanUtils.copyProperties(userForm, user);
+        return user;
+    }
 
     @Transactional(readOnly = true)
     public PageModel<Role> findPage(PageModel<Role> pm, List<QueryCondition> authQueryConditions) {

@@ -13,6 +13,7 @@ import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.base.SelectResult;
 import com.albedo.java.vo.sys.query.DictQuery;
+import com.albedo.java.vo.sys.query.DictQuerySearch;
 import com.albedo.java.vo.sys.query.DictTreeQuery;
 import com.albedo.java.vo.sys.query.DictTreeResult;
 import com.albedo.java.web.rest.ResultBuilder;
@@ -20,6 +21,7 @@ import com.albedo.java.web.rest.base.DataResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -49,9 +52,14 @@ public class DictResource extends DataResource<DictService, Dict> {
         return ResultBuilder.buildOk(rs);
     }
     @GetMapping(value = "findSelectData")
-    public ResponseEntity findSelectData(DictQuery dictQuery) {
-        return ResultBuilder.buildOk(DictUtil.getDictList(dictQuery).
-                stream().map(item -> new SelectResult(item.getVal(), item.getName())).collect(Collectors.toList()));
+    public ResponseEntity findSelectData(DictQuerySearch dictQuerySearch) {
+        Map<String, Object> map = Maps.newHashMap();
+        if(PublicUtil.isNotEmpty(dictQuerySearch.getDictQueries())){
+            List<DictQuery> dictQueries = JSON.parseArray(dictQuerySearch.getDictQueries(), DictQuery.class);
+            dictQueries.forEach(dictQuery -> map.put(StringUtil.toCamelCase(dictQuery.getCode()), DictUtil.getDictList(dictQuery).
+                    stream().map(item -> new SelectResult(item.getVal(), item.getName())).collect(Collectors.toList())));
+        }
+        return ResultBuilder.buildOk(map);
     }
 
 
