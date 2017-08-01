@@ -6,7 +6,7 @@ import lombok.Data;
  * Created by lijie on 2017/3/2.
  */
 @Data
-public class ModuleTreeResult {
+public class ModuleMenuTreeResult {
 
     private String id;
     private String bpid;

@@ -11,8 +11,9 @@ import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
+import com.albedo.java.vo.sys.OrgForm;
 import com.albedo.java.vo.sys.query.OrgTreeQuery;
-import com.albedo.java.vo.sys.query.OrgTreeResult;
+import com.albedo.java.vo.sys.query.AntdTreeResult;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataResource;
 import com.alibaba.fastjson.JSON;
@@ -26,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 
 /**
  * REST controller for managing Station.
@@ -40,7 +40,7 @@ public class OrgResource extends DataResource<OrgService, Org> {
 
     @GetMapping(value = "findTreeData")
     public ResponseEntity findTreeData(OrgTreeQuery orgTreeQuery) {
-        List<OrgTreeResult> rs = orgService.findTreeDataRest(orgTreeQuery, SecurityUtil.getOrgList());
+        List<AntdTreeResult> rs = orgService.findTreeDataRest(orgTreeQuery, SecurityUtil.getOrgList());
         return ResultBuilder.buildOk(rs);
     }
 
@@ -57,52 +57,42 @@ public class OrgResource extends DataResource<OrgService, Org> {
         JSON rs = JsonUtil.getInstance().toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
     }
-
-    @GetMapping(value = "/edit")
+    /**
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id:" + Globals.LOGIN_REGEX + "}")
     @Timed
-    public String form(Org org) {
-        if (org == null) {
-            throw new RuntimeMsgException(PublicUtil.toAppendStr("查询模块管理失败，原因：无法查找到编号区域"));
-        }
-        if (StringUtil.isBlank(org.getId())) {
-            List<Org> list = orgService.findAllByParentId(org.getParentId());
-            if (list.size() > 0) {
-                org.setSort(list.get(list.size() - 1).getSort());
-                if (org.getSort() != null) {
-                    org.setSort(org.getSort() + 30);
-                }
-            }
-        }
-        if (PublicUtil.isNotEmpty(org.getParentId())) {
-            org.setParent(orgService.findOne(org.getParentId()));
-        }
-        return "modules/sys/orgForm";
+    public ResponseEntity getUser(@PathVariable String id) {
+        log.debug("REST request to get Role : {}", id);
+        return ResultBuilder.buildOk(service.findOneById(id)
+                .map(item -> service.copyBeanToResult(item)));
     }
-
     /**
      * @param org
      * @return
      */
-    @RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity save(Org org) {
-        log.debug("REST request to save Org : {}", org);
+    public ResponseEntity save(OrgForm orgForm) {
+        log.debug("REST request to save orgForm : {}", orgForm);
         // Lowercase the org login before comparing with database
         if (!checkByProperty(Reflections.createObj(Org.class, Lists.newArrayList(Org.F_ID, Org.F_NAME),
-                org.getId(), org.getName()))) {
+                orgForm.getId(), orgForm.getName()))) {
             throw new RuntimeMsgException("名称已存在");
         }
-        orgService.save(org);
+        orgService.save(orgForm);
         SecurityUtil.clearUserJedisCache();
-        return ResultBuilder.buildOk("保存", org.getName(), "成功");
+        return ResultBuilder.buildOk("保存", orgForm.getName(), "成功");
     }
 
     /**
      * @param ids
      * @return
      */
-    @RequestMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
-            + "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
+            + "}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
         log.debug("REST request to delete Org: {}", ids);
@@ -115,8 +105,8 @@ public class OrgResource extends DataResource<OrgService, Org> {
      * @param ids
      * @return
      */
-    @RequestMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
-            + "}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
+            + "}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {
         log.debug("REST request to lockOrUnLock User: {}", ids);

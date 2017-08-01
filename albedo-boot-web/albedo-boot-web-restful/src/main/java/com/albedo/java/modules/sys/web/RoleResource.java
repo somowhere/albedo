@@ -12,6 +12,7 @@ import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.base.SelectResult;
+import com.albedo.java.vo.sys.RoleForm;
 import com.albedo.java.vo.sys.query.DictQuery;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataResource;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.stream.Collectors;
 
 
@@ -63,29 +65,29 @@ public class RoleResource extends DataResource<RoleService, Role> {
                 .map(item -> service.copyBeanToResult(item)));
     }
     /**
-     * @param role
+     * @param roleForm
      * @return
      */
     @PostMapping(value = "/",produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity save(Role role) {
-        log.debug("REST request to save Role : {}", role);
+    public ResponseEntity save(@Valid @RequestBody RoleForm roleForm) {
+        log.debug("REST request to save RoleForm : {}", roleForm);
         // Lowercase the role login before comparing with database
         if (!checkByProperty(Reflections.createObj(Role.class, Lists.newArrayList(Role.F_ID, Role.F_NAME),
-                role.getId(), role.getName()))) {
+                roleForm.getId(), roleForm.getName()))) {
             throw new RuntimeMsgException("名称已存在");
         }
-        service.save(role);
+        service.save(roleForm);
         SecurityUtil.clearUserJedisCache();
-        return ResultBuilder.buildOk("保存", role.getName(), "成功");
+        return ResultBuilder.buildOk("保存", roleForm.getName(), "成功");
     }
 
     /**
      * @param ids
      * @return
      */
-    @RequestMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
-            + "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
+            + "}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
         log.debug("REST request to delete Role: {}", ids);

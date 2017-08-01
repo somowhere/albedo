@@ -38,6 +38,7 @@ public class RoleResult extends GeneralEntityVo {
     /*** 可查看的数据范围 */
     private Integer dataScope;
     private Integer sort;
+    private Integer status;
     private List<String> moduleIdList;
     private List<String> orgIdList;
 

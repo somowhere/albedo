@@ -14,8 +14,9 @@ import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
+import com.albedo.java.vo.sys.query.AntdTreeResult;
 import com.albedo.java.vo.sys.query.ModuleTreeQuery;
-import com.albedo.java.vo.sys.query.ModuleTreeResult;
+import com.albedo.java.vo.sys.query.ModuleMenuTreeResult;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataResource;
 import com.alibaba.fastjson.JSON;
@@ -41,10 +42,14 @@ public class ModuleResource extends DataResource<ModuleService, Module> {
     @Resource
     private ModuleService moduleService;
 
-
+    @GetMapping(value = "findMenuData")
+    public ResponseEntity findMenuData(ModuleTreeQuery moduleTreeQuery) {
+        List<ModuleMenuTreeResult> rs = moduleService.findMenuDataRest(moduleTreeQuery, SecurityUtil.getModuleList());
+        return ResultBuilder.buildOk(rs);
+    }
     @GetMapping(value = "findTreeData")
     public ResponseEntity findTreeData(ModuleTreeQuery moduleTreeQuery) {
-        List<ModuleTreeResult> rs = moduleService.findTreeDataRest(moduleTreeQuery, SecurityUtil.getModuleList());
+        List<AntdTreeResult> rs = moduleService.findTreeDataRest(moduleTreeQuery, SecurityUtil.getModuleList());
         return ResultBuilder.buildOk(rs);
     }
 

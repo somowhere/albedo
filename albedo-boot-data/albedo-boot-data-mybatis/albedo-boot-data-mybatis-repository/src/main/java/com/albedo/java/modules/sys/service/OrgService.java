@@ -4,14 +4,19 @@ import com.albedo.java.common.data.persistence.BaseEntity;
 import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.service.TreeService;
 import com.albedo.java.modules.sys.domain.Org;
+import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.repository.OrgRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
+import com.albedo.java.vo.sys.OrgForm;
+import com.albedo.java.vo.sys.OrgResult;
+import com.albedo.java.vo.sys.RoleResult;
 import com.albedo.java.vo.sys.query.OrgTreeQuery;
-import com.albedo.java.vo.sys.query.OrgTreeResult;
+import com.albedo.java.vo.sys.query.AntdTreeResult;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,13 +31,13 @@ import java.util.Map;
 public class OrgService extends TreeService<OrgRepository, Org, String> {
 
     @Transactional(readOnly = true)
-    public List<OrgTreeResult> findTreeDataRest(OrgTreeQuery orgTreeQuery, List<Org> list) {
+    public List<AntdTreeResult> findTreeDataRest(OrgTreeQuery orgTreeQuery, List<Org> list) {
         String extId = orgTreeQuery != null ? orgTreeQuery.getExtId() : null,
                 showType = orgTreeQuery != null ? orgTreeQuery.getShowType() : null,
                 all = orgTreeQuery != null ? orgTreeQuery.getAll() : null;
         Long grade = orgTreeQuery != null ? orgTreeQuery.getGrade() : null;
-        List<OrgTreeResult> mapList = Lists.newArrayList();
-        OrgTreeResult orgTreeResult = null;
+        List<AntdTreeResult> mapList = Lists.newArrayList();
+        AntdTreeResult antdTreeResult = null;
         for (Org e : list) {
             if ((PublicUtil.isEmpty(extId)
                     || PublicUtil.isEmpty(e.getParentIds()) || (PublicUtil.isNotEmpty(extId) && !extId.equals(e.getId()) && e.getParentIds() != null && e.getParentIds().indexOf("," + extId + ",") == -1))
@@ -40,18 +45,30 @@ public class OrgService extends TreeService<OrgRepository, Org, String> {
                     || (PublicUtil.isNotEmpty(showType) && (showType.equals("1") ? showType.equals(e.getType()) : true)))
                     && (PublicUtil.isEmpty(grade) || (PublicUtil.isNotEmpty(grade) && Integer.parseInt(e.getGrade()) <= grade.intValue()))
                     && (all != null || (all == null && BaseEntity.FLAG_NORMAL.equals(e.getStatus())))) {
-                orgTreeResult = new OrgTreeResult();
-                orgTreeResult.setId(e.getId());
-                orgTreeResult.setPid(e.getParentId());
-                orgTreeResult.setLabel(e.getName());
-                orgTreeResult.setKey(e.getName());
-                orgTreeResult.setValue(e.getId());
-                mapList.add(orgTreeResult);
+                antdTreeResult = new AntdTreeResult();
+                antdTreeResult.setId(e.getId());
+                antdTreeResult.setPid(e.getParentId());
+                antdTreeResult.setLabel(e.getName());
+                antdTreeResult.setKey(e.getName());
+                antdTreeResult.setValue(e.getId());
+                mapList.add(antdTreeResult);
             }
         }
         return mapList;
 
     }
+    public OrgResult copyBeanToResult(Org org) {
+        OrgResult orgResult = new OrgResult();
+        BeanUtils.copyProperties(org, orgResult);
+        if (org.getParent() != null) orgResult.setParentName(org.getParent().getName());
+        return orgResult;
+    }
+
+    private Org copyFormToBean(OrgForm orgForm, Org org) {
+        BeanUtils.copyProperties(orgForm, org);
+        return org;
+    }
+
 
     @Transactional(readOnly = true)
     public List<Map<String, Object>> findTreeData(OrgTreeQuery orgTreeQuery, List<Org> list) {
@@ -116,5 +133,13 @@ public class OrgService extends TreeService<OrgRepository, Org, String> {
     public PageModel<Org> findPage(PageModel<Org> pm, List<QueryCondition> queryConditions) {
         return findPageQuery(pm, queryConditions, false);
     }
+
+    public void save(OrgForm orgForm) {
+        Org org = PublicUtil.isNotEmpty(orgForm.getId()) ? repository.findOneById(orgForm.getId()) :
+                new Org();
+        copyFormToBean(orgForm, org);
+        org = super.save(org);
+    }
+
 
 }

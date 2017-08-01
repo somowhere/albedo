@@ -5,6 +5,7 @@ import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.sys.domain.Role;
+import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.OrgRepository;
 import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.util.PublicUtil;
@@ -72,18 +73,19 @@ public class RoleService extends DataService<RoleRepository, Role, String> {
         return findAll(spd);
     }
 
-    @Override
-    public Role save(Role entity) {
-        entity = super.save(entity);
-        if (PublicUtil.isNotEmpty(entity.getModuleIdList())) {
-            repository.deleteRoleModules(entity);
-            repository.addRoleModules(entity);
+    public Role save(RoleForm roleForm) {
+        Role role = PublicUtil.isNotEmpty(roleForm.getId()) ? repository.findOneById(roleForm.getId()) : new Role();
+        copyFormToBean(roleForm, role);
+        role = super.save(role);
+        if (PublicUtil.isNotEmpty(role.getModuleIdList())) {
+            repository.deleteRoleModules(role);
+            repository.addRoleModules(role);
         }
 
-        if (PublicUtil.isNotEmpty(entity.getOrgIdList())) {
-            repository.deleteRoleOrgs(entity);
-            repository.addRoleOrgs(entity);
+        if (PublicUtil.isNotEmpty(role.getOrgIdList())) {
+            repository.deleteRoleOrgs(role);
+            repository.addRoleOrgs(role);
         }
-        return entity;
+        return role;
     }
 }
