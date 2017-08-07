@@ -42,6 +42,7 @@ public class JsonUtil {
     private static JsonUtil json = new JsonUtil();
     /*** 指定当前从数据字典检索的kindIds */
     private static List<String> kindIds = Lists.newArrayList();
+    private static String dateFormart = PublicUtil.TIME_FORMAT;
     /*** 需要从数据字典中查找的key */
     private static List<String> keyCodeItems = Lists.newArrayList();
     private static JSONObject codeItemData = new JSONObject();
@@ -52,6 +53,7 @@ public class JsonUtil {
     }
 
     private static void initConfig() {
+        dateFormart = PublicUtil.TIME_FORMAT;
         freeFilterList = Lists.newArrayList("class", "new", "persistentState", "pkName", "pk", "version");
         className = Lists.newArrayList(Reflections.classPackge.split(","));
         kindIds.clear();
@@ -107,7 +109,7 @@ public class JsonUtil {
     }
 
     public static String toJsonString(Object obj) {
-        return JSON.toJSONStringWithDateFormat(obj, PublicUtil.TIME_FORMAT, SerializerFeature.WriteDateUseDateFormat);
+        return JSON.toJSONStringWithDateFormat(obj, dateFormart, SerializerFeature.WriteDateUseDateFormat);
     }
 
     /**
@@ -170,7 +172,17 @@ public class JsonUtil {
         JsonUtil.freeFilterList.remove(key);
         return this;
     }
-
+    /**
+     * 设置日期格式
+     *
+     * @param dateFormat
+     * @return
+     */
+    public JsonUtil setDateFormat(String dateFormat) {
+        if(PublicUtil.isNotEmpty(dateFormat))
+            JsonUtil.dateFormart = dateFormat;
+        return this;
+    }
     /**
      * 设置 允许递归的属性名称 多级用'_' 隔开 例如 staff_loginId ------> staffLoginId
      *
@@ -347,7 +359,7 @@ public class JsonUtil {
                         val = objs[i];
                     }
                     if (val instanceof Date)
-                        val = PublicUtil.fmtDate((Date) val);
+                        val = PublicUtil.fmtDate((Date) val, dateFormart);
                     maps.put(attr, val);
                 }
             }
@@ -558,9 +570,9 @@ public class JsonUtil {
                 val = temp;
         }
         if (val instanceof Date)
-            val = PublicUtil.fmtDate((Date) val);
+            val = PublicUtil.fmtDate((Date) val, dateFormart);
         if (val instanceof ZonedDateTime)
-            val = PublicUtil.fmtDate((ZonedDateTime) val);
+            val = PublicUtil.fmtDate((ZonedDateTime) val, dateFormart);
         return val;
     }
 
