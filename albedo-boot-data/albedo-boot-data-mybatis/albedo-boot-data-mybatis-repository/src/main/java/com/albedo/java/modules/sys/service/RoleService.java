@@ -5,11 +5,15 @@ import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.sys.domain.Role;
+import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.OrgRepository;
 import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
+import com.albedo.java.vo.sys.RoleForm;
+import com.albedo.java.vo.sys.RoleResult;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +29,26 @@ public class RoleService extends DataService<RoleRepository, Role, String> {
 
     @Resource
     OrgRepository orgRepository;
+
+
+    public RoleResult copyBeanToResult(Role role) {
+        RoleResult userResult = new RoleResult();
+        BeanUtils.copyProperties(role, userResult);
+        if (role.getOrg() != null) userResult.setOrgName(role.getOrg().getName());
+        return userResult;
+    }
+
+    public RoleForm copyBeanToForm(Role user) {
+        RoleForm userForm = new RoleForm();
+        BeanUtils.copyProperties(user, userForm);
+        return userForm;
+    }
+
+
+    public Role copyFormToBean(RoleForm userForm, Role user) {
+        BeanUtils.copyProperties(userForm, user);
+        return user;
+    }
 
     @Transactional(readOnly = true)
     public PageModel<Role> findPage(PageModel<Role> pm, List<QueryCondition> authQueryConditions) {
@@ -49,18 +73,19 @@ public class RoleService extends DataService<RoleRepository, Role, String> {
         return findAll(spd);
     }
 
-    @Override
-    public Role save(Role entity) {
-        entity = super.save(entity);
-        if (PublicUtil.isNotEmpty(entity.getModuleIdList())) {
-            repository.deleteRoleModules(entity);
-            repository.addRoleModules(entity);
+    public Role save(RoleForm roleForm) {
+        Role role = PublicUtil.isNotEmpty(roleForm.getId()) ? repository.findOneById(roleForm.getId()) : new Role();
+        copyFormToBean(roleForm, role);
+        role = super.save(role);
+        if (PublicUtil.isNotEmpty(role.getModuleIdList())) {
+            repository.deleteRoleModules(role);
+            repository.addRoleModules(role);
         }
 
-        if (PublicUtil.isNotEmpty(entity.getOrgIdList())) {
-            repository.deleteRoleOrgs(entity);
-            repository.addRoleOrgs(entity);
+        if (PublicUtil.isNotEmpty(role.getOrgIdList())) {
+            repository.deleteRoleOrgs(role);
+            repository.addRoleOrgs(role);
         }
-        return entity;
+        return role;
     }
 }

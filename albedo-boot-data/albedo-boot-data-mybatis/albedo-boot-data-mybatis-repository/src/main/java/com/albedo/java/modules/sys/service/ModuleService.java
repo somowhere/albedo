@@ -8,7 +8,9 @@ import com.albedo.java.modules.sys.repository.ModuleRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.RequestMethod;
+import com.albedo.java.vo.sys.query.AntdTreeResult;
 import com.albedo.java.vo.sys.query.ModuleTreeQuery;
+import com.albedo.java.vo.sys.query.ModuleMenuTreeResult;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,65 @@ import java.util.Map;
 @Service
 @Transactional
 public class ModuleService extends TreeService<ModuleRepository, Module, String> {
+
+
+
+    @Transactional(readOnly = true)
+    public List<ModuleMenuTreeResult> findMenuDataRest(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
+        String type = moduleTreeQuery != null ? moduleTreeQuery.getType() : null,
+                all = moduleTreeQuery != null ? moduleTreeQuery.getAll() : null;
+
+        List<ModuleMenuTreeResult> mapList = Lists.newArrayList();
+        for (Module e : moduleList) {
+            ModuleMenuTreeResult moduleMenuTreeResult = null;
+            if ((all != null || (all == null && BaseEntity.FLAG_NORMAL.equals(e.getStatus())))) {
+
+                if ("menu".equals(type) && !Module.TYPE_MENU.equals(e.getType())) {
+                    continue;
+                }
+                if(moduleTreeQuery!=null && moduleTreeQuery.getRoot() && PublicUtil.isEmpty(e.getParentId())){
+                    continue;
+                }
+
+                moduleMenuTreeResult = new ModuleMenuTreeResult();
+                moduleMenuTreeResult.setId(e.getId());
+                moduleMenuTreeResult.setBpid(e.getParentId() != null ? e.getParentId() : "0");
+                moduleMenuTreeResult.setMpid(moduleMenuTreeResult.getBpid());
+                moduleMenuTreeResult.setName(e.getName());
+                moduleMenuTreeResult.setRoute(e.getHref());
+                moduleMenuTreeResult.setIcon(e.getIconCls());
+                mapList.add(moduleMenuTreeResult);
+            }
+        }
+        return mapList;
+    }
+    @Transactional(readOnly = true)
+    public List<AntdTreeResult> findTreeDataRest(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
+        String type = moduleTreeQuery != null ? moduleTreeQuery.getType() : null,
+                all = moduleTreeQuery != null ? moduleTreeQuery.getAll() : null;
+
+        List<AntdTreeResult> mapList = Lists.newArrayList();
+        for (Module e : moduleList) {
+            AntdTreeResult antdTreeResult = null;
+            if ((all != null || (all == null && BaseEntity.FLAG_NORMAL.equals(e.getStatus())))) {
+
+                if ("menu".equals(type) && !Module.TYPE_MENU.equals(e.getType())) {
+                    continue;
+                }
+                if(moduleTreeQuery!=null && moduleTreeQuery.getRoot() && PublicUtil.isEmpty(e.getParentId())){
+                    continue;
+                }
+                antdTreeResult = new AntdTreeResult();
+                antdTreeResult.setId(e.getId());
+                antdTreeResult.setPid(e.getParentId() != null ? e.getParentId() : "0");
+                antdTreeResult.setLabel(e.getName());
+                antdTreeResult.setKey(e.getName());
+                antdTreeResult.setValue(e.getId());
+                mapList.add(antdTreeResult);
+            }
+        }
+        return mapList;
+    }
 
     @Transactional(readOnly = true)
     public List<Map<String, Object>> findTreeData(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {

@@ -19,6 +19,7 @@ public class UserResult extends GeneralEntityVo {
     /*** F_LOGINID */
     public static final String F_EMAIL = "email";
     private static final long serialVersionUID = 1L;
+    private String id;
     private String loginId;
     private String orgId;
     private String orgName;
@@ -29,6 +30,7 @@ public class UserResult extends GeneralEntityVo {
     private String langKey;
     private String activationKey;
     private String resetKey;
+    private Integer status;
     private ZonedDateTime resetDate = null;
     private String roleNames;
     private List<String> roleIdList;

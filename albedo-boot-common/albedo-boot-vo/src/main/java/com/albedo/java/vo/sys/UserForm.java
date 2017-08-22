@@ -22,6 +22,7 @@ public class UserForm extends GeneralEntityVo {
     private String id;
     private String loginId;
     private String password;
+    private  String confirmPassword;
     private String orgId;
 
     private String name;
@@ -36,10 +37,14 @@ public class UserForm extends GeneralEntityVo {
     private String activationKey;
 
     private String resetKey;
-
+    private Integer status;
     private ZonedDateTime resetDate = null;
 
     private List<String> roleIdList;
+
+    public void setRoleIdList(List<String> roleIdList){
+        this.roleIdList = roleIdList;
+    }
 
 
 }

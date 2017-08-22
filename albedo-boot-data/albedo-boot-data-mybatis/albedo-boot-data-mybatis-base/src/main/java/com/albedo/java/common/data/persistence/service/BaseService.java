@@ -29,6 +29,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Service基类
@@ -135,6 +136,11 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
     @Transactional(readOnly = true)
     public T findOne(pk id) {
         return repository.findOne(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<T> findOneById(pk id) {
+        return Optional.of(repository.findOneById(id));
     }
 
 

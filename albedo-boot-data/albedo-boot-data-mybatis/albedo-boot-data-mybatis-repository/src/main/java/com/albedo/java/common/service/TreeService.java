@@ -20,6 +20,28 @@ import java.util.Map;
 @Transactional
 public abstract class TreeService<Repository extends TreeRepository<T, PK>, T extends TreeEntity, PK extends Serializable>
         extends DataService<Repository, T, PK> {
+
+    public void delete(List<PK> ids) {
+        ids.forEach(id -> {
+            T entity = repository.findOne(id);
+            Assert.assertNotNull(entity, "对象 " + id + " 信息为空，删除失败");
+            deleteById(id, entity.getParentIds());
+            log.debug("Deleted Entity: {}", entity);
+        });
+    }
+
+    public void lockOrUnLock(List<PK> ids) {
+        ids.forEach(id -> {
+            T entity = repository.findOne(id);
+            Assert.assertNotNull(entity, "对象 " + id + " 信息为空，操作失败");
+            operateStatusById(id, entity.getParentIds(),
+                    BaseEntity.FLAG_NORMAL.equals(entity.getStatus()) ?
+                            BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL);
+            log.debug("LockOrUnLock Entity: {}", entity);
+        });
+    }
+
+
     /**
      * 逻辑删除
      *
@@ -27,24 +49,25 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
      * @param likeParentIds
      * @return
      */
-    public void deleteById(PK id, String likeParentIds, String lastModifiedBy) {
-        operateStatusById(id, likeParentIds, BaseEntity.FLAG_DELETE, lastModifiedBy);
+    public void deleteById(PK id, String likeParentIds) {
+        operateStatusById(id, likeParentIds, BaseEntity.FLAG_DELETE);
     }
 
-    public void operateStatusById(PK id, String likeParentIds, Integer status, String lastModifiedBy) {
-        T entity = repository.findOneByIdOrParentIdsLike(id, likeParentIds);
-        Assert.assertNotNull(entity, "无法查询到对象信息");
-        entity.setStatus(status);
+    public void operateStatusById(PK id, String likeParentIds, Integer status) {
+        List<T> entityList = repository.findAllByIdOrParentIdsLike(id, PublicUtil.toAppendStr(likeParentIds, id, ",", "%"));
+        Assert.assertNotNull(entityList, "无法查询到对象信息");
+        for (T entity : entityList){
+            entity.setStatus(status);
 //        entity.setLastModifiedBy(lastModifiedBy);
 //        entity.setLastModifiedDate(PublicUtil.getCurrentDate());
-        repository.updateIgnoreNull(entity);
-
+            repository.updateIgnoreNull(entity);
+        }
     }
 
     public T save(T entity) {
         String oldParentIds = entity.getParentIds(); // 获取修改前的parentIds，用于更新子节点的parentIds
         if (entity.getParentId() != null) {
-            T parent = repository.findOneById(entity.getParentId());
+            T parent = repository.findOneById((PK) entity.getParentId());
             if (parent == null || PublicUtil.isEmpty(parent.getId()))
                 throw new RuntimeMsgException("无法获取模块的父节点，插入失败");
             if (parent != null) {
