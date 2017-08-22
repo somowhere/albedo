@@ -22,11 +22,13 @@
                 <form class="form-inline form-search" role="form">
                     <div class="form-group">
                         <label class="input-label" for="loginId">登录Id </label>
-                        <input type="text" class="form-control" searchItem="searchItem" id="loginId" name="loginId" analytiColumnPrefix="a"
+                        <input type="text" class="form-control" searchItem="searchItem" id="loginId" name="loginId"
+                               analytiColumnPrefix="a"
                                placeholder="..."></div>
                     <div class="form-group">
                         <label class="input-label" for="email">邮箱</label>
-                        <input type="text" class="form-control" searchItem="searchItem" id="email" name="email" analytiColumnPrefix="a"
+                        <input type="text" class="form-control" searchItem="searchItem" id="email" name="email"
+                               analytiColumnPrefix="a"
                                placeholder="...">
                     </div>
                     <div class="form-group">

@@ -27,7 +27,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import java.net.URISyntaxException;
@@ -51,10 +54,11 @@ public class DictResource extends DataResource<DictService, Dict> {
         List<DictTreeResult> rs = dictService.findTreeDataRest(dictTreeQuery, DictUtil.getDictList());
         return ResultBuilder.buildOk(rs);
     }
+
     @GetMapping(value = "findSelectData")
     public ResponseEntity findSelectData(DictQuerySearch dictQuerySearch) {
         Map<String, Object> map = Maps.newHashMap();
-        if(PublicUtil.isNotEmpty(dictQuerySearch.getDictQueries())){
+        if (PublicUtil.isNotEmpty(dictQuerySearch.getDictQueries())) {
             List<DictQuery> dictQueries = JSON.parseArray(dictQuerySearch.getDictQueries(), DictQuery.class);
             dictQueries.forEach(dictQuery -> map.put(StringUtil.toCamelCase(dictQuery.getCode()), DictUtil.getDictList(dictQuery).
                     stream().map(item -> new SelectResult(item.getVal(), item.getName())).collect(Collectors.toList())));

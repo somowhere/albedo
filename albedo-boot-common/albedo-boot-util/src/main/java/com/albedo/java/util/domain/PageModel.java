@@ -22,8 +22,8 @@ public class PageModel<T> implements Pageable, Serializable {
 
     public static final String F_DATA = "data";
     private static final long serialVersionUID = 1L;
-    private int page=1;
-    private int size=10;
+    private int page = 1;
+    private int size = 10;
     @JSONField(serialize = false)
     private Sort sort;
     /**

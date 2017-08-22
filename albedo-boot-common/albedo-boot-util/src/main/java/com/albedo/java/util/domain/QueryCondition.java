@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Entity;
-import org.springframework.data.mybatis.annotations.JoinColumn;
 import org.springframework.data.mybatis.repository.dialect.Dialect;
 import org.springframework.util.StringUtils;
 
@@ -132,15 +131,6 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
         return new QueryCondition(property, QueryCondition.Operator.ne, value);
     }
 
-    public QueryCondition setAnalytiColumn(boolean flag) {
-        this.analytiColumn=flag;
-        return this;
-    }
-    public QueryCondition setAnalytiColumnPrefix(String analytiPrefix) {
-        this.analytiColumnPrefix=analytiPrefix;
-        return this;
-    }
-
     /**
      * 返回大于筛选
      *
@@ -227,6 +217,16 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
         return new QueryCondition(property, QueryCondition.Operator.isNotNull, null);
     }
 
+    public QueryCondition setAnalytiColumn(boolean flag) {
+        this.analytiColumn = flag;
+        return this;
+    }
+
+    public QueryCondition setAnalytiColumnPrefix(String analytiPrefix) {
+        this.analytiColumnPrefix = analytiPrefix;
+        return this;
+    }
+
     public String getFieldNode() {
         return fieldNode;
     }
@@ -248,10 +248,10 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
 
     @JSONField(serialize = false)
     public String getFieldRealColumnName() {
-        if(fieldRealColumnName==null){
+        if (fieldRealColumnName == null) {
             String columnName = null, fieldPropery = fieldName;
-            Class<?> targetPersistentClass=persistentClass;
-            if(analytiColumn){
+            Class<?> targetPersistentClass = persistentClass;
+            if (analytiColumn) {
                 try {
                     if (persistentClass != null && PublicUtil.isNotEmpty(getFieldName())) {
                         String quota = analytiColumnPrefix;
@@ -259,19 +259,19 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
                         if (PublicUtil.isEmpty(quota)) {
                             Entity entity = Reflections.getAnnotation(targetPersistentClass, Entity.class);
                             quota = null != entity && StringUtils.hasText(entity.name()) ? entity.name() :
-                                            StringUtils.uncapitalize(targetPersistentClass.getSimpleName());
-                            if(indexQuote != -1){
-                                quota+="."+fieldPropery.substring(0, fieldPropery.lastIndexOf("."));
+                                    StringUtils.uncapitalize(targetPersistentClass.getSimpleName());
+                            if (indexQuote != -1) {
+                                quota += "." + fieldPropery.substring(0, fieldPropery.lastIndexOf("."));
                             }
                         }
                         if (indexQuote != -1) {
                             String[] properties = fieldPropery.split("\\.");
                             int size = properties.length;
-                            for(int i =0;i<size-1;i++){
+                            for (int i = 0; i < size - 1; i++) {
                                 Field field = Reflections.getAccessibleField(targetPersistentClass, properties[i]);
                                 targetPersistentClass = field.getType();
                             }
-                            fieldPropery = properties[size-1];
+                            fieldPropery = properties[size - 1];
                         }
                         Column column = Reflections.getAnnotationByClazz(targetPersistentClass, fieldPropery, Column.class);
                         if (column != null) columnName = column.name();
@@ -294,12 +294,12 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
         return operate;
     }
 
-    public void setOperate(String operate) {
-        this.operate = Operator.valueOf(operate);
-    }
-
     public void setOperate(Operator operate) {
         this.operate = operate;
+    }
+
+    public void setOperate(String operate) {
+        this.operate = Operator.valueOf(operate);
     }
 
     public String getAttrType() {

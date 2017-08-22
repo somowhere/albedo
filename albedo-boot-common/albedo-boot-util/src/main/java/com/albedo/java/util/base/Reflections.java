@@ -208,6 +208,7 @@ public class Reflections {
     public static Field getAccessibleField(final Object obj, final String fieldName) {
         return getAccessibleField(obj.getClass(), fieldName);
     }
+
     /**
      * 循环向上转型, 获取对象的DeclaredField, 并强制设置为可访问. 如向上转型到Object仍无法找到, 返回null.
      */

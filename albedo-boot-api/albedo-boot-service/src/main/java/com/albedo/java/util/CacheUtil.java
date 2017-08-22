@@ -26,8 +26,8 @@ public class CacheUtil {
     public static Cache getCache(String cacheName) {
         Cache cache = cacheManager.getCache(cacheName);
         if (cache == null) {
-            if(!cacheManager.cacheExists(cacheName))
-            cacheManager.addCache(cacheName);
+            if (!cacheManager.cacheExists(cacheName))
+                cacheManager.addCache(cacheName);
             cache = cacheManager.getCache(cacheName);
             cache.getCacheConfiguration().setEternal(true);
         }

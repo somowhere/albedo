@@ -343,9 +343,9 @@ public class DictUtil {
     }
 
     public static List<Dict> getDictList(DictQuery dictQuery) {
-       if(PublicUtil.isNotEmpty(dictQuery.getFilter())){
-           return  getDictListFilterVal(dictQuery.getCode(), dictQuery.getFilter());
-       }
+        if (PublicUtil.isNotEmpty(dictQuery.getFilter())) {
+            return getDictListFilterVal(dictQuery.getCode(), dictQuery.getFilter());
+        }
         return getDictList(dictQuery.getCode());
     }
 

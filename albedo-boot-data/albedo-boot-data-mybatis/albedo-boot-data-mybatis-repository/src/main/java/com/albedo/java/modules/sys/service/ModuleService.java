@@ -9,8 +9,8 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.RequestMethod;
 import com.albedo.java.vo.sys.query.AntdTreeResult;
-import com.albedo.java.vo.sys.query.ModuleTreeQuery;
 import com.albedo.java.vo.sys.query.ModuleMenuTreeResult;
+import com.albedo.java.vo.sys.query.ModuleTreeQuery;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,6 @@ import java.util.Map;
 public class ModuleService extends TreeService<ModuleRepository, Module, String> {
 
 
-
     @Transactional(readOnly = true)
     public List<ModuleMenuTreeResult> findMenuDataRest(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
         String type = moduleTreeQuery != null ? moduleTreeQuery.getType() : null,
@@ -41,7 +40,7 @@ public class ModuleService extends TreeService<ModuleRepository, Module, String>
                 if ("menu".equals(type) && !Module.TYPE_MENU.equals(e.getType())) {
                     continue;
                 }
-                if(moduleTreeQuery!=null && moduleTreeQuery.getRoot() && PublicUtil.isEmpty(e.getParentId())){
+                if (moduleTreeQuery != null && moduleTreeQuery.getRoot() && PublicUtil.isEmpty(e.getParentId())) {
                     continue;
                 }
 
@@ -57,6 +56,7 @@ public class ModuleService extends TreeService<ModuleRepository, Module, String>
         }
         return mapList;
     }
+
     @Transactional(readOnly = true)
     public List<AntdTreeResult> findTreeDataRest(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
         String type = moduleTreeQuery != null ? moduleTreeQuery.getType() : null,
@@ -70,7 +70,7 @@ public class ModuleService extends TreeService<ModuleRepository, Module, String>
                 if ("menu".equals(type) && !Module.TYPE_MENU.equals(e.getType())) {
                     continue;
                 }
-                if(moduleTreeQuery!=null && moduleTreeQuery.getRoot() && PublicUtil.isEmpty(e.getParentId())){
+                if (moduleTreeQuery != null && moduleTreeQuery.getRoot() && PublicUtil.isEmpty(e.getParentId())) {
                     continue;
                 }
                 antdTreeResult = new AntdTreeResult();

@@ -7,7 +7,6 @@ import com.albedo.java.common.data.persistence.GeneralEntity;
 import org.springframework.data.mybatis.repository.support.MybatisRepository;
 
 import java.io.Serializable;
-import java.util.Optional;
 
 /**
  * DAO支持类实现

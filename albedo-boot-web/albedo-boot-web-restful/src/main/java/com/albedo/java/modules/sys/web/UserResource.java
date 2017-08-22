@@ -11,7 +11,6 @@ import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.sys.UserForm;
-import com.albedo.java.vo.sys.UserResult;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataResource;
 import com.alibaba.fastjson.JSON;
@@ -22,7 +21,6 @@ import io.swagger.annotations.ApiImplicitParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -30,7 +28,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.net.URISyntaxException;
 
 /**
  * REST controller for managing user.
@@ -108,7 +105,7 @@ public class UserResource extends DataResource<UserService, User> {
      * @param userForm
      * @return
      */
-    @PostMapping(value = "/",consumes="application/json",produces="application/json")
+    @PostMapping(value = "/", consumes = "application/json", produces = "application/json")
     @Timed
     @ApiImplicitParams(@ApiImplicitParam(paramType = "query", name = "confirmPassword"))
     public ResponseEntity save(@Valid @RequestBody UserForm userForm) {

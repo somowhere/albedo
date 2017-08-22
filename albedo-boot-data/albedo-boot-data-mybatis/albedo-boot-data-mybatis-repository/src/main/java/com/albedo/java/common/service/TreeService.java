@@ -56,10 +56,8 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
     public void operateStatusById(PK id, String likeParentIds, Integer status) {
         List<T> entityList = repository.findAllByIdOrParentIdsLike(id, PublicUtil.toAppendStr(likeParentIds, id, ",", "%"));
         Assert.assertNotNull(entityList, "无法查询到对象信息");
-        for (T entity : entityList){
+        for (T entity : entityList) {
             entity.setStatus(status);
-//        entity.setLastModifiedBy(lastModifiedBy);
-//        entity.setLastModifiedDate(PublicUtil.getCurrentDate());
             repository.updateIgnoreNull(entity);
         }
     }

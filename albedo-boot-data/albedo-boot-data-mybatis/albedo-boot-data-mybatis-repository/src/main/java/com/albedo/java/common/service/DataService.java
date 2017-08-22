@@ -103,8 +103,8 @@ public abstract class DataService<Repository extends BaseRepository<T, PK>, T ex
         SpecificationDetail<T> specificationDetail = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
                 persistentClass,
                 QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
-        if(PublicUtil.isNotEmpty(authQueryConditions))
-        specificationDetail.orAll(authQueryConditions);
+        if (PublicUtil.isNotEmpty(authQueryConditions))
+            specificationDetail.orAll(authQueryConditions);
 //		specificationDetail.setPersistentClass();
         return findBasePage(pm, specificationDetail, isBasic);
     }

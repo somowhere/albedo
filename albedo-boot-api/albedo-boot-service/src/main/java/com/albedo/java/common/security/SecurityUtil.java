@@ -101,11 +101,11 @@ public final class SecurityUtil {
      */
     public static User getByUserId(String userId) {
         User user = CacheUtil.getJson(USER_CACHE, USER_CACHE_ID_ + userId, User.class);
-        boolean isSearch=false;
-        if(user!=null && PublicUtil.isNotEmpty(user.getRoles()))
+        boolean isSearch = false;
+        if (user != null && PublicUtil.isNotEmpty(user.getRoles()))
             for (Role role : user.getRoles()) {
-                if(PublicUtil.isEmpty(role.getName())){
-                    isSearch=true;
+                if (PublicUtil.isEmpty(role.getName())) {
+                    isSearch = true;
                     break;
                 }
             }
@@ -407,6 +407,7 @@ public final class SecurityUtil {
 
         return false;
     }
+
     /**
      * 当前用户 数据范围过滤 机构表别名 org 用户表别名 creator
      *
@@ -415,6 +416,7 @@ public final class SecurityUtil {
     public static List<QueryCondition> dataScopeFilterSql(String orgAlias, String userAlias) {
         return dataScopeFilter(getCurrentUserId(), orgAlias, userAlias, true);
     }
+
     /**
      * 数据范围过滤
      *
@@ -424,8 +426,9 @@ public final class SecurityUtil {
      * @return 标准连接条件对象
      */
     public static List<QueryCondition> dataScopeFilterSql(String userId, String orgAlias, String userAlias) {
-        return dataScopeFilter(userId,orgAlias,userAlias,true);
+        return dataScopeFilter(userId, orgAlias, userAlias, true);
     }
+
     /**
      * 当前用户 数据范围过滤 机构表别名 org 用户表别名 creator
      *
@@ -434,6 +437,7 @@ public final class SecurityUtil {
     public static List<QueryCondition> dataScopeFilter() {
         return dataScopeFilter(getCurrentUserId(), "creator.org", "creator", false);
     }
+
     /**
      * 数据范围过滤
      *
@@ -443,16 +447,14 @@ public final class SecurityUtil {
      * @return 标准连接条件对象
      */
     public static List<QueryCondition> dataScopeFilter(String userId, String orgAlias, String userAlias) {
-        return dataScopeFilter(userId,orgAlias,userAlias,false);
+        return dataScopeFilter(userId, orgAlias, userAlias, false);
     }
 
     /**
-     *
      * 数据范围过滤
      *
-     * @return
-     * @param userId 当前用户对象，通过“entity.getCurrentUser()”获取
-     * @param orgAlias 机构表别名，多个用“,”逗号隔开。
+     * @param userId    当前用户对象，通过“entity.getCurrentUser()”获取
+     * @param orgAlias  机构表别名，多个用“,”逗号隔开。
      * @param userAlias 用户表别名，多个用“,”逗号隔开，传递空，忽略此参数
      * @param isSql
      * @return 标准连接条件对象
@@ -508,7 +510,7 @@ public final class SecurityUtil {
                 queryConditions.clear();
             }
         }
-        if(isSql)queryConditions.forEach(item ->item.setAnalytiColumn(false));
+        if (isSql) queryConditions.forEach(item -> item.setAnalytiColumn(false));
         return queryConditions;
     }
 

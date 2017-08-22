@@ -172,6 +172,7 @@ public class JsonUtil {
         JsonUtil.freeFilterList.remove(key);
         return this;
     }
+
     /**
      * 设置日期格式
      *
@@ -179,10 +180,11 @@ public class JsonUtil {
      * @return
      */
     public JsonUtil setDateFormat(String dateFormat) {
-        if(PublicUtil.isNotEmpty(dateFormat))
+        if (PublicUtil.isNotEmpty(dateFormat))
             JsonUtil.dateFormart = dateFormat;
         return this;
     }
+
     /**
      * 设置 允许递归的属性名称 多级用'_' 隔开 例如 staff_loginId ------> staffLoginId
      *

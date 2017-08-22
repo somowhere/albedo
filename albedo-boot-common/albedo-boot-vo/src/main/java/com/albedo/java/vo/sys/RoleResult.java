@@ -1,18 +1,10 @@
 package com.albedo.java.vo.sys;
 
-import com.albedo.java.util.annotation.DictType;
-import com.albedo.java.util.annotation.SearchField;
 import com.albedo.java.vo.base.GeneralEntityVo;
-import com.alibaba.fastjson.annotation.JSONField;
-import com.google.common.collect.Sets;
 import lombok.Data;
 import lombok.ToString;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.mybatis.annotations.*;
 
-import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Set;
 
 /**
  * A user.

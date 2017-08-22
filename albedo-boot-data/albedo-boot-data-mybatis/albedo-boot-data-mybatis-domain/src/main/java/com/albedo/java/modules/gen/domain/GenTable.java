@@ -258,7 +258,7 @@ public class GenTable extends IdEntity {
         return importList;
     }
 
-    private void initImport(List<String> importList){
+    private void initImport(List<String> importList) {
         for (GenTableColumn column : getColumnList()) {
             if (column.getIsNotBaseField() || ("1".equals(column.getIsQuery()) && "between".equals(column.getQueryType()) && (DataEntity.F_CREATEDDATE.equals(column.getSimpleJavaField()) || DataEntity.F_LASTMODIFIEDDATE.equals(column.getSimpleJavaField())))) {
                 // 导入类型依赖包， 如果类型中包含“.”，则需要导入引用。
@@ -278,7 +278,7 @@ public class GenTable extends IdEntity {
             if (PublicUtil.isNotEmpty(column.getDictType())) {
                 addNoRepeatList(importList, "com.albedo.java.util.annotation.DictType");
             }
-            if(column.getName().indexOf("mail")!=-1){
+            if (column.getName().indexOf("mail") != -1) {
                 addNoRepeatList(importList, "org.hibernate.validator.constraints.Email");
             }
 

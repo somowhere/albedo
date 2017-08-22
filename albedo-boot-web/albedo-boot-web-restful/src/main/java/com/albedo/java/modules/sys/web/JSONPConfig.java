@@ -7,9 +7,9 @@ import org.springframework.web.servlet.mvc.method.annotation.AbstractJsonpRespon
  * Created by bin on 2017/3/10.
  */
 @ControllerAdvice(basePackages = {"com.albedo.java.modules.sys.web"})
-public class JSONPConfig extends AbstractJsonpResponseBodyAdvice{
+public class JSONPConfig extends AbstractJsonpResponseBodyAdvice {
 
-    public JSONPConfig(){
-        super("callback","jsop");
+    public JSONPConfig() {
+        super("callback", "jsop");
     }
 }

@@ -5,15 +5,14 @@ import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Org;
 import com.albedo.java.modules.sys.service.OrgService;
 import com.albedo.java.util.JsonUtil;
-import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.sys.OrgForm;
-import com.albedo.java.vo.sys.query.OrgTreeQuery;
 import com.albedo.java.vo.sys.query.AntdTreeResult;
+import com.albedo.java.vo.sys.query.OrgTreeQuery;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataResource;
 import com.alibaba.fastjson.JSON;
@@ -23,7 +22,10 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -57,8 +59,8 @@ public class OrgResource extends DataResource<OrgService, Org> {
         JSON rs = JsonUtil.getInstance().toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
     }
+
     /**
-     *
      * @param id
      * @return
      */
@@ -69,6 +71,7 @@ public class OrgResource extends DataResource<OrgService, Org> {
         return ResultBuilder.buildOk(service.findOneById(id)
                 .map(item -> service.copyBeanToResult(item)));
     }
+
     /**
      * @param org
      * @return

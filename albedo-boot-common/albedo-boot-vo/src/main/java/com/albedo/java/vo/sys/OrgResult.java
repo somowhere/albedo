@@ -9,17 +9,17 @@ import lombok.ToString;
  */
 @Data
 @ToString
-public class OrgResult  extends GeneralEntityVo {
+public class OrgResult extends GeneralEntityVo {
 
     private static final long serialVersionUID = 1L;
-    private String id;
     /*** 组织名称 */
     protected String name;
     /*** 上级组织 */
     protected String parentId;
-    private String parentName;
     /*** 序号 */
     protected Integer sort;
+    private String id;
+    private String parentName;
     private String code;
     /*** 拼音简码 */
     private String en;
