@@ -8,11 +8,11 @@
                 </div>
                 <div class="actions">
                     <div class="btn-group">
-                        <a id="add-user" class="btn red dialog" href="javascript:void(0);"
-                           data-url="${ctx}/sys/user/edit" data-modal-width="950" data-is-modal=""
-                           data-table-id="#data-table-user">
-                            <i class="fa fa-plus"> 刷新</i>
-                        </a>
+                        <#--<a id="add-user" class="btn red dialog" href="javascript:void(0);"-->
+                           <#--data-url="${ctx}/sys/user/edit" data-modal-width="950" data-is-modal=""-->
+                           <#--data-table-id="#data-table-user">-->
+                            <#--<i class="fa fa-plus"> 刷新</i>-->
+                        <#--</a>-->
                     </div>
                 </div>
             </div>

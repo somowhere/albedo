@@ -38,14 +38,11 @@ import java.util.Map;
 @RequestMapping("${albedo.adminPath}/sys/module")
 public class ModuleResource extends DataResource<ModuleService, Module> {
 
-    @Resource
-    private ModuleService moduleService;
-
     @ModelAttribute
     public Module get(@RequestParam(required = false) String id) throws Exception {
         String path = request.getRequestURI();
         if (path != null && !path.contains("checkBy") && !path.contains("find") && PublicUtil.isNotEmpty(id)) {
-            Module module = moduleService.findOne(id);
+            Module module = service.findOne(id);
             System.out.print(module.getParentIds());
             return module;
         } else {
@@ -55,7 +52,7 @@ public class ModuleResource extends DataResource<ModuleService, Module> {
 
     @RequestMapping(value = "findTreeData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity findTreeData(ModuleTreeQuery moduleTreeQuery) {
-        List<Map<String, Object>> rs = moduleService.findTreeData(moduleTreeQuery, SecurityUtil.getModuleList());
+        List<Map<String, Object>> rs = service.findTreeData(moduleTreeQuery, SecurityUtil.getModuleList());
         return ResultBuilder.buildOk(rs);
     }
 
@@ -77,7 +74,7 @@ public class ModuleResource extends DataResource<ModuleService, Module> {
      */
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public ResponseEntity getPage(PageModel<Module> pm) {
-        moduleService.findPage(pm, SecurityUtil.dataScopeFilter());
+        service.findPage(pm, SecurityUtil.dataScopeFilter());
         pm.setSortDefaultName(Direction.DESC, DataEntity.F_LASTMODIFIEDDATE);
         JSON rs = JsonUtil.getInstance().toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
@@ -90,7 +87,7 @@ public class ModuleResource extends DataResource<ModuleService, Module> {
             throw new RuntimeMsgException(PublicUtil.toAppendStr("查询模块管理失败，原因：无法查找到编号区域"));
         }
         if (StringUtil.isBlank(module.getId())) {
-            List<Module> list = moduleService.findAllByParentId(module.getParentId());
+            List<Module> list = service.findAllByParentId(module.getParentId());
             if (list.size() > 0) {
                 module.setSort(list.get(list.size() - 1).getSort());
                 if (module.getSort() != null) {
@@ -99,7 +96,7 @@ public class ModuleResource extends DataResource<ModuleService, Module> {
             }
         }
         if (PublicUtil.isNotEmpty(module.getParentId())) {
-            module.setParent(moduleService.findOne(module.getParentId()));
+            module.setParent(service.findOne(module.getParentId()));
         }
         return "modules/sys/moduleForm";
     }
@@ -117,7 +114,7 @@ public class ModuleResource extends DataResource<ModuleService, Module> {
                 module.getId(), module.getPermission()))) {
             throw new RuntimeMsgException("权限已存在");
         }
-        moduleService.save(module);
+        service.save(module);
         SecurityUtil.clearUserJedisCache();
         JedisUtil.removeSys(InvocationSecurityMetadataSourceService.RESOURCE_MODULE_DATA_MAP);
         return ResultBuilder.buildOk("保存", module.getName(), "成功");
@@ -132,7 +129,7 @@ public class ModuleResource extends DataResource<ModuleService, Module> {
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
         log.debug("REST request to delete Module: {}", ids);
-        moduleService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        service.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
         SecurityUtil.clearUserJedisCache();
         JedisUtil.removeSys(InvocationSecurityMetadataSourceService.RESOURCE_MODULE_DATA_MAP);
         return ResultBuilder.buildOk("删除成功");
@@ -148,7 +145,7 @@ public class ModuleResource extends DataResource<ModuleService, Module> {
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {
         log.debug("REST request to lockOrUnLock User: {}", ids);
-        moduleService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        service.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
         SecurityUtil.clearUserJedisCache();
         JedisUtil.removeSys(InvocationSecurityMetadataSourceService.RESOURCE_MODULE_DATA_MAP);
         return ResultBuilder.buildOk("操作成功");
