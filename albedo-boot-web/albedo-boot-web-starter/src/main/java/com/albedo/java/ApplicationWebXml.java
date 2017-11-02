@@ -16,6 +16,6 @@
 //         * set a default to use when no profile is configured.
 //         */
 //        DefaultProfileUtil.addDefaultProfile(application.application());
-//        return application.sources(AlbedoJhipsterWeb.class);
+//        return application.sources(AlbedoBootWeb.class);
 //    }
 //}

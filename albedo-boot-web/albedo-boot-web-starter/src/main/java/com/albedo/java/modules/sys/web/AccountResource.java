@@ -56,45 +56,6 @@ public class AccountResource extends BaseResource {
     @Resource
     private PersistentTokenRepository persistentTokenRepository;
 
-//    @Resource
-//    private MailService mailService;
-
-    /**
-     * POST  /register : register the user.
-     *
-     * @param managedUserVM the managed user View Model
-     * @param request the HTTP request
-     * @return the ResponseEntity with status 201 (Created) if the user is registered or 400 (Bad Request) if the login or e-mail is already in use
-     */
-//    @RequestMapping(value = "/register",
-//                    method = RequestMethod.POST,
-//                    produces={MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
-//    @Timed
-//    public ResponseEntity<?> registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM, HttpServletRequest request) {
-//
-//        HttpHeaders textPlainHeaders = new HttpHeaders();
-//        textPlainHeaders.setContentType(MediaType.TEXT_PLAIN);
-//
-//        return userRepository.findOneByLoginId(managedUserVM.getLoginId().toLowerCase())
-//            .map(user -> new ResponseEntity<>("login already in use", textPlainHeaders, HttpStatus.BAD_REQUEST))
-//            .orElseGet(() -> userRepository.findOneByEmail(managedUserVM.getEmail())
-//                .map(user -> new ResponseEntity<>("e-mail address already in use", textPlainHeaders, HttpStatus.BAD_REQUEST))
-//                .orElseGet(() -> {
-//                    User user = userService.create(managedUserVM.getLoginId(), managedUserVM.getPassword(),
-//                    managedUserVM.getName(), managedUserVM.getEmail().toLowerCase(),
-//                    managedUserVM.getLangKey());
-//                    String baseUrl = request.getScheme() + // "http"
-//                    "://" +                                // "://"
-//                    request.getServerName() +              // "myhost"
-//                    ":" +                                  // ":"
-//                    request.getServerPort() +              // "80"
-//                    request.getContextPath();              // "/myContextPath" or "" if deployed in root context
-//
-//                    mailService.sendActivationEmail(user, baseUrl);
-//                    return new ResponseEntity<>(HttpStatus.CREATED);
-//                })
-//        );
-//    }
 
     /**
      * GET  /activate : activate the registered user.
@@ -126,46 +87,6 @@ public class AccountResource extends BaseResource {
         log.debug("REST request to check if the current user is authenticated");
         return request.getRemoteUser();
     }
-
-//    /**
-//     * GET  /account : get the current user.
-//     *
-//     * @return the ResponseEntity with status 200 (OK) and the current user in body, or status 500 (Internal Server Error) if the user couldn't be returned
-//     */
-//    @RequestMapping(value = "/account",
-//        method = RequestMethod.GET,
-//        produces = MediaType.APPLICATION_JSON_VALUE)
-//    @Timed
-//    public ResponseEntity<UserDTO> getAccount() {
-//        return Optional.ofNullable(userService.getUserWithAuthorities())
-//            .map(user -> new ResponseEntity<>(new UserDTO(user), HttpStatus.OK))
-//            .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
-//    }
-//
-//    /**
-//     * POST  /account : update the current user information.
-//     *
-//     * @param userDTO the current user information
-//     * @return the ResponseEntity with status 200 (OK), or status 400 (Bad Request) or 500 (Internal Server Error) if the user couldn't be updated
-//     */
-//    @RequestMapping(value = "/account",
-//        method = RequestMethod.POST,
-//        produces = MediaType.APPLICATION_JSON_VALUE)
-//    @Timed
-//    public ResponseEntity<String> saveAccount(@Valid @RequestBody UserDTO userDTO) {
-//        Optional<User> existingUser = userRepository.findOneByEmail(userDTO.getEmail());
-//        if (existingUser.isPresent() && (!existingUser.get().getLoginId().equalsIgnoreCase(userDTO.getLoginId()))) {
-//            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("user-management", "emailexists", "Email already in use")).body(null);
-//        }
-//        return userRepository
-//        		.findOneById(SecurityUtil.getCurrentUserId())
-//            .map(u -> {
-//                userService.update(userDTO.getName(), userDTO.getEmail(),
-//                    userDTO.getLangKey());
-//                return new ResponseEntity<String>(HttpStatus.OK);
-//            })
-//            .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
-//    }
 
     /**
      * @return
@@ -254,54 +175,4 @@ public class AccountResource extends BaseResource {
                 .findAny().ifPresent(t -> persistentTokenRepository.delete(t));
     }
 
-    /**
-     * POST   /account/reset_password/init : Send an e-mail to reset the password of the user
-     *
-     * @param mail the mail of the user
-     * @param request the HTTP request
-     * @return the ResponseEntity with status 200 (OK) if the e-mail was sent, or status 400 (Bad Request) if the e-mail address is not registered
-     */
-//    @RequestMapping(value = "/account/reset_password/init",
-//        method = RequestMethod.POST,
-//        produces = MediaType.TEXT_PLAIN_VALUE)
-//    @Timed
-//    public ResponseEntity<?> requestPasswordReset(@RequestBody String mail, HttpServletRequest request) {
-//        return userService.requestPasswordReset(mail)
-//            .map(user -> {
-//                String baseUrl = request.getScheme() +
-//                    "://" +
-//                    request.getServerName() +
-//                    ":" +
-//                    request.getServerPort() +
-//                    request.getContextPath();
-//                mailService.sendPasswordResetMail(user, baseUrl);
-//                return new ResponseEntity<>("e-mail was sent", HttpStatus.OK);
-//            }).orElse(new ResponseEntity<>("e-mail address not registered", HttpStatus.BAD_REQUEST));
-//    }
-
-//    /**
-//     * POST   /account/reset_password/finish : Finish to reset the password of the user
-//     *
-//     * @param keyAndPassword the generated key and the new password
-//     * @return the ResponseEntity with status 200 (OK) if the password has been reset,
-//     * or status 400 (Bad Request) or 500 (Internal Server Error) if the password could not be reset
-//     */
-//    @RequestMapping(value = "/account/reset_password/finish",
-//        method = RequestMethod.POST,
-//        produces = MediaType.TEXT_PLAIN_VALUE)
-//    @Timed
-//    public ResponseEntity<String> finishPasswordReset(@RequestBody KeyAndPasswordVM keyAndPassword) {
-//        if (!checkPasswordLength(keyAndPassword.getNewPassword())) {
-//            return new ResponseEntity<>("Incorrect password", HttpStatus.BAD_REQUEST);
-//        }
-//        return userService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey())
-//              .map(user -> new ResponseEntity<String>(HttpStatus.OK))
-//              .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
-//    }
-//
-//    private boolean checkPasswordLength(String password) {
-//        return (!StringUtils.isEmpty(password) &&
-//            password.length() >= ManagedUserVM.PASSWORD_MIN_LENGTH &&
-//            password.length() <= ManagedUserVM.PASSWORD_MAX_LENGTH);
-//    }
 }

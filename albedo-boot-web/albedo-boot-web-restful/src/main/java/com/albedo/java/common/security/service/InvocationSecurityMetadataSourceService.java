@@ -8,6 +8,7 @@ import com.albedo.java.util.DictUtil;
 import com.albedo.java.util.JedisUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
+import com.albedo.java.util.domain.GlobalJedis;
 import com.google.common.collect.Lists;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.access.ConfigAttribute;
@@ -26,7 +27,6 @@ import java.util.stream.Collectors;
 public class InvocationSecurityMetadataSourceService
         implements FilterInvocationSecurityMetadataSource {
 
-    public static final String RESOURCE_MODULE_DATA_MAP = "RESOURCE_MODULE_DATA_MAP";
     public static String cUrl = null;
     public static String loginUrl = "/login";
     public static String logoutUrl = "/logout";
@@ -49,7 +49,7 @@ public class InvocationSecurityMetadataSourceService
 
     public Map<String, Collection<ConfigAttribute>> getResourceMap() {
         if (resourceMap == null) {
-            resourceMap = (Map<String, Collection<ConfigAttribute>>) JedisUtil.getSys(RESOURCE_MODULE_DATA_MAP);
+            resourceMap = (Map<String, Collection<ConfigAttribute>>) JedisUtil.getSys(GlobalJedis.RESOURCE_MODULE_DATA_MAP);
 
             if (resourceMap == null) {
                 resourceMap = new HashMap<String, Collection<ConfigAttribute>>();
@@ -99,7 +99,7 @@ public class InvocationSecurityMetadataSourceService
 
                     }
                 });
-                JedisUtil.putSys(RESOURCE_MODULE_DATA_MAP, resourceMap);
+                JedisUtil.putSys(GlobalJedis.RESOURCE_MODULE_DATA_MAP, resourceMap);
             }
         }
 
