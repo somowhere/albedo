@@ -3,6 +3,7 @@
  */
 package com.albedo.java.modules.sys.service.impl;
 
+import com.albedo.java.common.base.BaseInit;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.modules.sys.domain.TaskScheduleJob;
 import com.albedo.java.modules.sys.repository.TaskScheduleJobRepository;
@@ -36,6 +37,7 @@ import java.util.Set;
 @ConditionalOnProperty(name = Globals.ALBEDO_QUARTZENABLED)
 @Service
 @Transactional
+@BaseInit
 public class TaskScheduleJobExcutorService extends DataService<TaskScheduleJobRepository,
         TaskScheduleJob, String>
 //		implements ITaskScheduleJobService 
@@ -47,11 +49,8 @@ public class TaskScheduleJobExcutorService extends DataService<TaskScheduleJobRe
     @Autowired
     private Scheduler scheduler;
 
-    /*
-     * (non-Javadoc)
+    /**
      *
-     * @see com.albedo.java.modules.sys.service.ITaskScheduleJobService#
-     * afterPropertiesSet()
      */
     public void afterPropertiesSet() {
         // 这里获取任务信息数据
@@ -77,6 +76,7 @@ public class TaskScheduleJobExcutorService extends DataService<TaskScheduleJobRe
      * lang.String)
      */
     @Transactional(readOnly = true)
+    @Override
     public TaskScheduleJob findOne(String id) {
         return repository.findOne(id);
     }
@@ -106,9 +106,10 @@ public class TaskScheduleJobExcutorService extends DataService<TaskScheduleJobRe
      * com.albedo.java.modules.sys.service.ITaskScheduleJobService#getAllTask()
      */
     public List<TaskScheduleJob> getAllTask() {
-        return repository.findAll();
+        return repository.findAll(false, null);
     }
 
+    @Override
     public TaskScheduleJob save(TaskScheduleJob scheduleJob) {
         return save(scheduleJob, true);
     }
@@ -378,11 +379,12 @@ public class TaskScheduleJobExcutorService extends DataService<TaskScheduleJobRe
 
     public void removeBySourceId(String sourceId) {
         List<TaskScheduleJob> itemList = repository.findAllBySourceId(sourceId);
-        if (itemList != null)
+        if (itemList != null){
             for (TaskScheduleJob taskScheduleJob : itemList) {
                 deleteJob(taskScheduleJob);
                 repository.delete(taskScheduleJob.getId());
             }
+        }
     }
 
     /*

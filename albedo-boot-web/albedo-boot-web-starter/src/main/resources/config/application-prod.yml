@@ -87,7 +87,7 @@ server:
 # ===================================================================
 
 albedo:
-    jedisKeyPrefix: albedo-metronic
+    jedisKeyPrefix: albedoBootWebApp
     developMode: true
     isTokenInterceptor: false
     freeURL:
@@ -114,7 +114,7 @@ albedo:
             enabled: false
             host: localhost
             port: 2003
-            prefix: albedoJhipster
+            prefix: albedoBootWebApp
         logs: # Reports Dropwizard metrics in the logs
             enabled: false
             reportFrequency: 60 # in seconds

@@ -1,4 +1,4 @@
-//package com.albedo.java;
+package com.albedo.java;//package com.albedo.java;
 //
 //import com.albedo.java.util.spring.DefaultProfileUtil;
 //import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -16,6 +16,6 @@
 //         * set a default to use when no profile is configured.
 //         */
 //        DefaultProfileUtil.addDefaultProfile(application.application());
-//        return application.sources(AlbedoBootWebApp.class);
+//        return application.sources(AlbedoJhipsterWeb.class);
 //    }
 //}

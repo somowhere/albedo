@@ -17,12 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>com.albedo.java</groupId>
-            <artifactId>albedo-boot-web-base</artifactId>
-            <version>${project.release.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.albedo.java</groupId>
-            <artifactId>albedo-boot-quartz</artifactId>
+            <artifactId>albedo-boot-web-rest-resource</artifactId>
             <version>${project.release.version}</version>
         </dependency>
         <dependency>

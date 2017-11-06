@@ -15,9 +15,8 @@
         <module>albedo-boot-web-starter</module>
         <module>albedo-boot-web-app</module>
         <module>albedo-boot-web-base</module>
-        <module>albedo-boot-web-base-server</module>
         <module>albedo-boot-web-swagger</module>
-        <module>albedo-boot-web-restful</module>
-        <module>albedo-boot-web-restful-resource</module>
+        <module>albedo-boot-web-rest</module>
+        <module>albedo-boot-web-rest-resource</module>
     </modules>
 </project>

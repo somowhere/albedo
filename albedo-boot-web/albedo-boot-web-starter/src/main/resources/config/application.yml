@@ -18,7 +18,7 @@ management:
             enabled: false # When using the MailService, configure an SMTP server and set this to true
 spring:
     application:
-        name: albedoJhipster
+        name: albedoBootWebApp
     mvc:
         throw-exception-if-no-handler-found: true
 #    resources:
@@ -51,7 +51,7 @@ security:
 # ===================================================================
 
 albedo:
-    application: albedo
+    application: albedoBootWebApp
     adminPath: /a
     frontPath: /f
     defaultView:
@@ -71,11 +71,11 @@ albedo:
         #allow-credentials: true
         #max-age: 1800
     mail:
-        from: albedoJhipster@localhost
+        from: albedoBootWebApp@localhost
     swagger:
         default-include-pattern: /.*
-        title: albedoJhipster API
-        description: albedoJhipster API documentation
+        title: albedoBootWebApp API
+        description: albedoBootWebApp API documentation
         version: 0.0.1
         terms-of-service-url:
         contact-name:

@@ -1,25 +1,34 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.albedo.java</groupId>
         <artifactId>albedo-boot-web</artifactId>
+        <groupId>com.albedo.java</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
+    <modelVersion>4.0.0</modelVersion>
+
     <artifactId>albedo-boot-web-base</artifactId>
-
     <dependencies>
-
         <dependency>
             <groupId>com.albedo.java</groupId>
-            <artifactId>albedo-boot-web-swagger</artifactId>
+            <artifactId>albedo-boot-util</artifactId>
             <version>${project.release.version}</version>
         </dependency>
-
         <dependency>
-            <groupId>com.albedo.java</groupId>
-            <artifactId>albedo-boot-service</artifactId>
-            <version>${project.release.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
     </dependencies>
 
