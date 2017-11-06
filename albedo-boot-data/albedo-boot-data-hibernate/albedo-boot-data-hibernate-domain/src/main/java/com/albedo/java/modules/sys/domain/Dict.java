@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlAttribute;
  * 下午1:55:43
  */
 @Entity
-@Table(name = "SYS_DICT_T")
+@Table(name = "sys_dict_t")
 @DynamicInsert
 @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>com.albedo.java</groupId>
-            <artifactId>albedo-boot-web-base-server</artifactId>
+            <artifactId>albedo-boot-web-general</artifactId>
             <version>${project.release.version}</version>
         </dependency>
         <dependency>
