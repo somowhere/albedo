@@ -14,7 +14,7 @@ import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.sys.ModuleVo;
-import com.albedo.java.vo.sys.query.AntdTreeResult;
+import com.albedo.java.vo.sys.query.TreeResult;
 import com.albedo.java.vo.sys.query.ModuleMenuTreeResult;
 import com.albedo.java.vo.sys.query.ModuleTreeQuery;
 import com.albedo.java.web.rest.ResultBuilder;
@@ -51,7 +51,7 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
 
     @GetMapping(value = "findTreeData")
     public ResponseEntity findTreeData(ModuleTreeQuery moduleTreeQuery) {
-        List<AntdTreeResult> rs = moduleService.findTreeData(moduleTreeQuery, SecurityUtil.getModuleList());
+        List<TreeResult> rs = moduleService.findTreeData(moduleTreeQuery, SecurityUtil.getModuleList());
         return ResultBuilder.buildOk(rs);
     }
 

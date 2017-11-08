@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <template>
-    <name>entityResult</name>
+    <name>entityForm</name>
     <filePath>src/main/java/${packageName}/${moduleName}/domain/vo/${subModuleName}</filePath>
-    <fileName>${ClassName}.java</fileName>
+    <fileName>${ClassName}Vo.java</fileName>
     <content><![CDATA[
 /**
  * Copyright &copy; 2015 <a href="http://www.bs-innotech.com/">bs-innotech</a> All rights reserved.
  */
 package ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>;
 
-import com.albedo.java.vo.base.TreeEntityVo;
+import com.albedo.java.vo.base.DataEntityVo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * ${functionName}Entity ${functionNameSimple}
+ * ${functionName}EntityVo ${functionNameSimple}
  * @author ${functionAuthor}
  * @version ${functionVersion}
  */
 @Entity(table = "${table.name}")
 @Data @ToString @NoArgsConstructor @AllArgsConstructor
-public class ${ClassName}Result extends TreeEntityVo {
+public class ${ClassName}Vo extends DataEntityVo {
 	
 	private static final long serialVersionUID = 1L;
 	<#list table.columnList as column>
@@ -36,9 +36,9 @@ public class ${ClassName}Result extends TreeEntityVo {
 
 
 	public boolean equals(Object obj) {
-		if(obj instanceof ${ClassName} == false) return false;
+		if(obj instanceof ${ClassName}Vo == false) return false;
 		if(this == obj) return true;
-		${ClassName} other = (${ClassName})obj;
+		${ClassName}Vo other = (${ClassName}Vo)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
 			.isEquals();

@@ -69,7 +69,7 @@ import javax.validation.Valid;
 @RequestMapping("${albedo.adminPath}/sys/user")
 public class UserResource extends DataVoResource<UserService, UserVo> {
 
-    private final Logger log = LoggerFactory.getLogger(UserResource.class);
+
     @Autowired(required = false)
     private PasswordEncoder passwordEncoder;
 

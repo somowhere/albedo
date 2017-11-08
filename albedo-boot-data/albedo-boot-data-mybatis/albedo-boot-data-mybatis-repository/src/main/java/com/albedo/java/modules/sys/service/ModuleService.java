@@ -9,7 +9,7 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.RequestMethod;
 import com.albedo.java.vo.sys.ModuleVo;
-import com.albedo.java.vo.sys.query.AntdTreeResult;
+import com.albedo.java.vo.sys.query.TreeResult;
 import com.albedo.java.vo.sys.query.ModuleMenuTreeResult;
 import com.albedo.java.vo.sys.query.ModuleTreeQuery;
 import com.google.common.collect.Lists;
@@ -56,13 +56,13 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public List<AntdTreeResult> findTreeData(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
+    public List<TreeResult> findTreeData(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
         String type = moduleTreeQuery != null ? moduleTreeQuery.getType() : null,
                 all = moduleTreeQuery != null ? moduleTreeQuery.getAll() : null;
 
-        List<AntdTreeResult> mapList = Lists.newArrayList();
+        List<TreeResult> mapList = Lists.newArrayList();
         for (Module e : moduleList) {
-            AntdTreeResult antdTreeResult = null;
+            TreeResult treeResult = null;
             if ((all != null || (all == null && BaseEntity.FLAG_NORMAL.equals(e.getStatus())))) {
 
                 if ("menu".equals(type) && !Module.TYPE_MENU.equals(e.getType())) {
@@ -71,13 +71,13 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
                 if (moduleTreeQuery != null && moduleTreeQuery.getRoot() && PublicUtil.isEmpty(e.getParentId())) {
                     continue;
                 }
-                antdTreeResult = new AntdTreeResult();
-                antdTreeResult.setId(e.getId());
-                antdTreeResult.setPid(e.getParentId() != null ? e.getParentId() : "0");
-                antdTreeResult.setLabel(e.getName());
-                antdTreeResult.setKey(e.getName());
-                antdTreeResult.setValue(e.getId());
-                mapList.add(antdTreeResult);
+                treeResult = new TreeResult();
+                treeResult.setId(e.getId());
+                treeResult.setPid(e.getParentId() != null ? e.getParentId() : "0");
+                treeResult.setLabel(e.getName());
+                treeResult.setKey(e.getName());
+                treeResult.setValue(e.getId());
+                mapList.add(treeResult);
             }
         }
         return mapList;

@@ -11,7 +11,7 @@ import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.sys.OrgVo;
-import com.albedo.java.vo.sys.query.AntdTreeResult;
+import com.albedo.java.vo.sys.query.TreeResult;
 import com.albedo.java.vo.sys.query.OrgTreeQuery;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.TreeVoResource;
@@ -35,13 +35,10 @@ import java.util.List;
 @RequestMapping("${albedo.adminPath}/sys/org")
 public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
 
-    @Resource
-    private OrgService orgService;
-
     @GetMapping(value = "findTreeData")
     public ResponseEntity findTreeData(OrgTreeQuery orgTreeQuery) {
-        List<AntdTreeResult> rs = orgService.findTreeDataRest(orgTreeQuery, SecurityUtil.getOrgList());
-        return ResultBuilder.buildOk(rs);
+        List<TreeResult> treeResultList = service.findTreeData(orgTreeQuery, SecurityUtil.getOrgList());
+        return ResultBuilder.buildOk(treeResultList);
     }
 
     @GetMapping(value = "/")
@@ -57,10 +54,10 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
     @GetMapping(value = "/page")
     public ResponseEntity getPage(PageModel pm) {
         pm.setSortDefaultName(Direction.DESC, DataEntity.F_LASTMODIFIEDDATE);
-        orgService.findPage(pm, SecurityUtil.dataScopeFilter(
+        service.findPage(pm, SecurityUtil.dataScopeFilter(
                 SecurityUtil.getCurrentUserId(), "this", ""));
-        JSON rs = JsonUtil.getInstance().toJsonObject(pm);
-        return ResultBuilder.buildObject(rs);
+        JSON json = JsonUtil.getInstance().toJsonObject(pm);
+        return ResultBuilder.buildObject(json);
     }
 
     @GetMapping(value = "/edit")
@@ -70,8 +67,8 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
             throw new RuntimeMsgException(PublicUtil.toAppendStr("查询模块管理失败，原因：无法查找到编号区域"));
         }
         if (PublicUtil.isNotEmpty(orgVo.getParentId())) {
-            orgService.findOptionalTopByParentId(orgVo.getParentId()).ifPresent(item -> orgVo.setSort(item.getSort() + 30));
-            orgService.findOneById(orgVo.getParentId()).ifPresent(item -> orgVo.setParentName(item.getName()));
+            service.findOptionalTopByParentId(orgVo.getParentId()).ifPresent(item -> orgVo.setSort(item.getSort() + 30));
+            service.findOneById(orgVo.getParentId()).ifPresent(item -> orgVo.setParentName(item.getName()));
         }
         if (orgVo.getSort() == null) {
             orgVo.setSort(30);
@@ -92,7 +89,7 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
                 orgVo.getId(), orgVo.getName()))) {
             throw new RuntimeMsgException("名称已存在");
         }
-        orgService.save(orgVo);
+        service.save(orgVo);
         SecurityUtil.clearUserJedisCache();
         return ResultBuilder.buildOk("保存", orgVo.getName(), "成功");
     }
@@ -106,7 +103,7 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
         log.debug("REST request to delete Org: {}", ids);
-        orgService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        service.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
         SecurityUtil.clearUserJedisCache();
         return ResultBuilder.buildOk("删除成功");
     }
@@ -120,7 +117,7 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
     @Timed
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {
         log.debug("REST request to lockOrUnLock User: {}", ids);
-        orgService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        service.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
         SecurityUtil.clearUserJedisCache();
         return ResultBuilder.buildOk("操作成功");
     }

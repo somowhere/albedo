@@ -7,7 +7,7 @@
 package ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleName}</#if>;
 
 import com.albedo.java.common.security.SecurityUtil;
-import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
+import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Vo;
 import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Service;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
@@ -16,8 +16,9 @@ import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.sys.query.TreeQuery;
+import com.albedo.java.vo.sys.query.TreeResult;
 import com.albedo.java.web.rest.ResultBuilder;
-import com.albedo.java.web.rest.base.DataResource;
+import com.albedo.java.web.rest.base.DataVoResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.Lists;
@@ -38,113 +39,115 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping(value = "${r"${albedo.adminPath}"}/${urlPrefix}")
-public class ${ClassName}Resource extends DataResource<${ClassName}> {
-	
-	@ModelAttribute
-	public ${ClassName} get(@RequestParam(required = false) String id) throws Exception {
-		String path = request.getRequestURI();
-		if (path!=null && !path.contains("checkBy") && !path.contains("find") && PublicUtil.isNotEmpty(id)) {
-			return service.findOne(id);
-		} else {
-			return new ${ClassName}();
-		}
+public class ${ClassName}Resource extends DataVoResource<${ClassName}Service, ${ClassName}Vo> {
+
+    /**
+	 * GET / : 获取树型结构数据 ${functionNameSimple}.
+	 *
+	 * @param pageable the pagination information
+	 * @return the ResponseEntity with status 200 (OK) and with body all ${className}
+	 */
+	@GetMapping(value = "findTreeData")
+	public ResponseEntity findTreeData(TreeQuery treeQuery, HttpServletResponse response) {
+		List<TreeResult> treeResultList = service.findTreeData(treeQuery);
+		return ResultBuilder.buildOk(treeResultList);
 	}
-	@RequestMapping(value = "findTreeData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void findTreeData(TreeQuery treeQuery, HttpServletResponse response) {
-		String rs = service.findTreeData(treeQuery);
-		writeJsonHttpResponse(rs, response);
-	}
-	@RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed
+	/**
+	 * GET / : 获取分页界面 ${functionNameSimple}.
+	 *
+	 * @param pageable the pagination information
+	 * @return the ResponseEntity with status 200 (OK) and with body all ${className}
+	 */
+	@GetMapping(value = "/")
 	public String list() {
 		return "${lastPackageName}/${viewPrefix}List";
 	}
 
 	/**
-	 * GET / : get all ${className}.
+	 * GET / : 获取分页数据源 ${functionNameSimple}.
 	 * 
-	 * @param pageable
-	 *            the pagination information
+	 * @param pageable the pagination information
 	 * @return the ResponseEntity with status 200 (OK) and with body all ${className}
-	 * @throws URISyntaxException
-	 *             if the pagination headers couldn't be generated
 	 */
-	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public void getPage(PageModel<${ClassName}> pm, HttpServletResponse response) {
+	@GetMapping(value = "/page")
+	@Timed
+	public ResponseEntity getPage(PageModel<${ClassName}> pm) {
 	    service.findPage(pm, SecurityUtil.dataScopeFilter());
-		JSON rs = JsonUtil.getInstance().setRecurrenceStr(<#assign firstListField = true><#list table.columnList as column><#if column.simpleJavaType == "User" || column.simpleJavaType == "Org" || column.simpleJavaType == "Area"><#if !firstListField>, </#if>"<#if column.name == 'created_by'>creator<#elseif column.name == 'last_modified_by'>modifier<#else>${column.simpleJavaField}</#if>_${column.defaultJavaFieldName}"<#assign firstListField = false></#if></#list>).toJsonObject(pm);
-		return ResultBuilder.buildObject(rs);
+		JSON json = JsonUtil.getInstance().setRecurrenceStr(<#assign firstListField = true><#list table.columnList as column><#if column.simpleJavaType == "User" || column.simpleJavaType == "Org" || column.simpleJavaType == "Area"><#if !firstListField>, </#if>"<#if column.name == 'created_by'>creator<#elseif column.name == 'last_modified_by'>modifier<#else>${column.simpleJavaField}</#if>_${column.defaultJavaFieldName}"<#assign firstListField = false></#if></#list>).toJsonObject(pm);
+		return ResultBuilder.buildObject(json);
 	}
 
-	@RequestMapping(value = "/edit", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    /**
+	 * GET / : 保存 a ${functionNameSimple}Vo 页.
+	 *
+	 * @param request the HTTP request
+	 */
+	@GetMapping(value = "/edit")
 	@Timed
-	public String form(${ClassName} ${className}, Model model) {
-		if(${className}==null){
-			throw new RuntimeMsgException("无法获取${functionNameSimple}数据");
-		}
-		if (PublicUtil.isNotEmpty(${className}.getId())){
-			${ClassName} item = service.findTopByParentId(${className}.getParentId());
-			if (item!=null){
-				${className}.setSort(${className}.getSort() + item.getSort());
-			}
-		}
-		if (${className}.getSort() == null){
-			${className}.setSort(30);
-		}
-		if(PublicUtil.isNotEmpty(${className}.getParentId())){
-			${className}.setParent(service.findOne(${className}.getParentId()));
-		}
-		model.addAttribute("${className}", ${className});
-		
+	public String form(${ClassName}Vo ${className}Vo) {
+		if (${className}Vo == null) {
+            throw new RuntimeMsgException(PublicUtil.toAppendStr("查询模块管理失败，原因：无法查找到编号区域"));
+        }
+        if (PublicUtil.isNotEmpty(${className}Vo.getParentId())) {
+            service.findOptionalTopByParentId(${className}Vo.getParentId()).ifPresent(item -> ${className}Vo.setSort(item.getSort() + 30));
+            service.findOneById(${className}Vo.getParentId()).ifPresent(item -> ${className}Vo.setParentName(item.getName()));
+        }
+        if (${className}Vo.getSort() == null) {
+            ${className}Vo.setSort(30);
+        }
 		return "${lastPackageName}/${viewPrefix}Form";
 	}
 
 	/**
-	 * POST / : Save a ${className}.
+	 * POST / : 保存 a ${functionNameSimple}Vo.
 	 *
 	 * @param request the HTTP request
 	 */
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public void save(${ClassName} ${className}, Model model, HttpServletRequest request, HttpServletResponse response) {
-		log.debug("REST request to save ${ClassName} : {}", ${className});
+	public ResponseEntity save(@Valid @RequestBody ${ClassName}Vo ${className}Vo) {
+		log.debug("REST request to save ${ClassName} : {}", ${className}Vo);
 		<#assign firstListField = true><#list table.columnList as column>
 			<#if column.unique && !column.pk>
 		<#if firstListField><#assign firstListField = false>${ClassName} </#if>${className}Validate = new ${ClassName}(${className}.getId());
-		${className}Validate.set${column.simpleJavaField?cap_first}(${className}.get${column.simpleJavaField?cap_first}());
-		if (<#if column.nullable>PublicUtil.isNotEmpty(${className}.get${column.simpleJavaField?cap_first}()) && </#if>!checkByProperty(${className}Validate)) {
-			throw new RuntimeMsgException(PublicUtil.toAppendStr("保存${functionNameSimple}'", ${className}.get${column.simpleJavaField?cap_first}(),"'失败，${column.comments }已存在"));
+		${className}Validate.set${column.simpleJavaField?cap_first}(${className}Vo.get${column.simpleJavaField?cap_first}());
+		if (<#if column.nullable>PublicUtil.isNotEmpty(${className}Vo.get${column.simpleJavaField?cap_first}()) && </#if>!checkByProperty(${className}Validate)) {
+			throw new RuntimeMsgException(PublicUtil.toAppendStr("保存${functionNameSimple}'", ${className}Vo.get${column.simpleJavaField?cap_first}(),"'失败，${column.comments }已存在"));
 		}
 			</#if>
 		</#list>
-		service.save(${className});
-
-		addAjaxMsg(MSG_TYPE_SUCCESS, PublicUtil.toAppendStr("保存${functionNameSimple}成功"), response);
+		service.save(${className}Vo);
+        return ResultBuilder.buildOk("保存${functionNameSimple}成功");
 	}
 
 	/**
-	 * DELETE //:login : delete the "login" ${ClassName}.
+	 * DELETE //:login : 删除 the "id" ${functionNameSimple}.
 	 *
-	 * @param login
-	 *            the login of the ${className} to delete
+	 * @param ids the id of the ${className} to delete
 	 * @return the ResponseEntity with status 200 (OK)
 	 */
-	@RequestMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
-			+ "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
+			+ "}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public void delete(@PathVariable String ids, HttpServletResponse response) {
+	public ResponseEntity delete(@PathVariable String ids, HttpServletResponse response) {
 		log.debug("REST request to delete ${ClassName}: {}", ids);
 		service.delete(ids);
-		addAjaxMsg(MSG_TYPE_SUCCESS, "删除${functionNameSimple}成功", response);
+		return ResultBuilder.buildOk("删除${functionNameSimple}成功");
 	}
 
-	@RequestMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
-			+ "}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    /**
+	 * LockOrUnLock //:login : 锁定或解锁 the "id" ${functionNameSimple}.
+	 *
+	 * @param ids the id of the ${className} to LockOrUnLock
+	 * @return the ResponseEntity with status 200 (OK)
+	 */
+	@PostMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
+			+ "}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public void lockOrUnLock(@PathVariable String ids, HttpServletResponse response) {
+	public ResponseEntity lockOrUnLock(@PathVariable String ids, HttpServletResponse response) {
 		log.debug("REST request to lockOrUnLock ${ClassName}: {}", ids);
 		service.lockOrUnLock(ids);
-		addAjaxMsg(MSG_TYPE_SUCCESS, "操作${functionNameSimple}成功", response);
+		return ResultBuilder.buildOk("操作${functionNameSimple}成功");
 	}
 
 }]]>

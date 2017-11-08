@@ -6,7 +6,7 @@ import lombok.Data;
  * Created by lijie on 2017/3/2.
  */
 @Data
-public class AntdTreeResult {
+public class TreeResult {
 
     private String id;
     private String pid;
