@@ -25,7 +25,7 @@ import java.util.List;
  *
  * @version 2013-10-15
  */
-@Entity(table = "GEN_TABLE_T")
+@Entity(table = "gen_table_t")
 @Data
 @AllArgsConstructor
 @ToString

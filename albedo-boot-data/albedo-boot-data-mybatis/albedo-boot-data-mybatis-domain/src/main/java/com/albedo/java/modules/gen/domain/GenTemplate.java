@@ -21,7 +21,7 @@ import java.util.List;
  * @version 2013-10-15
  */
 @XmlRootElement(name = "template")
-@Entity(table = "GEN_TEMPLATE_T")
+@Entity(table = "gen_template_t")
 @Data
 @AllArgsConstructor
 @ToString

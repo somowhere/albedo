@@ -20,7 +20,7 @@ import java.util.List;
  * @version 2013-10-15
  */
 @Entity
-@Table(name = "GEN_TABLE_COLUMN_T")
+@Table(name = "gen_table_column_t")
 @DynamicInsert
 @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

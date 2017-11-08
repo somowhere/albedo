@@ -19,7 +19,7 @@ import org.springframework.data.mybatis.annotations.ManyToOne;
  *
  * @version 2013-10-15
  */
-@Entity(table = "GEN_SCHEME_T")
+@Entity(table = "gen_scheme_t")
 @Data
 @AllArgsConstructor
 @ToString

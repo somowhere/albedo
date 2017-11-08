@@ -23,7 +23,7 @@ import java.util.List;
  */
 @XmlRootElement(name = "template")
 @Entity
-@Table(name = "GEN_TEMPLATE_T")
+@Table(name = "gen_template_t")
 @DynamicInsert
 @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

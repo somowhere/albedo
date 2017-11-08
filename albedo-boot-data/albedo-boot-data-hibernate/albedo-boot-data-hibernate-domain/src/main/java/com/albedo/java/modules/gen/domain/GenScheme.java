@@ -15,7 +15,7 @@ import javax.persistence.Table;
  * @version 2013-10-15
  */
 @Entity
-@Table(name = "GEN_SCHEME_T")
+@Table(name = "gen_scheme_t")
 @DynamicInsert
 @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
