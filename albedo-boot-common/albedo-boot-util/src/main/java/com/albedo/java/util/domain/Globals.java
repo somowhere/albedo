@@ -28,6 +28,10 @@ public final class Globals {
     public static final String NO = null;
 
 
+    public static final String URL_CHECKBY = "checkBy";
+    public static final String URL_FIND = "find";
+
+
     public static final String ALBEDO_QUARTZENABLED = "albedo.quartzEnabled";
 
 

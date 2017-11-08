@@ -11,6 +11,8 @@
         <category val="curd_many" name="增删改查（一对多）">
             <template>curd/resource.xml</template>
             <template>service/serviceMany.xml</template>
+            <template>entity/vo/entityForm.xml</template>
+            <template>entity/vo/entityResult.xml</template>
             <template>category-ref:entity</template>
             <template>curd/viewFormMany.xml</template>
             <template>curd/viewList.xml</template>
@@ -31,6 +33,8 @@
             <template>treetable/resource.xml</template>
             <template>treetable/repository.xml</template>
             <template>treetable/service.xml</template>
+            <template>treetable/vo/entityForm.xml</template>
+            <template>treetable/vo/entityResult.xml</template>
             <template>treetable/entity.xml</template>
             <template>treetable/viewForm.xml</template>
             <template>treetable/viewList.xml</template>

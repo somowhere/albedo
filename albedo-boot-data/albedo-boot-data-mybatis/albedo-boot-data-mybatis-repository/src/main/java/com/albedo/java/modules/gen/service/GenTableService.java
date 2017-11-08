@@ -38,10 +38,11 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
     @Autowired
     private GenTableColumnRepository genTableColumnRepository;
 
+    @Override
     public GenTable save(GenTable genTable) {
         boolean isNew = PublicUtil.isEmpty(genTable.getId());
         genTable = repository.save(genTable);
-        log.debug("Save Information for GenTable: {}", genTable);
+        log.debug("Save Information for GenTableVo: {}", genTable);
         int index = 0;
         for (GenTableColumn item : genTable.getColumnFormList()) {
             item.setGenTableId(genTable.getId());
@@ -54,14 +55,14 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
     }
 
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<GenTable> findAll() {
         return findAll(DynamicSpecifications
                 .bySearchQueryCondition(QueryCondition.ne(GenTable.F_STATUS, GenTable.FLAG_DELETE)));
     }
 
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public boolean checkTableName(String tableName) {
         if (StringUtil.isBlank(tableName)) {
             return true;
@@ -126,7 +127,7 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
         return genTable;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<String> findTablePK(GenTable genTable) {
         List<String> pkList = null;
 //		String sql = "";
@@ -140,7 +141,7 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
         return pkList;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<GenTableColumn> findTableColumnList(GenTable genTable) {
         List<String[]> GenString = null;
         List<GenTableColumn> list = null;
@@ -167,7 +168,7 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
         return list;
     }
 
-    //	@Transactional(readOnly = true)
+    //	@Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<GenTable> findTableListFormDb(GenTable genTable) {
 //		List<String[]> GenString = null;
         List<GenTable> genTables = findAll();
@@ -194,13 +195,13 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
 //
 //		if (PublicUtil.isNotEmpty(GenString)) {
 //			for (Object[] str : GenString) {
-//				list.add(new GenTable((String) str[0], (String) str[1]));
+//				list.add(new GenTableVo((String) str[0], (String) str[1]));
 //			}
 //		}
         return list;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Map<String, Object> findFormData(GenTable genTable) {
         Map<String, Object> map = Maps.newHashMap();
         map.put("tableList", PublicUtil.convertComboDataList(findTableListFormDb(new GenTable()), GenTable.F_NAME, GenTable.F_NAMESANDCOMMENTS));
@@ -237,7 +238,7 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
             Assert.assertNotNull(entity, "对象 " + id + " 信息为空，删除失败");
             deleteById(id);
             genTableColumnService.deleteByTableId(id, currentAuditor);
-            log.debug("Deleted GenTable: {}", entity);
+            log.debug("Deleted GenTableVo: {}", entity);
         });
     }
 }

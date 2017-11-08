@@ -37,13 +37,18 @@ import java.util.Optional;
  * @author ThinkGem
  * @version 2014-05-16
  */
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public abstract class BaseService<Repository extends BaseRepository<T, pk>,
         T extends GeneralEntity, pk extends Serializable> {
     public final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(getClass());
     @Autowired
     public Repository repository;
-    public Class<T> persistentClass;
+    private Class<T> persistentClass;
+
+    public Class<T> getPersistentClass() {
+        return persistentClass;
+    }
+
     @Autowired
     JpaCustomeRepository<T> jpaCustomeRepository;
 
@@ -89,8 +94,6 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
     }
 
     public boolean doCheckByPK(T entity) {
-
-        boolean rs = false;
         Map<String, QueryCondition.Operator> maps = Maps.newHashMap();
         try {
             maps.put(BaseEntity.F_STATUS, QueryCondition.Operator.ne);
@@ -133,12 +136,12 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
     }
 
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public T findOne(pk id) {
         return repository.findOne(id);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Optional<T> findOneById(pk id) {
         return Optional.of(repository.findOneById(id));
     }
@@ -197,7 +200,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
      * @param specificationDetail 动态条件对象
      * @return
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<T> findAll(SpecificationDetail specificationDetail) {
         try {
             Map<String, Object> paramsMap = Maps.newHashMap();
@@ -219,7 +222,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
         return null;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel<T> findBasePage(PageModel<T> pm, SpecificationDetail<T> specificationDetail, boolean isBasic) {
         return findBasePage(pm, specificationDetail, isBasic, null, null);
     }
@@ -234,7 +237,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
      * @param countStatement      自定义数据总数sql名称
      * @return
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel<T> findBasePage(PageModel<T> pm, SpecificationDetail<T> specificationDetail, String selectStatement, String countStatement) {
         return findBasePage(pm, specificationDetail, null, selectStatement, countStatement);
     }
@@ -247,7 +250,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
      * @param isBasic             是否关联对象查询
      * @return
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel<T> findBasePage(PageModel<T> pm, SpecificationDetail<T> specificationDetail, Boolean isBasic) {
         return findBasePage(pm, specificationDetail, isBasic, null, null);
     }
@@ -262,7 +265,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
      * @param countStatement      自定义数据总数sql名称
      * @return
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel<T> findBasePage(PageModel<T> pm, SpecificationDetail<T> specificationDetail, Boolean isBasic, String selectStatement, String countStatement) {
         try {
             Map<String, Object> paramsMap = Maps.newHashMap();
@@ -284,7 +287,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
         return null;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel<T> findPage(PageModel<T> pm, SpecificationDetail<T> specificationDetail) {
         return findBasePage(pm, specificationDetail, true);
     }

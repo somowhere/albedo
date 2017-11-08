@@ -1,6 +1,6 @@
 package com.albedo.java.vo.sys;
 
-import com.albedo.java.vo.base.GeneralEntityVo;
+import com.albedo.java.vo.base.DataEntityVo;
 import lombok.Data;
 import lombok.ToString;
 
@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Data
 @ToString
-public class UserForm extends GeneralEntityVo {
+public class UserVo extends DataEntityVo {
 
     /*** F_LOGINID */
     public static final String F_LOGINID = "loginId";
@@ -41,10 +41,9 @@ public class UserForm extends GeneralEntityVo {
     private ZonedDateTime resetDate = null;
 
     private List<String> roleIdList;
+    private String roleNames;
+    private String orgName;
 
-    public void setRoleIdList(List<String> roleIdList) {
-        this.roleIdList = roleIdList;
-    }
 
 
 }

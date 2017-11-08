@@ -83,7 +83,7 @@ var albedoForm = function () {
                 }
             },
             check: {enable: checked, nocheckInherit: true},
-            data: {simpleData: {enable: true}},
+            data: {key:{name:'label'},simpleData: {enable: true,idKey:'id',pIdKey: 'pid'}},
             callback: {
                 beforeClick: function (treeId, treeNode) {
                     if (allowCancelSelect && tree && tree.getSelectedNodes()[0] && tree.getSelectedNodes()[0].id == treeNode.id) {
@@ -242,9 +242,10 @@ var albedoForm = function () {
             '</div>';
         var $modal = $(html), lastValue = "", nodeList = [];
         var setting = {
-            view: {selectedMulti: false}, check: {enable: checked, nocheckInherit: true},
-            data: {simpleData: {enable: true}},
+            check: {enable: checked, nocheckInherit: true},
+            data: {key:{name:'label'},simpleData: {enable: true,idKey:'id',pIdKey: 'pid'}},
             view: {
+                selectedMulti: false,
                 fontCss: function (treeId, treeNode) {
                     return (!!treeNode.highlight) ? {"font-weight": "bold"} : {"font-weight": "normal"};
                 }
@@ -348,7 +349,7 @@ var albedoForm = function () {
                 var name_l = 0;
                 do {
                     name_l++;
-                    t_name = t_node.name + " " + t_name;
+                    t_name = t_node.label + " " + t_name;
                     t_node = t_node.getParentNode();
                 } while (name_l < nameLevel);
                 names.push(t_name);

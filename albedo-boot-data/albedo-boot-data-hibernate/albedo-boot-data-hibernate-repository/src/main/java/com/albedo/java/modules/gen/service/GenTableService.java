@@ -54,19 +54,19 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
         });
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Page<GenTable> findAll(SpecificationDetail<GenTable> spec, PageModel<GenTable> pm) {
         return repository.findAll(spec, pm);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<GenTable> findAll() {
         return repository.findAll(DynamicSpecifications
                 .bySearchQueryCondition(QueryCondition.ne(GenTable.F_STATUS, GenTable.FLAG_DELETE)));
     }
 
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public boolean checkTableName(String tableName) {
         if (StringUtil.isBlank(tableName)) {
             return true;
@@ -131,7 +131,7 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
         return genTable;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<String> findTablePK(GenTable genTable) {
         List<String> pkList = null;
         String sql = "";
@@ -144,7 +144,7 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
         return pkList;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<GenTableColumn> findTableColumnList(GenTable genTable) {
         List<String[]> GenString = null;
         List<GenTableColumn> list = null;
@@ -167,7 +167,7 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
         return list;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<GenTable> findTableListFormDb(GenTable genTable) {
         List<String[]> GenString = null;
         List<GenTable> list = Lists.newArrayList();
@@ -192,7 +192,7 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
         return list;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Map<String, Object> findFormData(GenTable genTable) {
         Map<String, Object> map = Maps.newHashMap();
         map.put("tableList", PublicUtil.convertComboDataList(findTableListFormDb(new GenTable()), GenTable.F_NAME, GenTable.F_NAMESANDCOMMENTS));

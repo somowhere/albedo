@@ -111,7 +111,7 @@
                         return '<span class="operation">'
                         <#if SecurityUtil.hasPermission('sys_genScheme_edit')>+ '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-genScheme" data-url="${ctx}/gen/genScheme/edit?id='+ row.id+ '" data-modal-width="950"><i class=\"fa fa-lg fa-pencil\" title=\"编辑生成方案\"></i></a>'
                         + '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-genScheme" data-method="delete" data-title="你确认要操作【'+ row.name+ '】生成方案吗？" data-url="${ctx}/gen/genScheme/lock/'+ row.id+ '"><i class=\"fa fa-lg fa-'+ (row.status == "正常" ? "unlock" : "lock") + '  font-yellow-gold\" title=\"'+ (row.status == "正常" ? "锁定" : "解锁") + '生成方案\"></i></a></span>'</#if>
-                        <#if SecurityUtil.hasPermission('sys_genScheme_delete')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-genScheme" data-method="delete" data-title="你确认要删除【'+ row.name+ '】生成方案吗？" data-url="${ctx}/gen/genScheme/delete/'+ row.id+ '"><i class=\"fa fa-lg fa-trash-o font-red-mint\" title=\"删除\"></i></a></span>';}</#if>
+                        <#if SecurityUtil.hasPermission('sys_genScheme_delete')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-genScheme" data-method="post" data-title="你确认要删除【'+ row.name+ '】生成方案吗？" data-url="${ctx}/gen/genScheme/delete/'+ row.id+ '"><i class=\"fa fa-lg fa-trash-o font-red-mint\" title=\"删除\"></i></a></span>';}</#if>
                         }
                     ]
                 }

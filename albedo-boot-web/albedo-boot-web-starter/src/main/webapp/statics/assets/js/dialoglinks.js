@@ -170,9 +170,10 @@ var UIExtendedModals = function () {
                                 $.ajax({
                                     url: url,
                                     type: $form.attr("method") || "POST",
-                                    // data: JSON.stringify($form.serializeObject()),
-                                    data: self.getValue($form.serialize()),
+                                    data: JSON.stringify($form.serializeObject()),
+                                    // data: self.getValue($form.serialize()),
                                     dataType: "json",
+                                    contentType: "application/json; charset=utf-8",
                                     timeout: 60000,
                                     success: function (re) {
                                         self.alertDialog($targetEvent, re, el);

@@ -14,7 +14,7 @@ import java.util.Map;
  * 通常的数据基类 copyright 2014 albedo all right reserved author 李杰 created on 2014年12月31日 下午1:57:09
  */
 @Data
-public abstract class GeneralEntityVo<ID extends Serializable> implements Serializable {
+public class GeneralEntityVo<ID extends Serializable> implements Serializable {
 
     /*** 状态 审核 */
     public static final Integer FLAG_AUDIT = 1;
@@ -39,44 +39,7 @@ public abstract class GeneralEntityVo<ID extends Serializable> implements Serial
     public static final String F_VERSION = "version";
     public static final String F_DESCRIPTION = "description";
     private static final long serialVersionUID = 1L;
-    /**
-     * 自定义SQL（SQL标识，SQL内容）
-     */
-    @Transient
-    @JSONField(serialize = false)
-    protected Map<String, Object> paramsMap;
 
-    /**
-     * 自定义条件SQL
-     */
-    @Transient
-    @JSONField(serialize = false)
-    protected String sqlConditionDsf;
-
-    @Transient
-    @JSONField(serialize = false)
-    protected String dbName = SystemConfig.get("jdbc.type");
-
-
-    @JsonIgnore
-    @XmlTransient
-    public Map<String, Object> getParamsMap() {
-        return paramsMap;
-    }
-
-    public void setParamsMap(Map<String, Object> paramsMap) {
-        this.paramsMap = paramsMap;
-    }
-
-    @JsonIgnore
-    @JSONField(serialize = false)
-    public String getSqlConditionDsf() {
-        return sqlConditionDsf;
-    }
-
-    public void setSqlConditionDsf(String sqlConditionDsf) {
-        this.sqlConditionDsf = sqlConditionDsf;
-    }
 
 
 }

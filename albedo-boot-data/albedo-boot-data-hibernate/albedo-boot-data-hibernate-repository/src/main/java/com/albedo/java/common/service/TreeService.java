@@ -63,13 +63,13 @@ public class TreeService<Repository extends TreeRepository<T, PK>, T extends Tre
         return entity;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public T findTopByParentId(String parentId) {
         List<T> tempList = repository.findTop1ByParentIdAndStatusNotOrderBySortDesc(parentId, BaseEntity.FLAG_DELETE);
         return PublicUtil.isNotEmpty(tempList) ? tempList.get(0) : null;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Long countTopByParentId(String parentId) {
         return repository.countByParentIdAndStatusNot(parentId, Area.FLAG_DELETE);
     }

@@ -132,7 +132,7 @@
                         return '<span class="operation">'
                         <#if SecurityUtil.hasPermission('gen_genTable_edit')>+ '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-genTable" data-url="${ctx}/gen/genTable/edit?id='+ row.id+ '" data-modal-width="950"><i class=\"fa fa-lg fa-pencil\" title=\"编辑业务表\"></i></a>'
                         + '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-genTable" data-method="delete" data-title="你确认要操作【'+ row.name+ '】业务表吗？" data-url="${ctx}/gen/genTable/lock/'+ row.id+ '"><i class=\"fa fa-lg fa-'+ (row.status == "正常" ? "unlock" : "lock") + '  font-yellow-gold\" title=\"'+ (row.status == "正常" ? "锁定" : "解锁") + '业务表\"></i></a></span>'</#if>
-                        <#if SecurityUtil.hasPermission('gen_genTable_delete')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-genTable" data-method="delete" data-title="你确认要删除【'+ row.name+ '】业务表吗？" data-url="${ctx}/gen/genTable/delete/'+ row.id+ '"><i class=\"fa fa-lg fa-trash-o font-red-mint\" title=\"删除\"></i></a></span>';}</#if>
+                        <#if SecurityUtil.hasPermission('gen_genTable_delete')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-genTable" data-title="你确认要删除【'+ row.name+ '】业务表吗？" data-url="${ctx}/gen/genTable/delete/'+ row.id+ '"><i class=\"fa fa-lg fa-trash-o font-red-mint\" title=\"删除\"></i></a></span>';}</#if>
                         }
                     ]
                 }

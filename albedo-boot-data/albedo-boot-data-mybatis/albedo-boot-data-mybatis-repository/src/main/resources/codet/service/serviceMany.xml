@@ -39,7 +39,7 @@ import com.google.common.collect.Lists;
  * @version ${functionVersion}
  */
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = true, rollbackFor = Exception.class)
 public class ${ClassName}Service extends BaseService<${ClassName}>{
 
 	<#list table.childList as c>

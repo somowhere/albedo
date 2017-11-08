@@ -36,15 +36,6 @@ public class GenTemplateResource extends DataResource<GenTemplateService, GenTab
     @Resource
     private GenTemplateService genTemplateService;
 
-    @ModelAttribute
-    public GenTable get(@RequestParam(required = false) String id) throws Exception {
-        String path = request.getRequestURI();
-        if (path != null && !path.contains("checkBy") && !path.contains("find") && PublicUtil.isNotEmpty(id)) {
-            return genTemplateService.findOne(id);
-        } else {
-            return new GenTable();
-        }
-    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
@@ -79,7 +70,7 @@ public class GenTemplateResource extends DataResource<GenTemplateService, GenTab
     @Timed
     public ResponseEntity save(GenTable genTable)
             throws URISyntaxException {
-        log.debug("REST request to save GenTable : {}", genTable);
+        log.debug("REST request to save GenTableVo : {}", genTable);
         // Lowercase the genTable login before comparing with database
         if (!checkByProperty(Reflections.createObj(GenTable.class, Lists.newArrayList(GenTable.F_ID, GenTable.F_NAME), genTable.getId(),
                 genTable.getName()))) {
@@ -98,7 +89,7 @@ public class GenTemplateResource extends DataResource<GenTemplateService, GenTab
             + "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
-        log.debug("REST request to delete GenTable: {}", ids);
+        log.debug("REST request to delete GenTableVo: {}", ids);
         genTemplateService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
         SecurityUtil.clearUserJedisCache();
         return ResultBuilder.buildOk("删除成功");

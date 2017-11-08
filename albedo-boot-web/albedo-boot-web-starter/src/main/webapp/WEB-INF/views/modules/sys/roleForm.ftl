@@ -96,7 +96,7 @@
 <script type="text/javascript">
     var treeRoleModule, treeRoleOrg, data, setting = {
         view: {selectedMulti: false}, check: {enable: true, nocheckInherit: true},
-        data: {simpleData: {enable: true}}
+        data: {key:{name:'label'},simpleData: {enable: true,idKey:'id',pIdKey: 'pid'}}
     };
     $(document).ready(function () {
         $.get("${ctx}/sys/module/findTreeData", function (rs) {
@@ -153,8 +153,8 @@
             var nodes = treeRoleOrg.getCheckedNodes();
             $('input[name=\'orgIdList\']').remove();
             for (var i = 0; i < nodes.length; i++) {
-                if (!nodes[o].getCheckStatus().half) //排除半选中状态
-                    $('#treeRoleModule').before($('<input type=\'hidden\' name=\'orgIdList\' />').val(nodes[o].id));
+                if (!nodes[i].getCheckStatus().half) //排除半选中状态
+                    $('#treeRoleModule').before($('<input type=\'hidden\' name=\'orgIdList\' />').val(nodes[i].id));
             }
         }
         if (!$('input[name=\'moduleIdList\']').val()) {

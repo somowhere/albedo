@@ -34,7 +34,7 @@ import java.util.Map;
 @Transactional
 public class AreaService extends TreeService<AreaRepository, Area, String> {
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<Map<String, Object>> findTreeData(AreaTreeQuery areaTreeQuery, List<Area> list) {
 
         String extId = areaTreeQuery != null ? areaTreeQuery.getExtId() : null,
@@ -62,7 +62,7 @@ public class AreaService extends TreeService<AreaRepository, Area, String> {
         return mapList;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Page<Area> findAll(PageModel<Area> pm, List<QueryCondition> queryConditions) {
         SpecificationDetail<Area> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
                 queryConditions,
@@ -70,7 +70,7 @@ public class AreaService extends TreeService<AreaRepository, Area, String> {
         return repository.findAll(spec, pm);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Area findTopByParentId(String parentId) {
         return repository.findTopByParentIdAndStatusNotOrderBySortDesc(parentId, Area.FLAG_DELETE);
     }

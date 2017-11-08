@@ -71,12 +71,12 @@ public class DataService<Repository extends DataRepository<T, PK>, T extends Dat
         });
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public T findOne(PK id) {
         return repository.findOne(id);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel<T> findPage(PageModel<T> pm) {
         return findPage(pm, null);
     }

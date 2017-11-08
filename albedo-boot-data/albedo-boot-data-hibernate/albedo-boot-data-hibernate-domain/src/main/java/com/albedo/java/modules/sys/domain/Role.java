@@ -22,7 +22,7 @@ import java.util.Set;
  * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午4:32:52
  */
 @Entity
-@Table(name = "SYS_ROLE_T")
+@Table(name = "sys_role_t")
 @DynamicInsert
 @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -76,7 +76,7 @@ public class Role extends IdEntity {
     private Integer sort;
     /*** 组织机构 */
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "SYS_ROLE_ORG_T", joinColumns = {@JoinColumn(name = "role_id")}, inverseJoinColumns = {@JoinColumn(name = "org_id")})
+    @JoinTable(name = "sys_role_org_t", joinColumns = {@JoinColumn(name = "role_id")}, inverseJoinColumns = {@JoinColumn(name = "org_id")})
     @Fetch(FetchMode.SUBSELECT)
     @JSONField(serialize = false)
     @NotFound(action = NotFoundAction.IGNORE)

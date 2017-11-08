@@ -28,12 +28,12 @@ public class LoggingEventService {
     @Resource
     private LoggingEventRepository loggingEventRepository;
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public LoggingEvent findOne(String id) {
         return loggingEventRepository.findOne(id);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Page<LoggingEvent> findPage(PageModel<LoggingEvent> pm) {
         SpecificationDetail<LoggingEvent> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson());
         return loggingEventRepository.findAll(spec, pm);

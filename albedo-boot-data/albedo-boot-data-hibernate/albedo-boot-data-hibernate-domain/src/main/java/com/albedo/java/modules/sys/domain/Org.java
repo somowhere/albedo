@@ -16,7 +16,7 @@ import java.util.Set;
  * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午4:30:34
  */
 @Entity
-@Table(name = "SYS_ORG_T")
+@Table(name = "sys_org_t")
 @DynamicInsert
 @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

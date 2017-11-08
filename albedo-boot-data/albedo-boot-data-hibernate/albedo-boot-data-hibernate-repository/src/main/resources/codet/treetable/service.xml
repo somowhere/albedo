@@ -100,7 +100,7 @@ public class ${ClassName}Service extends BaseService<${ClassName}>{
 		SecurityUtil.clearUserJedisCache();
 	}
 	
-	@Transactional(readOnly = true)
+	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public String findTreeData(String extId, String all) {
 		List<Map<String, Object>> mapList = Lists.newArrayList();
 		List<${ClassName}> list = ${className}Repository.findAllByStatusNot(${ClassName}.FLAG_DELETE);
@@ -119,15 +119,15 @@ public class ${ClassName}Service extends BaseService<${ClassName}>{
 		return JsonUtil.getInstance().toJsonObject(mapList).toJSONString();
 	}
 	
-	@Transactional(readOnly = true)
+	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public ${ClassName} findOne(String id) {
 		return ${className}Repository.findOne(id);
 	}
-	@Transactional(readOnly = true)
+	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public Page<${ClassName}> findAll(SpecificationDetail<${ClassName}> spec, PageModel<${ClassName}> pm) {
 		return ${className}Repository.findAll(spec, pm);
 	}
-	@Transactional(readOnly = true)
+	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public ${ClassName} findTopByParentId(String parentId) {
 		return ${className}Repository.findTopByParentIdAndStatusNotOrderBySortDesc(parentId, ${ClassName}.FLAG_DELETE);
 	}

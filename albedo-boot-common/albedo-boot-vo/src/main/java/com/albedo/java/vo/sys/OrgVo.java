@@ -1,6 +1,7 @@
 package com.albedo.java.vo.sys;
 
 import com.albedo.java.vo.base.GeneralEntityVo;
+import com.albedo.java.vo.base.TreeEntityVo;
 import lombok.Data;
 import lombok.ToString;
 
@@ -9,17 +10,9 @@ import lombok.ToString;
  */
 @Data
 @ToString
-public class OrgResult extends GeneralEntityVo {
+public class OrgVo extends TreeEntityVo {
 
     private static final long serialVersionUID = 1L;
-    /*** 组织名称 */
-    protected String name;
-    /*** 上级组织 */
-    protected String parentId;
-    /*** 序号 */
-    protected Integer sort;
-    private String id;
-    private String parentName;
     private String code;
     /*** 拼音简码 */
     private String en;

@@ -25,7 +25,7 @@ import java.util.Map;
 @Transactional
 public class ModuleService extends TreeService<ModuleRepository, Module, String> {
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<Map<String, Object>> findTreeData(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
         String type = moduleTreeQuery != null ? moduleTreeQuery.getType() : null,
                 all = moduleTreeQuery != null ? moduleTreeQuery.getAll() : null;
@@ -47,7 +47,7 @@ public class ModuleService extends TreeService<ModuleRepository, Module, String>
         return mapList;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<Module> findAllByParentId(String parentId) {
         return repository.findAllByParentIdAndStatusNot(parentId, Module.FLAG_DELETE);
     }

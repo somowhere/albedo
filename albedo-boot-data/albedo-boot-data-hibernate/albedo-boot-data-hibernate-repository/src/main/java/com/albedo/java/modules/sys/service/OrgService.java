@@ -28,7 +28,7 @@ import java.util.Map;
 public class OrgService extends TreeService<OrgRepository, Org, String> {
 
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<Map<String, Object>> findTreeData(OrgTreeQuery orgTreeQuery, List<Org> list) {
         String extId = orgTreeQuery != null ? orgTreeQuery.getExtId() : null,
                 showType = orgTreeQuery != null ? orgTreeQuery.getShowType() : null,
@@ -66,14 +66,14 @@ public class OrgService extends TreeService<OrgRepository, Org, String> {
 
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Page<Org> findAll(PageModel<Org> pm) {
         SpecificationDetail<Org> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
                 QueryCondition.ne(Org.F_STATUS, Org.FLAG_DELETE));
         return repository.findAll(spec, pm);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<Org> findAllByParentId(String parentId) {
         return repository.findAllByParentIdAndStatusNot(parentId, Org.FLAG_DELETE);
     }

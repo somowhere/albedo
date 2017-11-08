@@ -205,11 +205,11 @@
         SELECT
         <include refid="pageRoleColumn"/>
         FROM
-        SYS_ROLE_T `role`
+        sys_role_t `role`
         LEFT OUTER JOIN sys_user_t `role.creator` ON `role`.created_by = `role.creator`.id_
         LEFT OUTER JOIN sys_user_t `role.modifier` ON `role`.last_modified_by = `role.modifier`.id_
-        LEFT OUTER JOIN SYS_ORG_T `role.org` ON `role`.org_id = `role.org`.id_
-        LEFT OUTER JOIN SYS_ORG_T `role.creator.org` ON `role.creator`.org_id = `role.creator.org`.id_
+        LEFT OUTER JOIN sys_org_t `role.org` ON `role`.org_id = `role.org`.id_
+        LEFT OUTER JOIN sys_org_t `role.creator.org` ON `role.creator`.org_id = `role.creator.org`.id_
         <if test="_condition != null">
             <trim prefix=" where " prefixOverrides="and |or ">
                 ${_sqlConditionDsf}
@@ -227,11 +227,11 @@
         </if>
         limit #{pageSize} offset #{offset}
     </select>
-    <select id="countPage" resultType="long" lang="XML">select count(*) from SYS_ROLE_T `role`
+    <select id="countPage" resultType="long" lang="XML">select count(*) from sys_role_t `role`
         LEFT OUTER JOIN sys_user_t `role.creator` ON `role`.created_by = `role.creator`.id_
         LEFT OUTER JOIN sys_user_t `role.modifier` ON `role`.last_modified_by = `role.modifier`.id_
-        LEFT OUTER JOIN SYS_ORG_T `role.org` ON `role`.org_id = `role.org`.id_
-        LEFT OUTER JOIN SYS_ORG_T `role.creator.org` ON `role.creator`.org_id = `role.creator.org`.id_
+        LEFT OUTER JOIN sys_org_t `role.org` ON `role`.org_id = `role.org`.id_
+        LEFT OUTER JOIN sys_org_t `role.creator.org` ON `role.creator`.org_id = `role.creator.org`.id_
         <if test="_condition != null">
             <trim prefix=" where " prefixOverrides="and |or ">
                 ${_sqlConditionDsf}

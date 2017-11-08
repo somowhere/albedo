@@ -26,7 +26,7 @@ public class SystemAreaService extends DataService<SystemAreaRepository, SystemA
     @Autowired
     public SystemAreaRepository repository;
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public SystemArea findTopByParentId(Long parentId) {
         List<SystemArea> tempList = repository.findTop1ByParentIdAndStatusNotOrderBySortDesc(parentId, BaseEntity.FLAG_DELETE);
         return PublicUtil.isNotEmpty(tempList) ? tempList.get(0) : null;

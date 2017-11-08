@@ -121,7 +121,7 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
      *
      * @see com.albedo.java.repository.data.support.Itest#checkByProperty(T)
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public boolean doCheckByProperty(T entity) {
         boolean rs = false;
         Map<String, Operator> maps = Maps.newHashMap();
@@ -142,7 +142,7 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
         return rs;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Long findCountByClass(Class<?> clazz, List<QueryCondition> conditionList) {
         String hql = PublicUtil.toAppendStr("select count(*) from ", clazz.getName());
         return (Long) findObjectByHQL(hql, conditionList);
@@ -153,7 +153,7 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
      *
      * @see com.albedo.java.repository.data.support.Itest#checkByPK(T)
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public boolean doCheckByPK(T entity) {
         boolean rs = false;
         Map<String, Operator> maps = Maps.newHashMap();
@@ -173,7 +173,7 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
         return rs;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<ComboData> findJson(Combo combo) {
         List<ComboData> mapList = Lists.newArrayList();
         if (PublicUtil.isNotEmpty(combo) && PublicUtil.isNotEmpty(combo.getId())
@@ -267,119 +267,119 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
         });
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Object findByHQL(String HQL, boolean isList, List<QueryCondition> conditionList, Object... params) {
         return findByQL(HQL, false, false, isList, 0, conditionList, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Object findByHQL(String HQL, boolean isList, int maxSize, List<QueryCondition> conditionList,
                             Object... params) {
         return findByQL(HQL, false, false, isList, maxSize, conditionList, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List findListSizeByHQL(String HQL, int maxSize, List<QueryCondition> conditionList, Object... params) {
         return (List) findByQL(HQL, false, false, true, maxSize, conditionList, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List findListSizeByHQL(String HQL, int maxSize, Object... params) {
         return (List) findByQL(HQL, false, false, true, maxSize, null, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List findListByHQL(String HQL, List<QueryCondition> conditionList, Object... params) {
         return (List) findByQL(HQL, false, false, true, 0, conditionList, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List findListByHQL(String HQL, Object... params) {
         return (List) findByQL(HQL, false, false, true, 0, null, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<T> findEntityListByHQL(String HQL, int maxSize, List<QueryCondition> conditionList, Object... params) {
         return (List<T>) findByQL(HQL, false, false, true, maxSize, conditionList, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<T> findEntityListByHQL(String HQL, int maxSize, Object... params) {
         return (List<T>) findByQL(HQL, false, false, true, maxSize, null, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<T> findEntityListByHQL(String HQL, List<QueryCondition> conditionList, Object... params) {
         return (List<T>) findByQL(HQL, false, false, true, 0, conditionList, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<T> findEntityListByHQL(String HQL, Object... params) {
         return (List<T>) findByQL(HQL, false, false, true, 0, null, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Object findObjectByHQL(String HQL, List<QueryCondition> conditionList, Object... params) {
         return findByQL(HQL, false, false, false, 0, conditionList, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Object findObjectByHQL(String HQL, Object... params) {
         return findByQL(HQL, false, false, false, 0, null, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public T findEntityByHQL(String HQL, List<QueryCondition> conditionList, Object... params) {
         return (T) findByQL(HQL, false, false, false, 0, conditionList, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public T findEntityByHQL(String HQL, Object... params) {
         return (T) findByQL(HQL, false, false, false, 0, null, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Object findBySQL(String SQL, boolean isList, List<QueryCondition> conditionList, Object... params) {
         return findByQL(SQL, true, false, isList, 0, conditionList, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Object findBySQL(String SQL, boolean isList, int maxSize, List<QueryCondition> conditionList,
                             Object... params) {
         return findByQL(SQL, true, false, isList, maxSize, conditionList, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List findListSizeBySQL(String SQL, int maxSize, List<QueryCondition> conditionList, Object... params) {
         return (List) findByQL(SQL, true, false, true, maxSize, conditionList, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List findListSizeBySQL(String SQL, int maxSize, Object... params) {
         return (List) findByQL(SQL, true, false, true, maxSize, null, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List findListBySQL(String SQL, List<QueryCondition> conditionList, Object... params) {
         return (List) findByQL(SQL, true, false, true, 0, conditionList, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List findListBySQL(String SQL, Object... params) {
         return (List) findByQL(SQL, true, false, true, 0, null, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Object findObjectBySQL(String SQL, List<QueryCondition> conditionList, Object... params) {
         return findByQL(SQL, true, false, false, 0, conditionList, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Object findObjectBySQL(String SQL, Object... params) {
         return findByQL(SQL, true, false, false, 0, null, params);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Object findByQL(String QL, boolean isSql, boolean isCache, boolean isList, int maxSize,
                            List<QueryCondition> conditionList, Object... params) {
         try {

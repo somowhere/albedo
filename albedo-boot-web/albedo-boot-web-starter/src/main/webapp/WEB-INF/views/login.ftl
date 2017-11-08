@@ -53,7 +53,7 @@
 <!-- BEGIN LOGIN -->
 <div class="content">
     <!-- BEGIN LOGIN FORM -->
-    <form class="login-form" action="api/authentication" method="post">
+    <form class="login-form" action="authentication" method="post">
         <h3 class="form-title font-green text-center">${application}</h3>
         <div class="alert alert-danger display-hide">
             <button class="close" data-close="alert"></button>
@@ -65,14 +65,14 @@
             <div class="input-icon">
                 <i class="fa fa-user"></i>
                 <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="用户名"
-                       name="a_username"/></div>
+                       name="username"/></div>
         </div>
         <div class="form-group">
             <label class="control-label visible-ie8 visible-ie9">密码</label>
             <div class="input-icon">
                 <i class="fa fa-lock"></i>
                 <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="密码"
-                       name="a_password"/></div>
+                       name="password"/></div>
         </div>
         <div class="form-actions">
             <button type="submit" class="btn green uppercase">登录</button>

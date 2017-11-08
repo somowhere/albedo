@@ -22,11 +22,11 @@ public class GenTableServiceTest {
 
     @Test
     public void findPage() throws Exception {
-//        GenTable genTable = new GenTable();
+//        GenTableVo genTable = new GenTableVo();
 //        genTable.setName("sys_user_t");
 //        List<GenTableColumn> tableColumnList = genTableRepository.findTableColumnList(genTable);
 //        assertThat(tableColumnList.size(), is(19));
-//        List<GenTable> tableList = genTableRepository.findTableList(genTable);
+//        List<GenTableVo> tableList = genTableRepository.findTableList(genTable);
 //        assertThat(tableList.get(0).ge, is(19));
     }
 

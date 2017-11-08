@@ -2,6 +2,8 @@ package com.albedo.java.common.domain.base;
 
 import com.albedo.java.util.annotation.SearchField;
 import com.albedo.java.util.domain.QueryCondition.Operator;
+import lombok.Data;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.JoinColumn;
 import org.springframework.data.mybatis.annotations.ManyToOne;
@@ -13,7 +15,8 @@ import org.springframework.data.mybatis.annotations.MappedSuperclass;
  * @author lijie version 2013-12-27 下午12:27:10
  */
 @MappedSuperclass
-public abstract class TreeEntity<T extends DataEntity> extends IdEntity {
+@Data
+public abstract class TreeEntity<T extends TreeEntity> extends IdEntity {
 
     public static final String ROOT = "1";
     public static final String F_NAME = "name";
@@ -46,61 +49,13 @@ public abstract class TreeEntity<T extends DataEntity> extends IdEntity {
     @Column(name = "is_leaf")
     private boolean isLeaf = false;
 
+    /*** 父模块名称 */
+    @Transient
+    private String parentName;
+
     public TreeEntity() {
         super();
         this.sort = 30;
-    }
-
-    public T getParent() {
-        return parent;
-    }
-
-    public void setParent(T parent) {
-        this.parent = parent;
-    }
-
-    public String getParentIds() {
-        return parentIds;
-    }
-
-    public void setParentIds(String parentIds) {
-        this.parentIds = parentIds;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public void setSort(Integer sort) {
-        this.sort = sort;
-    }
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
-
-    public boolean isLeaf() {
-        return isLeaf;
-    }
-
-    public void setLeaf(boolean isLeaf) {
-        this.isLeaf = isLeaf;
-    }
-
-    protected boolean getIsLeaf() {
-        return isLeaf;
     }
 
 }

@@ -23,12 +23,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class LoggingEventService extends BaseService<LoggingEventRepository, LoggingEvent, String> {
 
-    @Transactional(readOnly = true)
+    @Override
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public LoggingEvent findOne(String id) {
         return repository.findOne(id);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel<LoggingEvent> findPage(PageModel<LoggingEvent> pm) {
         SpecificationDetail<LoggingEvent> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson());
         return findPage(pm, spec);

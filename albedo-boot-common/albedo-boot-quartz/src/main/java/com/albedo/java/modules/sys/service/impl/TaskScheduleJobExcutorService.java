@@ -36,11 +36,10 @@ import java.util.Set;
  */
 @ConditionalOnProperty(name = Globals.ALBEDO_QUARTZENABLED)
 @Service
-@Transactional
 @BaseInit
 public class TaskScheduleJobExcutorService extends DataService<TaskScheduleJobRepository,
         TaskScheduleJob, String>
-//		implements ITaskScheduleJobService 
+//		implements ITaskScheduleJobService
 {
 
     @Autowired
@@ -75,13 +74,13 @@ public class TaskScheduleJobExcutorService extends DataService<TaskScheduleJobRe
      * com.albedo.java.modules.sys.service.ITaskScheduleJobService#findOne(java.
      * lang.String)
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public TaskScheduleJob findOne(String id) {
         return repository.findOne(id);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public TaskScheduleJob findOneBySourceId(String soruceId) {
         return repository.findTopBySourceIdAndStatusNot(soruceId, TaskScheduleJob.FLAG_DELETE);
     }
@@ -94,7 +93,7 @@ public class TaskScheduleJobExcutorService extends DataService<TaskScheduleJobRe
      * albedo.java.common.domain.data.SpecificationDetail,
      * com.albedo.java.util.domain.PageModel)
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel<TaskScheduleJob> findAll(PageModel<TaskScheduleJob> pm, List<QueryCondition> queryConditions) {
         return taskScheduleJobService.findAll(pm, queryConditions);
     }

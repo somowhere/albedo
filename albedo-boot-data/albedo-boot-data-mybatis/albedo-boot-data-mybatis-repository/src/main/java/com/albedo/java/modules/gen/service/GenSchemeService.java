@@ -36,7 +36,7 @@ public class GenSchemeService extends DataService<GenSchemeRepository, GenScheme
                 QueryCondition.eq(GenTable.F_STATUS, GenTable.FLAG_NORMAL),
                 QueryCondition.ne(GenTable.F_ID, id == null ? "-1" : id));
         return findAll(specificationDetail);
-//		return repository.findAllByStatusAndId(GenTable.FLAG_NORMAL, id == null ? "-1" : id);
+//		return repository.findAllByStatusAndId(GenTableVo.FLAG_NORMAL, id == null ? "-1" : id);
     }
 
 

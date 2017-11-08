@@ -21,7 +21,7 @@ import java.util.List;
 @Transactional
 public class RoleService extends DataService<RoleRepository, Role, String> {
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Page<Role> findAll(PageModel<Role> pm, List<QueryCondition> queryConditions) {
         SpecificationDetail<Role> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(), queryConditions,
                 QueryCondition.ne(Role.F_STATUS, Role.FLAG_DELETE));

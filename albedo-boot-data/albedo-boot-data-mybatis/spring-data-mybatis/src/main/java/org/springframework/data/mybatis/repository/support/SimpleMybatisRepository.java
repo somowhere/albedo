@@ -36,7 +36,7 @@ import java.util.Map;
  * @author Jarvis Song
  */
 @Repository
-@Transactional(readOnly = true)
+@Transactional(readOnly = true, rollbackFor = Exception.class)
 public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSessionRepositorySupport
         implements MybatisRepository<T, ID> {
 

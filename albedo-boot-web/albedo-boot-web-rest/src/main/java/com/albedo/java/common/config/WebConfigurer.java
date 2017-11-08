@@ -3,6 +3,7 @@ package com.albedo.java.common.config;
 import com.albedo.java.common.listener.ContextInitListener;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.Globals;
+import com.albedo.java.util.spring.DefaultProfileUtil;
 import com.albedo.java.web.filter.CachingHttpHeadersFilter;
 import com.albedo.java.web.interceptor.OperateInterceptor;
 import com.codahale.metrics.MetricRegistry;
@@ -85,7 +86,10 @@ public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletCon
 
     private void setLocationForStaticAssets(ConfigurableEmbeddedServletContainer container) {
         File root;
-        String prefixPath = resolvePathPrefix();
+        String prefixPath = env.getProperty(DefaultProfileUtil.SPRING_WEB_ROOT_PREFIX);
+        if(PublicUtil.isEmpty(prefixPath)){
+            prefixPath = DefaultProfileUtil.resolvePathPrefix(this.getClass());
+        }
         if (env.acceptsProfiles(Globals.SPRING_PROFILE_PRODUCTION)) {
             root = new File(prefixPath + "target/www/");
         } else {
@@ -97,19 +101,7 @@ public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletCon
         }
     }
 
-    /**
-     * Resolve path prefix to static resources.
-     */
-    private String resolvePathPrefix() {
-        String fullExecutablePath = this.getClass().getResource("").getPath();
-        String rootPath = Paths.get(".").toUri().normalize().getPath();
-        String extractedPath = fullExecutablePath.replace(rootPath, "");
-        int extractionEndIndex = extractedPath.indexOf("target/");
-        if (extractionEndIndex <= 0) {
-            return "";
-        }
-        return extractedPath.substring(0, extractionEndIndex);
-    }
+
 
     /**
      * Initializes the caching HTTP Headers Filter.

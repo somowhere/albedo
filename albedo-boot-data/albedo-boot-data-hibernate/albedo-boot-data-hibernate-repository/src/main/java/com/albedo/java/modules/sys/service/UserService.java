@@ -13,7 +13,7 @@ import com.albedo.java.util.RandomUtil;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.vo.sys.UserForm;
-import com.albedo.java.vo.sys.UserResult;
+import com.albedo.java.vo.sys.UserVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -39,8 +39,8 @@ public class UserService extends DataService<UserRepository, User, String> {
     @Resource
     private RoleRepository roleRepository;
 
-    public UserResult copyBeanToResult(User user) {
-        UserResult userResult = new UserResult();
+    public UserVo copyBeanToVo(User user) {
+        UserVo userResult = new UserVo();
         BeanUtils.copyProperties(user, userResult);
         userResult.setRoleNames(user.getRoleNames());
         if (user.getOrg() != null) userResult.setOrgName(user.getOrg().getName());
@@ -54,7 +54,7 @@ public class UserService extends DataService<UserRepository, User, String> {
     }
 
 
-    public Optional<UserResult> activateRegistration(String key) {
+    public Optional<UserVo> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
         return repository.findOneByActivationKey(key)
                 .map(user -> {
@@ -63,11 +63,11 @@ public class UserService extends DataService<UserRepository, User, String> {
                     user.setActivationKey(null);
                     repository.save(user);
                     log.debug("Activated user: {}", user);
-                    return copyBeanToResult(user);
+                    return copyBeanToVo(user);
                 });
     }
 
-    public UserResult save(UserForm userForm) {
+    public UserVo save(UserForm userForm) {
         User user = copyFormToBean(userForm);
         if (user.getLangKey() == null) {
             user.setLangKey("zh-cn"); // default language
@@ -80,22 +80,22 @@ public class UserService extends DataService<UserRepository, User, String> {
         user = repository.save(user);
         log.debug("Save Information for User: {}", user);
 
-        return copyBeanToResult(user);
+        return copyBeanToVo(user);
     }
 
-    @Transactional(readOnly = true)
-    public Optional<UserResult> getUserWithAuthoritiesByLogin(String login) {
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public Optional<UserVo> getUserWithAuthoritiesByLogin(String login) {
         return repository.findOneByLoginId(login).map(u -> {
             u.getRoles().size();
-            return copyBeanToResult(u);
+            return copyBeanToVo(u);
         });
     }
 
-    @Transactional(readOnly = true)
-    public UserResult getUserWithAuthorities(String id) {
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public UserVo getUserWithAuthorities(String id) {
         User user = repository.findOne(id);
         user.getRoles().size(); // eagerly load the association
-        return copyBeanToResult(user);
+        return copyBeanToVo(user);
     }
 
     /**
@@ -133,13 +133,13 @@ public class UserService extends DataService<UserRepository, User, String> {
     }
 
 
-    @Transactional(readOnly = true)
-    public UserResult findResult(String id) {
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public UserVo findResult(String id) {
         User user = repository.findOne(id);
-        return copyBeanToResult(user);
+        return copyBeanToVo(user);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel findAll(PageModel pm, List<QueryCondition> queryConditions) {
         SpecificationDetail<User> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(), queryConditions,
                 QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE), QueryCondition.ne(User.F_ID, "1"));

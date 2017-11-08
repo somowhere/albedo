@@ -42,7 +42,7 @@ public class AlbedoBootWebApp {
         SpringApplication app = new SpringApplication(AlbedoBootWebApp.class);
         DefaultProfileUtil.addDefaultProfile(app);
         final ApplicationContext applicationContext = app.run(args);
-        SpringContextHolder.setStaticApplicationContext(applicationContext);
+//        SpringContextHolder.setStaticApplicationContext(applicationContext);
         Environment env = applicationContext.getEnvironment();
 
         log.info("\n----------------------------------------------------------\n\t" +

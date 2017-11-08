@@ -21,6 +21,7 @@ import java.util.Map;
 public abstract class TreeService<Repository extends TreeRepository<T, PK>, T extends TreeEntity, PK extends Serializable>
         extends DataService<Repository, T, PK> {
 
+    @Override
     public void delete(List<PK> ids) {
         ids.forEach(id -> {
             T entity = repository.findOne(id);
@@ -29,7 +30,7 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
             log.debug("Deleted Entity: {}", entity);
         });
     }
-
+    @Override
     public void lockOrUnLock(List<PK> ids) {
         ids.forEach(id -> {
             T entity = repository.findOne(id);
@@ -62,12 +63,15 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
         }
     }
 
+
+    @Override
     public T save(T entity) {
         String oldParentIds = entity.getParentIds(); // 获取修改前的parentIds，用于更新子节点的parentIds
         if (entity.getParentId() != null) {
             T parent = repository.findOneById((PK) entity.getParentId());
-            if (parent == null || PublicUtil.isEmpty(parent.getId()))
+            if (parent == null || PublicUtil.isEmpty(parent.getId())){
                 throw new RuntimeMsgException("无法获取模块的父节点，插入失败");
+            }
             if (parent != null) {
                 parent.setLeaf(false);
 //                checkSave(parent);
@@ -94,7 +98,7 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
         return entity;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<Map<String, Object>> findTreeData(TreeQuery query) {
         String extId = query != null ? query.getExtId() : null, all = query != null ? query.getAll() : null;
         List<Map<String, Object>> mapList = Lists.newArrayList();
@@ -114,13 +118,13 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
         return mapList;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public T findTopByParentId(String parentId) {
         List<T> tempList = repository.findTop1ByParentIdAndStatusNotOrderBySortDesc(parentId, BaseEntity.FLAG_DELETE);
         return PublicUtil.isNotEmpty(tempList) ? tempList.get(0) : null;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Long countTopByParentId(String parentId) {
         return repository.countByParentIdAndStatusNot(parentId, Area.FLAG_DELETE);
     }

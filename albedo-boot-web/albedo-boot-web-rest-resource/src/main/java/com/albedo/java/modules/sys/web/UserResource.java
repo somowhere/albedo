@@ -1,7 +1,8 @@
 package com.albedo.java.modules.sys.web;
 
+import com.albedo.java.common.config.template.tag.FormDirective;
 import com.albedo.java.common.security.SecurityUtil;
-import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.service.UserService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
@@ -10,9 +11,10 @@ import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
-import com.albedo.java.vo.sys.UserForm;
+import com.albedo.java.vo.sys.UserVo;
+import com.albedo.java.vo.sys.UserVo;
 import com.albedo.java.web.rest.ResultBuilder;
-import com.albedo.java.web.rest.base.DataResource;
+import com.albedo.java.web.rest.base.DataVoResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.Lists;
@@ -21,12 +23,12 @@ import io.swagger.annotations.ApiImplicitParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 
 /**
@@ -65,22 +67,27 @@ import javax.validation.Valid;
  */
 @Controller
 @RequestMapping("${albedo.adminPath}/sys/user")
-public class UserResource extends DataResource<UserService, User> {
+public class UserResource extends DataVoResource<UserService, UserVo> {
 
     private final Logger log = LoggerFactory.getLogger(UserResource.class);
     @Autowired(required = false)
     private PasswordEncoder passwordEncoder;
-    @Resource
-    private UserService userService;
+
+
+    @GetMapping(value = "/")
+    @Timed
+    public String list() {
+        return "modules/sys/userList";
+    }
 
     /**
      * 分页
      *
      * @param pm
      */
-    @GetMapping(value = "/")
-    public ResponseEntity page(PageModel pm) {
-        pm = userService.findPage(pm, SecurityUtil.dataScopeFilterSql("d", "a"));
+    @GetMapping(value = "/page")
+    public ResponseEntity getPage(PageModel pm) {
+        pm = service.findPage(pm, SecurityUtil.dataScopeFilterSql("d", "a"));
         JSON rs = JsonUtil.getInstance().setFreeFilters("roleIdList").setRecurrenceStr("org_name").toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
     }
@@ -95,44 +102,52 @@ public class UserResource extends DataResource<UserService, User> {
     @Timed
     public ResponseEntity getUser(@PathVariable String id) {
         log.debug("REST request to get User : {}", id);
-        return ResultBuilder.buildOk(userService.findOneById(id)
-                .map(item -> userService.copyBeanToResult(item)));
+        return ResultBuilder.buildOk(service.findOneById(id)
+                .map(item -> service.copyBeanToVo(item)));
+    }
+
+    @GetMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+//	@Secured(AuthoritiesConstants.ADMIN)
+    public String form(UserVo user, @RequestParam(required = false) Boolean isModal) {
+        request.setAttribute("allRoles", FormDirective.convertComboDataList(SecurityUtil.getRoleList(), Role.F_ID, Role.F_NAME));
+        return PublicUtil.toAppendStr("modules/sys/userForm", isModal ? "Modal" : "");
     }
 
     /**
      * 保存
      *
-     * @param userForm
+     * @param userVo
      * @return
      */
-    @PostMapping(value = "/", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @ApiImplicitParams(@ApiImplicitParam(paramType = "query", name = "confirmPassword"))
-    public ResponseEntity save(@Valid @RequestBody UserForm userForm) {
-        log.debug("REST request to save userForm : {}", userForm);
+    public ResponseEntity save(@Valid @RequestBody UserVo userVo) {
+        log.debug("REST request to save userVo : {}", userVo);
         // beanValidatorAjax(user);
-        if (PublicUtil.isNotEmpty(userForm.getPassword()) && !userForm.getPassword().equals(userForm.getConfirmPassword())) {
+        if (PublicUtil.isNotEmpty(userVo.getPassword()) && !userVo.getPassword().equals(userVo.getConfirmPassword())) {
             throw new RuntimeMsgException("两次输入密码不一致");
         }
         // Lowercase the user login before comparing with database
-        if (!checkByProperty(Reflections.createObj(User.class, Lists.newArrayList(User.F_ID, User.F_LOGINID),
-                userForm.getId(), userForm.getLoginId()))) {
+        if (!checkByProperty(Reflections.createObj(UserVo.class, Lists.newArrayList(UserVo.F_ID, UserVo.F_LOGINID),
+                userVo.getId(), userVo.getLoginId()))) {
             throw new RuntimeMsgException("登录Id已存在");
         }
-        if (!PublicUtil.isNotEmpty(userForm.getEmail()) && checkByProperty(Reflections.createObj(User.class,
-                Lists.newArrayList(User.F_ID, User.F_EMAIL), userForm.getId(), userForm.getEmail()))) {
+        if (!PublicUtil.isNotEmpty(userVo.getEmail()) && checkByProperty(Reflections.createObj(UserVo.class,
+                Lists.newArrayList(UserVo.F_ID, UserVo.F_EMAIL), userVo.getId(), userVo.getEmail()))) {
             throw new RuntimeMsgException("邮箱已存在");
         }
-        if (PublicUtil.isNotEmpty(userForm.getId())) {
-            User temp = userService.findOne(userForm.getId());
-            userForm.setPassword(PublicUtil.isEmpty(userForm.getPassword()) ? temp.getPassword() : passwordEncoder.encode(userForm.getPassword()));
+        if (PublicUtil.isNotEmpty(userVo.getId())) {
+            UserVo temp = service.findOneVo(userVo.getId());
+            userVo.setPassword(PublicUtil.isEmpty(userVo.getPassword()) ? temp.getPassword() : passwordEncoder.encode(userVo.getPassword()));
         } else {
-            userForm.setPassword(passwordEncoder.encode(userForm.getPassword()));
+            userVo.setPassword(passwordEncoder.encode(userVo.getPassword()));
         }
-        userService.save(userForm);
+        service.save(userVo);
         SecurityUtil.clearUserJedisCache();
         SecurityUtil.clearUserLocalCache();
-        return ResultBuilder.buildOk("保存", userForm.getLoginId(), "成功");
+        return ResultBuilder.buildOk("保存", userVo.getLoginId(), "成功");
     }
 
     /**
@@ -145,7 +160,7 @@ public class UserResource extends DataResource<UserService, User> {
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
         log.debug("REST request to delete User: {}", ids);
-        userService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        service.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
         SecurityUtil.clearUserJedisCache();
         SecurityUtil.clearUserLocalCache();
         return ResultBuilder.buildOk("删除成功");
@@ -161,7 +176,7 @@ public class UserResource extends DataResource<UserService, User> {
     @Timed
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {
         log.debug("REST request to lockOrUnLock User: {}", ids);
-        userService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        service.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
         SecurityUtil.clearUserJedisCache();
         SecurityUtil.clearUserLocalCache();
         return ResultBuilder.buildOk("操作成功");

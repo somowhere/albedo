@@ -12,12 +12,13 @@ import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.base.SelectResult;
+import com.albedo.java.vo.sys.DictVo;
 import com.albedo.java.vo.sys.query.DictQuery;
 import com.albedo.java.vo.sys.query.DictQuerySearch;
 import com.albedo.java.vo.sys.query.DictTreeQuery;
 import com.albedo.java.vo.sys.query.DictTreeResult;
 import com.albedo.java.web.rest.ResultBuilder;
-import com.albedo.java.web.rest.base.DataResource;
+import com.albedo.java.web.rest.base.TreeVoResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.Lists;
@@ -27,12 +28,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
@@ -43,15 +42,15 @@ import java.util.stream.Collectors;
  */
 @Controller
 @RequestMapping("${albedo.adminPath}/sys/dict")
-public class DictResource extends DataResource<DictService, Dict> {
+public class DictVoResource extends TreeVoResource<DictService, DictVo> {
 
     @Resource
     private DictService dictService;
 
 
-    @GetMapping(value = "findTreeDataRest")
-    public ResponseEntity findTreeDataRest(DictTreeQuery dictTreeQuery) {
-        List<DictTreeResult> rs = dictService.findTreeDataRest(dictTreeQuery, DictUtil.getDictList());
+    @GetMapping(value = "findTreeData")
+    public ResponseEntity findTreeData(DictTreeQuery dictTreeQuery) {
+        List<DictTreeResult> rs = dictService.findTreeData(dictTreeQuery, DictUtil.getDictList());
         return ResultBuilder.buildOk(rs);
     }
 
@@ -89,43 +88,43 @@ public class DictResource extends DataResource<DictService, Dict> {
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public String form(Dict dict) {
-        if (dict == null) {
+    public String form(DictVo dictVo) {
+        if (dictVo == null) {
             throw new RuntimeMsgException("无法获取字典数据");
         }
-        if (StringUtil.isBlank(dict.getId())) {
-            Dict item = dictService.findTopByParentId(dict.getParentId());
+        if (StringUtil.isBlank(dictVo.getId())) {
+            Dict item = dictService.findTopByParentId(dictVo.getParentId());
             if (item != null) {
-                dict.setSort(dict.getSort() + item.getSort() + 30);
+                dictVo.setSort(dictVo.getSort() + item.getSort() + 30);
             }
         }
-        if (dict.getSort() == null) {
-            dict.setSort(30);
+        if (dictVo.getSort() == null) {
+            dictVo.setSort(30);
         }
-        if (PublicUtil.isNotEmpty(dict.getParentId())) {
-            dict.setParent(dictService.findOne(dict.getParentId()));
+        if (PublicUtil.isNotEmpty(dictVo.getParentId())) {
+            dictService.findOneById(dictVo.getParentId()).ifPresent(item-> dictVo.setParentName(item.getName()));
         }
-        return "modules/sys/dictForm";
+        return "modules/sys/dictVo";
     }
 
     /**
-     * @param dict
+     * @param dictVo
      * @return
      * @throws URISyntaxException
      */
     @RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity save(Dict dict)
+    public ResponseEntity save(@Valid @RequestBody DictVo dictVo)
             throws URISyntaxException {
-        log.debug("REST request to save Dict : {}", dict);
-        // Lowercase the dict login before comparing with database
-        if (!checkByProperty(Reflections.createObj(Dict.class, Lists.newArrayList(Dict.F_ID, Dict.F_CODE),
-                dict.getId(), dict.getName()))) {
+        log.debug("REST request to save Dict : {}", dictVo);
+        // Lowercase the dictVo login before comparing with database
+        if (!checkByProperty(Reflections.createObj(DictVo.class, Lists.newArrayList(DictVo.F_ID, DictVo.F_CODE),
+                dictVo.getId(), dictVo.getName()))) {
             throw new RuntimeMsgException("编码已存在");
         }
-        dictService.save(dict);
+        dictService.save(dictVo);
         DictUtil.clearCache();
-        return ResultBuilder.buildOk("保存", dict.getName(), "成功");
+        return ResultBuilder.buildOk("保存", dictVo.getName(), "成功");
     }
 
     /**

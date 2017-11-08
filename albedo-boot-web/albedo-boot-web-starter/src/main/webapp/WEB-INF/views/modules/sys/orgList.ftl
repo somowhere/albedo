@@ -103,7 +103,7 @@
                             orderable: false, data: function (row, type, val, meta) {
                             var data = '<span class="operation">'<#if SecurityUtil.hasPermission('sys_org_edit')>+ '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-org" data-reload-after="refreshTreeOrg" data-url="${ctx}/sys/org/edit?id='+ row.id+ '" data-is-modal="true" data-modal-width="950"><i class=\"fa fa-lg fa-pencil\" title=\"编辑机构\"></i></a>'</#if>
                                         <#if SecurityUtil.hasPermission('sys_org_lock')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-org" data-title="你确认要操作【'+ row.name+ '】机构吗？" data-url="${ctx}/sys/org/lock/'+ row.id+ '"><i class=\"fa fa-lg fa-'+ (row.status == "正常" ? "unlock" : "lock") + '  font-yellow-gold\" title=\"'+ (row.status == "正常" ? "锁定" : "解锁") + '机构\"></i></a></span>'</#if>
-                                        <#if SecurityUtil.hasPermission('sys_org_delete')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-org" data-method="delete" data-title="你确认要删除【'+ row.name+ '】机构吗？" data-url="${ctx}/sys/org/delete/'+ row.id+ '"><i class=\"fa fa-lg fa-trash-o font-red-mint\" title=\"删除\"></i></a>'</#if> + '</span>';
+                                        <#if SecurityUtil.hasPermission('sys_org_delete')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-org" data-title="你确认要删除【'+ row.name+ '】机构吗？" data-url="${ctx}/sys/org/delete/'+ row.id+ '"><i class=\"fa fa-lg fa-trash-o font-red-mint\" title=\"删除\"></i></a>'</#if> + '</span>';
                             return data;
                         }
                         }</#if>

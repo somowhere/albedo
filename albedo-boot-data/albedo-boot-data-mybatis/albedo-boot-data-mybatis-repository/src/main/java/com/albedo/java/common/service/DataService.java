@@ -24,10 +24,15 @@ import java.util.List;
  * @author lj
  * @version 2014-05-16
  */
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public abstract class DataService<Repository extends BaseRepository<T, PK>, T extends DataEntity, PK extends Serializable>
         extends BaseService<Repository, T, PK> {
 
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public T findOne(PK id) {
+        return repository.findOne(id);
+    }
     /**
      * 逻辑删除
      *
@@ -78,34 +83,34 @@ public abstract class DataService<Repository extends BaseRepository<T, PK>, T ex
         });
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel<T> findPage(PageModel<T> pm) {
         return findPageQuery(pm, null, false);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel<T> findBasicPage(PageModel<T> pm) {
         return findPageQuery(pm, null, true);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel<T> findPage(PageModel<T> pm, List<QueryCondition> queryConditions) {
         return findPageQuery(pm, queryConditions, false);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel<T> findBasicPage(PageModel<T> pm, List<QueryCondition> queryConditions) {
         return findPageQuery(pm, queryConditions, true);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel<T> findPageQuery(PageModel<T> pm, List<QueryCondition> authQueryConditions, boolean isBasic) {
         SpecificationDetail<T> specificationDetail = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
-                persistentClass,
+                getPersistentClass(),
                 QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
-        if (PublicUtil.isNotEmpty(authQueryConditions))
+        if (PublicUtil.isNotEmpty(authQueryConditions)){
             specificationDetail.orAll(authQueryConditions);
-//		specificationDetail.setPersistentClass();
+        }
         return findBasePage(pm, specificationDetail, isBasic);
     }
 

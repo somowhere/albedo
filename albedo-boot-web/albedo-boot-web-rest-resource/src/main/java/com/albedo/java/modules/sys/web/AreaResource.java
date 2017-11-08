@@ -37,15 +37,6 @@ public class AreaResource extends DataResource<AreaService, Area> {
     @Resource
     private AreaService areaService;
 
-    @ModelAttribute
-    public Area get(@RequestParam(required = false) String id) throws Exception {
-        String path = request.getRequestURI();
-        if (path != null && !path.contains("checkBy") && !path.contains("find") && PublicUtil.isNotEmpty(id)) {
-            return areaService.findOne(id);
-        } else {
-            return new Area();
-        }
-    }
 
     @RequestMapping(value = "findTreeData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity findTreeData(AreaTreeQuery areaTreeQuery) {
