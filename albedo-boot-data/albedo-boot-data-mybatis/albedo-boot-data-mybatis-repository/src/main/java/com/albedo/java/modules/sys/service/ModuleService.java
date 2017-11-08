@@ -13,24 +13,20 @@ import com.albedo.java.vo.sys.query.AntdTreeResult;
 import com.albedo.java.vo.sys.query.ModuleMenuTreeResult;
 import com.albedo.java.vo.sys.query.ModuleTreeQuery;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Service class for managing modules.
  */
 @Service
-@Transactional
 public class ModuleService extends TreeVoService<ModuleRepository, Module, String, ModuleVo> {
 
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public List<ModuleMenuTreeResult> findMenuDataRest(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
+    public List<ModuleMenuTreeResult> findMenuData(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
         String type = moduleTreeQuery != null ? moduleTreeQuery.getType() : null,
                 all = moduleTreeQuery != null ? moduleTreeQuery.getAll() : null;
 
@@ -60,7 +56,7 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public List<AntdTreeResult> findTreeDataRest(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
+    public List<AntdTreeResult> findTreeData(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
         String type = moduleTreeQuery != null ? moduleTreeQuery.getType() : null,
                 all = moduleTreeQuery != null ? moduleTreeQuery.getAll() : null;
 
@@ -87,34 +83,6 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
         return mapList;
     }
 
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public List<Map<String, Object>> findTreeData(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
-        String type = moduleTreeQuery != null ? moduleTreeQuery.getType() : null,
-                all = moduleTreeQuery != null ? moduleTreeQuery.getAll() : null;
-
-        List<Map<String, Object>> mapList = Lists.newArrayList();
-        for (Module e : moduleList) {
-            if ((all != null || (all == null && BaseEntity.FLAG_NORMAL.equals(e.getStatus())))) {
-                Map<String, Object> map = Maps.newHashMap();
-                if ("menu".equals(type) && !Module.TYPE_MENU.equals(e.getType())) {
-                    continue;
-                }
-                map.put("id", e.getId());
-                map.put("pId", e.getParentId() != null ? e.getParentId() : 0);
-                map.put("name", e.getName());
-                map.put("iconCls", PublicUtil.toAppendStr("fa ", e.getIconCls()));
-                mapList.add(map);
-            }
-        }
-        return mapList;
-    }
-
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public List<ModuleVo> findAllByParentId(String parentId) {
-        return repository.findAllByParentIdAndStatusNot(parentId, Module.FLAG_DELETE).stream()
-                .map(item -> copyBeanToVo(item))
-                .collect(Collectors.toList());
-    }
 
     public void generatorModuleData(String moduleName, String parentModuleId, String url) {
         Module currentModule = repository.findOneByName(moduleName);
@@ -125,7 +93,7 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
         }
 //			baseRepository.execute("delete Module where id=:p1 or parentId=:p1", currentModule.getId());
         Module parentModule = repository.findOne(parentModuleId);
-        if (parentModule == null){
+        if (parentModule == null) {
 
             new Exception(PublicUtil.toAppendStr("根据模块id[", parentModuleId, "无法查询到模块信息]"));
         }

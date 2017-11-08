@@ -98,10 +98,6 @@ public class OrgService extends TreeVoService<OrgRepository, Org, String, OrgVo>
 //				QueryCondition.ne(Org.F_STATUS, Org.FLAG_DELETE));
 //		return repository.findAll(spec, pm);
 //	}
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public List<Org> findAllByParentId(String parentId) {
-        return repository.findAllByParentIdAndStatusNot(parentId, Org.FLAG_DELETE);
-    }
 
     public List<Org> findAllList(boolean admin, List<QueryCondition> authQueryList) {
         SpecificationDetail<Org> spd = new SpecificationDetail<Org>()

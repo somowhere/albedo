@@ -106,12 +106,12 @@ public class Module extends TreeEntity<Module> {
         return requestMethod;
     }
 
-    public void setRequestMethod(String requestMethod) {
-        this.requestMethod = requestMethod;
-    }
-
     public void setRequestMethod(RequestMethod requestMethod) {
         this.requestMethod = requestMethod.name();
+    }
+
+    public void setRequestMethod(String requestMethod) {
+        this.requestMethod = requestMethod;
     }
 
     public String getParentName() {

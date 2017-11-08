@@ -4,6 +4,7 @@ import com.albedo.java.common.domain.base.DataEntity;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.service.OrgService;
 import com.albedo.java.util.JsonUtil;
+import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Globals;
@@ -32,7 +33,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("${albedo.adminPath}/sys/org")
-public class OrgVoResource extends TreeVoResource<OrgService, OrgVo> {
+public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
 
     @Resource
     private OrgService orgService;
@@ -42,6 +43,7 @@ public class OrgVoResource extends TreeVoResource<OrgService, OrgVo> {
         List<AntdTreeResult> rs = orgService.findTreeDataRest(orgTreeQuery, SecurityUtil.getOrgList());
         return ResultBuilder.buildOk(rs);
     }
+
     @GetMapping(value = "/")
     @Timed
     public String list() {
@@ -60,11 +62,28 @@ public class OrgVoResource extends TreeVoResource<OrgService, OrgVo> {
         JSON rs = JsonUtil.getInstance().toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
     }
+
+    @GetMapping(value = "/edit")
+    @Timed
+    public String form(OrgVo orgVo) {
+        if (orgVo == null) {
+            throw new RuntimeMsgException(PublicUtil.toAppendStr("查询模块管理失败，原因：无法查找到编号区域"));
+        }
+        if (PublicUtil.isNotEmpty(orgVo.getParentId())) {
+            orgService.findOptionalTopByParentId(orgVo.getParentId()).ifPresent(item -> orgVo.setSort(item.getSort() + 30));
+            orgService.findOneById(orgVo.getParentId()).ifPresent(item -> orgVo.setParentName(item.getName()));
+        }
+        if (orgVo.getSort() == null) {
+            orgVo.setSort(30);
+        }
+        return "modules/sys/orgForm";
+    }
+
     /**
      * @param orgVo
      * @return
      */
-    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity save(@Valid @RequestBody OrgVo orgVo) {
         log.debug("REST request to save orgVo : {}", orgVo);

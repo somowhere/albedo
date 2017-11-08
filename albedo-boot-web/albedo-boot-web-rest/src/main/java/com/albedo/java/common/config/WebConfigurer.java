@@ -31,7 +31,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import javax.annotation.Resource;
 import javax.servlet.*;
 import java.io.File;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.EnumSet;
 
@@ -87,7 +86,7 @@ public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletCon
     private void setLocationForStaticAssets(ConfigurableEmbeddedServletContainer container) {
         File root;
         String prefixPath = env.getProperty(DefaultProfileUtil.SPRING_WEB_ROOT_PREFIX);
-        if(PublicUtil.isEmpty(prefixPath)){
+        if (PublicUtil.isEmpty(prefixPath)) {
             prefixPath = DefaultProfileUtil.resolvePathPrefix(this.getClass());
         }
         if (env.acceptsProfiles(Globals.SPRING_PROFILE_PRODUCTION)) {
@@ -100,7 +99,6 @@ public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletCon
             container.setDocumentRoot(root);
         }
     }
-
 
 
     /**

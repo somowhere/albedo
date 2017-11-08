@@ -11,7 +11,6 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.vo.sys.RoleVo;
-import com.albedo.java.vo.sys.RoleVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +38,8 @@ public class RoleService extends DataVoService<RoleRepository, Role, String, Rol
         return userResult;
     }
 
-    @Transactional(readOnly = true, rollbackFor = Exception.class)@Override
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
     public PageModel<Role> findPage(PageModel<Role> pm, List<QueryCondition> authQueryConditions) {
         SpecificationDetail<Role> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
                 getPersistentClass(),
@@ -64,7 +64,7 @@ public class RoleService extends DataVoService<RoleRepository, Role, String, Rol
 
     @Override
     public void save(RoleVo roleVo) {
-        Role role = PublicUtil.isNotEmpty(roleVo.getId()) ? repository.findOneById(roleVo.getId()) : new Role();
+        Role role = PublicUtil.isNotEmpty(roleVo.getId()) ? repository.findOne(roleVo.getId()) : new Role();
         copyVoToBean(roleVo, role);
         role = super.save(role);
         if (PublicUtil.isNotEmpty(role.getModuleIdList())) {

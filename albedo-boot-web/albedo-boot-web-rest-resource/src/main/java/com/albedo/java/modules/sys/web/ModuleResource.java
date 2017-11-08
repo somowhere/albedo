@@ -38,22 +38,23 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("${albedo.adminPath}/sys/module")
-public class ModuleVoResource extends TreeVoResource<ModuleService, ModuleVo> {
+public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
 
     @Resource
     private ModuleService moduleService;
 
     @GetMapping(value = "findMenuData")
     public ResponseEntity findMenuData(ModuleTreeQuery moduleTreeQuery) {
-        List<ModuleMenuTreeResult> rs = moduleService.findMenuDataRest(moduleTreeQuery, SecurityUtil.getModuleList());
+        List<ModuleMenuTreeResult> rs = moduleService.findMenuData(moduleTreeQuery, SecurityUtil.getModuleList());
         return ResultBuilder.buildOk(rs);
     }
 
     @GetMapping(value = "findTreeData")
     public ResponseEntity findTreeData(ModuleTreeQuery moduleTreeQuery) {
-        List<AntdTreeResult> rs = moduleService.findTreeDataRest(moduleTreeQuery, SecurityUtil.getModuleList());
+        List<AntdTreeResult> rs = moduleService.findTreeData(moduleTreeQuery, SecurityUtil.getModuleList());
         return ResultBuilder.buildOk(rs);
     }
+
     @GetMapping(value = "/ico")
     public String ico() {
         return "modules/sys/moduleIco";
@@ -63,6 +64,7 @@ public class ModuleVoResource extends TreeVoResource<ModuleService, ModuleVo> {
     public String list() {
         return "modules/sys/moduleList";
     }
+
     /**
      * @param pm
      * @return
@@ -81,26 +83,22 @@ public class ModuleVoResource extends TreeVoResource<ModuleService, ModuleVo> {
         if (moduleVo == null) {
             throw new RuntimeMsgException(PublicUtil.toAppendStr("查询模块管理失败，原因：无法查找到编号区域"));
         }
-        if (StringUtil.isBlank(moduleVo.getId())) {
-            List<ModuleVo> list = moduleService.findAllByParentId(moduleVo.getParentId());
-            if (list.size() > 0) {
-                moduleVo.setSort(list.get(list.size() - 1).getSort());
-                if (moduleVo.getSort() != null) {
-                    moduleVo.setSort(moduleVo.getSort() + 30);
-                }
-            }
-        }
         if (PublicUtil.isNotEmpty(moduleVo.getParentId())) {
-            moduleService.findOneById(moduleVo.getParentId()).ifPresent(item-> moduleVo.setParentName(item.getName()));
+            moduleService.findOneById(moduleVo.getParentId()).ifPresent(item -> moduleVo.setParentName(item.getName()));
+            moduleService.findOptionalTopByParentId(moduleVo.getParentId()).ifPresent(item -> moduleVo.setSort(item.getSort() + 30));
         }
-        return "modules/sys/moduleVo";
+        if (moduleVo.getSort() == null) {
+            moduleVo.setSort(30);
+        }
+
+        return "modules/sys/moduleForm";
     }
 
     /**
      * @param moduleVo
      * @return
      */
-    @PostMapping(value = "/edit",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity save(@Valid @RequestBody ModuleVo moduleVo) {
         log.debug("REST request to save ModuleVo : {}", moduleVo);

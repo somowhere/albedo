@@ -127,11 +127,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(adminPath + InvocationSecurityMetadataSourceService.loginUrl).permitAll()
                 .antMatchers(permissAll).permitAll()
                 .antMatchers(adminPath + "/**").authenticated().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
-                    @Override
-                    public <O extends FilterSecurityInterceptor> O postProcess(O fsi) {
-                    fsi.setSecurityMetadataSource(securityMetadataSource());
-                    return fsi;
-                }
+            @Override
+            public <O extends FilterSecurityInterceptor> O postProcess(O fsi) {
+                fsi.setSecurityMetadataSource(securityMetadataSource());
+                return fsi;
+            }
         }).accessDecisionManager(customizeAccessDecisionManager)
                 .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
                 .antMatchers("/statics/swagger-ui/index.html").hasAuthority(AuthoritiesConstants.ADMIN);

@@ -1,6 +1,5 @@
 package com.albedo.java.vo.sys;
 
-import com.albedo.java.vo.base.GeneralEntityVo;
 import com.albedo.java.vo.base.TreeEntityVo;
 import lombok.Data;
 import lombok.ToString;

@@ -22,7 +22,7 @@
                         </label>
                         <div class="col-md-5">
                         <@albedo.treeSelect id="area" cssClass="required" allowClear="true" name="parentId" value="${(area.parentId)!}" labelName="parentName"
-                        labelValue="${(area.parent.name)!}" extId="${(area.id)!}" title="选择上级区域管理" url="${ctx}/sys/area/findTreeData"> </@albedo.treeSelect>
+                        labelValue="${(area.parentName)!}" extId="${(area.id)!}" title="选择上级区域管理" url="${ctx}/sys/area/findTreeData"> </@albedo.treeSelect>
                         </div>
                     </div>
                     <div class="form-group">

@@ -256,9 +256,4 @@ public class User extends IdEntity {
         }
     }
 
-    public String getRoleIds() {
-        return Collections3.convertToString(getRoleIdList(), ",");
-    }
-
-
 }

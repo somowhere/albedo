@@ -7,6 +7,7 @@ import com.albedo.java.common.data.persistence.GeneralEntity;
 import org.springframework.data.mybatis.repository.support.MybatisRepository;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 /**
  * DAO支持类实现
@@ -16,5 +17,5 @@ import java.io.Serializable;
  */
 public interface BaseRepository<T extends GeneralEntity, pk extends Serializable> extends
         MybatisRepository<T, pk> {
-    T findOneById(pk id);
+    Optional<T> findOneById(pk id);
 }

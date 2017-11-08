@@ -1,5 +1,6 @@
 package com.albedo.java.vo.sys;
 
+import com.albedo.java.util.base.Collections3;
 import com.albedo.java.vo.base.DataEntityVo;
 import lombok.Data;
 import lombok.ToString;
@@ -37,7 +38,6 @@ public class UserVo extends DataEntityVo {
     private String activationKey;
 
     private String resetKey;
-    private Integer status;
     private ZonedDateTime resetDate = null;
 
     private List<String> roleIdList;
@@ -45,5 +45,8 @@ public class UserVo extends DataEntityVo {
     private String orgName;
 
 
+    public String getRoleIds() {
+        return Collections3.convertToString(getRoleIdList(), ",");
+    }
 
 }

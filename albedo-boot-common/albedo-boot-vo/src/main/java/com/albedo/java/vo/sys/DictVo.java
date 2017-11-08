@@ -12,9 +12,8 @@ import lombok.ToString;
 @ToString
 public class DictVo extends TreeEntityVo {
 
-    private static final long serialVersionUID = 1L;
-
     public static final String F_CODE = "code";
+    private static final long serialVersionUID = 1L;
     /*** 编码 */
     private String code;
     /*** 字典值 */

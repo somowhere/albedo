@@ -234,7 +234,7 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
 
     public void delete(List<String> ids, String currentAuditor) {
         ids.forEach(id -> {
-            GenTable entity = repository.findOneById(id);
+            GenTable entity = repository.findOne(id);
             Assert.assertNotNull(entity, "对象 " + id + " 信息为空，删除失败");
             deleteById(id);
             genTableColumnService.deleteByTableId(id, currentAuditor);

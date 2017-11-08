@@ -63,7 +63,7 @@ public class BaseResource extends GeneralResource {
         }
 
         String requestType = request.getHeader("X-Requested-With");
-        if (albedoProperties.getHttp().getRestful() || "XMLHttpRequest".equals(requestType)) {
+        if (albedoProperties.getHttp().getRestful() || Globals.XML_HTTP_REQUEST.equals(requestType)) {
             writeJsonHttpResponse(message, response);
         } else {
             if (e instanceof BindException) {

@@ -5,7 +5,6 @@ import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.gen.domain.GenTable;
 import com.albedo.java.modules.gen.service.GenTemplateService;
 import com.albedo.java.util.JsonUtil;
-import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Globals;
@@ -21,7 +20,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import java.net.URISyntaxException;

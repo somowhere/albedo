@@ -3,16 +3,9 @@
  */
 package com.albedo.java.common.service;
 
-import com.albedo.java.common.data.persistence.BaseEntity;
-import com.albedo.java.common.data.persistence.DynamicSpecifications;
-import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.data.persistence.repository.BaseRepository;
-import com.albedo.java.common.data.persistence.service.BaseService;
 import com.albedo.java.common.domain.base.DataEntity;
 import com.albedo.java.util.PublicUtil;
-import com.albedo.java.util.base.Assert;
-import com.albedo.java.util.domain.PageModel;
-import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.vo.base.DataEntityVo;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
@@ -21,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.List;
 
 /**
  * Service基类
@@ -50,6 +42,7 @@ public abstract class DataVoService<Repository extends BaseRepository<T, PK>,
     public V findOneVo(PK id) {
         return copyBeanToVo(findOne(id));
     }
+
     public boolean doCheckByProperty(V entityForm) {
         T entity = copyVoToBean(entityForm);
         return super.doCheckByProperty(entity);
@@ -59,15 +52,16 @@ public abstract class DataVoService<Repository extends BaseRepository<T, PK>,
         T entity = copyVoToBean(entityForm);
         return super.doCheckByPK(entity);
     }
+
     public void copyBeanToVo(T module, V result) {
-        if(result!=null && module!=null){
+        if (result != null && module != null) {
             BeanUtils.copyProperties(module, result);
         }
     }
 
     public V copyBeanToVo(T module) {
         V result = null;
-        if(module !=null){
+        if (module != null) {
             try {
                 result = entityVoClz.newInstance();
                 copyBeanToVo(module, result);
@@ -79,13 +73,14 @@ public abstract class DataVoService<Repository extends BaseRepository<T, PK>,
     }
 
     public void copyVoToBean(V form, T entity) {
-        if(form!=null && entity!=null){
+        if (form != null && entity != null) {
             BeanUtils.copyProperties(form, entity);
         }
     }
+
     public T copyVoToBean(V form) {
         T result = null;
-        if(form !=null && getPersistentClass() != null){
+        if (form != null && getPersistentClass() != null) {
             try {
                 result = getPersistentClass().newInstance();
                 copyVoToBean(form, result);
@@ -100,7 +95,7 @@ public abstract class DataVoService<Repository extends BaseRepository<T, PK>,
     public void save(V form) {
         T entity = null;
         try {
-            entity = PublicUtil.isNotEmpty(form.getId()) ? repository.findOneById((PK) form.getId()) :
+            entity = PublicUtil.isNotEmpty(form.getId()) ? repository.findOne((PK) form.getId()) :
                     getPersistentClass().newInstance();
             copyVoToBean(form, entity);
         } catch (Exception e) {

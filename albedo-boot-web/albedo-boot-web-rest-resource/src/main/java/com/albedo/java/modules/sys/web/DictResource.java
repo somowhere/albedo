@@ -1,6 +1,5 @@
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.service.DictService;
 import com.albedo.java.util.DictUtil;
@@ -26,7 +25,6 @@ import com.google.common.collect.Maps;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +40,7 @@ import java.util.stream.Collectors;
  */
 @Controller
 @RequestMapping("${albedo.adminPath}/sys/dict")
-public class DictVoResource extends TreeVoResource<DictService, DictVo> {
+public class DictResource extends TreeVoResource<DictService, DictVo> {
 
     @Resource
     private DictService dictService;
@@ -66,7 +64,7 @@ public class DictVoResource extends TreeVoResource<DictService, DictVo> {
     }
 
 
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/")
     @Timed
     public String list() {
         return "modules/sys/dictList";
@@ -77,34 +75,28 @@ public class DictVoResource extends TreeVoResource<DictService, DictVo> {
      * @return
      * @throws URISyntaxException
      */
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    @GetMapping(value = "/page")
     public ResponseEntity getPage(PageModel<Dict> pm) {
-
         pm.setSortDefaultName(Direction.DESC, Dict.F_SORT, Dict.F_LASTMODIFIEDDATE);
         dictService.findPage(pm);
         JSON rs = JsonUtil.getInstance().setRecurrenceStr("parent_name").toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/edit")
     @Timed
     public String form(DictVo dictVo) {
         if (dictVo == null) {
             throw new RuntimeMsgException("无法获取字典数据");
         }
-        if (StringUtil.isBlank(dictVo.getId())) {
-            Dict item = dictService.findTopByParentId(dictVo.getParentId());
-            if (item != null) {
-                dictVo.setSort(dictVo.getSort() + item.getSort() + 30);
-            }
+        if (PublicUtil.isNotEmpty(dictVo.getParentId())) {
+            dictService.findOptionalTopByParentId(dictVo.getParentId()).ifPresent(item -> dictVo.setSort(item.getSort() + 30));
+            dictService.findOneById(dictVo.getParentId()).ifPresent(item -> dictVo.setParentName(item.getName()));
         }
         if (dictVo.getSort() == null) {
             dictVo.setSort(30);
         }
-        if (PublicUtil.isNotEmpty(dictVo.getParentId())) {
-            dictService.findOneById(dictVo.getParentId()).ifPresent(item-> dictVo.setParentName(item.getName()));
-        }
-        return "modules/sys/dictVo";
+        return "modules/sys/dictForm";
     }
 
     /**
@@ -112,7 +104,7 @@ public class DictVoResource extends TreeVoResource<DictService, DictVo> {
      * @return
      * @throws URISyntaxException
      */
-    @RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity save(@Valid @RequestBody DictVo dictVo)
             throws URISyntaxException {
@@ -131,8 +123,8 @@ public class DictVoResource extends TreeVoResource<DictService, DictVo> {
      * @param ids
      * @return
      */
-    @RequestMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
-            + "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
+            + "}")
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
         log.debug("REST request to delete Dict: {}", ids);
@@ -142,10 +134,9 @@ public class DictVoResource extends TreeVoResource<DictService, DictVo> {
     }
 
 
-    @RequestMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
-            + "}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
+            + "}")
     @Timed
-    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {
         log.debug("REST request to lockOrUnLock User: {}", ids);
         dictService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));

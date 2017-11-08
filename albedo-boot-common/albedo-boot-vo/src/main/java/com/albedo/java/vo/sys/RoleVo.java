@@ -1,7 +1,6 @@
 package com.albedo.java.vo.sys;
 
 import com.albedo.java.vo.base.DataEntityVo;
-import com.albedo.java.vo.base.GeneralEntityVo;
 import lombok.Data;
 import lombok.ToString;
 
@@ -14,8 +13,8 @@ import java.util.List;
 @ToString
 public class RoleVo extends DataEntityVo {
 
-    private static final long serialVersionUID = 1L;
     public static final String F_NAME = "name";
+    private static final long serialVersionUID = 1L;
     private String name;
     /*** 名称全拼 */
     private String en;
@@ -31,7 +30,6 @@ public class RoleVo extends DataEntityVo {
     /*** 可查看的数据范围 */
     private Integer dataScope;
     private Integer sort;
-    private Integer status;
     private List<String> moduleIdList;
     private List<String> orgIdList;
 

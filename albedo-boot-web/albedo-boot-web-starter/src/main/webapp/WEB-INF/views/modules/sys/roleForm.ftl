@@ -1,7 +1,7 @@
 <div class="portlet light bordered">
     <div class="portlet-title">
         <div class="caption font-blue">
-            <i class="fa fa-globe font-blue"></i><#if role.id??>编辑<#else>添加</#if>角色
+            <i class="fa fa-globe font-blue"></i><#if roleVo.id??>编辑<#else>添加</#if>角色
         </div>
         <div class="actions">
             <div class="btn-group">
@@ -16,16 +16,16 @@
         <div id="bootstrap-alerts" class="bootstrap-alerts-role-form"></div>
         <form id="ajax_form" action="${ctx}/sys/role/edit" method="post"
               class="form-horizontal form-validation form-bordered form-label-stripped" config="{rules:{
-                       name: {remote: '${ctx}/sys/role/checkByProperty?_statusFalse&id=' + encodeURIComponent('${role.id!}')}},
+                       name: {remote: '${ctx}/sys/role/checkByProperty?_statusFalse&id=' + encodeURIComponent('${roleVo.id!}')}},
                        messages:{name:{message:'角色名称已存在'}}}" validateFun="submitRoleFormHandler">
             <div class="form-body">
-                <input type="hidden" name="id" value="${(role.id)!}"/>
+                <input type="hidden" name="id" value="${(roleVo.id)!}"/>
                 <div class="form-group">
                     <label class="control-label col-md-3">所属组织<span class="required">*</span>
                     </label>
                     <div class="col-md-5">
-                    <@albedo.treeSelect id="org" cssClass="input_staff_type" allowClear="true" name="orgId" value="${(role.orgId)!}" labelName="orgName"
-                    labelValue="${(role.org.name)!}"
+                    <@albedo.treeSelect id="org" cssClass="input_staff_type" allowClear="true" name="orgId" value="${(roleVo.orgId)!}" labelName="orgName"
+                    labelValue="${(roleVo.orgName)!}"
                     title="选择组织" url="${ctx}/sys/org/findTreeData"> </@albedo.treeSelect>
                     </div>
                 </div>
@@ -33,39 +33,39 @@
                     <label class="control-label col-md-3">名称<span class="required">*</span>
                     </label>
                     <div class="col-md-5">
-                        <input type="text" name="name" value="${(role.name)! }" maxlength="64" data-required="1"
+                        <input type="text" name="name" value="${(roleVo.name)! }" maxlength="64" data-required="1"
                                class="form-control required"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-3 control-label">系统数据<span class="required">*</span></label>
                     <div class="col-md-5">
-                    <@albedo.form name="sysData" cssClass="required" boxType="radio" dictCode="sys_yes_no" value="${(role.sysData)! }"> </@albedo.form>
+                    <@albedo.form name="sysData" cssClass="required" boxType="radio" dictCode="sys_yes_no" value="${(roleVo.sysData)! }"> </@albedo.form>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-3 control-label">状态<span class="required">*</span></label>
                     <div class="col-md-5">
-                    <@albedo.form name="status" cssClass="required" boxType="radio" dictCode="sys_status" value="${(role.status)! }"> </@albedo.form>
+                    <@albedo.form name="status" cssClass="required" boxType="radio" dictCode="sys_status" value="${(roleVo.status)! }"> </@albedo.form>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-3 control-label">数据权限<span class="required">*</span></label>
                     <div class="col-md-5">
-                    <@albedo.form name="dataScope" id="dataScope" cssClass="required" boxType="select" dictCode="sys_role_scope" value="${(role.dataScope)! }"> </@albedo.form>
+                    <@albedo.form name="dataScope" id="dataScope" cssClass="required" boxType="select" dictCode="sys_role_scope" value="${(roleVo.dataScope)! }"> </@albedo.form>
                     </div>
                 </div>
                 <div class="form-group moduleIdList-div">
                     <label class="col-md-3 control-label">操作权限<span class="required">*</span></label>
                     <div class="col-md-2">
-                    <#list (role.moduleIdList)! as item><input id="moduleId" name="moduleIdList" type="hidden"
+                    <#list (roleVo.moduleIdList)! as item><input id="moduleId" name="moduleIdList" type="hidden"
                                                                value="${item}"/></#list>
                         <div id="treeRoleModule" class="ztree"></div>
                     </div>
                     <label class="col-md-1 control-label treeRoleOrgBox hided">机构权限<span
                             class="required">*</span></label>
                     <div class="col-md-3 treeRoleOrgBox hided">
-                    <#list (role.orgIdList)! as item><input id="orgId" name="orgIdList" type="hidden"
+                    <#list (roleVo.orgIdList)! as item><input id="orgId" name="orgIdList" type="hidden"
                                                             value="${item}"/></#list>
                         <div id="treeRoleOrg" class="ztree"></div>
                     </div>
@@ -74,7 +74,7 @@
                     <label class="col-md-3 control-label">描述</label>
                     <div class="col-md-8">
                         <textarea class="summernote form-control" name="description"
-                                  rows="5">${(role.description)! }</textarea>
+                                  rows="5">${(roleVo.description)! }</textarea>
                     </div>
                 </div>
                 <div class="form-actions">

@@ -51,7 +51,7 @@ public final class DefaultProfileUtil {
         defProperties.put(SPRING_PROFILE_DEFAULT, Globals.SPRING_PROFILE_DEVELOPMENT);
 
 
-        if(!app.getSources().isEmpty()){
+        if (!app.getSources().isEmpty()) {
             defProperties.put(SPRING_WEB_ROOT_PREFIX,
                     DefaultProfileUtil.resolvePathPrefix((Class<?>) app.getSources().toArray()[0]));
 

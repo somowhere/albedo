@@ -1,14 +1,8 @@
 package com.albedo.java.vo.base;
 
-import com.albedo.java.util.config.SystemConfig;
-import com.alibaba.fastjson.annotation.JSONField;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import org.springframework.data.annotation.Transient;
 
-import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * 通常的数据基类 copyright 2014 albedo all right reserved author 李杰 created on 2014年12月31日 下午1:57:09
@@ -39,7 +33,6 @@ public class GeneralEntityVo<ID extends Serializable> implements Serializable {
     public static final String F_VERSION = "version";
     public static final String F_DESCRIPTION = "description";
     private static final long serialVersionUID = 1L;
-
 
 
 }

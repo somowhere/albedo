@@ -43,14 +43,9 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
     public final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(getClass());
     @Autowired
     public Repository repository;
-    private Class<T> persistentClass;
-
-    public Class<T> getPersistentClass() {
-        return persistentClass;
-    }
-
     @Autowired
     JpaCustomeRepository<T> jpaCustomeRepository;
+    private Class<T> persistentClass;
 
     @SuppressWarnings("unchecked")
     public BaseService() {
@@ -61,6 +56,10 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
             persistentClass = (Class<T>) parameterizedType[1];
         }
 
+    }
+
+    public Class<T> getPersistentClass() {
+        return persistentClass;
     }
 
     public boolean doCheckWithEntity(T entity, Map<String, QueryCondition.Operator> maps) {
@@ -143,7 +142,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Optional<T> findOneById(pk id) {
-        return Optional.of(repository.findOneById(id));
+        return repository.findOneById(id);
     }
 
 

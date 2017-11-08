@@ -23,11 +23,8 @@ public final class Globals {
 
 
     public static final String INDEX_URL = "index";
-
     public static final String AUTHENTICATED = "authenticated";
-    public static final String NO = null;
-
-
+    public static final String XML_HTTP_REQUEST = "XMLHttpRequest";
     public static final String URL_CHECKBY = "checkBy";
     public static final String URL_FIND = "find";
 

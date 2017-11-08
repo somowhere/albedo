@@ -1,7 +1,7 @@
 <div class="portlet light bordered">
     <div class="portlet-title">
         <div class="caption font-blue">
-            <i class="fa fa-globe font-blue"></i><#if (user.id)??>编辑<#else>添加</#if>用户
+            <i class="fa fa-globe font-blue"></i><#if (userVo.id)??>编辑<#else>添加</#if>用户
         </div>
         <div class="actions">
             <div class="btn-group">
@@ -17,27 +17,27 @@
         <form id="ajax_form" action="${ctx}/sys/user/edit" method="post"
               class="form-horizontal form-validation form-bordered form-label-stripped"
               config="{rules:{
-                       loginId: {remote: '${ctx}/sys/user/checkByProperty?_statusFalse&id=' + encodeURIComponent('${(user.id)!}')},
+                       loginId: {remote: '${ctx}/sys/user/checkByProperty?_statusFalse&id=' + encodeURIComponent('${(userVo.id)!}')},
                        descption:{required:true}
                        },
                        messages:{loginId:{message:'登录Id已存在'}}}">
             <div class="form-body">
-                <input type="hidden" name="id" value="${(user.id)!}"/>
+                <input type="hidden" name="id" value="${(userVo.id)!}"/>
                 <div class="form-group">
                     <label class="control-label col-md-3">所属组织<span
                             class="required">*</span>
                     </label>
                     <div class="col-md-5"><@albedo.treeSelect id="org"
                     cssClass="required" allowClear="true" name="orgId"
-                    value="${(user.orgId)!}" labelName="orgName"
-                    labelValue="${(user.org.name)!}" title="选择组织"
+                    value="${(userVo.orgId)!}" labelName="orgName"
+                    labelValue="${(userVo.orgName)!}" title="选择组织"
                     url="${ctx}/sys/org/findTreeData"> </@albedo.treeSelect></div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">登录Id<span class="required">*</span>
                     </label>
                     <div class="col-md-5">
-                        <input type="text" name="loginId" value="${(user.loginId)! }"
+                        <input type="text" name="loginId" value="${(userVo.loginId)! }"
                                maxlength="64" data-required="1" class="form-control required"/>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                     <div class="col-md-5">
                         <input id="newPassword" name="password" type="password" value=""
                                htmlEscape="false" maxlength="64"
-                               class="form-control ${(user.id)!'required'}"/> <#if (user.id)??><span
+                               class="form-control ${(userVo.id)!'required'}"/> <#if (userVo.id)??><span
                             class="help-inline">若不修改密码，请留空。</span></#if>
                     </div>
                 </div>
@@ -62,14 +62,14 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">联系电话</label>
                     <div class="col-md-5">
-                        <input name="phone" value="${(user.phone)! }" htmlEscape="false"
+                        <input name="phone" value="${(userVo.phone)! }" htmlEscape="false"
                                maxlength="32" class="form-control phone"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-3 control-label">邮箱</label>
                     <div class="col-md-5">
-                        <input name="email" value="${(user.email)! }" htmlEscape="false"
+                        <input name="email" value="${(userVo.email)! }" htmlEscape="false"
                                maxlength="32" class="form-control email"/>
                     </div>
                 </div>
@@ -78,20 +78,20 @@
                             class="required">*</span></label>
                     <div class="col-md-5"><@albedo.form name="status"
                     cssClass="required" boxType="radio" dictCode="sys_status"
-                    value="${(user.status)! }"> </@albedo.form></div>
+                    value="${(userVo.status)! }"> </@albedo.form></div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-3 control-label">角色<span
                             class="required">*</span></label>
                     <div class="col-md-8"><@albedo.form name="roleIdList"
                     cssClass="required" data="${allRoles!}" boxType="checkbox"
-                    value="${(user.roleIds)! }"> </@albedo.form></div>
+                    value="${(userVo.roleIds)! }"> </@albedo.form></div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-3 control-label">描述</label>
                     <div class="col-md-8">
                         <textarea class="summernote form-control" name="description"
-                                  rows="5">${(user.description)! }</textarea>
+                                  rows="5">${(userVo.description)! }</textarea>
                     </div>
                 </div>
                 <div class="form-actions">

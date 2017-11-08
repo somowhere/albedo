@@ -38,7 +38,7 @@ public class DataVoResource<Service extends DataVoService, V extends DataEntityV
 
     @ResponseBody
     @GetMapping(value = "checkByPK")
-    public  boolean checkByPK(V entityForm) {
+    public boolean checkByPK(V entityForm) {
         return service.doCheckByPK(entityForm);
     }
 

@@ -378,7 +378,7 @@ public class TaskScheduleJobExcutorService extends DataService<TaskScheduleJobRe
 
     public void removeBySourceId(String sourceId) {
         List<TaskScheduleJob> itemList = repository.findAllBySourceId(sourceId);
-        if (itemList != null){
+        if (itemList != null) {
             for (TaskScheduleJob taskScheduleJob : itemList) {
                 deleteJob(taskScheduleJob);
                 repository.delete(taskScheduleJob.getId());

@@ -34,11 +34,11 @@ public class ContextInitListener implements ApplicationListener<ContextRefreshed
 
 
         // root application context
-        if(null == contextRefreshedEvent.getApplicationContext().getParent()) {
+        if (null == contextRefreshedEvent.getApplicationContext().getParent()) {
             _log.debug(">>>>> spring初始化完毕 <<<<<");
             // spring初始化完毕后，通过反射调用所有使用BaseInit注解的afterPropertiesSet方法
             Map<String, Object> baseServices = contextRefreshedEvent.getApplicationContext().getBeansWithAnnotation(BaseInit.class);
-            if(PublicUtil.isNotEmpty(baseServices)) {
+            if (PublicUtil.isNotEmpty(baseServices)) {
                 for (Object service : baseServices.values()) {
                     _log.debug(">>>>> {}.afterPropertiesSet()", service.getClass().getName());
                     try {
@@ -53,8 +53,8 @@ public class ContextInitListener implements ApplicationListener<ContextRefreshed
 
             // 系统入口初始化
             Map<String, BaseInterface> baseInterfaceBeans = contextRefreshedEvent.getApplicationContext().getBeansOfType(BaseInterface.class);
-            if(PublicUtil.isNotEmpty(baseInterfaceBeans)){
-                for(Object service : baseInterfaceBeans.values()) {
+            if (PublicUtil.isNotEmpty(baseInterfaceBeans)) {
+                for (Object service : baseInterfaceBeans.values()) {
                     _log.debug(">>>>> {}.init()", service.getClass().getName());
                     try {
                         Method init = service.getClass().getMethod("init");

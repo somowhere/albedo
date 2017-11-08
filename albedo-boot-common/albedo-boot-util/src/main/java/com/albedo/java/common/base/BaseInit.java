@@ -6,7 +6,7 @@ import java.lang.annotation.*;
 /**
  * 初始化继承BaseInit的service
  * Created by lijie on 2016/6/13.
- *
+ * <p>
  * afterPropertiesSet
  */
 @Target({ElementType.TYPE})

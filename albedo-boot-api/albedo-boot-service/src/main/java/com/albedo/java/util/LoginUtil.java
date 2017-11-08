@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class LoginUtil {
     public final static String LOGIN_FAIL_MAP = "loginFailMap";
+
     /**
      * 是否是验证码登录
      *

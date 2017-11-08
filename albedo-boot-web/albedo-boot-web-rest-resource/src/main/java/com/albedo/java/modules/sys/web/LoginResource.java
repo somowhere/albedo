@@ -3,26 +3,23 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.service.UserService;
-import com.albedo.java.util.CacheUtil;
 import com.albedo.java.util.LoginUtil;
 import com.albedo.java.util.PublicUtil;
-import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.BaseResource;
-import com.google.common.collect.Maps;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 /**
  * REST controller for managing the current user's account.
@@ -70,14 +67,20 @@ public class LoginResource extends BaseResource {
         return ResultBuilder.buildFailed("登录失败");
     }
 
-    @RequestMapping(value = "logout", method = RequestMethod.GET)
-    public ResponseEntity logout(HttpServletRequest request, Model model) {
+    @GetMapping(value = "logout")
+    public String logout(HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
         request.getSession().invalidate();
-        return ResultBuilder.buildFailed("退出登录成功");
+        String requestType = request.getHeader("X-Requested-With");
+        if (albedoProperties.getHttp().getRestful() || Globals.XML_HTTP_REQUEST.equals(requestType)) {
+            writeJsonHttpResponse(ResultBuilder.buildFailed("退出登录成功"), response);
+            return null;
+        } else {
+            return PublicUtil.toAppendStr("redirect:", adminPath, "/login");
+        }
     }
 
 }

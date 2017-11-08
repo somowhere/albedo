@@ -33,6 +33,7 @@ public abstract class DataService<Repository extends BaseRepository<T, PK>, T ex
     public T findOne(PK id) {
         return repository.findOne(id);
     }
+
     /**
      * 逻辑删除
      *
@@ -108,7 +109,7 @@ public abstract class DataService<Repository extends BaseRepository<T, PK>, T ex
         SpecificationDetail<T> specificationDetail = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
                 getPersistentClass(),
                 QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
-        if (PublicUtil.isNotEmpty(authQueryConditions)){
+        if (PublicUtil.isNotEmpty(authQueryConditions)) {
             specificationDetail.orAll(authQueryConditions);
         }
         return findBasePage(pm, specificationDetail, isBasic);

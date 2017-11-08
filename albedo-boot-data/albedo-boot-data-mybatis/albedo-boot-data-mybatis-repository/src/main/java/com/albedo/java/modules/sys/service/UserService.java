@@ -23,6 +23,7 @@ import java.util.Optional;
 
 /**
  * Service class for managing users.
+ *
  * @author lijie
  */
 @Service
@@ -65,7 +66,7 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
 
     @Override
     public void save(UserVo userVo) {
-        User user = PublicUtil.isNotEmpty(userVo.getId()) ? repository.findOneById(userVo.getId()) : new User();
+        User user = PublicUtil.isNotEmpty(userVo.getId()) ? repository.findOne(userVo.getId()) : new User();
         copyVoToBean(userVo, user);
         if (user.getLangKey() == null) {
             // default language
@@ -134,7 +135,7 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
 
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public UserVo findResult(String id) {
+    public UserVo findVo(String id) {
         User user = repository.findOne(id);
         return copyBeanToVo(user);
     }

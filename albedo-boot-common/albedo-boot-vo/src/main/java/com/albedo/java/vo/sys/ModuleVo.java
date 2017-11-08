@@ -1,6 +1,5 @@
 package com.albedo.java.vo.sys;
 
-import com.albedo.java.vo.base.GeneralEntityVo;
 import com.albedo.java.vo.base.TreeEntityVo;
 import lombok.Data;
 import lombok.ToString;
@@ -12,9 +11,8 @@ import lombok.ToString;
 @ToString
 public class ModuleVo extends TreeEntityVo {
 
-    private static final long serialVersionUID = 1L;
     public static final String F_PERMISSION = "permission";
-
+    private static final long serialVersionUID = 1L;
     /*** 模块类型 0 菜单模块 1权限模块 */
     private String type;
 

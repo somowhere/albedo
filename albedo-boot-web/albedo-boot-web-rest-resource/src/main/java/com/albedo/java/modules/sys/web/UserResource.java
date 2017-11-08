@@ -12,7 +12,6 @@ import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.sys.UserVo;
-import com.albedo.java.vo.sys.UserVo;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataVoResource;
 import com.alibaba.fastjson.JSON;
@@ -27,6 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -109,8 +109,8 @@ public class UserResource extends DataVoResource<UserService, UserVo> {
     @GetMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
 //	@Secured(AuthoritiesConstants.ADMIN)
-    public String form(UserVo user, @RequestParam(required = false) Boolean isModal) {
-        request.setAttribute("allRoles", FormDirective.convertComboDataList(SecurityUtil.getRoleList(), Role.F_ID, Role.F_NAME));
+    public String form(UserVo userVo, Model model, @RequestParam(required = false) Boolean isModal) {
+        model.addAttribute("allRoles", FormDirective.convertComboDataList(SecurityUtil.getRoleList(), Role.F_ID, Role.F_NAME));
         return PublicUtil.toAppendStr("modules/sys/userForm", isModal ? "Modal" : "");
     }
 

@@ -35,6 +35,7 @@ public class RoleResource extends DataVoResource<RoleService, RoleVo> {
     public ResponseEntity findSelectData() {
         return ResultBuilder.buildOk(SecurityUtil.getRoleList().stream().map(item -> new SelectResult(item.getId(), item.getName())).collect(Collectors.toList()));
     }
+
     /**
      * @param id
      * @return
@@ -46,6 +47,7 @@ public class RoleResource extends DataVoResource<RoleService, RoleVo> {
         return ResultBuilder.buildOk(service.findOneById(id)
                 .map(item -> service.copyBeanToVo(item)));
     }
+
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public String list() {
@@ -66,7 +68,7 @@ public class RoleResource extends DataVoResource<RoleService, RoleVo> {
     @GetMapping(value = "/edit")
     @Timed
     public String form(RoleVo roleVo) {
-        return "modules/sys/roleVo";
+        return "modules/sys/roleForm";
     }
 
 
