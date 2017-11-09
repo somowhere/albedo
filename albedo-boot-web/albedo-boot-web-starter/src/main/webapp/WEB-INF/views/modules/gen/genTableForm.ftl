@@ -1,7 +1,7 @@
 <div class="portlet light bordered">
     <div class="portlet-title">
         <div class="caption font-blue">
-            <i class="fa fa-globe font-blue"></i><#if genTable.id??>编辑<#else>添加</#if>业务表
+            <i class="fa fa-globe font-blue"></i><#if genTableVo.id??>编辑<#else>添加</#if>业务表
         </div>
         <div class="actions">
             <div class="btn-group">
@@ -16,16 +16,16 @@
         <div id="bootstrap-alerts" class="bootstrap-alerts-genTable-form"></div>
         <form id="genTable-form" action="${ctx}/gen/genTable/edit" method="post"
               class="form-horizontal form-validation form-bordered form-label-stripped" config="{rules:{
-                       name: {remote: '${ctx}/gen/genTable/checkByProperty?_statusFalse&id=' + encodeURIComponent('${(genTable.id)!}')}},
+                       name: {remote: '${ctx}/gen/genTable/checkByProperty?_statusFalse&id=' + encodeURIComponent('${(genTableVo.id)!}')}},
                        messages:{name:{message:'业务表名称已存在'}}}">
             <div class="form-body">
-                <input type="hidden" name="id" value="${(genTable.id)!}"/>
+                <input type="hidden" name="id" value="${(genTableVo.id)!}"/>
                 <h3 class="form-section">基本信息</h3>
                 <div class="form-group">
                     <label class="control-label col-md-3">名称<span class="required">*</span>
                     </label>
                     <div class="col-md-5">
-                        <input type="text" name="name" value="${(genTable.name)! }" maxlength="64" data-required="1"
+                        <input type="text" name="name" value="${(genTableVo.name)! }" maxlength="64" data-required="1"
                                class="form-control required"/>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                     <label class="control-label col-md-3">说明<span class="required">*</span>
                     </label>
                     <div class="col-md-5">
-                        <input type="text" name="comments" value="${(genTable.comments)! }" maxlength="64"
+                        <input type="text" name="comments" value="${(genTableVo.comments)! }" maxlength="64"
                                data-required="1" class="form-control required"/>
                     </div>
                 </div>
@@ -41,31 +41,31 @@
                     <label class="control-label col-md-3">类名<span class="required">*</span>
                     </label>
                     <div class="col-md-5">
-                        <input type="text" name="className" value="${(genTable.className)! }" maxlength="64"
+                        <input type="text" name="className" value="${(genTableVo.className)! }" maxlength="64"
                                data-required="1" class="form-control required"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-3 control-label">父表表名<span class="required">*</span></label>
+                    <label class="col-md-3 control-label">父表表名</label>
                     <div class="col-md-3">
-                    <@albedo.form name="parentTable" cssClass="" value="${(genTable.parentTable)! }" data="${(tableList)!}" boxType="select" > </@albedo.form>
+                    <@albedo.form name="parentTable" cssClass="" value="${(genTableVo.parentTable)! }" data="${(tableList)!}" boxType="select" > </@albedo.form>
                     </div>
-                    <label class="col-md-1 control-label treeRoleOrgBox">当前表外键<span class="required">*</span></label>
+                    <label class="col-md-1 control-label treeRoleOrgBox">当前表外键</label>
                     <div class="col-md-3 treeRoleOrgBox">
-                    <@albedo.form name="parentTableFk" cssClass="" value="${(genTable.parentTableFk)! }" data="${(columnList)!}" boxType="select" > </@albedo.form>
+                    <@albedo.form name="parentTableFk" cssClass="" value="${(genTableVo.parentTableFk)! }" data="${(columnList)!}" boxType="select" > </@albedo.form>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-3 control-label">状态<span class="required">*</span></label>
                     <div class="col-md-5">
-                    <@albedo.form name="status" cssClass="required" boxType="radio" dictCode="sys_status" value="${(genTable.status)! }"> </@albedo.form>
+                    <@albedo.form name="status" cssClass="required" boxType="radio" dictCode="sys_status" value="${(genTableVo.status)! }"> </@albedo.form>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-3 control-label">描述</label>
                     <div class="col-md-8">
                         <textarea class="summernote form-control" name="description"
-                                  rows="5">${(genTable.description)! }</textarea>
+                                  rows="5">${(genTableVo.description)! }</textarea>
                     </div>
                 </div>
                 <h3 class="form-section">字段列表</h3>
@@ -93,15 +93,15 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <#list genTable.columnList as column>
+                        <#list genTableVo.columnList as column>
                         <tr<#if column.status == -1> class="error" title="已删除的列，保存之后消失！"</#if>>
                             <td nowrap>
                                 <input type="hidden" name="columnFormList[${(column_index)!}].id"
                                        value="${(column.id)!}"/>
                                 <input type="hidden" name="columnFormList[${(column_index)!}].status"
                                        value="${(column.status)!}"/>
-                                <input type="hidden" name="columnFormList[${(column_index)!}].genTable.id"
-                                       value="${(column.genTable.id)!}"/>
+                                <input type="hidden" name="columnFormList[${(column_index)!}].genTableVo.id"
+                                       value="${(column.genTableVo.id)!}"/>
                                 <input type="hidden" name="columnFormList[${(column_index)!}].name"
                                        value="${(column.name)!}"/>${(column.name)!}
                             </td>

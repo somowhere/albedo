@@ -24,6 +24,18 @@ public class SystemConfig {
     // 是/否
     public static final String STR_YES = "1";
     public static final String STR_NO = "0";
+
+
+    public static final String TYPE_STRING = "String";
+    public static final String TYPE_INTEGER = "Integer";
+    public static final String TYPE_INT = "int";
+    public static final String TYPE_LONG = "Long";
+    public static final String TYPE_SHORT = "Short";
+    public static final String TYPE_FLOAT = "Float";
+    public static final String TYPE_DOUBLE = "Double";
+    public static final String TYPE_DATE = "Date";
+
+
     public static final String CONDITION_EQ = "eq";
     public static final String CONDITION_SQL_EQ = "=";
     public static final String CONDITION_NE = "ne";

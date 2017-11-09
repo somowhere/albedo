@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * REST controller for managing the current user's account.
+ * @author somewhere
  */
 @Controller
 @RequestMapping("${albedo.adminPath}/")

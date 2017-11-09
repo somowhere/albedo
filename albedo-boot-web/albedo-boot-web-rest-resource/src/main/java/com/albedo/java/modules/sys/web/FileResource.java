@@ -25,6 +25,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * @author somewhere
+ */
 @Controller
 @RequestMapping(value = "${albedo.adminPath}/file")
 public class FileResource extends BaseResource {

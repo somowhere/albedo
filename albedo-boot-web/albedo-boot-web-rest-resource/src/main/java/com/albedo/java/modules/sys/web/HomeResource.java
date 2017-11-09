@@ -9,6 +9,7 @@ import java.util.Map;
 
 /**
  * REST controller for managing the current user's account.
+ * @author somewhere
  */
 @RestController
 public class HomeResource extends BaseResource {

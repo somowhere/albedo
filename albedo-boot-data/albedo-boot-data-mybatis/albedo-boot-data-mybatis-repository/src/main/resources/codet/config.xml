@@ -11,7 +11,6 @@
         <category val="curd_many" name="增删改查（一对多）">
             <template>curd/resource.xml</template>
             <template>service/serviceMany.xml</template>
-            <template>entity/vo/entityVo.xml</template>
             <template>category-ref:entity</template>
             <template>curd/viewFormMany.xml</template>
             <template>curd/viewList.xml</template>
@@ -25,6 +24,7 @@
             <template>category-ref:entity</template>
         </category>
         <category val="entity" name="数据层（entity）">
+            <template>entity/vo/entityVo.xml</template>
             <template>entity/entityId.xml</template>
             <template>entity/entity.xml</template>
         </category>

@@ -2,7 +2,6 @@ package com.albedo.java.modules.gen.util;
 
 import com.albedo.java.common.domain.base.DataEntity;
 import com.albedo.java.common.domain.base.TreeEntity;
-import com.albedo.java.modules.gen.domain.GenScheme;
 import com.albedo.java.modules.gen.domain.GenTable;
 import com.albedo.java.modules.gen.domain.GenTableColumn;
 import com.albedo.java.modules.gen.domain.GenTemplate;
@@ -18,6 +17,9 @@ import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.FreeMarkers;
 import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.mapper.JaxbMapper;
+import com.albedo.java.vo.gen.GenSchemeVo;
+import com.albedo.java.vo.gen.GenTableColumnVo;
+import com.albedo.java.vo.gen.GenTableVo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.io.Charsets;
@@ -36,6 +38,7 @@ import java.util.Map;
 /**
  * 代码生成工具类
  *
+ * @author somewhere
  * @version 2013-11-16
  */
 public class GenUtil {
@@ -45,10 +48,10 @@ public class GenUtil {
     /**
      * 初始化列属性字段
      *
-     * @param genTable
+     * @param genTableVo
      */
-    public static void initColumnField(GenTable genTable) {
-        for (GenTableColumn column : genTable.getColumnList()) {
+    public static void initColumnField(GenTableVo genTableVo) {
+        for (GenTableColumnVo column : genTableVo.getColumnList()) {
 
             // 如果是不是新增列，则跳过。
             if (StringUtil.isNotBlank(column.getId())) {
@@ -62,7 +65,7 @@ public class GenUtil {
 
             // 设置java类型
             if (StringUtil.startsWithIgnoreCase(column.getJdbcType(), "CHAR") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "VARCHAR") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "NARCHAR")) {
-                column.setJavaType("String");
+                column.setJavaType(SystemConfig.TYPE_STRING);
             } else if (StringUtil.startsWithIgnoreCase(column.getJdbcType(), "DATETIME") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "DATE") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "TIMESTAMP")) {
                 column.setJavaType(Date.class.getName());
                 column.setShowType("dateselect");
@@ -78,11 +81,11 @@ public class GenUtil {
                 }
                 // 如果是整形
                 else if (ss != null && ss.length == 1 && Integer.parseInt(ss[0]) <= 10) {
-                    column.setJavaType("Integer");
+                    column.setJavaType(SystemConfig.TYPE_INTEGER);
                 }
                 // 长整形
                 else {
-                    column.setJavaType("Long");
+                    column.setJavaType(SystemConfig.TYPE_LONG);
                 }
             }
 
@@ -90,7 +93,7 @@ public class GenUtil {
             column.setJavaField(StringUtil.toCamelCase(column.getName()));
 
             // 是否是主键
-            column.setIsPk(genTable.getPkList().contains(column.getName()) ? SystemConfig.YES : SystemConfig.NO);
+            column.setIsPk(genTableVo.getPkList().contains(column.getName()) ? SystemConfig.YES : SystemConfig.NO);
 
             // 插入字段
             column.setIsInsert(SystemConfig.YES);
@@ -157,7 +160,8 @@ public class GenUtil {
             // 所有父级ID
             else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntity.F_PARENTIDS)) {
                 column.setQueryType("like");
-                column.setIsList(SystemConfig.NO);// 列表字段
+                // 列表字段
+                column.setIsList(SystemConfig.NO);
                 column.setComments("所有父级");
             }
             // 删除标记
@@ -167,35 +171,6 @@ public class GenUtil {
 
             }
         }
-    }
-
-    public static String getHibernateValidatorExpression(GenTableColumn c) {
-        if (!SystemConfig.YES.equals(c.getIsPk()) && !SystemConfig.YES.equals(c.getIsNull())) {
-            if (c.getJavaType() != null && c.getJavaType().endsWith("String"))
-                return (new StringBuilder()).append("@NotBlank ").append(getNotRequiredHibernateValidatorExpression(c)).toString();
-            else
-                return (new StringBuilder()).append("@NotNull ").append(getNotRequiredHibernateValidatorExpression(c)).toString();
-        } else {
-            return getNotRequiredHibernateValidatorExpression(c);
-        }
-    }
-
-    public static String getNotRequiredHibernateValidatorExpression(GenTableColumn c) {
-        String result = "", javaType = c.getJavaType(), jdbcType = c.getJdbcType();
-        if (c.getName().indexOf("mail") >= 0)
-            result = (new StringBuilder()).append(result).append("@Email ").toString();
-        if (javaType == null) javaType = "";
-        if (javaType.endsWith("String")) {
-            Integer size = jdbcType.equals("text") ? 65535 : Integer.valueOf(jdbcType.substring(jdbcType.indexOf("(") + 1, jdbcType.length() - 1));
-            result = (new StringBuilder()).append(result).append(String.format("@Length(max=%s)", new Object[]{size})).toString();
-        }
-        if (javaType.endsWith("Long") || javaType.endsWith("Integer") || javaType.endsWith("Short") || javaType.endsWith("Byte")) {
-            if (javaType.toLowerCase().indexOf("short") >= 0)
-                result = (new StringBuilder()).append(result).append(" @Max(32767)").toString();
-            else if (javaType.toLowerCase().indexOf("byte") >= 0)
-                result = (new StringBuilder()).append(result).append(" @Max(127)").toString();
-        }
-        return result.trim();
     }
 
     /**
@@ -217,7 +192,7 @@ public class GenUtil {
         }
 
         return "";
-        // String path = StringUtil.getProjectPath() + StringUtil.replaceEach(".src.main.java." + GenUtil.class.getName(), new String[] { "util." + GenUtil.class.getSimpleName(), "." }, new String[] { "template", File.separator });
+        // String path = StringUtil.getProjectPath() + StringUtil.replaceEach(".src.main.java." + GenTableColumnVoUtil.class.getName(), new String[] { "util." + GenTableColumnVoUtil.class.getSimpleName(), "." }, new String[] { "template", File.separator });
     }
 
     /**
@@ -257,17 +232,17 @@ public class GenUtil {
      * 根据分类获取模板列表
      *
      * @param config
-     * @param genScheme
-     * @param isChildTable 是否是子表
+     * @param category
+     * @param childTable 是否是子表
      * @return
      */
-    public static List<GenTemplate> getTemplateList(GenConfig config, String category, boolean isChildTable) {
+    public static List<GenTemplate> getTemplateList(GenConfig config, String category, boolean childTable) {
         List<GenTemplate> templateList = Lists.newArrayList();
         if (config != null && config.getCategoryList() != null && category != null) {
             for (GenCategory e : config.getCategoryList()) {
                 if (category.equals(e.getVal())) {
                     List<String> list = null;
-                    if (!isChildTable) {
+                    if (!childTable) {
                         list = e.getTemplate();
                     } else {
                         list = e.getChildTableTemplate();
@@ -294,34 +269,33 @@ public class GenUtil {
     /**
      * 获取数据模型
      *
-     * @param genScheme
-     * @param genTable
+     * @param genSchemeVo
      * @return
      */
-    public static Map<String, Object> getDataModel(GenScheme genScheme) {
+    public static Map<String, Object> getDataModel(GenSchemeVo genSchemeVo) {
         Map<String, Object> model = Maps.newHashMap();
 
-        model.put("packageName", StringUtil.lowerCase(genScheme.getPackageName()));
+        model.put("packageName", StringUtil.lowerCase(genSchemeVo.getPackageName()));
         model.put("lastPackageName", StringUtil.substringAfterLast((String) model.get("packageName"), "."));
-        model.put("moduleName", StringUtil.lowerCase(genScheme.getModuleName()));
-        model.put("subModuleName", StringUtil.lowerCase(genScheme.getSubModuleName()));
-        model.put("className", StringUtil.uncapitalize(genScheme.getGenTable().getClassName()));
-        model.put("ClassName", StringUtil.capitalize(genScheme.getGenTable().getClassName()));
+        model.put("moduleName", StringUtil.lowerCase(genSchemeVo.getModuleName()));
+        model.put("subModuleName", StringUtil.lowerCase(genSchemeVo.getSubModuleName()));
+        model.put("className", StringUtil.uncapitalize(genSchemeVo.getGenTable().getClassName()));
+        model.put("ClassName", StringUtil.capitalize(genSchemeVo.getGenTable().getClassName()));
 
-        model.put("functionName", genScheme.getFunctionName());
-        model.put("functionNameSimple", genScheme.getFunctionNameSimple());
-        model.put("functionAuthor", StringUtil.isNotBlank(genScheme.getFunctionAuthor()) ? genScheme.getFunctionAuthor() : "");
+        model.put("functionName", genSchemeVo.getFunctionName());
+        model.put("functionNameSimple", genSchemeVo.getFunctionNameSimple());
+        model.put("functionAuthor", StringUtil.isNotBlank(genSchemeVo.getFunctionAuthor()) ? genSchemeVo.getFunctionAuthor() : "");
         model.put("functionVersion", DateUtil.getDate());
 
-        model.put("urlPrefix", model.get("moduleName") + (StringUtil.isNotBlank(genScheme.getSubModuleName()) ? "/" + StringUtil.lowerCase(genScheme.getSubModuleName()) : "") + "/" + model.get("className"));
+        model.put("urlPrefix", model.get("moduleName") + (StringUtil.isNotBlank(genSchemeVo.getSubModuleName()) ? "/" + StringUtil.lowerCase(genSchemeVo.getSubModuleName()) : "") + "/" + model.get("className"));
         model.put("viewPrefix", // StringUtil.substringAfterLast(model.get("packageName"),".")+"/"+
                 model.get("urlPrefix"));
-        model.put("permissionPrefix", model.get("moduleName") + (StringUtil.isNotBlank(genScheme.getSubModuleName()) ? "_" + StringUtil.lowerCase(genScheme.getSubModuleName()) : "") + "_" + model.get("className"));
+        model.put("permissionPrefix", model.get("moduleName") + (StringUtil.isNotBlank(genSchemeVo.getSubModuleName()) ? "_" + StringUtil.lowerCase(genSchemeVo.getSubModuleName()) : "") + "_" + model.get("className"));
 
         model.put("dbType", SystemConfig.get("jdbc.type"));
 
-        model.put("table", genScheme.getGenTable());
-        model.put("scheme", genScheme);
+        model.put("table", genSchemeVo.getGenTable());
+        model.put("scheme", genSchemeVo);
         return model;
     }
 
@@ -333,7 +307,7 @@ public class GenUtil {
      * @param replaceFile
      * @return
      */
-    public static String generateToFile(GenTemplate tpl, Map<String, Object> model, boolean isReplaceFile) {
+    public static String generateToFile(GenTemplate tpl, Map<String, Object> model, boolean replaceFile) {
         // 获取生成文件 "c:\\temp\\"//
         String fileName = StringUtil.getProjectPath() + File.separator
                 + StringUtil.replaceEach(FreeMarkers.renderString(tpl.getFilePath() + "/", model), new String[]{"//", "/", "."}, new String[]{File.separator, File.separator, File.separator})
@@ -341,17 +315,18 @@ public class GenUtil {
 
         logger.debug(" fileName === " + fileName);
         if ("entityId".equals(tpl.getName())) {
-            GenTable table = (GenTable) model.get("table");
-            if (table.isNotCompositeId())
+            GenTableVo table = (GenTableVo) model.get("table");
+            if (table.isNotCompositeId()) {
                 return "因不满足联合主键条件已忽略" + fileName + "<br/>";
+            }
         }
-
+        logger.debug(tpl.getContent());
         // 获取生成文件内容
         String content = FreeMarkers.renderString(StringUtil.trimToEmpty(tpl.getContent()), model);
         logger.debug(" content === \r\n" + content);
 
         // 如果选择替换文件，则删除原文件
-        if (isReplaceFile) {
+        if (replaceFile) {
             FileUtil.deleteFile(fileName);
         }
 

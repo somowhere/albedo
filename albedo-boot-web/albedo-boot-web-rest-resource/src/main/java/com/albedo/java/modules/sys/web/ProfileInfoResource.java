@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ *
+ * @author somewhere
+ */
 @RestController
 @RequestMapping("${albedo.adminPath}/api")
 public class ProfileInfoResource {

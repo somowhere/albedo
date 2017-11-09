@@ -33,14 +33,35 @@ $.fn.serializeObject = function () {
     var o = {};
     var a = this.serializeArray();
     $.each(a, function () {
-        if (o[this.name]) {
-            if (!o[this.name].push) {
-                o[this.name] = [o[this.name]];
+        var name = this.name,tempObj = o[name],val = this.value || '',
+            startIndex= name.indexOf('['), endIndex = name.indexOf(']');
+        if(startIndex!=-1 && endIndex!=-1){
+            var prefix = name.substr(0, startIndex);
+            tempObj = o[prefix];
+            if (!tempObj) {
+                tempObj = []
             }
-            o[this.name].push(this.value || '');
-        } else {
-            o[this.name] = this.value || '';
+            var subName = name.substring(endIndex+2),index = name.substring(startIndex+1,endIndex);
+            if(tempObj[index]){
+                tempObj[index][subName] = val;
+            }else{
+                var temp = {};
+                temp[subName] = val;
+                tempObj.push(temp);
+            }
+            o[prefix] = tempObj;
+        }else{
+            if (tempObj) {
+                if (!tempObj.push) {
+                    tempObj = [tempObj];
+                }
+                tempObj.push(val || '');
+            } else {
+                tempObj = val || '';
+            }
+            o[name] = tempObj;
         }
+
     });
     return o;
 };

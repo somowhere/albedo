@@ -5,6 +5,7 @@ package com.albedo.java.common.service;
 
 import com.albedo.java.common.data.persistence.repository.BaseRepository;
 import com.albedo.java.common.domain.base.DataEntity;
+import com.albedo.java.util.BeanVoUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.vo.base.DataEntityVo;
 import lombok.Data;
@@ -55,7 +56,7 @@ public abstract class DataVoService<Repository extends BaseRepository<T, PK>,
 
     public void copyBeanToVo(T module, V result) {
         if (result != null && module != null) {
-            BeanUtils.copyProperties(module, result);
+            BeanVoUtil.copyProperties(module, result, true);
         }
     }
 
@@ -74,7 +75,7 @@ public abstract class DataVoService<Repository extends BaseRepository<T, PK>,
 
     public void copyVoToBean(V form, T entity) {
         if (form != null && entity != null) {
-            BeanUtils.copyProperties(form, entity);
+            BeanVoUtil.copyProperties(form, entity, true);
         }
     }
 

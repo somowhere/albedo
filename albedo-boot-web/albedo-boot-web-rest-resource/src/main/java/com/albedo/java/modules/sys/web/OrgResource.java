@@ -11,8 +11,8 @@ import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.sys.OrgVo;
-import com.albedo.java.vo.sys.query.TreeResult;
 import com.albedo.java.vo.sys.query.OrgTreeQuery;
+import com.albedo.java.vo.sys.query.TreeResult;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.TreeVoResource;
 import com.alibaba.fastjson.JSON;
@@ -24,12 +24,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
 
 /**
  * REST controller for managing Station.
+ * @author somewhere
  */
 @Controller
 @RequestMapping("${albedo.adminPath}/sys/org")

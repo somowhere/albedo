@@ -256,7 +256,7 @@ public class GenTableColumn extends IdEntity {
     public String getDataLength() {
         String[] ss = StringUtil.split(StringUtil.substringBetween(getJdbcType(), "(", ")"), ",");
         if (ss != null && ss.length == 1) {// &&
-            // "String".equals(getJavaType())){
+            // SystemConfig.TYPE_STRING.equals(getJavaType())){
             return ss[0];
         }
         return "0";
@@ -364,11 +364,11 @@ public class GenTableColumn extends IdEntity {
             list.add("com.fasterxml.jackson.annotation.JsonFormat(pattern = \"yyyy-MM-dd HH:mm:ss\")");
         }
         // 导入JSR303验证依赖包
-        if (!"1".equals(getIsNull()) && !"String".equals(getJavaType())) {
+        if (!"1".equals(getIsNull()) && !SystemConfig.TYPE_STRING.equals(getJavaType())) {
             list.add("javax.validation.constraints.NotNull(message=\"" + getComments() + "不能为空\")");
-        } else if (!"1".equals(getIsNull()) && "String".equals(getJavaType()) && !"0".equals(getDataLength())) {
+        } else if (!"1".equals(getIsNull()) && SystemConfig.TYPE_STRING.equals(getJavaType()) && !"0".equals(getDataLength())) {
             list.add("org.hibernate.validator.constraints.Length(min=1, max=" + getDataLength() + ", message=\"" + getComments() + "长度必须介于 1 和 " + getDataLength() + " 之间\")");
-        } else if ("String".equals(getJavaType()) && !"0".equals(getDataLength())) {
+        } else if (SystemConfig.TYPE_STRING.equals(getJavaType()) && !"0".equals(getDataLength())) {
             list.add("org.hibernate.validator.constraints.Length(min=0, max=" + getDataLength() + ", message=\"" + getComments() + "长度必须介于 0 和 " + getDataLength() + " 之间\")");
         }
         return list;
@@ -422,7 +422,7 @@ public class GenTableColumn extends IdEntity {
     }
 
     public boolean getIsDateTimeColumn() {
-        return getJavaField().contains("Date") && getJavaType().contains("Date");
+        return getJavaField().contains(SystemConfig.TYPE_DATE) && getJavaType().contains(SystemConfig.TYPE_DATE);
     }
 
     public String getHibernateValidatorExprssion() {

@@ -31,9 +31,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "${albedo.adminPath}/sys/taskScheduleJob")
 public class TaskScheduleJobResource extends DataResource<TaskScheduleJobExcutorService, TaskScheduleJob> {
 
-//	@Resource
-//	private ITaskScheduleJobService service;
-
     @ModelAttribute
     public TaskScheduleJob get(@RequestParam(required = false) String id) throws Exception {
         String path = request.getRequestURI();

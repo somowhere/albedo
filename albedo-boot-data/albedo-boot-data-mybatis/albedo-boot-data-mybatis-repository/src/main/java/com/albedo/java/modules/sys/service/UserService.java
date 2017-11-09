@@ -142,7 +142,7 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
 
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public PageModel<User> findPageRest(PageModel<User> pm, List<QueryCondition> andQueryConditions, List<QueryCondition> orQueryConditions) {
+    public PageModel<User> findPage(PageModel<User> pm, List<QueryCondition> andQueryConditions, List<QueryCondition> orQueryConditions) {
         //拼接查询动态对象
         SpecificationDetail<User> spec = DynamicSpecifications.bySearchQueryCondition(
                 andQueryConditions,

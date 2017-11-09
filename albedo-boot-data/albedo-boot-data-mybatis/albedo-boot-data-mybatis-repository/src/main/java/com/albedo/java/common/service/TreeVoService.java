@@ -8,7 +8,6 @@ import com.albedo.java.util.BeanVoUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.vo.base.TreeEntityVo;
 import lombok.Data;
-import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;

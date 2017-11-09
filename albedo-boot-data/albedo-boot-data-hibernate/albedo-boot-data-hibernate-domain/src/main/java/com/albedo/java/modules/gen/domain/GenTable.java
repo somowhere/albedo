@@ -264,7 +264,7 @@ public class GenTable extends IdEntity {
                             addNoRepeatList(importList, ann.substring(0, ann.indexOf("(")));
                         }
                     }
-                    if (!SystemConfig.YES.equals(column.getIsPk()) && !SystemConfig.YES.equals(column.getIsNull()) && column.getJavaType().endsWith("String")) {
+                    if (!SystemConfig.YES.equals(column.getIsPk()) && !SystemConfig.YES.equals(column.getIsNull()) && column.getJavaType().endsWith(SystemConfig.TYPE_STRING)) {
                         addNoRepeatList(importList, "org.hibernate.validator.constraints.NotBlank");
                     }
                     if (PublicUtil.isNotEmpty(column.getDictType())) {
@@ -308,7 +308,7 @@ public class GenTable extends IdEntity {
                         addNoRepeatList(importList, ann.substring(0, ann.indexOf("(")));
                     }
                 }
-                if (!SystemConfig.YES.equals(column.getIsPk()) && !SystemConfig.YES.equals(column.getIsNull()) && column.getJavaType().endsWith("String")) {
+                if (!SystemConfig.YES.equals(column.getIsPk()) && !SystemConfig.YES.equals(column.getIsNull()) && column.getJavaType().endsWith(SystemConfig.TYPE_STRING)) {
                     addNoRepeatList(importList, "org.hibernate.validator.constraints.NotBlank");
                 }
                 if (PublicUtil.isNotEmpty(column.getDictType())) {
@@ -326,7 +326,7 @@ public class GenTable extends IdEntity {
                 addNoRepeatList(importList, "javax.persistence.CascadeType", "javax.persistence.OneToMany", "java.util.List", "com.google.common.collect.Lists", "org.hibernate.annotations.FetchMode", "org.hibernate.annotations.Fetch",
                         "org.hibernate.annotations.Where");
             }
-            if (getPkJavaType().equals("String")) {
+            if (getPkJavaType().equals(SystemConfig.TYPE_STRING)) {
                 addNoRepeatList(importList, "com.albedo.java.common.domain.base.pk.IdGen");
             }
             if (isCompositeId()) {

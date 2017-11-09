@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * REST controller for getting the audit events.
+ * @author somewhere
  */
 @RestController
 @RequestMapping(value = "/management/albedo/audits", produces = MediaType.APPLICATION_JSON_VALUE)

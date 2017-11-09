@@ -649,10 +649,8 @@ public class PublicUtil {
 
     public static String convertComboDataList(List<?> dataList, String idFieldName, String nameFieldName) {
         List<ComboData> comboDataList = Lists.newArrayList();
-        dataList.forEach(item -> {
-            comboDataList.add(new ComboData(PublicUtil.toStrString(Reflections.getFieldValue(item, idFieldName)),
-                    PublicUtil.toStrString(Reflections.invokeGetter(item, nameFieldName))));
-        });
+        dataList.forEach(item -> comboDataList.add(new ComboData(PublicUtil.toStrString(Reflections.getFieldValue(item, idFieldName)),
+                PublicUtil.toStrString(Reflections.invokeGetter(item, nameFieldName)))));
         return Json.toJsonString(comboDataList);
     }
 

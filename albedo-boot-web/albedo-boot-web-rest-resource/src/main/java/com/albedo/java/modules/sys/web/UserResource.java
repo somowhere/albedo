@@ -19,8 +19,6 @@ import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -64,6 +62,7 @@ import javax.validation.Valid;
  * Another option would be to have a specific JPA entity graph to handle this
  * case.
  * </p>
+ * @author somewhere
  */
 @Controller
 @RequestMapping("${albedo.adminPath}/sys/user")

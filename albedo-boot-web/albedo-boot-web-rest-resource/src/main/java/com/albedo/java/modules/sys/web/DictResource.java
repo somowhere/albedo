@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Station.
+ * @author somewhere
  */
 @Controller
 @RequestMapping("${albedo.adminPath}/sys/dict")
