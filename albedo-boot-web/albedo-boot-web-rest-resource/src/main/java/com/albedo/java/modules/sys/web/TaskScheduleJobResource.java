@@ -11,17 +11,17 @@ import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.sys.TaskScheduleJobVo;
 import com.albedo.java.web.rest.ResultBuilder;
-import com.albedo.java.web.rest.base.DataResource;
 import com.albedo.java.web.rest.base.DataVoResource;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
-import org.jboss.logging.annotations.Pos;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * 任务调度管理Controller 任务调度
@@ -51,27 +51,27 @@ public class TaskScheduleJobResource extends DataVoResource<TaskScheduleJobExcut
     }
 
     /**
-     * @param taskScheduleJob
+     * @param taskScheduleJobVo
      * @param model
      * @return
      */
     @GetMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String form(TaskScheduleJob taskScheduleJob, Model model) {
-        if (taskScheduleJob == null) {
+    public String form(TaskScheduleJobVo taskScheduleJobVo, Model model) {
+        if (taskScheduleJobVo == null) {
             throw new RuntimeMsgException(PublicUtil.toAppendStr("查询任务调度失败，原因：无法查找到编号为[", request.getParameter("id"), "]的任务调度"));
         }
         return "modules/sys/taskScheduleJobForm";
     }
 
     /**
-     * @param taskScheduleJob
+     * @param taskScheduleJobVo
      * @return
      */
-    @PostMapping( value = "/edit",  produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity save(TaskScheduleJob taskScheduleJob) {
-        log.debug("REST request to save TaskScheduleJob : {}", taskScheduleJob);
-        service.save(taskScheduleJob);
+    public ResponseEntity save(@Valid @RequestBody TaskScheduleJobVo taskScheduleJobVo) {
+        log.debug("REST request to save TaskScheduleJobVo : {}", taskScheduleJobVo);
+        service.save(taskScheduleJobVo);
 
         return ResultBuilder.buildOk("保存任务调度成功");
     }

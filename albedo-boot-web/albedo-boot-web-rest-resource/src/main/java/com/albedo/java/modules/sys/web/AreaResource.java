@@ -10,7 +10,6 @@ import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.sys.AreaVo;
 import com.albedo.java.vo.sys.query.AreaTreeQuery;
-import com.albedo.java.vo.sys.query.TreeQuery;
 import com.albedo.java.vo.sys.query.TreeResult;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.TreeVoResource;
@@ -28,6 +27,7 @@ import java.util.List;
 
 /**
  * 区域Controller 区域
+ *
  * @author admin
  * @version 2017-11-10
  */
@@ -46,9 +46,9 @@ public class AreaResource extends TreeVoResource<AreaService, AreaVo> {
         List<TreeResult> treeResultList = service.findTreeData(areaTreeQuery, SecurityUtil.getAreaList());
         return ResultBuilder.buildOk(treeResultList);
     }
+
     /**
      * GET / : 获取分页界面 区域.
-     *
      */
     @GetMapping(value = "/")
     public String list() {
@@ -117,6 +117,7 @@ public class AreaResource extends TreeVoResource<AreaService, AreaVo> {
         service.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
         return ResultBuilder.buildOk("删除区域成功");
     }
+
     /**
      * lock //:id : lockOrUnLock the "id" Area.
      *

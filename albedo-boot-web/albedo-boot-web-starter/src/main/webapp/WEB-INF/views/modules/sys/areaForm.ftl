@@ -49,6 +49,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3">区域等级</label>
                         <div class="col-md-5">
+                        <@albedo.form name="level" dictCode="sys_area_type" cssClass="" boxType="select" value="${(areaVo.level)!}" > </@albedo.form>
                         </div>
                     </div>
                     <div class="form-group">

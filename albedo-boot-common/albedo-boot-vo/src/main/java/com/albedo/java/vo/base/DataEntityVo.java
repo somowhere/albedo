@@ -9,7 +9,7 @@ import lombok.Data;
 public class DataEntityVo extends GeneralEntityVo {
 
     private String id;
-    private Integer status=GeneralEntityVo.FLAG_NORMAL;
+    private Integer status = GeneralEntityVo.FLAG_NORMAL;
     private String description;
 
 }

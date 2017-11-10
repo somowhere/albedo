@@ -26,59 +26,100 @@ import java.util.List;
 public class GenTableColumnVo extends DataEntityVo implements Comparable {
 
     private static final long serialVersionUID = 1L;
-    /** 归属表 */
+    /**
+     * 归属表
+     */
     private String genTableId;
-    /** 归属表 */
-    private GenTableVo genTable; 
-    /** 列名 */
-    private String name; 
-    /** 描述 */
+    /**
+     * 归属表
+     */
+    private GenTableVo genTable;
+    /**
+     * 列名
+     */
+    private String name;
+    /**
+     * 描述
+     */
     private String comments;
-    /** JDBC类型 */
+    /**
+     * JDBC类型
+     */
     private String jdbcType;
-    /** JAVA类型 */
+    /**
+     * JAVA类型
+     */
     private String javaType;
-    /** JAVA字段名 */
+    /**
+     * JAVA字段名
+     */
     private String javaField;
-    /** 是否主键（1：主键） */
+    /**
+     * 是否主键（1：主键）
+     */
     private Integer isPk = SystemConfig.NO;
-    /** 是否唯一（1：是；0：否） */
+    /**
+     * 是否唯一（1：是；0：否）
+     */
     private Integer isUnique = SystemConfig.NO;
-    /** 是否可为空（1：可为空；0：不为空） */
+    /**
+     * 是否可为空（1：可为空；0：不为空）
+     */
     private Integer isNull = SystemConfig.NO;
-    /** 是否为插入字段（1：插入字段） */
-    private Integer isInsert = SystemConfig.NO; 
-    /** 是否编辑字段（1：编辑字段） */
-    private Integer isEdit = SystemConfig.NO; 
-    /** 是否列表字段（1：列表字段） */
-    private Integer isList = SystemConfig.NO; 
-    /** 是否查询字段（1：查询字段） */
-    private Integer isQuery = SystemConfig.NO; 
-    /** 查询方式（等于、不等于、大于、小于、范围、左LIKE、右LIKE、左右LIKE） */
-    private String queryType; 
-    /** 字段生成方案（文本框、文本域、下拉框、复选框、单选框、字典选择、人员选择、部门选择、区域选择） */
-    private String showType; 
-    /** 字典类型 */
+    /**
+     * 是否为插入字段（1：插入字段）
+     */
+    private Integer isInsert = SystemConfig.NO;
+    /**
+     * 是否编辑字段（1：编辑字段）
+     */
+    private Integer isEdit = SystemConfig.NO;
+    /**
+     * 是否列表字段（1：列表字段）
+     */
+    private Integer isList = SystemConfig.NO;
+    /**
+     * 是否查询字段（1：查询字段）
+     */
+    private Integer isQuery = SystemConfig.NO;
+    /**
+     * 查询方式（等于、不等于、大于、小于、范围、左LIKE、右LIKE、左右LIKE）
+     */
+    private String queryType;
+    /**
+     * 字段生成方案（文本框、文本域、下拉框、复选框、单选框、字典选择、人员选择、部门选择、区域选择）
+     */
+    private String showType;
+    /**
+     * 字典类型
+     */
     private String dictType;
-    /** 排序（升序） */
-    private Integer sort; 
+    /**
+     * 排序（升序）
+     */
+    private Integer sort;
 
-    /** hibernate验证表达式 */
+    /**
+     * hibernate验证表达式
+     */
     private String hibernateValidatorExprssion;
-    /** 大小 */
+    /**
+     * 大小
+     */
     private String size;
 
     private String nameAndComments;
 
     @Override
     public int compareTo(Object obj) {
-        if(obj instanceof GenTableColumnVo){
+        if (obj instanceof GenTableColumnVo) {
             GenTableColumnVo b = (GenTableColumnVo) obj;
             // 按id比较大小，用于默认排序
             return this.sort - b.sort;
         }
         return 0;
     }
+
     public boolean getPk() {
         return SystemConfig.YES.equals(getIsPk());
     }
@@ -294,9 +335,9 @@ public class GenTableColumnVo extends DataEntityVo implements Comparable {
     }
 
     public String getSize() {
-        if (jdbcType!=null && jdbcType.contains("(") && PublicUtil.isEmpty(size)) {
+        if (jdbcType != null && jdbcType.contains("(") && PublicUtil.isEmpty(size)) {
             size = jdbcType.substring(jdbcType.indexOf("(") + 1, jdbcType.length() - 1);
-        } else if  ("text".equals(jdbcType)) {
+        } else if ("text".equals(jdbcType)) {
             size = "65535";
         } else {
             size = "";
@@ -307,7 +348,6 @@ public class GenTableColumnVo extends DataEntityVo implements Comparable {
     public void setSize(String size) {
         this.size = size;
     }
-
 
 
 }

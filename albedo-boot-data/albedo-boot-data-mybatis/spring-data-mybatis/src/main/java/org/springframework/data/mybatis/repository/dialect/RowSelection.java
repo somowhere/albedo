@@ -47,11 +47,11 @@ public final class RowSelection {
         return fetchSize;
     }
 
-    public void setFetchSize(Integer fetchSize) {
+    public void setFetchSize(int fetchSize) {
         this.fetchSize = fetchSize;
     }
 
-    public void setFetchSize(int fetchSize) {
+    public void setFetchSize(Integer fetchSize) {
         this.fetchSize = fetchSize;
     }
 

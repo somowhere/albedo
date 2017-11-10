@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * bean copy 工具类
+ *
  * @author lijie
  */
 public class BeanVoUtil extends BeanUtils {
@@ -29,7 +30,7 @@ public class BeanVoUtil extends BeanUtils {
         PropertyDescriptor[] var7 = targetPds;
         int var8 = targetPds.length;
 
-        for(int var9 = 0; var9 < var8; ++var9) {
+        for (int var9 = 0; var9 < var8; ++var9) {
             PropertyDescriptor targetPd = var7[var9];
             Method writeMethod = targetPd.getWriteMethod();
             if (writeMethod != null && (ignoreList == null || !ignoreList.contains(targetPd.getName()))) {
@@ -46,7 +47,7 @@ public class BeanVoUtil extends BeanUtils {
                             if (!Modifier.isPublic(writeMethod.getDeclaringClass().getModifiers())) {
                                 writeMethod.setAccessible(true);
                             }
-                            if(ignoreNull && PublicUtil.isNotEmpty(value) || !ignoreNull){
+                            if (ignoreNull && PublicUtil.isNotEmpty(value) || !ignoreNull) {
                                 writeMethod.invoke(target, value);
                             }
                         } catch (Throwable var15) {

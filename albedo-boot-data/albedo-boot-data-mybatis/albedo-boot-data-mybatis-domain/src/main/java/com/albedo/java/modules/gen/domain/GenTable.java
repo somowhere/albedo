@@ -1,15 +1,10 @@
 package com.albedo.java.modules.gen.domain;
 
-import com.albedo.java.common.domain.base.DataEntity;
 import com.albedo.java.common.domain.base.IdEntity;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.annotation.SearchField;
-import com.albedo.java.util.base.Collections3;
-import com.albedo.java.util.config.SystemConfig;
-import com.albedo.java.util.exception.RuntimeMsgException;
 import com.alibaba.fastjson.annotation.JSONField;
-import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

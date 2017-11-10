@@ -4,7 +4,6 @@
 package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.base.BaseInit;
-import com.albedo.java.common.service.DataService;
 import com.albedo.java.common.service.DataVoService;
 import com.albedo.java.modules.sys.domain.TaskScheduleJob;
 import com.albedo.java.modules.sys.repository.TaskScheduleJobRepository;
@@ -126,6 +125,7 @@ public class TaskScheduleJobExcutorService extends DataVoService<TaskScheduleJob
         try {
             CronScheduleBuilder.cronSchedule(scheduleJob.getCronExpression());
         } catch (Exception e) {
+            log.warn("{}", e);
             throw new RuntimeMsgException("cron表达式有误，不能被解析！");
         }
         Object obj = null;

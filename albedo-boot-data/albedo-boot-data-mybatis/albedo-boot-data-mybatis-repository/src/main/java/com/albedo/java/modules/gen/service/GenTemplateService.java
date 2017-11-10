@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * Service class for managing genTables.
+ *
  * @author somewhere
  */
 @Service

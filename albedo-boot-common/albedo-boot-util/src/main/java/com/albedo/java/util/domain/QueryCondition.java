@@ -294,12 +294,12 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
         return operate;
     }
 
-    public void setOperate(String operate) {
-        this.operate = Operator.valueOf(operate);
-    }
-
     public void setOperate(Operator operate) {
         this.operate = operate;
+    }
+
+    public void setOperate(String operate) {
+        this.operate = Operator.valueOf(operate);
     }
 
     public String getAttrType() {

@@ -29,17 +29,17 @@ public class GenTableColumnVoUtil {
     }
 
     public static String getNotRequiredHibernateValidatorExpression(GenTableColumnVo c) {
-        if(c==null){
+        if (c == null) {
             return null;
         }
         String result = "", javaType = c.getJavaType(), jdbcType = c.getJdbcType();
-        if (c.getName()!=null && c.getName().indexOf("mail") >= 0) {
+        if (c.getName() != null && c.getName().indexOf("mail") >= 0) {
             result = (new StringBuilder()).append(result).append("@Email ").toString();
         }
         if (javaType == null) {
             javaType = "";
         }
-        if (javaType.endsWith(SystemConfig.TYPE_STRING) && jdbcType!=null) {
+        if (javaType.endsWith(SystemConfig.TYPE_STRING) && jdbcType != null) {
             Integer size = "text".equals(jdbcType) ? 65535 : Integer.valueOf(jdbcType.substring(jdbcType.indexOf("(") + 1, jdbcType.length() - 1));
             result = (new StringBuilder()).append(result).append(String.format("@Length(max=%s)", new Object[]{size})).toString();
         }

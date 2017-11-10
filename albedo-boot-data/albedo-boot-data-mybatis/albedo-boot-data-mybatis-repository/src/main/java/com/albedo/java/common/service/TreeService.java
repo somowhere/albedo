@@ -10,12 +10,10 @@ import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.sys.query.TreeQuery;
 import com.albedo.java.vo.sys.query.TreeResult;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 
 @Transactional
@@ -93,7 +91,7 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
         // 更新子节点 parentIds
         List<T> list = repository.findAllByParentIdsLike(PublicUtil.toAppendStr("%,", entity.getId(), ",%"));
         for (T e : list) {
-            if(PublicUtil.isNotEmpty(e.getParentIds())) {
+            if (PublicUtil.isNotEmpty(e.getParentIds())) {
                 e.setParentIds(e.getParentIds().replace(oldParentIds, entity.getParentIds()));
             }
         }

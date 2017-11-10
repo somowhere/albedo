@@ -23,24 +23,8 @@ public class ThreadPoolManager {
     private final static int KEEP_ALIVE_TIME = 5;
     // 线程池所使用的缓冲队列大小
     private final static int WORK_QUEUE_SIZE = 2;
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    final ThreadPoolExecutor threadPool = new ThreadPoolExecutor(CORE_POOL_SIZE, MAX_POOL_SIZE, KEEP_ALIVE_TIME,
-            TimeUnit.SECONDS, new ArrayBlockingQueue(WORK_QUEUE_SIZE), this.handler);
     // 调度线程池
     final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(10);
-    // 访问消息缓存的调度线程
-    // 查看是否有待定请求，如果有，则创建一个新的ExecutorThread，并添加到线程池中
-    final Runnable accessBufferThread = new Runnable() {
-
-        @Override
-        public void run() {
-            if (hasMoreAcquire()) {
-                String params = (String) msgQueue.poll();
-                Runnable task = new ExecutorThread(transactioner, params);
-                threadPool.execute(task);
-            }
-        }
-    };
     @SuppressWarnings("rawtypes")
     final ThreadLocal<ScheduledFuture> taskHandler = ThreadLocal.withInitial(() -> {
         return scheduler.scheduleAtFixedRate(accessBufferThread, 0, 5, TimeUnit.SECONDS);
@@ -57,9 +41,24 @@ public class ThreadPoolManager {
             msgQueue.offer(((ExecutorThread) r).getParams());
         }
     };
-
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    final ThreadPoolExecutor threadPool = new ThreadPoolExecutor(CORE_POOL_SIZE, MAX_POOL_SIZE, KEEP_ALIVE_TIME,
+            TimeUnit.SECONDS, new ArrayBlockingQueue(WORK_QUEUE_SIZE), this.handler);
     // 管理数据库访问的线程池
     private Transactioner transactioner;
+    // 访问消息缓存的调度线程
+    // 查看是否有待定请求，如果有，则创建一个新的ExecutorThread，并添加到线程池中
+    final Runnable accessBufferThread = new Runnable() {
+
+        @Override
+        public void run() {
+            if (hasMoreAcquire()) {
+                String params = (String) msgQueue.poll();
+                Runnable task = new ExecutorThread(transactioner, params);
+                threadPool.execute(task);
+            }
+        }
+    };
 
 
     ThreadPoolManager(Transactioner transactioner) {

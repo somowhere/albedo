@@ -573,12 +573,14 @@ public class JsonUtil {
         }
         return val;
     }
+
     private void mapPutValue(Map<String, Object> maps, String key, Object val) {
         boolean containValAndNotEmpty = (maps.containsKey(key) && PublicUtil.isNotEmpty(val));
-        if(!maps.containsKey(key) || containValAndNotEmpty){
+        if (!maps.containsKey(key) || containValAndNotEmpty) {
             maps.put(key, val);
         }
     }
+
     private Object getVal(Object obj, Object val, String key) {
         if (PublicUtil.isNotEmpty(kindIds) && PublicUtil.isNotEmpty(keyCodeItems) && keyCodeItems.contains(key)) {
             val = getDictVal(val, kindIds.get(keyCodeItems.indexOf(key)), key);

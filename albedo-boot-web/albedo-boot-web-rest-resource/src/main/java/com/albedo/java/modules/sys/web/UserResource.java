@@ -62,6 +62,7 @@ import javax.validation.Valid;
  * Another option would be to have a specific JPA entity graph to handle this
  * case.
  * </p>
+ *
  * @author somewhere
  */
 @Controller

@@ -10,7 +10,6 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
-import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.gen.GenTableVo;
 import com.albedo.java.web.rest.ResultBuilder;
@@ -30,12 +29,13 @@ import java.util.Map;
 
 /**
  * 业务表Controller
+ *
  * @author somewhere
  */
 @Controller
 @RequestMapping(value = "${albedo.adminPath}/gen/genTable")
 public class GenTableResource extends DataVoResource<GenTableService, GenTableVo> {
-    
+
     @GetMapping(value = "/")
     @Timed
     public String list(Model model) {
@@ -74,7 +74,7 @@ public class GenTableResource extends DataVoResource<GenTableService, GenTableVo
         return ResultBuilder.buildOk(PublicUtil.toAppendStr("保存", genTableVo.getName(), "成功"));
     }
 
-    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX+"}")
+    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX + "}")
     @Timed
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity delete(@PathVariable String ids) {
@@ -84,7 +84,7 @@ public class GenTableResource extends DataVoResource<GenTableService, GenTableVo
         return ResultBuilder.buildOk("删除成功");
     }
 
-    @PostMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX+"}")
+    @PostMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX + "}")
     @Timed
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {
         log.debug("REST request to lockOrUnLock genTable: {}", ids);

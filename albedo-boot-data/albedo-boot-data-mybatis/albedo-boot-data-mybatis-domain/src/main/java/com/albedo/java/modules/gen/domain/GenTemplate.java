@@ -28,8 +28,8 @@ import java.util.List;
 @NoArgsConstructor
 public class GenTemplate extends IdEntity {
 
-    private static final long serialVersionUID = 1L;
     public static final String F_NAME = "name";
+    private static final long serialVersionUID = 1L;
     @Length(min = 1, max = 200)
     @Column(name = "name_")
     private String name; // 名称

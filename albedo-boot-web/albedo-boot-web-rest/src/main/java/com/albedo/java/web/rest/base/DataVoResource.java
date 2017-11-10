@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * 基础控制器支持类 copyright 2014 albedo all right reserved author MrLi created on 2014年10月15日 下午4:04:00
  */
-public class DataVoResource<Service extends DataVoService, V extends DataEntityVo> extends BaseResource {
+public class DataVoResource<Service extends DataVoService, V extends DataEntityVo>
+        extends BaseResource {
 
     @Autowired
     protected Service service;

@@ -11,7 +11,6 @@ import com.albedo.java.modules.gen.repository.GenTableRepository;
 import com.albedo.java.modules.gen.util.GenUtil;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.domain.User;
-import com.albedo.java.util.BeanVoUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.Assert;
@@ -34,6 +33,7 @@ import java.util.stream.Collectors;
 
 /**
  * Service class for managing genTables.
+ *
  * @author somewhere
  */
 @Service
@@ -75,12 +75,12 @@ public class GenTableService extends DataVoService<GenTableRepository, GenTable,
     @Override
     public void copyVoToBean(GenTableVo form, GenTable genTable) {
         super.copyVoToBean(form, genTable);
-        if(genTable!=null) {
-            if(PublicUtil.isNotEmpty(form.getColumnFormList())) {
+        if (genTable != null) {
+            if (PublicUtil.isNotEmpty(form.getColumnFormList())) {
                 genTable.setColumnFormList(form.getColumnFormList().stream()
                         .map(item -> genTableColumnService.copyVoToBean(item)).collect(Collectors.toList()));
             }
-            if(PublicUtil.isNotEmpty(form.getColumnList())) {
+            if (PublicUtil.isNotEmpty(form.getColumnList())) {
                 genTable.setColumnList(form.getColumnList().stream()
                         .map(item -> genTableColumnService.copyVoToBean(item)).collect(Collectors.toList()));
             }
@@ -90,18 +90,17 @@ public class GenTableService extends DataVoService<GenTableRepository, GenTable,
     @Override
     public void copyBeanToVo(GenTable genTable, GenTableVo result) {
         super.copyBeanToVo(genTable, result);
-        if(genTable!=null) {
-            if(PublicUtil.isNotEmpty(genTable.getColumnFormList())) {
+        if (genTable != null) {
+            if (PublicUtil.isNotEmpty(genTable.getColumnFormList())) {
                 result.setColumnFormList(genTable.getColumnFormList().stream()
                         .map(item -> genTableColumnService.copyBeanToVo(item)).collect(Collectors.toList()));
             }
-            if(PublicUtil.isNotEmpty(genTable.getColumnList())) {
+            if (PublicUtil.isNotEmpty(genTable.getColumnList())) {
                 result.setColumnList(genTable.getColumnList().stream()
                         .map(item -> genTableColumnService.copyBeanToVo(item)).collect(Collectors.toList()));
             }
         }
     }
-
 
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -223,7 +222,7 @@ public class GenTableService extends DataVoService<GenTableRepository, GenTable,
 //		List<String[]> GenString = null;
         List<GenTable> genTables = findAll();
         GenTableQuery genTableQuery = new GenTableQuery();
-        if(genTableVo!=null){
+        if (genTableVo != null) {
             genTableQuery.setName(genTableVo.getName());
         }
         List<String> tempNames = Lists.newArrayList("gen_", "logging_",

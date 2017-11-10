@@ -1,12 +1,7 @@
 package com.albedo.java.modules.gen.domain;
 
 import com.albedo.java.common.domain.base.IdEntity;
-import com.albedo.java.common.domain.base.TreeEntity;
-import com.albedo.java.modules.gen.util.GenUtil;
-import com.albedo.java.util.PublicUtil;
-import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.config.SystemConfig;
-import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,8 +12,6 @@ import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Entity;
 import org.springframework.data.mybatis.annotations.JoinColumn;
 import org.springframework.data.mybatis.annotations.ManyToOne;
-
-import java.util.List;
 
 /**
  * 业务表字段Entity
@@ -90,8 +83,6 @@ public class GenTableColumn extends IdEntity {
         this.comments = comments;
         this.jdbcType = jdbcType;
     }
-
-
 
 
 }

@@ -45,13 +45,12 @@ public abstract class TreeEntity<T extends TreeEntity> extends IdEntity {
     /*** 序号 */
     @Column(name = "sort_")
     protected Integer sort = 30;
-    /*** 1 叶子节点 0非叶子节点 */
-    @Column(name = "is_leaf")
-    private boolean isLeaf = false;
-
     /*** 父模块名称 */
     @Transient
     protected String parentName;
+    /*** 1 叶子节点 0非叶子节点 */
+    @Column(name = "is_leaf")
+    private boolean isLeaf = false;
 
     public TreeEntity() {
         super();

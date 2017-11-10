@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Service class for managing genTables.
+ *
  * @author somewhere
  */
 @Service
@@ -20,7 +21,7 @@ public class GenTableColumnService extends DataVoService<GenTableColumnRepositor
     public void deleteByTableId(String id, String currentAuditor) {
         List<GenTableColumn> genTableColumnList = repository.findAllByGenTableIdOrderBySort(id);
         Assert.assertNotNull(genTableColumnList, "id " + id + " genTableColumn 不能为空");
-        genTableColumnList.forEach(item->{
+        genTableColumnList.forEach(item -> {
             item.setStatus(BaseEntity.FLAG_DELETE);
             repository.updateIgnoreNull(item);
         });

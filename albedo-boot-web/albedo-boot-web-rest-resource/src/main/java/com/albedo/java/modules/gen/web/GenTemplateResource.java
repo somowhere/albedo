@@ -28,12 +28,13 @@ import java.net.URISyntaxException;
 
 /**
  * 代码模板Controller
+ *
  * @author somewhere
  */
 @Controller
 @RequestMapping(value = "${albedo.adminPath}/gen/genTemplate")
 public class GenTemplateResource extends DataResource<GenTemplateService, GenTemplate> {
-    
+
     @GetMapping(value = "/")
     @Timed
     public String list() {

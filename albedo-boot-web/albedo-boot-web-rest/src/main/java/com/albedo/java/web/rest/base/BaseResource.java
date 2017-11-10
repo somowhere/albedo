@@ -13,6 +13,7 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -51,7 +52,11 @@ public class BaseResource extends GeneralResource {
         } else if (e instanceof ConstraintViolationException) {
             List<String> list = BeanValidators.extractPropertyAndMessageAsList((ConstraintViolationException) e, ": ");
             list.add(0, "数据验证失败：");
-            message.addMessage(Collections3.convertToString(list, StringUtil.SPLIT_DEFAULT));
+            message.addMessage(Collections3.convertToString(list, ""));
+        } else if (e instanceof MethodArgumentNotValidException) {
+            List<String> list = BeanValidators.extractPropertyAndMessageAsList((MethodArgumentNotValidException) e, ": ");
+            list.add(0, "数据验证失败：");
+            message.addMessage(Collections3.convertToString(list, ""));
         } else if (e.getCause() != null && e.getCause().getCause() != null && e.getCause().getCause() instanceof ConstraintViolationException) {
             List<String> list = BeanValidators.extractPropertyAndMessageAsList((ConstraintViolationException) e.getCause().getCause(), ": ");
             list.add(0, "数据验证失败：");
