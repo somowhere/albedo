@@ -1,7 +1,6 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.security.SecurityUtil;
-import com.albedo.java.modules.sys.domain.Area;
 import com.albedo.java.modules.sys.service.AreaService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
@@ -9,119 +8,128 @@ import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
+import com.albedo.java.vo.sys.AreaVo;
 import com.albedo.java.vo.sys.query.AreaTreeQuery;
+import com.albedo.java.vo.sys.query.TreeQuery;
+import com.albedo.java.vo.sys.query.TreeResult;
 import com.albedo.java.web.rest.ResultBuilder;
-import com.albedo.java.web.rest.base.DataResource;
+import com.albedo.java.web.rest.base.TreeVoResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.Lists;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
+
 
 /**
- * 区域管理Controller 区域管理
- *
+ * 区域Controller 区域
  * @author admin
- * @version 2017-01-05
+ * @version 2017-11-10
  */
 @Controller
 @RequestMapping(value = "${albedo.adminPath}/sys/area")
-public class AreaResource extends DataResource<AreaService, Area> {
+public class AreaResource extends TreeVoResource<AreaService, AreaVo> {
 
-    @Resource
-    private AreaService areaService;
-
-
-    @RequestMapping(value = "findTreeData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    /**
+     * GET / : 获取树型结构数据 区域.
+     *
+     * @param areaTreeQuery
+     * @return the ResponseEntity with status 200 (OK) and with body all area
+     */
+    @GetMapping(value = "findTreeData")
     public ResponseEntity findTreeData(AreaTreeQuery areaTreeQuery) {
-        List<Map<String, Object>> rs = areaService.findTreeData(areaTreeQuery, SecurityUtil.getAreaList());
-        return ResultBuilder.buildOk(rs);
+        List<TreeResult> treeResultList = service.findTreeData(areaTreeQuery, SecurityUtil.getAreaList());
+        return ResultBuilder.buildOk(treeResultList);
     }
-
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
+    /**
+     * GET / : 获取分页界面 区域.
+     *
+     */
+    @GetMapping(value = "/")
     public String list() {
         return "modules/sys/areaList";
     }
 
     /**
-     * @param pm
-     * @return
+     * GET / : 获取分页数据源 区域.
+     *
+     * @param pm the pagination information
+     * @return the ResponseEntity with status 200 (OK) and with body all area
      */
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
-    public ResponseEntity getPage(PageModel<Area> pm) {
-        areaService.findPage(pm, SecurityUtil.dataScopeFilter());
-        JSON rs = JsonUtil.getInstance().setRecurrenceStr("creator_name").toJsonObject(pm);
-        return ResultBuilder.buildObject(rs);
+    @GetMapping(value = "/page")
+    @Timed
+    public ResponseEntity getPage(PageModel pm) {
+        service.findPage(pm, SecurityUtil.dataScopeFilter());
+        JSON json = JsonUtil.getInstance().setRecurrenceStr().toJsonObject(pm);
+        return ResultBuilder.buildObject(json);
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    /**
+     * GET / : 保存 a 区域Vo 页.
+     *
+     * @param areaVo
+     */
+    @GetMapping(value = "/edit")
     @Timed
-    public String form(Area area) {
-        if (area == null) {
-            throw new RuntimeMsgException("无法获取区域管理数据");
+    public String form(AreaVo areaVo) {
+        if (areaVo == null) {
+            throw new RuntimeMsgException(PublicUtil.toAppendStr("查询模块管理失败，原因：无法查找到编号区域"));
         }
-        if (PublicUtil.isNotEmpty(area.getId())) {
-            Area item = areaService.findTopByParentId(area.getParentId());
-            if (item != null) {
-                area.setSort(area.getSort() + item.getSort());
-            }
+        if (PublicUtil.isNotEmpty(areaVo.getParentId())) {
+            service.findOptionalTopByParentId(areaVo.getParentId()).ifPresent(item -> areaVo.setSort(item.getSort() + 30));
+            service.findOneById(areaVo.getParentId()).ifPresent(item -> areaVo.setParentName(item.getName()));
         }
-        if (area.getSort() == null) {
-            area.setSort(30);
+        if (areaVo.getSort() == null) {
+            areaVo.setSort(30);
         }
-        if (PublicUtil.isNotEmpty(area.getParentId())) {
-            area.setParent(areaService.findOne(area.getParentId()));
-        }
-
         return "modules/sys/areaForm";
     }
 
     /**
-     * @param area
-     * @return
+     * POST / : 保存 a 区域Vo.
+     *
+     * @param {className}Vo
      */
-    @RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity save(Area area) {
-        log.debug("REST request to save Area : {}", area);
-        Area areaValidate = new Area(area.getId());
-        areaValidate.setCode(area.getCode());
-        if (PublicUtil.isNotEmpty(area.getCode()) && !checkByProperty(areaValidate)) {
-            throw new RuntimeMsgException("保存区域管理'", area.getCode(), "'失败，区域编码已存在");
-        }
-        areaService.save(area);
-        return ResultBuilder.buildOk("保存区域管理成功");
+    public ResponseEntity save(@Valid @RequestBody AreaVo areaVo) {
+        log.debug("REST request to save Area : {}", areaVo);
+        service.save(areaVo);
+        return ResultBuilder.buildOk("保存区域成功");
     }
 
     /**
-     * @param ids
-     * @return
+     * DELETE //:id : delete the "id" Area.
+     *
+     * @param ids the id of the area to delete
+     * @return the ResponseEntity with status 200 (OK)
      */
-    @RequestMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
-            + "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
+            + "}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
         log.debug("REST request to delete Area: {}", ids);
-        areaService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
-        return ResultBuilder.buildOk("删除区域管理成功");
+        service.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        return ResultBuilder.buildOk("删除区域成功");
     }
-
-    @RequestMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
-            + "}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    /**
+     * lock //:id : lockOrUnLock the "id" Area.
+     *
+     * @param ids the id of the area to lock
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @PostMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
+            + "}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {
         log.debug("REST request to lockOrUnLock Area: {}", ids);
-        areaService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
-        return ResultBuilder.buildOk("操作区域管理成功");
+        service.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        return ResultBuilder.buildOk("操作区域成功");
     }
 
 }

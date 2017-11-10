@@ -1,7 +1,7 @@
 <div class="portlet light bordered">
     <div class="portlet-title">
         <div class="caption font-blue">
-            <i class="fa fa-globe font-blue"></i><#if taskScheduleJob.id??>编辑<#else>添加</#if>任务调度
+            <i class="fa fa-globe font-blue"></i><#if taskScheduleJobVo.id??>编辑<#else>添加</#if>任务调度
         </div>
         <div class="actions">
             <div class="btn-group">
@@ -22,19 +22,19 @@
                        messages:{
 					   }}}">
             <div class="form-body">
-                <input type="hidden" name="id" value="${(taskScheduleJob.id)!}"/>
+                <input type="hidden" name="id" value="${(taskScheduleJobVo.id)!}"/>
                 <div class="form-group">
                     <label class="control-label col-md-3">名称<span class="required">*</span></label>
                     <div class="col-md-5">
                         <input type="text" class="form-control required" id="name" name="name"
-                               value="${(taskScheduleJob.name)!}" htmlEscape="false" maxlength="255">
+                               value="${(taskScheduleJobVo.name)!}" htmlEscape="false" maxlength="255">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">分组<span class="required">*</span></label>
                     <div class="col-md-5">
                         <input type="text" class="form-control required" id="group" name="group"
-                               value="${(taskScheduleJob.group)!}" htmlEscape="false" maxlength="255">
+                               value="${(taskScheduleJobVo.group)!}" htmlEscape="false" maxlength="255">
                         <label class="help-block"> 名称和分组不能同时重复</label>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
                     <label class="control-label col-md-3">调用类名<span class="required">*</span></label>
                     <div class="col-md-5">
                         <input type="text" class="form-control " id="beanClass" name="beanClass"
-                               value="${(taskScheduleJob.beanClass)!}" htmlEscape="false" maxlength="255">
+                               value="${(taskScheduleJobVo.beanClass)!}" htmlEscape="false" maxlength="255">
                         <label class="help-block"> 包名+类名</label>
                     </div>
                 </div>
@@ -50,21 +50,21 @@
                     <label class="control-label col-md-3">spring bean<span class="required">*</span></label>
                     <div class="col-md-5">
                         <input type="text" class="form-control " id="springId" name="springId"
-                               value="${(taskScheduleJob.springId)!}" htmlEscape="false" maxlength="255"">
+                               value="${(taskScheduleJobVo.springId)!}" htmlEscape="false" maxlength="255"">
                         <label class="help-block"> spring bean 和 调用类名必填一项</label>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">是否启动<span class="required">*</span></label>
                     <div class="col-md-5">
-                    <@albedo.form name="jobStatus" dictCode="sys_yes_no" cssClass="required" boxType="radio" value="${(taskScheduleJob.jobStatus)!}" > </@albedo.form>
+                    <@albedo.form name="jobStatus" dictCode="sys_yes_no" cssClass="required" boxType="radio" value="${(taskScheduleJobVo.jobStatus)!}" > </@albedo.form>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">cron表达式<span class="required">*</span></label>
                     <div class="col-md-5">
                         <input type="text" class="form-control required" id="cronExpression" name="cronExpression"
-                               value="${(taskScheduleJob.cronExpression)!}" htmlEscape="false" maxlength="255">
+                               value="${(taskScheduleJobVo.cronExpression)!}" htmlEscape="false" maxlength="255">
                         <label class="help-block">每隔5秒执行一次：*/5 * * * * ?</label>
 
                         <label class="help-block">每隔1分钟执行一次：0 */1 * * * ?</label>
@@ -87,21 +87,21 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">是否当前任务<span class="required">*</span></label>
                     <div class="col-md-5">
-                    <@albedo.form name="isConcurrent" dictCode="sys_yes_no" cssClass="required" boxType="radio" value="${(taskScheduleJob.isConcurrent)!}" > </@albedo.form>
+                    <@albedo.form name="isConcurrent" dictCode="sys_yes_no" cssClass="required" boxType="radio" value="${(taskScheduleJobVo.isConcurrent)!}" > </@albedo.form>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">调用方法名<span class="required">*</span></label>
                     <div class="col-md-5">
                         <input type="text" class="form-control required" id="methodName" name="methodName"
-                               value="${(taskScheduleJob.methodName)!}" htmlEscape="false" maxlength="255">
+                               value="${(taskScheduleJobVo.methodName)!}" htmlEscape="false" maxlength="255">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">方法参数</label>
                     <div class="col-md-5">
                         <textarea class="form-control" name="methodParams" rows="5" maxlength="255"
-                                  class="input-xxlarge ">${(taskScheduleJob.methodParams)! }</textarea>
+                                  class="input-xxlarge ">${(taskScheduleJobVo.methodParams)! }</textarea>
                         <label class="help-block">单个 {value:'test',attrType:'String',format:''} 多个加[] json 语法</label>
                         <label class="help-block">value 参数值 attrType 参数类型 Integer Long Short Float Double Date
                             format当类型为Date 时有效</label>
@@ -111,14 +111,14 @@
                     <label class="control-label col-md-3">业务编号</label>
                     <div class="col-md-5">
                         <input type="text" class="form-control" id="sourceId" name="sourceId"
-                               value="${(taskScheduleJob.sourceId)!}" htmlEscape="false" maxlength="255">
+                               value="${(taskScheduleJobVo.sourceId)!}" htmlEscape="false" maxlength="255">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">备注</label>
                     <div class="col-md-5">
                         <textarea class="form-control" name="description" rows="5" maxlength="255"
-                                  class="input-xxlarge ">${(taskScheduleJob.description)! }</textarea>
+                                  class="input-xxlarge ">${(taskScheduleJobVo.description)! }</textarea>
                     </div>
                 </div>
                 <div class="form-actions">

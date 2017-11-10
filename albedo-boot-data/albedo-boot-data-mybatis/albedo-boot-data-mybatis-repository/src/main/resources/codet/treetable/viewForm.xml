@@ -45,7 +45,7 @@
                     </label>
                     <div class="col-md-5">
                         <<@at />albedo.treeSelect id="${className}" cssClass="required" allowClear="true" name="parentId" value="<@jspEl />{(${className}Vo.parentId)!}" labelName="parentName"
-                        labelValue="<@jspEl />{(${className}Vo.parent.name)!}" extId="<@jspEl />{(${className}Vo.id)!}" title="选择上级${functionNameSimple}" url="<@jspEl />{ctx}/${urlPrefix}/findTreeData"> </<@at />albedo.treeSelect>
+                        labelValue="<@jspEl />{(${className}Vo.parentName)!}" extId="<@jspEl />{(${className}Vo.id)!}" title="选择上级${functionNameSimple}" url="<@jspEl />{ctx}/${urlPrefix}/findTreeData"> </<@at />albedo.treeSelect>
                     </div>
                 </div>
 			<#elseif c.isEdit?? && c.isEdit == 1 && (c.isNotBaseTreeField || c.simpleJavaField == 'name' || c.simpleJavaField == 'sort') && (c.isNotBaseField || c.simpleJavaField == 'description')>

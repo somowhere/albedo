@@ -7,13 +7,17 @@ import com.albedo.java.common.data.persistence.BaseEntity;
 import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.service.TreeService;
+import com.albedo.java.common.service.TreeVoService;
 import com.albedo.java.modules.sys.domain.Area;
 import com.albedo.java.modules.sys.domain.Org;
 import com.albedo.java.modules.sys.repository.AreaRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.QueryCondition;
+import com.albedo.java.vo.sys.AreaVo;
 import com.albedo.java.vo.sys.query.AreaTreeQuery;
+import com.albedo.java.vo.sys.query.TreeQuery;
+import com.albedo.java.vo.sys.query.TreeResult;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
@@ -30,35 +34,37 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class AreaService extends TreeService<AreaRepository, Area, String> {
+public class AreaService extends TreeVoService<AreaRepository, Area, String, AreaVo> {
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public List<Map<String, Object>> findTreeData(AreaTreeQuery areaTreeQuery, List<Area> list) {
-
+    public List<TreeResult> findTreeData(AreaTreeQuery areaTreeQuery,
+                                         List<Area> list) {
         String extId = areaTreeQuery != null ? areaTreeQuery.getExtId() : null,
                 all = areaTreeQuery != null ? areaTreeQuery.getAll() : null,
                 parentId = areaTreeQuery != null ? areaTreeQuery.getParentId() : null;
         Integer ltLevel = areaTreeQuery != null ? areaTreeQuery.getLtLevel() : null,
                 level = areaTreeQuery != null ? areaTreeQuery.getLevel() : null;
-        List<Map<String, Object>> mapList = Lists.newArrayList();
-        for (int i = 0; i < list.size(); i++) {
-            Area e = list.get(i);
+        List<TreeResult> mapList = Lists.newArrayList();
+        TreeResult treeResult = null;
+        for (Area e : list) {
             if ((StringUtil.isBlank(extId) || (extId != null && !extId.equals(e.getId()) && e.getParentIds().indexOf("," + extId + ",") == -1))
                     && (all != null || BaseEntity.FLAG_NORMAL.equals(e.getStatus()))
                     && (ltLevel == null || ltLevel >= e.getLevel())
                     && (level == null || level.equals(e.getLevel()))
                     && (PublicUtil.isEmpty(parentId) || e.getParentId().equals(parentId))) {
-                Map<String, Object> map = Maps.newHashMap();
-                map.put("id", e.getId());
-                map.put("pId", e.getParentId());
-                map.put("name", e.getName());
-                map.put("iconCls", "fa fa-th-large");
-                map.put("pIds", e.getParentIds());
-                mapList.add(map);
+                treeResult = new TreeResult();
+                treeResult.setId(e.getId());
+                treeResult.setPid(PublicUtil.isEmpty(e.getParentId()) ? "0" : e.getParentId());
+                treeResult.setLabel(e.getName());
+                treeResult.setKey(e.getName());
+                treeResult.setValue(e.getId());
+                treeResult.setIconCls("fa fa-th-large");
+                mapList.add(treeResult);
             }
         }
         return mapList;
     }
+
 
     public List<Area> findAllList() {
         SpecificationDetail<Area> spd = DynamicSpecifications

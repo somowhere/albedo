@@ -15,12 +15,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 /**
  * ${functionName}EntityVo ${functionNameSimple}
  * @author ${functionAuthor}
  * @version ${functionVersion}
  */
-@Entity(table = "${table.name}")
 @Data @ToString @NoArgsConstructor @AllArgsConstructor
 public class ${ClassName}Vo extends DataEntityVo {
 	
@@ -35,9 +39,10 @@ public class ${ClassName}Vo extends DataEntityVo {
 	<@generateFields/>
 
 
+	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof ${ClassName}Vo == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof ${ClassName}Vo == false){ return false;}
+		if(this == obj) {return true;}
 		${ClassName}Vo other = (${ClassName}Vo)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
@@ -48,11 +53,15 @@ public class ${ClassName}Vo extends DataEntityVo {
 	//columns START
 	<#list table.columnList as column>
 		<#if !column.pk && column.isNotBaseField>
-	/** ${column.simpleJavaField} ${column.comments} */<#if table.parentExists && table.parentTableFk == column.name>
+	/** ${column.simpleJavaField} ${column.comments} */
+	        <#if table.parentExists && table.parentTableFk == column.name>
 	private ${table.parent.className} ${column.simpleJavaField};
-	<#elseif column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
+	        <#elseif column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
 	private String ${column.simpleJavaField}Id;
 	private ${column.simpleJavaType} ${column.simpleJavaField};
+	        <#else> ${column.hibernateValidatorExprssion}
+	private ${column.simpleJavaType} ${column.simpleJavaField};
+			</#if>
 		</#if>
 	</#list>
 	//columns END

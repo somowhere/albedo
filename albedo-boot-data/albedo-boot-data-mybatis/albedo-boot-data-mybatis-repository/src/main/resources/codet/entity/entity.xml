@@ -17,6 +17,11 @@ import lombok.ToString;
 import ${i};
 </#list>
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.Length;
+
 /**
  * ${functionName}Entity ${functionNameSimple}
  * @author ${functionAuthor}
@@ -49,20 +54,20 @@ public class ${ClassName} extends DataEntity {
 	public void preUpdate() {
 
 	}
-
+    @Override
 	public int hashCode() {
 		return new HashCodeBuilder()
 		<#list table.pkColumnList as column>
 			<#if !table.compositeId>
-			.append(get${column.simpleJavaField?cap_first}())
+			.append(<#if column.simpleJavaType == "boolean">is<#else>get</#if>${column.simpleJavaField?cap_first}())
 			</#if>
 		</#list>
 			.toHashCode();
 	}
-	
+	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof ${ClassName} == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof ${ClassName} == false){ return false;}
+		if(this == obj){ return true;}
 		${ClassName} other = (${ClassName})obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
@@ -127,7 +132,7 @@ public class ${ClassName} extends DataEntity {
 	<#else>
 	/** ${table.pkColumn.simpleJavaField} ${table.pkColumn.comments} */
 	public void setId(${table.pkColumn.javaType} id) {
-		if (PublicUtil.isNotEmpty(id))this.id = id;
+		if (PublicUtil.isNotEmpty(id)){this.id = id;}
 	}
 	/** ${table.pkColumn.simpleJavaField} ${table.pkColumn.comments} */
 	public ${table.pkColumn.javaType} getId() {

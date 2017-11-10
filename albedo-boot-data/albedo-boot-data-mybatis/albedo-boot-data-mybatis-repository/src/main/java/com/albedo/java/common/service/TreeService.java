@@ -8,6 +8,7 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.sys.query.TreeQuery;
+import com.albedo.java.vo.sys.query.TreeResult;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.transaction.annotation.Transactional;
@@ -102,20 +103,22 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public List<Map<String, Object>> findTreeData(TreeQuery query) {
+    public List<TreeResult> findTreeData(TreeQuery query) {
         String extId = query != null ? query.getExtId() : null, all = query != null ? query.getAll() : null;
-        List<Map<String, Object>> mapList = Lists.newArrayList();
+        List<TreeResult> mapList = Lists.newArrayList();
         List<T> list = repository.findAllByStatusNot(BaseEntity.FLAG_DELETE);
+        TreeResult treeResult = null;
         for (T e : list) {
             if ((PublicUtil.isEmpty(extId)
                     || PublicUtil.isEmpty(e.getParentIds()) || (PublicUtil.isNotEmpty(extId) && !extId.equals(e.getId()) && e.getParentIds() != null && e.getParentIds().indexOf("," + extId + ",") == -1))
                     && (all != null || (all == null && BaseEntity.FLAG_NORMAL.equals(e.getStatus())))) {
-                Map<String, Object> map = Maps.newHashMap();
-                map.put("id", e.getId());
-                map.put("pId", PublicUtil.isEmpty(e.getParentId()) ? "0" : e.getParentId());
-                map.put("name", e.getName());
-                map.put("pIds", e.getParentIds());
-                mapList.add(map);
+                treeResult = new TreeResult();
+                treeResult.setId(e.getId());
+                treeResult.setPid(PublicUtil.isEmpty(e.getParentId()) ? "0" : e.getParentId());
+                treeResult.setLabel(e.getName());
+                treeResult.setKey(e.getName());
+                treeResult.setValue(e.getId());
+                mapList.add(treeResult);
             }
         }
         return mapList;

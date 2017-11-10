@@ -13,7 +13,7 @@ package ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModul
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.albedo.java.common.service.TreeService;
+import com.albedo.java.common.service.TreeVoService;
 import com.albedo.java.vo.sys.query.TreeQuery;
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
 import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Vo;

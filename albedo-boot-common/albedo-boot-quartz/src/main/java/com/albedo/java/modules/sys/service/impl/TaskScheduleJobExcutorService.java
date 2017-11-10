@@ -5,6 +5,7 @@ package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.base.BaseInit;
 import com.albedo.java.common.service.DataService;
+import com.albedo.java.common.service.DataVoService;
 import com.albedo.java.modules.sys.domain.TaskScheduleJob;
 import com.albedo.java.modules.sys.repository.TaskScheduleJobRepository;
 import com.albedo.java.modules.sys.service.TaskScheduleJobService;
@@ -15,6 +16,7 @@ import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.util.spring.SpringContextHolder;
+import com.albedo.java.vo.sys.TaskScheduleJobVo;
 import org.apache.commons.lang.StringUtils;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
@@ -37,8 +39,8 @@ import java.util.Set;
 @ConditionalOnProperty(name = Globals.ALBEDO_QUARTZENABLED)
 @Service
 @BaseInit
-public class TaskScheduleJobExcutorService extends DataService<TaskScheduleJobRepository,
-        TaskScheduleJob, String>
+public class TaskScheduleJobExcutorService extends DataVoService<TaskScheduleJobRepository,
+        TaskScheduleJob, String, TaskScheduleJobVo>
 //		implements ITaskScheduleJobService
 {
 

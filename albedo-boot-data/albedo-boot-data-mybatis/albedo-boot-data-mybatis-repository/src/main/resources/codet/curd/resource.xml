@@ -24,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 
 /**
  * ${functionName}Controller ${functionNameSimple}
@@ -50,7 +51,7 @@ public class ${ClassName}Resource extends DataVoResource<${ClassName}Service, ${
 	 */
 	@GetMapping(value = "/page")
 	@Timed
-	public ResponseEntity getPage(PageModel<${ClassName}> pm) {
+	public ResponseEntity getPage(PageModel pm) {
 	    service.findPage(pm, SecurityUtil.dataScopeFilter());
 		JSON json = JsonUtil.getInstance().setRecurrenceStr(<#assign firstListField = true><#list table.columnList as column><#if column.simpleJavaType == "User" || column.simpleJavaType == "Org" || column.simpleJavaType == "Area"><#if !firstListField>, </#if>"<#if column.name == 'created_by'>creator<#elseif column.name == 'last_modified_by'>modifier<#else>${column.simpleJavaField}</#if>_${column.defaultJavaFieldName}"<#assign firstListField = false></#if></#list>).toJsonObject(pm);
 		return ResultBuilder.buildObject(json);
@@ -58,17 +59,17 @@ public class ${ClassName}Resource extends DataVoResource<${ClassName}Service, ${
 
 	@GetMapping(value = "/edit")
 	@Timed
-	public String form(${ClassName} ${className}) {
-		if(${className} == null){
+	public String form(${ClassName}Vo ${className}Vo) {
+		if(${className}Vo == null){
 			throw new RuntimeMsgException(PublicUtil.toAppendStr("查询${functionNameSimple}失败，原因：无法查找到编号为[", request.getParameter("id"), "]的${functionNameSimple}"));
 		}
 		return "${lastPackageName}/${viewPrefix}Form";
 	}
 
 	/**
-	 * POST / : Save a ${className}.
+	 * POST / : Save a ${className}Vo.
 	 *
-	 * @param ${className} the HTTP ${className}
+	 * @param ${className}Vo the HTTP ${className}
 	 */
 	@PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed

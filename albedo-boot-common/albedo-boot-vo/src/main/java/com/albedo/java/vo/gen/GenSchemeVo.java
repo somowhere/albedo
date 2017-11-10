@@ -1,11 +1,13 @@
 package com.albedo.java.vo.gen;
 
+import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.vo.base.DataEntityVo;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.Entity;
 
 /**
@@ -106,5 +108,13 @@ public class GenSchemeVo extends DataEntityVo {
      * 上级模块 ID 仅当syncModule 为 true有效
      */
     private String parentModuleId;
-    
+
+    /**
+     * true 使用ajax视图
+     *
+     * @return
+     */
+    public boolean getModalView() {
+        return SystemConfig.YES.equals(viewType);
+    }
 }

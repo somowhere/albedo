@@ -69,6 +69,8 @@ public class GenUtil {
             } else if (StringUtil.startsWithIgnoreCase(column.getJdbcType(), "DATETIME") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "DATE") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "TIMESTAMP")) {
                 column.setJavaType(Date.class.getName());
                 column.setShowType("dateselect");
+            } else if (StringUtil.startsWithIgnoreCase(column.getJdbcType(), "BIT")) {
+                column.setJavaType(Boolean.class.getName());
             } else if (StringUtil.startsWithIgnoreCase(column.getJdbcType(), "INT") ||
                     StringUtil.startsWithIgnoreCase(column.getJdbcType(), "TINYINT") ||
                     StringUtil.startsWithIgnoreCase(column.getJdbcType(), "BIGINT")

@@ -44,6 +44,7 @@
     <!-- java类型 -->
     <javaType>
         <dict val="String" name="String"/>
+        <dict val="Boolean" name="Boolean"/>
         <dict val="Long" name="Long"/>
         <dict val="Integer" name="Integer"/>
         <dict val="Double" name="Double"/>

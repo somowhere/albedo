@@ -13,5 +13,6 @@ public class TreeResult {
     private String label;
     private String value;
     private String key;
+    private String iconCls;
 
 }

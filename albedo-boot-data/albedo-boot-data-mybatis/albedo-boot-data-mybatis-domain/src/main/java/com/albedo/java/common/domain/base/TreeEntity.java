@@ -51,7 +51,7 @@ public abstract class TreeEntity<T extends TreeEntity> extends IdEntity {
 
     /*** 父模块名称 */
     @Transient
-    private String parentName;
+    protected String parentName;
 
     public TreeEntity() {
         super();
