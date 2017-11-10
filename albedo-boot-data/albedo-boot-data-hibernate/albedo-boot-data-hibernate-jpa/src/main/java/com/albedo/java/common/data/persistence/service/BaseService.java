@@ -21,7 +21,7 @@ public class BaseService<Repository extends BaseRepository<T, PK>, T extends Bas
     @Autowired
     public Repository repository;
 
-    public Class<T> persistentClass;
+    private Class<T> persistentClass;
 
     @SuppressWarnings("unchecked")
     public BaseService() {
@@ -43,5 +43,13 @@ public class BaseService<Repository extends BaseRepository<T, PK>, T extends Bas
     public Iterable<T> save(Iterable<T> entitys) {
         entitys.forEach(item -> save(item));
         return entitys;
+    }
+
+    public Class<T> getPersistentClass() {
+        return persistentClass;
+    }
+
+    public void setPersistentClass(Class<T> persistentClass) {
+        this.persistentClass = persistentClass;
     }
 }

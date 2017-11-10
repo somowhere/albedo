@@ -8,7 +8,9 @@ import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.base.DataEntityVo;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.collect.Lists;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
@@ -22,6 +24,7 @@ import java.util.List;
  */
 @Data
 @ToString
+@NoArgsConstructor
 public class GenTableVo extends DataEntityVo {
 
     public static final String F_NAME = "name";
@@ -58,7 +61,10 @@ public class GenTableVo extends DataEntityVo {
     /*** 表单提交列 - 列表 */
     @NotNull
     private List<GenTableColumnVo> columnFormList;
-
+    public GenTableVo(String name, String comments) {
+        this.name = name;
+        this.comments = comments;
+    }
     public List<GenTableColumnVo> getPkColumnList() {
         if (PublicUtil.isEmpty(pkColumnList) && PublicUtil.isNotEmpty(columnList)) {
             if (pkColumnList == null) {

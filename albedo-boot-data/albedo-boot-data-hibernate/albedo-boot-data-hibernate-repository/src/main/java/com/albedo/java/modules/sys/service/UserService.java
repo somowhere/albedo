@@ -2,7 +2,7 @@ package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.data.persistence.SpecificationDetail;
-import com.albedo.java.common.service.DataService;
+import com.albedo.java.common.service.DataVoService;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
 import com.albedo.java.modules.sys.repository.RoleRepository;
@@ -12,9 +12,7 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.RandomUtil;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
-import com.albedo.java.vo.sys.UserForm;
 import com.albedo.java.vo.sys.UserVo;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -31,7 +29,7 @@ import java.util.Optional;
  */
 @Service
 @Transactional
-public class UserService extends DataService<UserRepository, User, String> {
+public class UserService extends DataVoService<UserRepository, User, String, UserVo> {
 
     @Resource
     private PersistentTokenRepository persistentTokenRepository;
@@ -39,18 +37,21 @@ public class UserService extends DataService<UserRepository, User, String> {
     @Resource
     private RoleRepository roleRepository;
 
+    @Override
     public UserVo copyBeanToVo(User user) {
         UserVo userResult = new UserVo();
-        BeanUtils.copyProperties(user, userResult);
+        super.copyBeanToVo(user, userResult);
         userResult.setRoleNames(user.getRoleNames());
-        if (user.getOrg() != null) userResult.setOrgName(user.getOrg().getName());
+        if (user.getOrg() != null) {
+            userResult.setOrgName(user.getOrg().getName());
+        }
         return userResult;
     }
 
-    public User copyFormToBean(UserForm userForm) {
-        User user = new User();
-        BeanUtils.copyProperties(userForm, user);
-        return user;
+    @Override
+    public void copyVoToBean(UserVo userVo, User user) {
+        super.copyVoToBean(userVo, user);
+        user.setRoleIdList(userVo.getRoleIdList());
     }
 
 
@@ -67,8 +68,9 @@ public class UserService extends DataService<UserRepository, User, String> {
                 });
     }
 
-    public UserVo save(UserForm userForm) {
-        User user = copyFormToBean(userForm);
+    @Override
+    public void save(UserVo userVo) {
+        User user = copyVoToBean(userVo);
         if (user.getLangKey() == null) {
             user.setLangKey("zh-cn"); // default language
         } else {
@@ -80,7 +82,6 @@ public class UserService extends DataService<UserRepository, User, String> {
         user = repository.save(user);
         log.debug("Save Information for User: {}", user);
 
-        return copyBeanToVo(user);
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)

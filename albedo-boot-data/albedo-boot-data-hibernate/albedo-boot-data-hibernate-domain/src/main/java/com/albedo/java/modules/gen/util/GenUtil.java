@@ -2,7 +2,6 @@ package com.albedo.java.modules.gen.util;
 
 import com.albedo.java.common.domain.base.DataEntity;
 import com.albedo.java.common.domain.base.TreeEntity;
-import com.albedo.java.modules.gen.domain.GenScheme;
 import com.albedo.java.modules.gen.domain.GenTable;
 import com.albedo.java.modules.gen.domain.GenTableColumn;
 import com.albedo.java.modules.gen.domain.GenTemplate;
@@ -18,6 +17,9 @@ import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.FreeMarkers;
 import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.mapper.JaxbMapper;
+import com.albedo.java.vo.gen.GenSchemeVo;
+import com.albedo.java.vo.gen.GenTableColumnVo;
+import com.albedo.java.vo.gen.GenTableVo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.io.Charsets;
@@ -45,8 +47,8 @@ public class GenUtil {
      *
      * @param genTable
      */
-    public static void initColumnField(GenTable genTable) {
-        for (GenTableColumn column : genTable.getColumnList()) {
+    public static void initColumnField(GenTableVo genTable) {
+        for (GenTableColumnVo column : genTable.getColumnList()) {
 
             // 如果是不是新增列，则跳过。
             if (StringUtil.isNotBlank(column.getId())) {
@@ -170,10 +172,11 @@ public class GenUtil {
 
     public static String getHibernateValidatorExpression(GenTableColumn c) {
         if (!SystemConfig.YES.equals(c.getIsPk()) && !SystemConfig.YES.equals(c.getIsNull())) {
-            if (c.getJavaType().endsWith(SystemConfig.TYPE_STRING))
+            if (c.getJavaType().endsWith(SystemConfig.TYPE_STRING)) {
                 return (new StringBuilder()).append("@NotBlank ").append(getNotRequiredHibernateValidatorExpression(c)).toString();
-            else
+            } else {
                 return (new StringBuilder()).append("@NotNull ").append(getNotRequiredHibernateValidatorExpression(c)).toString();
+            }
         } else {
             return getNotRequiredHibernateValidatorExpression(c);
         }
@@ -181,8 +184,9 @@ public class GenUtil {
 
     public static String getNotRequiredHibernateValidatorExpression(GenTableColumn c) {
         String result = "", javaType = c.getJavaType(), jdbcType = c.getJdbcType();
-        if (c.getName().indexOf("mail") >= 0)
+        if (c.getName().indexOf("mail") >= 0) {
             result = (new StringBuilder()).append(result).append("@Email ").toString();
+        }
         ;
         if (javaType.endsWith(SystemConfig.TYPE_STRING)) {
             Integer size = jdbcType.equals("text") ? 65535 : Integer.valueOf(jdbcType.substring(jdbcType.indexOf("(") + 1, jdbcType.length() - 1));
@@ -256,7 +260,7 @@ public class GenUtil {
      * 根据分类获取模板列表
      *
      * @param config
-     * @param genScheme
+     * @param category
      * @param isChildTable 是否是子表
      * @return
      */
@@ -294,10 +298,9 @@ public class GenUtil {
      * 获取数据模型
      *
      * @param genScheme
-     * @param genTable
      * @return
      */
-    public static Map<String, Object> getDataModel(GenScheme genScheme) {
+    public static Map<String, Object> getDataModel(GenSchemeVo genScheme) {
         Map<String, Object> model = Maps.newHashMap();
 
         model.put("packageName", StringUtil.lowerCase(genScheme.getPackageName()));
@@ -329,7 +332,7 @@ public class GenUtil {
      *
      * @param tpl
      * @param model
-     * @param replaceFile
+     * @param isReplaceFile
      * @return
      */
     public static String generateToFile(GenTemplate tpl, Map<String, Object> model, boolean isReplaceFile) {
@@ -341,8 +344,9 @@ public class GenUtil {
         logger.debug(" fileName === " + fileName);
         if ("entityId".equals(tpl.getName())) {
             GenTable table = (GenTable) model.get("table");
-            if (table.isNotCompositeId())
+            if (table.isNotCompositeId()) {
                 return "因不满足联合主键条件已忽略" + fileName + "<br/>";
+            }
         }
 
         // 获取生成文件内容

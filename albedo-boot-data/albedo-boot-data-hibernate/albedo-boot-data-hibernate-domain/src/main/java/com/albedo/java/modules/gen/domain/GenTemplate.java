@@ -30,6 +30,7 @@ import java.util.List;
 public class GenTemplate extends IdEntity {
 
     private static final long serialVersionUID = 1L;
+    public static final String F_NAME = "name";
     @Length(min = 1, max = 200)
     @Column(name = "name_")
     private String name; // 名称

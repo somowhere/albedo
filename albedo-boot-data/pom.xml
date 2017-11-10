@@ -12,8 +12,8 @@
     <artifactId>albedo-boot-data</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <!--<module>albedo-boot-data-hibernate</module>-->
-        <module>albedo-boot-data-mybatis</module>
+        <module>albedo-boot-data-hibernate</module>
+        <!--<module>albedo-boot-data-mybatis</module>-->
         <module>albedo-boot-data-config</module>
     </modules>
 

@@ -11,9 +11,11 @@ import com.albedo.java.util.exception.RuntimeMsgException;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.collect.Lists;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.CascadeType;
+import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;

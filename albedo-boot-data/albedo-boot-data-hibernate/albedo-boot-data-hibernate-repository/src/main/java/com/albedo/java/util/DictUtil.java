@@ -6,6 +6,7 @@ import com.albedo.java.modules.sys.repository.DictRepository;
 import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.domain.DictVm;
 import com.albedo.java.util.spring.SpringContextHolder;
+import com.albedo.java.vo.sys.query.DictQuery;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -340,12 +341,18 @@ public class DictUtil {
         Dict dict = getCodeItem(code);
         return dict == null ? null : dict.getVal();
     }
-
+    public static List<Dict> getDictList(DictQuery dictQuery) {
+        if (PublicUtil.isNotEmpty(dictQuery.getFilter())) {
+            return getDictListFilterVal(dictQuery.getCode(), dictQuery.getFilter());
+        }
+        return getDictList(dictQuery.getCode());
+    }
     public static List<Dict> getDictList(String code) {
         List<Dict> itemList = Lists.newArrayList();
         for (Dict item : getDictListBycode(code)) {
-            if (Dict.FLAG_NORMAL.equals(item.getStatus()))
+            if (Dict.FLAG_NORMAL.equals(item.getStatus())) {
                 itemList.add(item);
+            }
         }
         return itemList;
     }

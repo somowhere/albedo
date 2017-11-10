@@ -28,15 +28,16 @@ public class TreeService<Repository extends TreeRepository<T, PK>, T extends Tre
 
     public int operateStatusById(PK id, String likeParentIds, Integer status, String lastModifiedBy) {
         return baseRepository.createQuery(
-                PublicUtil.toAppendStr("update ", persistentClass.getSimpleName(), " set status='", status,
+                PublicUtil.toAppendStr("update ", getPersistentClass().getSimpleName(), " set status='", status,
                         "', lastModifiedBy=:p3, lastModifiedDate=:p4 where id = :p1 or parentIds like :p2"),
                 id, likeParentIds, lastModifiedBy, PublicUtil.getCurrentDate()).executeUpdate();
     }
 
+    @Override
     public T save(T entity) {
         String oldParentIds = entity.getParentIds(); // 获取修改前的parentIds，用于更新子节点的parentIds
         if (entity.getParentId() != null) {
-            T parent = repository.findOneById(entity.getParentId());
+            T parent = repository.findOne((PK) entity.getParentId());
 //            if (parent == null || PublicUtil.isEmpty(parent.getId()))
 //                throw new RuntimeMsgException("无法获取模块的父节点，插入失败");
             if (parent != null) {

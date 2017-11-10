@@ -11,7 +11,9 @@ import com.google.common.collect.Sets;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.ToString;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.*;
 
+import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -221,7 +223,9 @@ public class Role extends IdEntity {
         if (PublicUtil.isNotEmpty(orgIdList)) {
             orgs = Sets.newHashSet();
             orgIdList.forEach(o -> {
-                if (PublicUtil.isNotEmpty(o)) orgs.add(new Org(o));
+                if (PublicUtil.isNotEmpty(o)) {
+                    orgs.add(new Org(o));
+                }
             });
         }
     }
@@ -245,7 +249,9 @@ public class Role extends IdEntity {
         if (PublicUtil.isNotEmpty(moduleIdList)) {
             modules = Sets.newHashSet();
             moduleIdList.forEach(m -> {
-                if (PublicUtil.isNotEmpty(m)) modules.add(new Module(m));
+                if (PublicUtil.isNotEmpty(m)) {
+                    modules.add(new Module(m));
+                }
             });
         }
     }

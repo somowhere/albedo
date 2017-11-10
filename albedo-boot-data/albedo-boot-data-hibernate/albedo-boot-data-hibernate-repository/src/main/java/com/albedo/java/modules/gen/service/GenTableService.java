@@ -3,6 +3,7 @@ package com.albedo.java.modules.gen.service;
 import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.service.DataService;
+import com.albedo.java.common.service.DataVoService;
 import com.albedo.java.modules.gen.domain.GenTable;
 import com.albedo.java.modules.gen.domain.GenTableColumn;
 import com.albedo.java.modules.gen.domain.xml.GenConfig;
@@ -16,6 +17,8 @@ import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.exception.RuntimeMsgException;
+import com.albedo.java.vo.gen.GenTableColumnVo;
+import com.albedo.java.vo.gen.GenTableVo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +28,51 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Service class for managing genTables.
  */
 @Service
 @Transactional
-public class GenTableService extends DataService<GenTableRepository, GenTable, String> {
+public class GenTableService extends DataVoService<GenTableRepository,
+        GenTable, String, GenTableVo> {
 
     @Autowired
     private GenTableColumnService genTableColumnService;
 
+
+    @Override
+    public void copyVoToBean(GenTableVo form, GenTable genTable) {
+        super.copyVoToBean(form, genTable);
+        if (genTable != null) {
+            if (PublicUtil.isNotEmpty(form.getColumnFormList())) {
+                genTable.setColumnFormList(form.getColumnFormList().stream()
+                        .map(item -> genTableColumnService.copyVoToBean(item)).collect(Collectors.toList()));
+            }
+            if (PublicUtil.isNotEmpty(form.getColumnList())) {
+                genTable.setColumnList(form.getColumnList().stream()
+                        .map(item -> genTableColumnService.copyVoToBean(item)).collect(Collectors.toList()));
+            }
+        }
+    }
+
+    @Override
+    public void copyBeanToVo(GenTable genTable, GenTableVo result) {
+        super.copyBeanToVo(genTable, result);
+        if (genTable != null) {
+            if (PublicUtil.isNotEmpty(genTable.getColumnFormList())) {
+                result.setColumnFormList(genTable.getColumnFormList().stream()
+                        .map(item -> genTableColumnService.copyBeanToVo(item)).collect(Collectors.toList()));
+            }
+            if (PublicUtil.isNotEmpty(genTable.getColumnList())) {
+                result.setColumnList(genTable.getColumnList().stream()
+                        .map(item -> genTableColumnService.copyBeanToVo(item)).collect(Collectors.toList()));
+            }
+        }
+    }
+
+    @Override
     public GenTable save(GenTable genTable) {
         genTable.setColumnList(genTable.getColumnFormList());
         genTable = repository.save(genTable);
@@ -46,7 +83,7 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
 
     public void delete(List<String> ids, String currentAuditor) {
         ids.forEach(id -> {
-            GenTable entity = repository.findOneById(id);
+            GenTable entity = repository.findOne(id);
             Assert.assertNotNull(entity, "对象 " + id + " 信息为空，删除失败");
             deleteById(id);
             genTableColumnService.deleteByTableId(id, currentAuditor);
@@ -77,11 +114,11 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
         return list.size() == 0;
     }
 
-    public GenTable getTableFormDb(GenTable genTable) {
+    public GenTableVo getTableFormDb(GenTableVo genTable) {
         // 如果有表名，则获取物理表
         if (StringUtil.isNotBlank(genTable.getName())) {
 
-            List<GenTable> list = findTableListFormDb(genTable);
+            List<GenTableVo> list = findTableListFormDb(genTable);
             if (list.size() > 0) {
 
                 // 如果是新增，初始化表属性
@@ -95,10 +132,10 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
                 }
 
                 // 添加新列
-                List<GenTableColumn> columnList = findTableColumnList(genTable);
-                for (GenTableColumn column : columnList) {
+                List<GenTableColumnVo> columnList = findTableColumnList(genTable);
+                for (GenTableColumnVo column : columnList) {
                     boolean b = false;
-                    for (GenTableColumn e : genTable.getColumnList()) {
+                    for (GenTableColumnVo e : genTable.getColumnList()) {
                         if (e.getName().equals(column.getName())) {
                             b = true;
                         }
@@ -108,9 +145,9 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
                     }
                 }
                 // 删除已删除的列
-                for (GenTableColumn e : genTable.getColumnList()) {
+                for (GenTableColumnVo e : genTable.getColumnList()) {
                     boolean b = false;
-                    for (GenTableColumn column : columnList) {
+                    for (GenTableColumnVo column : columnList) {
                         if (column.getName().equals(e.getName())) {
                             b = true;
                         }
@@ -132,7 +169,7 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public List<String> findTablePK(GenTable genTable) {
+    public List<String> findTablePK(GenTableVo genTable) {
         List<String> pkList = null;
         String sql = "";
         if (SystemConfig.isMySql()) {
@@ -145,9 +182,9 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public List<GenTableColumn> findTableColumnList(GenTable genTable) {
+    public List<GenTableColumnVo> findTableColumnList(GenTableVo genTable) {
         List<String[]> GenString = null;
-        List<GenTableColumn> list = null;
+        List<GenTableColumnVo> list = null;
         String sql = "";
         if (SystemConfig.isMySql()) {
             sql = "SELECT t.COLUMN_NAME AS name, (CASE WHEN t.IS_NULLABLE = 'YES' THEN '1' ELSE '0' END) AS isNull, (t.ORDINAL_POSITION * 10) AS sort,t.COLUMN_COMMENT AS comments,t.COLUMN_TYPE AS jdbcType FROM information_schema.`COLUMNS` t WHERE t.TABLE_SCHEMA = (select database()) AND t.TABLE_NAME = :p1 ORDER BY t.ORDINAL_POSITION";
@@ -158,7 +195,7 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
         if (PublicUtil.isNotEmpty(GenString)) {
             list = Lists.newArrayList();
             for (Object[] str : GenString) {
-                list.add(new GenTableColumn(String.valueOf(str[0]), Integer.parseInt(String.valueOf(str[1])),
+                list.add(new GenTableColumnVo(String.valueOf(str[0]), Integer.parseInt(String.valueOf(str[1])),
                         Integer.parseInt(String.valueOf(str[2])), String.valueOf(str[3]), String.valueOf(str[4])));
             }
         } else {
@@ -168,9 +205,9 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public List<GenTable> findTableListFormDb(GenTable genTable) {
+    public List<GenTableVo> findTableListFormDb(GenTableVo genTable) {
         List<String[]> GenString = null;
-        List<GenTable> list = Lists.newArrayList();
+        List<GenTableVo> list = Lists.newArrayList();
         String sql = "";
         if (SystemConfig.isMySql()) {
             sql = "SELECT t.table_name AS name,t.TABLE_COMMENT AS comments FROM information_schema.`TABLES` t WHERE t.TABLE_SCHEMA = (select database()) AND t.TABLE_NAME=:p1 ORDER BY t.TABLE_NAME";
@@ -184,31 +221,32 @@ public class GenTableService extends DataService<GenTableRepository, GenTable, S
             GenString = baseRepository.createSqlQuery(sql.replace(" AND t.TABLE_NAME=:p1", "")).list();
         }
 
+
         if (PublicUtil.isNotEmpty(GenString)) {
             for (Object[] str : GenString) {
-                list.add(new GenTable((String) str[0], (String) str[1]));
+                list.add(new GenTableVo((String) str[0], (String) str[1]));
             }
         }
         return list;
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public Map<String, Object> findFormData(GenTable genTable) {
+    public Map<String, Object> findFormData(GenTableVo genTableVo) {
         Map<String, Object> map = Maps.newHashMap();
-        map.put("tableList", PublicUtil.convertComboDataList(findTableListFormDb(new GenTable()), GenTable.F_NAME, GenTable.F_NAMESANDCOMMENTS));
+        map.put("tableList", PublicUtil.convertComboDataList(findTableListFormDb(new GenTableVo()), GenTable.F_NAME, GenTable.F_NAMESANDCOMMENTS));
         // 验证表是否存在
-        if (StringUtil.isBlank(genTable.getId()) && !checkTableName(genTable.getName())) {
-            throw new RuntimeMsgException(PublicUtil.toAppendStr("下一步失败！", genTable.getName(), " 表已经添加！"));
+        if (StringUtil.isBlank(genTableVo.getId()) && !checkTableName(genTableVo.getName())) {
+            throw new RuntimeMsgException(PublicUtil.toAppendStr("下一步失败！", genTableVo.getName(), " 表已经添加！"));
         }
-        if (PublicUtil.isNotEmpty(genTable.getId())) {
-            genTable = findOne(genTable.getId());
+        if (PublicUtil.isNotEmpty(genTableVo.getId())) {
+            genTableVo = findOneVo(genTableVo.getId());
         }
         // 获取物理表字段
-        genTable = getTableFormDb(genTable);
-        map.put("columnList", PublicUtil.convertComboDataList(genTable.getColumnList(), GenTable.F_NAME, GenTable.F_NAMESANDCOMMENTS));
+        genTableVo = getTableFormDb(genTableVo);
+        map.put("columnList", PublicUtil.convertComboDataList(genTableVo.getColumnList(), GenTable.F_NAME, GenTable.F_NAMESANDCOMMENTS));
 
 
-        map.put("genTable", genTable);
+        map.put("genTableVo", genTableVo);
         GenConfig config = GenUtil.getConfig();
         map.put("config", config);
 

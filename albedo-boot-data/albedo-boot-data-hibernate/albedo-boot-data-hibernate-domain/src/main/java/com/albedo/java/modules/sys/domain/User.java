@@ -10,10 +10,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.*;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.CascadeType;
+import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -22,7 +24,6 @@ import javax.validation.constraints.Size;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
-
 /**
  * A user.
  */
@@ -293,7 +294,9 @@ public class User extends IdEntity {
         if (PublicUtil.isNotEmpty(roleIdList)) {
             roles = Sets.newHashSet();
             roleIdList.forEach(m -> {
-                if (PublicUtil.isNotEmpty(m)) roles.add(new Role(m));
+                if (PublicUtil.isNotEmpty(m)) {
+                    roles.add(new Role(m));
+                }
             });
         }
     }

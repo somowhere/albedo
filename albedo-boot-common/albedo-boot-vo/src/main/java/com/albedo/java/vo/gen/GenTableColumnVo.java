@@ -109,7 +109,13 @@ public class GenTableColumnVo extends DataEntityVo implements Comparable {
     private String size;
 
     private String nameAndComments;
-
+    public GenTableColumnVo(String name, Integer isNull, Integer sort, String comments, String jdbcType) {
+        this.name = name;
+        this.isNull = isNull;
+        this.sort = sort;
+        this.comments = comments;
+        this.jdbcType = jdbcType;
+    }
     @Override
     public int compareTo(Object obj) {
         if (obj instanceof GenTableColumnVo) {

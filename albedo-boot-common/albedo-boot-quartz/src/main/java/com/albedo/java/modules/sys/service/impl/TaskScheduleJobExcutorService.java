@@ -106,7 +106,7 @@ public class TaskScheduleJobExcutorService extends DataVoService<TaskScheduleJob
      * com.albedo.java.modules.sys.service.ITaskScheduleJobService#getAllTask()
      */
     public List<TaskScheduleJob> getAllTask() {
-        return repository.findAll(false, null);
+        return repository.findAll();
     }
 
     @Override

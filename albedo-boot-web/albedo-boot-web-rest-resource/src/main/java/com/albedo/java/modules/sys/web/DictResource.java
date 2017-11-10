@@ -59,7 +59,8 @@ public class DictResource extends TreeVoResource<DictService, DictVo> {
         Map<String, Object> map = Maps.newHashMap();
         if (PublicUtil.isNotEmpty(dictQuerySearch.getDictQueries())) {
             List<DictQuery> dictQueries = JSON.parseArray(dictQuerySearch.getDictQueries(), DictQuery.class);
-            dictQueries.forEach(dictQuery -> map.put(StringUtil.toCamelCase(dictQuery.getCode()), DictUtil.getDictList(dictQuery).
+            dictQueries.forEach(dictQuery -> map.put(StringUtil.toCamelCase(dictQuery.getCode()),
+                    DictUtil.getDictList(dictQuery).
                     stream().map(item -> new SelectResult(item.getVal(), item.getName())).collect(Collectors.toList())));
         }
         return ResultBuilder.buildOk(map);

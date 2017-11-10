@@ -6,7 +6,9 @@ import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.ToString;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.*;
 
+import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -14,6 +16,7 @@ import java.util.Set;
 
 /**
  * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午4:30:34
+ * @author somewhere
  */
 @Entity
 @Table(name = "sys_org_t")
@@ -63,13 +66,6 @@ public class Org extends TreeEntity<Org> {
         this.setId(id);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getCode() {
         return code;
@@ -79,9 +75,6 @@ public class Org extends TreeEntity<Org> {
         this.code = code;
     }
 
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
 
     public String getEn() {
         return en;
