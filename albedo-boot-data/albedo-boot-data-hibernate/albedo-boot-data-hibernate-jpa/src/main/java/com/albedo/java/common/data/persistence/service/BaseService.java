@@ -29,8 +29,8 @@ public class BaseService<Repository extends BaseRepository<T, PK>, T extends Bas
         Type type = c.getGenericSuperclass();
         if (type instanceof ParameterizedType) {
             Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
-            if (parameterizedType[0] instanceof Class)
-                persistentClass = (Class<T>) parameterizedType[0];
+            if (parameterizedType[1] instanceof Class)
+                persistentClass = (Class<T>) parameterizedType[1];
         }
     }
 

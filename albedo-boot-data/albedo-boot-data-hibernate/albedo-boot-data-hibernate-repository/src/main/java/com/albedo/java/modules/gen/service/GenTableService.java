@@ -214,7 +214,7 @@ public class GenTableService extends DataVoService<GenTableRepository,
         } else if (SystemConfig.isOracle()) {
             sql = "SELECT t.TABLE_NAME AS name, c.COMMENTS AS comments FROM user_tables t, user_tab_comments c WHERE t.table_name = c.table_name AND t.TABLE_NAME=:p1 ORDER BY t.TABLE_NAME";
         }
-        if (PublicUtil.isNotEmpty(genTable.getName())) {
+        if (genTable!=null && PublicUtil.isNotEmpty(genTable.getName())) {
             GenString = baseRepository.createSqlQuery(sql, StringUtil.upperCase(genTable.getName())).list();
         }
         if (PublicUtil.isEmpty(GenString)) {
