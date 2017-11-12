@@ -103,7 +103,6 @@ public class MybatisRepositoriesAutoConfiguration implements ResourceLoaderAware
     }
 
 
-    @Override
     public void setResourceLoader(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
     }
