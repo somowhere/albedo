@@ -11,8 +11,7 @@ package ${packageName}.${moduleName}.repository<#if subModuleName != "">.${subMo
 
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import com.albedo.java.common.data.persistence.repository.BaseRepository;
 
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
 
@@ -21,9 +20,8 @@ import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleN
  * @author ${functionAuthor}
  * @version ${functionVersion}
  */
-public interface ${ClassName}Repository extends JpaRepository<${ClassName}, String>, JpaSpecificationExecutor<${ClassName}> {
+public interface ${ClassName}Repository extends DataRepository<${ClassName}, String> {
 
-	Optional<${ClassName}> findOneById(String id);
 }
 ]]>
     </content>

@@ -93,24 +93,24 @@
 					<label class="control-label col-md-3">${c.comments}<#if !c.nullable><span class="required">*</span></#if></label>
 					<div class="col-md-5">
 					<#if c.showType == "input">
-						<input type="text" class="form-control <#if !c.nullable>required</#if>" id="${c.javaFieldId}" name="${c.javaFieldId}<#if !c.nullable>required</#if><#if c.javaType == "Long" || c.javaType == "Integer"> digits</#if><#if c.javaType == "Double"> number</#if>" value="<@jspEl />{(${className}.${c.javaFieldId})!}" htmlEscape="false"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if>>
+						<input type="text" class="form-control <#if !c.nullable>required</#if>" id="${c.javaFieldId}" name="${c.javaFieldId}<#if !c.nullable>required</#if><#if c.javaType == "Long" || c.javaType == "Integer"> digits</#if><#if c.javaType == "Double"> number</#if>" value="<@jspEl />{(${className}Vo.${c.javaFieldId})!}" htmlEscape="false"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if>>
 					<#elseif c.showType == "textarea">
-						<textarea name="${c.javaFieldId}" rows="5"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if> class="form-control input-xxlarge <#if !c.nullable>required</#if>"><@jspEl />{(${className}.${c.javaFieldId})! }</textarea>
+						<textarea name="${c.javaFieldId}" rows="5"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if> class="form-control input-xxlarge <#if !c.nullable>required</#if>"><@jspEl />{(${className}Vo.${c.javaFieldId})! }</textarea>
 					<#elseif c.showType == "select" || c.showType == "checkbox" || c.showType == "radio">
-						<<@at/>albedo.form name="${c.javaFieldId}" dictCode="${c.dictType}" cssClass="<#if !c.nullable>required</#if>" boxType="${c.showType}" value="<@jspEl />{(${className}.${c.javaFieldId})!}" > </<@at/>albedo.form>
+						<<@at/>albedo.form name="${c.javaFieldId}" dictCode="${c.dictType}" cssClass="<#if !c.nullable>required</#if>" boxType="${c.showType}" value="<@jspEl />{(${className}Vo.${c.javaFieldId})!}" > </<@at/>albedo.form>
 					<#elseif c.showType == "dateselect">
-						<div class="input-group date"><input type="text" name="${c.javaFieldId}" readonly class="form-control date-time-picker <#if !c.nullable>required</#if>" value="${"$"}{(${className}.${c.javaFieldId})!}"><span class="input-group-btn"><button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button></span></div>
+						<div class="input-group date"><input type="text" name="${c.javaFieldId}" readonly class="form-control date-time-picker <#if !c.nullable>required</#if>" value="${"$"}{(${className}Vo.${c.javaFieldId})!}"><span class="input-group-btn"><button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button></span></div>
 					<#elseif c.showType == "userselect">
-						<<@at/>albedo.treeSelect name="${c.simpleJavaField}Id" cssClass="<#if !c.nullable>required</#if>" allowClear="true" labelName="${c.javaFieldShowName}" value="<@jspEl />{(${className}.${c.simpleJavaField}Id)!}" labelValue="<@jspEl />{(${className}.${c.javaFieldName})!}"  
+						<<@at/>albedo.treeSelect name="${c.simpleJavaField}Id" cssClass="<#if !c.nullable>required</#if>" allowClear="true" labelName="${c.javaFieldShowName}" value="<@jspEl />{(${className}Vo.${c.simpleJavaField}Id)!}" labelValue="<@jspEl />{(${className}Vo.${c.javaFieldName})!}"
 						title="选择用户" url="<@jspEl/>{ctx}/sys/org/findTreeData?showType=3" notAllowSelectParent="true"> </<@at/>albedo.treeSelect>
 					<#elseif c.showType == "orgselect">
-						<<@at/>albedo.treeSelect name="${c.simpleJavaField}Id" cssClass="<#if !c.nullable>required</#if>" allowClear="true" labelName="${c.javaFieldShowName}" value="<@jspEl />{(${className}.${c.simpleJavaField}Id)!}" labelValue="<@jspEl />{(${className}.${c.javaFieldName})!}"  
+						<<@at/>albedo.treeSelect name="${c.simpleJavaField}Id" cssClass="<#if !c.nullable>required</#if>" allowClear="true" labelName="${c.javaFieldShowName}" value="<@jspEl />{(${className}Vo.${c.simpleJavaField}Id)!}" labelValue="<@jspEl />{(${className}Vo.${c.javaFieldName})!}"
 						title="选择部门" url="<@jspEl/>{ctx}/sys/org/findTreeData?showType=1" notAllowSelectParent="true"> </<@at/>albedo.treeSelect>
 					<#elseif c.showType == "areaselect">
-						<<@at/>albedo.treeSelect name="${c.simpleJavaField}Id" cssClass="<#if !c.nullable>required</#if>" allowClear="true" labelName="${c.javaFieldShowName}" value="<@jspEl />{(${className}.${c.simpleJavaField}Id)!}" labelValue="<@jspEl />{(${className}.${c.javaFieldName})!}"  
+						<<@at/>albedo.treeSelect name="${c.simpleJavaField}Id" cssClass="<#if !c.nullable>required</#if>" allowClear="true" labelName="${c.javaFieldShowName}" value="<@jspEl />{(${className}Vo.${c.simpleJavaField}Id)!}" labelValue="<@jspEl />{(${className}Vo.${c.javaFieldName})!}"
 						title="选择区域" url="<@jspEl/>{ctx}/sys/area/findTreeData" notAllowSelectParent="true"> </<@at/>albedo.treeSelect>
 					<#elseif c.showType == "fileselect">
-						<<@at/>albedo.fileInput name="${c.javaFieldId}" value="<@jspEl />{(${className}.${c.javaFieldId})!}" cssClass="<#if !c.nullable>required</#if>" type="files"> </<@at/>albedo.fileInput>
+						<<@at/>albedo.fileInput name="${c.javaFieldId}" value="<@jspEl />{(${className}Vo.${c.javaFieldId})!}" cssClass="<#if !c.nullable>required</#if>" type="files"> </<@at/>albedo.fileInput>
 					</#if>
 					</div>
 				</div>
@@ -179,7 +179,7 @@
 								<sys:treeSelect id="${child.className?uncap_first}List[{{idx}}]_${c.simpleJavaField}" name="${child.className?uncap_first}List[{{idx}}].${c.javaFieldId}" value="{{row.${c.javaFieldId}}" labelName="testDataChildList[{{idx}}].${c.javaFieldName}" labelValue="{{row.${c.javaFieldName}}}"
 									title="区域" url="<@jspEl 'ctx' />/sys/area/findTreeData" cssClass="<#if !c.nullable>required</#if>" allowClear="true" notAllowSelectParent="true"/>
 							<#elseif c.showType == "fileselect">
-								<sys:ckfinder input="${child.className?uncap_first}List[{{idx}}].${c.javaFieldId}" value="${"$"}{${className}.${c.javaFieldId}}" type="files" uploadPath="/${moduleName}<#if subModuleName != "">/${subModuleName}</#if>/${className}" selectMultiple="true"/>
+								<sys:ckfinder input="${child.className?uncap_first}List[{{idx}}].${c.javaFieldId}" value="${"$"}{${className}Vo.${c.javaFieldId}}" type="files" uploadPath="/${moduleName}<#if subModuleName != "">/${subModuleName}</#if>/${className}" selectMultiple="true"/>
 							</#if>
 							</td>
 								</#if>
@@ -192,7 +192,7 @@
 					<script type="text/javascript">
 						var ${child.className?uncap_first}RowIdx = 0, ${child.className?uncap_first}Tpl = $("#${child.className?uncap_first}Tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
 						$(document).ready(function() {
-							var data = ${"$"}{fns:toJson(${className}.${child.className?uncap_first}List)};
+							var data = ${"$"}{fns:toJson(${className}Vo.${child.className?uncap_first}List)};
 							for (var i=0; i<data.length; i++){
 								addRow('#${child.className?uncap_first}List', ${child.className?uncap_first}RowIdx, ${child.className?uncap_first}Tpl, data[i]);
 								${child.className?uncap_first}RowIdx = ${child.className?uncap_first}RowIdx + 1;

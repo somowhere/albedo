@@ -2,7 +2,6 @@ package com.albedo.java.modules.gen.util;
 
 import com.albedo.java.common.domain.base.DataEntity;
 import com.albedo.java.common.domain.base.TreeEntity;
-import com.albedo.java.modules.gen.domain.GenTable;
 import com.albedo.java.modules.gen.domain.GenTableColumn;
 import com.albedo.java.modules.gen.domain.GenTemplate;
 import com.albedo.java.modules.gen.domain.xml.GenCategory;
@@ -343,7 +342,7 @@ public class GenUtil {
 
         logger.debug(" fileName === " + fileName);
         if ("entityId".equals(tpl.getName())) {
-            GenTable table = (GenTable) model.get("table");
+            GenTableVo table = (GenTableVo) model.get("table");
             if (table.isNotCompositeId()) {
                 return "因不满足联合主键条件已忽略" + fileName + "<br/>";
             }

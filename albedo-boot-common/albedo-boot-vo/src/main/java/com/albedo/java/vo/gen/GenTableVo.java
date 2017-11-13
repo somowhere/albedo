@@ -231,6 +231,9 @@ public class GenTableVo extends DataEntityVo {
     public Boolean getParentExists() {
         return parent != null && StringUtil.isNotBlank(parentTable) && StringUtil.isNotBlank(parentTableFk);
     }
+    public List<GenTableVo> getChildList() {
+        return childList!=null ? childList : Lists.newArrayList();
+    }
 
     /**
      * 是否存在子类

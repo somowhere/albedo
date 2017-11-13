@@ -56,14 +56,17 @@ public class GenSchemeService extends DataVoService<GenSchemeRepository,
         }
 
         // 生成子表模板代码
-        for (GenTableVo childTable : genTableVo.getChildList()) {
-            childTable.setCategory(genSchemeVo.getCategory());
-            genSchemeVo.setGenTable(childTable);
-            Map<String, Object> childTableModel = GenUtil.getDataModel(genSchemeVo);
-            for (GenTemplate tpl : childTableTemplateList) {
-                result.append(GenUtil.generateToFile(tpl, childTableModel, genSchemeVo.getReplaceFile()));
+        if(genTableVo.getChildList()!=null){
+            for (GenTableVo childTable : genTableVo.getChildList()) {
+                childTable.setCategory(genSchemeVo.getCategory());
+                genSchemeVo.setGenTable(childTable);
+                Map<String, Object> childTableModel = GenUtil.getDataModel(genSchemeVo);
+                for (GenTemplate tpl : childTableTemplateList) {
+                    result.append(GenUtil.generateToFile(tpl, childTableModel, genSchemeVo.getReplaceFile()));
+                }
             }
         }
+
         genTableVo.setCategory(genSchemeVo.getCategory());
         // 生成主表模板代码
         genSchemeVo.setGenTable(genTableVo);
