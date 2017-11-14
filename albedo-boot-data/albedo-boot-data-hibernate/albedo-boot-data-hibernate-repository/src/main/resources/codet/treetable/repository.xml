@@ -9,11 +9,8 @@
  */
 package ${packageName}.${moduleName}.repository<#if subModuleName != "">.${subModuleName}</#if>;
 
-import java.util.List;
-import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import com.albedo.java.common.repository.TreeRepository;
 
 import com.albedo.java.modules.sys.domain.${ClassName};
 
@@ -22,20 +19,9 @@ import com.albedo.java.modules.sys.domain.${ClassName};
  * @author ${functionAuthor}
  * @version ${functionVersion}
  */
-public interface ${ClassName}Repository extends JpaRepository<${ClassName}, String>, JpaSpecificationExecutor<${ClassName}> {
+public interface ${ClassName}Repository extends TreeRepository<${ClassName}, String> {
 
-	Optional<${ClassName}> findOneById(String id);
 
-	${ClassName} findFirstByParentId(String parentId);
-	
-	List<${ClassName}> findAllByParentIdsLike(String parentIds);
-
-	List<${ClassName}> findAllByParentIdAndStatusNot(String parentId, Integer status);
-	
-	List<${ClassName}> findAllByStatusNot(Integer status);
-	
-	${ClassName} findTopByParentIdAndStatusNotOrderBySortDesc(String parentId, Integer status);
-	
 }
 ]]>
     </content>

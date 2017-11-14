@@ -103,10 +103,7 @@ public class GenTableColumnVo extends DataEntityVo implements Comparable {
      * hibernate验证表达式
      */
     private String hibernateValidatorExprssion;
-    /**
-     * 大小
-     */
-    private String size;
+
 
     private String nameAndComments;
     public GenTableColumnVo(String name, Integer isNull, Integer sort, String comments, String jdbcType) {
@@ -341,7 +338,8 @@ public class GenTableColumnVo extends DataEntityVo implements Comparable {
     }
 
     public String getSize() {
-        if (jdbcType != null && jdbcType.contains("(") && PublicUtil.isEmpty(size)) {
+        String size;
+        if (jdbcType != null && jdbcType.contains("(")) {
             size = jdbcType.substring(jdbcType.indexOf("(") + 1, jdbcType.length() - 1);
         } else if ("text".equals(jdbcType)) {
             size = "65535";
@@ -351,9 +349,6 @@ public class GenTableColumnVo extends DataEntityVo implements Comparable {
         return size;
     }
 
-    public void setSize(String size) {
-        this.size = size;
-    }
 
 
 }

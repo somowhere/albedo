@@ -9,13 +9,27 @@
  */
 package ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>;
 
+import com.albedo.java.common.domain.base.DataEntity;
+import com.albedo.java.common.domain.base.pk.IdGen;
+import com.albedo.java.util.annotation.DictType;
+import com.albedo.java.util.annotation.SearchField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-<#list table.importList as i>
-import ${i};
-</#list>
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.persistence.*;
+import java.util.Date;
+
+
 
 /**
  * ${functionName}Entity ${functionNameSimple}
@@ -45,7 +59,7 @@ public class ${ClassName} extends DataEntity {
 		this.id = IdGen.uuid();
 		</#if>
 	}
-	
+	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
 		<#list table.pkColumnList as column>
@@ -55,10 +69,10 @@ public class ${ClassName} extends DataEntity {
 		</#list>
 			.toHashCode();
 	}
-	
+	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof ${ClassName} == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof ${ClassName} == false){ return false;}
+		if(this == obj){ return true;}
 		${ClassName} other = (${ClassName})obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

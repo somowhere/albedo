@@ -5,6 +5,9 @@ import com.albedo.java.common.domain.base.TreeEntity;
 import com.albedo.java.common.repository.TreeRepository;
 import com.albedo.java.modules.sys.domain.Area;
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.vo.sys.query.TreeQuery;
+import com.albedo.java.vo.sys.query.TreeResult;
+import com.google.common.collect.Lists;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
@@ -14,6 +17,28 @@ import java.util.List;
 @Transactional
 public class TreeService<Repository extends TreeRepository<T, PK>, T extends TreeEntity<T>, PK extends Serializable>
         extends DataService<Repository, T, PK> {
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public List<TreeResult> findTreeData(TreeQuery query) {
+        String extId = query != null ? query.getExtId() : null, all = query != null ? query.getAll() : null;
+        List<TreeResult> mapList = Lists.newArrayList();
+        List<T> list = repository.findAllByStatusNot(BaseEntity.FLAG_DELETE);
+        TreeResult treeResult = null;
+        for (T e : list) {
+            if ((PublicUtil.isEmpty(extId)
+                    || PublicUtil.isEmpty(e.getParentIds()) || (PublicUtil.isNotEmpty(extId) && !extId.equals(e.getId()) && e.getParentIds() != null && e.getParentIds().indexOf("," + extId + ",") == -1))
+                    && (all != null || (all == null && BaseEntity.FLAG_NORMAL.equals(e.getStatus())))) {
+                treeResult = new TreeResult();
+                treeResult.setId(e.getId());
+                treeResult.setPid(PublicUtil.isEmpty(e.getParentId()) ? "0" : e.getParentId());
+                treeResult.setLabel(e.getName());
+                treeResult.setKey(e.getName());
+                treeResult.setValue(e.getId());
+                mapList.add(treeResult);
+            }
+        }
+        return mapList;
+    }
 
     /**
      * 逻辑删除

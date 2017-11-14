@@ -9,13 +9,27 @@
  */
 package ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>;
 
+
+import com.albedo.java.common.domain.base.TreeEntity;
+import com.albedo.java.util.annotation.DictType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-<#list table.importList as i>
-import ${i};
-</#list>
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * ${functionName}Entity ${functionNameSimple}
@@ -41,16 +55,7 @@ public class ${ClassName} extends TreeEntity<${ClassName}> {
 	<@generateCompositeIdConstructorIfis/>
 
 
-	public String toString() {
-		return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-		<#list table.columnList as column>
-			<#if !table.compositeId>
-			.append("${column.simpleJavaField}",get${column.simpleJavaField?cap_first}())
-			</#if>
-		</#list>
-			.toString();
-	}
-	
+	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
 		<#list table.pkColumnList as column>
@@ -60,10 +65,10 @@ public class ${ClassName} extends TreeEntity<${ClassName}> {
 		</#list>
 			.toHashCode();
 	}
-	
+	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof ${ClassName} == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof ${ClassName} == false){ return false;}
+		if(this == obj){ return true;}
 		${ClassName} other = (${ClassName})obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

@@ -11,8 +11,7 @@ package ${packageName}.${moduleName}.repository<#if subModuleName != "">.${subMo
 
 import java.util.Optional;
 
-import com.albedo.java.common.data.persistence.repository.BaseRepository;
-
+import com.albedo.java.common.repository.DataRepository;
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
 
 /**

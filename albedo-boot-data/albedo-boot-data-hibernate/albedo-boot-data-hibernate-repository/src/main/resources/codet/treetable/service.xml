@@ -9,29 +9,13 @@
  */
 package ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.albedo.java.common.domain.base.BaseEntity;
-import com.albedo.java.util.domain.PageModel;
-import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
-import com.albedo.java.common.repository.service.BaseService;
-import com.albedo.java.common.security.SecurityUtil;
+import com.albedo.java.common.service.TreeVoService;
+import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Vo;
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
 import ${packageName}.${moduleName}.repository.${ClassName}Repository;
-import com.albedo.java.modules.sys.service.util.JsonUtil;
-import com.albedo.java.util.PublicUtil;
-import com.albedo.java.util.StringUtil;
-import com.albedo.java.util.exception.RuntimeMsgException;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
 /**
  * ${functionName}Service ${functionNameSimple}
  * @author ${functionAuthor}
@@ -39,98 +23,9 @@ import com.google.common.collect.Maps;
  */
 @Service
 @Transactional
-public class ${ClassName}Service extends BaseService<${ClassName}>{
+public class ${ClassName}Service extends TreeVoService<${ClassName}Repository, ${ClassName}, String, ${ClassName}Vo>{
 
-	@Resource
-	private ${ClassName}Repository ${className}Repository;
-	/** 保存${functionNameSimple}
-	 * 
-	 * @param ${className} 实体${functionNameSimple}
-	 * @return */
-	public ${ClassName} save(${ClassName} ${className}) {
-		String oldParentIds = ${className}.getParentIds(); // 获取修改前的parentIds，用于更新子节点的parentIds
-		if(${className}.getParentId()!=null){
-			${ClassName} parent = ${className}Repository.findOne(${className}.getParentId());
-			if (parent == null || PublicUtil.isEmpty(parent.getId()))
-				throw new RuntimeMsgException("无法获取模块的父节点，插入失败");
-			if(parent!=null){
-				parent.setLeaf(false);
-				${className}Repository.save(parent);
-			}
-			${className}.setParentIds(PublicUtil.toAppendStr(parent.getParentIds(), parent.getId(), ","));
-		}
-		
-		if(PublicUtil.isNotEmpty(${className}.getId())){
-			${ClassName} itemTemp = ${className}Repository.findFirstByParentId(${className}.getId());
-			${className}.setLeaf(itemTemp == null? true : false);
-		}else{
-			${className}.setLeaf(true);
-		}
-		${className} = ${className}Repository.save(${className});
-		// 更新子节点 parentIds
-		List<${ClassName}> list = ${className}Repository.findAllByParentIdsLike(PublicUtil.toAppendStr("%,", ${className}.getId(), ",%"));
-		for (${ClassName} e : list) {
-			e.setParentIds(e.getParentIds().replace(oldParentIds, ${className}.getParentIds()));
-		}
-		${className}Repository.save(list);
-		
-		log.debug("Save Information for ${ClassName}: {}", ${className});
-		return ${className};
-	}
 
-	public void delete(String ids) {
-		Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id -> {
-			${className}Repository.findOneById(id).map(u -> {
-				deleteById(id, PublicUtil.toAppendStr("%,", id, ",%"), SecurityUtil.getCurrentAuditor());
-				log.debug("Deleted ${ClassName}: {}", u);
-				return u;
-			}).orElseThrow(() -> new RuntimeMsgException("${functionNameSimple}信息为空，删除失败"));
-		});
-		SecurityUtil.clearUserJedisCache();
-	}
-
-	public void lockOrUnLock(String ids) {
-		Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id ->{
-			${className}Repository.findOneById(id).map(u -> {
-    			operateStatusById(id, PublicUtil.toAppendStr("%,", id, ",%"), BaseEntity.FLAG_NORMAL.equals(u.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL, SecurityUtil.getCurrentAuditor());
-                log.debug("LockOrUnLock ${ClassName}: {}", u);
-				return u;
-			}).orElseThrow(() -> new RuntimeMsgException("${functionNameSimple}信息为空，操作失败"));
-    	});
-		SecurityUtil.clearUserJedisCache();
-	}
-	
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public String findTreeData(String extId, String all) {
-		List<Map<String, Object>> mapList = Lists.newArrayList();
-		List<${ClassName}> list = ${className}Repository.findAllByStatusNot(${ClassName}.FLAG_DELETE);
-		for (${ClassName} e : list) {
-			if ((PublicUtil.isEmpty(extId)
-					|| PublicUtil.isEmpty(e.getParentIds()) || (PublicUtil.isNotEmpty(extId) && !extId.equals(e.getId()) && e.getParentIds() != null && e.getParentIds().indexOf("," + extId + ",") == -1))
-					&& (all != null || (all == null && BaseEntity.FLAG_NORMAL.equals(e.getStatus())))) {
-				Map<String, Object> map = Maps.newHashMap();
-				map.put("id", e.getId());
-				map.put("pId", e.getParentId());
-				map.put("name", e.getName());
-				map.put("pIds", e.getParentIds());
-				mapList.add(map);
-			}
-		}
-		return JsonUtil.getInstance().toJsonObject(mapList).toJSONString();
-	}
-	
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public ${ClassName} findOne(String id) {
-		return ${className}Repository.findOne(id);
-	}
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public Page<${ClassName}> findAll(SpecificationDetail<${ClassName}> spec, PageModel<${ClassName}> pm) {
-		return ${className}Repository.findAll(spec, pm);
-	}
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public ${ClassName} findTopByParentId(String parentId) {
-		return ${className}Repository.findTopByParentIdAndStatusNotOrderBySortDesc(parentId, ${ClassName}.FLAG_DELETE);
-	}
 }
 ]]>
     </content>
