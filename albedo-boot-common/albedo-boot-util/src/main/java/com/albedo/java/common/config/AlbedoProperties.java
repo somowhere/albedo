@@ -7,7 +7,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import javax.validation.constraints.NotNull;
 
 /**
- * Properties specific to JHipster.
+ * Properties specific to Albedo.
  * <p>
  * <p>
  * Properties are configured in the application.yml file.
@@ -238,13 +238,8 @@ public class AlbedoProperties {
 
     public static class Http {
 
-        private final Cache cache = new Cache();
         private Boolean restful = false;
-
-        public Cache getCache() {
-            return cache;
-        }
-
+        
         public Boolean getRestful() {
             return restful;
         }
@@ -254,54 +249,242 @@ public class AlbedoProperties {
         }
 
 
-        public static class Cache {
+        private final AlbedoProperties.Http.Cache cache = new AlbedoProperties.Http.Cache();
+        public AlbedoProperties.Http.Version version;
 
+        public Http() {
+            this.version = AlbedoProperties.Http.Version.V_1_1;
+        }
+
+        public AlbedoProperties.Http.Cache getCache() {
+            return this.cache;
+        }
+
+        public AlbedoProperties.Http.Version getVersion() {
+            return this.version;
+        }
+
+        public void setVersion(AlbedoProperties.Http.Version version) {
+            this.version = version;
+        }
+
+        public static class Cache {
             private int timeToLiveInDays = 1461;
 
+            public Cache() {
+            }
+
             public int getTimeToLiveInDays() {
-                return timeToLiveInDays;
+                return this.timeToLiveInDays;
             }
 
             public void setTimeToLiveInDays(int timeToLiveInDays) {
                 this.timeToLiveInDays = timeToLiveInDays;
             }
         }
+
+        public static enum Version {
+            V_1_1,
+            V_2_0;
+
+            private Version() {
+            }
+        }
     }
 
     public static class Cache {
 
-        private final Ehcache ehcache = new Ehcache();
-        private int timeToLiveSeconds = 3600;
+        private final AlbedoProperties.Cache.Hazelcast hazelcast = new AlbedoProperties.Cache.Hazelcast();
+        private final AlbedoProperties.Cache.Ehcache ehcache = new AlbedoProperties.Cache.Ehcache();
+        private final AlbedoProperties.Cache.Infinispan infinispan = new AlbedoProperties.Cache.Infinispan();
 
-        public int getTimeToLiveSeconds() {
-            return timeToLiveSeconds;
+        public Cache() {
         }
 
-        public void setTimeToLiveSeconds(int timeToLiveSeconds) {
-            this.timeToLiveSeconds = timeToLiveSeconds;
+        public AlbedoProperties.Cache.Hazelcast getHazelcast() {
+            return this.hazelcast;
         }
 
-        public Ehcache getEhcache() {
-            return ehcache;
+        public AlbedoProperties.Cache.Ehcache getEhcache() {
+            return this.ehcache;
         }
 
-        public static class Ehcache {
+        public AlbedoProperties.Cache.Infinispan getInfinispan() {
+            return this.infinispan;
+        }
 
-            private String maxBytesLocalHeap = "16M";
+        public static class Infinispan {
+            private String configFile = "default-configs/default-jgroups-tcp.xml";
+            private boolean statsEnabled;
+            private final AlbedoProperties.Cache.Infinispan.Local local = new AlbedoProperties.Cache.Infinispan.Local();
+            private final AlbedoProperties.Cache.Infinispan.Distributed distributed = new AlbedoProperties.Cache.Infinispan.Distributed();
+            private final AlbedoProperties.Cache.Infinispan.Replicated replicated = new AlbedoProperties.Cache.Infinispan.Replicated();
 
-            public String getMaxBytesLocalHeap() {
-                return maxBytesLocalHeap;
+            public Infinispan() {
             }
 
-            public void setMaxBytesLocalHeap(String maxBytesLocalHeap) {
-                this.maxBytesLocalHeap = maxBytesLocalHeap;
+            public String getConfigFile() {
+                return this.configFile;
+            }
+
+            public void setConfigFile(String configFile) {
+                this.configFile = configFile;
+            }
+
+            public boolean isStatsEnabled() {
+                return this.statsEnabled;
+            }
+
+            public void setStatsEnabled(boolean statsEnabled) {
+                this.statsEnabled = statsEnabled;
+            }
+
+            public AlbedoProperties.Cache.Infinispan.Local getLocal() {
+                return this.local;
+            }
+
+            public AlbedoProperties.Cache.Infinispan.Distributed getDistributed() {
+                return this.distributed;
+            }
+
+            public AlbedoProperties.Cache.Infinispan.Replicated getReplicated() {
+                return this.replicated;
+            }
+
+            public static class Replicated {
+                private long timeToLiveSeconds = 60L;
+                private long maxEntries = 100L;
+
+                public Replicated() {
+                }
+
+                public long getTimeToLiveSeconds() {
+                    return this.timeToLiveSeconds;
+                }
+
+                public void setTimeToLiveSeconds(long timeToLiveSeconds) {
+                    this.timeToLiveSeconds = timeToLiveSeconds;
+                }
+
+                public long getMaxEntries() {
+                    return this.maxEntries;
+                }
+
+                public void setMaxEntries(long maxEntries) {
+                    this.maxEntries = maxEntries;
+                }
+            }
+
+            public static class Distributed {
+                private long timeToLiveSeconds = 60L;
+                private long maxEntries = 100L;
+                private int instanceCount = 1;
+
+                public Distributed() {
+                }
+
+                public long getTimeToLiveSeconds() {
+                    return this.timeToLiveSeconds;
+                }
+
+                public void setTimeToLiveSeconds(long timeToLiveSeconds) {
+                    this.timeToLiveSeconds = timeToLiveSeconds;
+                }
+
+                public long getMaxEntries() {
+                    return this.maxEntries;
+                }
+
+                public void setMaxEntries(long maxEntries) {
+                    this.maxEntries = maxEntries;
+                }
+
+                public int getInstanceCount() {
+                    return this.instanceCount;
+                }
+
+                public void setInstanceCount(int instanceCount) {
+                    this.instanceCount = instanceCount;
+                }
+            }
+
+            public static class Local {
+                private long timeToLiveSeconds = 60L;
+                private long maxEntries = 100L;
+
+                public Local() {
+                }
+
+                public long getTimeToLiveSeconds() {
+                    return this.timeToLiveSeconds;
+                }
+
+                public void setTimeToLiveSeconds(long timeToLiveSeconds) {
+                    this.timeToLiveSeconds = timeToLiveSeconds;
+                }
+
+                public long getMaxEntries() {
+                    return this.maxEntries;
+                }
+
+                public void setMaxEntries(long maxEntries) {
+                    this.maxEntries = maxEntries;
+                }
+            }
+        }
+
+
+        public static class Ehcache {
+            private int timeToLiveSeconds = 3600;
+            private long maxEntries = 100L;
+
+            public Ehcache() {
+            }
+
+            public int getTimeToLiveSeconds() {
+                return this.timeToLiveSeconds;
+            }
+
+            public void setTimeToLiveSeconds(int timeToLiveSeconds) {
+                this.timeToLiveSeconds = timeToLiveSeconds;
+            }
+
+            public long getMaxEntries() {
+                return this.maxEntries;
+            }
+
+            public void setMaxEntries(long maxEntries) {
+                this.maxEntries = maxEntries;
+            }
+        }
+
+        public static class Hazelcast {
+            private int timeToLiveSeconds = 3600;
+            private int backupCount = 1;
+
+            public Hazelcast() {
+            }
+
+            public int getTimeToLiveSeconds() {
+                return this.timeToLiveSeconds;
+            }
+
+            public void setTimeToLiveSeconds(int timeToLiveSeconds) {
+                this.timeToLiveSeconds = timeToLiveSeconds;
+            }
+
+            public int getBackupCount() {
+                return this.backupCount;
+            }
+
+            public void setBackupCount(int backupCount) {
+                this.backupCount = backupCount;
             }
         }
     }
-
     public static class Mail {
 
-        private String from = "albedoJhipster@localhost";
+        private String from = "albedoAlbedo@localhost";
 
         public String getFrom() {
             return from;
@@ -314,23 +497,162 @@ public class AlbedoProperties {
 
     public static class Security {
 
-        private final RememberMe rememberMe = new RememberMe();
+        private final AlbedoProperties.Security.RememberMe rememberMe = new AlbedoProperties.Security.RememberMe();
+        private final AlbedoProperties.Security.ClientAuthorization clientAuthorization = new AlbedoProperties.Security.ClientAuthorization();
+        private final AlbedoProperties.Security.Authentication authentication = new AlbedoProperties.Security.Authentication();
 
-        public RememberMe getRememberMe() {
-            return rememberMe;
+        public Security() {
+        }
+
+        public AlbedoProperties.Security.RememberMe getRememberMe() {
+            return this.rememberMe;
+        }
+
+        public AlbedoProperties.Security.ClientAuthorization getClientAuthorization() {
+            return this.clientAuthorization;
+        }
+
+        public AlbedoProperties.Security.Authentication getAuthentication() {
+            return this.authentication;
         }
 
         public static class RememberMe {
-
             @NotNull
             private String key;
 
+            public RememberMe() {
+            }
+
             public String getKey() {
-                return key;
+                return this.key;
             }
 
             public void setKey(String key) {
                 this.key = key;
+            }
+        }
+
+        public static class Authentication {
+            private final AlbedoProperties.Security.Authentication.Oauth oauth = new AlbedoProperties.Security.Authentication.Oauth();
+            private final AlbedoProperties.Security.Authentication.Jwt jwt = new AlbedoProperties.Security.Authentication.Jwt();
+
+            public Authentication() {
+            }
+
+            public AlbedoProperties.Security.Authentication.Oauth getOauth() {
+                return this.oauth;
+            }
+
+            public AlbedoProperties.Security.Authentication.Jwt getJwt() {
+                return this.jwt;
+            }
+
+            public static class Jwt {
+                private String secret;
+                private long tokenValidityInSeconds = 1800L;
+                private long tokenValidityInSecondsForRememberMe = 2592000L;
+
+                public Jwt() {
+                }
+
+                public String getSecret() {
+                    return this.secret;
+                }
+
+                public void setSecret(String secret) {
+                    this.secret = secret;
+                }
+
+                public long getTokenValidityInSeconds() {
+                    return this.tokenValidityInSeconds;
+                }
+
+                public void setTokenValidityInSeconds(long tokenValidityInSeconds) {
+                    this.tokenValidityInSeconds = tokenValidityInSeconds;
+                }
+
+                public long getTokenValidityInSecondsForRememberMe() {
+                    return this.tokenValidityInSecondsForRememberMe;
+                }
+
+                public void setTokenValidityInSecondsForRememberMe(long tokenValidityInSecondsForRememberMe) {
+                    this.tokenValidityInSecondsForRememberMe = tokenValidityInSecondsForRememberMe;
+                }
+            }
+
+            public static class Oauth {
+                private String clientId;
+                private String clientSecret;
+                private int tokenValidityInSeconds = 1800;
+
+                public Oauth() {
+                }
+
+                public String getClientId() {
+                    return this.clientId;
+                }
+
+                public void setClientId(String clientId) {
+                    this.clientId = clientId;
+                }
+
+                public String getClientSecret() {
+                    return this.clientSecret;
+                }
+
+                public void setClientSecret(String clientSecret) {
+                    this.clientSecret = clientSecret;
+                }
+
+                public int getTokenValidityInSeconds() {
+                    return this.tokenValidityInSeconds;
+                }
+
+                public void setTokenValidityInSeconds(int tokenValidityInSeconds) {
+                    this.tokenValidityInSeconds = tokenValidityInSeconds;
+                }
+            }
+        }
+
+        public static class ClientAuthorization {
+            private String accessTokenUri;
+            private String tokenServiceId;
+            private String clientId;
+            private String clientSecret;
+
+            public ClientAuthorization() {
+            }
+
+            public String getAccessTokenUri() {
+                return this.accessTokenUri;
+            }
+
+            public void setAccessTokenUri(String accessTokenUri) {
+                this.accessTokenUri = accessTokenUri;
+            }
+
+            public String getTokenServiceId() {
+                return this.tokenServiceId;
+            }
+
+            public void setTokenServiceId(String tokenServiceId) {
+                this.tokenServiceId = tokenServiceId;
+            }
+
+            public String getClientId() {
+                return this.clientId;
+            }
+
+            public void setClientId(String clientId) {
+                this.clientId = clientId;
+            }
+
+            public String getClientSecret() {
+                return this.clientSecret;
+            }
+
+            public void setClientSecret(String clientSecret) {
+                this.clientSecret = clientSecret;
             }
         }
     }
@@ -415,7 +737,7 @@ public class AlbedoProperties {
 
             private int port = 2003;
 
-            private String prefix = "albedoJhipster";
+            private String prefix = "albedoAlbedo";
 
             public boolean isEnabled() {
                 return enabled;

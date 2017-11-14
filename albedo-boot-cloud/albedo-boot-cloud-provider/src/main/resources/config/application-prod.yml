@@ -97,35 +97,41 @@ albedo:
     isTokenInterceptor: false
     freeURL:
     http:
+        version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
         cache: # Used by the CachingHttpHeadersFilter
             timeToLiveInDays: 1461
-    cache: # Hibernate 2nd level cache, used by CacheConfiguration
-        timeToLiveSeconds: 3600
-        ehcache:
-            maxBytesLocalHeap: 256M
+    cache: # Cache configuration
+        hazelcast: # Hazelcast distributed cache
+            time-to-live-seconds: 3600
+            backup-count: 1
     security:
-        rememberMe:
-            # security key (this key should be unique for your application, and kept secret)
-            key: 8748a5ea8df623bc800993fbaed1090b31b049cc
+        authentication:
+            jwt:
+                secret: 43638ca4b451044629e35e6841bba30c4eacc62f
+                # Token is valid 24 hours
+                token-validity-in-seconds: 86400
+                token-validity-in-seconds-for-remember-me: 2592000
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: albedoJhipster@localhost
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
-        spark:
-            enabled: false
-            host: localhost
-            port: 9999
         graphite:
             enabled: false
             host: localhost
             port: 2003
-            prefix: albedoJhipster
+            prefix: jhipsterSampleMicroservice
+        prometheus:
+            enabled: false
+            endpoint: /prometheusMetrics
         logs: # Reports Dropwizard metrics in the logs
             enabled: false
-            reportFrequency: 60 # in seconds
+            report-frequency: 60 # in seconds
     logging:
         logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration
             enabled: false
             host: localhost
             port: 5000
-            queueSize: 512
+            queue-size: 512
+        spectator-metrics: # Reports Spectator Circuit Breaker metrics in the logs
+            enabled: false
+            # edit spring.metrics.export.delay-millis to set report frequency

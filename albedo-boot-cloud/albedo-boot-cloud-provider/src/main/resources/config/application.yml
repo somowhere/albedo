@@ -12,7 +12,7 @@
 # ===================================================================
 
 management:
-    context-path: /a/management
+    context-path: /management
     health:
         mail:
             enabled: false # When using the MailService, configure an SMTP server and set this to true
@@ -52,9 +52,9 @@ security:
 
 albedo:
     application: albedo
-    adminPath: /a
+    adminPath: /api
     frontPath: /f
-    defaultView:
+    defaultView: redirect:/swagger-ui/index.html
     staticFileDirectory: D:/temp/files/
     urlSuffix: html
     cluster: false
@@ -73,7 +73,7 @@ albedo:
     mail:
         from: AlbedoBootCloudProviderApp@localhost
     swagger:
-        default-include-pattern: /.*
+        default-include-pattern: ${albedo.adminPath}/.*
         title: AlbedoBootCloudProviderApp API
         description: AlbedoBootCloudProviderApp API documentation
         version: 0.0.1

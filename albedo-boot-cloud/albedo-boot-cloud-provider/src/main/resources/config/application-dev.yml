@@ -73,7 +73,7 @@ spring:
         expose-spring-macro-helpers:  true
         #prefix:
         suffix: .ftl
-        template-loader-path: /WEB-INF/views/,/META-INF/resources/WEB-INF/views/,classpath:/META-INF/resources/WEB-INF/views/
+        template-loader-path: /templates,classpath:/templates
 #    redis:
 #       host: localhost
 #       port: 6379
@@ -93,34 +93,49 @@ albedo:
     developMode: true
     isTokenInterceptor: false
     freeURL:
-    cache: # Hibernate 2nd level cache, used by CacheConfiguration
-        timeToLiveSeconds: 3600
-        ehcache:
-            maxBytesLocalHeap: 16M
+    http:
+        version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
+    cache: # Cache configuration
+        hazelcast: # Hazelcast distributed cache
+            time-to-live-seconds: 3600
+            backup-count: 1
+    # CORS is only enabled by default with the "dev" profile, so BrowserSync can access the API
+    cors:
+        allowed-origins: "*"
+        allowed-methods: GET, PUT, POST, DELETE, OPTIONS
+        allowed-headers: "*"
+        exposed-headers:
+        allow-credentials: true
+        max-age: 1800
     security:
-        rememberMe:
-            # security key (this key should be unique for your application, and kept secret)
-            key: 8748a5ea8df623bc800993fbaed1090b31b049cc
+        authentication:
+            jwt:
+                secret: my-secret-token-to-change-in-production
+                # Token is valid 24 hours
+                token-validity-in-seconds: 86400
+                token-validity-in-seconds-for-remember-me: 2592000
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: AlbedoBootCloudProviderApp@localhost
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
-        spark:
-            enabled: false
-            host: localhost
-            port: 9999
-        graphite:
+        graphite: # Use the "graphite" Maven profile to have the Graphite dependencies
             enabled: false
             host: localhost
             port: 2003
-            prefix: albedoJhipster
+            prefix: jhipsterSampleMicroservice
+        prometheus: # Use the "prometheus" Maven profile to have the Prometheus dependencies
+            enabled: false
+            endpoint: /prometheusMetrics
         logs: # Reports Dropwizard metrics in the logs
             enabled: false
-            reportFrequency: 60 # in seconds
+            report-frequency: 60 # in seconds
     logging:
         logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration
             enabled: false
             host: localhost
             port: 5000
-            queueSize: 512
+            queue-size: 512
+        spectator-metrics: # Reports Spectator Circuit Breaker metrics in the logs
+            enabled: false
+            # edit spring.metrics.export.delay-millis to set report frequency
 

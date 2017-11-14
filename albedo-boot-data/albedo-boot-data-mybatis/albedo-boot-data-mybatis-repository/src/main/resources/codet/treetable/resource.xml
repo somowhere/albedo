@@ -18,7 +18,7 @@ import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.sys.query.TreeQuery;
 import com.albedo.java.vo.sys.query.TreeResult;
 import com.albedo.java.web.rest.ResultBuilder;
-import com.albedo.java.web.rest.base.TreeVoResource;
+import com.albedo.TreeVoResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.Lists;
