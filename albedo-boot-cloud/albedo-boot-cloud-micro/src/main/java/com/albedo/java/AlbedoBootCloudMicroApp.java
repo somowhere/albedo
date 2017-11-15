@@ -27,12 +27,12 @@ import java.util.Collection;
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
 @EnableConfigurationProperties({AlbedoProperties.class})
 @EnableDiscoveryClient
-public class AlbedoBootCloudProviderApp {
-    private static final Logger log = LoggerFactory.getLogger(AlbedoBootCloudProviderApp.class);
+public class AlbedoBootCloudMicroApp {
+    private static final Logger log = LoggerFactory.getLogger(AlbedoBootCloudMicroApp.class);
 
     private final Environment env;
 
-    public AlbedoBootCloudProviderApp(Environment env) {
+    public AlbedoBootCloudMicroApp(Environment env) {
         this.env = env;
     }
 
@@ -43,7 +43,7 @@ public class AlbedoBootCloudProviderApp {
      * @throws UnknownHostException if the local host name could not be resolved into an address
      */
     public static void main(String[] args) throws UnknownHostException {
-        SpringApplication app = new SpringApplication(AlbedoBootCloudProviderApp.class);
+        SpringApplication app = new SpringApplication(AlbedoBootCloudMicroApp.class);
         DefaultProfileUtil.addDefaultProfile(app);
         Environment env = app.run(args).getEnvironment();
         String protocol = "http";
@@ -70,11 +70,11 @@ public class AlbedoBootCloudProviderApp {
     }
 
     /**
-     * Initializes AlbedoBootCloudProviderApp.
+     * Initializes AlbedoBootCloudMicroApp.
      * <p>
      * Spring profiles can be configured with a program arguments --spring.profiles.active=your-active-profile
      * <p>
-     * You can find more information on how profiles work with JHipster on <a href="https://albedo.github.io/profiles/">https://albedo.github.io/profiles/</a>.
+     * You can find more information on how profiles work with Albedo on <a href="https://albedo.github.io/profiles/">https://albedo.github.io/profiles/</a>.
      */
     @PostConstruct
     public void initApplication() {

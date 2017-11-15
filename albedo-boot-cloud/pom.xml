@@ -13,7 +13,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>albedo-boot-cloud-config-server</module>
-        <module>albedo-boot-cloud-provider</module>
+        <module>albedo-boot-cloud-micro</module>
+        <module>albedo-boot-cloud-gateway</module>
     </modules>
 
 

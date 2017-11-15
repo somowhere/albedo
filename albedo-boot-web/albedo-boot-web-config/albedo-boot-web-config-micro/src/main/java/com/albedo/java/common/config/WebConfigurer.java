@@ -80,7 +80,7 @@ public class WebConfigurer  extends WebMvcConfigurerAdapter implements ServletCo
         /*
          * Enable HTTP/2 for Undertow - https://twitter.com/ankinson/status/829256167700492288
          * HTTP/2 requires HTTPS, so HTTP requests will fallback to HTTP/1.1.
-         * See the JHipsterProperties class and your application-*.yml configuration files
+         * See the AlbedoProperties class and your application-*.yml configuration files
          * for more information.
          */
         if (albedoProperties.getHttp().getVersion().equals(AlbedoProperties.Http.Version.V_2_0) &&

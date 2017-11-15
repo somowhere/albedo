@@ -9,11 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>albedo-boot-web-config-micro</artifactId>
+    <artifactId>albedo-boot-web-config-gateway</artifactId>
     <properties>
         <!-- Spring properties -->
         <spring-cloud.version>Dalston.RELEASE</spring-cloud.version>
-
+        <bucket4j.version>3.0.1</bucket4j.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -31,20 +31,23 @@
     <dependencies>
         <dependency>
             <groupId>com.albedo.java</groupId>
-            <artifactId>albedo-boot-web-config-common</artifactId>
+            <artifactId>albedo-boot-web-config-single</artifactId>
             <version>${project.release.version}</version>
         </dependency>
-
         <dependency>
-            <groupId>com.hazelcast</groupId>
-            <artifactId>hazelcast</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zuul</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.hazelcast</groupId>
-            <artifactId>hazelcast-spring</artifactId>
+            <groupId>com.github.vladimir-bukhtoyarov</groupId>
+            <artifactId>bucket4j-core</artifactId>
+            <version>${bucket4j.version}</version>
         </dependency>
-
-        <!-- Spring Cloud -->
+        <dependency>
+            <groupId>com.github.vladimir-bukhtoyarov</groupId>
+            <artifactId>bucket4j-jcache</artifactId>
+            <version>${bucket4j.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter</artifactId>
@@ -85,6 +88,15 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-feign</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cloud-connectors</artifactId>
+        </dependency>
 
+        <dependency>
+            <groupId>javax.cache</groupId>
+            <artifactId>cache-api</artifactId>
+        </dependency>
     </dependencies>
+
 </project>

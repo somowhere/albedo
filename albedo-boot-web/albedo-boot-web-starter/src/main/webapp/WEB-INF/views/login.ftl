@@ -53,7 +53,7 @@
 <!-- BEGIN LOGIN -->
 <div class="content">
     <!-- BEGIN LOGIN FORM -->
-    <form class="login-form" action="authentication" method="post">
+    <form class="login-form" action="authenticate" method="post">
         <h3 class="form-title font-green text-center">${application}</h3>
         <div class="alert alert-danger display-hide">
             <button class="close" data-close="alert"></button>

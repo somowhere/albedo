@@ -76,7 +76,7 @@ public class CacheConfiguration {
     private void reconfigureCache(String name, AlbedoProperties albedoProperties) {
         net.sf.ehcache.Cache cache = getCacheManager().getCache(name);
         if (cache != null) {
-            cache.getCacheConfiguration().setTimeToLiveSeconds(albedoProperties.getCache().getTimeToLiveSeconds());
+            cache.getCacheConfiguration().setTimeToLiveSeconds(albedoProperties.getCache().getEhcache().getTimeToLiveSeconds());
             net.sf.ehcache.Ehcache decoratedCache = InstrumentedEhcache.instrument(metricRegistry, cache);
             getCacheManager().replaceCacheWithDecoratedCache(cache, decoratedCache);
         }

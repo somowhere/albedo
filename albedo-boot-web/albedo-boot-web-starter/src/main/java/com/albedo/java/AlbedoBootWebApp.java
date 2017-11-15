@@ -10,6 +10,8 @@ import org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfigurat
 import org.springframework.boot.actuate.autoconfigure.MetricRepositoryAutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
@@ -21,9 +23,14 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Collection;
 
+/**
+ * @author somewhere
+ */
 @ComponentScan
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
 @EnableConfigurationProperties({AlbedoProperties.class})
+@EnableDiscoveryClient
+@EnableZuulProxy
 public class AlbedoBootWebApp {
 
     private static final Logger log = LoggerFactory.getLogger(AlbedoBootWebApp.class);
@@ -58,7 +65,7 @@ public class AlbedoBootWebApp {
      * <p>
      * Spring profiles can be configured with a program arguments --spring.profiles.active=your-active-profile
      * <p>
-     * You can find more information on how profiles work with JHipster on <a href="http://albedo.github.io/profiles/">http://albedo.github.io/profiles/</a>.
+     * You can find more information on how profiles work with Albedo on <a href="http://albedo.github.io/profiles/">http://albedo.github.io/profiles/</a>.
      */
     @PostConstruct
     public void initApplication() {

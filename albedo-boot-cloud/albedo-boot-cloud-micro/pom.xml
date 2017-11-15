@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>albedo-boot-cloud-provider</artifactId>
+    <artifactId>albedo-boot-cloud-micro</artifactId>
 
     <properties>
         <!-- Spring properties -->
@@ -29,8 +29,7 @@
             <artifactId>albedo-boot-web-rest</artifactId>
             <version>${project.release.version}</version>
         </dependency>
-
-
+        
     </dependencies>
     <profiles>
         <profile>

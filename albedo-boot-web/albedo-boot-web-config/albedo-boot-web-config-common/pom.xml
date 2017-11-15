@@ -10,11 +10,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>albedo-boot-web-config-common</artifactId>
+    <properties>
 
+        <jcache.version>1.0.0</jcache.version>
+        <jjwt.version>0.7.0</jjwt.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>com.albedo.java</groupId>
-            <artifactId>albedo-boot-web-base</artifactId>
+            <artifactId>albedo-boot-web-swagger</artifactId>
             <version>${project.release.version}</version>
         </dependency>
         <dependency>
@@ -22,6 +26,17 @@
             <artifactId>albedo-boot-service</artifactId>
             <version>${project.release.version}</version>
         </dependency>
+        <!-- security -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-data</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-core</artifactId>

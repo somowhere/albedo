@@ -10,6 +10,12 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+eureka:
+    instance:
+        prefer-ip-address: true
+    client:
+        service-url:
+            defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/
 
 
 spring:
@@ -95,9 +101,9 @@ albedo:
         cache: # Used by the CachingHttpHeadersFilter
             timeToLiveInDays: 1461
     cache: # Hibernate 2nd level cache, used by CacheConfiguration
-        timeToLiveSeconds: 3600
         ehcache:
-            maxBytesLocalHeap: 256M
+            timeToLiveSeconds: 3600
+            maxBytesLocalHeap: 16M
     security:
         rememberMe:
             # security key (this key should be unique for your application, and kept secret)

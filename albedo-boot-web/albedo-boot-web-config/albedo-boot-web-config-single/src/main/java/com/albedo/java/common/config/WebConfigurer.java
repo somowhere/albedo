@@ -5,17 +5,19 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.spring.DefaultProfileUtil;
 import com.albedo.java.web.filter.CachingHttpHeadersFilter;
+import com.albedo.java.web.filter.PageInitParamFilter;
 import com.albedo.java.web.interceptor.OperateInterceptor;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.servlet.InstrumentedFilter;
 import com.codahale.metrics.servlets.MetricsServlet;
+import io.undertow.UndertowOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.MimeMappings;
+import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -57,6 +59,7 @@ public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletCon
         }
         EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD,
                 DispatcherType.ASYNC);
+        initPageInitParamFilter(servletContext, disps);
         initMetrics(servletContext, disps);
         if (env.acceptsProfiles(Globals.SPRING_PROFILE_PRODUCTION)) {
             initCachingHttpHeadersFilter(servletContext, disps);
@@ -65,6 +68,8 @@ public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletCon
 
         log.info("Web application fully configured");
     }
+
+
 
     /**
      * Customize the Servlet engine: Mime types, the document root, the cache.
@@ -81,6 +86,21 @@ public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletCon
         // When running in an IDE or with ./mvnw spring-boot:run, set location
         // of the static web assets.
         setLocationForStaticAssets(container);
+
+        /*
+         * Enable HTTP/2 for Undertow - https://twitter.com/ankinson/status/829256167700492288
+         * HTTP/2 requires HTTPS, so HTTP requests will fallback to HTTP/1.1.
+         * See the JHipsterProperties class and your application-*.yml configuration files
+         * for more information.
+         */
+        if (albedoProperties.getHttp().getVersion().equals(AlbedoProperties.Http.Version.V_2_0) &&
+                container instanceof UndertowEmbeddedServletContainerFactory) {
+
+            ((UndertowEmbeddedServletContainerFactory) container)
+                    .addBuilderCustomizers(builder ->
+                            builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true));
+        }
+
     }
 
     private void setLocationForStaticAssets(ConfigurableEmbeddedServletContainer container) {
@@ -112,6 +132,18 @@ public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletCon
         cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/statics/*", "/WEB-INF/views/*", "classpath:/statics/*", "classpath:/WEB-INF/views/*");
         cachingHttpHeadersFilter.setAsyncSupported(true);
 
+    }
+    /**
+     * Initializes the Page Init Params Filter.
+     */
+    private void initPageInitParamFilter(ServletContext servletContext, EnumSet<DispatcherType> disps) {
+        log.debug("Registering PageInitParamFilter");
+        FilterRegistration.Dynamic pageInitParamFilter = servletContext.addFilter(
+                "pageInitParamFilter",
+                new PageInitParamFilter());
+        pageInitParamFilter.addMappingForUrlPatterns(disps, true,
+                albedoProperties.getAdminPath("/*"));
+        pageInitParamFilter.setAsyncSupported(true);
     }
 
     /**

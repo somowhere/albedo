@@ -1,7 +1,7 @@
 package com.albedo.java.common.config.template.tag;
 
+import com.albedo.java.common.security.SecurityConstants;
 import com.albedo.java.common.security.SecurityUtil;
-import com.albedo.java.common.security.service.InvocationSecurityMetadataSourceService;
 import com.albedo.java.modules.sys.domain.Module;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.Globals;
@@ -31,8 +31,8 @@ public class BreadcrumbDirective implements TemplateDirectiveModel {
         Writer out = env.getOut();
 
         List<Module> moduleList = SecurityUtil.getModuleList(), currentItemList = Lists.newArrayList();
-        if (PublicUtil.isNotEmpty(InvocationSecurityMetadataSourceService.cUrl)) {
-            moduleList.stream().filter(item -> item.getUrl() != null && item.getUrl().equals(InvocationSecurityMetadataSourceService.cUrl))
+        if (PublicUtil.isNotEmpty(SecurityConstants.getCurrentUrl())) {
+            moduleList.stream().filter(item -> item.getUrl() != null && item.getUrl().equals(SecurityConstants.getCurrentUrl()))
                     .findFirst().ifPresent(currentItem -> {
                 currentItemList.add(currentItem);
                 Lists.newArrayList(currentItem.getParentIds().split(",")).forEach(id -> {
@@ -61,9 +61,7 @@ public class BreadcrumbDirective implements TemplateDirectiveModel {
         out.write(sb.toString());
         if (body != null) {
             body.render(env.getOut());
-        } else
-
-        {
+        } else {
             throw new RuntimeException("标签内部至少要加一个空格");
         }
 

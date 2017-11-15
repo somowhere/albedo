@@ -1,10 +1,14 @@
 package com.albedo.java.common.config;
 
 import com.albedo.java.util.PublicUtil;
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.web.cors.CorsConfiguration;
 
 import javax.validation.constraints.NotNull;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Properties specific to Albedo.
@@ -17,6 +21,7 @@ import javax.validation.constraints.NotNull;
         ignoreUnknownFields = true,
         ignoreInvalidFields = true,
         exceptionIfInvalid = false)
+@Data
 public class AlbedoProperties {
 
     private final Async async = new Async();
@@ -26,8 +31,10 @@ public class AlbedoProperties {
     private final Security security = new Security();
     private final Metrics metrics = new Metrics();
     private final CorsConfiguration cors = new CorsConfiguration();
-    private final Ribbon ribbon = new Ribbon();
     private final Logging logging = new Logging();
+    private final AlbedoProperties.Gateway gateway = new AlbedoProperties.Gateway();
+    private final AlbedoProperties.Ribbon ribbon = new AlbedoProperties.Ribbon();
+    private final AlbedoProperties.Registry registry = new AlbedoProperties.Registry();
     private String adminPath = "/a";
     private String frontPath = "/f";
     private String defaultView;
@@ -43,58 +50,6 @@ public class AlbedoProperties {
     private String rsaPublicKey = "";
     private String rsaPrivateKey = "";
 
-    public Async getAsync() {
-        return async;
-    }
-
-    public Http getHttp() {
-        return http;
-    }
-
-    public Cache getCache() {
-        return cache;
-    }
-
-    public Mail getMail() {
-        return mail;
-    }
-
-    public Security getSecurity() {
-        return security;
-    }
-
-    public Metrics getMetrics() {
-        return metrics;
-    }
-
-    public CorsConfiguration getCors() {
-        return cors;
-    }
-
-    public Ribbon getRibbon() {
-        return ribbon;
-    }
-
-    public Logging getLogging() {
-        return logging;
-    }
-
-    public Boolean getDevelopMode() {
-        return developMode;
-    }
-
-    public void setDevelopMode(Boolean developMode) {
-        this.developMode = developMode;
-    }
-
-    public String getAdminPath() {
-        return adminPath;
-    }
-
-    public void setAdminPath(String adminPath) {
-        this.adminPath = adminPath;
-    }
-
     public String getAdminPath(String strs) {
         return PublicUtil.toAppendStr(adminPath, strs);
     }
@@ -107,102 +62,88 @@ public class AlbedoProperties {
         return PublicUtil.toAppendStr(staticFileDirectory, strs);
     }
 
-    public Boolean getIsTokenInterceptor() {
-        return isTokenInterceptor;
+    private static class Registry {
+        private String password;
+
+        private Registry() {
+        }
+
+        public String getPassword() {
+            return this.password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
     }
 
-    public void setIsTokenInterceptor(Boolean isTokenInterceptor) {
-        this.isTokenInterceptor = isTokenInterceptor;
+    public static class Ribbon {
+        private String[] displayOnActiveProfiles;
+
+        public Ribbon() {
+        }
+
+        public String[] getDisplayOnActiveProfiles() {
+            return this.displayOnActiveProfiles;
+        }
+
+        public void setDisplayOnActiveProfiles(String[] displayOnActiveProfiles) {
+            this.displayOnActiveProfiles = displayOnActiveProfiles;
+        }
     }
 
-    public String getFreeURL() {
-        return freeURL;
-    }
+    public static class Gateway {
+        private final AlbedoProperties.Gateway.RateLimiting rateLimiting = new AlbedoProperties.Gateway.RateLimiting();
+        private Map<String, List<String>> authorizedMicroservicesEndpoints = new LinkedHashMap();
 
-    public void setFreeURL(String freeURL) {
-        this.freeURL = freeURL;
-    }
+        public Gateway() {
+        }
 
-    public String getFrontPath() {
-        return frontPath;
-    }
+        public AlbedoProperties.Gateway.RateLimiting getRateLimiting() {
+            return this.rateLimiting;
+        }
 
-    public void setFrontPath(String frontPath) {
-        this.frontPath = frontPath;
-    }
+        public Map<String, List<String>> getAuthorizedMicroservicesEndpoints() {
+            return this.authorizedMicroservicesEndpoints;
+        }
 
-    public String getUrlSuffix() {
-        return urlSuffix;
-    }
+        public void setAuthorizedMicroservicesEndpoints(Map<String, List<String>> authorizedMicroservicesEndpoints) {
+            this.authorizedMicroservicesEndpoints = authorizedMicroservicesEndpoints;
+        }
 
-    public void setUrlSuffix(String urlSuffix) {
-        this.urlSuffix = urlSuffix;
-    }
+        public static class RateLimiting {
+            private boolean enabled = false;
+            private long limit = 100000L;
+            private int durationInSeconds = 3600;
 
-    public String getApplication() {
-        return application;
-    }
+            public RateLimiting() {
+            }
 
-    public void setApplication(String application) {
-        this.application = application;
-    }
+            public boolean isEnabled() {
+                return this.enabled;
+            }
 
-    public String getJedisKeyPrefix() {
-        return jedisKeyPrefix;
-    }
+            public void setEnabled(boolean enabled) {
+                this.enabled = enabled;
+            }
 
-    public void setJedisKeyPrefix(String jedisKeyPrefix) {
-        this.jedisKeyPrefix = jedisKeyPrefix;
-    }
+            public long getLimit() {
+                return this.limit;
+            }
 
-    public Boolean getCluster() {
-        return cluster;
-    }
+            public void setLimit(long limit) {
+                this.limit = limit;
+            }
 
-    public void setCluster(Boolean cluster) {
-        this.cluster = cluster;
-    }
+            public int getDurationInSeconds() {
+                return this.durationInSeconds;
+            }
 
-    public String getStaticFileDirectory() {
-        return staticFileDirectory;
+            public void setDurationInSeconds(int durationInSeconds) {
+                this.durationInSeconds = durationInSeconds;
+            }
+        }
     }
-
-    public void setStaticFileDirectory(String staticFileDirectory) {
-        this.staticFileDirectory = staticFileDirectory;
-    }
-
-    public Boolean getQuartzEnabled() {
-        return quartzEnabled;
-    }
-
-    public void setQuartzEnabled(Boolean quartzEnabled) {
-        this.quartzEnabled = quartzEnabled;
-    }
-
-    public String getDefaultView() {
-        return defaultView;
-    }
-
-    public void setDefaultView(String defaultView) {
-        this.defaultView = defaultView;
-    }
-
-    public String getRsaPublicKey() {
-        return rsaPublicKey;
-    }
-
-    public void setRsaPublicKey(String rsaPublicKey) {
-        this.rsaPublicKey = rsaPublicKey;
-    }
-
-    public String getRsaPrivateKey() {
-        return rsaPrivateKey;
-    }
-
-    public void setRsaPrivateKey(String rsaPrivateKey) {
-        this.rsaPrivateKey = rsaPrivateKey;
-    }
-
     public static class Async {
 
         private int corePoolSize = 2;
@@ -436,7 +377,7 @@ public class AlbedoProperties {
 
         public static class Ehcache {
             private int timeToLiveSeconds = 3600;
-            private long maxEntries = 100L;
+            private long maxBytesLocalHeap = 100L;
 
             public Ehcache() {
             }
@@ -449,12 +390,12 @@ public class AlbedoProperties {
                 this.timeToLiveSeconds = timeToLiveSeconds;
             }
 
-            public long getMaxEntries() {
-                return this.maxEntries;
+            public long getMaxBytesLocalHeap() {
+                return maxBytesLocalHeap;
             }
 
-            public void setMaxEntries(long maxEntries) {
-                this.maxEntries = maxEntries;
+            public void setMaxBytesLocalHeap(long maxBytesLocalHeap) {
+                this.maxBytesLocalHeap = maxBytesLocalHeap;
             }
         }
 
@@ -848,17 +789,5 @@ public class AlbedoProperties {
         }
     }
 
-    public static class Ribbon {
-
-        private String[] displayOnActiveProfiles;
-
-        public String[] getDisplayOnActiveProfiles() {
-            return displayOnActiveProfiles;
-        }
-
-        public void setDisplayOnActiveProfiles(String[] displayOnActiveProfiles) {
-            this.displayOnActiveProfiles = displayOnActiveProfiles;
-        }
-    }
 
 }

@@ -19,6 +19,7 @@
         <module>albedo-boot-web-config-common</module>
         <module>albedo-boot-web-config-single</module>
         <module>albedo-boot-web-config-micro</module>
+        <module>albedo-boot-web-config-gateway</module>
     </modules>
 
 </project>

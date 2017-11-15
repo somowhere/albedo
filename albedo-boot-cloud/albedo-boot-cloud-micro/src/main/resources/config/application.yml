@@ -11,14 +11,48 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+eureka:
+    client:
+        enabled: true
+        healthcheck:
+            enabled: true
+        fetch-registry: true
+        register-with-eureka: true
+        instance-info-replication-interval-seconds: 10
+        registry-fetch-interval-seconds: 10
+    instance:
+        appname: AlbedoBootCloudMicro
+        instanceId: AlbedoBootCloudMicro:${spring.application.instance-id:${random.value}}
+        lease-renewal-interval-in-seconds: 5
+        lease-expiration-duration-in-seconds: 10
+        status-page-url-path: ${management.context-path}/info
+        health-check-url-path: ${management.context-path}/health
+        metadata-map:
+            zone: primary # This is needed for the load balancer
+            profile: ${spring.profiles.active}
+            version: ${info.project.version}
+ribbon:
+    eureka:
+        enabled: true
+# See https://github.com/Netflix/Hystrix/wiki/Configuration
+#hystrix:
+#    command:
+#        default:
+#            execution:
+#                isolation:
+#                    thread:
+#                        timeoutInMilliseconds: 10000
+
 management:
+    security:
+        roles: ADMIN
     context-path: /management
     health:
         mail:
             enabled: false # When using the MailService, configure an SMTP server and set this to true
 spring:
     application:
-        name: AlbedoBootCloudProviderApp
+        name: AlbedoBootCloudMicro
     mvc:
         throw-exception-if-no-handler-found: true
 #    resources:
@@ -71,11 +105,11 @@ albedo:
         #allow-credentials: true
         #max-age: 1800
     mail:
-        from: AlbedoBootCloudProviderApp@localhost
+        from: AlbedoBootCloudMicroApp@localhost
     swagger:
         default-include-pattern: ${albedo.adminPath}/.*
-        title: AlbedoBootCloudProviderApp API
-        description: AlbedoBootCloudProviderApp API documentation
+        title: AlbedoBootCloudMicroApp API
+        description: AlbedoBootCloudMicroApp API documentation
         version: 0.0.1
         terms-of-service-url:
         contact-name:

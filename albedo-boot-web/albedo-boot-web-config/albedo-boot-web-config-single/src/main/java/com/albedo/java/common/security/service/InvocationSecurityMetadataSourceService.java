@@ -1,5 +1,6 @@
 package com.albedo.java.common.security.service;
 
+import com.albedo.java.common.security.SecurityConstants;
 import com.albedo.java.common.base.BaseInit;
 import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.modules.sys.domain.Dict;
@@ -29,14 +30,7 @@ import java.util.stream.Collectors;
 public class InvocationSecurityMetadataSourceService
         implements FilterInvocationSecurityMetadataSource {
 
-    public static String cUrl = null;
-    public static String loginUrl = "/login";
-    public static String logoutUrl = "/logout";
-    public static String authLogin = "user";
-    public static String[] authorizePermitAll = {"/api/register", "/api/activate", "/api/authenticate",
-            "/api/account/reset_password/init", "/api/account/reset_password/finish", "/api/profile-info",
-            "/v2/api-docs/**", "/swagger-resources/configuration/ui"};
-    public static List<String> authorizePermitAllList = Lists.newArrayList(authorizePermitAll);
+    public static List<String> authorizePermitAllList = Lists.newArrayList(SecurityConstants.authorizePermitAll);
     @Resource
     ApplicationContext applicationContext;
     @Resource
@@ -80,7 +74,7 @@ public class InvocationSecurityMetadataSourceService
                                     }
                                 });
                             }
-                            if (PublicUtil.isNotEmpty(keyList))
+                            if (PublicUtil.isNotEmpty(keyList)) {
                                 keyList.forEach(key -> {
                                 /*
                                  * 判断资源文件和权限的对应关系，如果已经存在相关的资源url，则要通过该url为key提取出权限集合，
@@ -97,6 +91,7 @@ public class InvocationSecurityMetadataSourceService
                                     }
 
                                 });
+                            }
                         });
 
                     }
@@ -130,7 +125,7 @@ public class InvocationSecurityMetadataSourceService
             if (PublicUtil.isNotEmpty(url)) {
                 if (new AntPathRequestMatcher(PublicUtil.toAppendStr(albedoProperties.getAdminPath(), url))
                         .matches(request)) {
-                    cUrl = url;
+                    SecurityConstants.setCurrentUrl(url);
                     return getResourceMap().get(PublicUtil.toAppendStr(url, "-", request.getMethod().toUpperCase()));
                 }
             }
@@ -138,13 +133,13 @@ public class InvocationSecurityMetadataSourceService
         }
         String rqurl = request.getRequestURI();
 
-        if (new AntPathRequestMatcher(albedoProperties.getAdminPath(loginUrl)).matches(request)
-                || new AntPathRequestMatcher(albedoProperties.getAdminPath(logoutUrl)).matches(request)) {
+        if (new AntPathRequestMatcher(albedoProperties.getAdminPath(SecurityConstants.loginUrl)).matches(request)
+                || new AntPathRequestMatcher(albedoProperties.getAdminPath(SecurityConstants.logoutUrl)).matches(request)) {
             return null;
         }
 
-        for (int i = 0; i < authorizePermitAll.length; i++) {
-            if (new AntPathRequestMatcher(albedoProperties.getAdminPath(authorizePermitAll[i])).matches(request)) {
+        for (int i = 0; i < SecurityConstants.authorizePermitAll.length; i++) {
+            if (new AntPathRequestMatcher(albedoProperties.getAdminPath(SecurityConstants.authorizePermitAll[i])).matches(request)) {
                 return null;
             }
         }

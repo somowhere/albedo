@@ -5,6 +5,7 @@ import com.albedo.java.vo.base.DataEntityVo;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.validation.constraints.Size;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -15,6 +16,10 @@ import java.util.List;
 @ToString
 public class UserVo extends DataEntityVo {
 
+    public static final int PASSWORD_MIN_LENGTH = 4;
+
+    public static final int PASSWORD_MAX_LENGTH = 100;
+
     /*** F_LOGINID */
     public static final String F_LOGINID = "loginId";
     /*** F_LOGINID */
@@ -22,6 +27,7 @@ public class UserVo extends DataEntityVo {
     private static final long serialVersionUID = 1L;
     private String id;
     private String loginId;
+    @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
     private String password;
     private String confirmPassword;
     private String orgId;

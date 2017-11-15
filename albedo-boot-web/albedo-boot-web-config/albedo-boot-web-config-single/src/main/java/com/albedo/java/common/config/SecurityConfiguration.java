@@ -1,13 +1,12 @@
 package com.albedo.java.common.config;
 
-import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.common.security.CustomizeAccessDecisionManager;
 import com.albedo.java.common.security.Http401UnauthorizedEntryPoint;
-import com.albedo.java.common.security.handler.AjaxAuthenticationFailureHandler;
-import com.albedo.java.common.security.handler.AjaxAuthenticationSuccessHandler;
-import com.albedo.java.common.security.handler.AjaxLogoutSuccessHandler;
+import com.albedo.java.common.security.SecurityConstants;
 import com.albedo.java.common.security.handler.CustomAccessDeniedHandler;
+import com.albedo.java.common.security.jwt.JWTConfigurer;
+import com.albedo.java.common.security.jwt.TokenProvider;
 import com.albedo.java.common.security.service.InvocationSecurityMetadataSourceService;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.web.filter.CsrfCookieGeneratorFilter;
@@ -22,14 +21,16 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.web.filter.CorsFilter;
 
 import javax.annotation.Resource;
 
@@ -46,18 +47,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Resource
     private AlbedoProperties albedoProperties;
     @Resource
-    private AjaxAuthenticationSuccessHandler ajaxAuthenticationSuccessHandler;
-    @Resource
-    private AjaxAuthenticationFailureHandler ajaxAuthenticationFailureHandler;
-    @Resource
-    private AjaxLogoutSuccessHandler ajaxLogoutSuccessHandler;
-    @Resource
-    private Http401UnauthorizedEntryPoint authenticationEntryPoint;
+    private Http401UnauthorizedEntryPoint http401UnauthorizedEntryPoint;
     @Resource
     private UserDetailsService userDetailsService;
     @Resource
-    private RememberMeServices rememberMeServices;
-
+    private TokenProvider tokenProvider;
+    @Resource
+    private CorsFilter corsFilter;
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -87,55 +83,39 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         String adminPath = albedoProperties.getAdminPath();
 
-        String[] permissAll = new String[InvocationSecurityMetadataSourceService.authorizePermitAll.length];
+        String[] permissAll = new String[SecurityConstants.authorizePermitAll.length];
 
         for (int i = 0; i < permissAll.length; i++) {
-            permissAll[i] = PublicUtil.toAppendStr(adminPath, InvocationSecurityMetadataSourceService.authorizePermitAll[i]);
+            permissAll[i] = PublicUtil.toAppendStr(adminPath, SecurityConstants.authorizePermitAll[i]);
         }
 
-        http
-                .csrf()
+        http.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling().authenticationEntryPoint(http401UnauthorizedEntryPoint)
                 .and()
-                .addFilterAfter(new CsrfCookieGeneratorFilter(), CsrfFilter.class)
-                .exceptionHandling()
-                .accessDeniedHandler(new CustomAccessDeniedHandler())
-                .authenticationEntryPoint(authenticationEntryPoint)
+                    .csrf()
+                    .disable()
+                    .headers()
+                    .frameOptions()
+                    .disable()
                 .and()
-                .rememberMe()
-                .rememberMeServices(rememberMeServices)
-                .rememberMeParameter("remember-me")
-                .key(albedoProperties.getSecurity().getRememberMe().getKey())
-                .and()
-                .formLogin()
-                .loginProcessingUrl(adminPath + "/authentication")
-                .successHandler(ajaxAuthenticationSuccessHandler)
-                .failureHandler(ajaxAuthenticationFailureHandler)
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutUrl(adminPath + InvocationSecurityMetadataSourceService.logoutUrl)
-                .logoutSuccessHandler(ajaxLogoutSuccessHandler)
-                .deleteCookies("JSESSIONID", "CSRF-TOKEN")
-                .permitAll()
-                .and()
-                .headers()
-                .frameOptions()
-                .disable()
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(adminPath + InvocationSecurityMetadataSourceService.loginUrl).permitAll()
+                .antMatchers(adminPath + SecurityConstants.loginUrl).permitAll()
                 .antMatchers(permissAll).permitAll()
-                .antMatchers(adminPath + "/**").authenticated().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
-            @Override
-            public <O extends FilterSecurityInterceptor> O postProcess(O fsi) {
-                fsi.setSecurityMetadataSource(securityMetadataSource());
-                return fsi;
-            }
-        }).accessDecisionManager(customizeAccessDecisionManager)
+                .antMatchers(adminPath + "/**").authenticated()
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    @Override
+                    public <O extends FilterSecurityInterceptor> O postProcess(O fsi) {
+                        fsi.setSecurityMetadataSource(securityMetadataSource());
+                        return fsi;
+                    }
+                }).accessDecisionManager(customizeAccessDecisionManager)
                 .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/statics/swagger-ui/index.html").hasAuthority(AuthoritiesConstants.ADMIN);
+                .antMatchers("/swagger-ui/index.html").hasAuthority(AuthoritiesConstants.ADMIN)
+                .and()
+                .apply(securityConfigurerAdapter());
 
     }
 
@@ -144,44 +124,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return invocationSecurityMetadataSourceService;
     }
 
-//    @Bean
-//    public AccessDecisionManager unanimous(){
-//
-//    	List<AccessDecisionVoter<? extends Object>> decisionVoters = Lists.newArrayList( new RoleVoter(), new AuthenticatedVoter(), new DatabaseRoleVoter(), new WebExpressionVoter());
-//
-//    	return new UnanimousBased(decisionVoters);
-//
-//    }
-//    private class DatabaseRoleVoter implements AccessDecisionVoter<Object> {
-//
-//    	@Override
-//        public boolean supports(ConfigAttribute arg0) {
-//            return true;
-//        }
-//
-//        @Override
-//        public boolean supports(Class<?> arg0) {
-//            return true;
-//        }
-//
-//        @Override
-//        public int vote(Authentication authentication, Object object, Collection<ConfigAttribute> attributes) {
-//        	if (attributes == null) {
-//    			return ACCESS_GRANTED;
-//    		}
-//        	for (ConfigAttribute attribute : attributes) {
-//				// Attempt to find a matching granted authority
-//				for (GrantedAuthority authority : authentication.getAuthorities()) {
-//					System.out.println(attribute.getAttribute());
-//					if(attribute.getAttribute() == null) return ACCESS_GRANTED;
-//					if (attribute.getAttribute().equals(authority.getAuthority())) {
-//						return ACCESS_GRANTED;
-//					}
-//				}
-//    		}
-//        	return ACCESS_DENIED;
-//        }
-//    }
+    private JWTConfigurer securityConfigurerAdapter() {
+        return new JWTConfigurer(tokenProvider);
+    }
 
     @Bean
     public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
