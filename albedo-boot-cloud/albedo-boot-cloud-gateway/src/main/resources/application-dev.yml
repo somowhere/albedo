@@ -45,10 +45,15 @@ spring:
         database: MYSQL
         show-sql: true
         properties:
+        properties:
+            hibernate.id.new_generator_mappings: true
             hibernate.cache.use_second_level_cache: true
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
-            hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+            hibernate.cache.region.factory_class: com.hazelcast.hibernate.HazelcastCacheRegionFactory
+            hibernate.cache.hazelcast.instance_name: albedoBootCloudGateway
+            hibernate.cache.use_minimal_puts: true
+            hibernate.cache.hazelcast.use_lite_member: true
     mail:
         host: localhost
         port: 25
@@ -89,7 +94,7 @@ server:
 # ===================================================================
 
 albedo:
-    jedisKeyPrefix: albedoBootWebApp
+    jedisKeyPrefix: albedoBootCloudGateway
     developMode: true
     isTokenInterceptor: false
     freeURL:
@@ -117,7 +122,7 @@ albedo:
                 token-validity-in-seconds: 86400
                 token-validity-in-seconds-for-remember-me: 2592000
     mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: albedoBootWebApp@localhost
+        from: albedoBootCloudGateway@localhost
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
         graphite: # Use the "graphite" Maven profile to have the Graphite dependencies

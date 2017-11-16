@@ -10,6 +10,8 @@ import org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfigurat
 import org.springframework.boot.actuate.autoconfigure.MetricRepositoryAutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
@@ -27,9 +29,11 @@ import java.util.Collection;
 @ComponentScan
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
 @EnableConfigurationProperties({AlbedoProperties.class})
-public class AlbedoBootWebApp {
+@EnableDiscoveryClient
+@EnableZuulProxy
+public class AlbedoBootCloudGateway {
 
-    private static final Logger log = LoggerFactory.getLogger(AlbedoBootWebApp.class);
+    private static final Logger log = LoggerFactory.getLogger(AlbedoBootCloudGateway.class);
 
     @Resource
     private Environment env;
@@ -41,7 +45,7 @@ public class AlbedoBootWebApp {
      * @throws UnknownHostException if the local host name could not be resolved into an address
      */
     public static void main(String[] args) throws Exception {
-        SpringApplication app = new SpringApplication(AlbedoBootWebApp.class);
+        SpringApplication app = new SpringApplication(AlbedoBootCloudGateway.class);
         DefaultProfileUtil.addDefaultProfile(app);
         final ApplicationContext applicationContext = app.run(args);
         Environment env = applicationContext.getEnvironment();

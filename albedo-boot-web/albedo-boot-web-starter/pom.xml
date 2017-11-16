@@ -18,7 +18,7 @@
 
         <dependency>
             <groupId>com.albedo.java</groupId>
-            <artifactId>albedo-boot-web-config-gateway</artifactId>
+            <artifactId>albedo-boot-web-config-single</artifactId>
             <version>${project.release.version}</version>
         </dependency>
         <dependency>
@@ -46,7 +46,7 @@
     <build>
         <resources>
             <resource>
-                <directory>${basedir}/src/main/webapp</directory>
+                <directory>${basedir}../../albedo-boot-ui/src/main/webapp</directory>
                 <!--注意此次必须要放在此目录下才能被访问到-->
                 <targetPath>META-INF/resources</targetPath>
                 <includes>

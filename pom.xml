@@ -48,6 +48,7 @@
         <!--<module>albedo-rpc</module>-->
         <module>albedo-boot-web</module>
         <module>albedo-boot-cloud</module>
+        <module>albedo-boot-ui</module>
         <!--<module>albedo-thrift</module>-->
     </modules>
     <repositories>
