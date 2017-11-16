@@ -5,7 +5,10 @@ public class SecurityConstants {
     public static String loginUrl = "/login";
     public static String logoutUrl = "/logout";
     public static String authLogin = "user";
-    public static String[] authorizePermitAll = {"/register", "/activate", "/index", "/authenticate",
+
+    public static final String AUTHORIZATION_HEADER = "Authorization";
+
+    public static String[] authorizePermitAll = {"/register", "/activate", "/authenticate",
             "/account/reset_password/init", "/account/reset_password/finish", "/profile-info",
             "/v2/api-docs/**", "/swagger-resources/configuration/ui"};
 

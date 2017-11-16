@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
  */
 @Data
 @ToString
-public class LoginVM {
+public class LoginVo {
 
     @Pattern(regexp = Globals.LOGIN_REGEX)
     @NotNull
@@ -23,7 +23,7 @@ public class LoginVM {
     private String username;
 
     @NotNull
-    @Size(min = UserVo.PASSWORD_MIN_LENGTH, max = UserVo.PASSWORD_MAX_LENGTH)
+    @Size(min = 6, max = UserVo.PASSWORD_MAX_LENGTH)
     private String password;
 
     private Boolean rememberMe;

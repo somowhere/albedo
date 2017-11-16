@@ -69,17 +69,16 @@ public final class SecurityUtil {
      *
      * @return the login of the current user
      */
-    public static String getCurrentUserId() {
+    public static String getCurrentUserLogin() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
         String userName = null;
         if (authentication != null) {
             if (authentication.getPrincipal() instanceof UserPrincipal) {
                 UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-                userName = userPrincipal.getUserId();
+                userName = userPrincipal.getUsername();
             } else if (authentication.getPrincipal() instanceof UserDetails) {
                 UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-
                 userName = springSecurityUser.getUsername();
             } else if (authentication.getPrincipal() instanceof String) {
                 userName = (String) authentication.getPrincipal();
@@ -87,6 +86,18 @@ public final class SecurityUtil {
         }
         return userName;
     }
+    public static String getCurrentUserId() {
+        String userName = getCurrentUserLogin();
+        if(PublicUtil.isNotEmpty(userName)){
+            User user = getByLoginId(userName);
+            if(user!=null) {
+                return user.getId();
+            }
+        }
+        return null;
+    }
+
+
 
     public static String getCurrentAuditor() {
         String userName = SecurityUtil.getCurrentUserId();
@@ -102,19 +113,21 @@ public final class SecurityUtil {
     public static User getByUserId(String userId) {
         User user = CacheUtil.getJson(USER_CACHE, USER_CACHE_ID_ + userId, User.class);
         boolean isSearch = false;
-        if (user != null && PublicUtil.isNotEmpty(user.getRoles()))
+        if (user != null && PublicUtil.isNotEmpty(user.getRoles())) {
             for (Role role : user.getRoles()) {
                 if (PublicUtil.isEmpty(role.getName())) {
                     isSearch = true;
                     break;
                 }
             }
+        }
         if (user == null || isSearch || PublicUtil.isEmpty(user.getRoles()) ||
                 user.getRoles().size() != user.getRoleIdList().size()) {
             user = userRepository.findOne(userId);
 
-            if (user == null)
+            if (user == null) {
                 throw new UsernameNotFoundException("User " + userId + " was not found in the database");
+            }
             String json = Json.toJsonString(user);
             CacheUtil.put(USER_CACHE, USER_CACHE_ID_ + user.getId(), json);
             CacheUtil.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getLoginId(), json);
@@ -129,9 +142,9 @@ public final class SecurityUtil {
      * @return 取不到返回null
      */
     public static User getByLoginId(String loginId) {
-        User user = (User) CacheUtil.getJson(USER_CACHE, USER_CACHE_LOGIN_NAME_ + loginId, User.class);
+        User user = CacheUtil.getJson(USER_CACHE, USER_CACHE_LOGIN_NAME_ + loginId, User.class);
         if (user == null) {
-            userRepository.findOneByLoginId(loginId).map(u -> {
+            user = userRepository.findOneByLoginId(loginId).map(u -> {
                 String json = Json.toJsonString(u);
                 CacheUtil.put(USER_CACHE, USER_CACHE_ID_ + u.getId(), json);
                 CacheUtil.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + u.getLoginId(), json);
@@ -143,8 +156,9 @@ public final class SecurityUtil {
 
     public static User getCurrentUser() {
         User user = getByUserId(getCurrentUserId());
-        if (user == null)
+        if (user == null) {
             user = new User();
+        }
         return user;
     }
 
@@ -156,7 +170,9 @@ public final class SecurityUtil {
      * @return
      */
     public static List<Module> getModuleList() {
-        return getModuleList(false, null);
+        List<Module> moduleList = getModuleList(false, null);
+        logger.info("{}", moduleList);
+        return moduleList;
     }
 
     public static List<Module> getModuleList(String userId) {
@@ -309,8 +325,9 @@ public final class SecurityUtil {
 
     public static Object getCacheDefult(String key, Object defaultValue, String userId) {
         Object obj = null;
-        if (PublicUtil.isEmpty(userId))
+        if (PublicUtil.isEmpty(userId)) {
             userId = getCurrentUserId();
+        }
         if (PublicUtil.isEmpty(userId)) {
             logger.error("login user is null, get userCache failed");
         } else {
@@ -334,8 +351,9 @@ public final class SecurityUtil {
     }
 
     public static void putCache(String key, Object value, String userId) {
-        if (PublicUtil.isEmpty(userId))
+        if (PublicUtil.isEmpty(userId)) {
             userId = getCurrentUserId();
+        }
         if (PublicUtil.isEmpty(userId)) {
             logger.error("login user is null, put userCache failed");
         } else {
@@ -394,10 +412,12 @@ public final class SecurityUtil {
 
     public static boolean hasPermission(String permission) {
         List<Module> list = getModuleList();
-        if (isAdmin(getCurrentUserId()))
+        if (isAdmin(getCurrentUserId())) {
             return true;
-        if (PublicUtil.isEmpty(permission))
+        }
+        if (PublicUtil.isEmpty(permission)) {
             return false;
+        }
         permission = PublicUtil.toAppendStr(",", permission, ",");
         for (Module module : list) {
             if (permission.contains(PublicUtil.toAppendStr(",", module.getPermission(), ","))) {
@@ -469,7 +489,9 @@ public final class SecurityUtil {
             boolean isDataScopeAll = false;
             String tempOrgId, userOrgId = null, idSql = isSql ? ".id_" : ".id";
             for (Role r : user.getRoles()) {
-                if (user.getOrg() != null) userOrgId = user.getOrg().getId();
+                if (user.getOrg() != null) {
+                    userOrgId = user.getOrg().getId();
+                }
                 for (String oa : StringUtil.splitDefault(orgAlias)) {
                     if (!dataScope.contains(r.getDataScope()) && StringUtil.isNotBlank(oa)) {
                         tempOrgId = PublicUtil.toAppendStr(oa, idSql);
@@ -510,7 +532,9 @@ public final class SecurityUtil {
                 queryConditions.clear();
             }
         }
-        if (isSql) queryConditions.forEach(item -> item.setAnalytiColumn(false));
+        if (isSql) {
+            queryConditions.forEach(item -> item.setAnalytiColumn(false));
+        }
         return queryConditions;
     }
 
@@ -534,8 +558,9 @@ public final class SecurityUtil {
             }
         }
         try {
-            if (unsignString.length() > 0)
+            if (unsignString.length() > 0) {
                 unsignString.delete(unsignString.length() - 1, unsignString.length());
+            }
             resp = md5(unsignString.toString());
         } catch (Exception e) {
             e.printStackTrace();

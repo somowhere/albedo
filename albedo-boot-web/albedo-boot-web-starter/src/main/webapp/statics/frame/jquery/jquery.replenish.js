@@ -1,12 +1,12 @@
-var COOKIE_CSRF_NAME = "CSRF-TOKEN";
+var COOKIE_JWT_NAME = "Authorization";
 (function ($) {
     $(document).ajaxSend(function (event, jqxhr, settings) {
         App.blockUI({
             animate: true,
             overlayColor: 'none'
         });
-        settings.header = {"X-CSRF-TOKEN": albedo.getCookie(COOKIE_CSRF_NAME)};
-        jqxhr.setRequestHeader("X-CSRF-TOKEN", albedo.getCookie(COOKIE_CSRF_NAME));
+        settings.header = {"Authorization": albedo.getCookie(COOKIE_JWT_NAME)};
+        jqxhr.setRequestHeader("Authorization", albedo.getCookie(COOKIE_JWT_NAME));
 
 
     });
@@ -21,6 +21,6 @@ var COOKIE_CSRF_NAME = "CSRF-TOKEN";
         }
     });
     $(function () {
-        $("input[name='_csrf']").val(albedo.getCookie(COOKIE_CSRF_NAME));
+        $("input[name='_JWT']").val(albedo.getCookie(COOKIE_JWT_NAME));
     })
 })(jQuery);

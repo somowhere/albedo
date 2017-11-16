@@ -1,5 +1,9 @@
 package com.albedo.java.common.security.jwt;
 
+import com.albedo.java.common.config.AlbedoProperties;
+import com.albedo.java.common.security.SecurityConstants;
+import com.albedo.java.web.rest.util.CookieUtil;
+import com.albedo.java.web.rest.util.RequestUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
@@ -20,8 +24,11 @@ public class JWTFilter extends GenericFilterBean {
 
     private TokenProvider tokenProvider;
 
-    public JWTFilter(TokenProvider tokenProvider) {
+    private AlbedoProperties albedoProperties;
+
+    public JWTFilter(TokenProvider tokenProvider, AlbedoProperties albedoProperties) {
         this.tokenProvider = tokenProvider;
+        this.albedoProperties = albedoProperties;
     }
 
     @Override
@@ -37,8 +44,9 @@ public class JWTFilter extends GenericFilterBean {
     }
 
     private String resolveToken(HttpServletRequest request){
-        String bearerToken = request.getHeader(JWTConfigurer.AUTHORIZATION_HEADER);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+        String bearerToken = albedoProperties.getHttp().getRestful() || RequestUtil.isRestfulRequest(request)
+        ? request.getHeader(SecurityConstants.AUTHORIZATION_HEADER) : CookieUtil.getCookie(request, SecurityConstants.AUTHORIZATION_HEADER);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
             return bearerToken.substring(7, bearerToken.length());
         }
         return null;

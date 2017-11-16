@@ -4,12 +4,10 @@ import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.common.security.CustomizeAccessDecisionManager;
 import com.albedo.java.common.security.Http401UnauthorizedEntryPoint;
 import com.albedo.java.common.security.SecurityConstants;
-import com.albedo.java.common.security.handler.CustomAccessDeniedHandler;
 import com.albedo.java.common.security.jwt.JWTConfigurer;
 import com.albedo.java.common.security.jwt.TokenProvider;
 import com.albedo.java.common.security.service.InvocationSecurityMetadataSourceService;
 import com.albedo.java.util.PublicUtil;
-import com.albedo.java.web.filter.CsrfCookieGeneratorFilter;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +27,6 @@ import org.springframework.security.data.repository.query.SecurityEvaluationCont
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CorsFilter;
 
 import javax.annotation.Resource;
@@ -92,12 +89,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().authenticationEntryPoint(http401UnauthorizedEntryPoint)
                 .and()
-                    .csrf()
-                    .disable()
-                    .headers()
-                    .frameOptions()
-                    .disable()
-                .and()
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -115,7 +106,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
                 .antMatchers("/swagger-ui/index.html").hasAuthority(AuthoritiesConstants.ADMIN)
                 .and()
-                .apply(securityConfigurerAdapter());
+                .apply(securityConfigurerAdapter())
+                .and()
+                .csrf()
+                .disable();
 
     }
 
@@ -125,7 +119,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     private JWTConfigurer securityConfigurerAdapter() {
-        return new JWTConfigurer(tokenProvider);
+        return new JWTConfigurer(tokenProvider, albedoProperties);
     }
 
     @Bean

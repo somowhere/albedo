@@ -2,6 +2,7 @@ package com.albedo.java.web.rest.util;
 
 import com.albedo.java.util.base.Encodes;
 import com.albedo.java.util.base.Reflections;
+import com.albedo.java.util.domain.Globals;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,6 +92,15 @@ public class RequestUtil {
         }
 
     }
+
+    public static boolean isRestfulRequest(HttpServletRequest request) {
+        String requestType = request.getHeader("X-Requested-With");
+        return Globals.XML_HTTP_REQUEST.equals(requestType);
+
+    }
+
+
+
 
     public static <T> T parseObject(Class<T> classType, HttpServletRequest request) {
         Object obj = null;

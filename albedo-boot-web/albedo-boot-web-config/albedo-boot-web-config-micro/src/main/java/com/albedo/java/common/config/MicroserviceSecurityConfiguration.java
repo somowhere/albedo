@@ -63,7 +63,7 @@ public class MicroserviceSecurityConfiguration extends WebSecurityConfigurerAdap
     }
 
     private JWTConfigurer securityConfigurerAdapter() {
-        return new JWTConfigurer(tokenProvider);
+        return new JWTConfigurer(tokenProvider, albedoProperties);
     }
 
     @Bean

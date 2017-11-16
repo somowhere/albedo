@@ -24,17 +24,9 @@ public class ContextInitListener implements ApplicationListener<ContextRefreshed
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-//        //初始化权限数据
-//        ((InvocationSecurityMetadataSourceService) SpringContextHolder.
-//                getBean("invocationSecurityMetadataSourceService")).afterPropertiesSet();
-//        //初始化freeMarker引擎数据
-//        SpringContextHolder.getBean(FreeMarkerConfig.class).afterPropertiesSet();
-//        //初始化任务
-//        SpringContextHolder.getBean(TaskScheduleJobExcutorService.class).afterPropertiesSet();
-
 
         // root application context
-        if (null == contextRefreshedEvent.getApplicationContext().getParent()) {
+//        if (null == contextRefreshedEvent.getApplicationContext().getParent()) {
             _log.debug(">>>>> spring初始化完毕 <<<<<");
             // spring初始化完毕后，通过反射调用所有使用BaseInit注解的afterPropertiesSet方法
             Map<String, Object> baseServices = contextRefreshedEvent.getApplicationContext().getBeansWithAnnotation(BaseInit.class);
@@ -67,7 +59,7 @@ public class ContextInitListener implements ApplicationListener<ContextRefreshed
             }
 
 
-        }
+//        }
 
 
     }
