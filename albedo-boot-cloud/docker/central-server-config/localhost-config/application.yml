@@ -1,7 +1,7 @@
 # Common configuration shared between all applications
 configserver:
-    name: Docker JHipster Registry
-    status: Connected to the JHipster Registry running in Docker
+    name: Docker Albedo Registry
+    status: Connected to the Albedo Registry running in Docker
 
 jhipster:
     security:

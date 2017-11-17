@@ -10,13 +10,6 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
-eureka:
-    instance:
-        prefer-ip-address: true
-    client:
-        service-url:
-            defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/
-
 spring:
     profiles:
         active: dev
@@ -77,6 +70,9 @@ spring:
 #    redis:
 #       host: localhost
 #       port: 6379
+    web:
+        root:
+            prefix: albedo-boot-ui/
 
 
 server:
@@ -85,7 +81,7 @@ server:
 #        class-name: org.apache.jasper.servlet.JspServlet
 
 # ===================================================================
-# JHipster specific properties
+# Albedo specific properties
 # ===================================================================
 
 albedo:
@@ -93,13 +89,6 @@ albedo:
     developMode: true
     isTokenInterceptor: false
     freeURL:
-    gateway:
-        rate-limiting:
-            enabled: false
-            limit: 100000
-            duration-in-seconds: 3600
-        authorized-microservices-endpoints: # Access Control Policy, if left empty for a route, all endpoints will be accessible
-            app1: /api,/v2/api-docs # recommended dev configuration
     http:
         version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
     cache: # Cache configuration
@@ -116,7 +105,7 @@ albedo:
                 # Token is valid 24 hours
                 token-validity-in-seconds: 86400
                 token-validity-in-seconds-for-remember-me: 2592000
-    mail: # specific JHipster mail property, for standard properties see MailProperties
+    mail: # specific Albedo mail property, for standard properties see MailProperties
         from: albedoBootWebApp@localhost
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true

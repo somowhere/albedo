@@ -22,7 +22,7 @@ import java.util.List;
  * @author somewhere
  */
 @RestController
-@RequestMapping(value = "/management/albedo/audits", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/management/audits", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuditResource {
 
     private AuditEventService auditEventService;

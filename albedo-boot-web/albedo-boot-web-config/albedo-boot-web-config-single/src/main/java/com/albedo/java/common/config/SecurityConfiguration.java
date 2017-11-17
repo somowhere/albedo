@@ -89,27 +89,30 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().authenticationEntryPoint(http401UnauthorizedEntryPoint)
                 .and()
+                    .csrf()
+                    .disable()
+                    .headers()
+                    .frameOptions()
+                    .disable()
+                .and()
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .antMatchers(adminPath + SecurityConstants.loginUrl).permitAll()
-                .antMatchers(permissAll).permitAll()
-                .antMatchers(adminPath + "/**").authenticated()
-                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
-                    @Override
-                    public <O extends FilterSecurityInterceptor> O postProcess(O fsi) {
-                        fsi.setSecurityMetadataSource(securityMetadataSource());
-                        return fsi;
-                    }
-                }).accessDecisionManager(customizeAccessDecisionManager)
-                .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/swagger-ui/index.html").hasAuthority(AuthoritiesConstants.ADMIN)
+                    .authorizeRequests()
+                    .antMatchers(adminPath + SecurityConstants.loginUrl).permitAll()
+                    .antMatchers(permissAll).permitAll()
+                    .antMatchers(adminPath + "/**").authenticated()
+                    .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                        @Override
+                        public <O extends FilterSecurityInterceptor> O postProcess(O fsi) {
+                            fsi.setSecurityMetadataSource(securityMetadataSource());
+                            return fsi;
+                        }
+                    }).accessDecisionManager(customizeAccessDecisionManager)
+                    .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
+                    .antMatchers("/swagger-ui/index.html").hasAuthority(AuthoritiesConstants.ADMIN)
                 .and()
-                .apply(securityConfigurerAdapter())
-                .and()
-                .csrf()
-                .disable();
+                    .apply(securityConfigurerAdapter());
 
     }
 

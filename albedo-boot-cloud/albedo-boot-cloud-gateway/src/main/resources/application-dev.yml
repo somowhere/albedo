@@ -90,7 +90,7 @@ server:
 #        class-name: org.apache.jasper.servlet.JspServlet
 
 # ===================================================================
-# JHipster specific properties
+# Albedo specific properties
 # ===================================================================
 
 albedo:
@@ -121,7 +121,7 @@ albedo:
                 # Token is valid 24 hours
                 token-validity-in-seconds: 86400
                 token-validity-in-seconds-for-remember-me: 2592000
-    mail: # specific JHipster mail property, for standard properties see MailProperties
+    mail: # specific Albedo mail property, for standard properties see MailProperties
         from: albedoBootCloudGateway@localhost
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true

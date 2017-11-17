@@ -580,4 +580,18 @@ public final class SecurityUtil {
         return sb.toString();
     }
 
+    /**
+     * Get the JWT of the current user.
+     *
+     * @return the JWT of the current user
+     */
+    public static String getCurrentUserJWT() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication authentication = securityContext.getAuthentication();
+        if (authentication != null && authentication.getCredentials() instanceof String) {
+            return (String) authentication.getCredentials();
+        }
+        return null;
+    }
+
 }

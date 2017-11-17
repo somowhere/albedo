@@ -423,16 +423,28 @@ public class AlbedoProperties {
             }
         }
     }
-    public static class Mail {
 
-        private String from = "albedoAlbedo@localhost";
+    public static class Mail {
+        private String from = "";
+        private String baseUrl = "";
+
+        public Mail() {
+        }
 
         public String getFrom() {
-            return from;
+            return this.from;
         }
 
         public void setFrom(String from) {
             this.from = from;
+        }
+
+        public String getBaseUrl() {
+            return this.baseUrl;
+        }
+
+        public void setBaseUrl(String baseUrl) {
+            this.baseUrl = baseUrl;
         }
     }
 

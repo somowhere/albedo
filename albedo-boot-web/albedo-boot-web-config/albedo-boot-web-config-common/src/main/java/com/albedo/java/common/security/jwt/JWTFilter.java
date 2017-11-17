@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -36,9 +37,13 @@ public class JWTFilter extends GenericFilterBean {
         throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         String jwt = resolveToken(httpServletRequest);
-        if (StringUtils.hasText(jwt) && this.tokenProvider.validateToken(jwt)) {
-            Authentication authentication = this.tokenProvider.getAuthentication(jwt);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        if (StringUtils.hasText(jwt)) {
+            if(this.tokenProvider.validateToken(jwt)){
+                Authentication authentication = this.tokenProvider.getAuthentication(jwt);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }else{
+                CookieUtil.deleteCookie(httpServletRequest, (HttpServletResponse) servletResponse, SecurityConstants.AUTHORIZATION_HEADER);
+            }
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }
@@ -47,7 +52,7 @@ public class JWTFilter extends GenericFilterBean {
         String bearerToken = albedoProperties.getHttp().getRestful() || RequestUtil.isRestfulRequest(request)
         ? request.getHeader(SecurityConstants.AUTHORIZATION_HEADER) : CookieUtil.getCookie(request, SecurityConstants.AUTHORIZATION_HEADER);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
-            return bearerToken.substring(7, bearerToken.length());
+            return bearerToken.substring(6, bearerToken.length());
         }
         return null;
     }

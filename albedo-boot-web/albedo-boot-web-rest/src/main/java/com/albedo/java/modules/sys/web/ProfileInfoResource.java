@@ -20,21 +20,24 @@ import java.util.List;
 @RequestMapping("${albedo.adminPath}/api")
 public class ProfileInfoResource {
 
-    @Resource
-    Environment env;
+    private Environment environment;
 
-    @Resource
     private AlbedoProperties albedoProperties;
+
+    public ProfileInfoResource(Environment environment, AlbedoProperties albedoProperties) {
+        this.environment = environment;
+        this.albedoProperties = albedoProperties;
+    }
 
     @RequestMapping(value = "/profile-info",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ProfileInfoResponse getActiveProfiles() {
-        return new ProfileInfoResponse(DefaultProfileUtil.getActiveProfiles(env), getRibbonEnv());
+        return new ProfileInfoResponse(DefaultProfileUtil.getActiveProfiles(environment), getRibbonEnv());
     }
 
     private String getRibbonEnv() {
-        String[] activeProfiles = DefaultProfileUtil.getActiveProfiles(env);
+        String[] activeProfiles = DefaultProfileUtil.getActiveProfiles(environment);
         String[] displayOnActiveProfiles = albedoProperties.getRibbon().getDisplayOnActiveProfiles();
 
         if (displayOnActiveProfiles == null) {

@@ -2,7 +2,9 @@ package com.albedo.java.vo.sys;
 
 import com.albedo.java.util.base.Collections3;
 import com.albedo.java.vo.base.DataEntityVo;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.validation.constraints.Size;
@@ -14,6 +16,8 @@ import java.util.List;
  */
 @Data
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserVo extends DataEntityVo {
 
     public static final int PASSWORD_MIN_LENGTH = 0;

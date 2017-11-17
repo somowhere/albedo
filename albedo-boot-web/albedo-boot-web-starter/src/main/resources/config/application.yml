@@ -49,7 +49,7 @@ security:
         enabled: false
 
 # ===================================================================
-# JHipster specific properties
+# Albedo specific properties
 # ===================================================================
 
 albedo:

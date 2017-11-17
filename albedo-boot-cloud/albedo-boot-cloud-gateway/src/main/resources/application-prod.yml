@@ -89,7 +89,7 @@ server:
         min-response-size: 1024
 
 # ===================================================================
-# JHipster specific properties
+# Albedo specific properties
 # ===================================================================
 
 albedo:
@@ -108,7 +108,7 @@ albedo:
         rememberMe:
             # security key (this key should be unique for your application, and kept secret)
             key: 8748a5ea8df623bc800993fbaed1090b31b049cc
-    mail: # specific JHipster mail property, for standard properties see MailProperties
+    mail: # specific Albedo mail property, for standard properties see MailProperties
         from: albedoJhipster@localhost
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true

@@ -52,6 +52,17 @@ public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletCon
     @Autowired(required = false)
     private MetricRegistry metricRegistry;
 
+    public void setMetricRegistry(MetricRegistry metricRegistry) {
+        this.metricRegistry = metricRegistry;
+    }
+
+    public WebConfigurer(Environment env, AlbedoProperties props) {
+        this.env = env;
+        this.albedoProperties=props;
+
+
+    }
+
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         if (env.getActiveProfiles().length != 0) {
@@ -90,7 +101,7 @@ public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletCon
         /*
          * Enable HTTP/2 for Undertow - https://twitter.com/ankinson/status/829256167700492288
          * HTTP/2 requires HTTPS, so HTTP requests will fallback to HTTP/1.1.
-         * See the JHipsterProperties class and your application-*.yml configuration files
+         * See the AlbedoProperties class and your application-*.yml configuration files
          * for more information.
          */
         if (albedoProperties.getHttp().getVersion().equals(AlbedoProperties.Http.Version.V_2_0) &&
@@ -109,11 +120,11 @@ public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletCon
         if (PublicUtil.isEmpty(prefixPath)) {
             prefixPath = DefaultProfileUtil.resolvePathPrefix(this.getClass());
         }
-        if (env.acceptsProfiles(Globals.SPRING_PROFILE_PRODUCTION)) {
-            root = new File(prefixPath + "target/www/");
-        } else {
+//        if (env.acceptsProfiles(Globals.SPRING_PROFILE_PRODUCTION)) {
+//            root = new File(prefixPath + "target/www/");
+//        } else {
             root = new File(prefixPath + "src/main/webapp/");
-        }
+//        }
         if (root.exists() && root.isDirectory()) {
             log.info("root {}", root.getAbsolutePath());
             container.setDocumentRoot(root);
