@@ -48,6 +48,11 @@ public final class Globals {
     public static final Integer MSG_TYPE_LOGIN = -99;
 
 
+    public static final String ERROR_HTTP_CODE_400 = "error.http.400";
+    public static final String ERROR_HTTP_CODE_403 = "error.http.403";
+    public static final String ERROR_HTTP_CODE_405 = "error.http.405";
+    public static final String ERROR_HTTP_CODE_500 = "error.http.500";
+
     private Globals() {
     }
 }

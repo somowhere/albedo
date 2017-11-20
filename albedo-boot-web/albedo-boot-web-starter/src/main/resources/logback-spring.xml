@@ -144,7 +144,7 @@
             <!--<charset>GBK</charset>-->
         </encoder>
     </appender>
-    <logger name="com.albedo.java" level="DEBUG"/>
+    <logger name="com.albedo.java" level="INFO"/>
 
     <logger name="javax.activation" level="WARN"/>
     <logger name="javax.mail" level="WARN"/>
@@ -164,6 +164,7 @@
     <logger name="org.hibernate.ejb.HibernatePersistence" level="OFF"/>
     <logger name="org.springframework" level="WARN"/>
     <logger name="org.springframework.web" level="INFO"/>
+    <logger name="org.springframework.web.servlet.mvc.method" level="DEBUG"/>
     <logger name="org.springframework.security" level="WARN"/>
     <logger name="org.springframework.cache" level="WARN"/>
     <logger name="org.thymeleaf" level="WARN"/>

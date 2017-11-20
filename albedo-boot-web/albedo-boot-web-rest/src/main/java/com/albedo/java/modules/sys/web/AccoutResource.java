@@ -1,5 +1,6 @@
 package com.albedo.java.modules.sys.web;
 
+import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.common.security.SecurityConstants;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.common.security.jwt.TokenProvider;
@@ -26,10 +27,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -46,8 +44,8 @@ import java.util.Collections;
 public class AccoutResource extends BaseResource {
 
     public final static String LOGIN_FAIL_MAP = "loginFailMap";
-
-
+    @Resource
+    private AlbedoProperties albedoProperties;
     @Resource
     private UserService userService;
     private final TokenProvider tokenProvider;
@@ -107,7 +105,7 @@ public class AccoutResource extends BaseResource {
 
     @PostMapping("authenticate")
     @Timed
-    public ResponseEntity authorize(LoginVo loginVo, HttpServletResponse response) {
+    public ResponseEntity authorize(@RequestBody  LoginVo loginVo, HttpServletResponse response) {
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginVo.getUsername(), loginVo.getPassword());
@@ -119,35 +117,13 @@ public class AccoutResource extends BaseResource {
             String jwt = "Bearer" + tokenProvider.createToken(authentication, rememberMe);
             CookieUtil.setCookie(response, SecurityConstants.AUTHORIZATION_HEADER, jwt);
             log.info("{}", jwt);
-            return ResultBuilder.buildOk(jwt);
+            return ResultBuilder.buildDataOk(jwt);
         } catch (AuthenticationException ae) {
             log.trace("Authentication exception trace: {}", ae);
             return new ResponseEntity<>(Collections.singletonMap("AuthenticationException",
                     ae.getLocalizedMessage()), HttpStatus.UNAUTHORIZED);
         }
     }
-
-    /**
-     * Object to return as body in JWT Authentication.
-     */
-    static class JWTToken {
-
-        private String idToken;
-
-        JWTToken(String idToken) {
-            this.idToken = idToken;
-        }
-
-        @JsonProperty("id_token")
-        String getIdToken() {
-            return idToken;
-        }
-
-        void setIdToken(String idToken) {
-            this.idToken = idToken;
-        }
-    }
-
 
     @GetMapping(value = "logout")
     public String logout(HttpServletRequest request) {

@@ -1,6 +1,7 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.audit.AuditEventService;
+import com.albedo.java.util.DateUtil;
 import com.albedo.java.web.rest.util.PaginationUtil;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URISyntaxException;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -58,11 +60,11 @@ public class AuditResource {
     @RequestMapping(method = RequestMethod.GET,
             params = {"fromDate", "toDate"})
     public ResponseEntity<List<AuditEvent>> getByDates(
-            @RequestParam(value = "fromDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
-            @RequestParam(value = "toDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
+            @RequestParam(value = "fromDate") String fromDate,
+            @RequestParam(value = "toDate") String toDate,
             Pageable pageable) throws URISyntaxException {
 
-        Page<AuditEvent> page = auditEventService.findByDates(fromDate.atTime(0, 0), toDate.atTime(23, 59), pageable);
+        Page<AuditEvent> page = auditEventService.findByDates(DateUtil.parseDate(fromDate), DateUtil.parseDate(toDate), pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/audits");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

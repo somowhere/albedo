@@ -42,6 +42,7 @@ public class AlbedoProperties {
     private String jedisKeyPrefix = "";
     private String urlSuffix = ".html";
     private Boolean developMode = true;
+    private Boolean testMode = true;
     private Boolean quartzEnabled = true;
     private Boolean isTokenInterceptor = true;
     private Boolean cluster = false;

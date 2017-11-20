@@ -32,7 +32,7 @@ public class GeneralResource {
     /*** 返回消息内容头 msg */
     public static final String DATA = "data";
     protected static Logger logger = LoggerFactory.getLogger(GeneralResource.class);
-    protected final String RESPONSE_JSON = "text/json; charset=UTF-8";
+    protected static final String RESPONSE_JSON = "application/json;charset=UTF-8";
     protected final String ENCODING_UTF8 = "UTF-8";
     /**
      * 日志对象
@@ -65,8 +65,9 @@ public class GeneralResource {
     protected HttpSession session;
 
     public static final void writeStringHttpResponse(String str, HttpServletResponse response) {
-        if (str == null)
+        if (str == null) {
             throw new RuntimeMsgException("WRITE_STRING_RESPONSE_NULL");
+        }
         response.reset();
         response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
@@ -79,11 +80,12 @@ public class GeneralResource {
     }
 
     public static final void writeJsonHttpResponse(Object object, HttpServletResponse response) {
-        if (object == null)
+        if (object == null) {
             throw new RuntimeMsgException("WRITE_JSON_RESPONSE_NULL");
+        }
         try {
             response.reset();
-            response.setContentType("text/json; charset=UTF-8");
+            response.setContentType(RESPONSE_JSON);
             response.setCharacterEncoding("UTF-8");
             String str = object instanceof String ? (String) object : Json.toJsonString(object);
             logger.info("write {}", str);

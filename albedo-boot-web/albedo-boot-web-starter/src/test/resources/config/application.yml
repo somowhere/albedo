@@ -79,7 +79,8 @@ security:
 
 albedo:
     application: albedo
-    adminPath: /a
+    adminPath: /api
+    testMode: true
     frontPath: /f
     staticFileDirectory: D:/temp/files/
     urlSuffix: html
@@ -117,4 +118,4 @@ albedo:
         # comma seperated list of profiles to show a ribbon on the GUI
         displayOnActiveProfiles: dev
     http:
-        restful: false
+        restful: true

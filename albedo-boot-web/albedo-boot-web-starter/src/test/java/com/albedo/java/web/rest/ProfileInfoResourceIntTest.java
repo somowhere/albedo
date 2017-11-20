@@ -8,12 +8,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -37,6 +40,8 @@ public class ProfileInfoResourceIntTest {
 
     private MockMvc restProfileMockMvc;
 
+    @Autowired
+    protected WebApplicationContext webApplicationContext;
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -49,9 +54,8 @@ public class ProfileInfoResourceIntTest {
         when(environment.getDefaultProfiles()).thenReturn(activeProfiles);
         when(environment.getActiveProfiles()).thenReturn(activeProfiles);
 
-        ProfileInfoResource profileInfoResource = new ProfileInfoResource(environment, albedoProperties);
-        this.restProfileMockMvc = MockMvcBuilders
-            .standaloneSetup(profileInfoResource)
+//        ProfileInfoResource profileInfoResource = new ProfileInfoResource(environment, albedoProperties);
+        this.restProfileMockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
             .build();
     }
 

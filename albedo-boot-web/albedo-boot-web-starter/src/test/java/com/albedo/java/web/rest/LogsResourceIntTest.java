@@ -1,9 +1,9 @@
 package com.albedo.java.web.rest;
 
+import ch.qos.logback.core.rolling.RollingFileAppender;
 import com.albedo.java.AlbedoBootWebApp;
 import com.albedo.java.modules.sys.web.LogsResource;
 import com.albedo.java.web.rest.vm.LoggerVM;
-import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.LoggerContext;
 import org.junit.Before;
 import org.junit.Test;
@@ -65,6 +65,6 @@ public class LogsResourceIntTest {
     @Test
     public void testLogstashAppender() {
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
-        assertThat(context.getLogger("ROOT").getAppender("ASYNC_LOGSTASH")).isInstanceOf(AsyncAppender.class);
+        assertThat(context.getLogger("ROOT").getAppender("FILE")).isInstanceOf(RollingFileAppender.class);
     }
 }

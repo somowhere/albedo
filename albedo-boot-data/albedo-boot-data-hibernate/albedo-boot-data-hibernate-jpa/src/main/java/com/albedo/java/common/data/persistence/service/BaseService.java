@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.List;
 
 @Transactional
 public class BaseService<Repository extends BaseRepository<T, PK>, T extends BaseEntity, PK extends Serializable> {
@@ -29,8 +30,9 @@ public class BaseService<Repository extends BaseRepository<T, PK>, T extends Bas
         Type type = c.getGenericSuperclass();
         if (type instanceof ParameterizedType) {
             Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
-            if (parameterizedType[1] instanceof Class)
+            if (parameterizedType[1] instanceof Class) {
                 persistentClass = (Class<T>) parameterizedType[1];
+            }
         }
     }
 
@@ -43,6 +45,10 @@ public class BaseService<Repository extends BaseRepository<T, PK>, T extends Bas
     public Iterable<T> save(Iterable<T> entitys) {
         entitys.forEach(item -> save(item));
         return entitys;
+    }
+
+    public List<T> findAll(){
+        return repository.findAll();
     }
 
     public Class<T> getPersistentClass() {

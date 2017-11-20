@@ -293,11 +293,12 @@ public class PublicUtil {
         char[] c = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
         Random random = new Random();
         StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < size; ++i)
+        for (int i = 0; i < size; ++i) {
             sb.append(c[(Math.abs(random.nextInt()) % c.length)]);
-
+        }
         return sb.toString();
     }
+
 
     /**
      * 判断某个对象是否为空 集合类、数组做特殊处理

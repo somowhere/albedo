@@ -42,11 +42,22 @@ var Login = function () {
                 error.insertAfter(element.closest('.input-icon'));
             },
             submitHandler: function (form) {
-                $(form).ajaxSubmit({
-                    success: function () {
-                        $('.alert-danger').hide();
-                        albedo.goTo(ctx + "/index");
-                    }, error: function (e) {
+                $.ajax({
+                    url: $(form).attr("action"),
+                    type: "POST",
+                    data: JSON.stringify($(form).serializeObject()),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    timeout: 60000,
+                    success: function (re) {
+                        if(re.status==1){
+                            $('.alert-danger').hide();
+                            albedo.goTo(ctx + "/index");
+                        }else{
+                            $('.alert-danger').show().find("span").text(re.message);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
                         $('.alert-danger').show().find("span").text("用户名或密码输入有误");
                     }
                 });

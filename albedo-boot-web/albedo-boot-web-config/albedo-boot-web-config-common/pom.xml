@@ -14,7 +14,6 @@
 
         <jcache.version>1.0.0</jcache.version>
         <jjwt.version>0.7.0</jjwt.version>
-        <problem-spring-web.version>0.20.0</problem-spring-web.version>
     </properties>
     <dependencies>
         <dependency>
@@ -26,11 +25,6 @@
             <groupId>com.albedo.java</groupId>
             <artifactId>albedo-boot-service</artifactId>
             <version>${project.release.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.zalando</groupId>
-            <artifactId>problem-spring-web</artifactId>
-            <version>${problem-spring-web.version}</version>
         </dependency>
         <!-- security -->
         <dependency>

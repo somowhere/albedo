@@ -255,7 +255,7 @@ public class User extends IdEntity {
 
         User user = (User) o;
 
-        if (!loginId.equals(user.loginId)) {
+        if (loginId==null || !loginId.equals(user.loginId)) {
             return false;
         }
 

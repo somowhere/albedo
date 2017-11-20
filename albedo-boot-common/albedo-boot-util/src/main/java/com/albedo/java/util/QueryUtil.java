@@ -125,7 +125,7 @@ public class QueryUtil {
                     if (PublicUtil.isEmpty(operate))
                         queryCondition.setOperate(Operator.eq.getOperator());
                     sb.append(" ").append(isAnd ? SystemConfig.CONDITION_AND : SystemConfig.CONDITION_OR)
-                            .append(SystemConfig.SPACE).append(queryCondition.isAnalytiColumn() ? queryCondition.getFieldRealColumnName()
+                            .append(SystemConfig.SPACE).append(queryCondition.isAnalytiColumn() && PublicUtil.isNotEmpty(queryCondition.getFieldRealColumnName()) ? queryCondition.getFieldRealColumnName()
                             : argStr + queryCondition.getFieldName()).append(" ")
                             .append(operate);
                     if (!Operator.isNotNull.equals(queryCondition.getOperate())

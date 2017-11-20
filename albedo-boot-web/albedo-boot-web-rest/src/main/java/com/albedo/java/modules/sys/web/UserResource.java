@@ -3,6 +3,7 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.config.template.tag.FormDirective;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Role;
+import com.albedo.java.modules.sys.service.ModuleService;
 import com.albedo.java.modules.sys.service.UserService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
@@ -28,6 +29,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing user.
@@ -72,6 +75,8 @@ public class UserResource extends DataVoResource<UserService, UserVo> {
 
     @Autowired(required = false)
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private ModuleService moduleService;
 
 
     @GetMapping(value = "/")
@@ -106,6 +111,22 @@ public class UserResource extends DataVoResource<UserService, UserVo> {
                 .map(item -> service.copyBeanToVo(item)));
     }
 
+
+    /**
+     * GET  /users/:id : get the "login" user.
+     *
+     * @return the ResponseEntity with status 200 (OK) and with body the "id" user, or with status 404 (Not Found)
+     */
+    @GetMapping("/authorities")
+    @Timed
+    public ResponseEntity authorities() {
+        String id = SecurityUtil.getCurrentUserId();
+        log.debug("REST request to authorities  : {}", id);
+        return ResultBuilder.buildOk(SecurityUtil.getModuleList().stream().map(item -> moduleService.copyBeanToVo(item)).collect(Collectors.toList()));
+    }
+
+
+
     @GetMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
 //	@Secured(AuthoritiesConstants.ADMIN)
@@ -134,7 +155,7 @@ public class UserResource extends DataVoResource<UserService, UserVo> {
                 userVo.getId(), userVo.getLoginId()))) {
             throw new RuntimeMsgException("登录Id已存在");
         }
-        if (!PublicUtil.isNotEmpty(userVo.getEmail()) && checkByProperty(Reflections.createObj(UserVo.class,
+        if (PublicUtil.isNotEmpty(userVo.getEmail()) && !checkByProperty(Reflections.createObj(UserVo.class,
                 Lists.newArrayList(UserVo.F_ID, UserVo.F_EMAIL), userVo.getId(), userVo.getEmail()))) {
             throw new RuntimeMsgException("邮箱已存在");
         }

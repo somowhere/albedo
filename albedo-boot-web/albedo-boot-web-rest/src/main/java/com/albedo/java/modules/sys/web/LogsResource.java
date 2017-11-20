@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * @author somewhere
  */
 @RestController
-@RequestMapping("/management/albedo")
+@RequestMapping("/management")
 public class LogsResource {
 
     @RequestMapping(value = "/logs",

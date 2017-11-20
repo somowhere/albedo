@@ -434,6 +434,9 @@ public final class SecurityUtil {
      * @return 标准连接条件对象
      */
     public static List<QueryCondition> dataScopeFilterSql(String orgAlias, String userAlias) {
+        if(albedoProperties.getTestMode()){
+            return null;
+        }
         return dataScopeFilter(getCurrentUserId(), orgAlias, userAlias, true);
     }
 

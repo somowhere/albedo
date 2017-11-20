@@ -103,10 +103,15 @@ public class BeanValidators {
         }
         return errorMessages;
     }
+    public static List<ObjectError> extractPropertyAndMessage(MethodArgumentNotValidException methodArgumentNotValidException) {
+        List<ObjectError> allErrors = methodArgumentNotValidException.getBindingResult().getAllErrors();
 
+        return allErrors;
+
+    }
     public static List<String> extractPropertyAndMessageAsList(MethodArgumentNotValidException methodArgumentNotValidException, String separator) {
         List<String> errorMessages = Lists.newArrayList();
-        List<ObjectError> allErrors = methodArgumentNotValidException.getBindingResult().getAllErrors();
+        List<ObjectError> allErrors = extractPropertyAndMessage(methodArgumentNotValidException);
         for (ObjectError violation : allErrors) {
             errorMessages.add(violation.getCodes()[0] + separator + violation.getDefaultMessage() + ";");
         }

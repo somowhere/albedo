@@ -1,5 +1,6 @@
 package com.albedo.java.web.rest.errors;
 
+import com.albedo.java.web.rest.base.BaseResource;
 import org.springframework.dao.ConcurrencyFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -13,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-public class ExceptionTranslatorTestController {
+public class ExceptionTranslatorTestController extends BaseResource {
 
     @GetMapping("/test/concurrency-failure")
     public void concurrencyFailure() {
@@ -52,10 +53,10 @@ public class ExceptionTranslatorTestController {
         throw new AccessDeniedException("test access denied!");
     }
 
-    @GetMapping("/test/response-status")
-    public void exceptionWithReponseStatus() {
-        throw new TestResponseStatusException();
-    }
+//    @GetMapping("/test/response-status")
+//    public void exceptionWithReponseStatus() {
+//        throw new TestResponseStatusException();
+//    }
 
     @GetMapping("/test/internal-server-error")
     public void internalServerError() {
@@ -76,9 +77,9 @@ public class ExceptionTranslatorTestController {
         }
     }
 
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "test response status")
-    @SuppressWarnings("serial")
-    public static class TestResponseStatusException extends RuntimeException {
-    }
+//    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "test response status")
+//    @SuppressWarnings("serial")
+//    public static class TestResponseStatusException extends RuntimeException {
+//    }
 
 }
