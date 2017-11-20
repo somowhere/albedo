@@ -23,7 +23,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.security.MessageDigest;
 import java.util.*;
 
 /**
@@ -56,38 +55,14 @@ public final class SecurityUtil {
     private SecurityUtil() {
     }
 
-    public static boolean isAdmin(String id) {
-        return "1".equals(id);
-    }
 
     public static boolean isAdmin() {
-        return isAdmin(getCurrentUserId());
+        return SecurityAuthUtil.isAdmin(SecurityUtil.getCurrentUserId());
     }
 
-    /**
-     * Get the login of the current user.
-     *
-     * @return the login of the current user
-     */
-    public static String getCurrentUserLogin() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        Authentication authentication = securityContext.getAuthentication();
-        String userName = null;
-        if (authentication != null) {
-            if (authentication.getPrincipal() instanceof UserPrincipal) {
-                UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-                userName = userPrincipal.getUsername();
-            } else if (authentication.getPrincipal() instanceof UserDetails) {
-                UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-                userName = springSecurityUser.getUsername();
-            } else if (authentication.getPrincipal() instanceof String) {
-                userName = (String) authentication.getPrincipal();
-            }
-        }
-        return userName;
-    }
+
     public static String getCurrentUserId() {
-        String userName = getCurrentUserLogin();
+        String userName = SecurityAuthUtil.getCurrentUserLogin();
         if(PublicUtil.isNotEmpty(userName)){
             User user = getByLoginId(userName);
             if(user!=null) {
@@ -186,11 +161,12 @@ public final class SecurityUtil {
      * @return
      */
     public static List<Module> getModuleList(boolean refresh, String userId) {
-        if (PublicUtil.isEmpty(userId))
+        if (PublicUtil.isEmpty(userId)) {
             userId = getCurrentUserId();
+        }
         List<Module> moduleList = getCacheJsonArray(CACHE_MODULE_LIST, userId, Module.class);
         if (PublicUtil.isEmpty(moduleList) || refresh) {
-            moduleList = isAdmin(userId) ?
+            moduleList = SecurityAuthUtil.isAdmin(userId) ?
                     moduleService.findAllByStatusOrderBySort(Module.FLAG_NORMAL)
                     : moduleService.findAllAuthByUser(userId);
             putCache(CACHE_MODULE_LIST, Json.toJsonString(moduleList), userId);
@@ -223,7 +199,7 @@ public final class SecurityUtil {
         String userId = getCurrentUserId();
         List<Role> roleList = getCacheJsonArray(CACHE_ROLE_LIST, Role.class);
         if (PublicUtil.isEmpty(roleList)) {
-            roleList = roleService.findAllList(SecurityUtil.isAdmin(userId),
+            roleList = roleService.findAllList(SecurityAuthUtil.isAdmin(userId),
                     SecurityUtil.dataScopeFilter(SecurityUtil.getCurrentUserId(), "org", "creator"));
             putCache(CACHE_ROLE_LIST, Json.toJsonString(roleList));
         }
@@ -412,7 +388,7 @@ public final class SecurityUtil {
 
     public static boolean hasPermission(String permission) {
         List<Module> list = getModuleList();
-        if (isAdmin(getCurrentUserId())) {
+        if (SecurityAuthUtil.isAdmin(getCurrentUserId())) {
             return true;
         }
         if (PublicUtil.isEmpty(permission)) {
@@ -487,7 +463,7 @@ public final class SecurityUtil {
         List<String> dataScope = Lists.newArrayList();
         List<QueryCondition> queryConditions = Lists.newArrayList();
         // 超级管理员，跳过权限过滤
-        if (!SecurityUtil.isAdmin(userId)) {
+        if (!SecurityAuthUtil.isAdmin(userId)) {
             User user = getByUserId(userId);
             boolean isDataScopeAll = false;
             String tempOrgId, userOrgId = null, idSql = isSql ? ".id_" : ".id";
@@ -541,60 +517,5 @@ public final class SecurityUtil {
         return queryConditions;
     }
 
-    /**
-     * 签名算法
-     *
-     * @param data
-     * @return
-     */
-    public static String sign(Map<String, String> data, String key) {
-        String resp = "";
-        StringBuffer unsignString = new StringBuffer();
-        data.put("sig", key);
-        List<String> nameList = new ArrayList<String>(data.keySet());
-        // 首先按字段名的字典序排列
-        Collections.sort(nameList);
-        for (String name : nameList) {
-            String value = data.get(name);
-            if (value != null) {
-                unsignString.append(name).append("=").append(value).append("&");
-            }
-        }
-        try {
-            if (unsignString.length() > 0) {
-                unsignString.delete(unsignString.length() - 1, unsignString.length());
-            }
-            resp = md5(unsignString.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        resp = resp.toLowerCase();
-        return resp;
-    }
-
-    public static String md5(String value) throws Exception {
-        MessageDigest mdInst = MessageDigest.getInstance("MD5");
-        mdInst.update(value.getBytes("UTF-8"));
-        byte[] arr = mdInst.digest();
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < arr.length; ++i) {
-            sb.append(Integer.toHexString((arr[i] & 0xFF) | 0x100).substring(1, 3));
-        }
-        return sb.toString();
-    }
-
-    /**
-     * Get the JWT of the current user.
-     *
-     * @return the JWT of the current user
-     */
-    public static String getCurrentUserJWT() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        Authentication authentication = securityContext.getAuthentication();
-        if (authentication != null && authentication.getCredentials() instanceof String) {
-            return (String) authentication.getCredentials();
-        }
-        return null;
-    }
 
 }

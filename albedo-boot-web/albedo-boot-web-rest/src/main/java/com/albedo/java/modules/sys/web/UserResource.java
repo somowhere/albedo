@@ -2,6 +2,7 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.config.template.tag.FormDirective;
 import com.albedo.java.common.security.SecurityUtil;
+import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.service.ModuleService;
 import com.albedo.java.modules.sys.service.UserService;
@@ -29,7 +30,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**

@@ -2,15 +2,12 @@ package com.albedo.java.web.rest;
 
 import com.albedo.java.AlbedoBootWebApp;
 import com.albedo.java.common.config.AlbedoProperties;
-import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.common.security.MailService;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.common.security.jwt.TokenProvider;
-import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.modules.sys.service.UserService;
-import com.albedo.java.modules.sys.web.AccoutResource;
 import com.albedo.java.modules.sys.web.UserResource;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.vo.base.LoginVo;
@@ -30,9 +27,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.doNothing;

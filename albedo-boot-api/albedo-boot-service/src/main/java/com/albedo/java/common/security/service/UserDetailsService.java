@@ -1,9 +1,6 @@
 package com.albedo.java.common.security.service;
 
-import com.albedo.java.common.security.AuthoritiesConstants;
-import com.albedo.java.common.security.SecurityUtil;
-import com.albedo.java.common.security.UserNotActivatedException;
-import com.albedo.java.common.security.UserPrincipal;
+import com.albedo.java.common.security.*;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.util.PublicUtil;
@@ -46,7 +43,7 @@ public class UserDetailsService implements org.springframework.security.core.use
             }
 
             List<GrantedAuthority> grantedAuthorities = Lists.newArrayList(new SimpleGrantedAuthority("user"));
-            if (SecurityUtil.isAdmin(user.getId())) {
+            if (SecurityAuthUtil.isAdmin(user.getId())) {
                 grantedAuthorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ADMIN));
             }
             SecurityUtil.getModuleList(user.getId()).forEach(authority -> {
