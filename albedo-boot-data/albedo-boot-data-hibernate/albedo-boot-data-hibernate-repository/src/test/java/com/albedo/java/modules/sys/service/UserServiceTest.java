@@ -154,6 +154,9 @@ public class UserServiceTest {
     }
 
     public void flushTestUsers() {
+        if(!getSession().isJoinedToTransaction()){
+            getSession().beginTransaction();
+        }
         User userAdmin = new User();
         userAdmin.setId("1");
         userAdmin.setLoginId("admin");
@@ -214,6 +217,7 @@ public class UserServiceTest {
         assertThat(userRepository.exists(user2.getId()), is(true));
         assertThat(userRepository.exists(user3.getId()), is(true));
         assertThat(userRepository.exists(user4.getId()), is(true));
+        getSession().getTransaction().commit();
     }
 
 
@@ -296,7 +300,7 @@ public class UserServiceTest {
 
         User foundPerson = userRepository.findOne(id);
         foundPerson.setName("Schlicht");
-
+        userRepository.save(foundPerson);
         User updatedPerson = userRepository.findOne(id);
         assertThat(updatedPerson.getName(), is(foundPerson.getName()));
     }
@@ -313,22 +317,30 @@ public class UserServiceTest {
     public void deletesAUserById() {
 
         flushTestUsers();
-
+        if(!getSession().isJoinedToTransaction()){
+            getSession().beginTransaction();
+        }
         userRepository.delete(user1.getId());
         getSession().flush();
         assertThat(userRepository.exists(id), is(false));
         assertThat(userRepository.findOne(id), is(nullValue()));
+
+        getSession().getTransaction().commit();
     }
 
     @Test
     public void testDelete() {
 
         flushTestUsers();
-
+        if(!getSession().isJoinedToTransaction()){
+            getSession().beginTransaction();
+        }
         userRepository.delete(user1);
         getSession().flush();
         assertThat(userRepository.exists(id), is(false));
         assertThat(userRepository.findOne(id), is(nullValue()));
+
+        getSession().getTransaction().commit();
     }
 
     @Test
@@ -364,7 +376,9 @@ public class UserServiceTest {
     public void deleteColletionOfEntities() {
 
         flushTestUsers();
-
+        if(!getSession().isJoinedToTransaction()){
+            getSession().beginTransaction();
+        }
         long before = userRepository.count();
 
         userRepository.delete(Arrays.asList(user1, user2));
@@ -372,6 +386,8 @@ public class UserServiceTest {
         assertThat(userRepository.exists(user1.getId()), is(false));
         assertThat(userRepository.exists(user2.getId()), is(false));
         assertThat(userRepository.count(), is(before - 2));
+
+        getSession().getTransaction().commit();
     }
 
     @Test
@@ -393,7 +409,9 @@ public class UserServiceTest {
     public void deleteAll() throws Exception {
 
         flushTestUsers();
-
+        if(!getSession().isJoinedToTransaction()){
+            getSession().beginTransaction();
+        }
         userRepository.delete(userRepository.findAll(
                 DynamicSpecifications.bySearchQueryCondition(
                         QueryCondition.ne(User.F_ID, "1"))
@@ -401,11 +419,16 @@ public class UserServiceTest {
 
         getSession().flush();
         assertThat(userRepository.count(), is(1L));
+
+        getSession().getTransaction().commit();
     }
 
     @Test
     public void testCountsCorrectly() {
         flushTestUsers();
+        if(!getSession().isJoinedToTransaction()){
+            getSession().beginTransaction();
+        }
         long count = userRepository.count();
 
         User user = new User();
@@ -415,6 +438,8 @@ public class UserServiceTest {
 
         getSession().flush();
         assertThat(userRepository.count() == count + 1, is(true));
+
+        getSession().getTransaction().commit();
     }
 
 //    @Test
@@ -463,11 +488,15 @@ public class UserServiceTest {
     private void assertDeleteCallDoesNotDeleteAnything(List<User> collection) {
 
         flushTestUsers();
+        if(!getSession().isJoinedToTransaction()){
+            getSession().beginTransaction();
+        }
         long count = userRepository.count();
 
         userRepository.delete(collection);
         getSession().flush();
         assertThat(userRepository.count(), is(count));
+        getSession().getTransaction().commit();
     }
 
 

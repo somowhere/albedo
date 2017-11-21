@@ -73,6 +73,7 @@ public class TestConfig implements ResourceLoaderAware {
         return new DataSourceTransactionManager(dataSource);
     }
 
+
     @Bean
     public AuditorAware<String> auditorAware() {
         return new AuditorAware<String>() {

@@ -1,6 +1,9 @@
 package com.albedo.java.common.config;
 
 import com.albedo.java.common.listener.ContextInitListener;
+import com.albedo.java.modules.sys.domain.Module;
+import com.albedo.java.modules.sys.domain.Role;
+import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.spring.DefaultProfileUtil;
@@ -11,14 +14,22 @@ import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.servlet.InstrumentedFilter;
 import com.codahale.metrics.servlets.MetricsServlet;
 import io.undertow.UndertowOptions;
+import org.ehcache.config.builders.CacheConfigurationBuilder;
+import org.ehcache.config.builders.ResourcePoolsBuilder;
+import org.ehcache.expiry.Duration;
+import org.ehcache.expiry.Expirations;
+import org.ehcache.jsr107.Eh107Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.MimeMappings;
 import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -35,12 +46,15 @@ import javax.servlet.*;
 import java.io.File;
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Configuration of web application with Servlet 3.0 APIs.
  */
+@EnableCaching
 @Configuration
-public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletContextInitializer, EmbeddedServletContainerCustomizer {
+@AutoConfigureAfter(value = { CacheConfiguration.class })
+public class WebConfigurer implements ServletContextInitializer, EmbeddedServletContainerCustomizer {
 
     private final Logger log = LoggerFactory.getLogger(WebConfigurer.class);
     @Resource
@@ -56,12 +70,37 @@ public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletCon
         this.metricRegistry = metricRegistry;
     }
 
+    private final javax.cache.configuration.Configuration<Object, Object> jcacheConfiguration;
+
+
     public WebConfigurer(Environment env, AlbedoProperties props) {
         this.env = env;
         this.albedoProperties=props;
 
+        AlbedoProperties.Cache.Ehcache ehcache =
+                albedoProperties.getCache().getEhcache();
 
+        jcacheConfiguration = Eh107Configuration.fromEhcacheCacheConfiguration(
+                CacheConfigurationBuilder.newCacheConfigurationBuilder(Object.class, Object.class,
+                        ResourcePoolsBuilder.heap(ehcache.getMaxEntries()))
+                        .withExpiry(Expirations.timeToLiveExpiration(Duration.of(ehcache.getTimeToLiveSeconds(), TimeUnit.SECONDS)))
+                        .build());
     }
+
+
+    @Bean
+    public JCacheManagerCustomizer cacheManagerCustomizer() {
+
+        return cm -> {
+            cm.createCache(User.class.getName(), jcacheConfiguration);
+            cm.createCache(Role.class.getName(), jcacheConfiguration);
+            cm.createCache(Module.class.getName(), jcacheConfiguration);
+            cm.createCache(com.albedo.java.modules.sys.domain.Dict.class.getName(), jcacheConfiguration);
+
+            // jhipster-needle-ehcache-add-entry
+        };
+    }
+
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
@@ -222,18 +261,6 @@ public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletCon
 //        bean.setOrder(0);
 //        return bean;
 //    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new OperateInterceptor(albedoProperties)).addPathPatterns(albedoProperties.getAdminPath("/**"), "/management/**", "/api/**");
-    }
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName(PublicUtil.isEmpty(albedoProperties.getDefaultView()) ? PublicUtil.toAppendStr("redirect:", albedoProperties.getAdminPath("/login")) : albedoProperties.getDefaultView());
-        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        super.addViewControllers(registry);
-    }
 
     @Bean
     public ContextInitListener contextInitListener() {

@@ -14,7 +14,7 @@
     <!-- 项目属性 -->
     <properties>
         <project.release.version>1.0.0-SNAPSHOT</project.release.version>
-        <hibernate.version>4.3.11.Final</hibernate.version>
+        <hibernate.version>5.2.10.Final</hibernate.version>
         <assertj-core.version>3.5.2</assertj-core.version>
         <lombok.version>1.16.6</lombok.version>
         <!-- 依赖库的版本定义 -->

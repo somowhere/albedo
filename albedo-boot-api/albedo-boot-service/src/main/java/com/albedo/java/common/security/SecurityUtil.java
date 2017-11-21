@@ -86,7 +86,7 @@ public final class SecurityUtil {
      * @return 取不到返回null
      */
     public static User getByUserId(String userId) {
-        User user = CacheUtil.getJson(USER_CACHE, USER_CACHE_ID_ + userId, User.class);
+        User user = JedisUtil.getJson(USER_CACHE, USER_CACHE_ID_ + userId, User.class);
         boolean isSearch = false;
         if (user != null && PublicUtil.isNotEmpty(user.getRoles())) {
             for (Role role : user.getRoles()) {
@@ -104,8 +104,8 @@ public final class SecurityUtil {
                 throw new UsernameNotFoundException("User " + userId + " was not found in the database");
             }
             String json = Json.toJsonString(user);
-            CacheUtil.put(USER_CACHE, USER_CACHE_ID_ + user.getId(), json);
-            CacheUtil.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getLoginId(), json);
+            JedisUtil.put(USER_CACHE, USER_CACHE_ID_ + user.getId(), json);
+            JedisUtil.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getLoginId(), json);
         }
         return user;
     }
@@ -117,12 +117,12 @@ public final class SecurityUtil {
      * @return 取不到返回null
      */
     public static User getByLoginId(String loginId) {
-        User user = CacheUtil.getJson(USER_CACHE, USER_CACHE_LOGIN_NAME_ + loginId, User.class);
+        User user = JedisUtil.getJson(USER_CACHE, USER_CACHE_LOGIN_NAME_ + loginId, User.class);
         if (user == null) {
             user = userRepository.findOneByLoginId(loginId).map(u -> {
                 String json = Json.toJsonString(u);
-                CacheUtil.put(USER_CACHE, USER_CACHE_ID_ + u.getId(), json);
-                CacheUtil.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + u.getLoginId(), json);
+                JedisUtil.put(USER_CACHE, USER_CACHE_ID_ + u.getId(), json);
+                JedisUtil.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + u.getLoginId(), json);
                 return u;
             }).orElseThrow(() -> new UsernameNotFoundException("User " + loginId + " was not found in the database"));
         }
@@ -383,7 +383,7 @@ public final class SecurityUtil {
      * 清除所有数据本地用户缓存
      */
     public static void clearUserLocalCache() {
-        CacheUtil.removeCache(USER_CACHE);
+        JedisUtil.removeCache(USER_CACHE);
     }
 
     public static boolean hasPermission(String permission) {

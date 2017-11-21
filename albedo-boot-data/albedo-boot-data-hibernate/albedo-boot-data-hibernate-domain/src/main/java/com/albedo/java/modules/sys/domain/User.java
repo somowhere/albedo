@@ -72,6 +72,7 @@ public class User extends IdEntity {
     @Email
     @Size(max = 100)
     @Column(name = "email_", length = 100)
+    @SearchField
     private String email;
 
     @NotNull

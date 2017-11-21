@@ -16,9 +16,9 @@ spring:
         include: swagger
     devtools:
         restart:
-            enabled: false
+            enabled: true
         livereload:
-            enabled: false # we use gulp + BrowserSync for livereload
+            enabled: true # we use gulp + BrowserSync for livereload
     jackson:
         serialization.indent_output: true
     datasource:
@@ -38,10 +38,11 @@ spring:
         database: MYSQL
         show-sql: true
         properties:
+            hibernate.id.new_generator_mappings: true
             hibernate.cache.use_second_level_cache: true
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
-            hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+            hibernate.cache.region.factory_class: com.albedo.java.common.config.NoDefaultJCacheRegionFactory
     mail:
         host: localhost
         port: 25

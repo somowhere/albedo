@@ -18,7 +18,6 @@ import java.util.Map;
  * </p>
  */
 @ConfigurationProperties(prefix = "albedo",
-        ignoreUnknownFields = true,
         ignoreInvalidFields = true,
         exceptionIfInvalid = false)
 @Data
@@ -378,7 +377,7 @@ public class AlbedoProperties {
 
         public static class Ehcache {
             private int timeToLiveSeconds = 3600;
-            private long maxBytesLocalHeap = 100L;
+            private long maxEntries = 100L;
 
             public Ehcache() {
             }
@@ -391,12 +390,12 @@ public class AlbedoProperties {
                 this.timeToLiveSeconds = timeToLiveSeconds;
             }
 
-            public long getMaxBytesLocalHeap() {
-                return maxBytesLocalHeap;
+            public long getMaxEntries() {
+                return this.maxEntries;
             }
 
-            public void setMaxBytesLocalHeap(long maxBytesLocalHeap) {
-                this.maxBytesLocalHeap = maxBytesLocalHeap;
+            public void setMaxEntries(long maxEntries) {
+                this.maxEntries = maxEntries;
             }
         }
 

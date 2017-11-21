@@ -18,10 +18,10 @@ public class LoginUtil {
      */
     public static boolean isValidateCodeLogin(String useruame, boolean isFail, boolean clean) {
         @SuppressWarnings("unchecked")
-        Map<String, Integer> loginFailMap = (Map<String, Integer>) CacheUtil.get(LOGIN_FAIL_MAP);
+        Map<String, Integer> loginFailMap = (Map<String, Integer>) JedisUtil.getUser(LOGIN_FAIL_MAP);
         if (loginFailMap == null) {
             loginFailMap = Maps.newHashMap();
-            CacheUtil.put(LOGIN_FAIL_MAP, loginFailMap);
+            JedisUtil.putUser(LOGIN_FAIL_MAP, loginFailMap);
         }
         Integer loginFailNum = loginFailMap.get(useruame);
         if (loginFailNum == null) {

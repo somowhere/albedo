@@ -3,6 +3,7 @@ package com.albedo.java;
 import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.spring.DefaultProfileUtil;
+import com.netflix.servo.monitor.Monitors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

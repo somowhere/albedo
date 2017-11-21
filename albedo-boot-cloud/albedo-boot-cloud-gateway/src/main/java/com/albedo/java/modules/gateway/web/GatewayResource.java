@@ -3,6 +3,7 @@ package com.albedo.java.modules.gateway.web;
 import com.albedo.java.common.config.RouteVo;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.codahale.metrics.annotation.Timed;
+import com.netflix.servo.monitor.Monitors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -20,7 +21,7 @@ import java.util.List;
  * REST controller for managing Gateway configuration.
  */
 @RestController
-@RequestMapping("/api/gateway")
+@RequestMapping("${albedo.adminPath}/gateway")
 public class GatewayResource {
 
     private final Logger log = LoggerFactory.getLogger(GatewayResource.class);
