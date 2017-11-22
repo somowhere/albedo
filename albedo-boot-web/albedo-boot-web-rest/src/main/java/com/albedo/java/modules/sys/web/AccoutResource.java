@@ -88,7 +88,7 @@ public class AccoutResource extends BaseResource {
     @GetMapping(value = "login")
     public String login(HttpServletRequest request, Model model) {
         model.addAttribute("isValidateCodeLogin", LoginUtil.isValidateCodeLogin(request.getSession().getId(), false, false));
-        return "login";
+        return "loginPage";
     }
 
 
