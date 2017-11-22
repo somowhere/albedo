@@ -47,6 +47,7 @@ public class AlbedoBootCloudMicroApp {
         SpringApplication app = new SpringApplication(AlbedoBootCloudMicroApp.class);
         DefaultProfileUtil.addDefaultProfile(app);
         Environment env = app.run(args).getEnvironment();
+
         String protocol = "http";
         if (env.getProperty("server.ssl.key-store") != null) {
             protocol = "https";

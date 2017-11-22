@@ -13,7 +13,6 @@
     <properties>
         <!-- Spring properties -->
         <bucket4j.version>3.0.1</bucket4j.version>
-        <hazelcast-hibernate52.version>1.2</hazelcast-hibernate52.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -31,11 +30,15 @@
     <dependencies>
         <dependency>
             <groupId>com.albedo.java</groupId>
-            <artifactId>albedo-boot-web-config-single</artifactId>
+            <artifactId>albedo-boot-web-config-common</artifactId>
             <version>${project.release.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-jcache</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-
-
         <dependency>
             <groupId>com.hazelcast</groupId>
             <artifactId>hazelcast</artifactId>
@@ -50,6 +53,7 @@
             <groupId>com.hazelcast</groupId>
             <artifactId>hazelcast-spring</artifactId>
         </dependency>
+
 		<dependency>
             <groupId>com.netflix.servo</groupId>
             <artifactId>servo-core</artifactId>

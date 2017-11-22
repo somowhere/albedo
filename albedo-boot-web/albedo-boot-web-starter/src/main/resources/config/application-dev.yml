@@ -38,11 +38,10 @@ spring:
         database: MYSQL
         show-sql: true
         properties:
-            hibernate.id.new_generator_mappings: true
             hibernate.cache.use_second_level_cache: true
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
-            hibernate.cache.region.factory_class: com.albedo.java.common.config.NoDefaultJCacheRegionFactory
+            hibernate.cache.region.factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
     mail:
         host: localhost
         port: 25
@@ -67,7 +66,7 @@ spring:
         expose-spring-macro-helpers:  true
         #prefix:
         suffix: .ftl
-        template-loader-path: /WEB-INF/views/,/META-INF/resources/WEB-INF/views/,classpath:/META-INF/resources/WEB-INF/views/
+        template-loader-path: classpath:templates,/WEB-INF/views/,/META-INF/resources/WEB-INF/views/,classpath:/META-INF/resources/WEB-INF/views/
 #    redis:
 #       host: localhost
 #       port: 6379
@@ -102,7 +101,7 @@ albedo:
     security:
         authentication:
             jwt:
-                secret: my-secret-token-to-change-in-production
+                secret: albedo-boot-token
                 # Token is valid 24 hours
                 token-validity-in-seconds: 86400
                 token-validity-in-seconds-for-remember-me: 2592000

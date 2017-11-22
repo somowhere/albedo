@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.albedo.java.common.config.CacheConfiguration,\
+  com.albedo.java.common.config.MetricsConfiguration,\
+  com.albedo.java.common.config.SecurityConfiguration,\
+  com.albedo.java.common.config.WebConfigurer

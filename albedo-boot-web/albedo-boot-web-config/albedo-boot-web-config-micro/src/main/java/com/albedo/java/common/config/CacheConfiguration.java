@@ -27,7 +27,7 @@ import javax.annotation.PreDestroy;
 @Configuration
 @EnableCaching
 @AutoConfigureAfter(value = { MetricsConfiguration.class })
-@AutoConfigureBefore(value = { WebConfigurer.class, DatabaseAutoConfiguration.class })
+@AutoConfigureBefore(value = { DatabaseAutoConfiguration.class })
 public class CacheConfiguration {
 
     private final Logger log = LoggerFactory.getLogger(CacheConfiguration.class);
@@ -67,13 +67,13 @@ public class CacheConfiguration {
     @Bean
     public HazelcastInstance hazelcastInstance(AlbedoProperties albedoProperties) {
         log.debug("Configuring Hazelcast");
-        HazelcastInstance hazelCastInstance = Hazelcast.getHazelcastInstanceByName("AlbedoSampleMicroservice");
+        HazelcastInstance hazelCastInstance = Hazelcast.getHazelcastInstanceByName(env.getProperty("spring.application.name"));
         if (hazelCastInstance != null) {
             log.debug("Hazelcast already initialized");
             return hazelCastInstance;
         }
         Config config = new Config();
-        config.setInstanceName("AlbedoSampleMicroservice");
+        config.setInstanceName(env.getProperty("spring.application.name"));
         config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
         if (this.registration == null) {
             log.warn("No discovery service is set up, Hazelcast cannot create a cluster.");
@@ -105,7 +105,7 @@ public class CacheConfiguration {
             }
         }
         config.getMapConfigs().put("default", initializeDefaultMapConfig());
-        config.getMapConfigs().put("io.github.Albedo.sample.domain.*", initializeDomainMapConfig(albedoProperties));
+        config.getMapConfigs().put("com.albedo.java.modules.*.domain.*", initializeDomainMapConfig(albedoProperties));
         return Hazelcast.newHazelcastInstance(config);
     }
 

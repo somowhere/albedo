@@ -1,4 +1,4 @@
-package com.albedo.java.common.listener;
+package com.albedo.java.web.listener;
 
 import com.albedo.java.common.base.BaseInit;
 import com.albedo.java.common.base.BaseInterface;

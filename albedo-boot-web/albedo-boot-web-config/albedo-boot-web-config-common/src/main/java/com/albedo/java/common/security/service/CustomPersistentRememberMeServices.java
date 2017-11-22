@@ -1,4 +1,4 @@
-//package com.albedo.java.common.security.service;
+package com.albedo.java.common.security.service;//package com.albedo.java.common.security.service;
 //
 //import com.albedo.java.common.config.AlbedoProperties;
 //import com.albedo.java.modules.sys.domain.PersistentToken;

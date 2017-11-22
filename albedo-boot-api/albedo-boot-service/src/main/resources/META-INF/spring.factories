@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.albedo.java.common.config.AsyncConfiguration,\
+  com.albedo.java.common.config.CloudDatabaseConfiguration,\
+  com.albedo.java.common.config.FastJsonHttpMessageConvertersConfiguration,\
+  com.albedo.java.common.config.LoggingAspectConfiguration,\
+  com.albedo.java.common.config.LoggingConfiguration

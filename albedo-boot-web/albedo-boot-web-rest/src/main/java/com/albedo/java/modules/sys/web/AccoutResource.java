@@ -85,21 +85,12 @@ public class AccoutResource extends BaseResource {
     /**
      * 管理登录
      */
-    @RequestMapping(value = "login", method = RequestMethod.GET)
+    @GetMapping(value = "login")
     public String login(HttpServletRequest request, Model model) {
         model.addAttribute("isValidateCodeLogin", LoginUtil.isValidateCodeLogin(request.getSession().getId(), false, false));
         return "login";
     }
 
-    /**
-     * 管理登录
-     */
-    @GetMapping(value = "loginRest")
-    public ResponseEntity loginRest(HttpServletRequest request, Model model) {
-
-        model.addAttribute("isValidateCodeLogin", LoginUtil.isValidateCodeLogin(request.getSession().getId(), false, false));
-        return ResultBuilder.buildFailed("登录失败");
-    }
 
     @PostMapping("authenticate")
     @Timed

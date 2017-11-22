@@ -27,6 +27,7 @@ import org.springframework.security.data.repository.query.SecurityEvaluationCont
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.filter.CorsFilter;
 
 import javax.annotation.Resource;
@@ -89,30 +90,31 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().authenticationEntryPoint(http401UnauthorizedEntryPoint)
                 .and()
-                    .csrf()
-                    .disable()
-                    .headers()
-                    .frameOptions()
-                    .disable()
+                .csrf()
+                .disable()
+                .headers()
+                .frameOptions()
+                .disable()
                 .and()
-                    .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                    .authorizeRequests()
-                    .antMatchers(adminPath + SecurityConstants.loginUrl).permitAll()
-                    .antMatchers(permissAll).permitAll()
-                    .antMatchers(adminPath + "/**").authenticated()
-                    .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
-                        @Override
-                        public <O extends FilterSecurityInterceptor> O postProcess(O fsi) {
-                            fsi.setSecurityMetadataSource(securityMetadataSource());
-                            return fsi;
-                        }
-                    }).accessDecisionManager(customizeAccessDecisionManager)
-                    .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                    .antMatchers("/swagger-ui/index.html").hasAuthority(AuthoritiesConstants.ADMIN)
+                .authorizeRequests()
+                .antMatchers(albedoProperties.getAdminPath(SecurityConstants.loginUrl)).permitAll()
+                .antMatchers(albedoProperties.getAdminPath(SecurityConstants.authLogin)).permitAll()
+                .antMatchers(albedoProperties.getAdminPath(SecurityConstants.logoutUrl)).permitAll()
+                .antMatchers(permissAll).permitAll()
+                .antMatchers(albedoProperties.getAdminPath("/**")).authenticated()
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    @Override
+                    public <O extends FilterSecurityInterceptor> O postProcess(O fsi) {
+                        fsi.setSecurityMetadataSource(securityMetadataSource());
+                        return fsi;
+                    }
+                }).accessDecisionManager(customizeAccessDecisionManager)
+                .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
                 .and()
-                    .apply(securityConfigurerAdapter());
+                .apply(securityConfigurerAdapter());
 
     }
 
@@ -129,4 +131,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
         return new SecurityEvaluationContextExtension();
     }
+
 }

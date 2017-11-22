@@ -28,11 +28,22 @@
             <groupId>com.albedo.java</groupId>
             <artifactId>albedo-boot-web-config-common</artifactId>
             <version>${project.release.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-jcache</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.hazelcast</groupId>
-            <artifactId>hazelcast</artifactId>
+            <artifactId>hazelcast-hibernate52</artifactId>
+            <version>${hazelcast-hibernate52.version}</version>
         </dependency>
         <dependency>
             <groupId>com.hazelcast</groupId>

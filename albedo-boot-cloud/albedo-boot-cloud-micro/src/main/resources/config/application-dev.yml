@@ -45,10 +45,14 @@ spring:
         database: MYSQL
         show-sql: true
         properties:
+            hibernate.id.new_generator_mappings: true
             hibernate.cache.use_second_level_cache: true
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
-            hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+            hibernate.cache.region.factory_class: com.hazelcast.hibernate.HazelcastCacheRegionFactory
+            hibernate.cache.hazelcast.instance_name: ${spring.application.name}
+            hibernate.cache.use_minimal_puts: true
+            hibernate.cache.hazelcast.use_lite_member: true
     mail:
         host: localhost
         port: 25
@@ -110,7 +114,7 @@ albedo:
     security:
         authentication:
             jwt:
-                secret: my-secret-token-to-change-in-production
+                secret: albedo-boot-cloud-token
                 # Token is valid 24 hours
                 token-validity-in-seconds: 86400
                 token-validity-in-seconds-for-remember-me: 2592000

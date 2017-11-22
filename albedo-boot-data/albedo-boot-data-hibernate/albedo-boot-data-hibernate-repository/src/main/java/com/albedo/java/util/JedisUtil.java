@@ -5,7 +5,6 @@ import com.albedo.java.util.spring.SpringContextHolder;
 import com.google.common.collect.Maps;
 import org.springframework.cache.Cache;
 import org.springframework.cache.Cache.ValueWrapper;
-import org.springframework.cache.CacheManager;
 import org.springframework.data.redis.cache.RedisCacheManager;
 
 import java.util.Map;
@@ -115,9 +114,6 @@ public class JedisUtil {
         return cache;
     }
 
-    public static CacheManager getCacheManager() {
-        return cacheManager;
-    }
 
     public static <T> T getJson(String cacheName, String key, Class<T> clazz) {
         ValueWrapper element = getCache(cacheName).get(getKey(key));
