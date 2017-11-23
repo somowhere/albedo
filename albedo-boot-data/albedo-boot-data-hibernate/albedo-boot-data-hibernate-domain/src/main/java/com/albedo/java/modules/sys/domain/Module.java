@@ -5,18 +5,16 @@ import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.annotation.DictType;
 import com.albedo.java.util.annotation.SearchField;
 import com.albedo.java.util.domain.RequestMethod;
-import com.alibaba.fastjson.annotation.JSONField;
-import com.google.common.collect.Sets;
 import lombok.Data;
 import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.*;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.*;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import java.util.Set;
+import javax.persistence.Transient;
 
 /**
  * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午4:29:21
@@ -64,13 +62,13 @@ public class Module extends TreeEntity<Module> {
     /*** 服务名称 */
     @Column(name = "microservice_")
     private String microservice;
-    @ManyToMany(mappedBy = "modules", fetch = FetchType.LAZY)
-    @Where(clause = "status_=0")
-    @OrderBy("id")
-    @NotFound(action = NotFoundAction.IGNORE)
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JSONField(serialize = false)
-    private Set<Role> roles = Sets.newHashSet(); // 拥有角色列表
+//    @ManyToMany(mappedBy = "modules", fetch = FetchType.LAZY)
+//    @Where(clause = "status_=0")
+//    @OrderBy("id")
+//    @NotFound(action = NotFoundAction.IGNORE)
+//    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//    @JSONField(serialize = false)
+//    private Set<Role> roles = Sets.newHashSet(); // 拥有角色列表
 
     /*** 父模块名称 */
     @Transient
@@ -162,14 +160,6 @@ public class Module extends TreeEntity<Module> {
 
     public void setShowType(String showType) {
         this.showType = showType;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
     }
 
     public boolean isShow() {

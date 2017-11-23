@@ -4,12 +4,14 @@ import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.CustomMessage;
 import com.albedo.java.web.rest.base.BaseResource;
+import com.albedo.java.web.rest.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+import sun.misc.Request;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -35,9 +37,10 @@ public class Http401UnauthorizedEntryPoint implements AuthenticationEntryPoint {
             ServletException {
 
         log.debug("Pre-authenticated entry point called. Rejecting access");
-        String requestType = request.getHeader("X-Requested-With");
-        if ("XMLHttpRequest".equals(requestType)) {
-            BaseResource.writeJsonHttpResponse(CustomMessage.createError("登录超时,请重新登陆"), response);
+        if (albedoProperties.getHttp().getRestful()
+                || albedoProperties.getGatewayModel() || albedoProperties.getMicroModel()
+                || RequestUtil.isRestfulRequest(request)) {
+            BaseResource.writeJsonHttpResponse(CustomMessage.createError("权限不足或登录超时"), response);
 
         } else {
             response.sendRedirect(PublicUtil.toAppendStr(albedoProperties.getAdminPath(), "/login"));
