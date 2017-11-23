@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50528
+Source Server Version : 50719
 Source Host           : localhost:3306
 Source Database       : albedo-new
 
 Target Server Type    : MYSQL
-Target Server Version : 50528
+Target Server Version : 50719
 File Encoding         : 65001
 
-Date: 2017-07-05 15:21:22
+Date: 2017-11-23 21:37:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -44,6 +44,10 @@ CREATE TABLE `gen_scheme_t` (
 -- ----------------------------
 -- Records of gen_scheme_t
 -- ----------------------------
+INSERT INTO `gen_scheme_t` VALUES ('381d8ec93dcb48baae3dd53e25f8a2bf', '任务调度管理', 'curd', '0', 'com.albedo.java.modules', 'sys', '', '任务调度', '任务调度', 'admin', 'c95323a8b03144b3ba86fded558543d5', '0', '7', '', '1', '2017-11-09 16:01:57', '1', '2017-11-10 10:07:34');
+INSERT INTO `gen_scheme_t` VALUES ('add9318001404c1d8763ddf2d1422d24', '任务调度管理', 'curd', '0', 'com.albedo.java.modules', 'sys', '', '任务调度', '任务调度', 'admin', 'c95323a8b03144b3ba86fded558543d5', '-2', '1', '', '1', '2017-11-09 15:56:18', '1', '2017-11-09 17:18:18');
+INSERT INTO `gen_scheme_t` VALUES ('b0f7ea3c529d40c989b2110d2f4cd9dc', '区域管理', 'treeTable', '1', 'com.albedo.java.modules', 'sys', '', '区域', '区域', 'admin', '86097ddda0de41249857ca43bef92587', '0', '13', '', '1', '2017-11-10 10:33:12', '1', '2017-11-10 13:47:23');
+INSERT INTO `gen_scheme_t` VALUES ('d2b112b51d584b3b903ebb964f2b5d00', '任务调度管理', 'curd', '0', 'com.albedo.java.modules', 'sys', '', '任务调度', '任务调度', 'admin', 'c95323a8b03144b3ba86fded558543d5', '-2', '1', '', '1', '2017-11-09 16:00:54', '1', '2017-11-09 17:18:21');
 
 -- ----------------------------
 -- Table structure for gen_table_column_t
@@ -85,25 +89,59 @@ CREATE TABLE `gen_table_column_t` (
 -- ----------------------------
 -- Records of gen_table_column_t
 -- ----------------------------
-INSERT INTO `gen_table_column_t` VALUES ('0a8fddad28044a14b656f86e1ba74879', '9ff7a79eb69a47739c182fcdd3326d16', 'reset_date', 'reset_date', 'timestamp', 'java.util.Date', 'resetDate', '0', '0', '1', '1', '1', '1', '0', 'eq', 'dateselect', '', null, '120', '0', '0', null, '1', '2017-07-04 16:27:35', '1', '2017-07-04 16:27:35');
-INSERT INTO `gen_table_column_t` VALUES ('0df42b7ecb034f128cd63d3bd5f0f11a', '9ff7a79eb69a47739c182fcdd3326d16', 'description_', 'description_', 'varchar(255)', 'String', 'description', '0', '0', '1', '1', '1', '0', '0', 'eq', 'textarea', '', null, '180', '0', '0', null, '1', '2017-07-04 16:27:35', '1', '2017-07-04 16:27:35');
-INSERT INTO `gen_table_column_t` VALUES ('337b544ac0d847d7b68abde443ecb272', '9ff7a79eb69a47739c182fcdd3326d16', 'id_', 'id_', 'varchar(32)', 'String', 'id', '1', '0', '0', '1', '0', '0', '0', 'eq', 'input', '', null, '10', '0', '0', null, '1', '2017-07-04 16:27:35', '1', '2017-07-04 16:27:35');
-INSERT INTO `gen_table_column_t` VALUES ('4758858f768b4594a9db40402aca9b3e', '9ff7a79eb69a47739c182fcdd3326d16', 'version_', 'version_', 'int(11)', 'Long', 'version', '0', '0', '1', '1', '0', '0', '0', 'eq', 'input', '', null, '190', '0', '0', null, '1', '2017-07-04 16:27:35', '1', '2017-07-04 16:27:35');
-INSERT INTO `gen_table_column_t` VALUES ('4b59bb20acb84c7f873c945cd264ab89', '9ff7a79eb69a47739c182fcdd3326d16', 'created_date', 'created_date', 'timestamp', 'java.util.Date', 'createdDate', '0', '0', '0', '1', '0', '0', '0', 'eq', 'dateselect', '', null, '140', '0', '0', null, '1', '2017-07-04 16:27:35', '1', '2017-07-04 16:27:35');
-INSERT INTO `gen_table_column_t` VALUES ('5def23a108624e2eaa9bc25831e5cbc0', '9ff7a79eb69a47739c182fcdd3326d16', 'phone_', 'phone_', 'varchar(32)', 'String', 'phone', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '70', '0', '0', null, '1', '2017-07-04 16:27:35', '1', '2017-07-04 16:27:35');
-INSERT INTO `gen_table_column_t` VALUES ('81baec3dc0ba482d9dea800adc404d57', '9ff7a79eb69a47739c182fcdd3326d16', 'reset_key', 'reset_key', 'varchar(20)', 'String', 'resetKey', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '110', '0', '0', null, '1', '2017-07-04 16:27:35', '1', '2017-07-04 16:27:35');
-INSERT INTO `gen_table_column_t` VALUES ('8e528e1e4eb94479965d43f9570c3312', '9ff7a79eb69a47739c182fcdd3326d16', 'org_id', '机构', 'varchar(32)', 'com.albedo.java.modules.sys.domain.Org', 'org.id|name', '0', '0', '1', '1', '1', '1', '0', 'eq', 'orgselect', '', null, '20', '0', '0', null, '1', '2017-07-04 16:27:35', '1', '2017-07-04 16:27:35');
-INSERT INTO `gen_table_column_t` VALUES ('8eadc86f5dc94fbfb3c49dd4ceb5a647', '9ff7a79eb69a47739c182fcdd3326d16', 'activation_key', 'activation_key', 'varchar(20)', 'String', 'activationKey', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '100', '0', '0', null, '1', '2017-07-04 16:27:35', '1', '2017-07-04 16:27:35');
-INSERT INTO `gen_table_column_t` VALUES ('a1b94669cde241f08d72d409e6a6f289', '9ff7a79eb69a47739c182fcdd3326d16', 'status_', 'status_', 'int(11)', 'Long', 'status', '0', '0', '1', '1', '0', '0', '0', 'eq', 'radio', 'sys_status', null, '170', '0', '0', null, '1', '2017-07-04 16:27:35', '1', '2017-07-04 16:27:35');
-INSERT INTO `gen_table_column_t` VALUES ('a5197c6a7c194554a89ebbcca85db8c8', '9ff7a79eb69a47739c182fcdd3326d16', 'last_modified_date', 'last_modified_date', 'timestamp', 'java.util.Date', 'lastModifiedDate', '0', '0', '1', '1', '0', '0', '0', 'eq', 'dateselect', '', null, '160', '0', '0', null, '1', '2017-07-04 16:27:35', '1', '2017-07-04 16:27:35');
-INSERT INTO `gen_table_column_t` VALUES ('ae21431247384036b3cf09ee44cff0b5', '9ff7a79eb69a47739c182fcdd3326d16', 'email_', 'email_', 'varchar(100)', 'String', 'email', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '60', '0', '0', null, '1', '2017-07-04 16:27:35', '1', '2017-07-04 16:27:35');
-INSERT INTO `gen_table_column_t` VALUES ('bbfe21e345fe4aa693f20d212eb5d948', '9ff7a79eb69a47739c182fcdd3326d16', 'last_modified_by', 'last_modified_by', 'varchar(50)', 'String', 'lastModifiedBy', '0', '0', '1', '1', '0', '0', '0', 'eq', 'input', '', null, '150', '0', '0', null, '1', '2017-07-04 16:27:35', '1', '2017-07-04 16:27:35');
-INSERT INTO `gen_table_column_t` VALUES ('bf75c02480f4469aad3e543c746085c1', '9ff7a79eb69a47739c182fcdd3326d16', 'password_hash', 'password_hash', 'varchar(60)', 'String', 'passwordHash', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '40', '0', '0', null, '1', '2017-07-04 16:27:35', '1', '2017-07-04 16:27:35');
-INSERT INTO `gen_table_column_t` VALUES ('c70fbc5c79e640f2a12f85965e68e09c', '9ff7a79eb69a47739c182fcdd3326d16', 'lang_key', 'lang_key', 'varchar(5)', 'String', 'langKey', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '90', '0', '0', null, '1', '2017-07-04 16:27:35', '1', '2017-07-04 16:27:35');
-INSERT INTO `gen_table_column_t` VALUES ('d039b1030f8e40f5a4ab35d87ac736b0', '9ff7a79eb69a47739c182fcdd3326d16', 'login_id', 'login_id', 'varchar(50)', 'String', 'loginId', '0', '0', '0', '1', '1', '1', '0', 'eq', 'input', '', null, '30', '0', '0', null, '1', '2017-07-04 16:27:35', '1', '2017-07-04 16:27:35');
-INSERT INTO `gen_table_column_t` VALUES ('dbdd19c888bd411eb1c73a71d8458a05', '9ff7a79eb69a47739c182fcdd3326d16', 'activated_', 'activated_', 'bit(1)', 'String', 'activated', '0', '0', '0', '1', '1', '1', '0', 'eq', 'input', '', null, '80', '0', '0', null, '1', '2017-07-04 16:27:35', '1', '2017-07-04 16:27:35');
-INSERT INTO `gen_table_column_t` VALUES ('dc81d0ac67de402ab2ecaecb80ff41a1', '9ff7a79eb69a47739c182fcdd3326d16', 'name_', 'name_', 'varchar(50)', 'String', 'name', '0', '0', '1', '1', '1', '1', '1', 'like', 'input', '', null, '50', '0', '0', null, '1', '2017-07-04 16:27:35', '1', '2017-07-04 16:27:35');
-INSERT INTO `gen_table_column_t` VALUES ('e93aeda5ee1243f69e20b4103fbfb491', '9ff7a79eb69a47739c182fcdd3326d16', 'created_by', 'created_by', 'varchar(50)', 'String', 'createdBy', '0', '0', '0', '1', '0', '0', '0', 'eq', 'input', '', null, '130', '0', '0', null, '1', '2017-07-04 16:27:35', '1', '2017-07-04 16:27:35');
+INSERT INTO `gen_table_column_t` VALUES ('0a8fddad28044a14b656f86e1ba74879', '9ff7a79eb69a47739c182fcdd3326d16', 'reset_date', 'reset_date', 'timestamp', 'java.util.Date', 'resetDate', '0', '0', '1', '1', '1', '1', '0', 'eq', 'dateselect', '', null, '120', '0', '9', null, '1', '2017-11-09 13:46:24', '1', '2017-11-09 13:46:24');
+INSERT INTO `gen_table_column_t` VALUES ('0df42b7ecb034f128cd63d3bd5f0f11a', '9ff7a79eb69a47739c182fcdd3326d16', 'description_', 'description_', 'varchar(255)', 'String', 'description', '0', '0', '1', '1', '1', '0', '0', 'eq', 'textarea', '', null, '180', '0', '9', null, '1', '2017-11-09 13:46:24', '1', '2017-11-09 13:46:24');
+INSERT INTO `gen_table_column_t` VALUES ('12d2e7c54bac46978b1a2c43c616eb58', 'c95323a8b03144b3ba86fded558543d5', 'last_modified_by', 'last_modified_by', 'varchar(50)', 'String', 'lastModifiedBy', '0', '0', '1', '1', '0', '0', '0', 'eq', 'input', '', null, '140', '0', '1', null, '1', '2017-11-09 15:55:07', '1', '2017-11-09 15:55:07');
+INSERT INTO `gen_table_column_t` VALUES ('13c83b54457644d68677b9b5558afc5b', 'c95323a8b03144b3ba86fded558543d5', 'cron_expression', 'cron表达式', 'varchar(255)', 'String', 'cronExpression', '0', '0', '0', '1', '1', '1', '0', 'eq', 'input', '', null, '50', '0', '1', null, '1', '2017-11-09 15:55:07', '1', '2017-11-09 15:55:07');
+INSERT INTO `gen_table_column_t` VALUES ('337b544ac0d847d7b68abde443ecb272', '9ff7a79eb69a47739c182fcdd3326d16', 'id_', 'id_', 'varchar(32)', 'String', 'id', '1', '0', '0', '1', '0', '0', '0', 'eq', 'input', '', null, '10', '0', '9', null, '1', '2017-11-09 13:46:24', '1', '2017-11-09 13:46:24');
+INSERT INTO `gen_table_column_t` VALUES ('3b330f8d69b646e1a9d178079ef55599', '86097ddda0de41249857ca43bef92587', 'name_', '区域名称', 'varchar(32)', 'String', 'name', '0', '0', '1', '1', '1', '1', '1', 'like', 'input', '', null, '40', '0', '4', null, '1', '2017-11-10 11:57:44', '1', '2017-11-10 11:57:44');
+INSERT INTO `gen_table_column_t` VALUES ('4758858f768b4594a9db40402aca9b3e', '9ff7a79eb69a47739c182fcdd3326d16', 'version_', 'version_', 'int(11)', 'Long', 'version', '0', '0', '1', '1', '0', '0', '0', 'eq', 'input', '', null, '190', '0', '9', null, '1', '2017-11-09 13:46:24', '1', '2017-11-09 13:46:24');
+INSERT INTO `gen_table_column_t` VALUES ('4b59bb20acb84c7f873c945cd264ab89', '9ff7a79eb69a47739c182fcdd3326d16', 'created_date', 'created_date', 'timestamp', 'java.util.Date', 'createdDate', '0', '0', '0', '1', '0', '0', '0', 'eq', 'dateselect', '', null, '140', '0', '9', null, '1', '2017-11-09 13:46:24', '1', '2017-11-09 13:46:24');
+INSERT INTO `gen_table_column_t` VALUES ('50ffe6cf3770440e99fb8d0e9fe95208', 'c95323a8b03144b3ba86fded558543d5', 'bean_class', '类名', 'varchar(255)', 'String', 'beanClass', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '60', '0', '1', null, '1', '2017-11-09 15:55:07', '1', '2017-11-09 15:55:07');
+INSERT INTO `gen_table_column_t` VALUES ('563679d6564e4beab0e58addff2cc45a', '86097ddda0de41249857ca43bef92587', 'short_name', '区域简称', 'varchar(32)', 'String', 'shortName', '0', '0', '1', '1', '1', '1', '1', 'eq', 'input', '', null, '50', '0', '4', null, '1', '2017-11-10 11:57:44', '1', '2017-11-10 11:57:44');
+INSERT INTO `gen_table_column_t` VALUES ('5d4c8e7d2eb1438296bd74f915422a3a', 'c95323a8b03144b3ba86fded558543d5', 'is_concurrent', '任务是否有状态', 'varchar(255)', 'Integer', 'isConcurrent', '0', '0', '1', '1', '1', '1', '1', 'eq', 'radio', 'sys_yes_no', null, '70', '0', '1', null, '1', '2017-11-09 15:55:07', '1', '2017-11-09 15:55:07');
+INSERT INTO `gen_table_column_t` VALUES ('5def23a108624e2eaa9bc25831e5cbc0', '9ff7a79eb69a47739c182fcdd3326d16', 'phone_', 'phone_', 'varchar(32)', 'String', 'phone', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '70', '0', '9', null, '1', '2017-11-09 13:46:24', '1', '2017-11-09 13:46:24');
+INSERT INTO `gen_table_column_t` VALUES ('6af2ae0b9f2a4490b1ba65a155635cf4', '86097ddda0de41249857ca43bef92587', 'created_date', '创建时间', 'datetime', 'java.util.Date', 'createdDate', '0', '0', '1', '1', '0', '0', '0', 'eq', 'dateselect', '', null, '110', '0', '4', null, '1', '2017-11-10 11:57:44', '1', '2017-11-10 11:57:44');
+INSERT INTO `gen_table_column_t` VALUES ('6c97de54b455461cb98ee8f39e7093a0', 'c95323a8b03144b3ba86fded558543d5', 'status_', 'status_', 'int(11)', 'Long', 'status', '0', '0', '1', '1', '0', '0', '0', 'eq', 'radio', 'sys_status', null, '160', '0', '1', null, '1', '2017-11-09 15:55:07', '1', '2017-11-09 15:55:07');
+INSERT INTO `gen_table_column_t` VALUES ('6ded28fc728a44c583d1e7c0ae5506f2', 'c95323a8b03144b3ba86fded558543d5', 'group_', '分组', 'varchar(255)', 'String', 'group', '0', '0', '1', '1', '1', '1', '1', 'eq', 'input', '', null, '30', '0', '1', null, '1', '2017-11-09 15:55:07', '1', '2017-11-09 15:55:07');
+INSERT INTO `gen_table_column_t` VALUES ('6f1df4f10433462fab46a0b3fcb213f7', 'c95323a8b03144b3ba86fded558543d5', 'last_modified_date', 'last_modified_date', 'timestamp', 'java.util.Date', 'lastModifiedDate', '0', '0', '1', '1', '0', '1', '0', 'eq', 'dateselect', '', null, '150', '0', '1', null, '1', '2017-11-09 15:55:07', '1', '2017-11-09 15:55:07');
+INSERT INTO `gen_table_column_t` VALUES ('714feaf924284066b5325230970be67f', '86097ddda0de41249857ca43bef92587', 'status_', '状态', 'varchar(32)', 'String', 'status', '0', '0', '1', '1', '0', '0', '0', 'eq', 'radio', 'sys_status', null, '150', '0', '4', null, '1', '2017-11-10 11:57:44', '1', '2017-11-10 11:57:44');
+INSERT INTO `gen_table_column_t` VALUES ('77ea6d63a3fe48a0bd606ff5ee8d4d2a', 'c95323a8b03144b3ba86fded558543d5', 'created_date', 'created_date', 'timestamp', 'java.util.Date', 'createdDate', '0', '0', '0', '1', '0', '0', '0', 'eq', 'dateselect', '', null, '130', '0', '1', null, '1', '2017-11-09 15:55:07', '1', '2017-11-09 15:55:07');
+INSERT INTO `gen_table_column_t` VALUES ('81baec3dc0ba482d9dea800adc404d57', '9ff7a79eb69a47739c182fcdd3326d16', 'reset_key', 'reset_key', 'varchar(20)', 'String', 'resetKey', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '110', '0', '9', null, '1', '2017-11-09 13:46:24', '1', '2017-11-09 13:46:24');
+INSERT INTO `gen_table_column_t` VALUES ('8e528e1e4eb94479965d43f9570c3312', '9ff7a79eb69a47739c182fcdd3326d16', 'org_id', '机构', 'varchar(32)', 'com.albedo.java.modules.sys.domain.Org', 'org.id|name', '0', '0', '1', '1', '1', '1', '0', 'eq', 'orgselect', '', null, '20', '0', '9', null, '1', '2017-11-09 13:46:24', '1', '2017-11-09 13:46:24');
+INSERT INTO `gen_table_column_t` VALUES ('8eadc86f5dc94fbfb3c49dd4ceb5a647', '9ff7a79eb69a47739c182fcdd3326d16', 'activation_key', 'activation_key', 'varchar(20)', 'String', 'activationKey', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '100', '0', '9', null, '1', '2017-11-09 13:46:24', '1', '2017-11-09 13:46:24');
+INSERT INTO `gen_table_column_t` VALUES ('978cec654ad54d11a2fc535bdf440b57', 'c95323a8b03144b3ba86fded558543d5', 'description_', 'description_', 'varchar(255)', 'String', 'description', '0', '0', '1', '1', '1', '0', '0', 'eq', 'textarea', '', null, '170', '0', '1', null, '1', '2017-11-09 15:55:07', '1', '2017-11-09 15:55:07');
+INSERT INTO `gen_table_column_t` VALUES ('9795c96dc5794214b042e7ea5e014677', '86097ddda0de41249857ca43bef92587', 'version_', '版本', 'int(11)', 'Long', 'version', '0', '0', '0', '1', '0', '0', '0', 'eq', 'input', '', null, '160', '0', '4', null, '1', '2017-11-10 11:57:44', '1', '2017-11-10 11:57:44');
+INSERT INTO `gen_table_column_t` VALUES ('9a6cb9aaeb1f4bce9489fc4404546399', '86097ddda0de41249857ca43bef92587', 'level_', '区域等级(1省/2市/3区县)', 'int(11)', 'Integer', 'level', '0', '0', '1', '1', '1', '1', '1', 'eq', 'select', 'sys_area_type', null, '70', '0', '4', null, '1', '2017-11-10 11:57:44', '1', '2017-11-10 11:57:44');
+INSERT INTO `gen_table_column_t` VALUES ('9f084e93db6f4b09a6714946761da97f', 'c95323a8b03144b3ba86fded558543d5', 'created_by', 'created_by', 'varchar(50)', 'String', 'createdBy', '0', '0', '0', '1', '0', '0', '0', 'eq', 'input', '', null, '120', '0', '1', null, '1', '2017-11-09 15:55:07', '1', '2017-11-09 15:55:07');
+INSERT INTO `gen_table_column_t` VALUES ('a1b94669cde241f08d72d409e6a6f289', '9ff7a79eb69a47739c182fcdd3326d16', 'status_', 'status_', 'int(11)', 'Long', 'status', '0', '0', '1', '1', '0', '0', '0', 'eq', 'radio', 'sys_status', null, '170', '0', '9', null, '1', '2017-11-09 13:46:24', '1', '2017-11-09 13:46:24');
+INSERT INTO `gen_table_column_t` VALUES ('a5197c6a7c194554a89ebbcca85db8c8', '9ff7a79eb69a47739c182fcdd3326d16', 'last_modified_date', 'last_modified_date', 'timestamp', 'java.util.Date', 'lastModifiedDate', '0', '0', '1', '1', '0', '0', '0', 'eq', 'dateselect', '', null, '160', '0', '9', null, '1', '2017-11-09 13:46:24', '1', '2017-11-09 13:46:24');
+INSERT INTO `gen_table_column_t` VALUES ('aac82e21fd13417191c7e6e29cefb1dd', 'c95323a8b03144b3ba86fded558543d5', 'job_status', '任务状态', 'varchar(255)', 'String', 'jobStatus', '0', '0', '1', '1', '1', '1', '1', 'eq', 'radio', 'sys_yes_no', null, '40', '0', '1', null, '1', '2017-11-09 15:55:07', '1', '2017-11-09 15:55:07');
+INSERT INTO `gen_table_column_t` VALUES ('ab948fb0b7184ea7bf632537c3074546', '86097ddda0de41249857ca43bef92587', 'parent_ids', '所有上级区域节点', 'text', 'String', 'parentIds', '0', '0', '0', '1', '1', '1', '0', 'eq', 'input', '', null, '20', '0', '4', null, '1', '2017-11-10 11:57:44', '1', '2017-11-10 11:57:44');
+INSERT INTO `gen_table_column_t` VALUES ('ae21431247384036b3cf09ee44cff0b5', '9ff7a79eb69a47739c182fcdd3326d16', 'email_', 'email_', 'varchar(100)', 'String', 'email', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '60', '0', '9', null, '1', '2017-11-09 13:46:24', '1', '2017-11-09 13:46:24');
+INSERT INTO `gen_table_column_t` VALUES ('bbfe21e345fe4aa693f20d212eb5d948', '9ff7a79eb69a47739c182fcdd3326d16', 'last_modified_by', 'last_modified_by', 'varchar(50)', 'String', 'lastModifiedBy', '0', '0', '1', '1', '0', '0', '0', 'eq', 'input', '', null, '150', '0', '9', null, '1', '2017-11-09 13:46:24', '1', '2017-11-09 13:46:24');
+INSERT INTO `gen_table_column_t` VALUES ('bf75c02480f4469aad3e543c746085c1', '9ff7a79eb69a47739c182fcdd3326d16', 'password_hash', 'password_hash', 'varchar(60)', 'String', 'passwordHash', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '40', '0', '9', null, '1', '2017-11-09 13:46:24', '1', '2017-11-09 13:46:24');
+INSERT INTO `gen_table_column_t` VALUES ('c690016c5a574870b9d5af0ec6515655', 'c95323a8b03144b3ba86fded558543d5', 'name_', '名称', 'varchar(255)', 'String', 'name', '0', '0', '1', '1', '1', '1', '1', 'like', 'input', '', null, '20', '0', '1', null, '1', '2017-11-09 15:55:07', '1', '2017-11-09 15:55:07');
+INSERT INTO `gen_table_column_t` VALUES ('c70fbc5c79e640f2a12f85965e68e09c', '9ff7a79eb69a47739c182fcdd3326d16', 'lang_key', 'lang_key', 'varchar(5)', 'String', 'langKey', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '90', '0', '9', null, '1', '2017-11-09 13:46:24', '1', '2017-11-09 13:46:24');
+INSERT INTO `gen_table_column_t` VALUES ('cc3690ba7c6b4d59b2202776eaa63160', '86097ddda0de41249857ca43bef92587', 'sort_', '序号', 'int(11)', 'Integer', 'sort', '0', '0', '0', '1', '1', '1', '0', 'eq', 'input', '', null, '60', '0', '4', null, '1', '2017-11-10 11:57:44', '1', '2017-11-10 11:57:44');
+INSERT INTO `gen_table_column_t` VALUES ('cdf9e059da84499b8111e990d8b8306c', '86097ddda0de41249857ca43bef92587', 'code_', '区域编码', 'varchar(32)', 'String', 'code', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '80', '0', '4', null, '1', '2017-11-10 11:57:44', '1', '2017-11-10 11:57:44');
+INSERT INTO `gen_table_column_t` VALUES ('d039b1030f8e40f5a4ab35d87ac736b0', '9ff7a79eb69a47739c182fcdd3326d16', 'login_id', 'login_id', 'varchar(50)', 'String', 'loginId', '0', '0', '0', '1', '1', '1', '0', 'eq', 'input', '', null, '30', '0', '9', null, '1', '2017-11-09 13:46:24', '1', '2017-11-09 13:46:24');
+INSERT INTO `gen_table_column_t` VALUES ('d29e1438afcc468ab207bfcb630e705d', '86097ddda0de41249857ca43bef92587', 'is_leaf', '1 叶子节点 0 非叶子节点', 'bit(1)', 'Boolean', 'isLeaf', '0', '0', '1', '1', '1', '1', '0', 'eq', 'radio', 'sys_yes_no', null, '90', '0', '4', null, '1', '2017-11-10 11:57:44', '1', '2017-11-10 11:57:44');
+INSERT INTO `gen_table_column_t` VALUES ('d2ecaeed1243420fa13af189bd2b008e', '86097ddda0de41249857ca43bef92587', 'last_modified_date', '修改时间', 'datetime', 'java.util.Date', 'lastModifiedDate', '0', '0', '1', '1', '0', '0', '0', 'eq', 'dateselect', '', null, '130', '0', '4', null, '1', '2017-11-10 11:57:44', '1', '2017-11-10 11:57:44');
+INSERT INTO `gen_table_column_t` VALUES ('d55b48888fa840f787476663cf705835', 'c95323a8b03144b3ba86fded558543d5', 'method_name', '任务调用的方法名', 'varchar(255)', 'String', 'methodName', '0', '0', '0', '1', '1', '1', '0', 'eq', 'input', '', null, '100', '0', '1', null, '1', '2017-11-09 15:55:07', '1', '2017-11-09 15:55:07');
+INSERT INTO `gen_table_column_t` VALUES ('d60fa52150b34e9690e7a07f56e32094', 'c95323a8b03144b3ba86fded558543d5', 'version_', 'version_', 'int(11)', 'Long', 'version', '0', '0', '1', '1', '0', '0', '0', 'eq', 'input', '', null, '180', '0', '1', null, '1', '2017-11-09 15:55:07', '1', '2017-11-09 15:55:07');
+INSERT INTO `gen_table_column_t` VALUES ('d7c56da1f6f74ff78ef929591f1edc4c', '86097ddda0de41249857ca43bef92587', 'description_', '描述', 'varchar(225)', 'String', 'description', '0', '0', '1', '1', '1', '0', '0', 'eq', 'textarea', '', null, '140', '0', '4', null, '1', '2017-11-10 11:57:44', '1', '2017-11-10 11:57:44');
+INSERT INTO `gen_table_column_t` VALUES ('dbdd19c888bd411eb1c73a71d8458a05', '9ff7a79eb69a47739c182fcdd3326d16', 'activated_', 'activated_', 'bit(1)', 'String', 'activated', '0', '0', '0', '1', '1', '1', '0', 'eq', 'input', '', null, '80', '0', '9', null, '1', '2017-11-09 13:46:24', '1', '2017-11-09 13:46:24');
+INSERT INTO `gen_table_column_t` VALUES ('dc81d0ac67de402ab2ecaecb80ff41a1', '9ff7a79eb69a47739c182fcdd3326d16', 'name_', 'name_', 'varchar(50)', 'String', 'name', '0', '0', '1', '1', '1', '1', '1', 'like', 'input', '', null, '50', '0', '9', null, '1', '2017-11-09 13:46:24', '1', '2017-11-09 13:46:24');
+INSERT INTO `gen_table_column_t` VALUES ('e93aeda5ee1243f69e20b4103fbfb491', '9ff7a79eb69a47739c182fcdd3326d16', 'created_by', 'created_by', 'varchar(50)', 'String', 'createdBy', '0', '0', '0', '1', '0', '0', '0', 'eq', 'input', '', null, '130', '0', '9', null, '1', '2017-11-09 13:46:24', '1', '2017-11-09 13:46:24');
+INSERT INTO `gen_table_column_t` VALUES ('f4a8da419a2c418c90b96175e7c6c075', '86097ddda0de41249857ca43bef92587', 'id_', '区域id', 'int(11)', 'String', 'id', '1', '0', '0', '1', '0', '0', '0', 'eq', 'input', '', null, '10', '0', '4', null, '1', '2017-11-10 11:57:44', '1', '2017-11-10 11:57:44');
+INSERT INTO `gen_table_column_t` VALUES ('f518e4107968433f90394fde0262de30', '86097ddda0de41249857ca43bef92587', 'parent_id', '上级区域', 'int(11)', 'String', 'parentId', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '30', '0', '4', null, '1', '2017-11-10 11:57:44', '1', '2017-11-10 11:57:44');
+INSERT INTO `gen_table_column_t` VALUES ('f639151f7a784c02bc1a0ca7cc10b383', 'c95323a8b03144b3ba86fded558543d5', 'spring_id', 'springBean', 'varchar(255)', 'String', 'springId', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '80', '0', '1', null, '1', '2017-11-09 15:55:07', '1', '2017-11-09 15:55:07');
+INSERT INTO `gen_table_column_t` VALUES ('f6bcccac4eb345478778c48777ef7d8d', 'c95323a8b03144b3ba86fded558543d5', 'method_params', '方法参数', 'varchar(512)', 'String', 'methodParams', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '110', '0', '1', null, '1', '2017-11-09 15:55:07', '1', '2017-11-09 15:55:07');
+INSERT INTO `gen_table_column_t` VALUES ('f73fb0aa87894262a30d7879d840c6e8', 'c95323a8b03144b3ba86fded558543d5', 'source_id', '业务编号', 'varchar(32)', 'String', 'sourceId', '0', '0', '1', '1', '1', '1', '0', 'eq', 'input', '', null, '90', '0', '1', null, '1', '2017-11-09 15:55:07', '1', '2017-11-09 15:55:07');
+INSERT INTO `gen_table_column_t` VALUES ('f993ec78fc614ec2a438c161efc6ccd5', '86097ddda0de41249857ca43bef92587', 'created_by', '创建人', 'varchar(32)', 'String', 'createdBy', '0', '0', '1', '1', '0', '0', '0', 'eq', 'input', '', null, '100', '0', '4', null, '1', '2017-11-10 11:57:44', '1', '2017-11-10 11:57:44');
+INSERT INTO `gen_table_column_t` VALUES ('f9d1ac5dcbac43a29fb53de11b36705a', '86097ddda0de41249857ca43bef92587', 'last_modified_by', '修改人', 'varchar(32)', 'String', 'lastModifiedBy', '0', '0', '1', '1', '0', '0', '0', 'eq', 'input', '', null, '120', '0', '4', null, '1', '2017-11-10 11:57:44', '1', '2017-11-10 11:57:44');
+INSERT INTO `gen_table_column_t` VALUES ('fe0eb08b7e45412f863eb70b90284f5b', 'c95323a8b03144b3ba86fded558543d5', 'id_', 'id_', 'varchar(32)', 'String', 'id', '1', '0', '0', '1', '0', '0', '0', 'eq', 'input', '', null, '10', '0', '1', null, '1', '2017-11-09 15:55:07', '1', '2017-11-09 15:55:07');
 
 -- ----------------------------
 -- Table structure for gen_table_fk_t
@@ -171,7 +209,9 @@ CREATE TABLE `gen_table_t` (
 -- ----------------------------
 -- Records of gen_table_t
 -- ----------------------------
-INSERT INTO `gen_table_t` VALUES ('9ff7a79eb69a47739c182fcdd3326d16', 'test_user', 'test_user', 'TestUser', '', '', '0', '0', '', '1', '2017-07-04 16:27:35', '1', '2017-07-04 16:27:35');
+INSERT INTO `gen_table_t` VALUES ('86097ddda0de41249857ca43bef92587', 'sys_area_t', '区域表', 'Area', '', '', '0', '4', '', '1', '2017-11-10 10:32:39', '1', '2017-11-10 11:57:44');
+INSERT INTO `gen_table_t` VALUES ('9ff7a79eb69a47739c182fcdd3326d16', 'test_user', 'test_user', 'TestUser', '', '', '0', '11', '', '1', '2017-07-04 16:27:35', '1', '2017-11-09 13:46:24');
+INSERT INTO `gen_table_t` VALUES ('c95323a8b03144b3ba86fded558543d5', 'sys_task_schedule_job_t', '计划任务表', 'TaskScheduleJob', '', '', '0', '3', '', '1', '2017-11-09 15:13:29', '1', '2017-11-09 15:55:13');
 
 -- ----------------------------
 -- Table structure for gen_template_t
@@ -222,7 +262,7 @@ CREATE TABLE `jhi_persistent_audit_event` (
   `event_type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`event_id`),
   KEY `idx_persistent_audit_event` (`principal`,`event_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=271 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=508 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of jhi_persistent_audit_event
@@ -235,6 +275,187 @@ INSERT INTO `jhi_persistent_audit_event` VALUES ('267', 'admin', '2017-07-05 14:
 INSERT INTO `jhi_persistent_audit_event` VALUES ('268', 'admin', '2017-07-05 15:01:49', 'AUTHENTICATION_SUCCESS');
 INSERT INTO `jhi_persistent_audit_event` VALUES ('269', 'admin', '2017-07-05 15:03:44', 'AUTHENTICATION_SUCCESS');
 INSERT INTO `jhi_persistent_audit_event` VALUES ('270', 'admin', '2017-07-05 15:17:44', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('271', 'admin', '2017-11-06 14:50:37', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('272', '', '2017-11-06 14:57:42', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('273', '', '2017-11-06 14:57:48', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('274', '', '2017-11-06 14:57:53', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('275', '', '2017-11-06 14:58:15', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('276', '', '2017-11-06 14:58:18', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('277', 'admin', '2017-11-06 15:01:49', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('278', 'admin', '2017-11-06 15:22:48', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('279', 'admin', '2017-11-06 15:33:02', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('280', 'admin', '2017-11-06 16:02:39', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('281', 'admin', '2017-11-06 16:08:34', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('282', 'admin', '2017-11-06 16:11:07', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('283', 'admin', '2017-11-06 16:18:08', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('284', 'admin', '2017-11-06 16:23:05', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('285', 'admin', '2017-11-06 16:44:55', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('286', 'admin', '2017-11-06 16:46:25', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('287', 'admin', '2017-11-06 16:47:50', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('288', 'admin', '2017-11-06 17:13:10', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('289', 'admin', '2017-11-06 17:17:17', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('290', 'admin', '2017-11-07 16:11:05', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('291', 'admin', '2017-11-07 16:16:57', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('292', 'admin', '2017-11-08 14:47:22', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('293', 'admin', '2017-11-08 15:30:49', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('294', 'admin', '2017-11-08 15:34:31', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('295', 'admin', '2017-11-08 15:41:18', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('296', 'user', '2017-11-08 15:48:22', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('297', 'admin', '2017-11-08 15:51:46', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('298', 'admin', '2017-11-08 15:56:32', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('299', 'admin', '2017-11-08 16:33:44', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('300', 'admin', '2017-11-08 16:37:52', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('301', 'admin', '2017-11-08 16:47:22', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('302', 'admin', '2017-11-08 16:55:46', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('303', 'admin', '2017-11-08 17:03:52', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('304', 'admin', '2017-11-08 17:06:51', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('305', 'admin', '2017-11-08 17:12:58', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('306', 'admin', '2017-11-08 17:16:40', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('307', 'admin', '2017-11-08 17:38:39', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('308', 'admin', '2017-11-08 17:54:43', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('309', 'admin', '2017-11-08 17:56:41', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('310', 'admin', '2017-11-08 18:12:14', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('311', 'admin', '2017-11-08 19:40:38', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('312', 'admin', '2017-11-09 09:48:28', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('313', 'admin', '2017-11-09 10:03:03', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('314', 'admin', '2017-11-09 11:15:23', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('315', 'admin', '2017-11-09 11:21:47', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('316', 'admin', '2017-11-09 12:16:53', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('317', 'admin', '2017-11-09 13:10:17', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('318', 'admin', '2017-11-09 13:12:37', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('319', 'admin', '2017-11-09 13:14:06', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('320', 'admin', '2017-11-09 13:17:20', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('321', 'admin', '2017-11-09 13:25:17', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('322', 'admin', '2017-11-09 13:28:41', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('323', 'admin', '2017-11-09 13:31:06', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('324', 'admin', '2017-11-09 13:32:37', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('325', 'admin', '2017-11-09 13:35:15', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('326', 'admin', '2017-11-09 13:51:34', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('327', 'admin', '2017-11-09 14:20:59', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('328', 'admin', '2017-11-09 14:24:53', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('329', 'admin', '2017-11-09 14:35:04', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('330', 'admin', '2017-11-09 15:03:30', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('331', 'admin', '2017-11-09 15:50:27', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('332', 'admin', '2017-11-09 15:54:37', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('333', 'admin', '2017-11-09 16:47:57', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('334', 'admin', '2017-11-09 17:01:09', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('335', 'admin', '2017-11-09 17:16:07', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('336', 'admin', '2017-11-09 17:24:08', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('337', 'admin', '2017-11-10 09:05:06', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('338', 'admin', '2017-11-10 09:22:20', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('339', 'admin', '2017-11-10 09:34:17', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('340', 'admin', '2017-11-10 10:57:03', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('341', 'admin', '2017-11-10 11:12:59', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('342', 'admin', '2017-11-10 11:32:58', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('343', 'admin', '2017-11-10 11:54:32', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('344', 'admin', '2017-11-10 11:57:21', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('345', 'admin', '2017-11-10 13:18:19', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('346', 'admin', '2017-11-10 13:29:40', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('347', 'admin', '2017-11-10 13:54:15', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('348', 'admin', '2017-11-10 14:22:39', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('349', 'admin', '2017-11-10 14:50:27', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('350', 'admin', '2017-11-10 14:55:32', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('351', 'admin', '2017-11-10 15:06:25', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('352', 'admin', '2017-11-10 15:10:18', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('353', 'admin', '2017-11-13 09:12:35', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('354', 'admin', '2017-11-13 10:32:47', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('355', '', '2017-11-13 10:38:03', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('356', 'admin', '2017-11-13 10:38:05', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('357', 'admin', '2017-11-13 10:41:39', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('358', 'admin', '2017-11-13 11:47:09', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('359', 'admin', '2017-11-14 11:07:55', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('360', 'admin', '2017-11-14 11:23:03', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('361', '', '2017-11-14 11:53:06', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('362', 'admin', '2017-11-14 11:53:07', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('363', '', '2017-11-14 11:59:31', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('364', 'admin', '2017-11-14 11:59:32', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('365', 'admin', '2017-11-14 13:34:06', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('366', 'admin', '2017-11-15 10:58:44', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('367', 'admin', '2017-11-15 16:42:54', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('368', 'admin', '2017-11-15 16:44:29', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('369', 'admin', '2017-11-15 16:47:17', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('370', 'admin', '2017-11-15 16:50:49', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('371', 'admin', '2017-11-15 16:51:56', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('372', 'admin', '2017-11-15 16:57:57', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('373', 'admin', '2017-11-15 17:00:39', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('374', 'admin', '2017-11-15 17:08:32', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('375', 'admin', '2017-11-15 17:47:47', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('376', 'admin', '2017-11-15 17:49:31', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('377', 'admin', '2017-11-16 09:10:48', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('378', 'admin', '2017-11-16 09:11:37', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('379', 'admin', '2017-11-16 10:34:04', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('380', 'admin', '2017-11-16 11:52:10', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('381', 'admin', '2017-11-16 13:22:03', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('382', 'admin', '2017-11-16 13:27:39', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('383', 'admin', '2017-11-16 13:42:51', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('384', 'admin', '2017-11-16 13:46:44', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('385', 'admin', '2017-11-17 09:27:56', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('386', 'admin', '2017-11-17 09:28:12', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('387', 'admin', '2017-11-17 09:28:25', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('388', 'admin', '2017-11-17 09:31:34', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('389', 'admin', '2017-11-17 09:31:58', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('390', 'admin', '2017-11-17 09:33:32', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('391', 'admin', '2017-11-17 09:46:20', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('392', 'admin', '2017-11-17 09:56:59', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('393', 'admin', '2017-11-17 10:24:19', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('394', 'admin', '2017-11-17 15:13:42', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('395', 'admin', '2017-11-17 15:20:23', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('412', 'wrong-user', '2017-11-20 14:45:15', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('413', 'user-jwt-controller-remember-me', '2017-11-20 14:45:22', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('414', 'user-jwt-controller', '2017-11-20 14:45:27', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('415', 'wrong-user', '2017-11-20 14:51:43', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('416', 'user-jwt-controller-remember-me', '2017-11-20 14:54:26', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('417', 'wrong-user', '2017-11-20 14:55:18', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('418', 'user-jwt-controller-remember-me', '2017-11-20 14:55:18', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('419', 'user-jwt-controller', '2017-11-20 14:55:19', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('420', 'user-jwt-controller', '2017-11-20 14:57:49', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('421', 'admin', '2017-11-20 15:14:39', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('426', 'wrong-user', '2017-11-20 17:55:58', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('427', 'user-jwt-controller-remember-me', '2017-11-20 17:56:05', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('428', 'user-jwt-controller', '2017-11-20 17:56:11', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('433', 'wrong-user', '2017-11-21 09:16:01', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('434', 'user-jwt-controller-remember-me', '2017-11-21 09:16:02', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('435', 'user-jwt-controller', '2017-11-21 09:16:03', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('440', 'wrong-user', '2017-11-21 10:01:08', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('441', 'user-jwt-controller-remember-me', '2017-11-21 10:01:08', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('442', 'user-jwt-controller', '2017-11-21 10:01:09', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('447', 'wrong-user', '2017-11-21 11:27:00', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('448', 'user-jwt-controller-remember-me', '2017-11-21 11:27:11', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('449', 'user-jwt-controller', '2017-11-21 11:27:22', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('454', 'wrong-user', '2017-11-21 11:37:37', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('455', 'user-jwt-controller-remember-me', '2017-11-21 11:37:39', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('456', 'user-jwt-controller', '2017-11-21 11:37:41', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('461', 'wrong-user', '2017-11-21 15:32:06', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('462', 'user-jwt-controller-remember-me', '2017-11-21 15:32:07', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('463', 'user-jwt-controller', '2017-11-21 15:32:08', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('464', 'wrong-user', '2017-11-21 15:34:48', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('465', 'user-jwt-controller-remember-me', '2017-11-21 15:34:49', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('466', 'user-jwt-controller', '2017-11-21 15:34:49', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('467', 'admin', '2017-11-22 11:15:16', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('468', 'wrong-user', '2017-11-22 11:20:15', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('469', 'user-jwt-controller-remember-me', '2017-11-22 11:20:19', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('470', 'user-jwt-controller', '2017-11-22 11:20:20', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('475', 'wrong-user', '2017-11-22 16:41:34', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('476', 'user-jwt-controller-remember-me', '2017-11-22 16:41:35', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('477', 'user-jwt-controller', '2017-11-22 16:41:36', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('482', 'wrong-user', '2017-11-22 17:06:11', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('483', 'user-jwt-controller-remember-me', '2017-11-22 17:06:12', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('484', 'user-jwt-controller', '2017-11-22 17:06:13', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('489', 'wrong-user', '2017-11-23 09:23:45', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('490', 'user-jwt-controller-remember-me', '2017-11-23 09:23:46', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('491', 'user-jwt-controller', '2017-11-23 09:23:47', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('492', 'admin', '2017-11-23 11:56:48', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('493', 'admin', '2017-11-23 12:00:18', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('494', 'admin', '2017-11-23 12:00:52', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('495', 'admin', '2017-11-23 13:28:53', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('496', 'admin', '2017-11-23 13:40:02', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('497', 'admin', '2017-11-23 13:40:21', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('498', 'admin', '2017-11-23 13:41:25', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('499', 'admin', '2017-11-23 13:41:44', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('500', 'admin', '2017-11-23 20:40:51', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('505', 'wrong-user', '2017-11-23 20:53:16', 'AUTHENTICATION_FAILURE');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('506', 'user-jwt-controller-remember-me', '2017-11-23 20:53:17', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `jhi_persistent_audit_event` VALUES ('507', 'user-jwt-controller', '2017-11-23 20:53:18', 'AUTHENTICATION_SUCCESS');
 
 -- ----------------------------
 -- Table structure for jhi_persistent_audit_evt_data
@@ -254,6 +475,70 @@ CREATE TABLE `jhi_persistent_audit_evt_data` (
 -- ----------------------------
 INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('263', 'remoteAddress', '0:0:0:0:0:0:0:1');
 INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('263', 'sessionId', '0zrBAPPqGkbQQdESYqHTdrYfAAU43pjuM46Ry2_e');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('353', 'remoteAddress', '0:0:0:0:0:0:0:1');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('353', 'sessionId', 'j7f07P9P_2_GHLKLQhf1ejLPNezoWxPavZCY_Quz');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('354', 'remoteAddress', '0:0:0:0:0:0:0:1');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('354', 'sessionId', '5QE6ZqdHVucNJ4QeT_VwDz27_EjYE1euj9_zFOv9');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('355', 'message', 'Bad credentials');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('355', 'remoteAddress', '0:0:0:0:0:0:0:1');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('355', 'sessionId', 'oq4lzod99v2DnCzcbI9LNh_p3rABAwU9DMWfYcg-');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('355', 'type', 'org.springframework.security.authentication.BadCredentialsException');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('356', 'remoteAddress', '0:0:0:0:0:0:0:1');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('356', 'sessionId', 'oq4lzod99v2DnCzcbI9LNh_p3rABAwU9DMWfYcg-');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('357', 'remoteAddress', '0:0:0:0:0:0:0:1');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('357', 'sessionId', 'ufyKKWAjADjc0xEtwcWgiKgdVbW-fMTt_v8za6V9');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('358', 'remoteAddress', '0:0:0:0:0:0:0:1');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('358', 'sessionId', 'uJ17O71x63zQYW1N8YzgGmafLGw0cPUwm-xFfzpk');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('359', 'remoteAddress', '0:0:0:0:0:0:0:1');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('359', 'sessionId', '9ygjPrEguNsMv5GibktkLaSGFFQvRLtNAd60ahEe');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('360', 'remoteAddress', '0:0:0:0:0:0:0:1');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('360', 'sessionId', 'b2CT0p7JAYJ3E4Y9SDIXfgLvQ7yOatlm5cNkKezL');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('361', 'message', 'Bad credentials');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('361', 'remoteAddress', '0:0:0:0:0:0:0:1');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('361', 'sessionId', '9dJQl3BdZdlRMt0CSECyEp6gJp-k77TBP6cJqe4s');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('361', 'type', 'org.springframework.security.authentication.BadCredentialsException');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('362', 'remoteAddress', '0:0:0:0:0:0:0:1');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('362', 'sessionId', '9dJQl3BdZdlRMt0CSECyEp6gJp-k77TBP6cJqe4s');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('363', 'message', 'Bad credentials');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('363', 'remoteAddress', '0:0:0:0:0:0:0:1');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('363', 'sessionId', 'KRYCjUY2Bl9h1gLkyyH7OgBIH0w6YWUjJtGM7I5u');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('363', 'type', 'org.springframework.security.authentication.BadCredentialsException');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('364', 'remoteAddress', '0:0:0:0:0:0:0:1');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('364', 'sessionId', 'KRYCjUY2Bl9h1gLkyyH7OgBIH0w6YWUjJtGM7I5u');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('365', 'remoteAddress', '0:0:0:0:0:0:0:1');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('365', 'sessionId', 'rQ71f6JpzINkC71JwDliCEG3mVxeAKIQWPhwYUTt');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('366', 'remoteAddress', '0:0:0:0:0:0:0:1');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('366', 'sessionId', 'g2wmixJHPZqmMl4ACLl9L6Edq9WUVwHTN8RP_YsY');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('412', 'message', 'Bad credentials');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('412', 'type', 'org.springframework.security.authentication.BadCredentialsException');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('415', 'message', 'Bad credentials');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('415', 'type', 'org.springframework.security.authentication.BadCredentialsException');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('417', 'message', 'Bad credentials');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('417', 'type', 'org.springframework.security.authentication.BadCredentialsException');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('426', 'message', 'Bad credentials');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('426', 'type', 'org.springframework.security.authentication.BadCredentialsException');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('433', 'message', 'Bad credentials');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('433', 'type', 'org.springframework.security.authentication.BadCredentialsException');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('440', 'message', 'Bad credentials');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('440', 'type', 'org.springframework.security.authentication.BadCredentialsException');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('447', 'message', 'Bad credentials');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('447', 'type', 'org.springframework.security.authentication.BadCredentialsException');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('454', 'message', 'Bad credentials');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('454', 'type', 'org.springframework.security.authentication.BadCredentialsException');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('461', 'message', 'Bad credentials');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('461', 'type', 'org.springframework.security.authentication.BadCredentialsException');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('464', 'message', 'Bad credentials');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('464', 'type', 'org.springframework.security.authentication.BadCredentialsException');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('468', 'message', 'Bad credentials');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('468', 'type', 'org.springframework.security.authentication.BadCredentialsException');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('475', 'message', 'Bad credentials');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('475', 'type', 'org.springframework.security.authentication.BadCredentialsException');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('482', 'message', 'Bad credentials');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('482', 'type', 'org.springframework.security.authentication.BadCredentialsException');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('489', 'message', 'Bad credentials');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('489', 'type', 'org.springframework.security.authentication.BadCredentialsException');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('505', 'message', 'Bad credentials');
+INSERT INTO `jhi_persistent_audit_evt_data` VALUES ('505', 'type', 'org.springframework.security.authentication.BadCredentialsException');
 
 -- ----------------------------
 -- Table structure for jhi_persistent_token
@@ -296,7 +581,7 @@ CREATE TABLE `logging_event` (
   `caller_method` varchar(254) NOT NULL COMMENT '操作方法',
   `caller_line` char(4) NOT NULL COMMENT '操作行',
   PRIMARY KEY (`event_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7219 DEFAULT CHARSET=utf8 COMMENT='日志表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='日志表';
 
 -- ----------------------------
 -- Records of logging_event
@@ -363,23 +648,23 @@ CREATE TABLE `sys_area_t` (
 -- ----------------------------
 INSERT INTO `sys_area_t` VALUES ('1', '', '0', '全国', null, '0', '0', null, '\0', null, null, null, null, null, '0', '0');
 INSERT INTO `sys_area_t` VALUES ('110000', '1,', '1', '北京市', null, '1', '1', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-06-30 15:01:29', null, '0', '4');
-INSERT INTO `sys_area_t` VALUES ('110100', '1,110000,', '110000', '市辖区', '', '0', '2', '', '\0', null, '2017-06-30 15:01:29', '1', '2017-06-30 15:01:29', '', '0', '3');
-INSERT INTO `sys_area_t` VALUES ('110101', '1,110000,110100,', '110100', '东城区', '', '0', '3', '', '', null, '2017-06-30 15:01:29', '1', '2017-07-04 17:45:43', '', '0', '3');
-INSERT INTO `sys_area_t` VALUES ('110102', '1,110000,110100,', '110100', '西城区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-06-30 15:01:29', null, '0', '3');
-INSERT INTO `sys_area_t` VALUES ('110103', '1,110000,110100,', '110100', '崇文区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-06-30 15:01:29', null, '0', '3');
-INSERT INTO `sys_area_t` VALUES ('110104', '1,110000,110100,', '110100', '宣武区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-06-30 15:01:29', null, '0', '3');
-INSERT INTO `sys_area_t` VALUES ('110105', '1,110000,110100,', '110100', '朝阳区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-06-30 15:01:29', null, '0', '3');
-INSERT INTO `sys_area_t` VALUES ('110106', '1,110000,110100,', '110100', '丰台区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-06-30 15:01:29', null, '0', '3');
-INSERT INTO `sys_area_t` VALUES ('110107', '1,110000,110100,', '110100', '石景山区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-06-30 15:01:29', null, '0', '3');
-INSERT INTO `sys_area_t` VALUES ('110108', '1,110000,110100,', '110100', '海淀区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-06-30 15:01:29', null, '0', '3');
-INSERT INTO `sys_area_t` VALUES ('110109', '1,110000,110100,', '110100', '门头沟区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-06-30 15:01:29', null, '0', '3');
-INSERT INTO `sys_area_t` VALUES ('110111', '1,110000,110100,', '110100', '房山区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-06-30 15:01:29', null, '0', '3');
-INSERT INTO `sys_area_t` VALUES ('110112', '1,110000,110100,', '110100', '通州区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-06-30 15:01:29', null, '0', '3');
-INSERT INTO `sys_area_t` VALUES ('110113', '1,110000,110100,', '110100', '顺义区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-06-30 15:01:29', null, '0', '3');
-INSERT INTO `sys_area_t` VALUES ('110114', '1,110000,110100,', '110100', '昌平区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-06-30 15:01:29', null, '0', '3');
-INSERT INTO `sys_area_t` VALUES ('110115', '1,110000,110100,', '110100', '大兴区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-06-30 15:01:29', null, '0', '3');
-INSERT INTO `sys_area_t` VALUES ('110116', '1,110000,110100,', '110100', '怀柔区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-06-30 15:01:29', null, '0', '3');
-INSERT INTO `sys_area_t` VALUES ('110117', '1,110000,110100,', '110100', '平谷区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-06-30 15:01:29', null, '0', '3');
+INSERT INTO `sys_area_t` VALUES ('110100', '1,110000,', '110000', '市辖区', '', '0', '2', '', '\0', null, '2017-06-30 15:01:29', '1', '2017-11-10 14:03:53', '', '0', '9');
+INSERT INTO `sys_area_t` VALUES ('110101', '1,110000,110100,', '110100', '东城区', '', '0', '3', '', '', null, '2017-06-30 15:01:29', '1', '2017-11-10 14:03:53', '', '0', '5');
+INSERT INTO `sys_area_t` VALUES ('110102', '1,110000,110100,', '110100', '西城区', null, '30', '3', null, '', null, '2017-06-30 15:01:29', '1', '2017-11-10 14:03:53', null, '0', '6');
+INSERT INTO `sys_area_t` VALUES ('110103', '1,110000,110100,', '110100', '崇文区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-11-10 14:03:53', null, '0', '5');
+INSERT INTO `sys_area_t` VALUES ('110104', '1,110000,110100,', '110100', '宣武区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-11-10 14:03:53', null, '0', '5');
+INSERT INTO `sys_area_t` VALUES ('110105', '1,110000,110100,', '110100', '朝阳区', 'ddd', '120', '3', null, '', null, '2017-06-30 15:01:29', '1', '2017-11-10 14:03:53', 'sss', '0', '10');
+INSERT INTO `sys_area_t` VALUES ('110106', '1,110000,110100,', '110100', '丰台区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-11-10 14:03:53', null, '0', '5');
+INSERT INTO `sys_area_t` VALUES ('110107', '1,110000,110100,', '110100', '石景山区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-11-10 14:03:53', null, '0', '5');
+INSERT INTO `sys_area_t` VALUES ('110108', '1,110000,110100,', '110100', '海淀区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-11-10 14:03:53', null, '0', '5');
+INSERT INTO `sys_area_t` VALUES ('110109', '1,110000,110100,', '110100', '门头沟区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-11-10 14:03:53', null, '0', '5');
+INSERT INTO `sys_area_t` VALUES ('110111', '1,110000,110100,', '110100', '房山区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-11-10 14:03:53', null, '0', '5');
+INSERT INTO `sys_area_t` VALUES ('110112', '1,110000,110100,', '110100', '通州区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-11-10 14:03:53', null, '0', '5');
+INSERT INTO `sys_area_t` VALUES ('110113', '1,110000,110100,', '110100', '顺义区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-11-10 14:03:53', null, '0', '5');
+INSERT INTO `sys_area_t` VALUES ('110114', '1,110000,110100,', '110100', '昌平区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-11-10 14:03:53', null, '0', '5');
+INSERT INTO `sys_area_t` VALUES ('110115', '1,110000,110100,', '110100', '大兴区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-11-10 14:03:53', null, '0', '5');
+INSERT INTO `sys_area_t` VALUES ('110116', '1,110000,110100,', '110100', '怀柔区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-11-10 14:03:53', null, '0', '5');
+INSERT INTO `sys_area_t` VALUES ('110117', '1,110000,110100,', '110100', '平谷区', null, '0', '3', null, '\0', null, '2017-06-30 15:01:29', '1', '2017-11-10 14:03:53', null, '0', '5');
 INSERT INTO `sys_area_t` VALUES ('110200', '1,110000,', '110000', '县', null, '0', '2', null, '\0', null, null, null, '2016-12-14 15:01:33', null, '0', '2');
 INSERT INTO `sys_area_t` VALUES ('110228', '1,110000,110200,', '110200', '密云县', null, '0', '3', null, '\0', null, null, null, '2016-12-14 15:01:33', null, '0', '2');
 INSERT INTO `sys_area_t` VALUES ('110229', '1,110000,110200,', '110200', '延庆县', null, '0', '3', null, '\0', null, null, null, '2016-12-14 15:01:33', null, '0', '2');
@@ -3946,7 +4231,7 @@ INSERT INTO `sys_dict_t` VALUES ('0e38f24789f7459cb7726b9a62ce2a23', '流失客�
 INSERT INTO `sys_dict_t` VALUES ('0f53705c795644448cc331a02788fc67', '中奖晒单', '676ca81bfa9440018af3f15c17d7a1b6', '0,1,28a368fdbbd44a7a99af28d01b12c089,676ca81bfa9440018af3f15c17d7a1b6,', '8', null, 'score_type_8', '\0', '80', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:46:15');
 INSERT INTO `sys_dict_t` VALUES ('0f77deaad18c48d4a1394093cd72f7f3', '请求方法类型', '5ea249bb780348eb8ea6a0efade684a6', '0,1,5ea249bb780348eb8ea6a0efade684a6,', '', null, 'sys_request_method', '\0', '30', '', '0', null, '', '0', '1', '2016-12-28 17:48:05', '1', '2016-12-28 17:48:58');
 INSERT INTO `sys_dict_t` VALUES ('0fa997a5e4c94b4ab7c69b1d7ebc6f78', '汽车-机械', '7426775094ff466c85ae945f715f8367', '0,1,e54d4e54ceec4b8f9b8bf034d97cdf56,7426775094ff466c85ae945f715f8367,', '70', null, 'job_type_7', '\0', '70', '', '-2', null, '', '2', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:38:08');
-INSERT INTO `sys_dict_t` VALUES ('1', '数据字典', '0', '0,', null, null, 'base', '\0', '0', null, '0', null, '', '6', '', '2016-12-05 11:31:22', null, null);
+INSERT INTO `sys_dict_t` VALUES ('1', '数据字典', '0', '0,', null, null, 'base', '\0', '0', null, '0', null, '', '7', '', '2016-12-05 11:31:22', '1', '2017-11-08 18:13:00');
 INSERT INTO `sys_dict_t` VALUES ('10025736a46145819300a0f6a4cf3c26', 'LNG', '6a6391af2d82453c8e13bbebdf448249', '0,1,28a368fdbbd44a7a99af28d01b12c089,6a6391af2d82453c8e13bbebdf448249,', '6', null, 'oil_type_6', '', '60', '元/公斤', '-2', null, '', '7', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:46:15');
 INSERT INTO `sys_dict_t` VALUES ('108eabb7ee8f4dcd8e9d7d37526e479e', '超级管理员', 'f144d350f02f457c8ce90588c7d67c77', '0,1,bede16c99d85416a834a6b3c664bbb9b,f144d350f02f457c8ce90588c7d67c77,', '2', null, 'ep_role_type_2', '\0', '20', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:38:11');
 INSERT INTO `sys_dict_t` VALUES ('109d1234024b4ca2abc8645cf7e186e2', '首页焦点图', 'ac531aa386174308935cfea881685fe4', '0,1,faab4823cc8c4ddf89165fec5cac93af,ac531aa386174308935cfea881685fe4,', '1', null, 'cms_posid_1', '\0', '10', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', null, null);
@@ -4060,7 +4345,7 @@ INSERT INTO `sys_dict_t` VALUES ('48b2d57436da46d685612ece2232e318', '其它行�
 INSERT INTO `sys_dict_t` VALUES ('48fc9f15c40c4484bb1011935a4c527e', '改变限额', '89b638c11f3f4a409a47ca932dcc4a21', '0,1,bede16c99d85416a834a6b3c664bbb9b,89b638c11f3f4a409a47ca932dcc4a21,', '2', null, 'quota_flowing_type_2', '\0', '20', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:38:11');
 INSERT INTO `sys_dict_t` VALUES ('49986afae4964fc1a3f26dc21f8464c0', '活动赠送', '676ca81bfa9440018af3f15c17d7a1b6', '0,1,28a368fdbbd44a7a99af28d01b12c089,676ca81bfa9440018af3f15c17d7a1b6,', '7', null, 'score_type_7', '\0', '70', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:46:15');
 INSERT INTO `sys_dict_t` VALUES ('4a96222bc12746c9ae64c12ad5b6d162', '订单关闭', 'cd3935b5dd2a4ea89df6e60203367aa9', '0,1,28a368fdbbd44a7a99af28d01b12c089,cd3935b5dd2a4ea89df6e60203367aa9,', '3', null, 'commodity_order_status_3', '\0', '40', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:46:15');
-INSERT INTO `sys_dict_t` VALUES ('4b83e314763746b3857335ee9ec26836', '业务参数', '1', '0,1,', '', null, '', '\0', '68', '', '0', null, '', '1', '1', '2017-03-27 15:17:05', '1', '2017-06-30 15:01:19');
+INSERT INTO `sys_dict_t` VALUES ('4b83e314763746b3857335ee9ec26836', '业务参数', '1', '0,1,', '', '', '', '\0', '98', '', '0', null, '', '3', '1', '2017-03-27 15:17:05', '1', '2017-11-10 15:11:55');
 INSERT INTO `sys_dict_t` VALUES ('4b8630e836de42fa9ff8d4b4156ec39a', '加气站', 'af9fa7257bde4f1b8a117723d28d94ee', '0,1,b95893620a4a462490349148b9bfe1e7,af9fa7257bde4f1b8a117723d28d94ee,', '2', null, 'station_genre_2', '\0', '20', '', '-2', null, '', '1', '', '2016-12-05 11:31:22', '1', '2016-12-24 09:26:22');
 INSERT INTO `sys_dict_t` VALUES ('4c1a841de04745c6b26cd5dfa132a933', '优惠券', '5de6bd42e9a248bd95a54254d651ea19', '0,1,28a368fdbbd44a7a99af28d01b12c089,5de6bd42e9a248bd95a54254d651ea19,', '1', null, 'discount_code_type_1', '\0', '10', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:46:15');
 INSERT INTO `sys_dict_t` VALUES ('4c48895ca2754715ab127f387d556048', 'PUT', '0f77deaad18c48d4a1394093cd72f7f3', '0,1,5ea249bb780348eb8ea6a0efade684a6,0f77deaad18c48d4a1394093cd72f7f3,', 'PUT', null, 'sys_request_method_3', '', '90', '', '0', null, '', '0', '1', '2016-12-28 17:49:46', '1', '2016-12-28 17:55:18');
@@ -4127,7 +4412,7 @@ INSERT INTO `sys_dict_t` VALUES ('6a6391af2d82453c8e13bbebdf448249', '汽油类�
 INSERT INTO `sys_dict_t` VALUES ('6ad48b59da874704a95d0d412a10053e', '微信订单生成', '5271a93acd624e598ad658a577d37ebf', '0,1,28a368fdbbd44a7a99af28d01b12c089,5271a93acd624e598ad658a577d37ebf,', '10', null, 'consume_status_1', '\0', '20', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:46:15');
 INSERT INTO `sys_dict_t` VALUES ('6b6cd8ba1a3c40d4aeb1fc50abe6ac18', '绑卡优惠券', '86f3598178fb4f659480dfdab40f0613', '0,1,28a368fdbbd44a7a99af28d01b12c089,86f3598178fb4f659480dfdab40f0613,', '7', null, 'voucher_discount_type_7', '\0', '70', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:46:15');
 INSERT INTO `sys_dict_t` VALUES ('6b7d319001fe41f485556d4230153aa7', '暂停营业', 'edfa4d6478d9429d8474c4bc9f687dbe', '0,1,b95893620a4a462490349148b9bfe1e7,edfa4d6478d9429d8474c4bc9f687dbe,', '2', null, 'station_cooperate_2', '\0', '30', '', '-2', null, '', '3', '', '2016-12-05 11:31:22', '1', '2016-12-24 09:26:22');
-INSERT INTO `sys_dict_t` VALUES ('6c1f5d4774d84ae3a89045e9f12ec5eb', '离线', '8b5fc2a625d242e5a30576f1e0fc0364', '0,1,4b83e314763746b3857335ee9ec26836,8b5fc2a625d242e5a30576f1e0fc0364,', '1', null, 'online_status_1', '', '90', '', '0', null, '', '1', '1', '2017-03-27 15:20:26', '1', '2017-06-30 15:01:19');
+INSERT INTO `sys_dict_t` VALUES ('6c1f5d4774d84ae3a89045e9f12ec5eb', '离线', '8b5fc2a625d242e5a30576f1e0fc0364', '0,1,4b83e314763746b3857335ee9ec26836,8b5fc2a625d242e5a30576f1e0fc0364,', '1', null, 'online_status_1', '', '90', '', '0', null, '', '3', '1', '2017-03-27 15:20:26', '1', '2017-11-10 15:11:55');
 INSERT INTO `sys_dict_t` VALUES ('6df80357797e48f184de7038a05e0252', '是', 'b69b14b96942405ea4eaf2030b08c531', '0,1,28a368fdbbd44a7a99af28d01b12c089,b69b14b96942405ea4eaf2030b08c531,', '0', null, 'is_wash_car_0', '\0', '0', '', '-2', null, '', '2', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:46:15');
 INSERT INTO `sys_dict_t` VALUES ('6e503d93c7614badb36865cf2d8fd8ab', '兑换众筹商品失败', '676ca81bfa9440018af3f15c17d7a1b6', '0,1,28a368fdbbd44a7a99af28d01b12c089,676ca81bfa9440018af3f15c17d7a1b6,', '6', null, 'score_type_6', '\0', '60', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:46:15');
 INSERT INTO `sys_dict_t` VALUES ('6f0a1e3d1ab445c5b2a5244d1c1f3638', '已失效', '09ce53d380d0410eb4ef94fc3e380e95', '0,1,28a368fdbbd44a7a99af28d01b12c089,09ce53d380d0410eb4ef94fc3e380e95,', '4', null, 'period_type_4', '\0', '40', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:46:15');
@@ -4149,7 +4434,7 @@ INSERT INTO `sys_dict_t` VALUES ('7d0e732438ee48a0b2d95c961e672d0f', '2000元', 
 INSERT INTO `sys_dict_t` VALUES ('7ebeb9ed12104d3f8828455002ecd466', '90后', '56b066d2c4fb49358d7dc044d5370e6f', '0,1,e54d4e54ceec4b8f9b8bf034d97cdf56,56b066d2c4fb49358d7dc044d5370e6f,', '1', null, 'age_type_1', '\0', '10', '', '-2', null, '', '1', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:38:08');
 INSERT INTO `sys_dict_t` VALUES ('7f51aaef298a4d24b4d3d993caa9a09f', 'ERROR', 'cf92bd9bc2a64ac9a37776f3ec8cce24', '0,1,5ea249bb780348eb8ea6a0efade684a6,cf92bd9bc2a64ac9a37776f3ec8cce24,', 'ERROR', null, 'sys_log_level_error', '', '150', '', '0', null, '', '0', '1', '2017-01-03 15:04:22', '1', '2017-01-03 15:04:22');
 INSERT INTO `sys_dict_t` VALUES ('8039ff42992840e191657f79c4446c5c', '等待揭晓', '09ce53d380d0410eb4ef94fc3e380e95', '0,1,28a368fdbbd44a7a99af28d01b12c089,09ce53d380d0410eb4ef94fc3e380e95,', '2', null, 'period_type_2', '\0', '20', '', '-2', null, '', '2', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:46:15');
-INSERT INTO `sys_dict_t` VALUES ('8040c72a95f541a49734bbe1c47547ca', '机构等级', '5ea249bb780348eb8ea6a0efade684a6', '0,1,5ea249bb780348eb8ea6a0efade684a6,', '', null, 'sys_org_grade', '\0', '10', null, '0', null, '', '12', '', '2016-12-05 11:31:22', null, null);
+INSERT INTO `sys_dict_t` VALUES ('8040c72a95f541a49734bbe1c47547ca', '机构等级', '5ea249bb780348eb8ea6a0efade684a6', '0,1,5ea249bb780348eb8ea6a0efade684a6,', '', null, 'sys_org_grade', '\0', '10', null, '0', null, '', '13', '', '2016-12-05 11:31:22', '1', '2017-11-08 17:56:50');
 INSERT INTO `sys_dict_t` VALUES ('80dcac9baced499580380a249e4c2e6c', 'POST', '0f77deaad18c48d4a1394093cd72f7f3', '0,1,5ea249bb780348eb8ea6a0efade684a6,0f77deaad18c48d4a1394093cd72f7f3,', 'POST', null, 'sys_request_method_2', '', '60', '', '0', null, '', '0', '1', '2016-12-28 17:49:25', '1', '2016-12-28 17:49:25');
 INSERT INTO `sys_dict_t` VALUES ('810661c884cf4060aa09206fb169c287', '栏目第一条内容', '4ff390ef18c74373a90cd511f563de91', '0,1,faab4823cc8c4ddf89165fec5cac93af,4ff390ef18c74373a90cd511f563de91,', '2', null, 'cms_show_modes_2', '\0', '30', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', null, null);
 INSERT INTO `sys_dict_t` VALUES ('81a6dc7a6ea94c89a3a42a42870ac52d', '自主加油', 'd731fd771daf48d0a75e6593f4123e32', '0,1,b95893620a4a462490349148b9bfe1e7,d731fd771daf48d0a75e6593f4123e32,', '2', null, 'refuel_type_2', '\0', '20', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-24 09:26:22');
@@ -4169,7 +4454,7 @@ INSERT INTO `sys_dict_t` VALUES ('8897e46e05e9458a85d437fcc08321be', 'Brent', 'c
 INSERT INTO `sys_dict_t` VALUES ('895cf84643544f82bd7db1894910c2c8', '正在审核中', '4586c9de27fc4911809c472d66dea8e4', '0,1,bede16c99d85416a834a6b3c664bbb9b,4586c9de27fc4911809c472d66dea8e4,', '2', null, 'ep_company_verify_state_2', '\0', '2', '', '-2', null, '', '1', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:38:11');
 INSERT INTO `sys_dict_t` VALUES ('89b638c11f3f4a409a47ca932dcc4a21', '限额流水改变类型', 'bede16c99d85416a834a6b3c664bbb9b', '0,1,bede16c99d85416a834a6b3c664bbb9b,', '', null, 'quota_flowing_type', '\0', '88', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:38:11');
 INSERT INTO `sys_dict_t` VALUES ('8ac435fd40a945e797dd44026c96a8f8', '系统消息', '381273cbfa814474a83b48da49b46c17', '0,1,b95893620a4a462490349148b9bfe1e7,381273cbfa814474a83b48da49b46c17,', '1', null, 'station_reveive_type_1', '\0', '10', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-24 09:26:22');
-INSERT INTO `sys_dict_t` VALUES ('8b5fc2a625d242e5a30576f1e0fc0364', '在线状态', '4b83e314763746b3857335ee9ec26836', '0,1,4b83e314763746b3857335ee9ec26836,', '', '', 'online_status', '\0', '30', '', '0', null, '', '1', '1', '2017-03-27 15:17:44', '1', '2017-06-30 15:01:19');
+INSERT INTO `sys_dict_t` VALUES ('8b5fc2a625d242e5a30576f1e0fc0364', '在线状态', '4b83e314763746b3857335ee9ec26836', '0,1,4b83e314763746b3857335ee9ec26836,', '', '', 'online_status', '\0', '60', '', '0', null, '', '3', '1', '2017-03-27 15:17:44', '1', '2017-11-10 15:11:55');
 INSERT INTO `sys_dict_t` VALUES ('8b8e2843dfc74be18a461cf1ac9e0b6b', 'IC卡优惠', 'a4cf48c7f1ba469ca347c5bd19e87d6f', '0,1,b95893620a4a462490349148b9bfe1e7,a4cf48c7f1ba469ca347c5bd19e87d6f,', '1', null, 'oil_save_type_1', '\0', '10', '', '-2', null, '', '2', '', '2016-12-05 11:31:22', '1', '2016-12-24 09:26:22');
 INSERT INTO `sys_dict_t` VALUES ('8ba80468747d4fb18d5715354e8a813e', '有效期', '28a368fdbbd44a7a99af28d01b12c089', '0,1,28a368fdbbd44a7a99af28d01b12c089,', '', null, 'validity_date', '\0', '30', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:46:15');
 INSERT INTO `sys_dict_t` VALUES ('8bdd953f56864f4aa660e465b93329a9', '待使用', '1ca59e473f0e48a9ab0591fa098e89f9', '0,1,28a368fdbbd44a7a99af28d01b12c089,1ca59e473f0e48a9ab0591fa098e89f9,', '10', null, 'vucher_status_2', '\0', '20', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:46:15');
@@ -4307,7 +4592,7 @@ INSERT INTO `sys_dict_t` VALUES ('d6b5382dd25942be9b5f099697c43048', '消费', '
 INSERT INTO `sys_dict_t` VALUES ('d731fd771daf48d0a75e6593f4123e32', '加油类型', 'b95893620a4a462490349148b9bfe1e7', '0,1,b95893620a4a462490349148b9bfe1e7,', '', null, 'refuel_type', '\0', '55', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-24 09:26:22');
 INSERT INTO `sys_dict_t` VALUES ('d7447e8116644b579cd0bba7f1c74dd7', '汽油', '26e8db8c98964edfb6a35e437b32cee5', '0,1,bede16c99d85416a834a6b3c664bbb9b,26e8db8c98964edfb6a35e437b32cee5,', '1', null, 'ratio_type_1', '\0', '10', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:38:11');
 INSERT INTO `sys_dict_t` VALUES ('d99f1efd57bc4a5bafbe3c5f79aee103', '四级', '8040c72a95f541a49734bbe1c47547ca', '0,1,5ea249bb780348eb8ea6a0efade684a6,8040c72a95f541a49734bbe1c47547ca,', '4', null, 'sys_org_grade_4', '', '10', '', '0', null, '', '4', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:42:17');
-INSERT INTO `sys_dict_t` VALUES ('da22436573c4424fbf13a1987faeb529', '三级', '8040c72a95f541a49734bbe1c47547ca', '0,1,5ea249bb780348eb8ea6a0efade684a6,8040c72a95f541a49734bbe1c47547ca,', '3', null, 'sys_org_grade_3', '\0', '-1', null, '-1', null, '', '5', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:43:22');
+INSERT INTO `sys_dict_t` VALUES ('da22436573c4424fbf13a1987faeb529', '三级', '8040c72a95f541a49734bbe1c47547ca', '0,1,5ea249bb780348eb8ea6a0efade684a6,8040c72a95f541a49734bbe1c47547ca,', '3', '', 'sys_org_grade_3', '', '40', '', '1', null, '', '6', '', '2016-12-05 11:31:22', '1', '2017-11-08 17:56:50');
 INSERT INTO `sys_dict_t` VALUES ('da581b145cb143a59ded9e9c7cc65d26', '企业支付', '302d390aae3142e79bf0155aeb4768bb', '0,1,28a368fdbbd44a7a99af28d01b12c089,302d390aae3142e79bf0155aeb4768bb,', '8', null, 'pay_type_8', '\0', '80', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:46:15');
 INSERT INTO `sys_dict_t` VALUES ('da8c04da8108425a833fecbb47e22833', '优惠券使用类型', 'b95893620a4a462490349148b9bfe1e7', '0,1,b95893620a4a462490349148b9bfe1e7,', '', null, 'use_type', '\0', '122', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-24 09:26:22');
 INSERT INTO `sys_dict_t` VALUES ('da8c5f2c4c404764851c1c40ce06ffa6', '注册优惠券', '86f3598178fb4f659480dfdab40f0613', '0,1,28a368fdbbd44a7a99af28d01b12c089,86f3598178fb4f659480dfdab40f0613,', '1', null, 'voucher_discount_type_1', '\0', '10', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:46:15');
@@ -4342,7 +4627,7 @@ INSERT INTO `sys_dict_t` VALUES ('e874667d258c48209541f00d7926b558', '已退款'
 INSERT INTO `sys_dict_t` VALUES ('eabba2d8864d48ea9f393ffdbaee65f9', 'vip预约', '1e5429816dbc48fe99d247a0de7523a7', '0,1,e54d4e54ceec4b8f9b8bf034d97cdf56,1e5429816dbc48fe99d247a0de7523a7,', '2', null, 'app_type_2', '\0', '20', '', '-2', null, '', '1', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:38:08');
 INSERT INTO `sys_dict_t` VALUES ('eaef9f9a924048f29c8478d55c6033d6', '贸易-物流', '7426775094ff466c85ae945f715f8367', '0,1,e54d4e54ceec4b8f9b8bf034d97cdf56,7426775094ff466c85ae945f715f8367,', '90', null, 'job_type_9', '\0', '90', '', '-2', null, '', '2', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:38:08');
 INSERT INTO `sys_dict_t` VALUES ('eb446d32b849403db7ac73aa5991fb62', '查违章', 'b084821826c3485fbbb9a590ae470809', '0,1,e54d4e54ceec4b8f9b8bf034d97cdf56,b084821826c3485fbbb9a590ae470809,', '4', null, 'app_operate_type_4', '\0', '40', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:38:08');
-INSERT INTO `sys_dict_t` VALUES ('eb5f0523d0154fafbfe57a928ccd4b2b', '在线', '8b5fc2a625d242e5a30576f1e0fc0364', '0,1,4b83e314763746b3857335ee9ec26836,8b5fc2a625d242e5a30576f1e0fc0364,', '0', null, 'online_status_0', '', '30', '', '0', null, '', '1', '1', '2017-03-27 15:20:15', '1', '2017-06-30 15:01:19');
+INSERT INTO `sys_dict_t` VALUES ('eb5f0523d0154fafbfe57a928ccd4b2b', '在线', '8b5fc2a625d242e5a30576f1e0fc0364', '0,1,4b83e314763746b3857335ee9ec26836,8b5fc2a625d242e5a30576f1e0fc0364,', '0', null, 'online_status_0', '', '30', '', '0', null, '', '3', '1', '2017-03-27 15:20:15', '1', '2017-11-10 15:11:55');
 INSERT INTO `sys_dict_t` VALUES ('ec38850666a94af8b11f7eb1a3d40482', '发现功能说明', '1e5429816dbc48fe99d247a0de7523a7', '0,1,e54d4e54ceec4b8f9b8bf034d97cdf56,1e5429816dbc48fe99d247a0de7523a7,', '4', null, 'app_type_4', '\0', '40', '', '-2', null, '', '1', '', '2016-12-05 11:31:22', '1', '2016-12-28 17:38:08');
 INSERT INTO `sys_dict_t` VALUES ('ecb25d8f6f6e43a4a935b4372181e25b', '油站优惠券', 'da8c04da8108425a833fecbb47e22833', '0,1,b95893620a4a462490349148b9bfe1e7,da8c04da8108425a833fecbb47e22833,', '1', null, 'use_type_1', '\0', '10', '', '-2', null, '', '0', '', '2016-12-05 11:31:22', '1', '2016-12-24 09:26:22');
 INSERT INTO `sys_dict_t` VALUES ('ed6bc6b03a2a4afbbdc9e35957aa0440', '状态', '5ea249bb780348eb8ea6a0efade684a6', '0,1,5ea249bb780348eb8ea6a0efade684a6,', '0', null, 'sys_yes_no', '\0', '0', '', '0', null, '', '2', '', '2016-12-05 11:31:22', null, null);
@@ -4587,7 +4872,7 @@ CREATE TABLE `sys_module_t` (
   `parent_id` varchar(50) DEFAULT NULL COMMENT '父module的id',
   `parent_ids` varchar(2000) DEFAULT NULL,
   `type_` varchar(50) DEFAULT NULL COMMENT '模块类型  0 菜单模块 1权限模块',
-  `microservice_` varchar(50) DEFAULT NULL COMMENT 'cloud服务名称',
+  `microservice_` varchar(500) DEFAULT NULL,
   `permission_` varchar(500) DEFAULT NULL COMMENT '权限标识',
   `sort_` int(11) DEFAULT '0' COMMENT '排序',
   `target_` varchar(255) DEFAULT NULL,
@@ -4609,58 +4894,58 @@ CREATE TABLE `sys_module_t` (
 -- ----------------------------
 -- Records of sys_module_t
 -- ----------------------------
-INSERT INTO `sys_module_t` VALUES ('024d876a23424ff397c224de2e2939a8', '生成方案配置', 'ee5224dc13404267acfb8fc443dee4c3', '4d32c49cc7f448dcbfb92ce9c4dde058,2d5f2af5e36349b5bb8dfbd5904900c8,ee5224dc13404267acfb8fc443dee4c3,', '1', 'gen_genScheme', '10', '', '/gen/genScheme/', null, '0', 'fa-reddit-square', '0', '', '9', '', '', '2016-12-05 11:29:48', null, null);
-INSERT INTO `sys_module_t` VALUES ('0771998f75b444f8b2ec0631c69c644f', '字典管理', '3566c3b5c4114f77a5434c175b9f64c5', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,', '1', 'sys_dict', '30', '', '/sys/dict/', 'GET', '0', 'fa-navicon', '0', '', '0', '\0', '1', '2016-12-29 14:27:37', '1', '2016-12-29 14:50:38');
-INSERT INTO `sys_module_t` VALUES ('08bb2278416a4aaa86a1db7898252791', '编辑', '0771998f75b444f8b2ec0631c69c644f', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,0771998f75b444f8b2ec0631c69c644f,', '2', 'sys_dict_edit', '40', null, '/sys/dict/edit', 'GET,POST', '0', 'fa-pencil', '0', null, '0', '', '1', '2016-12-29 14:27:37', '1', '2016-12-29 14:27:37');
-INSERT INTO `sys_module_t` VALUES ('201305b309b0462ab8eb294ab1d42410', '用户管理', '714afd9e5d9f4c0697e502a43a4a2491', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,', '1', 'sys_user', '30', '', '/sys/user/', 'GET', '0', 'fa-users', '0', '', '1', '\0', '1', '2016-12-29 14:54:14', '1', '2017-06-30 15:01:11');
-INSERT INTO `sys_module_t` VALUES ('223b8f1345114589ae09681be4744bbc', '操作日志', '4715e01a290c447eac93ee47db6b9c81', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,4715e01a290c447eac93ee47db6b9c81,', '1', 'sys_loggingEvent', '30', '', '/sys/loggingEvent/,/sys/loggingEvent/page', 'GET', '0', 'fa-list-ul', '0', '', '0', '\0', '1', '2017-01-03 14:57:47', '1', '2017-01-04 14:00:42');
-INSERT INTO `sys_module_t` VALUES ('25a868347e8f4a6bb68b53925db95692', '编辑机构', 'ce4517a441dc4115a14921419b4d131a', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,ce4517a441dc4115a14921419b4d131a,', '2', 'sys_org_edit', '40', '', '/sys/org/edit', 'GET,POST', '0', '', '0', '', '21', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:11');
-INSERT INTO `sys_module_t` VALUES ('2d5f2af5e36349b5bb8dfbd5904900c8', '代码生成', '4d32c49cc7f448dcbfb92ce9c4dde058', '4d32c49cc7f448dcbfb92ce9c4dde058,', '1', '', '60', '', '', null, '0', 'fa-sliders', '0', '', '6', '\0', '', '2016-12-05 11:29:48', '1', '2017-03-27 15:26:05');
-INSERT INTO `sys_module_t` VALUES ('3566c3b5c4114f77a5434c175b9f64c5', '系统管理', 'fc987e00a31246aea6d2e2a6afe8db36', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,', '1', 'sys', '5', '', '', null, '0', 'fa-gear', '1', '_showTree', '24', '\0', '', '2016-12-05 11:29:48', null, null);
-INSERT INTO `sys_module_t` VALUES ('37ceac18a00b4a7ea45c8681035fe402', '模块管理', '3566c3b5c4114f77a5434c175b9f64c5', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,', '1', 'sys_module', '10', '', '/sys/module/', 'GET,POST,PUT', '0', 'fa-sitemap', '0', '', '24', '\0', '', '2016-12-05 11:29:48', '1', '2016-12-29 15:15:58');
-INSERT INTO `sys_module_t` VALUES ('3ce4aa89b1c5483dbc538d3f3ae0a63f', '删除机构', 'ce4517a441dc4115a14921419b4d131a', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,ce4517a441dc4115a14921419b4d131a,', '2', 'sys_org_delete', '80', '', '/sys/org/delete', 'DELETE', '0', '', '0', '', '18', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:11');
-INSERT INTO `sys_module_t` VALUES ('3ce73e592a8f46d38618a996c29ef863', '编辑', 'e1f8b38201064edaaf72398851c752b7', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,e1f8b38201064edaaf72398851c752b7,', '2', 'sys_taskScheduleJob_edit', '40', null, '/sys/taskScheduleJob/edit', 'GET,POST', '0', 'fa-pencil', '0', null, '0', '', '1', '2017-01-23 09:55:09', '1', '2017-01-23 09:55:09');
-INSERT INTO `sys_module_t` VALUES ('3dc743ff54734668b45a95dd02276de5', '锁定', '0771998f75b444f8b2ec0631c69c644f', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,0771998f75b444f8b2ec0631c69c644f,', '2', 'sys_dict_lock', '60', null, '/sys/dict/lock', 'POST', '0', 'fa-lock', '0', null, '0', '', '1', '2016-12-29 14:27:37', '1', '2016-12-29 14:27:37');
-INSERT INTO `sys_module_t` VALUES ('42baef661e504fa998a35d27b0daa3c4', '账户预览', 'fd8be39d8db44c60917633defe9996c0', '4d32c49cc7f448dcbfb92ce9c4dde058,fd8be39d8db44c60917633defe9996c0,', '1', 'user', '30', '_top', '/index', 'GET', '0', 'fa-leaf', '0', '', '5', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:00:51');
-INSERT INTO `sys_module_t` VALUES ('4715e01a290c447eac93ee47db6b9c81', '资源管理', 'fc987e00a31246aea6d2e2a6afe8db36', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,', '1', '', '30', '', '', null, '0', 'fa-book', '0', '', '15', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 14:46:48');
-INSERT INTO `sys_module_t` VALUES ('4d32c49cc7f448dcbfb92ce9c4dde058', '数据模块', '', '', '1', 'root', '30', null, null, null, '0', ' fa-reorder', '0', null, '10', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:00:51');
-INSERT INTO `sys_module_t` VALUES ('5293bd1a28924276a236a4363af5dde8', '启用/停用机构', 'ce4517a441dc4115a14921419b4d131a', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,ce4517a441dc4115a14921419b4d131a,', '2', 'sys_org_lock', '60', '', '/sys/org/lock', 'POST', '0', '', '0', '', '19', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:12');
-INSERT INTO `sys_module_t` VALUES ('590e0f70d9e9408499cbfed1c02cdd84', '锁定', 'e1f8b38201064edaaf72398851c752b7', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,e1f8b38201064edaaf72398851c752b7,', '2', 'sys_taskScheduleJob_lock', '60', null, '/sys/taskScheduleJob/lock', 'POST', '0', 'fa-lock', '0', null, '0', '', '1', '2017-01-23 09:55:09', '1', '2017-01-23 09:55:09');
-INSERT INTO `sys_module_t` VALUES ('714afd9e5d9f4c0697e502a43a4a2491', '机构用户', 'fc987e00a31246aea6d2e2a6afe8db36', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,', '1', '', '0', '', '', null, '0', 'fa-dot-circle-o', '0', '', '11', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:11');
-INSERT INTO `sys_module_t` VALUES ('749160f6086f475da6f350543994608e', '查看', 'fa1cf28bbd424fb0b900cf11f10b1817', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,fa1cf28bbd424fb0b900cf11f10b1817,', '2', 'sys_area_view', '20', null, '/sys/area/page', 'GET', '0', 'fa-info-circle', '0', null, '0', '', '1', '2016-12-29 14:31:16', '1', '2016-12-29 14:31:16');
-INSERT INTO `sys_module_t` VALUES ('75f58401461c486b875f851e18a8ee9d', '锁定', '37ceac18a00b4a7ea45c8681035fe402', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,37ceac18a00b4a7ea45c8681035fe402,', '2', 'sys_module_lock', '60', '', '/sys/module/lock', 'POST', '0', '', null, '', '22', '\0', '', '2016-12-05 11:29:48', '1', '2017-01-04 11:37:58');
-INSERT INTO `sys_module_t` VALUES ('767ac3317dfb4566b92c1bf820f6402a', '删除', 'e1f8b38201064edaaf72398851c752b7', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,e1f8b38201064edaaf72398851c752b7,', '2', 'sys_taskScheduleJob_delete', '80', null, '/sys/taskScheduleJob/delete', 'DELETE', '0', 'fa-trash-o', '0', null, '0', '', '1', '2017-01-23 09:55:10', '1', '2017-01-23 09:55:10');
-INSERT INTO `sys_module_t` VALUES ('7ff1ee3bd23845b8a1d7ef8df661bb0d', '编辑', '37ceac18a00b4a7ea45c8681035fe402', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,37ceac18a00b4a7ea45c8681035fe402,', '2', 'sys_module_edit', '40', '', '/sys/module/edit', 'GET,POST', '0', 'fa-pencil', '0', '', '27', '\0', '', '2016-12-05 11:29:48', '1', '2017-01-04 11:37:46');
-INSERT INTO `sys_module_t` VALUES ('826137d6389f4730abb0422d7d252b32', '回话管理', '4715e01a290c447eac93ee47db6b9c81', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,4715e01a290c447eac93ee47db6b9c81,', '1', 'sys_persistentToken_view', '30', '', '/sys/persistentToken/,/sys/persistentToken/page', 'GET', '0', 'fa-stack-exchange', '0', '', '0', '', '1', '2017-01-04 14:05:52', '1', '2017-01-04 14:05:52');
-INSERT INTO `sys_module_t` VALUES ('87825137dec44ea5b04b9e43df1a1d5e', '修改密码', 'fd8be39d8db44c60917633defe9996c0', '4d32c49cc7f448dcbfb92ce9c4dde058,fd8be39d8db44c60917633defe9996c0,', '1', '', '60', '', '/api/account/changePassword', 'GET', '0', 'fa-lock', '0', '', '20', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:00:51');
-INSERT INTO `sys_module_t` VALUES ('8d607e3d86ad436b89e3067323021168', '系统监控', '4715e01a290c447eac93ee47db6b9c81', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,4715e01a290c447eac93ee47db6b9c81,', '1', 'sys_metrics', '0', '', '/sys/metrics,/management/metrics/', 'GET', '0', 'fa-drupal', null, '', '1', '', '', '2017-03-02 23:03:19', '1', '2017-06-30 14:46:48');
-INSERT INTO `sys_module_t` VALUES ('8e21d10003694354822fe0ad44106ce0', '业务表配置', 'ee5224dc13404267acfb8fc443dee4c3', '4d32c49cc7f448dcbfb92ce9c4dde058,2d5f2af5e36349b5bb8dfbd5904900c8,ee5224dc13404267acfb8fc443dee4c3,', '1', 'gen_genTable', '100', '', '/gen/genTable/', null, '0', 'fa-delicious', '0', '', '10', '', '', '2016-12-05 11:29:48', '1', '2016-12-25 17:13:13');
-INSERT INTO `sys_module_t` VALUES ('8eae4c0c642a43eba9de678d36ca9186', '删除', '201305b309b0462ab8eb294ab1d42410', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,201305b309b0462ab8eb294ab1d42410,', '2', 'sys_user_delete', '80', null, '/sys/user/delete', 'DELETE', '0', 'fa-trash-o', '0', null, '1', '', '1', '2016-12-29 14:54:15', '1', '2017-06-30 15:01:12');
-INSERT INTO `sys_module_t` VALUES ('93eb238f76874dc78fcf10afb067e9d2', '查看', 'e1f8b38201064edaaf72398851c752b7', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,e1f8b38201064edaaf72398851c752b7,', '2', 'sys_taskScheduleJob_view', '20', null, '/sys/taskScheduleJob/page', 'GET', '0', 'fa-info-circle', '0', null, '0', '', '1', '2017-01-23 09:55:09', '1', '2017-01-23 09:55:09');
-INSERT INTO `sys_module_t` VALUES ('95a093b48f1947818d50fe09eab72753', '编辑', 'bd7872df2fe748fb97bb1dcc629cdecb', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,bd7872df2fe748fb97bb1dcc629cdecb,', '2', 'sys_role_edit', '20', '', '/sys/role/edit', 'GET,POST', '0', '', '0', '', '29', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:12');
-INSERT INTO `sys_module_t` VALUES ('9fec2607b166460cb99d9ed2436be506', '接口管理', '4715e01a290c447eac93ee47db6b9c81', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,4715e01a290c447eac93ee47db6b9c81,', '1', '', '30', '_blank', '/../swagger-ui/index.html', 'GET', '0', 'fa-hand-pointer-o', '0', '', '2', '', '1', '2017-01-05 17:48:44', '1', '2017-06-30 14:34:09');
-INSERT INTO `sys_module_t` VALUES ('abd42541d2614a7d9f117ce857645382', '删除', '37ceac18a00b4a7ea45c8681035fe402', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,37ceac18a00b4a7ea45c8681035fe402,', '2', 'sys_module_delete', '80', '', '/sys/module/delete', 'DELETE', '0', '', null, '', '20', '\0', '', '2016-12-05 11:29:48', '1', '2017-01-04 11:38:04');
-INSERT INTO `sys_module_t` VALUES ('af6294af4db4487c930125b40212f6ac', '查看', '37ceac18a00b4a7ea45c8681035fe402', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,37ceac18a00b4a7ea45c8681035fe402,', '2', 'sys_module_view', '20', '', '/sys/module/page', 'GET', '0', 'fa-info-circle', '0', '', '29', '\0', '', '2016-12-05 11:29:48', '1', '2017-01-04 11:37:32');
-INSERT INTO `sys_module_t` VALUES ('b4dc5bb4a11149d78c765dbef12e13c7', '删除', 'fa1cf28bbd424fb0b900cf11f10b1817', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,fa1cf28bbd424fb0b900cf11f10b1817,', '2', 'sys_area_delete', '80', null, '/sys/area/delete', 'DELETE', '0', 'fa-trash-o', '0', null, '0', '', '1', '2016-12-29 14:31:16', '1', '2016-12-29 14:31:16');
-INSERT INTO `sys_module_t` VALUES ('b57911172bf74bceae6e22e706d83fb8', '锁定', '201305b309b0462ab8eb294ab1d42410', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,201305b309b0462ab8eb294ab1d42410,', '2', 'sys_user_lock', '60', '', '/sys/user/lock', 'POST', '0', 'fa-lock', null, '', '1', '\0', '1', '2017-03-02 22:25:04', '1', '2017-06-30 15:01:12');
-INSERT INTO `sys_module_t` VALUES ('badfe0b992fd4f79b1dfcc2494a47e76', '删除', 'bd7872df2fe748fb97bb1dcc629cdecb', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,bd7872df2fe748fb97bb1dcc629cdecb,', '2', 'sys_role_delete', '40', '', '/sys/role/delete', 'DELETE', '0', '', '0', '', '26', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:12');
-INSERT INTO `sys_module_t` VALUES ('bc779f2d65da44ad8397a8ff5976ac65', '查看', 'bd7872df2fe748fb97bb1dcc629cdecb', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,bd7872df2fe748fb97bb1dcc629cdecb,', '2', 'sys_role_view', '10', '', '/sys/role/page', 'GET', '0', '', '0', '', '28', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:12');
-INSERT INTO `sys_module_t` VALUES ('bd7872df2fe748fb97bb1dcc629cdecb', '角色管理', '714afd9e5d9f4c0697e502a43a4a2491', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,', '1', 'sys_role', '90', '', '/sys/role/', 'GET', '0', 'fa-reorder', '0', '', '26', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:12');
-INSERT INTO `sys_module_t` VALUES ('ccab7469d8df473c8ff769437f6bd393', '锁定', 'bd7872df2fe748fb97bb1dcc629cdecb', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,bd7872df2fe748fb97bb1dcc629cdecb,', '2', 'sys_role_lock', '30', '', '/sys/role/lock', 'POST', '0', '', '0', '', '1', '\0', '1', '2016-12-28 16:53:19', '1', '2017-06-30 15:01:12');
-INSERT INTO `sys_module_t` VALUES ('ce4517a441dc4115a14921419b4d131a', '机构管理', '714afd9e5d9f4c0697e502a43a4a2491', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,', '1', 'sys_org', '60', '', '/sys/org/', 'GET', '0', 'fa-th-large', '0', '', '24', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:12');
-INSERT INTO `sys_module_t` VALUES ('d40fcdec366f4038971f3d9bb68451eb', '编辑', 'fa1cf28bbd424fb0b900cf11f10b1817', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,fa1cf28bbd424fb0b900cf11f10b1817,', '2', 'sys_area_edit', '40', null, '/sys/area/edit', 'GET,POST', '0', 'fa-pencil', '0', null, '0', '', '1', '2016-12-29 14:31:16', '1', '2016-12-29 14:31:16');
-INSERT INTO `sys_module_t` VALUES ('d6814dcbdb624077afeb95d856ad76d0', '删除', '0771998f75b444f8b2ec0631c69c644f', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,0771998f75b444f8b2ec0631c69c644f,', '2', 'sys_dict_delete', '80', null, '/sys/dict/delete', 'DELETE', '0', 'fa-trash-o', '0', null, '0', '', '1', '2016-12-29 14:27:37', '1', '2016-12-29 14:27:37');
-INSERT INTO `sys_module_t` VALUES ('d7069653320643e89b3c93dcdfa5b2c6', '编辑', '201305b309b0462ab8eb294ab1d42410', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,201305b309b0462ab8eb294ab1d42410,', '2', 'sys_user_edit', '40', null, '/sys/user/edit', 'GET,POST', '0', 'fa-pencil', '0', null, '1', '', '1', '2016-12-29 14:54:15', '1', '2017-06-30 15:01:12');
-INSERT INTO `sys_module_t` VALUES ('e1f8b38201064edaaf72398851c752b7', '任务调度管理', '3566c3b5c4114f77a5434c175b9f64c5', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,', '1', 'sys_taskScheduleJob', '30', null, '/sys/taskScheduleJob/', 'GET', '0', 'fa-file', '0', null, '0', '\0', '1', '2017-01-23 09:55:08', '1', '2017-01-23 09:55:09');
-INSERT INTO `sys_module_t` VALUES ('e5223c949502447fa1a1f2b579203608', '锁定', 'fa1cf28bbd424fb0b900cf11f10b1817', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,fa1cf28bbd424fb0b900cf11f10b1817,', '2', 'sys_area_lock', '60', null, '/sys/area/lock', 'POST', '0', 'fa-lock', '0', null, '0', '', '1', '2016-12-29 14:31:16', '1', '2016-12-29 14:31:16');
-INSERT INTO `sys_module_t` VALUES ('eaaff69aa81d448eb465d729bdad0508', '查看列表机构', 'ce4517a441dc4115a14921419b4d131a', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,ce4517a441dc4115a14921419b4d131a,', '2', 'sys_org_view', '20', '', '/sys/org/page', 'GET', '0', 'frame/images/icons/32X32/consulting.gif', '0', '', '21', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:12');
-INSERT INTO `sys_module_t` VALUES ('ee5224dc13404267acfb8fc443dee4c3', '代码生成', '2d5f2af5e36349b5bb8dfbd5904900c8', '4d32c49cc7f448dcbfb92ce9c4dde058,2d5f2af5e36349b5bb8dfbd5904900c8,', '1', '', '0', '', '', null, '0', 'fa-ils', '0', '', '10', '\0', '', '2016-12-05 11:29:48', null, null);
-INSERT INTO `sys_module_t` VALUES ('f5dc958155df4deaba4947bd9989202d', '查看', '0771998f75b444f8b2ec0631c69c644f', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,0771998f75b444f8b2ec0631c69c644f,', '2', 'sys_dict_view', '20', '', '/sys/dict/page', 'GET', '0', 'fa-info-circle', '0', '', '0', '\0', '1', '2016-12-29 14:27:37', '1', '2016-12-29 16:48:30');
-INSERT INTO `sys_module_t` VALUES ('fa1cf28bbd424fb0b900cf11f10b1817', '区域管理', '3566c3b5c4114f77a5434c175b9f64c5', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,', '1', 'sys_area', '60', '', '/sys/area/', 'GET', '0', 'fa-map', '0', '', '0', '\0', '1', '2016-12-29 14:31:16', '1', '2016-12-29 14:49:29');
-INSERT INTO `sys_module_t` VALUES ('fc987e00a31246aea6d2e2a6afe8db36', '系统设置', '4d32c49cc7f448dcbfb92ce9c4dde058', '4d32c49cc7f448dcbfb92ce9c4dde058,', '1', 'sm', '30', '', '', null, '0', 'fa-asterisk', '1', '', '27', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:11');
-INSERT INTO `sys_module_t` VALUES ('fcf49184c1854cc8958e4bb6de7b15b5', '业务中心', '4d32c49cc7f448dcbfb92ce9c4dde058', '4d32c49cc7f448dcbfb92ce9c4dde058,', '1', '', '20', '', '', null, '0', 'fa-lemon-o', '0', '', '0', '\0', '1', '2017-03-27 15:26:46', '1', '2017-03-27 15:27:09');
-INSERT INTO `sys_module_t` VALUES ('fd8be39d8db44c60917633defe9996c0', '账户中心', '4d32c49cc7f448dcbfb92ce9c4dde058', '4d32c49cc7f448dcbfb92ce9c4dde058,', '1', '', '10', '', '', null, '0', 'fa-gear', '0', '', '15', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:00:51');
-INSERT INTO `sys_module_t` VALUES ('fe5dcdbcc132480da84701173a3fb5f2', '查看', '201305b309b0462ab8eb294ab1d42410', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,201305b309b0462ab8eb294ab1d42410,', '2', 'sys_user_view', '20', null, '/sys/user/page', 'GET', '0', 'fa-info-circle', '0', null, '1', '', '1', '2016-12-29 14:54:14', '1', '2017-06-30 15:01:12');
+INSERT INTO `sys_module_t` VALUES ('024d876a23424ff397c224de2e2939a8', '生成方案配置', 'ee5224dc13404267acfb8fc443dee4c3', '4d32c49cc7f448dcbfb92ce9c4dde058,2d5f2af5e36349b5bb8dfbd5904900c8,ee5224dc13404267acfb8fc443dee4c3,', '1', 'albedobootcloudmicro/api', 'gen_genScheme', '10', '', '/gen/genScheme/', null, '0', 'fa-reddit-square', '0', '', '9', '', '', '2016-12-05 11:29:48', null, null);
+INSERT INTO `sys_module_t` VALUES ('0771998f75b444f8b2ec0631c69c644f', '字典管理', '3566c3b5c4114f77a5434c175b9f64c5', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,', '1', 'albedobootcloudmicro/api', 'sys_dict', '30', '', '/sys/dict/', 'GET', '0', 'fa-navicon', '0', '', '0', '\0', '1', '2016-12-29 14:27:37', '1', '2016-12-29 14:50:38');
+INSERT INTO `sys_module_t` VALUES ('08bb2278416a4aaa86a1db7898252791', '编辑', '0771998f75b444f8b2ec0631c69c644f', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,0771998f75b444f8b2ec0631c69c644f,', '2', null, 'sys_dict_edit', '40', null, '/sys/dict/edit', 'GET,POST', '0', 'fa-pencil', '0', null, '0', '', '1', '2016-12-29 14:27:37', '1', '2016-12-29 14:27:37');
+INSERT INTO `sys_module_t` VALUES ('201305b309b0462ab8eb294ab1d42410', '用户管理', '714afd9e5d9f4c0697e502a43a4a2491', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,', '1', 'albedobootcloudmicro/api', 'sys_user', '30', '', '/sys/user/', 'GET', '0', 'fa-users', '0', '', '1', '\0', '1', '2016-12-29 14:54:14', '1', '2017-06-30 15:01:11');
+INSERT INTO `sys_module_t` VALUES ('223b8f1345114589ae09681be4744bbc', '操作日志', '4715e01a290c447eac93ee47db6b9c81', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,4715e01a290c447eac93ee47db6b9c81,', '1', null, 'sys_loggingEvent', '30', '', '/sys/loggingEvent/,/sys/loggingEvent/page', 'GET', '0', 'fa-list-ul', '0', '', '0', '\0', '1', '2017-01-03 14:57:47', '1', '2017-01-04 14:00:42');
+INSERT INTO `sys_module_t` VALUES ('25a868347e8f4a6bb68b53925db95692', '编辑机构', 'ce4517a441dc4115a14921419b4d131a', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,ce4517a441dc4115a14921419b4d131a,', '2', null, 'sys_org_edit', '40', '', '/sys/org/edit', 'GET,POST', '0', '', '0', '', '21', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:11');
+INSERT INTO `sys_module_t` VALUES ('2d5f2af5e36349b5bb8dfbd5904900c8', '代码生成', '4d32c49cc7f448dcbfb92ce9c4dde058', '4d32c49cc7f448dcbfb92ce9c4dde058,', '1', null, '', '60', '', '', null, '0', 'fa-sliders', '0', '', '6', '\0', '', '2016-12-05 11:29:48', '1', '2017-03-27 15:26:05');
+INSERT INTO `sys_module_t` VALUES ('3566c3b5c4114f77a5434c175b9f64c5', '系统管理', 'fc987e00a31246aea6d2e2a6afe8db36', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,', '1', null, 'sys', '5', '', '', null, '0', 'fa-gear', '1', '_showTree', '24', '\0', '', '2016-12-05 11:29:48', null, null);
+INSERT INTO `sys_module_t` VALUES ('37ceac18a00b4a7ea45c8681035fe402', '模块管理', '3566c3b5c4114f77a5434c175b9f64c5', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,', '1', 'albedobootcloudmicro/api', 'sys_module', '10', '', '/sys/module/', 'GET,POST,PUT', '0', 'fa-sitemap', '0', '', '24', '\0', '', '2016-12-05 11:29:48', '1', '2016-12-29 15:15:58');
+INSERT INTO `sys_module_t` VALUES ('3ce4aa89b1c5483dbc538d3f3ae0a63f', '删除机构', 'ce4517a441dc4115a14921419b4d131a', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,ce4517a441dc4115a14921419b4d131a,', '2', null, 'sys_org_delete', '80', '', '/sys/org/delete', 'DELETE', '0', '', '0', '', '18', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:11');
+INSERT INTO `sys_module_t` VALUES ('3ce73e592a8f46d38618a996c29ef863', '编辑', 'e1f8b38201064edaaf72398851c752b7', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,e1f8b38201064edaaf72398851c752b7,', '2', null, 'sys_taskScheduleJob_edit', '40', null, '/sys/taskScheduleJob/edit', 'GET,POST', '0', 'fa-pencil', '0', null, '0', '', '1', '2017-01-23 09:55:09', '1', '2017-01-23 09:55:09');
+INSERT INTO `sys_module_t` VALUES ('3dc743ff54734668b45a95dd02276de5', '锁定', '0771998f75b444f8b2ec0631c69c644f', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,0771998f75b444f8b2ec0631c69c644f,', '2', null, 'sys_dict_lock', '60', null, '/sys/dict/lock', 'POST', '0', 'fa-lock', '0', null, '0', '', '1', '2016-12-29 14:27:37', '1', '2016-12-29 14:27:37');
+INSERT INTO `sys_module_t` VALUES ('42baef661e504fa998a35d27b0daa3c4', '账户预览', 'fd8be39d8db44c60917633defe9996c0', '4d32c49cc7f448dcbfb92ce9c4dde058,fd8be39d8db44c60917633defe9996c0,', '1', null, 'user', '30', '_top', '/index', 'GET', '0', 'fa-leaf', '0', '', '5', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:00:51');
+INSERT INTO `sys_module_t` VALUES ('4715e01a290c447eac93ee47db6b9c81', '资源管理', 'fc987e00a31246aea6d2e2a6afe8db36', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,', '1', null, '', '30', '', '', null, '0', 'fa-book', '0', '', '18', '\0', '', '2016-12-05 11:29:48', '1', '2017-11-08 18:16:49');
+INSERT INTO `sys_module_t` VALUES ('4d32c49cc7f448dcbfb92ce9c4dde058', '数据模块', '', '', '1', null, 'root', '30', null, null, null, '0', ' fa-reorder', '0', null, '10', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:00:51');
+INSERT INTO `sys_module_t` VALUES ('5293bd1a28924276a236a4363af5dde8', '启用/停用机构', 'ce4517a441dc4115a14921419b4d131a', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,ce4517a441dc4115a14921419b4d131a,', '2', null, 'sys_org_lock', '60', '', '/sys/org/lock', 'POST', '0', '', '0', '', '19', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:12');
+INSERT INTO `sys_module_t` VALUES ('590e0f70d9e9408499cbfed1c02cdd84', '锁定', 'e1f8b38201064edaaf72398851c752b7', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,e1f8b38201064edaaf72398851c752b7,', '2', null, 'sys_taskScheduleJob_lock', '60', null, '/sys/taskScheduleJob/lock', 'POST', '0', 'fa-lock', '0', null, '0', '', '1', '2017-01-23 09:55:09', '1', '2017-01-23 09:55:09');
+INSERT INTO `sys_module_t` VALUES ('714afd9e5d9f4c0697e502a43a4a2491', '机构用户', 'fc987e00a31246aea6d2e2a6afe8db36', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,', '1', null, '', '0', '', '', null, '0', 'fa-dot-circle-o', '0', '', '11', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:11');
+INSERT INTO `sys_module_t` VALUES ('749160f6086f475da6f350543994608e', '查看', 'fa1cf28bbd424fb0b900cf11f10b1817', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,fa1cf28bbd424fb0b900cf11f10b1817,', '2', null, 'sys_area_view', '20', null, '/sys/area/page', 'GET', '0', 'fa-info-circle', '0', null, '0', '', '1', '2016-12-29 14:31:16', '1', '2016-12-29 14:31:16');
+INSERT INTO `sys_module_t` VALUES ('75f58401461c486b875f851e18a8ee9d', '锁定', '37ceac18a00b4a7ea45c8681035fe402', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,37ceac18a00b4a7ea45c8681035fe402,', '2', null, 'sys_module_lock', '60', '', '/sys/module/lock', 'POST', '0', '', null, '', '22', '\0', '', '2016-12-05 11:29:48', '1', '2017-01-04 11:37:58');
+INSERT INTO `sys_module_t` VALUES ('767ac3317dfb4566b92c1bf820f6402a', '删除', 'e1f8b38201064edaaf72398851c752b7', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,e1f8b38201064edaaf72398851c752b7,', '2', null, 'sys_taskScheduleJob_delete', '80', null, '/sys/taskScheduleJob/delete', 'DELETE', '0', 'fa-trash-o', '0', null, '0', '', '1', '2017-01-23 09:55:10', '1', '2017-01-23 09:55:10');
+INSERT INTO `sys_module_t` VALUES ('7ff1ee3bd23845b8a1d7ef8df661bb0d', '编辑', '37ceac18a00b4a7ea45c8681035fe402', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,37ceac18a00b4a7ea45c8681035fe402,', '2', null, 'sys_module_edit', '40', '', '/sys/module/edit', 'GET,POST', '0', 'fa-pencil', '0', '', '27', '\0', '', '2016-12-05 11:29:48', '1', '2017-01-04 11:37:46');
+INSERT INTO `sys_module_t` VALUES ('826137d6389f4730abb0422d7d252b32', '回话管理', '4715e01a290c447eac93ee47db6b9c81', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,4715e01a290c447eac93ee47db6b9c81,', '1', null, 'sys_persistentToken_view', '30', '', '/sys/persistentToken/,/sys/persistentToken/page', 'GET', '0', 'fa-stack-exchange', '0', '', '0', '', '1', '2017-01-04 14:05:52', '1', '2017-01-04 14:05:52');
+INSERT INTO `sys_module_t` VALUES ('87825137dec44ea5b04b9e43df1a1d5e', '修改密码', 'fd8be39d8db44c60917633defe9996c0', '4d32c49cc7f448dcbfb92ce9c4dde058,fd8be39d8db44c60917633defe9996c0,', '1', null, '', '60', '', '/api/account/changePassword', 'GET', '0', 'fa-lock', '0', '', '20', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:00:51');
+INSERT INTO `sys_module_t` VALUES ('8d607e3d86ad436b89e3067323021168', '系统监控', '4715e01a290c447eac93ee47db6b9c81', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,4715e01a290c447eac93ee47db6b9c81,', '1', null, 'sys_metrics', '0', '', '/sys/metrics,/management/metrics/', 'GET', '0', 'fa-drupal', null, '', '1', '', '', '2017-03-02 23:03:19', '1', '2017-06-30 14:46:48');
+INSERT INTO `sys_module_t` VALUES ('8e21d10003694354822fe0ad44106ce0', '业务表配置', 'ee5224dc13404267acfb8fc443dee4c3', '4d32c49cc7f448dcbfb92ce9c4dde058,2d5f2af5e36349b5bb8dfbd5904900c8,ee5224dc13404267acfb8fc443dee4c3,', '1', 'albedobootcloudmicro/api', 'gen_genTable', '100', '', '/gen/genTable/', null, '0', 'fa-delicious', '0', '', '10', '', '', '2016-12-05 11:29:48', '1', '2016-12-25 17:13:13');
+INSERT INTO `sys_module_t` VALUES ('8eae4c0c642a43eba9de678d36ca9186', '删除', '201305b309b0462ab8eb294ab1d42410', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,201305b309b0462ab8eb294ab1d42410,', '2', null, 'sys_user_delete', '80', null, '/sys/user/delete', 'DELETE', '0', 'fa-trash-o', '0', null, '1', '', '1', '2016-12-29 14:54:15', '1', '2017-06-30 15:01:12');
+INSERT INTO `sys_module_t` VALUES ('93eb238f76874dc78fcf10afb067e9d2', '查看', 'e1f8b38201064edaaf72398851c752b7', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,e1f8b38201064edaaf72398851c752b7,', '2', null, 'sys_taskScheduleJob_view', '20', null, '/sys/taskScheduleJob/page', 'GET', '0', 'fa-info-circle', '0', null, '0', '', '1', '2017-01-23 09:55:09', '1', '2017-01-23 09:55:09');
+INSERT INTO `sys_module_t` VALUES ('95a093b48f1947818d50fe09eab72753', '编辑', 'bd7872df2fe748fb97bb1dcc629cdecb', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,bd7872df2fe748fb97bb1dcc629cdecb,', '2', null, 'sys_role_edit', '20', '', '/sys/role/edit', 'GET,POST', '0', '', '0', '', '29', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:12');
+INSERT INTO `sys_module_t` VALUES ('9fec2607b166460cb99d9ed2436be506', '接口管理', '4715e01a290c447eac93ee47db6b9c81', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,4715e01a290c447eac93ee47db6b9c81,', '1', null, '', '120', '_blank', '/../swagger-ui/index.html', 'GET', '0', 'fa-hand-pointer-o', '0', '', '5', '', '1', '2017-01-05 17:48:44', '1', '2017-11-08 18:16:49');
+INSERT INTO `sys_module_t` VALUES ('abd42541d2614a7d9f117ce857645382', '删除', '37ceac18a00b4a7ea45c8681035fe402', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,37ceac18a00b4a7ea45c8681035fe402,', '2', null, 'sys_module_delete', '80', '', '/sys/module/delete', 'DELETE', '0', '', null, '', '20', '\0', '', '2016-12-05 11:29:48', '1', '2017-01-04 11:38:04');
+INSERT INTO `sys_module_t` VALUES ('af6294af4db4487c930125b40212f6ac', '查看', '37ceac18a00b4a7ea45c8681035fe402', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,37ceac18a00b4a7ea45c8681035fe402,', '2', null, 'sys_module_view', '20', '', '/sys/module/page', 'GET', '0', 'fa-info-circle', '0', '', '29', '\0', '', '2016-12-05 11:29:48', '1', '2017-01-04 11:37:32');
+INSERT INTO `sys_module_t` VALUES ('b4dc5bb4a11149d78c765dbef12e13c7', '删除', 'fa1cf28bbd424fb0b900cf11f10b1817', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,fa1cf28bbd424fb0b900cf11f10b1817,', '2', null, 'sys_area_delete', '80', null, '/sys/area/delete', 'DELETE', '0', 'fa-trash-o', '0', null, '0', '', '1', '2016-12-29 14:31:16', '1', '2016-12-29 14:31:16');
+INSERT INTO `sys_module_t` VALUES ('b57911172bf74bceae6e22e706d83fb8', '锁定', '201305b309b0462ab8eb294ab1d42410', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,201305b309b0462ab8eb294ab1d42410,', '2', null, 'sys_user_lock', '60', '', '/sys/user/lock', 'POST', '0', 'fa-lock', null, '', '1', '\0', '1', '2017-03-02 22:25:04', '1', '2017-06-30 15:01:12');
+INSERT INTO `sys_module_t` VALUES ('badfe0b992fd4f79b1dfcc2494a47e76', '删除', 'bd7872df2fe748fb97bb1dcc629cdecb', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,bd7872df2fe748fb97bb1dcc629cdecb,', '2', null, 'sys_role_delete', '40', '', '/sys/role/delete', 'DELETE', '0', '', '0', '', '26', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:12');
+INSERT INTO `sys_module_t` VALUES ('bc779f2d65da44ad8397a8ff5976ac65', '查看', 'bd7872df2fe748fb97bb1dcc629cdecb', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,bd7872df2fe748fb97bb1dcc629cdecb,', '2', null, 'sys_role_view', '10', '', '/sys/role/page', 'GET', '0', '', '0', '', '28', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:12');
+INSERT INTO `sys_module_t` VALUES ('bd7872df2fe748fb97bb1dcc629cdecb', '角色管理', '714afd9e5d9f4c0697e502a43a4a2491', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,', '1', 'albedobootcloudmicro/api', 'sys_role', '90', '', '/sys/role/', 'GET', '0', 'fa-reorder', '0', '', '26', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:12');
+INSERT INTO `sys_module_t` VALUES ('ccab7469d8df473c8ff769437f6bd393', '锁定', 'bd7872df2fe748fb97bb1dcc629cdecb', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,bd7872df2fe748fb97bb1dcc629cdecb,', '2', null, 'sys_role_lock', '30', '', '/sys/role/lock', 'POST', '0', '', '0', '', '1', '\0', '1', '2016-12-28 16:53:19', '1', '2017-06-30 15:01:12');
+INSERT INTO `sys_module_t` VALUES ('ce4517a441dc4115a14921419b4d131a', '机构管理', '714afd9e5d9f4c0697e502a43a4a2491', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,', '1', 'albedobootcloudmicro/api', 'sys_org', '60', '', '/sys/org/', 'GET', '0', 'fa-th-large', '0', '', '24', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:12');
+INSERT INTO `sys_module_t` VALUES ('d40fcdec366f4038971f3d9bb68451eb', '编辑', 'fa1cf28bbd424fb0b900cf11f10b1817', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,fa1cf28bbd424fb0b900cf11f10b1817,', '2', null, 'sys_area_edit', '40', null, '/sys/area/edit', 'GET,POST', '0', 'fa-pencil', '0', null, '0', '', '1', '2016-12-29 14:31:16', '1', '2016-12-29 14:31:16');
+INSERT INTO `sys_module_t` VALUES ('d6814dcbdb624077afeb95d856ad76d0', '删除', '0771998f75b444f8b2ec0631c69c644f', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,0771998f75b444f8b2ec0631c69c644f,', '2', null, 'sys_dict_delete', '80', null, '/sys/dict/delete', 'DELETE', '0', 'fa-trash-o', '0', null, '0', '', '1', '2016-12-29 14:27:37', '1', '2016-12-29 14:27:37');
+INSERT INTO `sys_module_t` VALUES ('d7069653320643e89b3c93dcdfa5b2c6', '编辑', '201305b309b0462ab8eb294ab1d42410', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,201305b309b0462ab8eb294ab1d42410,', '2', null, 'sys_user_edit', '40', null, '/sys/user/edit', 'GET,POST', '0', 'fa-pencil', '0', null, '1', '', '1', '2016-12-29 14:54:15', '1', '2017-06-30 15:01:12');
+INSERT INTO `sys_module_t` VALUES ('e1f8b38201064edaaf72398851c752b7', '任务调度管理', '3566c3b5c4114f77a5434c175b9f64c5', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,', '1', 'albedobootcloudmicro/api', 'sys_taskScheduleJob', '30', null, '/sys/taskScheduleJob/', 'GET', '0', 'fa-file', '0', null, '0', '\0', '1', '2017-01-23 09:55:08', '1', '2017-01-23 09:55:09');
+INSERT INTO `sys_module_t` VALUES ('e5223c949502447fa1a1f2b579203608', '锁定', 'fa1cf28bbd424fb0b900cf11f10b1817', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,fa1cf28bbd424fb0b900cf11f10b1817,', '2', null, 'sys_area_lock', '60', null, '/sys/area/lock', 'POST', '0', 'fa-lock', '0', null, '0', '', '1', '2016-12-29 14:31:16', '1', '2016-12-29 14:31:16');
+INSERT INTO `sys_module_t` VALUES ('eaaff69aa81d448eb465d729bdad0508', '查看列表机构', 'ce4517a441dc4115a14921419b4d131a', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,ce4517a441dc4115a14921419b4d131a,', '2', null, 'sys_org_view', '20', '', '/sys/org/page', 'GET', '0', 'frame/images/icons/32X32/consulting.gif', '0', '', '21', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:12');
+INSERT INTO `sys_module_t` VALUES ('ee5224dc13404267acfb8fc443dee4c3', '代码生成', '2d5f2af5e36349b5bb8dfbd5904900c8', '4d32c49cc7f448dcbfb92ce9c4dde058,2d5f2af5e36349b5bb8dfbd5904900c8,', '1', null, '', '0', '', '', null, '0', 'fa-ils', '0', '', '10', '\0', '', '2016-12-05 11:29:48', null, null);
+INSERT INTO `sys_module_t` VALUES ('f5dc958155df4deaba4947bd9989202d', '查看', '0771998f75b444f8b2ec0631c69c644f', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,0771998f75b444f8b2ec0631c69c644f,', '2', null, 'sys_dict_view', '20', '', '/sys/dict/page', 'GET', '0', 'fa-info-circle', '0', '', '0', '\0', '1', '2016-12-29 14:27:37', '1', '2016-12-29 16:48:30');
+INSERT INTO `sys_module_t` VALUES ('fa1cf28bbd424fb0b900cf11f10b1817', '区域管理', '3566c3b5c4114f77a5434c175b9f64c5', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,3566c3b5c4114f77a5434c175b9f64c5,', '1', 'albedobootcloudmicro/api', 'sys_area', '60', '', '/sys/area/', 'GET', '0', 'fa-map', '0', '', '0', '\0', '1', '2016-12-29 14:31:16', '1', '2016-12-29 14:49:29');
+INSERT INTO `sys_module_t` VALUES ('fc987e00a31246aea6d2e2a6afe8db36', '系统设置', '4d32c49cc7f448dcbfb92ce9c4dde058', '4d32c49cc7f448dcbfb92ce9c4dde058,', '1', null, 'sm', '30', '', '', null, '0', 'fa-asterisk', '1', '', '27', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:01:11');
+INSERT INTO `sys_module_t` VALUES ('fcf49184c1854cc8958e4bb6de7b15b5', '业务中心', '4d32c49cc7f448dcbfb92ce9c4dde058', '4d32c49cc7f448dcbfb92ce9c4dde058,', '1', null, '', '20', '', '', null, '0', 'fa-lemon-o', '0', '', '0', '\0', '1', '2017-03-27 15:26:46', '1', '2017-03-27 15:27:09');
+INSERT INTO `sys_module_t` VALUES ('fd8be39d8db44c60917633defe9996c0', '账户中心', '4d32c49cc7f448dcbfb92ce9c4dde058', '4d32c49cc7f448dcbfb92ce9c4dde058,', '1', null, '', '10', '', '', null, '0', 'fa-gear', '0', '', '15', '\0', '', '2016-12-05 11:29:48', '1', '2017-06-30 15:00:51');
+INSERT INTO `sys_module_t` VALUES ('fe5dcdbcc132480da84701173a3fb5f2', '查看', '201305b309b0462ab8eb294ab1d42410', '4d32c49cc7f448dcbfb92ce9c4dde058,fc987e00a31246aea6d2e2a6afe8db36,714afd9e5d9f4c0697e502a43a4a2491,201305b309b0462ab8eb294ab1d42410,', '2', null, 'sys_user_view', '20', null, '/sys/user/page', 'GET', '0', 'fa-info-circle', '0', null, '1', '', '1', '2016-12-29 14:54:14', '1', '2017-06-30 15:01:12');
 
 -- ----------------------------
 -- Table structure for sys_org_t
@@ -4694,11 +4979,12 @@ CREATE TABLE `sys_org_t` (
 INSERT INTO `sys_org_t` VALUES ('1', '平台', '0', '0,', '100000', '1', '\0', 'root', '30', '1', '0', '', '2016-12-12 16:32:48', '1', '2017-06-30 14:59:27', '1', null);
 INSERT INTO `sys_org_t` VALUES ('186eaa340c934cb49434765f807fdeff', '公司领导', '1', '0,1,', '100001', '1', '', null, '30', '1', '0', '', '2016-12-12 16:32:48', '1', '2017-06-30 14:59:27', '1', '');
 INSERT INTO `sys_org_t` VALUES ('27db8e3b19364a279b1e9721b5a784c7', '人事部', '38c65b8630ff473aa9f618906401efa0', '0,1,38c65b8630ff473aa9f618906401efa0,', '100005', '1', '', null, '20', '1', '0', '', '2016-12-12 16:32:48', '1', '2016-12-28 16:58:12', '0', '');
-INSERT INTO `sys_org_t` VALUES ('38c65b8630ff473aa9f618906401efa0', '综合部', '1', '0,1,', '100004', '1', '\0', null, '0', '1', '0', '', '2016-12-12 16:32:48', '1', '2016-12-28 16:58:39', '0', '');
+INSERT INTO `sys_org_t` VALUES ('38c65b8630ff473aa9f618906401efa0', '综合部', '1', '0,1,', '100004', '1', '\0', null, '0', '1', '0', '', '2016-12-12 16:32:48', '1', '2017-11-08 17:16:51', '2', '');
+INSERT INTO `sys_org_t` VALUES ('40cd4e7d47114a2a89ee6c3bc02e374d', '对对对', '38c65b8630ff473aa9f618906401efa0', '0,1,38c65b8630ff473aa9f618906401efa0,', '方法', '2', '', null, '80', '1', '-2', '1', '2017-11-08 17:13:18', '1', '2017-11-08 17:17:03', '3', '');
 INSERT INTO `sys_org_t` VALUES ('588e010702d343fe9082416102e49def', 'fdsa', 'c5fe48b99ad24e83a2271405a43fb8b7', '0,1,c5fe48b99ad24e83a2271405a43fb8b7,', 'dsfas', '1', '', null, '0', '1', '-2', '', '2016-12-12 16:32:48', '1', '2017-06-30 16:40:02', '1', '');
 INSERT INTO `sys_org_t` VALUES ('c4f84e7695d94b469d93405fb73060d0', 'dd', '38c65b8630ff473aa9f618906401efa0', '0,1,38c65b8630ff473aa9f618906401efa0,', '', '1', '', null, '30', '1', '-2', '', '2017-03-02 22:23:11', '1', '2017-06-30 16:39:57', '1', '');
 INSERT INTO `sys_org_t` VALUES ('c5fe48b99ad24e83a2271405a43fb8b7', '技术部', '1', '0,1,', '100003', '1', '\0', null, '20', '1', '0', '', '2016-12-12 16:32:48', null, null, '0', null);
-INSERT INTO `sys_org_t` VALUES ('f93883513a034577a166b424beb93794', '研发部', '1', '0,1,', '100002', '1', '\0', null, '30', '1', '-1', '', '2016-12-12 16:32:48', '1', '2016-12-22 20:43:04', '0', null);
+INSERT INTO `sys_org_t` VALUES ('f93883513a034577a166b424beb93794', '研发部', '1', '0,1,', '100002', '1', '\0', null, '30', '1', '0', '', '2016-12-12 16:32:48', '1', '2017-11-07 16:13:14', '1', null);
 
 -- ----------------------------
 -- Table structure for sys_role_module_t
@@ -4714,36 +5000,32 @@ CREATE TABLE `sys_role_module_t` (
 -- ----------------------------
 -- Records of sys_role_module_t
 -- ----------------------------
-INSERT INTO `sys_role_module_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', '25a868347e8f4a6bb68b53925db95692');
-INSERT INTO `sys_role_module_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', '3566c3b5c4114f77a5434c175b9f64c5');
-INSERT INTO `sys_role_module_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', '37ceac18a00b4a7ea45c8681035fe402');
-INSERT INTO `sys_role_module_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', '3ce4aa89b1c5483dbc538d3f3ae0a63f');
+INSERT INTO `sys_role_module_t` VALUES ('14330c13c78243658d824fc5b8def161', '');
+INSERT INTO `sys_role_module_t` VALUES ('5faa80a30a374148b5e0943f2a6fcb47', '');
+INSERT INTO `sys_role_module_t` VALUES ('656d05c1a13f4c759e84a5819e9bb07a', '');
+INSERT INTO `sys_role_module_t` VALUES ('5faa80a30a374148b5e0943f2a6fcb47', '3566c3b5c4114f77a5434c175b9f64c5');
+INSERT INTO `sys_role_module_t` VALUES ('5faa80a30a374148b5e0943f2a6fcb47', '42baef661e504fa998a35d27b0daa3c4');
+INSERT INTO `sys_role_module_t` VALUES ('656d05c1a13f4c759e84a5819e9bb07a', '42baef661e504fa998a35d27b0daa3c4');
 INSERT INTO `sys_role_module_t` VALUES ('931ea939caaa4451833a9e5f2426a951', '42baef661e504fa998a35d27b0daa3c4');
-INSERT INTO `sys_role_module_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', '4715e01a290c447eac93ee47db6b9c81');
 INSERT INTO `sys_role_module_t` VALUES ('14330c13c78243658d824fc5b8def161', '4d32c49cc7f448dcbfb92ce9c4dde058');
 INSERT INTO `sys_role_module_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', '4d32c49cc7f448dcbfb92ce9c4dde058');
+INSERT INTO `sys_role_module_t` VALUES ('5faa80a30a374148b5e0943f2a6fcb47', '4d32c49cc7f448dcbfb92ce9c4dde058');
+INSERT INTO `sys_role_module_t` VALUES ('656d05c1a13f4c759e84a5819e9bb07a', '4d32c49cc7f448dcbfb92ce9c4dde058');
 INSERT INTO `sys_role_module_t` VALUES ('931ea939caaa4451833a9e5f2426a951', '4d32c49cc7f448dcbfb92ce9c4dde058');
-INSERT INTO `sys_role_module_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', '5293bd1a28924276a236a4363af5dde8');
 INSERT INTO `sys_role_module_t` VALUES ('14330c13c78243658d824fc5b8def161', '714afd9e5d9f4c0697e502a43a4a2491');
-INSERT INTO `sys_role_module_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', '714afd9e5d9f4c0697e502a43a4a2491');
-INSERT INTO `sys_role_module_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', '75f58401461c486b875f851e18a8ee9d');
-INSERT INTO `sys_role_module_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', '7ff1ee3bd23845b8a1d7ef8df661bb0d');
-INSERT INTO `sys_role_module_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', '8d607e3d86ad436b89e3067323021168');
+INSERT INTO `sys_role_module_t` VALUES ('5faa80a30a374148b5e0943f2a6fcb47', '87825137dec44ea5b04b9e43df1a1d5e');
+INSERT INTO `sys_role_module_t` VALUES ('656d05c1a13f4c759e84a5819e9bb07a', '87825137dec44ea5b04b9e43df1a1d5e');
+INSERT INTO `sys_role_module_t` VALUES ('5faa80a30a374148b5e0943f2a6fcb47', '93eb238f76874dc78fcf10afb067e9d2');
 INSERT INTO `sys_role_module_t` VALUES ('14330c13c78243658d824fc5b8def161', '95a093b48f1947818d50fe09eab72753');
-INSERT INTO `sys_role_module_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', '95a093b48f1947818d50fe09eab72753');
-INSERT INTO `sys_role_module_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', 'abd42541d2614a7d9f117ce857645382');
-INSERT INTO `sys_role_module_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', 'af6294af4db4487c930125b40212f6ac');
 INSERT INTO `sys_role_module_t` VALUES ('14330c13c78243658d824fc5b8def161', 'badfe0b992fd4f79b1dfcc2494a47e76');
-INSERT INTO `sys_role_module_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', 'badfe0b992fd4f79b1dfcc2494a47e76');
 INSERT INTO `sys_role_module_t` VALUES ('14330c13c78243658d824fc5b8def161', 'bc779f2d65da44ad8397a8ff5976ac65');
-INSERT INTO `sys_role_module_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', 'bc779f2d65da44ad8397a8ff5976ac65');
 INSERT INTO `sys_role_module_t` VALUES ('14330c13c78243658d824fc5b8def161', 'bd7872df2fe748fb97bb1dcc629cdecb');
-INSERT INTO `sys_role_module_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', 'bd7872df2fe748fb97bb1dcc629cdecb');
-INSERT INTO `sys_role_module_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', 'ce4517a441dc4115a14921419b4d131a');
 INSERT INTO `sys_role_module_t` VALUES ('931ea939caaa4451833a9e5f2426a951', 'cfd37cfb27fc42daa6366cba9f257e6f');
-INSERT INTO `sys_role_module_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', 'eaaff69aa81d448eb465d729bdad0508');
+INSERT INTO `sys_role_module_t` VALUES ('5faa80a30a374148b5e0943f2a6fcb47', 'e1f8b38201064edaaf72398851c752b7');
 INSERT INTO `sys_role_module_t` VALUES ('14330c13c78243658d824fc5b8def161', 'fc987e00a31246aea6d2e2a6afe8db36');
-INSERT INTO `sys_role_module_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', 'fc987e00a31246aea6d2e2a6afe8db36');
+INSERT INTO `sys_role_module_t` VALUES ('5faa80a30a374148b5e0943f2a6fcb47', 'fc987e00a31246aea6d2e2a6afe8db36');
+INSERT INTO `sys_role_module_t` VALUES ('5faa80a30a374148b5e0943f2a6fcb47', 'fd8be39d8db44c60917633defe9996c0');
+INSERT INTO `sys_role_module_t` VALUES ('656d05c1a13f4c759e84a5819e9bb07a', 'fd8be39d8db44c60917633defe9996c0');
 INSERT INTO `sys_role_module_t` VALUES ('931ea939caaa4451833a9e5f2426a951', 'fd8be39d8db44c60917633defe9996c0');
 
 -- ----------------------------
@@ -4762,6 +5044,11 @@ CREATE TABLE `sys_role_org_t` (
 -- Records of sys_role_org_t
 -- ----------------------------
 INSERT INTO `sys_role_org_t` VALUES ('1', '1');
+INSERT INTO `sys_role_org_t` VALUES ('5faa80a30a374148b5e0943f2a6fcb47', '186eaa340c934cb49434765f807fdeff');
+INSERT INTO `sys_role_org_t` VALUES ('5faa80a30a374148b5e0943f2a6fcb47', 'c5fe48b99ad24e83a2271405a43fb8b7');
+INSERT INTO `sys_role_org_t` VALUES ('5faa80a30a374148b5e0943f2a6fcb47', 'f93883513a034577a166b424beb93794');
+INSERT INTO `sys_role_org_t` VALUES ('656d05c1a13f4c759e84a5819e9bb07a', '27db8e3b19364a279b1e9721b5a784c7');
+INSERT INTO `sys_role_org_t` VALUES ('656d05c1a13f4c759e84a5819e9bb07a', '38c65b8630ff473aa9f618906401efa0');
 
 -- ----------------------------
 -- Table structure for sys_role_t
@@ -4790,9 +5077,10 @@ CREATE TABLE `sys_role_t` (
 -- ----------------------------
 -- Records of sys_role_t
 -- ----------------------------
-INSERT INTO `sys_role_t` VALUES ('14330c13c78243658d824fc5b8def161', '普通角色', '1', '1', '1', '0', null, null, null, '', '0', '', '2017-03-02 22:21:40', '1', '2017-03-02 22:21:40');
-INSERT INTO `sys_role_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', '管理员', '1', '1', '1', '0', '0', null, null, '', '5', '', '2016-12-28 15:31:11', '1', '2017-06-30 15:01:07');
-INSERT INTO `sys_role_t` VALUES ('5faa80a30a374148b5e0943f2a6fcb47', 'test', '38c65b8630ff473aa9f618906401efa0', '1', '5', '0', null, null, null, '', '0', '1', '2017-07-05 11:12:45', '1', '2017-07-05 11:12:45');
+INSERT INTO `sys_role_t` VALUES ('14330c13c78243658d824fc5b8def161', '普通角色', '1', '1', '1', '0', null, null, null, '', '4', '', '2017-03-02 22:21:40', '1', '2017-11-08 17:17:10');
+INSERT INTO `sys_role_t` VALUES ('43186a6c08d247c098ea357e28cc75f4', '管理员', '1', '1', '1', '0', '0', null, null, '', '6', '', '2017-11-23 21:25:41', '1', '2017-11-23 21:25:42');
+INSERT INTO `sys_role_t` VALUES ('5faa80a30a374148b5e0943f2a6fcb47', 'test', '38c65b8630ff473aa9f618906401efa0', '1', '5', '0', null, null, null, '', '11', '1', '2017-07-05 11:12:45', '1', '2017-11-08 15:58:50');
+INSERT INTO `sys_role_t` VALUES ('656d05c1a13f4c759e84a5819e9bb07a', 'asdad', '27db8e3b19364a279b1e9721b5a784c7', '1', '5', '-2', null, null, null, 'asfsd', '1', '1', '2017-11-06 17:29:24', '1', '2017-11-06 17:29:31');
 
 -- ----------------------------
 -- Table structure for sys_task_schedule_job_t
@@ -4843,9 +5131,13 @@ CREATE TABLE `sys_user_role_t` (
 INSERT INTO `sys_user_role_t` VALUES ('2', '14330c13c78243658d824fc5b8def161');
 INSERT INTO `sys_user_role_t` VALUES ('285398b3ad4f417787842cde87774515', '14330c13c78243658d824fc5b8def161');
 INSERT INTO `sys_user_role_t` VALUES ('4', '14330c13c78243658d824fc5b8def161');
+INSERT INTO `sys_user_role_t` VALUES ('d5d80950e4fb4790a2342cfbe663ac5c', '14330c13c78243658d824fc5b8def161');
 INSERT INTO `sys_user_role_t` VALUES ('fff43e1b172544e890a86f7b38fe6138', '14330c13c78243658d824fc5b8def161');
 INSERT INTO `sys_user_role_t` VALUES ('5', '43186a6c08d247c098ea357e28cc75f4');
 INSERT INTO `sys_user_role_t` VALUES ('fff43e1b172544e890a86f7b38fe6138', '43186a6c08d247c098ea357e28cc75f4');
+INSERT INTO `sys_user_role_t` VALUES ('2', '5faa80a30a374148b5e0943f2a6fcb47');
+INSERT INTO `sys_user_role_t` VALUES ('285398b3ad4f417787842cde87774515', '5faa80a30a374148b5e0943f2a6fcb47');
+INSERT INTO `sys_user_role_t` VALUES ('d5d80950e4fb4790a2342cfbe663ac5c', '5faa80a30a374148b5e0943f2a6fcb47');
 
 -- ----------------------------
 -- Table structure for sys_user_t
@@ -4880,11 +5172,12 @@ CREATE TABLE `sys_user_t` (
 -- Records of sys_user_t
 -- ----------------------------
 INSERT INTO `sys_user_t` VALUES ('1', null, 'admin', '$2a$10$gSAhZrxMllrbgj/kkK9UceBPpChGWJA7SYIb1Mqo.n5aNLq1/oRrC', 'Administrator', 'admin@localhost', null, '', 'zh-cn', null, null, null, 'system', '2017-06-30 14:49:34', 'system', null, '0', null, '0');
-INSERT INTO `sys_user_t` VALUES ('2', '1', 'anonymoususer', '$2a$10$j8S5d7Sr7.8VTOYNviDPOeWX8KcYILUVJBsYV83Y5NtECayypx9lO', null, 'anonymous@localhost1', '', '', 'zh-cn', null, '84427975395995848254', '2017-07-05 14:27:32', 'system', '2017-03-02 23:14:35', '1', '2017-07-05 14:27:32', '0', '', '4');
-INSERT INTO `sys_user_t` VALUES ('285398b3ad4f417787842cde87774515', '38c65b8630ff473aa9f618906401efa0', 'admin3', '$2a$10$Pvyd3WhtnZc1mNanBv6Lbem2/kSdAx3rHiI/bQZkxajmFNPRaFeuq', null, '', '', '', 'zh-cn', null, '07324724558601162589', '2017-06-30 14:54:23', 'admin', '2017-07-04 15:44:38', '1', '2017-07-04 15:44:37', '0', 'ddd', '3');
-INSERT INTO `sys_user_t` VALUES ('4', '27db8e3b19364a279b1e9721b5a784c7', 'user', '$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K', null, 'user@localhost', '', '', 'zh-cn', null, '80201723640854367683', '2017-06-30 14:49:39', 'system', '2017-06-30 14:49:39', '1', '2017-06-30 14:49:44', '0', '', '3');
+INSERT INTO `sys_user_t` VALUES ('2', '1', 'anonymoususer', '$2a$10$j8S5d7Sr7.8VTOYNviDPOeWX8KcYILUVJBsYV83Y5NtECayypx9lO', null, 'anonymous@localhost1', '', '', 'zh-cn', null, '73379101712751526148', '2017-11-08 15:41:33', 'system', '2017-03-02 23:14:35', '1', '2017-11-08 15:51:56', '0', '<p>fdsfg</p>', '11');
+INSERT INTO `sys_user_t` VALUES ('285398b3ad4f417787842cde87774515', '38c65b8630ff473aa9f618906401efa0', 'admin3', '$2a$10$UdGQBYBItSU1TYz8s9Y7CuWRNh1OG6jZtYGdCxPssStma/pcU30Ne', null, '837152234@qq.com', '', '', 'zh-cn', null, '09026523680992737037', '2017-11-08 15:41:45', 'admin', '2017-07-04 15:44:38', '1', '2017-11-08 15:41:45', '0', 'dddsadfasd', '15');
+INSERT INTO `sys_user_t` VALUES ('4', '27db8e3b19364a279b1e9721b5a784c7', 'user', '$2a$10$kAv1VmeU1blU96Z/VMx9Y.tP5UD8Fgi9VM6F7AhJuTjVwWVIZlq9u', null, 'user@localhost', null, '', 'zh-cn', null, '11190649006292704424', '2017-11-15 10:59:08', 'system', '2017-11-15 10:59:08', '1', '2017-11-15 10:59:08', '0', null, '0');
 INSERT INTO `sys_user_t` VALUES ('5', '27db8e3b19364a279b1e9721b5a784c7', 'system', '$2a$10$5CgTzmdgk9dolbvfhUfTSeEZz5hc4p/YtEMxZoGOeFmq/RhAIIyJC', null, 'system@localhost', '', '', 'zh-cn', null, '44452790449046556255', '2017-07-05 11:01:32', 'system', '2017-07-04 15:45:01', '1', '2017-07-05 11:01:32', '0', null, '2');
-INSERT INTO `sys_user_t` VALUES ('fff43e1b172544e890a86f7b38fe6138', 'c5fe48b99ad24e83a2271405a43fb8b7', 'dddddd', '$2a$10$VCjkV5/7x3.1BBNRMQhDE.NgZUW8xPUWdDd4IeG8sN9saGFTv.jb2', null, '', '', '', 'zh-cn', null, '31795165398433312757', '2017-07-05 15:03:58', '1', '2017-07-05 11:07:40', '1', '2017-07-05 15:03:58', '0', null, '4');
+INSERT INTO `sys_user_t` VALUES ('d5d80950e4fb4790a2342cfbe663ac5c', '38c65b8630ff473aa9f618906401efa0', 'test', '$2a$10$CjKDfR6R0hB0aiiyLHXKcefXZotau9RhBXD5qr.QDVAEp64YR0Hdu', null, '', '', '', 'zh-cn', null, '09564615115454364255', '2017-11-06 17:06:27', '1', '2017-11-06 17:06:17', '1', '2017-11-06 17:06:34', '-2', '<p>dsaf</p>', '3');
+INSERT INTO `sys_user_t` VALUES ('fff43e1b172544e890a86f7b38fe6138', 'c5fe48b99ad24e83a2271405a43fb8b7', 'dddddd', '$2a$10$VCjkV5/7x3.1BBNRMQhDE.NgZUW8xPUWdDd4IeG8sN9saGFTv.jb2', null, '', '', '', 'zh-cn', null, '31795165398433312757', '2017-07-05 15:03:58', '1', '2017-07-05 11:07:40', '1', '2017-11-06 16:50:27', '-2', null, '5');
 
 -- ----------------------------
 -- Table structure for test_user
