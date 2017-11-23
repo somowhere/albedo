@@ -3,7 +3,7 @@
     <parent>
         <artifactId>spring-boot-starter-parent</artifactId>
         <groupId>org.springframework.boot</groupId>
-        <version>1.5.1.RELEASE</version>
+        <version>1.5.7.RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.albedo.java</groupId>
@@ -14,7 +14,7 @@
     <!-- 项目属性 -->
     <properties>
         <project.release.version>1.0.0-SNAPSHOT</project.release.version>
-        <hibernate.version>4.3.11.Final</hibernate.version>
+        <hibernate.version>5.2.10.Final</hibernate.version>
         <assertj-core.version>3.5.2</assertj-core.version>
         <lombok.version>1.16.6</lombok.version>
         <!-- 依赖库的版本定义 -->
@@ -47,6 +47,8 @@
         <!--<module>albedo-grpc</module>-->
         <!--<module>albedo-rpc</module>-->
         <module>albedo-boot-web</module>
+        <module>albedo-boot-cloud</module>
+        <module>albedo-boot-ui</module>
         <!--<module>albedo-thrift</module>-->
     </modules>
     <repositories>

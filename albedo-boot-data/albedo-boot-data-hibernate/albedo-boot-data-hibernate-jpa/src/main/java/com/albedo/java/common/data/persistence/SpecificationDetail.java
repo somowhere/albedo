@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.domain.Specification;
 
+import javax.persistence.criteria.*;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -160,7 +161,9 @@ public class SpecificationDetail<T> implements Specification<T>, Serializable {
                         "] is not json or other error", e.getMessage()));
             }
         }
-        if (list == null) list = Lists.newArrayList();
+        if (list == null) {
+            list = Lists.newArrayList();
+        }
         this.andQueryConditions.addAll(list);
         return this;
     }
@@ -218,7 +221,9 @@ public class SpecificationDetail<T> implements Specification<T>, Serializable {
                         "] is not json or other error", e.getMessage()));
             }
         }
-        if (list == null) list = Lists.newArrayList();
+        if (list == null) {
+            list = Lists.newArrayList();
+        }
         this.orQueryConditions.addAll(list);
         return this;
     }
@@ -259,12 +264,15 @@ public class SpecificationDetail<T> implements Specification<T>, Serializable {
      * @return 该实例
      */
     public SpecificationDetail<T> clearAll() {
-        if (!this.andQueryConditions.isEmpty())
+        if (!this.andQueryConditions.isEmpty()) {
             this.andQueryConditions.clear();
-        if (!this.orQueryConditions.isEmpty())
+        }
+        if (!this.orQueryConditions.isEmpty()) {
             this.orQueryConditions.clear();
-        if (!this.orders.isEmpty())
+        }
+        if (!this.orders.isEmpty()) {
             this.orders.clear();
+        }
         return this;
     }
 
@@ -300,7 +308,6 @@ public class SpecificationDetail<T> implements Specification<T>, Serializable {
             this.orders.clear();
         return this;
     }
-
     /**
      * 连接条件
      */

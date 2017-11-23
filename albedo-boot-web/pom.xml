@@ -13,10 +13,10 @@
     <packaging>pom</packaging>
     <modules>
         <module>albedo-boot-web-starter</module>
-        <module>albedo-boot-web-app</module>
-        <module>albedo-boot-web-general</module>
         <module>albedo-boot-web-base</module>
         <module>albedo-boot-web-swagger</module>
-        <!--<module>albedo-boot-web-restful</module>-->
+        <module>albedo-boot-web-config</module>
+        <module>albedo-boot-web-rest</module>
+        <module>albedo-boot-web-rest-base</module>
     </modules>
 </project>

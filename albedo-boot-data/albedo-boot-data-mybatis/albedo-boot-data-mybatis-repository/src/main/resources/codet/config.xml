@@ -24,6 +24,7 @@
             <template>category-ref:entity</template>
         </category>
         <category val="entity" name="数据层（entity）">
+            <template>entity/vo/entityVo.xml</template>
             <template>entity/entityId.xml</template>
             <template>entity/entity.xml</template>
         </category>
@@ -31,6 +32,7 @@
             <template>treetable/resource.xml</template>
             <template>treetable/repository.xml</template>
             <template>treetable/service.xml</template>
+            <template>treetable/vo/entityVo.xml</template>
             <template>treetable/entity.xml</template>
             <template>treetable/viewForm.xml</template>
             <template>treetable/viewList.xml</template>
@@ -42,6 +44,7 @@
     <!-- java类型 -->
     <javaType>
         <dict val="String" name="String"/>
+        <dict val="Boolean" name="Boolean"/>
         <dict val="Long" name="Long"/>
         <dict val="Integer" name="Integer"/>
         <dict val="Double" name="Double"/>

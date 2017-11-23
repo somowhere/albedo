@@ -9,13 +9,19 @@
  */
 package ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>;
 
+import com.albedo.java.util.annotation.DictType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import org.hibernate.validator.constraints.Length;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 <#list table.importList as i>
 import ${i};
 </#list>
+
 
 /**
  * ${functionName}Entity ${functionNameSimple}
@@ -37,17 +43,7 @@ public class ${ClassName} extends TreeEntity<${ClassName}> {
 	<@generateFields/>
 	<@generateCompositeIdConstructorIfis/>
 
-
-	public String toString() {
-		return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-		<#list table.columnList as column>
-			<#if !table.compositeId>
-			.append("${column.simpleJavaField}",get${column.simpleJavaField?cap_first}())
-			</#if>
-		</#list>
-			.toString();
-	}
-	
+	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
 		<#list table.pkColumnList as column>
@@ -57,10 +53,10 @@ public class ${ClassName} extends TreeEntity<${ClassName}> {
 		</#list>
 			.toHashCode();
 	}
-	
+	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof ${ClassName} == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof ${ClassName} == false) { return false;}
+		if(this == obj) {return true;}
 		${ClassName} other = (${ClassName})obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

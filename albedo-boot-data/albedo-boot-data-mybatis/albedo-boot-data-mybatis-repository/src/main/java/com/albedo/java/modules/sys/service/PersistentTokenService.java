@@ -29,10 +29,10 @@ public class PersistentTokenService extends BaseService<PersistentTokenRepositor
     public final Logger log = LoggerFactory.getLogger(getClass());
 
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel<PersistentToken> findPage(PageModel<PersistentToken> pm, List<QueryCondition> queryConditions) {
         SpecificationDetail<PersistentToken> spec = DynamicSpecifications
-                .buildSpecification(pm.getQueryConditionJson(), queryConditions, persistentClass);
+                .buildSpecification(pm.getQueryConditionJson(), queryConditions, getPersistentClass());
         return findPage(pm, spec);
     }
 

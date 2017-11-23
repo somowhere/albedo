@@ -23,9 +23,10 @@ public final class Globals {
 
 
     public static final String INDEX_URL = "index";
-
     public static final String AUTHENTICATED = "authenticated";
-    public static final String NO = null;
+    public static final String XML_HTTP_REQUEST = "XMLHttpRequest";
+    public static final String URL_CHECKBY = "checkBy";
+    public static final String URL_FIND = "find";
 
 
     public static final String ALBEDO_QUARTZENABLED = "albedo.quartzEnabled";
@@ -46,6 +47,11 @@ public final class Globals {
     /*** 返回消息类型 error */
     public static final Integer MSG_TYPE_LOGIN = -99;
 
+
+    public static final String ERROR_HTTP_CODE_400 = "error.http.400";
+    public static final String ERROR_HTTP_CODE_403 = "error.http.403";
+    public static final String ERROR_HTTP_CODE_405 = "error.http.405";
+    public static final String ERROR_HTTP_CODE_500 = "error.http.500";
 
     private Globals() {
     }

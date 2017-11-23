@@ -1,7 +1,7 @@
 package com.albedo.java.common.config;
 
 import com.albedo.java.common.domain.util.JSR310PersistenceConverters;
-import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
@@ -26,11 +26,13 @@ public class DatabaseAutoConfiguration {
 
     private final Logger log = LoggerFactory.getLogger(DatabaseAutoConfiguration.class);
 
+    /*
+     * Support for Hibernate types in Jackson.
+     */
     @Bean
-    public Hibernate4Module hibernate4Module() {
-        return new Hibernate4Module();
+    public Hibernate5Module hibernate5Module() {
+        return new Hibernate5Module();
     }
-
 
     @Bean
     @ConditionalOnMissingClass

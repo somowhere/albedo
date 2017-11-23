@@ -9,7 +9,7 @@
  */
 package ${packageName}.${moduleName}.repository<#if subModuleName != "">.${subModuleName}</#if>;
 
-import com.albedo.java.common.repository.TreeRepository;
+import com.albedo.java.common.data.persistence.repository.TreeRepository;
 import com.albedo.java.modules.sys.domain.${ClassName};
 
 import java.util.List;

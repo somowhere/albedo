@@ -125,7 +125,7 @@ public class QueryUtil {
                     if (PublicUtil.isEmpty(operate))
                         queryCondition.setOperate(Operator.eq.getOperator());
                     sb.append(" ").append(isAnd ? SystemConfig.CONDITION_AND : SystemConfig.CONDITION_OR)
-                            .append(SystemConfig.SPACE).append(queryCondition.isAnalytiColumn() ? queryCondition.getFieldRealColumnName()
+                            .append(SystemConfig.SPACE).append(queryCondition.isAnalytiColumn() && PublicUtil.isNotEmpty(queryCondition.getFieldRealColumnName()) ? queryCondition.getFieldRealColumnName()
                             : argStr + queryCondition.getFieldName()).append(" ")
                             .append(operate);
                     if (!Operator.isNotNull.equals(queryCondition.getOperate())
@@ -209,17 +209,17 @@ public class QueryUtil {
         if (val == null)
             val = queryCondition.getValue();
         if (PublicUtil.isNotEmpty(type) && PublicUtil.isNotEmpty(val)) {
-            if ("Integer".equalsIgnoreCase(type) || "int".equalsIgnoreCase(type)) {
+            if (SystemConfig.TYPE_INTEGER.equalsIgnoreCase(type) || SystemConfig.TYPE_INT.equalsIgnoreCase(type)) {
                 val = PublicUtil.parseInt(val, 0);
-            } else if ("Long".equalsIgnoreCase(type)) {
-                val = PublicUtil.parseLong(val, 0l);
-            } else if ("Short".equalsIgnoreCase(type)) {
+            } else if (SystemConfig.TYPE_LONG.equalsIgnoreCase(type)) {
+                val = PublicUtil.parseLong(val, 0L);
+            } else if (SystemConfig.TYPE_SHORT.equalsIgnoreCase(type)) {
                 val = Short.parseShort(String.valueOf(val));
-            } else if ("Float".equalsIgnoreCase(type)) {
+            } else if (SystemConfig.TYPE_FLOAT.equalsIgnoreCase(type)) {
                 val = Float.parseFloat(String.valueOf(val));
-            } else if ("Double".equalsIgnoreCase(type)) {
+            } else if (SystemConfig.TYPE_DOUBLE.equalsIgnoreCase(type)) {
                 val = Double.parseDouble(String.valueOf(val));
-            } else if ("Date".equalsIgnoreCase(type)) {
+            } else if (SystemConfig.TYPE_DATE.equalsIgnoreCase(type)) {
                 val = PublicUtil.parseDate(String.valueOf(val), queryCondition.getFormat());
             }
         }

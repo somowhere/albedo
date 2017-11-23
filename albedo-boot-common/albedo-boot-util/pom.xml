@@ -9,7 +9,6 @@
     <artifactId>albedo-boot-util</artifactId>
     <properties>
         <logstash-logback-encoder.version>4.7</logstash-logback-encoder.version>
-        <jackson.version>2.8.4</jackson.version>
         <fastjson.version>1.2.31</fastjson.version>
         <spring.data.mybatis.version>1.0.16.BUILD-SNAPSHOT</spring.data.mybatis.version>
         <guava.version>20.0</guava.version>
@@ -42,6 +41,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.ifrabbit</groupId>
@@ -158,6 +162,10 @@
             <artifactId>jackson-module-jaxb-annotations</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
         </dependency>
@@ -171,6 +179,7 @@
             <version>${lombok.version}</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

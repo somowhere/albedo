@@ -2,6 +2,8 @@ package com.albedo.java.util;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -100,5 +102,20 @@ public class BeanValidators {
             errorMessages.add(violation.getPropertyPath() + separator + violation.getMessage());
         }
         return errorMessages;
+    }
+    public static List<ObjectError> extractPropertyAndMessage(MethodArgumentNotValidException methodArgumentNotValidException) {
+        List<ObjectError> allErrors = methodArgumentNotValidException.getBindingResult().getAllErrors();
+
+        return allErrors;
+
+    }
+    public static List<String> extractPropertyAndMessageAsList(MethodArgumentNotValidException methodArgumentNotValidException, String separator) {
+        List<String> errorMessages = Lists.newArrayList();
+        List<ObjectError> allErrors = extractPropertyAndMessage(methodArgumentNotValidException);
+        for (ObjectError violation : allErrors) {
+            errorMessages.add(violation.getCodes()[0] + separator + violation.getDefaultMessage() + ";");
+        }
+        return errorMessages;
+
     }
 }

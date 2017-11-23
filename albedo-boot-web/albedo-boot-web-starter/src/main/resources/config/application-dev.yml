@@ -10,16 +10,15 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
-
 spring:
     profiles:
         active: dev
         include: swagger
     devtools:
         restart:
-            enabled: false
+            enabled: true
         livereload:
-            enabled: false # we use gulp + BrowserSync for livereload
+            enabled: true # we use gulp + BrowserSync for livereload
     jackson:
         serialization.indent_output: true
     datasource:
@@ -42,7 +41,7 @@ spring:
             hibernate.cache.use_second_level_cache: true
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
-            hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+            hibernate.cache.region.factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
     mail:
         host: localhost
         port: 25
@@ -67,10 +66,14 @@ spring:
         expose-spring-macro-helpers:  true
         #prefix:
         suffix: .ftl
-        template-loader-path: /WEB-INF/views/,/META-INF/resources/WEB-INF/views/,classpath:/META-INF/resources/WEB-INF/views/
+        prefer-file-system-access: false
+#        template-loader-path: /templates,classpath:/templates,/WEB-INF/views/,/META-INF/resources/WEB-INF/views/,classpath:/META-INF/resources/WEB-INF/views/
 #    redis:
 #       host: localhost
 #       port: 6379
+    web:
+        root:
+            prefix: albedo-boot-ui/
 
 
 server:
@@ -79,42 +82,52 @@ server:
 #        class-name: org.apache.jasper.servlet.JspServlet
 
 # ===================================================================
-# JHipster specific properties
+# Albedo specific properties
 # ===================================================================
 
 albedo:
-    jedisKeyPrefix: albedo-metronic
+    jedisKeyPrefix: albedoBootWebApp
     developMode: true
     isTokenInterceptor: false
     freeURL:
-    cache: # Hibernate 2nd level cache, used by CacheConfiguration
-        timeToLiveSeconds: 3600
+    http:
+        version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
+    cache: # Cache configuration
+        hazelcast: # Hazelcast distributed cache
+            time-to-live-seconds: 3600
+            backup-count: 1
         ehcache:
+            timeToLiveSeconds: 3600
             maxBytesLocalHeap: 16M
     security:
-        rememberMe:
-            # security key (this key should be unique for your application, and kept secret)
-            key: 8748a5ea8df623bc800993fbaed1090b31b049cc
-    mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: albedoJhipster@localhost
+        authentication:
+            jwt:
+                secret: albedo-boot-token
+                # Token is valid 24 hours
+                token-validity-in-seconds: 86400
+                token-validity-in-seconds-for-remember-me: 2592000
+    mail: # specific Albedo mail property, for standard properties see MailProperties
+        from: albedoBootWebApp@localhost
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
-        spark:
-            enabled: false
-            host: localhost
-            port: 9999
-        graphite:
+        graphite: # Use the "graphite" Maven profile to have the Graphite dependencies
             enabled: false
             host: localhost
             port: 2003
-            prefix: albedoJhipster
+            prefix: albedoBootCloudGateway
+        prometheus: # Use the "prometheus" Maven profile to have the Prometheus dependencies
+            enabled: false
+            endpoint: /prometheusMetrics
         logs: # Reports Dropwizard metrics in the logs
             enabled: false
-            reportFrequency: 60 # in seconds
+            report-frequency: 60 # in seconds
     logging:
         logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration
             enabled: false
             host: localhost
             port: 5000
-            queueSize: 512
+            queue-size: 512
+        spectator-metrics: # Reports Spectator Circuit Breaker metrics in the logs
+            enabled: false
+            # edit spring.metrics.export.delay-millis to set report frequency
 

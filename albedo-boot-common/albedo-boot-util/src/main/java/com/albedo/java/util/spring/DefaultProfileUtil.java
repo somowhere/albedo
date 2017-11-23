@@ -4,6 +4,7 @@ import com.albedo.java.util.domain.Globals;
 import org.springframework.boot.SpringApplication;
 import org.springframework.core.env.Environment;
 
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,9 +15,24 @@ import java.util.Map;
  */
 public final class DefaultProfileUtil {
 
-    private static final String SPRING_PROFILE_DEFAULT = "spring.profiles.default";
+    public static final String SPRING_PROFILE_DEFAULT = "spring.profiles.default";
+    public static final String SPRING_WEB_ROOT_PREFIX = "spring.web.root.prefix";
 
     private DefaultProfileUtil() {
+    }
+
+    /**
+     * Resolve path prefix to static resources.
+     */
+    public static String resolvePathPrefix(Class<?> clz) {
+        String fullExecutablePath = clz.getResource("").getPath();
+        String rootPath = Paths.get(".").toUri().normalize().getPath();
+        String extractedPath = fullExecutablePath.replace(rootPath, "");
+        int extractionEndIndex = extractedPath.indexOf("target/");
+        if (extractionEndIndex <= 0) {
+            return "";
+        }
+        return extractedPath.substring(0, extractionEndIndex);
     }
 
     /**
@@ -25,6 +41,7 @@ public final class DefaultProfileUtil {
      * @param app the spring application
      */
     public static void addDefaultProfile(SpringApplication app) {
+
         Map<String, Object> defProperties = new HashMap<>();
         /*
         * The default profile to use when no other profiles are defined
@@ -32,6 +49,14 @@ public final class DefaultProfileUtil {
         * See https://github.com/spring-projects/spring-boot/issues/1219
         */
         defProperties.put(SPRING_PROFILE_DEFAULT, Globals.SPRING_PROFILE_DEVELOPMENT);
+
+
+        if (!app.getSources().isEmpty()) {
+            defProperties.put(SPRING_WEB_ROOT_PREFIX,
+                    DefaultProfileUtil.resolvePathPrefix((Class<?>) app.getSources().toArray()[0]));
+
+        }
+
         app.setDefaultProperties(defProperties);
     }
 

@@ -82,11 +82,13 @@ public class JsonUtil {
     }
 
     private synchronized static void addDictItem(List<String> kindIds, String... keyCodeItems) {
-        if (keyCodeItems != null)
+        if (keyCodeItems != null) {
             for (int i = 0; i < keyCodeItems.length; i++) {
-                if (!JsonUtil.keyCodeItems.contains(keyCodeItems[i]))
+                if (!JsonUtil.keyCodeItems.contains(keyCodeItems[i])) {
                     JsonUtil.keyCodeItems.add(keyCodeItems[i]);
+                }
             }
+        }
         JsonUtil.kindIds.addAll(kindIds);
         Map<String, Object> maps = new HashMap<String, Object>();
         Map<String, String> map;
@@ -180,8 +182,9 @@ public class JsonUtil {
      * @return
      */
     public JsonUtil setDateFormat(String dateFormat) {
-        if (PublicUtil.isNotEmpty(dateFormat))
+        if (PublicUtil.isNotEmpty(dateFormat)) {
             JsonUtil.dateFormart = dateFormat;
+        }
         return this;
     }
 
@@ -204,13 +207,14 @@ public class JsonUtil {
 
     private boolean checkClassName(String name) {
         boolean flag = false;
-        if (className != null && PublicUtil.isNotEmpty(name))
+        if (className != null && PublicUtil.isNotEmpty(name)) {
             for (String item : className) {
                 if (name.contains(item)) {
                     flag = true;
                     break;
                 }
             }
+        }
         return flag;
     }
 
@@ -269,8 +273,9 @@ public class JsonUtil {
                     Map mapItem = Maps.newHashMap();
                     for (Iterator<?> iterator = map.keySet().iterator(); iterator.hasNext(); ) {
                         Object key = (Object) iterator.next(), val = map.get(key);
-                        if (val == null)
+                        if (val == null) {
                             continue;
+                        }
                         if (val instanceof Collection) {
                             mapItem.put(key, toJsonArray((List<Object>) val));
                         } else if (checkClassName(val.getClass().getName())) {
@@ -308,8 +313,9 @@ public class JsonUtil {
                     Map<String, Object> map = objToMap(object);
                     targert.add(map);
                 }
-                if (PublicUtil.isNotEmpty(targert))
+                if (PublicUtil.isNotEmpty(targert)) {
                     jsonArray.addAll(targert);
+                }
             }
         }
         return jsonArray;
@@ -352,16 +358,18 @@ public class JsonUtil {
                 List<String> attList = StringUtil.parseStringTokenizer(attributes, "|");
                 for (int i = 0; i < attList.size(); i++) {
                     attr = attList.get(i);
-                    if (attr.contains("."))
+                    if (attr.contains(".")) {
                         attr = attr.replace(".", "_");
+                    }
                     if (PublicUtil.isNotEmpty(kindIds) && PublicUtil.isNotEmpty(codeItemData)
                             && PublicUtil.isNotEmpty(keyCodeItems) && keyCodeItems.contains(attr)) {
                         val = codeItemData.getJSONObject(kindIds.get(keyCodeItems.indexOf(attr))).get((String) objs[i]);
                     } else {
                         val = objs[i];
                     }
-                    if (val instanceof Date)
+                    if (val instanceof Date) {
                         val = PublicUtil.fmtDate((Date) val, dateFormart);
+                    }
                     maps.put(attr, val);
                 }
             }
@@ -406,8 +414,9 @@ public class JsonUtil {
                 String key = null;
                 for (PropertyDescriptor p : ps) {
                     key = p.getName();
-                    if (freeFilterList != null && freeFilterList.contains(key))
+                    if (freeFilterList != null && freeFilterList.contains(key)) {
                         continue;
+                    }
                     JSONField jf = null;
                     try {
                         jf = Reflections.getAnnotation(obj, key, JSONField.class);
@@ -432,7 +441,7 @@ public class JsonUtil {
                         key = PublicUtil.toAppendStr(Collections3.convertToString(argList, "_"), "_", key);
                     }
                     if (PublicUtil.isEmpty(val) && jf != null && jf.serialzeFeatures() != null) {
-                        maps.put(getKey(key, jf), val);
+                        mapPutValue(maps, getKey(key, jf), val);
                     }
                     if (val instanceof Collection<?> && flag) {
                         Iterator<?> iter = ((Collection<?>) val).iterator();
@@ -445,7 +454,7 @@ public class JsonUtil {
                                 list.add(toJsonObject(objTemp));
                             }
                         }
-                        maps.put(getKey(key, jf), list);
+                        mapPutValue(maps, getKey(key, jf), list);
                     } else {
                         boolean falg = false;
                         try {
@@ -471,10 +480,11 @@ public class JsonUtil {
                                     String[] pros = tempKey.split("_");
                                     objVal = val;
                                     for (int i = 1; i < pros.length; i++) {
-                                        if (objVal != null)
+                                        if (objVal != null) {
                                             objVal = getFieldDictValue(objVal, pros[i]);
+                                        }
                                     }
-                                    maps.put(getKey(tempKey, jf), getVal(obj, objVal, tempKey));
+                                    mapPutValue(maps, getKey(tempKey, jf), getVal(obj, objVal, tempKey));
                                 }
                             }
                             if (recurrenceStrList != null && recurrenceStrList.contains(key)) {
@@ -484,7 +494,7 @@ public class JsonUtil {
                             }
                             continue;
                         }
-                        maps.put(getKey(key, jf), getVal(obj, val, key));
+                        mapPutValue(maps, getKey(key, jf), getVal(obj, val, key));
                     }
                 }
             }
@@ -521,8 +531,9 @@ public class JsonUtil {
 
     private String getKey(String key, JSONField jf) {
         try {
-            if (jf != null && PublicUtil.isNotEmpty(jf.name()))
+            if (jf != null && PublicUtil.isNotEmpty(jf.name())) {
                 key = jf.name();
+            }
         } catch (Exception e) {
         }
         return StringUtil.toCamelCase(key);
@@ -563,18 +574,28 @@ public class JsonUtil {
         return val;
     }
 
+    private void mapPutValue(Map<String, Object> maps, String key, Object val) {
+        boolean containValAndNotEmpty = (maps.containsKey(key) && PublicUtil.isNotEmpty(val));
+        if (!maps.containsKey(key) || containValAndNotEmpty) {
+            maps.put(key, val);
+        }
+    }
+
     private Object getVal(Object obj, Object val, String key) {
         if (PublicUtil.isNotEmpty(kindIds) && PublicUtil.isNotEmpty(keyCodeItems) && keyCodeItems.contains(key)) {
             val = getDictVal(val, kindIds.get(keyCodeItems.indexOf(key)), key);
         } else {
             Object temp = getFieldDictValue(obj, key);
-            if (temp != null)
+            if (temp != null) {
                 val = temp;
+            }
         }
-        if (val instanceof Date)
+        if (val instanceof Date) {
             val = PublicUtil.fmtDate((Date) val, dateFormart);
-        if (val instanceof ZonedDateTime)
+        }
+        if (val instanceof ZonedDateTime) {
             val = PublicUtil.fmtDate((ZonedDateTime) val, dateFormart);
+        }
         return val;
     }
 

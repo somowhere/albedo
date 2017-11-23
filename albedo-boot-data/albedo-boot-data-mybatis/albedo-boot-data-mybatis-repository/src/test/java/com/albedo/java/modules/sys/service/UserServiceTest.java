@@ -196,7 +196,8 @@ public class UserServiceTest {
     public void testRead() throws Exception {
 
         flushTestUsers();
-
+//        Optional<User> oneByLoginId = userRepository.findOneByLoginId(null);
+//        System.out.println(oneByLoginId);
         User foundPerson = userRepository.findOne(id);
         assertThat(user1.getName(), is(foundPerson.getName()));
     }
@@ -400,6 +401,7 @@ public class UserServiceTest {
     private void assertDeleteCallDoesNotDeleteAnything(List<User> collection) {
 
         flushTestUsers();
+
         long count = userRepository.count();
 
         userRepository.delete(collection);

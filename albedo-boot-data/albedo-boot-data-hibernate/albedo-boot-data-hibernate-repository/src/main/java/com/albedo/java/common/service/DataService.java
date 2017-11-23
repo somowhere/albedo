@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 
 @Transactional
@@ -71,12 +72,16 @@ public class DataService<Repository extends DataRepository<T, PK>, T extends Dat
         });
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public T findOne(PK id) {
         return repository.findOne(id);
     }
 
-    @Transactional(readOnly = true)
+    public Optional<T> findOneById(String id){
+        return  repository.findOneById(id);
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel<T> findPage(PageModel<T> pm) {
         return findPage(pm, null);
     }

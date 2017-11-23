@@ -2,20 +2,16 @@ package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.data.persistence.SpecificationDetail;
-import com.albedo.java.common.service.DataService;
+import com.albedo.java.common.service.DataVoService;
 import com.albedo.java.modules.sys.domain.User;
-import com.albedo.java.modules.sys.repository.OrgRepository;
 import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
-import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.util.DateUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.RandomUtil;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
-import com.albedo.java.vo.sys.UserForm;
-import com.albedo.java.vo.sys.UserResult;
-import org.springframework.beans.BeanUtils;
+import com.albedo.java.vo.sys.UserVo;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,41 +23,35 @@ import java.util.Optional;
 
 /**
  * Service class for managing users.
+ *
+ * @author lijie
  */
 @Service
-@Transactional
-public class UserService extends DataService<UserRepository, User, String> {
+public class UserService extends DataVoService<UserRepository, User, String, UserVo> {
 
-    @Resource
-    OrgRepository orgRepository;
+
     @Resource
     private PersistentTokenRepository persistentTokenRepository;
-    @Resource
-    private RoleRepository roleRepository;
 
-    public UserResult copyBeanToResult(User user) {
-        UserResult userResult = new UserResult();
-        BeanUtils.copyProperties(user, userResult);
+    @Override
+    public UserVo copyBeanToVo(User user) {
+        UserVo userResult = new UserVo();
+        super.copyBeanToVo(user, userResult);
         userResult.setRoleNames(user.getRoleNames());
-        if (user.getOrg() != null) userResult.setOrgName(user.getOrg().getName());
+        if (user.getOrg() != null) {
+            userResult.setOrgName(user.getOrg().getName());
+        }
         return userResult;
     }
 
-    public UserForm copyBeanToForm(User user) {
-        UserForm userForm = new UserForm();
-        BeanUtils.copyProperties(user, userForm);
-        return userForm;
+    @Override
+    public void copyVoToBean(UserVo userVo, User user) {
+        super.copyVoToBean(userVo, user);
+        user.setRoleIdList(userVo.getRoleIdList());
     }
 
 
-    public User copyFormToBean(UserForm userForm, User user) {
-        BeanUtils.copyProperties(userForm, user);
-        user.setRoleIdList(userForm.getRoleIdList());
-        return user;
-    }
-
-
-    public Optional<UserResult> activateRegistration(String key) {
+    public Optional<UserVo> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
         return repository.findOneByActivationKey(key)
                 .map(user -> {
@@ -70,15 +60,17 @@ public class UserService extends DataService<UserRepository, User, String> {
                     user.setActivationKey(null);
                     repository.save(user);
                     log.debug("Activated user: {}", user);
-                    return copyBeanToResult(user);
+                    return copyBeanToVo(user);
                 });
     }
 
-    public UserResult save(UserForm userForm) {
-        User user = PublicUtil.isNotEmpty(userForm.getId()) ? repository.findOneById(userForm.getId()) : new User();
-        copyFormToBean(userForm, user);
+    @Override
+    public void save(UserVo userVo) {
+        User user = PublicUtil.isNotEmpty(userVo.getId()) ? repository.findOne(userVo.getId()) : new User();
+        copyVoToBean(userVo, user);
         if (user.getLangKey() == null) {
-            user.setLangKey("zh-cn"); // default language
+            // default language
+            user.setLangKey("zh-cn");
         } else {
             user.setLangKey(user.getLangKey());
         }
@@ -92,21 +84,20 @@ public class UserService extends DataService<UserRepository, User, String> {
         }
         log.debug("Save Information for User: {}", user);
 
-        return copyBeanToResult(user);
     }
 
-    @Transactional(readOnly = true)
-    public Optional<UserResult> getUserWithAuthoritiesByLogin(String login) {
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public Optional<UserVo> getUserWithAuthoritiesByLogin(String login) {
         return repository.findOneByLoginId(login).map(u -> {
             u.getRoles().size();
-            return copyBeanToResult(u);
+            return copyBeanToVo(u);
         });
     }
 
-    @Transactional(readOnly = true)
-    public UserResult getUserWithAuthorities(String id) {
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public UserVo getUserWithAuthorities(String id) {
         User user = repository.findOne(id);
-        return copyBeanToResult(user);
+        return copyBeanToVo(user);
     }
 
     /**
@@ -135,7 +126,6 @@ public class UserService extends DataService<UserRepository, User, String> {
      */
     @Scheduled(cron = "0 0 1 * * ?")
     public void removeNotActivatedUsers() {
-//        ZonedDateTime now = ZonedDateTime.now();
         List<User> users = repository.findAllByActivatedIsFalseAndCreatedDateBefore(DateUtil.addDays(PublicUtil.getCurrentDate(), -3));
         for (User user : users) {
             log.debug("Deleting not activated user {}", user.getLoginId());
@@ -144,20 +134,15 @@ public class UserService extends DataService<UserRepository, User, String> {
     }
 
 
-    @Transactional(readOnly = true)
-    public UserResult findResult(String id) {
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public UserVo findVo(String id) {
         User user = repository.findOne(id);
-        return copyBeanToResult(user);
+        return copyBeanToVo(user);
     }
 
-    @Transactional(readOnly = true)
-    public UserForm findForm(String id) {
-        User user = repository.findOne(id);
-        return copyBeanToForm(user);
-    }
 
-    @Transactional(readOnly = true)
-    public PageModel<User> findPageRest(PageModel<User> pm, List<QueryCondition> andQueryConditions, List<QueryCondition> orQueryConditions) {
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public PageModel<User> findPage(PageModel<User> pm, List<QueryCondition> andQueryConditions, List<QueryCondition> orQueryConditions) {
         //拼接查询动态对象
         SpecificationDetail<User> spec = DynamicSpecifications.bySearchQueryCondition(
                 andQueryConditions,
@@ -175,7 +160,8 @@ public class UserService extends DataService<UserRepository, User, String> {
         return pm;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
     public PageModel<User> findPage(PageModel<User> pm, List<QueryCondition> authQueryConditions) {
         //拼接查询动态对象
         SpecificationDetail<User> spec = DynamicSpecifications.

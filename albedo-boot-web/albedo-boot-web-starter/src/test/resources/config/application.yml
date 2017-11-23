@@ -12,7 +12,7 @@
 # ===================================================================
 
 management:
-    context-path: /a/management
+    context-path: /management
     health:
         mail:
             enabled: false # When using the MailService, configure an SMTP server and set this to true
@@ -42,7 +42,7 @@ spring:
             hibernate.cache.use_second_level_cache: true
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
-            hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+            hibernate.cache.region.factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
     mail:
         host: localhost
         port: 25
@@ -67,12 +67,7 @@ spring:
         expose-spring-macro-helpers:  true
         #prefix:
         suffix: .ftl
-        template-loader-path: /WEB-INF/views/,/META-INF/resources/WEB-INF/views/,classpath:/META-INF/resources/WEB-INF/views/
-    redis:
-      password : 111111
-      sentinel :
-        nodes : localhost:7005
-        master : master
+#        template-loader-path: /WEB-INF/views/,/META-INF/resources/WEB-INF/views/,classpath:/META-INF/resources/WEB-INF/views/
 
 security:
     basic:
@@ -84,7 +79,8 @@ security:
 
 albedo:
     application: albedo
-    adminPath: /a
+    adminPath: /api
+    testMode: true
     frontPath: /f
     staticFileDirectory: D:/temp/files/
     urlSuffix: html
@@ -108,7 +104,7 @@ albedo:
     mail:
         from: albedoJhipster@localhost
     swagger:
-        basePath: /api/.*
+        default-include-pattern: /.*
         title: albedoJhipster API
         description: albedoJhipster API documentation
         version: 0.0.1
@@ -122,4 +118,4 @@ albedo:
         # comma seperated list of profiles to show a ribbon on the GUI
         displayOnActiveProfiles: dev
     http:
-        restful: false
+        restful: true

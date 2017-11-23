@@ -138,13 +138,13 @@ public class Reflections {
     public static void setProperty(final Object obj, final PropertyDescriptor p, final Object value)
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         String typeName = p.getPropertyType().getName();
-        if (typeName.contains("int") || typeName.contains("Integer")) {
+        if (typeName.contains(SystemConfig.TYPE_INT) || typeName.contains(SystemConfig.TYPE_INTEGER)) {
             PropertyUtils.setProperty(obj, p.getName(), Integer.parseInt(PublicUtil.toStrString(value)));
-        } else if (typeName.contains("float") || typeName.contains("Float")) {
+        } else if (typeName.contains("float") || typeName.contains(SystemConfig.TYPE_FLOAT)) {
             PropertyUtils.setProperty(obj, p.getName(), Float.parseFloat(PublicUtil.toStrString(value)));
-        } else if (typeName.contains("double") || typeName.contains("Double")) {
+        } else if (typeName.contains("double") || typeName.contains(SystemConfig.TYPE_DOUBLE)) {
             PropertyUtils.setProperty(obj, p.getName(), Double.parseDouble(PublicUtil.toStrString(value)));
-        } else if (typeName.contains("long") || typeName.contains("Long")) {
+        } else if (typeName.contains("long") || typeName.contains(SystemConfig.TYPE_LONG)) {
             PropertyUtils.setProperty(obj, p.getName(), Long.parseLong(PublicUtil.toStrString(value)));
         } else {
             PropertyUtils.setProperty(obj, p.getName(), value);
@@ -613,7 +613,9 @@ public class Reflections {
 
     /**
      * 是否为基础类型 @Title: isWrapClass @Description:
-     * TODO(这里用一句话描述这个方法的作用) @param @param clz @param @return 设定文件 @return
+     *
+     * @param clz
+     * @return 设定文件
      * boolean 返回类型 @throws
      */
     public static boolean isWrapClass(Class clz) {

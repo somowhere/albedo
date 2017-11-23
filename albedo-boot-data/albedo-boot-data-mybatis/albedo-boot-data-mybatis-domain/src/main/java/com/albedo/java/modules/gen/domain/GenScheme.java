@@ -1,7 +1,6 @@
 package com.albedo.java.modules.gen.domain;
 
 import com.albedo.java.common.domain.base.IdEntity;
-import com.albedo.java.util.config.SystemConfig;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +18,7 @@ import org.springframework.data.mybatis.annotations.ManyToOne;
  *
  * @version 2013-10-15
  */
-@Entity(table = "GEN_SCHEME_T")
+@Entity(table = "gen_scheme_t")
 @Data
 @AllArgsConstructor
 @ToString
@@ -109,16 +108,5 @@ public class GenScheme extends IdEntity {
     public void setViewType(Integer viewType) {
         this.viewType = viewType;
     }
-
-    /**
-     * true 使用ajax视图
-     *
-     * @return
-     */
-    @Transient
-    public boolean getModalView() {
-        return SystemConfig.YES.equals(viewType);
-    }
-
 
 }

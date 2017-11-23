@@ -2,8 +2,9 @@ package com.albedo.java.modules.gen.repository;
 
 import com.albedo.java.common.data.persistence.repository.BaseRepository;
 import com.albedo.java.modules.gen.domain.GenTable;
-import com.albedo.java.modules.gen.domain.GenTableColumn;
 import com.albedo.java.modules.gen.domain.vo.GenTableQuery;
+import com.albedo.java.vo.gen.GenTableColumnVo;
+import com.albedo.java.vo.gen.GenTableVo;
 import org.springframework.data.mybatis.repository.annotation.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -25,20 +26,20 @@ public interface GenTableRepository extends BaseRepository<GenTable, String> {
     /**
      * 获取数据表字段
      *
-     * @param genTable
+     * @param genTableVo
      * @return
      */
     @Query
-    List<GenTableColumn> findTableColumnList(@Param("genTable") GenTable genTable);
+    List<GenTableColumnVo> findTableColumnList(@Param("genTableVo") GenTableVo genTableVo);
 
     /**
      * 获取数据表主键
      *
-     * @param genTable
+     * @param genTableVo
      * @return
      */
     @Query
-    List<String> findTablePK(@Param("genTable") GenTable genTable);
+    List<String> findTablePK(@Param("genTableVo") GenTableVo genTableVo);
 
     List<GenTable> findAllByParentTable(String id);
 }

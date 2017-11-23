@@ -73,14 +73,14 @@ public abstract class AbstractCrudService<R extends MybatisRepository<T, ID>, T,
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public T get(ID id) {
         Assert.notNull(id, "When you to get a entity with its primary key , you should make sure id is not null.");
         return repository.findOne(id);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public T getBasic(ID id) {
         Assert.notNull(id, "When you to get a entity with its primary key , you should make sure id is not null.");
         return repository.findBasicOne(id);
@@ -212,62 +212,62 @@ public abstract class AbstractCrudService<R extends MybatisRepository<T, ID>, T,
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public <X extends T> Page<T> findAll(Pageable pageable, X condition, String... columns) {
         Assert.notNull(pageable, "When you find entities by pageable, pageable argument can not be null.");
         return repository.findAll(pageable, condition, columns);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public <X extends T> List<T> findAll(X condition, String... columns) {
         return (List<T>) repository.findAll(condition, columns);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public <X extends T> List<T> findAll(Sort sort, X condition, String... columns) {
         return (List<T>) repository.findAll(sort, condition, columns);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public <X extends T> T findOne(X condition, String... columns) {
         return repository.findOne(condition, columns);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public <X extends T> Page<T> findBasicAll(Pageable pageable, X condition, String... columns) {
         return repository.findBasicAll(pageable, condition, columns);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public <X extends T> List<T> findBasicAll(X condition, String... columns) {
         return (List<T>) repository.findBasicAll(condition, columns);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public <X extends T> List<T> findBasicAll(Sort sort, X condition, String... columns) {
         return (List<T>) repository.findBasicAll(sort, condition, columns);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public <X extends T> T findBasicOne(X condition, String... columns) {
         return repository.findBasicOne(condition, columns);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public <X extends T> Long countBasicAll(X condition) {
         return repository.countBasicAll(condition);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public <X extends T> Long countAll(X condition) {
         return repository.countAll(condition);
     }

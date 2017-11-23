@@ -8,6 +8,7 @@ import java.util.Date;
 /**
  * 时间计算工具类
  *
+ * @author somewhere
  * @version 2013-11-03
  */
 public class TimeUtil {
@@ -286,6 +287,7 @@ public class TimeUtil {
         throw new IllegalArgumentException(time + ", time format error, HH" + this.timeSeparator + "mm" + this.timeSeparator + "ss");
     }
 
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(16);
         sb.append(fields[DAY]).append(',').append(' ');
@@ -302,6 +304,7 @@ public class TimeUtil {
         return sb.append(fields[field]);
     }
 
+    @Override
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
@@ -309,13 +312,17 @@ public class TimeUtil {
         return result;
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         final TimeUtil other = (TimeUtil) obj;
         if (!Arrays.equals(fields, other.fields)) {
             return false;

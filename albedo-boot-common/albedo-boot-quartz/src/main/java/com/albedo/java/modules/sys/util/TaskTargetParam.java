@@ -1,13 +1,14 @@
 package com.albedo.java.modules.sys.util;
 
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.config.SystemConfig;
 import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * Created by ftp on 2017/1/24.
  */
 public class TaskTargetParam {
-    private String attrType = "String";
+    private String attrType = SystemConfig.TYPE_STRING;
     private String format;
     private String value;
 
@@ -53,19 +54,19 @@ public class TaskTargetParam {
         Object val = null;
         if (value != null)
             if (PublicUtil.isNotEmpty(type) && PublicUtil.isNotEmpty(value)) {
-                if ("String".equalsIgnoreCase(type)) {
+                if (SystemConfig.TYPE_STRING.equalsIgnoreCase(type)) {
                     val = PublicUtil.toStrString(value);
-                } else if ("Integer".equalsIgnoreCase(type) || "int".equalsIgnoreCase(type)) {
+                } else if (SystemConfig.TYPE_INTEGER.equalsIgnoreCase(type) || SystemConfig.TYPE_INT.equalsIgnoreCase(type)) {
                     val = PublicUtil.parseInt(value, 0);
-                } else if ("Long".equalsIgnoreCase(type)) {
-                    val = PublicUtil.parseLong(value, 0l);
-                } else if ("Short".equalsIgnoreCase(type)) {
+                } else if (SystemConfig.TYPE_LONG.equalsIgnoreCase(type)) {
+                    val = PublicUtil.parseLong(value, 0L);
+                } else if (SystemConfig.TYPE_SHORT.equalsIgnoreCase(type)) {
                     val = Short.parseShort(String.valueOf(value));
-                } else if ("Float".equalsIgnoreCase(type)) {
+                } else if (SystemConfig.TYPE_FLOAT.equalsIgnoreCase(type)) {
                     val = Float.parseFloat(String.valueOf(value));
-                } else if ("Double".equalsIgnoreCase(type)) {
+                } else if (SystemConfig.TYPE_DOUBLE.equalsIgnoreCase(type)) {
                     val = Double.parseDouble(String.valueOf(value));
-                } else if ("Date".equalsIgnoreCase(value)) {
+                } else if (SystemConfig.TYPE_DATE.equalsIgnoreCase(value)) {
                     val = PublicUtil.parseDate(String.valueOf(value), format);
                 }
             }

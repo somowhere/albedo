@@ -24,6 +24,7 @@ import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
 import com.albedo.java.common.repository.service.BaseService;
 import com.albedo.java.common.security.SecurityUtil;
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
+import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Vo;
 <#if table.compositeId>
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Id;
 </#if>
@@ -39,8 +40,8 @@ import com.google.common.collect.Lists;
  * @version ${functionVersion}
  */
 @Service
-@Transactional(readOnly = true)
-public class ${ClassName}Service extends BaseService<${ClassName}>{
+@Transactional(rollbackFor = Exception.class)
+public class ${ClassName}Service extends DataService<${ClassName}Repository, ${ClassName}, String, ${ClassName}Vo>{
 
 	<#list table.childList as c>
 	@Resource

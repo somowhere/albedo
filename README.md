@@ -36,6 +36,15 @@ AlbedoBoot 提供了常用工具进行封装，包括日志工具、缓存工具
 9.	回话管理：管理登录用户。
 9.	接口管理：基于swagger实现的在线接口文档。
 
+## spring cloud  
+
+cloud版本发布，基于jhipster-registry 为注册中心。 docker环境搭建，
+1.	启动cloud前请升级数据库，重新执行albedo-new.sql
+2.	使用docker-compose命令启动albedo-boot-cloud/docker/jhipster-registry.yml
+3.	启动albedo-boot-cloud/albedo-boot-cloud-micro AlbedoBootCloudMicro
+4.	启动albedo-boot-cloud/albedo-boot-cloud-gateway AlbedoBootCloudGateway
+
+
 ## 为何选择AlbedoBoot
 
 1. 使用 [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0) 协议，源代码完全开源，无商业限制。

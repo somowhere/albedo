@@ -41,7 +41,7 @@ public class LoggingConfiguration {
         logstashAppender.setContext(context);
         String customFields = "{\"app_name\":\"" + appName + "\"}";
 
-        // Set the Logstash appender config from JHipster properties
+        // Set the Logstash appender config from Albedo properties
         logstashAppender.setSyslogHost(albedoProperties.getLogging().getLogstash().getHost());
         logstashAppender.setPort(albedoProperties.getLogging().getLogstash().getPort());
         logstashAppender.setCustomFields(customFields);

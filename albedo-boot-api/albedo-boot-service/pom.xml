@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>com.albedo.java</groupId>
-            <artifactId>albedo-boot-data-mybatis-repository</artifactId>
+            <artifactId>albedo-boot-data-hibernate-repository</artifactId>
             <version>${project.release.version}</version>
         </dependency>
 
@@ -45,7 +45,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>

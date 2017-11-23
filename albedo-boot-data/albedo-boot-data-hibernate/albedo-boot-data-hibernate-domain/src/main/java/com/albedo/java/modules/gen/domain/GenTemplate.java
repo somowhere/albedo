@@ -23,13 +23,14 @@ import java.util.List;
  */
 @XmlRootElement(name = "template")
 @Entity
-@Table(name = "GEN_TEMPLATE_T")
+@Table(name = "gen_template_t")
 @DynamicInsert
 @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class GenTemplate extends IdEntity {
 
     private static final long serialVersionUID = 1L;
+    public static final String F_NAME = "name";
     @Length(min = 1, max = 200)
     @Column(name = "name_")
     private String name; // 名称

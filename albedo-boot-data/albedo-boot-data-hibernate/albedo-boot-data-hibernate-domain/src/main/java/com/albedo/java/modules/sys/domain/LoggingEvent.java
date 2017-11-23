@@ -16,6 +16,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -409,6 +410,7 @@ public class LoggingEvent {
         this.callerLine = value;
     }
 
+    @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("eventId", getId())
                 .append("timestmp", getTimestmp()).append("formattedMessage", getFormattedMessage())
@@ -419,15 +421,19 @@ public class LoggingEvent {
                 .append("callerMethod", getCallerMethod()).append("callerLine", getCallerLine()).toString();
     }
 
+    @Override
     public int hashCode() {
         return new HashCodeBuilder().append(getId()).toHashCode();
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (obj instanceof LoggingEvent == false)
+        if (obj instanceof LoggingEvent == false) {
             return false;
-        if (this == obj)
+        }
+        if (this == obj) {
             return true;
+        }
         LoggingEvent other = (LoggingEvent) obj;
         return new EqualsBuilder().append(getId(), other.getId()).isEquals();
     }

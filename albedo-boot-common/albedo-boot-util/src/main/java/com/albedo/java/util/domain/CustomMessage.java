@@ -1,5 +1,6 @@
 package com.albedo.java.util.domain;
 
+import lombok.ToString;
 import org.springframework.util.ObjectUtils;
 
 import java.io.Serializable;
@@ -8,12 +9,14 @@ import java.io.Serializable;
  * 基础控制器支持类 copyright 2014 albedo all right reserved author MrLi created on
  * 2014年10月15日 下午4:04:00
  */
+@ToString
 public class CustomMessage<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private int status;
     private T data;
+    private String code;
     private String[] messages = {};
 
     public CustomMessage() {
@@ -88,5 +91,13 @@ public class CustomMessage<T> implements Serializable {
 
     public void addMessage(String message) {
         this.messages = ObjectUtils.addObjectToArray(messages, message);
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

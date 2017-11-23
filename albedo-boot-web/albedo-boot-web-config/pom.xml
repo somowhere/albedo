@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>albedo-boot-web</artifactId>
+        <groupId>com.albedo.java</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>albedo-boot-web-config</artifactId>
+    <packaging>pom</packaging>
+    <properties>
+        <metrics-spark-reporter.version>1.2</metrics-spark-reporter.version>
+        <metrics-spring.version>3.1.3</metrics-spring.version>
+        <!-- Spring properties -->
+        <spring-cloud.version>Dalston.SR4</spring-cloud.version>
+        <hazelcast-hibernate52.version>1.2</hazelcast-hibernate52.version>
+    </properties>
+    <modules>
+        <module>albedo-boot-web-config-common</module>
+        <module>albedo-boot-web-config-single</module>
+        <module>albedo-boot-web-config-micro</module>
+        <module>albedo-boot-web-config-gateway</module>
+    </modules>
+
+</project>

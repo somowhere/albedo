@@ -75,7 +75,7 @@ public class Role extends IdEntity {
     private Integer sort;
     /*** 组织机构 */
     @ManyToMany
-    @JoinTable(name = "SYS_ROLE_ORG_T",
+    @JoinTable(name = "sys_role_org_t",
             joinColumns = {@JoinColumn(name = "role_id")},
             inverseJoinColumns = {@JoinColumn(name = "org_id")})
     @JSONField(serialize = false)
@@ -83,7 +83,7 @@ public class Role extends IdEntity {
     private Set<Org> orgs = Sets.newHashSet();
     /*** 操作权限 */
     @ManyToMany
-    @JoinTable(name = "SYS_ROLE_MODULE_T",
+    @JoinTable(name = "sys_role_module_t",
             joinColumns = {@JoinColumn(name = "role_id")},
             inverseJoinColumns = {@JoinColumn(name = "module_id")})
     @ApiModelProperty(hidden = true)

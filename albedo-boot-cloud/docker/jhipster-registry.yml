@@ -1,0 +1,13 @@
+version: '2'
+services:
+    jhipster-registry:
+        image: jhipster/jhipster-registry:v3.1.2
+        volumes:
+            - ./central-server-config:/central-config
+        environment:
+            - SPRING_PROFILES_ACTIVE=dev
+            - SECURITY_USER_PASSWORD=admin
+            - SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCH_LOCATIONS=file:./central-config/localhost-config/
+
+        ports:
+            - 8761:8761

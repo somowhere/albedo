@@ -9,7 +9,7 @@
 //
 //import com.albedo.java.AlbedoJhipsterWeb;
 //import com.albedo.java.common.repository.data.JpaCustomeRepository;
-//import com.albedo.java.common.security.service.CustomPersistentRememberMeServices;
+//import com.albedo.CustomPersistentRememberMeServices;
 //import com.albedo.java.modules.sys.service.UserService;
 //import com.albedo.java.util.domain.PageModel;
 //

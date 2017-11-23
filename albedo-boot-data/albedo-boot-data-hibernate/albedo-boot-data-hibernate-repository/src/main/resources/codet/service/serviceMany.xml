@@ -21,8 +21,10 @@ import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.common.domain.base.BaseEntity;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
-import com.albedo.java.common.repository.service.BaseService;
+
 import com.albedo.java.common.security.SecurityUtil;
+import com.albedo.java.common.service.DataVoService;
+import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Vo;
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
 <#if table.compositeId>
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Id;
@@ -39,8 +41,7 @@ import com.google.common.collect.Lists;
  * @version ${functionVersion}
  */
 @Service
-@Transactional(readOnly = true)
-public class ${ClassName}Service extends BaseService<${ClassName}>{
+public class ${ClassName}Service extends DataVoService<${ClassName}Repository, ${ClassName}, String, ${ClassName}Vo{
 
 	<#list table.childList as c>
 	@Resource

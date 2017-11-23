@@ -3,13 +3,17 @@ package com.albedo.java.modules.sys.service;
 import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.domain.base.BaseEntity;
 import com.albedo.java.common.service.TreeService;
+import com.albedo.java.common.service.TreeVoService;
 import com.albedo.java.modules.sys.domain.Module;
 import com.albedo.java.modules.sys.repository.ModuleRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.domain.RequestMethod;
+import com.albedo.java.vo.sys.ModuleVo;
+import com.albedo.java.vo.sys.query.ModuleMenuTreeResult;
 import com.albedo.java.vo.sys.query.ModuleTreeQuery;
+import com.albedo.java.vo.sys.query.TreeResult;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
@@ -23,42 +27,81 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class ModuleService extends TreeService<ModuleRepository, Module, String> {
+public class ModuleService extends TreeVoService<ModuleRepository, Module, String, ModuleVo> {
 
-    @Transactional(readOnly = true)
-    public List<Map<String, Object>> findTreeData(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public List<ModuleMenuTreeResult> findMenuData(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
         String type = moduleTreeQuery != null ? moduleTreeQuery.getType() : null,
                 all = moduleTreeQuery != null ? moduleTreeQuery.getAll() : null;
 
-        List<Map<String, Object>> mapList = Lists.newArrayList();
+        List<ModuleMenuTreeResult> mapList = Lists.newArrayList();
         for (Module e : moduleList) {
+            ModuleMenuTreeResult moduleMenuTreeResult = null;
             if ((all != null || (all == null && BaseEntity.FLAG_NORMAL.equals(e.getStatus())))) {
-                Map<String, Object> map = Maps.newHashMap();
+
                 if ("menu".equals(type) && !Module.TYPE_MENU.equals(e.getType())) {
                     continue;
                 }
-                map.put("id", e.getId());
-                map.put("pId", e.getParent() != null ? e.getParent().getId() : 0);
-                map.put("name", e.getName());
-                map.put("iconCls", PublicUtil.toAppendStr("fa ", e.getIconCls()));
-                mapList.add(map);
+                if (moduleTreeQuery != null && moduleTreeQuery.getRoot() && PublicUtil.isEmpty(e.getParentId())) {
+                    continue;
+                }
+
+                moduleMenuTreeResult = new ModuleMenuTreeResult();
+                moduleMenuTreeResult.setId(e.getId());
+                moduleMenuTreeResult.setBpid(e.getParentId() != null ? e.getParentId() : "0");
+                moduleMenuTreeResult.setMpid(moduleMenuTreeResult.getBpid());
+                moduleMenuTreeResult.setName(e.getName());
+                moduleMenuTreeResult.setRoute(e.getHref());
+                moduleMenuTreeResult.setIcon(e.getIconCls());
+                mapList.add(moduleMenuTreeResult);
             }
         }
         return mapList;
     }
 
-    @Transactional(readOnly = true)
-    public List<Module> findAllByParentId(String parentId) {
-        return repository.findAllByParentIdAndStatusNot(parentId, Module.FLAG_DELETE);
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public List<TreeResult> findTreeData(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
+        String type = moduleTreeQuery != null ? moduleTreeQuery.getType() : null,
+                all = moduleTreeQuery != null ? moduleTreeQuery.getAll() : null;
+
+        List<TreeResult> mapList = Lists.newArrayList();
+        for (Module e : moduleList) {
+            TreeResult treeResult = null;
+            if ((all != null || (all == null && BaseEntity.FLAG_NORMAL.equals(e.getStatus())))) {
+
+                if ("menu".equals(type) && !Module.TYPE_MENU.equals(e.getType())) {
+                    continue;
+                }
+                if (moduleTreeQuery != null && moduleTreeQuery.getRoot() && PublicUtil.isEmpty(e.getParentId())) {
+                    continue;
+                }
+                treeResult = new TreeResult();
+                treeResult.setId(e.getId());
+                treeResult.setPid(e.getParentId() != null ? e.getParentId() : "0");
+                treeResult.setLabel(e.getName());
+                treeResult.setKey(e.getName());
+                treeResult.setValue(e.getId());
+                mapList.add(treeResult);
+            }
+        }
+        return mapList;
     }
+
+
+//    @Transactional(readOnly = true, rollbackFor = Exception.class)
+//    public List<Module> findAllByParentId(String parentId) {
+//        return repository.findAllByParentIdAndStatusNot(parentId, Module.FLAG_DELETE);
+//    }
 
     public void generatorModuleData(String moduleName, String parentModuleId, String url) {
         Module currentModule = repository.findOne(DynamicSpecifications.bySearchQueryCondition(QueryCondition.eq(Module.F_NAME, moduleName)));
-        if (currentModule != null)
+        if (currentModule != null) {
             baseRepository.execute("delete Module where id=:p1 or parentId=:p1", currentModule.getId());
+        }
         Module parentModule = repository.findOne(parentModuleId);
-        if (parentModule == null)
+        if (parentModule == null) {
             new Exception(PublicUtil.toAppendStr("根据模块id[", parentModuleId, "无法查询到模块信息]"));
+        }
         String permission = url.replace("/", "_").substring(1);
         Module module = new Module();
         module.setPermission(permission.substring(0, permission.length() - 1));

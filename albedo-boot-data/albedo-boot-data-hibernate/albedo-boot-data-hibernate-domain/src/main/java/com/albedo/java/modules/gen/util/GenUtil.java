@@ -2,8 +2,6 @@ package com.albedo.java.modules.gen.util;
 
 import com.albedo.java.common.domain.base.DataEntity;
 import com.albedo.java.common.domain.base.TreeEntity;
-import com.albedo.java.modules.gen.domain.GenScheme;
-import com.albedo.java.modules.gen.domain.GenTable;
 import com.albedo.java.modules.gen.domain.GenTableColumn;
 import com.albedo.java.modules.gen.domain.GenTemplate;
 import com.albedo.java.modules.gen.domain.xml.GenCategory;
@@ -18,6 +16,9 @@ import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.FreeMarkers;
 import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.mapper.JaxbMapper;
+import com.albedo.java.vo.gen.GenSchemeVo;
+import com.albedo.java.vo.gen.GenTableColumnVo;
+import com.albedo.java.vo.gen.GenTableVo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.io.Charsets;
@@ -45,8 +46,8 @@ public class GenUtil {
      *
      * @param genTable
      */
-    public static void initColumnField(GenTable genTable) {
-        for (GenTableColumn column : genTable.getColumnList()) {
+    public static void initColumnField(GenTableVo genTable) {
+        for (GenTableColumnVo column : genTable.getColumnList()) {
 
             // 如果是不是新增列，则跳过。
             if (StringUtil.isNotBlank(column.getId())) {
@@ -60,7 +61,7 @@ public class GenUtil {
 
             // 设置java类型
             if (StringUtil.startsWithIgnoreCase(column.getJdbcType(), "CHAR") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "VARCHAR") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "NARCHAR")) {
-                column.setJavaType("String");
+                column.setJavaType(SystemConfig.TYPE_STRING);
             } else if (StringUtil.startsWithIgnoreCase(column.getJdbcType(), "DATETIME") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "DATE") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "TIMESTAMP")) {
                 column.setJavaType("java.util.Date");
                 column.setShowType("dateselect");
@@ -73,15 +74,15 @@ public class GenUtil {
                 // 如果是浮点型
                 String[] ss = StringUtil.split(StringUtil.substringBetween(column.getJdbcType(), "(", ")"), ",");
                 if (ss != null && ss.length == 2 && Integer.parseInt(ss[1]) > 0) {
-                    column.setJavaType("Double");
+                    column.setJavaType(SystemConfig.TYPE_DOUBLE);
                 }
                 // 如果是整形
                 else if (ss != null && ss.length == 1 && Integer.parseInt(ss[0]) <= 10) {
-                    column.setJavaType("Integer");
+                    column.setJavaType(SystemConfig.TYPE_INTEGER);
                 }
                 // 长整形
                 else {
-                    column.setJavaType("Long");
+                    column.setJavaType(SystemConfig.TYPE_LONG);
                 }
             }
 
@@ -170,10 +171,11 @@ public class GenUtil {
 
     public static String getHibernateValidatorExpression(GenTableColumn c) {
         if (!SystemConfig.YES.equals(c.getIsPk()) && !SystemConfig.YES.equals(c.getIsNull())) {
-            if (c.getJavaType().endsWith("String"))
+            if (c.getJavaType().endsWith(SystemConfig.TYPE_STRING)) {
                 return (new StringBuilder()).append("@NotBlank ").append(getNotRequiredHibernateValidatorExpression(c)).toString();
-            else
+            } else {
                 return (new StringBuilder()).append("@NotNull ").append(getNotRequiredHibernateValidatorExpression(c)).toString();
+            }
         } else {
             return getNotRequiredHibernateValidatorExpression(c);
         }
@@ -181,14 +183,15 @@ public class GenUtil {
 
     public static String getNotRequiredHibernateValidatorExpression(GenTableColumn c) {
         String result = "", javaType = c.getJavaType(), jdbcType = c.getJdbcType();
-        if (c.getName().indexOf("mail") >= 0)
+        if (c.getName().indexOf("mail") >= 0) {
             result = (new StringBuilder()).append(result).append("@Email ").toString();
+        }
         ;
-        if (javaType.endsWith("String")) {
+        if (javaType.endsWith(SystemConfig.TYPE_STRING)) {
             Integer size = jdbcType.equals("text") ? 65535 : Integer.valueOf(jdbcType.substring(jdbcType.indexOf("(") + 1, jdbcType.length() - 1));
             result = (new StringBuilder()).append(result).append(String.format("@Length(max=%s)", new Object[]{size})).toString();
         }
-        if (javaType.endsWith("Long") || javaType.endsWith("Integer") || javaType.endsWith("Short") || javaType.endsWith("Byte")) {
+        if (javaType.endsWith(SystemConfig.TYPE_LONG) || javaType.endsWith(SystemConfig.TYPE_INTEGER) || javaType.endsWith(SystemConfig.TYPE_SHORT) || javaType.endsWith("Byte")) {
             if (javaType.toLowerCase().indexOf("short") >= 0)
                 result = (new StringBuilder()).append(result).append(" @Max(32767)").toString();
             else if (javaType.toLowerCase().indexOf("byte") >= 0)
@@ -256,7 +259,7 @@ public class GenUtil {
      * 根据分类获取模板列表
      *
      * @param config
-     * @param genScheme
+     * @param category
      * @param isChildTable 是否是子表
      * @return
      */
@@ -294,10 +297,9 @@ public class GenUtil {
      * 获取数据模型
      *
      * @param genScheme
-     * @param genTable
      * @return
      */
-    public static Map<String, Object> getDataModel(GenScheme genScheme) {
+    public static Map<String, Object> getDataModel(GenSchemeVo genScheme) {
         Map<String, Object> model = Maps.newHashMap();
 
         model.put("packageName", StringUtil.lowerCase(genScheme.getPackageName()));
@@ -329,7 +331,7 @@ public class GenUtil {
      *
      * @param tpl
      * @param model
-     * @param replaceFile
+     * @param isReplaceFile
      * @return
      */
     public static String generateToFile(GenTemplate tpl, Map<String, Object> model, boolean isReplaceFile) {
@@ -340,9 +342,10 @@ public class GenUtil {
 
         logger.debug(" fileName === " + fileName);
         if ("entityId".equals(tpl.getName())) {
-            GenTable table = (GenTable) model.get("table");
-            if (table.isNotCompositeId())
+            GenTableVo table = (GenTableVo) model.get("table");
+            if (table.isNotCompositeId()) {
                 return "因不满足联合主键条件已忽略" + fileName + "<br/>";
+            }
         }
 
         // 获取生成文件内容

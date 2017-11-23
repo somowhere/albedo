@@ -34,7 +34,7 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
      * albedo.java.common.domain.data.SpecificationDetail,
      * com.albedo.java.util.domain.PageModel)
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel<TaskScheduleJob> findAll(PageModel<TaskScheduleJob> pm, List<QueryCondition> queryConditions) {
         SpecificationDetail<TaskScheduleJob> spec = DynamicSpecifications.
                 buildSpecification(pm.getQueryConditionJson(),

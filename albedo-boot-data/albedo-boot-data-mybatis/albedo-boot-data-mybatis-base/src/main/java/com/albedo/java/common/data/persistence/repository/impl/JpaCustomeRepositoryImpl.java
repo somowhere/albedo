@@ -27,7 +27,7 @@ public class JpaCustomeRepositoryImpl<T extends GeneralEntity>
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<ComboData> findJson(Combo combo) {
 
         List<ComboData> mapList = Lists.newArrayList();

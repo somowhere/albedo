@@ -4,8 +4,10 @@ import com.albedo.java.common.domain.base.IdEntity;
 import com.albedo.java.util.config.SystemConfig;
 import com.alibaba.fastjson.annotation.JSONField;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.*;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -15,7 +17,7 @@ import javax.persistence.Table;
  * @version 2013-10-15
  */
 @Entity
-@Table(name = "GEN_SCHEME_T")
+@Table(name = "gen_scheme_t")
 @DynamicInsert
 @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

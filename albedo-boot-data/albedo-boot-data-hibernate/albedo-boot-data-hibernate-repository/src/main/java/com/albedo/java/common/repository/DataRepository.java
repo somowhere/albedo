@@ -7,6 +7,7 @@ import com.albedo.java.common.data.persistence.repository.BaseRepository;
 import com.albedo.java.common.domain.base.BaseEntity;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 /**
  * TreeRepository
@@ -16,5 +17,5 @@ import java.io.Serializable;
  */
 public interface DataRepository<T extends BaseEntity, PK extends Serializable> extends BaseRepository<T, PK> {
 
-    T findOneById(String id);
+    Optional<T> findOneById(String id);
 }

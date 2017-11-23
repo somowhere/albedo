@@ -23,7 +23,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.security.MessageDigest;
 import java.util.*;
 
 /**
@@ -56,37 +55,24 @@ public final class SecurityUtil {
     private SecurityUtil() {
     }
 
-    public static boolean isAdmin(String id) {
-        return "1".equals(id);
-    }
 
     public static boolean isAdmin() {
-        return isAdmin(getCurrentUserId());
+        return SecurityAuthUtil.isAdmin(SecurityUtil.getCurrentUserId());
     }
 
-    /**
-     * Get the login of the current user.
-     *
-     * @return the login of the current user
-     */
-    public static String getCurrentUserId() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        Authentication authentication = securityContext.getAuthentication();
-        String userName = null;
-        if (authentication != null) {
-            if (authentication.getPrincipal() instanceof UserPrincipal) {
-                UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-                userName = userPrincipal.getUserId();
-            } else if (authentication.getPrincipal() instanceof UserDetails) {
-                UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
 
-                userName = springSecurityUser.getUsername();
-            } else if (authentication.getPrincipal() instanceof String) {
-                userName = (String) authentication.getPrincipal();
+    public static String getCurrentUserId() {
+        String userName = SecurityAuthUtil.getCurrentUserLogin();
+        if(PublicUtil.isNotEmpty(userName)){
+            User user = getByLoginId(userName);
+            if(user!=null) {
+                return user.getId();
             }
         }
-        return userName;
+        return null;
     }
+
+
 
     public static String getCurrentAuditor() {
         String userName = SecurityUtil.getCurrentUserId();
@@ -100,24 +86,26 @@ public final class SecurityUtil {
      * @return 取不到返回null
      */
     public static User getByUserId(String userId) {
-        User user = CacheUtil.getJson(USER_CACHE, USER_CACHE_ID_ + userId, User.class);
+        User user = JedisUtil.getJson(USER_CACHE, USER_CACHE_ID_ + userId, User.class);
         boolean isSearch = false;
-        if (user != null && PublicUtil.isNotEmpty(user.getRoles()))
+        if (user != null && PublicUtil.isNotEmpty(user.getRoles())) {
             for (Role role : user.getRoles()) {
                 if (PublicUtil.isEmpty(role.getName())) {
                     isSearch = true;
                     break;
                 }
             }
+        }
         if (user == null || isSearch || PublicUtil.isEmpty(user.getRoles()) ||
                 user.getRoles().size() != user.getRoleIdList().size()) {
             user = userRepository.findOne(userId);
 
-            if (user == null)
+            if (user == null) {
                 throw new UsernameNotFoundException("User " + userId + " was not found in the database");
+            }
             String json = Json.toJsonString(user);
-            CacheUtil.put(USER_CACHE, USER_CACHE_ID_ + user.getId(), json);
-            CacheUtil.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getLoginId(), json);
+            JedisUtil.put(USER_CACHE, USER_CACHE_ID_ + user.getId(), json);
+            JedisUtil.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getLoginId(), json);
         }
         return user;
     }
@@ -129,12 +117,12 @@ public final class SecurityUtil {
      * @return 取不到返回null
      */
     public static User getByLoginId(String loginId) {
-        User user = (User) CacheUtil.getJson(USER_CACHE, USER_CACHE_LOGIN_NAME_ + loginId, User.class);
+        User user = JedisUtil.getJson(USER_CACHE, USER_CACHE_LOGIN_NAME_ + loginId, User.class);
         if (user == null) {
-            userRepository.findOneByLoginId(loginId).map(u -> {
+            user = userRepository.findOneByLoginId(loginId).map(u -> {
                 String json = Json.toJsonString(u);
-                CacheUtil.put(USER_CACHE, USER_CACHE_ID_ + u.getId(), json);
-                CacheUtil.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + u.getLoginId(), json);
+                JedisUtil.put(USER_CACHE, USER_CACHE_ID_ + u.getId(), json);
+                JedisUtil.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + u.getLoginId(), json);
                 return u;
             }).orElseThrow(() -> new UsernameNotFoundException("User " + loginId + " was not found in the database"));
         }
@@ -143,8 +131,9 @@ public final class SecurityUtil {
 
     public static User getCurrentUser() {
         User user = getByUserId(getCurrentUserId());
-        if (user == null)
+        if (user == null) {
             user = new User();
+        }
         return user;
     }
 
@@ -156,7 +145,9 @@ public final class SecurityUtil {
      * @return
      */
     public static List<Module> getModuleList() {
-        return getModuleList(false, null);
+        List<Module> moduleList = getModuleList(false, null);
+        logger.info("{}", moduleList);
+        return moduleList;
     }
 
     public static List<Module> getModuleList(String userId) {
@@ -170,11 +161,12 @@ public final class SecurityUtil {
      * @return
      */
     public static List<Module> getModuleList(boolean refresh, String userId) {
-        if (PublicUtil.isEmpty(userId))
+        if (PublicUtil.isEmpty(userId)) {
             userId = getCurrentUserId();
+        }
         List<Module> moduleList = getCacheJsonArray(CACHE_MODULE_LIST, userId, Module.class);
         if (PublicUtil.isEmpty(moduleList) || refresh) {
-            moduleList = isAdmin(userId) ?
+            moduleList = SecurityAuthUtil.isAdmin(userId) ?
                     moduleService.findAllByStatusOrderBySort(Module.FLAG_NORMAL)
                     : moduleService.findAllAuthByUser(userId);
             putCache(CACHE_MODULE_LIST, Json.toJsonString(moduleList), userId);
@@ -207,7 +199,7 @@ public final class SecurityUtil {
         String userId = getCurrentUserId();
         List<Role> roleList = getCacheJsonArray(CACHE_ROLE_LIST, Role.class);
         if (PublicUtil.isEmpty(roleList)) {
-            roleList = roleService.findAllList(SecurityUtil.isAdmin(userId),
+            roleList = roleService.findAllList(SecurityAuthUtil.isAdmin(userId),
                     SecurityUtil.dataScopeFilter(SecurityUtil.getCurrentUserId(), "org", "creator"));
             putCache(CACHE_ROLE_LIST, Json.toJsonString(roleList));
         }
@@ -309,8 +301,9 @@ public final class SecurityUtil {
 
     public static Object getCacheDefult(String key, Object defaultValue, String userId) {
         Object obj = null;
-        if (PublicUtil.isEmpty(userId))
+        if (PublicUtil.isEmpty(userId)) {
             userId = getCurrentUserId();
+        }
         if (PublicUtil.isEmpty(userId)) {
             logger.error("login user is null, get userCache failed");
         } else {
@@ -334,8 +327,9 @@ public final class SecurityUtil {
     }
 
     public static void putCache(String key, Object value, String userId) {
-        if (PublicUtil.isEmpty(userId))
+        if (PublicUtil.isEmpty(userId)) {
             userId = getCurrentUserId();
+        }
         if (PublicUtil.isEmpty(userId)) {
             logger.error("login user is null, put userCache failed");
         } else {
@@ -389,15 +383,17 @@ public final class SecurityUtil {
      * 清除所有数据本地用户缓存
      */
     public static void clearUserLocalCache() {
-        CacheUtil.removeCache(USER_CACHE);
+        JedisUtil.removeCache(USER_CACHE);
     }
 
     public static boolean hasPermission(String permission) {
         List<Module> list = getModuleList();
-        if (isAdmin(getCurrentUserId()))
+        if (SecurityAuthUtil.isAdmin(getCurrentUserId())) {
             return true;
-        if (PublicUtil.isEmpty(permission))
+        }
+        if (PublicUtil.isEmpty(permission)) {
             return false;
+        }
         permission = PublicUtil.toAppendStr(",", permission, ",");
         for (Module module : list) {
             if (permission.contains(PublicUtil.toAppendStr(",", module.getPermission(), ","))) {
@@ -414,6 +410,9 @@ public final class SecurityUtil {
      * @return 标准连接条件对象
      */
     public static List<QueryCondition> dataScopeFilterSql(String orgAlias, String userAlias) {
+        if(albedoProperties.getTestMode()){
+            return null;
+        }
         return dataScopeFilter(getCurrentUserId(), orgAlias, userAlias, true);
     }
 
@@ -464,12 +463,14 @@ public final class SecurityUtil {
         List<String> dataScope = Lists.newArrayList();
         List<QueryCondition> queryConditions = Lists.newArrayList();
         // 超级管理员，跳过权限过滤
-        if (!SecurityUtil.isAdmin(userId)) {
+        if (!SecurityAuthUtil.isAdmin(userId)) {
             User user = getByUserId(userId);
             boolean isDataScopeAll = false;
             String tempOrgId, userOrgId = null, idSql = isSql ? ".id_" : ".id";
             for (Role r : user.getRoles()) {
-                if (user.getOrg() != null) userOrgId = user.getOrg().getId();
+                if (user.getOrg() != null) {
+                    userOrgId = user.getOrg().getId();
+                }
                 for (String oa : StringUtil.splitDefault(orgAlias)) {
                     if (!dataScope.contains(r.getDataScope()) && StringUtil.isNotBlank(oa)) {
                         tempOrgId = PublicUtil.toAppendStr(oa, idSql);
@@ -510,49 +511,11 @@ public final class SecurityUtil {
                 queryConditions.clear();
             }
         }
-        if (isSql) queryConditions.forEach(item -> item.setAnalytiColumn(false));
+        if (isSql) {
+            queryConditions.forEach(item -> item.setAnalytiColumn(false));
+        }
         return queryConditions;
     }
 
-    /**
-     * 签名算法
-     *
-     * @param data
-     * @return
-     */
-    public static String sign(Map<String, String> data, String key) {
-        String resp = "";
-        StringBuffer unsignString = new StringBuffer();
-        data.put("sig", key);
-        List<String> nameList = new ArrayList<String>(data.keySet());
-        // 首先按字段名的字典序排列
-        Collections.sort(nameList);
-        for (String name : nameList) {
-            String value = data.get(name);
-            if (value != null) {
-                unsignString.append(name).append("=").append(value).append("&");
-            }
-        }
-        try {
-            if (unsignString.length() > 0)
-                unsignString.delete(unsignString.length() - 1, unsignString.length());
-            resp = md5(unsignString.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        resp = resp.toLowerCase();
-        return resp;
-    }
-
-    public static String md5(String value) throws Exception {
-        MessageDigest mdInst = MessageDigest.getInstance("MD5");
-        mdInst.update(value.getBytes("UTF-8"));
-        byte[] arr = mdInst.digest();
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < arr.length; ++i) {
-            sb.append(Integer.toHexString((arr[i] & 0xFF) | 0x100).substring(1, 3));
-        }
-        return sb.toString();
-    }
 
 }

@@ -49,6 +49,7 @@
     <properties>
         <springdata.commons.version>1.13.1.RELEASE</springdata.commons.version>
         <mybatis.version>3.4.4</mybatis.version>
+        <lombok.version>1.16.6</lombok.version>
     </properties>
 
     <profiles>
@@ -181,7 +182,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>RELEASE</version>
+            <version>${lombok.version}</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>

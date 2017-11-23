@@ -6,7 +6,7 @@ package com.albedo.java.modules.sys.service;
 import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.domain.base.BaseEntity;
-import com.albedo.java.common.service.TreeService;
+import com.albedo.java.common.service.TreeVoService;
 import com.albedo.java.modules.sys.domain.Area;
 import com.albedo.java.modules.sys.domain.Org;
 import com.albedo.java.modules.sys.repository.AreaRepository;
@@ -14,15 +14,15 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
+import com.albedo.java.vo.sys.AreaVo;
 import com.albedo.java.vo.sys.query.AreaTreeQuery;
+import com.albedo.java.vo.sys.query.TreeResult;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 区域管理Service 区域管理
@@ -32,47 +32,43 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class AreaService extends TreeService<AreaRepository, Area, String> {
+public class AreaService extends TreeVoService<AreaRepository, Area, String, AreaVo> {
 
-    @Transactional(readOnly = true)
-    public List<Map<String, Object>> findTreeData(AreaTreeQuery areaTreeQuery, List<Area> list) {
-
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public List<TreeResult> findTreeData(AreaTreeQuery areaTreeQuery,
+                                         List<Area> list) {
         String extId = areaTreeQuery != null ? areaTreeQuery.getExtId() : null,
                 all = areaTreeQuery != null ? areaTreeQuery.getAll() : null,
                 parentId = areaTreeQuery != null ? areaTreeQuery.getParentId() : null;
         Integer ltLevel = areaTreeQuery != null ? areaTreeQuery.getLtLevel() : null,
                 level = areaTreeQuery != null ? areaTreeQuery.getLevel() : null;
-        List<Map<String, Object>> mapList = Lists.newArrayList();
-        for (int i = 0; i < list.size(); i++) {
-            Area e = list.get(i);
+        List<TreeResult> mapList = Lists.newArrayList();
+        TreeResult treeResult = null;
+        for (Area e : list) {
             if ((StringUtil.isBlank(extId) || (extId != null && !extId.equals(e.getId()) && e.getParentIds().indexOf("," + extId + ",") == -1))
                     && (all != null || BaseEntity.FLAG_NORMAL.equals(e.getStatus()))
                     && (ltLevel == null || ltLevel >= e.getLevel())
                     && (level == null || level.equals(e.getLevel()))
                     && (PublicUtil.isEmpty(parentId) || e.getParentId().equals(parentId))) {
-                Map<String, Object> map = Maps.newHashMap();
-                map.put("id", e.getId());
-                map.put("pId", e.getParentId());
-                map.put("name", e.getName());
-                map.put("iconCls", "fa fa-th-large");
-                map.put("pIds", e.getParentIds());
-                mapList.add(map);
+                treeResult = new TreeResult();
+                treeResult.setId(e.getId());
+                treeResult.setPid(PublicUtil.isEmpty(e.getParentId()) ? "0" : e.getParentId());
+                treeResult.setLabel(e.getName());
+                treeResult.setKey(e.getName());
+                treeResult.setValue(e.getId());
+                treeResult.setIconCls("fa fa-th-large");
+                mapList.add(treeResult);
             }
         }
         return mapList;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Page<Area> findAll(PageModel<Area> pm, List<QueryCondition> queryConditions) {
         SpecificationDetail<Area> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
                 queryConditions,
                 QueryCondition.ne(Area.F_STATUS, Area.FLAG_DELETE));
         return repository.findAll(spec, pm);
-    }
-
-    @Transactional(readOnly = true)
-    public Area findTopByParentId(String parentId) {
-        return repository.findTopByParentIdAndStatusNotOrderBySortDesc(parentId, Area.FLAG_DELETE);
     }
 
     public List<Area> findAllList() {

@@ -3,7 +3,8 @@
  */
 package com.albedo.java.modules.sys.service.impl;
 
-import com.albedo.java.common.service.DataService;
+import com.albedo.java.common.base.BaseInit;
+import com.albedo.java.common.service.DataVoService;
 import com.albedo.java.modules.sys.domain.TaskScheduleJob;
 import com.albedo.java.modules.sys.repository.TaskScheduleJobRepository;
 import com.albedo.java.modules.sys.service.TaskScheduleJobService;
@@ -14,6 +15,7 @@ import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.util.spring.SpringContextHolder;
+import com.albedo.java.vo.sys.TaskScheduleJobVo;
 import org.apache.commons.lang.StringUtils;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
@@ -35,10 +37,10 @@ import java.util.Set;
  */
 @ConditionalOnProperty(name = Globals.ALBEDO_QUARTZENABLED)
 @Service
-@Transactional
-public class TaskScheduleJobExcutorService extends DataService<TaskScheduleJobRepository,
-        TaskScheduleJob, String>
-//		implements ITaskScheduleJobService 
+@BaseInit
+public class TaskScheduleJobExcutorService extends DataVoService<TaskScheduleJobRepository,
+        TaskScheduleJob, String, TaskScheduleJobVo>
+//		implements ITaskScheduleJobService
 {
 
     @Autowired
@@ -47,11 +49,8 @@ public class TaskScheduleJobExcutorService extends DataService<TaskScheduleJobRe
     @Autowired
     private Scheduler scheduler;
 
-    /*
-     * (non-Javadoc)
+    /**
      *
-     * @see com.albedo.java.modules.sys.service.ITaskScheduleJobService#
-     * afterPropertiesSet()
      */
     public void afterPropertiesSet() {
         // 这里获取任务信息数据
@@ -76,12 +75,13 @@ public class TaskScheduleJobExcutorService extends DataService<TaskScheduleJobRe
      * com.albedo.java.modules.sys.service.ITaskScheduleJobService#findOne(java.
      * lang.String)
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
     public TaskScheduleJob findOne(String id) {
         return repository.findOne(id);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public TaskScheduleJob findOneBySourceId(String soruceId) {
         return repository.findTopBySourceIdAndStatusNot(soruceId, TaskScheduleJob.FLAG_DELETE);
     }
@@ -94,7 +94,7 @@ public class TaskScheduleJobExcutorService extends DataService<TaskScheduleJobRe
      * albedo.java.common.domain.data.SpecificationDetail,
      * com.albedo.java.util.domain.PageModel)
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel<TaskScheduleJob> findAll(PageModel<TaskScheduleJob> pm, List<QueryCondition> queryConditions) {
         return taskScheduleJobService.findAll(pm, queryConditions);
     }
@@ -109,6 +109,7 @@ public class TaskScheduleJobExcutorService extends DataService<TaskScheduleJobRe
         return repository.findAll();
     }
 
+    @Override
     public TaskScheduleJob save(TaskScheduleJob scheduleJob) {
         return save(scheduleJob, true);
     }
@@ -124,6 +125,7 @@ public class TaskScheduleJobExcutorService extends DataService<TaskScheduleJobRe
         try {
             CronScheduleBuilder.cronSchedule(scheduleJob.getCronExpression());
         } catch (Exception e) {
+            log.warn("{}", e);
             throw new RuntimeMsgException("cron表达式有误，不能被解析！");
         }
         Object obj = null;
@@ -378,11 +380,12 @@ public class TaskScheduleJobExcutorService extends DataService<TaskScheduleJobRe
 
     public void removeBySourceId(String sourceId) {
         List<TaskScheduleJob> itemList = repository.findAllBySourceId(sourceId);
-        if (itemList != null)
+        if (itemList != null) {
             for (TaskScheduleJob taskScheduleJob : itemList) {
                 deleteJob(taskScheduleJob);
                 repository.delete(taskScheduleJob.getId());
             }
+        }
     }
 
     /*

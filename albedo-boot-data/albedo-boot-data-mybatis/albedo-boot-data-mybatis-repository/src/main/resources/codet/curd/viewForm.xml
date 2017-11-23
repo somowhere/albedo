@@ -8,14 +8,14 @@
 <#macro at>${r"@"}</#macro><#macro hash>${r"#"}</#macro>
 <#if scheme.modalView><div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-    <h4 class="modal-title"><<@hash />if ${className}.id??>添加<<@hash />else>编辑</<@hash />if>${functionNameSimple}</h4>
+    <h4 class="modal-title"><<@hash />if ${className}Vo.id??>添加<<@hash />else>编辑</<@hash />if>${functionNameSimple}</h4>
 </div>
 <div class="modal-body">
     <div class="row">
         <div class="col-md-12 form"><#else><div class="portlet light bordered">
 	<div class="portlet-title">
 		<div class="caption font-blue">
-            <i class="fa fa-globe font-blue"></i><<@hash />if ${className}.id??>编辑<<@hash />else>添加</<@hash />if>${functionNameSimple}
+            <i class="fa fa-globe font-blue"></i><<@hash />if ${className}Vo.id??>编辑<<@hash />else>添加</<@hash />if>${functionNameSimple}
         </div>
 		<div class="actions">
 			<div class="btn-group">
@@ -31,37 +31,37 @@
 		<form id="ajax-form-${className}" action="<@jspEl />{ctx}/${urlPrefix}/edit" method="post"
 			class="form-horizontal form-validation form-bordered form-label-stripped"
 			config="{rules:{<#list table.columnList as column><#if column.unique && !column.pk>
-						${column.simpleJavaField}: {remote: '<@jspEl/>{ctx}/${urlPrefix}/checkByProperty?id=' + encodeURIComponent('<@jspEl/>{(${className}.id)!} />')}<#if column_has_next>,</#if></#if></#list>
+						${column.simpleJavaField}: {remote: '<@jspEl/>{ctx}/${urlPrefix}/checkByProperty?id=' + encodeURIComponent('<@jspEl/>{(${className}Vo.id)!} />')}<#if column_has_next>,</#if></#if></#list>
 						},
                        messages:{<#list table.columnList as column><#if column.unique && !column.pk>
 						${column.simpleJavaField}: {remote: '${column.comments }已存在'}<#if column_has_next>,</#if></#if></#list>
 					   }}}">
 			<div class="form-body">
-				<input type="hidden" name="id" value="<@jspEl />{(${className}.id)!}" />
+				<input type="hidden" name="id" value="<@jspEl />{(${className}Vo.id)!}" />
 				<#list table.columnList as c>
 					<#if c.isEdit?? && c.isEdit == 1 && (c.isNotBaseField || c.simpleJavaField == 'description')>
 				<div class="form-group">
 					<label class="control-label col-md-3">${c.comments}<#if !c.nullable><span class="required">*</span></#if></label>
 					<div class="col-md-5">
 					<#if c.showType == "input">
-						<input type="text" name="${c.javaFieldId}" id="${c.javaFieldId}" class="form-control<#if !c.nullable> required</#if><#if c.javaType == "Long" || c.javaType == "Integer"> digits</#if><#if c.javaType == "java.math.BigDecimal" || c.javaType == "Double"> number</#if>" value="<@jspEl />{(${className}.${c.javaFieldId})!}" htmlEscape="false"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if>>
+						<input type="text" name="${c.javaFieldId}" id="${c.javaFieldId}" class="form-control<#if !c.nullable> required</#if><#if c.javaType == "Long" || c.javaType == "Integer"> digits</#if><#if c.javaType == "java.math.BigDecimal" || c.javaType == "Double"> number</#if>" value="<@jspEl />{(${className}Vo.${c.javaFieldId})!}" htmlEscape="false"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if>>
 					<#elseif c.showType == "textarea">
-						<textarea name="${c.javaFieldId}" rows="5"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if> class="form-control input-xxlarge <#if !c.nullable>required</#if>"><@jspEl />{(${className}.${c.javaFieldId})! }</textarea>
+						<textarea name="${c.javaFieldId}" rows="5"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if> class="form-control input-xxlarge <#if !c.nullable>required</#if>"><@jspEl />{(${className}Vo.${c.javaFieldId})! }</textarea>
 					<#elseif c.showType == "select" || c.showType == "checkbox" || c.showType == "radio">
-						<<@at/>albedo.form name="${c.javaFieldId}" dictCode="${c.dictType}" cssClass="<#if !c.nullable>required</#if>" boxType="${c.showType}" value="<@jspEl />{(${className}.${c.javaFieldId})!}" > </<@at/>albedo.form>
+						<<@at/>albedo.form name="${c.javaFieldId}" dictCode="${c.dictType}" cssClass="<#if !c.nullable>required</#if>" boxType="${c.showType}" value="<@jspEl />{(${className}Vo.${c.javaFieldId})!}" > </<@at/>albedo.form>
 					<#elseif c.showType == "dateselect">
-						<div class="input-group date"><input type="text" name="${c.javaFieldId}" readonly class="form-control date-time-picker <#if !c.nullable>required</#if>" value="${"$"}{(${className}.${c.javaFieldId})!?string('yyyy-MM-dd HH:mm:ss')}"><span class="input-group-btn"><button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button></span></div>
+						<div class="input-group date"><input type="text" name="${c.javaFieldId}" readonly class="form-control date-time-picker <#if !c.nullable>required</#if>" value="${"$"}{(${className}Vo.${c.javaFieldId})!?string('yyyy-MM-dd HH:mm:ss')}"><span class="input-group-btn"><button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button></span></div>
 					<#elseif c.showType == "userselect">
-						<<@at/>albedo.treeSelect name="${c.simpleJavaField}Id" cssClass="<#if !c.nullable>required</#if>" allowClear="true" labelName="${c.javaFieldShowName}" value="<@jspEl />{(${className}.${c.simpleJavaField}Id)!}" labelValue="<@jspEl />{(${className}.${c.javaFieldName})!}"  
+						<<@at/>albedo.treeSelect name="${c.simpleJavaField}Id" cssClass="<#if !c.nullable>required</#if>" allowClear="true" labelName="${c.javaFieldShowName}" value="<@jspEl />{(${className}Vo.${c.simpleJavaField}Id)!}" labelValue="<@jspEl />{(${className}Vo.${c.javaFieldName})!}"
 						title="选择用户" url="<@jspEl/>{ctx}/sys/org/findTreeData?showType=3" notAllowSelectParent="true"> </<@at/>albedo.treeSelect>
 					<#elseif c.showType == "orgselect">
-						<<@at/>albedo.treeSelect name="${c.simpleJavaField}Id" cssClass="<#if !c.nullable>required</#if>" allowClear="true" labelName="${c.javaFieldShowName}" value="<@jspEl />{(${className}.${c.simpleJavaField}Id)!}" labelValue="<@jspEl />{(${className}.${c.javaFieldName})!}"  
+						<<@at/>albedo.treeSelect name="${c.simpleJavaField}Id" cssClass="<#if !c.nullable>required</#if>" allowClear="true" labelName="${c.javaFieldShowName}" value="<@jspEl />{(${className}Vo.${c.simpleJavaField}Id)!}" labelValue="<@jspEl />{(${className}Vo.${c.javaFieldName})!}"
 						title="选择部门" url="<@jspEl/>{ctx}/sys/org/findTreeData?showType=1" notAllowSelectParent="true"> </<@at/>albedo.treeSelect>
 					<#elseif c.showType == "areaselect">
-						<<@at/>albedo.treeSelect name="${c.simpleJavaField}Id" cssClass="<#if !c.nullable>required</#if>" allowClear="true" labelName="${c.javaFieldShowName}" value="<@jspEl />{(${className}.${c.simpleJavaField}Id)!}" labelValue="<@jspEl />{(${className}.${c.javaFieldName})!}"  
+						<<@at/>albedo.treeSelect name="${c.simpleJavaField}Id" cssClass="<#if !c.nullable>required</#if>" allowClear="true" labelName="${c.javaFieldShowName}" value="<@jspEl />{(${className}Vo.${c.simpleJavaField}Id)!}" labelValue="<@jspEl />{(${className}Vo.${c.javaFieldName})!}"
 						title="选择区域" url="<@jspEl/>{ctx}/sys/area/findTreeData" notAllowSelectParent="true"> </<@at/>albedo.treeSelect>
 					<#elseif c.showType == "fileselect">
-						<<@at/>albedo.fileInput name="${c.javaFieldId}" value="<@jspEl />{(${className}.${c.javaFieldId})!}" cssClass="<#if !c.nullable>required</#if>" type="files"> </<@at/>albedo.fileInput>
+						<<@at/>albedo.fileInput name="${c.javaFieldId}" value="<@jspEl />{(${className}Vo.${c.javaFieldId})!}" cssClass="<#if !c.nullable>required</#if>" type="files"> </<@at/>albedo.fileInput>
 					</#if>
 					</div>
 				</div>

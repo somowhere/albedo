@@ -32,12 +32,12 @@ public class PersistentTokenService {
     @Resource
     private PersistentTokenRepository persistentTokenRepository;
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PersistentToken findOne(String id) {
         return persistentTokenRepository.findOne(id);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Page<PersistentToken> findPage(PageModel<PersistentToken> pm, List<QueryCondition> queryConditions) {
         SpecificationDetail<PersistentToken> spec = DynamicSpecifications
                 .buildSpecification(pm.getQueryConditionJson(), queryConditions);

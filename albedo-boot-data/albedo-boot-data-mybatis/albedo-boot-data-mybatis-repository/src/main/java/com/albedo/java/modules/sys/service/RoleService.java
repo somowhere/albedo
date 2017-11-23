@@ -3,15 +3,14 @@ package com.albedo.java.modules.sys.service;
 import com.albedo.java.common.data.persistence.BaseEntity;
 import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.data.persistence.SpecificationDetail;
-import com.albedo.java.common.service.DataService;
+import com.albedo.java.common.service.DataVoService;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.repository.OrgRepository;
 import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
-import com.albedo.java.vo.sys.RoleForm;
-import com.albedo.java.vo.sys.RoleResult;
+import com.albedo.java.vo.sys.RoleVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,35 +23,26 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class RoleService extends DataService<RoleRepository, Role, String> {
+public class RoleService extends DataVoService<RoleRepository, Role, String, RoleVo> {
 
     @Resource
     OrgRepository orgRepository;
 
-
-    public RoleResult copyBeanToResult(Role role) {
-        RoleResult userResult = new RoleResult();
+    @Override
+    public RoleVo copyBeanToVo(Role role) {
+        RoleVo userResult = new RoleVo();
         BeanUtils.copyProperties(role, userResult);
-        if (role.getOrg() != null) userResult.setOrgName(role.getOrg().getName());
+        if (role.getOrg() != null) {
+            userResult.setOrgName(role.getOrg().getName());
+        }
         return userResult;
     }
 
-    public RoleForm copyBeanToForm(Role user) {
-        RoleForm userForm = new RoleForm();
-        BeanUtils.copyProperties(user, userForm);
-        return userForm;
-    }
-
-
-    public Role copyFormToBean(RoleForm userForm, Role user) {
-        BeanUtils.copyProperties(userForm, user);
-        return user;
-    }
-
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
     public PageModel<Role> findPage(PageModel<Role> pm, List<QueryCondition> authQueryConditions) {
         SpecificationDetail<Role> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
-                persistentClass,
+                getPersistentClass(),
                 QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
         spec.orAll(authQueryConditions);
 //		specificationDetail.setPersistentClass();
@@ -72,9 +62,10 @@ public class RoleService extends DataService<RoleRepository, Role, String> {
         return findAll(spd);
     }
 
-    public Role save(RoleForm roleForm) {
-        Role role = PublicUtil.isNotEmpty(roleForm.getId()) ? repository.findOneById(roleForm.getId()) : new Role();
-        copyFormToBean(roleForm, role);
+    @Override
+    public void save(RoleVo roleVo) {
+        Role role = PublicUtil.isNotEmpty(roleVo.getId()) ? repository.findOne(roleVo.getId()) : new Role();
+        copyVoToBean(roleVo, role);
         role = super.save(role);
         if (PublicUtil.isNotEmpty(role.getModuleIdList())) {
             repository.deleteRoleModules(role);
@@ -85,6 +76,5 @@ public class RoleService extends DataService<RoleRepository, Role, String> {
             repository.deleteRoleOrgs(role);
             repository.addRoleOrgs(role);
         }
-        return role;
     }
 }
