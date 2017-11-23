@@ -117,7 +117,13 @@ var albedo = {
     setCookie: function (key, value) {
         Cookies.set(key, value, {
             expires: 7,
-            path: ''
+            path: '/'
+        });
+    },
+    removeCookie: function (key) {
+        Cookies.set(key, null, {
+            expires: 0,
+            path: '/'
         });
     },
     getCookie: function (key) {
@@ -126,7 +132,7 @@ var albedo = {
     setUserCookie: function (key, value) {
         Cookies.set(key + userId, value, {
             expires: 7,
-            path: ''
+            path: '/'
         });
     },
     getUserCookie: function (key) {

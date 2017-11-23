@@ -34,12 +34,16 @@ public class AlbedoProperties {
     private final AlbedoProperties.Gateway gateway = new AlbedoProperties.Gateway();
     private final AlbedoProperties.Ribbon ribbon = new AlbedoProperties.Ribbon();
     private final AlbedoProperties.Registry registry = new AlbedoProperties.Registry();
+
     private String adminPath = "/a";
     private String frontPath = "/f";
     private String defaultView;
     private String application = "albedo";
     private String jedisKeyPrefix = "";
     private String urlSuffix = ".html";
+    private Boolean microModel = false;
+    private Boolean gatewayModel = false;
+    private String micorservice;
     private Boolean developMode = true;
     private Boolean testMode = true;
     private Boolean quartzEnabled = true;
@@ -47,8 +51,6 @@ public class AlbedoProperties {
     private Boolean cluster = false;
     private String freeURL = "";
     private String staticFileDirectory = "";
-    private String rsaPublicKey = "";
-    private String rsaPrivateKey = "";
 
     public String getAdminPath(String strs) {
         return PublicUtil.toAppendStr(adminPath, strs);

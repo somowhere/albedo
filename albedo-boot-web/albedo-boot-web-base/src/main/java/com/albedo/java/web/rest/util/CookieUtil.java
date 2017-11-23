@@ -72,7 +72,6 @@ public class CookieUtil {
         }
         response.addCookie(cookie);
     }
-
     /**
      * 获得指定Cookie的值
      *
@@ -82,7 +81,15 @@ public class CookieUtil {
     public static String getCookie(HttpServletRequest request, String name) {
         return getCookie(request, null, name, false);
     }
-
+    /**
+     * 删除指定Cookie的值，。
+     *
+     * @param name 名称
+     * @return 值
+     */
+    public static void removeCookie(HttpServletRequest request, HttpServletResponse response, String name) {
+        getCookie(request, response, name, true);
+    }
     /**
      * 获得指定Cookie的值，并删除。
      *
@@ -114,6 +121,7 @@ public class CookieUtil {
                         e.printStackTrace();
                     }
                     if (isRemove) {
+                        cookie.setValue(null);
                         cookie.setMaxAge(0);
                         response.addCookie(cookie);
                     }

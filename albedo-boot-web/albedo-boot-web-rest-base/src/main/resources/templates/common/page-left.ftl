@@ -52,7 +52,7 @@
                                             <li class="nav-item start">
                                                 <a href="#${(tempModule.hrefName)! }"
                                                    data-url-name="${(tempModule.hrefName)! }"
-                                                   data-url="${ctx }${(tempModule.href)! }" class="nav-link pageModal"
+                                                   data-url="<#if (gatewayModel)! && (tempModule.microservice)??>${basePath}/${tempModule.microservice}${(tempModule.href)! }<#else>${ctx }${(tempModule.href)! }</#if>" class="nav-link pageModal"
                                                    data-target="${(tempModule.target)!}">
                                                     <i class="icon-bar-chart" style="visibility: hidden;"></i>
                                                     <span class="title">${(tempModule.name)!}</span>

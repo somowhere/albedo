@@ -7,8 +7,10 @@ import com.albedo.java.util.annotation.SearchField;
 import com.albedo.java.util.domain.RequestMethod;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.collect.Sets;
+import lombok.Data;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -24,6 +26,7 @@ import java.util.Set;
 @DynamicInsert
 @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Data
 public class Module extends TreeEntity<Module> {
 
     public static final String F_ID = "id";
@@ -58,7 +61,9 @@ public class Module extends TreeEntity<Module> {
     /*** 针对顶层菜单，0 普通展示下级菜单， 1以树形结构展示 */
     @Column(name = "show_type")
     private String showType;
-
+    /*** 服务名称 */
+    @Column(name = "microservice_")
+    private String microservice;
     @ManyToMany(mappedBy = "modules", fetch = FetchType.LAZY)
     @Where(clause = "status_=0")
     @OrderBy("id")

@@ -1,13 +1,13 @@
 package com.albedo.java.common.config;
 
-import com.albedo.java.common.security.AuthoritiesConstants;
-import com.albedo.java.common.security.CustomizeAccessDecisionManager;
-import com.albedo.java.common.security.Http401UnauthorizedEntryPoint;
-import com.albedo.java.common.security.SecurityConstants;
+import com.albedo.java.common.base.BaseInit;
+import com.albedo.java.common.security.*;
 import com.albedo.java.common.security.jwt.JWTConfigurer;
 import com.albedo.java.common.security.jwt.TokenProvider;
 import com.albedo.java.common.security.service.InvocationSecurityMetadataSourceService;
+import com.albedo.java.util.JedisUtil;
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.domain.GlobalJedis;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,6 +36,7 @@ import javax.annotation.Resource;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@BaseInit
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Resource
@@ -130,6 +131,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
         return new SecurityEvaluationContextExtension();
+    }
+
+
+    public void afterPropertiesSet() {
+        SecurityUtil.clearUserJedisCache();
+        JedisUtil.removeSys(GlobalJedis.RESOURCE_MODULE_DATA_MAP);
+        invocationSecurityMetadataSourceService.getResourceMap();
     }
 
 }

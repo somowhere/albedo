@@ -40,7 +40,7 @@
                     </li>
                     <li class="separator"></li>
                     <li class="dropdown dropdown-extended quick-sidebar-toggler">
-                        <a class="logout" href="${ctx}/logout">退出</a>
+                        <a class="logout" href="javascript:void()" onclick="albedo.removeCookie(COOKIE_JWT_NAME);albedo.goTo('${ctx}/logout')">退出</a>
                     </li>
                 </ul>
             </div>

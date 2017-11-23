@@ -87,6 +87,8 @@ security:
 albedo:
     application: albedo
     adminPath: /api
+    micorservice: albedobootcloudmicro
+    microModel: true
     frontPath: /f
     defaultView: redirect:/swagger-ui/index.html
     staticFileDirectory: D:/temp/files/

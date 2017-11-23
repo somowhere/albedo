@@ -1,6 +1,6 @@
 package com.albedo.java.common.config.template;
 
-import com.albedo.java.common.base.BaseInit;
+import com.albedo.java.common.base.BaseInterface;
 import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.common.config.template.tag.CustomTags;
 import com.albedo.java.common.security.SecurityUtil;
@@ -21,8 +21,7 @@ import javax.annotation.PostConstruct;
 import java.util.Map;
 
 @Configuration
-@BaseInit
-public class FreeMarkerConfig {
+public class FreeMarkerConfig implements BaseInterface {
 
     private final Logger log = LoggerFactory.getLogger(FreeMarkerConfig.class);
 
@@ -80,12 +79,12 @@ public class FreeMarkerConfig {
         return null;
     }
 
-    public void afterPropertiesSet() {
+    @Override
+    public void init() {
         Map<String, Object> map = Maps.newHashMap();
         map.put(SecurityUtil.class.getSimpleName(), useStaticPackage(SecurityUtil.class));
         map.put(PublicUtil.class.getSimpleName(), useStaticPackage(PublicUtil.class));
         map.put(DictUtil.class.getSimpleName(), useStaticPackage(DictUtil.class));
         resolver.setAttributesMap(map);
     }
-
 }

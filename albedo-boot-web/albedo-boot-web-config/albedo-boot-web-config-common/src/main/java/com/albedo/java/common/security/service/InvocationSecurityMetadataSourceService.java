@@ -26,7 +26,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Component("invocationSecurityMetadataSourceService")
-@BaseInit
 public class InvocationSecurityMetadataSourceService
         implements FilterInvocationSecurityMetadataSource {
 
@@ -38,10 +37,6 @@ public class InvocationSecurityMetadataSourceService
     private Map<String, Collection<ConfigAttribute>> resourceMap = null;
     @Resource
     private ModuleRepository moduleRepository;
-
-    public void afterPropertiesSet() {
-        getResourceMap();
-    }
 
     public Map<String, Collection<ConfigAttribute>> getResourceMap() {
         if (resourceMap == null) {
@@ -134,6 +129,7 @@ public class InvocationSecurityMetadataSourceService
         String rqurl = request.getRequestURI();
 
         if (new AntPathRequestMatcher(albedoProperties.getAdminPath(SecurityConstants.loginUrl)).matches(request)
+                || new AntPathRequestMatcher(albedoProperties.getAdminPath(SecurityConstants.authLogin)).matches(request)
                 || new AntPathRequestMatcher(albedoProperties.getAdminPath(SecurityConstants.logoutUrl)).matches(request)) {
             return null;
         }

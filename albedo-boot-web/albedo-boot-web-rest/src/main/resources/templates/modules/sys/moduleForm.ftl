@@ -39,6 +39,14 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="control-label col-md-3">服务名称
+                        </label>
+                        <div class="col-md-5">
+                            <input type="text" name="microservice" value="${(moduleVo.microservice)! }" maxlength="64" data-required="1"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label col-md-3">类型<span class="required">*</span>
                         </label>
                         <div class="col-md-5">

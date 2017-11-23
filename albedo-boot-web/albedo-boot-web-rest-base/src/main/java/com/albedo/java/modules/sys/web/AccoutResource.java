@@ -69,7 +69,7 @@ public class AccoutResource extends BaseResource {
     /**
      * 登录成功，进入管理首页
      */
-    @RequestMapping(value = Globals.INDEX_URL)
+    @GetMapping(value = Globals.INDEX_URL)
     public String index(HttpServletRequest request, Model modele) {
         User user = SecurityUtil.getCurrentUser();
         if (PublicUtil.isEmpty(user.getId())) {
@@ -115,11 +115,12 @@ public class AccoutResource extends BaseResource {
     }
 
     @GetMapping(value = "logout")
-    public String logout(HttpServletRequest request) {
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
+        CookieUtil.removeCookie(request, response, SecurityConstants.AUTHORIZATION_HEADER);
         request.getSession().invalidate();
         if (albedoProperties.getHttp().getRestful() || RequestUtil.isRestfulRequest(request)) {
             writeJsonHttpResponse(ResultBuilder.buildFailed("退出登录成功"), response);

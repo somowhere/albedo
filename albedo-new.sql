@@ -4587,6 +4587,7 @@ CREATE TABLE `sys_module_t` (
   `parent_id` varchar(50) DEFAULT NULL COMMENT '父module的id',
   `parent_ids` varchar(2000) DEFAULT NULL,
   `type_` varchar(50) DEFAULT NULL COMMENT '模块类型  0 菜单模块 1权限模块',
+  `microservice_` varchar(50) DEFAULT NULL COMMENT 'cloud服务名称',
   `permission_` varchar(500) DEFAULT NULL COMMENT '权限标识',
   `sort_` int(11) DEFAULT '0' COMMENT '排序',
   `target_` varchar(255) DEFAULT NULL,

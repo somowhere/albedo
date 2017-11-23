@@ -109,6 +109,7 @@ albedo:
     application: albedoBootCloudGateway
     adminPath: /a
     frontPath: /f
+    gatewayModel: true
     defaultView:
     staticFileDirectory: D:/temp/files/
     urlSuffix: html

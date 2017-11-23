@@ -73,12 +73,16 @@ spring:
         expose-spring-macro-helpers:  true
         #prefix:
         suffix: .ftl
-        template-loader-path: classpath:/WEB-INF/views/,/WEB-INF/views/ #/WEB-INF/views/
+        prefer-file-system-access: false
+        template-loader-path: /templates,classpath:/templates
     redis :
       password : 111111
       sentinel :
         nodes : localhost:7005
         master : master
+    web:
+        root:
+            prefix: albedo-boot-ui/
 
 server:
     port: 8070

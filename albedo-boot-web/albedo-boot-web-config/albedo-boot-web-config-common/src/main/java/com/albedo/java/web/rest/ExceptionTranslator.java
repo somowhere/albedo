@@ -85,6 +85,7 @@ public class ExceptionTranslator {
 
         if (albedoProperties.getHttp().getRestful() || RequestUtil.isRestfulRequest(request)) {
             GeneralResource.writeJsonHttpResponse(message, response);
+            return null;
         } else {
             if (e instanceof BindException) {
                 return "tip/400";
@@ -106,9 +107,9 @@ public class ExceptionTranslator {
                 request.setAttribute(GeneralResource.MSG, message.readMessages());
                 request.setAttribute(GeneralResource.MSG_TYPE, message.getStatus());
             }
-            return "tip/500";
+            return "error";
         }
-        return null;
+
     }
 
 }

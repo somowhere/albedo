@@ -86,7 +86,6 @@ public class TokenProvider {
 
     public boolean validateToken(String authToken) {
         try {
-            log.info("authToken {}", authToken);
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException e) {

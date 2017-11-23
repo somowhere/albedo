@@ -1,7 +1,9 @@
 package com.albedo.java.common.config;
 
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.web.filter.PageInitParamFilter;
 import com.albedo.java.web.interceptor.OperateInterceptor;
+import com.albedo.java.web.listener.ContextInitListener;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.servlet.InstrumentedFilter;
 import com.codahale.metrics.servlets.MetricsServlet;
@@ -59,10 +61,8 @@ public class WebConfigurer  extends WebMvcConfigurerAdapter implements ServletCo
             log.info("Web application configuration, using profiles: {}", (Object[]) env.getActiveProfiles());
         }
         EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
+        initPageInitParamFilter(servletContext, disps);
         initMetrics(servletContext, disps);
-//        if (env.acceptsProfiles(Globals.SPRING_PROFILE_DEVELOPMENT)) {
-//            initH2Console(servletContext);
-//        }
         log.info("Web application fully configured");
     }
 
@@ -91,7 +91,18 @@ public class WebConfigurer  extends WebMvcConfigurerAdapter implements ServletCo
                     builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true));
         }
     }
-
+    /**
+     * Initializes the Page Init Params Filter.
+     */
+    private void initPageInitParamFilter(ServletContext servletContext, EnumSet<DispatcherType> disps) {
+        log.debug("Registering PageInitParamFilter");
+        FilterRegistration.Dynamic pageInitParamFilter = servletContext.addFilter(
+                "pageInitParamFilter",
+                new PageInitParamFilter());
+        pageInitParamFilter.addMappingForUrlPatterns(disps, true,
+                albedoProperties.getAdminPath("/*"));
+        pageInitParamFilter.setAsyncSupported(true);
+    }
     /**
      * Initializes Metrics.
      */
@@ -143,8 +154,8 @@ public class WebConfigurer  extends WebMvcConfigurerAdapter implements ServletCo
     }
 
     @Bean
-    public RequestContextListener requestContextListener(){
-        return new RequestContextListener();
+    public ContextInitListener contextInitListener() {
+        return new ContextInitListener();
     }
 
     /**

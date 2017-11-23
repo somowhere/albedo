@@ -20,12 +20,15 @@ public class PageInitParamFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String basePath = PublicUtil.toAppendStr(request.getScheme(), "://", request.getServerName(), ":", request.getServerPort(), request.getContextPath());
+        AlbedoProperties albedoProperties = SpringContextHolder.getBean(AlbedoProperties.class);
+        String basePath =  albedoProperties.getMicroModel() ? "" : PublicUtil.toAppendStr(request.getScheme(), "://", request.getServerName(), ":", request.getServerPort(), request.getContextPath());
         request.setAttribute("basePath", basePath);
-        String adminPath = SpringContextHolder.getBean(AlbedoProperties.class).getAdminPath();
-        request.setAttribute("ctx", PublicUtil.toAppendStr(basePath, adminPath));
+        String adminPath = albedoProperties.getAdminPath();
+        request.setAttribute("ctx", PublicUtil.toAppendStr(basePath, albedoProperties.getMicroModel() ? albedoProperties.getMicorservice() : "" + adminPath));
+        request.setAttribute("gatewayModel", albedoProperties.getGatewayModel());
         request.setAttribute("assets", PublicUtil.toAppendStr(basePath, "/statics/assets"));
         request.setAttribute("ctxStatic", PublicUtil.toAppendStr(basePath, "/statics/frame"));
+        request.setAttribute("application", albedoProperties.getApplication());
         HttpSession session = request.getSession();
         if (session.getAttribute("moduleList") == null && PublicUtil.isNotEmpty(SecurityUtil.getCurrentUserId())) {
             session.setAttribute("moduleList", SecurityUtil.getModuleList());
