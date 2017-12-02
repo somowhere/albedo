@@ -4,7 +4,6 @@ import com.albedo.java.vo.base.TreeEntityVo;
 import lombok.Data;
 import lombok.ToString;
 
-import javax.persistence.Column;
 
 /**
  * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午4:29:21
