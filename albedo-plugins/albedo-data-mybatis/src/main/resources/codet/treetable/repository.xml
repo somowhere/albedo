@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>service</name>
+	<filePath>src/main/java/${packageName}/${moduleName}/repository/${subModuleName}</filePath>
+	<fileName>${ClassName}Repository.java</fileName>
+	<content><![CDATA[
+/**
+ * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
+ */
+package ${packageName}.${moduleName}.repository<#if subModuleName != "">.${subModuleName}</#if>;
+
+import com.albedo.java.common.persistence.repository.TreeRepository;
+import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
+
+import java.util.List;
+
+/**
+ * ${functionName}Repository ${functionNameSimple}
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+public interface ${ClassName}Repository extends TreeRepository<${ClassName}> {
+
+
+}
+]]>
+	</content>
+</template>

@@ -1,0 +1,4 @@
+# 加解密根密码
+jasypt:
+  encryptor:
+    password: albedo #根密码

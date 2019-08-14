@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>albedo-common</artifactId>
+		<groupId>com.albedo.java</groupId>
+		<version>2.0.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>albedo-common-module</artifactId>
+
+	<properties>
+		<!-- Overridden to get metrics-jcache -->
+		<dropwizard-metrics.version>3.2.6</dropwizard-metrics.version>
+		<metrics-spring.version>3.1.3</metrics-spring.version>
+	</properties>
+	<dependencies>
+		<!--工具类核心包-->
+		<dependency>
+			<groupId>com.albedo.java</groupId>
+			<artifactId>albedo-common-api</artifactId>
+			<version>${project.release.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!--mybatis-->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
+			<version>${mybatis-plus.version}</version>
+		</dependency>
+	</dependencies>
+
+</project>

@@ -1,0 +1,150 @@
+// 全局变量
+@import './variables.scss';
+// ele样式覆盖
+@import './element-ui.scss';
+// 顶部右侧显示
+@import './top.scss';
+// 导航标签
+@import './tags.scss';
+// 工具类函数
+@import './mixin.scss';
+// 侧面导航栏
+@import './sidebar.scss';
+// 动画
+@import './animate/vue-transition.scss';
+//适配
+@import './media.scss';
+//通用配置
+@import './normalize.scss';
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+* {
+  outline: none;
+}
+
+.box-card .card-heard-btn {
+  float: right;
+  padding: 0px 3px;
+}
+
+.pull-right {
+  float: right !important;;
+}
+
+.pull-left {
+  float: left !important;
+}
+
+.pull-center {
+  text-align: center;
+}
+
+.pull-flex {
+  display: flex;
+}
+
+.pull-overflow {
+  overflow: hidden;
+}
+
+.pull-auto {
+  height: auto;
+  overflow: hidden;
+}
+
+.pull-height {
+  height: 100%;
+  overflow: hidden;
+}
+
+.pull-fixed {
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.pagination-container {
+  margin-top: 10px;
+}
+
+.table-menu {
+  position: relative;
+  width: 100%;
+  min-height: 40px;
+  height: auto;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.table-menu-left {
+  position: absolute;
+  height: auto;
+  overflow: hidden;
+  left: 0;
+}
+
+.table-menu-right {
+  position: absolute;
+  height: auto;
+  overflow: hidden;
+  right: 0;
+}
+
+.avue-view .el-table th {
+  word-break: break-word;
+  color: rgba(0, 0, 0, .85);
+  background-color: #fafafa;
+}
+
+.icon_lists {
+  //width: 100% !important;
+  overflow: hidden;
+}
+
+.icon_lists li {
+  float: left;
+  width: 100px;
+  height: 180px;
+  text-align: center;
+  list-style: none !important;
+}
+
+.icon_lists .icon {
+  font-size: 42px;
+  line-height: 100px;
+  margin: 10px 0;
+  color: #333;
+  -webkit-transition: font-size 0.25s ease-out 0s;
+  -moz-transition: font-size 0.25s ease-out 0s;
+  transition: font-size 0.25s ease-out 0s;
+
+}
+
+.icon_lists .icon:hover {
+  font-size: 100px;
+}
+
+.el-table {
+  margin-bottom: 20px;
+}
+
+.el-table-padding td {
+  padding-right: 8px;
+}
+
+.el-dropdown-link {
+  cursor: pointer;
+  color: #409eff;
+}
+
+.el-button--mini [class^="icon-"], .el-button--small [class^="icon-"] {
+  font-size: 12px !important;
+}

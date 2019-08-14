@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>entity</name>
+	<filePath>src/main/java/${packageName}/${moduleName}/domain/${subModuleName}</filePath>
+	<fileName>${ClassName}.java</fileName>
+	<content><![CDATA[
+/**
+ * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
+ */
+package ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>;
+
+import lombok.*;
+<#list table.importList as i>
+import ${i};
+</#list>
+
+
+import javax.validation.constraints.*;
+
+/**
+ * ${functionName}Entity ${functionNameSimple}
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@TableName(value = "${table.name}")
+@Data @ToString @NoArgsConstructor @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class ${ClassName} extends IdEntity<${ClassName}> {
+
+	private static final long serialVersionUID = 1L;
+	<#list table.columnList as column>
+		<#if !column.pk && column.isNotBaseField>
+	/** F_${column.constantJavaField} ${column.nameAndTitle} */
+	public static final String F_${column.constantJavaField} = "${column.simpleJavaField}";
+	/** F_SQL_${column.constantJavaField} ${column.nameAndTitle} */
+	public static final String F_SQL_${column.constantJavaField} = "${column.name}";
+		</#if>
+	</#list>
+
+	<@generateFields/>
+
+	@Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+}
+<#macro generateFields>
+	//columns START
+	<#list table.columnList as column>
+		<#if !column.pk && column.isNotBaseField>
+	/** ${column.simpleJavaField} ${column.title} */<#if table.parentExists && table.parentTableFk == column.name>
+	@ManyToOne(name = "${table.parentTableFk}")
+	@TableField(exist = false)
+	private ${table.parent.className} ${column.simpleJavaField};
+	<#elseif column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
+	@TableField(${ClassName}.F_SQL_${column.constantJavaField})
+	private String ${column.simpleJavaField}Id;
+    @ManyToOne(name = ${ClassName}.F_SQL_${column.constantJavaField})
+	@TableField(exist = false)
+	private ${column.simpleJavaType} ${column.simpleJavaField};
+	<#else>${column.hibernateValidatorExprssion}@TableField("${column.name}")<#if column.unique>@SearchField</#if><#if column.dictType?? && column.dictType != "">@DictType("${column.dictType}")</#if>
+	private ${column.simpleJavaType} ${column.simpleJavaField};
+			</#if>
+		</#if>
+	</#list>
+	<#list table.childList as c>
+	@TableField(exist = false)
+	private List<${c.className}> ${c.className?uncap_first}List = Lists.newArrayList();
+	</#list>
+	//columns END
+</#macro>
+<#macro generateCompositeIdConstructorIfis>
+
+	<#if table.compositeId>
+	public ${ClassName}(${ClassName}Id id) {
+		this.id = id;
+	}
+	<#else>
+	public ${ClassName}(${table.pkJavaType} id) {
+		this.id = id;
+	}
+	</#if>
+</#macro>
+<#macro generatePkProperties>
+	<#if table.compositeId>
+	public ${ClassName}Id getId() {
+		return this.id;
+	}
+
+	public void setId(${ClassName}Id id) {
+		if (PublicUtil.isNotEmpty(id))this.id = id;
+	}
+	<#else>
+	/** ${table.pkColumn.simpleJavaField} ${table.pkColumn.comments} */
+	public void setId(${table.pkColumn.javaType} id) {
+		if (PublicUtil.isNotEmpty(id)){this.id = id;}
+	}
+	/** ${table.pkColumn.simpleJavaField} ${table.pkColumn.comments} */
+	public ${table.pkColumn.javaType} getId() {
+		return this.id;
+	}
+	</#if>
+
+</#macro>
+
+<#macro generateNotPkProperties>
+	<#list table.columnList as column>
+		<#if !column.pk && column.isNotBaseField>
+			<#if table.parentExists && table.parentTableFk == column.name>
+	/** ${column.simpleJavaField} ${column.title} */
+	public ${table.parent.className} get${column.simpleJavaField?cap_first}() {
+		return ${column.simpleJavaField};
+	}
+	/** ${column.simpleJavaField} ${column.title} */
+	public void set${column.simpleJavaField?cap_first}(${table.parent.className} ${column.simpleJavaField}) {
+		this.${column.simpleJavaField} = ${column.simpleJavaField};
+	}
+			<#else>
+	/** ${column.simpleJavaField} ${column.title} */
+	public ${column.javaType} get${column.simpleJavaField?cap_first}() {
+		return this.${column.simpleJavaField};
+	}
+	/** ${column.simpleJavaField} ${column.title} */
+	public void set${column.simpleJavaField?cap_first}(${column.javaType} value) {
+		this.${column.simpleJavaField} = value;
+	}
+			</#if>
+			<#if column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
+	/** ${column.simpleJavaField} ${column.title} */
+	public String get${column.simpleJavaField?cap_first}Id() {
+		return this.${column.simpleJavaField}Id;
+	}
+	/** ${column.simpleJavaField} ${column.title} */
+	public void set${column.simpleJavaField?cap_first}Id(String value) {
+		this.${column.simpleJavaField}Id = value;
+	}
+			</#if>
+		</#if>
+	</#list>
+	<#list table.childList as table>
+	public List<${table.className}> get${table.className}List() {
+		return ${table.className?uncap_first}List;
+	}
+
+	public void set${table.className}List(List<${table.className}> ${table.className?uncap_first}List) {
+		this.${table.className?uncap_first}List = ${table.className?uncap_first}List;
+	}
+	</#list>
+</#macro>
+]]>
+	</content>
+</template>

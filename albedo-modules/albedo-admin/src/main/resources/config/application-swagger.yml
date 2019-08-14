@@ -1,0 +1,17 @@
+# ===================================================================
+# Albedo specific properties
+# ===================================================================
+
+application:
+  swagger:
+    default-include-pattern: /.*
+    title: ${spring.application.name} API
+    description: ${spring.application.name} API documentation
+    version: 0.0.1
+    termsOfServiceUrl:
+    contactName:
+    contactUrl:
+    contactEmail:
+    license:
+    licenseUrl:
+    oauthServer: /auth/oauth/token

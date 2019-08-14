@@ -1,0 +1,28 @@
+ls.DS_Store
+node_modules
+/dist
+
+/tests/e2e/videos/
+/tests/e2e/screenshots/
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.logOperate*
+yarn-debug.logOperate*
+yarn-error.logOperate*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*
+
+# Lock File
+package-lock.json
+yarn.lock

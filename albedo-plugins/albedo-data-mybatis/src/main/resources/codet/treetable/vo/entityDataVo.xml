@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>entityForm</name>
+	<filePath>src/main/java/${packageName}/${moduleName}/domain/vo/${subModuleName}</filePath>
+	<fileName>${ClassName}DataVo.java</fileName>
+	<content><![CDATA[
+/**
+ * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
+ */
+package ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>;
+
+import com.albedo.java.common.core.vo.TreeEntityVo;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+
+import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+/**
+ * ${functionName}Entity ${functionNameSimple}
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@Data @ToString @NoArgsConstructor @AllArgsConstructor
+public class ${ClassName}DataVo extends TreeEntityVo {
+
+	private static final long serialVersionUID = 1L;
+	<#list table.columnList as column>
+		<#if !column.pk && column.isNotBaseField && column.isNotBaseTreeField>
+	/** F_${column.constantJavaField} ${column.nameAndTitle} */
+	public static final String F_${column.constantJavaField} = "${column.simpleJavaField}";
+		</#if>
+	</#list>
+
+	<@generateFields/>
+}
+<#macro generateFields>
+	//columns START
+	<#list table.columnList as column>
+		<#if !column.pk && column.isNotBaseField && column.isNotBaseTreeField>
+	/** ${column.simpleJavaField} ${column.title} */
+	        <#if table.parentExists && table.parentTableFk == column.name>
+	private ${table.parent.className} ${column.simpleJavaField};
+	        <#elseif column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
+	private String ${column.simpleJavaField}Id;
+	private ${column.simpleJavaType} ${column.simpleJavaField};
+	        <#else> ${column.hibernateValidatorExprssion}
+	private ${column.simpleJavaType} ${column.simpleJavaField};
+			</#if>
+		</#if>
+	</#list>
+	//columns END
+</#macro>
+
+]]>
+	</content>
+</template>

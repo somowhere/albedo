@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.albedo.java.modules.gen.repository.SchemeRepository">
+
+	<select id="getSchemeVoPage" resultType="com.albedo.java.modules.gen.domain.vo.SchemeVo">
+		SELECT
+		a.id AS `id`,
+		a.NAME AS `name`,
+		a.category AS `category`,
+		a.view_type AS `viewType`,
+		a.package_name AS `packageName`,
+		a.module_name AS `moduleName`,
+		a.sub_module_name AS `subModuleName`,
+		a.function_name AS `functionName`,
+		a.function_name_simple AS `functionNameSimple`,
+		a.function_author AS `functionAuthor`,
+		a.gen_table_id AS `tableId`,
+		a.created_by AS `createdBy`,
+		a.created_date AS `createdDate`,
+		a.last_modified_by AS `lastModifiedBy`,
+		a.last_modified_date AS `lastModifiedDate`,
+		a.version AS `version`,
+		a.description AS `description`,
+		a.del_flag AS `delFlag`,
+		b.NAME AS `tableName`
+		FROM
+		gen_scheme a
+		INNER JOIN gen_table b ON a.gen_table_id = b.id
+		<where>
+			${ew.sqlSegment}
+		</where>
+	</select>
+</mapper>

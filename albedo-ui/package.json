@@ -1,0 +1,44 @@
+{
+  "name": "albedo-ui",
+  "version": "2.3.01",
+  "private": true,
+  "scripts": {
+    "pre": "yarn --registry https://registry.npm.taobao.org || npm install --registry https://registry.npm.taobao.org ",
+    "dev": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@smallwei/avue": "^1.6.0",
+    "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
+    "classlist-polyfill": "^1.2.0",
+    "element-ui": "^2.4.11",
+    "js-cookie": "^2.2.0",
+    "nprogress": "^0.2.0",
+    "script-loader": "^0.7.2",
+    "vue": "^2.5.16",
+    "vue-axios": "^2.1.2",
+    "vue-router": "^3.0.2",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.1.1",
+    "@vue/cli-plugin-eslint": "^3.1.5",
+    "@vue/cli-service": "^3.1.4",
+    "chai": "^4.1.2",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.0.1",
+    "vue-template-compiler": "^2.5.17"
+  },
+  "lint-staged": {
+    "*.js": [
+      "vue-cli-service lint",
+      "git add"
+    ],
+    "*.vue": [
+      "vue-cli-service lint",
+      "git add"
+    ]
+  }
+}

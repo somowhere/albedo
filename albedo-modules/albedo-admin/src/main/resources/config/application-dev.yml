@@ -1,0 +1,46 @@
+logging:
+  level:
+    ROOT: ${logback.loglevel}
+    com.albedo.java: DEBUG
+server:
+  port: 8061
+  servlet:
+    session:
+      timeout: 30m
+
+spring:
+  profiles:
+    active: dev
+    include:
+      - swagger
+  #      - jwt
+  redis:
+    password:
+    host: albedo-redis
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 111111
+    url: jdbc:mysql://albedo-mysql:3306/albedo?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowMultiQueries=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+  web:
+    root:
+      prefix: albedo-ui/dist/
+
+
+
+
+
+# ===================================================================
+# Albedo specific properties
+# ===================================================================
+
+application:
+  developMode: true
+  security:
+    authentication:
+      jwt:
+        secret: albedo-admin-token
+        # Token is valid 24 hours
+        token-validity-in-seconds: 300
+        token-validity-in-seconds-for-remember-me: 2592000

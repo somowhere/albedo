@@ -1,0 +1,28 @@
+package com.albedo.java.common.security.handler;
+
+import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.util.SpringContextHolder;
+import com.albedo.java.common.core.util.WebUtil;
+import com.albedo.java.common.log.event.SysUserOnlineEvent;
+import com.albedo.java.common.security.util.LoginUtil;
+import com.albedo.java.modules.sys.domain.UserOnline;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Spring Security success handler, specialized for Ajax requests.
+ */
+public class AjaxAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
+	@Override
+	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+										Authentication authentication) {
+		response.setStatus(HttpServletResponse.SC_OK);
+		UserOnline userOnline = LoginUtil.getUserOnline(authentication);
+		SpringContextHolder.publishEvent(new SysUserOnlineEvent(userOnline));
+		WebUtil.renderJson(response, R.buildOk("登录成功"));
+	}
+}

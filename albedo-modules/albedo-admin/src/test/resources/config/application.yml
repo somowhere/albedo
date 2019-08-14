@@ -1,0 +1,67 @@
+# 加解密根密码
+jasypt:
+  encryptor:
+    password: albedo #根密码
+
+# Spring 相关
+spring:
+  profiles:
+    active: dev
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 111111
+    url: jdbc:mysql://albedo-mysql:3306/albedo-cloud?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowMultiQueries=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+  redis:
+    password:
+    host: albedo-redis
+
+
+# mybaits-plus配置
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*/*Mapper.xml
+  global-config:
+    banner: false
+    db-config:
+      id-type: UUID
+      table-underline: true
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      insert-strategy: NOT_NULL
+      update-strategy: NOT_NULL
+  configuration:
+    map-underscore-to-camel-case: true
+# ===================================================================
+# Albedo specific properties
+# ===================================================================
+
+application:
+  adminPath: /a
+  base-class-path: com.albedo.java
+  address-enabled: true
+  log-path: target/.logs
+  static-file-directory: D:/albedo-file
+  cors: #By default CORS are not enabled. Uncomment to enable.
+    allowed-origins: "*"
+    allowed-methods: "*"
+    allowed-headers: "*"
+    exposed-headers: "Authorization,Link,X-Total-Count"
+    allow-credentials: true
+    max-age: 1800
+  http:
+    version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
+  security:
+    # 前端密码密钥，必须16位
+    encode-key: 'somewhere-albedo'
+    remember-me:
+      key: albedo-admin
+    authorize:
+      - ${application.adminPath}/**
+    authorize-permit-all:
+      - ${application.adminPath}/code/**
+      - /management/health
+      - /v2/api-docs/**
+      - /swagger-resources/configuration/ui
+      - /swagger-ui.html
+

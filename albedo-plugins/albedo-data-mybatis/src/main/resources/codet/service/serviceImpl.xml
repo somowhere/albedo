@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>service</name>
+	<filePath>src/main/java/${packageName}/${moduleName}/service/${subModuleName}/impl</filePath>
+	<fileName>${ClassName}ServiceImpl.java</fileName>
+	<content><![CDATA[
+/**
+ * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
+ */
+package ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.impl;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.albedo.java.common.persistence.service.impl.DataVoServiceImpl;
+import ${packageName}.${moduleName}.service.${ClassName}Service;
+import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
+import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}DataVo;
+<#if (table.compositeId)!>
+import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Id;
+</#if>
+import ${packageName}.${moduleName}.repository.${ClassName}Repository;
+
+/**
+ * ${functionName}ServiceImpl ${functionNameSimple}
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@Service
+@Transactional(rollbackFor = Exception.class)
+public class ${ClassName}ServiceImpl extends DataVoServiceImpl<${ClassName}Repository, ${ClassName}, String, ${ClassName}DataVo> implements ${ClassName}Service{
+
+}
+]]>
+	</content>
+</template>

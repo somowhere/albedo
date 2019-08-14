@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>viewComponentTs</name>
+	<filePath>src/views/${moduleName}/${subModuleName}/${classNameUrl}</filePath>
+	<fileName>service.js</fileName>
+	<content><![CDATA[
+
+import request from '@/router/axios';
+import {isValidateUnique, toStr} from "@/util/validate";
+
+export function page${ClassName}(query) {
+  return request({
+    url: '/${urlPrefix}/',
+    method: 'get',
+    params: query
+  })
+}
+
+export function save${ClassName}(obj) {
+  return request({
+    url: '/${urlPrefix}/',
+    method: 'post',
+    data: obj
+  })
+}
+
+export function find${ClassName}(id) {
+  return request({
+    url: '/${urlPrefix}/' + id,
+    method: 'get'
+  })
+}
+
+export function remove${ClassName}(id) {
+  return request({
+    url: '/${urlPrefix}/' + id,
+    method: 'delete'
+  })
+}
+
+export function validateUnique${ClassName}(rule, value, callback, id) {
+  isValidateUnique(rule, value, callback, '/${urlPrefix}/checkByProperty?id='+toStr(id))
+}
+]]>
+	</content>
+</template>

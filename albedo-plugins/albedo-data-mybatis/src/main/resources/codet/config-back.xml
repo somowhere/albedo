@@ -1,0 +1,103 @@
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<config>-->
+<!--&lt;!&ndash; 生成分类 &ndash;&gt;-->
+<!--<category>-->
+<!--<category val="curd" name="增删改查（单表）">-->
+<!--<template>category-ref:curd_modal</template>-->
+<!--<template>curd/viewFormComponentHtml.xml</template>-->
+<!--<template>curd/viewFormComponentTs.xml</template>-->
+<!--</category>-->
+<!--<category val="curd_modal" name="增删改查（单表）弹窗">-->
+<!--<template>curd/web.xml</template>-->
+<!--<template>curd/resourceIntTest.xml</template>-->
+<!--<template>category-ref:service</template>-->
+<!--<template>curd/viewModelTs.xml</template>-->
+<!--<template>curd/viewServiceTs.xml</template>-->
+<!--<template>curd/viewComponentHtml.xml</template>-->
+<!--<template>curd/viewComponentTs.xml</template>-->
+<!--<template>curd/viewModuleTs.xml</template>-->
+<!--</category>-->
+<!--<category val="curd_many" name="增删改查（一对多）">-->
+<!--<template>curd/web.xml</template>-->
+<!--<template>service/serviceMany.xml</template>-->
+<!--<template>category-ref:entity</template>-->
+<!--<template>curd/viewFormMany.xml</template>-->
+<!--<template>curd/viewList.xml</template>-->
+<!--<childTable>-->
+<!--<template>category-ref:service</template>-->
+<!--</childTable>-->
+<!--</category>-->
+<!--<category val="service" name="仅持久层（service/entity）">-->
+<!--<template>service/repository.xml</template>-->
+<!--<template>service/serviceImpl.xml</template>-->
+<!--<template>category-ref:entity</template>-->
+<!--</category>-->
+<!--<category val="entity" name="数据层（entity）">-->
+<!--<template>entity/vo/entityDataVo.xml</template>-->
+<!--&lt;!&ndash;<template>entity/entityId.xml</template>&ndash;&gt;-->
+<!--<template>entity/entity.xml</template>-->
+<!--</category>-->
+<!--<category val="treeTable" name="树结构表（一体）">-->
+<!--<template>category-ref:treeTable_modal</template>-->
+<!--<template>treetable/viewFormComponentHtml.xml</template>-->
+<!--<template>treetable/viewFormComponentTs.xml</template>-->
+<!--</category>-->
+<!--<category val="treeTable_modal" name="树结构表（一体）弹窗">-->
+<!--<template>treetable/web.xml</template>-->
+<!--<template>treetable/resourceIntTest.xml</template>-->
+<!--<template>treetable/repository.xml</template>-->
+<!--<template>treetable/serviceImpl.xml</template>-->
+<!--<template>treetable/vo/entityDataVo.xml</template>-->
+<!--<template>treetable/entity.xml</template>-->
+<!--<template>treetable/viewModelTs.xml</template>-->
+<!--<template>treetable/viewServiceTs.xml</template>-->
+<!--<template>treetable/viewComponentHtml.xml</template>-->
+<!--<template>treetable/viewComponentTs.xml</template>-->
+<!--<template>treetable/viewModuleTs.xml</template>-->
+<!--</category>-->
+<!--</category>-->
+<!--&lt;!&ndash; java类型 &ndash;&gt;-->
+<!--<javaType>-->
+<!--<dict val="String" name="String"/>-->
+<!--<dict val="Long" name="Long"/>-->
+<!--<dict val="Integer" name="Integer"/>-->
+<!--<dict val="Double" name="Double"/>-->
+<!--<dict val="java.util.Date" name="Date"/>-->
+<!--<dict val="com.albedo.java.modules.sys.domain.User" name="User"/>-->
+<!--<dict val="com.albedo.java.modules.sys.domain.Org" name="Org"/>-->
+<!--<dict val="com.albedo.java.modules.sys.domain.Area" name="Area"/>-->
+<!--<dict val="This" name="ThisObj" description="生成当前对象"/>-->
+<!--<dict val="Custom" name="Custom" description="自定义对象，生成后手动设置"/>-->
+<!--</javaType>-->
+<!--&lt;!&ndash; 查询类型 &ndash;&gt;-->
+<!--<queryType>-->
+<!--<dict val="eq" name="="/>-->
+<!--<dict val="ne" name="!="/>-->
+<!--<dict val="gt" name="&gt;"/>-->
+<!--<dict val="ge" name="&gt;="/>-->
+<!--<dict val="lt" name="&lt;"/>-->
+<!--<dict val="le" name="&lt;="/>-->
+<!--<dict val="like" name="like"/>-->
+<!--<dict val="in" name="in"/>-->
+<!--<dict val="between" name="between"/>-->
+<!--</queryType>-->
+<!--&lt;!&ndash; 字段显示类型 &ndash;&gt;-->
+<!--<showType>-->
+<!--<dict val="input" name="单行文本"/>-->
+<!--<dict val="textarea" name="多行文本"/>-->
+<!--<dict val="select" name="下拉选项"/>-->
+<!--<dict val="radio" name="单选按钮"/>-->
+<!--<dict val="checkbox" name="复选框"/>-->
+<!--<dict val="dateselect" name="日期选择"/>-->
+<!--<dict val="userselect" name="人员选择"/>-->
+<!--<dict val="orgselect" name="部门选择"/>-->
+<!--<dict val="areaselect" name="区域选择"/>-->
+<!--<dict val="treeselect" name="树选择控件"/>-->
+<!--<dict val="fileselect" name="文件上传选择"/>-->
+<!--</showType>-->
+
+<!--<viewType>-->
+<!--<dict val="0" name="普通视图"/>-->
+<!--<dict val="1" name="弹窗视图"/>-->
+<!--</viewType>-->
+<!--</config>-->

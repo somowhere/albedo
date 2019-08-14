@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>entityId</name>
+	<filePath>src/main/java/${packageName}/${moduleName}/domain/${subModuleName}</filePath>
+	<fileName>${ClassName}Id.java</fileName>
+	<content><![CDATA[
+/**
+ * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
+ */
+package ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>;
+
+<#list table.importList as i>
+import ${i};
+</#list>
+
+import java.io.Serializable;
+
+/**
+ * ${functionName}Entity ${functionNameSimple}
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@Embeddable
+public class ${ClassName}Id implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+<#list table.columnList as column>
+	<#if column.pk>
+	@Column(name = "${column.name}"<#if column.javaType = 'String'>, length = ${column.size}</#if>)
+	private ${column.javaType} ${column.simpleJavaField};
+	</#if>
+</#list>
+	public ${ClassName}Id(){
+	}
+
+<#list table.columnList as column>
+	<#if column.pk>
+	public void set${column.simpleJavaField?cap_first}(${column.javaType} value) {
+		this.${column.simpleJavaField} = value;
+	}
+
+	public ${column.javaType} get${column.simpleJavaField?cap_first}() {
+		return this.${column.simpleJavaField};
+	}
+	</#if>
+</#list>
+
+
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public int hashCode() {
+		return HashCodeBuilder.reflectionHashCode(this);
+	}
+
+	public boolean equals(Object other) {
+		return EqualsBuilder.reflectionEquals(this, other);
+	}
+}]]>
+	</content>
+</template>

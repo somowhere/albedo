@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>viewComponentHtml</name>
+	<filePath>src/views/${moduleName}/${subModuleName}/${classNameUrl}</filePath>
+	<fileName>index.vue</fileName>
+	<content><![CDATA[
+
+<template>
+  <div class="app-container calendar-list-container">
+    <basic-container>
+    <el-row :gutter="20">
+      <el-col :span="5">
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+            <span>${functionNameSimple}</span>
+            <el-button type="text" class="card-heard-btn" icon="icon-filesearch" title="搜索" @click="searchTree=(searchTree ? false:true)"></el-button>
+            <el-button type="text" class="card-heard-btn" icon="icon-reload" title="刷新" @click="get${ClassName}Tree()"></el-button>
+          </div>
+          <el-input v-show="searchTree"
+            placeholder="输入关键字进行过滤"
+            v-model="filterTree${ClassName}Text">
+          </el-input>
+          <el-tree
+            class="filter-tree"
+            :data="tree${ClassName}Data"
+            ref="left${ClassName}Tree"
+            node-key="id"
+            highlight-current
+            :expand-on-click-node="false"
+            :filter-node-method="filterNode"
+            @node-click="getNodeData">
+          </el-tree>
+        </el-card>
+      </el-col>
+      <el-col :span="19">
+        <div class="filter-container">
+          <el-form :inline="true"  :model="search${ClassName}Form" ref="search${ClassName}Form" v-show="searchFilterVisible">
+          <#list table.columnList as c>
+          <#if c.query>
+            <el-form-item label="${c.title}" prop="${c.javaFieldId}">
+          <#if c.showType == "input" || c.showType == "textarea">
+              <el-input class="filter-item input-normal" v-model="search${ClassName}Form.${c.javaFieldId}"></el-input>
+          <#elseif c.showType == "select">
+              <CrudSelect v-model="search${ClassName}Form.${c.javaFieldId}" :dic="${c.javaFieldId}Options"></CrudSelect>
+          <#elseif c.showType == "checkbox">
+              <CrudCheckbox v-model="search${ClassName}Form.${c.javaFieldId}" :dic="${c.javaFieldId}Options"></CrudCheckbox>
+          <#elseif c.showType == "radio">
+              <CrudRadio v-model="search${ClassName}Form.${c.javaFieldId}" :dic="${c.javaFieldId}Options"></CrudRadio>
+          <#elseif c.showType == "dateselect">
+              <el-date-picker v-model="search${ClassName}Form.${c.javaFieldId}" type="datetimerange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+              </el-date-picker>
+          </#if>
+            </el-form-item>
+          </#if>
+          </#list>
+            <el-form-item>
+              <el-button size="small" type="primary" icon="el-icon-search" @click="handleFilter">查询</el-button>
+              <el-button size="small" @click="searchReset" icon="icon-rest">重置</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+      <!-- 表格功能列 -->
+      <div class="table-menu">
+        <div class="table-menu-left">
+          <el-button-group>
+            <el-button size="mini" v-if="${permissionPrefix}_edit" class="filter-item" @click="handleEdit" type="primary" icon="edit">添加</el-button>
+          </el-button-group>
+        </div>
+        <div class="table-menu-right">
+          <el-button icon="el-icon-search" circle size="mini" @click="searchFilterVisible= !searchFilterVisible"></el-button>
+        </div>
+      </div>
+        <el-table :data="list" @sort-change="sortChange" v-loading="listLoading" element-loading-text="加载中..." border fit highlight-current-row style="width: 99%">
+          <el-table-column type="index" fixed="left" width="60"></el-table-column>
+          <#list table.columnList as column>
+          <#if column.list && column.simpleJavaField!="parentId" && column.simpleJavaField!="parentIds" && column.simpleJavaField!="parent">
+          <el-table-column align="center" label="${column.title}">
+            <template slot-scope="scope">
+            <#if column.simpleJavaField = 'status'>
+              <el-tag>{{scope.row.${column.simpleJavaField}}}</el-tag>
+            <#else>
+              <span>{{scope.row.${column.simpleJavaField}}}</span>
+             </#if>
+            </template>
+          </el-table-column>
+          </#if>
+          </#list>
+          <el-table-column align="center" fixed="right" label="操作" v-if="${permissionPrefix}_edit || ${permissionPrefix}_del">
+            <template slot-scope="scope">
+            <el-button v-if="${permissionPrefix}_edit" icon="icon-edit" title="编辑" type="text" @click="handleEdit(scope.row)">
+            </el-button>
+            <el-button v-if="${permissionPrefix}_del" icon="icon-delete" title="删除" type="text" @click="handleDelete(scope.row)">
+            </el-button>
+            </template>
+          </el-table-column>
+
+        </el-table>
+        <div v-show="!listLoading" class="pagination-container">
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.size" layout="total, sizes, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+          </div>
+      </el-col>
+    </el-row>
+    <el-dialog title="选择${functionNameSimple}" :visible.sync="dialog${ClassName}Visible">
+      <el-input placeholder="输入关键字进行过滤"
+                v-model="filterParentTree${ClassName}Text">
+      </el-input>
+      <el-tree class="filter-tree" ref="selectParent${ClassName}Tree" :data="tree${ClassName}SelectData"
+               check-strictly node-key="id" highlight-current @node-click="getNodeFormData"
+               :filter-node-method="filterNode" default-expand-all>
+      </el-tree>
+    </el-dialog>
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+      <el-form :label-position="labelPosition" label-width="80px" :model="form" ref="form">
+      <#list table.columnList as c>
+        <#if c.simpleJavaField == 'parentId'>
+        <el-form-item label="上级${functionNameSimple}" prop="parentName">
+          <el-input v-model="form.parentName" placeholder="选择${functionNameSimple}" @focus="handleParent${ClassName}Tree()" :disabled="disableSelect${ClassName}Parent" readonly></el-input>
+          <input type="hidden" v-model="form.parentId" />
+        </el-form-item>
+        <#elseif c.edit && (c.isNotBaseTreeField || c.simpleJavaField == 'name' || c.simpleJavaField == 'sort') && (c.isNotBaseField || c.simpleJavaField == 'description')>
+        <el-form-item label="${c.title}" prop="${c.javaFieldId}" :rules="[<#if !c.null>{required: true,message: '请输入${c.title}'},</#if><#if c.javaType == "Long" || c.javaType == "Integer">{validator:validateDigits},</#if><#if c.javaType == "java.math.BigDecimal" || c.javaType == "Double">{ validator:validateNumber},</#if><#if c.dataLength != "0" && c.javaType == "String">{min: 0,max: ${c.dataLength},message: '长度在 0 到 ${c.dataLength} 个字符'},</#if><#if c.unique && !c.pk>{validator:validateUnique}</#if>]">
+            <#if c.showType == "input">
+                <el-input v-model="form.${c.javaFieldId}"></el-input>
+            <#elseif c.showType == "textarea">
+                <el-input type="textarea" v-model="form.${c.javaFieldId}"></el-input>
+            <#elseif c.showType == "select">
+              <CrudSelect v-model="form.${c.javaFieldId}" :dic="${c.javaFieldId}Options"></CrudSelect>
+            <#elseif c.showType == "checkbox">
+              <CrudCheckbox v-model="form.${c.javaFieldId}" :dic="${c.javaFieldId}Options"></CrudCheckbox>
+            <#elseif c.showType == "radio">
+              <CrudRadio v-model="form.${c.javaFieldId}" :dic="${c.javaFieldId}Options"></CrudRadio>
+            <#elseif c.showType == "dateselect">
+              <el-date-picker v-model="form.${c.javaFieldId}" type="datetime" >
+              </el-date-picker>
+           </#if>
+        </el-form-item>
+        </#if>
+    </#list>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancel()">取 消</el-button>
+        <el-button type="primary" @click="save()">保 存</el-button>
+      </div>
+    </el-dialog>
+    </basic-container>
+  </div>
+</template>
+
+<script>
+  import {fetch${ClassName}Tree, find${ClassName}, save${ClassName}, remove${ClassName}, page${ClassName}, validateUnique${ClassName}} from "./service";
+  import { mapGetters } from "vuex";
+  import {isValidateUnique, isValidateNumber, isValidateDigits, objectToString, validateNotNull} from "@/util/validate";
+  import {parseJsonItemForm, parseTreeData} from "@/util/util";
+  import CrudSelect from "@/views/avue/crud-select";
+  import CrudCheckbox from "@/views/avue/crud-checkbox";
+  import CrudRadio from "@/views/avue/crud-radio";
+
+  export default {
+    name: "table_${permissionPrefix}",
+    components: {CrudSelect, CrudCheckbox, CrudRadio},
+    data() {
+      return {
+        dialog${ClassName}Visible: false,
+        disableSelect${ClassName}Parent: false,
+        tree${ClassName}Data: [],
+        tree${ClassName}SelectData: [],
+        dialogFormVisible: false,
+        searchFilterVisible: true,
+        list: null,
+        total: null,
+        listLoading: true,
+        search${ClassName}Form: {},
+        listQuery: {
+          page: 1,
+          size: 20
+        },
+        formEdit: true,
+        filterTree${ClassName}Text: '',
+        filterParentTree${ClassName}Text: '',
+        formStatus: '',
+        searchTree: false,
+        labelPosition: 'right',
+        form: {
+          <#list table.columnList as c><#if c.edit && (c.isNotBaseTreeField || c.simpleJavaField == 'name' || c.simpleJavaField == 'sort') && (c.isNotBaseField || c.simpleJavaField == 'description')>
+        ${c.javaFieldId}: undefined,
+        </#if></#list>
+        },
+        validateUnique: (rule, value, callback) => {
+          validateUnique${ClassName}(rule, value, callback, this.form.id)
+        },
+        validateNumber: (rule, value, callback) => {
+          isValidateNumber(rule, value, callback)
+        },
+        validateDigits: (rule, value, callback) => {
+          isValidateDigits(rule, value, callback)
+        },
+      <#list table.columnList as c><#if c.dictType??&& c.dictType != ''>${c.javaFieldId}Options: undefined,</#if></#list>
+        dialogStatus: 'create',
+        textMap: {
+          update: '编辑${functionNameSimple}',
+          create: '创建${functionNameSimple}'
+        },
+        currentNode: {}
+      }
+    },
+    watch: {
+      filterTree${ClassName}Text(val) {
+        this.$refs['left${ClassName}Tree'].filter(val);
+      },
+      filterParentTree${ClassName}Text(val) {
+        this.$refs['selectParent${ClassName}Tree'].filter(val);
+      }
+    },
+    created() {
+      this.get${ClassName}Tree()
+      this.getList()
+      this.${permissionPrefix}_edit = this.permissions["${permissionPrefix}_edit"];
+      this.${permissionPrefix}_del = this.permissions["${permissionPrefix}_del"];
+      <#assign index = 0 /><#list table.columnList as c><#if c.dictType?? && c.dictType != ''>
+      this.${c.javaFieldId}Options = this.dicts["${c.dictType}"];
+      <#assign index = index+1 />
+      </#if></#list>
+    },
+    computed: {
+      ...mapGetters(["permissions","dicts"])
+    },
+    methods: {
+      getList() {
+        this.listLoading = true;
+        this.listQuery.isAsc = false;
+        this.listQuery.queryConditionJson = parseJsonItemForm([
+        <#list table.columnList as c><#if c.query>
+        {fieldName: '${c.javaFieldId}',value:this.search${ClassName}Form.${c.javaFieldId},operate:'${c.queryType}',attrType:'${c.javaType}'},
+        </#if></#list>
+        {fieldName: 'parentId',value:this.search${ClassName}Form.parentId, attrType:'eq'},
+        ])
+        page${ClassName}(this.listQuery).then(response => {
+        this.list = response.data.records;
+        this.total = response.data.total;
+          this.listLoading = false;
+        });
+      },
+      sortChange(column){
+        if(column.order=="ascending"){
+          this.listQuery.ascs=column.prop
+          this.listQuery.descs=undefined;
+        }else{
+          this.listQuery.descs=column.prop
+          this.listQuery.ascs=undefined;
+        }
+        this.getList()
+      },
+      get${ClassName}Tree() {
+        fetch${ClassName}Tree({all:true}).then(response => {
+          this.tree${ClassName}Data = parseTreeData(response.data);
+        })
+      },
+      filterNode(value, data) {
+        if (!value) return true
+        return data.label.indexOf(value) !== -1
+      },
+      getNodeData(data) {
+        this.search${ClassName}Form.parentId = data.id
+        this.currentNode = data;
+        this.getList()
+      },
+      getNodeFormData(data){
+        this.dialog${ClassName}Visible = false;
+        this.form.parentId = data.id;
+        this.form.parentName = data.label;
+      },
+      searchReset() {
+        this.$refs['search${ClassName}Form'].resetFields();
+        this.search${ClassName}Form.parentId = undefined;
+        this.$refs['left${ClassName}Tree'].setCurrentKey(null);
+        this.currentNode=undefined;
+      },
+      handleFilter() {
+        this.listQuery.page = 1;
+        this.getList();
+      },
+      handleSizeChange(val) {
+        this.listQuery.size = val;
+        this.getList();
+      },
+      handleCurrentChange(val) {
+        this.listQuery.page = val;
+        this.getList();
+      },
+      handleEdit(row) {
+        this.resetForm();
+        this.dialogStatus = row && validateNotNull(row.id)? "update" : "create";
+        if(this.dialogStatus == "create"){
+          this.dialogFormVisible = true;
+          this.form.parentId = this.currentNode.id
+          this.form.parentName = this.currentNode.label;
+        }else{
+          find${ClassName}(row.id).then(response => {
+            this.form = response.data;<#list table.columnList as c><#if c.dictType??&& c.dictType != ''>
+            this.form.${c.javaFieldId}=objectToString(this.form.${c.javaFieldId});
+            </#if></#list>this.disableSelect${ClassName}Parent = this.form.parentName ? false : true;
+            this.dialogFormVisible = true;
+          });
+        }
+      },
+      handleParent${ClassName}Tree() {
+        fetch${ClassName}Tree({extId: this.form.id}).then(response => {
+          this.tree${ClassName}SelectData = parseTreeData(response.data);
+          this.dialog${ClassName}Visible = true;
+          setTimeout(()=>{this.$refs['selectParent${ClassName}Tree'].setCurrentKey(this.form.parentId ? this.form.parentId : null);}, 100)
+        })
+      },
+      handleDelete(row) {
+        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          remove${ClassName}(row.id).then(() => {
+            this.getList();
+          })
+        })
+      },
+      save() {
+        const set = this.$refs;
+        set['form'].validate(valid => {
+          if (valid) {
+            save${ClassName}(this.form).then(() => {
+              this.getList()
+              this.cancel()
+            })
+          } else {
+            return false;
+          }
+        });
+      },
+      cancel() {
+        this.dialogFormVisible = false;
+        this.$refs['form'].resetFields();
+      },
+      resetForm() {
+        this.form = {
+          <#list table.columnList as c>
+        <#if c.edit && (c.isNotBaseTreeField || c.simpleJavaField == 'name' || c.simpleJavaField == 'sort') && (c.isNotBaseField || c.simpleJavaField == 'description')>
+        ${c.javaFieldId}: "",
+        </#if>
+        </#list>
+        }
+        if(this.$refs['form']){
+          this.$refs['form'].resetFields();
+        }
+      }
+    }
+  }
+</script>
+]]>
+	</content>
+</template>

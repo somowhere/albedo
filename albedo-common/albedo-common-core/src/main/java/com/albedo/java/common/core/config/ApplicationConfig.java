@@ -1,0 +1,127 @@
+package com.albedo.java.common.core.config;
+
+import com.albedo.java.common.core.util.StringUtil;
+import com.google.common.collect.Maps;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.yaml.snakeyaml.Yaml;
+
+import java.io.InputStream;
+import java.util.Map;
+
+/**
+ * 系统配置类
+ *
+ * @author somewhere version 2014-1-20 下午4:06:33
+ */
+@Slf4j
+public class ApplicationConfig {
+
+	private static java.util.Map<String, Object> props = null;
+	private static java.util.Map<String, String> paramMap = Maps.newHashMap();
+
+	static {
+		try {
+			reload();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 将构造函数私有化，不能new实例
+	 */
+	private ApplicationConfig() {
+
+	}
+
+	public static Object getProperty(Map<?, ?> map, Object qualifiedKey) {
+		if (map != null && !map.isEmpty() && qualifiedKey != null) {
+			String input = String.valueOf(qualifiedKey);
+			if (!"".equals(input)) {
+				if (input.contains(".")) {
+					int index = input.indexOf(".");
+					String left = input.substring(0, index);
+					String right = input.substring(index + 1);
+					return getProperty((Map<?, ?>) map.get(left), right);
+				} else if (map.containsKey(input)) {
+					return map.get(input);
+				} else {
+					return null;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * 获取配置信息的静态方法。
+	 *
+	 * @param name - 要获取的配置信息的名称
+	 * @return - 配置信息。如果不存在，返回null
+	 */
+	public static String get(String name) {
+		String value = paramMap.get(name);
+		if (value == null) {
+			value = StringUtil.toStrString(getProperty(props, name));
+			paramMap.put(name, value != null ? value : StringUtil.EMPTY);
+		}
+		return value;
+	}
+
+	/**
+	 * 重新装载配置信息。
+	 *
+	 * @throws Exception
+	 */
+	public static void reload() throws Exception {
+		if (props == null) {
+			props = Maps.newHashMap();
+		}
+
+
+		PathMatchingResourcePatternResolver resourceLoader = new PathMatchingResourcePatternResolver();
+		InputStream is = resourceLoader.getResources("classpath*:/config/application.yml")[0].getInputStream();
+		// in
+		// the
+		// classpath
+//        props.load(is);
+		props = new Yaml().load(is);
+		// dumpSystemConfig();
+	}
+
+	public static boolean isAddressEnabled() {
+		return Boolean.valueOf(get("application.address-enabled"));
+	}
+
+
+	/**
+	 * 获取文件上传路径
+	 */
+	public static String getStaticFileDirectory() {
+		return get("application.static-file-directory");
+	}
+
+	/**
+	 * 获取头像上传路径
+	 */
+	public static String getAvatarPath() {
+		return getStaticFileDirectory() + "/avatar";
+	}
+
+	/**
+	 * 获取下载路径
+	 */
+	public static String getDownloadPath() {
+		return getStaticFileDirectory() + "/download";
+	}
+
+	/**
+	 * 获取上传路径
+	 */
+	public static String getUploadPath() {
+		return getStaticFileDirectory() + "/upload";
+	}
+
+
+}

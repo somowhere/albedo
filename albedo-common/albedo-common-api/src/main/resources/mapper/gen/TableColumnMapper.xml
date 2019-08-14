@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.albedo.java.modules.gen.repository.TableColumnRepository">
+
+
+	<!-- 建议字段，采用驼峰命名方法，不然很麻烦 -->
+	<!--<select id="selectListByUserId" resultType="Role">-->
+	<!--select a.* from sys_role_t a LEFT JOIN sys_user_role_t b on a.id_=b.role_id where b.user_id=#{id}-->
+	<!--</select>-->
+
+</mapper>

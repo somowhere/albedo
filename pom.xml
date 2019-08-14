@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~  Copyright (c) 2019-2020, somewhere (somewhere0813@gmail.com).
+  ~  <p>
+  ~  Licensed under the GNU Lesser General Public License 3.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~  <p>
+  ~ https://www.gnu.org/licenses/lgpl.html
+  ~  <p>
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.albedo.java</groupId>
+	<artifactId>albedo</artifactId>
+	<version>2.0.0-SNAPSHOT</version>
+	<name>${project.artifactId}</name>
+	<packaging>pom</packaging>
+	<url>https://github.com/somowhere</url>
+
+	<properties>
+		<project.release.version>2.0.0-SNAPSHOT</project.release.version>
+		<spring-boot.version>2.1.6.RELEASE</spring-boot.version>
+		<spring-platform.version>Cairo-SR8</spring-platform.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<spring-boot-admin.version>2.1.6</spring-boot-admin.version>
+		<hutool.version>4.5.16</hutool.version>
+		<mybatis-plus.version>3.1.2</mybatis-plus.version>
+		<kaptcha.version>0.0.9</kaptcha.version>
+		<velocity.version>1.7</velocity.version>
+		<jasypt.version>2.1.0</jasypt.version>
+		<security.oauth.version>2.3.6.RELEASE</security.oauth.version>
+		<jackson.version>2.9.9</jackson.version>
+		<h2.version>1.4.199</h2.version>
+		<!--zipkin2.12.x需要此版本jooq-->
+		<jooq.version>3.11.11</jooq.version>
+		<zipkin.version>2.12.2</zipkin.version>
+		<springfox.version>2.9.2</springfox.version>
+		<zipkin-storage-mysql.version>2.8.4</zipkin-storage-mysql.version>
+		<kaptcha.version>0.0.9</kaptcha.version>
+		<poi.version>3.17</poi.version>
+
+		<profile.dev.logOperate.level>INFO</profile.dev.logOperate.level>
+		<profile.prod.logOperate.level>INFO</profile.prod.logOperate.level>
+	</properties>
+
+	<dependencies>
+		<!--配置文件处理器-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.github.ulisesbocchio</groupId>
+			<artifactId>jasypt-spring-boot-starter</artifactId>
+			<version>${jasypt.version}</version>
+		</dependency>
+		<!--监控-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<!--Lombok-->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!--测试依赖-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<modules>
+		<module>albedo-modules</module>
+		<module>albedo-common</module>
+		<module>albedo-plugins</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>io.spring.platform</groupId>
+				<artifactId>platform-bom</artifactId>
+				<version>${spring-platform.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!--jackson模块-->
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-annotations</artifactId>
+				<version>${jackson.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!--jackson模块-->
+			<dependency>
+				<groupId>com.fasterxml.jackson.module</groupId>
+				<artifactId>jackson-modules-java8</artifactId>
+				<version>${jackson.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<finalName>${project.name}</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>${spring-boot.version}</version>
+					<configuration>
+						<finalName>${project.build.finalName}</finalName>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<target>${maven.compiler.target}</target>
+					<source>${maven.compiler.source}</source>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>pl.project13.maven</groupId>
+				<artifactId>git-commit-id-plugin</artifactId>
+				<version>2.2.5</version>
+			</plugin>
+			<!--			<plugin>-->
+			<!--				<groupId>org.apache.maven.plugins</groupId>-->
+			<!--				<artifactId>maven-resources-plugin</artifactId>-->
+			<!--				<executions>-->
+			<!--					<execution>-->
+			<!--						<id>default-resources</id>-->
+			<!--						<phase>validate</phase>-->
+			<!--						<goals>-->
+			<!--							<goal>copy-resources</goal>-->
+			<!--						</goals>-->
+			<!--						<configuration>-->
+			<!--							<outputDirectory>${project.build.directory}/classes</outputDirectory>-->
+			<!--							<useDefaultDelimiters>false</useDefaultDelimiters>-->
+			<!--							<delimiters>-->
+			<!--								<delimiter>#</delimiter>-->
+			<!--							</delimiters>-->
+			<!--							<resources>-->
+			<!--								<web>-->
+			<!--									<directory>src/main/resources/</directory>-->
+			<!--									<filtering>true</filtering>-->
+			<!--									<includes>-->
+			<!--										<include>*.yml</include>-->
+			<!--									</includes>-->
+			<!--								</web>-->
+			<!--								<web>-->
+			<!--									<directory>src/main/resources/</directory>-->
+			<!--									<filtering>false</filtering>-->
+			<!--									<excludes>-->
+			<!--										<exclude>*.yml</exclude>-->
+			<!--									</excludes>-->
+			<!--								</web>-->
+			<!--							</resources>-->
+			<!--						</configuration>-->
+			<!--					</execution>-->
+			<!--				</executions>-->
+			<!--			</plugin>-->
+		</plugins>
+	</build>
+
+	<repositories>
+		<!--阿里云主仓库，代理了maven central和jcenter仓库-->
+		<repository>
+			<id>aliyun</id>
+			<name>aliyun</name>
+			<url>https://maven.aliyun.com/repository/public</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<!--阿里云代理Spring 官方仓库-->
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://maven.aliyun.com/repository/spring</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<!--阿里云代理Spring 插件仓库-->
+		<pluginRepository>
+			<id>spring-plugin</id>
+			<name>spring-plugin</name>
+			<url>https://maven.aliyun.com/repository/spring-plugin</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+	<profiles>
+		<profile>
+			<id>swagger</id>
+			<properties>
+				<profile.swagger>,swagger</profile.swagger>
+			</properties>
+		</profile>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<!-- logOperate configuration -->
+				<logback.loglevel>${profile.dev.logOperate.level}</logback.loglevel>
+				<!-- default Spring profiles -->
+				<spring.profiles.active>dev</spring.profiles.active>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<!-- logOperate configuration -->
+				<logback.loglevel>${profile.prod.logOperate.level}</logback.loglevel>
+				<!-- default Spring profiles -->
+				<spring.profiles.active>prod</spring.profiles.active>
+			</properties>
+		</profile>
+	</profiles>
+</project>

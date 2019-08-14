@@ -1,0 +1,7 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.albedo.java.common.config.JacksonMapperConfiguration,\
+  com.albedo.java.common.config.LogAutoConfiguration,\
+  com.albedo.java.common.config.SecurityAutoConfiguration,\
+  com.albedo.java.common.config.SecurityJwtConfiguration,\
+  com.albedo.java.common.config.KaptchaConfiguration,\
+  com.albedo.java.common.config.WebConfigurer
