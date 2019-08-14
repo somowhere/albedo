@@ -72,7 +72,7 @@ public class LogOperateResource {
 	@Log(value = "操作日志", businessType = BusinessType.EXPORT)
 	@GetMapping(value = "/export")
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_export')")
-	public R importTemplate(PageModel pm) {
+	public R export(PageModel pm) {
 		ExcelUtil<LogOperate> util = new ExcelUtil(LogOperate.class);
 		return util.exportExcel(logOperateService.list(DynamicSpecifications.buildSpecification(
 			LogOperate.class,

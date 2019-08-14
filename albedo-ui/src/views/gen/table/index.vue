@@ -56,11 +56,11 @@
             <span>{{scope.row.parentTable}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="类名">
-          <template slot-scope="scope">
-            <span>{{scope.row.className}}</span>
-          </template>
-        </el-table-column>
+<!--        <el-table-column align="center" label="类名">-->
+<!--          <template slot-scope="scope">-->
+<!--            <span>{{scope.row.className}}</span>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
 
         <el-table-column align="center" label="创建时间">
           <template slot-scope="scope">

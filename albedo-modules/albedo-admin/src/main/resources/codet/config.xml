@@ -44,7 +44,7 @@
 		</category>
 		<category val="entity" name="数据层（entity）">
 			<template>entity/vo/entityDataVo.xml</template>
-			<!--<template>entity/entityId.xml</template>-->
+<!--			<template>entity/entityId.xml</template>-->
 			<template>entity/entity.xml</template>
 		</category>
 		<category val="treeTable" name="树结构表（一体）">

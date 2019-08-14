@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 /**
  * @author somewhere
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserExcelVo {
+public class UserExcelVo implements Serializable {
 	@NotBlank
 	private String deptName;
 	@NotBlank

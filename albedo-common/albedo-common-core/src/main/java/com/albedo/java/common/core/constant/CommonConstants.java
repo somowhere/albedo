@@ -51,6 +51,14 @@ public interface CommonConstants {
 	 */
 	Integer FAIL = 0;
 
+	/**
+	 * 成功标记
+	 */
+	String STR_SUCCESS = "1";
+	/**
+	 * 失败标记
+	 */
+	String STR_FAIL = "0";
 
 	/**
 	 *

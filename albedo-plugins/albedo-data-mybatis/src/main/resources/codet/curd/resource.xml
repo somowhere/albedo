@@ -15,6 +15,7 @@ import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.core.vo.TreeQuery;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.log.annotation.Log;
+import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.web.resource.DataVoResource;
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.log.annotation.Log;
@@ -70,7 +71,7 @@ public class ${ClassName}Resource extends DataVoResource<${ClassName}Service, ${
 	 * @param ${className}Vo the HTTP ${className}
 	 */
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_edit')")
-	@Log("新增/编辑${functionName}")
+	@Log(value = "${functionName}", businessType = BusinessType.EDIT)
 	@PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 	public R save(@Valid @RequestBody ${ClassName}DataVo ${className}Vo) {
 		log.debug("REST request to save ${ClassName}Form : {}", ${className}Vo);
@@ -96,7 +97,7 @@ public class ${ClassName}Resource extends DataVoResource<${ClassName}Service, ${
 	 * @return the R with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_del')")
-	@Log("删除${functionName}")
+	@Log(value = "${functionName}", businessType = BusinessType.DELETE)
 	@DeleteMapping(CommonConstants.URL_IDS_REGEX)
 	public R delete(@PathVariable String ids) {
 		log.debug("REST request to delete ${ClassName}: {}", ids);

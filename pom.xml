@@ -50,8 +50,8 @@
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<poi.version>3.17</poi.version>
 
-		<profile.dev.logOperate.level>INFO</profile.dev.logOperate.level>
-		<profile.prod.logOperate.level>INFO</profile.prod.logOperate.level>
+		<profile.dev.log.level>INFO</profile.dev.log.level>
+		<profile.prod.log.level>INFO</profile.prod.log.level>
 	</properties>
 
 	<dependencies>
@@ -261,7 +261,7 @@
 			</activation>
 			<properties>
 				<!-- logOperate configuration -->
-				<logback.loglevel>${profile.dev.logOperate.level}</logback.loglevel>
+				<logback.loglevel>${profile.dev.log.level}</logback.loglevel>
 				<!-- default Spring profiles -->
 				<spring.profiles.active>dev</spring.profiles.active>
 			</properties>
@@ -270,7 +270,7 @@
 			<id>prod</id>
 			<properties>
 				<!-- logOperate configuration -->
-				<logback.loglevel>${profile.prod.logOperate.level}</logback.loglevel>
+				<logback.loglevel>${profile.prod.log.level}</logback.loglevel>
 				<!-- default Spring profiles -->
 				<spring.profiles.active>prod</spring.profiles.active>
 			</properties>

@@ -15,6 +15,7 @@ import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.core.vo.TreeQuery;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.log.annotation.Log;
+import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.web.resource.TreeVoResource;
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.log.annotation.Log;
@@ -81,7 +82,7 @@ public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${
 	 */
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_edit')")
 	@PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-	@Log("新增/编辑${functionName}")
+	@Log(value = "${functionName}", businessType = BusinessType.EDIT)
 	public R save(@Valid @RequestBody ${ClassName}DataVo ${className}Vo) {
 		log.debug("REST request to save ${ClassName} : {}", ${className}Vo);
 		<#assign firstListField = true><#list table.columnList as column>
@@ -106,7 +107,7 @@ public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${
 	 */
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_del')")
 	@DeleteMapping(CommonConstants.URL_IDS_REGEX)
-	@Log("删除${functionName}")
+	@Log(value = "${functionName}", businessType = BusinessType.DELETE)
 	public R delete(@PathVariable String ids) {
 		log.debug("REST request to delete ${ClassName}: {}", ids);
 		service.deleteByParentIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));

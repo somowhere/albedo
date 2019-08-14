@@ -67,7 +67,7 @@ public class ${ClassName} extends TreeEntity<${ClassName}> {
 	private ${column.simpleJavaType} ${column.simpleJavaField};
 	@Column(name = "${column.name}")
 	private String ${column.simpleJavaField}Id;
-	<#else>${column.hibernateValidatorExprssion}@TableField("${column.name}")<#if column.unique>@SearchField</#if><#if column.dictType?? && column.dictType != "">@DictType("${column.dictType}")</#if>
+	<#else>${column.hibernateValidatorExprssion}@TableField(F_SQL_${column.constantJavaField})<#if column.unique>@SearchField</#if><#if column.dictType?? && column.dictType != "">@DictType("${column.dictType}")</#if>
 	private ${column.simpleJavaType} ${column.simpleJavaField};
 			</#if>
 		</#if>

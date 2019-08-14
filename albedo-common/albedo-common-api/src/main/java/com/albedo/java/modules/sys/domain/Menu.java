@@ -75,7 +75,7 @@ public class Menu extends TreeEntity<Menu> {
 	 * 是否显示1 是0否
 	 */
 	@NotNull
-	@TableField(CommonConstants.MYSQL_QUOTE + F_SQL_SHOW + CommonConstants.MYSQL_QUOTE)
+	@TableField("`show`")
 	@DictType("sys_flag")
 	private Integer show = 1;
 

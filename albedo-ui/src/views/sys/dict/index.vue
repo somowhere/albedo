@@ -20,7 +20,7 @@
               :data="treeDictData"
               ref="leftDictTree"
               node-key="id"
-              highlight-current default-expand-all
+              highlight-current
               :expand-on-click-node="false"
               :filter-node-method="filterNode"
               @node-click="clickNodeTreeData">
