@@ -2,19 +2,19 @@
   <div class="avue-sidebar">
     <logo></logo>
     <el-scrollbar style="height:100%">
-      <div v-if="validateNull(menu)"
-           class="avue-sidebar--tip">没有发现菜单
+      <div class="avue-sidebar--tip"
+           v-if="validateNull(menu)">没有发现菜单
       </div>
-      <el-menu unique-opened
+      <el-menu :collapse="keyCollapse"
                :default-active="nowTagValue"
-               mode="vertical"
                :show-timeout="200"
-               :collapse="keyCollapse">
-        <sidebar-item :menu="menu"
-                      :screen="screen"
-                      first
+               mode="vertical"
+               unique-opened>
+        <sidebar-item :collapse="keyCollapse"
+                      :menu="menu"
                       :props="website.menu.props"
-                      :collapse="keyCollapse"></sidebar-item>
+                      :screen="screen"
+                      first></sidebar-item>
       </el-menu>
     </el-scrollbar>
   </div>
@@ -34,7 +34,7 @@
         created() {
             this.$store.dispatch("GetUserMenu").then(response => {
                 if (response.length === 0) return;
-                console.log(response)
+                console.log(response);
                 this.$router.$avueRouter.formatRoutes(response, true);
             });
         },

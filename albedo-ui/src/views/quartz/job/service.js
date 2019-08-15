@@ -54,5 +54,5 @@ export function availableJob(id) {
 
 
 export function validateUniqueJob(rule, value, callback, id) {
-  isValidateUnique(rule, value, callback, '/quartz/job/checkByProperty?id='+toStr(id))
+  isValidateUnique(rule, value, callback, '/quartz/job/checkByProperty?id=' + toStr(id))
 }

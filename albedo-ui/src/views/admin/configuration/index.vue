@@ -10,16 +10,16 @@
             <table class="el-table">
               <thead>
               <tr>
-                <th class="w-40" @click="orderProp = 'prefix'; reverse=!reverse"><span>前缀</span></th>
-                <th class="w-60" @click="orderProp = 'properties'; reverse=!reverse"><span>属性</span></th>
+                <th @click="orderProp = 'prefix' reverse=!reverse" class="w-40"><span>前缀</span></th>
+                <th @click="orderProp = 'properties' reverse=!reverse" class="w-60"><span>属性</span></th>
               </tr>
               </thead>
               <tbody>
-              <tr v-for="(entry, index) in configuration" v-bind:key="index">
+              <tr v-bind:key="index" v-for="(entry, index) in configuration">
                 <td><span>{{entry.prefix}}</span></td>
                 <td>
-                  <div v-for="(item, key,index) in entry.properties" v-bind:key="index">
-                    <el-row :span="24" :gutter="30">
+                  <div v-bind:key="index" v-for="(item, key,index) in entry.properties">
+                    <el-row :gutter="30" :span="24">
                       <el-col :span="8">{{key}}</el-col>
                       <el-col :span="16">
                         <span class="float-right badge badge-secondary break">{{item | json }}</span>
@@ -30,7 +30,7 @@
               </tr>
               </tbody>
             </table>
-            <div v-for="(item, key,index) in allConfiguration" v-bind:key="index">
+            <div v-bind:key="index" v-for="(item, key,index) in allConfiguration">
               <label><span>{{key}}</span></label>
               <table class="el-table">
                 <thead>
@@ -40,7 +40,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="(temp, key, index) in item" v-bind:key="index">
+                <tr v-bind:key="index" v-for="(temp, key, index) in item">
                   <td class="break w-40">{{key}}</td>
                   <td class="break w-60">
                     <span class="float-right badge badge-secondary break">{{temp}}</span>
@@ -84,14 +84,13 @@
         },
         watch: {
             filter(val) {
-                var array = []
+                var array = [];
                 for (const key in this.configurationBak) {
                     var item = this.configurationBak[key];
                     if (item.prefix.indexOf(val) != -1) {
                         array.push(item);
                     }
                 }
-                ;
                 this.configuration = array;
             }
         },
@@ -101,8 +100,8 @@
         methods: {
             initPageData() {
                 getConfigprops().then(configuration => {
-                    this.configuration = configuration
-                    this.configurationBak = configuration
+                    this.configuration = configuration;
+                    this.configurationBak = configuration;
                     for (const config in configuration) {
                         if (config.properties !== undefined) {
                             this.configKeys.push(Object.keys(config.properties));

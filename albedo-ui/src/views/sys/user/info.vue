@@ -29,55 +29,55 @@
           <div class="grid-content bg-purple">
             <el-form :model="ruleForm2"
                      :rules="rules2"
-                     ref="ruleForm2"
+                     class="demo-ruleForm"
                      label-width="100px"
-                     v-if="switchStatus==='userManager'"
-                     class="demo-ruleForm">
+                     ref="ruleForm2"
+                     v-if="switchStatus==='userManager'">
               <el-form-item label="用户名"
                             prop="username">
-                <el-input type="text"
-                          v-model="ruleForm2.username"
-                          disabled></el-input>
+                <el-input disabled
+                          type="text"
+                          v-model="ruleForm2.username"></el-input>
               </el-form-item>
               <el-form-item label="手机号" prop="phone">
-                <el-input v-model="ruleForm2.phone" placeholder="验证码登录使用"></el-input>
+                <el-input placeholder="验证码登录使用" v-model="ruleForm2.phone"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary"
-                           @click="submitForm('ruleForm2')">提交
+                <el-button @click="submitForm('ruleForm2')"
+                           type="primary">提交
                 </el-button>
                 <el-button @click="resetForm('ruleForm2')">重置</el-button>
               </el-form-item>
             </el-form>
             <el-form :model="ruleForm2"
                      :rules="rules2"
-                     ref="ruleForm2"
+                     class="demo-ruleForm"
                      label-width="100px"
-                     v-if="switchStatus==='passwordManager'"
-                     class="demo-ruleForm">
+                     ref="ruleForm2"
+                     v-if="switchStatus==='passwordManager'">
               <el-form-item label="原密码"
                             prop="password">
-                <el-input type="password"
-                          v-model="ruleForm2.password"
-                          auto-complete="off"></el-input>
+                <el-input auto-complete="off"
+                          type="password"
+                          v-model="ruleForm2.password"></el-input>
               </el-form-item>
               <el-form-item label="密码"
                             prop="newpassword1">
-                <el-input type="password"
-                          v-model="ruleForm2.newpassword1"
-                          auto-complete="off"></el-input>
+                <el-input auto-complete="off"
+                          type="password"
+                          v-model="ruleForm2.newpassword1"></el-input>
               </el-form-item>
               <el-form-item label="确认密码"
                             prop="newpassword2">
-                <el-input type="password"
-                          v-model="ruleForm2.newpassword2"
-                          auto-complete="off"></el-input>
+                <el-input auto-complete="off"
+                          type="password"
+                          v-model="ruleForm2.newpassword2"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button size="small" type="primary"
-                           @click="submitForm('ruleForm2')">提交
+                <el-button @click="submitForm('ruleForm2')" size="small"
+                           type="primary">提交
                 </el-button>
-                <el-button size="small" @click="resetForm('ruleForm2')">重置</el-button>
+                <el-button @click="resetForm('ruleForm2')" size="small">重置</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -105,7 +105,7 @@
                 } else {
                     callback()
                 }
-            }
+            };
             return {
                 switchStatus: '',
                 avatarUrl: '',
@@ -129,8 +129,8 @@
             }
         },
         created() {
-            this.ruleForm2.username = this.userVo.username
-            this.ruleForm2.phone = this.userVo.phone
+            this.ruleForm2.username = this.userVo.username;
+            this.ruleForm2.phone = this.userVo.phone;
             this.switchStatus = 'userManager'
         },
         computed: {
@@ -156,7 +156,7 @@
                                     message: '修改成功',
                                     type: 'success',
                                     duration: 2000
-                                })
+                                });
                                 // 修改密码之后强制重新登录
                                 if (this.switchStatus === 'passwordManager') {
                                     this.$store.dispatch('LogOut').then(() => {

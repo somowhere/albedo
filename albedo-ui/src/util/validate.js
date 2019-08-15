@@ -33,50 +33,50 @@ export function isURL(s) {
 }
 
 export function isvalidUsername(str) {
-  const valid_map = ['sys', 'editor']
+  const valid_map = ['sys', 'editor'];
   return valid_map.indexOf(str.trim()) >= 0
 }
 
 /* 合法uri */
 export function validateURL(textval) {
-  const urlregex = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/
+  const urlregex = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/;
   return urlregex.test(textval)
 }
 
 /* 小写字母 */
 export function validateLowerCase(str) {
-  const reg = /^[a-z]+$/
+  const reg = /^[a-z]+$/;
   return reg.test(str)
 }
 
 /* 大写字母 */
 export function validateUpperCase(str) {
-  const reg = /^[A-Z]+$/
+  const reg = /^[A-Z]+$/;
   return reg.test(str)
 }
 
 /* 大小写字母 */
 export function validatAlphabets(str) {
-  const reg = /^[A-Za-z]+$/
+  const reg = /^[A-Za-z]+$/;
   return reg.test(str)
 }
 
 /* 验证pad还是pc */
 export const vaildatePc = function () {
-  const userAgentInfo = navigator.userAgent
+  const userAgentInfo = navigator.userAgent;
   const Agents = ['Android', 'iPhone',
     'SymbianOS', 'Windows Phone',
     'iPad', 'iPod'
-  ]
-  let flag = true
+  ];
+  let flag = true;
   for (var v = 0; v < Agents.length; v++) {
     if (userAgentInfo.indexOf(Agents[v]) > 0) {
-      flag = false
+      flag = false;
       break
     }
   }
   return flag
-}
+};
 
 /**
  * validate email
@@ -84,7 +84,7 @@ export const vaildatePc = function () {
  * @returns {boolean}
  */
 export function validateEmail(email) {
-  const re = /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  const re = /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(email)
 }
 
@@ -92,9 +92,9 @@ export function validateEmail(email) {
  * 判断身份证号码
  */
 export function cardId(code) {
-  let list = []
-  let result = true
-  let msg = ''
+  let list = [];
+  let result = true;
+  let msg = '';
   var city = {
     11: '北京',
     12: '天津',
@@ -131,7 +131,7 @@ export function cardId(code) {
     81: '香港',
     82: '澳门',
     91: '国外 '
-  }
+  };
   if (!validateNull(code)) {
     if (code.length == 18) {
       if (!code || !/(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(code)) {
@@ -140,18 +140,18 @@ export function cardId(code) {
         msg = '地址编码错误'
       } else {
         // 18位身份证需要验证最后一位校验位
-        code = code.split('')
+        code = code.split('');
         // ∑(ai×Wi)(mod 11)
         // 加权因子
-        var factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]
+        var factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
         // 校验位
-        var parity = [1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2, 'x']
-        var sum = 0
-        var ai = 0
-        var wi = 0
+        var parity = [1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2, 'x'];
+        var sum = 0;
+        var ai = 0;
+        var wi = 0;
         for (var i = 0; i < 17; i++) {
-          ai = code[i]
-          wi = factor[i]
+          ai = code[i];
+          wi = factor[i];
           sum += ai * wi
         }
         if (parity[sum % 11] != code[17]) {
@@ -166,8 +166,8 @@ export function cardId(code) {
   } else {
     msg = '证件号码不能为空'
   }
-  list.push(result)
-  list.push(msg)
+  list.push(result);
+  list.push(msg);
   return list
 }
 
@@ -214,8 +214,8 @@ export function validateMobile(phone) {
  * 判断姓名是否正确
  */
 export function validateName(name) {
-  var regName = /^[\u4e00-\u9fa5]{2,4}$/
-  if (!regName.test(name)) return false
+  var regName = /^[\u4e00-\u9fa5]{2,4}$/;
+  if (!regName.test(name)) return false;
   return true
 }
 
@@ -226,7 +226,7 @@ export function isValidateDigits(rule, value, callback) {
   if (validateNotNull(value)) {
     var rs = validateDigits(value);
     if (rs) {
-      callback(new Error(validateNotNull(rule.message) ? rule.message : "请输入整数"))
+      callback(new Error(validateNotNull(rule.message) ? rule.message : "请输入整数"));
       return;
     }
   }
@@ -240,13 +240,12 @@ export function validateDigits(num) {
   let regName = /[^\d]/g;
   if (!regName.test(num)) return false;
   return true;
-};
-
+}
 export function isValidateNumber(rule, value, callback) {
   if (validateNotNull(value)) {
     var rs = validateNumber(value);
     if (rs) {
-      callback(new Error(validateNotNull(rule.message) ? rule.message : "请输入数字"))
+      callback(new Error(validateNotNull(rule.message) ? rule.message : "请输入数字"));
       return;
     }
   }
@@ -260,17 +259,16 @@ export function validateNumber(num) {
   let regName = /[^\d.]/g;
   if (!regName.test(num)) return false;
   return true;
-};
-
+}
 /**
  * 判断是否为小数
  */
 export function validateNumord(num, type) {
-  let regName = /[^\d.]/g
+  let regName = /[^\d.]/g;
   if (type == 1) {
     if (!regName.test(num)) return false
   } else if (type == 2) {
-    regName = /[^\d.]/g
+    regName = /[^\d.]/g;
     if (!regName.test(num)) return false
   }
   return true
@@ -291,7 +289,7 @@ export function validateNull(val) {
   } else if (val instanceof Object) {
     if (JSON.stringify(val) === '{}') return true
   } else {
-    if (val == 'null' || val == null || val == 'undefined' || val == undefined || val == '') return true
+    if (val == 'null' || val == null || val == 'undefined' || val == undefined || val == '') return true;
     return false
   }
   return false
@@ -302,8 +300,7 @@ export function validateNull(val) {
  */
 export function validateNotNull(val) {
   return !validateNull(val);
-};
-
+}
 export function validateUniqueField(url) {
   return request({
     url: url,
@@ -318,7 +315,7 @@ export function isValidateUnique(rule, value, callback, url) {
     if (validateNull(url)) {
       url = rule.url;
     }
-    url += '&' + rule.field + '=' + value
+    url += '&' + rule.field + '=' + value;
     validateUniqueField(url).then(rs => {
       beforeValue[rule.field] = value;
       if (!rs) {
@@ -334,8 +331,7 @@ export function isValidateUnique(rule, value, callback, url) {
 
 export function objectToString(val) {
   return validateNotNull(val) ? val.toString() : val;
-};
-
+}
 export function toStr(val) {
   return validateNotNull(val) ? val.toString() : '';
-};
+}

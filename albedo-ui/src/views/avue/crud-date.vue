@@ -1,7 +1,7 @@
 <template>
-  <el-date-picker :type="type" v-model="text" :size="size" :format="format" :value-format="valueFormat"
-                  :placeholder="placeholder?placeholder:`请输入${label}`" @change="handleChange"
-                  :disabled="disabled"></el-date-picker>
+  <el-date-picker :disabled="disabled" :format="format" :placeholder="placeholder?placeholder:`请输入${label}`" :size="size" :type="type"
+                  :value-format="valueFormat" @change="handleChange"
+                  v-model="text"></el-date-picker>
 </template>
 
 <script>

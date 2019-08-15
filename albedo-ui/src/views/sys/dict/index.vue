@@ -4,26 +4,26 @@
       <el-row :gutter="20">
         <el-col :span="6">
           <el-card class="box-card">
-            <div slot="header" class="clearfix">
+            <div class="clearfix" slot="header">
               <span>字典</span>
-              <el-button type="text" class="card-heard-btn" icon="icon-filesearch" title="搜索"
-                         @click="searchTree=(searchTree ? false:true)"></el-button>
-              <el-button type="text" class="card-heard-btn" icon="icon-reload" title="刷新"
-                         @click="getTreeDict()"></el-button>
+              <el-button @click="searchTree=(searchTree ? false:true)" class="card-heard-btn" icon="icon-filesearch" title="搜索"
+                         type="text"></el-button>
+              <el-button @click="getTreeDict()" class="card-heard-btn" icon="icon-reload" title="刷新"
+                         type="text"></el-button>
             </div>
-            <el-input v-show="searchTree"
-                      placeholder="输入关键字进行过滤"
-                      v-model="filterTreeDictText">
+            <el-input placeholder="输入关键字进行过滤"
+                      v-model="filterTreeDictText"
+                      v-show="searchTree">
             </el-input>
             <el-tree
-              class="filter-tree"
               :data="treeDictData"
-              ref="leftDictTree"
-              node-key="id"
-              highlight-current
               :expand-on-click-node="false"
               :filter-node-method="filterNode"
-              @node-click="clickNodeTreeData">
+              @node-click="clickNodeTreeData"
+              class="filter-tree"
+              highlight-current
+              node-key="id"
+              ref="leftDictTree">
             </el-tree>
           </el-card>
         </el-col>
@@ -34,26 +34,26 @@
                 <el-input class="filter-item input-normal" size="small" v-model="searchForm.name"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button size="small" type="primary" icon="el-icon-search" @click="handleFilter">查询</el-button>
-                <el-button size="small" @click="searchReset" icon="icon-rest">重置</el-button>
+                <el-button @click="handleFilter" icon="el-icon-search" size="small" type="primary">查询</el-button>
+                <el-button @click="searchReset" icon="icon-rest" size="small">重置</el-button>
               </el-form-item>
             </el-form>
           </div>
           <!-- 表格功能列 -->
           <div class="table-menu">
             <div class="table-menu-left">
-              <el-button size="mini" v-if="sys_dict_edit" @click="handleEdit" type="primary" icon="el-icon-plus">添加
+              <el-button @click="handleEdit" icon="el-icon-plus" size="mini" type="primary" v-if="sys_dict_edit">添加
               </el-button>
             </div>
             <div class="table-menu-right">
-              <el-button icon="el-icon-search" circle size="mini"
-                         @click="searchFilterVisible= !searchFilterVisible"></el-button>
+              <el-button @click="searchFilterVisible= !searchFilterVisible" circle icon="el-icon-search"
+                         size="mini"></el-button>
             </div>
           </div>
-          <el-table :key='tableKey' @sort-change="sortChange" :default-sort="{prop:'dict.sort'}" :data="list"
-                    v-loading="listLoading" element-loading-text="加载中..." fit highlight-current-row>
+          <el-table :data="list" :default-sort="{prop:'dict.sort'}" :key='tableKey' @sort-change="sortChange"
+                    element-loading-text="加载中..." fit highlight-current-row v-loading="listLoading">
             <el-table-column
-              type="index" fixed="left" width="40">
+              fixed="left" type="index" width="40">
             </el-table-column>
             <el-table-column align="center" label="上级字典" width="100">
               <template slot-scope="scope">
@@ -61,7 +61,7 @@
               </template>
             </el-table-column>
 
-            <el-table-column align="center" label="名称" width="150" prop="dict.name" sortable="custom">
+            <el-table-column align="center" label="名称" prop="dict.name" sortable="custom" width="150">
               <template slot-scope="scope">
               <span>
                 {{scope.row.name}}
@@ -83,7 +83,7 @@
                 <el-tag>{{scope.row.showText}}</el-tag>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="序号" width="100" prop="dict.sort" sortable="custom">
+            <el-table-column align="center" label="序号" prop="dict.sort" sortable="custom" width="100">
               <template slot-scope="scope">
               <span>
                 {{scope.row.sort}}
@@ -97,51 +97,51 @@
             </el-table-column>
 
 
-            <el-table-column align="center" fixed="right" width="100" label="操作" v-if="sys_dict_edit || sys_dict_del">
+            <el-table-column align="center" fixed="right" label="操作" v-if="sys_dict_edit || sys_dict_del" width="100">
               <template slot-scope="scope">
-                <el-button v-if="sys_dict_edit" icon="icon-edit" title="编辑" type="text" @click="handleEdit(scope.row)">
+                <el-button @click="handleEdit(scope.row)" icon="icon-edit" title="编辑" type="text" v-if="sys_dict_edit">
                 </el-button>
-                <el-button v-if="sys_dict_del" icon="icon-delete" title="删除" type="text"
-                           @click="handleDelete(scope.row)">
+                <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text"
+                           v-if="sys_dict_del">
                 </el-button>
               </template>
             </el-table-column>
 
           </el-table>
-          <div v-show="!listLoading" class="pagination-container">
-            <el-pagination class="pull-right" background @size-change="handleSizeChange"
-                           @current-change="handleCurrentChange" :current-page.sync="listQuery.current"
-                           :page-sizes="[10,20,30, 50]" :page-size="listQuery.size"
-                           layout="total, sizes, prev, pager, next, jumper" :total="total">
+          <div class="pagination-container" v-show="!listLoading">
+            <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size" :page-sizes="[10,20,30, 50]"
+                           :total="total" @current-change="handleCurrentChange"
+                           @size-change="handleSizeChange" background
+                           class="pull-right" layout="total, sizes, prev, pager, next, jumper">
             </el-pagination>
           </div>
         </el-col>
       </el-row>
-      <el-dialog title="选择字典" :visible.sync="dialogDictVisible">
+      <el-dialog :visible.sync="dialogDictVisible" title="选择字典">
         <el-input placeholder="输入关键字进行过滤"
                   v-model="filterParentTreeDictText">
         </el-input>
-        <el-tree class="filter-tree" ref="selectParentDictTree" default-expand-all :data="treeDictSelectData"
-                 :default-checked-keys="checkedKeys"
-                 check-strictly node-key="id" highlight-current @node-click="clickNodeSelectData"
-                 :filter-node-method="filterNode">
+        <el-tree :data="treeDictSelectData" :default-checked-keys="checkedKeys" :filter-node-method="filterNode" @node-click="clickNodeSelectData"
+                 check-strictly
+                 class="filter-tree" default-expand-all highlight-current node-key="id"
+                 ref="selectParentDictTree">
         </el-tree>
       </el-dialog>
       <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-        <el-form :model="form" ref="form" label-width="100px">
+        <el-form :model="form" label-width="100px" ref="form">
           <el-form-item label="所属字典" prop="parentName">
-            <el-input v-model="form.parentName" placeholder="选择字典" @focus="handleParentDictTree()"
-                      :disabled="disableSelectParent" readonly>
+            <el-input :disabled="disableSelectParent" @focus="handleParentDictTree()" placeholder="选择字典"
+                      readonly v-model="form.parentName">
             </el-input>
             <input type="hidden" v-model="form.parentId"/>
           </el-form-item>
 
-          <el-form-item label="字典" prop="name" :rules="[{required: true,message: '请输入字典'}]">
-            <el-input v-model="form.name" placeholder="请输入字典"></el-input>
+          <el-form-item :rules="[{required: true,message: '请输入字典'}]" label="字典" prop="name">
+            <el-input placeholder="请输入字典" v-model="form.name"></el-input>
           </el-form-item>
 
-          <el-form-item label="编码" prop="code" :rules="[ {required: true,validator:validateUnique}]">
-            <el-input v-model="form.code" placeholder="请输入编码"></el-input>
+          <el-form-item :rules="[ {required: true,validator:validateUnique}]" label="编码" prop="code">
+            <el-input placeholder="请输入编码" v-model="form.code"></el-input>
           </el-form-item>
           <el-form-item label="值" prop="val">
             <el-input v-model="form.val"></el-input>
@@ -149,19 +149,19 @@
           <el-form-item label="排序" prop="sort">
             <el-input v-model="form.sort"></el-input>
           </el-form-item>
-          <el-form-item label="是否显示" prop="show" :rules="[{required: true,message: '请选择' }]">
-            <CrudRadio v-model="form.show" :dic="flagOptions"></CrudRadio>
+          <el-form-item :rules="[{required: true,message: '请选择' }]" label="是否显示" prop="show">
+            <CrudRadio :dic="flagOptions" v-model="form.show"></CrudRadio>
           </el-form-item>
           <el-form-item label="备注" prop="description">
-            <el-input type="textarea" v-model="form.remark" placeholder=""></el-input>
+            <el-input placeholder="" type="textarea" v-model="form.remark"></el-input>
           </el-form-item>
           <el-form-item label="描述" prop="description">
-            <el-input type="textarea" v-model="form.description" placeholder=""></el-input>
+            <el-input placeholder="" type="textarea" v-model="form.description"></el-input>
           </el-form-item>
         </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button size="small" @click="cancel()">取 消</el-button>
-          <el-button size="small" type="primary" @click="save()">保 存</el-button>
+        <div class="dialog-footer" slot="footer">
+          <el-button @click="cancel()" size="small">取 消</el-button>
+          <el-button @click="save()" size="small" type="primary">保 存</el-button>
         </div>
       </el-dialog>
     </basic-container>
@@ -239,7 +239,7 @@
             }
         },
         created() {
-            this.getTreeDict()
+            this.getTreeDict();
             this.sys_dict_edit = this.permissions["sys_dict_edit"];
             this.sys_dict_del = this.permissions["sys_dict_del"];
             this.flagOptions = this.dicts['sys_flag'];
@@ -257,7 +257,7 @@
                     fieldName: 'name', value: this.searchForm.name
                 }, {
                     fieldName: 'parent_id', value: this.searchForm.parentId, operate: 'eq'
-                }])
+                }]);
                 pageDict(this.listQuery).then(response => {
                     this.list = response.data.records;
                     this.total = response.data.total;
@@ -266,10 +266,10 @@
             },
             sortChange(column) {
                 if (column.order == "ascending") {
-                    this.listQuery.ascs = column.prop
+                    this.listQuery.ascs = column.prop;
                     this.listQuery.descs = undefined;
                 } else {
-                    this.listQuery.descs = column.prop
+                    this.listQuery.descs = column.prop;
                     this.listQuery.ascs = undefined;
                 }
                 this.getList()
@@ -286,11 +286,11 @@
                 })
             },
             filterNode(value, data) {
-                if (!value) return true
+                if (!value) return true;
                 return data.label.indexOf(value) !== -1
             },
             clickNodeTreeData(data) {
-                this.searchForm.parentId = data.id
+                this.searchForm.parentId = data.id;
                 this.currentNode = data;
                 this.getList()
             },
@@ -365,7 +365,7 @@
                 this.$refs['form'].validate(valid => {
                     if (valid) {
                         saveDict(this.form).then(response => {
-                            this.getList()
+                            this.getList();
                             this.dialogFormVisible = false;
                         })
                     } else {
@@ -387,7 +387,7 @@
                     sort: undefined,
                     remark: undefined,
                     description: undefined
-                }
+                };
                 this.$refs['form'] && this.$refs['form'].resetFields();
             }
         }

@@ -5,26 +5,26 @@
         <el-col :span="5"
                 style='margin-top:15px;'>
           <el-card class="box-card">
-            <div slot="header" class="clearfix">
+            <div class="clearfix" slot="header">
               <span>菜单</span>
-              <el-button type="text" class="card-heard-btn" icon="icon-filesearch" title="搜索"
-                         @click="searchTree=(searchTree ? false:true)"></el-button>
-              <el-button type="text" class="card-heard-btn" icon="icon-reload" title="刷新"
-                         @click="getTreeMenu()"></el-button>
+              <el-button @click="searchTree=(searchTree ? false:true)" class="card-heard-btn" icon="icon-filesearch" title="搜索"
+                         type="text"></el-button>
+              <el-button @click="getTreeMenu()" class="card-heard-btn" icon="icon-reload" title="刷新"
+                         type="text"></el-button>
             </div>
-            <el-input v-show="searchTree"
-                      placeholder="输入关键字进行过滤"
-                      v-model="filterTreeMenuText">
+            <el-input placeholder="输入关键字进行过滤"
+                      v-model="filterTreeMenuText"
+                      v-show="searchTree">
             </el-input>
             <el-tree
-              class="filter-tree"
               :data="treeMenuData"
-              ref="leftMenuTree"
-              node-key="id"
-              highlight-current
               :expand-on-click-node="false"
               :filter-node-method="filterNode"
-              @node-click="clickNodeTreeData">
+              @node-click="clickNodeTreeData"
+              class="filter-tree"
+              highlight-current
+              node-key="id"
+              ref="leftMenuTree">
             </el-tree>
           </el-card>
         </el-col>
@@ -38,26 +38,26 @@
                 <el-input class="filter-item input-normal" size="small" v-model="searchForm.component"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button size="small" type="primary" icon="el-icon-search" @click="handleFilter">查询</el-button>
-                <el-button size="small" @click="searchReset" icon="icon-rest">重置</el-button>
+                <el-button @click="handleFilter" icon="el-icon-search" size="small" type="primary">查询</el-button>
+                <el-button @click="searchReset" icon="icon-rest" size="small">重置</el-button>
               </el-form-item>
             </el-form>
           </div>
           <!-- 表格功能列 -->
           <div class="table-menu">
             <div class="table-menu-left">
-              <el-button size="mini" v-if="sys_menu_edit" @click="handleEdit" type="primary" icon="el-icon-plus">添加
+              <el-button @click="handleEdit" icon="el-icon-plus" size="mini" type="primary" v-if="sys_menu_edit">添加
               </el-button>
             </div>
             <div class="table-menu-right">
-              <el-button icon="el-icon-search" circle size="mini"
-                         @click="searchFilterVisible= !searchFilterVisible"></el-button>
+              <el-button @click="searchFilterVisible= !searchFilterVisible" circle icon="el-icon-search"
+                         size="mini"></el-button>
             </div>
           </div>
-          <el-table :key='tableKey' @sort-change="sortChange" :data="list" v-loading="listLoading"
-                    element-loading-text="加载中..." fit highlight-current-row>
+          <el-table :data="list" :key='tableKey' @sort-change="sortChange" element-loading-text="加载中..."
+                    fit highlight-current-row v-loading="listLoading">
             <el-table-column
-              type="index" fixed="left" width="60">
+              fixed="left" type="index" width="60">
             </el-table-column>
             <!--            <el-table-column align="center" label="上级菜单" width="100">-->
             <!--              <template slot-scope="scope">-->
@@ -65,7 +65,7 @@
             <!--              </template>-->
             <!--            </el-table-column>-->
 
-            <el-table-column align="center" label="名称" width="130" prop="menu.name" sortable="custom">
+            <el-table-column align="center" label="名称" prop="menu.name" sortable="custom" width="130">
               <template slot-scope="scope">
                 <span>
                   <i :class="scope.row.icon"></i>
@@ -104,7 +104,7 @@
                 <el-tag>{{scope.row.showText}}</el-tag>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="序号" width="80" prop="menu.sort" sortable="custom">
+            <el-table-column align="center" label="序号" prop="menu.sort" sortable="custom" width="80">
               <template slot-scope="scope">
                 <span>
                   {{scope.row.sort}}
@@ -117,39 +117,39 @@
               </template>
             </el-table-column>
 
-            <el-table-column align="center" fixed="right" width="100" label="操作"
-                             v-if="sys_menu_edit || sys_menu_lock || sys_menu_del">
+            <el-table-column align="center" fixed="right" label="操作" v-if="sys_menu_edit || sys_menu_lock || sys_menu_del"
+                             width="100">
               <template slot-scope="scope">
-                <el-button v-if="sys_menu_edit" icon="icon-edit" title="编辑" type="text" @click="handleEdit(scope.row)">
+                <el-button @click="handleEdit(scope.row)" icon="icon-edit" title="编辑" type="text" v-if="sys_menu_edit">
                 </el-button>
-                <el-button v-if="sys_menu_del" icon="icon-delete" title="删除" type="text"
-                           @click="handleDelete(scope.row)">
+                <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text"
+                           v-if="sys_menu_del">
                 </el-button>
               </template>
             </el-table-column>
 
           </el-table>
-          <div v-show="!listLoading" class="pagination-container">
-            <el-pagination class="pull-right" background @size-change="handleSizeChange"
-                           @current-change="handleCurrentChange" :current-page.sync="listQuery.current"
-                           :page-sizes="[10,20,30, 50]" :page-size="listQuery.size"
-                           layout="total, sizes, prev, pager, next, jumper" :total="total">
+          <div class="pagination-container" v-show="!listLoading">
+            <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size" :page-sizes="[10,20,30, 50]"
+                           :total="total" @current-change="handleCurrentChange"
+                           @size-change="handleSizeChange" background
+                           class="pull-right" layout="total, sizes, prev, pager, next, jumper">
             </el-pagination>
           </div>
         </el-col>
       </el-row>
-      <el-dialog title="选择菜单" :visible.sync="dialogMenuVisible">
+      <el-dialog :visible.sync="dialogMenuVisible" title="选择菜单">
         <el-input placeholder="输入关键字进行过滤"
                   v-model="filterParentTreeMenuText">
         </el-input>
-        <el-tree class="filter-tree" ref="selectParentMenuTree" default-expand-all :data="treeMenuSelectData"
-                 :default-checked-keys="checkedKeys"
-                 check-strictly node-key="id" highlight-current @node-click="clickNodeSelectData"
-                 :filter-node-method="filterNode">
+        <el-tree :data="treeMenuSelectData" :default-checked-keys="checkedKeys" :filter-node-method="filterNode" @node-click="clickNodeSelectData"
+                 check-strictly
+                 class="filter-tree" default-expand-all highlight-current node-key="id"
+                 ref="selectParentMenuTree">
         </el-tree>
       </el-dialog>
 
-      <el-dialog title="查看图标" :visible.sync="dialogIconVisible">
+      <el-dialog :visible.sync="dialogIconVisible" title="查看图标">
         <ul class="icon_lists clear">
 
           <li>
@@ -3323,30 +3323,30 @@
         </ul>
       </el-dialog>
       <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-        <el-form :model="form" ref="form" label-width="100px">
+        <el-form :model="form" label-width="100px" ref="form">
           <el-form-item label="所属菜单" prop="parentName">
-            <el-input v-model="form.parentName" placeholder="选择菜单" @focus="handelParentMenuTree()"
-                      :disabled="disableSelectMenuParent" readonly>
+            <el-input :disabled="disableSelectMenuParent" @focus="handelParentMenuTree()" placeholder="选择菜单"
+                      readonly v-model="form.parentName">
             </el-input>
             <input type="hidden" v-model="form.parentId"/>
           </el-form-item>
 
-          <el-form-item label="名称" prop="name" :rules="[{required: true,message: '请输入菜单名称'}]">
-            <el-input v-model="form.name" placeholder="请输入名称"></el-input>
+          <el-form-item :rules="[{required: true,message: '请输入菜单名称'}]" label="名称" prop="name">
+            <el-input placeholder="请输入名称" v-model="form.name"></el-input>
           </el-form-item>
 
-          <el-form-item label="权限" prop="permission" :rules="[ {validator:validateUnique}]">
-            <el-input v-model="form.permission" placeholder="请输入权限"></el-input>
+          <el-form-item :rules="[ {validator:validateUnique}]" label="权限" prop="permission">
+            <el-input placeholder="请输入权限" v-model="form.permission"></el-input>
           </el-form-item>
           <el-form-item label="图标" prop="icon">
             <el-input v-model="form.icon"></el-input>
-            <el-button type="text" @click="handleIcon()">查看图标</el-button>
+            <el-button @click="handleIcon()" type="text">查看图标</el-button>
           </el-form-item>
           <el-form-item label="VUE页面" prop="component">
             <el-input v-model="form.component"></el-input>
           </el-form-item>
-          <el-form-item label="菜单类型" prop="type" :rules="[{required: true,message: '请选择' }]">
-            <CrudRadio v-model="form.type" :dic="menuTypeOptions"></CrudRadio>
+          <el-form-item :rules="[{required: true,message: '请选择' }]" label="菜单类型" prop="type">
+            <CrudRadio :dic="menuTypeOptions" v-model="form.type"></CrudRadio>
           </el-form-item>
           <!--          <el-form-item label="路由缓冲" prop="keepAlive">-->
           <!--            <el-switch-->
@@ -3357,19 +3357,19 @@
           <el-form-item label="前端URL" prop="path">
             <el-input v-model="form.path"></el-input>
           </el-form-item>
-          <el-form-item label="是否显示" prop="show" :rules="[{required: true,message: '请选择' }]">
-            <CrudRadio v-model="form.show" :dic="flagOptions"></CrudRadio>
+          <el-form-item :rules="[{required: true,message: '请选择' }]" label="是否显示" prop="show">
+            <CrudRadio :dic="flagOptions" v-model="form.show"></CrudRadio>
           </el-form-item>
           <el-form-item label="序号" prop="sort">
-            <el-input-number v-model="form.sort" :min="1" :max="1000"></el-input-number>
+            <el-input-number :max="1000" :min="1" v-model="form.sort"></el-input-number>
           </el-form-item>
           <el-form-item label="描述" prop="description">
-            <el-input type="textarea" v-model="form.description" placeholder=""></el-input>
+            <el-input placeholder="" type="textarea" v-model="form.description"></el-input>
           </el-form-item>
         </el-form>
-        <div slot="footer" class="dialog-footer">
+        <div class="dialog-footer" slot="footer">
           <el-button @click="cancel()">取 消</el-button>
-          <el-button type="primary" @click="save()">保 存</el-button>
+          <el-button @click="save()" type="primary">保 存</el-button>
         </div>
       </el-dialog>
     </basic-container>
@@ -3452,7 +3452,7 @@
             },
         },
         created() {
-            this.getTreeMenu()
+            this.getTreeMenu();
             this.sys_menu_edit = this.permissions["sys_menu_edit"];
             this.sys_menu_lock = this.permissions["sys_menu_lock"];
             this.sys_menu_del = this.permissions["sys_menu_del"];
@@ -3474,7 +3474,7 @@
                     fieldName: 'component', value: this.searchForm.component
                 }, {
                     fieldName: 'parent_id', value: this.searchForm.parentId, operate: 'eq'
-                }])
+                }]);
                 pageMenu(this.listQuery).then(response => {
                     this.list = response.data.records;
                     this.total = response.data.total;
@@ -3483,10 +3483,10 @@
             },
             sortChange(column) {
                 if (column.order == "ascending") {
-                    this.listQuery.ascs = column.prop
+                    this.listQuery.ascs = column.prop;
                     this.listQuery.descs = undefined;
                 } else {
-                    this.listQuery.descs = column.prop
+                    this.listQuery.descs = column.prop;
                     this.listQuery.ascs = undefined;
                 }
                 this.getList()
@@ -3498,16 +3498,16 @@
                     this.searchForm.parentId = this.treeMenuData[0].id;
                     setTimeout(() => {
                         this.$refs['leftMenuTree'].setCurrentKey(this.searchForm.parentId);
-                    }, 100)
+                    }, 100);
                     this.getList();
                 })
             },
             filterNode(value, data) {
-                if (!value) return true
+                if (!value) return true;
                 return data.label.indexOf(value) !== -1
             },
             clickNodeTreeData(data) {
-                this.searchForm.parentId = data.id
+                this.searchForm.parentId = data.id;
                 this.currentNode = data;
                 this.getList()
             },
@@ -3557,7 +3557,7 @@
                     findMenu(row.id).then(response => {
                         this.form = response.data;
                         this.disableSelectMenuParent = this.form.parentName ? false : true;
-                        this.form.show = objectToString(this.form.show)
+                        this.form.show = objectToString(this.form.show);
                         this.dialogFormVisible = true;
                     });
                 }
@@ -3585,7 +3585,7 @@
                 this.$refs['form'].validate(valid => {
                     if (valid) {
                         saveMenu(this.form).then(response => {
-                            this.getList()
+                            this.getList();
                             this.dialogFormVisible = false;
                         })
                     } else {
@@ -3610,7 +3610,7 @@
                     path: undefined,
                     sort: undefined,
                     description: undefined
-                }
+                };
                 this.$refs['form'] && this.$refs['form'].resetFields();
             }
         }

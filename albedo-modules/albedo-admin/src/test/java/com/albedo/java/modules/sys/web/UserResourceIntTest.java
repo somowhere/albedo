@@ -46,36 +46,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserResourceIntTest {
 
 
-	private String DEFAULT_API_URL;
-
 	private static final String DEFAULT_ANOTHER_USERNAME = "johndoeddd";
 	private static final String DEFAULT_USERNAME = "johndoe";
 	private static final String UPDATED_USERNAME = "jhipster";
-
 	private static final String DEFAULT_PASSWORD = "passjohndoe";
 	private static final String UPDATED_PASSWORD = "passjhipster";
-
 	private static final String DEFAULT_PHONE = "13258812456";
 	private static final String UPDATED_PHONE = "13222222222";
-
 	private static final String DEFAULT_ANOTHER_EMAIL = "23423432@localhost";
 	private static final String DEFAULT_EMAIL = "johndoe@localhost";
 	private static final String UPDATED_EMAIL = "jhipster@localhost";
-
-
 	private static final String DEFAULT_QQOPENID = "QQOPENID1";
 	private static final String UPDATED_QQOPENID = "QQOPENID2";
 	private static final String DEFAULT_AVAILABLE = CommonConstants.STR_YES;
 	private static final String UPDATED_AVAILABLE = CommonConstants.STR_NO;
-
-
+	UserDataVo anotherUser = new UserDataVo();
+	private String DEFAULT_API_URL;
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private RoleService roleService;
 	@Autowired
 	private DeptService deptService;
-
 	private MockMvc restUserMockMvc;
 	@Autowired
 	private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -86,7 +78,6 @@ public class UserResourceIntTest {
 	private UserDataVo user;
 	private List<Role> roleList;
 	private List<Dept> deptList;
-	UserDataVo anotherUser = new UserDataVo();
 
 	@BeforeEach
 	public void setup() {

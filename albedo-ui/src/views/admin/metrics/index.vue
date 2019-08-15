@@ -2,52 +2,52 @@
   <div class="app-container calendar-list-container">
     <div class="avue-data-display">
       <h3>JVM 资源监控</h3>
-      <el-row :span="24" :gutter="30">
+      <el-row :gutter="30" :span="24">
         <el-col :span="8">
           <b>内存{{getVal(metrics.gauges['jvm.memory.total.used']) * 100 /
             getVal(metrics.gauges['jvm.memory.total.max']) | numFilter}}</b>
           <p><span>总内存</span> ({{getVal(metrics.gauges['jvm.memory.total.used']) / 1000000 }}M /
             {{getVal(metrics.gauges['jvm.memory.total.max']) / 1000000 }}M)</p>
-          <el-progress status="success" :text-inside="true" :stroke-width="18"
-                       :percentage="getVal(metrics.gauges['jvm.memory.total.used']) * 100 /
-                        getVal(metrics.gauges['jvm.memory.total.max']) | numFilter">
+          <el-progress :percentage="getVal(metrics.gauges['jvm.memory.total.used']) * 100 /
+                        getVal(metrics.gauges['jvm.memory.total.max']) | numFilter" :stroke-width="18" :text-inside="true"
+                       status="success">
           </el-progress>
           <p><span>堆内存</span> ({{getVal(metrics.gauges['jvm.memory.heap.used']) / 1000000}}M /
             {{getVal(metrics.gauges['jvm.memory.heap.max']) / 1000000}}M)</p>
-          <el-progress status="success" :text-inside="true" :stroke-width="18"
-                       :percentage="getVal(metrics.gauges['jvm.memory.heap.used'])  * 100 /
-                       getVal(metrics.gauges['jvm.memory.heap.max']) | numFilter">
+          <el-progress :percentage="getVal(metrics.gauges['jvm.memory.heap.used'])  * 100 /
+                       getVal(metrics.gauges['jvm.memory.heap.max']) | numFilter" :stroke-width="18" :text-inside="true"
+                       status="success">
             <span>%</span>
           </el-progress>
           <p><span>非堆内存</span> ({{getVal(metrics.gauges['jvm.memory.non-heap.used']) / 1000000}}M /
             {{getVal(metrics.gauges['jvm.memory.non-heap.committed']) / 1000000}}M)</p>
-          <el-progress status="success" :text-inside="true" :stroke-width="18"
-                       :percentage="getVal(metrics.gauges['jvm.memory.non-heap.used'])  * 100 /
-                        getVal(metrics.gauges['jvm.memory.non-heap.committed']) | numFilter">
+          <el-progress :percentage="getVal(metrics.gauges['jvm.memory.non-heap.used'])  * 100 /
+                        getVal(metrics.gauges['jvm.memory.non-heap.committed']) | numFilter" :stroke-width="18" :text-inside="true"
+                       status="success">
           </el-progress>
         </el-col>
         <el-col :span="8">
           <b>线程</b> (Total: {{getVal(metrics.gauges['jvm.threads.count']) }})
-          <a class="hand" @click="showDialog()"><i class="icon-eye"></i></a>
+          <a @click="showDialog()" class="hand"><i class="icon-eye"></i></a>
           <p><span>可运行</span> {{getVal(metrics.gauges['jvm.threads.runnable.count']) }}</p>
-          <el-progress status="success" :text-inside="true" :stroke-width="18"
-                       :percentage="getVal(metrics.gauges['jvm.threads.runnable.count'])  * 100 /
-                       getVal(metrics.gauges['jvm.threads.count']) | numFilter">
+          <el-progress :percentage="getVal(metrics.gauges['jvm.threads.runnable.count'])  * 100 /
+                       getVal(metrics.gauges['jvm.threads.count']) | numFilter" :stroke-width="18" :text-inside="true"
+                       status="success">
           </el-progress>
           <p><span>定时等待</span> ({{getVal(metrics.gauges['jvm.threads.timed_waiting.count']) }})</p>
-          <el-progress status="warning" :text-inside="true" :stroke-width="18"
-                       :percentage="getVal(metrics.gauges['jvm.threads.timed_waiting.count'])  * 100 /
-                       getVal(metrics.gauges['jvm.threads.count']) | numFilter">
+          <el-progress :percentage="getVal(metrics.gauges['jvm.threads.timed_waiting.count'])  * 100 /
+                       getVal(metrics.gauges['jvm.threads.count']) | numFilter" :stroke-width="18" :text-inside="true"
+                       status="warning">
           </el-progress>
           <p><span>等待中</span> ({{getVal(metrics.gauges['jvm.threads.waiting.count']) }})</p>
-          <el-progress status="warning" :text-inside="true" :stroke-width="18"
-                       :percentage="getVal(metrics.gauges['jvm.threads.waiting.count'])  * 100 /
-                                  getVal(metrics.gauges['jvm.threads.count']) | numFilter">
+          <el-progress :percentage="getVal(metrics.gauges['jvm.threads.waiting.count'])  * 100 /
+                                  getVal(metrics.gauges['jvm.threads.count']) | numFilter" :stroke-width="18" :text-inside="true"
+                       status="warning">
           </el-progress>
           <p><span>阻塞中</span> ({{getVal(metrics.gauges['jvm.threads.blocked.count']) }})</p>
-          <el-progress status="success" :text-inside="true" :stroke-width="18"
-                       :percentage="getVal(metrics.gauges['jvm.threads.blocked.count'])  * 100 /
-                       getVal(metrics.gauges['jvm.threads.count']) | numFilter">
+          <el-progress :percentage="getVal(metrics.gauges['jvm.threads.blocked.count'])  * 100 /
+                       getVal(metrics.gauges['jvm.threads.count']) | numFilter" :stroke-width="18" :text-inside="true"
+                       status="success">
           </el-progress>
         </el-col>
         <el-col :span="8">
@@ -101,9 +101,9 @@
           <tr>
             <td>2xx (成功)</td>
             <td>
-              <el-progress status="success" :text-inside="true" :stroke-width="18"
-                           :percentage="getValByKey(metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.ok'],'count') * 100 /
-                        getValByKey(metrics.timers['com.codahale.metrics.servlet.InstrumentedFilter.requests'],'count') | numFilter">
+              <el-progress :percentage="getValByKey(metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.ok'],'count') * 100 /
+                        getValByKey(metrics.timers['com.codahale.metrics.servlet.InstrumentedFilter.requests'],'count') | numFilter" :stroke-width="18" :text-inside="true"
+                           status="success">
               </el-progress>
             </td>
             <td class="text-right">
@@ -122,9 +122,9 @@
           <tr>
             <td>4xx (请求错误)</td>
             <td>
-              <el-progress status="success" :text-inside="true" :stroke-width="18"
-                           :percentage="getValByKey(metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.notFound'],'count') * 100 /
-                        getValByKey(metrics.timers['com.codahale.metrics.servlet.InstrumentedFilter.requests'],'count') | numFilter">
+              <el-progress :percentage="getValByKey(metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.notFound'],'count') * 100 /
+                        getValByKey(metrics.timers['com.codahale.metrics.servlet.InstrumentedFilter.requests'],'count') | numFilter" :stroke-width="18" :text-inside="true"
+                           status="success">
               </el-progress>
             </td>
             <td class="text-right">
@@ -143,9 +143,9 @@
           <tr>
             <td>5xx (服务器错误)</td>
             <td>
-              <el-progress status="success" :text-inside="true" :stroke-width="18"
-                           :percentage="getValByKey(metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.serverError'],'count') * 100 /
-                        getValByKey(metrics.timers['com.codahale.metrics.servlet.InstrumentedFilter.requests'],'count') | numFilter">
+              <el-progress :percentage="getValByKey(metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.serverError'],'count') * 100 /
+                        getValByKey(metrics.timers['com.codahale.metrics.servlet.InstrumentedFilter.requests'],'count') | numFilter" :stroke-width="18" :text-inside="true"
+                           status="success">
               </el-progress>
             </td>
             <td class="text-right">
@@ -182,7 +182,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="(entry, key,index) in servicesStats" v-bind:key="index">
+          <tr v-bind:key="index" v-for="(entry, key,index) in servicesStats">
             <td>{{key}}</td>
             <td class="text-right">{{getValByKey(entry,'count')}}</td>
             <td class="text-right">{{getValByKey(entry,'mean')}}</td>
@@ -217,7 +217,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="(entry,index) in cachesStats" v-bind:key="index">
+          <tr v-bind:key="index" v-for="(entry,index) in cachesStats">
             <td>{{entry.key}}</td>
             <td class="text-right">{{getVal(metrics.gauges[entry.key + '.cache-hits'])}}</td>
             <td class="text-right">{{getVal(metrics.gauges[entry.key + '.cache-misses'])}}</td>
@@ -260,8 +260,8 @@
           <tr>
             <td>
               <div class="progress progress-striped">
-                <el-progress status="success" :text-inside="true" :stroke-width="18"
-                             :percentage="getVal(metrics.gauges['HikariPool-1.pool.ActiveConnections']) * 100 / getVal(metrics.gauges['HikariPool-1.pool.TotalConnections']) | numFilter">
+                <el-progress :percentage="getVal(metrics.gauges['HikariPool-1.pool.ActiveConnections']) * 100 / getVal(metrics.gauges['HikariPool-1.pool.TotalConnections']) | numFilter" :stroke-width="18" :text-inside="true"
+                             status="success">
                 </el-progress>
               </div>
             </td>
@@ -280,29 +280,29 @@
 
       <el-dialog :title="'线程转储'" :visible.sync="dialogVisible">
         <el-button-group>
-          <el-button @click="threadDumpFilterByState('ALL')" type="primary" size="mini">All&nbsp;<span
+          <el-button @click="threadDumpFilterByState('ALL')" size="mini" type="primary">All&nbsp;<span
             class="badge badge-pill badge-default">{{threadDumpAll}}</span></el-button>
-          <el-button @click="threadDumpFilterByState('RUNNABLE')" type="success" size="mini">Runnable&nbsp;<span
+          <el-button @click="threadDumpFilterByState('RUNNABLE')" size="mini" type="success">Runnable&nbsp;<span
             class="badge badge-pill badge-default">{{threadDumpRunnable}}</span></el-button>
-          <el-button @click="threadDumpFilterByState('WAITING')" type="info" size="mini">Waiting&nbsp;<span
+          <el-button @click="threadDumpFilterByState('WAITING')" size="mini" type="info">Waiting&nbsp;<span
             class="badge badge-pill badge-default">{{threadDumpWaiting}}</span></el-button>
-          <el-button @click="threadDumpFilterByState('TIMED_WAITING')" type="warning" size="mini">Timed
+          <el-button @click="threadDumpFilterByState('TIMED_WAITING')" size="mini" type="warning">Timed
             Waiting&nbsp;<span class="badge badge-pill badge-default">{{threadDumpTimedWaiting}}</span></el-button>
-          <el-button @click="threadDumpFilterByState('BLOCKED')" type="danger" size="mini">Blocked&nbsp;<span
+          <el-button @click="threadDumpFilterByState('BLOCKED')" size="mini" type="danger">Blocked&nbsp;<span
             class="badge badge-pill badge-default">{{threadDumpBlocked}}</span></el-button>
         </el-button-group>
-        <el-input v-model="threadDumpFilter" style="margin: 10px 0 10px 0;"></el-input>
-        <div style="margin-bottom: 10px;" v-for="(entry,index) in threadDump" v-bind:key="index">
+        <el-input style="margin: 10px 0 10px 0;" v-model="threadDumpFilter"></el-input>
+        <div style="margin-bottom: 10px;" v-bind:key="index" v-for="(entry,index) in threadDump">
           <h6>
-            <span class="badge" :class="getBadgeClass(entry.threadState)">{{entry.threadState}}</span>&nbsp;{{entry.threadName}}
+            <span :class="getBadgeClass(entry.threadState)" class="badge">{{entry.threadState}}</span>&nbsp;{{entry.threadName}}
             (ID {{entry.threadId}})
-            <el-button round @click="showDetail(entry)" size="mini">
+            <el-button @click="showDetail(entry)" round size="mini">
               {{entry.show?'隐藏':'显示'}}
             </el-button>
           </h6>
           <div class="card" v-if="entry.show">
             <div class="card-body">
-              <div v-for="(st,index) in entry.stackTrace" v-bind:key="index" class="break">
+              <div class="break" v-bind:key="index" v-for="(st,index) in entry.stackTrace">
                 <samp>{{st.className}}.{{st.methodName}}(<code>{{st.fileName}}:{{st.lineNumber}}</code>)</samp>
                 <span class="mt-1"></span>
               </div>
@@ -324,12 +324,12 @@
               <td>{{entry.blockedCount}}</td>
               <td>{{entry.waitedTime}}</td>
               <td>{{entry.waitedCount}}</td>
-              <td class="thread-dump-modal-lock" :title="entry.lockName"><code>{{entry.lockName}}</code></td>
+              <td :title="entry.lockName" class="thread-dump-modal-lock"><code>{{entry.lockName}}</code></td>
             </tr>
             </tbody>
           </table>
         </div>
-        <div slot="footer" class="dialog-footer">
+        <div class="dialog-footer" slot="footer">
           <el-button @click="dialogVisible=false">取 消</el-button>
         </div>
       </el-dialog>
@@ -367,8 +367,8 @@
         },
         filters: {
             numFilter(value) {
-                if (isNaN(value)) return 0
-                let realVal = Number(value).toFixed(2)
+                if (isNaN(value)) return 0;
+                let realVal = Number(value).toFixed(2);
                 return Number(realVal)
             },
             filterNaN(input) {
@@ -384,8 +384,8 @@
         },
         methods: {
             numFilter(value) {
-                if (isNaN(value)) return 0
-                let realVal = Number(value).toFixed(2)
+                if (isNaN(value)) return 0;
+                let realVal = Number(value).toFixed(2);
                 return Number(realVal)
             },
             getVal(val) {
@@ -395,11 +395,11 @@
                 return this.numFilter(val && val[key]);
             },
             showDialog() {
-                this.dialogVisible = true
+                this.dialogVisible = true;
                 threadDump().then(data => {
                     data.forEach((value) => {
                         value.show = false;
-                    })
+                    });
                     this.threadDump = data;
                     this.threadDumpData = data;
                     this.threadDump.forEach((value) => {
@@ -434,8 +434,8 @@
                 }
             },
             threadDumpFilterByState(state) {
-                this.threadDumpFilter = state
-                var dump = []
+                this.threadDumpFilter = state;
+                var dump = [];
 
                 this.threadDumpData.forEach((value) => {
                     if (state == 'ALL' || value.threadState == state) {

@@ -4,7 +4,7 @@
       <el-row>
         <el-col>
           <div class="table-responsive">
-            <table id="healthCheck" class="el-table">
+            <table class="el-table" id="healthCheck">
               <thead>
               <tr>
                 <th>服务名称</th>
@@ -13,13 +13,13 @@
               </tr>
               </thead>
               <tbody>
-              <tr v-for="(health,index) in healthData" v-bind:key="index">
+              <tr v-bind:key="index" v-for="(health,index) in healthData">
                 <td>{{baseName(health.name)}} {{subSystemName(health.name)}}</td>
                 <td class="text-center">
                   <el-tag :type="getBadgeClass(health.status.status)">{{health.status.status}}</el-tag>
                 </td>
                 <td class="text-center">
-                  <a class="hand" @click="showHealth(health)">
+                  <a @click="showHealth(health)" class="hand">
                     <i class="icon-eye"></i>
                   </a>
                 </td>
@@ -40,7 +40,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="(entry, key,index) in currentHealth.details.details" v-bind:key="index">
+                    <tr v-bind:key="index" v-for="(entry, key,index) in currentHealth.details.details">
                       <td class="text-left">{{key}}</td>
                       <td class="text-left">{{readableValue(entry)}}</td>
                     </tr>
@@ -52,7 +52,7 @@
                 <h4>Error</h4>
                 <pre>{{currentHealth.error}}</pre>
               </div>
-              <div slot="footer" class="dialog-footer">
+              <div class="dialog-footer" slot="footer">
                 <el-button @click="dialogVisible=false">取 消</el-button>
               </div>
             </el-dialog>

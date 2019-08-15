@@ -1,5 +1,4 @@
 import request from '@/router/axios';
-import {isValidateUnique, toStr} from "@/util/validate";
 
 export function pageJobLog(query) {
   return request({
@@ -8,6 +7,7 @@ export function pageJobLog(query) {
     params: query
   })
 }
+
 export function exportJobLog(query) {
   return request({
     url: '/sys/job-log/export',
@@ -15,6 +15,7 @@ export function exportJobLog(query) {
     params: query
   })
 }
+
 export function cleanJobLog() {
   return request({
     url: '/sys/job-log/clean',
@@ -22,6 +23,7 @@ export function cleanJobLog() {
     params: query
   })
 }
+
 export function removeJobLog(id) {
   return request({
     url: '/quartz/job-log/' + id,

@@ -1,6 +1,6 @@
 <template>
-  <div class="avue-contail"
-       :class="{'avue--collapse':isCollapse}">
+  <div :class="{'avue--collapse':isCollapse}"
+       class="avue-contail">
     <div class="avue-header">
       <!-- 顶部导航栏 -->
       <top/>
@@ -26,8 +26,8 @@
 
       </div>
     </div>
-    <div class="avue-shade"
-         @click="showCollapse"></div>
+    <div @click="showCollapse"
+         class="avue-shade"></div>
   </div>
 </template>
 
@@ -72,7 +72,7 @@
             },
             // 屏幕检测
             init() {
-                this.$store.commit('SET_SCREEN', admin.getScreen())
+                this.$store.commit('SET_SCREEN', admin.getScreen());
                 window.onresize = () => {
                     setTimeout(() => {
                         this.$store.commit('SET_SCREEN', admin.getScreen())

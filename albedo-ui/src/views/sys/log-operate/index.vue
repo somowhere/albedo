@@ -13,27 +13,27 @@
                 <el-input size="small" v-model="searchForm.ipAddress"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button size="small" type="primary" icon="el-icon-search" @click="handleFilter">查询</el-button>
-                <el-button size="small" @click="searchReset" icon="icon-rest">重置</el-button>
+                <el-button @click="handleFilter" icon="el-icon-search" size="small" type="primary">查询</el-button>
+                <el-button @click="searchReset" icon="icon-rest" size="small">重置</el-button>
               </el-form-item>
             </el-form>
           </div>
           <!-- 表格功能列 -->
           <div class="table-menu">
             <div class="table-menu-left">
-              <el-button size="mini" v-if="sys_logOperate_export" @click="handleExport" type="primary"
-                         icon="icon-export">导出
+              <el-button @click="handleExport" icon="icon-export" size="mini" type="primary"
+                         v-if="sys_logOperate_export">导出
               </el-button>
             </div>
             <div class="table-menu-right">
-              <el-button icon="el-icon-search" circle size="mini"
-                         @click="searchFilterVisible= !searchFilterVisible"></el-button>
+              <el-button @click="searchFilterVisible= !searchFilterVisible" circle icon="el-icon-search"
+                         size="mini"></el-button>
             </div>
           </div>
-          <el-table :key='tableKey' @sort-change="sortChange" :default-sort="{prop:'created_date',order:'descending'}"
-                    :data="list" v-loading="listLoading" element-loading-text="加载中..." fit highlight-current-row>
+          <el-table :data="list" :default-sort="{prop:'created_date',order:'descending'}" :key='tableKey'
+                    @sort-change="sortChange" element-loading-text="加载中..." fit highlight-current-row v-loading="listLoading">
             <el-table-column
-              type="index" fixed="left" width="50">
+              fixed="left" type="index" width="50">
             </el-table-column>
             <el-table-column align="center" label="标题" width="120">
               <template slot-scope="scope">
@@ -124,20 +124,20 @@
               </template>
             </el-table-column>
 
-            <el-table-column align="center" label="操作" fixed="right" width="60" v-if="sys_logOperate_del">
+            <el-table-column align="center" fixed="right" label="操作" v-if="sys_logOperate_del" width="60">
               <template slot-scope="scope">
-                <el-button v-if="sys_logOperate_del" icon="icon-delete" title="删除" type="text"
-                           @click="handleDelete(scope.row)">
+                <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text"
+                           v-if="sys_logOperate_del">
                 </el-button>
               </template>
             </el-table-column>
 
           </el-table>
-          <div v-show="!listLoading" class="pagination-container">
-            <el-pagination class="pull-right" background @size-change="handleSizeChange"
-                           @current-change="handleCurrentChange" :current-page.sync="listQuery.current"
-                           :page-sizes="[10,20,30, 50]" :page-size="listQuery.size"
-                           layout="total, sizes, prev, pager, next, jumper" :total="total">
+          <div class="pagination-container" v-show="!listLoading">
+            <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size" :page-sizes="[10,20,30, 50]"
+                           :total="total" @current-change="handleCurrentChange"
+                           @size-change="handleSizeChange" background
+                           class="pull-right" layout="total, sizes, prev, pager, next, jumper">
             </el-pagination>
           </div>
         </el-col>
@@ -151,7 +151,6 @@
     import {mapGetters} from 'vuex';
     import {parseJsonItemForm} from "@/util/util";
     import {baseUrl} from "../../../config/env";
-    import {cleanJobLog} from "../../quartz/job-log/service";
 
     export default {
         name: 'Log',
@@ -181,7 +180,7 @@
         },
         watch: {},
         created() {
-            this.getList()
+            this.getList();
             this.sys_logOperate_view = this.permissions["sys_logOperate_view"];
             this.sys_logOperate_export = this.permissions["sys_logOperate_export"];
             this.sys_logOperate_del = this.permissions["sys_logOperate_del"];
@@ -200,7 +199,7 @@
                     fieldName: 'remote_addr', value: this.searchForm.remoteAddr
                 }
 
-                ])
+                ]);
                 pageLog(this.listQuery).then(response => {
                     this.list = response.data.records;
                     this.total = response.data.total;
@@ -209,10 +208,10 @@
             },
             sortChange(column) {
                 if (column.order == "ascending") {
-                    this.listQuery.ascs = column.prop
+                    this.listQuery.ascs = column.prop;
                     this.listQuery.descs = undefined;
                 } else {
-                    this.listQuery.descs = column.prop
+                    this.listQuery.descs = column.prop;
                     this.listQuery.ascs = undefined;
                 }
                 this.getList()

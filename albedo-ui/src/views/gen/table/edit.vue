@@ -1,30 +1,30 @@
 <template>
   <div class="app-container calendar-list-container">
     <basic-container>
-      <el-form :model="form" ref="form" label-width="100px">
+      <el-form :model="form" label-width="100px" ref="form">
         <el-tabs v-model="activeName">
           <el-tab-pane label="基本信息" name="first">
-            <el-form-item label="名称" prop="name" :rules="[{required: true,message: '请输入名称'}]">
-              <el-input v-model="form.name" placeholder="请输名称"></el-input>
+            <el-form-item :rules="[{required: true,message: '请输入名称'}]" label="名称" prop="name">
+              <el-input placeholder="请输名称" v-model="form.name"></el-input>
             </el-form-item>
-            <el-form-item label="说明" prop="comments" :rules="[{required: true,message: '请输入说明'}]">
+            <el-form-item :rules="[{required: true,message: '请输入说明'}]" label="说明" prop="comments">
               <el-input v-model="form.comments"></el-input>
             </el-form-item>
-            <el-form-item label="类名" prop="className" :rules="[{required: true,message: '请输入类名'}]">
+            <el-form-item :rules="[{required: true,message: '请输入类名'}]" label="类名" prop="className">
               <el-input v-model="form.className"></el-input>
             </el-form-item>
             <el-form-item label="父表表名" prop="parentTable">
-              <CrudSelect v-model="form.parentTable" clearable :dic="tableList"></CrudSelect>
+              <CrudSelect :dic="tableList" clearable v-model="form.parentTable"></CrudSelect>
             </el-form-item>
             <el-form-item label="当前表外键" prop="parentTableFk">
-              <CrudSelect v-model="form.parentTableFk" :dic="columnList"></CrudSelect>
+              <CrudSelect :dic="columnList" v-model="form.parentTableFk"></CrudSelect>
             </el-form-item>
             <el-form-item label="备注" prop="description">
               <el-input type="textarea" v-model="form.description"></el-input>
             </el-form-item>
           </el-tab-pane>
           <el-tab-pane label="字段信息" name="second">
-            <table id="contentTable" class="el-table-padding">
+            <table class="el-table-padding" id="contentTable">
               <thead>
               <tr>
                 <th title="数据库字段名">列名</th>
@@ -48,67 +48,67 @@
               </tr>
               </thead>
               <tbody>
-              <tr v-for=" (column,i) in form.columnFormList" v-bind:key="column.id"
-                  :class="column.status=='-1'? 'error':''" :title="column.status=='-1'? '已删除的列，保存之后消失！':''">
+              <tr :class="column.status=='-1'? 'error':''" :title="column.status=='-1'? '已删除的列，保存之后消失！':''"
+                  v-bind:key="column.id" v-for=" (column,i) in form.columnFormList">
                 <td>
-                  <el-input v-model="form.columnFormList[i].name" readonly="readonly" class="input-small"></el-input>
+                  <el-input class="input-small" readonly="readonly" v-model="form.columnFormList[i].name"></el-input>
                 </td>
                 <td>
-                  <el-input v-model="form.columnFormList[i].title" class="input-small"></el-input>
+                  <el-input class="input-small" v-model="form.columnFormList[i].title"></el-input>
                 </td>
                 <td>
-                  <el-input v-model="form.columnFormList[i].comments" class="input-small"></el-input>
+                  <el-input class="input-small" v-model="form.columnFormList[i].comments"></el-input>
                 </td>
                 <td>
-                  <el-input v-model="form.columnFormList[i].jdbcType" class="input-small"></el-input>
+                  <el-input class="input-small" v-model="form.columnFormList[i].jdbcType"></el-input>
                 </td>
                 <td>
-                  <CrudSelect v-model="form.columnFormList[i].javaType" class="input-mini"
-                              :dic="javaTypeList"></CrudSelect>
+                  <CrudSelect :dic="javaTypeList" class="input-mini"
+                              v-model="form.columnFormList[i].javaType"></CrudSelect>
                 </td>
                 <td>
-                  <el-input v-model="form.columnFormList[i].javaField" class="input-small"></el-input>
+                  <el-input class="input-small" v-model="form.columnFormList[i].javaField"></el-input>
                 </td>
                 <td>
-                  <el-checkbox v-model="form.columnFormList[i].pk" :checked="form.columnFormList[i].pk"></el-checkbox>
+                  <el-checkbox :checked="form.columnFormList[i].pk" v-model="form.columnFormList[i].pk"></el-checkbox>
                 </td>
                 <td>
-                  <el-checkbox v-model="form.columnFormList[i].null"
-                               :checked="form.columnFormList[i].null"></el-checkbox>
+                  <el-checkbox :checked="form.columnFormList[i].null"
+                               v-model="form.columnFormList[i].null"></el-checkbox>
                 </td>
                 <td>
-                  <el-checkbox v-model="form.columnFormList[i].unique"
-                               :checked="form.columnFormList[i].unique"></el-checkbox>
+                  <el-checkbox :checked="form.columnFormList[i].unique"
+                               v-model="form.columnFormList[i].unique"></el-checkbox>
                 </td>
                 <td>
-                  <el-checkbox v-model="form.columnFormList[i].insert"
-                               :checked="form.columnFormList[i].insert"></el-checkbox>
+                  <el-checkbox :checked="form.columnFormList[i].insert"
+                               v-model="form.columnFormList[i].insert"></el-checkbox>
                 </td>
                 <td>
-                  <el-checkbox v-model="form.columnFormList[i].edit"
-                               :checked="form.columnFormList[i].edit"></el-checkbox>
+                  <el-checkbox :checked="form.columnFormList[i].edit"
+                               v-model="form.columnFormList[i].edit"></el-checkbox>
                 </td>
                 <td>
-                  <el-checkbox v-model="form.columnFormList[i].list"
-                               :checked="form.columnFormList[i].list"></el-checkbox>
+                  <el-checkbox :checked="form.columnFormList[i].list"
+                               v-model="form.columnFormList[i].list"></el-checkbox>
                 </td>
                 <td>
-                  <el-checkbox v-model="form.columnFormList[i].query"
-                               :checked="form.columnFormList[i].query"></el-checkbox>
+                  <el-checkbox :checked="form.columnFormList[i].query"
+                               v-model="form.columnFormList[i].query"></el-checkbox>
                 </td>
                 <td>
-                  <CrudSelect v-model="form.columnFormList[i].queryType" class="input-mini"
-                              :dic="queryTypeList"></CrudSelect>
+                  <CrudSelect :dic="queryTypeList" class="input-mini"
+                              v-model="form.columnFormList[i].queryType"></CrudSelect>
                 </td>
                 <td>
-                  <CrudSelect v-model="form.columnFormList[i].showType" class="input-mini"
-                              :dic="showTypeList"></CrudSelect>
+                  <CrudSelect :dic="showTypeList" class="input-mini"
+                              v-model="form.columnFormList[i].showType"></CrudSelect>
                 </td>
                 <td>
-                  <el-input v-model="form.columnFormList[i].dictType" class="input-small"></el-input>
+                  <el-input class="input-small" v-model="form.columnFormList[i].dictType"></el-input>
                 </td>
                 <td>
-                  <el-input v-model="form.columnFormList[i].sort" class="input-small"></el-input>
+                  <el-input class="input-small" v-model="form.columnFormList[i].sort"></el-input>
                 </td>
               </tr>
               </tbody>
@@ -119,9 +119,9 @@
 
         </el-tabs>
         <el-row :gutter="20" style="margin-top: 20px">
-          <el-col :span="6" :offset="10">
-            <el-button size="small" @click="cancel()">取 消</el-button>
-            <el-button size="small" type="primary" @click="save()">保 存</el-button>
+          <el-col :offset="10" :span="6">
+            <el-button @click="cancel()" size="small">取 消</el-button>
+            <el-button @click="save()" size="small" type="primary">保 存</el-button>
           </el-col>
         </el-row>
 
@@ -186,10 +186,10 @@
                 findTable(params).then(response => {
                     let data = response.data;
                     this.form = data.tableVo;
-                    this.javaTypeList = data.javaTypeList
-                    this.queryTypeList = data.queryTypeList
-                    this.showTypeList = data.showTypeList
-                    this.tableList = data.tableList
+                    this.javaTypeList = data.javaTypeList;
+                    this.queryTypeList = data.queryTypeList;
+                    this.showTypeList = data.showTypeList;
+                    this.tableList = data.tableList;
                     this.columnList = data.columnList
                 });
             },
@@ -203,12 +203,12 @@
                     if (valid) {
                         // this.form.password = undefined;
                         saveTable(this.form).then(response => {
-                            this.cancel('form')
+                            this.cancel('form');
                             this.$store.commit("DEL_TAG", this.$store.getters.tag);
                             this.$router.push({path: '/gen/table'})
                         });
                     } else {
-                        this.activeName = 'first'
+                        this.activeName = 'first';
                         return false;
                     }
                 });

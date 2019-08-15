@@ -5,7 +5,7 @@ import common from './modules/common'
 import tags from './modules/tags'
 import getters from './getters'
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 const store = new Vuex.Store({
   modules: {
     user,
@@ -13,6 +13,6 @@ const store = new Vuex.Store({
     tags
   },
   getters
-})
+});
 
 export default store

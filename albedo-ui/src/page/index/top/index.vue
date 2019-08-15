@@ -1,11 +1,11 @@
 <template>
   <div class="avue-top">
     <div class="top-bar__left">
-      <div class="avue-breadcrumb"
-           :class="[{ 'avue-breadcrumb--active': isCollapse }]"
+      <div :class="[{ 'avue-breadcrumb--active': isCollapse }]"
+           class="avue-breadcrumb"
            v-if="showCollapse">
-        <i class="icon-navicon"
-           @click="setCollapse"></i>
+        <i @click="setCollapse"
+           class="icon-navicon"></i>
       </div>
     </div>
     <div class="top-bar__title">
@@ -15,15 +15,15 @@
       </div>
     </div>
     <div class="top-bar__right">
-      <el-tooltip v-if="showLock"
+      <el-tooltip content="锁屏"
                   effect="dark"
-                  content="锁屏"
-                  placement="bottom">
+                  placement="bottom"
+                  v-if="showLock">
       </el-tooltip>
-      <el-tooltip v-if="showFullScren"
+      <el-tooltip :content="isFullScreen?'退出全屏':'全屏'"
                   effect="dark"
-                  :content="isFullScreen?'退出全屏':'全屏'"
-                  placement="bottom">
+                  placement="bottom"
+                  v-if="showFullScren">
         <div class="top-bar__item">
           <i :class="isFullScreen?'icon-tuichuquanping':'icon-quanping'"
              @click="handleScreen"></i>

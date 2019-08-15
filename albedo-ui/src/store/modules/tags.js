@@ -2,15 +2,15 @@ import {getStore, setStore} from '@/util/store'
 import {diff} from '@/util/util'
 import website from '@/const/website'
 
-const isFirstPage = website.isFirstPage
-const tagWel = website.fistPage
+const isFirstPage = website.isFirstPage;
+const tagWel = website.fistPage;
 const tagObj = {
   label: '', // 标题名称
   value: '', // 标题的路径
   params: '', // 标题的路径参数
   query: '', // 标题的参数
   group: [] // 分组
-}
+};
 
 // 处理首个标签
 function setFistTag(list) {
@@ -36,9 +36,9 @@ const navs = {
   actions: {},
   mutations: {
     ADD_TAG: (state, action) => {
-      state.tag = action
-      setStore({name: 'tag', content: state.tag, type: 'session'})
-      if (state.tagList.some(ele => diff(ele, action))) return
+      state.tag = action;
+      setStore({name: 'tag', content: state.tag, type: 'session'});
+      if (state.tagList.some(ele => diff(ele, action))) return;
       let exit = false;
       if (action.value.indexOf('?') != -1) {
         let substr = function (item) {
@@ -58,18 +58,18 @@ const navs = {
       if (!exit) {
         state.tagList.push(action)
       }
-      setFistTag(state.tagList)
+      setFistTag(state.tagList);
       setStore({name: 'tagList', content: state.tagList, type: 'session'})
     },
     DEL_TAG: (state, action) => {
       state.tagList = state.tagList.filter(item => {
         return !diff(item, action)
-      })
-      setFistTag(state.tagList)
+      });
+      setFistTag(state.tagList);
       setStore({name: 'tagList', content: state.tagList, type: 'session'})
     },
     DEL_ALL_TAG: (state) => {
-      state.tagList = [state.tagWel]
+      state.tagList = [state.tagWel];
       setStore({name: 'tagList', content: state.tagList, type: 'session'})
     },
     DEL_TAG_OTHER: (state) => {
@@ -79,10 +79,10 @@ const navs = {
         } else if (!website.isFirstPage && item.value === website.fistPage.value) {
           return true;
         }
-      })
-      setFistTag(state.tagList)
+      });
+      setFistTag(state.tagList);
       setStore({name: 'tagList', content: state.tagList, type: 'session'})
     }
   }
-}
+};
 export default navs

@@ -4,24 +4,15 @@
 package com.albedo.java.modules.quartz.web;
 
 import com.albedo.java.common.core.config.ApplicationProperties;
-import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.exception.GlobalExceptionHandler;
+import com.albedo.java.common.core.util.ClassUtil;
 import com.albedo.java.common.core.util.Json;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.core.vo.QueryCondition;
-import com.albedo.java.common.persistence.DynamicSpecifications;
-import com.albedo.java.common.persistence.SpecificationDetail;
-import com.albedo.java.common.persistence.domain.BaseEntity;
-import com.albedo.java.common.core.util.DateUtil;
-import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.exception.GlobalExceptionHandler;
-import com.albedo.java.common.core.util.CollUtil;
-import com.albedo.java.common.core.util.ClassUtil;
+import com.albedo.java.modules.TestUtil;
 import com.albedo.java.modules.quartz.domain.Job;
 import com.albedo.java.modules.quartz.domain.vo.JobDataVo;
-import com.albedo.java.modules.quartz.repository.JobRepository;
 import com.albedo.java.modules.quartz.service.JobService;
-import com.albedo.java.modules.quartz.web.JobResource;
-import com.albedo.java.modules.TestUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
@@ -35,15 +26,13 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.apache.commons.lang.time.DateUtils;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * Test class for the JobResource REST controller.
@@ -54,7 +43,6 @@ import java.util.List;
 @Slf4j
 public class JobResourceIntTest {
 
-	private String DEFAULT_API_URL;
 	/**
 	 * DEFAULT_NAME name  :  任务名称
 	 */
@@ -119,7 +107,7 @@ public class JobResourceIntTest {
 	 * UPDATED_DESCRIPTION description  :  备注
 	 */
 	private static final String UPDATED_DESCRIPTION = "B";
-
+	private String DEFAULT_API_URL;
 	@Autowired
 	private JobService jobService;
 
@@ -134,19 +122,6 @@ public class JobResourceIntTest {
 	private JobDataVo jobDataVo;
 
 	private JobDataVo anotherJobDataVo = new JobDataVo();
-
-	@BeforeEach
-	public void setup() {
-		DEFAULT_API_URL = applicationProperties.getAdminPath("/quartz/job/");
-		MockitoAnnotations.initMocks(this);
-		final JobResource jobResource = new JobResource(jobService);
-		this.restJobMockMvc = MockMvcBuilders.standaloneSetup(jobResource)
-			.addPlaceholderValue(TestUtil.ADMIN_PATH, applicationProperties.getAdminPath())
-			.setControllerAdvice(globalExceptionHandler)
-			.setConversionService(TestUtil.createFormattingConversionService())
-			.setMessageConverters(jacksonMessageConverter)
-			.build();
-	}
 
 	/**
 	 * Create an entity for this test.
@@ -186,6 +161,19 @@ public class JobResourceIntTest {
 
 		);
 		return jobDataVo;
+	}
+
+	@BeforeEach
+	public void setup() {
+		DEFAULT_API_URL = applicationProperties.getAdminPath("/quartz/job/");
+		MockitoAnnotations.initMocks(this);
+		final JobResource jobResource = new JobResource(jobService);
+		this.restJobMockMvc = MockMvcBuilders.standaloneSetup(jobResource)
+			.addPlaceholderValue(TestUtil.ADMIN_PATH, applicationProperties.getAdminPath())
+			.setControllerAdvice(globalExceptionHandler)
+			.setConversionService(TestUtil.createFormattingConversionService())
+			.setMessageConverters(jacksonMessageConverter)
+			.build();
 	}
 
 	@BeforeEach

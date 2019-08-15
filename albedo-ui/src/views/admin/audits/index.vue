@@ -4,45 +4,45 @@
       <el-form :inline="true">
         <el-form-item label="过滤根据日期">
           <el-date-picker
-            v-model="dateRange"
-            type="daterange"
+            end-placeholder="结束日期"
             range-separator="至"
             start-placeholder="开始日期"
-            end-placeholder="结束日期">
+            type="daterange"
+            v-model="dateRange">
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查询</el-button>
+          <el-button @click="handleFilter" class="filter-item" icon="el-icon-search" type="primary">查询</el-button>
         </el-form-item>
       </el-form>
       <div class="table-responsive">
         <el-table :data="tableData" style="width: 100%" v-loading="listLoading">
           <el-table-column
-            prop="timestamp"
             label="日期"
+            prop="timestamp"
             sortable
             width="180">
           </el-table-column>
           <el-table-column
-            prop="principal"
             label="用户"
+            prop="principal"
             sortable
             width="180">
           </el-table-column>
           <el-table-column
-            prop="type"
-            label="状态">
+            label="状态"
+            prop="type">
           </el-table-column>
           <el-table-column
-            prop="other"
+            :formatter="formatter"
             label="其他"
-            :formatter="formatter">
+            prop="other">
           </el-table-column>
         </el-table>
-        <div v-show="!listLoading" class="pagination-container">
-          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                         :current-page.sync="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.size"
-                         layout="total, sizes, prev, pager, next, jumper" :total="total">
+        <div class="pagination-container" v-show="!listLoading">
+          <el-pagination :current-page.sync="listQuery.page" :page-size="listQuery.size"
+                         :page-sizes="[10,20,30, 50]" :total="total" @current-change="handleCurrentChange"
+                         @size-change="handleSizeChange" layout="total, sizes, prev, pager, next, jumper">
           </el-pagination>
         </div>
       </div>

@@ -1,6 +1,6 @@
 <template>
-  <el-checkbox-group v-model="text" @change="handleChange">
-    <el-checkbox v-for="(item,index) in dic" :label="item.value" :key="index">{{item.label}}</el-checkbox>
+  <el-checkbox-group @change="handleChange" v-model="text">
+    <el-checkbox :key="index" :label="item.value" v-for="(item,index) in dic">{{item.label}}</el-checkbox>
   </el-checkbox-group>
 </template>
 

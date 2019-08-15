@@ -5,8 +5,8 @@
              text-color="#333">
       <template v-for="(item,index) in items">
         <el-menu-item :index="item.parentId+''"
-                      @click.native="openMenu(item)"
-                      :key="index">
+                      :key="index"
+                      @click.native="openMenu(item)">
           <template slot="title">
             <i :class="item.icon"></i>
             <span>{{item.label}}</span>

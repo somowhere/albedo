@@ -16,7 +16,7 @@
  */
 import request from '@/router/axios'
 
-const scope = 'server'
+const scope = 'server';
 
 // export const loginByUsername = (username, password, code, randomStr) => {
 //   const grant_type = 'password'
@@ -77,6 +77,6 @@ const loginApi = {
       method: 'post'
     })
   }
-}
+};
 export {loginApi}
 

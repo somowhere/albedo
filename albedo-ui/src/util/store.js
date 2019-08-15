@@ -11,16 +11,16 @@ export const setStore = (params = {}) => {
     content,
     type,
   } = params;
-  name = keyName + name
+  name = keyName + name;
   let obj = {
     dataType: typeof (content),
     content: content,
     type: type,
     datetime: new Date().getTime()
-  }
+  };
   if (type) window.sessionStorage.setItem(name, JSON.stringify(obj));
   else window.localStorage.setItem(name, JSON.stringify(obj));
-}
+};
 /**
  * 获取localStorage
  */
@@ -30,7 +30,7 @@ export const getStore = (params = {}) => {
     name,
     debug
   } = params;
-  name = keyName + name
+  name = keyName + name;
   let obj = {},
     content;
   obj = window.sessionStorage.getItem(name);
@@ -54,7 +54,7 @@ export const getStore = (params = {}) => {
     content = obj.content;
   }
   return content;
-}
+};
 /**
  * 删除localStorage
  */
@@ -63,14 +63,14 @@ export const removeStore = (params = {}) => {
     name,
     type
   } = params;
-  name = keyName + name
+  name = keyName + name;
   if (type) {
     window.sessionStorage.removeItem(name);
   } else {
     window.localStorage.removeItem(name);
   }
 
-}
+};
 
 /**
  * 获取全部localStorage
@@ -103,7 +103,7 @@ export const getAllStore = (params = {}) => {
   }
   return list;
 
-}
+};
 
 /**
  * 清空全部localStorage
@@ -116,4 +116,4 @@ export const clearStore = (params = {}) => {
     window.localStorage.clear()
   }
 
-}
+};

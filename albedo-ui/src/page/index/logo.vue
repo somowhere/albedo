@@ -1,9 +1,9 @@
 <template>
   <div class="avue-logo">
     <transition name="fade">
-      <span v-if="keyCollapse"
-            class="avue-logo_subtitle"
-            key="0">
+      <span class="avue-logo_subtitle"
+            key="0"
+            v-if="keyCollapse">
         {{website.logo}}
       </span>
     </transition>

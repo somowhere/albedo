@@ -1,55 +1,55 @@
 <template>
-  <el-form class="login-form"
-           status-icon
+  <el-form :model="loginForm"
            :rules="loginRules"
+           class="login-form"
+           label-width="0"
            ref="loginForm"
-           :model="loginForm"
-           label-width="0">
+           status-icon>
     <el-form-item prop="username">
-      <el-input size="small"
-                @keyup.enter.native="handleLogin"
-                v-model="loginForm.username"
+      <el-input @keyup.enter.native="handleLogin"
                 auto-complete="off"
-                placeholder="请输入用户名">
-        <i slot="prefix"
-           class="icon-yonghu"></i>
+                placeholder="请输入用户名"
+                size="small"
+                v-model="loginForm.username">
+        <i class="icon-yonghu"
+           slot="prefix"></i>
       </el-input>
     </el-form-item>
     <el-form-item prop="password">
-      <el-input size="small"
+      <el-input :type="passwordType"
                 @keyup.enter.native="handleLogin"
-                :type="passwordType"
-                v-model="loginForm.password"
                 auto-complete="off"
-                placeholder="请输入密码">
-        <i class="el-icon-view el-input__icon"
-           slot="suffix"
-           @click="showPassword"></i>
-        <i slot="prefix"
-           class="icon-mima"></i>
+                placeholder="请输入密码"
+                size="small"
+                v-model="loginForm.password">
+        <i @click="showPassword"
+           class="el-icon-view el-input__icon"
+           slot="suffix"></i>
+        <i class="icon-mima"
+           slot="prefix"></i>
       </el-input>
     </el-form-item>
     <el-form-item prop="code">
       <el-row :span="24">
         <el-col :span="16">
-          <el-input size="small"
+          <el-input :maxlength="code.len"
                     @keyup.enter.native="handleLogin"
-                    :maxlength="code.len"
-                    v-model="loginForm.code"
                     auto-complete="off"
-                    placeholder="请输入验证码">
-            <i slot="prefix"
-               class="icon-yanzhengma"></i>
+                    placeholder="请输入验证码"
+                    size="small"
+                    v-model="loginForm.code">
+            <i class="icon-yanzhengma"
+               slot="prefix"></i>
           </el-input>
         </el-col>
         <el-col :span="8">
           <div class="login-code">
-            <span class="login-code-img"
-                  @click="refreshCode"
+            <span @click="refreshCode"
+                  class="login-code-img"
                   v-if="code.type == 'text'">{{code.value}}</span>
             <img :src="code.src"
-                 class="login-code-img"
                  @click="refreshCode"
+                 class="login-code-img"
                  v-else/>
           </div>
         </el-col>
@@ -63,8 +63,8 @@
         </el-col>
         <el-col :span="8">
           <div class="login-code">
-            <span class="login-code-img"
-                  @click="refreshCode"
+            <span @click="refreshCode"
+                  class="login-code-img"
                   v-if="code.type == 'text'">{{code.value}}</span>
           </div>
         </el-col>
@@ -72,10 +72,10 @@
 
     </el-form-item>
     <el-form-item>
-      <el-button type="primary"
+      <el-button @click.native.prevent="handleLogin"
+                 class="login-submit"
                  size="small"
-                 @click.native.prevent="handleLogin"
-                 class="login-submit">登录
+                 type="primary">登录
       </el-button>
     </el-form-item>
   </el-form>
@@ -131,8 +131,8 @@
         props: [],
         methods: {
             refreshCode() {
-                this.loginForm.code = ''
-                this.loginForm.randomStr = randomLenNum(this.code.len, true)
+                this.loginForm.code = '';
+                this.loginForm.randomStr = randomLenNum(this.code.len, true);
                 this.code.type === 'text'
                     ? (this.code.value = randomLenNum(this.code.len))
                     : (this.code.src = `${this.codeUrl}/${this.loginForm.randomStr}`)

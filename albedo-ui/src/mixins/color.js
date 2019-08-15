@@ -83,7 +83,7 @@ export default function () {
           }
         }
 
-        const styles = [].slice.call(document.querySelectorAll("style"))
+        const styles = [].slice.call(document.querySelectorAll("style"));
 
         styles.forEach(style => {
           const {

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xmlns="http://maven.apache.org/POM/4.0.0"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>albedo-common</artifactId>
+		<groupId>com.albedo.java</groupId>
+		<version>2.0.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>albedo-common-gen</artifactId>
+
+	<dependencies>
+		<!-- 通用工具-->
+		<dependency>
+			<groupId>com.albedo.java</groupId>
+			<artifactId>albedo-common-core</artifactId>
+			<version>${project.release.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.albedo.java</groupId>
+			<artifactId>albedo-common-module</artifactId>
+			<version>${project.release.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.albedo.java</groupId>
+			<artifactId>albedo-data-mybatis</artifactId>
+			<version>${project.release.version}</version>
+		</dependency>
+
+	</dependencies>
+</project>

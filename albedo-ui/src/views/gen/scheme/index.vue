@@ -2,23 +2,23 @@
   <div class="app-container calendar-list-container">
     <basic-container>
       <div class="filter-container" v-show="searchFilterVisible">
-        <el-form ref="searchForm" :model="searchForm" :inline="true">
+        <el-form :inline="true" :model="searchForm" ref="searchForm">
           <el-form-item label="名称" prop="name">
-            <el-input size="small" class="filter-item input-normal" v-model="searchForm.name"></el-input>
+            <el-input class="filter-item input-normal" size="small" v-model="searchForm.name"></el-input>
           </el-form-item>
           <el-form-item label="表名" ref="tableName">
-            <el-input size="small" class="filter-item input-normal" v-model="searchForm.tableName"></el-input>
+            <el-input class="filter-item input-normal" size="small" v-model="searchForm.tableName"></el-input>
           </el-form-item>
           <el-form-item label="功能名称" prop="functionName">
-            <el-input size="small" class="filter-item input-normal" v-model="searchForm.functionName"></el-input>
+            <el-input class="filter-item input-normal" size="small" v-model="searchForm.functionName"></el-input>
           </el-form-item>
           <el-form-item label="功能作者" prop="functionAuthor">
-            <el-input size="small" class="filter-item input-normal" v-model="searchForm.functionAuthor"></el-input>
+            <el-input class="filter-item input-normal" size="small" v-model="searchForm.functionAuthor"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button size="small" class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查询
+            <el-button @click="handleFilter" class="filter-item" icon="el-icon-search" size="small" type="primary">查询
             </el-button>
-            <el-button size="small" @click="searchReset" icon="icon-rest">重置</el-button>
+            <el-button @click="searchReset" icon="icon-rest" size="small">重置</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -26,20 +26,20 @@
       <div class="table-menu">
         <div class="table-menu-left">
           <el-button-group>
-            <el-button size="mini" v-if="gen_scheme_edit" @click="handleEdit" type="primary" icon="el-icon-plus">添加
+            <el-button @click="handleEdit" icon="el-icon-plus" size="mini" type="primary" v-if="gen_scheme_edit">添加
             </el-button>
-            <el-button size="mini" v-if="gen_scheme_menu" @click="handleGenMenuDialog" type="primary"
-                       icon="icon-filesync">生成菜单
+            <el-button @click="handleGenMenuDialog" icon="icon-filesync" size="mini" type="primary"
+                       v-if="gen_scheme_menu">生成菜单
             </el-button>
           </el-button-group>
         </div>
         <div class="table-menu-right">
-          <el-button icon="el-icon-search" circle size="mini"
-                     @click="searchFilterVisible= !searchFilterVisible"></el-button>
+          <el-button @click="searchFilterVisible= !searchFilterVisible" circle icon="el-icon-search"
+                     size="mini"></el-button>
         </div>
       </div>
-      <el-table :key='tableKey' :data="list" v-loading="listLoading"
-                @current-change="handleSelect" element-loading-text="加载中..." fit highlight-current-row>
+      <el-table :data="list" :key='tableKey' @current-change="handleSelect"
+                element-loading-text="加载中..." fit highlight-current-row v-loading="listLoading">
         <el-table-column align="center" label="名称">
           <template slot-scope="scope">
             <span>{{scope.row.name}}</span>
@@ -80,111 +80,111 @@
 
         <el-table-column align="center" label="操作">
           <template slot-scope="scope">
-            <el-button v-if="gen_scheme_edit" icon="icon-edit" title="编辑" type="text" @click="handleEdit(scope.row)">
+            <el-button @click="handleEdit(scope.row)" icon="icon-edit" title="编辑" type="text" v-if="gen_scheme_edit">
             </el-button>
-            <el-button v-if="gen_scheme_edit" icon="icon-block" title="生成代码" type="text"
-                       @click="handleGenCodeDialog(scope.row)">
+            <el-button @click="handleGenCodeDialog(scope.row)" icon="icon-block" title="生成代码" type="text"
+                       v-if="gen_scheme_edit">
             </el-button>
-            <el-button v-if="gen_scheme_del" icon="icon-delete" title="删除" type="text" @click="handleDelete(scope.row)">
+            <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text" v-if="gen_scheme_del">
             </el-button>
           </template>
         </el-table-column>
 
       </el-table>
 
-      <div v-show="!listLoading" class="pagination-container">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                       :current-page.sync="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.size"
-                       layout="total, sizes, prev, pager, next, jumper" :total="total">
+      <div class="pagination-container" v-show="!listLoading">
+        <el-pagination :current-page.sync="listQuery.page" :page-size="listQuery.size"
+                       :page-sizes="[10,20,30, 50]" :total="total" @current-change="handleCurrentChange"
+                       @size-change="handleSizeChange" layout="total, sizes, prev, pager, next, jumper">
         </el-pagination>
       </div>
 
       <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-        <el-form :model="form" ref="form" label-width="120px">
-          <el-form-item label="方案名称"
+        <el-form :model="form" label-width="120px" ref="form">
+          <el-form-item :rules="[{required: true,message: '请输入方案名称'}]"
                         inline-message="生成结构：(包名)/(模块名)/(分层(dao,entity,service,web))/(子模块名)/(java类)"
-                        prop="name" :rules="[{required: true,message: '请输入方案名称'}]">
+                        label="方案名称" prop="name">
             <el-input v-model="form.name"></el-input>
           </el-form-item>
-          <el-form-item label="模块分类" prop="category"
-                        :rules="[{required: true,message: '请选择模块分类'}]">
-            <CrudSelect v-model="form.category" :dic="categoryList"></CrudSelect>
+          <el-form-item :rules="[{required: true,message: '请选择模块分类'}]" label="模块分类"
+                        prop="category">
+            <CrudSelect :dic="categoryList" v-model="form.category"></CrudSelect>
           </el-form-item>
-          <el-form-item label="生成包路径" prop="packageName"
-                        :rules="[{required: true,message: '请输入生成包路径'}]">
+          <el-form-item :rules="[{required: true,message: '请输入生成包路径'}]" label="生成包路径"
+                        prop="packageName">
             <el-input v-model="form.packageName"></el-input>
           </el-form-item>
-          <el-form-item label="生成模块名" prop="moduleName"
-                        :rules="[{required: true,message: '请输入生成模块名'}]">
+          <el-form-item :rules="[{required: true,message: '请输入生成模块名'}]" label="生成模块名"
+                        prop="moduleName">
             <el-input v-model="form.moduleName"></el-input>
           </el-form-item>
           <el-form-item label="生成子模块名" prop="subMenuName">
             <el-input v-model="form.subMenuName"></el-input>
           </el-form-item>
-          <el-form-item label="生成功能描述" prop="functionName"
-                        :rules="[{required: true,message: '请输入生成功能描述'}]">
+          <el-form-item :rules="[{required: true,message: '请输入生成功能描述'}]" label="生成功能描述"
+                        prop="functionName">
             <el-input v-model="form.functionName"></el-input>
           </el-form-item>
-          <el-form-item label="生成功能名" prop="functionNameSimple"
-                        :rules="[{required: true,message: '请输入生成功能名'}]">
+          <el-form-item :rules="[{required: true,message: '请输入生成功能名'}]" label="生成功能名"
+                        prop="functionNameSimple">
             <el-input v-model="form.functionNameSimple"></el-input>
           </el-form-item>
-          <el-form-item label="生成功能作者" prop="functionAuthor"
-                        :rules="[{required: true,message: '请输入生成功能作者'}]">
+          <el-form-item :rules="[{required: true,message: '请输入生成功能作者'}]" label="生成功能作者"
+                        prop="functionAuthor">
             <el-input v-model="form.functionAuthor"></el-input>
           </el-form-item>
-          <el-form-item label="业务表名" prop="tableId"
-                        :rules="[{required: true,message: '请选择业务表名'}]">
-            <CrudSelect v-model="form.tableId" :dic="tableList"></CrudSelect>
+          <el-form-item :rules="[{required: true,message: '请选择业务表名'}]" label="业务表名"
+                        prop="tableId">
+            <CrudSelect :dic="tableList" v-model="form.tableId"></CrudSelect>
           </el-form-item>
           <el-form-item label="生成选项">
-            <el-switch v-model="form.genCode" active-text="是否生成代码">
+            <el-switch active-text="是否生成代码" v-model="form.genCode">
             </el-switch>
-            <el-switch v-model="form.replaceFile" active-text="是否替换现有文件">
+            <el-switch active-text="是否替换现有文件" v-model="form.replaceFile">
             </el-switch>
           </el-form-item>
           <el-form-item label="备注" prop="description">
-            <el-input type="textarea" v-model="form.description" placeholder=""></el-input>
+            <el-input placeholder="" type="textarea" v-model="form.description"></el-input>
           </el-form-item>
         </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button size="small" @click="cancel()">取 消</el-button>
-          <el-button size="small" type="primary" @click="save()">保 存</el-button>
+        <div class="dialog-footer" slot="footer">
+          <el-button @click="cancel()" size="small">取 消</el-button>
+          <el-button @click="save()" size="small" type="primary">保 存</el-button>
         </div>
       </el-dialog>
 
 
-      <el-dialog title="系统提示" :visible.sync="dialogGenCodeVisible"
+      <el-dialog :visible.sync="dialogGenCodeVisible" title="系统提示"
                  width="30%">
         <span>确认要继续操作吗?</span>
-        <span slot="footer" class="dialog-footer">
-          <el-button size="small" @click="dialogGenCodeVisible = false">取 消</el-button>
-          <el-button size="small" type="primary" @click="handleGenCode(false)">生成代码</el-button>
-          <el-button size="small" type="primary" @click="handleGenCode(true)">生成代码并覆盖</el-button>
+        <span class="dialog-footer" slot="footer">
+          <el-button @click="dialogGenCodeVisible = false" size="small">取 消</el-button>
+          <el-button @click="handleGenCode(false)" size="small" type="primary">生成代码</el-button>
+          <el-button @click="handleGenCode(true)" size="small" type="primary">生成代码并覆盖</el-button>
         </span>
       </el-dialog>
 
-      <el-dialog title="选择菜单" :visible.sync="dialogMenuVisible">
+      <el-dialog :visible.sync="dialogMenuVisible" title="选择菜单">
         <el-input placeholder="输入关键字进行过滤"
                   v-model="filterFormText">
         </el-input>
-        <el-tree class="filter-tree" ref="formTree" :data="treeMenuData"
-                 check-strictly node-key="id" highlight-current @node-click="getNodeData"
-                 :filter-node-method="filterNode">
+        <el-tree :data="treeMenuData" :filter-node-method="filterNode" @node-click="getNodeData"
+                 check-strictly class="filter-tree" highlight-current node-key="id"
+                 ref="formTree">
         </el-tree>
       </el-dialog>
 
-      <el-dialog title="生成菜单" :visible.sync="dialogGenMenuVisible"
+      <el-dialog :visible.sync="dialogGenMenuVisible" title="生成菜单"
                  width="30%">
-        <el-form :model="genMenuForm" ref="genMenuForm" label-width="100px">
-          <el-form-item label="上级菜单" prop="parentMenuId" :rules="[{required: true,message: '请选择上级菜单'}]">
-            <el-input v-model="genMenuForm.parentMenuName" placeholder="选择菜单" @focus="handleMenu()" readonly></el-input>
+        <el-form :model="genMenuForm" label-width="100px" ref="genMenuForm">
+          <el-form-item :rules="[{required: true,message: '请选择上级菜单'}]" label="上级菜单" prop="parentMenuId">
+            <el-input @focus="handleMenu()" placeholder="选择菜单" readonly v-model="genMenuForm.parentMenuName"></el-input>
             <input type="hidden" v-model="genMenuForm.parentMenuId"/>
           </el-form-item>
         </el-form>
-        <span slot="footer" class="dialog-footer">
-          <el-button size="small" @click="cancelGenMenu">取 消</el-button>
-          <el-button size="small" type="primary" @click="handleGenMenu">生成菜单</el-button>
+        <span class="dialog-footer" slot="footer">
+          <el-button @click="cancelGenMenu" size="small">取 消</el-button>
+          <el-button @click="handleGenMenu" size="small" type="primary">生成菜单</el-button>
         </span>
       </el-dialog>
 
@@ -292,7 +292,7 @@
                     fieldName: 'functionName', value: this.searchForm.functionName
                 }, {
                     fieldName: 'functionAuthor', value: this.searchForm.functionAuthor
-                }])
+                }]);
                 pageGenScheme(this.listQuery).then(response => {
                     this.list = response.data.records;
                     this.total = response.data.total;
@@ -309,7 +309,7 @@
                 this.genMenuForm.parentMenuName = data.label;
             },
             filterNode(value, data) {
-                if (!value) return true
+                if (!value) return true;
                 return data.label.indexOf(value) !== -1
             },
             handleMenu() {
@@ -338,7 +338,7 @@
                     this.$message({
                         message: '请选择方案',
                         type: 'warning'
-                    })
+                    });
                     return;
                 }
                 this.genMenuForm.id = this.currentRow.id;
@@ -359,7 +359,7 @@
                     this.$message({
                         message: '请选择方案',
                         type: 'warning'
-                    })
+                    });
                     return;
                 }
                 this.genMenuForm.id = undefined;
@@ -375,9 +375,9 @@
                 }
                 findGenScheme(params).then(response => {
                     var data = response.data;
-                    this.viewTypeList = data.viewTypeList
-                    this.categoryList = data.categoryList
-                    this.tableList = data.tableList
+                    this.viewTypeList = data.viewTypeList;
+                    this.categoryList = data.categoryList;
+                    this.tableList = data.tableList;
                     if (validateNotNull(data.schemeVo)) {
                         this.resetForm();
                         this.form = data.schemeVo;
@@ -419,7 +419,7 @@
                     this.$message({
                         message: '无法获取选中信息',
                         type: 'warning'
-                    })
+                    });
                     return;
                 }
                 genCode({id: this.currentRow.id, replaceFile: replaceFile}).then(response => {

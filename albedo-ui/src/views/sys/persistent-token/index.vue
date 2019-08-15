@@ -10,8 +10,8 @@
                 <el-input class="filter-item input-normal" size="small" v-model="searchForm.series"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button size="small" type="primary" icon="el-icon-search" @click="handleFilter">查询</el-button>
-                <el-button size="small" @click="searchReset" icon="icon-rest">重置</el-button>
+                <el-button @click="handleFilter" icon="el-icon-search" size="small" type="primary">查询</el-button>
+                <el-button @click="searchReset" icon="icon-rest" size="small">重置</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -21,14 +21,14 @@
             <div class="table-menu-left">
             </div>
             <div class="table-menu-right">
-              <el-button icon="el-icon-search" circle size="mini"
-                         @click="searchFilterVisible= !searchFilterVisible"></el-button>
+              <el-button @click="searchFilterVisible= !searchFilterVisible" circle icon="el-icon-search"
+                         size="mini"></el-button>
             </div>
           </div>
-          <el-table :key='tableKey' @sort-change="sortChange" :data="list" v-loading="listLoading"
-                    element-loading-text="加载中..." fit highlight-current-row>
+          <el-table :data="list" :key='tableKey' @sort-change="sortChange" element-loading-text="加载中..."
+                    fit highlight-current-row v-loading="listLoading">
             <el-table-column
-              type="index" fixed="left" width="50">
+              fixed="left" type="index" width="50">
             </el-table-column>
             <el-table-column align="center" label="令牌" width="210">
               <template slot-scope="scope">
@@ -66,20 +66,20 @@
               </template>
             </el-table-column>
 
-            <el-table-column align="center" label="操作" fixed="right" width="60" v-if="sys_persistentToken_del">
+            <el-table-column align="center" fixed="right" label="操作" v-if="sys_persistentToken_del" width="60">
               <template slot-scope="scope">
-                <el-button v-if="sys_persistentToken_del" icon="icon-delete" title="删除" type="text"
-                           @click="handleDelete(scope.row)">
+                <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text"
+                           v-if="sys_persistentToken_del">
                 </el-button>
               </template>
             </el-table-column>
 
           </el-table>
-          <div v-show="!listLoading" class="pagination-container">
-            <el-pagination class="pull-right" background @size-change="handleSizeChange"
-                           @current-change="handleCurrentChange" :current-page.sync="listQuery.current"
-                           :page-sizes="[10,20,30, 50]" :page-size="listQuery.size"
-                           layout="total, sizes, prev, pager, next, jumper" :total="total">
+          <div class="pagination-container" v-show="!listLoading">
+            <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size" :page-sizes="[10,20,30, 50]"
+                           :total="total" @current-change="handleCurrentChange"
+                           @size-change="handleSizeChange" background
+                           class="pull-right" layout="total, sizes, prev, pager, next, jumper">
             </el-pagination>
           </div>
         </el-col>
@@ -119,7 +119,7 @@
         },
         watch: {},
         created() {
-            this.getList()
+            this.getList();
             this.sys_persistentToken_del = this.permissions["sys_persistentToken_del"];
         },
         computed: {
@@ -132,7 +132,7 @@
                 this.listLoading = true;
                 this.listQuery.queryConditionJson = parseJsonItemForm([{
                     fieldName: 'series', value: this.searchForm.series
-                }])
+                }]);
                 pageToken(this.listQuery).then(response => {
                     this.list = response.data.records;
                     this.total = response.data.total;
@@ -141,10 +141,10 @@
             },
             sortChange(column) {
                 if (column.order == "ascending") {
-                    this.listQuery.ascs = column.prop
+                    this.listQuery.ascs = column.prop;
                     this.listQuery.descs = undefined;
                 } else {
-                    this.listQuery.descs = column.prop
+                    this.listQuery.descs = column.prop;
                     this.listQuery.ascs = undefined;
                 }
                 this.getList()

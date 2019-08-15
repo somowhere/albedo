@@ -4,7 +4,6 @@
 package com.albedo.java.modules.quartz.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.util.BeanVoUtil;
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
@@ -16,14 +15,10 @@ import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.quartz.domain.JobLog;
 import com.albedo.java.modules.quartz.domain.vo.JobLogExcelVo;
 import com.albedo.java.modules.quartz.service.JobLogService;
-import com.albedo.java.modules.sys.domain.LogLogin;
-import com.albedo.java.modules.sys.vo.LogLoginExcelVo;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.stream.Collectors;
 
 /**
  * 任务调度日志Controller 任务调度日志

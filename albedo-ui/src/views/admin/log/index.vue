@@ -17,24 +17,24 @@
               </tr>
               </thead>
 
-              <tr v-for="(logger, index) in loggers" v-bind:key="index">
+              <tr v-bind:key="index" v-for="(logger, index) in loggers">
                 <td><small>{{logger.name}}</small></td>
                 <td>
                   <el-button-group>
-                    <el-button @click="changeLevel(logger.name, 'TRACE')"
-                               :type="(logger.level=='TRACE') ? 'primary' : ''" size="mini">TRACE
+                    <el-button :type="(logger.level=='TRACE') ? 'primary' : ''"
+                               @click="changeLevel(logger.name, 'TRACE')" size="mini">TRACE
                     </el-button>
-                    <el-button @click="changeLevel(logger.name, 'DEBUG')"
-                               :type="(logger.level=='DEBUG') ? 'success' : ''" size="mini">DEBUG
+                    <el-button :type="(logger.level=='DEBUG') ? 'success' : ''"
+                               @click="changeLevel(logger.name, 'DEBUG')" size="mini">DEBUG
                     </el-button>
-                    <el-button @click="changeLevel(logger.name, 'INFO')" :type="(logger.level=='INFO') ? 'info' : ''"
+                    <el-button :type="(logger.level=='INFO') ? 'info' : ''" @click="changeLevel(logger.name, 'INFO')"
                                size="mini">INFO
                     </el-button>
-                    <el-button @click="changeLevel(logger.name, 'WARN')" :type="(logger.level=='WARN') ? 'warning' : ''"
+                    <el-button :type="(logger.level=='WARN') ? 'warning' : ''" @click="changeLevel(logger.name, 'WARN')"
                                size="mini">WARN
                     </el-button>
-                    <el-button @click="changeLevel(logger.name, 'ERROR')"
-                               :type="(logger.level=='ERROR') ? 'danger' : ''" size="mini">ERROR
+                    <el-button :type="(logger.level=='ERROR') ? 'danger' : ''"
+                               @click="changeLevel(logger.name, 'ERROR')" size="mini">ERROR
                     </el-button>
                   </el-button-group>
                 </td>
@@ -67,14 +67,13 @@
         },
         watch: {
             filter(val) {
-                let array = []
+                let array = [];
                 for (const key in this.loggers) {
                     let item = this.loggers[key];
                     if (item.name.indexOf(val) != -1) {
                         array.push(item);
                     }
                 }
-                ;
                 this.loggers = array;
             }
         },

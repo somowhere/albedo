@@ -1,11 +1,11 @@
 <template>
-  <div class="login-container"
-       @keyup.enter.native="handleLogin">
+  <div @keyup.enter.native="handleLogin"
+       class="login-container">
     <div class="login-weaper  animated bounceInDown">
       <div class="login-left">
-        <img class="img"
-             src="/img/logo.png"
-             alt="">
+        <img alt=""
+             class="img"
+             src="/img/logo.png">
         <p class="title">{{website.infoTitle}}</p>
         <p>©2019 v2.3.0</p>
       </div>

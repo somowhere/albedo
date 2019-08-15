@@ -20,20 +20,20 @@
     <basic-container>
       <div class="filter-container">
         <el-button-group>
-          <el-button type="primary"
-                     v-if="sys_dept_edit"
-                     icon="plus" size="small"
-                     @click="handlerAdd">添加
+          <el-button @click="handlerAdd"
+                     icon="plus"
+                     size="small" type="primary"
+                     v-if="sys_dept_edit">添加
           </el-button>
-          <el-button type="primary"
-                     v-if="sys_dept_edit" size="small"
-                     icon="edit"
-                     @click="handlerEdit">编辑
+          <el-button @click="handlerEdit"
+                     icon="edit" size="small"
+                     type="primary"
+                     v-if="sys_dept_edit">编辑
           </el-button>
-          <el-button type="primary"
-                     v-if="sys_dept_del" size="small"
-                     icon="delete"
-                     @click="handleDelete">删除
+          <el-button @click="handleDelete"
+                     icon="delete" size="small"
+                     type="primary"
+                     v-if="sys_dept_del">删除
           </el-button>
         </el-button-group>
       </div>
@@ -41,33 +41,33 @@
       <el-row>
         <el-col :span="8"
                 style='margin-top:15px;'>
-          <el-tree class="filter-tree"
-                   :data="treeDeptData"
-                   node-key="id"
-                   highlight-current
+          <el-tree :data="treeDeptData"
                    :expand-on-click-node="false"
                    :filter-node-method="filterNode"
                    @node-click="getNodeData"
-                   default-expand-all>
+                   class="filter-tree"
+                   default-expand-all
+                   highlight-current
+                   node-key="id">
           </el-tree>
         </el-col>
-        <el-dialog title="选择父级节点" :visible.sync="dialogDeptVisible">
-          <el-tree class="filter-tree" ref="selectParentDeptTree" default-expand-all :data="treeDeptSelectData"
-                   check-strictly node-key="id" highlight-current @node-click="clickNodeSelectData">
+        <el-dialog :visible.sync="dialogDeptVisible" title="选择父级节点">
+          <el-tree :data="treeDeptSelectData" @node-click="clickNodeSelectData" check-strictly class="filter-tree"
+                   default-expand-all highlight-current node-key="id" ref="selectParentDeptTree">
           </el-tree>
         </el-dialog>
         <el-col :span="16"
                 style='margin-top:15px;'>
           <el-card class="box-card">
             <el-form :label-position="labelPosition"
-                     label-width="80px"
-                     :rules="rules"
                      :model="form"
+                     :rules="rules"
+                     label-width="80px"
                      ref="form">
 
               <el-form-item label="父级节点" prop="parentName">
-                <el-input v-model="form.parentName" placeholder="选择父级节点" @focus="handleParentDeptTree()"
-                          :disabled="formEdit" readonly>
+                <el-input :disabled="formEdit" @focus="handleParentDeptTree()" placeholder="选择父级节点"
+                          readonly v-model="form.parentName">
                 </el-input>
                 <input type="hidden" v-model="form.parentId"/>
               </el-form-item>
@@ -75,28 +75,28 @@
               <el-form-item label="节点编号"
                             prop="deptId"
                             v-if="formEdit">
-                <el-input v-model="form.deptId"
-                          :disabled="formEdit"
-                          placeholder="节点编号"></el-input>
+                <el-input :disabled="formEdit"
+                          placeholder="节点编号"
+                          v-model="form.deptId"></el-input>
               </el-form-item>
               <el-form-item label="部门名称"
                             prop="name">
-                <el-input v-model="form.name"
-                          :disabled="formEdit"
-                          placeholder="请输入名称"></el-input>
+                <el-input :disabled="formEdit"
+                          placeholder="请输入名称"
+                          v-model="form.name"></el-input>
               </el-form-item>
               <el-form-item label="排序"
                             prop="orderNum">
-                <el-input type="number"
-                          v-model="form.sort"
-                          :disabled="formEdit"
-                          placeholder="请输入排序"></el-input>
+                <el-input :disabled="formEdit"
+                          placeholder="请输入排序"
+                          type="number"
+                          v-model="form.sort"></el-input>
               </el-form-item>
               <el-form-item label="描述" prop="description">
-                <el-input type="textarea" v-model="form.description" :disabled="formEdit" placeholder=""></el-input>
+                <el-input :disabled="formEdit" placeholder="" type="textarea" v-model="form.description"></el-input>
               </el-form-item>
-              <el-button type="primary" size="small"
-                         @click="save">保存
+              <el-button @click="save" size="small"
+                         type="primary">保存
               </el-button>
               <el-button @click="onCancel" size="small">取消</el-button>
             </el-form>
@@ -149,8 +149,8 @@
             }
         },
         created() {
-            this.getList()
-            this.sys_dept_edit = this.permissions['sys_dept_edit']
+            this.getList();
+            this.sys_dept_edit = this.permissions['sys_dept_edit'];
             this.sys_dept_del = this.permissions['sys_dept_del']
         },
         computed: {
@@ -166,7 +166,7 @@
                 })
             },
             filterNode(value, data) {
-                if (!value) return true
+                if (!value) return true;
                 return data.label.indexOf(value) !== -1
             },
             getNodeData(data) {
@@ -175,9 +175,9 @@
                 }
                 getDept(data.id).then(response => {
                     this.form = response.data
-                })
+                });
 
-                this.currentId = data.id
+                this.currentId = data.id;
                 this.showElement = true
             },
             clickNodeSelectData(data) {
@@ -196,13 +196,13 @@
             },
             handlerEdit() {
                 if (this.form.id) {
-                    this.formEdit = false
+                    this.formEdit = false;
                     this.formStatus = 'update'
                 }
             },
             handlerAdd() {
-                this.resetForm()
-                this.formEdit = false
+                this.resetForm();
+                this.formEdit = false;
                 this.formStatus = 'create'
             },
             handleDelete() {
@@ -212,9 +212,9 @@
                     type: 'warning'
                 }).then(() => {
                     removeDept(this.currentId).then(response => {
-                        this.getList()
-                        this.resetForm()
-                        this.onCancel()
+                        this.getList();
+                        this.resetForm();
+                        this.onCancel();
                         this.$notify({
                             title: '成功',
                             message: '删除成功',
@@ -226,14 +226,14 @@
             },
             save() {
                 this.$refs.form.validate((valid) => {
-                    if (!valid) return
+                    if (!valid) return;
                     saveDept(this.form).then(response => {
                         this.getList()
                     })
                 })
             },
             onCancel() {
-                this.formEdit = true
+                this.formEdit = true;
                 this.formStatus = ''
             },
             resetForm() {

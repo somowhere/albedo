@@ -2,8 +2,7 @@ package com.albedo.java.modules.gen.util;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.modules.gen.domain.vo.TableColumnVo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 代码生成工具类
@@ -11,9 +10,8 @@ import org.slf4j.LoggerFactory;
  * @author somewhere
  * @version 2013-11-16
  */
+@Slf4j
 public class GenTableColumnVoUtil {
-
-	private static Logger logger = LoggerFactory.getLogger(GenTableColumnVoUtil.class);
 
 
 	public static String getHibernateValidatorExpression(TableColumnVo c) {

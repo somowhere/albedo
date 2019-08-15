@@ -5,27 +5,27 @@
         <el-col :span="6"
                 style='margin-top:15px;'>
           <el-card class="box-card">
-            <div slot="header" class="clearfix">
+            <div class="clearfix" slot="header">
               <span>部门</span>
 
-              <el-button type="text" class="card-heard-btn" icon="icon-filesearch" title="搜索"
-                         @click="searchTree=(searchTree ? false:true)"></el-button>
-              <el-button type="text" class="card-heard-btn" icon="icon-reload" title="刷新"
-                         @click="getTreeDept()"></el-button>
+              <el-button @click="searchTree=(searchTree ? false:true)" class="card-heard-btn" icon="icon-filesearch" title="搜索"
+                         type="text"></el-button>
+              <el-button @click="getTreeDept()" class="card-heard-btn" icon="icon-reload" title="刷新"
+                         type="text"></el-button>
             </div>
-            <el-input v-show="searchTree"
-                      placeholder="输入关键字进行过滤"
-                      v-model="filterText">
+            <el-input placeholder="输入关键字进行过滤"
+                      v-model="filterText"
+                      v-show="searchTree">
             </el-input>
             <el-tree
-              class="filter-tree"
               :data="treeDeptData"
-              ref="leftDeptTree"
-              node-key="id"
-              highlight-current
               :expand-on-click-node="false"
               :filter-node-method="filterNode"
-              @node-click="clickNodeTreeData">
+              @node-click="clickNodeTreeData"
+              class="filter-tree"
+              highlight-current
+              node-key="id"
+              ref="leftDeptTree">
             </el-tree>
           </el-card>
         </el-col>
@@ -36,8 +36,8 @@
                 <el-input class="filter-item input-normal" size="small" v-model="searchForm.username"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button size="small" type="primary" icon="el-icon-search" @click="handleFilter">查询</el-button>
-                <el-button size="small" @click="searchReset" icon="icon-rest">重置</el-button>
+                <el-button @click="handleFilter" icon="el-icon-search" size="small" type="primary">查询</el-button>
+                <el-button @click="searchReset" icon="icon-rest" size="small">重置</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -45,18 +45,18 @@
 
           <div class="table-menu">
             <div class="table-menu-left">
-              <el-button size="mini" v-if="sys_user_edit" @click="handleEdit" type="primary" icon="el-icon-plus">添加
+              <el-button @click="handleEdit" icon="el-icon-plus" size="mini" type="primary" v-if="sys_user_edit">添加
               </el-button>
             </div>
             <div class="table-menu-right">
-              <el-button icon="el-icon-search" circle size="mini"
-                         @click="searchFilterVisible= !searchFilterVisible"></el-button>
+              <el-button @click="searchFilterVisible= !searchFilterVisible" circle icon="el-icon-search"
+                         size="mini"></el-button>
             </div>
           </div>
-          <el-table :key='tableKey' @sort-change="sortChange" :data="list" v-loading="listLoading"
-                    element-loading-text="加载中..." fit highlight-current-row>
+          <el-table :data="list" :key='tableKey' @sort-change="sortChange" element-loading-text="加载中..."
+                    fit highlight-current-row v-loading="listLoading">
             <el-table-column
-              type="index" fixed="left" width="50">
+              fixed="left" type="index" width="50">
             </el-table-column>
             <el-table-column align="center" label="所属组织" width="100">
               <template slot-scope="scope">
@@ -64,7 +64,7 @@
               </template>
             </el-table-column>
 
-            <el-table-column align="center" label="用户名" width="140" prop="a.username" sortable="custom">
+            <el-table-column align="center" label="用户名" prop="a.username" sortable="custom" width="140">
               <template slot-scope="scope">
           <span>
 <!--            <img v-if="scope.row.avatar" class="user-avatar" style="width: 20px; height: 20px; border-radius: 50%;" :src="getFilePath(scope.row.avatar)">-->
@@ -105,37 +105,37 @@
             </el-table-column>
 
 
-            <el-table-column align="center" label="操作" fixed="right" width="130"
-                             v-if="sys_user_edit || sys_user_lock || sys_user_del">
+            <el-table-column align="center" fixed="right" label="操作" v-if="sys_user_edit || sys_user_lock || sys_user_del"
+                             width="130">
               <template slot-scope="scope">
-                <el-button v-if="sys_user_edit" icon="icon-edit" title="编辑" type="text" @click="handleEdit(scope.row)">
+                <el-button @click="handleEdit(scope.row)" icon="icon-edit" title="编辑" type="text" v-if="sys_user_edit">
                 </el-button>
-                <el-button v-if="sys_user_lock" :icon="scope.row.available == '0' ? 'icon-lock' : 'icon-unlock'"
-                           :title="scope.row.available == '0' ? '锁定' : '解锁'" type="text" @click="handleLock(scope.row)">
+                <el-button :icon="scope.row.available == '0' ? 'icon-lock' : 'icon-unlock'" :title="scope.row.available == '0' ? '锁定' : '解锁'"
+                           @click="handleLock(scope.row)" type="text" v-if="sys_user_lock">
                 </el-button>
-                <el-button v-if="sys_user_del" icon="icon-delete" title="删除" type="text"
-                           @click="handleDelete(scope.row)">
+                <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text"
+                           v-if="sys_user_del">
                 </el-button>
               </template>
             </el-table-column>
 
           </el-table>
-          <div v-show="!listLoading" class="pagination-container">
-            <el-pagination class="pull-right" background @size-change="handleSizeChange"
-                           @current-change="handleCurrentChange" :current-page.sync="listQuery.current"
-                           :page-sizes="[10,20,30, 50]" :page-size="listQuery.size"
-                           layout="total, sizes, prev, pager, next, jumper" :total="total">
+          <div class="pagination-container" v-show="!listLoading">
+            <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size" :page-sizes="[10,20,30, 50]"
+                           :total="total" @current-change="handleCurrentChange"
+                           @size-change="handleSizeChange" background
+                           class="pull-right" layout="total, sizes, prev, pager, next, jumper">
             </el-pagination>
           </div>
         </el-col>
       </el-row>
-      <el-dialog title="选择部门" :visible.sync="dialogDeptVisible">
-        <el-tree class="filter-tree" :data="treeDeptData" :default-checked-keys="checkedKeys"
-                 check-strictly node-key="id" highlight-current @node-click="clickNodeSelectData" default-expand-all>
+      <el-dialog :visible.sync="dialogDeptVisible" title="选择部门">
+        <el-tree :data="treeDeptData" :default-checked-keys="checkedKeys" @node-click="clickNodeSelectData"
+                 check-strictly class="filter-tree" default-expand-all highlight-current node-key="id">
         </el-tree>
       </el-dialog>
       <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-        <el-form :model="form" ref="form" label-width="100px">
+        <el-form :model="form" label-width="100px" ref="form">
           <!--      <el-form-item label="头像" prop="avatar">-->
           <!--        <my-upload field="uploadFile" @crop-upload-success="cropUploadSuccess" v-model="showUpload"-->
           <!--                   :width="300" :height="300" :url="ctx+'/file/upload'" :headers="headers" img-format="png"></my-upload>-->
@@ -145,53 +145,53 @@
           <!--          <i class="el-icon-upload el-icon--right"></i>-->
           <!--        </el-button>-->
           <!--      </el-form-item>-->
-          <el-form-item label="所属部门" prop="deptName" :rules="[{required: true,message: '请选择部门', trigger: 'change'}]">
-            <el-input v-model="form.deptName" placeholder="选择部门" @focus="dialogDeptVisible=true" readonly>
+          <el-form-item :rules="[{required: true,message: '请选择部门', trigger: 'change'}]" label="所属部门" prop="deptName">
+            <el-input @focus="dialogDeptVisible=true" placeholder="选择部门" readonly v-model="form.deptName">
             </el-input>
             <input type="hidden" v-model="form.deptId"/>
           </el-form-item>
 
-          <el-form-item label="用户名" prop="username" :rules="[
+          <el-form-item :rules="[
             {required: true,message: '请输入账户'},
             {min: 3,max: 20,message: '长度在 3 到 20 个字符'},
             {validator:validateUnique}
-          ]">
-            <el-input v-model="form.username" placeholder="请输用户名"></el-input>
+          ]" label="用户名" prop="username">
+            <el-input placeholder="请输用户名" v-model="form.username"></el-input>
           </el-form-item>
 
-          <el-form-item label="密码" prop="password" :rules="[{validator: validatePass}]">
-            <el-input type="password" v-model="form.password"
-                      :placeholder="this.dialogStatus == 'create' ? '请输入密码' : '若不修改密码，请留空'"></el-input>
+          <el-form-item :rules="[{validator: validatePass}]" label="密码" prop="password">
+            <el-input :placeholder="this.dialogStatus == 'create' ? '请输入密码' : '若不修改密码，请留空'" type="password"
+                      v-model="form.password"></el-input>
           </el-form-item>
 
-          <el-form-item label="确认密码" placeholder="请再次输入密码" prop="confirmPassword"
-                        :rules="[{validator: validateConfirmPass}]">
+          <el-form-item :rules="[{validator: validateConfirmPass}]" label="确认密码" placeholder="请再次输入密码"
+                        prop="confirmPassword">
             <el-input type="password" v-model="form.confirmPassword"></el-input>
           </el-form-item>
 
-          <el-form-item label="手机号" prop="phone" :rules="[{validator:validatePhone}]">
-            <el-input v-model="form.phone" placeholder="验证码登录使用"></el-input>
+          <el-form-item :rules="[{validator:validatePhone}]" label="手机号" prop="phone">
+            <el-input placeholder="验证码登录使用" v-model="form.phone"></el-input>
           </el-form-item>
-          <el-form-item label="邮箱" prop="email" :rules="[{ type: 'email',message: '请填写正确邮箱' }]">
+          <el-form-item :rules="[{ type: 'email',message: '请填写正确邮箱' }]" label="邮箱" prop="email">
             <el-input v-model="form.email"></el-input>
           </el-form-item>
 
-          <el-form-item label="角色" prop="roleIdList" :rules="[{required: true,message: '请选择角色' }]">
-            <CrudSelect v-model="form.roleIdList" :multiple="true" :filterable="true" :dic="rolesOptions"></CrudSelect>
+          <el-form-item :rules="[{required: true,message: '请选择角色' }]" label="角色" prop="roleIdList">
+            <CrudSelect :dic="rolesOptions" :filterable="true" :multiple="true" v-model="form.roleIdList"></CrudSelect>
           </el-form-item>
 
-          <el-form-item label="是否可用" prop="available" :rules="[{required: true,message: '请选择' }]">
-            <CrudRadio v-model="form.available" :dic="flagOptions"></CrudRadio>
+          <el-form-item :rules="[{required: true,message: '请选择' }]" label="是否可用" prop="available">
+            <CrudRadio :dic="flagOptions" v-model="form.available"></CrudRadio>
           </el-form-item>
 
           <el-form-item label="备注" prop="description">
-            <el-input type="textarea" v-model="form.description" placeholder=""></el-input>
+            <el-input placeholder="" type="textarea" v-model="form.description"></el-input>
           </el-form-item>
         </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button size="small" @click="cancel()">取 消</el-button>
-          <el-button size="small" @click="resetForm()">重 置</el-button>
-          <el-button size="small" type="primary" @click="save()">保 存</el-button>
+        <div class="dialog-footer" slot="footer">
+          <el-button @click="cancel()" size="small">取 消</el-button>
+          <el-button @click="resetForm()" size="small">重 置</el-button>
+          <el-button @click="save()" size="small" type="primary">保 存</el-button>
         </div>
       </el-dialog>
     </basic-container>
@@ -290,8 +290,8 @@
             }
         },
         created() {
-            this.getTreeDept()
-            this.getList()
+            this.getTreeDept();
+            this.getList();
             this.sys_user_edit = this.permissions["sys_user_edit"];
             this.sys_user_lock = this.permissions["sys_user_lock"];
             this.sys_user_del = this.permissions["sys_user_del"];
@@ -313,7 +313,7 @@
                     fieldName: 'a.username', value: this.searchForm.username
                 }, {
                     fieldName: 'a.dept_id', value: this.searchForm.deptId
-                }])
+                }]);
                 pageUser(this.listQuery).then(response => {
                     this.list = response.data.records;
                     this.total = response.data.total;
@@ -322,10 +322,10 @@
             },
             sortChange(column) {
                 if (column.order == "ascending") {
-                    this.listQuery.ascs = column.prop
+                    this.listQuery.ascs = column.prop;
                     this.listQuery.descs = undefined;
                 } else {
-                    this.listQuery.descs = column.prop
+                    this.listQuery.descs = column.prop;
                     this.listQuery.ascs = undefined;
                 }
                 this.getList()
@@ -340,11 +340,11 @@
                 })
             },
             filterNode(value, data) {
-                if (!value) return true
+                if (!value) return true;
                 return data.label.indexOf(value) !== -1
             },
             clickNodeTreeData(data) {
-                this.searchForm.deptId = data.id
+                this.searchForm.deptId = data.id;
                 this.currentNode = data;
                 this.getList()
             },
@@ -404,7 +404,7 @@
                 this.$refs['form'].validate(valid => {
                     if (valid) {
                         saveUser(this.form).then(response => {
-                            this.getList()
+                            this.getList();
                             this.dialogFormVisible = false;
                         })
                     } else {
@@ -428,7 +428,7 @@
                     roleIdList: undefined,
                     available: undefined,
                     description: undefined
-                }
+                };
                 this.$refs['form'] && this.$refs['form'].resetFields();
             }
         }

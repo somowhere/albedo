@@ -47,18 +47,6 @@ public class AccoutResource extends BaseResource {
 	private final PasswordEncoder passwordEncoder;
 
 	/**
-	 * {@code GET  /authenticate} : check if the user is authenticated, and return its login.
-	 *
-	 * @param request the HTTP request.
-	 * @return the login if the user is authenticated.
-	 */
-	@GetMapping("/authenticate")
-	public String isAuthenticated(HttpServletRequest request) {
-		log.debug("REST request to check if the current user is authenticated");
-		return request.getRemoteUser();
-	}
-
-	/**
 	 * 功能描述: 检查密码长度
 	 *
 	 * @param: [password]
@@ -68,6 +56,18 @@ public class AccoutResource extends BaseResource {
 		return !StringUtil.isEmpty(password) &&
 			password.length() >= UserDataVo.PASSWORD_MIN_LENGTH &&
 			password.length() <= UserDataVo.PASSWORD_MAX_LENGTH;
+	}
+
+	/**
+	 * {@code GET  /authenticate} : check if the user is authenticated, and return its login.
+	 *
+	 * @param request the HTTP request.
+	 * @return the login if the user is authenticated.
+	 */
+	@GetMapping("/authenticate")
+	public String isAuthenticated(HttpServletRequest request) {
+		log.debug("REST request to check if the current user is authenticated");
+		return request.getRemoteUser();
 	}
 
 	/**

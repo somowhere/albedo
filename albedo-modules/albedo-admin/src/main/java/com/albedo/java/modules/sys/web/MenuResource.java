@@ -179,6 +179,7 @@ public class MenuResource extends TreeVoResource<MenuService, MenuDataVo> {
 		service.save(menuDataVo);
 		return R.buildOk("操作成功");
 	}
+
 	/**
 	 * 更新菜单序号
 	 *
@@ -192,6 +193,7 @@ public class MenuResource extends TreeVoResource<MenuService, MenuDataVo> {
 		service.sortUpdate(menuDataSortVo);
 		return R.buildOk("操作成功");
 	}
+
 	/**
 	 * 删除菜单
 	 *

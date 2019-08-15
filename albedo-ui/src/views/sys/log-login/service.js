@@ -15,6 +15,7 @@ export function exportLogLogin(query) {
     params: query
   })
 }
+
 export function removeLogLogin(id) {
   return request({
     url: '/sys/log-login/' + id,

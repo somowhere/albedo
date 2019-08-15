@@ -7,9 +7,7 @@ package com.albedo.java.modules.quartz.repository;
 import com.albedo.java.common.persistence.repository.BaseRepository;
 import com.albedo.java.modules.quartz.domain.JobLog;
 import com.albedo.java.modules.quartz.domain.vo.JobLogExcelVo;
-import com.albedo.java.modules.sys.vo.UserVo;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

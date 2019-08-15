@@ -11,11 +11,11 @@
               </el-form-item>
 
               <el-form-item label="会话状态" prop="status">
-                <CrudRadio v-model="searchForm.status" :dic="sysOnlineStatusOptions"></CrudRadio>
+                <CrudRadio :dic="sysOnlineStatusOptions" v-model="searchForm.status"></CrudRadio>
               </el-form-item>
               <el-form-item>
-                <el-button size="small" type="primary" icon="el-icon-search" @click="handleFilter">查询</el-button>
-                <el-button size="small" @click="searchReset" icon="icon-rest">重置</el-button>
+                <el-button @click="handleFilter" icon="el-icon-search" size="small" type="primary">查询</el-button>
+                <el-button @click="searchReset" icon="icon-rest" size="small">重置</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -25,15 +25,15 @@
             <div class="table-menu-left">
             </div>
             <div class="table-menu-right">
-              <el-button icon="el-icon-search" circle size="mini"
-                         @click="searchFilterVisible= !searchFilterVisible"></el-button>
+              <el-button @click="searchFilterVisible= !searchFilterVisible" circle icon="el-icon-search"
+                         size="mini"></el-button>
             </div>
           </div>
-          <el-table :key='tableKey' @sort-change="sortChange" :data="list" v-loading="listLoading"
-                    :default-sort="{prop:'start_timestamp',order:'descending'}"
-                    element-loading-text="加载中..." fit highlight-current-row>
+          <el-table :data="list" :default-sort="{prop:'start_timestamp',order:'descending'}" :key='tableKey' @sort-change="sortChange"
+                    element-loading-text="加载中..."
+                    fit highlight-current-row v-loading="listLoading">
             <el-table-column
-              type="index" fixed="left" width="50">
+              fixed="left" type="index" width="50">
             </el-table-column>
             <el-table-column align="center" label="会话编号">
               <template slot-scope="scope">
@@ -105,23 +105,23 @@
               </span>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="操作" fixed="right" width="180" v-if="sys_persistentToken_del">
+            <el-table-column align="center" fixed="right" label="操作" v-if="sys_persistentToken_del" width="180">
               <template slot-scope="scope">
-                <el-button v-if="sys_persistentToken_del" icon="icon-rest" title="强退" type="text"
-                           @click="handleLogout(scope.row)">强退
+                <el-button @click="handleLogout(scope.row)" icon="icon-rest" title="强退" type="text"
+                           v-if="sys_persistentToken_del">强退
                 </el-button>
-                <el-button v-if="sys_persistentToken_del" icon="icon-delete" title="删除" type="text"
-                           @click="handleDelete(scope.row)">删除
+                <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text"
+                           v-if="sys_persistentToken_del">删除
                 </el-button>
               </template>
             </el-table-column>
 
           </el-table>
-          <div v-show="!listLoading" class="pagination-container">
-            <el-pagination class="pull-right" background @size-change="handleSizeChange"
-                           @current-change="handleCurrentChange" :current-page.sync="listQuery.current"
-                           :page-sizes="[10,20,30, 50]" :page-size="listQuery.size"
-                           layout="total, sizes, prev, pager, next, jumper" :total="total">
+          <div class="pagination-container" v-show="!listLoading">
+            <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size" :page-sizes="[10,20,30, 50]"
+                           :total="total" @current-change="handleCurrentChange"
+                           @size-change="handleSizeChange" background
+                           class="pull-right" layout="total, sizes, prev, pager, next, jumper">
             </el-pagination>
           </div>
         </el-col>
@@ -163,8 +163,8 @@
         },
         watch: {},
         created() {
-            this.getList()
-            this.sysOnlineStatusOptions = this.dicts["sys_online_status"]
+            this.getList();
+            this.sysOnlineStatusOptions = this.dicts["sys_online_status"];
             this.sys_persistentToken_del = this.permissions["sys_persistentToken_del"];
         },
         computed: {
@@ -179,7 +179,7 @@
                     fieldName: 'username', value: this.searchForm.username
                 }, {
                     fieldName: 'status', value: this.searchForm.status
-                }])
+                }]);
                 pageToken(this.listQuery).then(response => {
                     this.list = response.data.records;
                     this.total = response.data.total;
@@ -188,10 +188,10 @@
             },
             sortChange(column) {
                 if (column.order == "ascending") {
-                    this.listQuery.ascs = column.prop
+                    this.listQuery.ascs = column.prop;
                     this.listQuery.descs = undefined;
                 } else {
-                    this.listQuery.descs = column.prop
+                    this.listQuery.descs = column.prop;
                     this.listQuery.ascs = undefined;
                 }
                 this.getList()

@@ -9,7 +9,6 @@ import com.albedo.java.modules.quartz.domain.vo.JobDataVo;
 import com.albedo.java.modules.quartz.repository.JobRepository;
 import org.quartz.SchedulerException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

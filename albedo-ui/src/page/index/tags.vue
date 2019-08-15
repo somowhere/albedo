@@ -2,34 +2,34 @@
   <div class="avue-tags"
        v-if="showTag">
     <!-- tag盒子 -->
-    <div v-if="contextmenuFlag"
+    <div :style="{left:contentmenuX+'px',top:contentmenuY+'px'}"
          class="avue-tags__contentmenu"
-         :style="{left:contentmenuX+'px',top:contentmenuY+'px'}">
-      <div class="item"
-           @click="closeOthersTags">关闭其他
+         v-if="contextmenuFlag">
+      <div @click="closeOthersTags"
+           class="item">关闭其他
       </div>
-      <div class="item"
-           @click="closeAllTags">关闭全部
+      <div @click="closeAllTags"
+           class="item">关闭全部
       </div>
     </div>
-    <div class="avue-tags__box"
-         :class="{'avue-tags__box--close':!website.isFirstPage}">
-      <el-tabs v-model="active"
-               type="card"
+    <div :class="{'avue-tags__box--close':!website.isFirstPage}"
+         class="avue-tags__box">
+      <el-tabs :closable="tagLen!==1"
                @contextmenu.native="handleContextmenu"
-               :closable="tagLen!==1"
+               @edit="menuTag"
                @tab-click="openTag"
-               @edit="menuTag">
+               type="card"
+               v-model="active">
         <el-tab-pane :key="item.value"
-                     v-for="item in tagList"
                      :label="item.label"
-                     :name="item.value">
+                     :name="item.value"
+                     v-for="item in tagList">
         </el-tab-pane>
 
       </el-tabs>
       <el-dropdown class="avue-tags__menu">
-        <el-button type="primary"
-                   size="mini">
+        <el-button size="mini"
+                   type="primary">
           更多
           <i class="el-icon-arrow-down el-icon--right"></i>
         </el-button>

@@ -101,6 +101,7 @@ public class JobResource extends DataVoResource<JobService, JobDataVo> {
 		service.available(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
 		return R.buildOk("操作成功");
 	}
+
 	/**
 	 * concurrent //:ids : concurrent the "ids" Job.
 	 *
@@ -115,6 +116,7 @@ public class JobResource extends DataVoResource<JobService, JobDataVo> {
 		service.runByIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
 		return R.buildOk("操作成功");
 	}
+
 	/**
 	 * concurrent //:ids : concurrent the "ids" Job.
 	 *

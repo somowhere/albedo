@@ -10,8 +10,8 @@
                 <el-input class="filter-item input-normal" size="small" v-model="searchForm.name"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button size="small" type="primary" icon="el-icon-search" @click="handleFilter">查询</el-button>
-                <el-button size="small" @click="searchReset" icon="icon-rest">重置</el-button>
+                <el-button @click="handleFilter" icon="el-icon-search" size="small" type="primary">查询</el-button>
+                <el-button @click="searchReset" icon="icon-rest" size="small">重置</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -19,18 +19,18 @@
 
           <div class="table-menu">
             <div class="table-menu-left">
-              <el-button size="mini" v-if="sys_role_edit" @click="handleEdit" type="primary" icon="el-icon-plus">添加
+              <el-button @click="handleEdit" icon="el-icon-plus" size="mini" type="primary" v-if="sys_role_edit">添加
               </el-button>
             </div>
             <div class="table-menu-right">
-              <el-button icon="el-icon-search" circle size="mini"
-                         @click="searchFilterVisible= !searchFilterVisible"></el-button>
+              <el-button @click="searchFilterVisible= !searchFilterVisible" circle icon="el-icon-search"
+                         size="mini"></el-button>
             </div>
           </div>
-          <el-table :key='tableKey' @sort-change="sortChange" :data="list" v-loading="listLoading"
-                    element-loading-text="加载中..." fit highlight-current-row>
+          <el-table :data="list" :key='tableKey' @sort-change="sortChange" element-loading-text="加载中..."
+                    fit highlight-current-row v-loading="listLoading">
             <el-table-column
-              type="index" fixed="left" width="50">
+              fixed="left" type="index" width="50">
             </el-table-column>
             <el-table-column align="center" label="角色名称" width="100">
               <template slot-scope="scope">
@@ -70,75 +70,75 @@
             </el-table-column>
 
 
-            <el-table-column align="center" label="操作" fixed="right" width="130"
-                             v-if="sys_role_edit || sys_role_lock || sys_role_del">
+            <el-table-column align="center" fixed="right" label="操作" v-if="sys_role_edit || sys_role_lock || sys_role_del"
+                             width="130">
               <template slot-scope="scope">
-                <el-button v-if="sys_role_edit" icon="icon-edit" title="编辑" type="text" @click="handleEdit(scope.row)">
+                <el-button @click="handleEdit(scope.row)" icon="icon-edit" title="编辑" type="text" v-if="sys_role_edit">
                 </el-button>
-                <el-button v-if="sys_role_lock" :icon="scope.row.available == '0' ? 'icon-lock' : 'icon-unlock'"
-                           :title="scope.row.available == '0' ? '锁定' : '解锁'" type="text" @click="handleLock(scope.row)">
+                <el-button :icon="scope.row.available == '0' ? 'icon-lock' : 'icon-unlock'" :title="scope.row.available == '0' ? '锁定' : '解锁'"
+                           @click="handleLock(scope.row)" type="text" v-if="sys_role_lock">
                 </el-button>
-                <el-button v-if="sys_role_del" icon="icon-delete" title="删除" type="text"
-                           @click="handleDelete(scope.row)">
+                <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text"
+                           v-if="sys_role_del">
                 </el-button>
               </template>
             </el-table-column>
 
           </el-table>
-          <div v-show="!listLoading" class="pagination-container">
-            <el-pagination class="pull-right" background @size-change="handleSizeChange"
-                           @current-change="handleCurrentChange" :current-page.sync="listQuery.current"
-                           :page-sizes="[10,20,30, 50]" :page-size="listQuery.size"
-                           layout="total, sizes, prev, pager, next, jumper" :total="total">
+          <div class="pagination-container" v-show="!listLoading">
+            <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size" :page-sizes="[10,20,30, 50]"
+                           :total="total" @current-change="handleCurrentChange"
+                           @size-change="handleSizeChange" background
+                           class="pull-right" layout="total, sizes, prev, pager, next, jumper">
             </el-pagination>
           </div>
         </el-col>
       </el-row>
       <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-        <el-form :model="form" ref="form" label-width="100px">
+        <el-form :model="form" label-width="100px" ref="form">
 
-          <el-form-item label="角色名称" prop="name" :rules="[
+          <el-form-item :rules="[
           {required: true,message: '请输入角色名称'}
-        ]">
-            <el-input v-model="form.name" placeholder="请输入角色名称"></el-input>
+        ]" label="角色名称" prop="name">
+            <el-input placeholder="请输入角色名称" v-model="form.name"></el-input>
           </el-form-item>
-          <el-form-item label="角色标识" prop="code" :rules="[{required: true,message: '请输入角色名称'}]">
-            <el-input v-model="form.code" placeholder="请输入角色标识"></el-input>
+          <el-form-item :rules="[{required: true,message: '请输入角色名称'}]" label="角色标识" prop="code">
+            <el-input placeholder="请输入角色标识" v-model="form.code"></el-input>
           </el-form-item>
-          <el-form-item label="数据权限" prop="dataScope" :rules="[{required: true,message: '请选择' }]">
-            <CrudSelect v-model="form.dataScope" :dic="dataScopeOptions" @input="handleDataScopeChange"></CrudSelect>
+          <el-form-item :rules="[{required: true,message: '请选择' }]" label="数据权限" prop="dataScope">
+            <CrudSelect :dic="dataScopeOptions" @input="handleDataScopeChange" v-model="form.dataScope"></CrudSelect>
           </el-form-item>
 
           <el-row :gutter="20" :span="24">
             <el-col :span="12">
               <el-form-item label="操作权限" prop="menuIdList">
-                <el-tree class="filter-tree" :data="treeMenuData" ref="treeMenu" node-key="id"
-                         show-checkbox :default-checked-keys="form.menuIdList" @check="getNodeTreeMenuData">
+                <el-tree :data="treeMenuData" :default-checked-keys="form.menuIdList" @check="getNodeTreeMenuData" class="filter-tree"
+                         node-key="id" ref="treeMenu" show-checkbox>
                 </el-tree>
               </el-form-item>
             </el-col>
             <el-col :span="10" v-show="formTreeDeptDataVisible">
               <el-form-item label="机构权限" prop="orgIdList" v-show="formTreeDeptDataVisible">
-                <el-tree class="filter-tree" ref="treeDept" :data="treeDeptData" node-key="id"
-                         show-checkbox default-expand-all :default-checked-keys="form.deptIdList"
-                         @check="getNodeTreeDeptData">
+                <el-tree :data="treeDeptData" :default-checked-keys="form.deptIdList" @check="getNodeTreeDeptData" class="filter-tree"
+                         default-expand-all node-key="id" ref="treeDept"
+                         show-checkbox>
                 </el-tree>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item label="是否可用" prop="available" :rules="[{required: true,message: '请选择' }]">
-            <CrudRadio v-model="form.available" :dic="flagOptions"></CrudRadio>
+          <el-form-item :rules="[{required: true,message: '请选择' }]" label="是否可用" prop="available">
+            <CrudRadio :dic="flagOptions" v-model="form.available"></CrudRadio>
           </el-form-item>
-          <el-form-item label="角色描述" prop="remark" :rules="[{required: true, message: '请输入角色描述'}]">
+          <el-form-item :rules="[{required: true, message: '请输入角色描述'}]" label="角色描述" prop="remark">
             <el-input v-model="form.remark"></el-input>
           </el-form-item>
           <el-form-item label="备注" prop="description">
-            <el-input type="textarea" v-model="form.description" placeholder=""></el-input>
+            <el-input placeholder="" type="textarea" v-model="form.description"></el-input>
           </el-form-item>
         </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button size="small" @click="cancel()">取 消</el-button>
-          <el-button size="small" type="primary" @click="save()">保 存</el-button>
+        <div class="dialog-footer" slot="footer">
+          <el-button @click="cancel()" size="small">取 消</el-button>
+          <el-button @click="save()" size="small" type="primary">保 存</el-button>
         </div>
       </el-dialog>
     </basic-container>
@@ -203,7 +203,7 @@
         },
         watch: {},
         created() {
-            this.getList()
+            this.getList();
             this.sys_role_edit = this.permissions["sys_role_edit"];
             this.sys_role_lock = this.permissions["sys_role_lock"];
             this.sys_role_del = this.permissions["sys_role_del"];
@@ -211,7 +211,7 @@
             this.dataScopeOptions = this.dicts['sys_data_scope'];
             fetchMenuTree().then(rs => {
                 this.treeMenuData = parseTreeData(rs.data);
-            })
+            });
             fetchDeptTree().then(response => {
                 this.treeDeptData = parseTreeData(response.data);
             })
@@ -226,7 +226,7 @@
                 this.listLoading = true;
                 this.listQuery.queryConditionJson = parseJsonItemForm([{
                     fieldName: 'name', value: this.searchForm.name
-                }])
+                }]);
                 pageRole(this.listQuery).then(response => {
                     this.list = response.data.records;
                     this.total = response.data.total;
@@ -235,10 +235,10 @@
             },
             sortChange(column) {
                 if (column.order == "ascending") {
-                    this.listQuery.ascs = column.prop
+                    this.listQuery.ascs = column.prop;
                     this.listQuery.descs = undefined;
                 } else {
-                    this.listQuery.descs = column.prop
+                    this.listQuery.descs = column.prop;
                     this.listQuery.ascs = undefined;
                 }
                 this.getList()
@@ -273,7 +273,7 @@
                         if (validateNull(this.form.deptIdList)) {
                             this.form.deptIdList = []
                         }
-                        this.form.dataScope = objectToString(this.form.dataScope)
+                        this.form.dataScope = objectToString(this.form.dataScope);
                         if (this.$refs.treeMenu) {
                             this.$refs.treeMenu.setCheckedKeys(this.form.menuIdList);
                             this.$refs.treeDept.setCheckedKeys(this.form.deptIdList);
@@ -310,7 +310,7 @@
                 this.$refs['form'].validate(valid => {
                     if (valid) {
                         saveRole(this.form).then(() => {
-                            this.getList()
+                            this.getList();
                             this.dialogFormVisible = false;
                         })
                     } else {
@@ -332,7 +332,7 @@
                     remark: undefined,
                     available: undefined,
                     description: undefined
-                }
+                };
                 this.$refs['form'] && this.$refs['form'].resetFields();
                 // this.$refs.treeMenu.setCheckedKeys([]);
                 // this.$refs.treeDept.setCheckedKeys([]);

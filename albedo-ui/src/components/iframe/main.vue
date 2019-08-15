@@ -1,14 +1,14 @@
 <template>
   <div>
     <basic-container>
-      <iframe v-if="$route.query.src"
-              :src='$route.query.src'
+      <iframe :src='$route.query.src'
               class="iframe"
-              ref="iframe"></iframe>
-      <iframe v-else
-              :src="urlPath"
+              ref="iframe"
+              v-if="$route.query.src"></iframe>
+      <iframe :src="urlPath"
               class="iframe"
-              ref="iframe"></iframe>
+              ref="iframe"
+              v-else></iframe>
     </basic-container>
   </div>
 </template>
@@ -28,7 +28,7 @@
             NProgress.configure({showSpinner: false})
         },
         mounted() {
-            this.load()
+            this.load();
             this.resize()
         },
         props: ['routerPath'],
@@ -61,18 +61,18 @@
             },
             // 加载组件
             load() {
-                this.show()
-                var flag = true //URL是否包含问号
+                this.show();
+                var flag = true; //URL是否包含问号
                 if (this.$route.query.src.indexOf('?') == -1) {
                     flag = false
                 }
-                var list = []
+                var list = [];
                 for (var key in this.$route.query) {
                     if (key != 'src' && key != 'name') {
                         list.push(`${key}= this.$route.query[key]`)
                     }
                 }
-                list = list.join('&').toString()
+                list = list.join('&').toString();
                 if (flag) {
                     this.$route.query.src = `${this.$route.query.src}${
                         list.length > 0 ? `&list` : ''
@@ -83,21 +83,21 @@
                     }`
                 }
                 //超时5s自动隐藏等待框，加强用户体验
-                let time = 5
+                let time = 5;
                 const timeFunc = setInterval(() => {
-                    time--
+                    time--;
                     if (time == 0) {
-                        this.hide()
+                        this.hide();
                         clearInterval(timeFunc)
                     }
-                }, 1000)
+                }, 1000);
                 this.iframeInit()
             },
             //iframe窗口初始化
             iframeInit() {
-                const iframe = this.$refs.iframe
+                const iframe = this.$refs.iframe;
                 const clientHeight = document.documentElement.clientHeight - (screen > 1 ? 200 : 130);
-                iframe.style.height = `${clientHeight}px`
+                iframe.style.height = `${clientHeight}px`;
                 if (iframe.attachEvent) {
                     iframe.attachEvent('onload', () => {
                         this.hide()
@@ -110,8 +110,8 @@
             },
             getUrlPath: function () {
                 //获取 iframe src 路径
-                let url = window.location.href
-                url = url.replace('/myiframe', '')
+                let url = window.location.href;
+                url = url.replace('/myiframe', '');
                 return url
             }
         }
