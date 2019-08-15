@@ -14,29 +14,44 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.sys.vo;
+package com.albedo.java.modules.sys.domain.vo;
 
+import com.albedo.java.common.core.annotation.DictType;
+import com.albedo.java.common.core.util.CollUtil;
+import com.albedo.java.common.core.util.ObjectUtil;
+import com.albedo.java.common.core.vo.DataEntityVo;
+import com.albedo.java.modules.sys.domain.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
-import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author somewhere
  * @date 2019/2/1
  */
 @Data
-public class UserSearchVo implements Serializable {
+public class UserVo extends DataEntityVo<String> {
 
 	public static final String F_USERNAME = "username";
 	public static final String F_EMAIL = "email";
+	public static final String F_PHONE = "phone";
 	/**
 	 * 用户名
 	 */
 	private String username;
 
+	private String password;
+	/**
+	 * 随机盐
+	 */
+	@JsonIgnore
+	private String salt;
+
 	/**
 	 * 锁定标记
 	 */
+	@DictType("sys_flag")
 	private String available;
 
 	/**
@@ -56,6 +71,10 @@ public class UserSearchVo implements Serializable {
 	 * 部门ID
 	 */
 	private String deptId;
+	/**
+	 * 部门ID
+	 */
+	private String deptName;
 
 	/**
 	 * 微信openId
@@ -66,4 +85,29 @@ public class UserSearchVo implements Serializable {
 	 * QQ openId
 	 */
 	private String qqOpenId;
+
+	private String roleNames;
+	/**
+	 * 角色ID
+	 */
+	@JsonIgnore
+	private List<Role> roleList;
+
+	private List<String> roleIdList;
+
+	public List<String> getRoleIdList() {
+		if (CollUtil.isEmpty(roleIdList) && CollUtil.isNotEmpty(roleList)) {
+			roleIdList = CollUtil.extractToList(roleList, Role.F_ID);
+		}
+		return roleIdList;
+	}
+
+	public String getRoleNames() {
+		if (ObjectUtil.isEmpty(roleNames) && CollUtil.isNotEmpty(roleList)) {
+			roleNames = CollUtil.convertToString(roleList, Role.F_NAME, Role.F_ID);
+		}
+		return roleNames;
+	}
+
+
 }

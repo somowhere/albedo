@@ -14,21 +14,27 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.sys.vo;
+package com.albedo.java.modules.sys.domain.vo;
 
-import com.albedo.java.modules.sys.domain.LogOperate;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.List;
 
 /**
+ * <p>
+ * 菜单序号
+ * </p>
+ *
  * @author somewhere
- * @date 2019/2/1
+ * @since 2019/2/1
  */
 @Data
-public class LogVo implements Serializable {
+public class MenuDataSortVo implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
-	private LogOperate logOperate;
-	private String username;
+	@NotEmpty
+	List<MenuSortVo> menuSortVoList;
 }

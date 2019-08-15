@@ -9,7 +9,7 @@ import com.albedo.java.modules.AlbedoAdminApplication;
 import com.albedo.java.modules.TestUtil;
 import com.albedo.java.modules.sys.domain.*;
 import com.albedo.java.modules.sys.service.*;
-import com.albedo.java.modules.sys.vo.RoleDataVo;
+import com.albedo.java.modules.sys.domain.vo.RoleDataVo;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;

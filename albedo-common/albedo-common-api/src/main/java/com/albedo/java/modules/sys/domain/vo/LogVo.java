@@ -14,24 +14,21 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.sys.service.impl;
+package com.albedo.java.modules.sys.domain.vo;
 
-import com.albedo.java.common.persistence.service.impl.BaseServiceImpl;
-import com.albedo.java.modules.sys.domain.PersistentAuditEvent;
-import com.albedo.java.modules.sys.repository.PersistentAuditEventRepository;
-import com.albedo.java.modules.sys.service.PersistentAuditEventService;
-import org.springframework.stereotype.Service;
+import com.albedo.java.modules.sys.domain.LogOperate;
+import lombok.Data;
+
+import java.io.Serializable;
 
 /**
- * <p>
- * 审核事件 服务实现类
- * </p>
- *
  * @author somewhere
- * @since 2019/2/1
+ * @date 2019/2/1
  */
-@Service
-public class PersistentAuditEventServiceImpl extends
-	BaseServiceImpl<PersistentAuditEventRepository, PersistentAuditEvent, Long> implements PersistentAuditEventService {
+@Data
+public class LogVo implements Serializable {
+	private static final long serialVersionUID = 1L;
 
+	private LogOperate logOperate;
+	private String username;
 }

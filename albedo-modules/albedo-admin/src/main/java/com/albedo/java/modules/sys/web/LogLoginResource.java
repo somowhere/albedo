@@ -14,7 +14,7 @@ import com.albedo.java.common.persistence.DynamicSpecifications;
 import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.modules.sys.domain.LogLogin;
 import com.albedo.java.modules.sys.service.LogLoginService;
-import com.albedo.java.modules.sys.vo.LogLoginExcelVo;
+import com.albedo.java.modules.sys.domain.vo.LogLoginExcelVo;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

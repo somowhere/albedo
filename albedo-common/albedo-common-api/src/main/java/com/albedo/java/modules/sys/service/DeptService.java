@@ -20,7 +20,7 @@ import com.albedo.java.common.core.vo.TreeNode;
 import com.albedo.java.common.persistence.service.TreeVoService;
 import com.albedo.java.modules.sys.domain.Dept;
 import com.albedo.java.modules.sys.repository.DeptRepository;
-import com.albedo.java.modules.sys.vo.DeptDataVo;
+import com.albedo.java.modules.sys.domain.vo.DeptDataVo;
 
 import java.util.List;
 

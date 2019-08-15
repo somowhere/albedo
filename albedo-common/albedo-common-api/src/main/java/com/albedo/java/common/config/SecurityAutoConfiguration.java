@@ -6,6 +6,7 @@ import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.security.component.Http401UnauthorizedEntryPoint;
 import com.albedo.java.common.security.component.session.RedisSessionRegistry;
 import com.albedo.java.common.security.filter.PasswordDecoderFilter;
+import com.albedo.java.common.security.filter.ValidateCodeFilter;
 import com.albedo.java.common.security.handler.AjaxAuthenticationFailureHandler;
 import com.albedo.java.common.security.handler.AjaxAuthenticationSuccessHandler;
 import com.albedo.java.common.security.handler.AjaxLogoutSuccessHandler;
@@ -32,6 +33,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
@@ -55,6 +57,9 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 	private final RememberMeServices rememberMeServices;
 	private final CorsFilter corsFilter;
 	private final PasswordDecoderFilter passwordDecoderFilter;
+	private final ValidateCodeFilter validateCodeFilter;
+
+
 
 
 	/**
@@ -134,6 +139,7 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 			.csrf()
 			.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 			.and()
+			.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
 			.addFilterBefore(passwordDecoderFilter, CsrfFilter.class)
 			.addFilterBefore(corsFilter, CsrfFilter.class)
 			.exceptionHandling()

@@ -13,7 +13,7 @@ import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.service.DeptService;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.modules.sys.service.UserService;
-import com.albedo.java.modules.sys.vo.UserDataVo;
+import com.albedo.java.modules.sys.domain.vo.UserDataVo;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;

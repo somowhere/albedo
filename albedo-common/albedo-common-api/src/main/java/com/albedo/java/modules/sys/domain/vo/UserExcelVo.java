@@ -1,4 +1,4 @@
-package com.albedo.java.modules.sys.vo;
+package com.albedo.java.modules.sys.domain.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

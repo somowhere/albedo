@@ -25,7 +25,7 @@ import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.repository.DictRepository;
 import com.albedo.java.modules.sys.service.DictService;
 import com.albedo.java.modules.sys.util.DictUtil;
-import com.albedo.java.modules.sys.vo.DictDataVo;
+import com.albedo.java.modules.sys.domain.vo.DictDataVo;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;

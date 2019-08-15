@@ -20,8 +20,8 @@ package com.albedo.java.modules.sys.service;
 import com.albedo.java.common.core.vo.TreeQuery;
 import com.albedo.java.common.persistence.service.TreeVoService;
 import com.albedo.java.modules.sys.domain.Menu;
+import com.albedo.java.modules.sys.domain.vo.*;
 import com.albedo.java.modules.sys.repository.MenuRepository;
-import com.albedo.java.modules.sys.vo.*;
 
 import java.util.List;
 

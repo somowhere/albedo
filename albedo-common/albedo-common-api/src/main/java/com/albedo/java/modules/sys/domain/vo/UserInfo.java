@@ -14,18 +14,35 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.sys.repository;
+package com.albedo.java.modules.sys.domain.vo;
 
-import com.albedo.java.common.persistence.repository.BaseRepository;
-import com.albedo.java.modules.sys.domain.PersistentAuditEvent;
+import lombok.Data;
+
+import java.io.Serializable;
 
 /**
- * <p>
- * 日志表 Mapper 接口
- * </p>
- *
  * @author somewhere
- * @since 2019/2/1
+ * @date 2019/2/1
+ * <p>
+ * commit('SET_ROLES', data)
+ * commit('SET_NAME', data)
+ * commit('SET_AVATAR', data)
+ * commit('SET_INTRODUCTION', data)
+ * commit('SET_PERMISSIONS', data)
  */
-public interface PersistentAuditEventRepository extends BaseRepository<PersistentAuditEvent> {
+@Data
+public class UserInfo implements Serializable {
+	/**
+	 * 用户基本信息
+	 */
+	private UserVo userVo;
+	/**
+	 * 权限标识集合
+	 */
+	private String[] permissions;
+
+	/**
+	 * 角色集合
+	 */
+	private String[] roles;
 }

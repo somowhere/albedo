@@ -19,13 +19,13 @@ package com.albedo.java.modules.sys.service;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.persistence.service.DataVoService;
 import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.modules.sys.domain.vo.UserDataVo;
+import com.albedo.java.modules.sys.domain.vo.UserExcelVo;
+import com.albedo.java.modules.sys.domain.vo.UserInfo;
+import com.albedo.java.modules.sys.domain.vo.UserVo;
+import com.albedo.java.modules.sys.domain.vo.account.PasswordChangeVo;
+import com.albedo.java.modules.sys.domain.vo.account.PasswordRestVo;
 import com.albedo.java.modules.sys.repository.UserRepository;
-import com.albedo.java.modules.sys.vo.UserDataVo;
-import com.albedo.java.modules.sys.vo.UserExcelVo;
-import com.albedo.java.modules.sys.vo.UserInfo;
-import com.albedo.java.modules.sys.vo.UserVo;
-import com.albedo.java.modules.sys.vo.account.PasswordChangeVo;
-import com.albedo.java.modules.sys.vo.account.PasswordRestVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
@@ -65,7 +65,7 @@ public interface UserService extends DataVoService<UserRepository, User, String,
 	 * @param id 用户ID
 	 * @return 用户信息
 	 */
-	com.albedo.java.modules.sys.vo.UserVo getUserVoById(String id);
+	UserVo getUserVoById(String id);
 
 	/**
 	 * 查询上级部门的用户信息

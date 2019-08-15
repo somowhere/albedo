@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.sys.vo;
+package com.albedo.java.modules.sys.domain.vo;
 
 import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.vo.DataEntityVo;

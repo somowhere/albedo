@@ -4,17 +4,16 @@ import cn.hutool.core.util.StrUtil;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.SecurityConstants;
-import com.albedo.java.common.core.exception.ValidateCodeException;
 import com.albedo.java.common.core.util.*;
 import com.albedo.java.common.security.filter.PasswordDecoderFilter;
 import com.albedo.java.common.security.jwt.TokenProvider;
+import com.albedo.java.common.security.util.LoginUtil;
 import com.albedo.java.common.web.resource.BaseResource;
-import com.albedo.java.modules.sys.util.RedisUtil;
-import com.albedo.java.modules.sys.vo.account.LoginVo;
+import com.albedo.java.common.util.RedisUtil;
+import com.albedo.java.modules.sys.domain.vo.account.LoginVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -83,7 +82,7 @@ public class AccoutJwtResource extends BaseResource {
 		}
 
 		if (!SpringContextHolder.isDevelopment()) {
-			checkCode(loginVo);
+			LoginUtil.checkCode(loginVo);
 		}
 		try {
 			String s = PasswordDecoderFilter.decryptAES(loginVo.getPassword(), applicationProperties.getSecurity().getEncodeKey());
@@ -129,38 +128,6 @@ public class AccoutJwtResource extends BaseResource {
 		}
 	}
 
-	@SneakyThrows
-	private void checkCode(@Valid LoginVo loginVo) {
-		String code = loginVo.getCode();
-		String randomStr = loginVo.getRandomStr();
-		if (StrUtil.isBlank(code) || StrUtil.isBlank(randomStr)) {
-			throw new ValidateCodeException("验证码不能为空");
-		}
-
-		String key = CommonConstants.DEFAULT_CODE_KEY + randomStr;
-		if (!redisTemplate.hasKey(key)) {
-			throw new ValidateCodeException("验证码不合法");
-		}
-
-		Object codeObj = redisTemplate.opsForValue().get(key);
-
-		if (codeObj == null) {
-			throw new ValidateCodeException("验证码不合法");
-		}
-
-		String saveCode = codeObj.toString();
-		if (StrUtil.isBlank(saveCode)) {
-			redisTemplate.delete(key);
-			throw new ValidateCodeException("验证码不合法");
-		}
-
-		if (!StrUtil.equals(saveCode, code)) {
-			redisTemplate.delete(key);
-			throw new ValidateCodeException("验证码不合法");
-		}
-
-		redisTemplate.delete(key);
-	}
 
 	/*
 	 * 登出

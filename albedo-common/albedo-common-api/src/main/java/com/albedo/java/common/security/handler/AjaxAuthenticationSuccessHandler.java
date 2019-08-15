@@ -21,6 +21,8 @@ public class AjaxAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 										Authentication authentication) {
 		response.setStatus(HttpServletResponse.SC_OK);
+		String useruame = request.getParameter("username");
+		LoginUtil.isValidateCodeLogin(useruame, false, true);
 		UserOnline userOnline = LoginUtil.getUserOnline(authentication);
 		SpringContextHolder.publishEvent(new SysUserOnlineEvent(userOnline));
 		WebUtil.renderJson(response, R.buildOk("登录成功"));

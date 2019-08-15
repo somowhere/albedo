@@ -24,7 +24,7 @@ import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.web.resource.TreeVoResource;
 import com.albedo.java.modules.sys.service.DeptService;
-import com.albedo.java.modules.sys.vo.DeptDataVo;
+import com.albedo.java.modules.sys.domain.vo.DeptDataVo;
 import com.google.common.collect.Lists;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

@@ -7,7 +7,7 @@ import com.albedo.java.modules.AlbedoAdminApplication;
 import com.albedo.java.modules.TestUtil;
 import com.albedo.java.modules.sys.domain.Dept;
 import com.albedo.java.modules.sys.service.DeptService;
-import com.albedo.java.modules.sys.vo.DeptDataVo;
+import com.albedo.java.modules.sys.domain.vo.DeptDataVo;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;

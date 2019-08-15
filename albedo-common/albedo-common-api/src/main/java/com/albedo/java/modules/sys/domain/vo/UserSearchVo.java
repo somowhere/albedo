@@ -14,27 +14,56 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.sys.vo;
+package com.albedo.java.modules.sys.domain.vo;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
-import java.util.List;
 
 /**
- * <p>
- * 菜单序号
- * </p>
- *
  * @author somewhere
- * @since 2019/2/1
+ * @date 2019/2/1
  */
 @Data
-public class MenuDataSortVo implements Serializable {
+public class UserSearchVo implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	public static final String F_USERNAME = "username";
+	public static final String F_EMAIL = "email";
+	/**
+	 * 用户名
+	 */
+	private String username;
 
-	@NotEmpty
-	List<MenuSortVo> menuSortVoList;
+	/**
+	 * 锁定标记
+	 */
+	private String available;
+
+	/**
+	 * 邮箱
+	 */
+	private String email;
+	/**
+	 * 电话
+	 */
+	private String phone;
+	/**
+	 * 头像
+	 */
+	private String avatar;
+
+	/**
+	 * 部门ID
+	 */
+	private String deptId;
+
+	/**
+	 * 微信openId
+	 */
+	private String wxOpenId;
+
+	/**
+	 * QQ openId
+	 */
+	private String qqOpenId;
 }

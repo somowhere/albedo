@@ -17,7 +17,7 @@ import com.albedo.java.modules.gen.domain.vo.TableDataVo;
 import com.albedo.java.modules.gen.service.SchemeService;
 import com.albedo.java.modules.gen.service.TableService;
 import com.albedo.java.modules.sys.service.MenuService;
-import com.albedo.java.modules.sys.vo.GenSchemeDataVo;
+import com.albedo.java.modules.sys.domain.vo.GenSchemeDataVo;
 import com.google.common.collect.Lists;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

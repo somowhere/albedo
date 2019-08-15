@@ -18,7 +18,7 @@ package com.albedo.java.modules.sys.repository;
 
 import com.albedo.java.common.persistence.repository.TreeRepository;
 import com.albedo.java.modules.sys.domain.Menu;
-import com.albedo.java.modules.sys.vo.MenuVo;
+import com.albedo.java.modules.sys.domain.vo.MenuVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

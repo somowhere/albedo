@@ -18,7 +18,7 @@ package com.albedo.java.modules.sys.repository;
 
 import com.albedo.java.common.persistence.repository.BaseRepository;
 import com.albedo.java.modules.sys.domain.User;
-import com.albedo.java.modules.sys.vo.UserVo;
+import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.ibatis.annotations.Param;

@@ -26,7 +26,7 @@ import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.service.RoleDeptService;
 import com.albedo.java.modules.sys.service.RoleMenuService;
 import com.albedo.java.modules.sys.service.RoleService;
-import com.albedo.java.modules.sys.vo.RoleDataVo;
+import com.albedo.java.modules.sys.domain.vo.RoleDataVo;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.CacheManager;

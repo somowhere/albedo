@@ -27,7 +27,7 @@ import com.albedo.java.common.web.resource.DataVoResource;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.service.RoleMenuService;
 import com.albedo.java.modules.sys.service.RoleService;
-import com.albedo.java.modules.sys.vo.RoleDataVo;
+import com.albedo.java.modules.sys.domain.vo.RoleDataVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;

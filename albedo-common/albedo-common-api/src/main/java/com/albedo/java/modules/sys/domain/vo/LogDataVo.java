@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.sys.vo;
+package com.albedo.java.modules.sys.domain.vo;
 
-import com.albedo.java.common.core.annotation.DictType;
-import com.albedo.java.common.core.vo.TreeEntityVo;
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.albedo.java.common.core.vo.DataEntityVo;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
  * <p>
- * 字典表
+ * 日志表
  * </p>
  *
  * @author somewhere
@@ -35,33 +34,59 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class DictDataVo extends TreeEntityVo {
+public class LogDataVo extends DataEntityVo<Long> {
 
-	public static final String F_VAL = "val";
-	public static final String F_CODE = "code";
-	public static final String F_SHOW = "show";
-	public static final String F_SQL_SHOW = "show";
-	public static final String CACHE_GET_DICT_ALL = "getDictAll";
-	public static final String CACHE_DICT_DETAILS = "dict_details";
 	private static final long serialVersionUID = 1L;
+
 	/**
-	 * 数据值
+	 * 编号
 	 */
-//	@NotBlank(message = "字典项数据值不能为空")
-	private String val;
+	@TableId(value = "id", type = IdType.AUTO)
+	private Long id;
 	/**
-	 * 类型
+	 * 日志类型
 	 */
-	@NotBlank(message = "字典项数据类型不能为空")
-	private String code;
-	@NotNull
-	@TableField(F_SQL_SHOW)
-	@DictType("sys_flag")
-	private Integer show = 1;
+	@NotBlank(message = "日志类型不能为空")
+	private String type;
 	/**
-	 * 备注信息
+	 * 日志标题
 	 */
-	private String remark;
+	@NotBlank(message = "日志标题不能为空")
+	private String title;
+	/**
+	 * 操作IP地址
+	 */
+	private String remoteAddr;
+	/**
+	 * 用户代理
+	 */
+	private String userAgent;
+	/**
+	 * 请求URI
+	 */
+	private String requestUri;
+	/**
+	 * 操作方式
+	 */
+	private String method;
+	/**
+	 * 操作提交的数据
+	 */
+	private String params;
+	/**
+	 * 执行时间
+	 */
+	private Long time;
+
+	/**
+	 * 异常信息
+	 */
+	private String exception;
+
+	/**
+	 * 服务ID
+	 */
+	private String serviceId;
 
 
 }

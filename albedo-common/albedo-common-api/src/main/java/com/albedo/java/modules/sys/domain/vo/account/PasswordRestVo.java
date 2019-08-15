@@ -1,7 +1,7 @@
-package com.albedo.java.modules.sys.vo.account;
+package com.albedo.java.modules.sys.domain.vo.account;
 
 
-import com.albedo.java.modules.sys.vo.UserDataVo;
+import com.albedo.java.modules.sys.domain.vo.UserDataVo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;

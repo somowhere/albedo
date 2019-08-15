@@ -1,8 +1,11 @@
 package com.albedo.java.common.security.handler;
 
+import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.exception.ValidateCodeException;
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.util.WebUtil;
 import com.albedo.java.common.security.util.LoginUtil;
+import com.albedo.java.common.util.AsyncUtil;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
@@ -19,7 +22,9 @@ public class AjaxAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 										AuthenticationException exception) {
 		String useruame = request.getParameter("username");
 		LoginUtil.isValidateCodeLogin(useruame, true, false);
+		String message = exception.getMessage();
+		AsyncUtil.recordLogLogin(useruame, CommonConstants.STR_FAIL, message);
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-		WebUtil.renderJson(response, R.buildFail("用户名或密码错误"));
+		WebUtil.renderJson(response, R.buildFail(message));
 	}
 }

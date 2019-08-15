@@ -1,26 +1,71 @@
 package com.albedo.java.common.security.util;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
+import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.exception.ValidateCodeException;
 import com.albedo.java.common.core.util.AddressUtil;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.WebUtil;
 import com.albedo.java.common.security.service.UserDetail;
 import com.albedo.java.modules.sys.domain.UserOnline;
-import com.albedo.java.modules.sys.util.RedisUtil;
+import com.albedo.java.common.util.RedisUtil;
+import com.albedo.java.modules.sys.domain.vo.account.LoginVo;
 import com.google.common.collect.Maps;
+import lombok.SneakyThrows;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 
 public class LoginUtil {
 	public final static String LOGIN_FAIL_MAP = "loginFailMap";
+
+
+
+	@SneakyThrows
+	public static void checkCode(@Valid LoginVo loginVo) {
+		RedisTemplate redisTemplate = RedisUtil.getRedisTemplate();
+		String code = loginVo.getCode();
+		String randomStr = loginVo.getRandomStr();
+		if (StrUtil.isBlank(code) || StrUtil.isBlank(randomStr)) {
+			throw new ValidateCodeException("随机码不能为空");
+		}
+
+		String key = CommonConstants.DEFAULT_CODE_KEY + randomStr;
+		if (!redisTemplate.hasKey(key)) {
+			throw new ValidateCodeException("随机码不合法");
+		}
+
+		Object codeObj = redisTemplate.opsForValue().get(key);
+
+		if (codeObj == null) {
+			throw new ValidateCodeException("验证码不合法");
+		}
+
+		String saveCode = codeObj.toString();
+		if (StrUtil.isBlank(saveCode)) {
+			redisTemplate.delete(key);
+			throw new ValidateCodeException("验证码不合法");
+		}
+
+		if (!StrUtil.equals(saveCode, code)) {
+			redisTemplate.delete(key);
+			throw new ValidateCodeException("验证码不合法");
+		}
+
+		redisTemplate.delete(key);
+	}
+
+
 
 	/**
 	 * 是否是验证码登录

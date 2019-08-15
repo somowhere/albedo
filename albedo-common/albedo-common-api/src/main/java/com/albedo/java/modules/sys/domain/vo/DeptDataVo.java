@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.sys.vo;
+package com.albedo.java.modules.sys.domain.vo;
 
 import com.albedo.java.common.core.vo.TreeEntityVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * <p>
- * 菜单权限表
+ * 部门管理
  * </p>
  *
  * @author somewhere
@@ -32,42 +30,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class MenuDataVo extends TreeEntityVo {
-
-	public static final String TYPE_MENU = "0";
-	public static final String TYPE_BUTTON = "1";
-	public static final String F_PERMISSION = "permission";
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * 菜单权限标识
-	 */
-	private String permission;
-	/**
-	 * 图标
-	 */
-	private String icon;
-	/**
-	 * VUE页面
-	 */
-	private String component;
-	/**
-	 * 菜单类型 （0菜单 1按钮）
-	 */
-	@NotNull(message = "菜单类型不能为空")
-	private String type;
-	/**
-	 * 路由缓冲
-	 */
-	private String keepAlive;
-	/**
-	 * 是否显示1 是0否
-	 */
-	private Integer show = 1;
-	/**
-	 * 前端URL
-	 */
-	private String path;
+public class DeptDataVo extends TreeEntityVo {
 
 
 }

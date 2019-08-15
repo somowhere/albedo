@@ -1,4 +1,4 @@
-package com.albedo.java.modules.sys.util;
+package com.albedo.java.common.util;
 
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.google.common.collect.Lists;
@@ -234,4 +234,7 @@ public class RedisUtil {
 		return map;
 	}
 
+	public static RedisTemplate getRedisTemplate() {
+		return redisTemplate;
+	}
 }
