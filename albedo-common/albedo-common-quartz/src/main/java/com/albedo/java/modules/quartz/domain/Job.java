@@ -3,19 +3,14 @@
  */
 package com.albedo.java.modules.quartz.domain;
 
-import com.albedo.java.common.core.constant.CommonConstants;
-import lombok.*;
-import com.baomidou.mybatisplus.annotation.*;
-import com.albedo.java.common.core.annotation.SearchField;
-import com.albedo.java.common.persistence.domain.IdEntity;
-
-import javax.validation.constraints.Size;
-import javax.validation.constraints.NotBlank;
-
 import com.albedo.java.common.core.annotation.DictType;
+import com.albedo.java.common.persistence.domain.IdEntity;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.*;
 
-
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * 任务调度Entity 任务调度
@@ -31,7 +26,6 @@ import javax.validation.constraints.*;
 @EqualsAndHashCode(callSuper = true)
 public class Job extends IdEntity<Job> {
 
-	private static final long serialVersionUID = 1L;
 	/**
 	 * F_NAME name  :  任务名称
 	 */
@@ -88,6 +82,7 @@ public class Job extends IdEntity<Job> {
 	 * F_SQL_AVAILABLE available  :  状态(1-正常，0-锁定)
 	 */
 	public static final String F_SQL_AVAILABLE = "available";
+	private static final long serialVersionUID = 1L;
 
 	//columns START
 	/**
@@ -103,6 +98,7 @@ public class Job extends IdEntity<Job> {
 	@NotBlank
 	@Size(max = 64)
 	@TableField("`group`")
+	@DictType("sys_job_group")
 	private String group;
 	/**
 	 * invokeTarget 调用目标字符串

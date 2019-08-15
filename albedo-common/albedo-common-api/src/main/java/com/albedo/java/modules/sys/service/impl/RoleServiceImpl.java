@@ -49,9 +49,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class RoleServiceImpl extends
 	DataVoServiceImpl<RoleRepository, Role, String, RoleDataVo> implements RoleService {
+	private final CacheManager cacheManager;
 	private RoleMenuService roleMenuService;
 	private RoleDeptService roleDeptService;
-	private final CacheManager cacheManager;
 
 	@Override
 	public RoleDataVo findOneVo(String id) {

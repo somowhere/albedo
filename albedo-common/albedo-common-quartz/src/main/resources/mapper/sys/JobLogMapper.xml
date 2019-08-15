@@ -22,4 +22,14 @@
 	<select id="cleanJobLog">
         truncate table sys_job_log
 	</select>
+
+
+
+	<select id="findExcelVo" resultType="com.albedo.java.modules.quartz.domain.vo.JobLogExcelVo">
+        select * from sys_job_log
+		<where>
+			${ew.sqlSegment}
+		</where>
+	</select>
+
 </mapper>

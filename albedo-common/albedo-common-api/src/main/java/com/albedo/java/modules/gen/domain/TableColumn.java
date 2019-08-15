@@ -23,12 +23,10 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class TableColumn extends IdEntity<TableColumn> implements Comparable<TableColumn> {
 
-	private static final long serialVersionUID = 1L;
-
 	public static final String F_GENTABLEID = "tableId";
 	public static final String F_SORT = "sort";
-
 	public static final String F_SQL_GENTABLEID = "gen_table_id";
+	private static final long serialVersionUID = 1L;
 	@TableField(F_SQL_GENTABLEID)
 	private String tableId; // 列名
 	@Size(min = 1, max = 200)

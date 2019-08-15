@@ -31,12 +31,12 @@ public class FileUploadUtil {
 
 	private static int counter = 0;
 
-	public static void setDefaultBaseDir(String defaultBaseDir) {
-		FileUploadUtil.defaultBaseDir = defaultBaseDir;
-	}
-
 	public static String getDefaultBaseDir() {
 		return defaultBaseDir;
+	}
+
+	public static void setDefaultBaseDir(String defaultBaseDir) {
+		FileUploadUtil.defaultBaseDir = defaultBaseDir;
 	}
 
 	/**

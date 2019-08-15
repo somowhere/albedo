@@ -81,6 +81,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 			jobLog.setStatus(CommonConstants.STR_SUCCESS);
 		}
 
+		jobLog.setCreateTime(new Date());
 		// 写入数据库当中
 		SpringContextHolder.getBean(JobLogService.class).save(jobLog);
 	}

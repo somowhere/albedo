@@ -8,22 +8,20 @@ export function pageJobLog(query) {
     params: query
   })
 }
-
-export function saveJobLog(obj) {
+export function exportJobLog(query) {
   return request({
-    url: '/quartz/job-log/',
-    method: 'post',
-    data: obj
+    url: '/sys/job-log/export',
+    method: 'get',
+    params: query
   })
 }
-
-export function findJobLog(id) {
+export function cleanJobLog() {
   return request({
-    url: '/quartz/job-log/' + id,
-    method: 'get'
+    url: '/sys/job-log/clean',
+    method: 'get',
+    params: query
   })
 }
-
 export function removeJobLog(id) {
   return request({
     url: '/quartz/job-log/' + id,
@@ -31,6 +29,3 @@ export function removeJobLog(id) {
   })
 }
 
-export function validateUniqueJobLog(rule, value, callback, id) {
-  isValidateUnique(rule, value, callback, '/quartz/job-log/checkByProperty?id='+toStr(id))
-}

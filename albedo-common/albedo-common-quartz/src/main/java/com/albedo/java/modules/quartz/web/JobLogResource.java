@@ -4,19 +4,26 @@
 package com.albedo.java.modules.quartz.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.core.util.BeanVoUtil;
+import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.util.StringUtil;
+import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
+import com.albedo.java.common.persistence.DynamicSpecifications;
 import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.common.web.resource.BaseResource;
-import com.albedo.java.common.core.util.R;
+import com.albedo.java.modules.quartz.domain.JobLog;
 import com.albedo.java.modules.quartz.domain.vo.JobLogExcelVo;
 import com.albedo.java.modules.quartz.service.JobLogService;
+import com.albedo.java.modules.sys.domain.LogLogin;
+import com.albedo.java.modules.sys.vo.LogLoginExcelVo;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.stream.Collectors;
 
 /**
  * 任务调度日志Controller 任务调度日志
@@ -29,7 +36,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class JobLogResource extends BaseResource {
 
-	private final JobLogService service;
+	private final JobLogService jobLogService;
 
 	/**
 	 * GET / : get all jobLog.
@@ -41,7 +48,7 @@ public class JobLogResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_view')")
 	@GetMapping("/")
 	public R getPage(PageModel pm) {
-		return R.buildOkData(service.findPage(pm));
+		return R.buildOkData(jobLogService.findPage(pm));
 	}
 
 
@@ -52,27 +59,31 @@ public class JobLogResource extends BaseResource {
 	 * @return the R with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_del')")
-	@Log(value = "任务调度日志", businessType = BusinessType.DELETE)
+	@Log(value = "任务日志", businessType = BusinessType.DELETE)
 	@DeleteMapping(CommonConstants.URL_IDS_REGEX)
 	public R delete(@PathVariable String ids) {
 		log.debug("REST request to delete JobLog: {}", ids);
-		service.deleteBatchIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+		jobLogService.deleteBatchIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
 		return R.buildOk("删除任务调度日志成功");
 	}
 
-	@Log(value = "调度日志", businessType = BusinessType.CLEAN)
-	@PreAuthorize("@pms.hasPermission('quartz_jobLog_del')")
+	@Log(value = "任务日志", businessType = BusinessType.CLEAN)
+	@PreAuthorize("@pms.hasPermission('quartz_jobLog_clean')")
 	@PostMapping("/clean")
 	@ResponseBody
 	public R clean() {
-		service.cleanJobLog();
+		jobLogService.cleanJobLog();
 		return R.buildOk("清空任务调度日志成功");
 	}
 
+	@Log(value = "任务日志", businessType = BusinessType.EXPORT)
 	@GetMapping(value = "/export")
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_export')")
-	public R export() {
+	public R export(PageModel pm) {
 		ExcelUtil<JobLogExcelVo> util = new ExcelUtil(JobLogExcelVo.class);
-		return util.exportExcel(Lists.newArrayList(new JobLogExcelVo()), "任务调度日志");
+		return util.exportExcel(jobLogService.findExcelVo(DynamicSpecifications.buildSpecification(
+			JobLog.class,
+			pm.getQueryConditionJson()
+		).toEntityWrapper(JobLog.class)), "任务调度日志");
 	}
 }

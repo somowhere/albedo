@@ -42,6 +42,29 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 		, "delete", "update", "declare", "alter", "drop", "sleep"};
 
 	/**
+	 * SQL注入过滤
+	 *
+	 * @param str 待验证的字符串
+	 */
+	public static String[] sqlInject(String[] str) {
+		if (ArrayUtil.isEmpty(str)) {
+			return null;
+		}
+		//转换成小写
+		String inStr = ArrayUtil.join(str, StrUtil.COMMA).toLowerCase();
+
+		//判断是否包含非法字符
+		for (String keyword : KEYWORDS) {
+			if (inStr.contains(keyword)) {
+				log.error("查询包含非法字符 {}", keyword);
+				throw new CheckedException(keyword + "包含非法字符");
+			}
+		}
+
+		return str;
+	}
+
+	/**
 	 * 判断Controller是否包含page 参数
 	 *
 	 * @param parameter 参数
@@ -84,28 +107,5 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 		page.setAsc(sqlInject(ascs));
 		page.setDesc(sqlInject(descs));
 		return page;
-	}
-
-	/**
-	 * SQL注入过滤
-	 *
-	 * @param str 待验证的字符串
-	 */
-	public static String[] sqlInject(String[] str) {
-		if (ArrayUtil.isEmpty(str)) {
-			return null;
-		}
-		//转换成小写
-		String inStr = ArrayUtil.join(str, StrUtil.COMMA).toLowerCase();
-
-		//判断是否包含非法字符
-		for (String keyword : KEYWORDS) {
-			if (inStr.contains(keyword)) {
-				log.error("查询包含非法字符 {}", keyword);
-				throw new CheckedException(keyword + "包含非法字符");
-			}
-		}
-
-		return str;
 	}
 }

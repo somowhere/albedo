@@ -3,22 +3,18 @@
  */
 package com.albedo.java.modules.quartz.domain;
 
-import com.albedo.java.common.persistence.domain.GeneralEntity;
-import lombok.*;
-import com.baomidou.mybatisplus.annotation.*;
-import com.albedo.java.common.core.annotation.SearchField;
-import com.albedo.java.common.persistence.domain.IdEntity;
-
-import javax.validation.constraints.Size;
-import javax.validation.constraints.NotBlank;
-
 import com.albedo.java.common.core.annotation.DictType;
+import com.albedo.java.common.core.annotation.SearchField;
+import com.albedo.java.common.persistence.domain.GeneralEntity;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
-import javax.validation.constraints.NotNull;
-
-
-import javax.validation.constraints.*;
 
 /**
  * 任务调度日志Entity 任务调度日志
@@ -34,7 +30,6 @@ import javax.validation.constraints.*;
 @EqualsAndHashCode(callSuper = true)
 public class JobLog extends GeneralEntity<JobLog> {
 
-	private static final long serialVersionUID = 1L;
 	/**
 	 * F_JOBNAME job_name  :  任务名称
 	 */
@@ -107,11 +102,13 @@ public class JobLog extends GeneralEntity<JobLog> {
 	 * F_SQL_EXCEPTIONINFO exception_info  :  异常信息
 	 */
 	public static final String F_SQL_EXCEPTIONINFO = "exception_info";
-
+	private static final long serialVersionUID = 1L;
 	//columns START
 	@TableId(value = GeneralEntity.F_SQL_ID, type = IdType.AUTO)
 	@SearchField
 	protected Long id;
+	@TableField(GeneralEntity.F_SQL_DESCRIPTION)
+	protected String description;
 	/**
 	 * jobName 任务名称
 	 */
@@ -144,7 +141,7 @@ public class JobLog extends GeneralEntity<JobLog> {
 	 */
 	@Size(max = 1)
 	@TableField("status")
-	@DictType("sys_job_status")
+	@DictType("sys_status")
 	private String status;
 	/**
 	 * startTime 开始时间
@@ -167,9 +164,6 @@ public class JobLog extends GeneralEntity<JobLog> {
 	@Size(max = 2000)
 	@TableField("exception_info")
 	private String exceptionInfo;
-
-	@TableField(GeneralEntity.F_SQL_DESCRIPTION)
-	protected String description;
 	//columns END
 
 	@Override

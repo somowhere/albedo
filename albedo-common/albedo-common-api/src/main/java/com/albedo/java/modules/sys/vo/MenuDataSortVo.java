@@ -14,25 +14,27 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.core.vo;
+package com.albedo.java.modules.sys.vo;
 
 import lombok.Data;
 
-import java.util.ArrayList;
+import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.util.List;
 
 /**
+ * <p>
+ * 菜单序号
+ * </p>
+ *
  * @author somewhere
- * @date 2017年11月9日23:33:45
+ * @since 2019/2/1
  */
 @Data
-public class TreeNode<T> {
-	protected String id;
-	protected String parentId;
-	protected List<T> children = new ArrayList<T>();
-	private String label;
+public class MenuDataSortVo implements Serializable {
 
-	public void add(T node) {
-		children.add(node);
-	}
+	private static final long serialVersionUID = 1L;
+
+	@NotEmpty
+	List<MenuSortVo> menuSortVoList;
 }

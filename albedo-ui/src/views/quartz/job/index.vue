@@ -21,6 +21,7 @@
       <div class="table-menu-left">
         <el-button-group>
           <el-button size="mini" v-if="quartz_job_edit" class="filter-item" @click="handleEdit" type="primary" icon="edit">添加</el-button>
+          <el-button size="mini" v-if="quartz_job_log_view" class="filter-item" @click="handleEdit" type="primary" icon="edit">执行日志</el-button>
         </el-button-group>
       </div>
       <div class="table-menu-right">
@@ -30,45 +31,53 @@
     <el-table :key='tableKey' @sort-change="sortChange" :data="list" v-loading="listLoading" element-loading-text="加载中..." fit highlight-current-row>
       <el-table-column align="center" label="任务名称">
         <template slot-scope="scope">
-          <span>{{scope.row.name}}</span>
+		  <span>{{scope.row.name}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="任务组名">
         <template slot-scope="scope">
-          <span>{{scope.row.group}}</span>
+		  <span>{{scope.row.group}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="调用目标字符串">
+      <el-table-column align="center" label="调用目标">
         <template slot-scope="scope">
-          <span>{{scope.row.invokeTarget}}</span>
+		  <span>{{scope.row.invokeTarget}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="cron执行表达式">
+      <el-table-column align="center" label="cron表达式">
         <template slot-scope="scope">
-          <span>{{scope.row.cronExpression}}</span>
+		  <span>{{scope.row.cronExpression}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="计划执行错误策略（1立即执行 2执行一次 3放弃执行）">
+      <el-table-column align="center" label="执行失败策略" width="120">
         <template slot-scope="scope">
-          <span>{{scope.row.misfirePolicy}}</span>
+		  <el-tag>{{scope.row.misfirePolicyText}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="是否并发执行（1允许 0禁止）">
+      <el-table-column align="center" label="是否并发执行" width="120">
         <template slot-scope="scope">
-          <span>{{scope.row.concurrent}}</span>
+          <el-switch
+            v-model="scope.row.concurrent"
+            active-value="1" inactive-value="0" @change="concurrentChange(scope.row.available, scope.row.id)">
+          </el-switch>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="状态(1-正常，0-锁定)">
+      <el-table-column align="center" label="是否启用" width="120">
         <template slot-scope="scope">
-          <span>{{scope.row.available}}</span>
+          <el-switch
+            v-model="scope.row.available"
+            active-value="1" inactive-value="0" @change="availableChange(scope.row.available, scope.row.id)">
+          </el-switch>
         </template>
       </el-table-column>
       <el-table-column align="center" fixed="right" label="操作" v-if="quartz_job_edit || quartz_job_del">
         <template slot-scope="scope">
+          <el-button v-if="quartz_job_run" icon="icon-edit" title="执行" type="text" @click="handleRun(scope.row)">
+            执行</el-button>
           <el-button v-if="quartz_job_edit" icon="icon-edit" title="编辑" type="text" @click="handleEdit(scope.row)">
-          </el-button>
+            编辑</el-button>
           <el-button v-if="quartz_job_del" icon="icon-delete" title="删除" type="text" @click="handleDelete(scope.row)">
-          </el-button>
+            删除</el-button>
         </template>
       </el-table-column>
 
@@ -83,27 +92,39 @@
       <el-table-column type="index" fixed="left" width="60"></el-table-column>
         <el-form-item label="任务名称" prop="name" :rules="[{required: true,message: '请输入任务名称'},{min: 0,max: 64,message: '长度在 0 到 64 个字符'},]">
                 <el-input v-model="form.name"></el-input>
+
         </el-form-item>
-        <el-form-item label="任务组名" prop="group" :rules="[{required: true,message: '请输入任务组名'},{min: 0,max: 64,message: '长度在 0 到 64 个字符'},]">
-                <el-input v-model="form.group"></el-input>
+        <el-form-item label="任务组名" prop="group" :rules="[{required: true,message: '请输入任务组名'}]">
+          <CrudSelect v-model="form.group" :dic="jobGroupOptions"></CrudSelect>
         </el-form-item>
-        <el-form-item label="调用目标字符串" prop="invokeTarget" :rules="[{required: true,message: '请输入调用目标字符串'},{min: 0,max: 500,message: '长度在 0 到 500 个字符'},]">
+        <el-form-item label="调用目标" prop="invokeTarget" :rules="[{required: true,message: '请输入调用目标'},{min: 0,max: 500,message: '长度在 0 到 500 个字符'},]">
                 <el-input v-model="form.invokeTarget"></el-input>
+          <div>
+            <el-tag type="info" size="mini">Bean调用示例：simpleTask.ryParams('ry')</el-tag>
+            <el-tag type="info" size="mini">Class类调用示例：com.ruoyi.quartz.task.RyTask.ryParams('ry') 参数说明：支持字符串，布尔类型，长整型，浮点型，整型</el-tag>
+            <el-tag type="info" size="mini">参数说明：支持字符串，布尔类型，长整型，浮点型，整型</el-tag>
+          </div>
         </el-form-item>
-        <el-form-item label="cron执行表达式" prop="cronExpression" :rules="[{min: 0,max: 255,message: '长度在 0 到 255 个字符'},]">
+        <el-form-item label="cron表达式" prop="cronExpression" :rules="[{min: 0,max: 255,message: '长度在 0 到 255 个字符'},]">
                 <el-input v-model="form.cronExpression"></el-input>
+
         </el-form-item>
-        <el-form-item label="计划执行错误策略（1立即执行 2执行一次 3放弃执行）" prop="misfirePolicy" :rules="[{min: 0,max: 20,message: '长度在 0 到 20 个字符'},]">
-                <el-input v-model="form.misfirePolicy"></el-input>
+        <el-form-item label="执行失败策略" prop="misfirePolicy" :rules="[{required: true},]">
+              <CrudSelect v-model="form.misfirePolicy" :dic="misfirePolicyOptions"></CrudSelect>
+        <div>
+		  <el-tag type="info" size="mini">计划执行错误策略</el-tag>
+		</div>
         </el-form-item>
-        <el-form-item label="是否并发执行（1允许 0禁止）" prop="concurrent" :rules="[{min: 0,max: 1,message: '长度在 0 到 1 个字符'},]">
+        <el-form-item label="是否并发执行" prop="concurrent" :rules="[{required: true},]">
               <CrudRadio v-model="form.concurrent" :dic="concurrentOptions"></CrudRadio>
+
         </el-form-item>
-        <el-form-item label="状态(1-正常，0-锁定)" prop="available" :rules="[{min: 0,max: 1,message: '长度在 0 到 1 个字符'},]">
+        <el-form-item label="是否启用" prop="available" :rules="[{required: true},]">
               <CrudRadio v-model="form.available" :dic="availableOptions"></CrudRadio>
         </el-form-item>
         <el-form-item label="备注" prop="description" :rules="[{min: 0,max: 255,message: '长度在 0 到 255 个字符'},]">
                 <el-input type="textarea" v-model="form.description"></el-input>
+
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -116,7 +137,16 @@
 </template>
 
 <script>
-import { pageJob, findJob, saveJob, removeJob, validateUniqueJob} from "./service";
+    import {
+        pageJob,
+        findJob,
+        saveJob,
+        removeJob,
+        validateUniqueJob,
+        availableJob,
+        concurrentJob,
+        runJob
+    } from "./service";
 import { mapGetters } from "vuex";
 import {isValidateUnique, isValidateNumber, isValidateDigits, objectToString, validateNull} from "@/util/validate";
 import {parseJsonItemForm} from "@/util/util";
@@ -177,8 +207,11 @@ export default {
   },
   created() {
     this.getList();
+    this.quartz_job_run = this.permissions["quartz_job_run"];
     this.quartz_job_edit = this.permissions["quartz_job_edit"];
+    this.quartz_job_log_view = this.permissions["quartz_job_log_view"];
     this.quartz_job_del = this.permissions["quartz_job_del"];
+    this.jobGroupOptions = this.dicts["sys_job_group"];
     this.misfirePolicyOptions = this.dicts["sys_misfire_policy"];
     this.concurrentOptions = this.dicts["sys_flag"];
     this.availableOptions = this.dicts["sys_flag"];
@@ -238,6 +271,36 @@ export default {
           });
       }
     },
+    availableChange(available, id){
+        this.$confirm(
+            "您确定要执行此操作吗?",
+            "提示",
+            {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning"
+            }
+        ).then(() => {
+            availableJob(id).then((data) => {
+                this.getList();
+            });
+        });
+    },
+    concurrentChange(concurrent, id){
+        this.$confirm(
+            "您确定要执行此操作吗?",
+            "提示",
+            {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning"
+            }
+        ).then(() => {
+            concurrentJob(id).then((data) => {
+                this.getList();
+            });
+        });
+    },
     cancel() {
       this.dialogFormVisible = false;
       this.$refs['form'].resetFields();
@@ -254,6 +317,21 @@ export default {
           return false;
         }
       });
+    },
+    handleRun(row) {
+        this.$confirm(
+            "此操作将永久删除该任务调度, 是否继续?",
+            "提示",
+            {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning"
+            }
+        ).then(() => {
+            runJob(row.id).then((data) => {
+                this.getList();
+            });
+        });
     },
     handleDelete(row) {
       this.$confirm(

@@ -19,19 +19,14 @@ import java.util.UUID;
 @Component
 public class TokenProvider {
 
-	private final Logger log = LoggerFactory.getLogger(TokenProvider.class);
-
 	private static final String EXPIRATION = "expiration";
 	private static final String PRINCIPAL = "principal";
-
-	private String secretKey;
-
-	private long tokenValidityInMilliseconds;
-
-	private long tokenValidityInMillisecondsForRememberMe;
-
+	private final Logger log = LoggerFactory.getLogger(TokenProvider.class);
 	private final ApplicationProperties applicationProperties;
 	private final UserDetailsService userDetailsService;
+	private String secretKey;
+	private long tokenValidityInMilliseconds;
+	private long tokenValidityInMillisecondsForRememberMe;
 
 	public TokenProvider(ApplicationProperties applicationProperties, UserDetailsService userDetailsService) {
 		this.applicationProperties = applicationProperties;

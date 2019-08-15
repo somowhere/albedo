@@ -22,20 +22,6 @@ public class BodyRequestWrapper extends HttpServletRequestWrapper {
 		}
 	}
 
-	public String getRequestBody() {
-		return requestBody;
-	}
-
-	@Override
-	public BufferedReader getReader() throws IOException {
-		return new BufferedReader(new InputStreamReader(getInputStream()));
-	}
-
-	@Override
-	public ServletInputStream getInputStream() throws IOException {
-		return new CustomServletInputStream(requestBody);
-	}
-
 	private static String readBody(ServletRequest request) {
 		StringBuilder sb = new StringBuilder();
 		String inputLine;
@@ -56,6 +42,20 @@ public class BodyRequestWrapper extends HttpServletRequestWrapper {
 			}
 		}
 		return sb.toString();
+	}
+
+	public String getRequestBody() {
+		return requestBody;
+	}
+
+	@Override
+	public BufferedReader getReader() throws IOException {
+		return new BufferedReader(new InputStreamReader(getInputStream()));
+	}
+
+	@Override
+	public ServletInputStream getInputStream() throws IOException {
+		return new CustomServletInputStream(requestBody);
 	}
 
 	private class CustomServletInputStream extends ServletInputStream {

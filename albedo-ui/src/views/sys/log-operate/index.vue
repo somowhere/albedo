@@ -10,7 +10,7 @@
                 <el-input size="small" v-model="searchForm.title"></el-input>
               </el-form-item>
               <el-form-item label="IP地址" prop="remoteAddr">
-                <el-input size="small" v-model="searchForm.remoteAddr"></el-input>
+                <el-input size="small" v-model="searchForm.ipAddress"></el-input>
               </el-form-item>
               <el-form-item>
                 <el-button size="small" type="primary" icon="el-icon-search" @click="handleFilter">查询</el-button>
@@ -151,6 +151,7 @@
     import {mapGetters} from 'vuex';
     import {parseJsonItemForm} from "@/util/util";
     import {baseUrl} from "../../../config/env";
+    import {cleanJobLog} from "../../quartz/job-log/service";
 
     export default {
         name: 'Log',
@@ -246,7 +247,6 @@
             },
             handleExport() {
                 exportLog(this.listQuery).then(response => {
-                    console.log(response.data)
                     window.location.href = `${window.location.origin}` + baseUrl + "/file/download?fileName=" + encodeURI(response.data) + "&delete=" + true;
                 });
             }

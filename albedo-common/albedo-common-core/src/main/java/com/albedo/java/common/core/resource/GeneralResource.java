@@ -30,21 +30,19 @@ public class GeneralResource {
 	public static final String DATA = "data";
 	protected static Logger logger = LoggerFactory.getLogger(GeneralResource.class);
 	/**
+	 * ThreadLocal确保高并发下每个请求的request，response都是独立的
+	 */
+	private static ThreadLocal<ServletRequest> currentRequest = new ThreadLocal<ServletRequest>();
+	private static ThreadLocal<ServletResponse> currentResponse = new ThreadLocal<ServletResponse>();
+	/**
 	 * 日志对象
 	 */
 	protected Logger log = LoggerFactory.getLogger(getClass());
-
 	/**
 	 * 验证Bean实例对象
 	 */
 	@Resource
 	protected Validator validator;
-	/**
-	 * ThreadLocal确保高并发下每个请求的request，response都是独立的
-	 */
-	private static ThreadLocal<ServletRequest> currentRequest = new ThreadLocal<ServletRequest>();
-	private static ThreadLocal<ServletResponse> currentResponse = new ThreadLocal<ServletResponse>();
-
 
 	/**
 	 * 线程安全初始化reque，respose对象
@@ -85,14 +83,14 @@ public class GeneralResource {
 		binder.registerCustomEditor(String.class, new PropertyEditorSupport() {
 
 			@Override
-			public void setAsText(String text) {
-				setValue(text == null ? null : StringEscapeUtils.escapeHtml(text.trim()));
-			}
-
-			@Override
 			public String getAsText() {
 				Object value = getValue();
 				return value != null ? value.toString() : "";
+			}
+
+			@Override
+			public void setAsText(String text) {
+				setValue(text == null ? null : StringEscapeUtils.escapeHtml(text.trim()));
 			}
 		});
 		// Date 类型转换

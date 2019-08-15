@@ -129,6 +129,14 @@ public class ApplicationProperties {
 			this.version = Version.V_1_1;
 		}
 
+		public enum Version {
+			V_1_1,
+			V_2_0;
+
+			Version() {
+			}
+		}
+
 		@Data
 		public static class Cache {
 			private int timeToLiveInDays = 1461;
@@ -136,14 +144,6 @@ public class ApplicationProperties {
 			public Cache() {
 			}
 
-		}
-
-		public enum Version {
-			V_1_1,
-			V_2_0;
-
-			Version() {
-			}
 		}
 	}
 }

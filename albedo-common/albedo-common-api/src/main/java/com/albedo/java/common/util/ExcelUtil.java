@@ -35,57 +35,111 @@ import java.util.*;
  * @author somewhere
  */
 public class ExcelUtil<T> {
-	private static final Logger log = LoggerFactory.getLogger(ExcelUtil.class);
-
-	private static Map<String, Object> dataDictMap = Maps.newHashMap();
 	/**
 	 * Excel sheet最大行数，默认65536
 	 */
 	public static final int sheetSize = 65536;
-
+	private static final Logger log = LoggerFactory.getLogger(ExcelUtil.class);
+	private static Map<String, Object> dataDictMap = Maps.newHashMap();
+	/**
+	 * 实体对象
+	 */
+	public Class<T> clazz;
 	/**
 	 * 工作表名称
 	 */
 	private String sheetName;
-
 	/**
 	 * 导出类型（EXPORT:导出数据；IMPORT：导入模板）
 	 */
 	private Type type;
-
 	/**
 	 * 工作薄对象
 	 */
 	private Workbook wb;
-
 	/**
 	 * 工作表对象
 	 */
 	private Sheet sheet;
-
 	/**
 	 * 样式列表
 	 */
 	private Map<String, CellStyle> styles;
-
 	/**
 	 * 导入导出数据列表
 	 */
 	private List<T> list;
-
 	/**
 	 * 注解列表
 	 */
 	private List<Object[]> fields;
 
-	/**
-	 * 实体对象
-	 */
-	public Class<T> clazz;
-
 	public ExcelUtil(Class<T> clazz) {
 		this.clazz = clazz;
 		dataDictMap.clear();
+	}
+
+	/**
+	 * 解析导出值 0=男,1=女,2=未知
+	 *
+	 * @param propertyValue 参数值
+	 * @param converterExp  翻译注解
+	 * @return 解析后值
+	 * @throws Exception
+	 */
+	public static String convertByExp(String propertyValue, String converterExp) throws Exception {
+		try {
+			String[] convertSource = converterExp.split(",");
+			for (String item : convertSource) {
+				String[] itemArray = item.split("=");
+				if (itemArray[0].equals(propertyValue)) {
+					return itemArray[1];
+				}
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+		return propertyValue;
+	}
+
+	/**
+	 * 反向解析值 男=0,女=1,未知=2
+	 *
+	 * @param propertyValue 参数值
+	 * @param converterExp  翻译注解
+	 * @return 解析后值
+	 * @throws Exception
+	 */
+	public static String reverseByExp(String propertyValue, String converterExp) throws Exception {
+		try {
+			String[] convertSource = converterExp.split(",");
+			for (String item : convertSource) {
+				String[] itemArray = item.split("=");
+				if (itemArray[1].equals(propertyValue)) {
+					return itemArray[0];
+				}
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+		return propertyValue;
+	}
+
+	public static String getDataDictValue(String dictType, Object value) {
+		List<Dict> listTemp = (List<Dict>) dataDictMap.get(dictType);
+		if (listTemp == null) {
+			listTemp = DictUtil.getDictListByParentCode(dictType);
+			dataDictMap.put(dictType, listTemp);
+		}
+		if (ObjectUtil.isNotEmpty(listTemp)) {
+			for (Dict item : listTemp) {
+				if (String.valueOf(value).equals(item.getVal())) {
+					return item.getName();
+				}
+			}
+		}
+
+		return null;
 	}
 
 	public void init(List<T> list, String sheetName, Type type) {
@@ -505,52 +559,6 @@ public class ExcelUtil<T> {
 	}
 
 	/**
-	 * 解析导出值 0=男,1=女,2=未知
-	 *
-	 * @param propertyValue 参数值
-	 * @param converterExp  翻译注解
-	 * @return 解析后值
-	 * @throws Exception
-	 */
-	public static String convertByExp(String propertyValue, String converterExp) throws Exception {
-		try {
-			String[] convertSource = converterExp.split(",");
-			for (String item : convertSource) {
-				String[] itemArray = item.split("=");
-				if (itemArray[0].equals(propertyValue)) {
-					return itemArray[1];
-				}
-			}
-		} catch (Exception e) {
-			throw e;
-		}
-		return propertyValue;
-	}
-
-	/**
-	 * 反向解析值 男=0,女=1,未知=2
-	 *
-	 * @param propertyValue 参数值
-	 * @param converterExp  翻译注解
-	 * @return 解析后值
-	 * @throws Exception
-	 */
-	public static String reverseByExp(String propertyValue, String converterExp) throws Exception {
-		try {
-			String[] convertSource = converterExp.split(",");
-			for (String item : convertSource) {
-				String[] itemArray = item.split("=");
-				if (itemArray[1].equals(propertyValue)) {
-					return itemArray[0];
-				}
-			}
-		} catch (Exception e) {
-			throw e;
-		}
-		return propertyValue;
-	}
-
-	/**
 	 * 编码文件名
 	 */
 	public String encodingFilename(String filename) {
@@ -712,22 +720,5 @@ public class ExcelUtil<T> {
 			return val;
 		}
 		return val;
-	}
-
-	public static String getDataDictValue(String dictType, Object value) {
-		List<Dict> listTemp = (List<Dict>) dataDictMap.get(dictType);
-		if (listTemp == null) {
-			listTemp = DictUtil.getDictListByParentCode(dictType);
-			dataDictMap.put(dictType, listTemp);
-		}
-		if (ObjectUtil.isNotEmpty(listTemp)) {
-			for (Dict item : listTemp) {
-				if (String.valueOf(value).equals(item.getVal())) {
-					return item.getName();
-				}
-			}
-		}
-
-		return null;
 	}
 }

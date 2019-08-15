@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.sys.domain;
+package com.albedo.java.modules.sys.vo;
 
 import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.annotation.ExcelField;
-import com.albedo.java.common.persistence.domain.BaseEntity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -37,27 +35,25 @@ import java.time.LocalDateTime;
  * @since 2019/2/1
  */
 @Data
-@TableName("sys_log_operate")
-public class LogOperate extends BaseEntity<LogOperate> {
+public class LogLoginExcelVo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	protected String createdBy;
 	/**
-	 * 创建时间
+	 * 登录时间
 	 */
-	@ExcelField(title = "创建时间")
-	protected LocalDateTime createdDate;
+	@ExcelField(title = "登录时间")
+	protected LocalDateTime loginTime;
 	/**
 	 * 编号
 	 */
 	@TableId(value = "id", type = IdType.AUTO)
 	private Long id;
 	/**
-	 * 用户ID
+	 * 登录账号
 	 */
-	@NotBlank(message = "用户名不能为空")
-	@ExcelField(title = "用户名")
-	private String username;
+	@NotBlank(message = "登录账号不能为空")
+	@ExcelField(title = "登录账号")
+	private String loginName;
 	/**
 	 * 日志标题
 	 */
@@ -82,10 +78,10 @@ public class LogOperate extends BaseEntity<LogOperate> {
 	@ExcelField(title = "操作IP")
 	private String ipAddress;
 	/**
-	 * 登录地址
+	 * 登录地点
 	 */
-	@ExcelField(title = "IP位置")
-	private String ipLocation;
+	@ExcelField(title = "登录地点")
+	private String loginLocation;
 	/**
 	 * 用户代理
 	 */
@@ -102,39 +98,10 @@ public class LogOperate extends BaseEntity<LogOperate> {
 	@ExcelField(title = "操作系统")
 	private String os;
 	/**
-	 * 请求URI
+	 * 提示消息
 	 */
-	@ExcelField(title = "请求URI")
-	private String requestUri;
-	/**
-	 * 操作方式
-	 */
-	@ExcelField(title = "操作方式")
-	private String method;
-	/**
-	 * 操作提交的数据
-	 */
-	@ExcelField(title = "操作提交的数据")
-	private String params;
-	/**
-	 * 执行时间
-	 */
-	@ExcelField(title = "执行时间")
-	private Long time;
-	/**
-	 * 异常信息
-	 */
-	@ExcelField(title = "异常信息")
-	private String exception;
-	/**
-	 * 服务ID
-	 */
-	@ExcelField(title = "服务ID")
-	private String serviceId;
+	@ExcelField(title = "提示消息")
+	private String message;
 
-	@Override
-	public Serializable pkVal() {
-		return id;
-	}
 
 }

@@ -9,9 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.validation.constraints.*;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * 任务调度EntityVo 任务调度
@@ -25,7 +24,6 @@ import java.util.Date;
 @AllArgsConstructor
 public class JobDataVo extends DataEntityVo<String> {
 
-	private static final long serialVersionUID = 1L;
 	/**
 	 * F_NAME name  :  任务名称
 	 */
@@ -54,6 +52,7 @@ public class JobDataVo extends DataEntityVo<String> {
 	 * F_AVAILABLE available  :  状态(1-正常，0-锁定)
 	 */
 	public static final String F_AVAILABLE = "available";
+	private static final long serialVersionUID = 1L;
 
 	//columns START
 	/**

@@ -18,7 +18,6 @@ package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.annotation.SearchField;
-import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.persistence.domain.TreeEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -43,14 +42,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 @TableName("sys_dict")
 public class Dict extends TreeEntity<Dict> {
 
-	private static final long serialVersionUID = 1L;
-
 	public static final String F_VAL = "val";
 	public static final String F_SHOW = "show";
 	public static final String F_SQL_SHOW = "show";
 	public static final String CACHE_DICT_ALL = "DictAll";
 	public static final String CACHE_DICT_RESULT_ALL = "DictResultAll";
 	public static final String CACHE_DICT_DETAILS = "dict_details";
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 数据值
 	 */

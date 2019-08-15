@@ -9,6 +9,7 @@ import com.albedo.java.modules.quartz.domain.vo.JobDataVo;
 import com.albedo.java.modules.quartz.repository.JobRepository;
 import org.quartz.SchedulerException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ import java.util.List;
  * @version 2019-08-14 11:24:16
  */
 public interface JobService extends DataVoService<JobRepository, Job, String, JobDataVo> {
-	
+
 
 	/**
 	 * 暂停任务
@@ -76,4 +77,10 @@ public interface JobService extends DataVoService<JobRepository, Job, String, Jo
 	 * @return 结果
 	 */
 	boolean checkCronExpressionIsValid(String cronExpression);
+
+	void available(List<String> idList);
+
+	void concurrent(List<String> idList);
+
+	void runByIds(List<String> idList);
 }

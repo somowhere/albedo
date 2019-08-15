@@ -4,17 +4,14 @@
 package com.albedo.java.modules.quartz.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.exception.RuntimeMsgException;
-import com.albedo.java.common.core.vo.PageModel;
-import com.albedo.java.common.core.vo.TreeQuery;
-import com.albedo.java.common.core.util.StringUtil;
-import com.albedo.java.common.log.annotation.Log;
-import com.albedo.java.common.web.resource.DataVoResource;
 import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.util.StringUtil;
+import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.log.annotation.Log;
+import com.albedo.java.common.log.enums.BusinessType;
+import com.albedo.java.common.web.resource.DataVoResource;
 import com.albedo.java.modules.quartz.domain.vo.JobDataVo;
 import com.albedo.java.modules.quartz.service.JobService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.Lists;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -66,7 +63,7 @@ public class JobResource extends DataVoResource<JobService, JobDataVo> {
 	 * @param jobVo the HTTP job
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
-	@Log("新增/编辑任务调度")
+	@Log(value = "任务调度", businessType = BusinessType.EDIT)
 	@PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 	public R save(@Valid @RequestBody JobDataVo jobVo) {
 		log.debug("REST request to save JobForm : {}", jobVo);
@@ -82,11 +79,56 @@ public class JobResource extends DataVoResource<JobService, JobDataVo> {
 	 * @return the R with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_del')")
-	@Log("删除任务调度")
+	@Log(value = "任务调度", businessType = BusinessType.DELETE)
 	@DeleteMapping(CommonConstants.URL_IDS_REGEX)
 	public R delete(@PathVariable String ids) {
 		log.debug("REST request to delete Job: {}", ids);
 		service.deleteBatchIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
 		return R.buildOk("删除任务调度成功");
 	}
+
+	/**
+	 * available //:ids : available the "ids" Job.
+	 *
+	 * @param ids the id of the job to delete
+	 * @return the R with status 200 (OK)
+	 */
+	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
+	@Log(value = "任务调度", businessType = BusinessType.EDIT)
+	@PostMapping("/available" + CommonConstants.URL_IDS_REGEX)
+	public R available(@PathVariable String ids) {
+		log.debug("REST request to available Job: {}", ids);
+		service.available(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+		return R.buildOk("操作成功");
+	}
+	/**
+	 * concurrent //:ids : concurrent the "ids" Job.
+	 *
+	 * @param ids the id of the job to delete
+	 * @return the R with status 200 (OK)
+	 */
+	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
+	@Log(value = "任务调度", businessType = BusinessType.EDIT)
+	@PostMapping("/run" + CommonConstants.URL_IDS_REGEX)
+	public R run(@PathVariable String ids) {
+		log.debug("REST request to available Job: {}", ids);
+		service.runByIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+		return R.buildOk("操作成功");
+	}
+	/**
+	 * concurrent //:ids : concurrent the "ids" Job.
+	 *
+	 * @param ids the id of the job to delete
+	 * @return the R with status 200 (OK)
+	 */
+	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
+	@Log(value = "任务调度", businessType = BusinessType.EDIT)
+	@PostMapping("/concurrent" + CommonConstants.URL_IDS_REGEX)
+	public R concurrent(@PathVariable String ids) {
+		log.debug("REST request to available Job: {}", ids);
+		service.concurrent(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+		return R.buildOk("操作成功");
+	}
+
+
 }

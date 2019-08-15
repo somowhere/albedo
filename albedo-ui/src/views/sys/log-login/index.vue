@@ -2,15 +2,12 @@
   <div class="app-container calendar-list-container">
     <basic-container>
     <div class="filter-container">
-      <el-form :inline="true"  :model="searchJobLogForm" ref="searchJobLogForm" v-show="searchFilterVisible">
-        <el-form-item label="任务名称" prop="jobName">
-          <el-input class="filter-item input-normal" v-model="searchJobLogForm.jobName"></el-input>
+      <el-form :inline="true"  :model="searchLogLoginForm" ref="searchLogLoginForm" v-show="searchFilterVisible">
+        <el-form-item label="登录账号" prop="loginName">
+          <el-input class="filter-item input-normal" v-model="searchLogLoginForm.loginName"></el-input>
         </el-form-item>
-        <el-form-item label="任务组名" prop="jobGroup">
-          <el-input class="filter-item input-normal" v-model="searchJobLogForm.jobGroup"></el-input>
-        </el-form-item>
-        <el-form-item label="执行状态" prop="status">
-          <CrudRadio v-model="searchJobLogForm.status" :dic="statusOptions"></CrudRadio>
+        <el-form-item label="登录地点" prop="loginLocation">
+          <el-input class="filter-item input-normal" v-model="searchLogLoginForm.loginLocation"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button size="small" type="primary" icon="el-icon-search" @click="handleFilter">查询</el-button>
@@ -23,12 +20,7 @@
     <div class="table-menu">
       <div class="table-menu-left">
         <el-button-group>
-          <el-button size="mini" v-if="quartz_jobLog_clean" @click="handleClean" type="primary"
-                     icon="icon-export">清空
-          </el-button>
-          <el-button size="mini" v-if="quartz_jobLog_export" @click="handleExport" type="primary"
-                     icon="icon-export">导出
-          </el-button>
+          <el-button size="mini" v-if="sys_logLogin_edit" class="filter-item" @click="handleEdit" type="primary" icon="edit">添加</el-button>
         </el-button-group>
       </div>
       <div class="table-menu-right">
@@ -36,54 +28,54 @@
       </div>
     </div>
     <el-table :key='tableKey' @sort-change="sortChange" :data="list" v-loading="listLoading" element-loading-text="加载中..." fit highlight-current-row>
-      <el-table-column align="center" label="任务名称">
+      <el-table-column align="center" label="登录账号">
         <template slot-scope="scope">
-		  <span>{{scope.row.jobName}}</span>
+          <span>{{scope.row.loginName}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="任务组名">
+      <el-table-column align="center" label="登录IP地址">
         <template slot-scope="scope">
-		  <span>{{scope.row.jobGroup}}</span>
+          <span>{{scope.row.ipAddress}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="调用目标字符串">
+      <el-table-column align="center" label="登录地点">
         <template slot-scope="scope">
-		  <span>{{scope.row.invokeTarget}}</span>
+          <span>{{scope.row.loginLocation}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="执行状态">
+      <el-table-column align="center" label="用户代理">
         <template slot-scope="scope">
-		  <el-tag>{{scope.row.statusText}}</el-tag>
+          <span>{{scope.row.userAgent}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="开始时间">
+      <el-table-column align="center" label="浏览器类型">
         <template slot-scope="scope">
-		  <span>{{scope.row.startTime}}</span>
+          <span>{{scope.row.browser}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="结束时间">
+      <el-table-column align="center" label="操作系统">
         <template slot-scope="scope">
-		  <span>{{scope.row.endTime}}</span>
+          <span>{{scope.row.os}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="创建时间">
+      <el-table-column align="center" label="登录状态">
         <template slot-scope="scope">
-		  <span>{{scope.row.createTime}}</span>
+          <span>{{scope.row.status}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="日志信息">
+      <el-table-column align="center" label="提示消息">
         <template slot-scope="scope">
-          <span>{{scope.row.jobMessage}}</span>
+          <span>{{scope.row.message}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="异常信息">
+      <el-table-column align="center" label="访问时间">
         <template slot-scope="scope">
-          <span>{{scope.row.exceptionInfo}}</span>
+          <span>{{scope.row.loginTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" fixed="right" label="操作" v-if="quartz_jobLog_del">
+      <el-table-column align="center" fixed="right" label="操作" v-if="sys_logLogin_del">
         <template slot-scope="scope">
-          <el-button v-if="quartz_jobLog_del" icon="icon-delete" title="删除" type="text" @click="handleDelete(scope.row)">
+          <el-button v-if="sys_logLogin_del" icon="icon-delete" title="删除" type="text" @click="handleDelete(scope.row)">
           </el-button>
         </template>
       </el-table-column>
@@ -99,17 +91,16 @@
 </template>
 
 <script>
-    import {pageJobLog, findJobLog, saveJobLog, removeJobLog, validateUniqueJobLog, exportJobLog} from "./service";
+import { pageLogLogin, findLogLogin, saveLogLogin, removeLogLogin, validateUniqueLogLogin} from "./service";
 import { mapGetters } from "vuex";
 import {isValidateUnique, isValidateNumber, isValidateDigits, objectToString, validateNull} from "@/util/validate";
 import {parseJsonItemForm} from "@/util/util";
 import CrudSelect from "@/views/avue/crud-select";
 import CrudCheckbox from "@/views/avue/crud-checkbox";
 import CrudRadio from "@/views/avue/crud-radio";
-    import {baseUrl} from "../../../config/env";
 
 export default {
-  name: "table_quartz_jobLog",
+  name: "table_sys_logLogin",
   components: {CrudSelect, CrudCheckbox, CrudRadio},
   data() {
     return{
@@ -117,12 +108,18 @@ export default {
       list: null,
       total: null,
       listLoading: true,
-      searchJobLogForm:{},
+      searchLogLoginForm:{},
       listQuery: {
         page: 1,
         size: 20
       },
       statusOptions: undefined,
+      delFlagOptions: undefined,
+      dialogStatus: 'create',
+      textMap: {
+        update: '编辑登录日志',
+        create: '创建登录日志'
+      },
       tableKey: 0
     };
   },
@@ -133,20 +130,19 @@ export default {
   },
   created() {
     this.getList();
-    this.quartz_jobLog_export = this.permissions["quartz_jobLog_export"];
-    this.quartz_jobLog_clean = this.permissions["quartz_jobLog_clean"];
-    this.quartz_jobLog_del = this.permissions["quartz_jobLog_del"];
+    this.sys_logLogin_edit = this.permissions["sys_logLogin_edit"];
+    this.sys_logLogin_del = this.permissions["sys_logLogin_del"];
     this.statusOptions = this.dicts["sys_status"];
+    this.delFlagOptions = this.dicts["sys_flag"];
   },
   methods: {
     getList() {
       this.listLoading = true;
       this.listQuery.queryConditionJson = parseJsonItemForm([
-      {fieldName: 'jobName',value:this.searchJobLogForm.jobName,operate:'like',attrType:'String'},
-      {fieldName: 'jobGroup',value:this.searchJobLogForm.jobGroup,operate:'like',attrType:'String'},
-      {fieldName: 'status',value:this.searchJobLogForm.status,operate:'eq',attrType:'String'},
+      {fieldName: 'loginName',value:this.searchLogLoginForm.loginName,operate:'like',attrType:'String'},
+      {fieldName: 'loginLocation',value:this.searchLogLoginForm.loginLocation,operate:'like',attrType:'String'},
       ])
-      pageJobLog(this.listQuery).then(response => {
+      pageLogLogin(this.listQuery).then(response => {
         this.list = response.data.records;
         this.total = response.data.total;
         this.listLoading = false;
@@ -163,7 +159,7 @@ export default {
       this.getList()
     },
     searchReset() {
-      this.$refs['searchJobLogForm'].resetFields();
+      this.$refs['searchLogLoginForm'].resetFields();
     },
     handleFilter() {
       this.listQuery.page = 1;
@@ -179,7 +175,7 @@ export default {
     },
     handleDelete(row) {
       this.$confirm(
-        "此操作将永久删除该任务调度日志, 是否继续?",
+        "此操作将永久删除该登录日志, 是否继续?",
         "提示",
         {
           confirmButtonText: "确定",
@@ -187,27 +183,11 @@ export default {
           type: "warning"
         }
       ).then(() => {
-        removeJobLog(row.id).then((data) => {
+        removeLogLogin(row.id).then((data) => {
             this.getList();
           });
       });
     },
-    handleClean(row) {
-        this.$confirm('确定要此操作吗?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-        }).then(() => {
-            cleanJobLog(row.id).then((rs) => {
-                this.getList();
-            })
-        })
-    },
-    handleExport() {
-        exportJobLog(this.listQuery).then(response => {
-            window.location.href = `${window.location.origin}` + baseUrl + "/file/download?fileName=" + encodeURI(response.data) + "&delete=" + true;
-        });
-    }
   }
 };
 </script>

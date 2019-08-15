@@ -37,10 +37,8 @@ import javax.validation.constraints.NotBlank;
 @TableName("sys_role")
 public class Role extends IdEntity<Role> {
 
-	private static final long serialVersionUID = 1L;
-
 	public static final String F_NAME = "name";
-
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 锁定标记
 	 */

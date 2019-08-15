@@ -16,6 +16,8 @@ import javax.validation.constraints.Size;
 @ToString
 public class PasswordRestVo {
 
+	@ApiModelProperty(hidden = true)
+	String passwordPlaintext;
 	@NotBlank
 	@ApiModelProperty("登录ID")
 	private String username;
@@ -32,8 +34,6 @@ public class PasswordRestVo {
 	@Size(min = UserDataVo.PASSWORD_MIN_LENGTH, max = UserDataVo.PASSWORD_MAX_LENGTH)
 	@ApiModelProperty("新密码")
 	private String newPassword;
-	@ApiModelProperty(hidden = true)
-	String passwordPlaintext;
 	@NotBlank
 	@Size(min = UserDataVo.PASSWORD_MIN_LENGTH, max = UserDataVo.PASSWORD_MAX_LENGTH)
 	private String confirmPassword;

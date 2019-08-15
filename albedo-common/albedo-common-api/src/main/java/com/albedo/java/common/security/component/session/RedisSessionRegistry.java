@@ -27,13 +27,11 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @AllArgsConstructor
 public class RedisSessionRegistry implements SessionRegistry,
 	ApplicationListener<SessionDestroyedEvent> {
+	public static final String SESSIONIDS = "sessionIds";
+	public static final String PRINCIPALS = "principals";
 	private final ApplicationProperties applicationProperties;
 	private final RedisTemplate redisTemplate;
 	private final UserOnlineService userOnlineService;
-
-	public static final String SESSIONIDS = "sessionIds";
-
-	public static final String PRINCIPALS = "principals";
 
 	// ~ Methods
 	// ========================================================================================================

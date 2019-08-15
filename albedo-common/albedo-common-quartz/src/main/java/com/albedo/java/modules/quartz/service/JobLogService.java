@@ -5,7 +5,11 @@ package com.albedo.java.modules.quartz.service;
 
 import com.albedo.java.common.persistence.service.BaseService;
 import com.albedo.java.modules.quartz.domain.JobLog;
+import com.albedo.java.modules.quartz.domain.vo.JobLogExcelVo;
 import com.albedo.java.modules.quartz.repository.JobLogRepository;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+
+import java.util.List;
 
 /**
  * 任务调度日志Service 任务调度日志
@@ -16,4 +20,6 @@ import com.albedo.java.modules.quartz.repository.JobLogRepository;
 public interface JobLogService extends BaseService<JobLogRepository, JobLog, String> {
 
 	void cleanJobLog();
+
+	List<JobLogExcelVo> findExcelVo(QueryWrapper<JobLog> toEntityWrapper);
 }

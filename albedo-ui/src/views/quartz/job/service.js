@@ -31,6 +31,28 @@ export function removeJob(id) {
   })
 }
 
+export function runJob(id) {
+  return request({
+    url: '/quartz/job/run/' + id,
+    method: 'post'
+  })
+}
+
+export function concurrentJob(id) {
+  return request({
+    url: '/quartz/job/concurrent/' + id,
+    method: 'post'
+  })
+}
+
+export function availableJob(id) {
+  return request({
+    url: '/quartz/job/available/' + id,
+    method: 'post'
+  })
+}
+
+
 export function validateUniqueJob(rule, value, callback, id) {
   isValidateUnique(rule, value, callback, '/quartz/job/checkByProperty?id='+toStr(id))
 }

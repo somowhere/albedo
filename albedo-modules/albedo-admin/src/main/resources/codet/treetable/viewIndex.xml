@@ -79,11 +79,11 @@
           <#if column.list && column.simpleJavaField!="parentId" && column.simpleJavaField!="parentIds" && column.simpleJavaField!="parent">
           <el-table-column align="center" label="${column.title}">
             <template slot-scope="scope">
-            <#if column.simpleJavaField = 'status'>
-              <el-tag>{{scope.row.${column.simpleJavaField}}}</el-tag>
-            <#else>
-              <span>{{scope.row.${column.simpleJavaField}}}</span>
-             </#if>
+            <#if column.dictType?? && column.dictType != "">
+			  <el-tag>{{scope.row.${column.simpleJavaField}Text}}</el-tag>
+			<#else>
+			  <span>{{scope.row.${column.simpleJavaField}}}</span>
+			 </#if>
             </template>
           </el-table-column>
           </#if>
@@ -137,6 +137,9 @@
               <el-date-picker v-model="form.${c.javaFieldId}" type="datetime" >
               </el-date-picker>
            </#if>
+        <#if c.comments??&& c.comments != ''><div>
+		  <el-tag type="info" size="mini">${c.comments}</el-tag>
+		</div></#if>
         </el-form-item>
         </#if>
     </#list>
