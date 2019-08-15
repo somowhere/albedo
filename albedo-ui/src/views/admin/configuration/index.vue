@@ -10,8 +10,8 @@
             <table class="el-table">
               <thead>
               <tr>
-                <th @click="orderProp = 'prefix' reverse=!reverse" class="w-40"><span>前缀</span></th>
-                <th @click="orderProp = 'properties' reverse=!reverse" class="w-60"><span>属性</span></th>
+                <th @click="orderProp = 'prefix'; reverse=!reverse" class="w-40"><span>前缀</span></th>
+                <th @click="orderProp = 'properties'; reverse=!reverse" class="w-60"><span>属性</span></th>
               </tr>
               </thead>
               <tbody>
