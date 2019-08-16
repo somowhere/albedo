@@ -15,6 +15,7 @@
 
 <script>
     import {mapGetters} from 'vuex'
+    import {util} from '@/util/util'
     import NProgress from 'nprogress' // progress bar
     import 'nprogress/nprogress.css' // progress bar style
     export default {
@@ -62,12 +63,12 @@
             // 加载组件
             load() {
                 this.show();
-                var flag = true; //URL是否包含问号
+                let flag = true; //URL是否包含问号
                 if (this.$route.query.src.indexOf('?') == -1) {
                     flag = false
                 }
-                var list = [];
-                for (var key in this.$route.query) {
+                let list = [];
+                for (let key in this.$route.query) {
                     if (key != 'src' && key != 'name') {
                         list.push(`${key}= this.$route.query[key]`)
                     }
@@ -97,7 +98,7 @@
             iframeInit() {
                 const iframe = this.$refs.iframe;
                 const clientHeight = document.documentElement.clientHeight - (screen > 1 ? 200 : 130);
-                iframe.style.height = `${clientHeight}px`;
+                if(util.checkNotNull(iframe)) iframe.style.height = `${clientHeight}px`;
                 if (iframe.attachEvent) {
                     iframe.attachEvent('onload', () => {
                         this.hide()

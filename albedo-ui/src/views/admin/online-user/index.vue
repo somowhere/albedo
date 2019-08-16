@@ -29,7 +29,8 @@
                          size="mini"></el-button>
             </div>
           </div>
-          <el-table :data="list" :default-sort="{prop:'start_timestamp',order:'descending'}" :key='tableKey' @sort-change="sortChange"
+          <el-table :data="list" :default-sort="{prop:'start_timestamp',order:'descending'}" :key='tableKey'
+                    @sort-change="sortChange"
                     element-loading-text="加载中..."
                     fit highlight-current-row v-loading="listLoading">
             <el-table-column
@@ -118,7 +119,8 @@
 
           </el-table>
           <div class="pagination-container" v-show="!listLoading">
-            <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size" :page-sizes="[10,20,30, 50]"
+            <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size"
+                           :page-sizes="[10,20,30, 50]"
                            :total="total" @current-change="handleCurrentChange"
                            @size-change="handleSizeChange" background
                            class="pull-right" layout="total, sizes, prev, pager, next, jumper">
@@ -133,7 +135,7 @@
 <script>
     import {forceLogout, pageToken, removeToken} from "./service";
     import {mapGetters} from 'vuex';
-    import {parseJsonItemForm} from "@/util/util";
+    import util from "@/util/util";
     import CrudSelect from "@/views/avue/crud-select";
     import CrudRadio from "@/views/avue/crud-radio";
 
@@ -175,7 +177,7 @@
         methods: {
             getList() {
                 this.listLoading = true;
-                this.listQuery.queryConditionJson = parseJsonItemForm([{
+                this.listQuery.queryConditionJson = util.parseJsonItemForm([{
                     fieldName: 'username', value: this.searchForm.username
                 }, {
                     fieldName: 'status', value: this.searchForm.status

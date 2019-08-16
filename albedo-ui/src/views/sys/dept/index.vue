@@ -108,7 +108,7 @@
 </template>
 
 <script>
-    import {fetchTree, getDept, removeDept, saveDept} from './service'
+    import deptService from './dept-service'
     import {mapGetters} from 'vuex'
 
     export default {
@@ -161,7 +161,7 @@
         },
         methods: {
             getList() {
-                fetchTree().then(response => {
+                deptService.fetchTree().then(response => {
                     this.treeDeptData = response.data
                 })
             },
@@ -173,7 +173,7 @@
                 if (!this.formEdit) {
                     this.formStatus = 'update'
                 }
-                getDept(data.id).then(response => {
+                deptService.get(data.id).then(response => {
                     this.form = response.data
                 });
 
@@ -211,7 +211,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    removeDept(this.currentId).then(response => {
+                    deptService.remove(this.currentId).then(response => {
                         this.getList();
                         this.resetForm();
                         this.onCancel();
@@ -227,7 +227,7 @@
             save() {
                 this.$refs.form.validate((valid) => {
                     if (!valid) return;
-                    saveDept(this.form).then(response => {
+                    deptService.save(this.form).then(response => {
                         this.getList()
                     })
                 })

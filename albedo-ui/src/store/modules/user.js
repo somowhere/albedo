@@ -1,9 +1,9 @@
 import {getStore, setStore} from '@/util/store'
-import {isURL} from '@/util/validate'
+import validate from '@/util/validate'
 import {loginApi} from '@/api/login'
-import {deepClone, encryption} from '@/util/util'
+import util from '@/util/util'
 import webiste from '@/const/website'
-import {GetUserMenu} from '@/views/sys/menu/service'
+import menuService from '@/views/sys/menu/menu-service'
 
 function addPath(ele, first) {
   const propsConfig = webiste.menu.props;
@@ -19,7 +19,7 @@ function addPath(ele, first) {
     return
   }
   ele[propsDefault.children].forEach(child => {
-    if (!isURL(child[propsDefault.path])) {
+    if (!validate.isURL(child[propsDefault.path])) {
       child[propsDefault.path] = `${ele[propsDefault.path]}/${child[propsDefault.path] ? child[propsDefault.path] : 'index'}`
     }
     addPath(child)
@@ -56,8 +56,8 @@ const user = {
   },
   actions: {
     // 根据用户名登录
-    LoginByUsername({commit}, userVo) {
-      const user = encryption({
+    loginByUsername({commit}, userVo) {
+      const user = util.encryption({
         data: userVo,
         key: 'somewhere-albedo',
         param: ['password']
@@ -75,7 +75,7 @@ const user = {
         })
       })
     },
-    GetUserVo({commit}) {
+    getUserVo({commit}) {
       return new Promise((resolve, reject) => {
         loginApi.getUserVo().then((res) => {
           const data = res.data || {};
@@ -89,7 +89,7 @@ const user = {
       })
     },
     // 刷新token
-    RefreshToken({commit, state}) {
+    refreshToken({commit, state}) {
       return new Promise((resolve, reject) => {
         loginApi.refreshToken(state.refresh_token).then(response => {
           const data = response.data;
@@ -104,7 +104,7 @@ const user = {
       })
     },
     // 登出
-    LogOut({commit}) {
+    logOut({commit}) {
       return new Promise((resolve, reject) => {
         loginApi.logout().then(() => {
           commit('SET_MENU', []);
@@ -124,7 +124,7 @@ const user = {
       })
     },
     // 注销session
-    FedLogOut({commit}) {
+    fedLogOut({commit}) {
       return new Promise(resolve => {
         commit('SET_MENU', []);
         commit('SET_DICTS', []);
@@ -139,13 +139,13 @@ const user = {
       })
     },
     // 获取系统菜单
-    GetUserMenu({
+    getUserMenu({
                   commit
                 }) {
       return new Promise(resolve => {
-        GetUserMenu().then((res) => {
+        menuService.getUser().then((res) => {
           const data = res.data;
-          let menu = deepClone(data);
+          let menu = util.deepClone(data);
           menu.forEach(ele => {
             addPath(ele)
           });
@@ -155,7 +155,7 @@ const user = {
       })
     },
     // 获取系统菜单
-    async GetDicts({commit}) {
+    async getDicts({commit}) {
       let res = await loginApi.getDicts();
       commit('SET_DICTS', res.data)
     }

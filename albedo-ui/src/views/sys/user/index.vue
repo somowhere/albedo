@@ -8,7 +8,8 @@
             <div class="clearfix" slot="header">
               <span>部门</span>
 
-              <el-button @click="searchTree=(searchTree ? false:true)" class="card-heard-btn" icon="icon-filesearch" title="搜索"
+              <el-button @click="searchTree=(searchTree ? false:true)" class="card-heard-btn" icon="icon-filesearch"
+                         title="搜索"
                          type="text"></el-button>
               <el-button @click="getTreeDept()" class="card-heard-btn" icon="icon-reload" title="刷新"
                          type="text"></el-button>
@@ -105,12 +106,14 @@
             </el-table-column>
 
 
-            <el-table-column align="center" fixed="right" label="操作" v-if="sys_user_edit || sys_user_lock || sys_user_del"
+            <el-table-column align="center" fixed="right" label="操作"
+                             v-if="sys_user_edit || sys_user_lock || sys_user_del"
                              width="130">
               <template slot-scope="scope">
                 <el-button @click="handleEdit(scope.row)" icon="icon-edit" title="编辑" type="text" v-if="sys_user_edit">
                 </el-button>
-                <el-button :icon="scope.row.available == '0' ? 'icon-lock' : 'icon-unlock'" :title="scope.row.available == '0' ? '锁定' : '解锁'"
+                <el-button :icon="scope.row.available == '0' ? 'icon-lock' : 'icon-unlock'"
+                           :title="scope.row.available == '0' ? '锁定' : '解锁'"
                            @click="handleLock(scope.row)" type="text" v-if="sys_user_lock">
                 </el-button>
                 <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text"
@@ -121,7 +124,8 @@
 
           </el-table>
           <div class="pagination-container" v-show="!listLoading">
-            <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size" :page-sizes="[10,20,30, 50]"
+            <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size"
+                           :page-sizes="[10,20,30, 50]"
                            :total="total" @current-change="handleCurrentChange"
                            @size-change="handleSizeChange" background
                            class="pull-right" layout="total, sizes, prev, pager, next, jumper">
@@ -199,12 +203,12 @@
 </template>
 
 <script>
-    import {findUser, lockUser, pageUser, removeUser, saveUser} from "./service";
-    import {fetchDeptTree} from "../dept/service";
-    import {deptRoleList} from "../role/service";
+    import userService from "./user-service";
+    import deptService from "../dept/dept-service";
+    import roleService from "../role/role-service";
     import {mapGetters} from 'vuex';
-    import {parseJsonItemForm, parseTreeData} from "@/util/util";
-    import {isValidateMobile, isValidateUnique, toStr, validateNotNull, validateNull} from "@/util/validate";
+    import util from "@/util/util";
+    import validate from "@/util/validate";
     import CrudSelect from "@/views/avue/crud-select";
     import CrudRadio from "@/views/avue/crud-radio";
 
@@ -246,14 +250,14 @@
                     description: undefined
                 },
                 validateUnique: (rule, value, callback) => {
-                    isValidateUnique(rule, value, callback, '/sys/user/checkByProperty?id=' + toStr(this.form.id))
+                    validate.isUnique(rule, value, callback, '/sys/user/checkByProperty?id=' + toStr(this.form.id))
                 },
                 validatePhone: (rule, value, callback) => {
-                    isValidateMobile(rule, value, callback)
+                    validate.isMobile(rule, value, callback)
                 },
                 validatePass: (rule, value, callback) => {
-                    if (validateNull(this.form.id)) {
-                        if (validateNull(value)) {
+                    if (validate.checkNull(this.form.id)) {
+                        if (validate.checkNull(value)) {
                             callback(new Error('请输入密码'));
                             return;
                         }
@@ -261,8 +265,8 @@
                     callback();
                 },
                 validateConfirmPass: (rule, value, callback) => {
-                    if (validateNotNull(this.form.password)) {
-                        if (validateNull(value)) {
+                    if (validate.checkNotNull(this.form.password)) {
+                        if (validate.checkNull(value)) {
                             callback(new Error('请再次输入密码'));
                             return;
                         } else if (value !== this.form.password) {
@@ -295,7 +299,7 @@
             this.sys_user_edit = this.permissions["sys_user_edit"];
             this.sys_user_lock = this.permissions["sys_user_lock"];
             this.sys_user_del = this.permissions["sys_user_del"];
-            deptRoleList().then(response => {
+            roleService.deptRoleList().then(response => {
                 this.rolesOptions = response.data;
             });
             this.flagOptions = this.dicts['sys_flag'];
@@ -309,12 +313,12 @@
             getList() {
                 this.listLoading = true;
                 // this.listQuery.isAsc = false;
-                this.listQuery.queryConditionJson = parseJsonItemForm([{
+                this.listQuery.queryConditionJson = util.parseJsonItemForm([{
                     fieldName: 'a.username', value: this.searchForm.username
                 }, {
                     fieldName: 'a.dept_id', value: this.searchForm.deptId
                 }]);
-                pageUser(this.listQuery).then(response => {
+                userService.page(this.listQuery).then(response => {
                     this.list = response.data.records;
                     this.total = response.data.total;
                     this.listLoading = false;
@@ -331,8 +335,8 @@
                 this.getList()
             },
             getTreeDept() {
-                fetchDeptTree().then(response => {
-                    this.treeDeptData = parseTreeData(response.data);
+                deptService.fetchTreeUser().then(response => {
+                    this.treeDeptData = util.parseTreeData(response.data);
                     this.searchForm.parentId = this.treeDeptData[0].id;
                     setTimeout(() => {
                         this.$refs.leftDeptTree.setCurrentKey(this.searchForm.parentId);
@@ -373,11 +377,11 @@
             },
             handleEdit(row) {
                 this.resetForm();
-                this.dialogStatus = row && validateNotNull(row.id) ? "update" : "create";
+                this.dialogStatus = row && validate.checkNotNull(row.id) ? "update" : "create";
                 if (this.dialogStatus == "create") {
                     this.dialogFormVisible = true;
                 } else {
-                    findUser(row.id).then(response => {
+                    userService.find(row.id).then(response => {
                         this.form = response.data;
                         this.form.password = undefined;
                         this.dialogFormVisible = true;
@@ -385,7 +389,7 @@
                 }
             },
             handleLock: function (row) {
-                lockUser(row.id).then(response => {
+                userService.lock(row.id).then(response => {
                     this.getList();
                 });
             },
@@ -395,7 +399,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    removeUser(row.id).then(response => {
+                    userService.remove(row.id).then(response => {
                         this.getList();
                     })
                 })
@@ -403,7 +407,7 @@
             save() {
                 this.$refs['form'].validate(valid => {
                     if (valid) {
-                        saveUser(this.form).then(response => {
+                        userService.save(this.form).then(response => {
                             this.getList();
                             this.dialogFormVisible = false;
                         })

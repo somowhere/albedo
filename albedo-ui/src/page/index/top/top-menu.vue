@@ -35,7 +35,7 @@
         },
         methods: {
             openMenu(item) {
-                this.$store.dispatch("GetUserMenu", item.parentId).then(response => {
+                this.$store.dispatch("getUserMenu", item.parentId).then(response => {
                     if (response.length !== 0) {
                         this.$router.$avueRouter.formatRoutes(response, true);
                     }

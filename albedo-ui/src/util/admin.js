@@ -1,6 +1,6 @@
 export default {
   getScreen: function () {
-    var width = document.body.clientWidth;
+    let width = document.body.clientWidth;
     if (width >= 1200) {
       return 3 // 大屏幕
     } else if (width >= 992) {

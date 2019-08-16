@@ -193,11 +193,11 @@
 </template>
 
 <script>
-    import {findGenScheme, genCode, genMenu, pageGenScheme, removeGenScheme, saveGenScheme} from "./service";
+    import schemeService from "./scheme-service";
     import {mapGetters} from "vuex";
-    import {validateNotNull, validateNull} from "@/util/validate";
-    import {parseJsonItemForm, parseTreeData} from "@/util/util";
-    import {fetchMenuTree} from "../../sys/menu/service";
+    import validate from "@/util/validate";
+    import util from "@/util/util";
+    import menuService from "@/views/sys/menu/menu-service";
     import CrudSelect from "@/views/avue/crud-select";
     import CrudRadio from "@/views/avue/crud-radio";
 
@@ -284,7 +284,7 @@
         methods: {
             getList() {
                 this.listLoading = true;
-                this.listQuery.queryConditionJson = parseJsonItemForm([{
+                this.listQuery.queryConditionJson = util.parseJsonItemForm([{
                     fieldName: 'name', value: this.searchForm.name
                 }, {
                     fieldName: 'table.name', value: this.searchForm.tableName
@@ -293,7 +293,7 @@
                 }, {
                     fieldName: 'functionAuthor', value: this.searchForm.functionAuthor
                 }]);
-                pageGenScheme(this.listQuery).then(response => {
+                schemeService.page(this.listQuery).then(response => {
                     this.list = response.data.records;
                     this.total = response.data.total;
                     this.listLoading = false;
@@ -313,8 +313,8 @@
                 return data.label.indexOf(value) !== -1
             },
             handleMenu() {
-                fetchMenuTree({extId: this.form.id}).then(response => {
-                    this.treeMenuData = parseTreeData(response.data);
+                menuService.fetchTree({extId: this.form.id}).then(response => {
+                    this.treeMenuData = util.parseTreeData(response.data);
                     this.dialogMenuVisible = true;
                 })
             },
@@ -334,7 +334,7 @@
                 this.currentRow = row;
             },
             handleGenMenu() {
-                if (validateNull(this.currentRow) || validateNull(this.currentRow.id)) {
+                if (validate.checkNull(this.currentRow) || validate.checkNull(this.currentRow.id)) {
                     this.$message({
                         message: '请选择方案',
                         type: 'warning'
@@ -345,7 +345,7 @@
                 const set = this.$refs;
                 set['genMenuForm'].validate(valid => {
                     if (valid) {
-                        genMenu(this.genMenuForm).then(response => {
+                        schemeService.genMenu(this.genMenuForm).then(response => {
                             this.getList();
                             this.cancelGenMenu()
                         });
@@ -355,7 +355,7 @@
                 });
             },
             handleGenMenuDialog() {
-                if (validateNull(this.currentRow) || validateNull(this.currentRow.id)) {
+                if (validate.checkNull(this.currentRow) || validate.checkNull(this.currentRow.id)) {
                     this.$message({
                         message: '请选择方案',
                         type: 'warning'
@@ -368,17 +368,17 @@
                 this.dialogGenMenuVisible = true;
             },
             handleEdit(row) {
-                this.dialogStatus = row && !validateNull(row.id) ? "update" : "create";
+                this.dialogStatus = row && !validate.checkNull(row.id) ? "update" : "create";
                 let params;
                 if (this.dialogStatus == "update") {
                     params = {id: row.id};
                 }
-                findGenScheme(params).then(response => {
-                    var data = response.data;
+                schemeService.find(params).then(response => {
+                    let data = response.data;
                     this.viewTypeList = data.viewTypeList;
                     this.categoryList = data.categoryList;
                     this.tableList = data.tableList;
-                    if (validateNotNull(data.schemeVo)) {
+                    if (validate.checkNotNull(data.schemeVo)) {
                         this.resetForm();
                         this.form = data.schemeVo;
                         // this.form.genCode = true
@@ -401,7 +401,7 @@
                 set['form'].validate(valid => {
                     if (valid) {
                         // this.form.password = undefined;
-                        saveGenScheme(this.form).then(response => {
+                        schemeService.save(this.form).then(response => {
                             this.getList();
                             this.cancel()
                         });
@@ -415,14 +415,14 @@
                 this.dialogGenCodeVisible = true;
             },
             handleGenCode(replaceFile) {
-                if (validateNull(this.currentRow) || validateNull(this.currentRow.id)) {
+                if (validate.checkNull(this.currentRow) || validate.checkNull(this.currentRow.id)) {
                     this.$message({
                         message: '无法获取选中信息',
                         type: 'warning'
                     });
                     return;
                 }
-                genCode({id: this.currentRow.id, replaceFile: replaceFile}).then(response => {
+                schemeService.genCode({id: this.currentRow.id, replaceFile: replaceFile}).then(response => {
                     this.dialogGenCodeVisible = false;
                     this.getList();
                 });
@@ -437,7 +437,7 @@
                         type: "warning"
                     }
                 ).then(() => {
-                    removeGenScheme(row.id).then(response => {
+                    schemeService.remove(row.id).then(response => {
                         this.getList();
                     });
                 });

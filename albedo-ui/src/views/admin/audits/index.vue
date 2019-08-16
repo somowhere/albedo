@@ -52,7 +52,7 @@
 
 <script>
     import {findAllAudits} from "./service";
-    import {objectToString, validateNull} from "@/util/validate";
+    import validate from "@/util/validate";
 
     export default {
         name: "admin_audits",
@@ -81,10 +81,10 @@
                 this.initPageData();
             },
             formatter(row, column) {
-                if (validateNull(row.data)) {
+                if (validate.checkNull(row.data)) {
                     return "";
                 } else {
-                    return objectToString(row.data.message) + ' 远程地址:' + objectToString(row.data.remoteAddress);
+                    return validate.objectToString(row.data.message) + ' 远程地址:' + validate.objectToString(row.data.remoteAddress);
                 }
             },
             handleSizeChange(val) {

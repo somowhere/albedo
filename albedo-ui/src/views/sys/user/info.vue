@@ -95,7 +95,7 @@
 
     export default {
         data() {
-            var validatePass = (rule, value, callback) => {
+            let validatePass = (rule, value, callback) => {
                 if (this.ruleForm2.password !== '') {
                     if (value !== this.ruleForm2.newpassword1) {
                         callback(new Error('两次输入密码不一致!'))
@@ -159,7 +159,7 @@
                                 });
                                 // 修改密码之后强制重新登录
                                 if (this.switchStatus === 'passwordManager') {
-                                    this.$store.dispatch('LogOut').then(() => {
+                                    this.$store.dispatch('logOut').then(() => {
                                         location.reload() // 为了重新实例化vue-router对象 避免bug
                                     })
                                 }

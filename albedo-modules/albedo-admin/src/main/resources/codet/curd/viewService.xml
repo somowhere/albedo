@@ -2,11 +2,11 @@
 <template>
 	<name>viewComponentTs</name>
 	<filePath>src/views/${moduleName}/${subModuleName}/${classNameUrl}</filePath>
-	<fileName>service.js</fileName>
+	<fileName>dept-dict-log-login-log-operate-menu-persistent-token-role-user-service.js</fileName>
 	<content><![CDATA[
 
 import request from '@/router/axios';
-import {isValidateUnique, toStr} from "@/util/validate";
+import validate from "@/util/validate";
 
 export function page${ClassName}(query) {
   return request({
@@ -39,7 +39,7 @@ export function remove${ClassName}(id) {
 }
 
 export function validateUnique${ClassName}(rule, value, callback, id) {
-  isValidateUnique(rule, value, callback, '/${urlPrefix}/checkByProperty?id='+toStr(id))
+  validate.isUnique(rule, value, callback, '/${urlPrefix}/checkByProperty?id='+validate.toStr(id))
 }
 ]]>
 	</content>

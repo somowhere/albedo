@@ -82,7 +82,7 @@
 </template>
 
 <script>
-    import {randomLenNum} from "@/util/util";
+    import util from "@/util/util";
     import {mapGetters} from "vuex";
 
     export default {
@@ -132,9 +132,9 @@
         methods: {
             refreshCode() {
                 this.loginForm.code = '';
-                this.loginForm.randomStr = randomLenNum(this.code.len, true);
+                this.loginForm.randomStr = util.randomLenNum(this.code.len, true);
                 this.code.type === 'text'
-                    ? (this.code.value = randomLenNum(this.code.len))
+                    ? (this.code.value = util.randomLenNum(this.code.len))
                     : (this.code.src = `${this.codeUrl}/${this.loginForm.randomStr}`)
             },
             showPassword() {
@@ -145,7 +145,8 @@
             handleLogin() {
                 this.$refs.loginForm.validate(valid => {
                     if (valid) {
-                        this.$store.dispatch("LoginByUsername", this.loginForm).then(() => {
+                        this.$store.dispatch("loginByUsername", this.loginForm).then(() => {
+                            console.log(this.tagWel.value)
                             this.$router.push({path: this.tagWel.value});
                         }).catch((e) => {
                             this.refreshCode()

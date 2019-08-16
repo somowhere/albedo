@@ -76,7 +76,8 @@
 
           </el-table>
           <div class="pagination-container" v-show="!listLoading">
-            <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size" :page-sizes="[10,20,30, 50]"
+            <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size"
+                           :page-sizes="[10,20,30, 50]"
                            :total="total" @current-change="handleCurrentChange"
                            @size-change="handleSizeChange" background
                            class="pull-right" layout="total, sizes, prev, pager, next, jumper">
@@ -89,9 +90,9 @@
 </template>
 
 <script>
-    import {pageToken, removeToken} from "./service";
     import {mapGetters} from 'vuex';
-    import {parseJsonItemForm} from "@/util/util";
+    import persistentTokenService from "./persistent-token-service";
+    import util from "@/util/util";
 
     export default {
         name: 'Token',
@@ -130,10 +131,10 @@
         methods: {
             getList() {
                 this.listLoading = true;
-                this.listQuery.queryConditionJson = parseJsonItemForm([{
+                this.listQuery.queryConditionJson = util.parseJsonItemForm([{
                     fieldName: 'series', value: this.searchForm.series
                 }]);
-                pageToken(this.listQuery).then(response => {
+                persistentTokenService.page(this.listQuery).then(response => {
                     this.list = response.data.records;
                     this.total = response.data.total;
                     this.listLoading = false;
@@ -172,7 +173,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    removeToken(row.series).then(response => {
+                    persistentTokenService.remove(row.series).then(response => {
                         this.getList();
                     })
                 })

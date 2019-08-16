@@ -9,7 +9,8 @@
           <p><span>总内存</span> ({{getVal(metrics.gauges['jvm.memory.total.used']) / 1000000 }}M /
             {{getVal(metrics.gauges['jvm.memory.total.max']) / 1000000 }}M)</p>
           <el-progress :percentage="getVal(metrics.gauges['jvm.memory.total.used']) * 100 /
-                        getVal(metrics.gauges['jvm.memory.total.max']) | numFilter" :stroke-width="18" :text-inside="true"
+                        getVal(metrics.gauges['jvm.memory.total.max']) | numFilter" :stroke-width="18"
+                       :text-inside="true"
                        status="success">
           </el-progress>
           <p><span>堆内存</span> ({{getVal(metrics.gauges['jvm.memory.heap.used']) / 1000000}}M /
@@ -22,7 +23,8 @@
           <p><span>非堆内存</span> ({{getVal(metrics.gauges['jvm.memory.non-heap.used']) / 1000000}}M /
             {{getVal(metrics.gauges['jvm.memory.non-heap.committed']) / 1000000}}M)</p>
           <el-progress :percentage="getVal(metrics.gauges['jvm.memory.non-heap.used'])  * 100 /
-                        getVal(metrics.gauges['jvm.memory.non-heap.committed']) | numFilter" :stroke-width="18" :text-inside="true"
+                        getVal(metrics.gauges['jvm.memory.non-heap.committed']) | numFilter" :stroke-width="18"
+                       :text-inside="true"
                        status="success">
           </el-progress>
         </el-col>
@@ -41,7 +43,8 @@
           </el-progress>
           <p><span>等待中</span> ({{getVal(metrics.gauges['jvm.threads.waiting.count']) }})</p>
           <el-progress :percentage="getVal(metrics.gauges['jvm.threads.waiting.count'])  * 100 /
-                                  getVal(metrics.gauges['jvm.threads.count']) | numFilter" :stroke-width="18" :text-inside="true"
+                                  getVal(metrics.gauges['jvm.threads.count']) | numFilter" :stroke-width="18"
+                       :text-inside="true"
                        status="warning">
           </el-progress>
           <p><span>阻塞中</span> ({{getVal(metrics.gauges['jvm.threads.blocked.count']) }})</p>
@@ -102,7 +105,8 @@
             <td>2xx (成功)</td>
             <td>
               <el-progress :percentage="getValByKey(metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.ok'],'count') * 100 /
-                        getValByKey(metrics.timers['com.codahale.metrics.servlet.InstrumentedFilter.requests'],'count') | numFilter" :stroke-width="18" :text-inside="true"
+                        getValByKey(metrics.timers['com.codahale.metrics.servlet.InstrumentedFilter.requests'],'count') | numFilter"
+                           :stroke-width="18" :text-inside="true"
                            status="success">
               </el-progress>
             </td>
@@ -123,7 +127,8 @@
             <td>4xx (请求错误)</td>
             <td>
               <el-progress :percentage="getValByKey(metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.notFound'],'count') * 100 /
-                        getValByKey(metrics.timers['com.codahale.metrics.servlet.InstrumentedFilter.requests'],'count') | numFilter" :stroke-width="18" :text-inside="true"
+                        getValByKey(metrics.timers['com.codahale.metrics.servlet.InstrumentedFilter.requests'],'count') | numFilter"
+                           :stroke-width="18" :text-inside="true"
                            status="success">
               </el-progress>
             </td>
@@ -144,7 +149,8 @@
             <td>5xx (服务器错误)</td>
             <td>
               <el-progress :percentage="getValByKey(metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.serverError'],'count') * 100 /
-                        getValByKey(metrics.timers['com.codahale.metrics.servlet.InstrumentedFilter.requests'],'count') | numFilter" :stroke-width="18" :text-inside="true"
+                        getValByKey(metrics.timers['com.codahale.metrics.servlet.InstrumentedFilter.requests'],'count') | numFilter"
+                           :stroke-width="18" :text-inside="true"
                            status="success">
               </el-progress>
             </td>
@@ -260,8 +266,10 @@
           <tr>
             <td>
               <div class="progress progress-striped">
-                <el-progress :percentage="getVal(metrics.gauges['HikariPool-1.pool.ActiveConnections']) * 100 / getVal(metrics.gauges['HikariPool-1.pool.TotalConnections']) | numFilter" :stroke-width="18" :text-inside="true"
-                             status="success">
+                <el-progress
+                  :percentage="getVal(metrics.gauges['HikariPool-1.pool.ActiveConnections']) * 100 / getVal(metrics.gauges['HikariPool-1.pool.TotalConnections']) | numFilter"
+                  :stroke-width="18" :text-inside="true"
+                  status="success">
                 </el-progress>
               </div>
             </td>
@@ -435,7 +443,7 @@
             },
             threadDumpFilterByState(state) {
                 this.threadDumpFilter = state;
-                var dump = [];
+                let dump = [];
 
                 this.threadDumpData.forEach((value) => {
                     if (state == 'ALL' || value.threadState == state) {

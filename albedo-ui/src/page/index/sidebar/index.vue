@@ -3,7 +3,7 @@
     <logo></logo>
     <el-scrollbar style="height:100%">
       <div class="avue-sidebar--tip"
-           v-if="validateNull(menu)">没有发现菜单
+           v-if="checkNull(menu)">没有发现菜单
       </div>
       <el-menu :collapse="keyCollapse"
                :default-active="nowTagValue"
@@ -32,7 +32,7 @@
             return {};
         },
         created() {
-            this.$store.dispatch("GetUserMenu").then(response => {
+            this.$store.dispatch("getUserMenu").then(response => {
                 if (response.length === 0) return;
                 console.log(response);
                 this.$router.$avueRouter.formatRoutes(response, true);

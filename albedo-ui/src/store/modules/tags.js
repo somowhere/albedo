@@ -1,5 +1,5 @@
 import {getStore, setStore} from '@/util/store'
-import {diff} from '@/util/util'
+import util from '@/util/util'
 import website from '@/const/website'
 
 const isFirstPage = website.isFirstPage;
@@ -38,7 +38,7 @@ const navs = {
     ADD_TAG: (state, action) => {
       state.tag = action;
       setStore({name: 'tag', content: state.tag, type: 'session'});
-      if (state.tagList.some(ele => diff(ele, action))) return;
+      if (state.tagList.some(ele => util.diff(ele, action))) return;
       let exit = false;
       if (action.value.indexOf('?') != -1) {
         let substr = function (item) {
@@ -63,7 +63,7 @@ const navs = {
     },
     DEL_TAG: (state, action) => {
       state.tagList = state.tagList.filter(item => {
-        return !diff(item, action)
+        return !util.diff(item, action)
       });
       setFistTag(state.tagList);
       setStore({name: 'tagList', content: state.tagList, type: 'session'})

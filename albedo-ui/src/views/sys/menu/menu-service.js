@@ -17,17 +17,57 @@
 
 import request from '@/router/axios'
 
-export function pageToken(query) {
-  return request({
-    url: '/sys/persistent-token/',
-    method: 'get',
-    params: query
-  })
-}
+const menuService = {
+  getUser() {
+    return request({
+      url: '/sys/menu/user-menu',
+      method: 'get'
+    })
+  },
 
-export function removeToken(id) {
-  return request({
-    url: '/sys/persistent-token/' + id,
-    method: 'delete'
-  })
-}
+  fetchTree(query) {
+    return request({
+      url: '/sys/menu/tree',
+      method: 'get',
+      params: query
+    })
+  },
+
+  page(query) {
+    return request({
+      url: '/sys/menu/',
+      method: 'get',
+      params: query
+    })
+  },
+
+  save(obj) {
+    return request({
+      url: '/sys/menu/',
+      method: 'post',
+      data: obj
+    })
+  },
+
+  find(id) {
+    return request({
+      url: '/sys/menu/' + id,
+      method: 'get'
+    })
+  },
+
+  remove(id) {
+    return request({
+      url: '/sys/menu/' + id,
+      method: 'delete'
+    })
+  },
+
+  lock(id) {
+    return request({
+      url: '/sys/menu/' + id,
+      method: 'put'
+    })
+  }
+};
+export default menuService

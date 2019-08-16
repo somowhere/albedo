@@ -70,12 +70,14 @@
             </el-table-column>
 
 
-            <el-table-column align="center" fixed="right" label="操作" v-if="sys_role_edit || sys_role_lock || sys_role_del"
+            <el-table-column align="center" fixed="right" label="操作"
+                             v-if="sys_role_edit || sys_role_lock || sys_role_del"
                              width="130">
               <template slot-scope="scope">
                 <el-button @click="handleEdit(scope.row)" icon="icon-edit" title="编辑" type="text" v-if="sys_role_edit">
                 </el-button>
-                <el-button :icon="scope.row.available == '0' ? 'icon-lock' : 'icon-unlock'" :title="scope.row.available == '0' ? '锁定' : '解锁'"
+                <el-button :icon="scope.row.available == '0' ? 'icon-lock' : 'icon-unlock'"
+                           :title="scope.row.available == '0' ? '锁定' : '解锁'"
                            @click="handleLock(scope.row)" type="text" v-if="sys_role_lock">
                 </el-button>
                 <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text"
@@ -86,7 +88,8 @@
 
           </el-table>
           <div class="pagination-container" v-show="!listLoading">
-            <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size" :page-sizes="[10,20,30, 50]"
+            <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size"
+                           :page-sizes="[10,20,30, 50]"
                            :total="total" @current-change="handleCurrentChange"
                            @size-change="handleSizeChange" background
                            class="pull-right" layout="total, sizes, prev, pager, next, jumper">
@@ -112,14 +115,16 @@
           <el-row :gutter="20" :span="24">
             <el-col :span="12">
               <el-form-item label="操作权限" prop="menuIdList">
-                <el-tree :data="treeMenuData" :default-checked-keys="form.menuIdList" @check="getNodeTreeMenuData" class="filter-tree"
+                <el-tree :data="treeMenuData" :default-checked-keys="form.menuIdList" @check="getNodeTreeMenuData"
+                         class="filter-tree"
                          node-key="id" ref="treeMenu" show-checkbox>
                 </el-tree>
               </el-form-item>
             </el-col>
             <el-col :span="10" v-show="formTreeDeptDataVisible">
               <el-form-item label="机构权限" prop="orgIdList" v-show="formTreeDeptDataVisible">
-                <el-tree :data="treeDeptData" :default-checked-keys="form.deptIdList" @check="getNodeTreeDeptData" class="filter-tree"
+                <el-tree :data="treeDeptData" :default-checked-keys="form.deptIdList" @check="getNodeTreeDeptData"
+                         class="filter-tree"
                          default-expand-all node-key="id" ref="treeDept"
                          show-checkbox>
                 </el-tree>
@@ -146,12 +151,12 @@
 </template>
 
 <script>
-    import {findRole, lockRole, pageRole, removeRole, saveRole} from "./service";
-    import {fetchMenuTree} from "../menu/service";
+    import roleService from "./role-service";
+    import menuService from "../menu/menu-service";
+    import deptService from "../dept/dept-service";
     import {mapGetters} from 'vuex';
-    import {fetchDeptTree} from "../dept/service";
-    import {parseJsonItemForm, parseTreeData} from "@/util/util";
-    import {objectToString, validateNotNull, validateNull} from "@/util/validate";
+    import util from "@/util/util";
+    import validate from "@/util/validate";
     import CrudSelect from "@/views/avue/crud-select";
     import CrudRadio from "@/views/avue/crud-radio";
 
@@ -209,11 +214,11 @@
             this.sys_role_del = this.permissions["sys_role_del"];
             this.flagOptions = this.dicts['sys_flag'];
             this.dataScopeOptions = this.dicts['sys_data_scope'];
-            fetchMenuTree().then(rs => {
-                this.treeMenuData = parseTreeData(rs.data);
+            menuService.fetchTree().then(rs => {
+                this.treeMenuData = util.parseTreeData(rs.data);
             });
-            fetchDeptTree().then(response => {
-                this.treeDeptData = parseTreeData(response.data);
+            deptService.fetchTreeUser().then(response => {
+                this.treeDeptData = util.parseTreeData(response.data);
             })
         },
         computed: {
@@ -224,10 +229,10 @@
         methods: {
             getList() {
                 this.listLoading = true;
-                this.listQuery.queryConditionJson = parseJsonItemForm([{
+                this.listQuery.queryConditionJson = util.parseJsonItemForm([{
                     fieldName: 'name', value: this.searchForm.name
                 }]);
-                pageRole(this.listQuery).then(response => {
+                roleService.page(this.listQuery).then(response => {
                     this.list = response.data.records;
                     this.total = response.data.total;
                     this.listLoading = false;
@@ -262,18 +267,18 @@
             },
             handleEdit(row) {
                 this.resetForm();
-                this.dialogStatus = row && validateNotNull(row.id) ? "update" : "create";
+                this.dialogStatus = row && validate.checkNotNull(row.id) ? "update" : "create";
                 if (this.dialogStatus == "create") {
                     this.dialogFormVisible = true;
                 } else {
-                    findRole(row.id).then(response => {
+                    roleService.find(row.id).then(response => {
                         this.form = response.data;
                         this.dialogFormVisible = true;
                         this.formTreeDeptDataVisible = (this.form.dataScope == 5);
-                        if (validateNull(this.form.deptIdList)) {
+                        if (validate.checkNull(this.form.deptIdList)) {
                             this.form.deptIdList = []
                         }
-                        this.form.dataScope = objectToString(this.form.dataScope);
+                        this.form.dataScope = validate.objectToString(this.form.dataScope);
                         if (this.$refs.treeMenu) {
                             this.$refs.treeMenu.setCheckedKeys(this.form.menuIdList);
                             this.$refs.treeDept.setCheckedKeys(this.form.deptIdList);
@@ -282,7 +287,7 @@
                 }
             },
             handleLock: function (row) {
-                lockRole(row.id).then(response => {
+                roleService.lock(row.id).then(response => {
                     this.getList();
                 });
             },
@@ -292,7 +297,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    removeRole(row.id).then((rs) => {
+                    roleService.remove(row.id).then((rs) => {
                         this.getList();
                     })
                 })
@@ -309,7 +314,7 @@
             save() {
                 this.$refs['form'].validate(valid => {
                     if (valid) {
-                        saveRole(this.form).then(() => {
+                        roleService.save(this.form).then(() => {
                             this.getList();
                             this.dialogFormVisible = false;
                         })

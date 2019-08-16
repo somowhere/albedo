@@ -215,12 +215,12 @@
 </template>
 
 <script>
-    import {findSelectTable, pageTable, removeTable} from "./service";
+    import tableService from "./table-service";
     import {mapGetters} from 'vuex';
     import CrudSelect from "@/views/avue/crud-select";
     import CrudRadio from "@/views/avue/crud-radio";
-    import {validateNull} from "@/util/validate";
-    import {parseJsonItemForm} from "@/util/util";
+    import validate from "@/util/validate";
+    import util from "@/util/util";
 
     export default {
         components: {CrudSelect, CrudRadio},
@@ -278,12 +278,12 @@
         methods: {
             getList() {
                 this.listLoading = true;
-                this.listQuery.queryConditionJson = parseJsonItemForm([{
+                this.listQuery.queryConditionJson = util.parseJsonItemForm([{
                     fieldName: 'name', value: this.searchForm.name
                 }, {
                     fieldName: 'comments', value: this.searchForm.comments
                 }]);
-                pageTable(this.listQuery).then(response => {
+                tableService.page(this.listQuery).then(response => {
                     this.list = response.data.records;
                     this.total = response.data.total;
                     this.listLoading = false;
@@ -306,9 +306,9 @@
                 this.getList();
             },
             handleEdit(row) {
-                this.dialogStatus = row && !validateNull(row.id) ? "update" : "create";
+                this.dialogStatus = row && !validate.checkNull(row.id) ? "update" : "create";
                 if (this.dialogStatus == "create") {
-                    findSelectTable().then(response => {
+                    tableService.findSelect().then(response => {
                         this.selectTableList = response.data;
                         this.dialogBeforeFormVisible = true;
                     });
@@ -343,7 +343,7 @@
                         type: "warning"
                     }
                 ).then(() => {
-                    removeTable(row.id).then(response => {
+                    tableService.remove(row.id).then(response => {
                         this.getList();
                     });
                 });

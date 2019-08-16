@@ -84,9 +84,9 @@
         },
         watch: {
             filter(val) {
-                var array = [];
+                let array = [];
                 for (const key in this.configurationBak) {
-                    var item = this.configurationBak[key];
+                    let item = this.configurationBak[key];
                     if (item.prefix.indexOf(val) != -1) {
                         array.push(item);
                     }

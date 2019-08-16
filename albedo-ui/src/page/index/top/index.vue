@@ -51,7 +51,7 @@
 </template>
 <script>
     import {mapGetters, mapState} from "vuex";
-    import {fullscreenToggel, listenfullscreen} from "@/util/util";
+    import util from "@/util/util";
     import topMenu from "./top-menu";
 
     export default {
@@ -66,7 +66,7 @@
         created() {
         },
         mounted() {
-            listenfullscreen(this.setScreen);
+            util.listenfullscreen(this.setScreen);
         },
         computed: {
             ...mapState({
@@ -88,7 +88,7 @@
         },
         methods: {
             handleScreen() {
-                fullscreenToggel();
+                util.fullscreenToggel();
             },
             setCollapse() {
                 this.$store.commit("SET_COLLAPSE");
@@ -102,7 +102,7 @@
                     cancelButtonText: "取消",
                     type: "warning"
                 }).then(() => {
-                    this.$store.dispatch("LogOut").then(() => {
+                    this.$store.dispatch("logOut").then(() => {
                         this.$router.push({path: "/login"});
                     });
                 });

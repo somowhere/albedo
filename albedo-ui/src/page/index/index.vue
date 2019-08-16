@@ -56,7 +56,7 @@
         created() {
             //实时检测刷新token
             // this.refreshToken()
-            this.$store.dispatch("GetDicts");
+            this.$store.dispatch("getDicts");
         },
         destroyed() {
             clearInterval(this.refreshTime)
@@ -87,14 +87,14 @@
             //       debug: true,
             //     });
             //
-            //     if (validateNull(persistentToken)) {
+            //     if (checkNull(persistentToken)) {
             //       return;
             //     }
             //
             //     if (this.expires_in <= 1000 && !this.refreshLock) {
             //       this.refreshLock = true
             //       this.$store
-            //         .dispatch('RefreshToken')
+            //         .dispatch('refreshToken')
             //         .catch(() => {
             //           clearInterval(this.refreshTime)
             //         });

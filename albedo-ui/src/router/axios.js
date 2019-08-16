@@ -1,11 +1,11 @@
-import {serialize} from '@/util/util'
+import util from '@/util/util'
 import NProgress from 'nprogress' // progress bar
 import errorCode from '@/const/errorCode'
 import router from "@/router/router"
-import {Message} from 'element-ui'
 import 'nprogress/nprogress.css'
 import store from "@/store";
-import {validateNotNull} from "../util/validate";
+import validate from "@/util/validate";
+import {Message} from 'element-ui'
 import {MSG_TYPE_FAIL, MSG_TYPE_SUCCESS} from "../const/common";
 import {baseUrl} from "../config/env"; // progress bar style
 axios.defaults.timeout = 30000;
@@ -31,7 +31,7 @@ axios.interceptors.request.use(config => {
   }
   // headers中配置serialize为true开启序列化
   if (config.methods === 'post' && config.headers.serialize) {
-    config.data = serialize(config.data);
+    config.data = util.serialize(config.data);
     delete config.data.serialize
   }
   return config
@@ -46,7 +46,7 @@ axios.interceptors.response.use(res => {
   const status = Number(res.status) || 200;
   const message = res.data.message || errorCode[status] || errorCode['default'];
   if (status === 401) {
-    store.dispatch('FedLogOut').then(() => {
+    store.dispatch('fedLogOut').then(() => {
       router.push({path: '/login'})
     });
     Message({
@@ -63,7 +63,7 @@ axios.interceptors.response.use(res => {
     });
     return Promise.reject(new Error(message))
   }
-  if (status === 200 && (res.data && res.data.code === MSG_TYPE_SUCCESS) && validateNotNull(res.data.message)) {
+  if (status === 200 && (res.data && res.data.code === MSG_TYPE_SUCCESS) && validate.checkNotNull(res.data.message)) {
     Message({
       message: res.data.message,
       type: 'success'

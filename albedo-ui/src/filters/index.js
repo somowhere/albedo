@@ -11,7 +11,7 @@ function pluralize(time, label) {
 export function dateFormat(date) {
   let format = 'yyyy-MM-dd hh:mm:ss';
   if (date != 'Invalid Date') {
-    var o = {
+    let o = {
       'M+': date.getMonth() + 1, // month
       'd+': date.getDate(), // day
       'h+': date.getHours(), // hour
@@ -24,7 +24,7 @@ export function dateFormat(date) {
       format = format.replace(RegExp.$1,
         (date.getFullYear() + '').substr(4 - RegExp.$1.length))
     }
-    for (var k in o) {
+    for (let k in o) {
       if (new RegExp('(' + k + ')').test(format)) {
         format = format.replace(RegExp.$1,
           RegExp.$1.length == 1 ? o[k]

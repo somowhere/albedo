@@ -104,9 +104,9 @@
 </template>
 
 <script>
-    import {exportJobLog, pageJobLog, removeJobLog} from "./service";
+    import jobLogService from "./job-log-service";
     import {mapGetters} from "vuex";
-    import {parseJsonItemForm} from "@/util/util";
+    import util from "@/util/util";
     import CrudSelect from "@/views/avue/crud-select";
     import CrudCheckbox from "@/views/avue/crud-checkbox";
     import CrudRadio from "@/views/avue/crud-radio";
@@ -144,12 +144,12 @@
         methods: {
             getList() {
                 this.listLoading = true;
-                this.listQuery.queryConditionJson = parseJsonItemForm([
+                this.listQuery.queryConditionJson = util.parseJsonItemForm([
                     {fieldName: 'jobName', value: this.searchJobLogForm.jobName, operate: 'like', attrType: 'String'},
                     {fieldName: 'jobGroup', value: this.searchJobLogForm.jobGroup, operate: 'like', attrType: 'String'},
                     {fieldName: 'status', value: this.searchJobLogForm.status, operate: 'eq', attrType: 'String'},
                 ]);
-                pageJobLog(this.listQuery).then(response => {
+                jobLogService.page(this.listQuery).then(response => {
                     this.list = response.data.records;
                     this.total = response.data.total;
                     this.listLoading = false;
@@ -190,7 +190,7 @@
                         type: "warning"
                     }
                 ).then(() => {
-                    removeJobLog(row.id).then((data) => {
+                    jobLogService.remove(row.id).then((data) => {
                         this.getList();
                     });
                 });
@@ -201,13 +201,13 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    cleanJobLog(row.id).then((rs) => {
+                    jobLogService.clean(row.id).then((rs) => {
                         this.getList();
                     })
                 })
             },
             handleExport() {
-                exportJobLog(this.listQuery).then(response => {
+                jobLogService.export(this.listQuery).then(response => {
                     window.location.href = `${window.location.origin}` + baseUrl + "/file/download?fileName=" + encodeURI(response.data) + "&delete=" + true;
                 });
             }

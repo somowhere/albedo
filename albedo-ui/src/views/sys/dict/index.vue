@@ -6,7 +6,8 @@
           <el-card class="box-card">
             <div class="clearfix" slot="header">
               <span>字典</span>
-              <el-button @click="searchTree=(searchTree ? false:true)" class="card-heard-btn" icon="icon-filesearch" title="搜索"
+              <el-button @click="searchTree=(searchTree ? false:true)" class="card-heard-btn" icon="icon-filesearch"
+                         title="搜索"
                          type="text"></el-button>
               <el-button @click="getTreeDict()" class="card-heard-btn" icon="icon-reload" title="刷新"
                          type="text"></el-button>
@@ -109,7 +110,8 @@
 
           </el-table>
           <div class="pagination-container" v-show="!listLoading">
-            <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size" :page-sizes="[10,20,30, 50]"
+            <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size"
+                           :page-sizes="[10,20,30, 50]"
                            :total="total" @current-change="handleCurrentChange"
                            @size-change="handleSizeChange" background
                            class="pull-right" layout="total, sizes, prev, pager, next, jumper">
@@ -121,7 +123,8 @@
         <el-input placeholder="输入关键字进行过滤"
                   v-model="filterParentTreeDictText">
         </el-input>
-        <el-tree :data="treeDictSelectData" :default-checked-keys="checkedKeys" :filter-node-method="filterNode" @node-click="clickNodeSelectData"
+        <el-tree :data="treeDictSelectData" :default-checked-keys="checkedKeys" :filter-node-method="filterNode"
+                 @node-click="clickNodeSelectData"
                  check-strictly
                  class="filter-tree" default-expand-all highlight-current node-key="id"
                  ref="selectParentDictTree">
@@ -169,13 +172,12 @@
 </template>
 
 <script>
-    import {fetchDictTree, findDict, lockDict, pageDict, removeDict, saveDict} from "./service";
+    import dictService from "./dict-service";
     import {mapGetters} from 'vuex';
-    import {parseJsonItemForm, parseTreeData} from "@/util/util";
-    import {isValidateUnique, toStr, validateNotNull} from "@/util/validate";
+    import util from "@/util/util";
+    import validate from "@/util/validate";
     import CrudSelect from "@/views/avue/crud-select";
     import CrudRadio from "@/views/avue/crud-radio";
-    import {objectToString} from "../../../util/validate";
 
     export default {
         name: 'Dict',
@@ -217,7 +219,7 @@
                     description: undefined
                 },
                 validateUnique: (rule, value, callback) => {
-                    isValidateUnique(rule, value, callback, '/sys/dict/checkByProperty?id=' + toStr(this.form.id))
+                    validate.isUnique(rule, value, callback, '/sys/dict/checkByProperty?id=' + validate.toStr(this.form.id))
                 },
                 dialogStatus: 'create',
                 textMap: {
@@ -253,12 +255,12 @@
             getList() {
                 this.listLoading = true;
                 // this.listQuery.isAsc = false;
-                this.listQuery.queryConditionJson = parseJsonItemForm([{
+                this.listQuery.queryConditionJson = util.parseJsonItemForm([{
                     fieldName: 'name', value: this.searchForm.name
                 }, {
                     fieldName: 'parent_id', value: this.searchForm.parentId, operate: 'eq'
                 }]);
-                pageDict(this.listQuery).then(response => {
+                dictService.page(this.listQuery).then(response => {
                     this.list = response.data.records;
                     this.total = response.data.total;
                     this.listLoading = false;
@@ -275,8 +277,8 @@
                 this.getList()
             },
             getTreeDict() {
-                fetchDictTree().then(response => {
-                    this.treeDictData = parseTreeData(response.data);
+                dictService.fetchTree().then(response => {
+                    this.treeDictData = util.parseTreeData(response.data);
                     this.currentNode = this.treeDictData[0];
                     this.searchForm.parentId = this.treeDictData[0].id;
                     setTimeout(() => {
@@ -300,8 +302,8 @@
                 this.dialogDictVisible = false;
             },
             handleParentDictTree() {
-                fetchDictTree({extId: this.form.id}).then(response => {
-                    this.treeDictSelectData = parseTreeData(response.data);
+                fetchTree({extId: this.form.id}).then(response => {
+                    this.treeDictSelectData = util.parseTreeData(response.data);
                     this.dialogDictVisible = true;
                     setTimeout(() => {
                         this.$refs['selectParentDictTree'].setCurrentKey(this.form.parentId ? this.form.parentId : null);
@@ -329,7 +331,7 @@
             },
             handleEdit(row) {
                 this.resetForm();
-                this.dialogStatus = row && validateNotNull(row.id) ? "update" : "create";
+                this.dialogStatus = row && validate.checkNotNull(row.id) ? "update" : "create";
                 if (this.dialogStatus == "create") {
                     if (this.currentNode) {
                         this.form.parentId = this.currentNode.id;
@@ -337,16 +339,16 @@
                     }
                     this.dialogFormVisible = true;
                 } else {
-                    findDict(row.id).then(response => {
+                    dictService.find(row.id).then(response => {
                         this.form = response.data;
                         this.disableSelectParent = this.form.parentName ? false : true;
-                        this.form.show = objectToString(this.form.show);
+                        this.form.show = validate.objectToString(this.form.show);
                         this.dialogFormVisible = true;
                     });
                 }
             },
             handleLock: function (row) {
-                lockDict(row.id).then(response => {
+                dictService.lock(row.id).then(response => {
                     this.getList();
                 });
             },
@@ -356,7 +358,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    removeDict(row.id).then(response => {
+                    dictService.remove(row.id).then(response => {
                         this.getList();
                     })
                 })
@@ -364,7 +366,7 @@
             save() {
                 this.$refs['form'].validate(valid => {
                     if (valid) {
-                        saveDict(this.form).then(response => {
+                        dictService.save(this.form).then(response => {
                             this.getList();
                             this.dialogFormVisible = false;
                         })

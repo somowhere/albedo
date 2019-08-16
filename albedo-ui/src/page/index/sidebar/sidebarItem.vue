@@ -5,14 +5,14 @@
                     :index="item[pathKey]"
                     :key="item[labelKey]"
                     @click="open(item)"
-                    v-if="validateNull(item[childrenKey]) && vaildRoles(item) && vaildMenuType(item)">
+                    v-if="checkNull(item[childrenKey]) && vaildRoles(item) && vaildMenuType(item)">
         <i :class="item[iconKey]"></i>
         <span :alt="item[pathKey]"
               slot="title">{{item[labelKey]}}</span>
       </el-menu-item>
       <el-submenu :index="item[pathKey]"
                   :key="item[labelKey]"
-                  v-else-if="!validateNull(item[childrenKey])&& vaildRoles(item) && vaildMenuType(item)">
+                  v-else-if="!checkNull(item[childrenKey])&& vaildRoles(item) && vaildMenuType(item)">
         <template slot="title">
           <i :class="item[iconKey]"></i>
           <span :class="{'el-menu--display':collapse && first}"
@@ -23,7 +23,7 @@
                         :index="child[pathKey],cindex"
                         :key="child[labelKey]"
                         @click="open(child)"
-                        v-if="validateNull(child[childrenKey]) && vaildMenuType(child) ">
+                        v-if="checkNull(child[childrenKey]) && vaildMenuType(child) ">
             <i :class="child[iconKey]"></i>
             <span slot="title">{{child[labelKey]}}</span>
           </el-menu-item>
@@ -40,7 +40,7 @@
 </template>
 <script>
     import {mapGetters} from "vuex";
-    import {validateNull} from "@/util/validate";
+    import validate from "@/util/validate";
     import config from "./config.js";
 
     export default {
@@ -107,8 +107,8 @@
             vaildMenuType(item) {
                 return item.type === "0";
             },
-            validateNull(val) {
-                return validateNull(val);
+            checkNull(val) {
+                return validate.checkNull(val);
             },
             open(item) {
                 if (this.screen <= 1) this.$store.commit("SET_COLLAPSE");

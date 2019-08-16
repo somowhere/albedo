@@ -10,7 +10,7 @@
             <el-input class="filter-item input-normal" v-model="searchJobForm.group"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button @click="handleFilter" icon="el-icon-search" size="small" type="primary">查询</el-button>
+            <el-button @click="handleFilter" icon="el-icon-search" size="small" type="primado">查询</el-button>
             <el-button @click="searchReset" icon="icon-rest" size="small">重置</el-button>
           </el-form-item>
         </el-form>
@@ -20,10 +20,10 @@
       <div class="table-menu">
         <div class="table-menu-left">
           <el-button-group>
-            <el-button @click="handleEdit" class="filter-item" icon="edit" size="mini" type="primary"
+            <el-button @click="handleEdit" class="filter-item" icon="edit" size="mini" type="primado"
                        v-if="quartz_job_edit">添加
             </el-button>
-            <el-button @click="handleEdit" class="filter-item" icon="edit" size="mini" type="primary"
+            <el-button @click="handleEdit" class="filter-item" icon="edit" size="mini" type="primado"
                        v-if="quartz_job_log_view">执行日志
             </el-button>
           </el-button-group>
@@ -101,7 +101,8 @@
       <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
         <el-form :model="form" label-width="100px" ref="form">
           <el-table-column fixed="left" type="index" width="60"></el-table-column>
-          <el-form-item :rules="[{required: true,message: '请输入任务名称'},{min: 0,max: 64,message: '长度在 0 到 64 个字符'},]" label="任务名称"
+          <el-form-item :rules="[{required: true,message: '请输入任务名称'},{min: 0,max: 64,message: '长度在 0 到 64 个字符'},]"
+                        label="任务名称"
                         prop="name">
             <el-input v-model="form.name"></el-input>
 
@@ -109,18 +110,20 @@
           <el-form-item :rules="[{required: true,message: '请输入任务组名'}]" label="任务组名" prop="group">
             <CrudSelect :dic="jobGroupOptions" v-model="form.group"></CrudSelect>
           </el-form-item>
-          <el-form-item :rules="[{required: true,message: '请输入调用目标'},{min: 0,max: 500,message: '长度在 0 到 500 个字符'},]" label="调用目标"
+          <el-form-item :rules="[{required: true,message: '请输入调用目标'},{min: 0,max: 500,message: '长度在 0 到 500 个字符'},]"
+                        label="调用目标"
                         prop="invokeTarget">
             <el-input v-model="form.invokeTarget"></el-input>
             <div>
-              <el-tag size="mini" type="info">Bean调用示例：simpleTask.ryParams('ry')</el-tag>
-              <el-tag size="mini" type="info">Class类调用示例：com.ruoyi.quartz.task.RyTask.ryParams('ry')
+              <el-tag size="mini" type="info">Bean调用示例：simpleTask.doParams('albedo')</el-tag>
+              <el-tag size="mini" type="info">
+                Class类调用示例：com.albedo.java.modules.quartz.task.SimpleTask.doParams('albedo')
                 参数说明：支持字符串，布尔类型，长整型，浮点型，整型
               </el-tag>
               <el-tag size="mini" type="info">参数说明：支持字符串，布尔类型，长整型，浮点型，整型</el-tag>
             </div>
           </el-form-item>
-          <el-form-item :rules="[{min: 0,max: 255,message: '长度在 0 到 255 个字符'},]" label="cron表达式" prop="cronExpression">
+          <el-form-item :rules="[{validator: validateCronExpression}]" label="cron表达式" prop="cronExpression">
             <el-input v-model="form.cronExpression"></el-input>
 
           </el-form-item>
@@ -144,7 +147,7 @@
         </el-form>
         <div class="dialog-footer" slot="footer">
           <el-button @click="cancel()">取 消</el-button>
-          <el-button @click="save()" type="primary">保 存</el-button>
+          <el-button @click="save()" type="primado">保 存</el-button>
         </div>
       </el-dialog>
     </basic-container>
@@ -152,19 +155,9 @@
 </template>
 
 <script>
-    import {
-        availableJob,
-        concurrentJob,
-        findJob,
-        pageJob,
-        removeJob,
-        runJob,
-        saveJob,
-        validateUniqueJob
-    } from "./service";
+    import jobService from "./job-service";
     import {mapGetters} from "vuex";
-    import {isValidateDigits, isValidateNumber, objectToString, validateNull} from "@/util/validate";
-    import {parseJsonItemForm} from "@/util/util";
+    import util from "@/util/util";
     import CrudSelect from "@/views/avue/crud-select";
     import CrudCheckbox from "@/views/avue/crud-checkbox";
     import CrudRadio from "@/views/avue/crud-radio";
@@ -194,14 +187,8 @@
                     available: undefined,
                     description: undefined,
                 },
-                validateUnique: (rule, value, callback) => {
-                    validateUniqueJob(rule, value, callback, this.form.id)
-                },
-                validateNumber: (rule, value, callback) => {
-                    isValidateNumber(rule, value, callback)
-                },
-                validateDigits: (rule, value, callback) => {
-                    isValidateDigits(rule, value, callback)
+                validateCronExpression: (rule, value, callback) => {
+                    jobService.validateCronExpression(rule, value, callback, this.form.id)
                 },
                 misfirePolicyOptions: undefined,
                 concurrentOptions: undefined,
@@ -234,11 +221,11 @@
         methods: {
             getList() {
                 this.listLoading = true;
-                this.listQuery.queryConditionJson = parseJsonItemForm([
+                this.listQuery.quedoConditionJson = util.parseJsonItemForm([
                     {fieldName: 'name', value: this.searchJobForm.name, operate: 'like', attrType: 'String'},
                     {fieldName: 'group', value: this.searchJobForm.group, operate: 'like', attrType: 'String'},
                 ]);
-                pageJob(this.listQuery).then(response => {
+                jobService.page(this.listQuery).then(response => {
                     this.list = response.data.records;
                     this.total = response.data.total;
                     this.listLoading = false;
@@ -271,11 +258,11 @@
             },
             handleEdit(row) {
                 this.resetForm();
-                this.dialogStatus = row && !validateNull(row.id) ? "update" : "create";
+                this.dialogStatus = row && !checkNull(row.id) ? "update" : "create";
                 if (this.dialogStatus == "create") {
                     this.dialogFormVisible = true;
                 } else {
-                    findJob(row.id).then(response => {
+                    jobService.find(row.id).then(response => {
                         this.form = response.data;
                         this.form.misfirePolicy = objectToString(this.form.misfirePolicy);
                         this.form.concurrent = objectToString(this.form.concurrent);
@@ -295,7 +282,7 @@
                         type: "warning"
                     }
                 ).then(() => {
-                    availableJob(id).then((data) => {
+                    jobService.available(id).then((data) => {
                         this.getList();
                     });
                 });
@@ -310,7 +297,7 @@
                         type: "warning"
                     }
                 ).then(() => {
-                    concurrentJob(id).then((data) => {
+                    jobService.concurrent(id).then((data) => {
                         this.getList();
                     });
                 });
@@ -323,7 +310,7 @@
                 const set = this.$refs;
                 set['form'].validate(valid => {
                     if (valid) {
-                        saveJob(this.form).then((data) => {
+                        jobService.save(this.form).then((data) => {
                             this.getList();
                             this.cancel()
                         });
@@ -342,7 +329,7 @@
                         type: "warning"
                     }
                 ).then(() => {
-                    runJob(row.id).then((data) => {
+                    jobService.run(row.id).then((data) => {
                         this.getList();
                     });
                 });
@@ -357,7 +344,7 @@
                         type: "warning"
                     }
                 ).then(() => {
-                    removeJob(row.id).then((data) => {
+                    jobService.remove(row.id).then((data) => {
                         this.getList();
                     });
                 });

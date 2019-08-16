@@ -132,7 +132,7 @@
 </template>
 
 <script>
-    import {findTable, saveTable} from "./service";
+    import tableService from "./table-service";
     import {mapGetters} from 'vuex';
     import CrudSelect from "@/views/avue/crud-select";
     import CrudRadio from "@/views/avue/crud-radio";
@@ -183,7 +183,7 @@
         },
         methods: {
             showEditForm(params) {
-                findTable(params).then(response => {
+                tableService.find(params).then(response => {
                     let data = response.data;
                     this.form = data.tableVo;
                     this.javaTypeList = data.javaTypeList;
@@ -202,7 +202,7 @@
                 set['form'].validate(valid => {
                     if (valid) {
                         // this.form.password = undefined;
-                        saveTable(this.form).then(response => {
+                        tableService.save(this.form).then(response => {
                             this.cancel('form');
                             this.$store.commit("DEL_TAG", this.$store.getters.tag);
                             this.$router.push({path: '/gen/table'})

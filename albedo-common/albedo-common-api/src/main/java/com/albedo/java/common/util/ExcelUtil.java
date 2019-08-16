@@ -489,7 +489,7 @@ public class ExcelUtil<T> {
 				String dateFormat = attr.dateFormat();
 				String readConverterExp = attr.readConverterExp();
 				String dictType = attr.dictType();
-				if (StringUtil.isNotEmpty(dateFormat) && ObjectUtil.isNotNull(value)) {
+				if (StringUtil.isNotEmpty(dateFormat) && ObjectUtil.isNotNull(value) && (value instanceof Date || value instanceof java.sql.Date)) {
 					cell.setCellValue(com.albedo.java.common.core.util.DateUtil.format((Date) value, dateFormat));
 				} else if (StringUtil.isNotEmpty(dictType) && ObjectUtil.isNotNull(value)) {
 					cell.setCellValue(getDataDictValue(dictType, value));

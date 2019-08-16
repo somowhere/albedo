@@ -98,12 +98,12 @@
 </template>
 
 <script>
-    import {pageLogLogin, removeLogLogin} from "./service";
     import {mapGetters} from "vuex";
-    import {parseJsonItemForm} from "@/util/util";
+    import util from "@/util/util";
     import CrudSelect from "@/views/avue/crud-select";
     import CrudCheckbox from "@/views/avue/crud-checkbox";
     import CrudRadio from "@/views/avue/crud-radio";
+    import logLoginService from "./log-login-service";
 
     export default {
         name: "table_sys_logLogin",
@@ -143,7 +143,7 @@
         methods: {
             getList() {
                 this.listLoading = true;
-                this.listQuery.queryConditionJson = parseJsonItemForm([
+                this.listQuery.queryConditionJson = util.parseJsonItemForm([
                     {
                         fieldName: 'loginName',
                         value: this.searchLogLoginForm.loginName,
@@ -157,7 +157,7 @@
                         attrType: 'String'
                     },
                 ]);
-                pageLogLogin(this.listQuery).then(response => {
+                logLoginService.page(this.listQuery).then(response => {
                     this.list = response.data.records;
                     this.total = response.data.total;
                     this.listLoading = false;
@@ -198,7 +198,7 @@
                         type: "warning"
                     }
                 ).then(() => {
-                    removeLogLogin(row.id).then((data) => {
+                    logLoginService.remove(row.id).then((data) => {
                         this.getList();
                     });
                 });

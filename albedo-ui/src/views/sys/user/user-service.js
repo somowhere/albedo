@@ -17,47 +17,42 @@
 
 import request from '@/router/axios'
 
-export function fetchDictTree(query) {
-  return request({
-    url: '/sys/dict/tree',
-    method: 'get',
-    params: query
-  })
-}
+const userService = {
+  page(query) {
+    return request({
+      url: '/sys/user/',
+      method: 'get',
+      params: query
+    })
+  },
 
-export function pageDict(query) {
-  return request({
-    url: '/sys/dict/',
-    method: 'get',
-    params: query
-  })
-}
+  save(obj) {
+    return request({
+      url: '/sys/user/',
+      method: 'post',
+      data: obj
+    })
+  },
 
-export function saveDict(obj) {
-  return request({
-    url: '/sys/dict/',
-    method: 'post',
-    data: obj
-  })
-}
+  find(id) {
+    return request({
+      url: '/sys/user/' + id,
+      method: 'get'
+    })
+  },
 
-export function findDict(id) {
-  return request({
-    url: '/sys/dict/' + id,
-    method: 'get'
-  })
-}
+  remove(id) {
+    return request({
+      url: '/sys/user/' + id,
+      method: 'delete'
+    })
+  },
 
-export function removeDict(id) {
-  return request({
-    url: '/sys/dict/' + id,
-    method: 'delete'
-  })
-}
-
-export function lockDict(id) {
-  return request({
-    url: '/sys/dict/' + id,
-    method: 'put'
-  })
-}
+  lock(id) {
+    return request({
+      url: '/sys/user/' + id,
+      method: 'put'
+    })
+  }
+};
+export default userService

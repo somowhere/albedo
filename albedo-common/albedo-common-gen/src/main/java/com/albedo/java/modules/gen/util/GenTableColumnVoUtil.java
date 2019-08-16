@@ -38,7 +38,7 @@ public class GenTableColumnVoUtil {
 			javaType = "";
 		}
 		if (javaType.endsWith(CommonConstants.TYPE_STRING) && jdbcType != null) {
-			Integer size = "text".equals(jdbcType) || "clob".equalsIgnoreCase(jdbcType) || "nclob".equalsIgnoreCase(jdbcType) ? 65535 : Integer.valueOf(jdbcType.substring(jdbcType.indexOf("(") + 1, jdbcType.length() - 1));
+			Integer size = "text".equals(jdbcType) || "blob".equalsIgnoreCase(jdbcType) || "clob".equalsIgnoreCase(jdbcType) || "nclob".equalsIgnoreCase(jdbcType) ? 65535 : Integer.valueOf(jdbcType.substring(jdbcType.indexOf("(") + 1, jdbcType.length() - 1));
 			result = (new StringBuilder()).append(result).append(String.format("@Size(max=%s)", size)).toString();
 		}
 		if (javaType.endsWith(CommonConstants.TYPE_LONG) || javaType.endsWith(CommonConstants.TYPE_INTEGER) || javaType.endsWith(CommonConstants.TYPE_SHORT) || javaType.endsWith("Byte")) {

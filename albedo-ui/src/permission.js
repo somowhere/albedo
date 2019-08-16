@@ -4,10 +4,10 @@
  */
 import router from './router/router'
 import store from '@/store'
-import {validateNull} from '@/util/validate'
+import validate from '@/util/validate'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css'
-import {validateNotNull} from "./util/validate"; // progress bar style
+
 NProgress.configure({showSpinner: false});
 const lockPage = store.getters.website.lockPage; // 锁屏页
 
@@ -23,7 +23,7 @@ router.beforeEach((to, from, next) => {
     to.meta.$keepAlive = true
   } else {
     NProgress.start();
-    if (to.meta.keepAlive === true && validateNull(to.meta.$keepAlive)) {
+    if (to.meta.keepAlive === true && validate.checkNull(to.meta.$keepAlive)) {
       to.meta.$keepAlive = true
     } else {
       to.meta.$keepAlive = false
@@ -33,7 +33,7 @@ router.beforeEach((to, from, next) => {
   let addTag = function () {
     const value = to.query.src || to.fullPath;
     const label = to.query.label || to.name;
-    if (meta.isTab !== false && !validateNull(value) && !validateNull(label)) {
+    if (meta.isTab !== false && !validate.checkNull(value) && !validate.checkNull(label)) {
       store.commit('ADD_TAG', {
         label: label,
         value: value,
@@ -44,9 +44,9 @@ router.beforeEach((to, from, next) => {
     }
   };
   if (!(to.path === '/login')) {
-    if (validateNull(store.getters.userVo)) {
-      store.dispatch('GetUserVo').then(() => {
-        if (validateNotNull(store.getters.userVo)) {
+    if (validate.checkNull(store.getters.userVo)) {
+      store.dispatch('getUserVo').then(() => {
+        if (validate.checkNotNull(store.getters.userVo)) {
           if (to.path === '/login') {
             next({path: '/'})
           } else {
@@ -62,7 +62,7 @@ router.beforeEach((to, from, next) => {
           }
         }
       }).catch((e) => {
-        store.dispatch('FedLogOut').then(() => {
+        store.dispatch('fedLogOut').then(() => {
           next({path: '/login'})
         })
       })
@@ -71,7 +71,7 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else {
-    if (validateNull(store.getters.userVo)) {
+    if (validate.checkNull(store.getters.userVo)) {
       addTag();
       next()
     } else {

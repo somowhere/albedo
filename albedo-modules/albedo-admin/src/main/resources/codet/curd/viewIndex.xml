@@ -116,8 +116,8 @@
 <script>
 import { page${ClassName}, find${ClassName}, save${ClassName}, remove${ClassName}, validateUnique${ClassName}} from "./service";
 import { mapGetters } from "vuex";
-import {isValidateUnique, isValidateNumber, isValidateDigits, objectToString, validateNull} from "@/util/validate";
-import {parseJsonItemForm} from "@/util/util";
+import validate from "@/util/validate";
+import util from "@/util/util";
 import CrudSelect from "@/views/avue/crud-select";
 import CrudCheckbox from "@/views/avue/crud-checkbox";
 import CrudRadio from "@/views/avue/crud-radio";
@@ -145,13 +145,13 @@ export default {
         </#list>
       },
       validateUnique: (rule, value, callback) => {
-          validateUnique${ClassName}(rule, value, callback, this.form.id)
+          validate.isUnique${ClassName}(rule, value, callback, this.form.id)
         },
         validateNumber: (rule, value, callback) => {
-          isValidateNumber(rule, value, callback)
+          validate.isNumber(rule, value, callback)
         },
         validateDigits: (rule, value, callback) => {
-          isValidateDigits(rule, value, callback)
+          validate.isDigits(rule, value, callback)
         },
       <#list table.columnList as c>
         <#if c.dictType??&& c.dictType != ''>
@@ -183,7 +183,7 @@ export default {
   methods: {
     getList() {
       this.listLoading = true;
-      this.listQuery.queryConditionJson = parseJsonItemForm([
+      this.listQuery.queryConditionJson = util.parseJsonItemForm([
       <#list table.columnList as c><#if c.query>
       {fieldName: '${c.javaFieldId}',value:this.search${ClassName}Form.${c.javaFieldId},operate:'${c.queryType}',attrType:'${c.javaType}'},
       </#if></#list>
@@ -221,13 +221,13 @@ export default {
     },
     handleEdit(row) {
       this.resetForm();
-      this.dialogStatus = row && !validateNull(row.id)? "update" : "create";
+      this.dialogStatus = row && !validate.checkNull(row.id)? "update" : "create";
       if(this.dialogStatus == "create"){
         this.dialogFormVisible = true;
       }else{
         find${ClassName}(row.id).then(response => {
             this.form = response.data;<#list table.columnList as c><#if c.dictType??&& c.dictType != ''>
-            this.form.${c.javaFieldId}=objectToString(this.form.${c.javaFieldId});</#if></#list>
+            this.form.${c.javaFieldId}=validate.objectToString(this.form.${c.javaFieldId});</#if></#list>
             this.dialogFormVisible = true;
           });
       }

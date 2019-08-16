@@ -17,25 +17,50 @@
 
 import request from '@/router/axios'
 
-export function pageLog(query) {
-  return request({
-    url: '/sys/log-operate/',
-    method: 'get',
-    params: query
-  })
-}
+const dictService = {
+  fetchTree(query) {
+    return request({
+      url: '/sys/dict/tree',
+      method: 'get',
+      params: query
+    })
+  },
 
-export function exportLog(query) {
-  return request({
-    url: '/sys/log-operate/export',
-    method: 'get',
-    params: query
-  })
-}
+  page(query) {
+    return request({
+      url: '/sys/dict/',
+      method: 'get',
+      params: query
+    })
+  },
 
-export function removeLog(id) {
-  return request({
-    url: '/sys/log-operate/' + id,
-    method: 'delete'
-  })
-}
+  save(obj) {
+    return request({
+      url: '/sys/dict/',
+      method: 'post',
+      data: obj
+    })
+  },
+
+  find(id) {
+    return request({
+      url: '/sys/dict/' + id,
+      method: 'get'
+    })
+  },
+
+  remove(id) {
+    return request({
+      url: '/sys/dict/' + id,
+      method: 'delete'
+    })
+  },
+
+  lock(id) {
+    return request({
+      url: '/sys/dict/' + id,
+      method: 'put'
+    })
+  }
+};
+export default dictService

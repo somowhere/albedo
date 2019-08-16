@@ -1,6 +1,7 @@
 package com.albedo.java.modules.quartz.domain.vo;
 
 import com.albedo.java.common.core.annotation.ExcelField;
+import com.albedo.java.common.core.util.DateUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,7 @@ public class JobLogExcelVo implements Serializable {
 	 * ID
 	 */
 	@ExcelField(title = "日志序号")
-	private String jobLogId;
+	private String id;
 
 	/**
 	 * 任务名称
@@ -60,13 +61,13 @@ public class JobLogExcelVo implements Serializable {
 	/**
 	 * 开始时间
 	 */
-	@ExcelField(title = "开始时间")
+	@ExcelField(title = "开始时间", dateFormat = DateUtil.TIME_FORMAT)
 	private Date startTime;
 
 	/**
 	 * 结束时间
 	 */
-	@ExcelField(title = "结束时间")
+	@ExcelField(title = "结束时间", dateFormat = DateUtil.TIME_FORMAT)
 	private Date endTime;
 
 	/**

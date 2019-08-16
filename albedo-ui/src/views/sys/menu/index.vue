@@ -7,7 +7,8 @@
           <el-card class="box-card">
             <div class="clearfix" slot="header">
               <span>菜单</span>
-              <el-button @click="searchTree=(searchTree ? false:true)" class="card-heard-btn" icon="icon-filesearch" title="搜索"
+              <el-button @click="searchTree=(searchTree ? false:true)" class="card-heard-btn" icon="icon-filesearch"
+                         title="搜索"
                          type="text"></el-button>
               <el-button @click="getTreeMenu()" class="card-heard-btn" icon="icon-reload" title="刷新"
                          type="text"></el-button>
@@ -117,7 +118,8 @@
               </template>
             </el-table-column>
 
-            <el-table-column align="center" fixed="right" label="操作" v-if="sys_menu_edit || sys_menu_lock || sys_menu_del"
+            <el-table-column align="center" fixed="right" label="操作"
+                             v-if="sys_menu_edit || sys_menu_lock || sys_menu_del"
                              width="100">
               <template slot-scope="scope">
                 <el-button @click="handleEdit(scope.row)" icon="icon-edit" title="编辑" type="text" v-if="sys_menu_edit">
@@ -130,7 +132,8 @@
 
           </el-table>
           <div class="pagination-container" v-show="!listLoading">
-            <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size" :page-sizes="[10,20,30, 50]"
+            <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size"
+                           :page-sizes="[10,20,30, 50]"
                            :total="total" @current-change="handleCurrentChange"
                            @size-change="handleSizeChange" background
                            class="pull-right" layout="total, sizes, prev, pager, next, jumper">
@@ -142,7 +145,8 @@
         <el-input placeholder="输入关键字进行过滤"
                   v-model="filterParentTreeMenuText">
         </el-input>
-        <el-tree :data="treeMenuSelectData" :default-checked-keys="checkedKeys" :filter-node-method="filterNode" @node-click="clickNodeSelectData"
+        <el-tree :data="treeMenuSelectData" :default-checked-keys="checkedKeys" :filter-node-method="filterNode"
+                 @node-click="clickNodeSelectData"
                  check-strictly
                  class="filter-tree" default-expand-all highlight-current node-key="id"
                  ref="selectParentMenuTree">
@@ -3377,13 +3381,12 @@
 </template>
 
 <script>
-    import {fetchMenuTree, findMenu, lockMenu, pageMenu, removeMenu, saveMenu} from "./service";
+    import menuService from "./menu-service";
     import {mapGetters} from 'vuex';
-    import {parseJsonItemForm, parseTreeData} from "@/util/util";
-    import {isValidateUnique, toStr, validateNotNull} from "@/util/validate";
+    import util from "@/util/util";
+    import validate from "@/util/validate";
     import CrudSelect from "@/views/avue/crud-select";
     import CrudRadio from "@/views/avue/crud-radio";
-    import {objectToString} from "../../../util/validate";
 
     export default {
         name: 'Menu',
@@ -3429,7 +3432,7 @@
                     description: undefined
                 },
                 validateUnique: (rule, value, callback) => {
-                    isValidateUnique(rule, value, callback, '/sys/menu/checkByProperty?id=' + toStr(this.form.id))
+                    validate.isUnique(rule, value, callback, '/sys/menu/checkByProperty?id=' + validate.toStr(this.form.id))
                 },
                 dialogStatus: 'create',
                 textMap: {
@@ -3468,14 +3471,14 @@
         methods: {
             getList() {
                 this.listLoading = true;
-                this.listQuery.queryConditionJson = parseJsonItemForm([{
+                this.listQuery.queryConditionJson = util.parseJsonItemForm([{
                     fieldName: 'name', value: this.searchForm.name
                 }, {
                     fieldName: 'component', value: this.searchForm.component
                 }, {
                     fieldName: 'parent_id', value: this.searchForm.parentId, operate: 'eq'
                 }]);
-                pageMenu(this.listQuery).then(response => {
+                menuService.page(this.listQuery).then(response => {
                     this.list = response.data.records;
                     this.total = response.data.total;
                     this.listLoading = false;
@@ -3492,8 +3495,8 @@
                 this.getList()
             },
             getTreeMenu() {
-                fetchMenuTree().then(response => {
-                    this.treeMenuData = parseTreeData(response.data);
+                menuService.fetchTree().then(response => {
+                    this.treeMenuData = util.parseTreeData(response.data);
                     this.currentNode = this.treeMenuData[0];
                     this.searchForm.parentId = this.treeMenuData[0].id;
                     setTimeout(() => {
@@ -3517,8 +3520,8 @@
                 this.dialogMenuVisible = false;
             },
             handelParentMenuTree() {
-                fetchMenuTree({extId: this.form.id}).then(response => {
-                    this.treeMenuSelectData = parseTreeData(response.data);
+                menuService.fetchTree({extId: this.form.id}).then(response => {
+                    this.treeMenuSelectData = util.parseTreeData(response.data);
                     this.dialogMenuVisible = true;
                     setTimeout(() => {
                         this.$refs['selectParentMenuTree'].setCurrentKey(this.form.parentId ? this.form.parentId : null);
@@ -3546,7 +3549,7 @@
             },
             handleEdit(row) {
                 this.resetForm();
-                this.dialogStatus = row && validateNotNull(row.id) ? "update" : "create";
+                this.dialogStatus = row && validate.checkNotNull(row.id) ? "update" : "create";
                 if (this.dialogStatus == "create") {
                     if (this.currentNode) {
                         this.form.parentId = this.currentNode.id;
@@ -3554,16 +3557,16 @@
                     }
                     this.dialogFormVisible = true;
                 } else {
-                    findMenu(row.id).then(response => {
+                    menuService.find(row.id).then(response => {
                         this.form = response.data;
                         this.disableSelectMenuParent = this.form.parentName ? false : true;
-                        this.form.show = objectToString(this.form.show);
+                        this.form.show = validate.objectToString(this.form.show);
                         this.dialogFormVisible = true;
                     });
                 }
             },
             handleLock: function (row) {
-                lockMenu(row.id).then(response => {
+                menuService.lock(row.id).then(response => {
                     this.getList();
                 });
             },
@@ -3573,7 +3576,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    removeMenu(row.id).then(response => {
+                    menuService.remove(row.id).then(response => {
                         this.getList();
                     })
                 })
@@ -3584,7 +3587,7 @@
             save() {
                 this.$refs['form'].validate(valid => {
                     if (valid) {
-                        saveMenu(this.form).then(response => {
+                        menuService.save(this.form).then(response => {
                             this.getList();
                             this.dialogFormVisible = false;
                         })

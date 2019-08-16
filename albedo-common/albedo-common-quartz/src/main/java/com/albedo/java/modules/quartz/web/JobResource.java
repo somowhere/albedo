@@ -131,6 +131,12 @@ public class JobResource extends DataVoResource<JobService, JobDataVo> {
 		service.concurrent(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
 		return R.buildOk("操作成功");
 	}
-
+	/**
+	 * 校验cron表达式是否有效
+	 */
+	@GetMapping("/check-cron-expression")
+	public boolean checkCronExpressionIsValid(JobDataVo jobDataVo){
+		return service.checkCronExpressionIsValid(jobDataVo.getCronExpression());
+	}
 
 }
