@@ -7,7 +7,6 @@ import com.albedo.java.common.core.util.DefaultProfileUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.security.filter.BodyFilter;
 import com.albedo.java.common.security.filter.CachingHttpHeadersFilter;
-import com.albedo.java.common.security.filter.PasswordDecoderFilter;
 import io.undertow.UndertowOptions;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -16,7 +15,6 @@ import org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFa
 import org.springframework.boot.web.server.MimeMappings;
 import org.springframework.boot.web.server.WebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
@@ -53,9 +51,6 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
 
 	private final ApplicationProperties applicationProperties;
 
-	private final PasswordDecoderFilter passwordDecoderFilter;
-
-
 	@Override
 	public void onStartup(ServletContext servletContext) {
 		if (env.getActiveProfiles().length != 0) {
@@ -77,15 +72,6 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
 		bodyFilter.setAsyncSupported(true);
 
 		log.info("Web application fully configured");
-	}
-
-	@Bean
-	public FilterRegistrationBean<PasswordDecoderFilter> passwordDecoderFilterRegistrationBean() {
-		log.debug("Registering passwordDecoderFilter");
-		FilterRegistrationBean<PasswordDecoderFilter> registrationBean = new FilterRegistrationBean<>();
-		registrationBean.setFilter(this.passwordDecoderFilter);
-		registrationBean.addUrlPatterns(applicationProperties.getAdminPath("/*"));
-		return registrationBean;
 	}
 
 	/**

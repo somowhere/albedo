@@ -9,8 +9,8 @@ import com.albedo.java.common.core.util.AddressUtil;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.WebUtil;
 import com.albedo.java.common.security.service.UserDetail;
-import com.albedo.java.modules.sys.domain.UserOnline;
 import com.albedo.java.common.util.RedisUtil;
+import com.albedo.java.modules.sys.domain.UserOnline;
 import com.albedo.java.modules.sys.domain.vo.account.LoginVo;
 import com.google.common.collect.Maps;
 import lombok.SneakyThrows;
@@ -30,7 +30,6 @@ public class LoginUtil {
 	public final static String LOGIN_FAIL_MAP = "loginFailMap";
 
 
-
 	@SneakyThrows
 	public static void checkCode(@Valid LoginVo loginVo) {
 		RedisTemplate redisTemplate = RedisUtil.getRedisTemplate();
@@ -45,26 +44,13 @@ public class LoginUtil {
 			throw new ValidateCodeException("随机码不合法");
 		}
 
-		Object codeObj = redisTemplate.opsForValue().get(key);
-
-		if (codeObj == null) {
+		String saveCode = RedisUtil.getCacheString(key);
+		RedisUtil.delete(key);
+		if (StrUtil.isEmpty(saveCode) || !StrUtil.equals(saveCode, code)) {
 			throw new ValidateCodeException("验证码不合法");
 		}
 
-		String saveCode = codeObj.toString();
-		if (StrUtil.isBlank(saveCode)) {
-			redisTemplate.delete(key);
-			throw new ValidateCodeException("验证码不合法");
-		}
-
-		if (!StrUtil.equals(saveCode, code)) {
-			redisTemplate.delete(key);
-			throw new ValidateCodeException("验证码不合法");
-		}
-
-		redisTemplate.delete(key);
 	}
-
 
 
 	/**

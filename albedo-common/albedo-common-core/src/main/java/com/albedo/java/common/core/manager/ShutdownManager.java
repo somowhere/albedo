@@ -12,31 +12,25 @@ import javax.annotation.PreDestroy;
  * @author cj
  */
 @Component
-public class ShutdownManager
-{
-    private static final Logger logger = LoggerFactory.getLogger("sys-user");
+public class ShutdownManager {
+	private static final Logger logger = LoggerFactory.getLogger("sys-user");
 
 
-    @PreDestroy
-    public void destroy()
-    {
-        shutdownAsyncManager();
-    }
+	@PreDestroy
+	public void destroy() {
+		shutdownAsyncManager();
+	}
 
 
-    /**
-     * 停止异步执行任务
-     */
-    private void shutdownAsyncManager()
-    {
-        try
-        {
-            logger.info("====关闭后台任务任务线程池====");
-            AsyncManager.me().shutdown();
-        }
-        catch (Exception e)
-        {
-            logger.error(e.getMessage(), e);
-        }
-    }
+	/**
+	 * 停止异步执行任务
+	 */
+	private void shutdownAsyncManager() {
+		try {
+			logger.info("====关闭后台任务任务线程池====");
+			AsyncManager.me().shutdown();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+	}
 }

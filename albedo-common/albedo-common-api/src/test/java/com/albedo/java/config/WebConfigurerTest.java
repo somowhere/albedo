@@ -2,7 +2,6 @@ package com.albedo.java.config;
 
 import com.albedo.java.common.config.WebConfigurer;
 import com.albedo.java.common.core.config.ApplicationProperties;
-import com.albedo.java.common.security.filter.PasswordDecoderFilter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -39,7 +38,6 @@ public class WebConfigurerTest {
 	private MockEnvironment env;
 
 	private ApplicationProperties props;
-	private PasswordDecoderFilter passwordDecoderFilter;
 
 	@BeforeEach
 	public void setup() {
@@ -51,9 +49,8 @@ public class WebConfigurerTest {
 
 		env = new MockEnvironment();
 		props = new ApplicationProperties();
-		passwordDecoderFilter = new PasswordDecoderFilter(props);
 
-		webConfigurer = new WebConfigurer(env, props, passwordDecoderFilter);
+		webConfigurer = new WebConfigurer(env, props);
 	}
 
 

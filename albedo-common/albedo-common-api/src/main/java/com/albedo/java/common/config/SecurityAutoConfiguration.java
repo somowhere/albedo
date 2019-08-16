@@ -56,10 +56,6 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 	private final RedisTemplate redisTemplate;
 	private final RememberMeServices rememberMeServices;
 	private final CorsFilter corsFilter;
-	private final PasswordDecoderFilter passwordDecoderFilter;
-	private final ValidateCodeFilter validateCodeFilter;
-
-
 
 
 	/**
@@ -82,6 +78,16 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 		} catch (Exception e) {
 			throw new BeanInitializationException("Security configuration failed", e);
 		}
+	}
+
+	@Bean
+	public PasswordDecoderFilter passwordDecoderFilter() {
+		return new PasswordDecoderFilter(applicationProperties);
+	}
+
+	@Bean
+	public ValidateCodeFilter validateCodeFilter() {
+		return new ValidateCodeFilter(ajaxAuthenticationFailureHandler(), applicationProperties);
 	}
 
 	@Bean
@@ -139,8 +145,8 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 			.csrf()
 			.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 			.and()
-			.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
-			.addFilterBefore(passwordDecoderFilter, CsrfFilter.class)
+			.addFilterBefore(validateCodeFilter(), UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(passwordDecoderFilter(), CsrfFilter.class)
 			.addFilterBefore(corsFilter, CsrfFilter.class)
 			.exceptionHandling()
 			.authenticationEntryPoint(authenticationEntryPoint())

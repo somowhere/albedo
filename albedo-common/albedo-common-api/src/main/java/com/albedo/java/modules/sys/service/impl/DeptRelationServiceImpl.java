@@ -18,9 +18,9 @@ package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.modules.sys.domain.DeptRelation;
+import com.albedo.java.modules.sys.domain.vo.DeptDataVo;
 import com.albedo.java.modules.sys.repository.DeptRelationRepository;
 import com.albedo.java.modules.sys.service.DeptRelationService;
-import com.albedo.java.modules.sys.domain.vo.DeptDataVo;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;

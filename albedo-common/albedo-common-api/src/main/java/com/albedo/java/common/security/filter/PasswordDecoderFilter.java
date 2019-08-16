@@ -26,7 +26,6 @@ import cn.hutool.http.HttpUtil;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.security.filter.warpper.ParameterRequestWrapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.crypto.spec.IvParameterSpec;
@@ -45,7 +44,6 @@ import java.util.Map;
  * 密码解密工具类
  */
 @Slf4j
-@Component
 public class PasswordDecoderFilter extends OncePerRequestFilter {
 	private static final String PASSWORD = "password";
 	private static final String KEY_ALGORITHM = "AES";

@@ -1,7 +1,6 @@
 package com.albedo.java.common.security.handler;
 
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.exception.ValidateCodeException;
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.util.WebUtil;
 import com.albedo.java.common.security.util.LoginUtil;

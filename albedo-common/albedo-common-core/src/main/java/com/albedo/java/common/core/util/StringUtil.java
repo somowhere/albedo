@@ -502,10 +502,8 @@ public class StringUtil extends StrUtil {
 		return str.toLowerCase();
 	}
 
-	public static String getBlock(Object msg)
-	{
-		if (msg == null)
-		{
+	public static String getBlock(Object msg) {
+		if (msg == null) {
 			msg = "";
 		}
 		return "[" + msg.toString() + "]";
