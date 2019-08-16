@@ -154,8 +154,8 @@
 </template>
 
 <script>
-  import {fetch${ClassName}Tree, find${ClassName}, save${ClassName}, remove${ClassName}, page${ClassName}, validateUnique${ClassName}} from "./service";
   import { mapGetters } from "vuex";
+  import ${className}Service from "./${classNameUrl}-service";
   import validate from "@/util/validate";
   import util from "@/util/util";
   import CrudSelect from "@/views/avue/crud-select";
@@ -193,7 +193,7 @@
         </#if></#list>
         },
         validateUnique: (rule, value, callback) => {
-          validate.idUnique${ClassName}(rule, value, callback, this.form.id)
+          validate.isUnique(rule, value, callback, this.form.id)
         },
         validateNumber: (rule, value, callback) => {
           validate.isNumber(rule, value, callback)
@@ -241,7 +241,7 @@
         </#if></#list>
         {fieldName: 'parentId',value:this.search${ClassName}Form.parentId, attrType:'eq'},
         ])
-        page${ClassName}(this.listQuery).then(response => {
+        ${className}Service.page(this.listQuery).then(response => {
         this.list = response.data.records;
         this.total = response.data.total;
           this.listLoading = false;
@@ -258,7 +258,7 @@
         this.getList()
       },
       get${ClassName}Tree() {
-        fetch${ClassName}Tree({all:true}).then(response => {
+        ${className}Service.fetchTree({all:true}).then(response => {
           this.tree${ClassName}Data = util.parseTreeData(response.data);
         })
       },
@@ -302,7 +302,7 @@
           this.form.parentId = this.currentNode.id
           this.form.parentName = this.currentNode.label;
         }else{
-          find${ClassName}(row.id).then(response => {
+          ${className}Service.find(row.id).then(response => {
             this.form = response.data;<#list table.columnList as c><#if c.dictType??&& c.dictType != ''>
             this.form.${c.javaFieldId}=validate.objectToString(this.form.${c.javaFieldId});
             </#if></#list>this.disableSelect${ClassName}Parent = this.form.parentName ? false : true;
@@ -311,7 +311,7 @@
         }
       },
       handleParent${ClassName}Tree() {
-        fetch${ClassName}Tree({extId: this.form.id}).then(response => {
+        ${className}Service.fetchTree({extId: this.form.id}).then(response => {
           this.tree${ClassName}SelectData = util.parseTreeData(response.data);
           this.dialog${ClassName}Visible = true;
           setTimeout(()=>{this.$refs['selectParent${ClassName}Tree'].setCurrentKey(this.form.parentId ? this.form.parentId : null);}, 100)
@@ -323,7 +323,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          remove${ClassName}(row.id).then(() => {
+          ${className}Service.remove(row.id).then(() => {
             this.getList();
           })
         })
@@ -332,7 +332,7 @@
         const set = this.$refs;
         set['form'].validate(valid => {
           if (valid) {
-            save${ClassName}(this.form).then(() => {
+            ${className}Service.save(this.form).then(() => {
               this.getList()
               this.cancel()
             })

@@ -15,7 +15,7 @@
 
 <script>
     import {mapGetters} from 'vuex'
-    import {util} from '@/util/util'
+    import util from '@/util/util'
     import NProgress from 'nprogress' // progress bar
     import 'nprogress/nprogress.css' // progress bar style
     export default {

@@ -114,8 +114,8 @@
 </template>
 
 <script>
-import { page${ClassName}, find${ClassName}, save${ClassName}, remove${ClassName}, validateUnique${ClassName}} from "./service";
 import { mapGetters } from "vuex";
+import ${className}Service from "./${classNameUrl}-service";
 import validate from "@/util/validate";
 import util from "@/util/util";
 import CrudSelect from "@/views/avue/crud-select";
@@ -145,7 +145,7 @@ export default {
         </#list>
       },
       validateUnique: (rule, value, callback) => {
-          validate.isUnique${ClassName}(rule, value, callback, this.form.id)
+          validate.isUnique(rule, value, callback, this.form.id)
         },
         validateNumber: (rule, value, callback) => {
           validate.isNumber(rule, value, callback)
@@ -188,7 +188,7 @@ export default {
       {fieldName: '${c.javaFieldId}',value:this.search${ClassName}Form.${c.javaFieldId},operate:'${c.queryType}',attrType:'${c.javaType}'},
       </#if></#list>
       ])
-      page${ClassName}(this.listQuery).then(response => {
+      ${className}Service.page(this.listQuery).then(response => {
         this.list = response.data.records;
         this.total = response.data.total;
         this.listLoading = false;
@@ -225,7 +225,7 @@ export default {
       if(this.dialogStatus == "create"){
         this.dialogFormVisible = true;
       }else{
-        find${ClassName}(row.id).then(response => {
+        ${className}Service.find(row.id).then(response => {
             this.form = response.data;<#list table.columnList as c><#if c.dictType??&& c.dictType != ''>
             this.form.${c.javaFieldId}=validate.objectToString(this.form.${c.javaFieldId});</#if></#list>
             this.dialogFormVisible = true;
@@ -240,7 +240,7 @@ export default {
       const set = this.$refs;
       set['form'].validate(valid => {
         if (valid) {
-          save${ClassName}(this.form).then((data) => {
+          ${className}Service.save(this.form).then((data) => {
             this.getList();
             this.cancel()
           });
@@ -259,7 +259,7 @@ export default {
           type: "warning"
         }
       ).then(() => {
-        remove${ClassName}(row.id).then((data) => {
+        ${className}Service.remove(row.id).then((data) => {
             this.getList();
           });
       });

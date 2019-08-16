@@ -2,54 +2,55 @@
 <template>
 	<name>viewComponentTs</name>
 	<filePath>src/views/${moduleName}/${subModuleName}/${classNameUrl}</filePath>
-	<fileName>dept-dict-log-login-log-operate-menu-persistent-token-role-user-service.js</fileName>
+	<fileName>${classNameUrl}-service.js</fileName>
 	<content><![CDATA[
 
 import request from '@/router/axios';
 import validate from "@/util/validate";
+const ${className}Service = {
+	fetchTree(query) {
+	  return request({
+		url: '/${urlPrefix}/tree',
+		method: 'get',
+		params: query
+	  })
+	},
+	page(query) {
+	  return request({
+		url: '/${urlPrefix}/',
+		method: 'get',
+		params: query
+	  })
+	},
 
-export function fetch${ClassName}Tree(query) {
-  return request({
-    url: '/${urlPrefix}/tree',
-    method: 'get',
-    params: query
-  })
+	save(obj) {
+	  return request({
+		url: '/${urlPrefix}/',
+		method: 'post',
+		data: obj
+	  })
+	},
+
+	find(id) {
+	  return request({
+		url: '/${urlPrefix}/' + id,
+		method: 'get'
+	  })
+	},
+
+	remove(id) {
+	  return request({
+		url: '/${urlPrefix}/' + id,
+		method: 'delete'
+	  })
+	},
+
+	validateUnique(rule, value, callback, id) {
+	  validate.isUnique(rule, value, callback, '/${urlPrefix}/checkByProperty?id='+validate.toStr(id))
+	}
 }
-export function page${ClassName}(query) {
-  return request({
-    url: '/${urlPrefix}/',
-    method: 'get',
-    params: query
-  })
-}
 
-export function save${ClassName}(obj) {
-  return request({
-    url: '/${urlPrefix}/',
-    method: 'post',
-    data: obj
-  })
-}
-
-export function find${ClassName}(id) {
-  return request({
-    url: '/${urlPrefix}/' + id,
-    method: 'get'
-  })
-}
-
-export function remove${ClassName}(id) {
-  return request({
-    url: '/${urlPrefix}/' + id,
-    method: 'delete'
-  })
-}
-
-export function validateUnique${ClassName}(rule, value, callback, id) {
-  validate.isUnique(rule, value, callback, '/${urlPrefix}/checkByProperty?id='+validate.toStr(id))
-}
-
-
+export default ${className}Service
 ]]>
 	</content>
 </template>
