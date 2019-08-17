@@ -24,22 +24,22 @@ import lombok.NoArgsConstructor;
  * 403 授权拒绝
  */
 @NoArgsConstructor
-public class PigDeniedException extends RuntimeException {
+public class AccessDeniedException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
-	public PigDeniedException(String message) {
+	public AccessDeniedException(String message) {
 		super(message);
 	}
 
-	public PigDeniedException(Throwable cause) {
+	public AccessDeniedException(Throwable cause) {
 		super(cause);
 	}
 
-	public PigDeniedException(String message, Throwable cause) {
+	public AccessDeniedException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public PigDeniedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+	public AccessDeniedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 

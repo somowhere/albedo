@@ -129,13 +129,13 @@
             }
         },
         created() {
-            this.ruleForm2.username = this.userVo.username;
-            this.ruleForm2.phone = this.userVo.phone;
+            this.ruleForm2.username = this.user.username;
+            this.ruleForm2.phone = this.user.phone;
             this.switchStatus = 'userManager'
         },
         computed: {
             ...mapState({
-                userVo: state => state.user.userVo
+                user: state => state.user.user
             }),
         },
         methods: {

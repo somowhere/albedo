@@ -64,7 +64,7 @@
         mounted() {
             this.init()
         },
-        computed: mapGetters(['userVo', 'isLock', 'isCollapse', 'website', 'expires_in']),
+        computed: mapGetters(['user', 'isLock', 'isCollapse', 'website', 'expires_in']),
         props: [],
         methods: {
             showCollapse() {

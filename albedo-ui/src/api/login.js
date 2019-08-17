@@ -65,7 +65,7 @@ const loginApi = {
       params: user
     })
   },
-  getUserVo() {
+  getUser() {
     return request({
       url: '/sys/user/info',
       method: 'get'

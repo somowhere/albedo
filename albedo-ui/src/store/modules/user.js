@@ -28,8 +28,8 @@ function addPath(ele, first) {
 
 const user = {
   state: {
-    userVo: getStore({
-      name: 'userVo'
+    user: getStore({
+      name: 'user'
     }) || {},
     permissions: getStore({
       name: 'permissions'
@@ -56,14 +56,14 @@ const user = {
   },
   actions: {
     // 根据用户名登录
-    loginByUsername({commit}, userVo) {
-      const user = util.encryption({
-        data: userVo,
+    loginByUsername({commit}, user) {
+      const params = util.encryption({
+        data: user,
         key: 'somewhere-albedo',
         param: ['password']
       });
       return new Promise((resolve, reject) => {
-        loginApi.loginByUsername(user).then(response => {
+        loginApi.loginByUsername(params).then(response => {
           const data = response.data || {};
           // commit('SET_ACCESS_TOKEN', data.access_token)
           // commit('SET_REFRESH_TOKEN', response.refresh_token)
@@ -75,11 +75,11 @@ const user = {
         })
       })
     },
-    getUserVo({commit}) {
+    getUser({commit}) {
       return new Promise((resolve, reject) => {
-        loginApi.getUserVo().then((res) => {
+        loginApi.getUser().then((res) => {
           const data = res.data || {};
-          commit('SET_USERVO', data.userVo);
+          commit('SET_USERVO', data.user);
           commit('SET_ROLES', data.roles || []);
           commit('SET_PERMISSIONS', data.permissions || []);
           resolve(data)
@@ -186,11 +186,11 @@ const user = {
         type: 'session'
       })
     },
-    SET_USERVO: (state, userVo) => {
-      state.userVo = userVo;
+    SET_USERVO: (state, user) => {
+      state.user = user;
       setStore({
-        name: 'userVo',
-        content: state.userVo,
+        name: 'user',
+        content: state.user,
         type: 'session'
       })
     },

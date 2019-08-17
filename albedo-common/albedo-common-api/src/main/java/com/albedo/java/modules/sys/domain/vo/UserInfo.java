@@ -35,7 +35,7 @@ public class UserInfo implements Serializable {
 	/**
 	 * 用户基本信息
 	 */
-	private UserVo userVo;
+	private UserVo user;
 	/**
 	 * 权限标识集合
 	 */

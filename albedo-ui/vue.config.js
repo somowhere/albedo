@@ -37,7 +37,7 @@ module.exports = {
           '^/a': '/'
         }
       },
-      '/management/': {
+      '/management': {
         target: url,
         ws: true,
         pathRewrite: {

@@ -44,9 +44,9 @@ router.beforeEach((to, from, next) => {
     }
   };
   if (!(to.path === '/login')) {
-    if (validate.checkNull(store.getters.userVo)) {
-      store.dispatch('getUserVo').then(() => {
-        if (validate.checkNotNull(store.getters.userVo)) {
+    if (validate.checkNull(store.getters.user)) {
+      store.dispatch('getUser').then(() => {
+        if (validate.checkNotNull(store.getters.user)) {
           if (to.path === '/login') {
             next({path: '/'})
           } else {
@@ -71,7 +71,7 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else {
-    if (validate.checkNull(store.getters.userVo)) {
+    if (validate.checkNull(store.getters.user)) {
       addTag();
       next()
     } else {

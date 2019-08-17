@@ -93,7 +93,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		}
 		Collection<? extends GrantedAuthority> authorities
 			= AuthorityUtils.createAuthorityList(dbAuthsSet.toArray(new String[0]));
-		UserVo userVo = userInfo.getUserVo();
+		UserVo userVo = userInfo.getUser();
 
 
 		// 构造security用户
