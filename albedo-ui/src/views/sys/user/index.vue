@@ -57,7 +57,7 @@
           <el-table :data="list" :key='tableKey' @sort-change="sortChange" element-loading-text="加载中..."
                     fit highlight-current-row v-loading="listLoading">
             <el-table-column
-              fixed="left" type="index" width="50">
+              fixed="left" type="index" width="20">
             </el-table-column>
             <el-table-column align="center" label="所属组织" width="100">
               <template slot-scope="scope">

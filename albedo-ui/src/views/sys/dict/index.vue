@@ -54,7 +54,7 @@
           <el-table :data="list" :default-sort="{prop:'dict.sort'}" :key='tableKey' @sort-change="sortChange"
                     element-loading-text="加载中..." fit highlight-current-row v-loading="listLoading">
             <el-table-column
-              fixed="left" type="index" width="40">
+              fixed="left" type="index" width="20">
             </el-table-column>
             <el-table-column align="center" label="上级字典" width="100">
               <template slot-scope="scope">
@@ -219,7 +219,7 @@
                     description: undefined
                 },
                 validateUnique: (rule, value, callback) => {
-                    validate.isUnique(rule, value, callback, '/sys/dict/checkByProperty?id=' + validate.toStr(this.form.id))
+                    validate.isUnique(rule, value, callback, '/sys/dict/checkByProperty?id=' + util.objToStr(this.form.id))
                 },
                 dialogStatus: 'create',
                 textMap: {
@@ -342,7 +342,7 @@
                     dictService.find(row.id).then(response => {
                         this.form = response.data;
                         this.disableSelectParent = this.form.parentName ? false : true;
-                        this.form.show = validate.objectToString(this.form.show);
+                        this.form.show = util.objToStr(this.form.show);
                         this.dialogFormVisible = true;
                     });
                 }

@@ -63,6 +63,14 @@ const menuService = {
     })
   },
 
+  sortUpdate(obj) {
+    return request({
+      url: '/sys/menu/sort-update',
+      method: 'post',
+      data: obj
+    })
+  },
+
   lock(id) {
     return request({
       url: '/sys/menu/' + id,

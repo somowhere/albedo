@@ -79,7 +79,6 @@
     </div>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form :model="form" ref="form" label-width="100px">
-      <el-table-column type="index" fixed="left" width="60"></el-table-column>
       <#list table.columnList as c>
         <#if c.edit && (c.isNotBaseField || c.simpleJavaField == 'description')>
         <el-form-item label="${c.title}" prop="${c.javaFieldId}" :rules="[<#if !c.null>{required: true,message: '请输入${c.title}'},</#if><#if c.javaType == "Long" || c.javaType == "Integer">{validator:validateDigits},</#if><#if c.javaType == "java.math.BigDecimal" || c.javaType == "Double">{ validator:validateNumber},</#if><#if c.dataLength != "0" && c.javaType == "String">{min: 0,max: ${c.dataLength},message: '长度在 0 到 ${c.dataLength} 个字符'},</#if><#if c.unique && !c.pk>{validator:validateUnique}</#if>]">

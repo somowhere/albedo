@@ -79,8 +79,8 @@ public class MenuResource extends TreeVoResource<MenuService, MenuDataVo> {
 		List<MenuTree> menuTreeList = all.stream()
 			.filter(menuVo -> Menu.TYPE_MENU.equals(menuVo.getType()) ||
 				Menu.TYPE_BUTTON_TAB.equals(menuVo.getType()))
+			.sorted(Comparator.comparingInt(MenuVo::getSort))
 			.map(MenuTree::new)
-			.sorted(Comparator.comparingInt(MenuTree::getSort))
 			.collect(Collectors.toList());
 		return R.buildOkData(buildByLoop(menuTreeList, Menu.ROOT));
 	}

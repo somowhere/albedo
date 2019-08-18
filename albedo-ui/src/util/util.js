@@ -388,6 +388,9 @@ const util = {
       }
     });
     return treeData;
+  },
+  objToStr(val) {
+    return validate.checkNotNull(val) ? val.toString() : '';
   }
 };
 export default util

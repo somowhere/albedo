@@ -84,7 +84,7 @@
                 if (validate.checkNull(row.data)) {
                     return "";
                 } else {
-                    return validate.objectToString(row.data.message) + ' 远程地址:' + validate.objectToString(row.data.remoteAddress);
+                    return util.objToStr(row.data.message) + ' 远程地址:' + util.objToStr(row.data.remoteAddress);
                 }
             },
             handleSizeChange(val) {

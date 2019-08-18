@@ -237,6 +237,7 @@ public class MenuServiceImpl extends
 	}
 
 	@Override
+	@CacheEvict(value = "menu_details", allEntries = true)
 	public void sortUpdate(MenuDataSortVo menuDataSortVo) {
 
 		menuDataSortVo.getMenuSortVoList().forEach(menuSortVo -> {

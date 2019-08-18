@@ -34,7 +34,7 @@
                     @sort-change="sortChange" element-loading-text="加载中..." fit highlight-current-row
                     v-loading="listLoading">
             <el-table-column
-              fixed="left" type="index" width="50">
+              fixed="left" type="index" width="20">
             </el-table-column>
             <el-table-column align="center" label="标题" width="120">
               <template slot-scope="scope">

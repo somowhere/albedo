@@ -28,7 +28,7 @@
           <el-table :data="list" :key='tableKey' @sort-change="sortChange" element-loading-text="加载中..."
                     fit highlight-current-row v-loading="listLoading">
             <el-table-column
-              fixed="left" type="index" width="50">
+              fixed="left" type="index" width="20">
             </el-table-column>
             <el-table-column align="center" label="令牌" width="210">
               <template slot-scope="scope">

@@ -43,22 +43,29 @@
                 <el-button @click="searchReset" icon="icon-rest" size="small">重置</el-button>
               </el-form-item>
             </el-form>
+
           </div>
           <!-- 表格功能列 -->
           <div class="table-menu">
             <div class="table-menu-left">
-              <el-button @click="handleEdit" icon="el-icon-plus" size="mini" type="primary" v-if="sys_menu_edit">添加
-              </el-button>
+
+              <el-button-group>
+                <el-button @click="handleEdit" icon="el-icon-plus" size="mini" type="primary" v-if="sys_menu_edit">添加
+                </el-button>
+                <el-button @click="handleEditSort" icon="icon-up-circle" size="mini" type="primary" v-if="sys_menu_edit">更新序号
+                </el-button>
+                <el-button @click="handleIcon()" icon="icon-eye" size="mini" type="primary" >查看图标</el-button>
+              </el-button-group>
             </div>
             <div class="table-menu-right">
               <el-button @click="searchFilterVisible= !searchFilterVisible" circle icon="el-icon-search"
                          size="mini"></el-button>
             </div>
           </div>
-          <el-table :data="list" :key='tableKey' @sort-change="sortChange" element-loading-text="加载中..."
+          <el-table :data="list" :default-sort="{prop:'menu.sort',order:'ascending'}" :key='tableKey' @sort-change="sortChange" element-loading-text="加载中..."
                     fit highlight-current-row v-loading="listLoading">
             <el-table-column
-              fixed="left" type="index" width="60">
+              fixed="left" type="index" width="20">
             </el-table-column>
             <!--            <el-table-column align="center" label="上级菜单" width="100">-->
             <!--              <template slot-scope="scope">-->
@@ -105,10 +112,10 @@
                 <el-tag>{{scope.row.showText}}</el-tag>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="序号" prop="menu.sort" sortable="custom" width="80">
+            <el-table-column align="center" label="序号" prop="menu.sort" sortable="custom">
               <template slot-scope="scope">
                 <span>
-                  {{scope.row.sort}}
+                  <el-input-number size="small" v-model="scope.row.sort" :step="5" :ref="'sort'+scope.row.id"></el-input-number>
                 </span>
               </template>
             </el-table-column>
@@ -3432,7 +3439,7 @@
                     description: undefined
                 },
                 validateUnique: (rule, value, callback) => {
-                    validate.isUnique(rule, value, callback, '/sys/menu/checkByProperty?id=' + validate.toStr(this.form.id))
+                    validate.isUnique(rule, value, callback, '/sys/menu/checkByProperty?id=' + util.objToStr(this.form.id))
                 },
                 dialogStatus: 'create',
                 textMap: {
@@ -3560,10 +3567,19 @@
                     menuService.find(row.id).then(response => {
                         this.form = response.data;
                         this.disableSelectMenuParent = this.form.parentName ? false : true;
-                        this.form.show = validate.objectToString(this.form.show);
+                        this.form.show = util.objToStr(this.form.show);
                         this.dialogFormVisible = true;
                     });
                 }
+            },
+            handleEditSort(){
+                let sortData = [];
+                this.list.forEach(item=>{
+                    sortData.push({id:item.id,sort:this.$refs["sort"+item.id].value})
+                })
+                menuService.sortUpdate({"menuSortVoList":sortData}).then(response => {
+                    this.getList()
+                })
             },
             handleLock: function (row) {
                 menuService.lock(row.id).then(response => {

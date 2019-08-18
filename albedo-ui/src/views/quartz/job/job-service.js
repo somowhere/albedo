@@ -56,7 +56,7 @@ const jobService = {
 
 
   validateUnique(rule, value, callback, id) {
-    validate.isUnique(rule, value, callback, '/quartz/job/checkByProperty?id=' + validate.toStr(id))
+    validate.isUnique(rule, value, callback, '/quartz/job/checkByProperty?id=' + util.objToStr(id))
   },
   validateCronExpression(rule, value, callback) {
     if (this.checkNotNull(value) && value != beforeCronValue[rule.field]) {

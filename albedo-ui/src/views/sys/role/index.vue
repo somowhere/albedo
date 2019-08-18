@@ -30,7 +30,7 @@
           <el-table :data="list" :key='tableKey' @sort-change="sortChange" element-loading-text="加载中..."
                     fit highlight-current-row v-loading="listLoading">
             <el-table-column
-              fixed="left" type="index" width="50">
+              fixed="left" type="index" width="20">
             </el-table-column>
             <el-table-column align="center" label="角色名称" width="100">
               <template slot-scope="scope">
@@ -278,7 +278,7 @@
                         if (validate.checkNull(this.form.deptIdList)) {
                             this.form.deptIdList = []
                         }
-                        this.form.dataScope = validate.objectToString(this.form.dataScope);
+                        this.form.dataScope = util.objToStr(this.form.dataScope);
                         let checkTree = function(tree, idList){
                             idList.forEach(id=>{
                                 tree.setChecked(id,true,false);
