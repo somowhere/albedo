@@ -38,9 +38,9 @@
 
 	<!-- Log file debug output -->
 	<appender name="debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${logOperate.path}/debug.logOperate</file>
+		<file>${logOperate.path}/debug.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-			<fileNamePattern>${logOperate.path}/%d{yyyy-MM, aux}/debug.%d{yyyy-MM-dd}.%i.logOperate.gz</fileNamePattern>
+			<fileNamePattern>${logOperate.path}/%d{yyyy-MM, aux}/debug.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
 			<maxFileSize>50MB</maxFileSize>
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
@@ -51,9 +51,9 @@
 
 	<!-- Log file error output -->
 	<appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${logOperate.path}/error.logOperate</file>
+		<file>${logOperate.path}/error.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-			<fileNamePattern>${logOperate.path}/%d{yyyy-MM}/error.%d{yyyy-MM-dd}.%i.logOperate.gz</fileNamePattern>
+			<fileNamePattern>${logOperate.path}/%d{yyyy-MM}/error.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
 			<maxFileSize>50MB</maxFileSize>
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>

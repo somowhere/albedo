@@ -217,8 +217,8 @@
 <script>
     import tableService from "./table-service";
     import {mapGetters} from 'vuex';
-    import CrudSelect from "@/views/avue/crud-select";
-    import CrudRadio from "@/views/avue/crud-radio";
+    import CrudSelect from "@/components/avue/crud-select";
+    import CrudRadio from "@/components/avue/crud-radio";
     import validate from "@/util/validate";
     import util from "@/util/util";
 

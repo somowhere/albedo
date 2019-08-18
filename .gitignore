@@ -38,7 +38,7 @@ target/
 
 ### logs ####
 /logs/
-*.logOperate
+*.log
 
 ### temp ignore ###
 *.cache

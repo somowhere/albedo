@@ -176,8 +176,8 @@
     import {mapGetters} from 'vuex';
     import util from "@/util/util";
     import validate from "@/util/validate";
-    import CrudSelect from "@/views/avue/crud-select";
-    import CrudRadio from "@/views/avue/crud-radio";
+    import CrudSelect from "@/components/avue/crud-select";
+    import CrudRadio from "@/components/avue/crud-radio";
 
     export default {
         name: 'Dict',

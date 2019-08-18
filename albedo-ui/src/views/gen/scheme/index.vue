@@ -31,6 +31,9 @@
             <el-button @click="handleGenMenuDialog" icon="icon-filesync" size="mini" type="primary"
                        v-if="gen_scheme_menu">生成菜单
             </el-button>
+            <el-button @click="handleCodePreviewDialog" icon="icon-filesync" size="mini" type="primary"
+                       v-if="gen_scheme_menu">代码预览
+            </el-button>
           </el-button-group>
         </div>
         <div class="table-menu-right">
@@ -188,6 +191,15 @@
         </span>
       </el-dialog>
 
+      <el-dialog :visible.sync="dialogCodePreviewVisible" title="代码预览"
+                 width="90%">
+        <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane :label="key" v-for="(value, key) in tabCodePreviewMap" :key="key">
+            <Ace :value="value"></Ace>
+          </el-tab-pane>
+        </el-tabs>
+      </el-dialog>
+
     </basic-container>
   </div>
 </template>
@@ -198,11 +210,12 @@
     import validate from "@/util/validate";
     import util from "@/util/util";
     import menuService from "@/views/sys/menu/menu-service";
-    import CrudSelect from "@/views/avue/crud-select";
-    import CrudRadio from "@/views/avue/crud-radio";
+    import CrudSelect from "@/components/avue/crud-select";
+    import CrudRadio from "@/components/avue/crud-radio";
+    import Ace from "@/components/ace/index";
 
     export default {
-        components: {CrudSelect, CrudRadio},
+        components: {CrudSelect, CrudRadio, Ace},
         name: "Scheme",
         data() {
             return {
@@ -251,7 +264,9 @@
                 dialogMenuVisible: false,
                 dialogGenCodeVisible: false,
                 dialogGenMenuVisible: false,
+                dialogCodePreviewVisible: false,
                 currentRow: {},
+                tabCodePreviewMap: {},
                 schemeAdd: false,
                 schemeUpd: false,
                 schemeDel: false,
@@ -366,6 +381,19 @@
                 this.genMenuForm.parentMenuId = undefined;
                 this.genMenuForm.parentMenuName = undefined;
                 this.dialogGenMenuVisible = true;
+            },
+            handleCodePreviewDialog() {
+                if (validate.checkNull(this.currentRow) || validate.checkNull(this.currentRow.id)) {
+                    this.$message({
+                        message: '请选择方案',
+                        type: 'warning'
+                    });
+                    return;
+                }
+                schemeService.previewCode(this.currentRow.id).then(response =>{
+                    this.tabCodePreviewMap = response.data;
+                    this.dialogCodePreviewVisible = true;
+                })
             },
             handleEdit(row) {
                 this.dialogStatus = row && !validate.checkNull(row.id) ? "update" : "create";

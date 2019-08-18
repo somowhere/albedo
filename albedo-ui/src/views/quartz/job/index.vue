@@ -262,9 +262,9 @@
     import jobService from "./job-service";
     import {mapGetters} from "vuex";
     import util from "@/util/util";
-    import CrudSelect from "@/views/avue/crud-select";
-    import CrudCheckbox from "@/views/avue/crud-checkbox";
-    import CrudRadio from "@/views/avue/crud-radio";
+    import CrudSelect from "@/components/avue/crud-select";
+    import CrudCheckbox from "@/components/avue/crud-checkbox";
+    import CrudRadio from "@/components/avue/crud-radio";
     import validate from "../../../util/validate";
     import jobLogService from "./job-log-service";
     import {baseUrl} from "../../../config/env";

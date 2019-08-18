@@ -21,6 +21,9 @@ import basicContainer from './components/basic-container/main'
 
 import validate from '@/util/validate'
 
+import ace from 'ace-builds'
+
+
 Vue.prototype.checkNull = validate.checkNull;
 
 Vue.use(Avue, {menuType: 'text'});
@@ -28,6 +31,8 @@ Vue.use(Avue, {menuType: 'text'});
 Vue.use(router);
 
 Vue.use(VueAxios, axios);
+
+Vue.use(ace)
 
 // 注册全局容器
 Vue.component('basicContainer', basicContainer);
