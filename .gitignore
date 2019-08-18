@@ -56,3 +56,6 @@ Servers
 .metadata
 upload
 gen_code
+
+
+/node_modules/*
