@@ -1,7 +1,7 @@
 ls.DS_Store
 /node_modules/
 /node_modules/*
-/node_modules/.cache/
+/node_modules/.cache/*
 /dist
 
 /tests/e2e/videos/
