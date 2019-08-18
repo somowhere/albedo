@@ -43,6 +43,9 @@ public class SpecificationDetail<T> implements Serializable {
 	 */
 	private List<Order> orders = Lists.newArrayList();
 
+	public Class<T> getPersistentClass() {
+		return persistentClass;
+	}
 
 	public SpecificationDetail<T> setPersistentClass(Class<T> persistentClass) {
 		if (persistentClass != null) {
@@ -50,10 +53,6 @@ public class SpecificationDetail<T> implements Serializable {
 			this.classNameProfix = StringUtil.lowerFirst(persistentClass.getSimpleName()) + ".";
 		}
 		return this;
-	}
-
-	public Class<T> getPersistentClass() {
-		return persistentClass;
 	}
 
 	public List<Order> getOrders() {

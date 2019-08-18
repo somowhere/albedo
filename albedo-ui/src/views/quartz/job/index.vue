@@ -150,11 +150,12 @@
         </div>
       </el-dialog>
 
-      <el-dialog title="任务调度日志" width="90%" :visible.sync="dialogJobLogVisible">
+      <el-dialog :visible.sync="dialogJobLogVisible" title="任务调度日志" width="90%">
         <div class="app-container calendar-listJobLog-container">
           <basic-container>
             <div class="filter-container">
-              <el-form :inline="true" :model="searchJobLogForm" ref="searchJobLogForm" v-show="searchJobLogFilterVisible">
+              <el-form :inline="true" :model="searchJobLogForm" ref="searchJobLogForm"
+                       v-show="searchJobLogFilterVisible">
                 <el-form-item label="任务名称" prop="jobName">
                   <el-input class="filter-item input-normal" v-model="searchJobLogForm.jobName"></el-input>
                 </el-form-item>
@@ -165,7 +166,8 @@
                   <CrudRadio :dic="statusOptions" v-model="searchJobLogForm.status"></CrudRadio>
                 </el-form-item>
                 <el-form-item>
-                  <el-button @click="handleJobLogFilter" icon="el-icon-search" size="small" type="primary">查询</el-button>
+                  <el-button @click="handleJobLogFilter" icon="el-icon-search" size="small" type="primary">查询
+                  </el-button>
                   <el-button @click="searchResetJobLog" icon="icon-rest" size="small">重置</el-button>
                 </el-form-item>
               </el-form>
@@ -187,7 +189,8 @@
                            size="mini"></el-button>
               </div>
             </div>
-            <el-table :data="listJobLog" :key='tableKeyJobLog' @sort-change="sortChangeJobLog" element-loading-text="加载中..."
+            <el-table :data="listJobLog" :key='tableKeyJobLog' @sort-change="sortChangeJobLog"
+                      element-loading-text="加载中..."
                       fit highlight-current-row v-loading="listJobLogLoading">
               <el-table-column align="center" label="任务名称">
                 <template slot-scope="scope">

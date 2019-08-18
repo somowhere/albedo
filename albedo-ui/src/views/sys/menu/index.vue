@@ -52,9 +52,10 @@
               <el-button-group>
                 <el-button @click="handleEdit" icon="el-icon-plus" size="mini" type="primary" v-if="sys_menu_edit">添加
                 </el-button>
-                <el-button @click="handleEditSort" icon="icon-up-circle" size="mini" type="primary" v-if="sys_menu_edit">更新序号
+                <el-button @click="handleEditSort" icon="icon-up-circle" size="mini" type="primary"
+                           v-if="sys_menu_edit">更新序号
                 </el-button>
-                <el-button @click="handleIcon()" icon="icon-eye" size="mini" type="primary" >查看图标</el-button>
+                <el-button @click="handleIcon()" icon="icon-eye" size="mini" type="primary">查看图标</el-button>
               </el-button-group>
             </div>
             <div class="table-menu-right">
@@ -62,7 +63,8 @@
                          size="mini"></el-button>
             </div>
           </div>
-          <el-table :data="list" :default-sort="{prop:'menu.sort',order:'ascending'}" :key='tableKey' @sort-change="sortChange" element-loading-text="加载中..."
+          <el-table :data="list" :default-sort="{prop:'menu.sort',order:'ascending'}" :key='tableKey'
+                    @sort-change="sortChange" element-loading-text="加载中..."
                     fit highlight-current-row v-loading="listLoading">
             <el-table-column
               fixed="left" type="index" width="20">
@@ -115,7 +117,8 @@
             <el-table-column align="center" label="序号" prop="menu.sort" sortable="custom">
               <template slot-scope="scope">
                 <span>
-                  <el-input-number size="small" v-model="scope.row.sort" :step="5" :ref="'sort'+scope.row.id"></el-input-number>
+                  <el-input-number :ref="'sort'+scope.row.id" :step="5" size="small"
+                                   v-model="scope.row.sort"></el-input-number>
                 </span>
               </template>
             </el-table-column>
@@ -3572,12 +3575,12 @@
                     });
                 }
             },
-            handleEditSort(){
+            handleEditSort() {
                 let sortData = [];
-                this.list.forEach(item=>{
-                    sortData.push({id:item.id,sort:this.$refs["sort"+item.id].value})
-                })
-                menuService.sortUpdate({"menuSortVoList":sortData}).then(response => {
+                this.list.forEach(item => {
+                    sortData.push({id: item.id, sort: this.$refs["sort" + item.id].value})
+                });
+                menuService.sortUpdate({"menuSortVoList": sortData}).then(response => {
                     this.getList()
                 })
             },

@@ -44,7 +44,7 @@ const schemeService = {
 
   previewCode(id) {
     return request({
-      url: '/gen/scheme/preview/'+id,
+      url: '/gen/scheme/preview/' + id,
       method: 'get'
     })
   },

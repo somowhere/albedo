@@ -18,7 +18,6 @@ import com.albedo.java.modules.quartz.service.JobLogService;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
 
 /**
  * 任务调度日志Controller 任务调度日志

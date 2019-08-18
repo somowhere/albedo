@@ -6,29 +6,29 @@
       <div>
         <div class="item">
           <label class="title">语言</label>
-          <el-select class="value" v-model="modePath" @change="handleModelPathChange" size="mini" value-key="name">
-            <el-option v-for="mode in modeArray"
-                       :key="mode.name"
+          <el-select @change="handleModelPathChange" class="value" size="mini" v-model="modePath" value-key="name">
+            <el-option :key="mode.name"
                        :label="mode.name"
-                       :value="mode.path">
+                       :value="mode.path"
+                       v-for="mode in modeArray">
             </el-option>
           </el-select>
         </div>
 
         <div class="item">
           <label class="title">换行</label>
-          <el-select class="value" v-model="wrap" @change="handleWrapChange" size="mini" value-key="name">
-            <el-option v-for="wrap in wrapArray"
-                       :key="wrap.name"
+          <el-select @change="handleWrapChange" class="value" size="mini" v-model="wrap" value-key="name">
+            <el-option :key="wrap.name"
                        :label="wrap.name"
-                       :value="wrap.value">
+                       :value="wrap.value"
+                       v-for="wrap in wrapArray">
             </el-option>
           </el-select>
         </div>
       </div>
     </div>
 
-    <div class="bookmarklet" @click="toggleConfigPanel"></div>
+    <div @click="toggleConfigPanel" class="bookmarklet"></div>
   </div>
 </template>
 
@@ -57,7 +57,7 @@
     }, {
         name: '关闭',
         value: false
-    }]
+    }];
 
     const modeArray = [{
         name: 'JavaScript',
@@ -80,13 +80,13 @@
     }, {
         name: 'Text',
         path: 'ace/mode/text'
-    }]
+    }];
 
     export default {
         props: {
             value: String
         },
-        mounted () {
+        mounted() {
             this.aceEditor = ace.edit(this.$refs.ace, {
                 maxLines: 60,
                 minLines: 20,
@@ -96,16 +96,16 @@
                 mode: this.modePath,
                 wrap: this.wrap,
                 tabSize: 4
-            })
+            });
             // 激活自动提示
             this.aceEditor.setOptions({
                 enableSnippets: true,
                 enableLiveAutocompletion: true,
                 enableBasicAutocompletion: true
-            })
+            });
             this.aceEditor.getSession().on('change', this.change)
         },
-        data () {
+        data() {
             return {
                 aceEditor: null,
                 toggle: false,
@@ -117,16 +117,16 @@
             }
         },
         methods: {
-            toggleConfigPanel () {
+            toggleConfigPanel() {
                 this.toggle = !this.toggle
             },
-            change () {
+            change() {
                 this.$emit('input', this.aceEditor.getSession().getValue())
             },
-            handleModelPathChange (modelPath) {
+            handleModelPathChange(modelPath) {
                 this.aceEditor.getSession().setMode(modelPath)
             },
-            handleWrapChange (wrap) {
+            handleWrapChange(wrap) {
                 this.aceEditor.getSession().setUseWrapMode(wrap)
             }
         }

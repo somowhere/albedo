@@ -18,8 +18,8 @@ import java.util.List;
 
 public class AlbedoSwaggerCustomizer implements SwaggerCustomizer, Ordered {
 	public static final int DEFAULT_ORDER = 0;
-	private int order = 0;
 	private final ApplicationSwaggerProperties applicationSwaggerProperties;
+	private int order = 0;
 
 	public AlbedoSwaggerCustomizer(ApplicationSwaggerProperties applicationSwaggerProperties) {
 		this.applicationSwaggerProperties = applicationSwaggerProperties;
@@ -41,13 +41,13 @@ public class AlbedoSwaggerCustomizer implements SwaggerCustomizer, Ordered {
 			.build();
 	}
 
-	public void setOrder(int order) {
-		this.order = order;
-	}
-
 	@Override
 	public int getOrder() {
 		return this.order;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
 	}
 
 //	/**

@@ -3,7 +3,6 @@ package com.albedo.java.modules.gen.util;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.CharUtil;
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.util.*;
 import com.albedo.java.common.persistence.domain.DataEntity;
 import com.albedo.java.common.persistence.domain.TreeEntity;
 import com.albedo.java.modules.gen.domain.vo.SchemeDataVo;

@@ -279,20 +279,20 @@
                             this.form.deptIdList = []
                         }
                         this.form.dataScope = util.objToStr(this.form.dataScope);
-                        let checkTree = function(tree, idList){
-                            idList.forEach(id=>{
-                                tree.setChecked(id,true,false);
+                        let checkTree = function (tree, idList) {
+                            idList.forEach(id => {
+                                tree.setChecked(id, true, false);
                             })
-                        }
+                        };
                         if (this.$refs.treeMenu) {
-                            checkTree(this.$refs.treeMenu, this.form.menuIdList)
+                            checkTree(this.$refs.treeMenu, this.form.menuIdList);
                             checkTree(this.$refs.treeDept, this.form.deptIdList)
-                        }else{
-                            setTimeout(()=>{
-                                console.log(this.form.menuIdList)
-                                checkTree(this.$refs.treeMenu, this.form.menuIdList)
+                        } else {
+                            setTimeout(() => {
+                                console.log(this.form.menuIdList);
+                                checkTree(this.$refs.treeMenu, this.form.menuIdList);
                                 checkTree(this.$refs.treeDept, this.form.deptIdList)
-                            },100)
+                            }, 100)
                         }
                     });
                 }

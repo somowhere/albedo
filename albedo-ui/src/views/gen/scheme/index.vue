@@ -194,7 +194,7 @@
       <el-dialog :visible.sync="dialogCodePreviewVisible" title="代码预览"
                  width="90%">
         <el-tabs>
-          <el-tab-pane :label="key" v-for="(value, key) in tabCodePreviewMap" :key="key">
+          <el-tab-pane :key="key" :label="key" v-for="(value, key) in tabCodePreviewMap">
             <Ace :value="value"></Ace>
           </el-tab-pane>
         </el-tabs>
@@ -390,7 +390,7 @@
                     });
                     return;
                 }
-                schemeService.previewCode(this.currentRow.id).then(response =>{
+                schemeService.previewCode(this.currentRow.id).then(response => {
                     this.tabCodePreviewMap = response.data;
                     this.dialogCodePreviewVisible = true;
                 })

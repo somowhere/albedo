@@ -15,7 +15,6 @@ import com.albedo.java.modules.quartz.service.JobService;
 import com.google.common.collect.Lists;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -131,11 +130,12 @@ public class JobResource extends DataVoResource<JobService, JobDataVo> {
 		service.concurrent(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
 		return R.buildOk("操作成功");
 	}
+
 	/**
 	 * 校验cron表达式是否有效
 	 */
 	@GetMapping("/check-cron-expression")
-	public boolean checkCronExpressionIsValid(JobDataVo jobDataVo){
+	public boolean checkCronExpressionIsValid(JobDataVo jobDataVo) {
 		return service.checkCronExpressionIsValid(jobDataVo.getCronExpression());
 	}
 

@@ -32,7 +32,7 @@ Vue.use(router);
 
 Vue.use(VueAxios, axios);
 
-Vue.use(ace)
+Vue.use(ace);
 
 // 注册全局容器
 Vue.component('basicContainer', basicContainer);

@@ -26,7 +26,7 @@ const storeApi = {
    * 获取localStorage
    */
 
-  get (params = {}) {
+  get(params = {}) {
     let {
       name,
       debug
@@ -59,7 +59,7 @@ const storeApi = {
   /**
    * 删除localStorage
    */
-  remove (params = {}) {
+  remove(params = {}) {
     let {
       name,
       type
@@ -76,7 +76,7 @@ const storeApi = {
   /**
    * 获取全部localStorage
    */
-  getAll (params = {}) {
+  getAll(params = {}) {
     let list = [];
     let {
       type
@@ -109,7 +109,7 @@ const storeApi = {
   /**
    * 清空全部localStorage
    */
-  clear (params = {}) {
+  clear(params = {}) {
     let {type} = params;
     if (type) {
       window.sessionStorage.clear();
@@ -118,5 +118,5 @@ const storeApi = {
     }
 
   }
-}
+};
 export default storeApi

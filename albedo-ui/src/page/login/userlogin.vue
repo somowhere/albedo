@@ -146,7 +146,7 @@
                 this.$refs.loginForm.validate(valid => {
                     if (valid) {
                         this.$store.dispatch("loginByUsername", this.loginForm).then(() => {
-                            console.log(this.tagWel.value)
+                            console.log(this.tagWel.value);
                             this.$router.push({path: this.tagWel.value});
                         }).catch((e) => {
                             this.refreshCode()

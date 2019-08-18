@@ -23,58 +23,6 @@ import java.util.List;
 
 @Slf4j
 public class SqlInjectorUtil {
-	protected enum CustomDbType {
-		MYSQL("mysql", "`%s`", "MySql数据库"),
-		MARIADB("mariadb", "`%s`", "MariaDB数据库"),
-		ORACLE("oracle", "\"%s\"", "Oracle数据库"),
-		DB2("db2", "\"%s\"", "DB2数据库"),
-		H2("h2", "%s", "H2数据库"),
-		HSQL("hsql", "%s", "HSQL数据库"),
-		SQLITE("sqlite", "%s", "SQLite数据库"),
-		POSTGRE_SQL("postgresql", "%s", "Postgre数据库"),
-		SQL_SERVER2005("sqlserver2005", "%s", "SQLServer2005数据库"),
-		SQL_SERVER("sqlserver", "%s", "SQLServer数据库"),
-		DM("dm", "\"%s\"", "达梦数据库"),
-		OTHER("other", "\"%s\"", "其他数据库");
-
-		private final String db;
-		private final String quote;
-		private final String desc;
-
-		public String getDb() {
-			return db;
-		}
-
-		public String getQuote() {
-			return quote;
-		}
-
-		public String getDesc() {
-			return desc;
-		}
-
-		CustomDbType(String db, String quote, String desc) {
-			this.db = db;
-			this.quote = quote;
-			this.desc = desc;
-		}
-
-		public static CustomDbType getDbType(String dbType) {
-			CustomDbType[] dts = values();
-			CustomDbType[] var2 = dts;
-			int var3 = dts.length;
-
-			for (int var4 = 0; var4 < var3; ++var4) {
-				CustomDbType dt = var2[var4];
-				if (dt.getDb().equalsIgnoreCase(dbType)) {
-					return dt;
-				}
-			}
-
-			return OTHER;
-		}
-	}
-
 	public static String sqlWordConvert(Configuration configuration, String column) {
 		GlobalConfig globalConfig = GlobalConfigUtils.getGlobalConfig(configuration);
 		DbType dbType = globalConfig.getDbConfig().getDbType();
@@ -173,6 +121,58 @@ public class SqlInjectorUtil {
 			sbLeftJoin.toString(),
 			sqlWhereEntityWrapper);
 		return sql;
+	}
+
+	protected enum CustomDbType {
+		MYSQL("mysql", "`%s`", "MySql数据库"),
+		MARIADB("mariadb", "`%s`", "MariaDB数据库"),
+		ORACLE("oracle", "\"%s\"", "Oracle数据库"),
+		DB2("db2", "\"%s\"", "DB2数据库"),
+		H2("h2", "%s", "H2数据库"),
+		HSQL("hsql", "%s", "HSQL数据库"),
+		SQLITE("sqlite", "%s", "SQLite数据库"),
+		POSTGRE_SQL("postgresql", "%s", "Postgre数据库"),
+		SQL_SERVER2005("sqlserver2005", "%s", "SQLServer2005数据库"),
+		SQL_SERVER("sqlserver", "%s", "SQLServer数据库"),
+		DM("dm", "\"%s\"", "达梦数据库"),
+		OTHER("other", "\"%s\"", "其他数据库");
+
+		private final String db;
+		private final String quote;
+		private final String desc;
+
+		CustomDbType(String db, String quote, String desc) {
+			this.db = db;
+			this.quote = quote;
+			this.desc = desc;
+		}
+
+		public static CustomDbType getDbType(String dbType) {
+			CustomDbType[] dts = values();
+			CustomDbType[] var2 = dts;
+			int var3 = dts.length;
+
+			for (int var4 = 0; var4 < var3; ++var4) {
+				CustomDbType dt = var2[var4];
+				if (dt.getDb().equalsIgnoreCase(dbType)) {
+					return dt;
+				}
+			}
+
+			return OTHER;
+		}
+
+		public String getDb() {
+			return db;
+		}
+
+		public String getQuote() {
+			return quote;
+		}
+
+		public String getDesc() {
+			return desc;
+		}
 	}
 
 }
