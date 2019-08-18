@@ -59,7 +59,7 @@ const jobService = {
     validate.isUnique(rule, value, callback, '/quartz/job/checkByProperty?id=' + util.objToStr(id))
   },
   validateCronExpression(rule, value, callback) {
-    if (this.checkNotNull(value) && value != beforeCronValue[rule.field]) {
+    if (validate.checkNotNull(value) && value != beforeCronValue[rule.field]) {
       let url = '/quartz/job/check-cron-expression' + rule.field + '=' + value;
       request({
         url: url,
@@ -67,7 +67,7 @@ const jobService = {
       }).then(rs => {
         beforeCronValue[rule.field] = value;
         if (!rs) {
-          callback(new Error(this.checkNotNull(rule.message) ? rule.message : "cron表达式不合法"))
+          callback(new Error(validate.checkNotNull(rule.message) ? rule.message : "cron表达式不合法"))
         } else {
           callback()
         }

@@ -193,7 +193,7 @@
 
       <el-dialog :visible.sync="dialogCodePreviewVisible" title="代码预览"
                  width="90%">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tabs>
           <el-tab-pane :label="key" v-for="(value, key) in tabCodePreviewMap" :key="key">
             <Ace :value="value"></Ace>
           </el-tab-pane>

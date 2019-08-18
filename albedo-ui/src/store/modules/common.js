@@ -1,4 +1,4 @@
-import {getStore, removeStore, setStore} from '@/util/store'
+import storeApi from '@/util/store'
 import website from '@/const/website'
 
 const common = {
@@ -8,7 +8,7 @@ const common = {
     isFullScreen: false,
     isShade: false,
     screen: -1,
-    isLock: getStore({name: 'isLock'}) || false,
+    isLock: storeApi.get({name: 'isLock'}) || false,
     showTag: true,
     showCollapse: true,
     showFullScren: true,
@@ -27,70 +27,70 @@ const common = {
     },
     SET_SHOWCOLLAPSE: (state, active) => {
       state.showCollapse = active;
-      setStore({
+      storeApi.set({
         name: 'showCollapse',
         content: state.showCollapse
       })
     },
     SET_SHOWTAG: (state, active) => {
       state.showTag = active;
-      setStore({
+      storeApi.set({
         name: 'showTag',
         content: state.showTag
       })
     },
     SET_SHOWMENU: (state, active) => {
       state.showMenu = active;
-      setStore({
+      storeApi.set({
         name: 'showMenu',
         content: state.showMenu
       })
     },
     SET_SHOWLOCK: (state, active) => {
       state.showLock = active;
-      setStore({
+      storeApi.set({
         name: 'showLock',
         content: state.showLock
       })
     },
     SET_SHOWSEARCH: (state, active) => {
       state.showSearch = active;
-      setStore({
+      storeApi.set({
         name: 'showSearch',
         content: state.showSearch
       })
     },
     SET_SHOWFULLSCREN: (state, active) => {
       state.showFullScren = active;
-      setStore({
+      storeApi.set({
         name: 'showFullScren',
         content: state.showFullScren
       })
     },
     SET_SHOWDEBUG: (state, active) => {
       state.showDebug = active;
-      setStore({
+      storeApi.set({
         name: 'showDebug',
         content: state.showDebug
       })
     },
     SET_SHOWTHEME: (state, active) => {
       state.showTheme = active;
-      setStore({
+      storeApi.set({
         name: 'showTheme',
         content: state.showTheme
       })
     },
     SET_SHOWCOLOR: (state, active) => {
       state.showColor = active;
-      setStore({
+      storeApi.set({
         name: 'showColor',
         content: state.showColor
       })
     },
     SET_LOCK: (state) => {
       state.isLock = true;
-      setStore({
+      storeApi.set({
         name: 'isLock',
         content: state.isLock,
         type: 'session'
@@ -101,21 +101,21 @@ const common = {
     },
     SET_THEME: (state, color) => {
       state.theme = color;
-      setStore({
+      storeApi.set({
         name: 'theme',
         content: state.theme
       })
     },
     SET_THEME_NAME: (state, themeName) => {
       state.themeName = themeName;
-      setStore({
+      storeApi.set({
         name: 'themeName',
         content: state.themeName
       })
     },
     SET_LOCK_PASSWD: (state, lockPasswd) => {
       state.lockPasswd = lockPasswd;
-      setStore({
+      storeApi.set({
         name: 'lockPasswd',
         content: state.lockPasswd,
         type: 'session'
@@ -124,10 +124,10 @@ const common = {
     CLEAR_LOCK: (state) => {
       state.isLock = false;
       state.lockPasswd = '';
-      removeStore({
+      storeApi.remove({
         name: 'lockPasswd'
       });
-      removeStore({
+      storeApi.remove({
         name: 'isLock'
       })
     }

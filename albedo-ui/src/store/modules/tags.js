@@ -1,4 +1,4 @@
-import {getStore, setStore} from '@/util/store'
+import storeApi from '@/util/store'
 import util from '@/util/util'
 import website from '@/const/website'
 
@@ -29,15 +29,15 @@ function setFistTag(list) {
 
 const navs = {
   state: {
-    tagList: getStore({name: 'tagList'}) || [],
-    tag: getStore({name: 'tag'}) || tagObj,
+    tagList: storeApi.get({name: 'tagList'}) || [],
+    tag: storeApi.get({name: 'tag'}) || tagObj,
     tagWel: tagWel
   },
   actions: {},
   mutations: {
     ADD_TAG: (state, action) => {
       state.tag = action;
-      setStore({name: 'tag', content: state.tag, type: 'session'});
+      storeApi.set({name: 'tag', content: state.tag, type: 'session'});
       if (state.tagList.some(ele => util.diff(ele, action))) return;
       let exit = false;
       if (action.value.indexOf('?') != -1) {
@@ -59,18 +59,18 @@ const navs = {
         state.tagList.push(action)
       }
       setFistTag(state.tagList);
-      setStore({name: 'tagList', content: state.tagList, type: 'session'})
+      storeApi.set({name: 'tagList', content: state.tagList, type: 'session'})
     },
     DEL_TAG: (state, action) => {
       state.tagList = state.tagList.filter(item => {
         return !util.diff(item, action)
       });
       setFistTag(state.tagList);
-      setStore({name: 'tagList', content: state.tagList, type: 'session'})
+      storeApi.set({name: 'tagList', content: state.tagList, type: 'session'})
     },
     DEL_ALL_TAG: (state) => {
       state.tagList = [state.tagWel];
-      setStore({name: 'tagList', content: state.tagList, type: 'session'})
+      storeApi.set({name: 'tagList', content: state.tagList, type: 'session'})
     },
     DEL_TAG_OTHER: (state) => {
       state.tagList = state.tagList.filter(item => {
@@ -81,7 +81,7 @@ const navs = {
         }
       });
       setFistTag(state.tagList);
-      setStore({name: 'tagList', content: state.tagList, type: 'session'})
+      storeApi.set({name: 'tagList', content: state.tagList, type: 'session'})
     }
   }
 };

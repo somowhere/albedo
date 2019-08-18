@@ -1,4 +1,4 @@
-import {getStore, setStore} from '@/util/store'
+import storeApi from '@/util/store'
 import validate from '@/util/validate'
 import {loginApi} from '@/api/login'
 import util from '@/util/util'
@@ -28,29 +28,29 @@ function addPath(ele, first) {
 
 const user = {
   state: {
-    user: getStore({
+    user: storeApi.get({
       name: 'user'
     }) || {},
-    permissions: getStore({
+    permissions: storeApi.get({
       name: 'permissions'
     }) || {},
-    dicts: getStore({
+    dicts: storeApi.get({
       name: 'dicts'
     }) || [],
-    roles: getStore({
+    roles: storeApi.get({
       name: 'roles'
     }) || [],
-    menu: getStore({
+    menu: storeApi.get({
       name: 'menu'
     }) || [],
     menuAll: [],
-    expires_in: getStore({
+    expires_in: storeApi.get({
       name: 'expires_in'
     }) || '',
-    access_token: getStore({
+    access_token: storeApi.get({
       name: 'access_token'
     }) || '',
-    refresh_token: getStore({
+    refresh_token: storeApi.get({
       name: 'refresh_token'
     }) || ''
   },
@@ -164,7 +164,7 @@ const user = {
   mutations: {
     SET_ACCESS_TOKEN: (state, access_token) => {
       state.access_token = access_token;
-      setStore({
+      storeApi.set({
         name: 'access_token',
         content: state.access_token,
         type: 'session'
@@ -172,7 +172,7 @@ const user = {
     },
     SET_EXPIRES_IN: (state, expires_in) => {
       state.expires_in = expires_in;
-      setStore({
+      storeApi.set({
         name: 'expires_in',
         content: state.expires_in,
         type: 'session'
@@ -180,7 +180,7 @@ const user = {
     },
     SET_REFRESH_TOKEN: (state, rfToken) => {
       state.refresh_token = rfToken;
-      setStore({
+      storeApi.set({
         name: 'refresh_token',
         content: state.refresh_token,
         type: 'session'
@@ -188,7 +188,7 @@ const user = {
     },
     SET_USERVO: (state, user) => {
       state.user = user;
-      setStore({
+      storeApi.set({
         name: 'user',
         content: state.user,
         type: 'session'
@@ -196,7 +196,7 @@ const user = {
     },
     SET_DICTS: (state, dicts) => {
       state.dicts = dicts;
-      setStore({
+      storeApi.set({
         name: 'dicts',
         content: state.dicts,
         type: 'session'
@@ -204,7 +204,7 @@ const user = {
     },
     SET_MENU: (state, menu) => {
       state.menu = menu;
-      setStore({
+      storeApi.set({
         name: 'menu',
         content: state.menu,
         type: 'session'
@@ -215,7 +215,7 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles;
-      setStore({
+      storeApi.set({
         name: 'roles',
         content: state.roles,
         type: 'session'
@@ -227,7 +227,7 @@ const user = {
         list[permissions[i]] = true
       }
       state.permissions = list;
-      setStore({
+      storeApi.set({
         name: 'permissions',
         content: state.permissions,
         type: 'session'

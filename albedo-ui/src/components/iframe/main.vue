@@ -15,7 +15,7 @@
 
 <script>
     import {mapGetters} from 'vuex'
-    import util from '@/util/util'
+    import validate from '@/util/validate'
     import NProgress from 'nprogress' // progress bar
     import 'nprogress/nprogress.css' // progress bar style
     export default {
@@ -98,7 +98,7 @@
             iframeInit() {
                 const iframe = this.$refs.iframe;
                 const clientHeight = document.documentElement.clientHeight - (screen > 1 ? 200 : 130);
-                if(util.checkNotNull(iframe)) iframe.style.height = `${clientHeight}px`;
+                if(validate.checkNotNull(iframe)) iframe.style.height = `${clientHeight}px`;
                 if (iframe.attachEvent) {
                     iframe.attachEvent('onload', () => {
                         this.hide()
