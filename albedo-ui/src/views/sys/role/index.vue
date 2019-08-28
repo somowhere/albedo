@@ -109,7 +109,7 @@
             <el-input placeholder="请输入角色标识" v-model="form.code"></el-input>
           </el-form-item>
           <el-form-item :rules="[{required: true,message: '请选择' }]" label="数据权限" prop="dataScope">
-            <CrudSelect :dic="dataScopeOptions" @input="handleDataScopeChange" v-model="form.dataScope"></CrudSelect>
+            <crud-select :dic="dataScopeOptions" @input="handleDataScopeChange" v-model="form.dataScope"></crud-select>
           </el-form-item>
 
           <el-row :gutter="20" :span="24">
@@ -132,7 +132,7 @@
             </el-col>
           </el-row>
           <el-form-item :rules="[{required: true,message: '请选择' }]" label="是否可用" prop="available">
-            <CrudRadio :dic="flagOptions" v-model="form.available"></CrudRadio>
+            <crud-radio :dic="flagOptions" v-model="form.available"></crud-radio>
           </el-form-item>
           <el-form-item :rules="[{required: true, message: '请输入角色描述'}]" label="角色描述" prop="remark">
             <el-input v-model="form.remark"></el-input>
@@ -157,12 +157,9 @@
     import {mapGetters} from 'vuex';
     import util from "@/util/util";
     import validate from "@/util/validate";
-    import CrudSelect from "@/components/avue/crud-select";
-    import CrudRadio from "@/components/avue/crud-radio";
 
     export default {
         name: 'Role',
-        components: {CrudSelect, CrudRadio},
         data() {
             return {
                 treeDept: [],

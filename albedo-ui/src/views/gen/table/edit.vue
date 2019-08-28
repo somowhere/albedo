@@ -14,10 +14,10 @@
               <el-input v-model="form.className"></el-input>
             </el-form-item>
             <el-form-item label="父表表名" prop="parentTable">
-              <CrudSelect :dic="tableList" clearable v-model="form.parentTable"></CrudSelect>
+              <crud-select :dic="tableList" clearable v-model="form.parentTable"></crud-select>
             </el-form-item>
             <el-form-item label="当前表外键" prop="parentTableFk">
-              <CrudSelect :dic="columnList" v-model="form.parentTableFk"></CrudSelect>
+              <crud-select :dic="columnList" v-model="form.parentTableFk"></crud-select>
             </el-form-item>
             <el-form-item label="备注" prop="description">
               <el-input type="textarea" v-model="form.description"></el-input>
@@ -63,8 +63,8 @@
                   <el-input class="input-small" v-model="form.columnFormList[i].jdbcType"></el-input>
                 </td>
                 <td>
-                  <CrudSelect :dic="javaTypeList" class="input-mini"
-                              v-model="form.columnFormList[i].javaType"></CrudSelect>
+                  <crud-select :dic="javaTypeList" class="input-mini"
+                              v-model="form.columnFormList[i].javaType"></crud-select>
                 </td>
                 <td>
                   <el-input class="input-small" v-model="form.columnFormList[i].javaField"></el-input>
@@ -97,12 +97,12 @@
                                v-model="form.columnFormList[i].query"></el-checkbox>
                 </td>
                 <td>
-                  <CrudSelect :dic="queryTypeList" class="input-mini"
-                              v-model="form.columnFormList[i].queryType"></CrudSelect>
+                  <crud-select :dic="queryTypeList" class="input-mini"
+                              v-model="form.columnFormList[i].queryType"></crud-select>
                 </td>
                 <td>
-                  <CrudSelect :dic="showTypeList" class="input-mini"
-                              v-model="form.columnFormList[i].showType"></CrudSelect>
+                  <crud-select :dic="showTypeList" class="input-mini"
+                              v-model="form.columnFormList[i].showType"></crud-select>
                 </td>
                 <td>
                   <el-input class="input-small" v-model="form.columnFormList[i].dictType"></el-input>
@@ -134,11 +134,8 @@
 <script>
     import tableService from "./table-service";
     import {mapGetters} from 'vuex';
-    import CrudSelect from "@/components/avue/crud-select";
-    import CrudRadio from "@/components/avue/crud-radio";
 
     export default {
-        components: {CrudSelect, CrudRadio},
         name: "Table",
         data() {
             return {

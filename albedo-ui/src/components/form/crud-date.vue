@@ -7,7 +7,7 @@
 
 <script>
     export default {
-        name: 'AvueCrudDate',
+        name: 'CrudDate',
         data() {
             return {
                 text: ''

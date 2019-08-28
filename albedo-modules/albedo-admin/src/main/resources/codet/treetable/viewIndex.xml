@@ -41,11 +41,11 @@
           <#if c.showType == "input" || c.showType == "textarea">
               <el-input class="filter-item input-normal" v-model="search${ClassName}Form.${c.javaFieldId}"></el-input>
           <#elseif c.showType == "select">
-              <CrudSelect v-model="search${ClassName}Form.${c.javaFieldId}" :dic="${c.javaFieldId}Options"></CrudSelect>
+              <crud-select v-model="search${ClassName}Form.${c.javaFieldId}" :dic="${c.javaFieldId}Options"></crud-select>
           <#elseif c.showType == "checkbox">
-              <CrudCheckbox v-model="search${ClassName}Form.${c.javaFieldId}" :dic="${c.javaFieldId}Options"></CrudCheckbox>
+              <crud-checkbox v-model="search${ClassName}Form.${c.javaFieldId}" :dic="${c.javaFieldId}Options"></crud-checkbox>
           <#elseif c.showType == "radio">
-              <CrudRadio v-model="search${ClassName}Form.${c.javaFieldId}" :dic="${c.javaFieldId}Options"></CrudRadio>
+              <crud-radio v-model="search${ClassName}Form.${c.javaFieldId}" :dic="${c.javaFieldId}Options"></crud-radio>
           <#elseif c.showType == "dateselect">
               <el-date-picker v-model="search${ClassName}Form.${c.javaFieldId}" type="datetimerange"
                 range-separator="至"
@@ -128,11 +128,11 @@
             <#elseif c.showType == "textarea">
                 <el-input type="textarea" v-model="form.${c.javaFieldId}"></el-input>
             <#elseif c.showType == "select">
-              <CrudSelect v-model="form.${c.javaFieldId}" :dic="${c.javaFieldId}Options"></CrudSelect>
+              <crud-select v-model="form.${c.javaFieldId}" :dic="${c.javaFieldId}Options"></crud-select>
             <#elseif c.showType == "checkbox">
-              <CrudCheckbox v-model="form.${c.javaFieldId}" :dic="${c.javaFieldId}Options"></CrudCheckbox>
+              <crud-checkbox v-model="form.${c.javaFieldId}" :dic="${c.javaFieldId}Options"></crud-checkbox>
             <#elseif c.showType == "radio">
-              <CrudRadio v-model="form.${c.javaFieldId}" :dic="${c.javaFieldId}Options"></CrudRadio>
+              <crud-radio v-model="form.${c.javaFieldId}" :dic="${c.javaFieldId}Options"></crud-radio>
             <#elseif c.showType == "dateselect">
               <el-date-picker v-model="form.${c.javaFieldId}" type="datetime" >
               </el-date-picker>
@@ -158,13 +158,9 @@
   import ${className}Service from "./${classNameUrl}-service";
   import validate from "@/util/validate";
   import util from "@/util/util";
-  import CrudSelect from "@/components/avue/crud-select";
-  import CrudCheckbox from "@/components/avue/crud-checkbox";
-  import CrudRadio from "@/components/avue/crud-radio";
 
   export default {
     name: "table_${permissionPrefix}",
-    components: {CrudSelect, CrudCheckbox, CrudRadio},
     data() {
       return {
         dialog${ClassName}Visible: false,

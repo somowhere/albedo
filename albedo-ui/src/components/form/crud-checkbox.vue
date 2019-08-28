@@ -6,7 +6,7 @@
 
 <script>
     export default {
-        name: "AvueCrudCheckbox",
+        name: "CrudCheckbox",
         data() {
             return {
                 text: []

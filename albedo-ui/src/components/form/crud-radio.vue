@@ -6,7 +6,7 @@
 
 <script>
     export default {
-        name: "AvueCrudRadio",
+        name: "CrudRadio",
         data() {
             return {
                 text: ""
