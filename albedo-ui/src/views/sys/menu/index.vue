@@ -3360,7 +3360,7 @@
             <el-input v-model="form.component"></el-input>
           </el-form-item>
           <el-form-item :rules="[{required: true,message: '请选择' }]" label="菜单类型" prop="type">
-            <CrudRadio :dic="menuTypeOptions" v-model="form.type"></CrudRadio>
+            <crud-radio :dic="menuTypeOptions" v-model="form.type"></crud-radio>
           </el-form-item>
           <!--          <el-form-item label="路由缓冲" prop="keepAlive">-->
           <!--            <el-switch-->
@@ -3372,7 +3372,7 @@
             <el-input v-model="form.path"></el-input>
           </el-form-item>
           <el-form-item :rules="[{required: true,message: '请选择' }]" label="是否显示" prop="show">
-            <CrudRadio :dic="flagOptions" v-model="form.show"></CrudRadio>
+            <crud-radio :dic="flagOptions" v-model="form.show"></crud-radio>
           </el-form-item>
           <el-form-item label="序号" prop="sort">
             <el-input-number :max="1000" :min="1" v-model="form.sort"></el-input-number>
@@ -3395,12 +3395,9 @@
     import {mapGetters} from 'vuex';
     import util from "@/util/util";
     import validate from "@/util/validate";
-    import CrudSelect from "@/components/avue/crud-select";
-    import CrudRadio from "@/components/avue/crud-radio";
 
     export default {
         name: 'Menu',
-        components: {CrudSelect, CrudRadio},
         data() {
             return {
                 treeMenuData: [],

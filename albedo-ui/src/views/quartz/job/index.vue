@@ -107,7 +107,7 @@
 
           </el-form-item>
           <el-form-item :rules="[{required: true,message: '请输入任务组名'}]" label="任务组名" prop="group">
-            <CrudSelect :dic="jobGroupOptions" v-model="form.group"></CrudSelect>
+            <crud-select :dic="jobGroupOptions" v-model="form.group"></crud-select>
           </el-form-item>
           <el-form-item :rules="[{required: true,message: '请输入调用目标'},{min: 0,max: 500,message: '长度在 0 到 500 个字符'},]"
                         label="调用目标"
@@ -127,17 +127,17 @@
 
           </el-form-item>
           <el-form-item :rules="[{required: true},]" label="执行失败策略" prop="misfirePolicy">
-            <CrudSelect :dic="misfirePolicyOptions" v-model="form.misfirePolicy"></CrudSelect>
+            <crud-select :dic="misfirePolicyOptions" v-model="form.misfirePolicy"></crud-select>
             <div>
               <el-tag size="mini" type="info">计划执行错误策略</el-tag>
             </div>
           </el-form-item>
           <el-form-item :rules="[{required: true},]" label="是否并发执行" prop="concurrent">
-            <CrudRadio :dic="concurrentOptions" v-model="form.concurrent"></CrudRadio>
+            <crud-radio :dic="concurrentOptions" v-model="form.concurrent"></crud-radio>
 
           </el-form-item>
           <el-form-item :rules="[{required: true},]" label="是否启用" prop="available">
-            <CrudRadio :dic="availableOptions" v-model="form.available"></CrudRadio>
+            <crud-radio :dic="availableOptions" v-model="form.available"></crud-radio>
           </el-form-item>
           <el-form-item :rules="[{min: 0,max: 255,message: '长度在 0 到 255 个字符'},]" label="备注" prop="description">
             <el-input type="textarea" v-model="form.description"></el-input>
@@ -163,7 +163,7 @@
                   <el-input class="filter-item input-normal" v-model="searchJobLogForm.jobGroup"></el-input>
                 </el-form-item>
                 <el-form-item label="执行状态" prop="status">
-                  <CrudRadio :dic="statusOptions" v-model="searchJobLogForm.status"></CrudRadio>
+                  <crud-radio :dic="statusOptions" v-model="searchJobLogForm.status"></crud-radio>
                 </el-form-item>
                 <el-form-item>
                   <el-button @click="handleJobLogFilter" icon="el-icon-search" size="small" type="primary">查询
@@ -265,16 +265,12 @@
     import jobService from "./job-service";
     import {mapGetters} from "vuex";
     import util from "@/util/util";
-    import CrudSelect from "@/components/avue/crud-select";
-    import CrudCheckbox from "@/components/avue/crud-checkbox";
-    import CrudRadio from "@/components/avue/crud-radio";
     import validate from "../../../util/validate";
     import jobLogService from "./job-log-service";
     import {baseUrl} from "../../../config/env";
 
     export default {
         name: "table_quartz_job",
-        components: {CrudSelect, CrudCheckbox, CrudRadio},
         data() {
             return {
                 searchFilterVisible: true,
