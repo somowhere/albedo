@@ -10,7 +10,7 @@
             <el-input class="filter-item input-normal" v-model="searchJobLogForm.jobGroup"></el-input>
           </el-form-item>
           <el-form-item label="执行状态" prop="status">
-            <CrudRadio :dic="statusOptions" v-model="searchJobLogForm.status"></CrudRadio>
+            <crud-radio :dic="statusOptions" v-model="searchJobLogForm.status"></crud-radio>
           </el-form-item>
           <el-form-item>
             <el-button @click="handleJobLogFilter" icon="el-icon-search" size="small" type="primary">查询</el-button>
@@ -106,15 +106,11 @@
 <script>
     import {mapGetters} from "vuex";
     import util from "@/util/util";
-    import CrudSelect from "@/components/avue/crud-select";
-    import CrudCheckbox from "@/components/avue/crud-checkbox";
-    import CrudRadio from "@/components/avue/crud-radio";
     import {baseUrl} from "../../../config/env";
     import jobLogService from "../job/job-log-service";
 
     export default {
         name: "table_quartz_jobLog",
-        components: {CrudSelect, CrudCheckbox, CrudRadio},
         data() {
             return {
                 searchJobLogFilterVisible: true,

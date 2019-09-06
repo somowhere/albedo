@@ -18,6 +18,10 @@ import Avue from '@smallwei/avue/lib/index.js'
 // 引入avue的样式文件
 import '@smallwei/avue/lib/theme-chalk/index.css'
 import basicContainer from './components/basic-container/main'
+import crudSelect from "@/components/form/crud-select";
+import crudRadio from "@/components/form/crud-radio";
+import crudDate from "@/components/form/crud-date";
+import crudCheckbox from "@/components/form/crud-checkbox";
 
 import validate from '@/util/validate'
 
@@ -36,6 +40,10 @@ Vue.use(ace);
 
 // 注册全局容器
 Vue.component('basicContainer', basicContainer);
+Vue.component('crudSelect', crudSelect);
+Vue.component('crudRadio', crudRadio);
+Vue.component('crudCheckbox', crudCheckbox);
+Vue.component('crudDate', crudDate);
 
 // 加载相关url地址
 Object.keys(urls).forEach(key => {

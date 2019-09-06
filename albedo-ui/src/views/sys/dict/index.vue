@@ -153,7 +153,7 @@
             <el-input v-model="form.sort"></el-input>
           </el-form-item>
           <el-form-item :rules="[{required: true,message: '请选择' }]" label="是否显示" prop="show">
-            <CrudRadio :dic="flagOptions" v-model="form.show"></CrudRadio>
+            <crud-radio :dic="flagOptions" v-model="form.show"></crud-radio>
           </el-form-item>
           <el-form-item label="备注" prop="description">
             <el-input placeholder="" type="textarea" v-model="form.remark"></el-input>
@@ -176,12 +176,9 @@
     import {mapGetters} from 'vuex';
     import util from "@/util/util";
     import validate from "@/util/validate";
-    import CrudSelect from "@/components/avue/crud-select";
-    import CrudRadio from "@/components/avue/crud-radio";
 
     export default {
         name: 'Dict',
-        components: {CrudSelect, CrudRadio},
         data() {
             return {
                 treeDictData: [],
