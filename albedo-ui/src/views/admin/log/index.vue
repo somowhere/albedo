@@ -58,7 +58,8 @@
             return {
                 updatingLogs: true,
                 filter: null,
-                loggers: []
+                loggers: [],
+                loggersData: []
 
             };
         },
@@ -67,14 +68,16 @@
         },
         watch: {
             filter(val) {
+                console.log(val)
                 let array = [];
-                for (const key in this.loggers) {
-                    let item = this.loggers[key];
+                for (const key in this.loggersData) {
+                    let item = this.loggersData[key];
                     if (item.name.indexOf(val) != -1) {
                         array.push(item);
                     }
                 }
-                this.loggers = array;
+                console.log(array)
+                this.loggers = [].concat(array);
             }
         },
         created() {
@@ -91,6 +94,7 @@
                 this.updatingLogs = true;
                 findAllLogs().then(loggers => {
                     this.loggers = loggers;
+                    this.loggersData = [].concat(loggers)
                     this.updatingLogs = false;
                 });
             }
