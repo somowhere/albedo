@@ -7,7 +7,6 @@
           <el-card class="box-card">
             <div class="clearfix" slot="header">
               <span>部门</span>
-
               <el-button @click="searchTree=(searchTree ? false:true)" class="card-heard-btn" icon="icon-filesearch"
                          title="搜索"
                          type="text"></el-button>
@@ -181,11 +180,11 @@
           </el-form-item>
 
           <el-form-item :rules="[{required: true,message: '请选择角色' }]" label="角色" prop="roleIdList">
-            <CrudSelect :dic="rolesOptions" :filterable="true" :multiple="true" v-model="form.roleIdList"></CrudSelect>
+            <crud-select :dic="rolesOptions" :filterable="true" :multiple="true" v-model="form.roleIdList"></crud-select>
           </el-form-item>
 
           <el-form-item :rules="[{required: true,message: '请选择' }]" label="是否可用" prop="available">
-            <CrudRadio :dic="flagOptions" v-model="form.available"></CrudRadio>
+            <crud-radio :dic="flagOptions" v-model="form.available"></crud-radio>
           </el-form-item>
 
           <el-form-item label="备注" prop="description">
@@ -209,12 +208,9 @@
     import {mapGetters} from 'vuex';
     import util from "@/util/util";
     import validate from "@/util/validate";
-    import CrudSelect from "@/components/avue/crud-select";
-    import CrudRadio from "@/components/avue/crud-radio";
 
     export default {
         name: 'User',
-        components: {CrudSelect, CrudRadio},
         data() {
             return {
                 treeDeptData: [],

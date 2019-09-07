@@ -148,3 +148,12 @@ a {
 .el-button--mini [class^="icon-"], .el-button--small [class^="icon-"] {
   font-size: 12px !important;
 }
+
+.badge-secondary {
+  color: #fff;
+  background-color: #6c757d;
+}
+.break {
+  white-space: normal;
+  word-break: break-all;
+}

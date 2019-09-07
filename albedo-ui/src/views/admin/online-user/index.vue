@@ -11,7 +11,7 @@
               </el-form-item>
 
               <el-form-item label="会话状态" prop="status">
-                <CrudRadio :dic="sysOnlineStatusOptions" v-model="searchForm.status"></CrudRadio>
+                <crud-radio :dic="sysOnlineStatusOptions" v-model="searchForm.status"></crud-radio>
               </el-form-item>
               <el-form-item>
                 <el-button @click="handleFilter" icon="el-icon-search" size="small" type="primary">查询</el-button>
@@ -136,11 +136,8 @@
     import {forceLogout, pageToken, removeToken} from "./service";
     import {mapGetters} from 'vuex';
     import util from "@/util/util";
-    import CrudSelect from "@/components/avue/crud-select";
-    import CrudRadio from "@/components/avue/crud-radio";
 
     export default {
-        components: {CrudSelect, CrudRadio},
         name: 'Token',
         data() {
             return {

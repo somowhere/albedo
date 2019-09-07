@@ -111,7 +111,7 @@
           </el-form-item>
           <el-form-item :rules="[{required: true,message: '请选择模块分类'}]" label="模块分类"
                         prop="category">
-            <CrudSelect :dic="categoryList" v-model="form.category"></CrudSelect>
+            <crud-select :dic="categoryList" v-model="form.category"></crud-select>
           </el-form-item>
           <el-form-item :rules="[{required: true,message: '请输入生成包路径'}]" label="生成包路径"
                         prop="packageName">
@@ -138,7 +138,7 @@
           </el-form-item>
           <el-form-item :rules="[{required: true,message: '请选择业务表名'}]" label="业务表名"
                         prop="tableId">
-            <CrudSelect :dic="tableList" v-model="form.tableId"></CrudSelect>
+            <crud-select :dic="tableList" v-model="form.tableId"></crud-select>
           </el-form-item>
           <el-form-item label="生成选项">
             <el-switch active-text="是否生成代码" v-model="form.genCode">
@@ -210,12 +210,10 @@
     import validate from "@/util/validate";
     import util from "@/util/util";
     import menuService from "@/views/sys/menu/menu-service";
-    import CrudSelect from "@/components/avue/crud-select";
-    import CrudRadio from "@/components/avue/crud-radio";
     import Ace from "@/components/ace/index";
 
     export default {
-        components: {CrudSelect, CrudRadio, Ace},
+        components: {Ace},
         name: "Scheme",
         data() {
             return {

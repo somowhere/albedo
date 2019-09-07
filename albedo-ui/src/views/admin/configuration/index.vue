@@ -4,10 +4,18 @@
       <el-row>
         <el-col>
           <div v-if="allConfiguration && configuration">
-            <span>过滤 (按前缀)</span>
-            <el-input v-model="filter"/>
-            <h2>Spring configuration</h2>
-            <table class="el-table">
+            <el-input v-model="filter" placeholder="过滤 (按前缀)"/>
+            <div class="table-menu" style="margin: 10px 0 0 ">
+              <div class="table-menu-left">
+              </div>
+              <div class="table-menu-right">
+                <el-button-group>
+                  <el-button @click="handleRefresh" icon="el-icon-refresh" size="mini" type="primary" >刷新
+                  </el-button>
+                </el-button-group>
+              </div>
+            </div>
+            <table class="el-table" v-bind:key="index" v-for="(entry, index) in configuration">
               <thead>
               <tr>
                 <th @click="orderProp = 'prefix'; reverse=!reverse" class="w-40"><span>前缀</span></th>
@@ -15,14 +23,14 @@
               </tr>
               </thead>
               <tbody>
-              <tr v-bind:key="index" v-for="(entry, index) in configuration">
-                <td><span>{{entry.prefix}}</span></td>
+              <tr v-bind:key="j" v-for="(item, j) in entry.beans">
+                <td><span>{{item.prefix}}</span></td>
                 <td>
-                  <div v-bind:key="index" v-for="(item, key,index) in entry.properties">
+                  <div v-bind:key="index" v-for="(itemChild, key, index) in item.properties">
                     <el-row :gutter="30" :span="24">
                       <el-col :span="8">{{key}}</el-col>
                       <el-col :span="16">
-                        <span class="float-right badge badge-secondary break">{{item | json }}</span>
+                        <span class="float-right badge badge-secondary break">{{itemChild | json }}</span>
                       </el-col>
                     </el-row>
                   </div>
@@ -71,7 +79,8 @@
                 configKeys: [],
                 filter: undefined,
                 orderProp: undefined,
-                reverse: false
+                reverse: false,
+                searchForm:{}
             };
         },
         computed: {
@@ -99,18 +108,26 @@
         },
         methods: {
             initPageData() {
-                getConfigprops().then(configuration => {
+                this.configKeys = []
+                getConfigprops().then(data => {
+                    const configuration = data.contexts;
                     this.configuration = configuration;
                     this.configurationBak = configuration;
-                    for (const config in configuration) {
-                        if (config.properties !== undefined) {
-                            this.configKeys.push(Object.keys(config.properties));
+                    for (const key in configuration) {
+                        const config = configuration[key];
+                        if (config.beans !== undefined) {
+                            this.configKeys.push(Object.keys(config.beans));
                         }
                     }
+                    console.log(this.configKeys)
+                    console.log(this.configuration)
                 });
                 getEnv().then(configuration => {
                     this.allConfiguration = configuration;
                 });
+            },
+            handleRefresh(){
+                this.initPageData()
             }
 
         }
