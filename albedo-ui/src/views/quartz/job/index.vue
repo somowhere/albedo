@@ -117,6 +117,8 @@
               <el-tag size="mini" type="info">Bean调用示例：simpleTask.doParams('albedo')</el-tag>
               <el-tag size="mini" type="info">
                 Class类调用示例：com.albedo.java.modules.quartz.task.SimpleTask.doParams('albedo')
+              </el-tag>
+              <el-tag size="mini" type="info">
                 参数说明：支持字符串，布尔类型，长整型，浮点型，整型
               </el-tag>
               <el-tag size="mini" type="info">参数说明：支持字符串，布尔类型，长整型，浮点型，整型</el-tag>

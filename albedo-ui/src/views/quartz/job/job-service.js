@@ -60,7 +60,7 @@ const jobService = {
   },
   validateCronExpression(rule, value, callback) {
     if (validate.checkNotNull(value) && value != beforeCronValue[rule.field]) {
-      let url = '/quartz/job/check-cron-expression' + rule.field + '=' + value;
+      let url = '/quartz/job/check-cron-expression?' + rule.field + '=' + value;
       request({
         url: url,
         method: 'get'
