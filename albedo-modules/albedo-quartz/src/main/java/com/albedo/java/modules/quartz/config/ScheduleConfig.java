@@ -1,7 +1,14 @@
 package com.albedo.java.modules.quartz.config;
 
+import com.albedo.java.common.core.constant.ScheduleConstants;
+import org.quartz.Scheduler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.listener.PatternTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import javax.sql.DataSource;
@@ -21,7 +28,7 @@ public class ScheduleConfig {
 
 		// quartz参数
 		Properties prop = new Properties();
-		prop.put("org.quartz.scheduler.instanceName", "AlbedoScheduler");
+		prop.put("org.quartz.scheduler.instanceName", "AlbedoQuartzScheduler");
 		prop.put("org.quartz.scheduler.instanceId", "AUTO");
 		// 线程池配置
 		prop.put("org.quartz.threadPool.class", "org.quartz.simpl.SimpleThreadPool");
@@ -41,7 +48,7 @@ public class ScheduleConfig {
 		prop.put("org.quartz.jobStore.tablePrefix", "QRTZ_");
 		factory.setQuartzProperties(prop);
 
-		factory.setSchedulerName("AlbedoScheduler");
+		factory.setSchedulerName("AlbedoQuartzScheduler");
 		// 延时启动
 		factory.setStartupDelay(1);
 		factory.setApplicationContextSchedulerContextKey("applicationContextKey");
@@ -53,4 +60,49 @@ public class ScheduleConfig {
 
 		return factory;
 	}
+
+
+	/**
+	 * 初始化监听器
+	 * @param connectionFactory
+	 * @param listenerAdapter
+	 * @return
+	 */
+	@Bean
+	RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory,
+											MessageListenerAdapter listenerAdapter) {
+		RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+		container.setConnectionFactory(connectionFactory);
+		container.addMessageListener(listenerAdapter, new PatternTopic(ScheduleConstants.REDIS_SCHEDULE_DEFAULT_CHANNEL)); // new PatternTopic("这里是监听的通道的名字") 通道要和发布者发布消息的通道一致
+		return container;
+	}
+
+	/**
+	 * 绑定消息监听者和接收监听的方法
+	 * @param scheduleReceiver
+	 * @return
+	 */
+	@Bean
+	MessageListenerAdapter listenerAdapter(ScheduleReceiver scheduleReceiver) {
+		// redisReceiver 消息接收者
+		// receiveMessage 消息接收后的方法
+		return new MessageListenerAdapter(scheduleReceiver, "receiveMessage");
+	}
+
+
+	@Bean
+	StringRedisTemplate stringRedisTemplate(RedisConnectionFactory connectionFactory) {
+		return new StringRedisTemplate(connectionFactory);
+	}
+
+	/**
+	 * 注册订阅者
+	 * @return
+	 */
+	@Bean
+	ScheduleReceiver scheduleReceiver(Scheduler scheduler) {
+		return new ScheduleReceiver(scheduler);
+	}
+
+
 }

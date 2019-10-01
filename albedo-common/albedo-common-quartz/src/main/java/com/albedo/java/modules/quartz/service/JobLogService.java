@@ -19,6 +19,7 @@ import java.util.List;
  */
 public interface JobLogService extends BaseService<JobLogRepository, JobLog, String> {
 
+
 	void cleanJobLog();
 
 	List<JobLogExcelVo> findExcelVo(QueryWrapper<JobLog> toEntityWrapper);

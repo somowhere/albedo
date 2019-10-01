@@ -20,6 +20,7 @@ import java.util.List;
 public interface JobService extends DataVoService<JobRepository, Job, String, JobDataVo> {
 
 
+	void refresh();
 	/**
 	 * 暂停任务
 	 *
