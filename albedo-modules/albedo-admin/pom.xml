@@ -25,6 +25,7 @@
 	</parent>
 
 	<artifactId>albedo-admin</artifactId>
+	<packaging>war</packaging>
 
 	<description>pig 通用用户权限管理系统业务处理模块</description>
 	<dependencies>
@@ -122,20 +123,20 @@
 	</dependencies>
 
 	<build>
+		<finalName>albedo-admin</finalName>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>1.2.0</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
 			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
+				<version>3.1.0</version>
 				<configuration>
 					<warSourceDirectory>${basedir}/../../albedo-ui/dist/</warSourceDirectory>
 				</configuration>
