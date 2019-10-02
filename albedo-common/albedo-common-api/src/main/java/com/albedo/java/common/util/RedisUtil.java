@@ -242,6 +242,9 @@ public class RedisUtil {
 	}
 
 	public static void sendScheduleChannelMessage(Object message) {
+		if(log.isDebugEnabled()){
+			log.debug("sendScheduleChannelMessage===>" + Json.toJSONString(message));
+		}
 		stringRedisTemplate.convertAndSend(ScheduleConstants.REDIS_SCHEDULE_DEFAULT_CHANNEL,
 			Json.toJSONString(message));
 	}

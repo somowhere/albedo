@@ -33,20 +33,10 @@ import java.util.List;
  * @version 2019-08-14 11:24:16
  */
 @Service
-@BaseInit(method = "refresh")
 @Transactional(rollbackFor = Exception.class)
 public class JobServiceImpl extends DataVoServiceImpl<JobRepository, Job, String, JobDataVo> implements JobService {
 
-	/**
-	 * 项目启动时，初始化定时器
-	 * 主要是防止手动修改数据库导致未同步到定时任务处理（注：不能手动修改数据库ID和任务组名，否则会导致脏数据）
-	 */
-	public void refresh() {
-		List<Job> jobList = repository.selectList(null);
-		for (Job job : jobList) {
-			updateSchedulerJob(job, job.getGroup());
-		}
-	}
+
 
 
 	/**
@@ -81,7 +71,7 @@ public class JobServiceImpl extends DataVoServiceImpl<JobRepository, Job, String
 		job.setAvailable(ScheduleConstants.Status.NORMAL.getValue());
 		int rows = repository.updateById(job);
 		if (rows > 0) {
-			RedisUtil.sendScheduleChannelMessage(ScheduleVo.createPause(jobId, jobGroup));
+			RedisUtil.sendScheduleChannelMessage(ScheduleVo.createResume(jobId, jobGroup));
 //			scheduler.resumeJob(ScheduleUtils.getJobKey(jobId, jobGroup));
 		}
 		return rows;
@@ -99,7 +89,7 @@ public class JobServiceImpl extends DataVoServiceImpl<JobRepository, Job, String
 		String jobGroup = job.getGroup();
 		int rows = repository.deleteById(jobId);
 		if (rows > 0) {
-			RedisUtil.sendScheduleChannelMessage(ScheduleVo.createPause(jobId, jobGroup));
+			RedisUtil.sendScheduleChannelMessage(ScheduleVo.createDelete(jobId, jobGroup));
 //			scheduler.deleteJob(ScheduleUtils.getJobKey(jobId, jobGroup));
 		}
 		return rows;
@@ -150,7 +140,7 @@ public class JobServiceImpl extends DataVoServiceImpl<JobRepository, Job, String
 		String jobId = job.getId();
 		String jobGroup = job.getGroup();
 //		scheduler.triggerJob(ScheduleUtils.getJobKey(jobId, jobGroup), dataMap);
-		RedisUtil.sendScheduleChannelMessage(ScheduleVo.createPause(jobId, jobGroup));
+		RedisUtil.sendScheduleChannelMessage(ScheduleVo.createRun(jobId, jobGroup));
 	}
 
 	/**

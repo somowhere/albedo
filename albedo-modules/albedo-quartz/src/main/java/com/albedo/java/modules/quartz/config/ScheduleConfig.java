@@ -1,6 +1,7 @@
 package com.albedo.java.modules.quartz.config;
 
 import com.albedo.java.common.core.constant.ScheduleConstants;
+import com.albedo.java.modules.quartz.repository.JobRepository;
 import org.quartz.Scheduler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -100,8 +101,8 @@ public class ScheduleConfig {
 	 * @return
 	 */
 	@Bean
-	ScheduleReceiver scheduleReceiver(Scheduler scheduler) {
-		return new ScheduleReceiver(scheduler);
+	ScheduleReceiver scheduleReceiver(Scheduler scheduler, JobRepository jobRepository) {
+		return new ScheduleReceiver(scheduler, jobRepository);
 	}
 
 
