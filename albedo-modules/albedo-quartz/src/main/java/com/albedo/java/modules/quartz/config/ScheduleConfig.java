@@ -65,6 +65,7 @@ public class ScheduleConfig {
 
 	/**
 	 * 初始化监听器
+	 *
 	 * @param connectionFactory
 	 * @param listenerAdapter
 	 * @return
@@ -80,6 +81,7 @@ public class ScheduleConfig {
 
 	/**
 	 * 绑定消息监听者和接收监听的方法
+	 *
 	 * @param scheduleReceiver
 	 * @return
 	 */
@@ -98,6 +100,7 @@ public class ScheduleConfig {
 
 	/**
 	 * 注册订阅者
+	 *
 	 * @return
 	 */
 	@Bean

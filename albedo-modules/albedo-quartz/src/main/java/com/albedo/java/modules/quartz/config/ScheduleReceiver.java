@@ -23,20 +23,22 @@ public class ScheduleReceiver {
 
 	private final Scheduler scheduler;
 	private final JobRepository jobRepository;
+
 	/**
-	 *  收到通道的消息之后执行的方法
+	 * 收到通道的消息之后执行的方法
+	 *
 	 * @param message
 	 */
 	public void receiveMessage(String message) throws TaskException, SchedulerException {
-		if(log.isInfoEnabled()) {
+		if (log.isInfoEnabled()) {
 			log.info("receiveMessage===>" + message);
 		}
 		ScheduleVo scheduleVo = Json.parseObject(message, ScheduleVo.class);
-		Assert.isTrue(scheduleVo!=null, "scheduleVo cannot be null");
-		Assert.isTrue(scheduleVo.getMessageType()!=null, "scheduleVo cannot be null");
+		Assert.isTrue(scheduleVo != null, "scheduleVo cannot be null");
+		Assert.isTrue(scheduleVo.getMessageType() != null, "scheduleVo cannot be null");
 		String jobId = scheduleVo.getJobId();
 		String jobGroup = scheduleVo.getJobGroup();
-		switch (scheduleVo.getMessageType()){
+		switch (scheduleVo.getMessageType()) {
 			case ADD:
 				ScheduleUtils.createScheduleJob(scheduler, Json.parseObject(scheduleVo.getData(), Job.class));
 				break;
@@ -62,6 +64,7 @@ public class ScheduleReceiver {
 
 
 	}
+
 	/**
 	 * 项目启动时，初始化定时器
 	 * 主要是防止手动修改数据库导致未同步到定时任务处理（注：不能手动修改数据库ID和任务组名，否则会导致脏数据）
@@ -72,6 +75,7 @@ public class ScheduleReceiver {
 			updateSchedulerJob(job, job.getGroup());
 		}
 	}
+
 	/**
 	 * 更新任务
 	 *

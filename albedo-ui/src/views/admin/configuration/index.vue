@@ -4,13 +4,13 @@
       <el-row>
         <el-col>
           <div v-if="allConfiguration && configuration">
-            <el-input v-model="filter" placeholder="过滤 (按前缀)"/>
+            <el-input placeholder="过滤 (按前缀)" v-model="filter"/>
             <div class="table-menu" style="margin: 10px 0 0 ">
               <div class="table-menu-left">
               </div>
               <div class="table-menu-right">
                 <el-button-group>
-                  <el-button @click="handleRefresh" icon="el-icon-refresh" size="mini" type="primary" >刷新
+                  <el-button @click="handleRefresh" icon="el-icon-refresh" size="mini" type="primary">刷新
                   </el-button>
                 </el-button-group>
               </div>
@@ -65,71 +65,71 @@
 </template>
 
 <script>
-    import {getConfigprops, getEnv} from "./service";
+  import {getConfigprops, getEnv} from "./service";
 
-    export default {
-        components: {},
-        name: "admin_configuration",
-        directives: {},
-        data() {
-            return {
-                allConfiguration: {},
-                configuration: {},
-                configurationBak: {},
-                configKeys: [],
-                filter: undefined,
-                orderProp: undefined,
-                reverse: false,
-                searchForm:{}
-            };
-        },
-        computed: {
-            // ...mapGetters(['authorities'])
-        },
-        filters: {
-            json(value) {
-                return JSON.stringify(value)
-            },
-        },
-        watch: {
-            filter(val) {
-                let array = [];
-                for (const key in this.configurationBak) {
-                    let item = this.configurationBak[key];
-                    if (item.prefix.indexOf(val) != -1) {
-                        array.push(item);
-                    }
-                }
-                this.configuration = array;
-            }
-        },
-        created() {
-            this.initPageData();
-        },
-        methods: {
-            initPageData() {
-                this.configKeys = []
-                getConfigprops().then(data => {
-                    const configuration = data.contexts;
-                    this.configuration = configuration;
-                    this.configurationBak = configuration;
-                    for (const key in configuration) {
-                        const config = configuration[key];
-                        if (config.beans !== undefined) {
-                            this.configKeys.push(Object.keys(config.beans));
-                        }
-                    }
-                    console.log(this.configKeys)
-                    console.log(this.configuration)
-                });
-                getEnv().then(configuration => {
-                    this.allConfiguration = configuration;
-                });
-            },
-            handleRefresh(){
-                this.initPageData()
-            }
-
+  export default {
+    components: {},
+    name: "admin_configuration",
+    directives: {},
+    data() {
+      return {
+        allConfiguration: {},
+        configuration: {},
+        configurationBak: {},
+        configKeys: [],
+        filter: undefined,
+        orderProp: undefined,
+        reverse: false,
+        searchForm: {}
+      };
+    },
+    computed: {
+      // ...mapGetters(['authorities'])
+    },
+    filters: {
+      json(value) {
+        return JSON.stringify(value)
+      },
+    },
+    watch: {
+      filter(val) {
+        let array = [];
+        for (const key in this.configurationBak) {
+          let item = this.configurationBak[key];
+          if (item.prefix.indexOf(val) != -1) {
+            array.push(item);
+          }
         }
-    };
+        this.configuration = array;
+      }
+    },
+    created() {
+      this.initPageData();
+    },
+    methods: {
+      initPageData() {
+        this.configKeys = [];
+        getConfigprops().then(data => {
+          const configuration = data.contexts;
+          this.configuration = configuration;
+          this.configurationBak = configuration;
+          for (const key in configuration) {
+            const config = configuration[key];
+            if (config.beans !== undefined) {
+              this.configKeys.push(Object.keys(config.beans));
+            }
+          }
+          console.log(this.configKeys);
+          console.log(this.configuration)
+        });
+        getEnv().then(configuration => {
+          this.allConfiguration = configuration;
+        });
+      },
+      handleRefresh() {
+        this.initPageData()
+      }
+
+    }
+  };
 </script>

@@ -149,109 +149,109 @@
 </template>
 
 <script>
-    import logOperateService from "./log-operate-service";
-    import {mapGetters} from 'vuex';
-    import util from "@/util/util";
-    import {baseUrl} from "../../../config/env";
+  import logOperateService from "./log-operate-service";
+  import {mapGetters} from 'vuex';
+  import util from "@/util/util";
+  import {baseUrl} from "../../../config/env";
 
-    export default {
-        name: 'Log',
-        data() {
-            return {
-                treeMenuData: [],
-                dialogFormVisible: false,
-                searchFilterVisible: true,
-                checkedKeys: [],
-                list: null,
-                total: null,
-                listLoading: true,
-                searchForm: {},
-                listQuery: {
-                    current: 1,
-                    size: 20
-                },
-                formEdit: true,
-                flagOptions: [],
-                dataScopeOptions: [],
-                sys_logOperate_del: false,
-                sys_logOperate_view: false,
-                sys_logOperate_export: false,
-                currentNode: {},
-                tableKey: 0
-            }
+  export default {
+    name: 'Log',
+    data() {
+      return {
+        treeMenuData: [],
+        dialogFormVisible: false,
+        searchFilterVisible: true,
+        checkedKeys: [],
+        list: null,
+        total: null,
+        listLoading: true,
+        searchForm: {},
+        listQuery: {
+          current: 1,
+          size: 20
         },
-        watch: {},
-        created() {
-            this.getList();
-            this.sys_logOperate_view = this.permissions["sys_logOperate_view"];
-            this.sys_logOperate_export = this.permissions["sys_logOperate_export"];
-            this.sys_logOperate_del = this.permissions["sys_logOperate_del"];
-        },
-        computed: {
-            ...mapGetters([
-                "permissions", "dicts"
-            ])
-        },
-        methods: {
-            getList() {
-                this.listLoading = true;
-                this.listQuery.queryConditionJson = util.parseJsonItemForm([{
-                    fieldName: 'title', value: this.searchForm.title
-                }, {
-                    fieldName: 'remote_addr', value: this.searchForm.remoteAddr
-                }
-
-                ]);
-                logOperateService.page(this.listQuery).then(response => {
-                    this.list = response.data.records;
-                    this.total = response.data.total;
-                    this.listLoading = false;
-                });
-            },
-            sortChange(column) {
-                if (column.order == "ascending") {
-                    this.listQuery.ascs = column.prop;
-                    this.listQuery.descs = undefined;
-                } else {
-                    this.listQuery.descs = column.prop;
-                    this.listQuery.ascs = undefined;
-                }
-                this.getList()
-            },
-
-            //搜索清空
-            searchReset() {
-                this.$refs['searchForm'].resetFields();
-            },
-            handleFilter() {
-                this.listQuery.current = 1;
-                this.getList();
-            },
-            handleSizeChange(val) {
-                this.listQuery.size = val;
-                this.getList();
-            },
-            handleCurrentChange(val) {
-                this.listQuery.current = val;
-                this.getList();
-            },
-            handleDelete(row) {
-                this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    logOperateService.remove(row.id).then((rs) => {
-                        this.getList();
-                    })
-                })
-            },
-            handleExport() {
-                logOperateService.export(this.listQuery).then(response => {
-                    window.location.href = `${window.location.origin}` + baseUrl + "/file/download?fileName=" + encodeURI(response.data) + "&delete=" + true;
-                });
-            }
+        formEdit: true,
+        flagOptions: [],
+        dataScopeOptions: [],
+        sys_logOperate_del: false,
+        sys_logOperate_view: false,
+        sys_logOperate_export: false,
+        currentNode: {},
+        tableKey: 0
+      }
+    },
+    watch: {},
+    created() {
+      this.getList();
+      this.sys_logOperate_view = this.permissions["sys_logOperate_view"];
+      this.sys_logOperate_export = this.permissions["sys_logOperate_export"];
+      this.sys_logOperate_del = this.permissions["sys_logOperate_del"];
+    },
+    computed: {
+      ...mapGetters([
+        "permissions", "dicts"
+      ])
+    },
+    methods: {
+      getList() {
+        this.listLoading = true;
+        this.listQuery.queryConditionJson = util.parseJsonItemForm([{
+          fieldName: 'title', value: this.searchForm.title
+        }, {
+          fieldName: 'remote_addr', value: this.searchForm.remoteAddr
         }
+
+        ]);
+        logOperateService.page(this.listQuery).then(response => {
+          this.list = response.data.records;
+          this.total = response.data.total;
+          this.listLoading = false;
+        });
+      },
+      sortChange(column) {
+        if (column.order == "ascending") {
+          this.listQuery.ascs = column.prop;
+          this.listQuery.descs = undefined;
+        } else {
+          this.listQuery.descs = column.prop;
+          this.listQuery.ascs = undefined;
+        }
+        this.getList()
+      },
+
+      //搜索清空
+      searchReset() {
+        this.$refs['searchForm'].resetFields();
+      },
+      handleFilter() {
+        this.listQuery.current = 1;
+        this.getList();
+      },
+      handleSizeChange(val) {
+        this.listQuery.size = val;
+        this.getList();
+      },
+      handleCurrentChange(val) {
+        this.listQuery.current = val;
+        this.getList();
+      },
+      handleDelete(row) {
+        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          logOperateService.remove(row.id).then((rs) => {
+            this.getList();
+          })
+        })
+      },
+      handleExport() {
+        logOperateService.export(this.listQuery).then(response => {
+          window.location.href = `${window.location.origin}` + baseUrl + "/file/download?fileName=" + encodeURI(response.data) + "&delete=" + true;
+        });
+      }
     }
+  }
 </script>
 

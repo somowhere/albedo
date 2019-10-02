@@ -18,7 +18,9 @@
               </thead>
 
               <tr v-bind:key="index" v-for="(logger, index) in loggers">
-                <td><small>{{logger.name}}</small></td>
+                <td>
+                  <small>{{logger.name}}</small>
+                </td>
                 <td>
                   <el-button-group>
                     <el-button :type="(logger.level=='TRACE') ? 'primary' : ''"
@@ -48,57 +50,57 @@
 </template>
 
 <script>
-    import {changeLevelLogs, findAllLogs} from "./service";
+  import {changeLevelLogs, findAllLogs} from "./service";
 
-    export default {
-        components: {},
-        name: "admin_logs",
-        directives: {},
-        data() {
-            return {
-                updatingLogs: true,
-                filter: null,
-                loggers: [],
-                loggersData: []
+  export default {
+    components: {},
+    name: "admin_logs",
+    directives: {},
+    data() {
+      return {
+        updatingLogs: true,
+        filter: null,
+        loggers: [],
+        loggersData: []
 
-            };
-        },
-        computed: {
-            // ...mapGetters(['authorities'])
-        },
-        watch: {
-            filter(val) {
-                console.log(val)
-                let array = [];
-                for (const key in this.loggersData) {
-                    let item = this.loggersData[key];
-                    if (item.name.indexOf(val) != -1) {
-                        array.push(item);
-                    }
-                }
-                console.log(array)
-                this.loggers = [].concat(array);
-            }
-        },
-        created() {
-            this.initPageData();
-
-        },
-        methods: {
-            changeLevel(name, level) {
-                changeLevelLogs({name: name, level: level}).then(() => {
-                    this.initPageData();
-                });
-            },
-            initPageData() {
-                this.updatingLogs = true;
-                findAllLogs().then(loggers => {
-                    this.loggers = loggers;
-                    this.loggersData = [].concat(loggers)
-                    this.updatingLogs = false;
-                });
-            }
-
+      };
+    },
+    computed: {
+      // ...mapGetters(['authorities'])
+    },
+    watch: {
+      filter(val) {
+        console.log(val);
+        let array = [];
+        for (const key in this.loggersData) {
+          let item = this.loggersData[key];
+          if (item.name.indexOf(val) != -1) {
+            array.push(item);
+          }
         }
-    };
+        console.log(array);
+        this.loggers = [].concat(array);
+      }
+    },
+    created() {
+      this.initPageData();
+
+    },
+    methods: {
+      changeLevel(name, level) {
+        changeLevelLogs({name: name, level: level}).then(() => {
+          this.initPageData();
+        });
+      },
+      initPageData() {
+        this.updatingLogs = true;
+        findAllLogs().then(loggers => {
+          this.loggers = loggers;
+          this.loggersData = [].concat(loggers);
+          this.updatingLogs = false;
+        });
+      }
+
+    }
+  };
 </script>

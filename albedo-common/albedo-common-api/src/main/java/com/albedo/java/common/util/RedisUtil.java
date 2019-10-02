@@ -3,7 +3,6 @@ package com.albedo.java.common.util;
 import com.albedo.java.common.core.constant.ScheduleConstants;
 import com.albedo.java.common.core.util.Json;
 import com.albedo.java.common.core.util.SpringContextHolder;
-import com.albedo.java.common.core.vo.ScheduleVo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
@@ -242,7 +241,7 @@ public class RedisUtil {
 	}
 
 	public static void sendScheduleChannelMessage(Object message) {
-		if(log.isDebugEnabled()){
+		if (log.isDebugEnabled()) {
 			log.debug("sendScheduleChannelMessage===>" + Json.toJSONString(message));
 		}
 		stringRedisTemplate.convertAndSend(ScheduleConstants.REDIS_SCHEDULE_DEFAULT_CHANNEL,

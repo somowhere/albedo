@@ -1,4 +1,3 @@
-
 package com.albedo.java.modules;
 /*
  *  Copyright (c) 2019-2020, somewhere (somewhere0813@gmail.com).

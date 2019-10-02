@@ -5,41 +5,41 @@
 </template>
 
 <script>
-    export default {
-        name: "CrudCheckbox",
-        data() {
-            return {
-                text: []
-            };
-        },
-        props: {
-            value: {
-                default: () => {
-                    return [];
-                }
-            },
-            dic: {
-                default: () => {
-                    return [];
-                }
-            }
-        },
-        watch: {
-            value: function (n, o) {
-                this.text = this.value;
-            }
-        },
-        created() {
-            this.text = this.value;
-        },
-        mounted() {
-        },
-        methods: {
-            handleChange(value) {
-                this.$emit("input", value);
-            }
+  export default {
+    name: "CrudCheckbox",
+    data() {
+      return {
+        text: []
+      };
+    },
+    props: {
+      value: {
+        default: () => {
+          return [];
         }
-    };
+      },
+      dic: {
+        default: () => {
+          return [];
+        }
+      }
+    },
+    watch: {
+      value: function (n, o) {
+        this.text = this.value;
+      }
+    },
+    created() {
+      this.text = this.value;
+    },
+    mounted() {
+    },
+    methods: {
+      handleChange(value) {
+        this.$emit("input", value);
+      }
+    }
+  };
 </script>
 
 <style>

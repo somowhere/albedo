@@ -51,58 +51,58 @@
 </template>
 
 <script>
-    import {findAllAudits} from "./service";
-    import validate from "@/util/validate";
+  import {findAllAudits} from "./service";
+  import validate from "@/util/validate";
 
-    export default {
-        name: "admin_audits",
-        data() {
-            return {
-                listLoading: true,
-                total: null,
-                listQuery: {
-                    page: 1,
-                    size: 20
-                },
-                dateRange: null,
-                tableData: []
-            };
+  export default {
+    name: "admin_audits",
+    data() {
+      return {
+        listLoading: true,
+        total: null,
+        listQuery: {
+          page: 1,
+          size: 20
         },
-        created() {
-            this.initPageData();
-        },
-        watch: {},
-        methods: {
+        dateRange: null,
+        tableData: []
+      };
+    },
+    created() {
+      this.initPageData();
+    },
+    watch: {},
+    methods: {
 
-            handleFilter: function () {
-                this.listQuery.page = 1;
-                this.listQuery.fromDate = formatDateDay(this.dateRange[0]);
-                this.listQuery.toDate = formatDateDay(this.dateRange[1]);
-                this.initPageData();
-            },
-            formatter(row, column) {
-                if (validate.checkNull(row.data)) {
-                    return "";
-                } else {
-                    return util.objToStr(row.data.message) + ' 远程地址:' + util.objToStr(row.data.remoteAddress);
-                }
-            },
-            handleSizeChange(val) {
-                this.listQuery.size = val;
-                this.initPageData();
-            },
-            handleCurrentChange(val) {
-                this.listQuery.page = val;
-                this.initPageData();
-            },
-            initPageData() {
-                this.listLoading = true;
-                findAllAudits(this.listQuery).then(response => {
-                    this.tableData = response.data;
-                    this.total = response.total;
-                    this.listLoading = false;
-                });
-            }
+      handleFilter: function () {
+        this.listQuery.page = 1;
+        this.listQuery.fromDate = formatDateDay(this.dateRange[0]);
+        this.listQuery.toDate = formatDateDay(this.dateRange[1]);
+        this.initPageData();
+      },
+      formatter(row, column) {
+        if (validate.checkNull(row.data)) {
+          return "";
+        } else {
+          return util.objToStr(row.data.message) + ' 远程地址:' + util.objToStr(row.data.remoteAddress);
         }
-    };
+      },
+      handleSizeChange(val) {
+        this.listQuery.size = val;
+        this.initPageData();
+      },
+      handleCurrentChange(val) {
+        this.listQuery.page = val;
+        this.initPageData();
+      },
+      initPageData() {
+        this.listLoading = true;
+        findAllAudits(this.listQuery).then(response => {
+          this.tableData = response.data;
+          this.total = response.total;
+          this.listLoading = false;
+        });
+      }
+    }
+  };
 </script>

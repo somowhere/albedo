@@ -5,43 +5,43 @@
 </template>
 
 <script>
-    export default {
-        name: "CrudRadio",
-        data() {
-            return {
-                text: ""
-            };
-        },
-        props: {
-            value: {
-                default: ""
-            },
-            disabled: {
-                type: Boolean,
-                default: false
-            },
-            dic: {
-                default: () => {
-                    return [];
-                }
-            }
-        },
-        watch: {
-            value: function (n, o) {
-                this.text = this.value;
-            }
-        },
-        created() {
-            this.text = this.value;
-        },
-        mounted() {
-        },
-        methods: {
-            handleChange(value) {
-                this.$emit("input", value);
-            }
+  export default {
+    name: "CrudRadio",
+    data() {
+      return {
+        text: ""
+      };
+    },
+    props: {
+      value: {
+        default: ""
+      },
+      disabled: {
+        type: Boolean,
+        default: false
+      },
+      dic: {
+        default: () => {
+          return [];
         }
-    };
+      }
+    },
+    watch: {
+      value: function (n, o) {
+        this.text = this.value;
+      }
+    },
+    created() {
+      this.text = this.value;
+    },
+    mounted() {
+    },
+    methods: {
+      handleChange(value) {
+        this.$emit("input", value);
+      }
+    }
+  };
 </script>
 
 <style>

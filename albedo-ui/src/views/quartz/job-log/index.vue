@@ -104,108 +104,108 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
-    import util from "@/util/util";
-    import {baseUrl} from "../../../config/env";
-    import jobLogService from "../job/job-log-service";
+  import {mapGetters} from "vuex";
+  import util from "@/util/util";
+  import {baseUrl} from "../../../config/env";
+  import jobLogService from "../job/job-log-service";
 
-    export default {
-        name: "table_quartz_jobLog",
-        data() {
-            return {
-                searchJobLogFilterVisible: true,
-                listJobLog: null,
-                totalJobLog: null,
-                listJobLogLoading: true,
-                searchJobLogForm: {},
-                listJobLogQuery: {
-                    page: 1,
-                    size: 20
-                },
-                tableKeyJobLog: 1
-            };
+  export default {
+    name: "table_quartz_jobLog",
+    data() {
+      return {
+        searchJobLogFilterVisible: true,
+        listJobLog: null,
+        totalJobLog: null,
+        listJobLogLoading: true,
+        searchJobLogForm: {},
+        listJobLogQuery: {
+          page: 1,
+          size: 20
         },
-        computed: {
-            ...mapGetters(["permissions", "dicts"])
-        },
-        filters: {},
-        created() {
-            this.getListJobLog();
-            this.quartz_jobLog_export = this.permissions["quartz_jobLog_export"];
-            this.quartz_jobLog_clean = this.permissions["quartz_jobLog_clean"];
-            this.quartz_jobLog_del = this.permissions["quartz_jobLog_del"];
-            this.statusOptions = this.dicts["sys_status"];
-        },
-        methods: {
-            getListJobLog() {
-                this.listJobLogLoading = true;
-                this.listJobLogQuery.queryConditionJson = util.parseJsonItemForm([
-                    {fieldName: 'jobName', value: this.searchJobLogForm.jobName, operate: 'like', attrType: 'String'},
-                    {fieldName: 'jobGroup', value: this.searchJobLogForm.jobGroup, operate: 'like', attrType: 'String'},
-                    {fieldName: 'status', value: this.searchJobLogForm.status, operate: 'eq', attrType: 'String'},
-                ]);
-                jobLogService.page(this.listJobLogQuery).then(response => {
-                    this.listJobLog = response.data.records;
-                    this.totalJobLog = response.data.total;
-                    this.listJobLogLoading = false;
-                });
-            },
-            sortChangeJobLog(column) {
-                if (column.order == "ascending") {
-                    this.listJobLogQuery.ascs = column.prop;
-                    this.listJobLogQuery.descs = undefined;
-                } else {
-                    this.listJobLogQuery.descs = column.prop;
-                    this.listJobLogQuery.ascs = undefined;
-                }
-                this.getListJobLog()
-            },
-            searchResetJobLog() {
-                this.$refs['searchJobLogForm'].resetFields();
-            },
-            handleJobLogFilter() {
-                this.listJobLogQuery.page = 1;
-                this.getListJobLog();
-            },
-            handleJobLogSizeChange(val) {
-                this.listJobLogQuery.size = val;
-                this.getListJobLog();
-            },
-            handleJobLogCurrentChange(val) {
-                this.listJobLogQuery.page = val;
-                this.getListJobLog();
-            },
-            handleJobLogDelete(row) {
-                this.$confirm(
-                    "此操作将永久删除该任务调度日志, 是否继续?",
-                    "提示",
-                    {
-                        confirmButtonText: "确定",
-                        cancelButtonText: "取消",
-                        type: "warning"
-                    }
-                ).then(() => {
-                    jobLogService.remove(row.id).then((data) => {
-                        this.getListJobLog();
-                    });
-                });
-            },
-            handleJobLogClean(row) {
-                this.$confirm('确定要此操作吗?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    jobLogService.clean(row.id).then((rs) => {
-                        this.getListJobLog();
-                    })
-                })
-            },
-            handleJobLogExport() {
-                jobLogService.export(this.listJobLogQuery).then(response => {
-                    window.location.href = `${window.location.origin}` + baseUrl + "/file/download?fileName=" + encodeURI(response.data) + "&delete=" + true;
-                });
-            }
+        tableKeyJobLog: 1
+      };
+    },
+    computed: {
+      ...mapGetters(["permissions", "dicts"])
+    },
+    filters: {},
+    created() {
+      this.getListJobLog();
+      this.quartz_jobLog_export = this.permissions["quartz_jobLog_export"];
+      this.quartz_jobLog_clean = this.permissions["quartz_jobLog_clean"];
+      this.quartz_jobLog_del = this.permissions["quartz_jobLog_del"];
+      this.statusOptions = this.dicts["sys_status"];
+    },
+    methods: {
+      getListJobLog() {
+        this.listJobLogLoading = true;
+        this.listJobLogQuery.queryConditionJson = util.parseJsonItemForm([
+          {fieldName: 'jobName', value: this.searchJobLogForm.jobName, operate: 'like', attrType: 'String'},
+          {fieldName: 'jobGroup', value: this.searchJobLogForm.jobGroup, operate: 'like', attrType: 'String'},
+          {fieldName: 'status', value: this.searchJobLogForm.status, operate: 'eq', attrType: 'String'},
+        ]);
+        jobLogService.page(this.listJobLogQuery).then(response => {
+          this.listJobLog = response.data.records;
+          this.totalJobLog = response.data.total;
+          this.listJobLogLoading = false;
+        });
+      },
+      sortChangeJobLog(column) {
+        if (column.order == "ascending") {
+          this.listJobLogQuery.ascs = column.prop;
+          this.listJobLogQuery.descs = undefined;
+        } else {
+          this.listJobLogQuery.descs = column.prop;
+          this.listJobLogQuery.ascs = undefined;
         }
-    };
+        this.getListJobLog()
+      },
+      searchResetJobLog() {
+        this.$refs['searchJobLogForm'].resetFields();
+      },
+      handleJobLogFilter() {
+        this.listJobLogQuery.page = 1;
+        this.getListJobLog();
+      },
+      handleJobLogSizeChange(val) {
+        this.listJobLogQuery.size = val;
+        this.getListJobLog();
+      },
+      handleJobLogCurrentChange(val) {
+        this.listJobLogQuery.page = val;
+        this.getListJobLog();
+      },
+      handleJobLogDelete(row) {
+        this.$confirm(
+          "此操作将永久删除该任务调度日志, 是否继续?",
+          "提示",
+          {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          }
+        ).then(() => {
+          jobLogService.remove(row.id).then((data) => {
+            this.getListJobLog();
+          });
+        });
+      },
+      handleJobLogClean(row) {
+        this.$confirm('确定要此操作吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          jobLogService.clean(row.id).then((rs) => {
+            this.getListJobLog();
+          })
+        })
+      },
+      handleJobLogExport() {
+        jobLogService.export(this.listJobLogQuery).then(response => {
+          window.location.href = `${window.location.origin}` + baseUrl + "/file/download?fileName=" + encodeURI(response.data) + "&delete=" + true;
+        });
+      }
+    }
+  };
 </script>

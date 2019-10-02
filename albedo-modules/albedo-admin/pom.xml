@@ -27,7 +27,6 @@
 	<artifactId>albedo-admin</artifactId>
 	<packaging>war</packaging>
 
-	<description>pig 通用用户权限管理系统业务处理模块</description>
 	<dependencies>
 		<!--upms api、model 模块-->
 		<dependency>

@@ -133,108 +133,108 @@
 </template>
 
 <script>
-    import {forceLogout, pageToken, removeToken} from "./service";
-    import {mapGetters} from 'vuex';
-    import util from "@/util/util";
+  import {forceLogout, pageToken, removeToken} from "./service";
+  import {mapGetters} from 'vuex';
+  import util from "@/util/util";
 
-    export default {
-        name: 'Token',
-        data() {
-            return {
-                treeMenuData: [],
-                dialogFormVisible: false,
-                searchFilterVisible: true,
-                checkedKeys: [],
-                list: null,
-                total: null,
-                listLoading: true,
-                searchForm: {},
-                listQuery: {
-                    current: 1,
-                    size: 20
-                },
-                formEdit: true,
-                sysOnlineStatusOptions: [],
-                sys_persistentToken_del: false,
-                currentNode: {},
-                tableKey: 0
-            }
+  export default {
+    name: 'Token',
+    data() {
+      return {
+        treeMenuData: [],
+        dialogFormVisible: false,
+        searchFilterVisible: true,
+        checkedKeys: [],
+        list: null,
+        total: null,
+        listLoading: true,
+        searchForm: {},
+        listQuery: {
+          current: 1,
+          size: 20
         },
-        watch: {},
-        created() {
-            this.getList();
-            this.sysOnlineStatusOptions = this.dicts["sys_online_status"];
-            this.sys_persistentToken_del = this.permissions["sys_persistentToken_del"];
-        },
-        computed: {
-            ...mapGetters([
-                "permissions", "dicts"
-            ])
-        },
-        methods: {
-            getList() {
-                this.listLoading = true;
-                this.listQuery.queryConditionJson = util.parseJsonItemForm([{
-                    fieldName: 'username', value: this.searchForm.username
-                }, {
-                    fieldName: 'status', value: this.searchForm.status
-                }]);
-                pageToken(this.listQuery).then(response => {
-                    this.list = response.data.records;
-                    this.total = response.data.total;
-                    this.listLoading = false;
-                });
-            },
-            sortChange(column) {
-                if (column.order == "ascending") {
-                    this.listQuery.ascs = column.prop;
-                    this.listQuery.descs = undefined;
-                } else {
-                    this.listQuery.descs = column.prop;
-                    this.listQuery.ascs = undefined;
-                }
-                this.getList()
-            },
-
-            //搜索清空
-            searchReset() {
-                this.$refs['searchForm'].resetFields();
-            },
-            handleFilter() {
-                this.listQuery.current = 1;
-                this.getList();
-            },
-            handleSizeChange(val) {
-                this.listQuery.size = val;
-                this.getList();
-            },
-            handleCurrentChange(val) {
-                this.listQuery.current = val;
-                this.getList();
-            },
-            handleLogout(row) {
-                this.$confirm('确定要强制选中用户下线吗？', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    forceLogout(row.id).then(response => {
-                        this.getList();
-                    })
-                })
-            },
-            handleDelete(row) {
-                this.$confirm('确定要强制删除选中用户吗？', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    removeToken(row.id).then(response => {
-                        this.getList();
-                    })
-                })
-            }
+        formEdit: true,
+        sysOnlineStatusOptions: [],
+        sys_persistentToken_del: false,
+        currentNode: {},
+        tableKey: 0
+      }
+    },
+    watch: {},
+    created() {
+      this.getList();
+      this.sysOnlineStatusOptions = this.dicts["sys_online_status"];
+      this.sys_persistentToken_del = this.permissions["sys_persistentToken_del"];
+    },
+    computed: {
+      ...mapGetters([
+        "permissions", "dicts"
+      ])
+    },
+    methods: {
+      getList() {
+        this.listLoading = true;
+        this.listQuery.queryConditionJson = util.parseJsonItemForm([{
+          fieldName: 'username', value: this.searchForm.username
+        }, {
+          fieldName: 'status', value: this.searchForm.status
+        }]);
+        pageToken(this.listQuery).then(response => {
+          this.list = response.data.records;
+          this.total = response.data.total;
+          this.listLoading = false;
+        });
+      },
+      sortChange(column) {
+        if (column.order == "ascending") {
+          this.listQuery.ascs = column.prop;
+          this.listQuery.descs = undefined;
+        } else {
+          this.listQuery.descs = column.prop;
+          this.listQuery.ascs = undefined;
         }
+        this.getList()
+      },
+
+      //搜索清空
+      searchReset() {
+        this.$refs['searchForm'].resetFields();
+      },
+      handleFilter() {
+        this.listQuery.current = 1;
+        this.getList();
+      },
+      handleSizeChange(val) {
+        this.listQuery.size = val;
+        this.getList();
+      },
+      handleCurrentChange(val) {
+        this.listQuery.current = val;
+        this.getList();
+      },
+      handleLogout(row) {
+        this.$confirm('确定要强制选中用户下线吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          forceLogout(row.id).then(response => {
+            this.getList();
+          })
+        })
+      },
+      handleDelete(row) {
+        this.$confirm('确定要强制删除选中用户吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          removeToken(row.id).then(response => {
+            this.getList();
+          })
+        })
+      }
     }
+  }
 </script>
 

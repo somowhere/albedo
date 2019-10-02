@@ -264,299 +264,299 @@
 </template>
 
 <script>
-    import jobService from "./job-service";
-    import {mapGetters} from "vuex";
-    import util from "@/util/util";
-    import validate from "../../../util/validate";
-    import jobLogService from "./job-log-service";
-    import {baseUrl} from "../../../config/env";
+  import jobService from "./job-service";
+  import {mapGetters} from "vuex";
+  import util from "@/util/util";
+  import validate from "../../../util/validate";
+  import jobLogService from "./job-log-service";
+  import {baseUrl} from "../../../config/env";
 
-    export default {
-        name: "table_quartz_job",
-        data() {
-            return {
-                searchFilterVisible: true,
-                dialogFormVisible: false,
-                dialogJobLogVisible: false,
-                list: null,
-                total: null,
-                listLoading: true,
-                searchJobForm: {},
-                listQuery: {
-                    page: 1,
-                    size: 20
-                },
-                form: {
-                    name: undefined,
-                    group: undefined,
-                    invokeTarget: undefined,
-                    cronExpression: undefined,
-                    misfirePolicy: undefined,
-                    concurrent: undefined,
-                    available: undefined,
-                    description: undefined,
-                },
-                sortList: [],
-                validateCronExpression: (rule, value, callback) => {
-                    jobService.validateCronExpression(rule, value, callback, this.form.id)
-                },
-                misfirePolicyOptions: undefined,
-                concurrentOptions: undefined,
-                availableOptions: undefined,
-                dialogStatus: 'create',
-                textMap: {
-                    update: '编辑任务调度',
-                    create: '创建任务调度'
-                },
-                tableKey: 0,
-                searchJobLogFilterVisible: false,
-                listJobLog: null,
-                totalJobLog: null,
-                listJobLogLoading: true,
-                searchJobLogForm: {},
-                listJobLogQuery: {
-                    page: 1,
-                    size: 10
-                },
-                tableKeyJobLog: 1
-            };
+  export default {
+    name: "table_quartz_job",
+    data() {
+      return {
+        searchFilterVisible: true,
+        dialogFormVisible: false,
+        dialogJobLogVisible: false,
+        list: null,
+        total: null,
+        listLoading: true,
+        searchJobForm: {},
+        listQuery: {
+          page: 1,
+          size: 20
         },
-        computed: {
-            ...mapGetters(["permissions", "dicts"])
+        form: {
+          name: undefined,
+          group: undefined,
+          invokeTarget: undefined,
+          cronExpression: undefined,
+          misfirePolicy: undefined,
+          concurrent: undefined,
+          available: undefined,
+          description: undefined,
         },
-        filters: {},
-        created() {
-            this.getList();
-            this.quartz_job_run = this.permissions["quartz_job_run"];
-            this.quartz_job_edit = this.permissions["quartz_job_edit"];
-            this.quartz_job_log_view = this.permissions["quartz_job_log_view"];
-            this.quartz_job_del = this.permissions["quartz_job_del"];
-            this.quartz_jobLog_export = this.permissions["quartz_jobLog_export"];
-            this.quartz_jobLog_clean = this.permissions["quartz_jobLog_clean"];
-            this.quartz_jobLog_del = this.permissions["quartz_jobLog_del"];
-            this.statusOptions = this.dicts["sys_status"];
-            this.jobGroupOptions = this.dicts["sys_job_group"];
-            this.misfirePolicyOptions = this.dicts["sys_misfire_policy"];
-            this.concurrentOptions = this.dicts["sys_flag"];
-            this.availableOptions = this.dicts["sys_flag"];
+        sortList: [],
+        validateCronExpression: (rule, value, callback) => {
+          jobService.validateCronExpression(rule, value, callback, this.form.id)
         },
-        methods: {
-            getList() {
-                this.listLoading = true;
-                this.listQuery.quedoConditionJson = util.parseJsonItemForm([
-                    {fieldName: 'name', value: this.searchJobForm.name, operate: 'like', attrType: 'String'},
-                    {fieldName: 'group', value: this.searchJobForm.group, operate: 'like', attrType: 'String'},
-                ]);
-                jobService.page(this.listQuery).then(response => {
-                    this.list = response.data.records;
-                    this.total = response.data.total;
-                    this.listLoading = false;
-                });
-            },
-            sortChange(column) {
-                if (column.order == "ascending") {
-                    this.listQuery.ascs = column.prop;
-                    this.listQuery.descs = undefined;
-                } else {
-                    this.listQuery.descs = column.prop;
-                    this.listQuery.ascs = undefined;
-                }
-                this.getList()
-            },
-            searchReset() {
-                this.$refs['searchJobForm'].resetFields();
-            },
-            handleFilter() {
-                this.listQuery.page = 1;
-                this.getList();
-            },
-            handleSizeChange(val) {
-                this.listQuery.size = val;
-                this.getList();
-            },
-            handleCurrentChange(val) {
-                this.listQuery.page = val;
-                this.getList();
-            },
-            handleEdit(row) {
-                this.resetForm();
-                this.dialogStatus = row && !validate.checkNull(row.id) ? "update" : "create";
-                if (this.dialogStatus == "create") {
-                    this.dialogFormVisible = true;
-                } else {
-                    jobService.find(row.id).then(response => {
-                        this.form = response.data;
-                        this.form.misfirePolicy = util.objToStr(this.form.misfirePolicy);
-                        this.form.concurrent = util.objToStr(this.form.concurrent);
-                        this.form.available = util.objToStr(this.form.available);
-                        this.form.delFlag = util.objToStr(this.form.delFlag);
-                        this.dialogFormVisible = true;
-                    });
-                }
-            },
-            handleJobLog(row) {
-                this.dialogJobLogVisible = true;
-                this.getListJobLog();
-            },
-            availableChange(available, id) {
-                this.$confirm(
-                    "您确定要执行此操作吗?",
-                    "提示",
-                    {
-                        confirmButtonText: "确定",
-                        cancelButtonText: "取消",
-                        type: "warning"
-                    }
-                ).then(() => {
-                    jobService.available(id).then((data) => {
-                        this.getList();
-                    });
-                });
-            },
-            concurrentChange(concurrent, id) {
-                this.$confirm(
-                    "您确定要执行此操作吗?",
-                    "提示",
-                    {
-                        confirmButtonText: "确定",
-                        cancelButtonText: "取消",
-                        type: "warning"
-                    }
-                ).then(() => {
-                    jobService.concurrent(id).then((data) => {
-                        this.getList();
-                    });
-                });
-            },
-            cancel() {
-                this.dialogFormVisible = false;
-                this.$refs['form'].resetFields();
-            },
-            save() {
-                const set = this.$refs;
-                set['form'].validate(valid => {
-                    if (valid) {
-                        jobService.save(this.form).then((data) => {
-                            this.getList();
-                            this.cancel()
-                        });
-                    } else {
-                        return false;
-                    }
-                });
-            },
-            handleRun(row) {
-                this.$confirm(
-                    "此操作将永久删除该任务调度, 是否继续?",
-                    "提示",
-                    {
-                        confirmButtonText: "确定",
-                        cancelButtonText: "取消",
-                        type: "warning"
-                    }
-                ).then(() => {
-                    jobService.run(row.id).then((data) => {
-                        this.getList();
-                    });
-                });
-            },
-            handleDelete(row) {
-                this.$confirm(
-                    "此操作将永久删除该任务调度, 是否继续?",
-                    "提示",
-                    {
-                        confirmButtonText: "确定",
-                        cancelButtonText: "取消",
-                        type: "warning"
-                    }
-                ).then(() => {
-                    jobService.remove(row.id).then((data) => {
-                        this.getList();
-                    });
-                });
-            },
-            resetForm() {
-                this.form = {
-                    name: "",
-                    group: "",
-                    invokeTarget: "",
-                    cronExpression: "",
-                    misfirePolicy: "",
-                    concurrent: "",
-                    available: "",
-                    description: "",
-                };
-                this.$refs['form'] && this.$refs['form'].resetFields();
-            },
-            getListJobLog() {
-                this.listJobLogLoading = true;
-                this.listJobLogQuery.queryConditionJson = util.parseJsonItemForm([
-                    {fieldName: 'jobName', value: this.searchJobLogForm.jobName, operate: 'like', attrType: 'String'},
-                    {fieldName: 'jobGroup', value: this.searchJobLogForm.jobGroup, operate: 'like', attrType: 'String'},
-                    {fieldName: 'status', value: this.searchJobLogForm.status, operate: 'eq', attrType: 'String'},
-                ]);
-                jobLogService.page(this.listJobLogQuery).then(response => {
-                    this.listJobLog = response.data.records;
-                    this.totalJobLog = response.data.total;
-                    this.listJobLogLoading = false;
-                });
-            },
-            sortChangeJobLog(column) {
-                if (column.order == "ascending") {
-                    this.listJobLogQuery.ascs = column.prop;
-                    this.listJobLogQuery.descs = undefined;
-                } else {
-                    this.listJobLogQuery.descs = column.prop;
-                    this.listJobLogQuery.ascs = undefined;
-                }
-                this.getListJobLog()
-            },
-            searchResetJobLog() {
-                this.$refs['searchJobLogForm'].resetFields();
-            },
-            handleJobLogFilter() {
-                this.listJobLogQuery.page = 1;
-                this.getListJobLog();
-            },
-            handleJobLogSizeChange(val) {
-                this.listJobLogQuery.size = val;
-                this.getListJobLog();
-            },
-            handleJobLogCurrentChange(val) {
-                this.listJobLogQuery.page = val;
-                this.getListJobLog();
-            },
-            handleJobLogDelete(row) {
-                this.$confirm(
-                    "此操作将永久删除该任务调度日志, 是否继续?",
-                    "提示",
-                    {
-                        confirmButtonText: "确定",
-                        cancelButtonText: "取消",
-                        type: "warning"
-                    }
-                ).then(() => {
-                    jobLogService.remove(row.id).then((data) => {
-                        this.getListJobLog();
-                    });
-                });
-            },
-            handleJobLogClean(row) {
-                this.$confirm('确定要此操作吗?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    jobLogService.clean(row.id).then((rs) => {
-                        this.getListJobLog();
-                    })
-                })
-            },
-            handleJobLogExport() {
-                jobLogService.export(this.listJobLogQuery).then(response => {
-                    window.location.href = `${window.location.origin}` + baseUrl + "/file/download?fileName=" + encodeURI(response.data) + "&delete=" + true;
-                });
-            }
+        misfirePolicyOptions: undefined,
+        concurrentOptions: undefined,
+        availableOptions: undefined,
+        dialogStatus: 'create',
+        textMap: {
+          update: '编辑任务调度',
+          create: '创建任务调度'
+        },
+        tableKey: 0,
+        searchJobLogFilterVisible: false,
+        listJobLog: null,
+        totalJobLog: null,
+        listJobLogLoading: true,
+        searchJobLogForm: {},
+        listJobLogQuery: {
+          page: 1,
+          size: 10
+        },
+        tableKeyJobLog: 1
+      };
+    },
+    computed: {
+      ...mapGetters(["permissions", "dicts"])
+    },
+    filters: {},
+    created() {
+      this.getList();
+      this.quartz_job_run = this.permissions["quartz_job_run"];
+      this.quartz_job_edit = this.permissions["quartz_job_edit"];
+      this.quartz_job_log_view = this.permissions["quartz_job_log_view"];
+      this.quartz_job_del = this.permissions["quartz_job_del"];
+      this.quartz_jobLog_export = this.permissions["quartz_jobLog_export"];
+      this.quartz_jobLog_clean = this.permissions["quartz_jobLog_clean"];
+      this.quartz_jobLog_del = this.permissions["quartz_jobLog_del"];
+      this.statusOptions = this.dicts["sys_status"];
+      this.jobGroupOptions = this.dicts["sys_job_group"];
+      this.misfirePolicyOptions = this.dicts["sys_misfire_policy"];
+      this.concurrentOptions = this.dicts["sys_flag"];
+      this.availableOptions = this.dicts["sys_flag"];
+    },
+    methods: {
+      getList() {
+        this.listLoading = true;
+        this.listQuery.quedoConditionJson = util.parseJsonItemForm([
+          {fieldName: 'name', value: this.searchJobForm.name, operate: 'like', attrType: 'String'},
+          {fieldName: 'group', value: this.searchJobForm.group, operate: 'like', attrType: 'String'},
+        ]);
+        jobService.page(this.listQuery).then(response => {
+          this.list = response.data.records;
+          this.total = response.data.total;
+          this.listLoading = false;
+        });
+      },
+      sortChange(column) {
+        if (column.order == "ascending") {
+          this.listQuery.ascs = column.prop;
+          this.listQuery.descs = undefined;
+        } else {
+          this.listQuery.descs = column.prop;
+          this.listQuery.ascs = undefined;
         }
-    };
+        this.getList()
+      },
+      searchReset() {
+        this.$refs['searchJobForm'].resetFields();
+      },
+      handleFilter() {
+        this.listQuery.page = 1;
+        this.getList();
+      },
+      handleSizeChange(val) {
+        this.listQuery.size = val;
+        this.getList();
+      },
+      handleCurrentChange(val) {
+        this.listQuery.page = val;
+        this.getList();
+      },
+      handleEdit(row) {
+        this.resetForm();
+        this.dialogStatus = row && !validate.checkNull(row.id) ? "update" : "create";
+        if (this.dialogStatus == "create") {
+          this.dialogFormVisible = true;
+        } else {
+          jobService.find(row.id).then(response => {
+            this.form = response.data;
+            this.form.misfirePolicy = util.objToStr(this.form.misfirePolicy);
+            this.form.concurrent = util.objToStr(this.form.concurrent);
+            this.form.available = util.objToStr(this.form.available);
+            this.form.delFlag = util.objToStr(this.form.delFlag);
+            this.dialogFormVisible = true;
+          });
+        }
+      },
+      handleJobLog(row) {
+        this.dialogJobLogVisible = true;
+        this.getListJobLog();
+      },
+      availableChange(available, id) {
+        this.$confirm(
+          "您确定要执行此操作吗?",
+          "提示",
+          {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          }
+        ).then(() => {
+          jobService.available(id).then((data) => {
+            this.getList();
+          });
+        });
+      },
+      concurrentChange(concurrent, id) {
+        this.$confirm(
+          "您确定要执行此操作吗?",
+          "提示",
+          {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          }
+        ).then(() => {
+          jobService.concurrent(id).then((data) => {
+            this.getList();
+          });
+        });
+      },
+      cancel() {
+        this.dialogFormVisible = false;
+        this.$refs['form'].resetFields();
+      },
+      save() {
+        const set = this.$refs;
+        set['form'].validate(valid => {
+          if (valid) {
+            jobService.save(this.form).then((data) => {
+              this.getList();
+              this.cancel()
+            });
+          } else {
+            return false;
+          }
+        });
+      },
+      handleRun(row) {
+        this.$confirm(
+          "此操作将永久删除该任务调度, 是否继续?",
+          "提示",
+          {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          }
+        ).then(() => {
+          jobService.run(row.id).then((data) => {
+            this.getList();
+          });
+        });
+      },
+      handleDelete(row) {
+        this.$confirm(
+          "此操作将永久删除该任务调度, 是否继续?",
+          "提示",
+          {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          }
+        ).then(() => {
+          jobService.remove(row.id).then((data) => {
+            this.getList();
+          });
+        });
+      },
+      resetForm() {
+        this.form = {
+          name: "",
+          group: "",
+          invokeTarget: "",
+          cronExpression: "",
+          misfirePolicy: "",
+          concurrent: "",
+          available: "",
+          description: "",
+        };
+        this.$refs['form'] && this.$refs['form'].resetFields();
+      },
+      getListJobLog() {
+        this.listJobLogLoading = true;
+        this.listJobLogQuery.queryConditionJson = util.parseJsonItemForm([
+          {fieldName: 'jobName', value: this.searchJobLogForm.jobName, operate: 'like', attrType: 'String'},
+          {fieldName: 'jobGroup', value: this.searchJobLogForm.jobGroup, operate: 'like', attrType: 'String'},
+          {fieldName: 'status', value: this.searchJobLogForm.status, operate: 'eq', attrType: 'String'},
+        ]);
+        jobLogService.page(this.listJobLogQuery).then(response => {
+          this.listJobLog = response.data.records;
+          this.totalJobLog = response.data.total;
+          this.listJobLogLoading = false;
+        });
+      },
+      sortChangeJobLog(column) {
+        if (column.order == "ascending") {
+          this.listJobLogQuery.ascs = column.prop;
+          this.listJobLogQuery.descs = undefined;
+        } else {
+          this.listJobLogQuery.descs = column.prop;
+          this.listJobLogQuery.ascs = undefined;
+        }
+        this.getListJobLog()
+      },
+      searchResetJobLog() {
+        this.$refs['searchJobLogForm'].resetFields();
+      },
+      handleJobLogFilter() {
+        this.listJobLogQuery.page = 1;
+        this.getListJobLog();
+      },
+      handleJobLogSizeChange(val) {
+        this.listJobLogQuery.size = val;
+        this.getListJobLog();
+      },
+      handleJobLogCurrentChange(val) {
+        this.listJobLogQuery.page = val;
+        this.getListJobLog();
+      },
+      handleJobLogDelete(row) {
+        this.$confirm(
+          "此操作将永久删除该任务调度日志, 是否继续?",
+          "提示",
+          {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          }
+        ).then(() => {
+          jobLogService.remove(row.id).then((data) => {
+            this.getListJobLog();
+          });
+        });
+      },
+      handleJobLogClean(row) {
+        this.$confirm('确定要此操作吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          jobLogService.clean(row.id).then((rs) => {
+            this.getListJobLog();
+          })
+        })
+      },
+      handleJobLogExport() {
+        jobLogService.export(this.listJobLogQuery).then(response => {
+          window.location.href = `${window.location.origin}` + baseUrl + "/file/download?fileName=" + encodeURI(response.data) + "&delete=" + true;
+        });
+      }
+    }
+  };
 </script>

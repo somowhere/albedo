@@ -4,7 +4,6 @@
 package com.albedo.java.modules.quartz.service.impl;
 
 import cn.hutool.core.convert.Convert;
-import com.albedo.java.common.core.annotation.BaseInit;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.ScheduleConstants;
 import com.albedo.java.common.core.exception.RuntimeMsgException;
@@ -18,12 +17,9 @@ import com.albedo.java.modules.quartz.domain.vo.JobDataVo;
 import com.albedo.java.modules.quartz.repository.JobRepository;
 import com.albedo.java.modules.quartz.service.JobService;
 import com.albedo.java.modules.quartz.util.CronUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
@@ -35,8 +31,6 @@ import java.util.List;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class JobServiceImpl extends DataVoServiceImpl<JobRepository, Job, String, JobDataVo> implements JobService {
-
-
 
 
 	/**
@@ -207,7 +201,7 @@ public class JobServiceImpl extends DataVoServiceImpl<JobRepository, Job, String
 	public void available(List<String> idList) {
 		idList.forEach(id -> {
 			Job job = baseMapper.selectById(id);
-				changeStatus(job);
+			changeStatus(job);
 		});
 	}
 

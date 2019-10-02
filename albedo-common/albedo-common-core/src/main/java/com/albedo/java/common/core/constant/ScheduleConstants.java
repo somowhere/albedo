@@ -58,7 +58,6 @@ public interface ScheduleConstants {
 	}
 
 
-
 	enum MessageType {
 		/**
 		 * 创建

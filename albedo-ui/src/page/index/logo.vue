@@ -17,20 +17,20 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
+  import {mapGetters} from "vuex";
 
-    export default {
-        name: "logo",
-        data() {
-            return {};
-        },
-        created() {
-        },
-        computed: {
-            ...mapGetters(["website", "keyCollapse"])
-        },
-        methods: {}
-    };
+  export default {
+    name: "logo",
+    data() {
+      return {};
+    },
+    created() {
+    },
+    computed: {
+      ...mapGetters(["website", "keyCollapse"])
+    },
+    methods: {}
+  };
 </script>
 
 <style lang="scss">

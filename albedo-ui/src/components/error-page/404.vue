@@ -17,19 +17,19 @@
 </template>
 
 <script>
-    export default {
-        name: "Error404",
-        methods: {
-            backPage() {
-                this.$router.go(-1);
-            },
-            goHome() {
-                this.$router.push({
-                    path: "/"
-                });
-            }
-        }
-    };
+  export default {
+    name: "Error404",
+    methods: {
+      backPage() {
+        this.$router.go(-1);
+      },
+      goHome() {
+        this.$router.push({
+          path: "/"
+        });
+      }
+    }
+  };
 </script>
 <style lang="scss" scoped>
   @keyframes error404animation {
