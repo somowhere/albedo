@@ -58,7 +58,6 @@
         </el-dialog>
         <el-col :span="16"
                 style='margin-top:15px;'>
-          <el-card class="box-card">
             <el-form :label-position="labelPosition"
                      :model="form"
                      :rules="rules"
@@ -100,7 +99,6 @@
               </el-button>
               <el-button @click="onCancel" size="small">取消</el-button>
             </el-form>
-          </el-card>
         </el-col>
       </el-row>
     </basic-container>

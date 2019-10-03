@@ -4,7 +4,7 @@
       <el-row :gutter="20">
         <el-col :span="5"
                 style='margin-top:15px;'>
-          <el-card class="box-card">
+          <el-card class="box-card" shadow="never">
             <div class="clearfix" slot="header">
               <span>菜单</span>
               <el-button @click="searchTree=(searchTree ? false:true)" class="card-heard-btn" icon="icon-filesearch"

@@ -3,7 +3,7 @@
     <basic-container>
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-card class="box-card">
+          <el-card class="box-card" shadow="never">
             <div class="clearfix" slot="header">
               <span>字典</span>
               <el-button @click="searchTree=(searchTree ? false:true)" class="card-heard-btn" icon="icon-filesearch"

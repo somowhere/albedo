@@ -27,10 +27,10 @@
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.1.6.RELEASE  
-Mybatis Plus | 3.1.2
-hutool | 4.5.16
-Avue | 1.6.0
+Spring Boot |  2.1.8.RELEASE  
+Mybatis Plus | 3.2.0
+hutool | 4.6.5
+Avue | 2.1.0
    
 
 
