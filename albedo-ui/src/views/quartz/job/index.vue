@@ -154,7 +154,6 @@
 
       <el-dialog :visible.sync="dialogJobLogVisible" title="任务调度日志" width="90%">
         <div class="app-container calendar-listJobLog-container">
-          <basic-container>
             <div class="filter-container">
               <el-form :inline="true" :model="searchJobLogForm" ref="searchJobLogForm"
                        v-show="searchJobLogFilterVisible">
@@ -248,7 +247,7 @@
               </el-table-column>
 
             </el-table>
-            <div class="pagination-container" v-show="!listJobLogLoading">
+            <div class="pagination-container" style="height: 50px" v-show="!listJobLogLoading">
               <el-pagination :current-page.sync="listJobLogQuery.current" :page-size="listJobLogQuery.size"
                              :page-sizes="[10,20,30, 50]"
                              :total="totalJobLog" @current-change="handleJobLogCurrentChange"
@@ -256,7 +255,6 @@
                              class="pull-right" layout="total, sizes, prev, pager, next, jumper">
               </el-pagination>
             </div>
-          </basic-container>
         </div>
       </el-dialog>
     </basic-container>

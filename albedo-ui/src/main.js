@@ -31,11 +31,11 @@ import ace from 'ace-builds'
 Vue.prototype.checkNull = validate.checkNull;
 
 Vue.use(ElementUI, {
-  size: 'medium',
+  size: 'mini',
   menuType: 'text'
 })
 Vue.use(Avue, {
-  size: 'medium',
+  size: 'mini',
   menuType: 'text'
 });
 
