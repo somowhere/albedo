@@ -83,12 +83,12 @@
 
         <el-table-column align="center" label="操作">
           <template slot-scope="scope">
-            <el-button @click="handleEdit(scope.row)" icon="icon-edit" title="编辑" type="text" v-if="gen_scheme_edit">
+            <el-button @click="handleEdit(scope.row)" icon="icon-edit" type="primary" title="编辑" size="mini" circle  v-if="gen_scheme_edit">
             </el-button>
-            <el-button @click="handleGenCodeDialog(scope.row)" icon="icon-block" title="生成代码" type="text"
+            <el-button @click="handleGenCodeDialog(scope.row)" icon="icon-block" title="生成代码" type="info" size="mini" circle
                        v-if="gen_scheme_edit">
             </el-button>
-            <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text" v-if="gen_scheme_del">
+            <el-button @click="handleDelete(scope.row)" icon="icon-delete" type="danger" title="删除" size="mini" circle  v-if="gen_scheme_del">
             </el-button>
           </template>
         </el-table-column>
@@ -195,7 +195,7 @@
                  width="90%">
         <el-tabs>
           <el-tab-pane :key="key" :label="key" v-for="(value, key) in tabCodePreviewMap">
-            <Ace :value="value"></Ace>
+            <Ace ref="aceEditor" :value="value"></Ace>
           </el-tab-pane>
         </el-tabs>
       </el-dialog>
@@ -390,6 +390,11 @@
         }
         schemeService.previewCode(this.currentRow.id).then(response => {
           this.tabCodePreviewMap = response.data;
+          // if(this.$refs.aceEditor){
+          //   this.$refs.aceEditor.forEach(item=>{
+          //     item.init()
+          //   })
+          // }
           this.dialogCodePreviewVisible = true;
         })
       },

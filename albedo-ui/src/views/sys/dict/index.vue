@@ -54,7 +54,7 @@
           <el-table :data="list" :default-sort="{prop:'dict.sort'}" :key='tableKey' @sort-change="sortChange"
                     element-loading-text="加载中..." fit highlight-current-row v-loading="listLoading">
             <el-table-column
-              fixed="left" type="index" width="20">
+              fixed="left" type="index" width="40">
             </el-table-column>
             <el-table-column align="center" label="上级字典" width="100">
               <template slot-scope="scope">
@@ -100,9 +100,9 @@
 
             <el-table-column align="center" fixed="right" label="操作" v-if="sys_dict_edit || sys_dict_del" width="100">
               <template slot-scope="scope">
-                <el-button @click="handleEdit(scope.row)" icon="icon-edit" title="编辑" type="text" v-if="sys_dict_edit">
+                <el-button @click="handleEdit(scope.row)" icon="icon-edit" type="primary" title="编辑" v-if="sys_dict_edit" circle>
                 </el-button>
-                <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text"
+                <el-button @click="handleDelete(scope.row)" icon="icon-delete" type="danger" title="删除" size="mini" circle
                            v-if="sys_dict_del">
                 </el-button>
               </template>

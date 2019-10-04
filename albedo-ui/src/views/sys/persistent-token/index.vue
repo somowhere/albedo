@@ -28,7 +28,7 @@
           <el-table :data="list" :key='tableKey' @sort-change="sortChange" element-loading-text="加载中..."
                     fit highlight-current-row v-loading="listLoading">
             <el-table-column
-              fixed="left" type="index" width="20">
+              fixed="left" type="index" width="40">
             </el-table-column>
             <el-table-column align="center" label="令牌" width="210">
               <template slot-scope="scope">
@@ -68,7 +68,7 @@
 
             <el-table-column align="center" fixed="right" label="操作" v-if="sys_persistentToken_del" width="60">
               <template slot-scope="scope">
-                <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text"
+                <el-button @click="handleDelete(scope.row)" icon="icon-delete" type="danger" title="删除" size="mini" circle
                            v-if="sys_persistentToken_del">
                 </el-button>
               </template>

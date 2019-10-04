@@ -30,7 +30,7 @@
           <el-table :data="list" :key='tableKey' @sort-change="sortChange" element-loading-text="加载中..."
                     fit highlight-current-row v-loading="listLoading">
             <el-table-column
-              fixed="left" type="index" width="20">
+              fixed="left" type="index" width="40">
             </el-table-column>
             <el-table-column align="center" label="角色名称" width="100">
               <template slot-scope="scope">
@@ -74,13 +74,13 @@
                              v-if="sys_role_edit || sys_role_lock || sys_role_del"
                              width="130">
               <template slot-scope="scope">
-                <el-button @click="handleEdit(scope.row)" icon="icon-edit" title="编辑" type="text" v-if="sys_role_edit">
+                <el-button @click="handleEdit(scope.row)" icon="icon-edit" type="primary" title="编辑" size="mini" circle  v-if="sys_role_edit">
                 </el-button>
                 <el-button :icon="scope.row.available == '0' ? 'icon-lock' : 'icon-unlock'"
                            :title="scope.row.available == '0' ? '锁定' : '解锁'"
-                           @click="handleLock(scope.row)" type="text" v-if="sys_role_lock">
+                           @click="handleLock(scope.row)"  type="info" size="mini" circle  v-if="sys_role_lock">
                 </el-button>
-                <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text"
+                <el-button @click="handleDelete(scope.row)" icon="icon-delete" type="danger" title="删除" size="mini" circle
                            v-if="sys_role_del">
                 </el-button>
               </template>

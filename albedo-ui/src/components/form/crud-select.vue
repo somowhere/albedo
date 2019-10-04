@@ -1,5 +1,5 @@
 <template>
-  <el-select :clearable="clearable" :disabled="disabled" :filterable="filterable" :multiple="multiple"
+  <el-select style="width: 100%" :clearable="clearable" :disabled="disabled" :filterable="filterable" :multiple="multiple"
              :placeholder="placeholder?placeholder:`请选择${label}`"
              :size="size"
              @change="handleChange" v-model="text">

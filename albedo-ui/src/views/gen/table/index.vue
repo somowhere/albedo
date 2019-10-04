@@ -70,9 +70,9 @@
 
         <el-table-column align="center" label="操作">
           <template slot-scope="scope">
-            <el-button @click="handleEdit(scope.row)" icon="icon-edit" title="编辑" type="text" v-if="gen_table_edit">
+            <el-button @click="handleEdit(scope.row)" icon="icon-edit" type="primary" title="编辑" size="mini" circle  v-if="gen_table_edit">
             </el-button>
-            <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text" v-if="gen_table_del">
+            <el-button @click="handleDelete(scope.row)" icon="icon-delete" type="danger" title="删除" size="mini" circle  v-if="gen_table_del">
             </el-button>
           </template>
         </el-table-column>
@@ -228,6 +228,7 @@
         list: null,
         total: null,
         listLoading: true,
+        needRefresh: false,
         searchForm: {},
         listQuery: {
           page: 1,
@@ -303,6 +304,7 @@
         this.getList();
       },
       handleEdit(row) {
+        this.needRefresh=true
         this.dialogStatus = row && !validate.checkNull(row.id) ? "update" : "create";
         if (this.dialogStatus == "create") {
           tableService.findSelect().then(response => {

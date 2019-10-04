@@ -87,23 +87,7 @@
       value: String
     },
     mounted() {
-      this.aceEditor = ace.edit(this.$refs.ace, {
-        maxLines: 60,
-        minLines: 20,
-        fontSize: 14,
-        value: this.value ? this.value : '',
-        theme: this.themePath,
-        mode: this.modePath,
-        wrap: this.wrap,
-        tabSize: 4
-      });
-      // 激活自动提示
-      this.aceEditor.setOptions({
-        enableSnippets: true,
-        enableLiveAutocompletion: true,
-        enableBasicAutocompletion: true
-      });
-      this.aceEditor.getSession().on('change', this.change)
+      this.init();
     },
     data() {
       return {
@@ -116,7 +100,31 @@
         wrapArray: wrapArray
       }
     },
+    watch: {
+      value: function (n, o) {
+        this.aceEditor.setValue(n)
+      }
+    },
     methods: {
+      init(){
+        this.aceEditor = ace.edit(this.$refs.ace, {
+          maxLines: 60,
+          minLines: 20,
+          fontSize: 14,
+          value: this.value ? this.value : '',
+          theme: this.themePath,
+          mode: this.modePath,
+          wrap: this.wrap,
+          tabSize: 4
+        });
+        // 激活自动提示
+        this.aceEditor.setOptions({
+          enableSnippets: true,
+          enableLiveAutocompletion: true,
+          enableBasicAutocompletion: true
+        });
+        this.aceEditor.getSession().on('change', this.change)
+      },
       toggleConfigPanel() {
         this.toggle = !this.toggle
       },

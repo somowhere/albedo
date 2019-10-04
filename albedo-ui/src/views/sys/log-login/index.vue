@@ -79,7 +79,7 @@
         </el-table-column>
         <el-table-column align="center" fixed="right" label="操作" v-if="sys_logLogin_del">
           <template slot-scope="scope">
-            <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text"
+            <el-button @click="handleDelete(scope.row)" icon="icon-delete" type="danger" title="删除" size="mini" circle
                        v-if="sys_logLogin_del">
             </el-button>
           </template>

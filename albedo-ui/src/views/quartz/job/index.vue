@@ -78,14 +78,11 @@
         </el-table-column>
         <el-table-column align="center" fixed="right" label="操作" v-if="quartz_job_edit || quartz_job_del">
           <template slot-scope="scope">
-            <el-button @click="handleRun(scope.row)" icon="icon-edit" title="执行" type="text" v-if="quartz_job_run">
-              执行
+            <el-button @click="handleRun(scope.row)" icon="icon-check-circle" type="primary" title="执行" size="mini" circle v-if="quartz_job_run">
             </el-button>
-            <el-button @click="handleEdit(scope.row)" icon="icon-edit" title="编辑" type="text" v-if="quartz_job_edit">
-              编辑
+            <el-button @click="handleEdit(scope.row)" icon="icon-edit" type="info" title="编辑" size="mini" circle  v-if="quartz_job_edit">
             </el-button>
-            <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text" v-if="quartz_job_del">
-              删除
+            <el-button @click="handleDelete(scope.row)" icon="icon-delete" type="danger" title="删除" size="mini" circle  v-if="quartz_job_del">
             </el-button>
           </template>
         </el-table-column>
@@ -240,7 +237,7 @@
               </el-table-column>
               <el-table-column align="center" fixed="right" label="操作" v-if="quartz_jobLog_del">
                 <template slot-scope="scope">
-                  <el-button @click="handleJobLogDelete(scope.row)" icon="icon-delete" title="删除" type="text"
+                  <el-button @click="handleJobLogDelete(scope.row)" icon="icon-delete" type="danger" title="删除" size="mini" circle
                              v-if="quartz_jobLog_del">
                   </el-button>
                 </template>
