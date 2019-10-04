@@ -34,6 +34,19 @@
                     @sort-change="sortChange" element-loading-text="加载中..." fit highlight-current-row
                     v-loading="listLoading">
             <el-table-column
+              fixed="left"  type="expand" width="40">
+              <template slot-scope="props">
+                <el-form label-position="left" inline class="demo-table-expand">
+                  <el-form-item label="用户代理">
+                    <span>{{ props.row.userAgent }}</span>
+                  </el-form-item>
+                  <el-form-item label="操作系统">
+                    <span>{{ props.row.os }}</span>
+                  </el-form-item>
+                </el-form>
+              </template>
+            </el-table-column>
+            <el-table-column
               fixed="left" type="index" width="40">
             </el-table-column>
             <el-table-column align="center" label="标题" width="120">
@@ -95,13 +108,6 @@
           </span>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="操作系统">
-              <template slot-scope="scope">
-          <span>
-            {{scope.row.os}}
-          </span>
-              </template>
-            </el-table-column>
             <el-table-column align="center" label="请求方式" width="100">
               <template slot-scope="scope">
           <span>
@@ -119,7 +125,7 @@
                 {{scope.row.username}}
               </template>
             </el-table-column>
-            <el-table-column align="center" label="创建时间" prop="created_date" sortable="custom">
+            <el-table-column align="center" label="创建时间" width="160" prop="created_date" sortable="custom">
               <template slot-scope="scope">
                 {{scope.row.createdDate}}
               </template>

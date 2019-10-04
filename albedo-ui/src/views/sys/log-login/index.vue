@@ -32,6 +32,18 @@
       </div>
       <el-table :data="list" :key='tableKey' @sort-change="sortChange" element-loading-text="加载中..."
                 fit highlight-current-row v-loading="listLoading">
+        <el-table-column type="expand" width="40">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="用户代理">
+                <span>{{ props.row.userAgent }}</span>
+              </el-form-item>
+              <el-form-item label="操作系统">
+                <span>{{ props.row.os }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
         <el-table-column align="center" label="登录账号">
           <template slot-scope="scope">
             <span>{{scope.row.loginName}}</span>
@@ -47,24 +59,14 @@
             <span>{{scope.row.loginLocation}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="用户代理">
-          <template slot-scope="scope">
-            <span>{{scope.row.userAgent}}</span>
-          </template>
-        </el-table-column>
         <el-table-column align="center" label="浏览器类型">
           <template slot-scope="scope">
             <span>{{scope.row.browser}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="操作系统">
+        <el-table-column align="center" label="登录状态" width="80">
           <template slot-scope="scope">
-            <span>{{scope.row.os}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="登录状态">
-          <template slot-scope="scope">
-            <span>{{scope.row.status}}</span>
+            <span>{{scope.row.statusText}}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="提示消息">

@@ -8,12 +8,15 @@ import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.WebUtil;
 import com.albedo.java.modules.sys.domain.LogLogin;
 import com.albedo.java.modules.sys.service.LogLoginService;
+import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.Objects;
 import java.util.TimerTask;
 
@@ -24,6 +27,7 @@ import java.util.TimerTask;
  */
 public class AsyncUtil {
 	private static final Logger sys_user_logger = LoggerFactory.getLogger("sys-user");
+	private static final AsyncTaskExecutor executor = SpringContextHolder.getBean("taskExecutor");
 
 	/**
 	 * 记录登陆信息
@@ -34,14 +38,14 @@ public class AsyncUtil {
 	 * @param args     列表
 	 * @return 任务task
 	 */
-	public static TimerTask recordLogLogin(final String username, final String status,
+	public static void recordLogLogin(final String username, final String status,
 										   final String message, final Object... args) {
 		HttpServletRequest request = ((ServletRequestAttributes) Objects
 			.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-
-		UserAgent userAgent = UserAgentUtil.parse(request.getHeader("User-Agent"));
+		String userAgentStr = request.getHeader("User-Agent");
+		UserAgent userAgent = UserAgentUtil.parse(userAgentStr);
 		final String ip = WebUtil.getIP(request);
-		return new TimerTask() {
+		executor.execute(new TimerTask() {
 			@Override
 			public void run() {
 				String address = AddressUtil.getRealAddressByIP(ip);
@@ -58,14 +62,16 @@ public class AsyncUtil {
 				logLogin.setLoginName(username);
 				logLogin.setIpAddress(ip);
 				logLogin.setLoginLocation(address);
+				logLogin.setUserAgent(userAgentStr);
 				logLogin.setBrowser(userAgent.getBrowser().getName());
 				logLogin.setOs(userAgent.getOs().getName());
+				logLogin.setLoginTime(new Date());
 				logLogin.setMessage(message);
 				// 日志状态
 				logLogin.setStatus(status);
 				// 插入数据
 				SpringContextHolder.getBean(LogLoginService.class).save(logLogin);
 			}
-		};
+		});
 	}
 }

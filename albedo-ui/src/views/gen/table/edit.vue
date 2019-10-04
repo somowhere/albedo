@@ -201,8 +201,14 @@
             // this.form.password = undefined;
             tableService.save(this.form).then(response => {
               this.cancel('form');
-              this.$store.commit("DEL_TAG", this.$store.getters.tag);
-              this.$router.push({path: '/gen/table'})
+              this.$store.commit("DEL_TAG", this.$store.getters.tag)
+              let returnPath = '/gen/table';
+              this.$store.getters.tagList.forEach(item=>{
+                if(returnPath === item.value){
+                  this.$store.commit("DEL_TAG", item)
+                }
+              })
+              this.$router.push({path: returnPath})
             });
           } else {
             this.activeName = 'first';

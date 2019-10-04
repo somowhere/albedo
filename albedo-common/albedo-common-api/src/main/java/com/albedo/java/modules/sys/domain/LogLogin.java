@@ -5,7 +5,9 @@ package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.persistence.domain.BaseEntity;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 
@@ -101,6 +103,11 @@ public class LogLogin extends BaseEntity<LogLogin> {
 	private static final long serialVersionUID = 1L;
 
 	//columns START
+	/**
+	 * 编号
+	 */
+	@TableId(value = "id", type = IdType.AUTO)
+	private Long id;
 	/**
 	 * loginName 登录账号
 	 */

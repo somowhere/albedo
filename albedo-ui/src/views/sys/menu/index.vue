@@ -114,7 +114,7 @@
                 <el-tag>{{scope.row.showText}}</el-tag>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="序号" prop="menu.sort" sortable="custom">
+            <el-table-column align="center" label="序号" width="140" prop="menu.sort" sortable="custom">
               <template slot-scope="scope">
                 <span>
                   <el-input-number :ref="'sort'+scope.row.id" :step="5" size="small"
