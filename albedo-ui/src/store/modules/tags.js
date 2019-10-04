@@ -37,7 +37,6 @@ const navs = {
   mutations: {
     ADD_TAG: (state, action) => {
       state.tag = action;
-      console.log(action)
       storeApi.set({name: 'tag', content: state.tag, type: 'session'});
       if (state.tagList.some(ele => util.diff(ele, action))) return;
       let exit = false;
