@@ -64,9 +64,9 @@
       </#list>
       <el-table-column align="center" fixed="right" label="操作" v-if="${permissionPrefix}_edit || ${permissionPrefix}_del">
         <template slot-scope="scope">
-          <el-button v-if="${permissionPrefix}_edit" icon="icon-edit" title="编辑" type="text" @click="handleEdit(scope.row)">
+          <el-button v-if="${permissionPrefix}_edit" icon="icon-edit" type="primary" title="编辑" size="mini" circle @click="handleEdit(scope.row)">
           </el-button>
-          <el-button v-if="${permissionPrefix}_del" icon="icon-delete" title="删除" type="text" @click="handleDelete(scope.row)">
+          <el-button v-if="${permissionPrefix}_del" icon="icon-delete" type="danger" title="删除" size="mini" circle @click="handleDelete(scope.row)">
           </el-button>
         </template>
       </el-table-column>

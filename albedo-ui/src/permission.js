@@ -32,7 +32,7 @@ router.beforeEach((to, from, next) => {
   const meta = to.meta || {};
   let addTag = function () {
     const value = to.query.src || to.fullPath;
-    const label = to.query.label || to.query.name ||to.name;
+    const label = to.query.label || to.query.name || to.name;
     if (meta.isTab !== false && !validate.checkNull(value) && !validate.checkNull(label)) {
       store.commit('ADD_TAG', {
         label: label,

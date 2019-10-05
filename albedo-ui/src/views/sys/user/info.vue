@@ -89,106 +89,106 @@
 
 
 <script>
-    import {mapState} from 'vuex'
-    import store from "@/store";
-    import request from '@/router/axios'
+  import {mapState} from 'vuex'
+  import store from "@/store";
+  import request from '@/router/axios'
 
-    export default {
-        data() {
-            let validatePass = (rule, value, callback) => {
-                if (this.ruleForm2.password !== '') {
-                    if (value !== this.ruleForm2.newpassword1) {
-                        callback(new Error('两次输入密码不一致!'))
-                    } else {
-                        callback()
-                    }
-                } else {
-                    callback()
-                }
-            };
-            return {
-                switchStatus: '',
-                avatarUrl: '',
-                show: false,
-                headers: {
-                    Authorization: 'Bearer ' + store.getters.access_token
-                },
-                ruleForm2: {
-                    username: '',
-                    password: '',
-                    newpassword1: '',
-                    newpassword2: '',
-                    avatar: '',
-                    phone: ''
-                },
-                rules2: {
-                    password: [{required: true, min: 6, message: '原密码不能为空且不少于6位', trigger: 'change'}],
-                    newpassword1: [{required: false, min: 6, message: '不少于6位', trigger: 'change'}],
-                    newpassword2: [{required: false, validator: validatePass, trigger: 'blur'}]
-                }
-            }
-        },
-        created() {
-            this.ruleForm2.username = this.user.username;
-            this.ruleForm2.phone = this.user.phone;
-            this.switchStatus = 'userManager'
-        },
-        computed: {
-            ...mapState({
-                user: state => state.user.user
-            }),
-        },
-        methods: {
-            switchTab(tab, event) {
-                this.switchStatus = tab.name
-            },
-            submitForm(formName) {
-                this.$refs[formName].validate(valid => {
-                    if (valid) {
-                        request({
-                            url: '/sys/user/edit',
-                            method: 'put',
-                            data: this.ruleForm2
-                        }).then(response => {
-                            if (response.data) {
-                                this.$notify({
-                                    title: '成功',
-                                    message: '修改成功',
-                                    type: 'success',
-                                    duration: 2000
-                                });
-                                // 修改密码之后强制重新登录
-                                if (this.switchStatus === 'passwordManager') {
-                                    this.$store.dispatch('logOut').then(() => {
-                                        location.reload() // 为了重新实例化vue-router对象 避免bug
-                                    })
-                                }
-                            } else {
-                                this.$notify({
-                                    title: '失败',
-                                    message: response.data.message,
-                                    type: 'error',
-                                    duration: 2000
-                                })
-                            }
-                        }).catch(() => {
-                            this.$notify({
-                                title: '失败',
-                                message: '修改失败',
-                                type: 'error',
-                                duration: 2000
-                            })
-                        })
-                    } else {
-                        return false
-                    }
-                })
-            },
-            resetForm(formName) {
-                this.$refs[formName].resetFields()
-            }
+  export default {
+    data() {
+      let validatePass = (rule, value, callback) => {
+        if (this.ruleForm2.password !== '') {
+          if (value !== this.ruleForm2.newpassword1) {
+            callback(new Error('两次输入密码不一致!'))
+          } else {
+            callback()
+          }
+        } else {
+          callback()
         }
+      };
+      return {
+        switchStatus: '',
+        avatarUrl: '',
+        show: false,
+        headers: {
+          Authorization: 'Bearer ' + store.getters.access_token
+        },
+        ruleForm2: {
+          username: '',
+          password: '',
+          newpassword1: '',
+          newpassword2: '',
+          avatar: '',
+          phone: ''
+        },
+        rules2: {
+          password: [{required: true, min: 6, message: '原密码不能为空且不少于6位', trigger: 'change'}],
+          newpassword1: [{required: false, min: 6, message: '不少于6位', trigger: 'change'}],
+          newpassword2: [{required: false, validator: validatePass, trigger: 'blur'}]
+        }
+      }
+    },
+    created() {
+      this.ruleForm2.username = this.user.username;
+      this.ruleForm2.phone = this.user.phone;
+      this.switchStatus = 'userManager'
+    },
+    computed: {
+      ...mapState({
+        user: state => state.user.user
+      }),
+    },
+    methods: {
+      switchTab(tab, event) {
+        this.switchStatus = tab.name
+      },
+      submitForm(formName) {
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            request({
+              url: '/sys/user/edit',
+              method: 'put',
+              data: this.ruleForm2
+            }).then(response => {
+              if (response.data) {
+                this.$notify({
+                  title: '成功',
+                  message: '修改成功',
+                  type: 'success',
+                  duration: 2000
+                });
+                // 修改密码之后强制重新登录
+                if (this.switchStatus === 'passwordManager') {
+                  this.$store.dispatch('logOut').then(() => {
+                    location.reload() // 为了重新实例化vue-router对象 避免bug
+                  })
+                }
+              } else {
+                this.$notify({
+                  title: '失败',
+                  message: response.data.message,
+                  type: 'error',
+                  duration: 2000
+                })
+              }
+            }).catch(() => {
+              this.$notify({
+                title: '失败',
+                message: '修改失败',
+                type: 'error',
+                duration: 2000
+              })
+            })
+          } else {
+            return false
+          }
+        })
+      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields()
+      }
     }
+  }
 </script>
 <style>
   .avatar-uploader .el-upload {

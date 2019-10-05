@@ -21,30 +21,30 @@
   </div>
 </template>
 <script>
-    import '@/styles/login.scss'
-    import userLogin from "./userlogin";
-    import {mapGetters} from "vuex";
+  import '@/styles/login.scss'
+  import userLogin from "./userlogin";
+  import {mapGetters} from "vuex";
 
-    export default {
-        name: "login",
-        components: {
-            userLogin
-        },
-        data() {
-            return {
-                activeName: "user"
-            };
-        },
-        watch: {},
-        created() {
-        },
-        mounted() {
-        },
-        computed: {
-            ...mapGetters(["website"])
-        },
-        props: [],
-        methods: {}
-    };
+  export default {
+    name: "login",
+    components: {
+      userLogin
+    },
+    data() {
+      return {
+        activeName: "user"
+      };
+    },
+    watch: {},
+    created() {
+    },
+    mounted() {
+    },
+    computed: {
+      ...mapGetters(["website"])
+    },
+    props: [],
+    methods: {}
+  };
 </script>
 

@@ -346,144 +346,144 @@
 </template>
 
 <script>
-    import {getMetrics, threadDump} from "./service";
+  import {getMetrics, threadDump} from "./service";
 
-    export default {
-        components: {},
-        name: "admin_metrics",
-        directives: {},
-        data() {
-            return {
-                dialogVisible: false,
-                threadDump: [],
-                threadDumpData: [],
-                threadDumpAll: 0,
-                threadDumpBlocked: 0,
-                threadDumpRunnable: 0,
-                threadDumpTimedWaiting: 0,
-                threadDumpWaiting: 0,
-                threadDumpFilter: '',
-                metrics: {gauges: {}, meters: {}, counters: {}, timers: {}, histograms: {}},
-                cachesStats: {},
-                updatingMetrics: true,
-                servicesStats: {},
-                JCACHE_KEY: 'net.sf.ehcache.Cache'
-            };
-        },
-        computed: {
-            // ...mapGetters(['authorities'])
-        },
-        filters: {
-            numFilter(value) {
-                if (isNaN(value)) return 0;
-                let realVal = Number(value).toFixed(2);
-                return Number(realVal)
-            },
-            filterNaN(input) {
-                if (isNaN(input)) {
-                    return 0;
-                }
-                return input;
-            }
-        },
-        created() {
-            this.initPageData();
-
-        },
-        methods: {
-            numFilter(value) {
-                if (isNaN(value)) return 0;
-                let realVal = Number(value).toFixed(2);
-                return Number(realVal)
-            },
-            getVal(val) {
-                return this.numFilter(val && val.value);
-            },
-            getValByKey(val, key) {
-                return this.numFilter(val && val[key]);
-            },
-            showDialog() {
-                this.dialogVisible = true;
-                threadDump().then(data => {
-                    data.forEach((value) => {
-                        value.show = false;
-                    });
-                    this.threadDump = data;
-                    this.threadDumpData = data;
-                    this.threadDump.forEach((value) => {
-                        value.show = false;
-                        if (value.threadState === 'RUNNABLE') {
-                            this.threadDumpRunnable += 1;
-                        } else if (value.threadState === 'WAITING') {
-                            this.threadDumpWaiting += 1;
-                        } else if (value.threadState === 'TIMED_WAITING') {
-                            this.threadDumpTimedWaiting += 1;
-                        } else if (value.threadState === 'BLOCKED') {
-                            this.threadDumpBlocked += 1;
-                        }
-                    });
-
-                    this.threadDumpAll = this.threadDumpRunnable + this.threadDumpWaiting +
-                        this.threadDumpTimedWaiting + this.threadDumpBlocked;
-                })
-            },
-            showDetail(entry) {
-                entry.show = !entry.show;
-            },
-            getBadgeClass(threadState) {
-                if (threadState === 'RUNNABLE') {
-                    return 'badge-success';
-                } else if (threadState === 'WAITING') {
-                    return 'badge-info';
-                } else if (threadState === 'TIMED_WAITING') {
-                    return 'badge-warning';
-                } else if (threadState === 'BLOCKED') {
-                    return 'badge-danger';
-                }
-            },
-            threadDumpFilterByState(state) {
-                this.threadDumpFilter = state;
-                let dump = [];
-
-                this.threadDumpData.forEach((value) => {
-                    if (state == 'ALL' || value.threadState == state) {
-                        dump.push(value);
-                    }
-                });
-                this.threadDump = dump;
-            },
-            initPageData() {
-
-                this.updatingMetrics = true;
-                getMetrics().then(metrics => {
-                    this.metrics = metrics;
-                    this.servicesStats = {};
-                    this.cachesStats = {};
-                    Object.keys(metrics.timers).forEach((key) => {
-                        const value = metrics.timers[key];
-                        if (key.indexOf('web') !== -1 || key.indexOf('service') !== -1) {
-                            this.servicesStats[key] = value;
-                        }
-                    });
-                    Object.keys(metrics.gauges).forEach((key) => {
-                        if (key.indexOf('jcache.statistics') !== -1) {
-                            const value = metrics.gauges[key].value;
-                            // remove gets or puts
-                            const index = key.lastIndexOf('.');
-                            const newKey = key.substr(0, index);
-
-                            // Keep the name of the domain
-                            this.cachesStats[newKey] = {
-                                'name': this.JCACHE_KEY.length,
-                                'value': value
-                            };
-                        }
-                    });
-
-                    this.updatingMetrics = false;
-                });
-            }
-
+  export default {
+    components: {},
+    name: "admin_metrics",
+    directives: {},
+    data() {
+      return {
+        dialogVisible: false,
+        threadDump: [],
+        threadDumpData: [],
+        threadDumpAll: 0,
+        threadDumpBlocked: 0,
+        threadDumpRunnable: 0,
+        threadDumpTimedWaiting: 0,
+        threadDumpWaiting: 0,
+        threadDumpFilter: '',
+        metrics: {gauges: {}, meters: {}, counters: {}, timers: {}, histograms: {}},
+        cachesStats: {},
+        updatingMetrics: true,
+        servicesStats: {},
+        JCACHE_KEY: 'net.sf.ehcache.Cache'
+      };
+    },
+    computed: {
+      // ...mapGetters(['authorities'])
+    },
+    filters: {
+      numFilter(value) {
+        if (isNaN(value)) return 0;
+        let realVal = Number(value).toFixed(2);
+        return Number(realVal)
+      },
+      filterNaN(input) {
+        if (isNaN(input)) {
+          return 0;
         }
-    };
+        return input;
+      }
+    },
+    created() {
+      this.initPageData();
+
+    },
+    methods: {
+      numFilter(value) {
+        if (isNaN(value)) return 0;
+        let realVal = Number(value).toFixed(2);
+        return Number(realVal)
+      },
+      getVal(val) {
+        return this.numFilter(val && val.value);
+      },
+      getValByKey(val, key) {
+        return this.numFilter(val && val[key]);
+      },
+      showDialog() {
+        this.dialogVisible = true;
+        threadDump().then(data => {
+          data.forEach((value) => {
+            value.show = false;
+          });
+          this.threadDump = data;
+          this.threadDumpData = data;
+          this.threadDump.forEach((value) => {
+            value.show = false;
+            if (value.threadState === 'RUNNABLE') {
+              this.threadDumpRunnable += 1;
+            } else if (value.threadState === 'WAITING') {
+              this.threadDumpWaiting += 1;
+            } else if (value.threadState === 'TIMED_WAITING') {
+              this.threadDumpTimedWaiting += 1;
+            } else if (value.threadState === 'BLOCKED') {
+              this.threadDumpBlocked += 1;
+            }
+          });
+
+          this.threadDumpAll = this.threadDumpRunnable + this.threadDumpWaiting +
+            this.threadDumpTimedWaiting + this.threadDumpBlocked;
+        })
+      },
+      showDetail(entry) {
+        entry.show = !entry.show;
+      },
+      getBadgeClass(threadState) {
+        if (threadState === 'RUNNABLE') {
+          return 'badge-success';
+        } else if (threadState === 'WAITING') {
+          return 'badge-info';
+        } else if (threadState === 'TIMED_WAITING') {
+          return 'badge-warning';
+        } else if (threadState === 'BLOCKED') {
+          return 'badge-danger';
+        }
+      },
+      threadDumpFilterByState(state) {
+        this.threadDumpFilter = state;
+        let dump = [];
+
+        this.threadDumpData.forEach((value) => {
+          if (state == 'ALL' || value.threadState == state) {
+            dump.push(value);
+          }
+        });
+        this.threadDump = dump;
+      },
+      initPageData() {
+
+        this.updatingMetrics = true;
+        getMetrics().then(metrics => {
+          this.metrics = metrics;
+          this.servicesStats = {};
+          this.cachesStats = {};
+          Object.keys(metrics.timers).forEach((key) => {
+            const value = metrics.timers[key];
+            if (key.indexOf('web') !== -1 || key.indexOf('service') !== -1) {
+              this.servicesStats[key] = value;
+            }
+          });
+          Object.keys(metrics.gauges).forEach((key) => {
+            if (key.indexOf('jcache.statistics') !== -1) {
+              const value = metrics.gauges[key].value;
+              // remove gets or puts
+              const index = key.lastIndexOf('.');
+              const newKey = key.substr(0, index);
+
+              // Keep the name of the domain
+              this.cachesStats[newKey] = {
+                'name': this.JCACHE_KEY.length,
+                'value': value
+              };
+            }
+          });
+
+          this.updatingMetrics = false;
+        });
+      }
+
+    }
+  };
 </script>

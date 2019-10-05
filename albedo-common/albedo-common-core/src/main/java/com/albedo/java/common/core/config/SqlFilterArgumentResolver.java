@@ -17,9 +17,10 @@
 
 package com.albedo.java.common.core.config;
 
-import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.albedo.java.common.core.exception.CheckedException;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -29,9 +30,11 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * @author somewhere
+ * @author somowhere
  * @date 2019-06-24
  * <p>
  * 解决Mybatis Plus Order By SQL注入问题
@@ -41,28 +44,6 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 	private final static String[] KEYWORDS = {"master", "truncate", "insert", "select"
 		, "delete", "update", "declare", "alter", "drop", "sleep"};
 
-	/**
-	 * SQL注入过滤
-	 *
-	 * @param str 待验证的字符串
-	 */
-	public static String[] sqlInject(String[] str) {
-		if (ArrayUtil.isEmpty(str)) {
-			return null;
-		}
-		//转换成小写
-		String inStr = ArrayUtil.join(str, StrUtil.COMMA).toLowerCase();
-
-		//判断是否包含非法字符
-		for (String keyword : KEYWORDS) {
-			if (inStr.contains(keyword)) {
-				log.error("查询包含非法字符 {}", keyword);
-				throw new CheckedException(keyword + "包含非法字符");
-			}
-		}
-
-		return str;
-	}
 
 	/**
 	 * 判断Controller是否包含page 参数
@@ -90,8 +71,8 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 
 		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 
-		String[] ascs = request.getParameterValues("ascs");
-		String[] descs = request.getParameterValues("descs");
+		String ascs = request.getParameter("ascs");
+		String descs = request.getParameter("descs");
 		String current = request.getParameter("current");
 		String size = request.getParameter("size");
 
@@ -104,8 +85,52 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 			page.setSize(Long.parseLong(size));
 		}
 
-		page.setAsc(sqlInject(ascs));
-		page.setDesc(sqlInject(descs));
+		// 过滤 asc 条件
+		List<OrderItem> ascList = sqlInject(ascs, "asc");
+		// 过滤 desc条件
+		List<OrderItem> descList = sqlInject(descs, "desc");
+
+		List<OrderItem> orderItemList = new ArrayList<>();
+		if (CollUtil.isNotEmpty(ascList)) {
+			orderItemList.addAll(ascList);
+		}
+
+		if (CollUtil.isNotEmpty(descList)) {
+			orderItemList.addAll(descList);
+		}
+		page.setOrders(orderItemList);
 		return page;
+	}
+
+	/**
+	 * SQL注入过滤
+	 *
+	 * @param str 待验证的字符串
+	 * @return 返回标准的order 属性
+	 */
+	private static List<OrderItem> sqlInject(String str, String type) {
+		if (StrUtil.isBlank(str)) {
+			return null;
+		}
+		//转换成小写
+		String inStr = str.toLowerCase();
+
+		//判断是否包含非法字符
+		for (String keyword : KEYWORDS) {
+			if (inStr.contains(keyword)) {
+				log.error("查询包含非法字符 {}", keyword);
+				throw new CheckedException(keyword + "包含非法字符");
+			}
+		}
+
+		List<OrderItem> orderItemList = new ArrayList<>();
+		for (String in : str.split(StrUtil.COMMA)) {
+			if ("asc".equals(type)) {
+				orderItemList.add(OrderItem.asc(in));
+			} else {
+				orderItemList.add(OrderItem.desc(in));
+			}
+		}
+		return orderItemList;
 	}
 }

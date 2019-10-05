@@ -64,58 +64,58 @@
 </template>
 
 <script>
-    import {findHealth, getBaseName, getSubSystemName, transformHealthData} from "./service";
+  import {findHealth, getBaseName, getSubSystemName, transformHealthData} from "./service";
 
-    export default {
-        name: "admin_audits",
-        data() {
-            return {
-                dialogVisible: false,
-                listLoading: true,
-                healthData: {},
-                currentHealth: {details: {}}
-            };
-        },
-        created() {
-            this.initPageData();
-        },
-        methods: {
-            baseName(name) {
-                return getBaseName(name);
-            },
-            subSystemName(name) {
-                return getSubSystemName(name);
-            },
-            getBadgeClass(statusState) {
-                if (statusState === 'UP') {
-                    return 'badge-success';
-                } else {
-                    return 'badge-danger';
-                }
-            },
-            showHealth(health) {
-                this.currentHealth = health;
-                this.dialogVisible = true;
-            },
-            readableValue(value) {
-                if (this.currentHealth.name !== 'diskSpace') {
-                    return value.toString();
-                }
-                // Should display storage space in an human readable unit
-                const val = value / 1073741824;
-                if (val > 1) { // Value
-                    return val.toFixed(2) + ' GB';
-                } else {
-                    return (value / 1048576).toFixed(2) + ' MB';
-                }
-            },
-            initPageData() {
-                this.listLoading = true;
-                findHealth().then(rs => {
-                    this.healthData = transformHealthData(rs);
-                    this.listLoading = false;
-                });
-            }
+  export default {
+    name: "admin_audits",
+    data() {
+      return {
+        dialogVisible: false,
+        listLoading: true,
+        healthData: {},
+        currentHealth: {details: {}}
+      };
+    },
+    created() {
+      this.initPageData();
+    },
+    methods: {
+      baseName(name) {
+        return getBaseName(name);
+      },
+      subSystemName(name) {
+        return getSubSystemName(name);
+      },
+      getBadgeClass(statusState) {
+        if (statusState === 'UP') {
+          return 'badge-success';
+        } else {
+          return 'badge-danger';
         }
-    };
+      },
+      showHealth(health) {
+        this.currentHealth = health;
+        this.dialogVisible = true;
+      },
+      readableValue(value) {
+        if (this.currentHealth.name !== 'diskSpace') {
+          return value.toString();
+        }
+        // Should display storage space in an human readable unit
+        const val = value / 1073741824;
+        if (val > 1) { // Value
+          return val.toFixed(2) + ' GB';
+        } else {
+          return (value / 1048576).toFixed(2) + ' MB';
+        }
+      },
+      initPageData() {
+        this.listLoading = true;
+        findHealth().then(rs => {
+          this.healthData = transformHealthData(rs);
+          this.listLoading = false;
+        });
+      }
+    }
+  };
 </script>

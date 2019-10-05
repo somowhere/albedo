@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.albedo.java.common.config.AsyncConfiguration,\
   com.albedo.java.common.config.JacksonMapperConfiguration,\
   com.albedo.java.common.config.LogAutoConfiguration,\
   com.albedo.java.common.config.SecurityAutoConfiguration,\

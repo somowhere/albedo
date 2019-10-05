@@ -21,33 +21,33 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
-    import logo from "../logo";
-    import sidebarItem from "./sidebarItem";
+  import {mapGetters} from "vuex";
+  import logo from "../logo";
+  import sidebarItem from "./sidebarItem";
 
-    export default {
-        name: "sidebar",
-        components: {sidebarItem, logo},
-        data() {
-            return {};
-        },
-        created() {
-            this.$store.dispatch("getUserMenu").then(response => {
-                if (response.length === 0) return;
-                console.log(response);
-                this.$router.$avueRouter.formatRoutes(response, true);
-            });
-        },
-        computed: {
-            ...mapGetters(["website", "menu", "tag", "keyCollapse", "screen"]),
-            nowTagValue: function () {
-                return this.$router.$avueRouter.getValue(this.$route);
-            }
-        },
-        mounted() {
-        },
-        methods: {}
-    };
+  export default {
+    name: "sidebar",
+    components: {sidebarItem, logo},
+    data() {
+      return {};
+    },
+    created() {
+      this.$store.dispatch("getUserMenu").then(response => {
+        if (response.length === 0) return;
+        console.log(response);
+        this.$router.$avueRouter.formatRoutes(response, true);
+      });
+    },
+    computed: {
+      ...mapGetters(["website", "menu", "tag", "keyCollapse", "screen"]),
+      nowTagValue: function () {
+        return this.$router.$avueRouter.getValue(this.$route);
+      }
+    },
+    mounted() {
+    },
+    methods: {}
+  };
 </script>
 <style lang="scss" scoped>
 </style>

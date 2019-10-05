@@ -30,7 +30,7 @@
           <el-table :data="list" :key='tableKey' @sort-change="sortChange" element-loading-text="加载中..."
                     fit highlight-current-row v-loading="listLoading">
             <el-table-column
-              fixed="left" type="index" width="20">
+              fixed="left" type="index" width="40">
             </el-table-column>
             <el-table-column align="center" label="角色名称" width="100">
               <template slot-scope="scope">
@@ -74,13 +74,13 @@
                              v-if="sys_role_edit || sys_role_lock || sys_role_del"
                              width="130">
               <template slot-scope="scope">
-                <el-button @click="handleEdit(scope.row)" icon="icon-edit" title="编辑" type="text" v-if="sys_role_edit">
+                <el-button @click="handleEdit(scope.row)" icon="icon-edit" type="primary" title="编辑" size="mini" circle  v-if="sys_role_edit">
                 </el-button>
                 <el-button :icon="scope.row.available == '0' ? 'icon-lock' : 'icon-unlock'"
                            :title="scope.row.available == '0' ? '锁定' : '解锁'"
-                           @click="handleLock(scope.row)" type="text" v-if="sys_role_lock">
+                           @click="handleLock(scope.row)"  type="info" size="mini" circle  v-if="sys_role_lock">
                 </el-button>
-                <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text"
+                <el-button @click="handleDelete(scope.row)" icon="icon-delete" type="danger" title="删除" size="mini" circle
                            v-if="sys_role_del">
                 </el-button>
               </template>
@@ -151,206 +151,206 @@
 </template>
 
 <script>
-    import roleService from "./role-service";
-    import menuService from "../menu/menu-service";
-    import deptService from "../dept/dept-service";
-    import {mapGetters} from 'vuex';
-    import util from "@/util/util";
-    import validate from "@/util/validate";
+  import roleService from "./role-service";
+  import menuService from "../menu/menu-service";
+  import deptService from "../dept/dept-service";
+  import {mapGetters} from 'vuex';
+  import util from "@/util/util";
+  import validate from "@/util/validate";
 
-    export default {
-        name: 'Role',
-        data() {
-            return {
-                treeDept: [],
-                treeMenuData: [],
-                treeDeptData: [],
-                dialogFormVisible: false,
-                searchFilterVisible: true,
-                checkedKeys: [],
-                list: null,
-                total: null,
-                listLoading: true,
-                searchForm: {},
-                listQuery: {
-                    current: 1,
-                    size: 20
-                },
-                formEdit: true,
-                flagOptions: [],
-                dataScopeOptions: [],
-                form: {
-                    name: undefined,
-                    dataScope: undefined,
-                    code: undefined,
-                    menuIdList: [],
-                    deptIdList: [],
-                    remark: undefined,
-                    available: undefined,
-                    description: undefined
-                },
-                dialogDeptVisible: false,
-                formTreeDeptDataVisible: false,
-                dialogStatus: 'create',
-                textMap: {
-                    update: '编辑',
-                    create: '创建'
-                },
-                sys_role_edit: false,
-                sys_role_lock: false,
-                sys_role_del: false,
-                currentNode: {},
-                tableKey: 0
-            }
+  export default {
+    name: 'Role',
+    data() {
+      return {
+        treeDept: [],
+        treeMenuData: [],
+        treeDeptData: [],
+        dialogFormVisible: false,
+        searchFilterVisible: true,
+        checkedKeys: [],
+        list: null,
+        total: null,
+        listLoading: true,
+        searchForm: {},
+        listQuery: {
+          current: 1,
+          size: 20
         },
-        watch: {},
-        created() {
-            this.getList();
-            this.sys_role_edit = this.permissions["sys_role_edit"];
-            this.sys_role_lock = this.permissions["sys_role_lock"];
-            this.sys_role_del = this.permissions["sys_role_del"];
-            this.flagOptions = this.dicts['sys_flag'];
-            this.dataScopeOptions = this.dicts['sys_data_scope'];
-            menuService.fetchTree().then(rs => {
-                this.treeMenuData = util.parseTreeData(rs.data);
-            });
-            deptService.fetchTreeUser().then(response => {
-                this.treeDeptData = util.parseTreeData(response.data);
-            })
+        formEdit: true,
+        flagOptions: [],
+        dataScopeOptions: [],
+        form: {
+          name: undefined,
+          dataScope: undefined,
+          code: undefined,
+          menuIdList: [],
+          deptIdList: [],
+          remark: undefined,
+          available: undefined,
+          description: undefined
         },
-        computed: {
-            ...mapGetters([
-                "permissions", "dicts"
-            ])
+        dialogDeptVisible: false,
+        formTreeDeptDataVisible: false,
+        dialogStatus: 'create',
+        textMap: {
+          update: '编辑',
+          create: '创建'
         },
-        methods: {
-            getList() {
-                this.listLoading = true;
-                this.listQuery.queryConditionJson = util.parseJsonItemForm([{
-                    fieldName: 'name', value: this.searchForm.name
-                }]);
-                roleService.page(this.listQuery).then(response => {
-                    this.list = response.data.records;
-                    this.total = response.data.total;
-                    this.listLoading = false;
-                });
-            },
-            sortChange(column) {
-                if (column.order == "ascending") {
-                    this.listQuery.ascs = column.prop;
-                    this.listQuery.descs = undefined;
-                } else {
-                    this.listQuery.descs = column.prop;
-                    this.listQuery.ascs = undefined;
-                }
-                this.getList()
-            },
-
-            //搜索清空
-            searchReset() {
-                this.$refs['searchForm'].resetFields();
-            },
-            handleFilter() {
-                this.listQuery.current = 1;
-                this.getList();
-            },
-            handleSizeChange(val) {
-                this.listQuery.size = val;
-                this.getList();
-            },
-            handleCurrentChange(val) {
-                this.listQuery.current = val;
-                this.getList();
-            },
-            handleEdit(row) {
-                this.resetForm();
-                this.dialogStatus = row && validate.checkNotNull(row.id) ? "update" : "create";
-                if (this.dialogStatus == "create") {
-                    this.dialogFormVisible = true;
-                } else {
-                    roleService.find(row.id).then(response => {
-                        this.form = response.data;
-                        this.dialogFormVisible = true;
-                        this.formTreeDeptDataVisible = (this.form.dataScope == 5);
-                        if (validate.checkNull(this.form.deptIdList)) {
-                            this.form.deptIdList = []
-                        }
-                        this.form.dataScope = util.objToStr(this.form.dataScope);
-                        let checkTree = function (tree, idList) {
-                            idList.forEach(id => {
-                                tree.setChecked(id, true, false);
-                            })
-                        };
-                        if (this.$refs.treeMenu) {
-                            checkTree(this.$refs.treeMenu, this.form.menuIdList);
-                            checkTree(this.$refs.treeDept, this.form.deptIdList)
-                        } else {
-                            setTimeout(() => {
-                                console.log(this.form.menuIdList);
-                                checkTree(this.$refs.treeMenu, this.form.menuIdList);
-                                checkTree(this.$refs.treeDept, this.form.deptIdList)
-                            }, 100)
-                        }
-                    });
-                }
-            },
-            handleLock: function (row) {
-                roleService.lock(row.id).then(response => {
-                    this.getList();
-                });
-            },
-            handleDelete(row) {
-                this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    roleService.remove(row.id).then((rs) => {
-                        this.getList();
-                    })
-                })
-            },
-            handleDataScopeChange(value) {
-                this.formTreeDeptDataVisible = (value == 5);
-            },
-            getNodeTreeMenuData(data, obj) {
-                this.form.menuIdList = obj.checkedKeys;
-            },
-            getNodeTreeDeptData(data, obj) {
-                this.form.deptIdList = obj.checkedKeys;
-            },
-            save() {
-                this.$refs['form'].validate(valid => {
-                    if (valid) {
-                        roleService.save(this.form).then(() => {
-                            this.getList();
-                            this.dialogFormVisible = false;
-                        })
-                    } else {
-                        return false;
-                    }
-                });
-            },
-            cancel() {
-                this.dialogFormVisible = false;
-                this.$refs['form'].resetFields();
-            },
-            resetForm() {
-                this.form = {
-                    name: undefined,
-                    dataScope: undefined,
-                    code: undefined,
-                    menuIdList: [],
-                    deptIdList: [],
-                    remark: undefined,
-                    available: undefined,
-                    description: undefined
-                };
-                this.$refs['form'] && this.$refs['form'].resetFields();
-                // this.$refs.treeMenu.setCheckedKeys([]);
-                // this.$refs.treeDept.setCheckedKeys([]);
-            }
+        sys_role_edit: false,
+        sys_role_lock: false,
+        sys_role_del: false,
+        currentNode: {},
+        tableKey: 0
+      }
+    },
+    watch: {},
+    created() {
+      this.getList();
+      this.sys_role_edit = this.permissions["sys_role_edit"];
+      this.sys_role_lock = this.permissions["sys_role_lock"];
+      this.sys_role_del = this.permissions["sys_role_del"];
+      this.flagOptions = this.dicts['sys_flag'];
+      this.dataScopeOptions = this.dicts['sys_data_scope'];
+      menuService.fetchTree().then(rs => {
+        this.treeMenuData = util.parseTreeData(rs.data);
+      });
+      deptService.fetchTreeUser().then(response => {
+        this.treeDeptData = util.parseTreeData(response.data);
+      })
+    },
+    computed: {
+      ...mapGetters([
+        "permissions", "dicts"
+      ])
+    },
+    methods: {
+      getList() {
+        this.listLoading = true;
+        this.listQuery.queryConditionJson = util.parseJsonItemForm([{
+          fieldName: 'name', value: this.searchForm.name
+        }]);
+        roleService.page(this.listQuery).then(response => {
+          this.list = response.data.records;
+          this.total = response.data.total;
+          this.listLoading = false;
+        });
+      },
+      sortChange(column) {
+        if (column.order == "ascending") {
+          this.listQuery.ascs = column.prop;
+          this.listQuery.descs = undefined;
+        } else {
+          this.listQuery.descs = column.prop;
+          this.listQuery.ascs = undefined;
         }
+        this.getList()
+      },
+
+      //搜索清空
+      searchReset() {
+        this.$refs['searchForm'].resetFields();
+      },
+      handleFilter() {
+        this.listQuery.current = 1;
+        this.getList();
+      },
+      handleSizeChange(val) {
+        this.listQuery.size = val;
+        this.getList();
+      },
+      handleCurrentChange(val) {
+        this.listQuery.current = val;
+        this.getList();
+      },
+      handleEdit(row) {
+        this.resetForm();
+        this.dialogStatus = row && validate.checkNotNull(row.id) ? "update" : "create";
+        if (this.dialogStatus == "create") {
+          this.dialogFormVisible = true;
+        } else {
+          roleService.find(row.id).then(response => {
+            this.form = response.data;
+            this.dialogFormVisible = true;
+            this.formTreeDeptDataVisible = (this.form.dataScope == 5);
+            if (validate.checkNull(this.form.deptIdList)) {
+              this.form.deptIdList = []
+            }
+            this.form.dataScope = util.objToStr(this.form.dataScope);
+            let checkTree = function (tree, idList) {
+              idList.forEach(id => {
+                tree.setChecked(id, true, false);
+              })
+            };
+            if (this.$refs.treeMenu) {
+              checkTree(this.$refs.treeMenu, this.form.menuIdList);
+              checkTree(this.$refs.treeDept, this.form.deptIdList)
+            } else {
+              setTimeout(() => {
+                console.log(this.form.menuIdList);
+                checkTree(this.$refs.treeMenu, this.form.menuIdList);
+                checkTree(this.$refs.treeDept, this.form.deptIdList)
+              }, 100)
+            }
+          });
+        }
+      },
+      handleLock: function (row) {
+        roleService.lock(row.id).then(response => {
+          this.getList();
+        });
+      },
+      handleDelete(row) {
+        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          roleService.remove(row.id).then((rs) => {
+            this.getList();
+          })
+        })
+      },
+      handleDataScopeChange(value) {
+        this.formTreeDeptDataVisible = (value == 5);
+      },
+      getNodeTreeMenuData(data, obj) {
+        this.form.menuIdList = obj.checkedKeys;
+      },
+      getNodeTreeDeptData(data, obj) {
+        this.form.deptIdList = obj.checkedKeys;
+      },
+      save() {
+        this.$refs['form'].validate(valid => {
+          if (valid) {
+            roleService.save(this.form).then(() => {
+              this.getList();
+              this.dialogFormVisible = false;
+            })
+          } else {
+            return false;
+          }
+        });
+      },
+      cancel() {
+        this.dialogFormVisible = false;
+        this.$refs['form'].resetFields();
+      },
+      resetForm() {
+        this.form = {
+          name: undefined,
+          dataScope: undefined,
+          code: undefined,
+          menuIdList: [],
+          deptIdList: [],
+          remark: undefined,
+          available: undefined,
+          description: undefined
+        };
+        this.$refs['form'] && this.$refs['form'].resetFields();
+        // this.$refs.treeMenu.setCheckedKeys([]);
+        // this.$refs.treeDept.setCheckedKeys([]);
+      }
     }
+  }
 </script>
 

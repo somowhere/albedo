@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : albedo-mysql
  Source Server Type    : MySQL
- Source Server Version : 50726
+ Source Server Version : 80016
  Source Host           : localhost:3306
  Source Schema         : albedo
 
  Target Server Type    : MySQL
- Target Server Version : 50726
+ Target Server Version : 80016
  File Encoding         : 65001
 
- Date: 18/08/2019 21:19:37
+ Date: 01/10/2019 18:00:09
 */
 
 SET NAMES utf8mb4;
@@ -219,10 +219,6 @@ CREATE TABLE `qrtz_job_details`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of qrtz_job_details
--- ----------------------------
-
--- ----------------------------
 -- Table structure for qrtz_locks
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_locks`;
@@ -231,10 +227,6 @@ CREATE TABLE `qrtz_locks`  (
   `lock_name` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`sched_name`, `lock_name`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of qrtz_locks
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for qrtz_paused_trigger_grps
@@ -257,10 +249,6 @@ CREATE TABLE `qrtz_scheduler_state`  (
   `checkin_interval` bigint(13) NOT NULL,
   PRIMARY KEY (`sched_name`, `instance_name`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of qrtz_scheduler_state
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for qrtz_simple_triggers
@@ -327,8 +315,77 @@ CREATE TABLE `qrtz_triggers`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of qrtz_triggers
+-- Table structure for sys_audit_event
 -- ----------------------------
+DROP TABLE IF EXISTS `sys_audit_event`;
+CREATE TABLE `sys_audit_event`  (
+  `event_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `principal` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `event_date` timestamp(0) NULL DEFAULT NULL,
+  `event_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`event_id`) USING BTREE,
+  INDEX `idx_persistent_audit_event`(`principal`, `event_date`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 660 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of sys_audit_event
+-- ----------------------------
+INSERT INTO `sys_audit_event` VALUES (648, 'admin', '2019-08-05 09:28:50', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `sys_audit_event` VALUES (649, 'admin', '2019-08-05 09:55:26', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `sys_audit_event` VALUES (650, 'admin', '2019-08-05 10:31:01', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `sys_audit_event` VALUES (651, 'admin', '2019-08-05 10:35:06', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `sys_audit_event` VALUES (652, 'admin', '2019-08-05 10:37:22', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `sys_audit_event` VALUES (653, 'admin', '2019-08-05 10:42:48', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `sys_audit_event` VALUES (654, 'admin', '2019-08-05 11:32:23', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `sys_audit_event` VALUES (655, 'admin', '2019-08-05 11:34:41', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `sys_audit_event` VALUES (656, 'admin', '2019-08-05 11:34:41', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `sys_audit_event` VALUES (657, 'admin', '2019-08-05 11:38:32', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `sys_audit_event` VALUES (658, 'admin', '2019-08-05 11:40:23', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `sys_audit_event` VALUES (659, 'admin', '2019-08-05 12:43:34', 'AUTHENTICATION_SUCCESS');
+INSERT INTO `sys_audit_event` VALUES (660, 'admin', '2019-08-05 13:22:21', 'AUTHENTICATION_SUCCESS');
+
+-- ----------------------------
+-- Table structure for sys_audit_event_data
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_audit_event_data`;
+CREATE TABLE `sys_audit_event_data`  (
+  `event_id` bigint(20) NOT NULL,
+  `name` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `value` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`event_id`, `name`) USING BTREE,
+  INDEX `idx_persistent_audit_evt_data`(`event_id`) USING BTREE,
+  CONSTRAINT `sys_audit_event_data_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `sys_audit_event` (`event_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of sys_audit_event_data
+-- ----------------------------
+INSERT INTO `sys_audit_event_data` VALUES (648, 'remoteAddress', '127.0.0.1');
+INSERT INTO `sys_audit_event_data` VALUES (648, 'sessionId', NULL);
+INSERT INTO `sys_audit_event_data` VALUES (649, 'remoteAddress', '127.0.0.1');
+INSERT INTO `sys_audit_event_data` VALUES (649, 'sessionId', NULL);
+INSERT INTO `sys_audit_event_data` VALUES (650, 'remoteAddress', '127.0.0.1');
+INSERT INTO `sys_audit_event_data` VALUES (650, 'sessionId', NULL);
+INSERT INTO `sys_audit_event_data` VALUES (651, 'remoteAddress', '127.0.0.1');
+INSERT INTO `sys_audit_event_data` VALUES (651, 'sessionId', NULL);
+INSERT INTO `sys_audit_event_data` VALUES (652, 'remoteAddress', '127.0.0.1');
+INSERT INTO `sys_audit_event_data` VALUES (652, 'sessionId', NULL);
+INSERT INTO `sys_audit_event_data` VALUES (653, 'remoteAddress', '127.0.0.1');
+INSERT INTO `sys_audit_event_data` VALUES (653, 'sessionId', NULL);
+INSERT INTO `sys_audit_event_data` VALUES (654, 'remoteAddress', '127.0.0.1');
+INSERT INTO `sys_audit_event_data` VALUES (654, 'sessionId', NULL);
+INSERT INTO `sys_audit_event_data` VALUES (655, 'remoteAddress', '127.0.0.1');
+INSERT INTO `sys_audit_event_data` VALUES (655, 'sessionId', NULL);
+INSERT INTO `sys_audit_event_data` VALUES (656, 'remoteAddress', '127.0.0.1');
+INSERT INTO `sys_audit_event_data` VALUES (656, 'sessionId', NULL);
+INSERT INTO `sys_audit_event_data` VALUES (657, 'remoteAddress', '127.0.0.1');
+INSERT INTO `sys_audit_event_data` VALUES (657, 'sessionId', NULL);
+INSERT INTO `sys_audit_event_data` VALUES (658, 'remoteAddress', '127.0.0.1');
+INSERT INTO `sys_audit_event_data` VALUES (658, 'sessionId', NULL);
+INSERT INTO `sys_audit_event_data` VALUES (659, 'remoteAddress', '127.0.0.1');
+INSERT INTO `sys_audit_event_data` VALUES (659, 'sessionId', NULL);
+INSERT INTO `sys_audit_event_data` VALUES (660, 'remoteAddress', '127.0.0.1');
+INSERT INTO `sys_audit_event_data` VALUES (660, 'sessionId', NULL);
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -503,9 +560,9 @@ CREATE TABLE `sys_job`  (
 -- ----------------------------
 -- Records of sys_job
 -- ----------------------------
-INSERT INTO `sys_job` VALUES ('1', '系统默认（无参）', 'DEFAULT', 'simpleTask.doNoParams', '0/59 * * * * ?', '3', '1', '0', '', '2019-08-14 10:21:36.000', '1', '2019-08-15 16:43:24.833', NULL, 5, '0');
-INSERT INTO `sys_job` VALUES ('2', '系统默认（有参）', 'DEFAULT', 'simpleTask.doParams(\'albedo\')', '0/58 * * * * ?', '3', '1', '1', '', '2019-08-14 10:21:36.950', '1', '2019-08-15 17:10:56.781', NULL, 11, '0');
-INSERT INTO `sys_job` VALUES ('3', '系统默认（多参）', 'DEFAULT', 'simpleTask.doMultipleParams(\'albedo\', true, 2000L, 316.50D, 100)', '0/50 * * * * ?', '3', '1', '0', '', '2019-08-14 10:21:36.000', '1', '2019-08-15 16:43:22.501', NULL, 3, '0');
+INSERT INTO `sys_job` VALUES ('1', '系统默认（无参）', 'DEFAULT', 'simpleTask.doNoParams', '0/10 * * * * ?', '3', '1', '0', '', '2019-08-14 10:21:36.000', '1', '2019-08-15 16:43:24.833', NULL, 5, '0');
+INSERT INTO `sys_job` VALUES ('2', '系统默认（有参）', 'DEFAULT', 'simpleTask.doParams(\'albedo\')', '0/15 * * * * ?', '3', '1', '1', '', '2019-08-14 10:21:36.950', '1', '2019-08-15 17:10:56.781', NULL, 11, '0');
+INSERT INTO `sys_job` VALUES ('3', '系统默认（多参）', 'DEFAULT', 'simpleTask.doMultipleParams(\'albedo\', true, 2000L, 316.50D, 100)', '0/20 * * * * ?', '3', '1', '0', '', '2019-08-14 10:21:36.000', '1', '2019-08-15 16:43:22.501', NULL, 3, '0');
 
 -- ----------------------------
 -- Table structure for sys_job_log
@@ -524,7 +581,50 @@ CREATE TABLE `sys_job_log`  (
   `exception_info` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '异常信息',
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1571 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2847 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = Dynamic;
+
+
+-- ----------------------------
+-- Table structure for sys_log
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_log`;
+CREATE TABLE `sys_log`  (
+  `id` bigint(64) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `type` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1' COMMENT '日志类型',
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '日志标题',
+  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户名',
+  `service_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '服务ID',
+  `remote_addr` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作IP地址',
+  `user_agent` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户代理',
+  `request_uri` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求URI',
+  `method` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作方式',
+  `params` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '操作提交的数据',
+  `time` mediumtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '执行时间',
+  `exception` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '异常信息',
+  `created_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建者',
+  `created_date` timestamp(3) NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `last_modified_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `last_modified_date` timestamp(3) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `version` int(11) NOT NULL,
+  `description` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '0' COMMENT '0-正常，1-删除',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `sys_log_create_by`(`created_by`) USING BTREE,
+  INDEX `sys_log_request_uri`(`request_uri`) USING BTREE,
+  INDEX `sys_log_type`(`type`) USING BTREE,
+  INDEX `sys_log_create_date`(`created_date`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '日志表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_log
+-- ----------------------------
+INSERT INTO `sys_log` VALUES (55, '0', '锁定/解锁用户', 'admin', 'albedo', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36', '/sys/user/90da0206c39867a1b36ac36ced80c1a9', 'PUT', '', '10', NULL, '1', '2019-07-07 22:16:43.000', 'system', '2019-07-26 10:54:23.264', 0, NULL, '0');
+INSERT INTO `sys_log` VALUES (56, '0', '锁定/解锁用户', 'admin', 'albedo', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36', '/sys/user/90da0206c39867a1b36ac36ced80c1a9', 'PUT', '', '63818', NULL, '1', '2019-07-07 22:19:27.000', 'system', '2019-07-26 10:54:23.267', 0, NULL, '0');
+INSERT INTO `sys_log` VALUES (57, '1', '删除菜单', 'admin', 'albedo', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36', '/menu/663848c0f8206dba3fd2425812fd2fbf', 'DELETE', '', '28', NULL, 'system', '2019-07-26 11:15:45.309', 'system', '2019-07-26 11:15:45.309', 0, NULL, '0');
+INSERT INTO `sys_log` VALUES (58, '1', '删除菜单', 'admin', 'albedo', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36', '/menu/ba842f6e126664a139c79f97a6bc01a9', 'DELETE', '', '20', NULL, 'system', '2019-07-26 11:16:02.388', 'system', '2019-07-26 11:16:02.388', 0, NULL, '0');
+INSERT INTO `sys_log` VALUES (59, '1', '删除菜单', 'admin', 'albedo', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36', '/menu/4026ad4683346e478306cdb1559e2e7e', 'DELETE', '', '19', NULL, 'system', '2019-07-26 11:16:19.698', 'system', '2019-07-26 11:16:19.698', 0, NULL, '0');
+INSERT INTO `sys_log` VALUES (60, '1', '删除菜单', 'admin', 'albedo', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36', '/menu/aa74553ef25bbd93d3a921f37177b66b', 'DELETE', '', '21', NULL, 'system', '2019-07-26 11:16:21.731', 'system', '2019-07-26 11:16:21.731', 0, NULL, '0');
+INSERT INTO `sys_log` VALUES (61, '1', '添加/更新菜单', 'admin', 'albedo', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36', '/menu/', 'POST', '', '60', NULL, 'system', '2019-07-26 15:50:53.318', 'system', '2019-07-26 15:50:53.318', 0, NULL, '0');
 
 -- ----------------------------
 -- Table structure for sys_log_login
@@ -543,7 +643,7 @@ CREATE TABLE `sys_log_login`  (
   `login_time` datetime(0) NULL DEFAULT NULL COMMENT '访问时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '0' COMMENT '0-正常，1-删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 119 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '登录日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '登录日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for sys_log_operate
@@ -574,7 +674,7 @@ CREATE TABLE `sys_log_operate`  (
   INDEX `sys_log_create_by`(`created_by`) USING BTREE,
   INDEX `sys_log_request_uri`(`request_uri`) USING BTREE,
   INDEX `sys_log_create_date`(`created_date`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 403 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -858,6 +958,22 @@ INSERT INTO `sys_role_menu` VALUES ('2', '1401');
 INSERT INTO `sys_role_menu` VALUES ('2', '1402');
 INSERT INTO `sys_role_menu` VALUES ('2', '1403');
 INSERT INTO `sys_role_menu` VALUES ('2', 'e5ea38c1f97dee0043e78f3fb27b25d6');
+
+-- ----------------------------
+-- Table structure for sys_token
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_token`;
+CREATE TABLE `sys_token`  (
+  `id_` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `series_` varchar(76) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `user_id` bigint(20) NULL DEFAULT NULL,
+  `token_value` varchar(76) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `token_date` date NULL DEFAULT NULL,
+  `ip_address` varchar(39) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `user_agent` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id_`) USING BTREE,
+  INDEX `fk_user_persistent_token`(`user_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for sys_user

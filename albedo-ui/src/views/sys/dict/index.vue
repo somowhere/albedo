@@ -3,7 +3,7 @@
     <basic-container>
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-card class="box-card">
+          <el-card class="box-card" shadow="never">
             <div class="clearfix" slot="header">
               <span>字典</span>
               <el-button @click="searchTree=(searchTree ? false:true)" class="card-heard-btn" icon="icon-filesearch"
@@ -54,7 +54,7 @@
           <el-table :data="list" :default-sort="{prop:'dict.sort'}" :key='tableKey' @sort-change="sortChange"
                     element-loading-text="加载中..." fit highlight-current-row v-loading="listLoading">
             <el-table-column
-              fixed="left" type="index" width="20">
+              fixed="left" type="index" width="40">
             </el-table-column>
             <el-table-column align="center" label="上级字典" width="100">
               <template slot-scope="scope">
@@ -100,9 +100,9 @@
 
             <el-table-column align="center" fixed="right" label="操作" v-if="sys_dict_edit || sys_dict_del" width="100">
               <template slot-scope="scope">
-                <el-button @click="handleEdit(scope.row)" icon="icon-edit" title="编辑" type="text" v-if="sys_dict_edit">
+                <el-button @click="handleEdit(scope.row)" icon="icon-edit" type="primary" title="编辑" v-if="sys_dict_edit" circle>
                 </el-button>
-                <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text"
+                <el-button @click="handleDelete(scope.row)" icon="icon-delete" type="danger" title="删除" size="mini" circle
                            v-if="sys_dict_del">
                 </el-button>
               </template>
@@ -172,224 +172,224 @@
 </template>
 
 <script>
-    import dictService from "./dict-service";
-    import {mapGetters} from 'vuex';
-    import util from "@/util/util";
-    import validate from "@/util/validate";
+  import dictService from "./dict-service";
+  import {mapGetters} from 'vuex';
+  import util from "@/util/util";
+  import validate from "@/util/validate";
 
-    export default {
-        name: 'Dict',
-        data() {
-            return {
-                treeDictData: [],
-                treeDictSelectData: [],
-                treeParentDictData: [],
-                dialogDictVisible: false,
-                dialogFormVisible: false,
-                searchFilterVisible: true,
-                checkedKeys: [],
-                list: null,
-                total: null,
-                listLoading: true,
-                searchForm: {},
-                listQuery: {
-                    current: 1,
-                    size: 20
-                },
-                formEdit: true,
-                filterTreeDictText: '',
-                filterParentTreeDictText: '',
-                formStatus: '',
-                flagOptions: [],
-                rolesOptions: [],
-                searchTree: false,
-                labelPosition: 'right',
-                disableSelectParent: false,
-                form: {
-                    name: undefined,
-                    parentId: undefined,
-                    code: undefined,
-                    val: undefined,
-                    show: undefined,
-                    sort: undefined,
-                    remark: undefined,
-                    description: undefined
-                },
-                validateUnique: (rule, value, callback) => {
-                    validate.isUnique(rule, value, callback, '/sys/dict/checkByProperty?id=' + util.objToStr(this.form.id))
-                },
-                dialogStatus: 'create',
-                textMap: {
-                    update: '编辑',
-                    create: '创建'
-                },
-                sys_dict_edit: false,
-                sys_dict_del: false,
-                currentNode: {},
-                tableKey: 0
-            }
+  export default {
+    name: 'Dict',
+    data() {
+      return {
+        treeDictData: [],
+        treeDictSelectData: [],
+        treeParentDictData: [],
+        dialogDictVisible: false,
+        dialogFormVisible: false,
+        searchFilterVisible: true,
+        checkedKeys: [],
+        list: null,
+        total: null,
+        listLoading: true,
+        searchForm: {},
+        listQuery: {
+          current: 1,
+          size: 20
         },
-        watch: {
-            filterTreeDictText(val) {
-                this.$refs['leftDictTree'].filter(val);
-            },
-            filterParentTreeDictText(val) {
-                this.$refs['selectParentDictTree'].filter(val);
-            }
+        formEdit: true,
+        filterTreeDictText: '',
+        filterParentTreeDictText: '',
+        formStatus: '',
+        flagOptions: [],
+        rolesOptions: [],
+        searchTree: false,
+        labelPosition: 'right',
+        disableSelectParent: false,
+        form: {
+          name: undefined,
+          parentId: undefined,
+          code: undefined,
+          val: undefined,
+          show: undefined,
+          sort: undefined,
+          remark: undefined,
+          description: undefined
         },
-        created() {
-            this.getTreeDict();
-            this.sys_dict_edit = this.permissions["sys_dict_edit"];
-            this.sys_dict_del = this.permissions["sys_dict_del"];
-            this.flagOptions = this.dicts['sys_flag'];
+        validateUnique: (rule, value, callback) => {
+          validate.isUnique(rule, value, callback, '/sys/dict/checkByProperty?id=' + util.objToStr(this.form.id))
         },
-        computed: {
-            ...mapGetters([
-                "permissions", "dicts"
-            ])
+        dialogStatus: 'create',
+        textMap: {
+          update: '编辑',
+          create: '创建'
         },
-        methods: {
-            getList() {
-                this.listLoading = true;
-                // this.listQuery.isAsc = false;
-                this.listQuery.queryConditionJson = util.parseJsonItemForm([{
-                    fieldName: 'name', value: this.searchForm.name
-                }, {
-                    fieldName: 'parent_id', value: this.searchForm.parentId, operate: 'eq'
-                }]);
-                dictService.page(this.listQuery).then(response => {
-                    this.list = response.data.records;
-                    this.total = response.data.total;
-                    this.listLoading = false;
-                });
-            },
-            sortChange(column) {
-                if (column.order == "ascending") {
-                    this.listQuery.ascs = column.prop;
-                    this.listQuery.descs = undefined;
-                } else {
-                    this.listQuery.descs = column.prop;
-                    this.listQuery.ascs = undefined;
-                }
-                this.getList()
-            },
-            getTreeDict() {
-                dictService.fetchTree().then(response => {
-                    this.treeDictData = util.parseTreeData(response.data);
-                    this.currentNode = this.treeDictData[0];
-                    this.searchForm.parentId = this.treeDictData[0].id;
-                    setTimeout(() => {
-                        this.$refs['leftDictTree'].setCurrentKey(this.searchForm.parentId);
-                    }, 0);
-                    this.getList();
-                })
-            },
-            filterNode(value, data) {
-                if (!value) return true;
-                return data.label.indexOf(value) !== -1
-            },
-            clickNodeTreeData(data) {
-                this.searchForm.parentId = data.id;
-                this.currentNode = data;
-                this.getList()
-            },
-            clickNodeSelectData(data) {
-                this.form.parentId = data.id;
-                this.form.parentName = data.label;
-                this.dialogDictVisible = false;
-            },
-            handleParentDictTree() {
-                fetchTree({extId: this.form.id}).then(response => {
-                    this.treeDictSelectData = util.parseTreeData(response.data);
-                    this.dialogDictVisible = true;
-                    setTimeout(() => {
-                        this.$refs['selectParentDictTree'].setCurrentKey(this.form.parentId ? this.form.parentId : null);
-                    }, 100)
-                })
-            },
-            //搜索清空
-            searchReset() {
-                this.$refs['searchForm'].resetFields();
-                this.searchForm.parentId = undefined;
-                this.$refs['leftDictTree'].setCurrentKey(null);
-                this.currentNode = undefined;
-            },
-            handleFilter() {
-                this.listQuery.current = 1;
-                this.getList();
-            },
-            handleSizeChange(val) {
-                this.listQuery.size = val;
-                this.getList();
-            },
-            handleCurrentChange(val) {
-                this.listQuery.current = val;
-                this.getList();
-            },
-            handleEdit(row) {
-                this.resetForm();
-                this.dialogStatus = row && validate.checkNotNull(row.id) ? "update" : "create";
-                if (this.dialogStatus == "create") {
-                    if (this.currentNode) {
-                        this.form.parentId = this.currentNode.id;
-                        this.form.parentName = this.currentNode.label;
-                    }
-                    this.dialogFormVisible = true;
-                } else {
-                    dictService.find(row.id).then(response => {
-                        this.form = response.data;
-                        this.disableSelectParent = this.form.parentName ? false : true;
-                        this.form.show = util.objToStr(this.form.show);
-                        this.dialogFormVisible = true;
-                    });
-                }
-            },
-            handleLock: function (row) {
-                dictService.lock(row.id).then(response => {
-                    this.getList();
-                });
-            },
-            handleDelete(row) {
-                this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    dictService.remove(row.id).then(response => {
-                        this.getList();
-                    })
-                })
-            },
-            save() {
-                this.$refs['form'].validate(valid => {
-                    if (valid) {
-                        dictService.save(this.form).then(response => {
-                            this.getList();
-                            this.dialogFormVisible = false;
-                        })
-                    } else {
-                        return false;
-                    }
-                });
-            },
-            cancel() {
-                this.dialogFormVisible = false;
-                this.$refs['form'].resetFields();
-            },
-            resetForm() {
-                this.form = {
-                    name: undefined,
-                    parentId: undefined,
-                    code: undefined,
-                    val: undefined,
-                    show: undefined,
-                    sort: undefined,
-                    remark: undefined,
-                    description: undefined
-                };
-                this.$refs['form'] && this.$refs['form'].resetFields();
-            }
+        sys_dict_edit: false,
+        sys_dict_del: false,
+        currentNode: {},
+        tableKey: 0
+      }
+    },
+    watch: {
+      filterTreeDictText(val) {
+        this.$refs['leftDictTree'].filter(val);
+      },
+      filterParentTreeDictText(val) {
+        this.$refs['selectParentDictTree'].filter(val);
+      }
+    },
+    created() {
+      this.getTreeDict();
+      this.sys_dict_edit = this.permissions["sys_dict_edit"];
+      this.sys_dict_del = this.permissions["sys_dict_del"];
+      this.flagOptions = this.dicts['sys_flag'];
+    },
+    computed: {
+      ...mapGetters([
+        "permissions", "dicts"
+      ])
+    },
+    methods: {
+      getList() {
+        this.listLoading = true;
+        // this.listQuery.isAsc = false;
+        this.listQuery.queryConditionJson = util.parseJsonItemForm([{
+          fieldName: 'name', value: this.searchForm.name
+        }, {
+          fieldName: 'parent_id', value: this.searchForm.parentId, operate: 'eq'
+        }]);
+        dictService.page(this.listQuery).then(response => {
+          this.list = response.data.records;
+          this.total = response.data.total;
+          this.listLoading = false;
+        });
+      },
+      sortChange(column) {
+        if (column.order == "ascending") {
+          this.listQuery.ascs = column.prop;
+          this.listQuery.descs = undefined;
+        } else {
+          this.listQuery.descs = column.prop;
+          this.listQuery.ascs = undefined;
         }
+        this.getList()
+      },
+      getTreeDict() {
+        dictService.fetchTree().then(response => {
+          this.treeDictData = util.parseTreeData(response.data);
+          this.currentNode = this.treeDictData[0];
+          this.searchForm.parentId = this.treeDictData[0].id;
+          setTimeout(() => {
+            this.$refs['leftDictTree'].setCurrentKey(this.searchForm.parentId);
+          }, 0);
+          this.getList();
+        })
+      },
+      filterNode(value, data) {
+        if (!value) return true;
+        return data.label.indexOf(value) !== -1
+      },
+      clickNodeTreeData(data) {
+        this.searchForm.parentId = data.id;
+        this.currentNode = data;
+        this.getList()
+      },
+      clickNodeSelectData(data) {
+        this.form.parentId = data.id;
+        this.form.parentName = data.label;
+        this.dialogDictVisible = false;
+      },
+      handleParentDictTree() {
+        fetchTree({extId: this.form.id}).then(response => {
+          this.treeDictSelectData = util.parseTreeData(response.data);
+          this.dialogDictVisible = true;
+          setTimeout(() => {
+            this.$refs['selectParentDictTree'].setCurrentKey(this.form.parentId ? this.form.parentId : null);
+          }, 100)
+        })
+      },
+      //搜索清空
+      searchReset() {
+        this.$refs['searchForm'].resetFields();
+        this.searchForm.parentId = undefined;
+        this.$refs['leftDictTree'].setCurrentKey(null);
+        this.currentNode = undefined;
+      },
+      handleFilter() {
+        this.listQuery.current = 1;
+        this.getList();
+      },
+      handleSizeChange(val) {
+        this.listQuery.size = val;
+        this.getList();
+      },
+      handleCurrentChange(val) {
+        this.listQuery.current = val;
+        this.getList();
+      },
+      handleEdit(row) {
+        this.resetForm();
+        this.dialogStatus = row && validate.checkNotNull(row.id) ? "update" : "create";
+        if (this.dialogStatus == "create") {
+          if (this.currentNode) {
+            this.form.parentId = this.currentNode.id;
+            this.form.parentName = this.currentNode.label;
+          }
+          this.dialogFormVisible = true;
+        } else {
+          dictService.find(row.id).then(response => {
+            this.form = response.data;
+            this.disableSelectParent = this.form.parentName ? false : true;
+            this.form.show = util.objToStr(this.form.show);
+            this.dialogFormVisible = true;
+          });
+        }
+      },
+      handleLock: function (row) {
+        dictService.lock(row.id).then(response => {
+          this.getList();
+        });
+      },
+      handleDelete(row) {
+        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          dictService.remove(row.id).then(response => {
+            this.getList();
+          })
+        })
+      },
+      save() {
+        this.$refs['form'].validate(valid => {
+          if (valid) {
+            dictService.save(this.form).then(response => {
+              this.getList();
+              this.dialogFormVisible = false;
+            })
+          } else {
+            return false;
+          }
+        });
+      },
+      cancel() {
+        this.dialogFormVisible = false;
+        this.$refs['form'].resetFields();
+      },
+      resetForm() {
+        this.form = {
+          name: undefined,
+          parentId: undefined,
+          code: undefined,
+          val: undefined,
+          show: undefined,
+          sort: undefined,
+          remark: undefined,
+          description: undefined
+        };
+        this.$refs['form'] && this.$refs['form'].resetFields();
+      }
     }
+  }
 </script>
 

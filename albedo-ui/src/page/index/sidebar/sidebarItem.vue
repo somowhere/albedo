@@ -39,89 +39,89 @@
   </div>
 </template>
 <script>
-    import {mapGetters} from "vuex";
-    import validate from "@/util/validate";
-    import config from "./config.js";
+  import {mapGetters} from "vuex";
+  import validate from "@/util/validate";
+  import config from "./config.js";
 
-    export default {
-        name: "sidebarItem",
-        data() {
-            return {
-                config: config
-            };
-        },
-        props: {
-            menu: {
-                type: Array
-            },
-            screen: {
-                type: Number
-            },
-            first: {
-                type: Boolean,
-                default: false
-            },
-            props: {
-                type: Object,
-                default: () => {
-                    return {};
-                }
-            },
-            collapse: {
-                type: Boolean
-            }
-        },
-        created() {
-        },
-        mounted() {
-        },
-        computed: {
-            ...mapGetters(["roles"]),
-            labelKey() {
-                return this.props.label || this.config.propsDefault.label;
-            },
-            pathKey() {
-                return this.props.path || this.config.propsDefault.path;
-            },
-            iconKey() {
-                return this.props.icon || this.config.propsDefault.icon;
-            },
-            childrenKey() {
-                return this.props.children || this.config.propsDefault.children;
-            },
-            nowTagValue() {
-                return this.$router.$avueRouter.getValue(this.$route);
-            }
-        },
-        methods: {
-            vaildAvtive(item) {
-                const groupFlag = (item["group"] || []).some(ele =>
-                    this.$route.path.includes(ele)
-                );
-                return this.nowTagValue === item[this.pathKey] || groupFlag;
-            },
-            vaildRoles(item) {
-                item.meta = item.meta || {};
-                return item.meta.roles ? item.meta.roles.includes(this.roles) : true;
-            },
-            vaildMenuType(item) {
-                return item.type === "0";
-            },
-            checkNull(val) {
-                return validate.checkNull(val);
-            },
-            open(item) {
-                if (this.screen <= 1) this.$store.commit("SET_COLLAPSE");
-                this.$router.$avueRouter.group = item.group;
-                this.$router.push({
-                    path: this.$router.$avueRouter.getPath({
-                        name: item[this.labelKey],
-                        src: item[this.pathKey]
-                    }),
-                    query: item.query
-                });
-            }
+  export default {
+    name: "sidebarItem",
+    data() {
+      return {
+        config: config
+      };
+    },
+    props: {
+      menu: {
+        type: Array
+      },
+      screen: {
+        type: Number
+      },
+      first: {
+        type: Boolean,
+        default: false
+      },
+      props: {
+        type: Object,
+        default: () => {
+          return {};
         }
-    };
+      },
+      collapse: {
+        type: Boolean
+      }
+    },
+    created() {
+    },
+    mounted() {
+    },
+    computed: {
+      ...mapGetters(["roles"]),
+      labelKey() {
+        return this.props.label || this.config.propsDefault.label;
+      },
+      pathKey() {
+        return this.props.path || this.config.propsDefault.path;
+      },
+      iconKey() {
+        return this.props.icon || this.config.propsDefault.icon;
+      },
+      childrenKey() {
+        return this.props.children || this.config.propsDefault.children;
+      },
+      nowTagValue() {
+        return this.$router.$avueRouter.getValue(this.$route);
+      }
+    },
+    methods: {
+      vaildAvtive(item) {
+        const groupFlag = (item["group"] || []).some(ele =>
+          this.$route.path.includes(ele)
+        );
+        return this.nowTagValue === item[this.pathKey] || groupFlag;
+      },
+      vaildRoles(item) {
+        item.meta = item.meta || {};
+        return item.meta.roles ? item.meta.roles.includes(this.roles) : true;
+      },
+      vaildMenuType(item) {
+        return item.type === "0";
+      },
+      checkNull(val) {
+        return validate.checkNull(val);
+      },
+      open(item) {
+        if (this.screen <= 1) this.$store.commit("SET_COLLAPSE");
+        this.$router.$avueRouter.group = item.group;
+        this.$router.push({
+          path: this.$router.$avueRouter.getPath({
+            name: item[this.labelKey],
+            src: item[this.pathKey]
+          }),
+          query: item.query
+        });
+      }
+    }
+  };
 </script>
 

@@ -382,8 +382,7 @@ public class UserResourceIntTest {
 		user2.setId(user1.getId());
 		user2.setUsername(user1.getUsername());
 		assertThat(user1).isEqualTo(user2);
-		user2.setId("2");
-		user2.setUsername("User2");
+		user2.setId("2");user2.setUsername("User2");
 		assertThat(user1).isNotEqualTo(user2);
 		user1.setId(null);
 		assertThat(user1).isNotEqualTo(user2);

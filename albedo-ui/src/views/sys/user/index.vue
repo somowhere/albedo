@@ -4,7 +4,7 @@
       <el-row :gutter="20">
         <el-col :span="6"
                 style='margin-top:15px;'>
-          <el-card class="box-card">
+          <el-card class="box-card" shadow="never">
             <div class="clearfix" slot="header">
               <span>部门</span>
               <el-button @click="searchTree=(searchTree ? false:true)" class="card-heard-btn" icon="icon-filesearch"
@@ -56,7 +56,7 @@
           <el-table :data="list" :key='tableKey' @sort-change="sortChange" element-loading-text="加载中..."
                     fit highlight-current-row v-loading="listLoading">
             <el-table-column
-              fixed="left" type="index" width="20">
+              fixed="left" type="index" width="40">
             </el-table-column>
             <el-table-column align="center" label="所属组织" width="100">
               <template slot-scope="scope">
@@ -109,13 +109,13 @@
                              v-if="sys_user_edit || sys_user_lock || sys_user_del"
                              width="130">
               <template slot-scope="scope">
-                <el-button @click="handleEdit(scope.row)" icon="icon-edit" title="编辑" type="text" v-if="sys_user_edit">
+                <el-button @click="handleEdit(scope.row)" icon="icon-edit" type="primary" title="编辑" size="mini" circle  v-if="sys_user_edit">
                 </el-button>
                 <el-button :icon="scope.row.available == '0' ? 'icon-lock' : 'icon-unlock'"
                            :title="scope.row.available == '0' ? '锁定' : '解锁'"
-                           @click="handleLock(scope.row)" type="text" v-if="sys_user_lock">
+                           @click="handleLock(scope.row)" type="info" size="mini" circle  v-if="sys_user_lock">
                 </el-button>
-                <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text"
+                <el-button @click="handleDelete(scope.row)" icon="icon-delete" type="danger" title="删除" size="mini" circle
                            v-if="sys_user_del">
                 </el-button>
               </template>
@@ -180,7 +180,8 @@
           </el-form-item>
 
           <el-form-item :rules="[{required: true,message: '请选择角色' }]" label="角色" prop="roleIdList">
-            <crud-select :dic="rolesOptions" :filterable="true" :multiple="true" v-model="form.roleIdList"></crud-select>
+            <crud-select :dic="rolesOptions" :filterable="true" :multiple="true"
+                         v-model="form.roleIdList"></crud-select>
           </el-form-item>
 
           <el-form-item :rules="[{required: true,message: '请选择' }]" label="是否可用" prop="available">
@@ -202,236 +203,236 @@
 </template>
 
 <script>
-    import userService from "./user-service";
-    import deptService from "../dept/dept-service";
-    import roleService from "../role/role-service";
-    import {mapGetters} from 'vuex';
-    import util from "@/util/util";
-    import validate from "@/util/validate";
+  import userService from "./user-service";
+  import deptService from "../dept/dept-service";
+  import roleService from "../role/role-service";
+  import {mapGetters} from 'vuex';
+  import util from "@/util/util";
+  import validate from "@/util/validate";
 
-    export default {
-        name: 'User',
-        data() {
-            return {
-                treeDeptData: [],
-                dialogDeptVisible: false,
-                dialogFormVisible: false,
-                searchFilterVisible: true,
-                checkedKeys: [],
-                list: null,
-                total: null,
-                listLoading: true,
-                searchForm: {},
-                listQuery: {
-                    current: 1,
-                    size: 20
-                },
-                formEdit: true,
-                filterText: '',
-                filterFormText: '',
-                formStatus: '',
-                flagOptions: [],
-                rolesOptions: [],
-                searchTree: false,
-                labelPosition: 'right',
-                form: {
-                    username: undefined,
-                    deptId: undefined,
-                    password: undefined,
-                    confirmPassword: undefined,
-                    phone: undefined,
-                    email: undefined,
-                    roleIdList: undefined,
-                    available: undefined,
-                    description: undefined
-                },
-                validateUnique: (rule, value, callback) => {
-                    validate.isUnique(rule, value, callback, '/sys/user/checkByProperty?id=' + toStr(this.form.id))
-                },
-                validatePhone: (rule, value, callback) => {
-                    validate.isMobile(rule, value, callback)
-                },
-                validatePass: (rule, value, callback) => {
-                    if (validate.checkNull(this.form.id)) {
-                        if (validate.checkNull(value)) {
-                            callback(new Error('请输入密码'));
-                            return;
-                        }
-                    }
-                    callback();
-                },
-                validateConfirmPass: (rule, value, callback) => {
-                    if (validate.checkNotNull(this.form.password)) {
-                        if (validate.checkNull(value)) {
-                            callback(new Error('请再次输入密码'));
-                            return;
-                        } else if (value !== this.form.password) {
-                            callback(new Error('两次输入密码不一致!'));
-                            return;
-                        }
-                    }
-                    callback();
-                },
-                dialogStatus: 'create',
-                textMap: {
-                    update: '编辑',
-                    create: '创建'
-                },
-                sys_user_edit: false,
-                sys_user_lock: false,
-                sys_user_del: false,
-                currentNode: {},
-                tableKey: 0
+  export default {
+    name: 'User',
+    data() {
+      return {
+        treeDeptData: [],
+        dialogDeptVisible: false,
+        dialogFormVisible: false,
+        searchFilterVisible: true,
+        checkedKeys: [],
+        list: null,
+        total: null,
+        listLoading: true,
+        searchForm: {},
+        listQuery: {
+          current: 1,
+          size: 20
+        },
+        formEdit: true,
+        filterText: '',
+        filterFormText: '',
+        formStatus: '',
+        flagOptions: [],
+        rolesOptions: [],
+        searchTree: false,
+        labelPosition: 'right',
+        form: {
+          username: undefined,
+          deptId: undefined,
+          password: undefined,
+          confirmPassword: undefined,
+          phone: undefined,
+          email: undefined,
+          roleIdList: undefined,
+          available: undefined,
+          description: undefined
+        },
+        validateUnique: (rule, value, callback) => {
+          validate.isUnique(rule, value, callback, '/sys/user/checkByProperty?id=' + toStr(this.form.id))
+        },
+        validatePhone: (rule, value, callback) => {
+          validate.isMobile(rule, value, callback)
+        },
+        validatePass: (rule, value, callback) => {
+          if (validate.checkNull(this.form.id)) {
+            if (validate.checkNull(value)) {
+              callback(new Error('请输入密码'));
+              return;
             }
+          }
+          callback();
         },
-        watch: {
-            filterText(val) {
-                this.$refs['leftDeptTree'].filter(val);
+        validateConfirmPass: (rule, value, callback) => {
+          if (validate.checkNotNull(this.form.password)) {
+            if (validate.checkNull(value)) {
+              callback(new Error('请再次输入密码'));
+              return;
+            } else if (value !== this.form.password) {
+              callback(new Error('两次输入密码不一致!'));
+              return;
             }
+          }
+          callback();
         },
-        created() {
-            this.getTreeDept();
-            this.getList();
-            this.sys_user_edit = this.permissions["sys_user_edit"];
-            this.sys_user_lock = this.permissions["sys_user_lock"];
-            this.sys_user_del = this.permissions["sys_user_del"];
-            roleService.deptRoleList().then(response => {
-                this.rolesOptions = response.data;
-            });
-            this.flagOptions = this.dicts['sys_flag'];
+        dialogStatus: 'create',
+        textMap: {
+          update: '编辑',
+          create: '创建'
         },
-        computed: {
-            ...mapGetters([
-                "permissions", "dicts"
-            ])
-        },
-        methods: {
-            getList() {
-                this.listLoading = true;
-                // this.listQuery.isAsc = false;
-                this.listQuery.queryConditionJson = util.parseJsonItemForm([{
-                    fieldName: 'a.username', value: this.searchForm.username
-                }, {
-                    fieldName: 'a.dept_id', value: this.searchForm.deptId
-                }]);
-                userService.page(this.listQuery).then(response => {
-                    this.list = response.data.records;
-                    this.total = response.data.total;
-                    this.listLoading = false;
-                });
-            },
-            sortChange(column) {
-                if (column.order == "ascending") {
-                    this.listQuery.ascs = column.prop;
-                    this.listQuery.descs = undefined;
-                } else {
-                    this.listQuery.descs = column.prop;
-                    this.listQuery.ascs = undefined;
-                }
-                this.getList()
-            },
-            getTreeDept() {
-                deptService.fetchTreeUser().then(response => {
-                    this.treeDeptData = util.parseTreeData(response.data);
-                    this.searchForm.parentId = this.treeDeptData[0].id;
-                    setTimeout(() => {
-                        this.$refs.leftDeptTree.setCurrentKey(this.searchForm.parentId);
-                    }, 0);
-                })
-            },
-            filterNode(value, data) {
-                if (!value) return true;
-                return data.label.indexOf(value) !== -1
-            },
-            clickNodeTreeData(data) {
-                this.searchForm.deptId = data.id;
-                this.currentNode = data;
-                this.getList()
-            },
-            clickNodeSelectData(data) {
-                this.form.deptId = data.id;
-                this.form.deptName = data.label;
-                this.dialogDeptVisible = false;
-            },
-            //搜索清空
-            searchReset() {
-                this.$refs['searchForm'].resetFields();
-                this.listQuery.deptId = undefined;
-                this.$refs['leftDeptTree'].setCurrentKey(null)
-            },
-            handleFilter() {
-                this.listQuery.current = 1;
-                this.getList();
-            },
-            handleSizeChange(val) {
-                this.listQuery.size = val;
-                this.getList();
-            },
-            handleCurrentChange(val) {
-                this.listQuery.current = val;
-                this.getList();
-            },
-            handleEdit(row) {
-                this.resetForm();
-                this.dialogStatus = row && validate.checkNotNull(row.id) ? "update" : "create";
-                if (this.dialogStatus == "create") {
-                    this.dialogFormVisible = true;
-                } else {
-                    userService.find(row.id).then(response => {
-                        this.form = response.data;
-                        this.form.password = undefined;
-                        this.dialogFormVisible = true;
-                    });
-                }
-            },
-            handleLock: function (row) {
-                userService.lock(row.id).then(response => {
-                    this.getList();
-                });
-            },
-            handleDelete(row) {
-                this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    userService.remove(row.id).then(response => {
-                        this.getList();
-                    })
-                })
-            },
-            save() {
-                this.$refs['form'].validate(valid => {
-                    if (valid) {
-                        userService.save(this.form).then(response => {
-                            this.getList();
-                            this.dialogFormVisible = false;
-                        })
-                    } else {
-                        return false;
-                    }
-                });
-            },
-            cancel() {
-                this.dialogFormVisible = false;
-                this.$refs['form'].resetFields();
-            },
-            resetForm() {
-                this.form = {
-                    username: undefined,
-                    deptId: undefined,
-                    deptName: undefined,
-                    password: undefined,
-                    confirmPassword: undefined,
-                    phone: undefined,
-                    email: undefined,
-                    roleIdList: undefined,
-                    available: undefined,
-                    description: undefined
-                };
-                this.$refs['form'] && this.$refs['form'].resetFields();
-            }
+        sys_user_edit: false,
+        sys_user_lock: false,
+        sys_user_del: false,
+        currentNode: {},
+        tableKey: 0
+      }
+    },
+    watch: {
+      filterText(val) {
+        this.$refs['leftDeptTree'].filter(val);
+      }
+    },
+    created() {
+      this.getTreeDept();
+      this.getList();
+      this.sys_user_edit = this.permissions["sys_user_edit"];
+      this.sys_user_lock = this.permissions["sys_user_lock"];
+      this.sys_user_del = this.permissions["sys_user_del"];
+      roleService.deptRoleList().then(response => {
+        this.rolesOptions = response.data;
+      });
+      this.flagOptions = this.dicts['sys_flag'];
+    },
+    computed: {
+      ...mapGetters([
+        "permissions", "dicts"
+      ])
+    },
+    methods: {
+      getList() {
+        this.listLoading = true;
+        // this.listQuery.isAsc = false;
+        this.listQuery.queryConditionJson = util.parseJsonItemForm([{
+          fieldName: 'a.username', value: this.searchForm.username
+        }, {
+          fieldName: 'a.dept_id', value: this.searchForm.deptId
+        }]);
+        userService.page(this.listQuery).then(response => {
+          this.list = response.data.records;
+          this.total = response.data.total;
+          this.listLoading = false;
+        });
+      },
+      sortChange(column) {
+        if (column.order == "ascending") {
+          this.listQuery.ascs = column.prop;
+          this.listQuery.descs = undefined;
+        } else {
+          this.listQuery.descs = column.prop;
+          this.listQuery.ascs = undefined;
         }
+        this.getList()
+      },
+      getTreeDept() {
+        deptService.fetchTreeUser().then(response => {
+          this.treeDeptData = util.parseTreeData(response.data);
+          this.searchForm.parentId = this.treeDeptData[0].id;
+          setTimeout(() => {
+            this.$refs.leftDeptTree.setCurrentKey(this.searchForm.parentId);
+          }, 0);
+        })
+      },
+      filterNode(value, data) {
+        if (!value) return true;
+        return data.label.indexOf(value) !== -1
+      },
+      clickNodeTreeData(data) {
+        this.searchForm.deptId = data.id;
+        this.currentNode = data;
+        this.getList()
+      },
+      clickNodeSelectData(data) {
+        this.form.deptId = data.id;
+        this.form.deptName = data.label;
+        this.dialogDeptVisible = false;
+      },
+      //搜索清空
+      searchReset() {
+        this.$refs['searchForm'].resetFields();
+        this.listQuery.deptId = undefined;
+        this.$refs['leftDeptTree'].setCurrentKey(null)
+      },
+      handleFilter() {
+        this.listQuery.current = 1;
+        this.getList();
+      },
+      handleSizeChange(val) {
+        this.listQuery.size = val;
+        this.getList();
+      },
+      handleCurrentChange(val) {
+        this.listQuery.current = val;
+        this.getList();
+      },
+      handleEdit(row) {
+        this.resetForm();
+        this.dialogStatus = row && validate.checkNotNull(row.id) ? "update" : "create";
+        if (this.dialogStatus == "create") {
+          this.dialogFormVisible = true;
+        } else {
+          userService.find(row.id).then(response => {
+            this.form = response.data;
+            this.form.password = undefined;
+            this.dialogFormVisible = true;
+          });
+        }
+      },
+      handleLock: function (row) {
+        userService.lock(row.id).then(response => {
+          this.getList();
+        });
+      },
+      handleDelete(row) {
+        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          userService.remove(row.id).then(response => {
+            this.getList();
+          })
+        })
+      },
+      save() {
+        this.$refs['form'].validate(valid => {
+          if (valid) {
+            userService.save(this.form).then(response => {
+              this.getList();
+              this.dialogFormVisible = false;
+            })
+          } else {
+            return false;
+          }
+        });
+      },
+      cancel() {
+        this.dialogFormVisible = false;
+        this.$refs['form'].resetFields();
+      },
+      resetForm() {
+        this.form = {
+          username: undefined,
+          deptId: undefined,
+          deptName: undefined,
+          password: undefined,
+          confirmPassword: undefined,
+          phone: undefined,
+          email: undefined,
+          roleIdList: undefined,
+          available: undefined,
+          description: undefined
+        };
+        this.$refs['form'] && this.$refs['form'].resetFields();
+      }
     }
+  }
 </script>
 

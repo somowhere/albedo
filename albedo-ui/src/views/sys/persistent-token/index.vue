@@ -28,7 +28,7 @@
           <el-table :data="list" :key='tableKey' @sort-change="sortChange" element-loading-text="加载中..."
                     fit highlight-current-row v-loading="listLoading">
             <el-table-column
-              fixed="left" type="index" width="20">
+              fixed="left" type="index" width="40">
             </el-table-column>
             <el-table-column align="center" label="令牌" width="210">
               <template slot-scope="scope">
@@ -68,7 +68,7 @@
 
             <el-table-column align="center" fixed="right" label="操作" v-if="sys_persistentToken_del" width="60">
               <template slot-scope="scope">
-                <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text"
+                <el-button @click="handleDelete(scope.row)" icon="icon-delete" type="danger" title="删除" size="mini" circle
                            v-if="sys_persistentToken_del">
                 </el-button>
               </template>
@@ -90,95 +90,95 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex';
-    import persistentTokenService from "./persistent-token-service";
-    import util from "@/util/util";
+  import {mapGetters} from 'vuex';
+  import persistentTokenService from "./persistent-token-service";
+  import util from "@/util/util";
 
-    export default {
-        name: 'Token',
-        data() {
-            return {
-                treeMenuData: [],
-                dialogFormVisible: false,
-                searchFilterVisible: true,
-                checkedKeys: [],
-                list: null,
-                total: null,
-                listLoading: true,
-                searchForm: {},
-                listQuery: {
-                    current: 1,
-                    size: 20
-                },
-                formEdit: true,
-                flagOptions: [],
-                dataScopeOptions: [],
-                sys_persistentToken_del: false,
-                currentNode: {},
-                tableKey: 0
-            }
+  export default {
+    name: 'Token',
+    data() {
+      return {
+        treeMenuData: [],
+        dialogFormVisible: false,
+        searchFilterVisible: true,
+        checkedKeys: [],
+        list: null,
+        total: null,
+        listLoading: true,
+        searchForm: {},
+        listQuery: {
+          current: 1,
+          size: 20
         },
-        watch: {},
-        created() {
-            this.getList();
-            this.sys_persistentToken_del = this.permissions["sys_persistentToken_del"];
-        },
-        computed: {
-            ...mapGetters([
-                "permissions", "dicts"
-            ])
-        },
-        methods: {
-            getList() {
-                this.listLoading = true;
-                this.listQuery.queryConditionJson = util.parseJsonItemForm([{
-                    fieldName: 'series', value: this.searchForm.series
-                }]);
-                persistentTokenService.page(this.listQuery).then(response => {
-                    this.list = response.data.records;
-                    this.total = response.data.total;
-                    this.listLoading = false;
-                });
-            },
-            sortChange(column) {
-                if (column.order == "ascending") {
-                    this.listQuery.ascs = column.prop;
-                    this.listQuery.descs = undefined;
-                } else {
-                    this.listQuery.descs = column.prop;
-                    this.listQuery.ascs = undefined;
-                }
-                this.getList()
-            },
-
-            //搜索清空
-            searchReset() {
-                this.$refs['searchForm'].resetFields();
-            },
-            handleFilter() {
-                this.listQuery.current = 1;
-                this.getList();
-            },
-            handleSizeChange(val) {
-                this.listQuery.size = val;
-                this.getList();
-            },
-            handleCurrentChange(val) {
-                this.listQuery.current = val;
-                this.getList();
-            },
-            handleDelete(row) {
-                this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    persistentTokenService.remove(row.series).then(response => {
-                        this.getList();
-                    })
-                })
-            }
+        formEdit: true,
+        flagOptions: [],
+        dataScopeOptions: [],
+        sys_persistentToken_del: false,
+        currentNode: {},
+        tableKey: 0
+      }
+    },
+    watch: {},
+    created() {
+      this.getList();
+      this.sys_persistentToken_del = this.permissions["sys_persistentToken_del"];
+    },
+    computed: {
+      ...mapGetters([
+        "permissions", "dicts"
+      ])
+    },
+    methods: {
+      getList() {
+        this.listLoading = true;
+        this.listQuery.queryConditionJson = util.parseJsonItemForm([{
+          fieldName: 'series', value: this.searchForm.series
+        }]);
+        persistentTokenService.page(this.listQuery).then(response => {
+          this.list = response.data.records;
+          this.total = response.data.total;
+          this.listLoading = false;
+        });
+      },
+      sortChange(column) {
+        if (column.order == "ascending") {
+          this.listQuery.ascs = column.prop;
+          this.listQuery.descs = undefined;
+        } else {
+          this.listQuery.descs = column.prop;
+          this.listQuery.ascs = undefined;
         }
+        this.getList()
+      },
+
+      //搜索清空
+      searchReset() {
+        this.$refs['searchForm'].resetFields();
+      },
+      handleFilter() {
+        this.listQuery.current = 1;
+        this.getList();
+      },
+      handleSizeChange(val) {
+        this.listQuery.size = val;
+        this.getList();
+      },
+      handleCurrentChange(val) {
+        this.listQuery.current = val;
+        this.getList();
+      },
+      handleDelete(row) {
+        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          persistentTokenService.remove(row.series).then(response => {
+            this.getList();
+          })
+        })
+      }
     }
+  }
 </script>
 

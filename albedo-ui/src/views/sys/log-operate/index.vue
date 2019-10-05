@@ -34,7 +34,20 @@
                     @sort-change="sortChange" element-loading-text="加载中..." fit highlight-current-row
                     v-loading="listLoading">
             <el-table-column
-              fixed="left" type="index" width="20">
+              fixed="left"  type="expand" width="40">
+              <template slot-scope="props">
+                <el-form label-position="left" inline class="demo-table-expand">
+                  <el-form-item label="用户代理">
+                    <span>{{ props.row.userAgent }}</span>
+                  </el-form-item>
+                  <el-form-item label="操作系统">
+                    <span>{{ props.row.os }}</span>
+                  </el-form-item>
+                </el-form>
+              </template>
+            </el-table-column>
+            <el-table-column
+              fixed="left" type="index" width="40">
             </el-table-column>
             <el-table-column align="center" label="标题" width="120">
               <template slot-scope="scope">
@@ -95,13 +108,6 @@
           </span>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="操作系统">
-              <template slot-scope="scope">
-          <span>
-            {{scope.row.os}}
-          </span>
-              </template>
-            </el-table-column>
             <el-table-column align="center" label="请求方式" width="100">
               <template slot-scope="scope">
           <span>
@@ -119,7 +125,7 @@
                 {{scope.row.username}}
               </template>
             </el-table-column>
-            <el-table-column align="center" label="创建时间" prop="created_date" sortable="custom">
+            <el-table-column align="center" label="创建时间" width="160" prop="created_date" sortable="custom">
               <template slot-scope="scope">
                 {{scope.row.createdDate}}
               </template>
@@ -127,7 +133,7 @@
 
             <el-table-column align="center" fixed="right" label="操作" v-if="sys_logOperate_del" width="60">
               <template slot-scope="scope">
-                <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text"
+                <el-button @click="handleDelete(scope.row)" icon="icon-delete" type="danger" title="删除" size="mini" circle
                            v-if="sys_logOperate_del">
                 </el-button>
               </template>
@@ -149,109 +155,109 @@
 </template>
 
 <script>
-    import logOperateService from "./log-operate-service";
-    import {mapGetters} from 'vuex';
-    import util from "@/util/util";
-    import {baseUrl} from "../../../config/env";
+  import logOperateService from "./log-operate-service";
+  import {mapGetters} from 'vuex';
+  import util from "@/util/util";
+  import {baseUrl} from "../../../config/env";
 
-    export default {
-        name: 'Log',
-        data() {
-            return {
-                treeMenuData: [],
-                dialogFormVisible: false,
-                searchFilterVisible: true,
-                checkedKeys: [],
-                list: null,
-                total: null,
-                listLoading: true,
-                searchForm: {},
-                listQuery: {
-                    current: 1,
-                    size: 20
-                },
-                formEdit: true,
-                flagOptions: [],
-                dataScopeOptions: [],
-                sys_logOperate_del: false,
-                sys_logOperate_view: false,
-                sys_logOperate_export: false,
-                currentNode: {},
-                tableKey: 0
-            }
+  export default {
+    name: 'Log',
+    data() {
+      return {
+        treeMenuData: [],
+        dialogFormVisible: false,
+        searchFilterVisible: true,
+        checkedKeys: [],
+        list: null,
+        total: null,
+        listLoading: true,
+        searchForm: {},
+        listQuery: {
+          current: 1,
+          size: 20
         },
-        watch: {},
-        created() {
-            this.getList();
-            this.sys_logOperate_view = this.permissions["sys_logOperate_view"];
-            this.sys_logOperate_export = this.permissions["sys_logOperate_export"];
-            this.sys_logOperate_del = this.permissions["sys_logOperate_del"];
-        },
-        computed: {
-            ...mapGetters([
-                "permissions", "dicts"
-            ])
-        },
-        methods: {
-            getList() {
-                this.listLoading = true;
-                this.listQuery.queryConditionJson = util.parseJsonItemForm([{
-                    fieldName: 'title', value: this.searchForm.title
-                }, {
-                    fieldName: 'remote_addr', value: this.searchForm.remoteAddr
-                }
-
-                ]);
-                logOperateService.page(this.listQuery).then(response => {
-                    this.list = response.data.records;
-                    this.total = response.data.total;
-                    this.listLoading = false;
-                });
-            },
-            sortChange(column) {
-                if (column.order == "ascending") {
-                    this.listQuery.ascs = column.prop;
-                    this.listQuery.descs = undefined;
-                } else {
-                    this.listQuery.descs = column.prop;
-                    this.listQuery.ascs = undefined;
-                }
-                this.getList()
-            },
-
-            //搜索清空
-            searchReset() {
-                this.$refs['searchForm'].resetFields();
-            },
-            handleFilter() {
-                this.listQuery.current = 1;
-                this.getList();
-            },
-            handleSizeChange(val) {
-                this.listQuery.size = val;
-                this.getList();
-            },
-            handleCurrentChange(val) {
-                this.listQuery.current = val;
-                this.getList();
-            },
-            handleDelete(row) {
-                this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    logOperateService.remove(row.id).then((rs) => {
-                        this.getList();
-                    })
-                })
-            },
-            handleExport() {
-                logOperateService.export(this.listQuery).then(response => {
-                    window.location.href = `${window.location.origin}` + baseUrl + "/file/download?fileName=" + encodeURI(response.data) + "&delete=" + true;
-                });
-            }
+        formEdit: true,
+        flagOptions: [],
+        dataScopeOptions: [],
+        sys_logOperate_del: false,
+        sys_logOperate_view: false,
+        sys_logOperate_export: false,
+        currentNode: {},
+        tableKey: 0
+      }
+    },
+    watch: {},
+    created() {
+      this.getList();
+      this.sys_logOperate_view = this.permissions["sys_logOperate_view"];
+      this.sys_logOperate_export = this.permissions["sys_logOperate_export"];
+      this.sys_logOperate_del = this.permissions["sys_logOperate_del"];
+    },
+    computed: {
+      ...mapGetters([
+        "permissions", "dicts"
+      ])
+    },
+    methods: {
+      getList() {
+        this.listLoading = true;
+        this.listQuery.queryConditionJson = util.parseJsonItemForm([{
+          fieldName: 'title', value: this.searchForm.title
+        }, {
+          fieldName: 'remote_addr', value: this.searchForm.remoteAddr
         }
+
+        ]);
+        logOperateService.page(this.listQuery).then(response => {
+          this.list = response.data.records;
+          this.total = response.data.total;
+          this.listLoading = false;
+        });
+      },
+      sortChange(column) {
+        if (column.order == "ascending") {
+          this.listQuery.ascs = column.prop;
+          this.listQuery.descs = undefined;
+        } else {
+          this.listQuery.descs = column.prop;
+          this.listQuery.ascs = undefined;
+        }
+        this.getList()
+      },
+
+      //搜索清空
+      searchReset() {
+        this.$refs['searchForm'].resetFields();
+      },
+      handleFilter() {
+        this.listQuery.current = 1;
+        this.getList();
+      },
+      handleSizeChange(val) {
+        this.listQuery.size = val;
+        this.getList();
+      },
+      handleCurrentChange(val) {
+        this.listQuery.current = val;
+        this.getList();
+      },
+      handleDelete(row) {
+        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          logOperateService.remove(row.id).then((rs) => {
+            this.getList();
+          })
+        })
+      },
+      handleExport() {
+        logOperateService.export(this.listQuery).then(response => {
+          window.location.href = `${window.location.origin}` + baseUrl + "/file/download?fileName=" + encodeURI(response.data) + "&delete=" + true;
+        });
+      }
     }
+  }
 </script>
 

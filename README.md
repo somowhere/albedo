@@ -4,7 +4,7 @@
  </p>  
  
 **Albedo 2.0 pro - 企业信息化快速开发平台**   
-- 基于 Spring Boot 2.1.6 、Spring Security、Mybatis 的RBAC权限管理系统  
+- 基于 Spring Boot 、Spring Security、Mybatis 的RBAC权限管理系统  
 - 基于数据驱动视图的理念封装 Element-ui，即使没有 vue 的使用经验也能快速上手  
 - 提供 lambda 、stream api 、webflux 的生产实践   
 - 微服务版本 <a href="https://github.com/somowhere/albedo-cloud">albedo-cloud</a>  
@@ -27,10 +27,10 @@
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.1.6.RELEASE  
-Mybatis Plus | 3.1.2
-hutool | 4.5.16
-Avue | 1.6.0
+Spring Boot |  2.1.8.RELEASE  
+Mybatis Plus | 3.2.0
+hutool | 4.6.5
+Avue | 2.1.0
    
 
 

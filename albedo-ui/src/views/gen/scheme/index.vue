@@ -83,12 +83,12 @@
 
         <el-table-column align="center" label="操作">
           <template slot-scope="scope">
-            <el-button @click="handleEdit(scope.row)" icon="icon-edit" title="编辑" type="text" v-if="gen_scheme_edit">
+            <el-button @click="handleEdit(scope.row)" icon="icon-edit" type="primary" title="编辑" size="mini" circle  v-if="gen_scheme_edit">
             </el-button>
-            <el-button @click="handleGenCodeDialog(scope.row)" icon="icon-block" title="生成代码" type="text"
+            <el-button @click="handleGenCodeDialog(scope.row)" icon="icon-block" title="生成代码" type="info" size="mini" circle
                        v-if="gen_scheme_edit">
             </el-button>
-            <el-button @click="handleDelete(scope.row)" icon="icon-delete" title="删除" type="text" v-if="gen_scheme_del">
+            <el-button @click="handleDelete(scope.row)" icon="icon-delete" type="danger" title="删除" size="mini" circle  v-if="gen_scheme_del">
             </el-button>
           </template>
         </el-table-column>
@@ -195,7 +195,7 @@
                  width="90%">
         <el-tabs>
           <el-tab-pane :key="key" :label="key" v-for="(value, key) in tabCodePreviewMap">
-            <Ace :value="value"></Ace>
+            <Ace ref="aceEditor" :value="value"></Ace>
           </el-tab-pane>
         </el-tabs>
       </el-dialog>
@@ -205,290 +205,295 @@
 </template>
 
 <script>
-    import schemeService from "./scheme-service";
-    import {mapGetters} from "vuex";
-    import validate from "@/util/validate";
-    import util from "@/util/util";
-    import menuService from "@/views/sys/menu/menu-service";
-    import Ace from "@/components/ace/index";
+  import schemeService from "./scheme-service";
+  import {mapGetters} from "vuex";
+  import validate from "@/util/validate";
+  import util from "@/util/util";
+  import menuService from "@/views/sys/menu/menu-service";
+  import Ace from "@/components/ace/index";
 
-    export default {
-        components: {Ace},
-        name: "Scheme",
-        data() {
-            return {
-                searchFilterVisible: true,
-                treeMenuData: [],
-                checkedKeys: [],
-                defaultProps: {
-                    children: "children",
-                    label: "label"
-                },
-                list: null,
-                total: null,
-                listLoading: true,
-                searchForm: {},
-                listQuery: {
-                    page: 1,
-                    size: 20
-                },
-                viewTypeList: [],
-                categoryList: [],
-                tableList: [],
-                form: {
-                    name: undefined,
-                    tableName: undefined,
-                    packageName: undefined,
-                    moduleName: undefined,
-                    subMenuName: undefined,
-                    functionName: undefined,
-                    functionNameSimple: undefined,
-                    functionAuthor: undefined,
-                    tableId: undefined,
-                    genCode: undefined,
-                    replaceFile: undefined,
-                    syncMenu: undefined,
-                    status: undefined,
-                    description: undefined
-                },
-                genMenuForm: {
-                    id: undefined,
-                    parentMenuName: undefined,
-                    parentMenuId: undefined,
-                },
-                statusOptions: [],
-                filterFormText: '',
-                dialogFormVisible: false,
-                dialogMenuVisible: false,
-                dialogGenCodeVisible: false,
-                dialogGenMenuVisible: false,
-                dialogCodePreviewVisible: false,
-                currentRow: {},
-                tabCodePreviewMap: {},
-                schemeAdd: false,
-                schemeUpd: false,
-                schemeDel: false,
-                dialogStatus: 'create',
-                textMap: {
-                    update: '编辑',
-                    create: '创建'
-                },
-                isDisabled: {
-                    0: false,
-                    1: true
-                },
-                tableKey: 0
-            };
+  export default {
+    components: {Ace},
+    name: "Scheme",
+    data() {
+      return {
+        searchFilterVisible: true,
+        treeMenuData: [],
+        checkedKeys: [],
+        defaultProps: {
+          children: "children",
+          label: "label"
         },
-        computed: {
-            ...mapGetters(["permissions", "dicts"])
+        list: null,
+        total: null,
+        listLoading: true,
+        searchForm: {},
+        listQuery: {
+          page: 1,
+          size: 20
         },
-        watch: {
-            filterFormText(val) {
-                this.$refs['formTree'].filter(val);
-            }
+        viewTypeList: [],
+        categoryList: [],
+        tableList: [],
+        form: {
+          name: undefined,
+          tableName: undefined,
+          packageName: undefined,
+          moduleName: undefined,
+          subMenuName: undefined,
+          functionName: undefined,
+          functionNameSimple: undefined,
+          functionAuthor: undefined,
+          tableId: undefined,
+          genCode: undefined,
+          replaceFile: undefined,
+          syncMenu: undefined,
+          status: undefined,
+          description: undefined
         },
-        created() {
-            this.getList();
-            this.gen_scheme_menu = this.permissions["gen_scheme_menu"];
-            this.gen_scheme_edit = this.permissions["gen_scheme_edit"];
-            this.gen_scheme_del = this.permissions["gen_scheme_del"];
+        genMenuForm: {
+          id: undefined,
+          parentMenuName: undefined,
+          parentMenuId: undefined,
         },
-        methods: {
-            getList() {
-                this.listLoading = true;
-                this.listQuery.queryConditionJson = util.parseJsonItemForm([{
-                    fieldName: 'name', value: this.searchForm.name
-                }, {
-                    fieldName: 'table.name', value: this.searchForm.tableName
-                }, {
-                    fieldName: 'functionName', value: this.searchForm.functionName
-                }, {
-                    fieldName: 'functionAuthor', value: this.searchForm.functionAuthor
-                }]);
-                schemeService.page(this.listQuery).then(response => {
-                    this.list = response.data.records;
-                    this.total = response.data.total;
-                    this.listLoading = false;
-                });
-            },
-            //搜索清空
-            searchReset() {
-                this.$refs['searchForm'].resetFields();
-            },
-            getNodeData(data) {
-                this.dialogMenuVisible = false;
-                this.genMenuForm.parentMenuId = data.id;
-                this.genMenuForm.parentMenuName = data.label;
-            },
-            filterNode(value, data) {
-                if (!value) return true;
-                return data.label.indexOf(value) !== -1
-            },
-            handleMenu() {
-                menuService.fetchTree({extId: this.form.id}).then(response => {
-                    this.treeMenuData = util.parseTreeData(response.data);
-                    this.dialogMenuVisible = true;
-                })
-            },
-            handleFilter() {
-                this.listQuery.page = 1;
-                this.getList();
-            },
-            handleSizeChange(val) {
-                this.listQuery.size = val;
-                this.getList();
-            },
-            handleCurrentChange(val) {
-                this.listQuery.page = val;
-                this.getList();
-            },
-            handleSelect(row) {
-                this.currentRow = row;
-            },
-            handleGenMenu() {
-                if (validate.checkNull(this.currentRow) || validate.checkNull(this.currentRow.id)) {
-                    this.$message({
-                        message: '请选择方案',
-                        type: 'warning'
-                    });
-                    return;
-                }
-                this.genMenuForm.id = this.currentRow.id;
-                const set = this.$refs;
-                set['genMenuForm'].validate(valid => {
-                    if (valid) {
-                        schemeService.genMenu(this.genMenuForm).then(response => {
-                            this.getList();
-                            this.cancelGenMenu()
-                        });
-                    } else {
-                        return false;
-                    }
-                });
-            },
-            handleGenMenuDialog() {
-                if (validate.checkNull(this.currentRow) || validate.checkNull(this.currentRow.id)) {
-                    this.$message({
-                        message: '请选择方案',
-                        type: 'warning'
-                    });
-                    return;
-                }
-                this.genMenuForm.id = undefined;
-                this.genMenuForm.parentMenuId = undefined;
-                this.genMenuForm.parentMenuName = undefined;
-                this.dialogGenMenuVisible = true;
-            },
-            handleCodePreviewDialog() {
-                if (validate.checkNull(this.currentRow) || validate.checkNull(this.currentRow.id)) {
-                    this.$message({
-                        message: '请选择方案',
-                        type: 'warning'
-                    });
-                    return;
-                }
-                schemeService.previewCode(this.currentRow.id).then(response => {
-                    this.tabCodePreviewMap = response.data;
-                    this.dialogCodePreviewVisible = true;
-                })
-            },
-            handleEdit(row) {
-                this.dialogStatus = row && !validate.checkNull(row.id) ? "update" : "create";
-                let params;
-                if (this.dialogStatus == "update") {
-                    params = {id: row.id};
-                }
-                schemeService.find(params).then(response => {
-                    let data = response.data;
-                    this.viewTypeList = data.viewTypeList;
-                    this.categoryList = data.categoryList;
-                    this.tableList = data.tableList;
-                    if (validate.checkNotNull(data.schemeVo)) {
-                        this.resetForm();
-                        this.form = data.schemeVo;
-                        // this.form.genCode = true
-                        // this.form.replaceFile= false
-                        // this.form.syncMenu=  false
-                    }
-                    this.dialogFormVisible = true;
-                });
-            },
-            cancelGenMenu() {
-                this.dialogGenMenuVisible = false;
-                this.$refs['genMenuForm'].resetFields();
-            },
-            cancel() {
-                this.dialogFormVisible = false;
-                this.$refs['form'].resetFields();
-            },
-            save() {
-                const set = this.$refs;
-                set['form'].validate(valid => {
-                    if (valid) {
-                        // this.form.password = undefined;
-                        schemeService.save(this.form).then(response => {
-                            this.getList();
-                            this.cancel()
-                        });
-                    } else {
-                        return false;
-                    }
-                });
-            },
-            handleGenCodeDialog(row) {
-                this.currentRow = row;
-                this.dialogGenCodeVisible = true;
-            },
-            handleGenCode(replaceFile) {
-                if (validate.checkNull(this.currentRow) || validate.checkNull(this.currentRow.id)) {
-                    this.$message({
-                        message: '无法获取选中信息',
-                        type: 'warning'
-                    });
-                    return;
-                }
-                schemeService.genCode({id: this.currentRow.id, replaceFile: replaceFile}).then(response => {
-                    this.dialogGenCodeVisible = false;
-                    this.getList();
-                });
-            },
-            handleDelete(row) {
-                this.$confirm(
-                    "此操作将永久删除该方案(" + row.name + "), 是否继续?",
-                    "提示",
-                    {
-                        confirmButtonText: "确定",
-                        cancelButtonText: "取消",
-                        type: "warning"
-                    }
-                ).then(() => {
-                    schemeService.remove(row.id).then(response => {
-                        this.getList();
-                    });
-                });
-            },
-            resetForm() {
-                this.form = {
-                    name: undefined,
-                    tableName: undefined,
-                    packageName: undefined,
-                    moduleName: undefined,
-                    subMenuName: undefined,
-                    functionName: undefined,
-                    functionNameSimple: undefined,
-                    functionAuthor: undefined,
-                    tableId: undefined,
-                    genCode: false,
-                    replaceFile: false,
-                    syncMenu: false,
-                    parentMenuName: undefined,
-                    parentMenuId: undefined,
-                    status: undefined,
-                    description: undefined
-                };
-                this.$refs['form'] && this.$refs['form'].resetFields();
-            }
+        statusOptions: [],
+        filterFormText: '',
+        dialogFormVisible: false,
+        dialogMenuVisible: false,
+        dialogGenCodeVisible: false,
+        dialogGenMenuVisible: false,
+        dialogCodePreviewVisible: false,
+        currentRow: {},
+        tabCodePreviewMap: {},
+        schemeAdd: false,
+        schemeUpd: false,
+        schemeDel: false,
+        dialogStatus: 'create',
+        textMap: {
+          update: '编辑',
+          create: '创建'
+        },
+        isDisabled: {
+          0: false,
+          1: true
+        },
+        tableKey: 0
+      };
+    },
+    computed: {
+      ...mapGetters(["permissions", "dicts"])
+    },
+    watch: {
+      filterFormText(val) {
+        this.$refs['formTree'].filter(val);
+      }
+    },
+    created() {
+      this.getList();
+      this.gen_scheme_menu = this.permissions["gen_scheme_menu"];
+      this.gen_scheme_edit = this.permissions["gen_scheme_edit"];
+      this.gen_scheme_del = this.permissions["gen_scheme_del"];
+    },
+    methods: {
+      getList() {
+        this.listLoading = true;
+        this.listQuery.queryConditionJson = util.parseJsonItemForm([{
+          fieldName: 'name', value: this.searchForm.name
+        }, {
+          fieldName: 'table.name', value: this.searchForm.tableName
+        }, {
+          fieldName: 'functionName', value: this.searchForm.functionName
+        }, {
+          fieldName: 'functionAuthor', value: this.searchForm.functionAuthor
+        }]);
+        schemeService.page(this.listQuery).then(response => {
+          this.list = response.data.records;
+          this.total = response.data.total;
+          this.listLoading = false;
+        });
+      },
+      //搜索清空
+      searchReset() {
+        this.$refs['searchForm'].resetFields();
+      },
+      getNodeData(data) {
+        this.dialogMenuVisible = false;
+        this.genMenuForm.parentMenuId = data.id;
+        this.genMenuForm.parentMenuName = data.label;
+      },
+      filterNode(value, data) {
+        if (!value) return true;
+        return data.label.indexOf(value) !== -1
+      },
+      handleMenu() {
+        menuService.fetchTree({extId: this.form.id}).then(response => {
+          this.treeMenuData = util.parseTreeData(response.data);
+          this.dialogMenuVisible = true;
+        })
+      },
+      handleFilter() {
+        this.listQuery.page = 1;
+        this.getList();
+      },
+      handleSizeChange(val) {
+        this.listQuery.size = val;
+        this.getList();
+      },
+      handleCurrentChange(val) {
+        this.listQuery.page = val;
+        this.getList();
+      },
+      handleSelect(row) {
+        this.currentRow = row;
+      },
+      handleGenMenu() {
+        if (validate.checkNull(this.currentRow) || validate.checkNull(this.currentRow.id)) {
+          this.$message({
+            message: '请选择方案',
+            type: 'warning'
+          });
+          return;
         }
-    };
+        this.genMenuForm.id = this.currentRow.id;
+        const set = this.$refs;
+        set['genMenuForm'].validate(valid => {
+          if (valid) {
+            schemeService.genMenu(this.genMenuForm).then(response => {
+              this.getList();
+              this.cancelGenMenu()
+            });
+          } else {
+            return false;
+          }
+        });
+      },
+      handleGenMenuDialog() {
+        if (validate.checkNull(this.currentRow) || validate.checkNull(this.currentRow.id)) {
+          this.$message({
+            message: '请选择方案',
+            type: 'warning'
+          });
+          return;
+        }
+        this.genMenuForm.id = undefined;
+        this.genMenuForm.parentMenuId = undefined;
+        this.genMenuForm.parentMenuName = undefined;
+        this.dialogGenMenuVisible = true;
+      },
+      handleCodePreviewDialog() {
+        if (validate.checkNull(this.currentRow) || validate.checkNull(this.currentRow.id)) {
+          this.$message({
+            message: '请选择方案',
+            type: 'warning'
+          });
+          return;
+        }
+        schemeService.previewCode(this.currentRow.id).then(response => {
+          this.tabCodePreviewMap = response.data;
+          // if(this.$refs.aceEditor){
+          //   this.$refs.aceEditor.forEach(item=>{
+          //     item.init()
+          //   })
+          // }
+          this.dialogCodePreviewVisible = true;
+        })
+      },
+      handleEdit(row) {
+        this.dialogStatus = row && !validate.checkNull(row.id) ? "update" : "create";
+        let params;
+        if (this.dialogStatus == "update") {
+          params = {id: row.id};
+        }
+        schemeService.find(params).then(response => {
+          let data = response.data;
+          this.viewTypeList = data.viewTypeList;
+          this.categoryList = data.categoryList;
+          this.tableList = data.tableList;
+          if (validate.checkNotNull(data.schemeVo)) {
+            this.resetForm();
+            this.form = data.schemeVo;
+            // this.form.genCode = true
+            // this.form.replaceFile= false
+            // this.form.syncMenu=  false
+          }
+          this.dialogFormVisible = true;
+        });
+      },
+      cancelGenMenu() {
+        this.dialogGenMenuVisible = false;
+        this.$refs['genMenuForm'].resetFields();
+      },
+      cancel() {
+        this.dialogFormVisible = false;
+        this.$refs['form'].resetFields();
+      },
+      save() {
+        const set = this.$refs;
+        set['form'].validate(valid => {
+          if (valid) {
+            // this.form.password = undefined;
+            schemeService.save(this.form).then(response => {
+              this.getList();
+              this.cancel()
+            });
+          } else {
+            return false;
+          }
+        });
+      },
+      handleGenCodeDialog(row) {
+        this.currentRow = row;
+        this.dialogGenCodeVisible = true;
+      },
+      handleGenCode(replaceFile) {
+        if (validate.checkNull(this.currentRow) || validate.checkNull(this.currentRow.id)) {
+          this.$message({
+            message: '无法获取选中信息',
+            type: 'warning'
+          });
+          return;
+        }
+        schemeService.genCode({id: this.currentRow.id, replaceFile: replaceFile}).then(response => {
+          this.dialogGenCodeVisible = false;
+          this.getList();
+        });
+      },
+      handleDelete(row) {
+        this.$confirm(
+          "此操作将永久删除该方案(" + row.name + "), 是否继续?",
+          "提示",
+          {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          }
+        ).then(() => {
+          schemeService.remove(row.id).then(response => {
+            this.getList();
+          });
+        });
+      },
+      resetForm() {
+        this.form = {
+          name: undefined,
+          tableName: undefined,
+          packageName: undefined,
+          moduleName: undefined,
+          subMenuName: undefined,
+          functionName: undefined,
+          functionNameSimple: undefined,
+          functionAuthor: undefined,
+          tableId: undefined,
+          genCode: false,
+          replaceFile: false,
+          syncMenu: false,
+          parentMenuName: undefined,
+          parentMenuId: undefined,
+          status: undefined,
+          description: undefined
+        };
+        this.$refs['form'] && this.$refs['form'].resetFields();
+      }
+    }
+  };
 </script>

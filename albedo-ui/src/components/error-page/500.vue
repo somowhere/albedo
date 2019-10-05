@@ -23,19 +23,19 @@
 </template>
 
 <script>
-    export default {
-        name: "Error500",
-        methods: {
-            backPage() {
-                this.$router.go(-1);
-            },
-            goHome() {
-                this.$router.push({
-                    path: "/"
-                });
-            }
-        }
-    };
+  export default {
+    name: "Error500",
+    methods: {
+      backPage() {
+        this.$router.go(-1);
+      },
+      goHome() {
+        this.$router.push({
+          path: "/"
+        });
+      }
+    }
+  };
 </script>
 <style lang="scss" scoped>
   @keyframes error500animation {

@@ -8,6 +8,8 @@ package com.albedo.java.common.core.constant;
 public interface ScheduleConstants {
 	String TASK_CLASS_NAME = "TASK_CLASS_NAME";
 
+	String REDIS_SCHEDULE_DEFAULT_CHANNEL = "REDIS_SCHEDULE_DEFAULT_CHANNEL";
+
 	/**
 	 * 执行目标key
 	 */
@@ -54,4 +56,34 @@ public interface ScheduleConstants {
 			return value;
 		}
 	}
+
+
+	enum MessageType {
+		/**
+		 * 创建
+		 */
+		ADD,
+		/**
+		 * 更新
+		 */
+		UPDATE,
+		/**
+		 * 暂停
+		 */
+		PAUSE,
+		/**
+		 * 恢复
+		 */
+		RESUME,
+		/**
+		 * 删除
+		 */
+		DELETE,
+		/**
+		 * 运行
+		 */
+		RUN
+
+	}
+
 }
