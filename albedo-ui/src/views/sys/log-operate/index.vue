@@ -49,7 +49,7 @@
             <el-table-column
               fixed="left" type="index" width="40">
             </el-table-column>
-            <el-table-column align="center" label="标题" width="120">
+            <el-table-column align="center" label="标题">
               <template slot-scope="scope">
                 <span>{{scope.row.title}}</span>
               </template>
@@ -94,7 +94,7 @@
             <!--              </template>-->
             <!--            </el-table-column>-->
 
-            <el-table-column align="center" label="IP位置" width="100">
+            <el-table-column align="center" label="IP位置">
               <template slot-scope="scope">
           <span>
             {{scope.row.ipLocation}}
@@ -120,12 +120,12 @@
                 <el-tag>{{scope.row.time}}</el-tag>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="操作人" width="120">
+            <el-table-column align="center" label="操作人">
               <template slot-scope="scope">
                 {{scope.row.username}}
               </template>
             </el-table-column>
-            <el-table-column align="center" label="创建时间" width="160" prop="created_date" sortable="custom">
+            <el-table-column align="center" label="创建时间" prop="created_date" sortable="custom">
               <template slot-scope="scope">
                 {{scope.row.createdDate}}
               </template>
