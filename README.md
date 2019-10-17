@@ -1,6 +1,6 @@
  <p align="center">
   <img src="https://img.shields.io/badge/Avue-2.0.6-green.svg" alt="Build Status">
-   <img src="https://img.shields.io/badge/Spring%20Boot-2.1.8.RELEASE-blue.svg" alt="Downloads">
+   <img src="https://img.shields.io/badge/Spring%20Boot-2.1.9.RELEASE-blue.svg" alt="Downloads">
  </p>  
  
 **Albedo 2.0 pro - 企业信息化快速开发平台**   
@@ -28,9 +28,9 @@
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.1.8.RELEASE  
+Spring Boot |  2.1.9.RELEASE  
 Mybatis Plus | 3.2.0
-hutool | 4.6.5
+hutool | 4.6.8
 Avue | 2.1.0
    
 

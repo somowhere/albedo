@@ -100,7 +100,7 @@
 
             <el-table-column align="center" fixed="right" label="操作" v-if="sys_dict_edit || sys_dict_del" width="100">
               <template slot-scope="scope">
-                <el-button @click="handleEdit(scope.row)" icon="icon-edit" type="primary" title="编辑" v-if="sys_dict_edit" circle>
+                <el-button @click="handleEdit(scope.row)" icon="icon-edit" type="primary" title="编辑" size="mini" v-if="sys_dict_edit" circle>
                 </el-button>
                 <el-button @click="handleDelete(scope.row)" icon="icon-delete" type="danger" title="删除" size="mini" circle
                            v-if="sys_dict_del">
