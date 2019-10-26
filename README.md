@@ -56,9 +56,7 @@ albedo
 
 2. 不接受`功能请求`的 issue，功能请求可能会被直接关闭。  
 
-3. <a href="mailto:somewhere0813@gmail.com">somewhere0813@gmail.com</a>    
-
-4. QQ群: 685728393 
+3. QQ群: 685728393 
 
 #### 开源协议
 
@@ -66,5 +64,7 @@ albedo
 ![](https://images.gitee.com/uploads/images/2019/0330/065147_e07bc645_410595.png)
 
 
-#### 关注我们
+#### 系统定制服务
+
+<a href="mailto:somewhere0813@gmail.com">somewhere0813@gmail.com</a>    
 
