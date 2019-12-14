@@ -35,12 +35,12 @@ public abstract class LogicAbstractCustomMethod extends AbstractMethod {
 		if (table.isLogicDelete()) {
 			String sqlScript = getAllSqlWhere(table, true, true, "ew.entity.", columnPrefix);
 			sqlScript = SqlScriptUtils.convertIf(sqlScript, String.format("%s != null", "ew.entity"), true);
-			sqlScript = sqlScript + "\n" + getLogicDeleteSql(table, false, false, columnPrefix) + "\n";
+			sqlScript = sqlScript + "\n" + getLogicDeleteSql(table, false, true, columnPrefix) + "\n";
 			String normalSqlScript = SqlScriptUtils.convertIf(String.format("AND ${%s}", "ew.sqlSegment"), String.format("%s != null and %s != '' and %s", "ew.sqlSegment", "ew.sqlSegment", "ew.nonEmptyOfNormal"), true);
 			normalSqlScript = normalSqlScript + "\n";
 			normalSqlScript = normalSqlScript + SqlScriptUtils.convertIf(String.format(" ${%s}", "ew.sqlSegment"), String.format("%s != null and %s != '' and %s", "ew.sqlSegment", "ew.sqlSegment", "ew.emptyOfNormal"), true);
 			sqlScript = sqlScript + normalSqlScript;
-			sqlScript = SqlScriptUtils.convertChoose(String.format("%s != null", "ew"), sqlScript, getLogicDeleteSql(table, false, false, columnPrefix));
+			sqlScript = SqlScriptUtils.convertChoose(String.format("%s != null", "ew"), sqlScript, getLogicDeleteSql(table, false, true, columnPrefix));
 			sqlScript = SqlScriptUtils.convertWhere(sqlScript);
 			return "\n" + sqlScript;
 		} else {

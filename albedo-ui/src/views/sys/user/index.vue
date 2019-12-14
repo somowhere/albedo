@@ -247,7 +247,7 @@
           description: undefined
         },
         validateUnique: (rule, value, callback) => {
-          validate.isUnique(rule, value, callback, '/sys/user/checkByProperty?id=' + toStr(this.form.id))
+          validate.isUnique(rule, value, callback, '/sys/user/checkByProperty?id=' + util.objToStr(this.form.id))
         },
         validatePhone: (rule, value, callback) => {
           validate.isMobile(rule, value, callback)

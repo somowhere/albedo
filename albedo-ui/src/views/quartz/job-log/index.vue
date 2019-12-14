@@ -37,6 +37,19 @@
       </div>
       <el-table :data="listJobLog" :key='tableKeyJobLog' @sort-change="sortChangeJobLog" element-loading-text="加载中..."
                 fit highlight-current-row v-loading="listJobLogLoading">
+        <el-table-column
+          fixed="left"  type="expand" width="40">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="日志信息">
+                <span>{{ props.row.jobMessage }}</span>
+              </el-form-item>
+              <el-form-item label="异常信息">
+                <span>{{ props.row.exceptionInfo }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
         <el-table-column align="center" label="任务名称">
           <template slot-scope="scope">
             <span>{{scope.row.jobName}}</span>
@@ -70,16 +83,6 @@
         <el-table-column align="center" label="创建时间">
           <template slot-scope="scope">
             <span>{{scope.row.createTime}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="日志信息">
-          <template slot-scope="scope">
-            <span>{{scope.row.jobMessage}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="异常信息">
-          <template slot-scope="scope">
-            <span>{{scope.row.exceptionInfo}}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" fixed="right" label="操作" v-if="quartz_jobLog_del">
