@@ -27,7 +27,7 @@
 	<artifactId>albedo-common-core</artifactId>
 
 
-	<description>pig 公共工具类核心包</description>
+	<description>albedo 公共工具类核心包</description>
 
 	<properties>
 		<fastjson.version>1.2.31</fastjson.version>

@@ -27,7 +27,7 @@
 	<artifactId>albedo-common-api</artifactId>
 
 
-	<description>pig 通用管理系统公共api模块</description>
+	<description>albedo 通用管理系统公共api模块</description>
 	<properties>
 
 		<jjwt.version>0.9.1</jjwt.version>

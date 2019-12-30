@@ -12,7 +12,7 @@
 	<artifactId>albedo-common</artifactId>
 	<packaging>pom</packaging>
 
-	<description>pig 公共聚合模块</description>
+	<description>albedo 公共聚合模块</description>
 
 	<modules>
 		<module>albedo-common-core</module>
