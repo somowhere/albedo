@@ -28,25 +28,21 @@
 
 	<properties>
 		<project.release.version>2.0.0-SNAPSHOT</project.release.version>
-		<spring-boot.version>2.1.9.RELEASE</spring-boot.version>
+		<spring-boot.version>2.2.2.RELEASE</spring-boot.version>
 		<spring-platform.version>Cairo-SR8</spring-platform.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<spring-boot-admin.version>2.1.6</spring-boot-admin.version>
-		<hutool.version>4.6.8</hutool.version>
-		<mybatis-plus.version>3.2.0</mybatis-plus.version>
+		<hutool.version>5.0.6</hutool.version>
+		<mybatis-plus.version>3.3.0</mybatis-plus.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<velocity.version>1.7</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
 		<security.oauth.version>2.3.6.RELEASE</security.oauth.version>
 		<jackson.version>2.9.9</jackson.version>
 		<h2.version>1.4.199</h2.version>
-		<!--zipkin2.12.x需要此版本jooq-->
-		<jooq.version>3.11.11</jooq.version>
-		<zipkin.version>2.12.2</zipkin.version>
 		<springfox.version>2.9.2</springfox.version>
-		<zipkin-storage-mysql.version>2.8.4</zipkin-storage-mysql.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<poi.version>3.17</poi.version>
 

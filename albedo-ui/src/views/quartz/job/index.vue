@@ -151,107 +151,110 @@
 
       <el-dialog :visible.sync="dialogJobLogVisible" title="任务调度日志" width="90%">
         <div class="app-container calendar-listJobLog-container">
-            <div class="filter-container">
-              <el-form :inline="true" :model="searchJobLogForm" ref="searchJobLogForm"
-                       v-show="searchJobLogFilterVisible">
-                <el-form-item label="任务名称" prop="jobName">
-                  <el-input class="filter-item input-normal" v-model="searchJobLogForm.jobName"></el-input>
-                </el-form-item>
-                <el-form-item label="任务组名" prop="jobGroup">
-                  <el-input class="filter-item input-normal" v-model="searchJobLogForm.jobGroup"></el-input>
-                </el-form-item>
-                <el-form-item label="执行状态" prop="status">
-                  <crud-radio :dic="statusOptions" v-model="searchJobLogForm.status"></crud-radio>
-                </el-form-item>
-                <el-form-item>
-                  <el-button @click="handleJobLogFilter" icon="el-icon-search" size="small" type="primary">查询
-                  </el-button>
-                  <el-button @click="searchResetJobLog" icon="icon-rest" size="small">重置</el-button>
-                </el-form-item>
-              </el-form>
+          <div class="filter-container">
+            <el-form :inline="true" :model="searchJobLogForm" ref="searchJobLogForm"
+                     v-show="searchJobLogFilterVisible">
+              <el-form-item label="任务名称" prop="jobName">
+                <el-input class="filter-item input-normal" v-model="searchJobLogForm.jobName"></el-input>
+              </el-form-item>
+              <el-form-item label="任务组名" prop="jobGroup">
+                <el-input class="filter-item input-normal" v-model="searchJobLogForm.jobGroup"></el-input>
+              </el-form-item>
+              <el-form-item label="执行状态" prop="status">
+                <crud-radio :dic="statusOptions" v-model="searchJobLogForm.status"></crud-radio>
+              </el-form-item>
+              <el-form-item>
+                <el-button @click="handleJobLogFilter" icon="el-icon-search" size="small" type="primary">查询
+                </el-button>
+                <el-button @click="searchResetJobLog" icon="icon-rest" size="small">重置</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+          <!-- 表格功能列 -->
+          <div class="table-menu">
+            <div class="table-menu-left">
+              <el-button-group>
+                <el-button @click="handleJobLogClean" icon="icon-export" size="mini" type="primary"
+                           v-if="quartz_jobLog_clean">清空
+                </el-button>
+                <el-button @click="handleJobLogExport" icon="icon-export" size="mini" type="primary"
+                           v-if="quartz_jobLog_export">导出
+                </el-button>
+              </el-button-group>
             </div>
-            <!-- 表格功能列 -->
-            <div class="table-menu">
-              <div class="table-menu-left">
-                <el-button-group>
-                  <el-button @click="handleJobLogClean" icon="icon-export" size="mini" type="primary"
-                             v-if="quartz_jobLog_clean">清空
-                  </el-button>
-                  <el-button @click="handleJobLogExport" icon="icon-export" size="mini" type="primary"
-                             v-if="quartz_jobLog_export">导出
-                  </el-button>
-                </el-button-group>
-              </div>
-              <div class="table-menu-right">
-                <el-button @click="searchJobLogFilterVisible= !searchJobLogFilterVisible" circle icon="el-icon-search"
-                           size="mini"></el-button>
-              </div>
+            <div class="table-menu-right">
+              <el-button @click="searchJobLogFilterVisible= !searchJobLogFilterVisible" circle icon="el-icon-search"
+                         size="mini"></el-button>
             </div>
-            <el-table :data="listJobLog" :key='tableKeyJobLog' @sort-change="sortChangeJobLog"
-                      element-loading-text="加载中..."
-                      fit highlight-current-row v-loading="listJobLogLoading">
-              <el-table-column align="center" label="任务名称">
-                <template slot-scope="scope">
-                  <span>{{scope.row.jobName}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" label="任务组名">
-                <template slot-scope="scope">
-                  <span>{{scope.row.jobGroup}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" label="调用目标字符串">
-                <template slot-scope="scope">
-                  <span>{{scope.row.invokeTarget}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" label="执行状态">
-                <template slot-scope="scope">
-                  <el-tag>{{scope.row.statusText}}</el-tag>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" label="开始时间">
-                <template slot-scope="scope">
-                  <span>{{scope.row.startTime}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" label="结束时间">
-                <template slot-scope="scope">
-                  <span>{{scope.row.endTime}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" label="创建时间">
-                <template slot-scope="scope">
-                  <span>{{scope.row.createTime}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" label="日志信息">
-                <template slot-scope="scope">
-                  <span>{{scope.row.jobMessage}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" label="异常信息">
-                <template slot-scope="scope">
-                  <span>{{scope.row.exceptionInfo}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" fixed="right" label="操作" v-if="quartz_jobLog_del">
-                <template slot-scope="scope">
-                  <el-button @click="handleJobLogDelete(scope.row)" icon="icon-delete" type="danger" title="删除" size="mini" circle
-                             v-if="quartz_jobLog_del">
-                  </el-button>
-                </template>
-              </el-table-column>
+          </div>
+          <el-table :data="listJobLog" :key='tableKeyJobLog' @sort-change="sortChangeJobLog"
+                    element-loading-text="加载中..."
+                    fit highlight-current-row v-loading="listJobLogLoading">
+            <el-table-column
+              fixed="left"  type="expand" width="40">
+              <template slot-scope="props">
+                <el-form label-position="left" inline class="demo-table-expand">
+                  <el-form-item label="日志信息">
+                    <span>{{ props.row.jobMessage }}</span>
+                  </el-form-item>
+                  <el-form-item label="异常信息">
+                    <span>{{ props.row.exceptionInfo }}</span>
+                  </el-form-item>
+                </el-form>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="任务名称">
+              <template slot-scope="scope">
+                <span>{{scope.row.jobName}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="任务组名">
+              <template slot-scope="scope">
+                <span>{{scope.row.jobGroup}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="调用目标字符串">
+              <template slot-scope="scope">
+                <span>{{scope.row.invokeTarget}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="执行状态">
+              <template slot-scope="scope">
+                <el-tag>{{scope.row.statusText}}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="开始时间">
+              <template slot-scope="scope">
+                <span>{{scope.row.startTime}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="结束时间">
+              <template slot-scope="scope">
+                <span>{{scope.row.endTime}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="创建时间">
+              <template slot-scope="scope">
+                <span>{{scope.row.createTime}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" fixed="right" label="操作" v-if="quartz_jobLog_del">
+              <template slot-scope="scope">
+                <el-button @click="handleJobLogDelete(scope.row)" icon="icon-delete" type="danger" title="删除" size="mini" circle
+                           v-if="quartz_jobLog_del">
+                </el-button>
+              </template>
+            </el-table-column>
 
-            </el-table>
-            <div class="pagination-container" style="height: 50px" v-show="!listJobLogLoading">
-              <el-pagination :current-page.sync="listJobLogQuery.current" :page-size="listJobLogQuery.size"
-                             :page-sizes="[10,20,30, 50]"
-                             :total="totalJobLog" @current-change="handleJobLogCurrentChange"
-                             @size-change="handleJobLogSizeChange" background
-                             class="pull-right" layout="total, sizes, prev, pager, next, jumper">
-              </el-pagination>
-            </div>
+          </el-table>
+          <div class="pagination-container" style="height: 50px" v-show="!listJobLogLoading">
+            <el-pagination :current-page.sync="listJobLogQuery.current" :page-size="listJobLogQuery.size"
+                           :page-sizes="[10,20,30, 50]"
+                           :total="totalJobLog" @current-change="handleJobLogCurrentChange"
+                           @size-change="handleJobLogSizeChange" background
+                           class="pull-right" layout="total, sizes, prev, pager, next, jumper">
+            </el-pagination>
+          </div>
         </div>
       </el-dialog>
     </basic-container>
