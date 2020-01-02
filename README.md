@@ -9,7 +9,7 @@
 - 提供 lambda 、stream api 、webflux 的生产实践   
 - 微服务alibaba版本 <a href="https://github.com/somowhere/albedo-cloud-alibaba">albedo-cloud-alibaba</a>  
 - 微服务版本 <a href="https://github.com/somowhere/albedo-cloud">albedo-cloud</a>  
-- 历史版本移步 <a href="https://github.com/somewhereMrli/albedo-boot-1v">1.3.1-SNAPSHOT</a>   
+- 历史版本移步 <a href="https://github.com/somowhere/albedo-boot-1v">1.3.1-SNAPSHOT</a>   
 
    
 ![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/Snipaste_2019-08-08_16-46-21.png)   
@@ -50,6 +50,26 @@ albedo
      └── albedo-swagger-api -- swagger api
 	 
 ```
+
+## 快速搭建
+
+#### 为了能够快速搭建请首先加入maven的阿里云镜像
+```
+<mirror>
+        <id>nexus-aliyun</id>
+        <mirrorOf>central</mirrorOf>
+        <name>Nexus aliyun</name>
+        <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+</mirror>
+```
+
+1. 具备运行环境：JDK1.8、Maven3.0+、MySql8+或Oracle10g+。
+2. 导入ide前，安装lombok插件
+3. 运行albedo.sql脚本初始化数据库,修改albedo-admin src\main\resources\config\application-dev.yml文件中的数据库设置参数。
+4. 在albedo-boot目录下执行mvn clean install (albedo-ui 首次执行，较慢，建议设置npm的[淘宝镜像](https://somewheremrli.github.io/2018/02/27/npm%E6%B7%98%E5%AE%9D%E9%95%9C%E5%83%8F%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/),如果执行失败，请在albedo-ui 下手动执行 npm install)
+5. 启动redis 127.0.0.1 6379 
+5. 最高管理员账号，用户名：admin 密码：111111 
+
 #### 提交反馈
 
 1. 欢迎提交 issue，请写清楚遇到问题的原因，开发环境，复显步骤。
