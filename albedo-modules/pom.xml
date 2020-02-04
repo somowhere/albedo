@@ -31,5 +31,6 @@
 	<modules>
 		<module>albedo-admin</module>
 		<module>albedo-quartz</module>
+		<module>albedo-api</module>
 	</modules>
 </project>

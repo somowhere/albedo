@@ -1,0 +1,79 @@
+management:
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include: ["configprops", "env", "health", "info", "threaddump", "logfile" ]
+  endpoint:
+    health:
+      show-details: when_authorized
+  info:
+    git:
+      mode: full
+  health:
+    mail:
+      enabled: false # When using the MailService, configure an SMTP server and set this to true
+  metrics:
+    enabled: false # http://micrometer.io/ is disabled by default, as we use http://metrics.dropwizard.io/ instead
+
+
+# 加解密根密码
+jasypt:
+  encryptor:
+    password: albedo #根密码
+
+spring:
+  application:
+    name: albedo-api
+  session:
+    store-type: redis
+  profiles:
+    active: ${spring.profiles.active}
+
+# mybaits-plus配置
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*/*Mapper.xml
+  global-config:
+    banner: false
+    db-config:
+      id-type: UUID
+      insert-strategy: NOT_NULL
+      update-strategy: NOT_NULL
+      table-underline: true
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+# ===================================================================
+# Albedo specific properties
+# ===================================================================
+
+application:
+  adminPath: /api
+  base-class-path: com.albedo.java
+  address-enabled: true
+  logPath: target/.logs
+  static-file-directory: D:/albedo-file
+  cors: #By default CORS are not enabled. Uncomment to enable.
+    allowed-origins: "*"
+    allowed-methods: "*"
+    allowed-headers: "*"
+    exposed-headers: "Authorization,Link,X-Total-Count"
+    allow-credentials: true
+    max-age: 1800
+  http:
+    version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
+  security:
+    # 前端密码密钥，必须16位
+    encode-key: 'somewhere-albedo'
+    remember-me:
+      key: albedo-admin
+    authorize:
+      - ${application.adminPath}/**
+    authorize-permit-all:
+      - ${application.adminPath}/code/**
+      - /management/health
+      - /v2/api-docs/**
+      - /swagger-resources/configuration/ui
+      - /swagger-ui.html
+

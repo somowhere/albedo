@@ -93,7 +93,7 @@ public class SwaggerAutoConfiguration {
 	 * @return the Swagger Customizer of JHipster
 	 */
 	@Bean
-	public AlbedoSwaggerCustomizer jHipsterSwaggerCustomizer() {
+	public AlbedoSwaggerCustomizer albedoSwaggerCustomizer() {
 		return new AlbedoSwaggerCustomizer(applicationSwaggerProperties);
 	}
 
