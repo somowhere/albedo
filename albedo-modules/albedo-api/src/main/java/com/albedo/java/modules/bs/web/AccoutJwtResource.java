@@ -62,6 +62,9 @@ public class AccoutJwtResource extends BaseResource {
 	@ApiOperation("刷新登录Token")
 	public R refreshToken(@RequestHeader(value = HttpHeaders.AUTHORIZATION) String jwt) {
 		String refreshToken = tokenProvider.refreshToken(jwt);
+		if (StringUtil.isEmpty(refreshToken)) {
+			return R.buildFail("无效jwt");
+		}
 		return R.buildOkData(new LinkedHashMap<String, Object>() {{
 			put("access_token", refreshToken);
 			put("expires_in", tokenProvider.getExpirationDateSecondsFromToken(refreshToken));
