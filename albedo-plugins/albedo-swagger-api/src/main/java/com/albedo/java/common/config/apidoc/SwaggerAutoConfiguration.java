@@ -88,9 +88,9 @@ public class SwaggerAutoConfiguration {
 	}
 
 	/**
-	 * JHipster Swagger Customizer
+	 * Albedo Swagger Customizer
 	 *
-	 * @return the Swagger Customizer of JHipster
+	 * @return the Swagger Customizer of Albedo
 	 */
 	@Bean
 	public AlbedoSwaggerCustomizer albedoSwaggerCustomizer() {
