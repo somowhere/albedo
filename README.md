@@ -66,9 +66,10 @@ albedo
 1. 具备运行环境：JDK1.8、Maven3.0+、MySql8+或Oracle10g+。
 2. 导入ide前，安装lombok插件
 3. 运行albedo.sql脚本初始化数据库,修改albedo-admin src\main\resources\config\application-dev.yml文件中的数据库设置参数。
-4. 在albedo-boot目录下执行mvn clean install (albedo-ui 首次执行，较慢，建议设置npm的[淘宝镜像](https://somewheremrli.github.io/2018/02/27/npm%E6%B7%98%E5%AE%9D%E9%95%9C%E5%83%8F%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/),如果执行失败，请在albedo-ui 下手动执行 npm install)
-5. 启动redis 127.0.0.1 6379 
-5. 最高管理员账号，用户名：admin 密码：admin 
+4. 在albedo-boot目录下执行mvn clean install 
+5. 在albedo-ui目录下执行 npm run pre && npm run build 生成dist目录
+6. 启动redis 127.0.0.1 6379 
+7. 最高管理员账号，用户名：admin 密码：admin 
 
 #### 提交反馈
 
