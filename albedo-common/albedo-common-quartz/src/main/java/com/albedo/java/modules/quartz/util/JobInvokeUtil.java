@@ -84,7 +84,7 @@ public class JobInvokeUtil {
 	 */
 	public static String getMethodName(String invokeTarget) {
 		String methodName = StringUtil.subBefore(invokeTarget, "(", false);
-		return StringUtil.subBefore(methodName, ".", true);
+		return StringUtil.subAfter(methodName, ".", true);
 	}
 
 	/**
