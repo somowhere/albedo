@@ -1,11 +1,11 @@
 package com.albedo.java.common.core.vo;
 
+import cn.hutool.core.util.EscapeUtil;
 import com.albedo.java.common.core.util.SecuritySqlUtil;
+import com.albedo.java.common.core.util.StringUtil;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
 
 import java.nio.charset.StandardCharsets;
 
@@ -222,7 +222,7 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
 	}
 
 	public String getFieldName() {
-		if (StringUtils.isNotEmpty(fieldName) && fieldName.contains("this.")) {
+		if (StringUtil.isNotEmpty(fieldName) && fieldName.contains("this.")) {
 			fieldName = fieldName.replace("this.", "");
 		}
 		return fieldName;
@@ -270,7 +270,7 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
 		if (value instanceof String) {
 			String tempStr = value.toString();
 			if (tempStr.contains("&")) {
-				value = new String(StringEscapeUtils.unescapeHtml(tempStr).getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+				value = new String(EscapeUtil.unescapeHtml4(tempStr).getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
 			}
 		}
 		this.value = value;

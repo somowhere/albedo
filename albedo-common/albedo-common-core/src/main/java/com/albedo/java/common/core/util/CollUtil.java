@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.google.common.collect.Lists;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,7 +20,7 @@ public class CollUtil extends cn.hutool.core.collection.CollUtil {
 	 * 转换Collection所有元素(通过toString())为String, 中间以 separator分隔。
 	 */
 	public static String convertToString(final Collection collection, final String separator) {
-		return StringUtils.join(collection, separator);
+		return cn.hutool.core.collection.CollUtil.join(collection, separator);
 	}
 
 	/**

@@ -36,7 +36,7 @@ Avue | 2.1.0
 
 
 #### 模块说明
-```说明
+```
 albedo
 ├── albedo-ui -- 前端工程[8080]
 └── albedo-common -- 系统公共模块 

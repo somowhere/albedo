@@ -2,6 +2,7 @@ package com.albedo.java.modules.gen.util;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.CharUtil;
+import cn.hutool.core.util.CharsetUtil;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.*;
 import com.albedo.java.common.persistence.domain.DataEntity;
@@ -338,7 +339,7 @@ public class GenUtil {
 
 		// 创建并写入文件
 		if (FileUtil.createFile(fileName)) {
-			FileUtil.writeToFile(fileName, content, true);
+			FileUtil.writeString(content, fileName,  CharsetUtil.UTF_8);
 			logger.debug(" file create === " + fileName);
 			return "生成成功：" + fileName + "<br/>";
 		} else {

@@ -1,7 +1,6 @@
 package com.albedo.java.common.core.util;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
@@ -18,7 +17,7 @@ import java.util.UUID;
  * @version 2013-06-21
  */
 @Slf4j
-public class FileUtil extends FileUtils {
+public class FileUtil extends cn.hutool.core.io.FileUtil {
 
 
 	public static String FILENAME_PATTERN = "[a-zA-Z0-9_\\-\\|\\.\\u4e00-\\u9fa5]+";
@@ -447,35 +446,6 @@ public class FileUtil extends FileUtils {
 			fileNewName = StringUtil.toAppendStr(UUID.randomUUID(), ".", extension);
 		}
 		return fileNewName;
-	}
-
-	/**
-	 * 写入文件
-	 *
-	 * @param fileName
-	 * @param content
-	 * @param append
-	 */
-	public static void writeToFile(String fileName, String content, boolean append) {
-		FileUtil.writeToFile(fileName, content, "utf-8", append);
-		log.debug("文件 " + fileName + " 写入成功!");
-	}
-
-	/**
-	 * 写入文件
-	 *
-	 * @param fileName
-	 * @param content
-	 * @param encoding
-	 * @param append
-	 */
-	public static void writeToFile(String fileName, String content, String encoding, boolean append) {
-		try {
-			FileUtils.write(new File(fileName), content, encoding, append);
-			log.debug("文件 " + fileName + " 写入成功!");
-		} catch (IOException e) {
-			log.error("{}", e);
-		}
 	}
 
 
