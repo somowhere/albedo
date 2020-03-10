@@ -274,7 +274,7 @@ public class JobResourceIntTest {
 		// Get all the jobList
 		restJobMockMvc.perform(get(DEFAULT_API_URL))
 			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.records.[*].id").value(hasItem(jobDataVo.getId())))
 			.andExpect(jsonPath("$.data.records.[*].cronExpression").value(hasItem(DEFAULT_CRONEXPRESSION)))
 			.andExpect(jsonPath("$.data.records.[*].misfirePolicy").value(hasItem(DEFAULT_MISFIREPOLICY)))
@@ -293,7 +293,7 @@ public class JobResourceIntTest {
 		// Get the job
 		restJobMockMvc.perform(get(DEFAULT_API_URL + "{id}", jobDataVo.getId()))
 			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.id").value(jobDataVo.getId()))
 			.andExpect(jsonPath("$.data.cronExpression").value(DEFAULT_CRONEXPRESSION))
 			.andExpect(jsonPath("$.data.misfirePolicy").value(DEFAULT_MISFIREPOLICY))
@@ -544,7 +544,7 @@ public class JobResourceIntTest {
 	private void defaultJobShouldBeFound(QueryCondition... queryCondition) throws Exception {
 		restJobMockMvc.perform(get(DEFAULT_API_URL).param("queryConditionJson", Json.toJSONString(Lists.newArrayList(queryCondition))))
 			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.records").isArray())
 			.andExpect(jsonPath("$.data.records.[*].id").value(hasItem(jobDataVo.getId())))
 			.andExpect(jsonPath("$.data.records.[*].cronExpression").value(hasItem(DEFAULT_CRONEXPRESSION)))
@@ -561,7 +561,7 @@ public class JobResourceIntTest {
 	private void defaultJobShouldNotBeFound(QueryCondition... queryCondition) throws Exception {
 		restJobMockMvc.perform(get(DEFAULT_API_URL).param("queryConditionJson", Json.toJSONString(Lists.newArrayList(queryCondition))))
 			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.records").isArray())
 			.andExpect(jsonPath("$.data.records").isEmpty());
 	}

@@ -232,7 +232,7 @@ public class ${ClassName}ResourceIntTest {
         // Get all the ${className}List
         rest${ClassName}MockMvc.perform(get(DEFAULT_API_URL))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
     <#list table.columnList as column>
         <#if column.pk>
             .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(${className}DataVo.get${column.simpleJavaField?cap_first}())))
@@ -251,7 +251,7 @@ public class ${ClassName}ResourceIntTest {
         // Get the ${className}
         rest${ClassName}MockMvc.perform(get(DEFAULT_API_URL+"{id}", ${className}DataVo.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
     <#list table.columnList as column>
         <#if column.pk>
             .andExpect(jsonPath("$.data.${column.simpleJavaField}").value(${className}DataVo.get${column.simpleJavaField?cap_first}()))
@@ -376,7 +376,7 @@ public class ${ClassName}ResourceIntTest {
     private void default${ClassName}ShouldBeFound(QueryCondition... queryCondition) throws Exception {
         rest${ClassName}MockMvc.perform(get(DEFAULT_API_URL).param("queryConditionJson", Json.toJSONString(Lists.newArrayList(queryCondition))))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.data.records").isArray())
     <#list table.columnList as column>
         <#if column.pk>
@@ -393,7 +393,7 @@ public class ${ClassName}ResourceIntTest {
     private void default${ClassName}ShouldNotBeFound(QueryCondition... queryCondition) throws Exception {
         rest${ClassName}MockMvc.perform(get(DEFAULT_API_URL).param("queryConditionJson", Json.toJSONString(Lists.newArrayList(queryCondition))))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.data.records").isArray())
             .andExpect(jsonPath("$.data.records").isEmpty());
     }

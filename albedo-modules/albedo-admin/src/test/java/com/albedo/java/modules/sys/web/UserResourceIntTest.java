@@ -185,7 +185,7 @@ public class UserResourceIntTest {
 			.param(PageModel.F_DESC, User.F_SQL_CREATEDDATE)
 			.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.records.[*].username").value(hasItem(DEFAULT_USERNAME)))
 			.andExpect(jsonPath("$.data.records.[*].qqOpenId").value(hasItem(DEFAULT_QQOPENID)))
 			.andExpect(jsonPath("$.data.records.[*].phone").value(hasItem(DEFAULT_PHONE)))
@@ -202,7 +202,7 @@ public class UserResourceIntTest {
 		// Get the user
 		restUserMockMvc.perform(get(DEFAULT_API_URL + "{id}", user.getId()))
 			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.username").value(user.getUsername()))
 			.andExpect(jsonPath("$.data.qqOpenId").value(DEFAULT_QQOPENID))
 			.andExpect(jsonPath("$.data.phone").value(DEFAULT_PHONE))
@@ -218,7 +218,7 @@ public class UserResourceIntTest {
 		// Get the user
 		restUserMockMvc.perform(get(DEFAULT_API_URL + "/info/{username}", user.getUsername()))
 			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.userVo.username").value(user.getUsername()))
 			.andExpect(jsonPath("$.data.userVo.qqOpenId").value(DEFAULT_QQOPENID))
 			.andExpect(jsonPath("$.data.roles").value(equalTo(CollUtil.extractToList(roleList, Role.F_ID))))
