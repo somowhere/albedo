@@ -1,6 +1,7 @@
 package com.albedo.java.modules.gen.util;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.CharUtil;
 import cn.hutool.core.util.CharsetUtil;
 import com.albedo.java.common.core.constant.CommonConstants;
@@ -17,9 +18,6 @@ import com.albedo.java.modules.sys.domain.Dept;
 import com.albedo.java.modules.sys.domain.User;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.apache.commons.io.Charsets;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -214,10 +212,9 @@ public class GenUtil {
 		logger.debug("file to object: {} ", pathName);
 
 		PathMatchingResourcePatternResolver resourceLoader = new PathMatchingResourcePatternResolver();
-
-		String content = "";
+		String content = null;
 		try {
-			content = IOUtils.toString(resourceLoader.getResources(pathName)[0].getInputStream(), Charsets.toCharset("utf-8"));
+			content = IoUtil.read(resourceLoader.getResources(pathName)[0].getInputStream(), CharsetUtil.CHARSET_UTF_8);
 			return (T) JaxbMapper.fromXml(content, clazz);
 		} catch (IOException e) {
 			logger.warn("error convert: {}", e.getMessage());
@@ -317,7 +314,7 @@ public class GenUtil {
 		// 获取生成文件 "c:\\temp\\"//
 		String realFileName = FreeMarkers.renderString(tpl.getFileName(), model),
 			fileName = StringUtil.getProjectPath(realFileName, getConfig().getCodeUiPath()) + File.separator
-				+ StringUtils.replaceEach(FreeMarkers.renderString(tpl.getFilePath() + "/", model), new String[]{"//", "/", "."}, new String[]{File.separator, File.separator, File.separator})
+				+ FreeMarkers.renderString(tpl.getFilePath() + "/", model).replaceAll("//|/|.",  File.separator)
 				+ realFileName;
 
 		logger.debug(" fileName === " + fileName);

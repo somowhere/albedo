@@ -125,10 +125,10 @@
 		<finalName>albedo-admin</finalName>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<skip>true</skip>
+					<arguments>-Dfile.encoding=utf-8</arguments>
 				</configuration>
 			</plugin>
 

@@ -1,6 +1,5 @@
 package com.albedo.java.common.core.util;
 
-import cn.hutool.core.util.EscapeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.google.common.collect.Lists;
@@ -134,7 +133,7 @@ public class StringUtil extends StrUtil {
 		if (txt == null) {
 			return "";
 		}
-		return replace(replace(EscapeUtil.escapeHtml4(txt), "\n", "<br/>"), "\t", "&nbsp; &nbsp; ");
+		return replace(replace(EscapeUtil.escapeHtml(txt), "\n", "<br/>"), "\t", "&nbsp; &nbsp; ");
 	}
 
 	/**
