@@ -7,7 +7,6 @@
 - 基于 Spring Boot 、Spring Security、Mybatis 的RBAC权限管理系统  
 - 基于数据驱动视图的理念封装 Element-ui，即使没有 vue 的使用经验也能快速上手  
 - 提供 lambda 、stream api 、webflux 的生产实践   
-- 微服务alibaba版本 <a href="https://github.com/somowhere/albedo-cloud-alibaba">albedo-cloud-alibaba</a>  
 - 微服务版本 <a href="https://github.com/somowhere/albedo-cloud">albedo-cloud</a>  
 - 历史版本移步 <a href="https://github.com/somowhere/albedo-boot-1v">1.3.1-SNAPSHOT</a>   
 
