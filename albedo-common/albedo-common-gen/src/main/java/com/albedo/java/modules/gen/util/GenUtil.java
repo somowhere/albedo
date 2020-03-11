@@ -314,7 +314,7 @@ public class GenUtil {
 		// 获取生成文件 "c:\\temp\\"//
 		String realFileName = FreeMarkers.renderString(tpl.getFileName(), model),
 			fileName = StringUtil.getProjectPath(realFileName, getConfig().getCodeUiPath()) + File.separator
-				+ FreeMarkers.renderString(tpl.getFilePath() + "/", model).replaceAll("//|/|.",  File.separator)
+				+ FreeMarkers.renderString(tpl.getFilePath() + "/", model).replaceAll("//|/|\\.",  "\\"+File.separator)
 				+ realFileName;
 
 		logger.debug(" fileName === " + fileName);

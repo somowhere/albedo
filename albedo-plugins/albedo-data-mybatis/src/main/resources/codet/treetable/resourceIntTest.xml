@@ -9,6 +9,7 @@
  */
 package ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleName}</#if>;
 
+import cn.hutool.core.date.DateField;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.Json;
@@ -41,7 +42,6 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.apache.commons.lang.time.DateUtils;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -86,7 +86,7 @@ public class ${ClassName}ResourceIntTest {
 	/** DEFAULT_${column.constantJavaField} ${column.nameAndTitle} */
 	private static final ${column.simpleJavaType} DEFAULT_${column.constantJavaField} = DateUtil.parse(DateUtil.format(new Date(),DateUtil.TIME_FORMAT),DateUtil.TIME_FORMAT).toJdkDate();
 	/** UPDATED_${column.constantJavaField} ${column.nameAndTitle} */
-    private static final ${column.simpleJavaType} UPDATED_${column.constantJavaField} = DateUtils.addDays(DEFAULT_${column.constantJavaField}, 1);
+    private static final ${column.simpleJavaType} UPDATED_${column.constantJavaField} = DateUtil.offset(DEFAULT_${column.constantJavaField}, DateField.DAY_OF_YEAR, 1);
 		<#else>
 	/** DEFAULT_${column.constantJavaField} ${column.nameAndTitle} */
 	private static final ${column.simpleJavaType} DEFAULT_${column.constantJavaField} = <#if column.name?contains('mail')>"1@albedo.com"<#else>"A"</#if>;
