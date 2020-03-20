@@ -39,7 +39,9 @@ public interface RoleService extends DataVoService<RoleRepository, Role, String,
 	 * @param userId
 	 * @return
 	 */
-	List<Role> listRolesByUserId(String userId);
+	List<Role> findRolesByUserIdList(String userId);
+
+	List<String> findRoleDeptIdList(String id);
 
 	/**
 	 * 通过角色ID，删除角色

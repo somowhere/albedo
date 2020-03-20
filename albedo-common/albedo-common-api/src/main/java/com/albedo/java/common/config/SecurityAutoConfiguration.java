@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -72,12 +73,18 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 	@PostConstruct
 	public void init() {
 		try {
-			authenticationManagerBuilder
-				.userDetailsService(userDetailsService)
-				.passwordEncoder(passwordEncoder());
+			authenticationManagerBuilder.authenticationProvider(daoAuthenticationProvider());
 		} catch (Exception e) {
 			throw new BeanInitializationException("Security configuration failed", e);
 		}
+	}
+	@Bean
+	public DaoAuthenticationProvider daoAuthenticationProvider() {
+		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+		daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+		daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+		daoAuthenticationProvider.setHideUserNotFoundExceptions(false);
+		return daoAuthenticationProvider;
 	}
 
 	@Bean

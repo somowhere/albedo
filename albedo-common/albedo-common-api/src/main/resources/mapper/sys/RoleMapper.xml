@@ -34,7 +34,7 @@
 	</resultMap>
 
 	<!-- 通过用户ID，查询角色信息-->
-	<select id="listRolesByUserId" resultMap="BaseResultMap">
+	<select id="findRolesByUserIdList" resultMap="BaseResultMap">
         SELECT
             r.*
         FROM

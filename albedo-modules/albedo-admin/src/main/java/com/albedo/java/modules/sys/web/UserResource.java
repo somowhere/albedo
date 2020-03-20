@@ -150,7 +150,7 @@ public class UserResource extends DataVoResource<UserService, UserDataVo> {
 	@GetMapping("/")
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
 	public R getUserPage(PageModel pm) {
-		return R.buildOkData(service.getUserPage(pm));
+		return R.buildOkData(service.getUserPage(pm, SecurityUtil.getUser().getDataScope()));
 	}
 
 	/**

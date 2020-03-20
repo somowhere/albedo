@@ -36,5 +36,5 @@ public interface RoleRepository extends BaseRepository<Role> {
 	 * @param userId
 	 * @return
 	 */
-	List<Role> listRolesByUserId(String userId);
+	List<Role> findRolesByUserIdList(String userId);
 }

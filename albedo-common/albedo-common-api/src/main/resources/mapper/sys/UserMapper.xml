@@ -39,7 +39,7 @@
 		<result column="deptId" property="deptId"/>
 		<result column="deptName" property="deptName"/>
 		<collection property="roleList" ofType="com.albedo.java.modules.sys.domain.Role"
-					select="com.albedo.java.modules.sys.repository.RoleRepository.listRolesByUserId" column="id">
+					select="com.albedo.java.modules.sys.repository.RoleRepository.findRolesByUserIdList" column="id">
 		</collection>
 	</resultMap>
 
@@ -63,10 +63,12 @@
 		<result column="version" property="version"/>
 		<result column="del_flag" property="delFlag"/>
 		<result column="deptId" property="deptId"/>
+		<result column="parentDeptId" property="parentDeptId"/>
 		<result column="deptName" property="deptName"/>
 		<collection property="roleList" ofType="com.albedo.java.modules.sys.domain.Role">
 			<id column="role_id" property="id"/>
 			<result column="role_name" property="name"/>
+			<result column="role_data_scope" property="dataScope"/>
 			<result column="role_code" property="code"/>
 			<result column="role_remark" property="remark"/>
 			<result column="role_created_by" property="createdBy"/>
@@ -100,6 +102,7 @@
 		r.id AS role_id,
 		r.name AS role_name,
 		r.code AS role_code,
+		r.data_scope AS role_data_scope,
 		r.remark AS role_remark,
 		r.created_by AS role_created_by,
 		r.created_date AS role_created_date,
@@ -109,7 +112,8 @@
 		r.version AS role_version,
 		r.del_flag AS role_del_flag,
 		d.name AS deptName,
-		d.id AS deptId
+		d.id AS deptId,
+		d.parent_id AS parentDeptId
     </sql>
 
 	<select id="getUserVoByUsername" resultMap="userVoResultMap">
@@ -120,7 +124,7 @@
 		LEFT JOIN sys_user_role AS ur ON ur.user_id = a.id
 		LEFT JOIN sys_role AS r ON r.id = ur.role_id
 		LEFT JOIN sys_dept AS d ON d.id = a.dept_id
-		WHERE a.username = #{username}
+		WHERE a.username = #{username} and a.del_flag='0'
 	</select>
 
 	<select id="getUserVoById" resultMap="userVoResultMap">

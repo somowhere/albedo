@@ -53,6 +53,7 @@
 <script>
   import {findAllAudits} from "./service";
   import validate from "@/util/validate";
+  import util from "@/util/util";
 
   export default {
     name: "admin_audits",

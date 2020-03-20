@@ -125,7 +125,7 @@
               <el-form-item label="机构权限" prop="orgIdList" v-show="formTreeDeptDataVisible">
                 <el-tree :data="treeDeptData" @check="getNodeTreeDeptData"
                          class="filter-tree"
-                         default-expand-all node-key="id" ref="treeDept"
+                         default-expand-all node-key="id" check-strictly="true" ref="treeDept"
                          show-checkbox>
                 </el-tree>
               </el-form-item>
@@ -211,12 +211,7 @@
       this.sys_role_del = this.permissions["sys_role_del"];
       this.flagOptions = this.dicts['sys_flag'];
       this.dataScopeOptions = this.dicts['sys_data_scope'];
-      menuService.fetchTree().then(rs => {
-        this.treeMenuData = util.parseTreeData(rs.data);
-      });
-      deptService.fetchTreeUser().then(response => {
-        this.treeDeptData = util.parseTreeData(response.data);
-      })
+      this.refreshTreeData();
     },
     computed: {
       ...mapGetters([
@@ -264,6 +259,7 @@
       },
       handleEdit(row) {
         this.resetForm();
+        this.refreshTreeData();
         this.dialogStatus = row && validate.checkNotNull(row.id) ? "update" : "create";
         if (this.dialogStatus == "create") {
           this.dialogFormVisible = true;
@@ -286,7 +282,6 @@
               checkTree(this.$refs.treeDept, this.form.deptIdList)
             } else {
               setTimeout(() => {
-                console.log(this.form.menuIdList);
                 checkTree(this.$refs.treeMenu, this.form.menuIdList);
                 checkTree(this.$refs.treeDept, this.form.deptIdList)
               }, 100)
@@ -312,6 +307,14 @@
       },
       handleDataScopeChange(value) {
         this.formTreeDeptDataVisible = (value == 5);
+      },
+      refreshTreeData(){
+        menuService.fetchTree().then(rs => {
+            this.treeMenuData = util.parseTreeData(rs.data);
+        });
+        deptService.fetchTreeUser().then(response => {
+            this.treeDeptData = util.parseTreeData(response.data);
+        })
       },
       getNodeTreeMenuData(data, obj) {
         this.form.menuIdList = obj.checkedKeys;

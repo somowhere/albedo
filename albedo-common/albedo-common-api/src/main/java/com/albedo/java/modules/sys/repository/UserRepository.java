@@ -16,6 +16,7 @@
 
 package com.albedo.java.modules.sys.repository;
 
+import com.albedo.java.common.persistence.datascope.DataScope;
 import com.albedo.java.common.persistence.repository.BaseRepository;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
@@ -49,7 +50,7 @@ public interface UserRepository extends BaseRepository<User> {
 	 * @param wrapper 查询参数
 	 * @return list
 	 */
-	IPage<List<UserVo>> getUserVoPage(IPage page, @Param("ew") Wrapper wrapper);
+	IPage<List<UserVo>> getUserVoPage(IPage page, @Param("ew") Wrapper wrapper, DataScope dataScope);
 
 	/**
 	 * 通过ID查询用户信息

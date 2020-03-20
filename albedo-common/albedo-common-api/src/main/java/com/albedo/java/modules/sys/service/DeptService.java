@@ -40,7 +40,9 @@ public interface DeptService extends TreeVoService<DeptRepository, Dept, DeptDat
 	 *
 	 * @return
 	 */
-	List<TreeNode> listCurrentUserDeptTrees(String deptId);
+	List<TreeNode> findCurrentUserDeptTrees(String parentDeptId, String deptId);
+
+	List<String> findDescendantIdList(String deptId);
 
 	/**
 	 * 添加信息部门
