@@ -5,7 +5,6 @@ import com.albedo.java.common.core.constant.CommonConstants;
 import com.google.common.collect.Lists;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 
 import java.io.File;
@@ -134,7 +133,7 @@ public class StringUtil extends StrUtil {
 		if (txt == null) {
 			return "";
 		}
-		return replace(replace(StringEscapeUtils.escapeHtml(txt), "\n", "<br/>"), "\t", "&nbsp; &nbsp; ");
+		return replace(replace(EscapeUtil.escapeHtml(txt), "\n", "<br/>"), "\t", "&nbsp; &nbsp; ");
 	}
 
 	/**
@@ -151,7 +150,7 @@ public class StringUtil extends StrUtil {
 		try {
 			StringBuilder sb = new StringBuilder();
 			int currentLength = 0;
-			for (char c : replaceHtml(StringEscapeUtils.unescapeHtml(str)).toCharArray()) {
+			for (char c : replaceHtml(EscapeUtil.unescapeHtml4(str)).toCharArray()) {
 				currentLength += String.valueOf(c).getBytes("GBK").length;
 				if (currentLength <= length - 3) {
 					sb.append(c);

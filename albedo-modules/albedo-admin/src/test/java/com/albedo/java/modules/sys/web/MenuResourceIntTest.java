@@ -203,7 +203,7 @@ public class MenuResourceIntTest {
 			.param(PageModel.F_DESC, "menu." + Menu.F_SQL_CREATEDDATE)
 			.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.records.[*].name").value(hasItem(DEFAULT_NAME)))
 			.andExpect(jsonPath("$.data.records.[*].permission").value(hasItem(DEFAULT_PERMISSION)))
 			.andExpect(jsonPath("$.data.records.[*].icon").value(hasItem(DEFAULT_ICON)))
@@ -227,7 +227,7 @@ public class MenuResourceIntTest {
 		// Get the menu
 		restMenuMockMvc.perform(get(DEFAULT_API_URL + "{id}", menu.getId()))
 			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.name").value(DEFAULT_NAME))
 			.andExpect(jsonPath("$.data.permission").value(DEFAULT_PERMISSION))
 			.andExpect(jsonPath("$.data.icon").value(DEFAULT_ICON))

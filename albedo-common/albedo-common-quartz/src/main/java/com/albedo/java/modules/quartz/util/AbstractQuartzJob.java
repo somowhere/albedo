@@ -4,10 +4,10 @@ import cn.hutool.core.exceptions.ExceptionUtil;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.ScheduleConstants;
 import com.albedo.java.common.core.util.SpringContextHolder;
+import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.modules.quartz.domain.Job;
 import com.albedo.java.modules.quartz.domain.JobLog;
 import com.albedo.java.modules.quartz.service.JobLogService;
-import org.apache.commons.lang.StringUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
@@ -75,7 +75,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 		jobLog.setJobMessage(jobLog.getJobName() + " 总共耗时：" + runMs + "毫秒");
 		if (e != null) {
 			jobLog.setStatus(CommonConstants.STR_FAIL);
-			String errorMsg = StringUtils.substring(ExceptionUtil.getMessage(e), 0, 2000);
+			String errorMsg = StringUtil.sub(ExceptionUtil.getMessage(e), 0, 2000);
 			jobLog.setExceptionInfo(errorMsg);
 		} else {
 			jobLog.setStatus(CommonConstants.STR_SUCCESS);

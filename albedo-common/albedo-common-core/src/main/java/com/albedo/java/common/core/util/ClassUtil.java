@@ -17,10 +17,10 @@
 package com.albedo.java.common.core.util;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ReflectUtil;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.Validate;
 import org.springframework.core.BridgeMethodResolver;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.MethodParameter;
@@ -101,8 +101,8 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 	 * 循环向上转型, 获取对象的DeclaredField, 并强制设置为可访问. 如向上转型到Object仍无法找到, 返回null.
 	 */
 	public static Field getAccessibleField(final Class<?> cls, final String fieldName) {
-		Validate.notNull(cls, "cls can't be null");
-		Validate.notEmpty(fieldName, "fieldName can't be blank");
+		Assert.notNull(cls, "cls can't be null");
+		Assert.notEmpty(fieldName, "fieldName can't be blank");
 		for (Class<?> superClass = cls; superClass != Object.class; superClass = superClass
 			.getSuperclass()) {
 			try {

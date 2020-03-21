@@ -1,7 +1,7 @@
 package com.albedo.java.common.core.resource;
 
 import cn.hutool.core.date.DateUtil;
-import org.apache.commons.lang.StringEscapeUtils;
+import com.albedo.java.common.core.util.EscapeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.WebDataBinder;
@@ -90,7 +90,7 @@ public class GeneralResource {
 
 			@Override
 			public void setAsText(String text) {
-				setValue(text == null ? null : StringEscapeUtils.escapeHtml(text.trim()));
+				setValue(text == null ? null : EscapeUtil.escapeHtml(text.trim()));
 			}
 		});
 		// Date 类型转换

@@ -300,7 +300,7 @@
         }else{
           ${className}Service.find(row.id).then(response => {
             this.form = response.data;<#list table.columnList as c><#if c.dictType??&& c.dictType != ''>
-            this.form.${c.javaFieldId}=validate.objectToString(this.form.${c.javaFieldId});
+            this.form.${c.javaFieldId}=util.objToStr(this.form.${c.javaFieldId});
             </#if></#list>this.disableSelect${ClassName}Parent = this.form.parentName ? false : true;
             this.dialogFormVisible = true;
           });

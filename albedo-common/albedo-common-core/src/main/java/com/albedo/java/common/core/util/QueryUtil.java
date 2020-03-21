@@ -3,6 +3,7 @@ package com.albedo.java.common.core.util;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.EscapeUtil;
 import com.albedo.java.common.core.annotation.SearchField;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.vo.QueryCondition;
@@ -11,7 +12,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringEscapeUtils;
 
 import java.beans.PropertyDescriptor;
 import java.nio.charset.StandardCharsets;
@@ -112,7 +112,7 @@ public class QueryUtil {
 					String tempStr = queryCondition.getValue().toString();
 					if (tempStr.contains("&")) {
 						queryCondition.setValue(
-							new String(StringEscapeUtils.unescapeHtml(tempStr).getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
+							new String(EscapeUtil.unescapeHtml4(tempStr).getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
 					}
 				}
 				//sql合法性检查

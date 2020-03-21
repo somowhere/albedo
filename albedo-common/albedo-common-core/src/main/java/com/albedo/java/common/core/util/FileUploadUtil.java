@@ -1,8 +1,8 @@
 package com.albedo.java.common.core.util;
 
+import cn.hutool.core.io.FileUtil;
 import com.albedo.java.common.core.config.ApplicationConfig;
 import com.albedo.java.common.core.exception.RuntimeMsgException;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -177,7 +177,7 @@ public class FileUploadUtil {
 	 * @return 后缀名
 	 */
 	public static final String getExtension(MultipartFile file) {
-		String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+		String extension = FileUtil.extName(file.getOriginalFilename());
 		if (StringUtil.isEmpty(extension)) {
 			extension = MimeTypeUtil.getExtension(file.getContentType());
 		}

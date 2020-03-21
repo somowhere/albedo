@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.apache.commons.lang.StringUtils;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -153,7 +152,7 @@ public class TableColumnVo extends DataEntityVo<String> implements Comparable {
 	 * @return
 	 */
 	public String getDataLength() {
-		String[] ss = StringUtil.split(StringUtils.substringBetween(getJdbcType(), "(", ")"), StringUtil.SPLIT_DEFAULT);
+		String[] ss = StringUtil.split(StringUtil.subBetween(getJdbcType(), "(", ")"), StringUtil.SPLIT_DEFAULT);
 		if (ss != null && ss.length == 1) {// &&
 			// CommonConstants.TYPE_STRING.equals(getJavaType())){
 			return ss[0];
@@ -169,10 +168,10 @@ public class TableColumnVo extends DataEntityVo<String> implements Comparable {
 	@JSONField(serialize = false)
 	public String getSimpleJavaType() {
 		if ("This".equals(getJavaType())) {
-			return StringUtils.capitalize(table.getClassName());
+			return StringUtil.upperFirst(table.getClassName());
 		}
 		return StringUtil.indexOf(getJavaType(), StringUtil.C_DOT) != -1 ?
-			StringUtils.substringAfterLast(getJavaType(), ".") : getJavaType();
+			StringUtil.subAfter(getJavaType(), ".", true) : getJavaType();
 	}
 
 	/**
@@ -192,7 +191,7 @@ public class TableColumnVo extends DataEntityVo<String> implements Comparable {
 	 * @return
 	 */
 	public String getSimpleJavaField() {
-		return StringUtils.substringBefore(getJavaField(), ".");
+		return StringUtil.subBefore(getJavaField(), ".", false);
 	}
 
 	/**
@@ -201,7 +200,8 @@ public class TableColumnVo extends DataEntityVo<String> implements Comparable {
 	 * @return
 	 */
 	public String getConstantJavaField() {
-		return StringUtils.upperCase(getSimpleJavaField());
+		String s = getSimpleJavaField();
+		return s!=null ? s.toUpperCase() : null;
 	}
 
 	/**
@@ -210,7 +210,7 @@ public class TableColumnVo extends DataEntityVo<String> implements Comparable {
 	 * @return
 	 */
 	public String getJavaFieldId() {
-		return StringUtils.substringBefore(getJavaField(), "|");
+		return StringUtil.subBefore(getJavaField(), "|", false);
 	}
 
 	/**
@@ -230,7 +230,7 @@ public class TableColumnVo extends DataEntityVo<String> implements Comparable {
 	 */
 	public String getJavaFieldShowName() {
 		String[][] ss = getJavaFieldAttrs();
-		return ss.length > 0 ? getSimpleJavaField() + StringUtils.capitalize(ss[0][0]) : "";
+		return ss.length > 0 ? getSimpleJavaField() + StringUtil.upperFirst(ss[0][0]) : "";
 	}
 
 
@@ -250,7 +250,7 @@ public class TableColumnVo extends DataEntityVo<String> implements Comparable {
 	 * @return
 	 */
 	public String[][] getJavaFieldAttrs() {
-		String[] ss = StringUtil.split(StringUtils.substringAfter(getJavaField(), "|"), "|");
+		String[] ss = StringUtil.split(StringUtil.subAfter(getJavaField(), "|", false), "|");
 		String[][] sss = new String[ss.length][2];
 		if (ss != null) {
 			for (int i = 0; i < ss.length; i++) {
@@ -291,7 +291,7 @@ public class TableColumnVo extends DataEntityVo<String> implements Comparable {
 	public List<String> getSimpleAnnotationList() {
 		List<String> list = Lists.newArrayList();
 		for (String ann : getAnnotationList()) {
-			list.add(StringUtils.substringAfterLast(ann, "."));
+			list.add(StringUtil.subAfter(ann, ".", true));
 		}
 		return list;
 	}

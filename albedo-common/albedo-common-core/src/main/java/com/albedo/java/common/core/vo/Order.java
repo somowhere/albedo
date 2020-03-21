@@ -1,8 +1,8 @@
 package com.albedo.java.common.core.vo;
 
 
+import cn.hutool.core.builder.EqualsBuilder;
 import cn.hutool.core.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
 
 import java.io.Serializable;
 

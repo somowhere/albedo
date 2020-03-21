@@ -162,7 +162,7 @@ public class RoleResourceIntTest {
 			.param(PageModel.F_DESC, Role.F_SQL_CREATEDDATE)
 			.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.records.[*].name").value(hasItem(DEFAULT_NAME)))
 			.andExpect(jsonPath("$.data.records.[*].code").value(hasItem(DEFAULT_CODE)))
 			.andExpect(jsonPath("$.data.records.[*].remark").value(hasItem(DEFAULT_REMARK)))
@@ -179,7 +179,7 @@ public class RoleResourceIntTest {
 		// Get the role
 		restRoleMockMvc.perform(get(DEFAULT_API_URL + "{id}", roleDataVo.getId()))
 			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.name").value(DEFAULT_NAME))
 			.andExpect(jsonPath("$.data.code").value(DEFAULT_CODE))
 			.andExpect(jsonPath("$.data.remark").value(DEFAULT_REMARK))

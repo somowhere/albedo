@@ -1,6 +1,5 @@
 package com.albedo.java.common.security.util;
 
-import org.apache.commons.lang.RandomStringUtils;
 
 /**
  * Utility class for generating random Strings.
@@ -18,7 +17,7 @@ public final class RandomUtil extends cn.hutool.core.util.RandomUtil {
 	 * @return the generated password.
 	 */
 	public static String generatePassword() {
-		return RandomStringUtils.randomAlphanumeric(DEF_COUNT);
+		return RandomUtil.randomString(DEF_COUNT);
 	}
 
 	/**
@@ -27,7 +26,7 @@ public final class RandomUtil extends cn.hutool.core.util.RandomUtil {
 	 * @return the generated activation key.
 	 */
 	public static String generateActivationKey() {
-		return RandomStringUtils.randomNumeric(DEF_COUNT);
+		return RandomUtil.randomNumbers(DEF_COUNT);
 	}
 
 	/**
@@ -36,7 +35,7 @@ public final class RandomUtil extends cn.hutool.core.util.RandomUtil {
 	 * @return the generated reset key.
 	 */
 	public static String generateResetKey() {
-		return RandomStringUtils.randomNumeric(DEF_COUNT);
+		return RandomUtil.randomNumbers(DEF_COUNT);
 	}
 
 	/**
@@ -46,7 +45,7 @@ public final class RandomUtil extends cn.hutool.core.util.RandomUtil {
 	 * @return the generated series data.
 	 */
 	public static String generateSeriesData() {
-		return RandomStringUtils.randomAlphanumeric(DEF_COUNT);
+		return RandomUtil.randomString(DEF_COUNT);
 	}
 
 	/**
@@ -55,6 +54,6 @@ public final class RandomUtil extends cn.hutool.core.util.RandomUtil {
 	 * @return the generated token data.
 	 */
 	public static String generateTokenData() {
-		return RandomStringUtils.randomAlphanumeric(DEF_COUNT);
+		return RandomUtil.randomString(DEF_COUNT);
 	}
 }

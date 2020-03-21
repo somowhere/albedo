@@ -29,6 +29,10 @@ spring:
     store-type: redis
   profiles:
     active: ${spring.profiles.active}
+  http:
+    encoding:
+      charset: utf-8
+      force: true
 
 # mybaits-plus配置
 mybatis-plus:

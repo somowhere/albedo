@@ -139,7 +139,7 @@ public class DeptResourceIntTest {
 		// Get the dept
 		restDeptMockMvc.perform(get(DEFAULT_API_URL + "{id}", dept.getId()))
 			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.name").value(DEFAULT_NAME))
 			.andExpect(jsonPath("$.data.parentId").value(anotherDept.getId()))
 			.andExpect(jsonPath("$.data.description").value(DEFAULT_DESCRIPTION));

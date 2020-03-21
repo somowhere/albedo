@@ -9,6 +9,7 @@
  */
 package ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleName}</#if>;
 
+import cn.hutool.core.date.DateField;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.Json;
@@ -41,7 +42,6 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.apache.commons.lang.time.DateUtils;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -86,7 +86,7 @@ public class ${ClassName}ResourceIntTest {
 	/** DEFAULT_${column.constantJavaField} ${column.nameAndTitle} */
 	private static final ${column.simpleJavaType} DEFAULT_${column.constantJavaField} = DateUtil.parse(DateUtil.format(new Date(),DateUtil.TIME_FORMAT),DateUtil.TIME_FORMAT).toJdkDate();
 	/** UPDATED_${column.constantJavaField} ${column.nameAndTitle} */
-    private static final ${column.simpleJavaType} UPDATED_${column.constantJavaField} = DateUtils.addDays(DEFAULT_${column.constantJavaField}, 1);
+    private static final ${column.simpleJavaType} UPDATED_${column.constantJavaField} = DateUtil.offset(DEFAULT_${column.constantJavaField}, DateField.DAY_OF_YEAR, 1);
 		<#else>
 	/** DEFAULT_${column.constantJavaField} ${column.nameAndTitle} */
 	private static final ${column.simpleJavaType} DEFAULT_${column.constantJavaField} = <#if column.name?contains('mail')>"1@albedo.com"<#else>"A"</#if>;
@@ -232,7 +232,7 @@ public class ${ClassName}ResourceIntTest {
         // Get all the ${className}List
         rest${ClassName}MockMvc.perform(get(DEFAULT_API_URL))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
     <#list table.columnList as column>
         <#if column.pk>
             .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(${className}DataVo.get${column.simpleJavaField?cap_first}())))
@@ -251,7 +251,7 @@ public class ${ClassName}ResourceIntTest {
         // Get the ${className}
         rest${ClassName}MockMvc.perform(get(DEFAULT_API_URL+"{id}", ${className}DataVo.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
     <#list table.columnList as column>
         <#if column.pk>
             .andExpect(jsonPath("$.data.${column.simpleJavaField}").value(${className}DataVo.get${column.simpleJavaField?cap_first}()))
@@ -376,7 +376,7 @@ public class ${ClassName}ResourceIntTest {
     private void default${ClassName}ShouldBeFound(QueryCondition... queryCondition) throws Exception {
         rest${ClassName}MockMvc.perform(get(DEFAULT_API_URL).param("queryConditionJson", Json.toJSONString(Lists.newArrayList(queryCondition))))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.data.records").isArray())
     <#list table.columnList as column>
         <#if column.pk>
@@ -393,7 +393,7 @@ public class ${ClassName}ResourceIntTest {
     private void default${ClassName}ShouldNotBeFound(QueryCondition... queryCondition) throws Exception {
         rest${ClassName}MockMvc.perform(get(DEFAULT_API_URL).param("queryConditionJson", Json.toJSONString(Lists.newArrayList(queryCondition))))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.data.records").isArray())
             .andExpect(jsonPath("$.data.records").isEmpty());
     }

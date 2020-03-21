@@ -187,7 +187,7 @@ public class DictResourceIntTest {
 			.param(PageModel.F_DESC, "parent.created_date")
 			.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.records.[*].name").value(hasItem(DEFAULT_NAME)))
 			.andExpect(jsonPath("$.data.records.[*].code").value(hasItem(DEFAULT_CODE)))
 			.andExpect(jsonPath("$.data.records.[*].val").value(hasItem(DEFAULT_VAL)))
@@ -208,7 +208,7 @@ public class DictResourceIntTest {
 		// Get the dict
 		restDictMockMvc.perform(get(DEFAULT_API_URL + "{id}", dict.getId()))
 			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.name").value(DEFAULT_NAME))
 			.andExpect(jsonPath("$.data.code").value(DEFAULT_CODE))
 			.andExpect(jsonPath("$.data.val").value(DEFAULT_VAL))

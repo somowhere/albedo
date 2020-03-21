@@ -1,5 +1,6 @@
 package com.albedo.java.modules.gen.domain;
 
+import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.persistence.domain.IdEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -9,7 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.apache.commons.lang.StringUtils;
 
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
@@ -66,7 +66,7 @@ public class Template extends IdEntity<Template> {
 		if (categoryList == null) {
 			this.category = "";
 		} else {
-			this.category = "," + StringUtils.join(categoryList, ",") + ",";
+			this.category = "," + CollUtil.join(categoryList, ",") + ",";
 		}
 	}
 
