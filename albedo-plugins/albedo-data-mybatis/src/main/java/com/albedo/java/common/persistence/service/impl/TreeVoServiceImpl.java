@@ -149,7 +149,7 @@ public class TreeVoServiceImpl<Repository extends TreeRepository<T>,
 	 * @param trees
 	 * @return
 	 */
-	public List<TreeNode> getNodeTree(TreeQuery treeQuery, List<T> trees) {
+	public List<TreeNode> getNodeTree(TreeQuery treeQuery, List<T> trees, String deptId) {
 		String extId = treeQuery.getExtId();
 		Collections.sort(trees, Comparator.comparing((T t) -> t.getSort()).reversed());
 		List<TreeNode> treeList = trees.stream()
@@ -166,7 +166,7 @@ public class TreeVoServiceImpl<Repository extends TreeRepository<T>,
 				return node;
 			}).collect(Collectors.toList());
 
-		return TreeUtil.buildByLoop(treeList, TreeEntity.ROOT);
+		return TreeUtil.buildByLoop(treeList, deptId ==null? TreeEntity.ROOT : deptId);
 	}
 
 
@@ -179,7 +179,7 @@ public class TreeVoServiceImpl<Repository extends TreeRepository<T>,
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public List<TreeNode> listTrees(TreeQuery treeQuery) {
 		return getNodeTree(treeQuery, this.list(new QueryWrapper<T>()
-			.orderByAsc(TreeEntity.F_SQL_SORT)));
+			.orderByAsc(TreeEntity.F_SQL_SORT)), null);
 	}
 
 }

@@ -357,7 +357,7 @@
       //搜索清空
       searchReset() {
         this.$refs['searchForm'].resetFields();
-        this.listQuery.deptId = undefined;
+        this.searchForm.deptId = undefined;
         this.$refs['leftDeptTree'].setCurrentKey(null)
       },
       handleFilter() {

@@ -21,6 +21,7 @@ import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.TreeNode;
 import com.albedo.java.common.core.vo.TreeQuery;
 import com.albedo.java.common.persistence.service.impl.TreeVoServiceImpl;
+import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Dept;
 import com.albedo.java.modules.sys.domain.DeptRelation;
 import com.albedo.java.modules.sys.domain.vo.DeptDataVo;
@@ -102,6 +103,16 @@ public class DeptServiceImpl extends
 		return Boolean.TRUE;
 	}
 
+	@Override
+	@Transactional(readOnly = true, rollbackFor = Exception.class)
+	public List<String> findDescendantIdList(String deptId) {
+		List<String> descendantIdList = deptRelationService
+			.list(Wrappers.<DeptRelation>query().lambda()
+				.eq(DeptRelation::getAncestor, deptId))
+			.stream().map(DeptRelation::getDescendant)
+			.collect(Collectors.toList());
+		return descendantIdList;
+	}
 
 	/**
 	 * 查询用户部门树
@@ -110,14 +121,10 @@ public class DeptServiceImpl extends
 	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public List<TreeNode> listCurrentUserDeptTrees(String deptId) {
-		List<String> descendantIdList = deptRelationService
-			.list(Wrappers.<DeptRelation>query().lambda()
-				.eq(DeptRelation::getAncestor, deptId))
-			.stream().map(DeptRelation::getDescendant)
-			.collect(Collectors.toList());
+	public List<TreeNode> findCurrentUserDeptTrees(String parentDeptId, String deptId) {
+		List<String> descendantIdList = findDescendantIdList(deptId);
 		List<Dept> deptList = baseMapper.selectBatchIds(descendantIdList);
-		return getNodeTree(new TreeQuery(), deptList);
+		return getNodeTree(new TreeQuery(), deptList, parentDeptId);
 	}
 
 }

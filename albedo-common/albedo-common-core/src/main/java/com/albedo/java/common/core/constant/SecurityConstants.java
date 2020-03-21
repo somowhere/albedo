@@ -159,5 +159,25 @@ public interface SecurityConstants {
 	 * 验证码文字大小
 	 */
 	String DEFAULT_IMAGE_FONT_SIZE = "30";
+	/**
+	 * 数据权限 1全部 2所在机构及以下数据  3 所在机构数据  4仅本人数据 5 按明细设置
+	 */
+	String ROLE_DATA_SCOPE_ALL = "1";
+	/**
+	 * 数据权限 1全部 2所在机构及以下数据  3 所在机构数据  4仅本人数据 5 按明细设置
+	 */
+	String ROLE_DATA_SCOPE_DEPT_ALL = "2";
+	/**
+	 * 数据权限 1全部 2所在机构及以下数据  3 所在机构数据  4仅本人数据 5 按明细设置
+	 */
+	String ROLE_DATA_SCOPE_DEPT = "3";
+	/**
+	 * 数据权限 1全部 2所在机构及以下数据  3 所在机构数据  4仅本人数据 5 按明细设置
+	 */
+	String ROLE_DATA_SCOPE_SELF = "4";
+	/**
+	 * 数据权限 1全部 2所在机构及以下数据  3 所在机构数据  4仅本人数据 5 按明细设置
+	 */
+	String ROLE_DATA_SCOPE_CUSTOM = "5";
 
 }

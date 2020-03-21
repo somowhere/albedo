@@ -16,12 +16,18 @@
 
 package com.albedo.java.common.security.service;
 
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.SecurityConstants;
+import com.albedo.java.common.core.util.CollUtil;
+import com.albedo.java.common.persistence.datascope.DataScope;
+import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.vo.UserInfo;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
+import com.albedo.java.modules.sys.service.DeptService;
+import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.modules.sys.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -50,6 +56,8 @@ import java.util.Set;
 @AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 	private final UserService userService;
+	private final RoleService roleService;
+	private final DeptService deptService;
 	private final CacheManager cacheManager;
 
 
@@ -67,6 +75,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			return (UserDetail) cache.get(username).get();
 		}
 		UserVo userVo = userService.findOneVoByUserName(username);
+		if (userVo == null) {
+			throw new UsernameNotFoundException("用户不存在");
+		}
+		Assert.isTrue(userVo.isAvailable(),"用户【"+username+"】已被锁定，无法登录");
 		UserDetails userDetails = getUserDetails(userService.getUserInfo(userVo));
 		cache.put(username, userDetails);
 		return userDetails;
@@ -94,10 +106,26 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		Collection<? extends GrantedAuthority> authorities
 			= AuthorityUtils.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 		UserVo userVo = userInfo.getUser();
-
-
+		DataScope dataScope = new DataScope();
+		if(CollUtil.isNotEmpty(userVo.getRoleList())){
+			for(Role role: userVo.getRoleList()){
+				if(SecurityConstants.ROLE_DATA_SCOPE_ALL.equals(role.getDataScope())){
+					dataScope.setAll(true);
+					break;
+				}else if(SecurityConstants.ROLE_DATA_SCOPE_DEPT_ALL.equals(role.getDataScope())){
+					dataScope.getDeptIds().addAll(deptService.findDescendantIdList(userVo.getDeptId()));
+				}else if(SecurityConstants.ROLE_DATA_SCOPE_DEPT.equals(role.getDataScope())){
+					dataScope.getDeptIds().add(userVo.getDeptId());
+				}else if(SecurityConstants.ROLE_DATA_SCOPE_SELF.equals(role.getDataScope())){
+					dataScope.setSelf(true);
+					dataScope.setUserId(userVo.getId());
+				}else{
+					dataScope.getDeptIds().addAll(roleService.findRoleDeptIdList(role.getId()));
+				}
+			}
+		}
 		// 构造security用户
-		return new UserDetail(userVo.getId(), userVo.getDeptId(), userVo.getDeptName(), userVo.getUsername(), SecurityConstants.BCRYPT + userVo.getPassword(),
-			StrUtil.equals(userVo.getAvailable(), CommonConstants.STR_YES), true, true, true, authorities);
+		return new UserDetail(userVo.getId(), userVo.getDeptId(), userVo.getParentDeptId(), userVo.getDeptName(), userVo.getUsername(), SecurityConstants.BCRYPT + userVo.getPassword(),
+			userVo.isAvailable(), true, true, true, authorities, dataScope);
 	}
 }

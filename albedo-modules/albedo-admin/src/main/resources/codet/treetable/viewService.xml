@@ -7,6 +7,7 @@
 
 import request from '@/router/axios';
 import validate from "@/util/validate";
+import util from "@/util/util";
 const ${className}Service = {
 	fetchTree(query) {
 	  return request({
@@ -46,7 +47,7 @@ const ${className}Service = {
 	},
 
 	validateUnique(rule, value, callback, id) {
-	  validate.isUnique(rule, value, callback, '/${urlPrefix}/checkByProperty?id='+validate.toStr(id))
+	  validate.isUnique(rule, value, callback, '/${urlPrefix}/checkByProperty?id='+util.objToStr(id))
 	}
 }
 

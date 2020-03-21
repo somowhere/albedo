@@ -24,6 +24,7 @@ import com.albedo.java.common.core.util.BeanVoUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
+import com.albedo.java.common.persistence.datascope.DataScope;
 import com.albedo.java.common.persistence.service.impl.DataVoServiceImpl;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.RedisUtil;
@@ -110,13 +111,12 @@ public class UserServiceImpl extends DataVoServiceImpl<UserRepository, User, Str
 	public UserInfo getUserInfo(UserVo userVo) {
 		UserInfo userInfo = new UserInfo();
 		userInfo.setUser(userVo);
+		List<Role> roles = roleService.findRolesByUserIdList(userVo.getId());
 		//设置角色列表  （ID）
-		List<String> roleIds = roleService.listRolesByUserId(userVo.getId())
-			.stream()
+		List<String> roleIds = roles.stream()
 			.map(Role::getId)
 			.collect(Collectors.toList());
 		userInfo.setRoles(ArrayUtil.toArray(roleIds, String.class));
-
 		//设置权限列表（menu.permission）
 		Set<String> permissions = new HashSet<>();
 		roleIds.forEach(roleId -> {
@@ -139,16 +139,19 @@ public class UserServiceImpl extends DataVoServiceImpl<UserRepository, User, Str
 	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public IPage getUserPage(PageModel pm) {
+	public IPage getUserPage(PageModel pm, DataScope dataScope) {
 		Wrapper wrapper = QueryWrapperUtil.getWrapperByPage(pm, getPersistentClass());
 		pm.addOrder(OrderItem.desc("a." + User.F_SQL_CREATEDDATE));
-		IPage<List<UserVo>> userVosPage = baseMapper.getUserVoPage(pm, wrapper);
+		IPage<List<UserVo>> userVosPage = baseMapper.getUserVoPage(pm, wrapper, dataScope);
 		return userVosPage;
 	}
 
 	@Override
 	public Boolean removeByIds(List<String> idList) {
-		idList.stream().forEach(id -> removeUserById(baseMapper.selectById(id)));
+		idList.stream().forEach(id -> {
+			Assert.isTrue(!StringUtil.equals(SecurityUtil.getUser().getId(),id),"不能操作当前登录用户");
+			removeUserById(baseMapper.selectById(id));
+		});
 		return Boolean.TRUE;
 	}
 
@@ -203,6 +206,7 @@ public class UserServiceImpl extends DataVoServiceImpl<UserRepository, User, Str
 	@Override
 	public void lockOrUnLock(List<String> idList) {
 		idList.forEach(id -> {
+			Assert.isTrue(!StringUtil.equals(SecurityUtil.getUser().getId(),id),"不能操作当前登录用户");
 			User user = baseMapper.selectById(id);
 			user.setAvailable(CommonConstants.STR_YES.equals(user.getAvailable()) ?
 				CommonConstants.STR_NO : CommonConstants.STR_YES);
