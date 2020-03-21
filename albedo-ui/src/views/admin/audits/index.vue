@@ -40,7 +40,7 @@
           </el-table-column>
         </el-table>
         <div class="pagination-container" v-show="!listLoading">
-          <el-pagination :current-page.sync="listQuery.page" :page-size="listQuery.size"
+          <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size"
                          :page-sizes="[10,20,30, 50]" :total="total" @current-change="handleCurrentChange"
                          @size-change="handleSizeChange" layout="total, sizes, prev, pager, next, jumper">
           </el-pagination>
@@ -76,7 +76,7 @@
     methods: {
 
       handleFilter: function () {
-        this.listQuery.page = 1;
+        this.listQuery.current = 1;
         this.listQuery.fromDate = formatDateDay(this.dateRange[0]);
         this.listQuery.toDate = formatDateDay(this.dateRange[1]);
         this.initPageData();
@@ -93,7 +93,7 @@
         this.initPageData();
       },
       handleCurrentChange(val) {
-        this.listQuery.page = val;
+        this.listQuery.current = val;
         this.initPageData();
       },
       initPageData() {

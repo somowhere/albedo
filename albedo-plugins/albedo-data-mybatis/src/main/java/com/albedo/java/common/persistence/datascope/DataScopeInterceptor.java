@@ -23,11 +23,19 @@ import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
 import com.baomidou.mybatisplus.extension.handlers.AbstractSqlParserHandler;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jsqlparser.expression.Alias;
+import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.StringValue;
+import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
+import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
 import net.sf.jsqlparser.expression.operators.relational.InExpression;
+import net.sf.jsqlparser.expression.operators.relational.ItemsList;
 import net.sf.jsqlparser.parser.CCJSqlParser;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
+import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.statement.select.*;
+import net.sf.jsqlparser.util.SelectUtils;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -42,6 +50,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 /**
@@ -63,6 +72,7 @@ public class DataScopeInterceptor extends AbstractSqlParserHandler implements In
 		// 先判断是不是SELECT操作  (2019-04-10 00:37:31 跳过存储过程)
 		MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
 		if (SqlCommandType.SELECT != mappedStatement.getSqlCommandType()
+
 			|| StatementType.CALLABLE == mappedStatement.getStatementType()) {
 			return invocation.proceed();
 		}
@@ -84,14 +94,24 @@ public class DataScopeInterceptor extends AbstractSqlParserHandler implements In
 			Select selectStatement = (Select) CCJSqlParserUtil.parse(originalSql);
 			if (selectStatement.getSelectBody() instanceof PlainSelect) {
 				PlainSelect plainSelect = (PlainSelect) selectStatement.getSelectBody();
-				if (StringUtil.isNotBlank(scopeName) && CollectionUtil.isNotEmpty(deptIds)) {
-					String join = CollectionUtil.join(deptIds, ",");
-					originalSql = StringUtil.toAppendStr("select * from (", originalSql, ") temp_data_scope where temp_data_scope.", scopeName, " in (", join, ")");
-					metaObject.setValue("delegate.boundSql.sql", originalSql);
-				}else if(StringUtil.isNotEmpty(creatorName)){
-					originalSql = StringUtil.toAppendStr("select * from (", originalSql, ") temp_data_scope where temp_data_scope.", creatorName, " = ", userId, "");
-					metaObject.setValue("delegate.boundSql.sql", originalSql);
+				Expression expression = null;
+				Alias alias = plainSelect.getFromItem().getAlias();
+				String aliaName = "";
+				if(alias!=null && StringUtil.isNotEmpty(alias.getName())){
+					aliaName = alias.getName()+".";
 				}
+				if (StringUtil.isNotBlank(scopeName) && CollectionUtil.isNotEmpty(deptIds)) {
+					ItemsList itemsList = new ExpressionList(deptIds.stream().map(deptId->new StringValue(deptId)).collect(Collectors.toList()));
+					expression = new InExpression(new Column(aliaName+scopeName), itemsList);
+				}else if(StringUtil.isNotEmpty(creatorName)){
+					EqualsTo equalsTo = new EqualsTo();
+					equalsTo.setLeftExpression(new Column(aliaName+creatorName));
+					equalsTo.setRightExpression(new StringValue(userId));
+					expression = equalsTo;
+				}
+				AndExpression andExpression = new AndExpression(plainSelect.getWhere(), expression);
+				plainSelect.setWhere(andExpression);
+				metaObject.setValue("delegate.boundSql.sql", plainSelect.toString());
 			}
 			return invocation.proceed();
 		}

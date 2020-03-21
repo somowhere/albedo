@@ -80,7 +80,7 @@
       </el-table>
 
       <div class="pagination-container" v-show="!listLoading">
-        <el-pagination :current-page.sync="listQuery.page" :page-size="listQuery.size"
+        <el-pagination :current-page.sync="listQuery.current" :page-size="listQuery.size"
                        :page-sizes="[10,20,30, 50]" :total="total" @current-change="handleCurrentChange"
                        @size-change="handleSizeChange" layout="total, sizes, prev, pager, next, jumper">
         </el-pagination>
@@ -292,7 +292,7 @@
         this.$refs['searchForm'].resetFields();
       },
       handleFilter() {
-        this.listQuery.page = 1;
+        this.listQuery.current = 1;
         this.getList();
       },
       handleSizeChange(val) {
@@ -300,7 +300,7 @@
         this.getList();
       },
       handleCurrentChange(val) {
-        this.listQuery.page = val;
+        this.listQuery.current = val;
         this.getList();
       },
       handleEdit(row) {
