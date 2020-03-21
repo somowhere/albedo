@@ -63,8 +63,8 @@ public class DeptResource extends TreeVoResource<DeptService, DeptDataVo> {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public R listDeptTrees(TreeQuery treeQuery) {
-		return R.buildOkData(service.listTrees(treeQuery));
+	public R tree(TreeQuery treeQuery) {
+		return R.buildOkData(service.findTreeList(treeQuery));
 	}
 
 	/**

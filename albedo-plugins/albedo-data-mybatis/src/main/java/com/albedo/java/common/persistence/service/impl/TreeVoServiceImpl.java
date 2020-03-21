@@ -177,7 +177,7 @@ public class TreeVoServiceImpl<Repository extends TreeRepository<T>,
 	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public List<TreeNode> listTrees(TreeQuery treeQuery) {
+	public List<TreeNode> findTreeList(TreeQuery treeQuery) {
 		return getNodeTree(treeQuery, this.list(new QueryWrapper<T>()
 			.orderByAsc(TreeEntity.F_SQL_SORT)), null);
 	}

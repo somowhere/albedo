@@ -119,7 +119,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 				}else if(SecurityConstants.ROLE_DATA_SCOPE_SELF.equals(role.getDataScope())){
 					dataScope.setSelf(true);
 					dataScope.setUserId(userVo.getId());
-				}else{
+				}else if(SecurityConstants.ROLE_DATA_SCOPE_CUSTOM.equals(role.getDataScope())){
 					dataScope.getDeptIds().addAll(roleService.findRoleDeptIdList(role.getId()));
 				}
 			}

@@ -42,5 +42,5 @@ public interface TreeVoService<Repository extends TreeRepository<T>,
 	 *
 	 * @return 树
 	 */
-	List<TreeNode> listTrees(TreeQuery treeQuery);
+	List<TreeNode> findTreeList(TreeQuery treeQuery);
 }

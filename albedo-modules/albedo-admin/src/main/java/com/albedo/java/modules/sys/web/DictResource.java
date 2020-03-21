@@ -67,8 +67,8 @@ public class DictResource extends TreeVoResource<DictService, DictDataVo> {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public R getTree(TreeQuery treeQuery) {
-		return R.buildOkData(service.listTrees(treeQuery));
+	public R tree(TreeQuery treeQuery) {
+		return R.buildOkData(service.findTreeList(treeQuery));
 	}
 
 	/**

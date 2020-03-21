@@ -49,7 +49,7 @@ public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${
 	 */
 	@GetMapping(value = "/tree")
 	public R getTree(TreeQuery treeQuery) {
-		return R.buildOkData(service.listTrees(treeQuery));
+		return R.buildOkData(service.findTreeList(treeQuery));
 	}
 	/**
 	 * GET / : 获取数据 ${functionNameSimple}.
