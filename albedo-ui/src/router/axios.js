@@ -72,6 +72,13 @@ axios.interceptors.response.use(res => {
   return res.data
 }, error => {
   NProgress.done();
+  let res = error.response;
+  if (validate.checkNotNull(res.data.message)) {
+    Message({
+      message: res.data.message,
+      type: 'error'
+    });
+  }
   return Promise.reject(new Error(error))
 });
 

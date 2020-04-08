@@ -62,9 +62,9 @@
 		<result column="description" property="description"/>
 		<result column="version" property="version"/>
 		<result column="del_flag" property="delFlag"/>
-		<result column="deptId" property="deptId"/>
-		<result column="parentDeptId" property="parentDeptId"/>
-		<result column="deptName" property="deptName"/>
+		<result column="dept_id" property="deptId"/>
+		<result column="parent_dept_id" property="parentDeptId"/>
+		<result column="dept_name" property="deptName"/>
 		<collection property="roleList" ofType="com.albedo.java.modules.sys.domain.Role">
 			<id column="role_id" property="id"/>
 			<result column="role_name" property="name"/>
@@ -111,9 +111,9 @@
 		r.description AS role_description,
 		r.version AS role_version,
 		r.del_flag AS role_del_flag,
-		d.name AS deptName,
-		d.id AS deptId,
-		d.parent_id AS parentDeptId
+		d.name AS dept_name,
+		d.id AS dept_id,
+		d.parent_id AS parent_dept_id
     </sql>
 
 	<select id="getUserVoByUsername" resultMap="userVoResultMap">
