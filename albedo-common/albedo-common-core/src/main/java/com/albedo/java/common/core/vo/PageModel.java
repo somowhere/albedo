@@ -1,8 +1,12 @@
 package com.albedo.java.common.core.vo;
 
-import cn.hutool.core.util.EscapeUtil;
+import cn.hutool.core.net.URLEncoder;
+import com.albedo.java.common.core.util.EscapeUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Data;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 @Data
 public class PageModel<T> extends Page<T> {
@@ -16,7 +20,11 @@ public class PageModel<T> extends Page<T> {
 	private String queryConditionJson;
 
 	public void setQueryConditionJson(String queryConditionJson) {
-		this.queryConditionJson = EscapeUtil.unescapeHtml4(queryConditionJson);
+		try {
+			this.queryConditionJson = URLDecoder.decode(queryConditionJson, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			this.queryConditionJson = queryConditionJson;
+		}
 	}
 
 }

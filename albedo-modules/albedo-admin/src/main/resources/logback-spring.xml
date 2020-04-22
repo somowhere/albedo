@@ -17,7 +17,7 @@
 
 <configuration debug="false" scan="false">
 	<springProperty scope="context" name="application.logPath" source="application.logPath"
-					defaultValue="target/.log"/>
+					defaultValue=".logs"/>
 	<springProperty scope="context" name="spring.application.name" source="spring.application.name" defaultValue=""/>
 	<property name="log.path" value="${application.logPath}/${spring.application.name}"/>
 	<!-- 彩色日志格式 -->
@@ -38,7 +38,7 @@
 
 	<!-- Log file debug output -->
 	<appender name="debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${log.path}/debug.log</file>
+		<file>${log.path}/${spring.application.name}-debug.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 			<fileNamePattern>${log.path}/%d{yyyy-MM, aux}/debug.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
 			<maxFileSize>50MB</maxFileSize>
@@ -49,9 +49,23 @@
 		</encoder>
 	</appender>
 
+	<appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.path}/${spring.application.name}-info.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${log.path}/%d{yyyy-MM}/info.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+			<maxFileSize>50MB</maxFileSize>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date [%thread] %-5level [%logger{50}] %file:%line - %msg%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+	</appender>
 	<!-- Log file error output -->
 	<appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${log.path}/error.log</file>
+		<file>${log.path}/${spring.application.name}-error.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 			<fileNamePattern>${log.path}/%d{yyyy-MM}/error.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
 			<maxFileSize>50MB</maxFileSize>
@@ -73,6 +87,7 @@
 	<root level="INFO">
 		<appender-ref ref="console"/>
 		<appender-ref ref="debug"/>
+		<appender-ref ref="info"/>
 		<appender-ref ref="error"/>
 	</root>
 </configuration>
