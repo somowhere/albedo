@@ -40,7 +40,7 @@ application:
   adminPath: /a
   base-class-path: com.albedo.java
   address-enabled: true
-  log-path: target/.logs
+  log-path: .logs
   static-file-directory: D:/albedo-file
   cors: #By default CORS are not enabled. Uncomment to enable.
     allowed-origins: "*"

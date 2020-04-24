@@ -360,7 +360,7 @@ const util = {
           json_list[i++] = filterItem;
         }
       });
-    return JSON.stringify(json_list);
+    return encodeURI(JSON.stringify(json_list));
   },
   /**
    * tree数据解析
