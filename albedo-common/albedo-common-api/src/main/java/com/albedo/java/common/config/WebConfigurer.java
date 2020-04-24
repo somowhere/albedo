@@ -137,7 +137,7 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
 		FilterRegistration.Dynamic cachingHttpHeadersFilter = servletContext.addFilter("cachingHttpHeadersFilter",
 			new CachingHttpHeadersFilter(applicationProperties));
 
-		cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/statics/*", "/WEB-INF/views/*", "classpath:/statics/*", "classpath:/WEB-INF/views/*");
+		cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/statics/*", "/WEB-INF/views/*");
 		cachingHttpHeadersFilter.setAsyncSupported(true);
 
 	}
