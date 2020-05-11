@@ -3,22 +3,20 @@
  */
 package com.albedo.java.modules.quartz.web;
 
-import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.R;
-import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
-import com.albedo.java.common.persistence.DynamicSpecifications;
 import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.common.web.resource.BaseResource;
-import com.albedo.java.modules.quartz.domain.JobLog;
 import com.albedo.java.modules.quartz.domain.vo.JobLogExcelVo;
 import com.albedo.java.modules.quartz.service.JobLogService;
-import com.google.common.collect.Lists;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 /**
  * 任务调度日志Controller 任务调度日志
@@ -41,9 +39,9 @@ public class JobLogResource extends BaseResource {
 	 */
 
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_view')")
-	@GetMapping("/")
+	@GetMapping
 	public R getPage(PageModel pm) {
-		return R.buildOkData(jobLogService.findPage(pm));
+		return R.buildOkData(jobLogService.page(pm));
 	}
 
 
@@ -55,10 +53,10 @@ public class JobLogResource extends BaseResource {
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_del')")
 	@Log(value = "任务日志", businessType = BusinessType.DELETE)
-	@DeleteMapping(CommonConstants.URL_IDS_REGEX)
-	public R delete(@PathVariable String ids) {
+	@DeleteMapping
+	public R delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete JobLog: {}", ids);
-		jobLogService.deleteBatchIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+		jobLogService.removeByIds(ids);
 		return R.buildOk("删除任务调度日志成功");
 	}
 
@@ -76,9 +74,6 @@ public class JobLogResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_export')")
 	public R export(PageModel pm) {
 		ExcelUtil<JobLogExcelVo> util = new ExcelUtil(JobLogExcelVo.class);
-		return util.exportExcel(jobLogService.findExcelVo(DynamicSpecifications.buildSpecification(
-			JobLog.class,
-			pm.getQueryConditionJson()
-		).toEntityWrapper(JobLog.class)), "任务调度日志");
+		return util.exportExcel(jobLogService.findExcelVo(Wrappers.emptyWrapper()), "任务调度日志");
 	}
 }

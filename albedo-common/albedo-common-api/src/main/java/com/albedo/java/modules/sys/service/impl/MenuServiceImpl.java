@@ -17,17 +17,21 @@
 package com.albedo.java.modules.sys.service.impl;
 
 import cn.hutool.core.util.CharUtil;
-import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.exception.EntityExistException;
 import com.albedo.java.common.core.exception.RuntimeMsgException;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
+import com.albedo.java.common.core.vo.TreeNode;
 import com.albedo.java.common.core.vo.TreeQuery;
 import com.albedo.java.common.core.vo.TreeUtil;
-import com.albedo.java.common.persistence.service.impl.TreeVoServiceImpl;
+import com.albedo.java.common.persistence.service.impl.TreeServiceImpl;
 import com.albedo.java.modules.sys.domain.Menu;
 import com.albedo.java.modules.sys.domain.RoleMenu;
-import com.albedo.java.modules.sys.domain.vo.*;
+import com.albedo.java.modules.sys.domain.dto.GenSchemeDto;
+import com.albedo.java.modules.sys.domain.dto.MenuDto;
+import com.albedo.java.modules.sys.domain.dto.MenuSortDto;
+import com.albedo.java.modules.sys.domain.vo.MenuVo;
 import com.albedo.java.modules.sys.repository.MenuRepository;
 import com.albedo.java.modules.sys.repository.RoleMenuRepository;
 import com.albedo.java.modules.sys.service.MenuService;
@@ -42,6 +46,7 @@ import org.springframework.util.Assert;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -55,15 +60,15 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class MenuServiceImpl extends
-	TreeVoServiceImpl<MenuRepository, Menu, MenuDataVo> implements MenuService {
+	TreeServiceImpl<MenuRepository, Menu, MenuDto> implements MenuService {
 	private final RoleMenuRepository roleMenuRepository;
 
 	@Override
 	@Cacheable(value = "menu_details", key = "#roleId  + '_menu'")
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public List<MenuVo> getMenuByRoleId(String roleId) {
-		List<MenuVo> menuAllList = baseMapper.listMenuVos(CommonConstants.YES);
-		List<MenuVo> menuVoList = baseMapper.listMenuVosByRoleId(roleId, CommonConstants.YES);
+		List<MenuVo> menuAllList = baseMapper.listMenuVos();
+		List<MenuVo> menuVoList = baseMapper.listMenuVosByRoleId(roleId);
 		List<String> parentIdList = Lists.newArrayList();
 		for (MenuVo menuVo : menuVoList) {
 			if (menuVo.getParentId() != null) {
@@ -115,7 +120,7 @@ public class MenuServiceImpl extends
 
 	@Override
 	@CacheEvict(value = "menu_details", allEntries = true)
-	public void removeMenuById(List<String> ids) {
+	public void removeMenuById(Set<String> ids) {
 		ids.forEach(id -> {
 			// 查询父节点为当前节点的节点
 			List<Menu> menuList = this.list(Wrappers.<Menu>query()
@@ -132,22 +137,32 @@ public class MenuServiceImpl extends
 		});
 
 	}
-
+	public Boolean exitUserByPermission(MenuDto menuDto){
+		return getOne(Wrappers.<Menu>query()
+			.ne(StringUtil.isNotEmpty(menuDto.getId()), MenuDto.F_ID, menuDto.getId())
+			.eq(MenuDto.F_PERMISSION, menuDto.getPermission())) != null;
+	}
 	@Override
 	@CacheEvict(value = "menu_details", allEntries = true)
-	public MenuDataVo save(MenuDataVo form) {
-		return super.save(form);
+	public void saveOrUpdate(MenuDto menuDto) {
+		// permission before comparing with database
+		if (StringUtil.isNotEmpty(menuDto.getPermission()) &&
+			exitUserByPermission(menuDto)) {
+			throw new EntityExistException(MenuDto.class,"permission", menuDto.getPermission());
+		}
+
+		super.saveOrUpdate(menuDto);
 	}
 
 	@Override
 	@CacheEvict(value = "menu_details", allEntries = true)
-	public boolean saveByGenScheme(GenSchemeDataVo schemeDataVo) {
+	public boolean saveByGenScheme(GenSchemeDto schemeDataVo) {
 
 		String moduleName = schemeDataVo.getSchemeName(),
 			parentMenuId = schemeDataVo.getParentMenuId(),
 			url = schemeDataVo.getUrl();
 		String permission = StringUtil.toCamelCase(StringUtil.lowerFirst(url), CharUtil.DASHED)
-			.replace("/", "_").substring(1),
+			.replace(StringUtil.SLASH, "_").substring(1),
 			permissionLike = permission.substring(0, permission.length() - 1);
 		List<Menu> currentMenuList = baseMapper.selectList(Wrappers.<Menu>query()
 			.lambda().eq(Menu::getName, moduleName).or()
@@ -211,36 +226,30 @@ public class MenuServiceImpl extends
 	}
 
 	@Override
-	public List<MenuTree> listMenuTrees(TreeQuery treeQuery) {
-		List<Menu> menuEntities = baseMapper.selectList(Wrappers.emptyWrapper());
+	public Set<TreeNode> listMenuTrees(TreeQuery treeQuery) {
+		List<Menu> menuEntities = super.list();
 		String extId = treeQuery.getExtId();
-		List<MenuTree> treeList = menuEntities.stream().filter(item ->
+		List<TreeNode> treeList = menuEntities.stream().filter(item ->
 			(ObjectUtil.isEmpty(extId) || ObjectUtil.isEmpty(item.getParentIds()) ||
 				(ObjectUtil.isNotEmpty(extId) && !extId.equals(item.getId()) && item.getParentIds() != null
 					&& item.getParentIds().indexOf("," + extId + ",") == -1))
 		)
 			.sorted(Comparator.comparingInt(Menu::getSort))
 			.map(menu -> {
-				MenuTree node = new MenuTree();
-				node.setId(menu.getId());
-				node.setParentId(menu.getParentId());
-				node.setName(menu.getName());
-				node.setPath(menu.getPath());
-				node.setCode(menu.getPermission());
-				node.setLabel(menu.getName());
-				node.setComponent(menu.getComponent());
-				node.setIcon(menu.getIcon());
-				node.setKeepAlive(menu.getKeepAlive());
-				return node;
+				TreeNode treeNode = new TreeNode();
+				treeNode.setId(menu.getId());
+				treeNode.setLabel(menu.getName());
+				treeNode.setParentId(menu.getParentId());
+				return treeNode;
 			}).collect(Collectors.toList());
-		return TreeUtil.buildByLoop(treeList, Menu.ROOT);
+		return TreeUtil.buildByLoopAutoRoot(treeList);
 	}
 
 	@Override
 	@CacheEvict(value = "menu_details", allEntries = true)
-	public void sortUpdate(MenuDataSortVo menuDataSortVo) {
+	public void sortUpdate(MenuSortDto menuSortDto) {
 
-		menuDataSortVo.getMenuSortVoList().forEach(menuSortVo -> {
+		menuSortDto.getMenuSortList().forEach(menuSortVo -> {
 			Menu menu = repository.selectById(menuSortVo.getId());
 			if (menu != null) {
 				menu.setSort(menuSortVo.getSort());

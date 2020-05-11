@@ -90,7 +90,7 @@ public class GeneralResource {
 
 			@Override
 			public void setAsText(String text) {
-				setValue(text == null ? null : EscapeUtil.escapeHtml(text.trim()));
+				setValue(text == null ? null : EscapeUtil.escapeHtml4(text.trim()));
 			}
 		});
 		// Date 类型转换

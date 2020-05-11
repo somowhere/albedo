@@ -3,24 +3,23 @@
  */
 package com.albedo.java.modules.quartz.service.impl;
 
-import cn.hutool.core.convert.Convert;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.ScheduleConstants;
 import com.albedo.java.common.core.exception.RuntimeMsgException;
 import com.albedo.java.common.core.util.Json;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.ScheduleVo;
-import com.albedo.java.common.persistence.service.impl.DataVoServiceImpl;
+import com.albedo.java.common.persistence.service.impl.DataServiceImpl;
 import com.albedo.java.common.util.RedisUtil;
 import com.albedo.java.modules.quartz.domain.Job;
-import com.albedo.java.modules.quartz.domain.vo.JobDataVo;
+import com.albedo.java.modules.quartz.domain.vo.JobDto;
 import com.albedo.java.modules.quartz.repository.JobRepository;
 import com.albedo.java.modules.quartz.service.JobService;
 import com.albedo.java.modules.quartz.util.CronUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * 任务调度ServiceImpl 任务调度
@@ -30,7 +29,7 @@ import java.util.List;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class JobServiceImpl extends DataVoServiceImpl<JobRepository, Job, String, JobDataVo> implements JobService {
+public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, String> implements JobService {
 
 
 	/**
@@ -97,9 +96,8 @@ public class JobServiceImpl extends DataVoServiceImpl<JobRepository, Job, String
 	 */
 	@Override
 	@Transactional
-	public void deleteJobByIds(String ids) {
-		Long[] jobIds = Convert.toLongArray(ids);
-		for (Long jobId : jobIds) {
+	public void deleteJobByIds(Set<String> ids) {
+		for (String jobId : ids) {
 			Job job = repository.selectById(jobId);
 			deleteJob(job);
 		}
@@ -198,16 +196,16 @@ public class JobServiceImpl extends DataVoServiceImpl<JobRepository, Job, String
 	}
 
 	@Override
-	public void available(List<String> idList) {
-		idList.forEach(id -> {
+	public void available(Set<String> ids) {
+		ids.forEach(id -> {
 			Job job = baseMapper.selectById(id);
 			changeStatus(job);
 		});
 	}
 
 	@Override
-	public void concurrent(List<String> idList) {
-		idList.forEach(id -> {
+	public void concurrent(Set<String> ids) {
+		ids.forEach(id -> {
 			Job job = baseMapper.selectById(id);
 			job.setConcurrent(CommonConstants.STR_YES.equals(job.getAvailable()) ?
 				CommonConstants.STR_NO : CommonConstants.STR_YES);
@@ -216,9 +214,9 @@ public class JobServiceImpl extends DataVoServiceImpl<JobRepository, Job, String
 	}
 
 	@Override
-	public void runByIds(List<String> idList) {
+	public void runByIds(Set<String> ids) {
 
-		idList.forEach(id -> {
+		ids.forEach(id -> {
 			Job job = baseMapper.selectById(id);
 			run(job);
 		});

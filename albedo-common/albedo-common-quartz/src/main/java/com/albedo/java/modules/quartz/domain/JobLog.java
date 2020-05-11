@@ -4,7 +4,6 @@
 package com.albedo.java.modules.quartz.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
-import com.albedo.java.common.core.annotation.SearchField;
 import com.albedo.java.common.persistence.domain.GeneralEntity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -105,7 +104,6 @@ public class JobLog extends GeneralEntity<JobLog> {
 	private static final long serialVersionUID = 1L;
 	//columns START
 	@TableId(value = GeneralEntity.F_SQL_ID, type = IdType.AUTO)
-	@SearchField
 	protected Long id;
 	@TableField(GeneralEntity.F_SQL_DESCRIPTION)
 	protected String description;

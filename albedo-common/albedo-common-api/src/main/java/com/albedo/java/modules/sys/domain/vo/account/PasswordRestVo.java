@@ -1,7 +1,7 @@
 package com.albedo.java.modules.sys.domain.vo.account;
 
 
-import com.albedo.java.modules.sys.domain.vo.UserDataVo;
+import com.albedo.java.modules.sys.domain.dto.UserDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
@@ -31,11 +31,11 @@ public class PasswordRestVo {
 	@ApiModelProperty("验证码")
 	private String code;
 	@NotBlank
-	@Size(min = UserDataVo.PASSWORD_MIN_LENGTH, max = UserDataVo.PASSWORD_MAX_LENGTH)
+	@Size(min = UserDto.PASSWORD_MIN_LENGTH, max = UserDto.PASSWORD_MAX_LENGTH)
 	@ApiModelProperty("新密码")
 	private String newPassword;
 	@NotBlank
-	@Size(min = UserDataVo.PASSWORD_MIN_LENGTH, max = UserDataVo.PASSWORD_MAX_LENGTH)
+	@Size(min = UserDto.PASSWORD_MIN_LENGTH, max = UserDto.PASSWORD_MAX_LENGTH)
 	private String confirmPassword;
 
 }

@@ -15,19 +15,20 @@
  */
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
-import com.albedo.java.common.persistence.DynamicSpecifications;
 import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.modules.sys.domain.LogOperate;
 import com.albedo.java.modules.sys.service.LogOperateService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 /**
  * <p>
@@ -49,10 +50,10 @@ public class LogOperateResource {
 	 * @param pm 分页对象
 	 * @return
 	 */
-	@GetMapping("/")
+	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_view')")
 	public R<IPage> getPage(PageModel pm) {
-		return R.buildOkData(logOperateService.findPage(pm));
+		return R.buildOkData(logOperateService.page(pm));
 	}
 
 	/**
@@ -61,11 +62,11 @@ public class LogOperateResource {
 	 * @param ids ID
 	 * @return success/false
 	 */
-	@DeleteMapping(CommonConstants.URL_IDS_REGEX)
+	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_del')")
 	@Log(value = "操作日志", businessType = BusinessType.DELETE)
-	public R removeById(@PathVariable String ids) {
-		return R.buildOkData(logOperateService.removeById(ids));
+	public R removeById(@RequestBody Set<String> ids) {
+		return R.buildOkData(logOperateService.removeByIds(ids));
 	}
 
 
@@ -74,10 +75,7 @@ public class LogOperateResource {
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_export')")
 	public R export(PageModel pm) {
 		ExcelUtil<LogOperate> util = new ExcelUtil(LogOperate.class);
-		return util.exportExcel(logOperateService.list(DynamicSpecifications.buildSpecification(
-			LogOperate.class,
-			pm.getQueryConditionJson()
-		).toEntityWrapper(LogOperate.class)), "操作日志");
+		return util.exportExcel(logOperateService.list(Wrappers.emptyWrapper()), "操作日志");
 	}
 
 }

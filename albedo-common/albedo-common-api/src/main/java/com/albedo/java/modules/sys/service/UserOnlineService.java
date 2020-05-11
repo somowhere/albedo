@@ -28,11 +28,11 @@ import com.albedo.java.modules.sys.repository.UserOnlineRepository;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface UserOnlineService extends BaseService<UserOnlineRepository, UserOnline, String> {
+public interface UserOnlineService extends BaseService<UserOnlineRepository, UserOnline> {
 
 	void deleteBySessionId(String sessionId);
 
 	void offlineBySessionId(String sessionId);
 
-	UserOnline findOneBySessionId(String sessionId);
+	UserOnline getOneBySessionId(String sessionId);
 }

@@ -16,8 +16,9 @@
 
 package com.albedo.java.modules.sys.domain.vo;
 
-import com.albedo.java.common.core.vo.TreeEntityVo;
+import com.albedo.java.common.core.vo.TreeVo;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * <p>
@@ -28,7 +29,8 @@ import lombok.Data;
  * @since 2019/2/1
  */
 @Data
-public class MenuVo extends TreeEntityVo {
+@EqualsAndHashCode(callSuper = true)
+public class MenuVo extends TreeVo {
 
 	private static final long serialVersionUID = 1L;
 
@@ -53,9 +55,11 @@ public class MenuVo extends TreeEntityVo {
 	 */
 	private String type;
 	/**
-	 * 是否缓冲
+	 * 是否隐藏  1是 0否
 	 */
-	private String keepAlive;
+	private Integer hidden = 0;
+	private Integer cache;
+	private Integer iFrame;
 
 
 	@Override

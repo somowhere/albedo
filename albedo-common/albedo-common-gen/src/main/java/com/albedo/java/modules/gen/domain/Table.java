@@ -1,6 +1,5 @@
 package com.albedo.java.modules.gen.domain;
 
-import com.albedo.java.common.core.annotation.SearchField;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.persistence.annotation.ManyToOne;
 import com.albedo.java.common.persistence.domain.IdEntity;
@@ -31,7 +30,6 @@ public class Table extends IdEntity<Table> {
 	public static final String F_NAMESANDTITLE = "nameAndTitle";
 	private static final long serialVersionUID = 1L;
 	@TableField("name")
-	@SearchField
 	@Size(min = 1, max = 200)
 	private String name; // 名称
 	@TableField("comments")

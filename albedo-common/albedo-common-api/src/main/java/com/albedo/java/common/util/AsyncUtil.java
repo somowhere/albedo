@@ -8,7 +8,6 @@ import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.WebUtil;
 import com.albedo.java.modules.sys.domain.LogLogin;
 import com.albedo.java.modules.sys.service.LogLoginService;
-import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.task.AsyncTaskExecutor;
@@ -70,7 +69,7 @@ public class AsyncUtil {
 				// 日志状态
 				logLogin.setStatus(status);
 				// 插入数据
-				SpringContextHolder.getBean(LogLoginService.class).save(logLogin);
+				SpringContextHolder.getBean(LogLoginService.class).saveOrUpdate(logLogin);
 			}
 		});
 	}

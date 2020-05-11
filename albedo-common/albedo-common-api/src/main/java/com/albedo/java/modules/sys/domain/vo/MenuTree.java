@@ -16,9 +16,13 @@
 
 package com.albedo.java.modules.sys.domain.vo;
 
+import cn.hutool.core.util.StrUtil;
+import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.vo.TreeNode;
+import com.albedo.java.common.core.vo.TreeUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * @author somewhere
@@ -26,46 +30,27 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 public class MenuTree extends TreeNode<MenuTree> {
-	private String icon;
 	private String name;
-	private boolean spread = false;
 	private String path;
-	private String component;
-	private String authority;
+	private Boolean hidden;
 	private String redirect;
-	private String keepAlive;
-	private String code;
-	private String type;
-	private Integer sort;
-
-	public MenuTree() {
-	}
-
-	public MenuTree(String id, String name, String parentId) {
-		this.id = id;
-		this.parentId = parentId;
-		this.name = name;
-		setLabel(name);
-	}
-
-	public MenuTree(String id, String name, MenuTree parent) {
-		this.id = id;
-		this.parentId = parent.getId();
-		this.name = name;
-		setLabel(name);
-	}
+	private String component;
+	private Boolean iFrame;
+	private Boolean alwaysShow;
+	private MenuMetaVo meta;
 
 	public MenuTree(MenuVo menuVo) {
 		this.id = menuVo.getId();
 		this.parentId = menuVo.getParentId();
-		this.icon = menuVo.getIcon();
 		this.name = menuVo.getName();
 		this.path = menuVo.getPath();
-		this.component = menuVo.getComponent();
-		this.type = menuVo.getType();
+		this.iFrame = CommonConstants.YES.equals(menuVo.getIFrame());
 		setLabel(menuVo.getName());
-		this.sort = menuVo.getSort();
-		this.keepAlive = menuVo.getKeepAlive();
+		this.meta = new MenuMetaVo(menuVo.getName(), menuVo.getIcon(), CommonConstants.YES.equals(menuVo.getCache()));
+		this.setHidden(CommonConstants.YES.equals(menuVo.getHidden()));
+		// 如果不是外链
+		this.setComponent(!CommonConstants.YES.equals(menuVo.getIFrame()) && menuVo.getParentId() == TreeUtil.ROOT && StrUtil.isEmpty(menuVo.getComponent())?"Layout":menuVo.getComponent());
 	}
 }

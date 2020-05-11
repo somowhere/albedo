@@ -18,9 +18,10 @@ package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.persistence.datascope.DataScope;
-import com.albedo.java.common.persistence.service.DataVoService;
+import com.albedo.java.common.persistence.service.DataService;
 import com.albedo.java.modules.sys.domain.User;
-import com.albedo.java.modules.sys.domain.vo.UserDataVo;
+import com.albedo.java.modules.sys.domain.dto.UserDto;
+import com.albedo.java.modules.sys.domain.dto.UserQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.UserExcelVo;
 import com.albedo.java.modules.sys.domain.vo.UserInfo;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
@@ -30,12 +31,13 @@ import com.albedo.java.modules.sys.repository.UserRepository;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author somewhere
  * @date 2019/2/1
  */
-public interface UserService extends DataVoService<UserRepository, User, String, UserDataVo> {
+public interface UserService extends DataService<UserRepository, User, UserDto, String> {
 	/**
 	 * 查询用户信息
 	 *
@@ -50,7 +52,7 @@ public interface UserService extends DataVoService<UserRepository, User, String,
 	 * @param pm 分页对象
 	 * @return
 	 */
-	IPage getUserPage(PageModel pm, DataScope dataScope);
+	IPage getUserPage(PageModel pm, UserQueryCriteria userQueryCriteria, DataScope dataScope);
 
 	/**
 	 * 删除用户
@@ -67,6 +69,13 @@ public interface UserService extends DataVoService<UserRepository, User, String,
 	 * @return 用户信息
 	 */
 	UserVo getUserVoById(String id);
+	/**
+	 * 通过ID查询用户信息
+	 *
+	 * @param id 用户ID
+	 * @return 用户信息
+	 */
+	UserDto getUserDtoById(String id);
 
 	/**
 	 * 查询上级部门的用户信息
@@ -76,13 +85,14 @@ public interface UserService extends DataVoService<UserRepository, User, String,
 	 */
 	List<User> listAncestorUsersByUsername(String username);
 
-	void lockOrUnLock(List<String> idList);
+	void lockOrUnLock(Set<String> idList);
 
 	void resetPassword(PasswordRestVo passwordRestVo);
 
 	void changePassword(String username, PasswordChangeVo passwordChangeVo);
 
-	UserVo findOneVoByUserName(String username);
+	UserVo getOneVoByUserName(String username);
 
 	void save(UserExcelVo userExcelVo);
+
 }

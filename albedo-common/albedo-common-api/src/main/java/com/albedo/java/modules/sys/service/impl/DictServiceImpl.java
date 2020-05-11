@@ -17,12 +17,13 @@
 package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.core.annotation.BaseInit;
+import com.albedo.java.common.core.exception.EntityExistException;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.SelectResult;
-import com.albedo.java.common.persistence.service.impl.TreeVoServiceImpl;
+import com.albedo.java.common.persistence.service.impl.TreeServiceImpl;
 import com.albedo.java.modules.sys.domain.Dict;
-import com.albedo.java.modules.sys.domain.vo.DictDataVo;
+import com.albedo.java.modules.sys.domain.dto.DictDto;
 import com.albedo.java.modules.sys.repository.DictRepository;
 import com.albedo.java.modules.sys.service.DictService;
 import com.albedo.java.modules.sys.util.DictUtil;
@@ -48,7 +49,7 @@ import java.util.Map;
 @Service
 @BaseInit(method = "refresh")
 public class DictServiceImpl extends
-	TreeVoServiceImpl<DictRepository, Dict, DictDataVo> implements DictService {
+	TreeServiceImpl<DictRepository, Dict, DictDto> implements DictService {
 
 	@Autowired
 	private CacheManager cacheManager;
@@ -57,6 +58,21 @@ public class DictServiceImpl extends
 		return baseMapper.selectList(Wrappers.<Dict>query().lambda().orderByAsc(
 			Dict::getSort
 		));
+	}
+
+	public Boolean exitUserByCode(DictDto dictDto){
+		return getOne(Wrappers.<Dict>query()
+			.ne(StringUtil.isNotEmpty(dictDto.getId()), DictDto.F_ID, dictDto.getId())
+			.eq(DictDto.F_CODE, dictDto.getCode())) != null;
+	}
+	@Override
+	public void saveOrUpdate(DictDto dictDto) {
+		// code before comparing with database
+		if (exitUserByCode(dictDto)) {
+			throw new EntityExistException(DictDto.class,"code", dictDto.getCode());
+		}
+
+		super.saveOrUpdate(dictDto);
 	}
 
 	@Transactional(readOnly = true, rollbackFor = Exception.class)

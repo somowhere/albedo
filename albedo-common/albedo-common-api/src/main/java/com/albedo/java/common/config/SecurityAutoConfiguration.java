@@ -1,6 +1,7 @@
 package com.albedo.java.common.config;
 
 import cn.hutool.core.util.ArrayUtil;
+import com.albedo.java.common.core.annotation.AnonymousAccess;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.security.component.Http401UnauthorizedEntryPoint;
@@ -14,6 +15,7 @@ import com.albedo.java.modules.sys.service.UserOnlineService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -39,8 +41,14 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.annotation.PostConstruct;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @Configuration
 @EnableWebSecurity
@@ -57,6 +65,7 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 	private final RedisTemplate redisTemplate;
 	private final RememberMeServices rememberMeServices;
 	private final CorsFilter corsFilter;
+	private final ApplicationContext applicationContext;
 
 
 	/**
@@ -147,7 +156,16 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
+		// 搜寻匿名标记 url： @AnonymousAccess
+		Map<RequestMappingInfo, HandlerMethod> handlerMethodMap = applicationContext.getBean(RequestMappingHandlerMapping.class).getHandlerMethods();
+		Set<String> anonymousUrls = new HashSet<>();
+		for (Map.Entry<RequestMappingInfo, HandlerMethod> infoEntry : handlerMethodMap.entrySet()) {
+			HandlerMethod handlerMethod = infoEntry.getValue();
+			AnonymousAccess anonymousAccess = handlerMethod.getMethodAnnotation(AnonymousAccess.class);
+			if (null != anonymousAccess) {
+				anonymousUrls.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
+			}
+		}
 		http
 			.csrf()
 			.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
@@ -184,6 +202,8 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 			.and()
 			.authorizeRequests()
 			.antMatchers(applicationProperties.getAdminPath("/authenticate")).permitAll()
+			// 自定义匿名访问所有url放行 ： 允许匿名和带权限以及登录用户访问
+			.antMatchers(anonymousUrls.toArray(new String[0])).permitAll()
 			.antMatchers(ArrayUtil.toArray(applicationProperties.getSecurity().getAuthorizePermitAll(), String.class)).permitAll()
 			.antMatchers(ArrayUtil.toArray(applicationProperties.getSecurity().getAuthorize(), String.class)).authenticated()
 			.and()

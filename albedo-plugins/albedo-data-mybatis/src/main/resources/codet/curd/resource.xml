@@ -50,7 +50,7 @@ public class ${ClassName}Resource extends DataVoResource<${ClassName}Service, ${
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_view')")
 	public R get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
-		return  R.buildOkData(service.findOneVo(id));
+		return  R.buildOkData(service.getOneVo(id));
 	}
 	/**
 	 * GET / : get all ${className}.
@@ -98,10 +98,10 @@ public class ${ClassName}Resource extends DataVoResource<${ClassName}Service, ${
 	 */
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_del')")
 	@Log(value = "${functionName}", businessType = BusinessType.DELETE)
-	@DeleteMapping(CommonConstants.URL_IDS_REGEX)
-	public R delete(@PathVariable String ids) {
+	@DeleteMapping
+	public R delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete ${ClassName}: {}", ids);
-		service.deleteBatchIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+		service.deleteBatchIds(ids);
 		return R.buildOk("删除${functionNameSimple}成功");
 	}
 }]]>

@@ -52,16 +52,16 @@ public class Role extends IdEntity<Role> {
 	@NotBlank(message = "数据权限 不能为空")
 	@DictType("sys_data_scope")
 	private String dataScope;
-
+	/**
+	 * 级别，数值越小，级别越大
+	 */
+	private Integer level = 3;
 
 	@NotBlank(message = "角色名称 不能为空")
 	private String name;
 
 	@NotBlank(message = "角色标识 不能为空")
 	private String code;
-
-	@NotBlank(message = "角色描述 不能为空")
-	private String remark;
 
 
 }

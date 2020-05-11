@@ -3,24 +3,21 @@
  */
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.util.BeanVoUtil;
+import com.albedo.java.common.core.util.BeanUtil;
 import com.albedo.java.common.core.util.R;
-import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
-import com.albedo.java.common.persistence.DynamicSpecifications;
 import com.albedo.java.common.util.ExcelUtil;
-import com.albedo.java.modules.sys.domain.LogLogin;
 import com.albedo.java.modules.sys.domain.vo.LogLoginExcelVo;
 import com.albedo.java.modules.sys.service.LogLoginService;
-import com.google.common.collect.Lists;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -45,9 +42,9 @@ public class LogLoginResource {
 	 */
 
 	@PreAuthorize("@pms.hasPermission('sys_logLogin_view')")
-	@GetMapping("/")
+	@GetMapping
 	public R getPage(PageModel pm) {
-		return R.buildOkData(logLoginService.findPage(pm));
+		return R.buildOkData(logLoginService.page(pm));
 	}
 
 
@@ -59,10 +56,10 @@ public class LogLoginResource {
 	 */
 	@PreAuthorize("@pms.hasPermission('sys_logLogin_del')")
 	@Log(value = "登录日志", businessType = BusinessType.DELETE)
-	@DeleteMapping(CommonConstants.URL_IDS_REGEX)
-	public R delete(@PathVariable String ids) {
+	@DeleteMapping
+	public R delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete LogLogin: {}", ids);
-		logLoginService.deleteBatchIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+		logLoginService.removeByIds(ids);
 		return R.buildOk("删除登录日志成功");
 	}
 
@@ -71,11 +68,8 @@ public class LogLoginResource {
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_export')")
 	public R export(PageModel pm) {
 		ExcelUtil<LogLoginExcelVo> util = new ExcelUtil(LogLoginExcelVo.class);
-		return util.exportExcel(logLoginService.list(DynamicSpecifications.buildSpecification(
-			LogLogin.class,
-			pm.getQueryConditionJson()
-		).toEntityWrapper(LogLogin.class)).stream()
-			.map(logLogin -> BeanVoUtil.copyPropertiesByClass(logLogin, LogLoginExcelVo.class))
+		return util.exportExcel(logLoginService.list(Wrappers.emptyWrapper()).stream()
+			.map(logLogin -> BeanUtil.copyPropertiesByClass(logLogin, LogLoginExcelVo.class))
 			.collect(Collectors.toList()), "登录日志");
 	}
 }

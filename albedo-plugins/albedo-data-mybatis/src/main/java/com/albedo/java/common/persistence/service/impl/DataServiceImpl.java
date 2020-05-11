@@ -3,18 +3,18 @@
  */
 package com.albedo.java.common.persistence.service.impl;
 
-import com.albedo.java.common.core.util.CollUtil;
-import com.albedo.java.common.core.vo.PageModel;
-import com.albedo.java.common.core.vo.QueryCondition;
-import com.albedo.java.common.persistence.DynamicSpecifications;
-import com.albedo.java.common.persistence.SpecificationDetail;
+import com.albedo.java.common.core.util.BeanUtil;
+import com.albedo.java.common.core.util.ObjectUtil;
+import com.albedo.java.common.core.vo.DataDto;
 import com.albedo.java.common.persistence.domain.DataEntity;
 import com.albedo.java.common.persistence.repository.BaseRepository;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.albedo.java.common.persistence.service.DataService;
+import lombok.Data;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.List;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * Service基类
@@ -22,53 +22,100 @@ import java.util.List;
  * @author lj
  * @version 2014-05-16
  */
-@Transactional(rollbackFor = Exception.class)
-public abstract class DataServiceImpl<Repository extends BaseRepository<T>, T extends DataEntity, PK extends Serializable>
-	extends BaseServiceImpl<Repository, T, PK> implements com.albedo.java.common.persistence.service.DataService<Repository, T, PK> {
+@Data
+public abstract class DataServiceImpl<Repository extends BaseRepository<T>,
+	T extends DataEntity, D extends DataDto, PK extends Serializable>
+	extends BaseServiceImpl<Repository, T>
+	implements DataService<Repository, T, D, PK> {
 
+	private Class<T> entityEntityClz;
+	private Class<D> entityDtoClz;
 
-	@Override
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public T findRelationOne(Serializable id) {
-		List<T> relationList = repository.findRelationList(new QueryWrapper<T>().eq(getClassNameProfix() + DataEntity.F_SQL_ID, id));
-		return CollUtil.getObject(relationList);
-	}
-
-	@Override
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public PageModel<T> findPage(PageModel<T> pm) {
-		return findPageQuery(pm, null, false);
-	}
-
-	@Override
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public PageModel<T> findRelationPage(PageModel<T> pm) {
-		return findPageQuery(pm, null, true);
-	}
-
-	@Override
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public PageModel<T> findPage(PageModel<T> pm, List<QueryCondition> queryConditions) {
-		return findPageQuery(pm, queryConditions, false);
-	}
-
-	@Override
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public PageModel<T> findRelationPage(PageModel<T> pm, List<QueryCondition> queryConditions) {
-		return findPageQuery(pm, queryConditions, true);
-	}
-
-	@Override
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public PageModel<T> findPageQuery(PageModel<T> pm, List<QueryCondition> queryConditions, boolean isRelation) {
-		SpecificationDetail<T> specificationDetail = DynamicSpecifications.buildSpecification(
-			getPersistentClass(),
-			pm.getQueryConditionJson()
-		);
-		if (CollUtil.isNotEmpty(queryConditions)) {
-			specificationDetail.orAll(queryConditions);
+	public DataServiceImpl() {
+		super();
+		Class<?> c = getClass();
+		Type type = c.getGenericSuperclass();
+		if (type instanceof ParameterizedType) {
+			Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
+			entityEntityClz = (Class<T>) parameterizedType[1];
+			entityDtoClz = (Class<D>) parameterizedType[2];
 		}
-		return isRelation ? findRelationPage(pm, specificationDetail) : findPage(pm, specificationDetail);
 	}
+
+	@Override
+	@Transactional(readOnly = true, rollbackFor = Exception.class)
+	public D getOneDto(PK id) {
+		return copyBeanToDto(repository.selectById(id));
+	}
+
+
+	@Override
+	public void saveOrUpdate(D entityDto) {
+		T entity = null;
+		try {
+			entity = ObjectUtil.isNotEmpty(entityDto.getId()) ? repository.selectById(entityDto.getId()) :
+				entityEntityClz.newInstance();
+			copyDtoToBean(entityDto, entity);
+		} catch (Exception e) {
+			log.warn("{}", e);
+		}
+		saveOrUpdate(entity);
+		entityDto.setId(entity.pkVal());
+	}
+
+	@Override
+	public void copyBeanToDto(T module, D result) {
+		if (result != null && module != null) {
+			BeanUtil.copyProperties(module, result, true);
+			if (ObjectUtil.isNotEmpty(module.pkVal())) {
+				result.setId(module.pkVal());
+			}
+		}
+	}
+
+	@Override
+	public D copyBeanToDto(T module) {
+		D result = null;
+		if (module != null && entityDtoClz != null) {
+			try {
+				result = entityDtoClz.newInstance();
+				copyBeanToDto(module, result);
+				if (ObjectUtil.isNotEmpty(module.pkVal())) {
+					result.setId(module.pkVal());
+				}
+			} catch (Exception e) {
+				log.error("{}", e);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public void copyDtoToBean(D entityDto, T entity) {
+		if (entityDto != null && entity != null) {
+			BeanUtil.copyProperties(entityDto, entity, true);
+			if (ObjectUtil.isNotEmpty(entityDto.getId())) {
+				entity.setPk(entityDto.getId());
+			}
+		}
+	}
+
+	@Override
+	public T copyDtoToBean(D entityDto) {
+		T result = null;
+		if (entityDto != null && entityEntityClz != null) {
+			try {
+				result = entityEntityClz.newInstance();
+				copyDtoToBean(entityDto, result);
+				if (ObjectUtil.isNotEmpty(entityDto.getId())) {
+					result.setPk(entityDto.getId());
+				}
+			} catch (Exception e) {
+				log.error("{}", e);
+			}
+		}
+		return result;
+	}
+
 
 }

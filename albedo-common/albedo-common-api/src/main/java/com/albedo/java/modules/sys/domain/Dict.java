@@ -17,7 +17,6 @@
 package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
-import com.albedo.java.common.core.annotation.SearchField;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.persistence.domain.TreeEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -58,7 +57,6 @@ public class Dict extends TreeEntity<Dict> {
 	 * 类型
 	 */
 	@NotBlank(message = "字典项数据类型不能为空")
-	@SearchField
 	private String code;
 	@NotNull
 	@TableField("`show`")

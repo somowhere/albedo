@@ -101,7 +101,7 @@ public class FileUploadUtil {
 	public static final String extractFilename(MultipartFile file) {
 		String fileName = file.getOriginalFilename();
 		String extension = getExtension(file);
-		fileName = DateUtil.datePath() + "/" + encodingFilename(fileName) + "." + extension;
+		fileName = DateUtil.datePath() + StringUtil.SLASH + encodingFilename(fileName) + "." + extension;
 		return fileName;
 	}
 
@@ -118,9 +118,9 @@ public class FileUploadUtil {
 	}
 
 	private static final String getPathFileName(String uploadDir, String fileName) throws IOException {
-		int dirLastIndex = uploadDir.lastIndexOf("/") + 1;
+		int dirLastIndex = uploadDir.lastIndexOf(StringUtil.SLASH) + 1;
 		String currentDir = StringUtil.subSuf(uploadDir, dirLastIndex);
-		String pathFileName = "/profile/" + currentDir + "/" + fileName;
+		String pathFileName = "/profile/" + currentDir + StringUtil.SLASH + fileName;
 		return pathFileName;
 	}
 

@@ -17,9 +17,7 @@
 package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
-import com.albedo.java.common.core.annotation.SearchField;
 import com.albedo.java.common.persistence.domain.TreeEntity;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -49,7 +47,6 @@ public class Menu extends TreeEntity<Menu> {
 	/**
 	 * 菜单权限标识
 	 */
-	@SearchField
 	private String permission;
 	/**
 	 * 图标
@@ -66,17 +63,21 @@ public class Menu extends TreeEntity<Menu> {
 	@DictType("sys_menu_type")
 	private String type;
 	/**
-	 * 路由缓冲
+	 * 是否缓存
 	 */
 	@DictType("sys_flag")
-	private String keepAlive;
+	private Integer cache = 0;
+	/**
+	 * 是否外链
+	 */
+	@DictType("sys_flag")
+	private Integer iFrame;
 	/**
 	 * 是否显示1 是0否
 	 */
 	@NotNull
-	@TableField("`show`")
 	@DictType("sys_flag")
-	private Integer show = 1;
+	private Integer hidden = 0;
 
 	/**
 	 * 前端URL

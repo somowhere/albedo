@@ -17,13 +17,11 @@
 package com.albedo.java.common.persistence.datascope;
 
 import com.albedo.java.common.persistence.domain.BaseEntity;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -46,7 +44,7 @@ public class DataScope extends HashMap {
 	/**
 	 * 具体的数据范围
 	 */
-	private Set<String> deptIds= Sets.newLinkedHashSet();
+	private Set<String> deptIds = Sets.newLinkedHashSet();
 	/**
 	 * 全部数据
 	 */

@@ -386,9 +386,9 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
 			dirPaths = dirPaths + File.separator;
 		}
 		String filePath = file.getAbsolutePath();
-		// 对于目录，必须在entry名字后面加上"/"，表示它将以目录项存储
+		// 对于目录，必须在entry名字后面加上StringUtil.SLASH，表示它将以目录项存储
 		if (file.isDirectory()) {
-			filePath += "/";
+			filePath += StringUtil.SLASH;
 		}
 		int index = filePath.indexOf(dirPaths);
 
@@ -430,7 +430,7 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
 		m = (cal.get(Calendar.MONTH) + 1);
 		d = cal.get(Calendar.DAY_OF_MONTH);
 		cal = null;
-		return StringUtil.toAppendStr("/", y, "/", m, "/", d, "/");
+		return StringUtil.toAppendStr(StringUtil.SLASH, y, StringUtil.SLASH, m, StringUtil.SLASH, d, StringUtil.SLASH);
 	}
 
 	/**

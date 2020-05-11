@@ -2,12 +2,12 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.exception.GlobalExceptionHandler;
+import com.albedo.java.common.core.exception.handler.GlobalExceptionHandler;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.modules.AlbedoAdminApplication;
 import com.albedo.java.modules.TestUtil;
 import com.albedo.java.modules.sys.domain.Menu;
-import com.albedo.java.modules.sys.domain.vo.MenuDataVo;
+import com.albedo.java.modules.sys.domain.dto.MenuDto;
 import com.albedo.java.modules.sys.service.MenuService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.extern.slf4j.Slf4j;
@@ -46,8 +46,12 @@ public class MenuResourceIntTest {
 	private static final String DEFAULT_ANOTHER_PERMISSION = "ANOTHER_PERMISSION";
 	private static final String DEFAULT_PERMISSION = "PERMISSION1";
 	private static final String UPDATED_PERMISSION = "PERMISSION2";
-	private static final Integer DEFAULT_SHOW = CommonConstants.YES;
-	private static final Integer UPDATED_SHOW = CommonConstants.NO;
+	private static final Integer DEFAULT_HIDDEN = CommonConstants.NO;
+	private static final Integer UPDATED_HIDDEN = CommonConstants.YES;
+	private static final Integer DEFAULT_CACHE = CommonConstants.YES;
+	private static final Integer UPDATED_CACHE = CommonConstants.NO;
+	private static final Integer DEFAULT_IFRAME = CommonConstants.YES;
+	private static final Integer UPDATED_IFRAME = CommonConstants.NO;
 	private static final String DEFAULT_ANOTHER_ICON = "ANOTHER_ICON";
 	private static final String DEFAULT_ICON = "ICON1";
 	private static final String UPDATED_ICON = "ICON2";
@@ -60,8 +64,6 @@ public class MenuResourceIntTest {
 	private static final String UPDATED_COMPONENT = "COMPONENT2";
 	private static final String DEFAULT_TYPE = CommonConstants.STR_YES;
 	private static final String UPDATED_TYPE = CommonConstants.STR_NO;
-	private static final String DEFAULT_KEEPALIVE = CommonConstants.STR_YES;
-	private static final String UPDATED_KEEPALIVE = CommonConstants.STR_YES;
 	private static final String DEFAULT_PATH = "PATH1";
 	private static final String UPDATED_PATH = "PATH2";
 	private static final String DEFAULT_DESCRIPTION = "DESCRIPTION1";
@@ -78,9 +80,9 @@ public class MenuResourceIntTest {
 	@Autowired
 	private ApplicationProperties applicationProperties;
 
-	private MenuDataVo menu;
+	private MenuDto menu;
 
-	private MenuDataVo anotherMenu = new MenuDataVo();
+	private MenuDto anotherMenu = new MenuDto();
 
 	@BeforeEach
 	public void setup() {
@@ -101,16 +103,17 @@ public class MenuResourceIntTest {
 	 * This is a static method, as tests for other entities might also need it,
 	 * if they test an domain which has a required relationship to the Menu domain.
 	 */
-	public MenuDataVo createEntity() {
-		MenuDataVo menu = new MenuDataVo();
+	public MenuDto createEntity() {
+		MenuDto menu = new MenuDto();
 		menu.setName(DEFAULT_NAME);
 		menu.setComponent(DEFAULT_COMPONENT);
 		menu.setIcon(DEFAULT_ICON);
 		menu.setPermission(DEFAULT_PERMISSION);
-		menu.setShow(DEFAULT_SHOW);
+		menu.setHidden(DEFAULT_HIDDEN);
+		menu.setCache(DEFAULT_CACHE);
+		menu.setIFrame(DEFAULT_IFRAME);
 		menu.setSort(DEFAULT_SORT);
 		menu.setComponent(DEFAULT_COMPONENT);
-		menu.setKeepAlive(DEFAULT_KEEPALIVE);
 		menu.setPath(DEFAULT_PATH);
 		menu.setType(DEFAULT_TYPE);
 		menu.setDescription(DEFAULT_DESCRIPTION);
@@ -126,14 +129,15 @@ public class MenuResourceIntTest {
 		anotherMenu.setIcon(DEFAULT_ANOTHER_ICON);
 		anotherMenu.setParentId(DEFAULT_ANOTHER_PARENTID);
 		anotherMenu.setPermission(DEFAULT_ANOTHER_PERMISSION);
-		anotherMenu.setShow(DEFAULT_SHOW);
+		anotherMenu.setHidden(DEFAULT_HIDDEN);
+		anotherMenu.setCache(DEFAULT_CACHE);
+		anotherMenu.setIFrame(DEFAULT_IFRAME);
 		anotherMenu.setSort(DEFAULT_SORT);
 		anotherMenu.setComponent(DEFAULT_COMPONENT);
-		anotherMenu.setKeepAlive(DEFAULT_KEEPALIVE);
 		anotherMenu.setPath(DEFAULT_PATH);
 		anotherMenu.setType(DEFAULT_TYPE);
 		anotherMenu.setDescription(DEFAULT_DESCRIPTION);
-		menuService.save(anotherMenu);
+		menuService.saveOrUpdate(anotherMenu);
 
 		menu.setParentId(anotherMenu.getId());
 	}
@@ -152,17 +156,18 @@ public class MenuResourceIntTest {
 		// Validate the Menu in the database
 		List<Menu> menuList = menuService.list();
 		assertThat(menuList).hasSize(databaseSizeBeforeCreate.size() + 1);
-		Menu testMenu = menuService.findOne(Wrappers.<Menu>query().lambda()
+		Menu testMenu = menuService.getOne(Wrappers.<Menu>query().lambda()
 			.eq(Menu::getName, menu.getName()));
 		assertThat(testMenu.getName()).isEqualTo(DEFAULT_NAME);
 		assertThat(testMenu.getPermission()).isEqualTo(DEFAULT_PERMISSION);
 		assertThat(testMenu.getIcon()).isEqualTo(DEFAULT_ICON);
-		assertThat(testMenu.getShow()).isEqualTo(DEFAULT_SHOW);
 		assertThat(testMenu.getSort()).isEqualTo(DEFAULT_SORT);
 		assertThat(testMenu.getParentId()).isEqualTo(anotherMenu.getId());
 		assertThat(testMenu.getParentIds()).contains(anotherMenu.getId());
 		assertThat(testMenu.getComponent()).isEqualTo(DEFAULT_COMPONENT);
-		assertThat(testMenu.getKeepAlive()).isEqualTo(DEFAULT_KEEPALIVE);
+		assertThat(testMenu.getHidden()).isEqualTo(DEFAULT_HIDDEN);
+		assertThat(testMenu.getCache()).isEqualTo(DEFAULT_CACHE);
+		assertThat(testMenu.getIFrame()).isEqualTo(DEFAULT_IFRAME);
 		assertThat(testMenu.getType()).isEqualTo(DEFAULT_TYPE);
 		assertThat(testMenu.getPath()).isEqualTo(DEFAULT_PATH);
 		assertThat(testMenu.isLeaf()).isEqualTo(true);
@@ -174,11 +179,11 @@ public class MenuResourceIntTest {
 	@Transactional
 	public void createMenuWithExistingCode() throws Exception {
 		// Initialize the database
-		menuService.save(menu);
+		menuService.saveOrUpdate(menu);
 		int databaseSizeBeforeCreate = menuService.list().size();
 
 		// Create the Menu
-		MenuDataVo managedMenuVM = createEntity();
+		MenuDto managedMenuVM = createEntity();
 
 		// Create the Menu
 		restMenuMockMvc.perform(post(DEFAULT_API_URL)
@@ -197,7 +202,7 @@ public class MenuResourceIntTest {
 	@Transactional
 	public void getMenuPage() throws Exception {
 		// Initialize the database
-		menuService.save(menu);
+		menuService.saveOrUpdate(menu);
 		// Get all the menus
 		restMenuMockMvc.perform(get(DEFAULT_API_URL)
 			.param(PageModel.F_DESC, "menu." + Menu.F_SQL_CREATEDDATE)
@@ -207,12 +212,13 @@ public class MenuResourceIntTest {
 			.andExpect(jsonPath("$.data.records.[*].name").value(hasItem(DEFAULT_NAME)))
 			.andExpect(jsonPath("$.data.records.[*].permission").value(hasItem(DEFAULT_PERMISSION)))
 			.andExpect(jsonPath("$.data.records.[*].icon").value(hasItem(DEFAULT_ICON)))
-			.andExpect(jsonPath("$.data.records.[*].show").value(hasItem(DEFAULT_SHOW)))
+			.andExpect(jsonPath("$.data.records.[*].hidden").value(hasItem(DEFAULT_HIDDEN)))
+			.andExpect(jsonPath("$.data.records.[*].cache").value(hasItem(DEFAULT_CACHE)))
+			.andExpect(jsonPath("$.data.records.[*].iFrame").value(hasItem(DEFAULT_IFRAME)))
 			.andExpect(jsonPath("$.data.records.[*].sort").value(hasItem(DEFAULT_SORT)))
 			.andExpect(jsonPath("$.data.records.[*].parentId").value(hasItem(anotherMenu.getId())))
 			.andExpect(jsonPath("$.data.records.[*].component").value(hasItem(DEFAULT_COMPONENT)))
 			.andExpect(jsonPath("$.data.records.[*].type").value(hasItem(DEFAULT_TYPE)))
-			.andExpect(jsonPath("$.data.records.[*].keepAlive").value(hasItem(DEFAULT_KEEPALIVE)))
 			.andExpect(jsonPath("$.data.records.[*].path").value(hasItem(DEFAULT_PATH)))
 			.andExpect(jsonPath("$.data.records.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
 		;
@@ -222,7 +228,7 @@ public class MenuResourceIntTest {
 	@Transactional
 	public void getMenu() throws Exception {
 		// Initialize the database
-		menuService.save(menu);
+		menuService.saveOrUpdate(menu);
 
 		// Get the menu
 		restMenuMockMvc.perform(get(DEFAULT_API_URL + "{id}", menu.getId()))
@@ -231,11 +237,12 @@ public class MenuResourceIntTest {
 			.andExpect(jsonPath("$.data.name").value(DEFAULT_NAME))
 			.andExpect(jsonPath("$.data.permission").value(DEFAULT_PERMISSION))
 			.andExpect(jsonPath("$.data.icon").value(DEFAULT_ICON))
-			.andExpect(jsonPath("$.data.show").value(DEFAULT_SHOW))
+			.andExpect(jsonPath("$.data.hidden").value(DEFAULT_HIDDEN))
+			.andExpect(jsonPath("$.data.cache").value(DEFAULT_CACHE))
+			.andExpect(jsonPath("$.data.iFrame").value(DEFAULT_IFRAME))
 			.andExpect(jsonPath("$.data.parentId").value(anotherMenu.getId()))
 			.andExpect(jsonPath("$.data.component").value(DEFAULT_COMPONENT))
 			.andExpect(jsonPath("$.data.type").value(DEFAULT_TYPE))
-			.andExpect(jsonPath("$.data.keepAlive").value(DEFAULT_KEEPALIVE))
 			.andExpect(jsonPath("$.data.path").value(DEFAULT_PATH))
 			.andExpect(jsonPath("$.data.description").value(DEFAULT_DESCRIPTION));
 	}
@@ -251,22 +258,23 @@ public class MenuResourceIntTest {
 	@Transactional
 	public void updateMenu() throws Exception {
 		// Initialize the database
-		menuService.save(menu);
+		menuService.saveOrUpdate(menu);
 		int databaseSizeBeforeUpdate = menuService.list().size();
 
 		// Update the menu
-		Menu updatedMenu = menuService.findOneById(menu.getId());
+		Menu updatedMenu = menuService.getById(menu.getId());
 
 
-		MenuDataVo managedMenuVM = new MenuDataVo();
+		MenuDto managedMenuVM = new MenuDto();
 		managedMenuVM.setName(UPDATED_NAME);
 		managedMenuVM.setPermission(UPDATED_PERMISSION);
 		managedMenuVM.setIcon(UPDATED_ICON);
 		managedMenuVM.setSort(UPDATED_SORT);
-		managedMenuVM.setShow(UPDATED_SHOW);
+		managedMenuVM.setHidden(UPDATED_HIDDEN);
+		managedMenuVM.setCache(UPDATED_CACHE);
+		managedMenuVM.setIFrame(UPDATED_IFRAME);
 		managedMenuVM.setParentId(UPDATED_PARENTID);
 		managedMenuVM.setComponent(UPDATED_COMPONENT);
-		managedMenuVM.setKeepAlive(UPDATED_KEEPALIVE);
 		managedMenuVM.setPath(UPDATED_PATH);
 		managedMenuVM.setType(UPDATED_TYPE);
 		managedMenuVM.setDescription(UPDATED_DESCRIPTION);
@@ -281,18 +289,19 @@ public class MenuResourceIntTest {
 		// Validate the Menu in the database
 		List<Menu> menuList = menuService.list();
 		assertThat(menuList).hasSize(databaseSizeBeforeUpdate);
-		Menu testMenu = menuService.findOneById(updatedMenu.getId());
+		Menu testMenu = menuService.getById(updatedMenu.getId());
 		assertThat(testMenu.getName()).isEqualTo(UPDATED_NAME);
 		assertThat(testMenu.getPermission()).isEqualTo(UPDATED_PERMISSION);
 		assertThat(testMenu.getIcon()).isEqualTo(UPDATED_ICON);
-		assertThat(testMenu.getShow()).isEqualTo(UPDATED_SHOW);
+		assertThat(testMenu.getHidden()).isEqualTo(UPDATED_HIDDEN);
+		assertThat(testMenu.getCache()).isEqualTo(UPDATED_CACHE);
+		assertThat(testMenu.getIFrame()).isEqualTo(UPDATED_IFRAME);
 		assertThat(testMenu.getSort()).isEqualTo(UPDATED_SORT);
 		assertThat(testMenu.getParentId()).isEqualTo(UPDATED_PARENTID);
 //		assertThat(testMenu.getParentIds()).contains(UPDATED_PARENTID);
 		assertThat(testMenu.getComponent()).isEqualTo(UPDATED_COMPONENT);
 		assertThat(testMenu.getPath()).isEqualTo(UPDATED_PATH);
 		assertThat(testMenu.getType()).isEqualTo(UPDATED_TYPE);
-		assertThat(testMenu.getKeepAlive()).isEqualTo(UPDATED_KEEPALIVE);
 		assertThat(testMenu.isLeaf()).isEqualTo(true);
 		assertThat(testMenu.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
 		assertThat(testMenu.getDelFlag()).isEqualTo(Menu.FLAG_NORMAL);
@@ -303,21 +312,22 @@ public class MenuResourceIntTest {
 	@Transactional
 	public void updateMenuExistingPermission() throws Exception {
 
-		menuService.save(menu);
+		menuService.saveOrUpdate(menu);
 		// Update the menu
-		Menu updatedMenu = menuService.findOneById(menu.getId());
+		Menu updatedMenu = menuService.getById(menu.getId());
 
-		MenuDataVo managedMenuVM = new MenuDataVo();
+		MenuDto managedMenuVM = new MenuDto();
 		managedMenuVM.setName(DEFAULT_ANOTHER_NAME);
 		managedMenuVM.setIcon(DEFAULT_ANOTHER_ICON);
 		managedMenuVM.setParentId(DEFAULT_ANOTHER_PARENTID);
 		managedMenuVM.setPermission(DEFAULT_ANOTHER_PERMISSION);
-		managedMenuVM.setShow(DEFAULT_SHOW);
+		managedMenuVM.setHidden(DEFAULT_HIDDEN);
+		managedMenuVM.setCache(DEFAULT_CACHE);
+		managedMenuVM.setIFrame(DEFAULT_IFRAME);
 		managedMenuVM.setSort(DEFAULT_SORT);
 		managedMenuVM.setComponent(DEFAULT_COMPONENT);
 		managedMenuVM.setType(DEFAULT_TYPE);
 		managedMenuVM.setPath(DEFAULT_PATH);
-		managedMenuVM.setKeepAlive(DEFAULT_KEEPALIVE);
 		managedMenuVM.setDescription(DEFAULT_DESCRIPTION);
 		managedMenuVM.setId(updatedMenu.getId());
 		restMenuMockMvc.perform(post(DEFAULT_API_URL)
@@ -328,7 +338,7 @@ public class MenuResourceIntTest {
 			.andExpect(jsonPath("$.message").isNotEmpty());
 
 		// Update the menu
-		Menu updatedMenuAfter = menuService.findOneById(menu.getId());
+		Menu updatedMenuAfter = menuService.getById(menu.getId());
 		assertThat(updatedMenuAfter.getPermission()).isEqualTo(updatedMenu.getPermission());
 	}
 
@@ -337,8 +347,8 @@ public class MenuResourceIntTest {
 	@Transactional
 	public void deleteMenu() throws Exception {
 		// Initialize the database
-		menuService.save(menu);
-		long databaseSizeBeforeDelete = menuService.findCount();
+		menuService.saveOrUpdate(menu);
+		long databaseSizeBeforeDelete = menuService.count();
 
 		// Delete the menu
 		restMenuMockMvc.perform(delete(DEFAULT_API_URL + "{id}", menu.getId())
@@ -346,7 +356,7 @@ public class MenuResourceIntTest {
 			.andExpect(status().isOk());
 
 		// Validate the database is empty
-		long databaseSizeAfterDelete = menuService.findCount();
+		long databaseSizeAfterDelete = menuService.count();
 		assertThat(databaseSizeAfterDelete == databaseSizeBeforeDelete - 1);
 	}
 

@@ -8,9 +8,9 @@ import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.*;
 import com.albedo.java.common.persistence.domain.DataEntity;
 import com.albedo.java.common.persistence.domain.TreeEntity;
-import com.albedo.java.modules.gen.domain.vo.SchemeDataVo;
-import com.albedo.java.modules.gen.domain.vo.TableColumnVo;
-import com.albedo.java.modules.gen.domain.vo.TableDataVo;
+import com.albedo.java.modules.gen.domain.dto.SchemeDto;
+import com.albedo.java.modules.gen.domain.dto.TableColumnDto;
+import com.albedo.java.modules.gen.domain.dto.TableDto;
 import com.albedo.java.modules.gen.domain.vo.TemplateVo;
 import com.albedo.java.modules.gen.domain.xml.GenCategory;
 import com.albedo.java.modules.gen.domain.xml.GenConfig;
@@ -42,8 +42,8 @@ public class GenUtil {
 	 *
 	 * @param table
 	 */
-	public static void initColumnField(TableDataVo table) {
-		for (TableColumnVo column : table.getColumnList()) {
+	public static void initColumnField(TableDto table) {
+		for (TableColumnDto column : table.getColumnList()) {
 
 			// 如果是不是新增列，则跳过。
 			if (StringUtil.isNotBlank(column.getId())) {
@@ -275,7 +275,7 @@ public class GenUtil {
 	 * @param scheme
 	 * @return
 	 */
-	public static Map<String, Object> getDataModel(SchemeDataVo scheme) {
+	public static Map<String, Object> getDataModel(SchemeDto scheme) {
 		Map<String, Object> model = Maps.newHashMap();
 		String applicationName = SpringContextHolder.getApplicationContext().getBeansWithAnnotation(SpringBootApplication.class).keySet().iterator().next();
 		model.put("applicationName", SpringContextHolder.getApplicationContext().getBean(applicationName).getClass().getPackage().getName() + "." + StringUtil.upperFirst(applicationName));
@@ -291,10 +291,10 @@ public class GenUtil {
 		model.put("functionNameSimple", scheme.getFunctionNameSimple());
 		model.put("functionAuthor", StringUtil.isNotBlank(scheme.getFunctionAuthor()) ? scheme.getFunctionAuthor() : "");
 		model.put("functionVersion", DateUtil.now());
-		model.put("urlPrefix", model.get("moduleName") + (StringUtil.isNotBlank(scheme.getSubModuleName()) ? "/" +
-			StringUtil.lowerCase(scheme.getSubModuleName()) : "") + "/" + model.get("classNameUrl")
+		model.put("urlPrefix", model.get("moduleName") + (StringUtil.isNotBlank(scheme.getSubModuleName()) ? StringUtil.SLASH +
+			StringUtil.lowerCase(scheme.getSubModuleName()) : "") + StringUtil.SLASH + model.get("classNameUrl")
 		);
-		model.put("viewPrefix", // StringUtil.substringAfterLast(model.get("packageName"),".")+"/"+
+		model.put("viewPrefix", // StringUtil.substringAfterLast(model.get("packageName"),".")+StringUtil.SLASH+
 			model.get("urlPrefix"));
 		model.put("permissionPrefix", model.get("moduleName") + (StringUtil.isNotBlank(scheme.getSubModuleName()) ? "_" + StringUtil.lowerCase(scheme.getSubModuleName()) : "") + "_" + model.get("className"));
 		model.put("table", scheme.getTableDataVo());
@@ -314,12 +314,12 @@ public class GenUtil {
 		// 获取生成文件 "c:\\temp\\"//
 		String realFileName = FreeMarkers.renderString(tpl.getFileName(), model),
 			fileName = StringUtil.getProjectPath(realFileName, getConfig().getCodeUiPath()) + File.separator
-				+ FreeMarkers.renderString(tpl.getFilePath() + "/", model).replaceAll("//|/|\\.",  "\\"+File.separator)
+				+ FreeMarkers.renderString(tpl.getFilePath() + StringUtil.SLASH, model).replaceAll("//|/|\\.",  "\\"+File.separator)
 				+ realFileName;
 
 		logger.debug(" fileName === " + fileName);
 		if ("entityId".equals(tpl.getName())) {
-			TableDataVo table = (TableDataVo) model.get("table");
+			TableDto table = (TableDto) model.get("table");
 			if (table.isNotCompositeId()) {
 				return "因不满足联合主键条件已忽略" + fileName + "<br/>";
 			}

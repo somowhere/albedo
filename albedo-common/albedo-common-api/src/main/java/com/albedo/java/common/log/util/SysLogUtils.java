@@ -22,14 +22,13 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.albedo.java.common.core.util.AddressUtil;
+import com.albedo.java.common.core.util.RequestHolder;
 import com.albedo.java.common.core.util.WebUtil;
 import com.albedo.java.common.security.filter.warpper.BodyRequestWrapper;
 import com.albedo.java.modules.sys.domain.LogOperate;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -43,8 +42,7 @@ import java.util.Objects;
 @UtilityClass
 public class SysLogUtils {
 	public LogOperate getSysLog() {
-		HttpServletRequest request = ((ServletRequestAttributes) Objects
-			.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+		HttpServletRequest request = RequestHolder.getHttpServletRequest();
 		LogOperate logOperate = new LogOperate();
 		logOperate.setCreatedBy(Objects.requireNonNull(getUserId()));
 		logOperate.setCreatedDate(LocalDateTime.now());

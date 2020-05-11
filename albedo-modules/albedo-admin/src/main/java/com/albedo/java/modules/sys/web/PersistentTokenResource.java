@@ -16,17 +16,16 @@
 
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.R;
-import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.modules.sys.service.PersistentTokenService;
-import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 /**
  * @author somewhere
@@ -46,10 +45,10 @@ public class PersistentTokenResource {
 	 * @return
 	 */
 	@Log(value = "令牌管理", businessType = BusinessType.DELETE)
-	@DeleteMapping(CommonConstants.URL_IDS_REGEX)
+	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_persistentToken_del')")
-	public R removeByIds(@PathVariable String ids) {
-		persistentTokenService.removeByIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+	public R removeByIds(@RequestBody Set<String> ids) {
+		persistentTokenService.removeByIds(ids);
 		return R.buildOk("操作成功");
 	}
 
@@ -59,10 +58,10 @@ public class PersistentTokenResource {
 	 * @param pm 参数集
 	 * @return 令牌集合
 	 */
-	@GetMapping("/")
+	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_persistentToken_view')")
 	public R getUserPage(PageModel pm) {
-		return R.buildOkData(persistentTokenService.findPage(pm));
+		return R.buildOkData(persistentTokenService.page(pm));
 	}
 
 }

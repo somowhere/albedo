@@ -17,7 +17,7 @@ import java.util.List;
  * @author admin
  * @version 2019-08-14 11:25:03
  */
-public interface JobLogService extends BaseService<JobLogRepository, JobLog, String> {
+public interface JobLogService extends BaseService<JobLogRepository, JobLog> {
 
 
 	void cleanJobLog();

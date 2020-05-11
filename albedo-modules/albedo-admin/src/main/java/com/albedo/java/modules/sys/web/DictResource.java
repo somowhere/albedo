@@ -18,25 +18,20 @@ package com.albedo.java.modules.sys.web;
 
 
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.exception.RuntimeMsgException;
-import com.albedo.java.common.core.util.ClassUtil;
 import com.albedo.java.common.core.util.Json;
 import com.albedo.java.common.core.util.R;
-import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.core.vo.SelectResult;
-import com.albedo.java.common.core.vo.TreeQuery;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
-import com.albedo.java.common.web.resource.TreeVoResource;
+import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.Dict;
-import com.albedo.java.modules.sys.domain.vo.DictDataVo;
-import com.albedo.java.modules.sys.domain.vo.UserDataVo;
+import com.albedo.java.modules.sys.domain.dto.DictDto;
+import com.albedo.java.modules.sys.domain.dto.DictQueryCriteria;
 import com.albedo.java.modules.sys.service.DictService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +39,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>
@@ -55,11 +51,10 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("${application.admin-path}/sys/dict")
-public class DictResource extends TreeVoResource<DictService, DictDataVo> {
+@AllArgsConstructor
+public class DictResource extends BaseResource {
 
-	public DictResource(DictService service) {
-		super(service);
-	}
+	private final DictService dictService;
 
 	/**
 	 * 返回树形菜单集合
@@ -67,8 +62,8 @@ public class DictResource extends TreeVoResource<DictService, DictDataVo> {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public R tree(TreeQuery treeQuery) {
-		return R.buildOkData(service.findTreeList(treeQuery));
+	public R tree(DictQueryCriteria dictQueryCriteria) {
+		return R.buildOkData(dictService.findTreeList(dictQueryCriteria));
 	}
 
 	/**
@@ -78,7 +73,7 @@ public class DictResource extends TreeVoResource<DictService, DictDataVo> {
 	@GetMapping(CommonConstants.URL_ID_REGEX)
 	public R get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
-		return R.buildOkData(service.findOneVo(id));
+		return R.buildOkData(dictService.getOneDto(id));
 	}
 
 	/**
@@ -87,9 +82,9 @@ public class DictResource extends TreeVoResource<DictService, DictDataVo> {
 	 * @param pm 分页对象
 	 * @return 分页对象
 	 */
-	@GetMapping("/")
+	@GetMapping
 	public R<IPage> getPage(PageModel pm) {
-		return new R<>(service.findRelationPage(pm));
+		return new R<>(dictService.page(pm));
 	}
 
 	/**
@@ -102,30 +97,24 @@ public class DictResource extends TreeVoResource<DictService, DictDataVo> {
 	@GetMapping(value = "/codes")
 	public R getByCodes(String codes) {
 		Map<String, List<SelectResult>> map = codes != null ?
-			service.findCodes(codes) : service.findCodes();
+			dictService.findCodes(codes) : dictService.findCodes();
 		return new R<>(map);
 	}
 
 	/**
 	 * 添加字典
 	 *
-	 * @param dictDataVo 字典信息
+	 * @param dictDto 字典信息
 	 * @return success、false
 	 */
-	@PostMapping("/")
+	@PostMapping
 	@CacheEvict(value = Dict.CACHE_DICT_DETAILS, allEntries = true)
 	@PreAuthorize("@pms.hasPermission('sys_dict_edit')")
 	@Log(value = "字典管理", businessType = BusinessType.EDIT)
-	public R save(@Valid @RequestBody DictDataVo dictDataVo) {
+	public R save(@Valid @RequestBody DictDto dictDto) {
 
-		// code before comparing with database
-		if (!checkByProperty(ClassUtil.createObj(DictDataVo.class,
-			Lists.newArrayList(UserDataVo.F_ID, DictDataVo.F_CODE),
-			dictDataVo.getId(), dictDataVo.getCode()))) {
-			throw new RuntimeMsgException("编码已存在");
-		}
-
-		return new R<>(service.save(dictDataVo));
+		dictService.saveOrUpdate(dictDto);
+		return R.buildOk("操作成功");
 	}
 
 	/**
@@ -134,12 +123,12 @@ public class DictResource extends TreeVoResource<DictService, DictDataVo> {
 	 * @param ids ID
 	 * @return R
 	 */
-	@DeleteMapping(CommonConstants.URL_IDS_REGEX)
+	@DeleteMapping
 	@CacheEvict(value = Dict.CACHE_DICT_DETAILS, allEntries = true)
 	@PreAuthorize("@pms.hasPermission('sys_dict_del')")
 	@Log(value = "字典管理", businessType = BusinessType.DELETE)
-	public R removeByIds(@PathVariable String ids) {
-		return new R<>(service.removeByIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT))));
+	public R removeByIds(@RequestBody Set<String> ids) {
+		return new R<>(dictService.removeByIds(ids));
 	}
 
 
@@ -151,7 +140,7 @@ public class DictResource extends TreeVoResource<DictService, DictDataVo> {
 
 	@GetMapping("/all")
 	public R<String> getAll() {
-		List<Dict> list = service.list(Wrappers.emptyWrapper());
+		List<Dict> list = dictService.list();
 		return new R<>(Json.toJsonString(list));
 	}
 
