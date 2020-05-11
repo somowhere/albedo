@@ -1,134 +1,30 @@
 package com.albedo.java.common.data.util;
 
-import com.albedo.java.common.core.util.*;
-import com.albedo.java.common.core.vo.Order;
+import cn.hutool.core.util.CharUtil;
+import cn.hutool.core.util.ReflectUtil;
+import com.albedo.java.common.core.annotation.Query;
+import com.albedo.java.common.core.util.ObjectUtil;
+import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
-import com.albedo.java.common.core.vo.QueryCondition;
-import com.albedo.java.common.persistence.DynamicSpecifications;
-import com.albedo.java.common.persistence.SpecificationDetail;
-import com.albedo.java.common.persistence.domain.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
-import com.google.common.collect.Lists;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 /**
  * Created by somewhere on 2018/3/8.
  */
+@UtilityClass
+@Slf4j
 public class QueryWrapperUtil {
-
-	private static Collection handlerQueryConditionCollectionValue(QueryCondition queryCondition) {
-		Collection col = null;
-		if (queryCondition.getValue() instanceof String) {
-			String val = String.valueOf(queryCondition.getValue());
-			col = val.contains(",") ? Lists.newArrayList(val.split(","))
-				: Lists.newArrayList(val);
-		}
-		if (queryCondition.getValue() instanceof Collection) {
-			col = (Collection) queryCondition.getValue();
-		}
-		return col;
-	}
-
-	private static String handlerQueryConditionLikeValue(QueryCondition queryCondition) {
-		String val = (String) queryCondition.getValue();
-		return
-//			!val.startsWith("%") && !val.endsWith("%") ? StringUtil.toAppendStr("%", val, "%") :
-			val
-			;
-	}
-
-	public static String getFieldRealColumnName(Class<?> targetPersistentClass, String fieldPropery) {
-
-		if (targetPersistentClass != null && StringUtil.isNotEmpty(fieldPropery)) {
-			TableField column = ClassUtil.findAnnotation(targetPersistentClass, fieldPropery, TableField.class);
-			if (column != null) {
-				fieldPropery = column.value();
-			} else {
-				TableId columnId = ClassUtil.findAnnotation(targetPersistentClass, fieldPropery, TableId.class);
-				if (columnId != null) {
-					fieldPropery = columnId.value();
-				}
-			}
-		}
-
-		return fieldPropery;
-	}
-
-
-	public static <T> QueryWrapper<T> convertSpecificationDetail(SpecificationDetail<T> specificationDetail) {
-		QueryWrapper entityWrapper = new QueryWrapper();
-		List<QueryCondition> andQueryConditions = specificationDetail.getAndQueryConditions();
-		if (CollUtil.isNotEmpty(specificationDetail.getAndQueryConditions())) {
-			for (QueryCondition queryCondition : andQueryConditions) {
-				Object queryValue = QueryUtil.getQueryValue(queryCondition, null);
-				String fieldName = QueryWrapperUtil.getFieldRealColumnName(specificationDetail.getPersistentClass(), queryCondition.getFieldName());
-				if (specificationDetail.isRelationQuery()) {
-					fieldName = specificationDetail.getClassNameProfix() + fieldName;
-				}
-				switch (queryCondition.getOperate()) {
-					case notIn:
-						entityWrapper.notIn(fieldName, handlerQueryConditionCollectionValue(queryCondition));
-						break;
-					case in:
-						entityWrapper.in(fieldName, handlerQueryConditionCollectionValue(queryCondition));
-						break;
-					case like:
-						entityWrapper.like(fieldName, handlerQueryConditionLikeValue(queryCondition));
-						break;
-					case likeLeft:
-						entityWrapper.likeLeft(fieldName, handlerQueryConditionLikeValue(queryCondition));
-						break;
-					case likeRight:
-						entityWrapper.likeRight(fieldName, handlerQueryConditionLikeValue(queryCondition));
-						break;
-					case notLike:
-						entityWrapper.notLike(fieldName, handlerQueryConditionLikeValue(queryCondition));
-						break;
-					case between:
-						entityWrapper.between(fieldName
-							, queryValue
-							, QueryUtil.getQueryValue(queryCondition, queryCondition.getEndValue()));
-						break;
-					case isNull:
-						entityWrapper.isNull(fieldName);
-						break;
-					case isNotNull:
-						entityWrapper.isNotNull(fieldName);
-						break;
-					default:
-						entityWrapper.apply(StringUtil.toAppendStr(
-							fieldName, " ",
-							queryCondition.getOperate().getOperator(), " {0} "
-						), queryValue);
-						break;
-
-				}
-			}
-		}
-		List<Order> orders = specificationDetail.getOrders();
-		if (CollUtil.isNotEmpty(orders)) {
-			for (Order order : orders) {
-				String fieldName = QueryWrapperUtil.getFieldRealColumnName(specificationDetail.getPersistentClass(), order.getProperty());
-				if (specificationDetail.isRelationQuery()) {
-					fieldName = specificationDetail.getClassNameProfix() + fieldName;
-				}
-				entityWrapper.orderBy(true, Order.Direction.asc.equals(order.getDirection()), fieldName);
-			}
-		}
-		return entityWrapper;
-	}
-
-	public static <T> QueryWrapper<T> create() {
-		return new QueryWrapper();
-	}
-
 
 	public static Wrapper<?> fillWrapper(IPage<?> page, Wrapper<?> wrapper) {
 		if (null == page) {
@@ -148,18 +44,92 @@ public class QueryWrapperUtil {
 		return queryWrapper;
 	}
 
-	public static Wrapper getWrapperByPageAndQuery(PageModel pm, Class<?> clazz, QueryCondition... queryConditions) {
-		SpecificationDetail spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(), queryConditions);
-		return QueryWrapperUtil.fillWrapper(pm, spec.toEntityWrapper(clazz));
+	public static <T> QueryWrapper<T>  getWrapper(PageModel<T> pm, Object query) {
+		return (QueryWrapper) fillWrapper(pm, getWrapper(query));
 	}
 
-	public static Wrapper getWrapperByPage(PageModel pm, Class<?> clazz) {
-		return getWrapperByPage(pm, clazz, "a.del_flag");
-	}
-
-	public static Wrapper getWrapperByPage(PageModel pm, Class<?> clazz, String delFlagFieldName) {
-		SpecificationDetail spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
-			QueryCondition.eq(delFlagFieldName, BaseEntity.FLAG_NORMAL));
-		return QueryWrapperUtil.fillWrapper(pm, spec.toEntityWrapper(clazz));
+	public static <T> QueryWrapper<T> getWrapper(Object query) {
+		QueryWrapper<T> entityWrapper = Wrappers.query();
+		if(query==null)return entityWrapper;
+		Field[] fields = ReflectUtil.getFields(query.getClass());
+		try {
+			for (Field field : fields) {
+				boolean accessible = field.isAccessible();
+				field.setAccessible(true);
+				Query q = field.getAnnotation(Query.class);
+				if (q != null) {
+					String propName = q.propName();
+					String blurry = q.blurry();
+					String attributeName = StringUtil.isEmpty(propName) ? StringUtil.toRevertCamelCase(field.getName(), CharUtil.UNDERLINE) : propName;
+					Object val = field.get(query);
+					if (cn.hutool.core.util.ObjectUtil.isNull(val) || "".equals(val)) {
+						continue;
+					}
+					// 模糊多字段
+					if (cn.hutool.core.util.ObjectUtil.isNotEmpty(blurry)) {
+						String[] blurrys = blurry.split(",");
+						entityWrapper.and(i->{
+							for (String s : blurrys) {
+								i.or().like(s, val.toString());
+							}
+						});
+						continue;
+					}
+					switch (q.operator()) {
+						case eq:
+							entityWrapper.eq(attributeName, val);
+							break;
+						case ne:
+							entityWrapper.ne(attributeName, val);
+							break;
+						case gt:
+							entityWrapper.gt(attributeName, val);
+							break;
+						case ge:
+							entityWrapper.ge(attributeName, val);
+							break;
+						case lt:
+							entityWrapper.lt(attributeName, val);
+							break;
+						case le:
+							entityWrapper.le(attributeName, val);
+							break;
+						case like:
+							entityWrapper.like(attributeName, val);
+							break;
+						case notLike:
+							entityWrapper.notLike(attributeName, val);
+							break;
+						case likeLeft:
+							entityWrapper.likeLeft(attributeName, val);
+							break;
+						case likeRight:
+							entityWrapper.likeRight(attributeName, val);
+							break;
+						case in:
+							entityWrapper.in(attributeName, (Collection<?>)val);
+							break;
+						case notIn:
+							entityWrapper.notIn(attributeName, (Collection<?>)val);
+							break;
+						case isNotNull:
+							entityWrapper.isNotNull(attributeName);
+							break;
+						case isNull:
+							entityWrapper.isNull(attributeName);
+							break;
+						case between:
+							List<Object> between = new ArrayList<>((List<Object>)val);
+							entityWrapper.between(attributeName, between.get(0), between.get(1));
+							break;
+						default: break;
+					}
+				}
+				field.setAccessible(accessible);
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return entityWrapper;
 	}
 }

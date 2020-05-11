@@ -1,21 +1,17 @@
 package com.albedo.java.common.persistence.injector;
 
-import com.albedo.java.common.core.util.BeanVoUtil;
+import com.albedo.java.common.core.util.BeanUtil;
 import com.albedo.java.common.core.util.ClassUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.persistence.annotation.ManyToOne;
 import com.albedo.java.common.persistence.domain.TreeEntity;
 import com.albedo.java.common.persistence.injector.methods.SqlCustomMethod;
-import com.baomidou.mybatisplus.annotation.DbType;
-import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import com.baomidou.mybatisplus.core.toolkit.GlobalConfigUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.builder.MapperBuilderAssistant;
-import org.apache.ibatis.session.Configuration;
 
 import java.beans.PropertyDescriptor;
 import java.util.Iterator;
@@ -98,7 +94,7 @@ public class SqlInjectorUtil {
 								  SqlCustomMethod sqlMethod, Class<?> modelClass, TableInfo tableInfo, String sqlWhereEntityWrapper) {
 		String tableNameAlias = StringUtil.lowerCase(modelClass.getSimpleName()), tempNameAlias;
 		TableInfo tableAlias;
-		PropertyDescriptor[] ps = BeanVoUtil.getPropertyDescriptors(modelClass);
+		PropertyDescriptor[] ps = BeanUtil.getPropertyDescriptors(modelClass);
 		StringBuffer sbSelectCoumns = new StringBuffer(SqlInjectorUtil.sqlSelectColumns(tableInfo, false, tableNameAlias, null)),
 			sbLeftJoin = new StringBuffer(tableInfo.getTableName()).append(" `").append(tableNameAlias).append("`");
 		for (PropertyDescriptor p : ps) {

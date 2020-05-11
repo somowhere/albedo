@@ -1,6 +1,6 @@
 package com.albedo.java.modules.gen.domain.vo;
 
-import com.albedo.java.common.core.vo.DataEntityVo;
+import com.albedo.java.common.core.vo.DataDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +17,7 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class SchemeVo extends DataEntityVo<String> {
+public class SchemeVo extends DataDto<String> {
 
 	private static final long serialVersionUID = 1L;
 	/**

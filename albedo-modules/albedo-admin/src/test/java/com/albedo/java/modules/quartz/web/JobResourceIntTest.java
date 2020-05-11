@@ -4,14 +4,12 @@
 package com.albedo.java.modules.quartz.web;
 
 import com.albedo.java.common.core.config.ApplicationProperties;
-import com.albedo.java.common.core.exception.GlobalExceptionHandler;
+import com.albedo.java.common.core.exception.handler.GlobalExceptionHandler;
 import com.albedo.java.common.core.util.ClassUtil;
-import com.albedo.java.common.core.util.Json;
 import com.albedo.java.common.core.vo.PageModel;
-import com.albedo.java.common.core.vo.QueryCondition;
 import com.albedo.java.modules.TestUtil;
 import com.albedo.java.modules.quartz.domain.Job;
-import com.albedo.java.modules.quartz.domain.vo.JobDataVo;
+import com.albedo.java.modules.quartz.domain.vo.JobDto;
 import com.albedo.java.modules.quartz.service.JobService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
@@ -119,9 +117,9 @@ public class JobResourceIntTest {
 	@Autowired
 	private ApplicationProperties applicationProperties;
 
-	private JobDataVo jobDataVo;
+	private JobDto jobDataVo;
 
-	private JobDataVo anotherJobDataVo = new JobDataVo();
+	private JobDto anotherJobDataVo = new JobDto();
 
 	/**
 	 * Create an entity for this test.
@@ -129,16 +127,16 @@ public class JobResourceIntTest {
 	 * This is a static method, as tests for other entities might also need it,
 	 * if they test an entity which requires the current entity.
 	 */
-	public static JobDataVo createEntity() {
-		JobDataVo jobDataVo = ClassUtil.createObj(JobDataVo.class, Lists.newArrayList(
-			JobDataVo.F_NAME
-			, JobDataVo.F_GROUP
-			, JobDataVo.F_INVOKETARGET
-			, JobDataVo.F_CRONEXPRESSION
-			, JobDataVo.F_MISFIREPOLICY
-			, JobDataVo.F_CONCURRENT
-			, JobDataVo.F_AVAILABLE
-			, JobDataVo.F_DESCRIPTION
+	public static JobDto createEntity() {
+		JobDto jobDataVo = ClassUtil.createObj(JobDto.class, Lists.newArrayList(
+			JobDto.F_NAME
+			, JobDto.F_GROUP
+			, JobDto.F_INVOKETARGET
+			, JobDto.F_CRONEXPRESSION
+			, JobDto.F_MISFIREPOLICY
+			, JobDto.F_CONCURRENT
+			, JobDto.F_AVAILABLE
+			, JobDto.F_DESCRIPTION
 			),
 
 			DEFAULT_NAME
@@ -184,16 +182,15 @@ public class JobResourceIntTest {
 	@Test
 	@Transactional
 	public void createJob() throws Exception {
-		int databaseSizeBeforeCreate = jobService.findAll().size();
+		int databaseSizeBeforeCreate = jobService.list().size();
 		// Create the Job
 		restJobMockMvc.perform(post(DEFAULT_API_URL)
 			.param(PageModel.F_DESC, Job.F_SQL_CREATEDDATE)
 			.contentType(TestUtil.APPLICATION_JSON_UTF8)
 			.content(TestUtil.convertObjectToJsonBytes(jobDataVo)))
 			.andExpect(status().isOk());
-		;
 		// Validate the Job in the database
-		List<Job> jobList = jobService.findAll(
+		List<Job> jobList = jobService.list(
 			Wrappers.<Job>query().lambda().orderByAsc(
 				Job::getCreatedDate
 			)
@@ -213,7 +210,7 @@ public class JobResourceIntTest {
 	@Test
 	@Transactional
 	public void checkNameIsRequired() throws Exception {
-		int databaseSizeBeforeTest = jobService.findAll().size();
+		int databaseSizeBeforeTest = jobService.list().size();
 		// set the field null
 		jobDataVo.setName(null);
 
@@ -224,14 +221,14 @@ public class JobResourceIntTest {
 			.content(TestUtil.convertObjectToJsonBytes(jobDataVo)))
 			.andExpect(status().isBadRequest());
 
-		List<Job> jobList = jobService.findAll();
+		List<Job> jobList = jobService.list();
 		assertThat(jobList).hasSize(databaseSizeBeforeTest);
 	}
 
 	@Test
 	@Transactional
 	public void checkGroupIsRequired() throws Exception {
-		int databaseSizeBeforeTest = jobService.findAll().size();
+		int databaseSizeBeforeTest = jobService.list().size();
 		// set the field null
 		jobDataVo.setGroup(null);
 
@@ -242,14 +239,14 @@ public class JobResourceIntTest {
 			.content(TestUtil.convertObjectToJsonBytes(jobDataVo)))
 			.andExpect(status().isBadRequest());
 
-		List<Job> jobList = jobService.findAll();
+		List<Job> jobList = jobService.list();
 		assertThat(jobList).hasSize(databaseSizeBeforeTest);
 	}
 
 	@Test
 	@Transactional
 	public void checkInvokeTargetIsRequired() throws Exception {
-		int databaseSizeBeforeTest = jobService.findAll().size();
+		int databaseSizeBeforeTest = jobService.list().size();
 		// set the field null
 		jobDataVo.setInvokeTarget(null);
 
@@ -260,7 +257,7 @@ public class JobResourceIntTest {
 			.content(TestUtil.convertObjectToJsonBytes(jobDataVo)))
 			.andExpect(status().isBadRequest());
 
-		List<Job> jobList = jobService.findAll();
+		List<Job> jobList = jobService.list();
 		assertThat(jobList).hasSize(databaseSizeBeforeTest);
 	}
 
@@ -269,7 +266,7 @@ public class JobResourceIntTest {
 	@Transactional
 	public void getAllJobs() throws Exception {
 		// Initialize the database
-		jobService.save(jobDataVo);
+		jobService.saveOrUpdate(jobDataVo);
 
 		// Get all the jobList
 		restJobMockMvc.perform(get(DEFAULT_API_URL))
@@ -288,7 +285,7 @@ public class JobResourceIntTest {
 	@Transactional
 	public void getJob() throws Exception {
 		// Initialize the database
-		jobService.save(jobDataVo);
+		jobService.saveOrUpdate(jobDataVo);
 
 		// Get the job
 		restJobMockMvc.perform(get(DEFAULT_API_URL + "{id}", jobDataVo.getId()))
@@ -303,268 +300,7 @@ public class JobResourceIntTest {
 		;
 	}
 
-	@Test
-	@Transactional
-	public void getAllJobsByCronExpressionIsEqualToSomething() throws Exception {
-		// Initialize the database
-		jobService.save(jobDataVo);
 
-		// Get all the jobList where cronExpression equals to DEFAULT_CRONEXPRESSION
-		defaultJobShouldBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()),
-			QueryCondition.eq(Job.F_CRONEXPRESSION, DEFAULT_CRONEXPRESSION)
-		);
-
-		// Get all the jobList where cronExpression equals to UPDATED_CRONEXPRESSION
-		defaultJobShouldNotBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()),
-			QueryCondition.eq(Job.F_CRONEXPRESSION, UPDATED_CRONEXPRESSION)
-		);
-	}
-
-	@Test
-	@Transactional
-	public void getAllJobsByCronExpressionIsInShouldWork() throws Exception {
-		// Initialize the database
-		jobService.save(jobDataVo);
-
-		// Get all the jobList where cronExpression in DEFAULT_CRONEXPRESSION or UPDATED_CRONEXPRESSION
-		defaultJobShouldBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()),
-			QueryCondition.in(Job.F_CRONEXPRESSION, Lists.newArrayList(DEFAULT_CRONEXPRESSION, DEFAULT_CRONEXPRESSION))
-		);
-
-		// Get all the jobList where cronExpression equals to UPDATED_CRONEXPRESSION
-		defaultJobShouldNotBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()),
-			QueryCondition.in(Job.F_CRONEXPRESSION, Lists.newArrayList(UPDATED_CRONEXPRESSION))
-		);
-	}
-
-	@Test
-	@Transactional
-	public void getAllJobsByCronExpressionIsNullOrNotNull() throws Exception {
-		// Initialize the database
-		jobService.save(jobDataVo);
-
-		// Get all the jobList where cronExpression is not null
-		defaultJobShouldBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()), QueryCondition.isNotNull(Job.F_CRONEXPRESSION));
-
-		// Get all the jobList where cronExpression is null
-		defaultJobShouldNotBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()), QueryCondition.isNull(Job.F_CRONEXPRESSION));
-	}
-
-	@Test
-	@Transactional
-	public void getAllJobsByMisfirePolicyIsEqualToSomething() throws Exception {
-		// Initialize the database
-		jobService.save(jobDataVo);
-
-		// Get all the jobList where misfirePolicy equals to DEFAULT_MISFIREPOLICY
-		defaultJobShouldBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()),
-			QueryCondition.eq(Job.F_MISFIREPOLICY, DEFAULT_MISFIREPOLICY)
-		);
-
-		// Get all the jobList where misfirePolicy equals to UPDATED_MISFIREPOLICY
-		defaultJobShouldNotBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()),
-			QueryCondition.eq(Job.F_MISFIREPOLICY, UPDATED_MISFIREPOLICY)
-		);
-	}
-
-	@Test
-	@Transactional
-	public void getAllJobsByMisfirePolicyIsInShouldWork() throws Exception {
-		// Initialize the database
-		jobService.save(jobDataVo);
-
-		// Get all the jobList where misfirePolicy in DEFAULT_MISFIREPOLICY or UPDATED_MISFIREPOLICY
-		defaultJobShouldBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()),
-			QueryCondition.in(Job.F_MISFIREPOLICY, Lists.newArrayList(DEFAULT_MISFIREPOLICY, DEFAULT_MISFIREPOLICY))
-		);
-
-		// Get all the jobList where misfirePolicy equals to UPDATED_MISFIREPOLICY
-		defaultJobShouldNotBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()),
-			QueryCondition.in(Job.F_MISFIREPOLICY, Lists.newArrayList(UPDATED_MISFIREPOLICY))
-		);
-	}
-
-	@Test
-	@Transactional
-	public void getAllJobsByMisfirePolicyIsNullOrNotNull() throws Exception {
-		// Initialize the database
-		jobService.save(jobDataVo);
-
-		// Get all the jobList where misfirePolicy is not null
-		defaultJobShouldBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()), QueryCondition.isNotNull(Job.F_MISFIREPOLICY));
-
-		// Get all the jobList where misfirePolicy is null
-		defaultJobShouldNotBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()), QueryCondition.isNull(Job.F_MISFIREPOLICY));
-	}
-
-	@Test
-	@Transactional
-	public void getAllJobsByConcurrentIsEqualToSomething() throws Exception {
-		// Initialize the database
-		jobService.save(jobDataVo);
-
-		// Get all the jobList where concurrent equals to DEFAULT_CONCURRENT
-		defaultJobShouldBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()),
-			QueryCondition.eq(Job.F_CONCURRENT, DEFAULT_CONCURRENT)
-		);
-
-		// Get all the jobList where concurrent equals to UPDATED_CONCURRENT
-		defaultJobShouldNotBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()),
-			QueryCondition.eq(Job.F_CONCURRENT, UPDATED_CONCURRENT)
-		);
-	}
-
-	@Test
-	@Transactional
-	public void getAllJobsByConcurrentIsInShouldWork() throws Exception {
-		// Initialize the database
-		jobService.save(jobDataVo);
-
-		// Get all the jobList where concurrent in DEFAULT_CONCURRENT or UPDATED_CONCURRENT
-		defaultJobShouldBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()),
-			QueryCondition.in(Job.F_CONCURRENT, Lists.newArrayList(DEFAULT_CONCURRENT, DEFAULT_CONCURRENT))
-		);
-
-		// Get all the jobList where concurrent equals to UPDATED_CONCURRENT
-		defaultJobShouldNotBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()),
-			QueryCondition.in(Job.F_CONCURRENT, Lists.newArrayList(UPDATED_CONCURRENT))
-		);
-	}
-
-	@Test
-	@Transactional
-	public void getAllJobsByConcurrentIsNullOrNotNull() throws Exception {
-		// Initialize the database
-		jobService.save(jobDataVo);
-
-		// Get all the jobList where concurrent is not null
-		defaultJobShouldBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()), QueryCondition.isNotNull(Job.F_CONCURRENT));
-
-		// Get all the jobList where concurrent is null
-		defaultJobShouldNotBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()), QueryCondition.isNull(Job.F_CONCURRENT));
-	}
-
-	@Test
-	@Transactional
-	public void getAllJobsByAvailableIsEqualToSomething() throws Exception {
-		// Initialize the database
-		jobService.save(jobDataVo);
-
-		// Get all the jobList where available equals to DEFAULT_AVAILABLE
-		defaultJobShouldBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()),
-			QueryCondition.eq(Job.F_AVAILABLE, DEFAULT_AVAILABLE)
-		);
-
-		// Get all the jobList where available equals to UPDATED_AVAILABLE
-		defaultJobShouldNotBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()),
-			QueryCondition.eq(Job.F_AVAILABLE, UPDATED_AVAILABLE)
-		);
-	}
-
-	@Test
-	@Transactional
-	public void getAllJobsByAvailableIsInShouldWork() throws Exception {
-		// Initialize the database
-		jobService.save(jobDataVo);
-
-		// Get all the jobList where available in DEFAULT_AVAILABLE or UPDATED_AVAILABLE
-		defaultJobShouldBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()),
-			QueryCondition.in(Job.F_AVAILABLE, Lists.newArrayList(DEFAULT_AVAILABLE, DEFAULT_AVAILABLE))
-		);
-
-		// Get all the jobList where available equals to UPDATED_AVAILABLE
-		defaultJobShouldNotBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()),
-			QueryCondition.in(Job.F_AVAILABLE, Lists.newArrayList(UPDATED_AVAILABLE))
-		);
-	}
-
-	@Test
-	@Transactional
-	public void getAllJobsByAvailableIsNullOrNotNull() throws Exception {
-		// Initialize the database
-		jobService.save(jobDataVo);
-
-		// Get all the jobList where available is not null
-		defaultJobShouldBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()), QueryCondition.isNotNull(Job.F_AVAILABLE));
-
-		// Get all the jobList where available is null
-		defaultJobShouldNotBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()), QueryCondition.isNull(Job.F_AVAILABLE));
-	}
-
-	@Test
-	@Transactional
-	public void getAllJobsByDescriptionIsEqualToSomething() throws Exception {
-		// Initialize the database
-		jobService.save(jobDataVo);
-
-		// Get all the jobList where description equals to DEFAULT_DESCRIPTION
-		defaultJobShouldBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()),
-			QueryCondition.eq(Job.F_DESCRIPTION, DEFAULT_DESCRIPTION)
-		);
-
-		// Get all the jobList where description equals to UPDATED_DESCRIPTION
-		defaultJobShouldNotBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()),
-			QueryCondition.eq(Job.F_DESCRIPTION, UPDATED_DESCRIPTION)
-		);
-	}
-
-	@Test
-	@Transactional
-	public void getAllJobsByDescriptionIsInShouldWork() throws Exception {
-		// Initialize the database
-		jobService.save(jobDataVo);
-
-		// Get all the jobList where description in DEFAULT_DESCRIPTION or UPDATED_DESCRIPTION
-		defaultJobShouldBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()),
-			QueryCondition.in(Job.F_DESCRIPTION, Lists.newArrayList(DEFAULT_DESCRIPTION, DEFAULT_DESCRIPTION))
-		);
-
-		// Get all the jobList where description equals to UPDATED_DESCRIPTION
-		defaultJobShouldNotBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()),
-			QueryCondition.in(Job.F_DESCRIPTION, Lists.newArrayList(UPDATED_DESCRIPTION))
-		);
-	}
-
-	@Test
-	@Transactional
-	public void getAllJobsByDescriptionIsNullOrNotNull() throws Exception {
-		// Initialize the database
-		jobService.save(jobDataVo);
-
-		// Get all the jobList where description is not null
-		defaultJobShouldBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()), QueryCondition.isNotNull(Job.F_DESCRIPTION));
-
-		// Get all the jobList where description is null
-		defaultJobShouldNotBeFound(QueryCondition.eq(Job.F_ID, jobDataVo.getId()), QueryCondition.isNull(Job.F_DESCRIPTION));
-	}
-
-	/**
-	 * Executes the search, and checks that the default entity is returned
-	 */
-	private void defaultJobShouldBeFound(QueryCondition... queryCondition) throws Exception {
-		restJobMockMvc.perform(get(DEFAULT_API_URL).param("queryConditionJson", Json.toJSONString(Lists.newArrayList(queryCondition))))
-			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-			.andExpect(jsonPath("$.data.records").isArray())
-			.andExpect(jsonPath("$.data.records.[*].id").value(hasItem(jobDataVo.getId())))
-			.andExpect(jsonPath("$.data.records.[*].cronExpression").value(hasItem(DEFAULT_CRONEXPRESSION)))
-			.andExpect(jsonPath("$.data.records.[*].misfirePolicy").value(hasItem(DEFAULT_MISFIREPOLICY)))
-			.andExpect(jsonPath("$.data.records.[*].concurrent").value(hasItem(DEFAULT_CONCURRENT)))
-			.andExpect(jsonPath("$.data.records.[*].available").value(hasItem(DEFAULT_AVAILABLE)))
-			.andExpect(jsonPath("$.data.records.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-		;
-	}
-
-	/**
-	 * Executes the search, and checks that the default entity is not returned
-	 */
-	private void defaultJobShouldNotBeFound(QueryCondition... queryCondition) throws Exception {
-		restJobMockMvc.perform(get(DEFAULT_API_URL).param("queryConditionJson", Json.toJSONString(Lists.newArrayList(queryCondition))))
-			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-			.andExpect(jsonPath("$.data.records").isArray())
-			.andExpect(jsonPath("$.data.records").isEmpty());
-	}
 
 
 	@Test
@@ -580,12 +316,12 @@ public class JobResourceIntTest {
 	@Transactional
 	public void updateJob() throws Exception {
 		// Initialize the database
-		jobService.save(jobDataVo);
+		jobService.saveOrUpdate(jobDataVo);
 
-		int databaseSizeBeforeUpdate = jobService.findAll().size();
+		int databaseSizeBeforeUpdate = jobService.list().size();
 
 		// Update the job
-		Job updatedJob = jobService.findOneById(jobDataVo.getId());
+		Job updatedJob = jobService.getById(jobDataVo.getId());
 		// Disconnect from session so that the updates on updatedJob are not directly saved in db
 		ClassUtil.updateObj(updatedJob, Lists.newArrayList(
 			Job.F_NAME
@@ -618,14 +354,14 @@ public class JobResourceIntTest {
 
 		);
 
-		JobDataVo jobVo = jobService.copyBeanToVo(updatedJob);
+		JobDto jobVo = jobService.copyBeanToDto(updatedJob);
 		restJobMockMvc.perform(post(DEFAULT_API_URL)
 			.contentType(TestUtil.APPLICATION_JSON_UTF8)
 			.content(TestUtil.convertObjectToJsonBytes(jobVo)))
 			.andExpect(status().isOk());
 
 		// Validate the Job in the database
-		List<Job> jobList = jobService.findAll();
+		List<Job> jobList = jobService.list();
 		assertThat(jobList).hasSize(databaseSizeBeforeUpdate);
 
 		Job testJob = jobList.stream().filter(item -> jobDataVo.getId().equals(item.getId())).findAny().get();
@@ -644,8 +380,8 @@ public class JobResourceIntTest {
 	@Transactional
 	public void deleteJob() throws Exception {
 		// Initialize the database
-		jobService.save(jobDataVo);
-		int databaseSizeBeforeDelete = jobService.findAll().size();
+		jobService.saveOrUpdate(jobDataVo);
+		int databaseSizeBeforeDelete = jobService.list().size();
 
 		// Get the job
 		restJobMockMvc.perform(delete(DEFAULT_API_URL + "{id}", jobDataVo.getId())
@@ -653,7 +389,7 @@ public class JobResourceIntTest {
 			.andExpect(status().isOk());
 
 		// Validate the database is empty
-		List<Job> jobList = jobService.findAll();
+		List<Job> jobList = jobService.list();
 		assertThat(jobList).hasSize(databaseSizeBeforeDelete - 1);
 	}
 

@@ -28,6 +28,6 @@ import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface PersistentTokenService extends BaseService<PersistentTokenRepository, PersistentToken, String> {
+public interface PersistentTokenService extends BaseService<PersistentTokenRepository, PersistentToken> {
 
 }

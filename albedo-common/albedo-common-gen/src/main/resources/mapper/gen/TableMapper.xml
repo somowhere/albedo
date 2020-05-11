@@ -66,7 +66,7 @@
 		</if>
 	</select>
 
-	<select id="findTableColumnList" resultType="com.albedo.java.modules.gen.domain.vo.TableColumnVo">
+	<select id="findTableColumnList" resultType="com.albedo.java.modules.gen.domain.dto.TableColumnDto">
 		<if test="_databaseId == 'oracle'">
 			SELECT
 			t.COLUMN_NAME AS name,<!--

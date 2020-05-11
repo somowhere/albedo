@@ -1,239 +1,108 @@
-import storeApi from '@/util/store'
-import validate from '@/util/validate'
-import {loginApi} from '@/api/login'
-import util from '@/util/util'
-import webiste from '@/const/website'
-import menuService from '@/views/sys/menu/menu-service'
-
-function addPath(ele, first) {
-  const propsConfig = webiste.menu.props;
-  const propsDefault = {
-    label: propsConfig.label || 'label',
-    path: propsConfig.path || 'path',
-    icon: propsConfig.icon || 'icon',
-    children: propsConfig.children || 'children'
-  };
-  const isChild = ele[propsDefault.children] && ele[propsDefault.children].length !== 0;
-  if (!isChild && first) {
-    ele[propsDefault.path] = ele[propsDefault.path] + '/index';
-    return
-  }
-  ele[propsDefault.children].forEach(child => {
-    if (!validate.isURL(child[propsDefault.path])) {
-      child[propsDefault.path] = `${ele[propsDefault.path]}/${child[propsDefault.path] ? child[propsDefault.path] : 'index'}`
-    }
-    addPath(child)
-  })
-}
+import commonUtil from '@/utils/common'
+import loginService from '@/api/login'
+import storeApi from '@/utils/store'
+import { MSG_TYPE_SUCCESS } from '../../utils/request'
 
 const user = {
   state: {
-    user: storeApi.get({
-      name: 'user'
-    }) || {},
-    permissions: storeApi.get({
-      name: 'permissions'
-    }) || {},
-    dicts: storeApi.get({
-      name: 'dicts'
-    }) || [],
-    roles: storeApi.get({
-      name: 'roles'
-    }) || [],
-    menu: storeApi.get({
-      name: 'menu'
-    }) || [],
-    menuAll: [],
-    expires_in: storeApi.get({
-      name: 'expires_in'
-    }) || '',
-    access_token: storeApi.get({
-      name: 'access_token'
-    }) || '',
-    refresh_token: storeApi.get({
-      name: 'refresh_token'
-    }) || ''
+    user: {},
+    roles: [],
+    permissions: [],
+    loginSuccess: storeApi.get({
+      name: 'loginSuccess'
+    }) || false,
+    // 第一次加载菜单时用到
+    loadMenus: false
   },
+
+  mutations: {
+    SET_USER: (state, user) => {
+      state.user = user
+    },
+    SET_ROLES: (state, roles) => {
+      state.roles = roles
+    },
+    SET_PERMISSIONS: (state, permissions) => {
+      state.permissions = permissions
+    },
+    SET_LOAD_MENUS: (state, loadMenus) => {
+      state.loadMenus = loadMenus
+    },
+    SET_LOGIN_SUCCESS: (state, loginSuccess) => {
+      state.loginSuccess = loginSuccess
+      storeApi.set({
+        name: 'loginSuccess',
+        content: state.loginSuccess,
+        type: 'session'
+      })
+    }
+  },
+
   actions: {
-    // 根据用户名登录
-    loginByUsername({commit}, user) {
-      const params = util.encryption({
+    // 登录
+    Login({ commit }, user) {
+      const params = commonUtil.encryption({
         data: user,
         key: 'somewhere-albedo',
         param: ['password']
-      });
+      })
       return new Promise((resolve, reject) => {
-        loginApi.loginByUsername(params).then(response => {
-          const data = response.data || {};
-          // commit('SET_ACCESS_TOKEN', data.access_token)
-          // commit('SET_REFRESH_TOKEN', response.refresh_token)
-          // commit('SET_EXPIRES_IN', data.expires_in)
-          commit('CLEAR_LOCK');
-          resolve()
+        loginService.login(params).then(res => {
+          if (res.code === MSG_TYPE_SUCCESS) {
+            commit('SET_LOGIN_SUCCESS', true)
+            commit('SET_LOAD_MENUS', true)
+            resolve()
+          }
         }).catch(error => {
           reject(error)
         })
       })
     },
-    getUser({commit}) {
+
+    // 获取用户信息
+    GetUser({ commit }) {
       return new Promise((resolve, reject) => {
-        loginApi.getUser().then((res) => {
-          const data = res.data || {};
-          commit('SET_USERVO', data.user);
-          commit('SET_ROLES', data.roles || []);
-          commit('SET_PERMISSIONS', data.permissions || []);
+        loginService.getUser().then((res) => {
+          const data = res.data || {}
+          setUserInfo(data, commit)
           resolve(data)
         }).catch((err) => {
-          reject()
-        })
-      })
-    },
-    // 刷新token
-    refreshToken({commit, state}) {
-      return new Promise((resolve, reject) => {
-        loginApi.refreshToken(state.refresh_token).then(response => {
-          const data = response.data;
-          commit('SET_ACCESS_TOKEN', data.access_token);
-          // commit('SET_REFRESH_TOKEN', data.refresh_token)
-          commit('SET_EXPIRES_IN', data.expires_in);
-          commit('CLEAR_LOCK');
-          resolve()
-        }).catch(error => {
-          reject(error)
+          reject(err)
         })
       })
     },
     // 登出
-    logOut({commit}) {
+    LogOut({ commit }) {
       return new Promise((resolve, reject) => {
-        loginApi.logout().then(() => {
-          commit('SET_MENU', []);
-          commit('SET_DICTS', []);
-          commit('SET_PERMISSIONS', []);
-          commit('SET_USERVO', {});
-          commit('SET_ACCESS_TOKEN', '');
-          // commit('SET_REFRESH_TOKEN', '')
-          commit('SET_EXPIRES_IN', '');
-          commit('SET_ROLES', []);
-          commit('DEL_ALL_TAG');
-          commit('CLEAR_LOCK');
+        loginService.logout().then(res => {
+          logOut(commit)
           resolve()
         }).catch(error => {
+          logOut(commit)
           reject(error)
         })
       })
     },
-    // 注销session
-    fedLogOut({commit}) {
-      return new Promise(resolve => {
-        commit('SET_MENU', []);
-        commit('SET_DICTS', []);
-        commit('SET_PERMISSIONS', []);
-        commit('SET_USERVO', {});
-        commit('SET_ACCESS_TOKEN', '');
-        commit('SET_REFRESH_TOKEN', '');
-        commit('SET_ROLES', []);
-        commit('DEL_ALL_TAG');
-        commit('CLEAR_LOCK');
-        resolve()
-      })
-    },
-    // 获取系统菜单
-    getUserMenu({
-                  commit
-                }) {
-      return new Promise(resolve => {
-        menuService.getUser().then((res) => {
-          const data = res.data;
-          let menu = util.deepClone(data);
-          menu.forEach(ele => {
-            addPath(ele)
-          });
-          commit('SET_MENU', menu);
-          resolve(menu)
-        })
-      })
-    },
-    // 获取系统菜单
-    async getDicts({commit}) {
-      let res = await loginApi.getDicts();
-      commit('SET_DICTS', res.data)
-    }
 
-  },
-  mutations: {
-    SET_ACCESS_TOKEN: (state, access_token) => {
-      state.access_token = access_token;
-      storeApi.set({
-        name: 'access_token',
-        content: state.access_token,
-        type: 'session'
-      })
-    },
-    SET_EXPIRES_IN: (state, expires_in) => {
-      state.expires_in = expires_in;
-      storeApi.set({
-        name: 'expires_in',
-        content: state.expires_in,
-        type: 'session'
-      })
-    },
-    SET_REFRESH_TOKEN: (state, rfToken) => {
-      state.refresh_token = rfToken;
-      storeApi.set({
-        name: 'refresh_token',
-        content: state.refresh_token,
-        type: 'session'
-      })
-    },
-    SET_USERVO: (state, user) => {
-      state.user = user;
-      storeApi.set({
-        name: 'user',
-        content: state.user,
-        type: 'session'
-      })
-    },
-    SET_DICTS: (state, dicts) => {
-      state.dicts = dicts;
-      storeApi.set({
-        name: 'dicts',
-        content: state.dicts,
-        type: 'session'
-      })
-    },
-    SET_MENU: (state, menu) => {
-      state.menu = menu;
-      storeApi.set({
-        name: 'menu',
-        content: state.menu,
-        type: 'session'
-      })
-    },
-    SET_MENU_ALL: (state, menuAll) => {
-      state.menuAll = menuAll
-    },
-    SET_ROLES: (state, roles) => {
-      state.roles = roles;
-      storeApi.set({
-        name: 'roles',
-        content: state.roles,
-        type: 'session'
-      })
-    },
-    SET_PERMISSIONS: (state, permissions) => {
-      const list = {};
-      for (let i = 0; i < permissions.length; i++) {
-        list[permissions[i]] = true
-      }
-      state.permissions = list;
-      storeApi.set({
-        name: 'permissions',
-        content: state.permissions,
-        type: 'session'
+    updateLoadMenus({ commit }) {
+      return new Promise((resolve, reject) => {
+        commit('SET_LOAD_MENUS', false)
       })
     }
   }
+}
 
-};
+export const logOut = (commit) => {
+  commit('SET_LOGIN_SUCCESS', false)
+  commit('SET_USER', {})
+  commit('SET_ROLES', [])
+  commit('SET_PERMISSIONS', [])
+}
+
+export const setUserInfo = (res, commit) => {
+  commit('SET_USER', res.user)
+  commit('SET_ROLES', res.roles || [])
+  commit('SET_PERMISSIONS', res.permissions || [])
+}
+
 export default user

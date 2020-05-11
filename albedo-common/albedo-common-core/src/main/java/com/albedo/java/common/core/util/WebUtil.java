@@ -107,7 +107,7 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
 	 */
 	public void setCookie(HttpServletResponse response, String name, String value, int maxAgeInSeconds) {
 		Cookie cookie = new Cookie(name, value);
-		cookie.setPath("/");
+		cookie.setPath(StringUtil.SLASH);
 		cookie.setMaxAge(maxAgeInSeconds);
 		cookie.setHttpOnly(true);
 		response.addCookie(cookie);

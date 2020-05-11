@@ -81,8 +81,8 @@ public class ${ClassName}Service extends DataService<${ClassName}Repository, ${C
 
 
     public void delete(String ids) {
-    	Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id ->{
-    		${className}Repository.findOneById(id).map(u -> {
+    	ids.forEach(id ->{
+    		${className}Repository.getById(id).map(u -> {
     		<#if table.childeExists>
 			${ClassName} ${className} = find(${className}Id);
 			<#list table.childList as c>
@@ -101,8 +101,8 @@ public class ${ClassName}Service extends DataService<${ClassName}Repository, ${C
 
 
 	public void lockOrUnLock(String ids) {
-		Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)).forEach(id ->{
-			${className}Repository.findOneById(id).map(u -> {
+		ids.forEach(id ->{
+			${className}Repository.getById(id).map(u -> {
     			operateStatusById(id, BaseEntity.FLAG_NORMAL.equals(u.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL, SecurityUtil.getCurrentAuditor());
                 logOperate.debug("LockOrUnLock User: {}", u);
 				return u;
@@ -111,13 +111,13 @@ public class ${ClassName}Service extends DataService<${ClassName}Repository, ${C
 	}
 
 	@Transactional(readOnly=true)
-	public ${ClassName} findOneById(String id) {
-		return ${className}Repository.findOneById(id);
+	public ${ClassName} getById(String id) {
+		return ${className}Repository.getById(id);
 	}
 
 	@Transactional(readOnly=true)
 	public Page<${ClassName}> findAll(SpecificationDetail<${ClassName}> spec, PageModel<${ClassName}> pm) {
-		return ${className}Repository.findAll(spec, pm);
+		return ${className}Repository.list(spec, pm);
 	}
 }
 ]]>

@@ -197,7 +197,7 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/").setViewName(StringUtil.isEmpty(applicationProperties.getDefaultView()) ? "index.html" : applicationProperties.getDefaultView());
+		registry.addViewController(StringUtil.SLASH).setViewName(StringUtil.isEmpty(applicationProperties.getDefaultView()) ? "index.html" : applicationProperties.getDefaultView());
 		registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
 	}
 

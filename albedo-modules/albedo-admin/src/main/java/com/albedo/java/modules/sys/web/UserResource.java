@@ -18,19 +18,22 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.RuntimeMsgException;
-import com.albedo.java.common.core.util.*;
+import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.util.ResultBuilder;
+import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.ExcelUtil;
-import com.albedo.java.common.web.resource.DataVoResource;
-import com.albedo.java.modules.sys.domain.vo.UserDataVo;
+import com.albedo.java.common.web.resource.BaseResource;
+import com.albedo.java.modules.sys.domain.dto.UserDto;
+import com.albedo.java.modules.sys.domain.dto.UserQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.UserExcelVo;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.albedo.java.modules.sys.service.UserService;
 import com.google.common.collect.Lists;
-import lombok.extern.log4j.Log4j2;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +43,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author somewhere
@@ -47,14 +51,10 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("${application.admin-path}/sys/user")
-@Log4j2
-public class UserResource extends DataVoResource<UserService, UserDataVo> {
+@AllArgsConstructor
+public class UserResource  extends BaseResource {
 
-
-	public UserResource(UserService service) {
-		super(service);
-	}
-
+	private final UserService userService;
 	/**
 	 * @param id
 	 * @return
@@ -63,7 +63,7 @@ public class UserResource extends DataVoResource<UserService, UserDataVo> {
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
 	public R get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
-		return R.buildOkData(service.getUserVoById(id));
+		return R.buildOkData(userService.getUserDtoById(id));
 	}
 
 	/**
@@ -74,11 +74,11 @@ public class UserResource extends DataVoResource<UserService, UserDataVo> {
 	@GetMapping(value = {"/info"})
 	public R info() {
 		String username = SecurityUtil.getUser().getUsername();
-		UserVo userVo = service.findOneVoByUserName(username);
+		UserVo userVo = userService.getOneVoByUserName(username);
 		if (userVo == null) {
 			return R.buildFail("获取当前用户信息失败");
 		}
-		return R.buildOkData(service.getUserInfo(userVo));
+		return R.buildOkData(userService.getUserInfo(userVo));
 	}
 
 	/**
@@ -88,11 +88,11 @@ public class UserResource extends DataVoResource<UserService, UserDataVo> {
 	 */
 	@GetMapping("/info/{username}")
 	public R info(@PathVariable String username) {
-		UserVo userVo = service.findOneVoByUserName(username);
+		UserVo userVo = userService.getOneVoByUserName(username);
 		if (userVo == null) {
 			return R.buildFail(String.format("用户信息为空 %s", username));
 		}
-		return R.buildOkData(service.getUserInfo(userVo));
+		return R.buildOkData(userService.getUserInfo(userVo));
 	}
 
 	/**
@@ -102,42 +102,31 @@ public class UserResource extends DataVoResource<UserService, UserDataVo> {
 	 * @return
 	 */
 	@Log(value = "用户管理", businessType = BusinessType.DELETE)
-	@DeleteMapping(CommonConstants.URL_IDS_REGEX)
+	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_del')")
-	public R removeByIds(@PathVariable String ids) {
-		service.removeByIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+	public R removeByIds(@RequestBody Set<String> ids) {
+		userService.removeByIds(ids);
 		return R.buildOk("操作成功");
 	}
 
 	/**
 	 * 添加/更新用户信息
 	 *
-	 * @param userDataVo 用户信息
+	 * @param userDto 用户信息
 	 * @return R
 	 */
 	@Log(value = "用户管理", businessType = BusinessType.EDIT)
-	@PostMapping("/")
+	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
-	public R saveUser(@Valid @RequestBody UserDataVo userDataVo) {
-		log.debug("REST request to save userDataVo : {}", userDataVo);
+	public R saveUser(@Valid @RequestBody UserDto userDto) {
+		log.debug("REST request to save userDataVo : {}", userDto);
 		// beanValidatorAjax(user);
-		if (StringUtil.isNotEmpty(userDataVo.getPassword()) &&
-			!userDataVo.getPassword().equals(userDataVo.getConfirmPassword())) {
+		if (StringUtil.isNotEmpty(userDto.getPassword()) &&
+			!userDto.getPassword().equals(userDto.getConfirmPassword())) {
 			throw new RuntimeMsgException("两次输入密码不一致");
 		}
-		// username before comparing with database
-		if (!checkByProperty(ClassUtil.createObj(UserDataVo.class,
-			Lists.newArrayList(UserDataVo.F_ID, UserDataVo.F_USERNAME),
-			userDataVo.getId(), userDataVo.getUsername()))) {
-			throw new RuntimeMsgException("登录Id已存在");
-		}
-		// email before comparing with database
-		if (StringUtil.isNotEmpty(userDataVo.getEmail()) &&
-			!checkByProperty(ClassUtil.createObj(UserDataVo.class,
-				Lists.newArrayList(UserDataVo.F_ID, UserDataVo.F_EMAIL), userDataVo.getId(), userDataVo.getEmail()))) {
-			throw new RuntimeMsgException("邮箱已存在");
-		}
-		service.save(userDataVo);
+
+		userService.saveOrUpdate(userDto);
 		return R.buildOk("操作成功");
 	}
 
@@ -147,10 +136,10 @@ public class UserResource extends DataVoResource<UserService, UserDataVo> {
 	 * @param pm 参数集
 	 * @return 用户集合
 	 */
-	@GetMapping("/")
+	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
-	public R getUserPage(PageModel pm) {
-		return R.buildOkData(service.getUserPage(pm, SecurityUtil.getUser().getDataScope()));
+	public R getUserPage(PageModel pm, UserQueryCriteria userQueryCriteria) {
+		return R.buildOkData(userService.getUserPage(pm, userQueryCriteria, SecurityUtil.getUser().getDataScope()));
 	}
 
 	/**
@@ -159,7 +148,7 @@ public class UserResource extends DataVoResource<UserService, UserDataVo> {
 	 */
 	@GetMapping("/ancestor/{username}")
 	public R listAncestorUsers(@PathVariable String username) {
-		return new R<>(service.listAncestorUsersByUsername(username));
+		return new R<>(userService.listAncestorUsersByUsername(username));
 	}
 
 
@@ -167,11 +156,11 @@ public class UserResource extends DataVoResource<UserService, UserDataVo> {
 	 * @param ids
 	 * @return
 	 */
-	@PutMapping(CommonConstants.URL_IDS_REGEX)
+	@PutMapping
 	@Log(value = "用户管理", businessType = BusinessType.LOCK)
 	@PreAuthorize("@pms.hasPermission('sys_user_lock')")
-	public R lockOrUnLock(@PathVariable String ids) {
-		service.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+	public R lockOrUnLock(@RequestBody Set<String> ids) {
+		userService.lockOrUnLock(ids);
 		return R.buildOk("操作成功");
 	}
 
@@ -185,25 +174,12 @@ public class UserResource extends DataVoResource<UserService, UserDataVo> {
 		}
 		ExcelUtil<UserExcelVo> util = new ExcelUtil(UserExcelVo.class);
 		List<UserExcelVo> dataList = util.importExcel(dataFile.getInputStream());
-		;
 		for (UserExcelVo userExcelVo : dataList) {
 			if (userExcelVo.getPhone().length() != 11) {
 				BigDecimal bd = new BigDecimal(userExcelVo.getPhone());
 				userExcelVo.setPhone(bd.toPlainString());
 			}
-			if (!checkByProperty(ClassUtil.createObj(UserDataVo.class, Lists.newArrayList(UserVo.F_USERNAME),
-				userExcelVo.getUsername()))) {
-				throw new RuntimeMsgException("登录Id" + userExcelVo.getUsername() + "已存在");
-			}
-			if (ObjectUtil.isNotEmpty(userExcelVo.getPhone()) && !checkByProperty(ClassUtil.createObj(UserDataVo.class,
-				Lists.newArrayList(UserVo.F_PHONE), userExcelVo.getPhone()))) {
-				throw new RuntimeMsgException("手机" + userExcelVo.getPhone() + "已存在");
-			}
-			if (ObjectUtil.isNotEmpty(userExcelVo.getEmail()) && !checkByProperty(ClassUtil.createObj(UserDataVo.class,
-				Lists.newArrayList(UserVo.F_EMAIL), userExcelVo.getEmail()))) {
-				throw new RuntimeMsgException("邮箱" + userExcelVo.getEmail() + "已存在");
-			}
-			service.save(userExcelVo);
+			userService.save(userExcelVo);
 		}
 		return ResultBuilder.buildOk("操作成功");
 

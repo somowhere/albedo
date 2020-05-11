@@ -17,19 +17,19 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.R;
-import com.albedo.java.common.core.util.StringUtil;
-import com.albedo.java.common.core.vo.TreeQuery;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.security.util.SecurityUtil;
-import com.albedo.java.common.web.resource.TreeVoResource;
-import com.albedo.java.modules.sys.domain.vo.DeptDataVo;
+import com.albedo.java.common.web.resource.BaseResource;
+import com.albedo.java.modules.sys.domain.dto.DeptDto;
+import com.albedo.java.modules.sys.domain.dto.DeptQueryCriteria;
 import com.albedo.java.modules.sys.service.DeptService;
-import com.google.common.collect.Lists;
+import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Set;
 
 /**
  * <p>
@@ -41,12 +41,10 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("${application.admin-path}/sys/dept")
-public class DeptResource extends TreeVoResource<DeptService, DeptDataVo> {
+@AllArgsConstructor
+public class DeptResource extends BaseResource {
 
-	public DeptResource(DeptService service) {
-		super(service);
-	}
-
+	private final DeptService deptService;
 	/**
 	 * @param id
 	 * @return
@@ -54,7 +52,7 @@ public class DeptResource extends TreeVoResource<DeptService, DeptDataVo> {
 	@GetMapping(CommonConstants.URL_ID_REGEX)
 	public R get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
-		return R.buildOkData(service.findOneVo(id));
+		return R.buildOkData(deptService.getOneDto(id));
 	}
 
 	/**
@@ -63,8 +61,8 @@ public class DeptResource extends TreeVoResource<DeptService, DeptDataVo> {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public R tree(TreeQuery treeQuery) {
-		return R.buildOkData(service.findTreeList(treeQuery));
+	public R tree(DeptQueryCriteria deptQueryCriteria) {
+		return R.buildOkData(deptService.findTreeList(deptQueryCriteria));
 	}
 
 	/**
@@ -73,23 +71,23 @@ public class DeptResource extends TreeVoResource<DeptService, DeptDataVo> {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/user-tree")
-	public R findCurrentUserDeptTrees() {
-		String parentDeptId = SecurityUtil.getUser().getParentDeptId();
+	public R userTree(DeptQueryCriteria deptQueryCriteria) {
 		String deptId = SecurityUtil.getUser().getDeptId();
-		return new R<>(service.findCurrentUserDeptTrees(parentDeptId, deptId));
+		return new R<>(deptService.findDeptTrees(deptQueryCriteria, deptId));
 	}
 
 	/**
 	 * 添加
 	 *
-	 * @param deptDataVo 实体
+	 * @param deptDto 实体
 	 * @return success/false
 	 */
-	@PostMapping("/")
+	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_dept_edit')")
 	@Log(value = "部门管理", businessType = BusinessType.EDIT)
-	public R save(@Valid @RequestBody DeptDataVo deptDataVo) {
-		return new R<>(service.saveDept(deptDataVo));
+	public R save(@Valid @RequestBody DeptDto deptDto) {
+		deptService.saveOrUpdate(deptDto);
+		return R.buildOk("操作成功");
 	}
 
 	/**
@@ -98,11 +96,11 @@ public class DeptResource extends TreeVoResource<DeptService, DeptDataVo> {
 	 * @param ids ID
 	 * @return success/false
 	 */
-	@DeleteMapping(CommonConstants.URL_IDS_REGEX)
+	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_dept_del')")
 	@Log(value = "部门管理", businessType = BusinessType.DELETE)
-	public R removeById(@PathVariable String ids) {
-		return new R<>(service.removeDeptByIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT))));
+	public R removeById(@RequestBody Set<String> ids) {
+		return new R<>(deptService.removeDeptByIds(ids));
 	}
 
 }

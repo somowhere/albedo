@@ -22,6 +22,7 @@
 	<resultMap id="BaseResultMap" type="com.albedo.java.modules.sys.domain.Dept">
 		<id column="id" property="id"/>
 		<result column="name" property="name"/>
+		<result column="available" property="available"/>
 		<result column="parent_id" property="parentId"/>
 		<result column="parent_ids" property="parentIds"/>
 		<result column="leaf" property="leaf"/>

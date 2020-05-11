@@ -5,6 +5,7 @@ import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.util.WebUtil;
 import com.albedo.java.common.security.util.LoginUtil;
 import com.albedo.java.common.util.AsyncUtil;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
@@ -21,9 +22,9 @@ public class AjaxAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 										AuthenticationException exception) {
 		String useruame = request.getParameter("username");
 		LoginUtil.isValidateCodeLogin(useruame, true, false);
-		String message = exception.getMessage();
+		String message = exception instanceof BadCredentialsException && "Bad credentials".equals(exception.getMessage()) ? "密码填写错误！":  exception.getMessage();
 		AsyncUtil.recordLogLogin(useruame, CommonConstants.STR_FAIL, message);
-		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		response.setStatus(HttpServletResponse.SC_OK);
 		WebUtil.renderJson(response, R.buildFail(message));
 	}
 }

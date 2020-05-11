@@ -3,13 +3,12 @@
  */
 package com.albedo.java.modules.quartz.service;
 
-import com.albedo.java.common.persistence.service.DataVoService;
+import com.albedo.java.common.persistence.service.DataService;
 import com.albedo.java.modules.quartz.domain.Job;
-import com.albedo.java.modules.quartz.domain.vo.JobDataVo;
+import com.albedo.java.modules.quartz.domain.vo.JobDto;
 import com.albedo.java.modules.quartz.repository.JobRepository;
-import org.quartz.SchedulerException;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * 任务调度Service 任务调度
@@ -17,7 +16,7 @@ import java.util.List;
  * @author admin
  * @version 2019-08-14 11:24:16
  */
-public interface JobService extends DataVoService<JobRepository, Job, String, JobDataVo> {
+public interface JobService extends DataService<JobRepository, Job, JobDto, String> {
 
 
 	/**
@@ -26,7 +25,7 @@ public interface JobService extends DataVoService<JobRepository, Job, String, Jo
 	 * @param job 调度信息
 	 * @return 结果
 	 */
-	int pauseJob(Job job) throws SchedulerException;
+	int pauseJob(Job job);
 
 	/**
 	 * 恢复任务
@@ -34,7 +33,7 @@ public interface JobService extends DataVoService<JobRepository, Job, String, Jo
 	 * @param job 调度信息
 	 * @return 结果
 	 */
-	int resumeJob(Job job) throws SchedulerException;
+	int resumeJob(Job job);
 
 	/**
 	 * 删除任务后，所对应的trigger也将被删除
@@ -42,7 +41,7 @@ public interface JobService extends DataVoService<JobRepository, Job, String, Jo
 	 * @param job 调度信息
 	 * @return 结果
 	 */
-	int deleteJob(Job job) throws SchedulerException;
+	int deleteJob(Job job);
 
 	/**
 	 * 批量删除调度信息
@@ -50,7 +49,7 @@ public interface JobService extends DataVoService<JobRepository, Job, String, Jo
 	 * @param ids 需要删除的数据ID
 	 * @return 结果
 	 */
-	void deleteJobByIds(String ids) throws SchedulerException;
+	void deleteJobByIds(Set<String> ids);
 
 	/**
 	 * 任务调度状态修改
@@ -58,7 +57,7 @@ public interface JobService extends DataVoService<JobRepository, Job, String, Jo
 	 * @param job 调度信息
 	 * @return 结果
 	 */
-	int changeStatus(Job job) throws SchedulerException;
+	int changeStatus(Job job);
 
 	/**
 	 * 立即运行任务
@@ -66,7 +65,7 @@ public interface JobService extends DataVoService<JobRepository, Job, String, Jo
 	 * @param job 调度信息
 	 * @return 结果
 	 */
-	void run(Job job) throws SchedulerException;
+	void run(Job job);
 
 
 	/**
@@ -77,9 +76,9 @@ public interface JobService extends DataVoService<JobRepository, Job, String, Jo
 	 */
 	boolean checkCronExpressionIsValid(String cronExpression);
 
-	void available(List<String> idList);
+	void available(Set<String> idList);
 
-	void concurrent(List<String> idList);
+	void concurrent(Set<String> idList);
 
-	void runByIds(List<String> idList);
+	void runByIds(Set<String> idList);
 }

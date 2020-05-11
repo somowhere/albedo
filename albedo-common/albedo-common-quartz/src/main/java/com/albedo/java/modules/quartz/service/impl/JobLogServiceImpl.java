@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class JobLogServiceImpl extends BaseServiceImpl<JobLogRepository, JobLog, String> implements JobLogService {
+public class JobLogServiceImpl extends BaseServiceImpl<JobLogRepository, JobLog> implements JobLogService {
 
 	@Override
 	public void cleanJobLog() {

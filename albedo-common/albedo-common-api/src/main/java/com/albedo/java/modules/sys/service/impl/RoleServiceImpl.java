@@ -18,11 +18,11 @@ package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.CollUtil;
-import com.albedo.java.common.persistence.service.impl.DataVoServiceImpl;
+import com.albedo.java.common.persistence.service.impl.DataServiceImpl;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.RoleDept;
 import com.albedo.java.modules.sys.domain.RoleMenu;
-import com.albedo.java.modules.sys.domain.vo.RoleDataVo;
+import com.albedo.java.modules.sys.domain.dto.RoleDto;
 import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.service.RoleDeptService;
 import com.albedo.java.modules.sys.service.RoleMenuService;
@@ -31,10 +31,12 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -48,14 +50,14 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class RoleServiceImpl extends
-	DataVoServiceImpl<RoleRepository, Role, String, RoleDataVo> implements RoleService {
+	DataServiceImpl<RoleRepository, Role, RoleDto, String> implements RoleService {
 	private final CacheManager cacheManager;
 	private RoleMenuService roleMenuService;
 	private RoleDeptService roleDeptService;
 
 	@Override
-	public RoleDataVo findOneVo(String id) {
-		RoleDataVo oneVo = super.findOneVo(id);
+	public RoleDto getOneDto(String id) {
+		RoleDto oneVo = super.getOneDto(id);
 		oneVo.setMenuIdList(roleMenuService.list(Wrappers
 			.<RoleMenu>query().lambda()
 			.eq(RoleMenu::getRoleId, id)).stream().map(RoleMenu::getMenuId).collect(Collectors.toList()));
@@ -78,6 +80,7 @@ public class RoleServiceImpl extends
 	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
+	@Cacheable(value = "role_details", key = "#userId  + '_role'")
 	public List findRolesByUserIdList(String userId) {
 		return baseMapper.findRolesByUserIdList(userId);
 	}
@@ -89,9 +92,9 @@ public class RoleServiceImpl extends
 	 * @return
 	 */
 	@Override
-	@CacheEvict(value = "menu_details", allEntries = true)
+	@CacheEvict(allEntries = true)
 	@Transactional(rollbackFor = Exception.class)
-	public Boolean removeRoleByIds(List<String> ids) {
+	public Boolean removeRoleByIds(Set<String> ids) {
 		ids.forEach(id -> {
 			roleMenuService.remove(Wrappers
 				.<RoleMenu>update().lambda()
@@ -105,25 +108,25 @@ public class RoleServiceImpl extends
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	@CacheEvict(value = "menu_details", key = "#roleDataVo.id  + '_menu'")
-	public void save(RoleDataVo roleDataVo) {
-		super.save(roleDataVo);
+	@CacheEvict(allEntries = true)
+	public void saveOrUpdate(RoleDto roleDto) {
+		super.saveOrUpdate(roleDto);
 		roleMenuService.remove(Wrappers.<RoleMenu>query().lambda()
-			.eq(RoleMenu::getRoleId, roleDataVo.getId()));
-		List<RoleMenu> roleMenuList = roleDataVo.getMenuIdList().stream().map(menuId -> {
+			.eq(RoleMenu::getRoleId, roleDto.getId()));
+		List<RoleMenu> roleMenuList = roleDto.getMenuIdList().stream().map(menuId -> {
 			RoleMenu roleMenu = new RoleMenu();
-			roleMenu.setRoleId(roleDataVo.getId());
+			roleMenu.setRoleId(roleDto.getId());
 			roleMenu.setMenuId(menuId);
 			return roleMenu;
 		}).collect(Collectors.toList());
 
 		roleMenuService.saveBatch(roleMenuList);
-		if (CollUtil.isNotEmpty(roleDataVo.getDeptIdList())) {
+		if (CollUtil.isNotEmpty(roleDto.getDeptIdList())) {
 			roleDeptService.remove(Wrappers.<RoleDept>query().lambda()
-				.eq(RoleDept::getRoleId, roleDataVo.getId()));
-			List<RoleDept> roleDeptList = roleDataVo.getDeptIdList().stream().map(deptId -> {
+				.eq(RoleDept::getRoleId, roleDto.getId()));
+			List<RoleDept> roleDeptList = roleDto.getDeptIdList().stream().map(deptId -> {
 				RoleDept roleDept = new RoleDept();
-				roleDept.setRoleId(roleDataVo.getId());
+				roleDept.setRoleId(roleDto.getId());
 				roleDept.setDeptId(deptId);
 				return roleDept;
 			}).collect(Collectors.toList());
@@ -134,7 +137,8 @@ public class RoleServiceImpl extends
 	}
 
 	@Override
-	public void lockOrUnLock(List<String> idList) {
+	@CacheEvict(allEntries = true)
+	public void lockOrUnLock(Set<String> idList) {
 		idList.forEach(id -> {
 			Role role = baseMapper.selectById(id);
 			role.setAvailable(CommonConstants.STR_YES.equals(role.getAvailable()) ?
@@ -145,4 +149,6 @@ public class RoleServiceImpl extends
 		//清空userinfo
 		cacheManager.getCache("user_details").clear();
 	}
+
+
 }

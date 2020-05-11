@@ -17,13 +17,18 @@
 package com.albedo.java.modules.sys.service;
 
 
+import com.albedo.java.common.core.vo.TreeNode;
 import com.albedo.java.common.core.vo.TreeQuery;
-import com.albedo.java.common.persistence.service.TreeVoService;
+import com.albedo.java.common.persistence.service.TreeService;
 import com.albedo.java.modules.sys.domain.Menu;
-import com.albedo.java.modules.sys.domain.vo.*;
+import com.albedo.java.modules.sys.domain.dto.GenSchemeDto;
+import com.albedo.java.modules.sys.domain.dto.MenuDto;
+import com.albedo.java.modules.sys.domain.dto.MenuSortDto;
+import com.albedo.java.modules.sys.domain.vo.MenuVo;
 import com.albedo.java.modules.sys.repository.MenuRepository;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -33,7 +38,7 @@ import java.util.List;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface MenuService extends TreeVoService<MenuRepository, Menu, MenuDataVo> {
+public interface MenuService extends TreeService<MenuRepository, Menu, MenuDto> {
 	/**
 	 * 通过角色编号查询URL 权限
 	 *
@@ -48,12 +53,12 @@ public interface MenuService extends TreeVoService<MenuRepository, Menu, MenuDat
 	 * @param ids 菜单ID
 	 * @return 成功、失败
 	 */
-	void removeMenuById(List<String> ids);
+	void removeMenuById(Set<String> ids);
 
 
-	boolean saveByGenScheme(GenSchemeDataVo schemeDataVo);
+	boolean saveByGenScheme(GenSchemeDto schemeDataVo);
 
-	List<MenuTree> listMenuTrees(TreeQuery treeQuery);
+	Set<TreeNode> listMenuTrees(TreeQuery treeQuery);
 
-	void sortUpdate(MenuDataSortVo menuDataSortVo);
+	void sortUpdate(MenuSortDto menuSortDto);
 }

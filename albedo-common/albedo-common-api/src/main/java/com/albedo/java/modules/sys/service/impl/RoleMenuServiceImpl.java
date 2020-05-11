@@ -47,15 +47,14 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuRepository, RoleMen
 	private final CacheManager cacheManager;
 
 	/**
-	 * @param role
 	 * @param roleId  角色
 	 * @param menuIds 菜单ID拼成的字符串，每个id之间根据逗号分隔
 	 * @return
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	@CacheEvict(value = "menu_details", key = "#roleId + '_menu'")
-	public Boolean saveRoleMenus(String role, String roleId, String menuIds) {
+	@CacheEvict(allEntries = true)
+	public Boolean saveRoleMenus(String roleId, String menuIds) {
 		this.remove(Wrappers.<RoleMenu>query().lambda()
 			.eq(RoleMenu::getRoleId, roleId));
 

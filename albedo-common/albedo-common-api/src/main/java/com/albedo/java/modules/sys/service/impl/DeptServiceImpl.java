@@ -19,12 +19,12 @@ package com.albedo.java.modules.sys.service.impl;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.TreeNode;
-import com.albedo.java.common.core.vo.TreeQuery;
-import com.albedo.java.common.persistence.service.impl.TreeVoServiceImpl;
-import com.albedo.java.common.security.util.SecurityUtil;
+import com.albedo.java.common.data.util.QueryWrapperUtil;
+import com.albedo.java.common.persistence.service.impl.TreeServiceImpl;
 import com.albedo.java.modules.sys.domain.Dept;
 import com.albedo.java.modules.sys.domain.DeptRelation;
-import com.albedo.java.modules.sys.domain.vo.DeptDataVo;
+import com.albedo.java.modules.sys.domain.dto.DeptDto;
+import com.albedo.java.modules.sys.domain.dto.DeptQueryCriteria;
 import com.albedo.java.modules.sys.repository.DeptRepository;
 import com.albedo.java.modules.sys.service.DeptRelationService;
 import com.albedo.java.modules.sys.service.DeptService;
@@ -34,6 +34,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -47,30 +48,28 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class DeptServiceImpl extends
-	TreeVoServiceImpl<DeptRepository, Dept, DeptDataVo> implements DeptService {
+	TreeServiceImpl<DeptRepository, Dept, DeptDto> implements DeptService {
 	private final DeptRelationService deptRelationService;
 
 	/**
 	 * 添加信息部门
 	 *
-	 * @param deptDataVo 部门
-	 * @return
+	 * @param deptDto 部门
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public Boolean saveDept(DeptDataVo deptDataVo) {
-		boolean add = StringUtil.isEmpty(deptDataVo.getId());
-		super.save(deptDataVo);
+	public void saveOrUpdate(DeptDto deptDto) {
+		boolean add = StringUtil.isEmpty(deptDto.getId());
+		super.saveOrUpdate(deptDto);
 		if (add) {
-			deptRelationService.saveDeptRelation(deptDataVo);
+			deptRelationService.saveDeptRelation(deptDto);
 		} else {
 			//更新部门关系
 			DeptRelation relation = new DeptRelation();
-			relation.setAncestor(deptDataVo.getParentId());
-			relation.setDescendant(deptDataVo.getId());
+			relation.setAncestor(deptDto.getParentId());
+			relation.setDescendant(deptDto.getId());
 			deptRelationService.updateDeptRelation(relation);
 		}
-		return Boolean.TRUE;
 	}
 
 
@@ -82,15 +81,15 @@ public class DeptServiceImpl extends
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public Boolean removeDeptByIds(List<String> ids) {
+	public Boolean removeDeptByIds(Set<String> ids) {
 		ids.forEach(id -> {
 			//级联删除部门
-			List<String> idList = deptRelationService
+			Set<String> idList = deptRelationService
 				.list(Wrappers.<DeptRelation>query().lambda()
 					.eq(DeptRelation::getAncestor, id))
 				.stream()
 				.map(DeptRelation::getDescendant)
-				.collect(Collectors.toList());
+				.collect(Collectors.toSet());
 
 			if (CollUtil.isNotEmpty(idList)) {
 				this.removeByIds(idList);
@@ -102,6 +101,7 @@ public class DeptServiceImpl extends
 
 		return Boolean.TRUE;
 	}
+
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -121,10 +121,10 @@ public class DeptServiceImpl extends
 	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public List<TreeNode> findCurrentUserDeptTrees(String parentDeptId, String deptId) {
-		List<String> descendantIdList = findDescendantIdList(deptId);
-		List<Dept> deptList = baseMapper.selectBatchIds(descendantIdList);
-		return getNodeTree(new TreeQuery(), deptList, parentDeptId);
+	public Set<TreeNode> findDeptTrees(DeptQueryCriteria deptQueryCriteria, String deptId) {
+		deptQueryCriteria.setDeptIds(findDescendantIdList(deptId));
+		List<Dept> deptList = baseMapper.selectList(QueryWrapperUtil.getWrapper(deptQueryCriteria));
+		return getNodeTree(deptList);
 	}
 
 }

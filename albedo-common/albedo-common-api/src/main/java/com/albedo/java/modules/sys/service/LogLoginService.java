@@ -13,6 +13,6 @@ import com.albedo.java.modules.sys.repository.LogLoginRepository;
  * @author admin
  * @version 2019-08-15 09:32:16
  */
-public interface LogLoginService extends BaseService<LogLoginRepository, LogLogin, String> {
+public interface LogLoginService extends BaseService<LogLoginRepository, LogLogin> {
 
 }

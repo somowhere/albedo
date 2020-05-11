@@ -8,7 +8,7 @@ import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.RedisUtil;
 import com.albedo.java.common.web.resource.BaseResource;
-import com.albedo.java.modules.sys.domain.vo.UserDataVo;
+import com.albedo.java.modules.sys.domain.dto.UserDto;
 import com.albedo.java.modules.sys.domain.vo.account.PasswordChangeVo;
 import com.albedo.java.modules.sys.domain.vo.account.PasswordRestVo;
 import com.albedo.java.modules.sys.service.UserService;
@@ -54,8 +54,8 @@ public class AccoutResource extends BaseResource {
 	 */
 	private static boolean checkPasswordLength(String password) {
 		return !StringUtil.isEmpty(password) &&
-			password.length() >= UserDataVo.PASSWORD_MIN_LENGTH &&
-			password.length() <= UserDataVo.PASSWORD_MAX_LENGTH;
+			password.length() >= UserDto.PASSWORD_MIN_LENGTH &&
+			password.length() <= UserDto.PASSWORD_MAX_LENGTH;
 	}
 
 	/**

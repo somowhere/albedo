@@ -28,6 +28,6 @@ import com.albedo.java.modules.sys.repository.LogOperateRepository;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface LogOperateService extends BaseService<LogOperateRepository, LogOperate, Long> {
+public interface LogOperateService extends BaseService<LogOperateRepository, LogOperate> {
 
 }

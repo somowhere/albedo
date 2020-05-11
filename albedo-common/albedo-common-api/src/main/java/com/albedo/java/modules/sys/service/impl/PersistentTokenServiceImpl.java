@@ -34,7 +34,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class PersistentTokenServiceImpl extends
-	BaseServiceImpl<PersistentTokenRepository, PersistentToken, String> implements PersistentTokenService {
+	BaseServiceImpl<PersistentTokenRepository, PersistentToken> implements PersistentTokenService {
 
 
 }

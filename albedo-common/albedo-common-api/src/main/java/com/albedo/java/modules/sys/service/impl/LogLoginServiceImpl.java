@@ -18,6 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class LogLoginServiceImpl extends BaseServiceImpl<LogLoginRepository, LogLogin, String> implements LogLoginService {
+public class LogLoginServiceImpl extends BaseServiceImpl<LogLoginRepository, LogLogin> implements LogLoginService {
 
 }

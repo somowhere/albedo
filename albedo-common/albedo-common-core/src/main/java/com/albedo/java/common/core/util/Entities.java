@@ -405,7 +405,7 @@ class Entities {
 		entities.addEntities(HTML40_ARRAY);
 	}
 
-	static interface EntityMap {
+	interface EntityMap {
 		/**
 		 * <p>
 		 * Add an entry to this entity map.

@@ -1,33 +1,24 @@
 package com.albedo.java.common.persistence.service;
 
-import com.albedo.java.common.core.vo.PageModel;
-import com.albedo.java.common.core.vo.QueryCondition;
+import com.albedo.java.common.core.vo.DataDto;
 import com.albedo.java.common.persistence.domain.DataEntity;
 import com.albedo.java.common.persistence.repository.BaseRepository;
-import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.List;
 
-public interface DataService<Repository extends BaseRepository<T>, T extends DataEntity, PK extends Serializable>
-	extends IService<T>, BaseService<Repository, T, PK> {
+public interface DataService<Repository extends BaseRepository<T>,
+	T extends DataEntity, D extends DataDto, PK extends Serializable> extends BaseService<Repository, T> {
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	T findRelationOne(Serializable id);
+	D getOneDto(PK id);
 
-	@Override
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	PageModel<T> findPage(PageModel<T> pm);
+	void saveOrUpdate(D form);
 
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	PageModel<T> findRelationPage(PageModel<T> pm);
+	void copyBeanToDto(T module, D result);
 
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	PageModel<T> findPage(PageModel<T> pm, List<QueryCondition> queryConditions);
+	D copyBeanToDto(T module);
 
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	PageModel<T> findRelationPage(PageModel<T> pm, List<QueryCondition> queryConditions);
+	void copyDtoToBean(D form, T entity);
 
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	PageModel<T> findPageQuery(PageModel<T> pm, List<QueryCondition> authQueryConditions, boolean isRelation);
+	T copyDtoToBean(D form);
 }

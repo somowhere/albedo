@@ -2,12 +2,12 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.exception.GlobalExceptionHandler;
+import com.albedo.java.common.core.exception.handler.GlobalExceptionHandler;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.modules.AlbedoAdminApplication;
 import com.albedo.java.modules.TestUtil;
 import com.albedo.java.modules.sys.domain.Dict;
-import com.albedo.java.modules.sys.domain.vo.DictDataVo;
+import com.albedo.java.modules.sys.domain.dto.DictDto;
 import com.albedo.java.modules.sys.service.DictService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.extern.slf4j.Slf4j;
@@ -72,9 +72,9 @@ public class DictResourceIntTest {
 	@Autowired
 	private ApplicationProperties applicationProperties;
 
-	private DictDataVo dict;
+	private DictDto dict;
 
-	private DictDataVo anotherDict = new DictDataVo();
+	private DictDto anotherDict = new DictDto();
 
 	@BeforeEach
 	public void setup() {
@@ -95,8 +95,8 @@ public class DictResourceIntTest {
 	 * This is a static method, as tests for other entities might also need it,
 	 * if they test an domain which has a required relationship to the Dict domain.
 	 */
-	public DictDataVo createEntity() {
-		DictDataVo dict = new DictDataVo();
+	public DictDto createEntity() {
+		DictDto dict = new DictDto();
 		dict.setName(DEFAULT_NAME);
 		dict.setVal(DEFAULT_VAL);
 		dict.setCode(DEFAULT_CODE);
@@ -120,7 +120,7 @@ public class DictResourceIntTest {
 		anotherDict.setSort(DEFAULT_SORT);
 		anotherDict.setRemark(DEFAULT_REMARK);
 		anotherDict.setDescription(DEFAULT_DESCRIPTION);
-		dictService.save(anotherDict);
+		dictService.saveOrUpdate(anotherDict);
 
 		dict.setParentId(anotherDict.getId());
 	}
@@ -139,7 +139,7 @@ public class DictResourceIntTest {
 		// Validate the Dict in the database
 		List<Dict> dictList = dictService.list();
 		assertThat(dictList).hasSize(databaseSizeBeforeCreate.size() + 1);
-		Dict testDict = dictService.findOne(Wrappers.<Dict>query().lambda()
+		Dict testDict = dictService.getOne(Wrappers.<Dict>query().lambda()
 			.eq(Dict::getName, dict.getName()));
 		assertThat(testDict.getName()).isEqualTo(DEFAULT_NAME);
 		assertThat(testDict.getCode()).isEqualTo(DEFAULT_CODE);
@@ -158,11 +158,11 @@ public class DictResourceIntTest {
 	@Transactional
 	public void createDictWithExistingCode() throws Exception {
 		// Initialize the database
-		dictService.save(dict);
+		dictService.saveOrUpdate(dict);
 		int databaseSizeBeforeCreate = dictService.list().size();
 
 		// Create the Dict
-		DictDataVo managedDictVM = createEntity();
+		DictDto managedDictVM = createEntity();
 
 		// Create the Dict
 		restDictMockMvc.perform(post(DEFAULT_API_URL)
@@ -181,7 +181,7 @@ public class DictResourceIntTest {
 	@Transactional
 	public void getDictPage() throws Exception {
 		// Initialize the database
-		dictService.save(dict);
+		dictService.saveOrUpdate(dict);
 		// Get all the dicts
 		restDictMockMvc.perform(get(DEFAULT_API_URL)
 			.param(PageModel.F_DESC, "parent.created_date")
@@ -203,7 +203,7 @@ public class DictResourceIntTest {
 	@Transactional
 	public void getDict() throws Exception {
 		// Initialize the database
-		dictService.save(dict);
+		dictService.saveOrUpdate(dict);
 
 		// Get the dict
 		restDictMockMvc.perform(get(DEFAULT_API_URL + "{id}", dict.getId()))
@@ -229,14 +229,14 @@ public class DictResourceIntTest {
 	@Transactional
 	public void updateDict() throws Exception {
 		// Initialize the database
-		dictService.save(dict);
+		dictService.saveOrUpdate(dict);
 		int databaseSizeBeforeUpdate = dictService.list().size();
 
 		// Update the dict
-		Dict updatedDict = dictService.findOneById(dict.getId());
+		Dict updatedDict = dictService.getById(dict.getId());
 
 
-		DictDataVo managedDictVM = new DictDataVo();
+		DictDto managedDictVM = new DictDto();
 		managedDictVM.setName(UPDATED_NAME);
 		managedDictVM.setCode(UPDATED_CODE);
 		managedDictVM.setVal(UPDATED_VAL);
@@ -256,7 +256,7 @@ public class DictResourceIntTest {
 		// Validate the Dict in the database
 		List<Dict> dictList = dictService.list();
 		assertThat(dictList).hasSize(databaseSizeBeforeUpdate);
-		Dict testDict = dictService.findOneById(updatedDict.getId());
+		Dict testDict = dictService.getById(updatedDict.getId());
 		assertThat(testDict.getName()).isEqualTo(UPDATED_NAME);
 		assertThat(testDict.getCode()).isEqualTo(UPDATED_CODE);
 		assertThat(testDict.getVal()).isEqualTo(UPDATED_VAL);
@@ -275,11 +275,11 @@ public class DictResourceIntTest {
 	@Transactional
 	public void updateDictExistingCode() throws Exception {
 
-		dictService.save(dict);
+		dictService.saveOrUpdate(dict);
 		// Update the dict
-		Dict updatedDict = dictService.findOneById(dict.getId());
+		Dict updatedDict = dictService.getById(dict.getId());
 
-		DictDataVo managedDictVM = new DictDataVo();
+		DictDto managedDictVM = new DictDto();
 		managedDictVM.setName(DEFAULT_ANOTHER_NAME);
 		managedDictVM.setVal(DEFAULT_ANOTHER_VAL);
 		managedDictVM.setParentId(DEFAULT_ANOTHER_PARENTID);
@@ -297,7 +297,7 @@ public class DictResourceIntTest {
 			.andExpect(jsonPath("$.message").isNotEmpty());
 
 		// Update the dict
-		Dict updatedDictAfter = dictService.findOneById(dict.getId());
+		Dict updatedDictAfter = dictService.getById(dict.getId());
 		assertThat(updatedDictAfter.getCode()).isEqualTo(updatedDict.getCode());
 	}
 
@@ -306,8 +306,8 @@ public class DictResourceIntTest {
 	@Transactional
 	public void deleteDict() throws Exception {
 		// Initialize the database
-		dictService.save(dict);
-		long databaseSizeBeforeDelete = dictService.findCount();
+		dictService.saveOrUpdate(dict);
+		long databaseSizeBeforeDelete = dictService.count();
 
 		// Delete the dict
 		restDictMockMvc.perform(delete(DEFAULT_API_URL + "{id}", dict.getId())
@@ -315,7 +315,7 @@ public class DictResourceIntTest {
 			.andExpect(status().isOk());
 
 		// Validate the database is empty
-		long databaseSizeAfterDelete = dictService.findCount();
+		long databaseSizeAfterDelete = dictService.count();
 		assertThat(databaseSizeAfterDelete == databaseSizeBeforeDelete - 1);
 	}
 

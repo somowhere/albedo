@@ -10,6 +10,7 @@ import org.springframework.core.io.DefaultResourceLoader;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -54,11 +55,7 @@ public class StringUtil extends StrUtil {
 	 */
 	public static byte[] getBytes(String str) {
 		if (str != null) {
-			try {
-				return str.getBytes(CommonConstants.UTF8);
-			} catch (UnsupportedEncodingException e) {
-				return null;
-			}
+			return str.getBytes(StandardCharsets.UTF_8);
 		} else {
 			return null;
 		}
@@ -71,11 +68,7 @@ public class StringUtil extends StrUtil {
 	 * @return
 	 */
 	public static String toString(byte[] bytes) {
-		try {
-			return new String(bytes, CommonConstants.UTF8);
-		} catch (UnsupportedEncodingException e) {
-			return EMPTY;
-		}
+		return new String(bytes, StandardCharsets.UTF_8);
 	}
 
 	/**

@@ -153,7 +153,7 @@ public class ${ClassName}ResourceIntTest {
     @Test
     @Transactional
     public void create${ClassName}() throws Exception {
-        int databaseSizeBeforeCreate = ${className}Service.findAll().size();
+        int databaseSizeBeforeCreate = ${className}Service.list().size();
         // Create the ${ClassName}
         rest${ClassName}MockMvc.perform(post(DEFAULT_API_URL)
 			.param(PageModel.F_DESC, ${ClassName}.F_SQL_CREATEDDATE)
@@ -162,7 +162,7 @@ public class ${ClassName}ResourceIntTest {
             .andExpect(status().isOk());
         ;
         // Validate the ${ClassName} in the database
-        List<${ClassName}> ${className}List = ${className}Service.findAll(
+        List<${ClassName}> ${className}List = ${className}Service.list(
             Wrappers.<${ClassName}>query().lambda().orderByAsc(
 				${ClassName}::getCreatedDate
 			)
@@ -181,7 +181,7 @@ public class ${ClassName}ResourceIntTest {
     @Transactional
     public void create${ClassName}WithExisting${column.simpleJavaField?cap_first}() throws Exception {
         ${className}Service.save(${className}DataVo);
-        int databaseSizeBeforeCreate = ${className}Service.findAll().size();
+        int databaseSizeBeforeCreate = ${className}Service.list().size();
 
         // Create the ${ClassName} with an existing ID
         ${ClassName}DataVo ${className}DataVoNew = ClassUtil.createObj(${ClassName}DataVo.class, Lists.newArrayList(${ClassName}DataVo.F_ID, ${ClassName}DataVo.F_${column.constantJavaField}),
@@ -194,7 +194,7 @@ public class ${ClassName}ResourceIntTest {
             .andExpect(status().isBadRequest());
 
         // Validate the ${ClassName} in the database
-        List<${ClassName}> ${className}List = ${className}Service.findAll();
+        List<${ClassName}> ${className}List = ${className}Service.list();
         assertThat(${className}List).hasSize(databaseSizeBeforeCreate);
     }
     </#if>
@@ -205,7 +205,7 @@ public class ${ClassName}ResourceIntTest {
     @Test
     @Transactional
     public void check${column.simpleJavaField?cap_first}IsRequired() throws Exception {
-        int databaseSizeBeforeTest = ${className}Service.findAll().size();
+        int databaseSizeBeforeTest = ${className}Service.list().size();
         // set the field null
         ${className}DataVo.set${column.simpleJavaField?cap_first}(null);
 
@@ -216,7 +216,7 @@ public class ${ClassName}ResourceIntTest {
             .content(TestUtil.convertObjectToJsonBytes(${className}DataVo)))
             .andExpect(status().isBadRequest());
 
-        List<${ClassName}> ${className}List = ${className}Service.findAll();
+        List<${ClassName}> ${className}List = ${className}Service.list();
         assertThat(${className}List).hasSize(databaseSizeBeforeTest);
     }
     </#if>
@@ -414,10 +414,10 @@ public class ${ClassName}ResourceIntTest {
         // Initialize the database
         ${className}Service.save(${className}DataVo);
 
-        int databaseSizeBeforeUpdate = ${className}Service.findAll().size();
+        int databaseSizeBeforeUpdate = ${className}Service.list().size();
 
         // Update the ${className}
-        ${ClassName} updated${ClassName} = ${className}Service.findOneById(${className}DataVo.getId());
+        ${ClassName} updated${ClassName} = ${className}Service.getById(${className}DataVo.getId());
         // Disconnect from session so that the updates on updated${ClassName} are not directly saved in db
         ClassUtil.updateObj(updated${ClassName}, Lists.newArrayList(
     <#assign firstListField = true>
@@ -432,14 +432,14 @@ public class ${ClassName}ResourceIntTest {
 		</#if>
 	</#list>);
 
-        ${ClassName}DataVo ${className}Vo = ${className}Service.copyBeanToVo(updated${ClassName});
+        ${ClassName}DataVo ${className}Vo = ${className}Service.copyBeanToDto(updated${ClassName});
         rest${ClassName}MockMvc.perform(post(DEFAULT_API_URL)
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(${className}Vo)))
             .andExpect(status().isOk());
 
         // Validate the ${ClassName} in the database
-        List<${ClassName}> ${className}List = ${className}Service.findAll();
+        List<${ClassName}> ${className}List = ${className}Service.list();
         assertThat(${className}List).hasSize(databaseSizeBeforeUpdate);
 
         ${ClassName} test${ClassName} = ${className}List.stream().filter(item->${className}DataVo.getId().equals(item.getId())).findAny().get();
@@ -456,7 +456,7 @@ public class ${ClassName}ResourceIntTest {
     public void delete${ClassName}() throws Exception {
         // Initialize the database
         ${className}Service.save(${className}DataVo);
-        int databaseSizeBeforeDelete = ${className}Service.findAll().size();
+        int databaseSizeBeforeDelete = ${className}Service.list().size();
 
         // Get the ${className}
         rest${ClassName}MockMvc.perform(delete(DEFAULT_API_URL+"{id}", ${className}DataVo.getId())
@@ -464,7 +464,7 @@ public class ${ClassName}ResourceIntTest {
             .andExpect(status().isOk());
 
         // Validate the database is empty
-        List<${ClassName}> ${className}List = ${className}Service.findAll();
+        List<${ClassName}> ${className}List = ${className}Service.list();
         assertThat(${className}List).hasSize(databaseSizeBeforeDelete - 1);
     }
 

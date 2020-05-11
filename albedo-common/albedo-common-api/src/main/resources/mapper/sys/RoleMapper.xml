@@ -23,7 +23,7 @@
 		<id column="id" property="id"/>
 		<result column="name" property="name"/>
 		<result column="code" property="code"/>
-		<result column="remark" property="remark"/>
+		<result column="level" property="level"/>
 		<result column="created_by" property="createdBy"/>
 		<result column="created_date" property="createdDate"/>
 		<result column="last_modified_by" property="lastModifiedBy"/>

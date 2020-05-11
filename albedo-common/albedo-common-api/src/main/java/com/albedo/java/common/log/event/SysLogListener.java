@@ -39,6 +39,6 @@ public class SysLogListener {
 	@EventListener(SysLogEvent.class)
 	public void saveSysLog(SysLogEvent event) {
 		LogOperate logOperate = (LogOperate) event.getSource();
-		logOperateService.save(logOperate);
+		logOperateService.saveOrUpdate(logOperate);
 	}
 }

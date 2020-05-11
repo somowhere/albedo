@@ -61,7 +61,7 @@ public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_view')")
 	public R get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
-		return R.buildOkData(service.findOneVo(id));
+		return R.buildOkData(service.getOneVo(id));
 	}
 	/**
 	 * GET / : 获取分页数据源 ${functionNameSimple}.
@@ -106,11 +106,11 @@ public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${
 	 * @return the ResponseEntity with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_del')")
-	@DeleteMapping(CommonConstants.URL_IDS_REGEX)
+	@DeleteMapping
 	@Log(value = "${functionName}", businessType = BusinessType.DELETE)
-	public R delete(@PathVariable String ids) {
+	public R delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete ${ClassName}: {}", ids);
-		service.deleteByParentIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+		service.deleteByParentIds(ids);
 		return R.buildOk("删除${functionNameSimple}成功");
 	}
 

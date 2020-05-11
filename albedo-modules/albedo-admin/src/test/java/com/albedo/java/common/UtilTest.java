@@ -1,7 +1,6 @@
 package com.albedo.java.common;
 
 
-import cn.hutool.core.net.URLEncoder;
 import cn.hutool.core.util.EscapeUtil;
 import cn.hutool.http.HtmlUtil;
 

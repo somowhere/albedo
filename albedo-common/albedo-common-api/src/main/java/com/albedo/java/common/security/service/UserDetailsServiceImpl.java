@@ -18,8 +18,6 @@ package com.albedo.java.common.security.service;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.StrUtil;
-import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.persistence.datascope.DataScope;
@@ -74,7 +72,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (cache != null && cache.get(username) != null) {
 			return (UserDetail) cache.get(username).get();
 		}
-		UserVo userVo = userService.findOneVoByUserName(username);
+		UserVo userVo = userService.getOneVoByUserName(username);
 		if (userVo == null) {
 			throw new UsernameNotFoundException("用户不存在");
 		}
@@ -125,7 +123,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			}
 		}
 		// 构造security用户
-		return new UserDetail(userVo.getId(), userVo.getDeptId(), userVo.getParentDeptId(), userVo.getDeptName(), userVo.getUsername(), SecurityConstants.BCRYPT + userVo.getPassword(),
+		return new UserDetail(userVo.getId(), userVo.getDeptId(), userVo.getDeptName(), userVo.getUsername(), SecurityConstants.BCRYPT + userVo.getPassword(),
 			userVo.isAvailable(), true, true, true, authorities, dataScope);
 	}
 }

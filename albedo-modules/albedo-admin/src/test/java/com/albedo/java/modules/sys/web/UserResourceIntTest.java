@@ -2,7 +2,7 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.exception.GlobalExceptionHandler;
+import com.albedo.java.common.core.exception.handler.GlobalExceptionHandler;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.modules.AlbedoAdminApplication;
@@ -10,7 +10,7 @@ import com.albedo.java.modules.TestUtil;
 import com.albedo.java.modules.sys.domain.Dept;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.User;
-import com.albedo.java.modules.sys.domain.vo.UserDataVo;
+import com.albedo.java.modules.sys.domain.dto.UserDto;
 import com.albedo.java.modules.sys.service.DeptService;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.modules.sys.service.UserService;
@@ -58,9 +58,9 @@ public class UserResourceIntTest {
 	private static final String UPDATED_EMAIL = "jhipster@localhost";
 	private static final String DEFAULT_QQOPENID = "QQOPENID1";
 	private static final String UPDATED_QQOPENID = "QQOPENID2";
-	private static final String DEFAULT_AVAILABLE = CommonConstants.STR_YES;
-	private static final String UPDATED_AVAILABLE = CommonConstants.STR_NO;
-	UserDataVo anotherUser = new UserDataVo();
+	private static final Integer DEFAULT_AVAILABLE = CommonConstants.YES;
+	private static final Integer UPDATED_AVAILABLE = CommonConstants.NO;
+	UserDto anotherUser = new UserDto();
 	private String DEFAULT_API_URL;
 	@Autowired
 	private UserService userService;
@@ -75,7 +75,7 @@ public class UserResourceIntTest {
 	private GlobalExceptionHandler globalExceptionHandler;
 	@Autowired
 	private ApplicationProperties applicationProperties;
-	private UserDataVo user;
+	private UserDto user;
 	private List<Role> roleList;
 	private List<Dept> deptList;
 
@@ -98,8 +98,8 @@ public class UserResourceIntTest {
 	 * This is a static method, as tests for other entities might also need it,
 	 * if they test an domain which has a required relationship to the User domain.
 	 */
-	public UserDataVo createEntity() {
-		UserDataVo user = new UserDataVo();
+	public UserDto createEntity() {
+		UserDto user = new UserDto();
 		user.setUsername(DEFAULT_USERNAME);
 		user.setPassword(DEFAULT_PASSWORD);
 		user.setConfirmPassword(DEFAULT_PASSWORD);
@@ -126,7 +126,7 @@ public class UserResourceIntTest {
 		anotherUser.setAvailable(DEFAULT_AVAILABLE);
 		anotherUser.setDeptId(deptList.get(0).getId());
 		anotherUser.setRoleIdList(CollUtil.extractToList(roleList, Role.F_ID));
-		userService.save(anotherUser);
+		userService.saveOrUpdate(anotherUser);
 	}
 
 	@Test
@@ -143,7 +143,7 @@ public class UserResourceIntTest {
 		// Validate the User in the database
 		List<User> userList = userService.list();
 		assertThat(userList).hasSize(databaseSizeBeforeCreate.size() + 1);
-		User testUser = userService.findOne(Wrappers.<User>query().lambda()
+		User testUser = userService.getOne(Wrappers.<User>query().lambda()
 			.eq(User::getUsername, user.getUsername()));
 		assertThat(testUser.getUsername()).isEqualTo(DEFAULT_USERNAME);
 		assertThat(testUser.getPhone()).isEqualTo(DEFAULT_PHONE);
@@ -156,11 +156,11 @@ public class UserResourceIntTest {
 	@Transactional
 	public void createUserWithExistingEmail() throws Exception {
 		// Initialize the database
-		userService.save(user);
+		userService.saveOrUpdate(user);
 		int databaseSizeBeforeCreate = userService.list().size();
 
 		// Create the User
-		UserDataVo managedUserVM = createEntity();
+		UserDto managedUserVM = createEntity();
 
 		// Create the User
 		restUserMockMvc.perform(post(DEFAULT_API_URL)
@@ -179,7 +179,7 @@ public class UserResourceIntTest {
 	@Transactional
 	public void getUserPage() throws Exception {
 		// Initialize the database
-		userService.save(user);
+		userService.saveOrUpdate(user);
 		// Get all the users
 		restUserMockMvc.perform(get(DEFAULT_API_URL)
 			.param(PageModel.F_DESC, User.F_SQL_CREATEDDATE)
@@ -197,7 +197,7 @@ public class UserResourceIntTest {
 	@Transactional
 	public void getUser() throws Exception {
 		// Initialize the database
-		userService.save(user);
+		userService.saveOrUpdate(user);
 
 		// Get the user
 		restUserMockMvc.perform(get(DEFAULT_API_URL + "{id}", user.getId()))
@@ -213,7 +213,7 @@ public class UserResourceIntTest {
 	@Transactional
 	public void getUserInfo() throws Exception {
 		// Initialize the database
-		userService.save(user);
+		userService.saveOrUpdate(user);
 
 		// Get the user
 		restUserMockMvc.perform(get(DEFAULT_API_URL + "/info/{username}", user.getUsername()))
@@ -237,14 +237,14 @@ public class UserResourceIntTest {
 	@Transactional
 	public void updateUser() throws Exception {
 		// Initialize the database
-		userService.save(user);
+		userService.saveOrUpdate(user);
 		int databaseSizeBeforeUpdate = userService.list().size();
 
 		// Update the user
-		User updatedUser = userService.findOneById(user.getId());
+		User updatedUser = userService.getById(user.getId());
 
 
-		UserDataVo managedUserVM = new UserDataVo();
+		UserDto managedUserVM = new UserDto();
 		managedUserVM.setUsername(UPDATED_USERNAME);
 		managedUserVM.setPassword(UPDATED_PASSWORD);
 		managedUserVM.setConfirmPassword(UPDATED_PASSWORD);
@@ -264,7 +264,7 @@ public class UserResourceIntTest {
 		// Validate the User in the database
 		List<User> userList = userService.list();
 		assertThat(userList).hasSize(databaseSizeBeforeUpdate);
-		User testUser = userService.findOneById(updatedUser.getId());
+		User testUser = userService.getById(updatedUser.getId());
 		assertThat(testUser.getUsername()).isEqualTo(UPDATED_USERNAME);
 		assertThat(testUser.getEmail()).isEqualTo(UPDATED_EMAIL);
 		assertThat(testUser.getAvailable()).isEqualTo(UPDATED_AVAILABLE);
@@ -277,12 +277,12 @@ public class UserResourceIntTest {
 	@Transactional
 	public void updateUserExistingEmail() throws Exception {
 
-		userService.save(user);
+		userService.saveOrUpdate(user);
 		// Update the user
-		User updatedUser = userService.findOneById(user.getId());
+		User updatedUser = userService.getById(user.getId());
 
 
-		UserDataVo managedUserVM = new UserDataVo();
+		UserDto managedUserVM = new UserDto();
 		managedUserVM.setUsername(DEFAULT_ANOTHER_USERNAME);
 		managedUserVM.setPassword(UPDATED_PASSWORD);
 		managedUserVM.setEmail(UPDATED_EMAIL);
@@ -297,7 +297,7 @@ public class UserResourceIntTest {
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
 			.andExpect(jsonPath("$.message").isNotEmpty());
-		User testUser = userService.findOneById(updatedUser.getId());
+		User testUser = userService.getById(updatedUser.getId());
 		assertThat(testUser.getEmail()).isEqualTo(DEFAULT_EMAIL);
 
 	}
@@ -306,12 +306,12 @@ public class UserResourceIntTest {
 	@Transactional
 	public void updateUserExistingUsername() throws Exception {
 
-		userService.save(user);
+		userService.saveOrUpdate(user);
 		// Update the user
-		User updatedUser = userService.findOneById(user.getId());
+		User updatedUser = userService.getById(user.getId());
 
 
-		UserDataVo managedUserVM = new UserDataVo();
+		UserDto managedUserVM = new UserDto();
 		managedUserVM.setUsername(UPDATED_USERNAME);
 		managedUserVM.setPassword(UPDATED_PASSWORD);
 		managedUserVM.setEmail(UPDATED_EMAIL);
@@ -326,7 +326,7 @@ public class UserResourceIntTest {
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
 			.andExpect(jsonPath("$.message").isNotEmpty());
-		User testUser = userService.findOneById(updatedUser.getId());
+		User testUser = userService.getById(updatedUser.getId());
 		assertThat(testUser.getUsername()).isEqualTo(DEFAULT_USERNAME);
 	}
 
@@ -334,8 +334,8 @@ public class UserResourceIntTest {
 	@Transactional
 	public void deleteUser() throws Exception {
 		// Initialize the database
-		userService.save(user);
-		long databaseSizeBeforeDelete = userService.findCount();
+		userService.saveOrUpdate(user);
+		long databaseSizeBeforeDelete = userService.count();
 
 		// Delete the user
 		restUserMockMvc.perform(delete(DEFAULT_API_URL + "{id}", user.getId())
@@ -343,7 +343,7 @@ public class UserResourceIntTest {
 			.andExpect(status().isOk());
 
 		// Validate the database is empty
-		long databaseSizeAfterDelete = userService.findCount();
+		long databaseSizeAfterDelete = userService.count();
 		assertThat(databaseSizeAfterDelete == databaseSizeBeforeDelete - 1);
 	}
 
@@ -351,7 +351,7 @@ public class UserResourceIntTest {
 	@Transactional
 	public void lockOrUnLockUser() throws Exception {
 		// Initialize the database
-		userService.save(user);
+		userService.saveOrUpdate(user);
 
 		// lockOrUnLock the user
 		restUserMockMvc.perform(put(DEFAULT_API_URL + "{id}", user.getId())
@@ -359,7 +359,7 @@ public class UserResourceIntTest {
 			.andExpect(status().isOk());
 
 		// Validate the database is empty
-		User tempUser = userService.findOneById(user.getId());
+		User tempUser = userService.getById(user.getId());
 		assertThat(CommonConstants.STR_YES.equals(tempUser.getAvailable()));
 		// lockOrUnLock the user
 		restUserMockMvc.perform(put(DEFAULT_API_URL + "{id}", user.getId())
@@ -367,7 +367,7 @@ public class UserResourceIntTest {
 			.andExpect(status().isOk());
 
 		// Validate the database is empty
-		User tempUser1 = userService.findOneById(user.getId());
+		User tempUser1 = userService.getById(user.getId());
 		assertThat(CommonConstants.STR_NO.equals(tempUser1.getAvailable()));
 	}
 

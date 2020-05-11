@@ -36,12 +36,12 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class UserOnlineServiceImpl extends
-	BaseServiceImpl<UserOnlineRepository, UserOnline, String> implements UserOnlineService {
+	BaseServiceImpl<UserOnlineRepository, UserOnline> implements UserOnlineService {
 
 
 	@Override
 	public void deleteBySessionId(String sessionId) {
-		UserOnline userOnline = findOneBySessionId(sessionId);
+		UserOnline userOnline = getOneBySessionId(sessionId);
 		if (userOnline != null) {
 			repository.deleteById(userOnline.getId());
 		}
@@ -49,7 +49,7 @@ public class UserOnlineServiceImpl extends
 
 	@Override
 	public void offlineBySessionId(String sessionId) {
-		UserOnline userOnline = findOneBySessionId(sessionId);
+		UserOnline userOnline = getOneBySessionId(sessionId);
 		if (userOnline != null) {
 			userOnline.setStatus(OnlineStatus.off_line);
 			repository.updateById(userOnline);
@@ -57,7 +57,7 @@ public class UserOnlineServiceImpl extends
 	}
 
 	@Override
-	public UserOnline findOneBySessionId(String sessionId) {
+	public UserOnline getOneBySessionId(String sessionId) {
 		return repository.selectOne(Wrappers.<UserOnline>query()
 			.lambda().eq(UserOnline::getSessionId, sessionId));
 	}

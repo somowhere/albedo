@@ -16,12 +16,11 @@
 
 package com.albedo.java.modules.sys.domain.vo;
 
-import cn.hutool.core.util.StrUtil;
 import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
-import com.albedo.java.common.core.vo.DataEntityVo;
+import com.albedo.java.common.core.vo.DataVo;
 import com.albedo.java.modules.sys.domain.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -33,7 +32,7 @@ import java.util.List;
  * @date 2019/2/1
  */
 @Data
-public class UserVo extends DataEntityVo<String> {
+public class UserVo extends DataVo<String> {
 
 	public static final String F_USERNAME = "username";
 	public static final String F_EMAIL = "email";
@@ -43,18 +42,14 @@ public class UserVo extends DataEntityVo<String> {
 	 */
 	private String username;
 
-	private String password;
-	/**
-	 * 随机盐
-	 */
 	@JsonIgnore
-	private String salt;
+	private String password;
 
 	/**
 	 * 锁定标记
 	 */
 	@DictType("sys_flag")
-	private String available;
+	private Integer available;
 
 	/**
 	 * 邮箱
@@ -69,10 +64,6 @@ public class UserVo extends DataEntityVo<String> {
 	 */
 	private String avatar;
 
-	/**
-	 * 上级部门ID
-	 */
-	private String parentDeptId;
 	/**
 	 * 部门ID
 	 */
@@ -99,6 +90,7 @@ public class UserVo extends DataEntityVo<String> {
 	@JsonIgnore
 	private List<Role> roleList;
 
+	@JsonIgnore
 	private List<String> roleIdList;
 
 	public List<String> getRoleIdList() {
@@ -115,8 +107,8 @@ public class UserVo extends DataEntityVo<String> {
 		return roleNames;
 	}
 
-
+	@JsonIgnore
 	public boolean isAvailable() {
-		return StrUtil.equals(available, CommonConstants.STR_YES);
+		return CommonConstants.YES.equals(available);
 	}
 }

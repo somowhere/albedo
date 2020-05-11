@@ -22,7 +22,7 @@ import java.util.Date;
 public class UserOnline extends BaseEntity<UserOnline> {
 	private static final long serialVersionUID = 1L;
 
-	@TableId(type = IdType.UUID)
+	@TableId(type = IdType.ASSIGN_ID)
 	protected String id;
 	/**
 	 * 用户会话id

@@ -32,6 +32,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class LogOperateServiceImpl extends
-	BaseServiceImpl<LogOperateRepository, LogOperate, Long> implements LogOperateService {
+	BaseServiceImpl<LogOperateRepository, LogOperate> implements LogOperateService {
 
 }

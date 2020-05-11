@@ -1,7 +1,7 @@
 package com.albedo.java.modules.sys.domain.vo.account;
 
 
-import com.albedo.java.modules.sys.domain.vo.UserDataVo;
+import com.albedo.java.modules.sys.domain.dto.UserDto;
 import lombok.Data;
 import lombok.ToString;
 
@@ -21,11 +21,11 @@ public class PasswordChangeVo {
 	private String oldPassword;
 
 	@NotBlank
-	@Size(min = 6, max = UserDataVo.PASSWORD_MAX_LENGTH)
+	@Size(min = 6, max = UserDto.PASSWORD_MAX_LENGTH)
 	private String newPassword;
 
 	@NotBlank
-	@Size(min = 6, max = UserDataVo.PASSWORD_MAX_LENGTH)
+	@Size(min = 6, max = UserDto.PASSWORD_MAX_LENGTH)
 	private String confirmPassword;
 
 }

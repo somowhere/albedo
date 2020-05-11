@@ -34,7 +34,7 @@ public class DictUtil {
 			return (List<Dict>) cache.get(Dict.CACHE_DICT_ALL).get();
 		}
 		try {
-			List<Dict> dictList = dictService.findAll();
+			List<Dict> dictList = dictService.list();
 			if (ObjectUtil.isNotEmpty(dictList)) {
 				cache.put(Dict.CACHE_DICT_ALL, dictList);
 				return dictList;

@@ -48,9 +48,10 @@ public interface UserRepository extends BaseRepository<User> {
 	 *
 	 * @param page    分页
 	 * @param wrapper 查询参数
+	 * @param dataScope 数据权限
 	 * @return list
 	 */
-	IPage<List<UserVo>> getUserVoPage(IPage page, @Param("ew") Wrapper wrapper, DataScope dataScope);
+	IPage<List<UserVo>> getUserVoPage(IPage page, @Param("ew") Wrapper<User> wrapper, DataScope dataScope);
 
 	/**
 	 * 通过ID查询用户信息

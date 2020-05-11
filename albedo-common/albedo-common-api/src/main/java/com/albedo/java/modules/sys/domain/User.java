@@ -16,7 +16,6 @@
 
 package com.albedo.java.modules.sys.domain;
 
-import com.albedo.java.common.core.annotation.SearchField;
 import com.albedo.java.common.persistence.domain.IdEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -43,7 +42,6 @@ public class User extends IdEntity<User> {
 	/**
 	 * 用户名
 	 */
-	@SearchField
 	private String username;
 
 	private String password;
@@ -56,12 +54,11 @@ public class User extends IdEntity<User> {
 	/**
 	 * 锁定标记
 	 */
-	private String available;
+	private Integer available;
 
 	/**
 	 * 邮箱
 	 */
-	@SearchField
 	private String email;
 	/**
 	 * 电话

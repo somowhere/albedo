@@ -9,15 +9,16 @@ import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
-import com.albedo.java.common.web.resource.DataVoResource;
-import com.albedo.java.modules.quartz.domain.vo.JobDataVo;
+import com.albedo.java.common.web.resource.BaseResource;
+import com.albedo.java.modules.quartz.domain.vo.JobDto;
 import com.albedo.java.modules.quartz.service.JobService;
-import com.google.common.collect.Lists;
+import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Set;
 
 /**
  * 任务调度Controller 任务调度
@@ -27,11 +28,10 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping(value = "${application.admin-path}/quartz/job")
-public class JobResource extends DataVoResource<JobService, JobDataVo> {
+@AllArgsConstructor
+public class JobResource extends BaseResource {
 
-	public JobResource(JobService service) {
-		super(service);
-	}
+	private final JobService jobService;
 
 	/**
 	 * @param id
@@ -41,7 +41,7 @@ public class JobResource extends DataVoResource<JobService, JobDataVo> {
 	@PreAuthorize("@pms.hasPermission('quartz_job_view')")
 	public R get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
-		return R.buildOkData(service.findOneVo(id));
+		return R.buildOkData(jobService.getOneDto(id));
 	}
 
 	/**
@@ -52,9 +52,9 @@ public class JobResource extends DataVoResource<JobService, JobDataVo> {
 	 */
 
 	@PreAuthorize("@pms.hasPermission('quartz_job_view')")
-	@GetMapping("/")
+	@GetMapping
 	public R getPage(PageModel pm) {
-		return R.buildOkData(service.findPage(pm));
+		return R.buildOkData(jobService.page(pm));
 	}
 
 	/**
@@ -64,10 +64,10 @@ public class JobResource extends DataVoResource<JobService, JobDataVo> {
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
 	@Log(value = "任务调度", businessType = BusinessType.EDIT)
-	@PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-	public R save(@Valid @RequestBody JobDataVo jobVo) {
+	@PostMapping(value = StringUtil.SLASH, produces = MediaType.APPLICATION_JSON_VALUE)
+	public R save(@Valid @RequestBody JobDto jobVo) {
 		log.debug("REST request to save JobForm : {}", jobVo);
-		service.save(jobVo);
+		jobService.saveOrUpdate(jobVo);
 		return R.buildOk("保存任务调度成功");
 
 	}
@@ -80,10 +80,10 @@ public class JobResource extends DataVoResource<JobService, JobDataVo> {
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_del')")
 	@Log(value = "任务调度", businessType = BusinessType.DELETE)
-	@DeleteMapping(CommonConstants.URL_IDS_REGEX)
-	public R delete(@PathVariable String ids) {
+	@DeleteMapping
+	public R delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete Job: {}", ids);
-		service.deleteBatchIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+		jobService.deleteJobByIds(ids);
 		return R.buildOk("删除任务调度成功");
 	}
 
@@ -96,9 +96,9 @@ public class JobResource extends DataVoResource<JobService, JobDataVo> {
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
 	@Log(value = "任务调度", businessType = BusinessType.EDIT)
 	@PostMapping("/available" + CommonConstants.URL_IDS_REGEX)
-	public R available(@PathVariable String ids) {
+	public R available(@RequestBody Set<String> ids) {
 		log.debug("REST request to available Job: {}", ids);
-		service.available(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+		jobService.available(ids);
 		return R.buildOk("操作成功");
 	}
 
@@ -111,9 +111,9 @@ public class JobResource extends DataVoResource<JobService, JobDataVo> {
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
 	@Log(value = "任务调度", businessType = BusinessType.EDIT)
 	@PostMapping("/run" + CommonConstants.URL_IDS_REGEX)
-	public R run(@PathVariable String ids) {
+	public R run(@RequestBody Set<String> ids) {
 		log.debug("REST request to available Job: {}", ids);
-		service.runByIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+		jobService.runByIds(ids);
 		return R.buildOk("操作成功");
 	}
 
@@ -126,9 +126,9 @@ public class JobResource extends DataVoResource<JobService, JobDataVo> {
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
 	@Log(value = "任务调度", businessType = BusinessType.EDIT)
 	@PostMapping("/concurrent" + CommonConstants.URL_IDS_REGEX)
-	public R concurrent(@PathVariable String ids) {
+	public R concurrent(@RequestBody Set<String> ids) {
 		log.debug("REST request to available Job: {}", ids);
-		service.concurrent(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+		jobService.concurrent(ids);
 		return R.buildOk("操作成功");
 	}
 
@@ -136,8 +136,8 @@ public class JobResource extends DataVoResource<JobService, JobDataVo> {
 	 * 校验cron表达式是否有效
 	 */
 	@GetMapping("/check-cron-expression")
-	public boolean checkCronExpressionIsValid(JobDataVo jobDataVo) {
-		return service.checkCronExpressionIsValid(jobDataVo.getCronExpression());
+	public boolean checkCronExpressionIsValid(JobDto jobDataVo) {
+		return jobService.checkCronExpressionIsValid(jobDataVo.getCronExpression());
 	}
 
 }

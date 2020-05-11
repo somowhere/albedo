@@ -17,24 +17,29 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.util.CollUtil;
+import com.albedo.java.common.core.exception.BadRequestException;
 import com.albedo.java.common.core.util.R;
-import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
-import com.albedo.java.common.web.resource.DataVoResource;
+import com.albedo.java.common.security.util.SecurityUtil;
+import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.Role;
-import com.albedo.java.modules.sys.domain.vo.RoleDataVo;
+import com.albedo.java.modules.sys.domain.dto.RoleDto;
+import com.albedo.java.modules.sys.domain.vo.RoleComboVo;
 import com.albedo.java.modules.sys.service.RoleMenuService;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.google.common.collect.Lists;
+import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author somewhere
@@ -42,13 +47,10 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("${application.admin-path}/sys/role")
-public class RoleResource extends DataVoResource<RoleService, RoleDataVo> {
+@AllArgsConstructor
+public class RoleResource  extends BaseResource {
+	private final RoleService roleService;
 	private final RoleMenuService roleMenuService;
-
-	public RoleResource(RoleService service, RoleMenuService roleMenuService) {
-		super(service);
-		this.roleMenuService = roleMenuService;
-	}
 
 	/**
 	 * @param id
@@ -57,20 +59,21 @@ public class RoleResource extends DataVoResource<RoleService, RoleDataVo> {
 	@GetMapping(CommonConstants.URL_ID_REGEX)
 	public R get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
-		return R.buildOkData(service.findOneVo(id));
+		return R.buildOkData(roleService.getOneDto(id));
 	}
 
 	/**
 	 * 添加角色
 	 *
-	 * @param roleDataVo 角色信息
+	 * @param roleDto 角色信息
 	 * @return success、false
 	 */
 	@Log(value = "角色管理", businessType = BusinessType.EDIT)
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_role_edit')")
-	public R save(@Valid @RequestBody RoleDataVo roleDataVo) {
-		service.save(roleDataVo);
+	public R save(@Valid @RequestBody RoleDto roleDto) {
+		getLevels(roleDto.getLevel());
+		roleService.saveOrUpdate(roleDto);
 		return R.buildOk("操作成功");
 	}
 
@@ -81,21 +84,26 @@ public class RoleResource extends DataVoResource<RoleService, RoleDataVo> {
 	 * @return
 	 */
 	@Log(value = "角色管理", businessType = BusinessType.DELETE)
-	@DeleteMapping(CommonConstants.URL_IDS_REGEX)
+	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_role_del')")
-	public R removeByIds(@PathVariable String ids) {
-		service.removeRoleByIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+	public R removeByIds(@RequestBody Set<String> ids) {
+		roleService.listByIds(ids).stream().forEach(item->getLevels(item.getLevel()));
+		roleService.removeRoleByIds(ids);
 		return R.buildOk("操作成功");
 	}
-
+	@ApiOperation("获取用户级别")
+	@GetMapping(value = "/level")
+	public R getLevel(){
+		return R.buildOkData(getLevels(null));
+	}
 	/**
 	 * 获取角色列表
 	 *
 	 * @return 角色列表
 	 */
-	@GetMapping("/combo-data")
-	public R comboData() {
-		return R.buildOkData(CollUtil.convertComboDataList(service.list(Wrappers.emptyWrapper()), Role.F_ID, Role.F_NAME));
+	@GetMapping("/all")
+	public R all() {
+		return R.buildOkData(roleService.list().stream().map(RoleComboVo::new).collect(Collectors.toList()));
 	}
 
 	/**
@@ -104,9 +112,9 @@ public class RoleResource extends DataVoResource<RoleService, RoleDataVo> {
 	 * @param pm 分页对象
 	 * @return 分页对象
 	 */
-	@GetMapping("/")
+	@GetMapping
 	public R<IPage> getPage(PageModel pm) {
-		return R.buildOkData(service.findPage(pm));
+		return R.buildOkData(roleService.page(pm));
 	}
 
 	/**
@@ -120,19 +128,35 @@ public class RoleResource extends DataVoResource<RoleService, RoleDataVo> {
 	@Log(value = "角色管理", businessType = BusinessType.EDIT)
 	@PreAuthorize("@pms.hasPermission('sys_role_perm')")
 	public R saveRoleMenus(String roleId, @RequestParam(value = "menuIds", required = false) String menuIds) {
-		Role role = service.getById(roleId);
-		return new R<>(roleMenuService.saveRoleMenus(role.getCode(), roleId, menuIds));
+		Role role = roleService.getById(roleId);
+		getLevels(role.getLevel());
+		return new R<>(roleMenuService.saveRoleMenus(roleId, menuIds));
 	}
 
 	/**
 	 * @param ids
 	 * @return
 	 */
-	@PutMapping(CommonConstants.URL_IDS_REGEX)
+	@PutMapping
 	@Log(value = "角色管理", businessType = BusinessType.LOCK)
 	@PreAuthorize("@pms.hasPermission('sys_role_lock')")
-	public R lockOrUnLock(@PathVariable String ids) {
-		service.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+	public R lockOrUnLock(@RequestBody Set<String> ids) {
+		roleService.listByIds(ids).stream().forEach(item->getLevels(item.getLevel()));
+		roleService.lockOrUnLock(ids);
 		return R.buildOk("操作成功");
+	}
+	/**
+	 * 获取用户的角色级别
+	 * @return /
+	 */
+	private int getLevels(Integer level){
+		List<Integer> levels = roleService.findRolesByUserIdList(SecurityUtil.getUser().getId()).stream().map(Role::getLevel).collect(Collectors.toList());
+		int min = Collections.min(levels);
+		if(level != null){
+			if(level < min){
+				throw new BadRequestException("权限不足，你的角色级别：" + min + "，低于操作的角色级别：" + level);
+			}
+		}
+		return min;
 	}
 }
