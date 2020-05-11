@@ -1,4 +1,4 @@
-package com.albedo.java.modules.bs.web;
+package com.albedo.java.modules.gen.web;
 
 import com.albedo.java.common.core.util.ResultBuilder;
 import com.albedo.java.common.core.vo.PageModel;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * 生成方案Controller
  *
  * @author somewhere
  */

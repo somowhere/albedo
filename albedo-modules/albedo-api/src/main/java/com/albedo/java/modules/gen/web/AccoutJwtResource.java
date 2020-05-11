@@ -1,4 +1,4 @@
-package com.albedo.java.modules.bs.web;
+package com.albedo.java.modules.gen.web;
 
 import cn.hutool.core.util.StrUtil;
 import com.albedo.java.common.core.config.ApplicationProperties;

@@ -1,4 +1,4 @@
-package com.albedo.java.modules.bs.web;
+package com.albedo.java.modules.gen.web;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.CharUtil;
