@@ -42,9 +42,9 @@
       </el-button>
       <el-button
         v-if="crud.optShow.download"
+        v-permission="permission.export"
         :loading="crud.downloadLoading"
         :disabled="!crud.data.length"
-        v-permission="permission.export"
         class="filter-item"
         size="mini"
         type="warning"

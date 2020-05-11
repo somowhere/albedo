@@ -173,7 +173,7 @@ function CRUD(options) {
         crud.getDataStatus(crud.getDataId(data)).edit = CRUD.STATUS.PREPARED
         callVmHook(crud, CRUD.HOOK.afterToEdit, crud.form)
         callVmHook(crud, CRUD.HOOK.afterToCU, crud.form)
-      });
+      })
     },
     /**
      * 启动删除

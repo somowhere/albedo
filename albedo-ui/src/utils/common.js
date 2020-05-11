@@ -1,4 +1,4 @@
-import validate from "./validate";
+import validate from './validate'
 
 let commonUtil
 const CryptoJS = require('crypto-js')
@@ -452,7 +452,7 @@ commonUtil = {
     return list.join('&')
   },
   objToStr(val) {
-    return validate.checkNotNull(val) ? val.toString() : '';
+    return validate.checkNotNull(val) ? val.toString() : ''
   }
 }
 

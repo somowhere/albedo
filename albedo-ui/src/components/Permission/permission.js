@@ -1,5 +1,5 @@
 import store from '@/store'
-import validate from "../../utils/validate";
+import validate from '../../utils/validate'
 
 export default {
   inserted(el, binding, vnode) {
@@ -12,8 +12,7 @@ export default {
       if (!hasPermission) {
         el.parentNode && el.parentNode.removeChild(el)
       }
-    }
-    else {
+    } else {
       console.log(value, el)
       throw new Error(`使用方式： v-permission="'edit'"`)
     }

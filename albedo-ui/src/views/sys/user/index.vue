@@ -65,21 +65,33 @@
         <!--表单渲染-->
         <el-dialog append-to-body :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="570px">
           <el-form ref="form" :model="form" size="small" label-width="86px">
-            <el-form-item label="用户名" prop="username" :rules="[
-          { required: true, message: '请输入用户名', trigger: 'blur' },
-          { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
-        ]">
-              <el-input v-model="form.username"  />
+            <el-form-item
+              label="用户名"
+              prop="username"
+              :rules="[
+                { required: true, message: '请输入用户名', trigger: 'blur' },
+                { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
+              ]"
+            >
+              <el-input v-model="form.username" />
             </el-form-item>
-            <el-form-item label="电话" prop="phone" :rules="[
-          { required: true, trigger: 'blur', validator: validPhone }
-        ]">
+            <el-form-item
+              label="电话"
+              prop="phone"
+              :rules="[
+                { required: true, trigger: 'blur', validator: validPhone }
+              ]"
+            >
               <el-input v-model.number="form.phone" />
             </el-form-item>
-            <el-form-item label="邮箱" prop="email" :rules="[
-          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-          { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
-        ]">
+            <el-form-item
+              label="邮箱"
+              prop="email"
+              :rules="[
+                { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+                { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
+              ]"
+            >
               <el-input v-model="form.email" />
             </el-form-item>
             <el-form-item label="部门" prop="deptId" :rules="[{ required: true, trigger: 'blur', message: '请选择部门'}]">
@@ -115,7 +127,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="备注" prop="description">
-              <el-input type="textarea" v-model="form.description"></el-input>
+              <el-input v-model="form.description" type="textarea" />
             </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer">
@@ -183,9 +195,9 @@ import pagination from '@crud/Pagination'
 import Treeselect from '@riophae/vue-treeselect'
 import { mapGetters } from 'vuex'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-import commonUtil from "../../../utils/common";
+import commonUtil from '../../../utils/common'
 
-const defaultForm = { id: null, username: null, email: null, available: null, roleIdList: [], deptId: null , phone: null, description: null }
+const defaultForm = { id: null, username: null, email: null, available: null, roleIdList: [], deptId: null, phone: null, description: null }
 export default {
   name: 'User',
   components: { Treeselect, crudOperation, rrOperation, udOperation, pagination },
@@ -207,13 +219,13 @@ export default {
       },
       flagOptions: [],
       validPhone: (rule, value, callback) => {
-          if (!value) {
-              callback(new Error('请输入电话号码'))
-          } else if (!validate.isvalidPhone(value)) {
-              callback(new Error('请输入正确的11位手机号码'))
-          } else {
-              callback()
-          }
+        if (!value) {
+          callback(new Error('请输入电话号码'))
+        } else if (!validate.isvalidPhone(value)) {
+          callback(new Error('请输入正确的11位手机号码'))
+        } else {
+          callback()
+        }
       }
     }
   },
