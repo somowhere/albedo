@@ -1,13 +1,12 @@
 import axios from 'axios'
 import router from '@/router/routers'
-import { Notification, MessageBox } from 'element-ui'
+import { MessageBox, Notification } from 'element-ui'
 import store from '../store'
 import Config from '@/settings'
 import commonUtil from './common'
-/** * 返回消息类型 info */
-export const MSG_TYPE_FAIL = 0
-/** * 返回消息类型 success */
-export const MSG_TYPE_SUCCESS = 1
+import { MSG_TYPE_FAIL, MSG_TYPE_SUCCESS } from '@/const/common'
+import validate from './validate'
+
 export const errorCode = {
   '000': '操作太频繁，请勿重复请求',
   '401': '登录状态已过期，您可以继续留在该页面，或者重新登录',
@@ -53,6 +52,7 @@ service.interceptors.request.use(
 // response 拦截器
 service.interceptors.response.use(
   response => {
+    const status = Number(response.status) || 200
     const code = Number(response.data.code)
     const message = errorCode[response.data.message] || response.data.message || errorCode[response.status]
     if (code === MSG_TYPE_FAIL) {
@@ -61,6 +61,9 @@ service.interceptors.response.use(
       })
       return Promise.reject('error')
     } else {
+      if (status === 200 && (response.data && response.data.code === MSG_TYPE_SUCCESS) && validate.checkNotNull(response.data.message)) {
+        Notification.success(response.data.message)
+      }
       return response.data
     }
   },

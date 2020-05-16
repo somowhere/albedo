@@ -50,7 +50,7 @@ public class SysUserOnlineListener {
 	public void saveSysUserOnlineRefreshLastRequestEvent(SysUserOnlineRefreshLastRequestEvent event) {
 		SessionInformation sessionInformation = (SessionInformation) event.getSource();
 
-		UserOnline userOnline = userOnlineService.getOneBySessionId(sessionInformation.getSessionId());
+		UserOnline userOnline = userOnlineService.getById(sessionInformation.getSessionId());
 		Assert.isTrue(userOnline != null, "sessionInformation sessionId " + sessionInformation.getSessionId() + ", onlineUser is null");
 		userOnline.setLastAccessTime(sessionInformation.getLastRequest());
 		userOnlineService.updateById(userOnline);

@@ -61,7 +61,7 @@ public class MenuDto extends TreeDto {
 	 */
 	private Integer hidden = 0;
 	private Integer cache;
-	private Integer iFrame;
+	private Integer iframe;
 	/**
 	 * 前端URL
 	 */

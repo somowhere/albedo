@@ -2,19 +2,19 @@ package com.albedo.java.common.persistence.service.impl;
 
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
+import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.common.core.vo.TreeDto;
 import com.albedo.java.common.core.vo.TreeNode;
-import com.albedo.java.common.core.vo.TreeUtil;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.persistence.domain.TreeEntity;
 import com.albedo.java.common.persistence.repository.TreeRepository;
 import com.albedo.java.common.persistence.service.TreeService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.Data;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -24,8 +24,7 @@ import java.util.stream.Collectors;
 @Data
 public class TreeServiceImpl<Repository extends TreeRepository<T>,
 	T extends TreeEntity, D extends TreeDto>
-	extends DataServiceImpl<Repository, T, D, String> implements TreeService<Repository, T, D>
-	 {
+	extends DataServiceImpl<Repository, T, D, String> implements TreeService<T, D> {
 
 	/**
 	 * 构建树
@@ -33,7 +32,7 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 	 * @param trees
 	 * @return
 	 */
-	public Set<TreeNode> getNodeTree(List<T> trees) {
+	public List<TreeNode> getNodeTree(List<T> trees) {
 //		Collections.sort(trees, Comparator.comparing((T t) -> t.getSort()).reversed());
 		List<TreeNode> treeList = trees.stream()
 			.map(tree -> {
@@ -46,38 +45,46 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 		return TreeUtil.buildByLoopAutoRoot(treeList);
 	}
 
+	/**
+	 * 查询全部部门树
+	 *
+	 * @return 树
+	 */
+	@Override
+	@Transactional(readOnly = true, rollbackFor = Exception.class)
+	public <Q> List<TreeNode> findTreeNode(Q queryCriteria) {
+		return getNodeTree(repository.selectList(QueryWrapperUtil.
+			<T>getWrapper(queryCriteria).orderByAsc(TreeEntity.F_SQL_SORT)));
+	}
 
-
+	/**
+	 * 构建树Wrapper
+	 *
+	 * @param query
+	 * @return
+	 */
+	public QueryWrapper<T> getTreeWrapper(Object query) {
+		QueryWrapper<T> wrapper = QueryWrapperUtil.getWrapper(query);
+		boolean emptyWrapper = wrapper.isEmptyOfWhere();
+		if (emptyWrapper) {
+			wrapper.eq(TreeEntity.F_SQL_PARENTID, TreeUtil.ROOT);
+		}
+		wrapper.eq(TreeEntity.F_SQL_DELFLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT);
+		return wrapper;
+	}
 
 	@Override
 	public Integer countByParentId(String parentId) {
 		return repository.selectCount(
-			new QueryWrapper<T>().eq(TreeEntity.F_SQL_PARENTID, parentId)
+			Wrappers.<T>query().eq(TreeEntity.F_SQL_PARENTID, parentId)
 		);
 	}
-		 /**
-		  * 查询全部部门树
-		  *
-		  * @return 树
-		  */
-		 @Override
-		 @Transactional(readOnly = true, rollbackFor = Exception.class)
-		 public <Q> Set<TreeNode> findTreeList(Q deptQueryCriteria) {
-			 return getNodeTree(repository.selectList(QueryWrapperUtil.<T>getWrapper(deptQueryCriteria).orderByAsc(TreeEntity.F_SQL_SORT)));
-		 }
 
-		 @Override
-	public List<T> findAllByParentIdsLike(String parentIds) {
-		return repository.selectList(
-			new QueryWrapper<T>().like(TreeEntity.F_SQL_PARENTIDS, parentIds));
-	}
 
 	@Override
-	public List<T> findAllOrderBySort() {
+	public List<T> findAllByParentIdsLike(String parentIds) {
 		return repository.selectList(
-			new QueryWrapper<T>()
-				.orderByAsc(TreeEntity.F_SQL_SORT)
-		);
+			Wrappers.<T>query().like(TreeEntity.F_SQL_PARENTIDS, parentIds));
 	}
 
 

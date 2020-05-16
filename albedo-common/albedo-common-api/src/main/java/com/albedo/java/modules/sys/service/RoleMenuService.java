@@ -18,6 +18,7 @@ package com.albedo.java.modules.sys.service;
 
 
 import com.albedo.java.modules.sys.domain.RoleMenu;
+import com.albedo.java.modules.sys.domain.dto.RoleMenuDto;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -33,9 +34,8 @@ public interface RoleMenuService extends IService<RoleMenu> {
 	/**
 	 * 更新角色菜单
 	 *
-	 * @param roleId  角色
-	 * @param menuIds 菜单ID拼成的字符串，每个id之间根据逗号分隔
+	 * @param roleMenuDto 角色
 	 * @return
 	 */
-	Boolean saveRoleMenus(String roleId, String menuIds);
+	Boolean saveRoleMenus(RoleMenuDto roleMenuDto);
 }

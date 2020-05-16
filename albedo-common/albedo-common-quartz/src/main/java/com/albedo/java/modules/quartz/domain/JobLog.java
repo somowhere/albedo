@@ -4,6 +4,7 @@
 package com.albedo.java.modules.quartz.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
+import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.persistence.domain.GeneralEntity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -88,7 +89,7 @@ public class JobLog extends GeneralEntity<JobLog> {
 	/**
 	 * F_CREATETIME create_time  :  创建时间
 	 */
-	public static final String F_CREATETIME = "createTime";
+	public static final String F_CREATETIME = "createdDate";
 	/**
 	 * F_SQL_CREATETIME create_time  :  创建时间
 	 */
@@ -122,6 +123,12 @@ public class JobLog extends GeneralEntity<JobLog> {
 	@TableField(F_SQL_JOBGROUP)
 	private String jobGroup;
 	/**
+	 * cronExpression cron执行表达式
+	 */
+	@Size(max = 255)
+	@TableField("cron_expression")
+	private String cronExpression;
+	/**
 	 * invokeTarget 调用目标字符串
 	 */
 	@NotBlank
@@ -139,7 +146,7 @@ public class JobLog extends GeneralEntity<JobLog> {
 	 */
 	@Size(max = 1)
 	@TableField("status")
-	@DictType("sys_status")
+	@DictType(DictNameConstants.SYS_STATUS)
 	private String status;
 	/**
 	 * startTime 开始时间
@@ -152,14 +159,14 @@ public class JobLog extends GeneralEntity<JobLog> {
 	@TableField("end_time")
 	private Date endTime;
 	/**
-	 * createTime 创建时间
+	 * createdDate 创建时间
 	 */
 	@TableField("create_time")
-	private Date createTime;
+	private Date createdDate;
 	/**
 	 * exceptionInfo 异常信息
 	 */
-	@Size(max = 2000)
+	@Size(max = 3000)
 	@TableField("exception_info")
 	private String exceptionInfo;
 	//columns END

@@ -17,7 +17,6 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.exception.RuntimeMsgException;
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.util.ResultBuilder;
 import com.albedo.java.common.core.util.StringUtil;
@@ -32,6 +31,7 @@ import com.albedo.java.modules.sys.domain.dto.UserQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.UserExcelVo;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.albedo.java.modules.sys.service.UserService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -52,9 +52,10 @@ import java.util.Set;
 @RestController
 @RequestMapping("${application.admin-path}/sys/user")
 @AllArgsConstructor
-public class UserResource  extends BaseResource {
+public class UserResource extends BaseResource {
 
 	private final UserService userService;
+
 	/**
 	 * @param id
 	 * @return
@@ -64,6 +65,27 @@ public class UserResource  extends BaseResource {
 	public R get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
 		return R.buildOkData(userService.getUserDtoById(id));
+	}
+
+	/**
+	 * 分页查询用户
+	 *
+	 * @param pm 参数集
+	 * @return 用户集合
+	 */
+	@GetMapping
+	@PreAuthorize("@pms.hasPermission('sys_user_view')")
+	public R<IPage<UserVo>> getUserPage(PageModel pm, UserQueryCriteria userQueryCriteria) {
+		return R.buildOkData(userService.getUserPage(pm, userQueryCriteria, SecurityUtil.getUser().getDataScope()));
+	}
+
+	@Log(value = "用户管理", businessType = BusinessType.EXPORT)
+	@GetMapping(value = "/download")
+	@PreAuthorize("@pms.hasPermission('sys_user_view')")
+	public void download(UserQueryCriteria userQueryCriteria, HttpServletResponse response) {
+		ExcelUtil<UserVo> util = new ExcelUtil(UserVo.class);
+		util.exportExcel(userService.getUserPage(userQueryCriteria,
+			SecurityUtil.getUser().getDataScope()), "用户数据", response);
 	}
 
 	/**
@@ -119,27 +141,13 @@ public class UserResource  extends BaseResource {
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
 	public R saveUser(@Valid @RequestBody UserDto userDto) {
-		log.debug("REST request to save userDataVo : {}", userDto);
-		// beanValidatorAjax(user);
-		if (StringUtil.isNotEmpty(userDto.getPassword()) &&
-			!userDto.getPassword().equals(userDto.getConfirmPassword())) {
-			throw new RuntimeMsgException("两次输入密码不一致");
+		log.debug("REST request to save userDto : {}", userDto);
+		boolean add = StringUtil.isEmpty(userDto.getId());
+		if (add) {
+			userDto.setPassword("123456");
 		}
-
 		userService.saveOrUpdate(userDto);
-		return R.buildOk("操作成功");
-	}
-
-	/**
-	 * 分页查询用户
-	 *
-	 * @param pm 参数集
-	 * @return 用户集合
-	 */
-	@GetMapping
-	@PreAuthorize("@pms.hasPermission('sys_user_view')")
-	public R getUserPage(PageModel pm, UserQueryCriteria userQueryCriteria) {
-		return R.buildOkData(userService.getUserPage(pm, userQueryCriteria, SecurityUtil.getUser().getDataScope()));
+		return R.buildOk(add ? "新增成功，默认密码：123456" : "修改成功");
 	}
 
 	/**
@@ -187,9 +195,9 @@ public class UserResource  extends BaseResource {
 
 	@GetMapping(value = "/importTemplate")
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
-	public R importTemplate() {
+	public void importTemplate(HttpServletResponse response) {
 		ExcelUtil<UserExcelVo> util = new ExcelUtil(UserExcelVo.class);
-		return util.exportExcel(Lists.newArrayList(new UserExcelVo()), "操作日志");
+		util.exportExcel(Lists.newArrayList(new UserExcelVo()), "操作日志", response);
 	}
 
 }

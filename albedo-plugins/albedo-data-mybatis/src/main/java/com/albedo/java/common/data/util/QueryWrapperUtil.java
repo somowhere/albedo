@@ -8,9 +8,8 @@ import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,31 +25,29 @@ import java.util.List;
 @Slf4j
 public class QueryWrapperUtil {
 
-	public static Wrapper<?> fillWrapper(IPage<?> page, Wrapper<?> wrapper) {
+	public static Wrapper<?> fillWrapperOrder(Page<?> page, Wrapper<?> wrapper) {
 		if (null == page) {
 			return wrapper;
 		}
-		if (ObjectUtil.isEmpty(page.orders())
-			&& ObjectUtils.isEmpty(page.condition())) {
+		if (ObjectUtil.isEmpty(page.orders())) {
 			return wrapper;
 		}
 		QueryWrapper queryWrapper = null == wrapper ? new QueryWrapper() : (QueryWrapper) wrapper;
 		if (ObjectUtil.isNotEmpty(page.orders())) {
-			page.orders().forEach(orderItem -> queryWrapper.orderBy(true, orderItem.isAsc(), orderItem.getColumn()));
-		}
-		if (ObjectUtils.isNotEmpty(page.condition())) {
-			queryWrapper.allEq(page.condition());
+			page.orders().forEach(orderItem -> queryWrapper.orderBy(true, orderItem.isAsc(),
+				StringUtil.toRevertCamelCase(orderItem.getColumn(), CharUtil.UNDERLINE)));
+			page.setOrders(null);
 		}
 		return queryWrapper;
 	}
 
-	public static <T> QueryWrapper<T>  getWrapper(PageModel<T> pm, Object query) {
-		return (QueryWrapper) fillWrapper(pm, getWrapper(query));
+	public static <T> QueryWrapper<T> getWrapper(PageModel<T> pm, Object query) {
+		return (QueryWrapper) fillWrapperOrder(pm, getWrapper(query));
 	}
 
 	public static <T> QueryWrapper<T> getWrapper(Object query) {
 		QueryWrapper<T> entityWrapper = Wrappers.query();
-		if(query==null)return entityWrapper;
+		if (query == null) return entityWrapper;
 		Field[] fields = ReflectUtil.getFields(query.getClass());
 		try {
 			for (Field field : fields) {
@@ -68,7 +65,7 @@ public class QueryWrapperUtil {
 					// 模糊多字段
 					if (cn.hutool.core.util.ObjectUtil.isNotEmpty(blurry)) {
 						String[] blurrys = blurry.split(",");
-						entityWrapper.and(i->{
+						entityWrapper.and(i -> {
 							for (String s : blurrys) {
 								i.or().like(s, val.toString());
 							}
@@ -107,10 +104,10 @@ public class QueryWrapperUtil {
 							entityWrapper.likeRight(attributeName, val);
 							break;
 						case in:
-							entityWrapper.in(attributeName, (Collection<?>)val);
+							entityWrapper.in(attributeName, (Collection<?>) val);
 							break;
 						case notIn:
-							entityWrapper.notIn(attributeName, (Collection<?>)val);
+							entityWrapper.notIn(attributeName, (Collection<?>) val);
 							break;
 						case isNotNull:
 							entityWrapper.isNotNull(attributeName);
@@ -119,10 +116,11 @@ public class QueryWrapperUtil {
 							entityWrapper.isNull(attributeName);
 							break;
 						case between:
-							List<Object> between = new ArrayList<>((List<Object>)val);
+							List<Object> between = new ArrayList<>((List<Object>) val);
 							entityWrapper.between(attributeName, between.get(0), between.get(1));
 							break;
-						default: break;
+						default:
+							break;
 					}
 				}
 				field.setAccessible(accessible);

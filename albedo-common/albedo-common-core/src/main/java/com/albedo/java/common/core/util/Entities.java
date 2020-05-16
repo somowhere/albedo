@@ -30,28 +30,36 @@ import java.util.TreeMap;
  * Provides HTML and XML entity utilities.
  * </p>
  *
+ * @author <a href="mailto:alex@purpletech.com">Alexander Day Chaffee</a>
+ * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>
+ * @version $Id: Entities.java 1057037 2011-01-09 21:35:32Z niallp $
  * @see <a href="http://hotwired.lycos.com/webmonkey/reference/special_characters/">ISO Entities</a>
  * @see <a href="http://www.w3.org/TR/REC-html32#latin1">HTML 3.2 Character Entities for ISO Latin-1</a>
  * @see <a href="http://www.w3.org/TR/REC-html40/sgml/entities.html">HTML 4.0 Character entity references</a>
  * @see <a href="http://www.w3.org/TR/html401/charset.html#h-5.3">HTML 4.01 Character References</a>
  * @see <a href="http://www.w3.org/TR/html401/charset.html#code-position">HTML 4.01 Code positions</a>
- *
- * @author <a href="mailto:alex@purpletech.com">Alexander Day Chaffee</a>
- * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>
  * @since 2.0
- * @version $Id: Entities.java 1057037 2011-01-09 21:35:32Z niallp $
  */
 class Entities {
 
-	private static final String[][] BASIC_ARRAY = {{"quot", "34"}, // " - double-quote
-		{"amp", "38"}, // & - ampersand
-		{"lt", "60"}, // < - less-than
-		{"gt", "62"}, // > - greater-than
-	};
-
-	private static final String[][] APOS_ARRAY = {{"apos", "39"}, // XML apostrophe
-	};
-
+	/**
+	 * <p>
+	 * The set of entities supported by standard XML.
+	 * </p>
+	 */
+	public static final Entities XML;
+	/**
+	 * <p>
+	 * The set of entities supported by HTML 3.2.
+	 * </p>
+	 */
+	public static final Entities HTML32;
+	/**
+	 * <p>
+	 * The set of entities supported by HTML 4.0.
+	 * </p>
+	 */
+	public static final Entities HTML40;
 	// package scoped for testing
 	static final String[][] ISO8859_1_ARRAY = {{"nbsp", "160"}, // non-breaking space
 		{"iexcl", "161"}, // inverted exclamation mark
@@ -150,7 +158,6 @@ class Entities {
 		{"thorn", "254"}, // þ - lowercase thorn, Icelandic
 		{"yuml", "255"}, // ÿ - lowercase y, umlaut
 	};
-
 	// http://www.w3.org/TR/REC-html40/sgml/entities.html
 	// package scoped for testing
 	static final String[][] HTML40_ARRAY = {
@@ -349,27 +356,13 @@ class Entities {
 		// <!-- rsaquo is proposed but not yet ISO standardized -->
 		{"euro", "8364"}, // -- euro sign, U+20AC NEW -->
 	};
-
-	/**
-	 * <p>
-	 * The set of entities supported by standard XML.
-	 * </p>
-	 */
-	public static final Entities XML;
-
-	/**
-	 * <p>
-	 * The set of entities supported by HTML 3.2.
-	 * </p>
-	 */
-	public static final Entities HTML32;
-
-	/**
-	 * <p>
-	 * The set of entities supported by HTML 4.0.
-	 * </p>
-	 */
-	public static final Entities HTML40;
+	private static final String[][] BASIC_ARRAY = {{"quot", "34"}, // " - double-quote
+		{"amp", "38"}, // & - ampersand
+		{"lt", "60"}, // < - less-than
+		{"gt", "62"}, // > - greater-than
+	};
+	private static final String[][] APOS_ARRAY = {{"apos", "39"}, // XML apostrophe
+	};
 
 	static {
 		Entities xml = new Entities();
@@ -391,18 +384,278 @@ class Entities {
 		HTML40 = html40;
 	}
 
+	private final EntityMap map;
+
+	/**
+	 * Default constructor.
+	 */
+	public Entities() {
+		map = new Entities.LookupEntityMap();
+	}
+
+	/**
+	 * package scoped constructor for testing.
+	 *
+	 * @param emap entity map.
+	 */
+	Entities(EntityMap emap) {
+		map = emap;
+	}
+
 	/**
 	 * <p>
 	 * Fills the specified entities instance with HTML 40 entities.
 	 * </p>
 	 *
-	 * @param entities
-	 *            the instance to be filled.
+	 * @param entities the instance to be filled.
 	 */
 	static void fillWithHtml40Entities(Entities entities) {
 		entities.addEntities(BASIC_ARRAY);
 		entities.addEntities(ISO8859_1_ARRAY);
 		entities.addEntities(HTML40_ARRAY);
+	}
+
+	/**
+	 * <p>
+	 * Adds entities to this entity.
+	 * </p>
+	 *
+	 * @param entityArray array of entities to be added
+	 */
+	public void addEntities(String[][] entityArray) {
+		for (int i = 0; i < entityArray.length; ++i) {
+			addEntity(entityArray[i][0], Integer.parseInt(entityArray[i][1]));
+		}
+	}
+
+	/**
+	 * <p>
+	 * Add an entity to this entity.
+	 * </p>
+	 *
+	 * @param name  name of the entity
+	 * @param value vale of the entity
+	 */
+	public void addEntity(String name, int value) {
+		map.add(name, value);
+	}
+
+	/**
+	 * <p>
+	 * Returns the name of the entity identified by the specified value.
+	 * </p>
+	 *
+	 * @param value the value to locate
+	 * @return entity name associated with the specified value
+	 */
+	public String entityName(int value) {
+		return map.name(value);
+	}
+
+	/**
+	 * <p>
+	 * Returns the value of the entity identified by the specified name.
+	 * </p>
+	 *
+	 * @param name the name to locate
+	 * @return entity value associated with the specified name
+	 */
+	public int entityValue(String name) {
+		return map.value(name);
+	}
+
+	/**
+	 * <p>
+	 * Escapes the characters in a <code>String</code>.
+	 * </p>
+	 *
+	 * <p>
+	 * For example, if you have called addEntity(&quot;foo&quot;, 0xA1), escape(&quot;\u00A1&quot;) will return
+	 * &quot;&amp;foo;&quot;
+	 * </p>
+	 *
+	 * @param str The <code>String</code> to escape.
+	 * @return A new escaped <code>String</code>.
+	 */
+	public String escape(String str) {
+		StringWriter stringWriter = createStringWriter(str);
+		try {
+			this.escape(stringWriter, str);
+		} catch (IOException e) {
+			// This should never happen because ALL the StringWriter methods called by #escape(Writer, String) do not
+			// throw IOExceptions.
+			throw new RuntimeException(e);
+		}
+		return stringWriter.toString();
+	}
+
+	/**
+	 * <p>
+	 * Escapes the characters in the <code>String</code> passed and writes the result to the <code>Writer</code>
+	 * passed.
+	 * </p>
+	 *
+	 * @param writer The <code>Writer</code> to write the results of the escaping to. Assumed to be a non-null value.
+	 * @param str    The <code>String</code> to escape. Assumed to be a non-null value.
+	 * @throws IOException when <code>Writer</code> passed throws the exception from calls to the {@link Writer#write(int)}
+	 *                     methods.
+	 * @see #escape(String)
+	 * @see Writer
+	 */
+	public void escape(Writer writer, String str) throws IOException {
+		int len = str.length();
+		for (int i = 0; i < len; i++) {
+			char c = str.charAt(i);
+			String entityName = this.entityName(c);
+			if (entityName == null) {
+				if (c > 0x7F) {
+					writer.write("&#");
+					writer.write(Integer.toString(c, 10));
+					writer.write(';');
+				} else {
+					writer.write(c);
+				}
+			} else {
+				writer.write('&');
+				writer.write(entityName);
+				writer.write(';');
+			}
+		}
+	}
+
+	/**
+	 * <p>
+	 * Unescapes the entities in a <code>String</code>.
+	 * </p>
+	 *
+	 * <p>
+	 * For example, if you have called addEntity(&quot;foo&quot;, 0xA1), unescape(&quot;&amp;foo;&quot;) will return
+	 * &quot;\u00A1&quot;
+	 * </p>
+	 *
+	 * @param str The <code>String</code> to escape.
+	 * @return A new escaped <code>String</code>.
+	 */
+	public String unescape(String str) {
+		int firstAmp = str.indexOf('&');
+		if (firstAmp < 0) {
+			return str;
+		} else {
+			StringWriter stringWriter = createStringWriter(str);
+			try {
+				this.doUnescape(stringWriter, str, firstAmp);
+			} catch (IOException e) {
+				// This should never happen because ALL the StringWriter methods called by #escape(Writer, String)
+				// do not throw IOExceptions.
+				throw new RuntimeException(e);
+			}
+			return stringWriter.toString();
+		}
+	}
+
+	/**
+	 * Make the StringWriter 10% larger than the source String to avoid growing the writer
+	 *
+	 * @param str The source string
+	 * @return A newly created StringWriter
+	 */
+	private StringWriter createStringWriter(String str) {
+		return new StringWriter((int) (str.length() + (str.length() * 0.1)));
+	}
+
+	/**
+	 * <p>
+	 * Unescapes the escaped entities in the <code>String</code> passed and writes the result to the
+	 * <code>Writer</code> passed.
+	 * </p>
+	 *
+	 * @param writer The <code>Writer</code> to write the results to; assumed to be non-null.
+	 * @param str    The source <code>String</code> to unescape; assumed to be non-null.
+	 * @throws IOException when <code>Writer</code> passed throws the exception from calls to the {@link Writer#write(int)}
+	 *                     methods.
+	 * @see #escape(String)
+	 * @see Writer
+	 */
+	public void unescape(Writer writer, String str) throws IOException {
+		int firstAmp = str.indexOf('&');
+		if (firstAmp < 0) {
+			writer.write(str);
+			return;
+		} else {
+			doUnescape(writer, str, firstAmp);
+		}
+	}
+
+	/**
+	 * Underlying unescape method that allows the optimisation of not starting from the 0 index again.
+	 *
+	 * @param writer   The <code>Writer</code> to write the results to; assumed to be non-null.
+	 * @param str      The source <code>String</code> to unescape; assumed to be non-null.
+	 * @param firstAmp The <code>int</code> index of the first ampersand in the source String.
+	 * @throws IOException when <code>Writer</code> passed throws the exception from calls to the {@link Writer#write(int)}
+	 *                     methods.
+	 */
+	private void doUnescape(Writer writer, String str, int firstAmp) throws IOException {
+		writer.write(str, 0, firstAmp);
+		int len = str.length();
+		for (int i = firstAmp; i < len; i++) {
+			char c = str.charAt(i);
+			if (c == '&') {
+				int nextIdx = i + 1;
+				int semiColonIdx = str.indexOf(';', nextIdx);
+				if (semiColonIdx == -1) {
+					writer.write(c);
+					continue;
+				}
+				int amphersandIdx = str.indexOf('&', i + 1);
+				if (amphersandIdx != -1 && amphersandIdx < semiColonIdx) {
+					// Then the text looks like &...&...;
+					writer.write(c);
+					continue;
+				}
+				String entityContent = str.substring(nextIdx, semiColonIdx);
+				int entityValue = -1;
+				int entityContentLen = entityContent.length();
+				if (entityContentLen > 0) {
+					if (entityContent.charAt(0) == '#') { // escaped value content is an integer (decimal or
+						// hexidecimal)
+						if (entityContentLen > 1) {
+							char isHexChar = entityContent.charAt(1);
+							try {
+								switch (isHexChar) {
+									case 'X':
+									case 'x': {
+										entityValue = Integer.parseInt(entityContent.substring(2), 16);
+										break;
+									}
+									default: {
+										entityValue = Integer.parseInt(entityContent.substring(1), 10);
+									}
+								}
+								if (entityValue > 0xFFFF) {
+									entityValue = -1;
+								}
+							} catch (NumberFormatException e) {
+								entityValue = -1;
+							}
+						}
+					} else { // escaped value content is an entity name
+						entityValue = this.entityValue(entityContent);
+					}
+				}
+
+				if (entityValue == -1) {
+					writer.write('&');
+					writer.write(entityContent);
+					writer.write(';');
+				} else {
+					writer.write(entityValue);
+				}
+				i = semiColonIdx; // move index up to the semi-colon
+			} else {
+				writer.write(c);
+			}
+		}
 	}
 
 	interface EntityMap {
@@ -411,10 +664,8 @@ class Entities {
 		 * Add an entry to this entity map.
 		 * </p>
 		 *
-		 * @param name
-		 *            the entity name
-		 * @param value
-		 *            the entity value
+		 * @param name  the entity name
+		 * @param value the entity value
 		 */
 		void add(String name, int value);
 
@@ -423,8 +674,7 @@ class Entities {
 		 * Returns the name of the entity identified by the specified value.
 		 * </p>
 		 *
-		 * @param value
-		 *            the value to locate
+		 * @param value the value to locate
 		 * @return entity name associated with the specified value
 		 */
 		String name(int value);
@@ -434,8 +684,7 @@ class Entities {
 		 * Returns the value of the entity identified by the specified name.
 		 * </p>
 		 *
-		 * @param name
-		 *            the name to locate
+		 * @param name the name to locate
 		 * @return entity value associated with the specified name
 		 */
 		int value(String name);
@@ -485,7 +734,7 @@ class Entities {
 		 * @param nameToValue name to value map
 		 * @param valueToName value to namee map
 		 */
-		MapIntMap(Map nameToValue, Map valueToName){
+		MapIntMap(Map nameToValue, Map valueToName) {
 			mapNameToValue = nameToValue;
 			mapValueToName = valueToName;
 		}
@@ -536,10 +785,9 @@ class Entities {
 	}
 
 	static class LookupEntityMap extends PrimitiveEntityMap {
+		private static final int LOOKUP_TABLE_SIZE = 256;
 		// TODO this class is not thread-safe
 		private String[] lookupTable;
-
-		private static final int LOOKUP_TABLE_SIZE = 256;
 
 		/**
 		 * {@inheritDoc}
@@ -601,8 +849,7 @@ class Entities {
 		 * Constructs a new instance of <code>ArrayEntityMap</code> specifying the size by which the array should
 		 * grow.
 		 *
-		 * @param growBy
-		 *            array will be initialized to and will grow by this amount
+		 * @param growBy array will be initialized to and will grow by this amount
 		 */
 		public ArrayEntityMap(int growBy) {
 			this.growBy = growBy;
@@ -623,8 +870,7 @@ class Entities {
 		/**
 		 * Verifies the capacity of the entity array, adjusting the size if necessary.
 		 *
-		 * @param capacity
-		 *            size the array should be
+		 * @param capacity size the array should be
 		 */
 		protected void ensureCapacity(int capacity) {
 			if (capacity > names.length) {
@@ -678,8 +924,7 @@ class Entities {
 		 * Constructs a new instance of <code>ArrayEntityMap</code> specifying the size by which the underlying array
 		 * should grow.
 		 *
-		 * @param growBy
-		 *            array will be initialized to and will grow by this amount
+		 * @param growBy array will be initialized to and will grow by this amount
 		 */
 		public BinaryEntityMap(int growBy) {
 			super(growBy);
@@ -689,8 +934,7 @@ class Entities {
 		 * Performs a binary search of the entity array for the specified key. This method is based on code in
 		 * {@link java.util.Arrays}.
 		 *
-		 * @param key
-		 *            the key to be found
+		 * @param key the key to be found
 		 * @return the index of the entity array matching the specified key
 		 */
 		private int binarySearch(int key) {
@@ -738,286 +982,6 @@ class Entities {
 				return null;
 			}
 			return names[index];
-		}
-	}
-
-	private final EntityMap map;
-
-	/**
-	 * Default constructor.
-	 */
-	public Entities(){
-		map = new Entities.LookupEntityMap();
-	}
-
-	/**
-	 * package scoped constructor for testing.
-	 *
-	 * @param emap entity map.
-	 */
-	Entities(EntityMap emap){
-		map = emap;
-	}
-
-	/**
-	 * <p>
-	 * Adds entities to this entity.
-	 * </p>
-	 *
-	 * @param entityArray
-	 *            array of entities to be added
-	 */
-	public void addEntities(String[][] entityArray) {
-		for (int i = 0; i < entityArray.length; ++i) {
-			addEntity(entityArray[i][0], Integer.parseInt(entityArray[i][1]));
-		}
-	}
-
-	/**
-	 * <p>
-	 * Add an entity to this entity.
-	 * </p>
-	 *
-	 * @param name
-	 *            name of the entity
-	 * @param value
-	 *            vale of the entity
-	 */
-	public void addEntity(String name, int value) {
-		map.add(name, value);
-	}
-
-	/**
-	 * <p>
-	 * Returns the name of the entity identified by the specified value.
-	 * </p>
-	 *
-	 * @param value
-	 *            the value to locate
-	 * @return entity name associated with the specified value
-	 */
-	public String entityName(int value) {
-		return map.name(value);
-	}
-
-	/**
-	 * <p>
-	 * Returns the value of the entity identified by the specified name.
-	 * </p>
-	 *
-	 * @param name
-	 *            the name to locate
-	 * @return entity value associated with the specified name
-	 */
-	public int entityValue(String name) {
-		return map.value(name);
-	}
-
-	/**
-	 * <p>
-	 * Escapes the characters in a <code>String</code>.
-	 * </p>
-	 *
-	 * <p>
-	 * For example, if you have called addEntity(&quot;foo&quot;, 0xA1), escape(&quot;\u00A1&quot;) will return
-	 * &quot;&amp;foo;&quot;
-	 * </p>
-	 *
-	 * @param str
-	 *            The <code>String</code> to escape.
-	 * @return A new escaped <code>String</code>.
-	 */
-	public String escape(String str) {
-		StringWriter stringWriter = createStringWriter(str);
-		try {
-			this.escape(stringWriter, str);
-		} catch (IOException e) {
-			// This should never happen because ALL the StringWriter methods called by #escape(Writer, String) do not
-			// throw IOExceptions.
-			throw new RuntimeException(e);
-		}
-		return stringWriter.toString();
-	}
-
-	/**
-	 * <p>
-	 * Escapes the characters in the <code>String</code> passed and writes the result to the <code>Writer</code>
-	 * passed.
-	 * </p>
-	 *
-	 * @param writer
-	 *            The <code>Writer</code> to write the results of the escaping to. Assumed to be a non-null value.
-	 * @param str
-	 *            The <code>String</code> to escape. Assumed to be a non-null value.
-	 * @throws IOException
-	 *             when <code>Writer</code> passed throws the exception from calls to the {@link Writer#write(int)}
-	 *             methods.
-	 *
-	 * @see #escape(String)
-	 * @see Writer
-	 */
-	public void escape(Writer writer, String str) throws IOException {
-		int len = str.length();
-		for (int i = 0; i < len; i++) {
-			char c = str.charAt(i);
-			String entityName = this.entityName(c);
-			if (entityName == null) {
-				if (c > 0x7F) {
-					writer.write("&#");
-					writer.write(Integer.toString(c, 10));
-					writer.write(';');
-				} else {
-					writer.write(c);
-				}
-			} else {
-				writer.write('&');
-				writer.write(entityName);
-				writer.write(';');
-			}
-		}
-	}
-
-	/**
-	 * <p>
-	 * Unescapes the entities in a <code>String</code>.
-	 * </p>
-	 *
-	 * <p>
-	 * For example, if you have called addEntity(&quot;foo&quot;, 0xA1), unescape(&quot;&amp;foo;&quot;) will return
-	 * &quot;\u00A1&quot;
-	 * </p>
-	 *
-	 * @param str
-	 *            The <code>String</code> to escape.
-	 * @return A new escaped <code>String</code>.
-	 */
-	public String unescape(String str) {
-		int firstAmp = str.indexOf('&');
-		if (firstAmp < 0) {
-			return str;
-		} else {
-			StringWriter stringWriter = createStringWriter(str);
-			try {
-				this.doUnescape(stringWriter, str, firstAmp);
-			} catch (IOException e) {
-				// This should never happen because ALL the StringWriter methods called by #escape(Writer, String)
-				// do not throw IOExceptions.
-				throw new RuntimeException(e);
-			}
-			return stringWriter.toString();
-		}
-	}
-
-	/**
-	 * Make the StringWriter 10% larger than the source String to avoid growing the writer
-	 *
-	 * @param str The source string
-	 * @return A newly created StringWriter
-	 */
-	private StringWriter createStringWriter(String str) {
-		return new StringWriter((int) (str.length() + (str.length() * 0.1)));
-	}
-
-	/**
-	 * <p>
-	 * Unescapes the escaped entities in the <code>String</code> passed and writes the result to the
-	 * <code>Writer</code> passed.
-	 * </p>
-	 *
-	 * @param writer
-	 *            The <code>Writer</code> to write the results to; assumed to be non-null.
-	 * @param str
-	 *            The source <code>String</code> to unescape; assumed to be non-null.
-	 * @throws IOException
-	 *             when <code>Writer</code> passed throws the exception from calls to the {@link Writer#write(int)}
-	 *             methods.
-	 *
-	 * @see #escape(String)
-	 * @see Writer
-	 */
-	public void unescape(Writer writer, String str) throws IOException {
-		int firstAmp = str.indexOf('&');
-		if (firstAmp < 0) {
-			writer.write(str);
-			return;
-		} else {
-			doUnescape(writer, str, firstAmp);
-		}
-	}
-
-	/**
-	 * Underlying unescape method that allows the optimisation of not starting from the 0 index again.
-	 *
-	 * @param writer
-	 *            The <code>Writer</code> to write the results to; assumed to be non-null.
-	 * @param str
-	 *            The source <code>String</code> to unescape; assumed to be non-null.
-	 * @param firstAmp
-	 *            The <code>int</code> index of the first ampersand in the source String.
-	 * @throws IOException
-	 *             when <code>Writer</code> passed throws the exception from calls to the {@link Writer#write(int)}
-	 *             methods.
-	 */
-	private void doUnescape(Writer writer, String str, int firstAmp) throws IOException {
-		writer.write(str, 0, firstAmp);
-		int len = str.length();
-		for (int i = firstAmp; i < len; i++) {
-			char c = str.charAt(i);
-			if (c == '&') {
-				int nextIdx = i + 1;
-				int semiColonIdx = str.indexOf(';', nextIdx);
-				if (semiColonIdx == -1) {
-					writer.write(c);
-					continue;
-				}
-				int amphersandIdx = str.indexOf('&', i + 1);
-				if (amphersandIdx != -1 && amphersandIdx < semiColonIdx) {
-					// Then the text looks like &...&...;
-					writer.write(c);
-					continue;
-				}
-				String entityContent = str.substring(nextIdx, semiColonIdx);
-				int entityValue = -1;
-				int entityContentLen = entityContent.length();
-				if (entityContentLen > 0) {
-					if (entityContent.charAt(0) == '#') { // escaped value content is an integer (decimal or
-						// hexidecimal)
-						if (entityContentLen > 1) {
-							char isHexChar = entityContent.charAt(1);
-							try {
-								switch (isHexChar) {
-									case 'X' :
-									case 'x' : {
-										entityValue = Integer.parseInt(entityContent.substring(2), 16);
-										break;
-									}
-									default : {
-										entityValue = Integer.parseInt(entityContent.substring(1), 10);
-									}
-								}
-								if (entityValue > 0xFFFF) {
-									entityValue = -1;
-								}
-							} catch (NumberFormatException e) {
-								entityValue = -1;
-							}
-						}
-					} else { // escaped value content is an entity name
-						entityValue = this.entityValue(entityContent);
-					}
-				}
-
-				if (entityValue == -1) {
-					writer.write('&');
-					writer.write(entityContent);
-					writer.write(';');
-				} else {
-					writer.write(entityValue);
-				}
-				i = semiColonIdx; // move index up to the semi-colon
-			} else {
-				writer.write(c);
-			}
 		}
 	}
 

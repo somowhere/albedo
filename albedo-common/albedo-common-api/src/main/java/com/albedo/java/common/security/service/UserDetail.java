@@ -50,6 +50,7 @@ public class UserDetail extends User {
 	 */
 	@Getter
 	private String deptName;
+
 	/**
 	 * Construct the <code>User</code> with the details required by
 	 * {@link DaoAuthenticationProvider}.

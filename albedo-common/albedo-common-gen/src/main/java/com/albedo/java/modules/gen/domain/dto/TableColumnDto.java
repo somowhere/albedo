@@ -201,7 +201,7 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	 */
 	public String getConstantJavaField() {
 		String s = getSimpleJavaField();
-		return s!=null ? s.toUpperCase() : null;
+		return s != null ? s.toUpperCase() : null;
 	}
 
 	/**

@@ -76,7 +76,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (userVo == null) {
 			throw new UsernameNotFoundException("用户不存在");
 		}
-		Assert.isTrue(userVo.isAvailable(),"用户【"+username+"】已被锁定，无法登录");
+		Assert.isTrue(userVo.isAvailable(), "用户【" + username + "】已被锁定，无法登录");
 		UserDetails userDetails = getUserDetails(userService.getUserInfo(userVo));
 		cache.put(username, userDetails);
 		return userDetails;
@@ -105,19 +105,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			= AuthorityUtils.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 		UserVo userVo = userInfo.getUser();
 		DataScope dataScope = new DataScope();
-		if(CollUtil.isNotEmpty(userVo.getRoleList())){
-			for(Role role: userVo.getRoleList()){
-				if(SecurityConstants.ROLE_DATA_SCOPE_ALL.equals(role.getDataScope())){
+		if (CollUtil.isNotEmpty(userVo.getRoleList())) {
+			for (Role role : userVo.getRoleList()) {
+				if (SecurityConstants.ROLE_DATA_SCOPE_ALL.equals(role.getDataScope())) {
 					dataScope.setAll(true);
 					break;
-				}else if(SecurityConstants.ROLE_DATA_SCOPE_DEPT_ALL.equals(role.getDataScope())){
+				} else if (SecurityConstants.ROLE_DATA_SCOPE_DEPT_ALL.equals(role.getDataScope())) {
 					dataScope.getDeptIds().addAll(deptService.findDescendantIdList(userVo.getDeptId()));
-				}else if(SecurityConstants.ROLE_DATA_SCOPE_DEPT.equals(role.getDataScope())){
+				} else if (SecurityConstants.ROLE_DATA_SCOPE_DEPT.equals(role.getDataScope())) {
 					dataScope.getDeptIds().add(userVo.getDeptId());
-				}else if(SecurityConstants.ROLE_DATA_SCOPE_SELF.equals(role.getDataScope())){
+				} else if (SecurityConstants.ROLE_DATA_SCOPE_SELF.equals(role.getDataScope())) {
 					dataScope.setSelf(true);
 					dataScope.setUserId(userVo.getId());
-				}else if(SecurityConstants.ROLE_DATA_SCOPE_CUSTOM.equals(role.getDataScope())){
+				} else if (SecurityConstants.ROLE_DATA_SCOPE_CUSTOM.equals(role.getDataScope())) {
 					dataScope.getDeptIds().addAll(roleService.findRoleDeptIdList(role.getId()));
 				}
 			}

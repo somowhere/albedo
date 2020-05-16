@@ -55,12 +55,6 @@ public class UserDto extends DataDto<String> {
 	private String password;
 
 	/**
-	 * 锁定标记
-	 */
-	@NotNull
-	private Integer available;
-
-	/**
 	 * 邮箱
 	 */
 	@Email
@@ -95,10 +89,6 @@ public class UserDto extends DataDto<String> {
 	@NotNull
 	private List<String> roleIdList;
 
-	/**
-	 * 新密码
-	 */
-	private String confirmPassword;
 
 	public UserDto(UserVo userVo) {
 		this.setId(userVo.getId());
@@ -106,7 +96,6 @@ public class UserDto extends DataDto<String> {
 		this.password = userVo.getPassword();
 		this.deptId = userVo.getDeptId();
 		this.avatar = userVo.getAvatar();
-		this.available = userVo.getAvailable();
 		this.phone = userVo.getPhone();
 		this.email = userVo.getEmail();
 		this.qqOpenId = userVo.getQqOpenId();

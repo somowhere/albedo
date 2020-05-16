@@ -22,7 +22,7 @@ public class AjaxAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 										AuthenticationException exception) {
 		String useruame = request.getParameter("username");
 		LoginUtil.isValidateCodeLogin(useruame, true, false);
-		String message = exception instanceof BadCredentialsException && "Bad credentials".equals(exception.getMessage()) ? "密码填写错误！":  exception.getMessage();
+		String message = exception instanceof BadCredentialsException && "Bad credentials".equals(exception.getMessage()) ? "密码填写错误！" : exception.getMessage();
 		AsyncUtil.recordLogLogin(useruame, CommonConstants.STR_FAIL, message);
 		response.setStatus(HttpServletResponse.SC_OK);
 		WebUtil.renderJson(response, R.buildFail(message));

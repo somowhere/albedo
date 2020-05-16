@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-row :gutter="20">
-      <el-col :xs="24" :sm="24" :md="8" :lg="6" :xl="5" style="margin-bottom: 10px">
+      <el-col :lg="6" :md="8" :sm="24" :xl="5" :xs="24" style="margin-bottom: 10px">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>个人信息</span>
@@ -9,24 +9,51 @@
           <div>
             <div style="text-align: center">
               <el-upload
-                :show-file-list="false"
-                :on-success="handleSuccess"
-                :on-error="handleError"
-                :headers="headers"
                 :action="updateAvatarApi"
+                :headers="headers"
+                :on-error="handleError"
+                :on-success="handleSuccess"
+                :show-file-list="false"
                 class="avatar-uploader"
               >
-                <img :src="user.avatarName ? baseApi + '/avatar/' + user.avatarName : Avatar" title="点击上传头像" class="avatar">
+                <img
+                  :src="user.avatarName ? baseApi + '/avatar/' + user.avatarName : Avatar"
+                  class="avatar"
+                  title="点击上传头像"
+                >
               </el-upload>
             </div>
             <ul class="user-info">
-              <li><div style="height: 100%"><svg-icon icon-class="login" /> 登录账号<div class="user-right">{{ user.username }}</div></div></li>
-              <li><svg-icon icon-class="user1" /> 用户昵称 <div class="user-right">{{ user.nickName }}</div></li>
-              <li><svg-icon icon-class="dept" /> 所属部门 <div class="user-right"> {{ user.dept.name }}</div></li>
-              <li><svg-icon icon-class="phone" /> 手机号码 <div class="user-right">{{ user.phone }}</div></li>
-              <li><svg-icon icon-class="email" /> 用户邮箱 <div class="user-right">{{ user.email }}</div></li>
               <li>
-                <svg-icon icon-class="anq" /> 安全设置
+                <div style="height: 100%">
+                  <svg-icon icon-class="login" />
+                  登录账号
+                  <div class="user-right">{{ user.username }}</div>
+                </div>
+              </li>
+              <li>
+                <svg-icon icon-class="user1" />
+                用户昵称
+                <div class="user-right">{{ user.nickName }}</div>
+              </li>
+              <li>
+                <svg-icon icon-class="dept" />
+                所属部门
+                <div class="user-right"> {{ user.dept.name }}</div>
+              </li>
+              <li>
+                <svg-icon icon-class="phone" />
+                手机号码
+                <div class="user-right">{{ user.phone }}</div>
+              </li>
+              <li>
+                <svg-icon icon-class="email" />
+                用户邮箱
+                <div class="user-right">{{ user.email }}</div>
+              </li>
+              <li>
+                <svg-icon icon-class="anq" />
+                安全设置
                 <div class="user-right">
                   <a @click="$refs.pass.dialog = true">修改密码</a>
                   <a @click="$refs.email.dialog = true">修改邮箱</a>
@@ -36,12 +63,19 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="16" :lg="18" :xl="19">
+      <el-col :lg="18" :md="16" :sm="24" :xl="19" :xs="24">
         <!--    用户资料    -->
         <el-card class="box-card">
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="用户资料" name="first">
-              <el-form ref="form" :model="form" :rules="rules" style="margin-top: 10px;" size="small" label-width="65px">
+              <el-form
+                ref="form"
+                :model="form"
+                :rules="rules"
+                label-width="65px"
+                size="small"
+                style="margin-top: 10px;"
+              >
                 <el-form-item label="昵称" prop="nickName">
                   <el-input v-model="form.nickName" style="width: 35%" />
                   <span style="color: #C0C0C0;margin-left: 10px;">用户昵称不作为登录使用</span>
@@ -64,11 +98,11 @@
             <!--    操作日志    -->
             <el-tab-pane label="操作日志" name="second">
               <el-table v-loading="loading" :data="data" style="width: 100%;">
-                <el-table-column prop="description" label="行为" />
-                <el-table-column prop="requestIp" label="IP" />
-                <el-table-column :show-overflow-tooltip="true" prop="address" label="IP来源" />
-                <el-table-column prop="browser" label="浏览器" />
-                <el-table-column prop="time" label="请求耗时" align="center">
+                <el-table-column label="行为" prop="description" />
+                <el-table-column label="IP" prop="requestIp" />
+                <el-table-column :show-overflow-tooltip="true" label="IP来源" prop="address" />
+                <el-table-column label="浏览器" prop="browser" />
+                <el-table-column align="center" label="请求耗时" prop="time">
                   <template slot-scope="scope">
                     <el-tag v-if="scope.row.time <= 300">{{ scope.row.time }}ms</el-tag>
                     <el-tag v-else-if="scope.row.time <= 1000" type="warning">{{ scope.row.time }}ms</el-tag>
@@ -79,21 +113,24 @@
                   align="right"
                 >
                   <template slot="header">
-                    <div style="display:inline-block;float: right;cursor: pointer" @click="init">创建日期<i class="el-icon-refresh" style="margin-left: 40px" /></div>
+                    <div style="display:inline-block;float: right;cursor: pointer" @click="init">创建日期<i
+                      class="el-icon-refresh"
+                      style="margin-left: 40px"
+                    /></div>
                   </template>
                   <template slot-scope="scope">
-                    <span>{{ parseTime(scope.row.createTime) }}</span>
+                    <span>{{ parseTime(scope.row.createdDate) }}</span>
                   </template>
                 </el-table-column>
               </el-table>
               <!--分页组件-->
               <el-pagination
-                :total="total"
                 :current-page="page + 1"
-                style="margin-top: 8px;"
+                :total="total"
                 layout="total, prev, pager, next, sizes"
-                @size-change="sizeChange"
+                style="margin-top: 8px;"
                 @current-change="pageChange"
+                @size-change="sizeChange"
               />
             </el-tab-pane>
           </el-tabs>
@@ -116,6 +153,7 @@ import commonUtil from '@/utils/common'
 import crud from '@/mixins/crud'
 import { editUser } from '@/views/sys/user'
 import Avatar from '@/assets/images/avatar.png'
+
 const parseTime = commonUtil.parseTime
 export default {
   name: 'Center',
@@ -160,7 +198,8 @@ export default {
   },
   created() {
     this.form = { id: this.user.id, nickName: this.user.nickName, gender: this.user.gender, phone: this.user.phone }
-    store.dispatch('GetUser').then(() => {})
+    store.dispatch('GetUser').then(() => {
+    })
   },
   methods: {
     parseTime,
@@ -179,7 +218,8 @@ export default {
         type: 'success',
         duration: 2500
       })
-      store.dispatch('GetUser').then(() => {})
+      store.dispatch('GetUser').then(() => {
+      })
     },
     // 监听上传失败
     handleError(e, file, fileList) {
@@ -197,7 +237,8 @@ export default {
             this.saveLoading = true
             editUser(this.form).then(() => {
               this.editSuccessNotify()
-              store.dispatch('GetUser').then(() => {})
+              store.dispatch('GetUser').then(() => {
+              })
               this.saveLoading = false
             }).catch(() => {
               this.saveLoading = false
@@ -210,7 +251,7 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss">
+<style lang="scss" rel="stylesheet/scss">
   .avatar-uploader-icon {
     font-size: 28px;
     width: 120px;
@@ -225,18 +266,21 @@ export default {
     display: block;
     border-radius: 50%
   }
+
   .user-info {
     padding-left: 0;
     list-style: none;
-    li{
+
+    li {
       border-bottom: 1px solid #F0F3F4;
       padding: 11px 0;
       font-size: 13px;
     }
+
     .user-right {
       float: right;
 
-      a{
+      a {
         color: #317EF3;
       }
     }

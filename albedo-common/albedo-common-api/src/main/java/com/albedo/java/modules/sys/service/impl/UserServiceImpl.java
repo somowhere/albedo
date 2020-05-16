@@ -17,6 +17,7 @@
 package com.albedo.java.modules.sys.service.impl;
 
 import cn.hutool.core.util.ArrayUtil;
+import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.exception.EntityExistException;
@@ -43,7 +44,6 @@ import com.albedo.java.modules.sys.domain.vo.account.PasswordChangeVo;
 import com.albedo.java.modules.sys.domain.vo.account.PasswordRestVo;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.modules.sys.service.*;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
@@ -79,19 +79,19 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	private final DeptService deptService;
 	private final UserRoleService userRoleService;
 
-	public Boolean exitUserByUserName(UserDto userDto){
+	public Boolean exitUserByUserName(UserDto userDto) {
 		return getOne(Wrappers.<User>query()
 			.ne(StringUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
 			.eq(UserDto.F_USERNAME, userDto.getUsername())) != null;
 	}
 
-	public Boolean exitUserByEmail(UserDto userDto){
+	public Boolean exitUserByEmail(UserDto userDto) {
 		return getOne(Wrappers.<User>query()
 			.ne(StringUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
 			.eq(UserDto.F_EMAIL, userDto.getEmail())) != null;
 	}
 
-	public Boolean exitUserByPhone(UserDto userDto){
+	public Boolean exitUserByPhone(UserDto userDto) {
 		return getOne(Wrappers.<User>query()
 			.ne(StringUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
 			.eq(UserDto.F_PHONE, userDto.getPhone())) != null;
@@ -104,24 +104,25 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	@CacheEvict(value = "user_details", key = "#userDto.username")
+	@CacheEvict(value = CacheNameConstants.USER_DETAILS, key = "#userDto.username")
 	public void saveOrUpdate(UserDto userDto) {
+		boolean add = StringUtil.isEmpty(userDto.getId());
+		if (add) {
+			Assert.isTrue(StringUtil.isNotEmpty(userDto.getPassword()), "密码不能为空");
+		}
 		// username before comparing with database
 		if (exitUserByUserName(userDto)) {
-			throw new EntityExistException(UserDto.class,"username", userDto.getUsername());
+			throw new EntityExistException(UserDto.class, "username", userDto.getUsername());
 		}
 		// email before comparing with database
 		if (StringUtil.isNotEmpty(userDto.getEmail()) && exitUserByEmail(userDto)) {
-			throw new EntityExistException(UserDto.class,"email", userDto.getEmail());
+			throw new EntityExistException(UserDto.class, "email", userDto.getEmail());
 		}
 		// phone before comparing with database
 		if (StringUtil.isNotEmpty(userDto.getPhone()) && exitUserByPhone(userDto)) {
-			throw new EntityExistException(UserDto.class,"phone", userDto.getPhone());
+			throw new EntityExistException(UserDto.class, "phone", userDto.getPhone());
 		}
-		User user = StringUtil.isNotEmpty(userDto.getId()) ? repository.selectById(userDto.getId()) : new User();
-		if (StringUtil.isEmpty(userDto.getPassword())) {
-			userDto.setPassword(null);
-		}
+		User user = add ? new User() : repository.selectById(userDto.getId());
 		BeanUtil.copyProperties(userDto, user, true);
 		if (StringUtil.isNotEmpty(userDto.getPassword())) {
 			user.setPassword(passwordEncoder.encode(userDto.getPassword()));
@@ -151,7 +152,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	public UserInfo getUserInfo(UserVo userVo) {
 		UserInfo userInfo = new UserInfo();
 		userInfo.setUser(userVo);
-		List<Role> roles = roleService.findRolesByUserIdList(userVo.getId());
+		List<Role> roles = roleService.findRoleByUserIdList(userVo.getId());
 		//设置角色列表  （ID）
 		List<String> roleIds = roles.stream()
 			.map(Role::getId)
@@ -160,7 +161,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 		//设置权限列表（menu.permission）
 		Set<String> permissions = new HashSet<>();
 		roleIds.forEach(roleId -> {
-			List<String> permissionList = menuService.getMenuByRoleId(roleId)
+			List<String> permissionList = menuService.findMenuByRoleId(roleId)
 				.stream()
 				.filter(menuVo -> StringUtil.isNotEmpty(menuVo.getPermission()))
 				.map(MenuVo::getPermission)
@@ -179,19 +180,27 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public IPage getUserPage(PageModel pm, UserQueryCriteria userQueryCriteria, DataScope dataScope) {
+	public IPage<UserVo> getUserPage(PageModel pm, UserQueryCriteria userQueryCriteria, DataScope dataScope) {
 		pm.addOrder(OrderItem.desc("a.created_date"));
-		QueryWrapper wrapper = QueryWrapperUtil.<User>getWrapper(pm, userQueryCriteria);
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, userQueryCriteria);
 		wrapper.eq("a.del_flag", User.FLAG_NORMAL);
-		IPage<List<UserVo>> userVosPage = baseMapper.getUserVoPage(pm, wrapper, dataScope);
+		IPage<UserVo> userVosPage = repository.findUserVoPage(pm, wrapper, dataScope);
 		return userVosPage;
+	}
+
+	@Override
+	public List<UserVo> getUserPage(UserQueryCriteria userQueryCriteria, DataScope dataScope) {
+		QueryWrapper wrapper = QueryWrapperUtil.<User>getWrapper(userQueryCriteria);
+		wrapper.eq("a.del_flag", User.FLAG_NORMAL);
+		wrapper.orderByDesc("a.created_date");
+		return repository.findUserVoPage(wrapper, dataScope);
 	}
 
 	@Override
 	public Boolean removeByIds(List<String> idList) {
 		idList.stream().forEach(id -> {
-			Assert.isTrue(!StringUtil.equals(SecurityUtil.getUser().getId(),id),"不能操作当前登录用户");
-			removeUserById(baseMapper.selectById(id));
+			Assert.isTrue(!StringUtil.equals(SecurityUtil.getUser().getId(), id), "不能操作当前登录用户");
+			removeUserById(repository.selectById(id));
 		});
 		return Boolean.TRUE;
 	}
@@ -204,8 +213,8 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public UserVo getUserVoById(String id) {
-		UserVo userVo = baseMapper.getUserVoById(id);
+	public UserVo findUserVoById(String id) {
+		UserVo userVo = baseMapper.findUserVoById(id);
 		return userVo;
 	}
 
@@ -218,7 +227,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public UserDto getUserDtoById(String id) {
-		UserVo userVo = baseMapper.getUserVoById(id);
+		UserVo userVo = repository.findUserVoById(id);
 		return new UserDto(userVo);
 	}
 
@@ -228,7 +237,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	 * @param user 用户
 	 * @return Boolean
 	 */
-	@CacheEvict(value = "user_details", key = "#user.username")
+	@CacheEvict(value = CacheNameConstants.USER_DETAILS, key = "#user.username")
 	public Boolean removeUserById(User user) {
 //		userRoleService.removeRoleByUserId(user.getId());
 		this.removeById(user.getId());
@@ -260,11 +269,11 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	@Override
 	public void lockOrUnLock(Set<String> idList) {
 		idList.forEach(id -> {
-			Assert.isTrue(!StringUtil.equals(SecurityUtil.getUser().getId(),id),"不能操作当前登录用户");
-			User user = baseMapper.selectById(id);
+			Assert.isTrue(!StringUtil.equals(SecurityUtil.getUser().getId(), id), "不能操作当前登录用户");
+			User user = repository.selectById(id);
 			user.setAvailable(CommonConstants.YES.equals(user.getAvailable()) ?
 				CommonConstants.NO : CommonConstants.YES);
-			baseMapper.updateById(user);
+			repository.updateById(user);
 		});
 	}
 
@@ -293,7 +302,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 
 	@Override
 	public UserVo getOneVoByUserName(String username) {
-		return repository.getUserVoByUsername(username);
+		return repository.findUserVoById(username);
 	}
 
 	public void save(@Valid UserExcelVo userExcelVo) {
@@ -311,6 +320,16 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 		}
 		user.setRoleIdList(Lists.newArrayList(role.getId()));
 		saveOrUpdate(user);
+	}
+
+	@Override
+	public List<User> findUserByRoleId(String roleId) {
+		return repository.findUserByRoleId(roleId);
+	}
+
+	@Override
+	public List<User> getUserByDeptId(String deptId) {
+		return repository.selectList(Wrappers.<User>lambdaQuery().eq(User::getDeptId, deptId));
 	}
 
 }

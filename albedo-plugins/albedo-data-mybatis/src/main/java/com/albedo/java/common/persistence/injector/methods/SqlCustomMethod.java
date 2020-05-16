@@ -1,5 +1,6 @@
 package com.albedo.java.common.persistence.injector.methods;
 
+@Deprecated
 public enum SqlCustomMethod {
 	FIND_RELATION_LIST("findRelationList", "查询包含关联对象集合", "<script>SELECT %s FROM %s %s</script>"),
 	FIND_RELATION_PAGE("findRelationPage", "查询包含关联对象集合（并翻页）", "<script>SELECT %s FROM %s %s</script>");

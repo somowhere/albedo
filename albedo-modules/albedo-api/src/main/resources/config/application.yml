@@ -54,7 +54,6 @@ mybatis-plus:
 
 application:
   adminPath: /api
-  base-class-path: com.albedo.java
   address-enabled: true
   logPath: .logs
   static-file-directory: D:/albedo-file

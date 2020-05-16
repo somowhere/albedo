@@ -4,9 +4,9 @@
 
 <script>
 import echarts from 'echarts'
-require('echarts/theme/macarons') // echarts theme
-
 import commonUtil from '@/utils/common'
+
+require('echarts/theme/macarons') // echarts theme
 
 const animationDuration = 3000
 

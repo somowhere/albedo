@@ -5,8 +5,7 @@ package com.albedo.java.modules.quartz.service;
 
 import com.albedo.java.common.persistence.service.DataService;
 import com.albedo.java.modules.quartz.domain.Job;
-import com.albedo.java.modules.quartz.domain.vo.JobDto;
-import com.albedo.java.modules.quartz.repository.JobRepository;
+import com.albedo.java.modules.quartz.domain.dto.JobDto;
 
 import java.util.Set;
 
@@ -16,7 +15,7 @@ import java.util.Set;
  * @author admin
  * @version 2019-08-14 11:24:16
  */
-public interface JobService extends DataService<JobRepository, Job, JobDto, String> {
+public interface JobService extends DataService<Job, JobDto, String> {
 
 
 	/**
@@ -76,7 +75,7 @@ public interface JobService extends DataService<JobRepository, Job, JobDto, Stri
 	 */
 	boolean checkCronExpressionIsValid(String cronExpression);
 
-	void available(Set<String> idList);
+	void updateStatus(Set<String> idList);
 
 	void concurrent(Set<String> idList);
 

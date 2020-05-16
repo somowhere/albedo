@@ -16,6 +16,7 @@ import com.albedo.java.modules.gen.domain.vo.TemplateVo;
 import com.albedo.java.modules.gen.domain.xml.GenConfig;
 import com.albedo.java.modules.gen.repository.SchemeRepository;
 import com.albedo.java.modules.gen.repository.TableRepository;
+import com.albedo.java.modules.gen.service.SchemeService;
 import com.albedo.java.modules.gen.service.TableColumnService;
 import com.albedo.java.modules.gen.service.TableService;
 import com.albedo.java.modules.gen.util.GenUtil;
@@ -41,80 +42,80 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class SchemeServiceImpl extends DataServiceImpl<SchemeRepository, Scheme, SchemeDto, String> implements com.albedo.java.modules.gen.service.SchemeService {
+public class SchemeServiceImpl extends DataServiceImpl<SchemeRepository, Scheme, SchemeDto, String> implements SchemeService {
 
 	private final TableRepository tableRepository;
 	private final TableService tableService;
 	private final TableColumnService tableColumnService;
 
 	@Override
-	public List<Scheme> findAll(String id) {
+	public List<Scheme> findAllListIdNot(String id) {
 		return super.list(Wrappers.<Scheme>query().ne(Table.F_ID, id == null ? "-1" : id));
 	}
 
 
 	@Override
-	public String generateCode(SchemeDto schemeDataVo) {
+	public String generateCode(SchemeDto schemeDto) {
 		StringBuilder result = new StringBuilder();
 
 		// 查询主表及字段列
-		TableDto tableDataVo = tableService.getOneDto(schemeDataVo.getTableId());
-		tableDataVo.setColumnList(tableColumnService.list(Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID,
-			tableDataVo.getId()))
+		TableDto tableDto = tableService.getOneDto(schemeDto.getTableId());
+		tableDto.setColumnList(tableColumnService.list(Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID,
+			tableDto.getId()))
 			.stream().map(item -> tableColumnService.copyBeanToDto(item)).collect(Collectors.toList())
 		);
-		Collections.sort(tableDataVo.getColumnList());
+		Collections.sort(tableDto.getColumnList());
 
 		// 获取所有代码模板
 		GenConfig config = GenUtil.getConfig();
 
 		// 获取模板列表
-		List<TemplateVo> templateList = GenUtil.getTemplateList(config, schemeDataVo.getCategory(), false);
-		List<TemplateVo> childTableTemplateList = GenUtil.getTemplateList(config, schemeDataVo.getCategory(), true);
+		List<TemplateVo> templateList = GenUtil.getTemplateList(config, schemeDto.getCategory(), false);
+		List<TemplateVo> childTableTemplateList = GenUtil.getTemplateList(config, schemeDto.getCategory(), true);
 
 		// 如果有子表模板，则需要获取子表列表
 		if (childTableTemplateList.size() > 0) {
-			tableDataVo.setChildList(tableRepository.findAllByParentTable(tableDataVo.getId())
+			tableDto.setChildList(tableRepository.findAllByParentTable(tableDto.getId())
 				.stream().map(item -> tableService.copyBeanToDto(item)).collect(Collectors.toList()));
 		}
 
 		// 生成子表模板代码
-		if (tableDataVo.getChildList() == null) {
-			tableDataVo.setChildList(Lists.newArrayList());
+		if (tableDto.getChildList() == null) {
+			tableDto.setChildList(Lists.newArrayList());
 		}
-		for (TableDto childTable : tableDataVo.getChildList()) {
+		for (TableDto childTable : tableDto.getChildList()) {
 			Collections.sort(childTable.getColumnList());
-			childTable.setCategory(schemeDataVo.getCategory());
-			schemeDataVo.setTableDataVo(childTable);
-			Map<String, Object> childTableModel = GenUtil.getDataModel(schemeDataVo);
+			childTable.setCategory(schemeDto.getCategory());
+			schemeDto.setTableDto(childTable);
+			Map<String, Object> childTableModel = GenUtil.getDataModel(schemeDto);
 			for (TemplateVo tpl : childTableTemplateList) {
-				result.append(GenUtil.generateToFile(tpl, childTableModel, schemeDataVo.getReplaceFile()));
+				result.append(GenUtil.generateToFile(tpl, childTableModel, schemeDto.getReplaceFile()));
 			}
 		}
-		tableDataVo.setCategory(schemeDataVo.getCategory());
+		tableDto.setCategory(schemeDto.getCategory());
 		// 生成主表模板代码
-		schemeDataVo.setTableDataVo(tableDataVo);
-		Map<String, Object> model = GenUtil.getDataModel(schemeDataVo);
+		schemeDto.setTableDto(tableDto);
+		Map<String, Object> model = GenUtil.getDataModel(schemeDto);
 		for (TemplateVo tpl : templateList) {
-			result.append(GenUtil.generateToFile(tpl, model, schemeDataVo.getReplaceFile()));
+			result.append(GenUtil.generateToFile(tpl, model, schemeDto.getReplaceFile()));
 		}
 		return result.toString();
 	}
 
 	@Override
-	public Map<String, Object> findFormData(SchemeDto schemeDataVo, String loginId) {
+	public Map<String, Object> findFormData(SchemeDto schemeDto, String loginId) {
 		Map<String, Object> map = Maps.newHashMap();
 
-		if (StringUtil.isNotEmpty(schemeDataVo.getId())) {
-			schemeDataVo = super.getOneDto(schemeDataVo.getId());
+		if (StringUtil.isNotEmpty(schemeDto.getId())) {
+			schemeDto = super.getOneDto(schemeDto.getId());
 		}
-		if (StringUtil.isBlank(schemeDataVo.getPackageName())) {
-			schemeDataVo.setPackageName("com.albedo.java.modules");
+		if (StringUtil.isBlank(schemeDto.getPackageName())) {
+			schemeDto.setPackageName("com.albedo.java.modules");
 		}
-		if (StringUtil.isBlank(schemeDataVo.getFunctionAuthor())) {
-			schemeDataVo.setFunctionAuthor(loginId);
+		if (StringUtil.isBlank(schemeDto.getFunctionAuthor())) {
+			schemeDto.setFunctionAuthor(loginId);
 		}
-		map.put("schemeVo", schemeDataVo);
+		map.put("schemeVo", schemeDto);
 		GenConfig config = GenUtil.getConfig();
 		map.put("config", config);
 
@@ -123,8 +124,8 @@ public class SchemeServiceImpl extends DataServiceImpl<SchemeRepository, Scheme,
 
 		List<Table> tableList = tableService.list(), list = Lists.newArrayList();
 		List<String> tableIds = Lists.newArrayList();
-		if (StringUtil.isNotEmpty(schemeDataVo.getId())) {
-			List<Scheme> schemeList = findAll(schemeDataVo.getId());
+		if (StringUtil.isNotEmpty(schemeDto.getId())) {
+			List<Scheme> schemeList = findAllListIdNot(schemeDto.getId());
 			tableIds = CollUtil.extractToList(schemeList, "tableId");
 		}
 		for (Table table : tableList) {
@@ -140,53 +141,53 @@ public class SchemeServiceImpl extends DataServiceImpl<SchemeRepository, Scheme,
 	public IPage getSchemeVoPage(PageModel pm) {
 		Wrapper wrapper = QueryWrapperUtil.getWrapper(pm, null);
 		pm.addOrder(OrderItem.desc("a." + Scheme.F_SQL_CREATEDDATE));
-		IPage<List<SchemeVo>> userVosPage = baseMapper.getSchemeVoPage(pm, wrapper);
+		IPage<List<SchemeVo>> userVosPage = repository.getSchemeVoPage(pm, wrapper);
 		return userVosPage;
 	}
 
 
 	public Map<String, Object> previewCode(String id, String username) {
 		Map<String, Object> result = Maps.newHashMap();
-		SchemeDto schemeDataVo = super.getOneDto(id);
+		SchemeDto schemeDto = super.getOneDto(id);
 		// 查询主表及字段列
-		TableDto tableDataVo = tableService.getOneDto(schemeDataVo.getTableId());
-		tableDataVo.setColumnList(tableColumnService.list(Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID,
-			tableDataVo.getId()))
+		TableDto tableDto = tableService.getOneDto(schemeDto.getTableId());
+		tableDto.setColumnList(tableColumnService.list(Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID,
+			tableDto.getId()))
 			.stream().map(item -> tableColumnService.copyBeanToDto(item)).collect(Collectors.toList())
 		);
-		Collections.sort(tableDataVo.getColumnList());
+		Collections.sort(tableDto.getColumnList());
 
 		// 获取所有代码模板
 		GenConfig config = GenUtil.getConfig();
 
 		// 获取模板列表
-		List<TemplateVo> templateList = GenUtil.getTemplateList(config, schemeDataVo.getCategory(), false);
-		List<TemplateVo> childTableTemplateList = GenUtil.getTemplateList(config, schemeDataVo.getCategory(), true);
+		List<TemplateVo> templateList = GenUtil.getTemplateList(config, schemeDto.getCategory(), false);
+		List<TemplateVo> childTableTemplateList = GenUtil.getTemplateList(config, schemeDto.getCategory(), true);
 
 		// 如果有子表模板，则需要获取子表列表
 		if (childTableTemplateList.size() > 0) {
-			tableDataVo.setChildList(tableRepository.findAllByParentTable(tableDataVo.getId())
+			tableDto.setChildList(tableRepository.findAllByParentTable(tableDto.getId())
 				.stream().map(item -> tableService.copyBeanToDto(item)).collect(Collectors.toList()));
 		}
 
 		// 生成子表模板代码
-		if (tableDataVo.getChildList() == null) {
-			tableDataVo.setChildList(Lists.newArrayList());
+		if (tableDto.getChildList() == null) {
+			tableDto.setChildList(Lists.newArrayList());
 		}
-		for (TableDto childTable : tableDataVo.getChildList()) {
+		for (TableDto childTable : tableDto.getChildList()) {
 			Collections.sort(childTable.getColumnList());
-			childTable.setCategory(schemeDataVo.getCategory());
-			schemeDataVo.setTableDataVo(childTable);
-			Map<String, Object> childTableModel = GenUtil.getDataModel(schemeDataVo);
+			childTable.setCategory(schemeDto.getCategory());
+			schemeDto.setTableDto(childTable);
+			Map<String, Object> childTableModel = GenUtil.getDataModel(schemeDto);
 			for (TemplateVo tpl : childTableTemplateList) {
 				String content = FreeMarkers.renderString(StringUtil.trimToEmpty(tpl.getContent()), childTableModel);
 				result.put(FreeMarkers.renderString(tpl.getFileName(), childTableModel), content);
 			}
 		}
-		tableDataVo.setCategory(schemeDataVo.getCategory());
+		tableDto.setCategory(schemeDto.getCategory());
 		// 生成主表模板代码
-		schemeDataVo.setTableDataVo(tableDataVo);
-		Map<String, Object> model = GenUtil.getDataModel(schemeDataVo);
+		schemeDto.setTableDto(tableDto);
+		Map<String, Object> model = GenUtil.getDataModel(schemeDto);
 		for (TemplateVo tpl : templateList) {
 			String content = FreeMarkers.renderString(StringUtil.trimToEmpty(tpl.getContent()), model);
 			result.put(FreeMarkers.renderString(tpl.getFileName(), model), content);

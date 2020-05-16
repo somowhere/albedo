@@ -14,22 +14,33 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.core.constant;
+package com.albedo.java.modules.sys.domain.vo;
+
+import com.albedo.java.common.core.annotation.DictType;
+import com.albedo.java.common.core.constant.DictNameConstants;
+import com.albedo.java.common.core.util.tree.TreeNodeAware;
+import com.albedo.java.common.core.vo.TreeVo;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 /**
+ * <p>
+ * 部门管理
+ * </p>
+ *
  * @author somewhere
- * @date 2018年06月22日16:41:01
- * 服务名称
+ * @since 2019/2/1
  */
-public interface ServiceNameConstants {
-	/**
-	 * 认证服务的SERVICEID
-	 */
-	String AUTH_SERVICE = "albedo-auth";
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class DeptVo extends TreeVo implements TreeNodeAware<DeptVo> {
 
 	/**
-	 * UMPS模块
+	 * 是否启用
 	 */
-	String UMPS_SERVICE = "albedo-admin";
-
+	@DictType(DictNameConstants.SYS_FLAG)
+	private Integer available;
+	private List<DeptVo> children;
 }

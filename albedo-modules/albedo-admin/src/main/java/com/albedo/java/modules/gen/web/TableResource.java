@@ -61,13 +61,13 @@ public class TableResource extends BaseResource {
 	@Log(value = "业务表", businessType = BusinessType.EDIT)
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('gen_table_edit')")
-	public ResponseEntity save(@Valid @RequestBody TableDto tableDataVo) {
+	public ResponseEntity save(@Valid @RequestBody TableDto tableDto) {
 		// 验证表是否已经存在
-		if (StringUtil.isBlank(tableDataVo.getId()) && !tableService.checkTableName(tableDataVo.getName())) {
-			return ResultBuilder.buildFail("保存失败！" + tableDataVo.getName() + " 表已经存在！");
+		if (StringUtil.isBlank(tableDto.getId()) && !tableService.checkTableName(tableDto.getName())) {
+			return ResultBuilder.buildFail("保存失败！" + tableDto.getName() + " 表已经存在！");
 		}
-		tableService.saveOrUpdate(tableDataVo);
-		return ResultBuilder.buildOk(StringUtil.toAppendStr("保存", tableDataVo.getName(), "成功"));
+		tableService.saveOrUpdate(tableDto);
+		return ResultBuilder.buildOk(StringUtil.toAppendStr("保存", tableDto.getName(), "成功"));
 	}
 
 	@DeleteMapping

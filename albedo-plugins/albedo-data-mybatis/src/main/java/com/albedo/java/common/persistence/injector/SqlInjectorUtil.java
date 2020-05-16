@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Slf4j
+@Deprecated
 public class SqlInjectorUtil {
 	public static String sqlWordConvert(String column) {
 		return String.format("`%s`", column);

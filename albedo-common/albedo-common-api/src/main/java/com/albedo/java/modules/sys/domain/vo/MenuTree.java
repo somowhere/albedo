@@ -18,8 +18,8 @@ package com.albedo.java.modules.sys.domain.vo;
 
 import cn.hutool.core.util.StrUtil;
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.common.core.vo.TreeNode;
-import com.albedo.java.common.core.vo.TreeUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -37,7 +37,7 @@ public class MenuTree extends TreeNode<MenuTree> {
 	private Boolean hidden;
 	private String redirect;
 	private String component;
-	private Boolean iFrame;
+	private Boolean iframe;
 	private Boolean alwaysShow;
 	private MenuMetaVo meta;
 
@@ -46,11 +46,11 @@ public class MenuTree extends TreeNode<MenuTree> {
 		this.parentId = menuVo.getParentId();
 		this.name = menuVo.getName();
 		this.path = menuVo.getPath();
-		this.iFrame = CommonConstants.YES.equals(menuVo.getIFrame());
+		this.iframe = CommonConstants.YES.equals(menuVo.getIframe());
 		setLabel(menuVo.getName());
 		this.meta = new MenuMetaVo(menuVo.getName(), menuVo.getIcon(), CommonConstants.YES.equals(menuVo.getCache()));
 		this.setHidden(CommonConstants.YES.equals(menuVo.getHidden()));
 		// 如果不是外链
-		this.setComponent(!CommonConstants.YES.equals(menuVo.getIFrame()) && menuVo.getParentId() == TreeUtil.ROOT && StrUtil.isEmpty(menuVo.getComponent())?"Layout":menuVo.getComponent());
+		this.setComponent(!CommonConstants.YES.equals(menuVo.getIframe()) && menuVo.getParentId() == TreeUtil.ROOT && StrUtil.isEmpty(menuVo.getComponent()) ? "Layout" : menuVo.getComponent());
 	}
 }

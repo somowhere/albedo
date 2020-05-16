@@ -1,4 +1,3 @@
-
 const validate = {
   /**
    * @param {string} path

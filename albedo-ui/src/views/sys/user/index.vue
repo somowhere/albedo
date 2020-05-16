@@ -2,15 +2,15 @@
   <div class="app-container">
     <el-row :gutter="20">
       <!--侧边部门数据-->
-      <el-col :xs="9" :sm="6" :md="4" :lg="4" :xl="4">
+      <el-col :lg="4" :md="4" :sm="6" :xl="4" :xs="9">
         <div class="head-container">
           <el-input
             v-model="deptName"
+            class="filter-item"
             clearable
-            size="small"
             placeholder="输入部门名称搜索"
             prefix-icon="el-icon-search"
-            class="filter-item"
+            size="small"
             @input="getDeptDatas"
           />
         </div>
@@ -22,37 +22,37 @@
         />
       </el-col>
       <!--用户数据-->
-      <el-col :xs="15" :sm="18" :md="20" :lg="20" :xl="20">
+      <el-col :lg="20" :md="20" :sm="18" :xl="20" :xs="15">
         <!--工具栏-->
         <div class="head-container">
           <div v-if="crud.props.searchToggle">
             <!-- 搜索 -->
             <el-input
               v-model="query.blurry"
-              clearable
-              size="small"
-              placeholder="输入名称或者邮箱或手机号搜索"
-              style="width: 210px;"
               class="filter-item"
+              clearable
+              placeholder="输入名称或者邮箱或手机号搜索"
+              size="small"
+              style="width: 250px;"
               @keyup.enter.native="crud.toQuery"
             />
             <el-date-picker
               v-model="query.createdDate"
               :default-time="['00:00:00','23:59:59']"
-              type="daterange"
+              class="date-item"
+              end-placeholder="结束日期"
               range-separator=":"
               size="small"
-              class="date-item"
-              value-format="yyyy-MM-dd HH:mm:ss"
               start-placeholder="开始日期"
-              end-placeholder="结束日期"
+              type="daterange"
+              value-format="yyyy-MM-dd HH:mm:ss"
             />
             <el-select
               v-model="query.available"
-              clearable
-              size="small"
-              placeholder="是否可用"
               class="filter-item"
+              clearable
+              placeholder="是否可用"
+              size="small"
               style="width: 100px"
               @change="crud.toQuery"
             >
@@ -60,62 +60,74 @@
             </el-select>
             <rrOperation />
           </div>
-          <crudOperation show="" :permission="permission" />
+          <crudOperation :permission="permission">
+            <el-button
+              slot="right"
+              v-permission="permission.export"
+              :disabled="!crud.data.length"
+              :loading="crud.downloadLoading"
+              class="filter-item"
+              icon="el-icon-download"
+              plain
+              size="mini"
+              type="warning"
+              @click="download"
+            >导出
+            </el-button>
+          </crudOperation>
         </div>
         <!--表单渲染-->
-        <el-dialog append-to-body :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="570px">
-          <el-form ref="form" :model="form" size="small" label-width="86px">
+        <el-dialog
+          :before-close="crud.cancelCU"
+          :close-on-click-modal="false"
+          :title="crud.status.title"
+          :visible.sync="crud.status.cu > 0"
+          append-to-body
+          width="570px"
+        >
+          <el-form ref="form" :model="form" label-width="86px" size="small">
             <el-form-item
-              label="用户名"
-              prop="username"
               :rules="[
                 { required: true, message: '请输入用户名', trigger: 'blur' },
                 { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
               ]"
+              label="用户名"
+              prop="username"
             >
               <el-input v-model="form.username" />
             </el-form-item>
             <el-form-item
-              label="电话"
-              prop="phone"
               :rules="[
                 { required: true, trigger: 'blur', validator: validPhone }
               ]"
+              label="电话"
+              prop="phone"
             >
               <el-input v-model.number="form.phone" />
             </el-form-item>
             <el-form-item
-              label="邮箱"
-              prop="email"
               :rules="[
                 { required: true, message: '请输入邮箱地址', trigger: 'blur' },
                 { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
               ]"
+              label="邮箱"
+              prop="email"
             >
               <el-input v-model="form.email" />
             </el-form-item>
-            <el-form-item label="部门" prop="deptId" :rules="[{ required: true, trigger: 'blur', message: '请选择部门'}]">
+            <el-form-item :rules="[{ required: true, trigger: 'blur', message: '请选择部门'}]" label="部门" prop="deptId">
               <treeselect
                 v-model="form.deptId"
                 :options="depts"
                 placeholder="选择部门"
               />
             </el-form-item>
-            <el-form-item label="是否可用" prop="available" :rules="[{ required: true, trigger: 'blur', message: '请选择'}]">
-              <el-radio-group v-model="form.available" :disabled="form.id === user.id">
-                <el-radio
-                  v-for="item in flagOptions"
-                  :key="item.id"
-                  :label="item.value"
-                >{{ item.label }}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item label="角色" prop="roleIdList" :rules="[{ required: true, trigger: 'blur', message: '请选择角色'}]">
+            <el-form-item :rules="[{ required: true, trigger: 'blur', message: '请选择角色'}]" label="角色" prop="roleIdList">
               <el-select
                 v-model="form.roleIdList"
                 multiple
-                style="width: 100%"
                 placeholder="请选择"
+                style="width: 100%"
               >
                 <el-option
                   v-for="item in roles"
@@ -136,41 +148,60 @@
           </div>
         </el-dialog>
         <!--表格渲染-->
-        <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
+        <el-table
+          ref="table"
+          v-loading="crud.loading"
+          :data="crud.data"
+          style="width: 100%;"
+          @selection-change="crud.selectionChangeHandler"
+          @sort-change="crud.sortChange"
+        >
           <el-table-column :selectable="checkboxT" type="selection" width="55" />
-          <el-table-column :show-overflow-tooltip="true" prop="deptName" label="部门" />
-          <el-table-column :show-overflow-tooltip="true" prop="username" label="用户名" />
-          <el-table-column :show-overflow-tooltip="true" prop="phone" width="100" label="电话" />
-          <el-table-column :show-overflow-tooltip="true" width="135" prop="email" label="邮箱" />
-          <el-table-column :show-overflow-tooltip="true" prop="roleNames" width="160" label="角色" />
-          <el-table-column label="状态" align="center" prop="availableText">
+          <el-table-column :show-overflow-tooltip="true" label="部门" prop="deptName" />
+          <el-table-column :show-overflow-tooltip="true" label="用户名" prop="a.username" sortable="custom">
+            <template slot-scope="scope">
+              <span>{{ scope.row.username }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" label="电话" prop="phone" width="100" />
+          <el-table-column :show-overflow-tooltip="true" label="邮箱" prop="email" width="135" />
+          <el-table-column :show-overflow-tooltip="true" label="角色" prop="roleNames" width="160" />
+          <el-table-column align="center" label="是否可用" prop="available">
             <template slot-scope="scope">
               <el-switch
                 v-model="scope.row.available"
+                v-permission="[permission.lock]"
+                :active-value="1"
                 :disabled="user.id === scope.row.id"
-                active-color="#409EFF"
-                inactive-color="#F56C6C"
-                @change="changeAvailable(scope.row, scope.row.available)"
+                :inactive-value="0"
+                @change="changeAvailable(scope.row)"
               />
+              <span v-show="!permissions.includes(permission.lock)">{{ scope.row.availableText }}</span>
             </template>
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" prop="createTime" width="140" label="创建日期">
+          <el-table-column
+            :show-overflow-tooltip="true"
+            label="创建日期"
+            prop="a.created_date"
+            sortable="custom"
+            width="140"
+          >
             <template slot-scope="scope">
               <span>{{ parseTime(scope.row.createdDate) }}</span>
             </template>
           </el-table-column>
           <el-table-column
-            v-permission="['sys_user_edit', 'sys_user_del']"
-            label="操作"
-            width="125"
+            v-permission="[permission.edit, permission.del]"
             align="center"
             fixed="right"
+            label="操作"
+            width="125"
           >
             <template slot-scope="scope">
               <udOperation
                 :data="scope.row"
-                :permission="permission"
                 :disabled-dle="scope.row.id === user.id"
+                :permission="permission"
               />
             </template>
           </el-table-column>
@@ -183,11 +214,11 @@
 </template>
 
 <script>
-import crudUser from '@/views/sys/user/userService'
+import crudUser from '@/views/sys/user/user-service'
 import validate from '@/utils/validate'
-import { getDepts } from '@/views/sys/dept/deptService'
-import { getAll, getLevel } from '@/views/sys/role/roleService'
-import CRUD, { presenter, header, form, crud } from '@crud/crud'
+import { getDepts } from '@/views/sys/dept/dept-service'
+import { getAll, getLevel } from '@/views/sys/role/role-service'
+import CRUD, { crud, form, header, presenter } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
@@ -195,9 +226,19 @@ import pagination from '@crud/Pagination'
 import Treeselect from '@riophae/vue-treeselect'
 import { mapGetters } from 'vuex'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-import commonUtil from '../../../utils/common'
+import commonUtil from '@/utils/common'
+import { NO, YES } from '@/const/common'
 
-const defaultForm = { id: null, username: null, email: null, available: null, roleIdList: [], deptId: null, phone: null, description: null }
+const defaultForm = {
+  id: null,
+  username: null,
+  email: null,
+  available: null,
+  roleIdList: [],
+  deptId: null,
+  phone: null,
+  description: null
+}
 export default {
   name: 'User',
   components: { Treeselect, crudOperation, rrOperation, udOperation, pagination },
@@ -231,7 +272,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'user', 'dicts'
+      'user', 'dicts', 'permissions'
     ])
   },
   created() {
@@ -274,15 +315,17 @@ export default {
     },
     // 获取左侧部门数据
     getDeptDatas() {
-      const params = { }
-      if (this.deptName) { params['name'] = this.deptName }
+      const params = {}
+      if (this.deptName) {
+        params['name'] = this.deptName
+      }
       getDepts(params).then(res => {
         this.deptDatas = res.data
       })
     },
     // 获取弹窗内部门数据
     getDepts() {
-      getDepts({ available: 1 }).then(res => {
+      getDepts({ available: YES }).then(res => {
         this.depts = res.data
       })
     },
@@ -296,35 +339,46 @@ export default {
       this.crud.toQuery()
     },
     // 改变状态
-    changeAvailable(data, val) {
-      this.$confirm('此操作将 "' + 'this.dict.label.user_status[val] ' + '" ' + data.username + ', 是否继续？', '提示', {
+    changeAvailable(data) {
+      const flag = data.available === YES
+      this.$confirm('此操作将 "' + (flag ? '启用' : '锁定') + '" ' + data.username + ', 是否继续？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        crudUser.edit(data).then(res => {
-          this.crud.notify('this.dict.label.user_status[val]' + '成功', CRUD.NOTIFICATION_TYPE.SUCCESS)
+        crudUser.lock([data.id]).then(res => {
         }).catch(() => {
-          data.available = !data.available
+          data.available = flag ? NO : YES
         })
       }).catch(() => {
-        data.available = !data.available
+        data.available = flag ? NO : YES
       })
     },
     // 获取弹窗内角色数据
     getRoles() {
       getAll().then(res => {
         this.roles = res.data
-      }).catch(() => { })
+      }).catch(() => {
+      })
     },
     // 获取权限级别
     getRoleLevel() {
       getLevel().then(res => {
         this.level = res.data
-      }).catch(() => { })
+      }).catch(() => {
+      })
     },
     checkboxT(row, rowIndex) {
       return row.id !== this.user.id
+    },
+    download() {
+      crud.downloadLoading = true
+      crudUser.download(this.crud.getQueryParams()).then(response => {
+        commonUtil.downloadFile(response, '用户数据', 'xlsx')
+        crud.downloadLoading = false
+      }).catch(() => {
+        crud.downloadLoading = false
+      })
     }
   }
 }

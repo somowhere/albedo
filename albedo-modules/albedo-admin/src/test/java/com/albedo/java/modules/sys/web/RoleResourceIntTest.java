@@ -48,8 +48,8 @@ public class RoleResourceIntTest {
 	private static final String DEFAULT_ANOTHER_CODE = "ANOTHER_CODE";
 	private static final String DEFAULT_CODE = "CODE1";
 	private static final String UPDATED_CODE = "CODE2";
-	private static final String DEFAULT_AVAILABLE = CommonConstants.STR_YES;
-	private static final String UPDATED_AVAILABLE = CommonConstants.STR_NO;
+	private static final Integer DEFAULT_AVAILABLE = CommonConstants.YES;
+	private static final Integer UPDATED_AVAILABLE = CommonConstants.NO;
 	private static final String DEFAULT_DATASCOPE = CommonConstants.STR_YES;
 	private static final String UPDATED_DATASCOPE = CommonConstants.STR_NO;
 	private static final Integer DEFAULT_LEVEL = 1;
@@ -59,6 +59,8 @@ public class RoleResourceIntTest {
 	private String DEFAULT_API_URL;
 	@Autowired
 	private RoleService roleService;
+	@Autowired
+	private UserService userService;
 	@Autowired
 	private MenuService menuService;
 	@Autowired
@@ -84,7 +86,7 @@ public class RoleResourceIntTest {
 	public void setup() {
 		DEFAULT_API_URL = applicationProperties.getAdminPath("/sys/role//");
 		MockitoAnnotations.initMocks(this);
-		final RoleResource roleResource = new RoleResource(roleService, roleMenuService);
+		final RoleResource roleResource = new RoleResource(roleService, roleMenuService, userService);
 		this.restRoleMockMvc = MockMvcBuilders.standaloneSetup(roleResource)
 			.addPlaceholderValue(TestUtil.ADMIN_PATH, applicationProperties.getAdminPath())
 			.setControllerAdvice(globalExceptionHandler)
@@ -102,8 +104,6 @@ public class RoleResourceIntTest {
 	public RoleDto createEntity() {
 		RoleDto roleDto = new RoleDto();
 		roleDto.setName(DEFAULT_NAME);
-		roleDto.setCode(DEFAULT_CODE);
-		roleDto.setAvailable(DEFAULT_AVAILABLE);
 		roleDto.setDataScope(DEFAULT_DATASCOPE);
 		roleDto.setLevel(DEFAULT_LEVEL);
 		roleDto.setDescription(DEFAULT_DESCRIPTION);
@@ -117,8 +117,6 @@ public class RoleResourceIntTest {
 		List<Menu> allMenuEntities = menuService.list();
 		List<Dept> allDept = deptService.list();
 		anotherRole.setName(DEFAULT_ANOTHER_NAME);
-		anotherRole.setCode(DEFAULT_ANOTHER_CODE);
-		anotherRole.setAvailable(DEFAULT_AVAILABLE);
 		anotherRole.setDataScope(DEFAULT_DATASCOPE);
 		anotherRole.setLevel(DEFAULT_LEVEL);
 		anotherRole.setDescription(DEFAULT_DESCRIPTION);
@@ -146,7 +144,6 @@ public class RoleResourceIntTest {
 		Role testRole = roleService.getOne(Wrappers.<Role>query().lambda()
 			.eq(Role::getName, roleDto.getName()));
 		assertThat(testRole.getName()).isEqualTo(DEFAULT_NAME);
-		assertThat(testRole.getCode()).isEqualTo(DEFAULT_CODE);
 		assertThat(testRole.getLevel()).isEqualTo(DEFAULT_LEVEL);
 		assertThat(testRole.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
 		assertThat(testRole.getDelFlag()).isEqualTo(Role.FLAG_NORMAL);
@@ -206,9 +203,7 @@ public class RoleResourceIntTest {
 
 		RoleDto managedRoleVM = new RoleDto();
 		managedRoleVM.setName(UPDATED_NAME);
-		managedRoleVM.setCode(UPDATED_CODE);
 		managedRoleVM.setLevel(UPDATED_LEVEL);
-		managedRoleVM.setAvailable(UPDATED_AVAILABLE);
 		managedRoleVM.setDataScope(UPDATED_DATASCOPE);
 		managedRoleVM.setDescription(UPDATED_DESCRIPTION);
 		managedRoleVM.setMenuIdList(Lists.newArrayList(anotherRole.getMenuIdList().get(0)));
@@ -233,7 +228,6 @@ public class RoleResourceIntTest {
 		assertThat(listRoleDept.size()).isEqualTo(1);
 		assertThat(listRoleDept.get(0).getDeptId()).isEqualTo(anotherRole.getDeptIdList().get(0));
 		assertThat(testRole.getName()).isEqualTo(UPDATED_NAME);
-		assertThat(testRole.getCode()).isEqualTo(UPDATED_CODE);
 //		assertThat(testRole.getParentIds()).contains(UPDATED_PARENTID);
 		assertThat(testRole.getLevel()).isEqualTo(UPDATED_LEVEL);
 		assertThat(testRole.getDescription()).isEqualTo(UPDATED_DESCRIPTION);

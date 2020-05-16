@@ -1,7 +1,6 @@
 package com.albedo.java.common.persistence.domain;
 
 import com.albedo.java.common.core.util.StringUtil;
-import com.albedo.java.common.persistence.annotation.ManyToOne;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -32,29 +31,28 @@ public class TreeEntity<T extends TreeEntity<T>> extends IdEntity<T> {
 	public static final String F_SQL_SORT = "sort";
 	private static final long serialVersionUID = 1L;
 	/*** 组织名称 */
-	@TableField(TreeEntity.F_SQL_NAME)
+	@TableField
 	@NotBlank(message = "名称不能为空")
 	protected String name;
 	/*** 上级组织 */
-	@TableField(TreeEntity.F_SQL_PARENTID)
+	@TableField
 	@NotNull(message = "父ID不能为空")
 	protected String parentId;
 	/*** 所有父编号 */
-	@TableField(TreeEntity.F_SQL_PARENTIDS)
+	@TableField
 	protected String parentIds;
 	/*** 上级组织 */
 	@TableField(exist = false)
-	@ManyToOne(name = TreeEntity.F_SQL_PARENTID)
 	@JsonIgnore
 	protected T parent;
 	/*** 序号 */
-	@TableField(TreeEntity.F_SQL_SORT)
+	@TableField
 	protected Integer sort;
 	/*** 父模块名称 */
 	@TableField(exist = false)
 	protected String parentName;
 	/*** 1 叶子节点 0非叶子节点 */
-	@TableField(TreeEntity.F_SQL_LEAF)
+	@TableField
 	private boolean leaf = false;
 
 	public TreeEntity() {

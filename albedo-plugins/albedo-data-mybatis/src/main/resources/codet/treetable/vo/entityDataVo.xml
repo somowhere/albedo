@@ -2,7 +2,7 @@
 <template>
 	<name>entityForm</name>
 	<filePath>src/main/java/${packageName}/${moduleName}/domain/vo/${subModuleName}</filePath>
-	<fileName>${ClassName}DataVo.java</fileName>
+	<fileName>${ClassName}Dto.java</fileName>
 	<content><![CDATA[
 /**
  * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
@@ -25,7 +25,7 @@ import java.util.Date;
  * @version ${functionVersion}
  */
 @Data @ToString @NoArgsConstructor @AllArgsConstructor
-public class ${ClassName}DataVo extends TreeEntityVo {
+public class ${ClassName}Dto extends TreeEntityVo {
 
 	private static final long serialVersionUID = 1L;
 	<#list table.columnList as column>

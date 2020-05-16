@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- *
  * @author somewhere
  */
 @Controller
@@ -29,8 +28,6 @@ public class HelloResource extends BaseResource {
 
 		return ResultBuilder.buildOk("hello");
 	}
-
-
 
 
 }

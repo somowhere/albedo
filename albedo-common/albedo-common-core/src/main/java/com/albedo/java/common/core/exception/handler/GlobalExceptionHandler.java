@@ -101,20 +101,10 @@ public class GlobalExceptionHandler {
 	}
 
 	/**
-	 * 处理自定义异常
+	 * 处理 badException
 	 */
-	@ExceptionHandler(value = BadRequestException.class)
-	public ResponseEntity<R> badRequestException(BadRequestException e) {
-		// 打印堆栈信息
-		log.error(ExceptionUtil.stacktraceToString(e));
-		return ResultBuilder.buildFail(e.getStatus(), e.getMessage());
-	}
-
-	/**
-	 * 处理 EntityExist
-	 */
-	@ExceptionHandler(value = EntityExistException.class)
-	public ResponseEntity<R> entityExistException(EntityExistException e) {
+	@ExceptionHandler(value = {BadRequestException.class, EntityExistException.class, IllegalArgumentException.class})
+	public ResponseEntity<R> badException(Exception e) {
 		// 打印堆栈信息
 		log.error(ExceptionUtil.stacktraceToString(e));
 		return ResultBuilder.buildFail(BAD_REQUEST, e.getMessage());

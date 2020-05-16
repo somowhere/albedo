@@ -22,9 +22,8 @@ public class EscapeUtil extends cn.hutool.core.util.EscapeUtil {
 	 * Note that the commonly used apostrophe escape character (&amp;apos;)
 	 * is not a legal entity and so is not supported). </p>
 	 *
-	 * @param str  the <code>String</code> to escape, may be null
+	 * @param str the <code>String</code> to escape, may be null
 	 * @return a new escaped <code>String</code>, <code>null</code> if null string input
-	 *
 	 * @see #unescapeHtml(String)
 	 * @see <a href="http://hotwired.lycos.com/webmonkey/reference/special_characters/">ISO Entities</a>
 	 * @see <a href="http://www.w3.org/TR/REC-html32#latin1">HTML 3.2 Character Entities for ISO Latin-1</a>
@@ -37,7 +36,7 @@ public class EscapeUtil extends cn.hutool.core.util.EscapeUtil {
 			return null;
 		}
 		try {
-			StringWriter writer = new StringWriter ((int)(str.length() * 1.5));
+			StringWriter writer = new StringWriter((int) (str.length() * 1.5));
 			escapeHtml(writer, str);
 			return writer.toString();
 		} catch (IOException ioe) {
@@ -61,12 +60,11 @@ public class EscapeUtil extends cn.hutool.core.util.EscapeUtil {
 	 * Note that the commonly used apostrophe escape character (&amp;apos;)
 	 * is not a legal entity and so is not supported). </p>
 	 *
-	 * @param writer  the writer receiving the escaped string, not null
-	 * @param string  the <code>String</code> to escape, may be null
+	 * @param writer the writer receiving the escaped string, not null
+	 * @param string the <code>String</code> to escape, may be null
 	 * @throws IllegalArgumentException if the writer is null
-	 * @throws IOException when <code>Writer</code> passed throws the exception from
-	 *                                       calls to the {@link Writer#write(int)} methods.
-	 *
+	 * @throws IOException              when <code>Writer</code> passed throws the exception from
+	 *                                  calls to the {@link Writer#write(int)} methods.
 	 * @see #escapeHtml(String)
 	 * @see #unescapeHtml(String)
 	 * @see <a href="http://hotwired.lycos.com/webmonkey/reference/special_characters/">ISO Entities</a>
@@ -76,8 +74,8 @@ public class EscapeUtil extends cn.hutool.core.util.EscapeUtil {
 	 * @see <a href="http://www.w3.org/TR/html401/charset.html#code-position">HTML 4.01 Code positions</a>
 	 */
 	public static void escapeHtml(Writer writer, String string) throws IOException {
-		if (writer == null ) {
-			throw new IllegalArgumentException ("The Writer must not be null.");
+		if (writer == null) {
+			throw new IllegalArgumentException("The Writer must not be null.");
 		}
 		if (string == null) {
 			return;
@@ -86,6 +84,7 @@ public class EscapeUtil extends cn.hutool.core.util.EscapeUtil {
 	}
 
 	//-----------------------------------------------------------------------
+
 	/**
 	 * <p>Unescapes a string containing entity escapes to a string
 	 * containing the actual Unicode characters corresponding to the
@@ -98,7 +97,7 @@ public class EscapeUtil extends cn.hutool.core.util.EscapeUtil {
 	 * verbatim into the result string. e.g. "&amp;gt;&amp;zzzz;x" will
 	 * become "&gt;&amp;zzzz;x".</p>
 	 *
-	 * @param str  the <code>String</code> to unescape, may be null
+	 * @param str the <code>String</code> to unescape, may be null
 	 * @return a new unescaped <code>String</code>, <code>null</code> if null string input
 	 * @see #escapeHtml(Writer, String)
 	 */
@@ -107,7 +106,7 @@ public class EscapeUtil extends cn.hutool.core.util.EscapeUtil {
 			return null;
 		}
 		try {
-			StringWriter writer = new StringWriter ((int)(str.length() * 1.5));
+			StringWriter writer = new StringWriter((int) (str.length() * 1.5));
 			unescapeHtml(writer, str);
 			return writer.toString();
 		} catch (IOException ioe) {
@@ -128,15 +127,15 @@ public class EscapeUtil extends cn.hutool.core.util.EscapeUtil {
 	 * verbatim into the result string. e.g. "&amp;gt;&amp;zzzz;x" will
 	 * become "&gt;&amp;zzzz;x".</p>
 	 *
-	 * @param writer  the writer receiving the unescaped string, not null
-	 * @param string  the <code>String</code> to unescape, may be null
+	 * @param writer the writer receiving the unescaped string, not null
+	 * @param string the <code>String</code> to unescape, may be null
 	 * @throws IllegalArgumentException if the writer is null
-	 * @throws IOException if an IOException occurs
+	 * @throws IOException              if an IOException occurs
 	 * @see #escapeHtml(String)
 	 */
 	public static void unescapeHtml(Writer writer, String string) throws IOException {
-		if (writer == null ) {
-			throw new IllegalArgumentException ("The Writer must not be null.");
+		if (writer == null) {
+			throw new IllegalArgumentException("The Writer must not be null.");
 		}
 		if (string == null) {
 			return;

@@ -5,6 +5,7 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.CharUtil;
 import cn.hutool.core.util.CharsetUtil;
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.core.util.*;
 import com.albedo.java.common.persistence.domain.DataEntity;
 import com.albedo.java.common.persistence.domain.TreeEntity;
@@ -108,7 +109,7 @@ public class GenUtil {
 				column.setQueryType("like");
 			}
 			if (StringUtil.startWithIgnoreCase(column.getName(), "is_") || StringUtil.startWithIgnoreCase(column.getName(), "has_")) {
-				column.setDictType("sys_flag");
+				column.setDictType(DictNameConstants.SYS_FLAG);
 				column.setShowType("radio");
 			}
 			// 用户
@@ -161,7 +162,7 @@ public class GenUtil {
 			// 删除标记
 			else if (StringUtil.equalsIgnoreCase(column.getJavaField(), DataEntity.F_DELFLAG)) {
 				column.setShowType("radio");
-				column.setDictType("sys_flag");
+				column.setDictType(DictNameConstants.SYS_FLAG);
 			}
 
 			if (StringUtil.isEmpty(column.getShowType())) {
@@ -283,9 +284,9 @@ public class GenUtil {
 		model.put("lastPackageName", StringUtil.subAfter((String) model.get("packageName"), ".", true));
 		model.put("moduleName", StringUtil.lowerCase(scheme.getModuleName()));
 		model.put("subModuleName", StringUtil.lowerCase(StringUtil.isEmpty(scheme.getSubModuleName()) ? "" : scheme.getSubModuleName()));
-		model.put("className", StringUtil.lowerFirst(scheme.getTableDataVo().getClassName()));
+		model.put("className", StringUtil.lowerFirst(scheme.getTableDto().getClassName()));
 		model.put("classNameUrl", StringUtil.toRevertCamelCase(StringUtil.toStrString(model.get("className")), CharUtil.DASHED));
-		model.put("ClassName", StringUtil.upperFirst(scheme.getTableDataVo().getClassName()));
+		model.put("ClassName", StringUtil.upperFirst(scheme.getTableDto().getClassName()));
 
 		model.put("functionName", scheme.getFunctionName());
 		model.put("functionNameSimple", scheme.getFunctionNameSimple());
@@ -297,7 +298,7 @@ public class GenUtil {
 		model.put("viewPrefix", // StringUtil.substringAfterLast(model.get("packageName"),".")+StringUtil.SLASH+
 			model.get("urlPrefix"));
 		model.put("permissionPrefix", model.get("moduleName") + (StringUtil.isNotBlank(scheme.getSubModuleName()) ? "_" + StringUtil.lowerCase(scheme.getSubModuleName()) : "") + "_" + model.get("className"));
-		model.put("table", scheme.getTableDataVo());
+		model.put("table", scheme.getTableDto());
 		model.put("scheme", scheme);
 		return model;
 	}
@@ -314,7 +315,7 @@ public class GenUtil {
 		// 获取生成文件 "c:\\temp\\"//
 		String realFileName = FreeMarkers.renderString(tpl.getFileName(), model),
 			fileName = StringUtil.getProjectPath(realFileName, getConfig().getCodeUiPath()) + File.separator
-				+ FreeMarkers.renderString(tpl.getFilePath() + StringUtil.SLASH, model).replaceAll("//|/|\\.",  "\\"+File.separator)
+				+ FreeMarkers.renderString(tpl.getFilePath() + StringUtil.SLASH, model).replaceAll("//|/|\\.", "\\" + File.separator)
 				+ realFileName;
 
 		logger.debug(" fileName === " + fileName);
@@ -336,7 +337,7 @@ public class GenUtil {
 
 		// 创建并写入文件
 		if (FileUtil.createFile(fileName)) {
-			FileUtil.writeString(content, fileName,  CharsetUtil.UTF_8);
+			FileUtil.writeString(content, fileName, CharsetUtil.UTF_8);
 			logger.debug(" file create === " + fileName);
 			return "生成成功：" + fileName + "<br/>";
 		} else {

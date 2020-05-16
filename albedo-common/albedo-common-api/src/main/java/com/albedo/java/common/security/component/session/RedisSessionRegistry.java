@@ -122,7 +122,7 @@ public class RedisSessionRegistry implements SessionRegistry,
 		}
 		Authentication authentication = SecurityUtil.getAuthentication();
 		if (authentication != null && authentication.isAuthenticated()) {
-			UserOnline userOnline = userOnlineService.getOneBySessionId(sessionId);
+			UserOnline userOnline = userOnlineService.getById(sessionId);
 			if (userOnline == null) {
 				userOnline = LoginUtil.getUserOnline(authentication);
 				SpringContextHolder.publishEvent(new SysUserOnlineEvent(userOnline));

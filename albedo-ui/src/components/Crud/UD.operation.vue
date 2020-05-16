@@ -1,18 +1,51 @@
 <template>
   <div>
-    <el-button v-permission="permission.edit" :loading="crud.status.cu === 2" :disabled="disabledEdit" size="mini" type="primary" icon="el-icon-edit" @click="crud.toEdit(data)" />
-    <el-popover v-model="pop" v-permission="permission.del" placement="top" width="180" trigger="manual" @show="onPopoverShow" @hide="onPopoverHide">
+    <el-button
+      v-permission="permission.edit"
+      :disabled="disabledEdit"
+      :loading="crud.status.cu === 2"
+      icon="el-icon-edit"
+      plain
+      size="mini"
+      type="primary"
+      @click="crud.toEdit(data)"
+    />
+    <el-popover
+      v-model="pop"
+      v-permission="permission.del"
+      placement="top"
+      trigger="manual"
+      width="180"
+      @hide="onPopoverHide"
+      @show="onPopoverShow"
+    >
       <p>{{ msg }}</p>
       <div style="text-align: right; margin: 0">
         <el-button size="mini" type="text" @click="doCancel">取消</el-button>
-        <el-button :loading="crud.dataStatus[crud.getDataId(data)].delete === 2" type="primary" size="mini" @click="crud.doDelete(data)">确定</el-button>
+        <el-button
+          :loading="crud.dataStatus[crud.getDataId(data)].delete === 2"
+          plain
+          size="mini"
+          type="primary"
+          @click="crud.doDelete(data)"
+        >确定
+        </el-button>
       </div>
-      <el-button slot="reference" :disabled="disabledDle" type="danger" icon="el-icon-delete" size="mini" @click="toDelete" />
+      <el-button
+        slot="reference"
+        :disabled="disabledDle"
+        icon="el-icon-delete"
+        plain
+        size="mini"
+        type="danger"
+        @click="toDelete"
+      />
     </el-popover>
   </div>
 </template>
 <script>
 import CRUD, { crud } from '@crud/crud'
+
 export default {
   mixins: [crud()],
   props: {

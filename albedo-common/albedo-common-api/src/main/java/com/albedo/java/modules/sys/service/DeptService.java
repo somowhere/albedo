@@ -16,12 +16,12 @@
 
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.core.vo.TreeNode;
 import com.albedo.java.common.persistence.service.TreeService;
 import com.albedo.java.modules.sys.domain.Dept;
 import com.albedo.java.modules.sys.domain.dto.DeptDto;
 import com.albedo.java.modules.sys.domain.dto.DeptQueryCriteria;
-import com.albedo.java.modules.sys.repository.DeptRepository;
+import com.albedo.java.modules.sys.domain.vo.DeptVo;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
 import java.util.Set;
@@ -34,15 +34,8 @@ import java.util.Set;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface DeptService extends TreeService<DeptRepository, Dept, DeptDto> {
+public interface DeptService extends TreeService<Dept, DeptDto> {
 
-
-	/**
-	 * 查询用户部门树
-	 *
-	 * @return
-	 */
-	Set<TreeNode> findDeptTrees(DeptQueryCriteria deptQueryCriteria, String deptId);
 
 	List<String> findDescendantIdList(String deptId);
 
@@ -54,12 +47,7 @@ public interface DeptService extends TreeService<DeptRepository, Dept, DeptDto> 
 	 */
 	void saveOrUpdate(DeptDto deptDto);
 
-	/**
-	 * 删除部门
-	 *
-	 * @param ids 部门 ID
-	 * @return 成功、失败
-	 */
-	Boolean removeDeptByIds(Set<String> ids);
+	IPage<DeptVo> findTreeList(DeptQueryCriteria deptQueryCriteria);
 
+	void lockOrUnLock(Set<String> ids);
 }

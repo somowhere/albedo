@@ -21,7 +21,6 @@ import com.albedo.java.modules.sys.domain.UserOnline;
 import com.albedo.java.modules.sys.domain.enums.OnlineStatus;
 import com.albedo.java.modules.sys.repository.UserOnlineRepository;
 import com.albedo.java.modules.sys.service.UserOnlineService;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -41,24 +40,16 @@ public class UserOnlineServiceImpl extends
 
 	@Override
 	public void deleteBySessionId(String sessionId) {
-		UserOnline userOnline = getOneBySessionId(sessionId);
-		if (userOnline != null) {
-			repository.deleteById(userOnline.getId());
-		}
+		repository.deleteById(sessionId);
 	}
 
 	@Override
 	public void offlineBySessionId(String sessionId) {
-		UserOnline userOnline = getOneBySessionId(sessionId);
+		UserOnline userOnline = getById(sessionId);
 		if (userOnline != null) {
 			userOnline.setStatus(OnlineStatus.off_line);
 			repository.updateById(userOnline);
 		}
 	}
 
-	@Override
-	public UserOnline getOneBySessionId(String sessionId) {
-		return repository.selectOne(Wrappers.<UserOnline>query()
-			.lambda().eq(UserOnline::getSessionId, sessionId));
-	}
 }

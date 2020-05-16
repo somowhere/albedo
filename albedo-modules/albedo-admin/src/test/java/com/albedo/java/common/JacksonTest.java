@@ -1,6 +1,7 @@
 package com.albedo.java.common;
 
 import com.albedo.java.common.config.ExtraFieldSerializer;
+import com.albedo.java.common.core.vo.DataVo;
 import com.fasterxml.jackson.databind.BeanDescription;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
 import com.google.common.collect.Lists;
+import lombok.Data;
 import org.junit.jupiter.api.Test;
 
 public class JacksonTest {
@@ -44,30 +46,17 @@ public class JacksonTest {
 		//prints {"classField":"classFieldValue","extraField":"extraFieldValue"}
 	}
 
-	class MyClass1 {
+	@Data
+	class MyClass1 extends DataVo<String> {
 
 		private String classField = "classFieldValue1";
-
-		public String getClassField() {
-			return classField;
-		}
-
-		public void setClassField(String classField) {
-			this.classField = classField;
-		}
+		private Integer available = 1;
 	}
 
+	@Data
 	class MyClass2 {
 
 		private String classField = "classFieldValue2";
-
-		public String getClassField() {
-			return classField;
-		}
-
-		public void setClassField(String classField) {
-			this.classField = classField;
-		}
 	}
 
 

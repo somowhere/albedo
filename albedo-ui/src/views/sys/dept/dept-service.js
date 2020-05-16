@@ -2,13 +2,27 @@ import request from '@/utils/request'
 
 export function getDepts(query) {
   return request({
-    url: '/sys/dept/user-tree',
+    url: '/sys/dept/tree',
     method: 'get',
     params: query
   })
 }
+export function pageDept(params) {
+  return request({
+    url: '/sys/dept/',
+    method: 'get',
+    params
+  })
+}
 
-export function add(data) {
+export function get(id) {
+  return request({
+    url: '/sys/dept/' + id,
+    method: 'get'
+  })
+}
+
+export function save(data) {
   return request({
     url: '/sys/dept',
     method: 'post',
@@ -24,12 +38,12 @@ export function del(ids) {
   })
 }
 
-export function edit(data) {
+export function lock(ids) {
   return request({
     url: '/sys/dept',
     method: 'put',
-    data
+    data: ids
   })
 }
 
-export default { add, edit, del, getDepts }
+export default { save, lock, del, get, getDepts, pageDept }

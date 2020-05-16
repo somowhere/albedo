@@ -1,6 +1,9 @@
 package com.albedo.java.common.util;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.net.URLEncoder;
+import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.core.util.ReflectUtil;
 import com.albedo.java.common.core.annotation.ExcelField;
 import com.albedo.java.common.core.annotation.ExcelField.ColumnType;
 import com.albedo.java.common.core.annotation.ExcelField.Type;
@@ -9,7 +12,6 @@ import com.albedo.java.common.core.config.ApplicationConfig;
 import com.albedo.java.common.core.exception.RuntimeMsgException;
 import com.albedo.java.common.core.util.ClassUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
-import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.util.DictUtil;
@@ -22,7 +24,11 @@ import org.apache.poi.xssf.usermodel.XSSFDataValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -284,9 +290,9 @@ public class ExcelUtil<T> {
 	 * @param sheetName 工作表的名称
 	 * @return 结果
 	 */
-	public R exportExcel(List<T> list, String sheetName) {
+	public void exportExcel(List<T> list, String sheetName, HttpServletResponse response) {
 		this.init(list, sheetName, Type.EXPORT);
-		return exportExcel();
+		exportExcel(response);
 	}
 
 	/**
@@ -295,9 +301,9 @@ public class ExcelUtil<T> {
 	 * @param sheetName 工作表的名称
 	 * @return 结果
 	 */
-	public R importTemplateExcel(String sheetName) {
+	public void importTemplateExcel(String sheetName, HttpServletResponse response) {
 		this.init(null, sheetName, Type.IMPORT);
-		return exportExcel();
+		exportExcel(response);
 	}
 
 	/**
@@ -305,8 +311,13 @@ public class ExcelUtil<T> {
 	 *
 	 * @return 结果
 	 */
-	public R exportExcel() {
-		OutputStream out = null;
+	public void exportExcel(HttpServletResponse response) {
+		ServletOutputStream out = null;
+		String filename = encodingFilename(sheetName);
+		response.setCharacterEncoding(CharsetUtil.UTF_8);
+		//response为HttpServletResponse对象
+		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
+		response.setHeader("Content-Disposition", "attachment;filename=" + filename);
 		try {
 			// 取出一共有多少个sheet.
 			double sheetNo = Math.ceil(list.size() / sheetSize);
@@ -325,10 +336,8 @@ public class ExcelUtil<T> {
 					fillExcelData(index, row);
 				}
 			}
-			String filename = encodingFilename(sheetName);
-			out = new FileOutputStream(getAbsoluteFile(filename));
+			out = response.getOutputStream();
 			wb.write(out);
-			return R.buildOkData(filename);
 		} catch (Exception e) {
 			log.error("导出Excel异常{}", e.getMessage());
 			throw new RuntimeMsgException("导出Excel失败，请联系网站管理员！");
@@ -562,7 +571,7 @@ public class ExcelUtil<T> {
 	 * 编码文件名
 	 */
 	public String encodingFilename(String filename) {
-		filename = UUID.randomUUID().toString() + "_" + filename + ".xlsx";
+		filename = UUID.randomUUID().toString() + "_" + URLEncoder.createDefault().encode(filename, CharsetUtil.CHARSET_UTF_8) + ".xlsx";
 		return filename;
 	}
 
@@ -590,7 +599,10 @@ public class ExcelUtil<T> {
 	 * @throws Exception
 	 */
 	private Object getTargetValue(T vo, Field field, ExcelField excelField) throws Exception {
-		Object o = field.get(vo);
+		Object o = ReflectUtil.getFieldValue(vo, field);
+		if (ObjectUtil.isEmpty(o)) {
+			o = ClassUtil.invokeGetter(vo, field.getName());
+		}
 		if (StringUtil.isNotEmpty(excelField.targetAttr())) {
 			String target = excelField.targetAttr();
 			if (target.indexOf(".") > -1) {

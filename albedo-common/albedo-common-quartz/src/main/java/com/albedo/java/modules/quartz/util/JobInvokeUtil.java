@@ -4,6 +4,8 @@ import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.modules.quartz.domain.Job;
+import com.albedo.java.modules.quartz.service.JobService;
+import com.google.common.collect.Sets;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -16,6 +18,9 @@ import java.util.List;
  * @author somewhere
  */
 public class JobInvokeUtil {
+
+	public static JobService jobService = SpringContextHolder.getBean(JobService.class);
+
 	/**
 	 * 执行方法
 	 *
@@ -33,6 +38,11 @@ public class JobInvokeUtil {
 		} else {
 			Object bean = Class.forName(beanName).newInstance();
 			invokeMethod(bean, methodName, methodParams);
+		}
+		// 判断是否存在子任务
+		if (job.getSubTask() != null) {
+			String[] tasks = job.getSubTask().split("[,，]");
+			jobService.runByIds(Sets.newHashSet(tasks));
 		}
 	}
 

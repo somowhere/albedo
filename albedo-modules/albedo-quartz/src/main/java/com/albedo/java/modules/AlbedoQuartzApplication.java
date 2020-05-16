@@ -48,4 +48,5 @@ public class AlbedoQuartzApplication {
 			InetAddress.getLocalHost().getHostAddress(),
 			env.getProperty(SERVER_PORT));
 	}
+
 }

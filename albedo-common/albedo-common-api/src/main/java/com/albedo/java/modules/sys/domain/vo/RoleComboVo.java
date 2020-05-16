@@ -36,7 +36,7 @@ public class RoleComboVo implements Serializable {
 	private String name;
 
 
-	public RoleComboVo(Role role){
+	public RoleComboVo(Role role) {
 		this.id = role.getId();
 		this.name = role.getName();
 		this.level = role.getLevel();

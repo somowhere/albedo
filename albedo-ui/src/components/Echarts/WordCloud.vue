@@ -4,10 +4,11 @@
 
 <script>
 import echarts from 'echarts'
+import commonUtil from '@/utils/common'
+
 require('echarts-wordcloud')
 require('echarts/theme/macarons') // echarts theme
 
-import commonUtil from '@/utils/common'
 export default {
   props: {
     className: {
@@ -174,9 +175,9 @@ export default {
             normal: {
               color: function() {
                 return 'rgb(' +
-                  Math.round(Math.random() * 255) +
-                  ', ' + Math.round(Math.random() * 255) +
-                  ', ' + Math.round(Math.random() * 255) + ')'
+                    Math.round(Math.random() * 255) +
+                    ', ' + Math.round(Math.random() * 255) +
+                    ', ' + Math.round(Math.random() * 255) + ')'
               }
             }
           },

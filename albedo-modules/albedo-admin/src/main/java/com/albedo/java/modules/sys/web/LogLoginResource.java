@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -66,10 +67,10 @@ public class LogLoginResource {
 	@Log(value = "登录日志", businessType = BusinessType.EXPORT)
 	@GetMapping(value = "/export")
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_export')")
-	public R export(PageModel pm) {
+	public void export(PageModel pm, HttpServletResponse response) {
 		ExcelUtil<LogLoginExcelVo> util = new ExcelUtil(LogLoginExcelVo.class);
-		return util.exportExcel(logLoginService.list(Wrappers.emptyWrapper()).stream()
+		util.exportExcel(logLoginService.list(Wrappers.emptyWrapper()).stream()
 			.map(logLogin -> BeanUtil.copyPropertiesByClass(logLogin, LogLoginExcelVo.class))
-			.collect(Collectors.toList()), "登录日志");
+			.collect(Collectors.toList()), "登录日志", response);
 	}
 }

@@ -102,10 +102,8 @@ public class UserResourceIntTest {
 		UserDto user = new UserDto();
 		user.setUsername(DEFAULT_USERNAME);
 		user.setPassword(DEFAULT_PASSWORD);
-		user.setConfirmPassword(DEFAULT_PASSWORD);
 		user.setEmail(DEFAULT_EMAIL);
 		user.setPhone(DEFAULT_PHONE);
-		user.setAvailable(DEFAULT_AVAILABLE);
 		user.setQqOpenId(DEFAULT_QQOPENID);
 		user.setDeptId(deptList.get(0).getId());
 		user.setRoleIdList(CollUtil.extractToList(roleList, Role.F_ID));
@@ -123,7 +121,6 @@ public class UserResourceIntTest {
 		anotherUser.setPassword(DEFAULT_PASSWORD);
 		anotherUser.setEmail(DEFAULT_ANOTHER_EMAIL);
 		anotherUser.setPhone(DEFAULT_PHONE);
-		anotherUser.setAvailable(DEFAULT_AVAILABLE);
 		anotherUser.setDeptId(deptList.get(0).getId());
 		anotherUser.setRoleIdList(CollUtil.extractToList(roleList, Role.F_ID));
 		userService.saveOrUpdate(anotherUser);
@@ -247,11 +244,9 @@ public class UserResourceIntTest {
 		UserDto managedUserVM = new UserDto();
 		managedUserVM.setUsername(UPDATED_USERNAME);
 		managedUserVM.setPassword(UPDATED_PASSWORD);
-		managedUserVM.setConfirmPassword(UPDATED_PASSWORD);
 		managedUserVM.setEmail(UPDATED_EMAIL);
 		managedUserVM.setPhone(UPDATED_PHONE);
 		managedUserVM.setQqOpenId(UPDATED_QQOPENID);
-		managedUserVM.setAvailable(UPDATED_AVAILABLE);
 		managedUserVM.setRoleIdList(CollUtil.extractToList(roleList, Role.F_ID));
 
 		managedUserVM.setId(updatedUser.getId());
@@ -287,7 +282,6 @@ public class UserResourceIntTest {
 		managedUserVM.setPassword(UPDATED_PASSWORD);
 		managedUserVM.setEmail(UPDATED_EMAIL);
 		managedUserVM.setPhone(UPDATED_PHONE);
-		managedUserVM.setAvailable(UPDATED_AVAILABLE);
 		managedUserVM.setQqOpenId(UPDATED_QQOPENID);
 		managedUserVM.setRoleIdList(CollUtil.extractToList(roleList, Role.F_ID));
 		managedUserVM.setId(updatedUser.getId());
@@ -316,7 +310,6 @@ public class UserResourceIntTest {
 		managedUserVM.setPassword(UPDATED_PASSWORD);
 		managedUserVM.setEmail(UPDATED_EMAIL);
 		managedUserVM.setPhone(UPDATED_PHONE);
-		managedUserVM.setAvailable(UPDATED_AVAILABLE);
 		managedUserVM.setQqOpenId(UPDATED_QQOPENID);
 		managedUserVM.setRoleIdList(CollUtil.extractToList(roleList, Role.F_ID));
 		managedUserVM.setId(updatedUser.getId());
@@ -382,7 +375,8 @@ public class UserResourceIntTest {
 		user2.setId(user1.getId());
 		user2.setUsername(user1.getUsername());
 		assertThat(user1).isEqualTo(user2);
-		user2.setId("2");user2.setUsername("User2");
+		user2.setId("2");
+		user2.setUsername("User2");
 		assertThat(user1).isNotEqualTo(user2);
 		user1.setId(null);
 		assertThat(user1).isNotEqualTo(user2);

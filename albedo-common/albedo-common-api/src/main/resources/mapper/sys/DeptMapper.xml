@@ -18,31 +18,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.albedo.java.modules.sys.repository.DeptRepository">
 
-	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.albedo.java.modules.sys.domain.Dept">
-		<id column="id" property="id"/>
-		<result column="name" property="name"/>
-		<result column="available" property="available"/>
-		<result column="parent_id" property="parentId"/>
-		<result column="parent_ids" property="parentIds"/>
-		<result column="leaf" property="leaf"/>
-		<result column="sort" property="sort"/>
-		<result column="created_by" property="createdBy"/>
-		<result column="created_date" property="createdDate"/>
-		<result column="last_modified_by" property="lastModifiedBy"/>
-		<result column="last_modified_date" property="lastModifiedDate"/>
-		<result column="description" property="description"/>
-		<result column="version" property="version"/>
-	</resultMap>
-
 
 	<!--关联查询部门列表-->
-	<select id="listDepts" resultType="com.albedo.java.modules.sys.domain.Dept">
+	<select id="findDeptList" resultType="com.albedo.java.modules.sys.domain.Dept">
 		SELECT
 			t.*
 		FROM
 			sys_dept t
 		LEFT JOIN sys_dept_relation dr ON t.id = dr.descendant
 		WHERE dr.ancestor = 0
+	</select>
+
+	<select id="findDeptVoList" resultType="com.albedo.java.modules.sys.domain.vo.DeptVo">
+		SELECT
+		*
+		FROM
+		sys_dept
+		<where>
+			${ew.sqlSegment}
+		</where>
 	</select>
 </mapper>

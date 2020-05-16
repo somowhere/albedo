@@ -1,15 +1,23 @@
 <template>
   <div style="display: inline-block">
-    <el-dialog :visible.sync="dialog" :close-on-click-modal="false" :before-close="cancel" :title="title" append-to-body width="500px" @close="cancel">
-      <el-form ref="form" :model="form" :rules="rules" size="small" label-width="88px">
+    <el-dialog
+      :before-close="cancel"
+      :close-on-click-modal="false"
+      :title="title"
+      :visible.sync="dialog"
+      append-to-body
+      width="500px"
+      @close="cancel"
+    >
+      <el-form ref="form" :model="form" :rules="rules" label-width="88px" size="small">
         <el-form-item label="旧密码" prop="oldPass">
-          <el-input v-model="form.oldPass" type="password" auto-complete="on" style="width: 370px;" />
+          <el-input v-model="form.oldPass" auto-complete="on" style="width: 370px;" type="password" />
         </el-form-item>
         <el-form-item label="新密码" prop="newPass">
-          <el-input v-model="form.newPass" type="password" auto-complete="on" style="width: 370px;" />
+          <el-input v-model="form.newPass" auto-complete="on" style="width: 370px;" type="password" />
         </el-form-item>
         <el-form-item label="确认密码" prop="confirmPass">
-          <el-input v-model="form.confirmPass" type="password" auto-complete="on" style="width: 370px;" />
+          <el-input v-model="form.confirmPass" auto-complete="on" style="width: 370px;" type="password" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -23,6 +31,7 @@
 <script>
 import store from '@/store'
 import { updatePass } from '@/views/sys/user'
+
 export default {
   data() {
     const confirmPass = (rule, value, callback) => {

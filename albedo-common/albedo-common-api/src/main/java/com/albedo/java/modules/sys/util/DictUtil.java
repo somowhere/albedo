@@ -1,5 +1,6 @@
 package com.albedo.java.modules.sys.util;
 
+import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
@@ -29,14 +30,14 @@ public class DictUtil {
 	public static DictService dictService = SpringContextHolder.getBean(DictService.class);
 
 	public static List<Dict> getDictList() {
-		Cache cache = cacheManager.getCache(Dict.CACHE_DICT_DETAILS);
-		if (cache != null && cache.get(Dict.CACHE_DICT_ALL) != null) {
-			return (List<Dict>) cache.get(Dict.CACHE_DICT_ALL).get();
+		Cache cache = cacheManager.getCache(CacheNameConstants.DICT_DETAILS);
+		if (cache != null && cache.get(CacheNameConstants.DICT_ALL) != null) {
+			return (List<Dict>) cache.get(CacheNameConstants.DICT_ALL).get();
 		}
 		try {
 			List<Dict> dictList = dictService.list();
 			if (ObjectUtil.isNotEmpty(dictList)) {
-				cache.put(Dict.CACHE_DICT_ALL, dictList);
+				cache.put(CacheNameConstants.DICT_ALL, dictList);
 				return dictList;
 			}
 		} catch (Exception e) {
@@ -93,7 +94,7 @@ public class DictUtil {
 		List<SelectResult> list = Lists.newLinkedList();
 		if (CollUtil.isNotEmpty(dictList)) {
 			for (Dict item : dictList) {
-				if (CommonConstants.YES.equals(item.getShow()) && StringUtil.isNotEmpty(item.getParentId()) && item.getParentId().equals(dict.getId())) {
+				if (CommonConstants.YES.equals(item.getAvailable()) && StringUtil.isNotEmpty(item.getParentId()) && item.getParentId().equals(dict.getId())) {
 					list.add(new SelectResult(item.getVal(), item.getName(), item.getVersion()));
 				}
 			}

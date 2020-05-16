@@ -16,8 +16,8 @@
 
 package com.albedo.java.modules.sys.repository;
 
+import com.albedo.java.common.persistence.repository.BaseRepository;
 import com.albedo.java.modules.sys.domain.DeptRelation;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
@@ -27,7 +27,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface DeptRelationRepository extends BaseMapper<DeptRelation> {
+public interface DeptRelationRepository extends BaseRepository<DeptRelation> {
 	/**
 	 * 删除部门关系表数据
 	 *

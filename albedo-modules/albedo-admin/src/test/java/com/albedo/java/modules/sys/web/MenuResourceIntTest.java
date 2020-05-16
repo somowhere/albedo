@@ -111,7 +111,7 @@ public class MenuResourceIntTest {
 		menu.setPermission(DEFAULT_PERMISSION);
 		menu.setHidden(DEFAULT_HIDDEN);
 		menu.setCache(DEFAULT_CACHE);
-		menu.setIFrame(DEFAULT_IFRAME);
+		menu.setIframe(DEFAULT_IFRAME);
 		menu.setSort(DEFAULT_SORT);
 		menu.setComponent(DEFAULT_COMPONENT);
 		menu.setPath(DEFAULT_PATH);
@@ -131,7 +131,7 @@ public class MenuResourceIntTest {
 		anotherMenu.setPermission(DEFAULT_ANOTHER_PERMISSION);
 		anotherMenu.setHidden(DEFAULT_HIDDEN);
 		anotherMenu.setCache(DEFAULT_CACHE);
-		anotherMenu.setIFrame(DEFAULT_IFRAME);
+		anotherMenu.setIframe(DEFAULT_IFRAME);
 		anotherMenu.setSort(DEFAULT_SORT);
 		anotherMenu.setComponent(DEFAULT_COMPONENT);
 		anotherMenu.setPath(DEFAULT_PATH);
@@ -167,7 +167,7 @@ public class MenuResourceIntTest {
 		assertThat(testMenu.getComponent()).isEqualTo(DEFAULT_COMPONENT);
 		assertThat(testMenu.getHidden()).isEqualTo(DEFAULT_HIDDEN);
 		assertThat(testMenu.getCache()).isEqualTo(DEFAULT_CACHE);
-		assertThat(testMenu.getIFrame()).isEqualTo(DEFAULT_IFRAME);
+		assertThat(testMenu.getIframe()).isEqualTo(DEFAULT_IFRAME);
 		assertThat(testMenu.getType()).isEqualTo(DEFAULT_TYPE);
 		assertThat(testMenu.getPath()).isEqualTo(DEFAULT_PATH);
 		assertThat(testMenu.isLeaf()).isEqualTo(true);
@@ -214,7 +214,7 @@ public class MenuResourceIntTest {
 			.andExpect(jsonPath("$.data.records.[*].icon").value(hasItem(DEFAULT_ICON)))
 			.andExpect(jsonPath("$.data.records.[*].hidden").value(hasItem(DEFAULT_HIDDEN)))
 			.andExpect(jsonPath("$.data.records.[*].cache").value(hasItem(DEFAULT_CACHE)))
-			.andExpect(jsonPath("$.data.records.[*].iFrame").value(hasItem(DEFAULT_IFRAME)))
+			.andExpect(jsonPath("$.data.records.[*].iframe").value(hasItem(DEFAULT_IFRAME)))
 			.andExpect(jsonPath("$.data.records.[*].sort").value(hasItem(DEFAULT_SORT)))
 			.andExpect(jsonPath("$.data.records.[*].parentId").value(hasItem(anotherMenu.getId())))
 			.andExpect(jsonPath("$.data.records.[*].component").value(hasItem(DEFAULT_COMPONENT)))
@@ -239,7 +239,7 @@ public class MenuResourceIntTest {
 			.andExpect(jsonPath("$.data.icon").value(DEFAULT_ICON))
 			.andExpect(jsonPath("$.data.hidden").value(DEFAULT_HIDDEN))
 			.andExpect(jsonPath("$.data.cache").value(DEFAULT_CACHE))
-			.andExpect(jsonPath("$.data.iFrame").value(DEFAULT_IFRAME))
+			.andExpect(jsonPath("$.data.iframe").value(DEFAULT_IFRAME))
 			.andExpect(jsonPath("$.data.parentId").value(anotherMenu.getId()))
 			.andExpect(jsonPath("$.data.component").value(DEFAULT_COMPONENT))
 			.andExpect(jsonPath("$.data.type").value(DEFAULT_TYPE))
@@ -272,7 +272,7 @@ public class MenuResourceIntTest {
 		managedMenuVM.setSort(UPDATED_SORT);
 		managedMenuVM.setHidden(UPDATED_HIDDEN);
 		managedMenuVM.setCache(UPDATED_CACHE);
-		managedMenuVM.setIFrame(UPDATED_IFRAME);
+		managedMenuVM.setIframe(UPDATED_IFRAME);
 		managedMenuVM.setParentId(UPDATED_PARENTID);
 		managedMenuVM.setComponent(UPDATED_COMPONENT);
 		managedMenuVM.setPath(UPDATED_PATH);
@@ -295,7 +295,7 @@ public class MenuResourceIntTest {
 		assertThat(testMenu.getIcon()).isEqualTo(UPDATED_ICON);
 		assertThat(testMenu.getHidden()).isEqualTo(UPDATED_HIDDEN);
 		assertThat(testMenu.getCache()).isEqualTo(UPDATED_CACHE);
-		assertThat(testMenu.getIFrame()).isEqualTo(UPDATED_IFRAME);
+		assertThat(testMenu.getIframe()).isEqualTo(UPDATED_IFRAME);
 		assertThat(testMenu.getSort()).isEqualTo(UPDATED_SORT);
 		assertThat(testMenu.getParentId()).isEqualTo(UPDATED_PARENTID);
 //		assertThat(testMenu.getParentIds()).contains(UPDATED_PARENTID);
@@ -323,7 +323,7 @@ public class MenuResourceIntTest {
 		managedMenuVM.setPermission(DEFAULT_ANOTHER_PERMISSION);
 		managedMenuVM.setHidden(DEFAULT_HIDDEN);
 		managedMenuVM.setCache(DEFAULT_CACHE);
-		managedMenuVM.setIFrame(DEFAULT_IFRAME);
+		managedMenuVM.setIframe(DEFAULT_IFRAME);
 		managedMenuVM.setSort(DEFAULT_SORT);
 		managedMenuVM.setComponent(DEFAULT_COMPONENT);
 		managedMenuVM.setType(DEFAULT_TYPE);

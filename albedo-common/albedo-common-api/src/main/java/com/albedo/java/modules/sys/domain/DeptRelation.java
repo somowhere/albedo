@@ -16,8 +16,8 @@
 
 package com.albedo.java.modules.sys.domain;
 
+import com.albedo.java.common.persistence.domain.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -32,7 +32,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_dept_relation")
-public class DeptRelation extends Model<DeptRelation> {
+public class DeptRelation extends BaseEntity<DeptRelation> {
 
 	private static final long serialVersionUID = 1L;
 

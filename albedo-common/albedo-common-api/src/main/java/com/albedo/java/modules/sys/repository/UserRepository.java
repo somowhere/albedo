@@ -22,6 +22,7 @@ import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -41,17 +42,26 @@ public interface UserRepository extends BaseRepository<User> {
 	 * @param username 用户名
 	 * @return userVo
 	 */
-	UserVo getUserVoByUsername(String username);
+	UserVo findUserVoByUsername(String username);
 
 	/**
 	 * 分页查询用户信息（含角色）
 	 *
-	 * @param page    分页
-	 * @param wrapper 查询参数
+	 * @param page      分页
+	 * @param wrapper   查询参数
 	 * @param dataScope 数据权限
 	 * @return list
 	 */
-	IPage<List<UserVo>> getUserVoPage(IPage page, @Param("ew") Wrapper<User> wrapper, DataScope dataScope);
+	IPage<UserVo> findUserVoPage(IPage page, @Param(Constants.WRAPPER) Wrapper<User> wrapper, DataScope dataScope);
+
+	/**
+	 * 分页查询用户信息（含角色）
+	 *
+	 * @param wrapper   查询参数
+	 * @param dataScope 数据权限
+	 * @return list
+	 */
+	List<UserVo> findUserVoPage(@Param(Constants.WRAPPER) Wrapper<User> wrapper, DataScope dataScope);
 
 	/**
 	 * 通过ID查询用户信息
@@ -59,5 +69,8 @@ public interface UserRepository extends BaseRepository<User> {
 	 * @param id 用户ID
 	 * @return userVo
 	 */
-	UserVo getUserVoById(String id);
+	UserVo findUserVoById(String id);
+
+	List<User> findUserByRoleId(String roleId);
+
 }

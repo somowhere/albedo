@@ -19,6 +19,8 @@ package com.albedo.java.modules.sys.repository;
 import com.albedo.java.common.persistence.repository.TreeRepository;
 import com.albedo.java.modules.sys.domain.Menu;
 import com.albedo.java.modules.sys.domain.vo.MenuVo;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -38,7 +40,7 @@ public interface MenuRepository extends TreeRepository<Menu> {
 	 *
 	 * @return
 	 */
-	List<MenuVo> listMenuVos();
+	List<MenuVo> findMenuVoAllList();
 
 	/**
 	 * 通过角色编号查询菜单
@@ -46,7 +48,7 @@ public interface MenuRepository extends TreeRepository<Menu> {
 	 * @param roleId 角色ID
 	 * @return
 	 */
-	List<MenuVo> listMenuVosByRoleId(@Param("roleId") String roleId);
+	List<MenuVo> findMenuVoListByRoleId(@Param("roleId") String roleId);
 
 	/**
 	 * 通过角色ID查询权限
@@ -54,5 +56,14 @@ public interface MenuRepository extends TreeRepository<Menu> {
 	 * @param roleIds Ids
 	 * @return
 	 */
-	List<String> listPermissionsByRoleIds(String roleIds);
+	List<String> findPermissionsByRoleIds(String roleIds);
+
+
+	/**
+	 * 分页查询菜单信息
+	 *
+	 * @param wrapper 查询参数
+	 * @return list
+	 */
+	List<MenuVo> findMenuVoList(@Param(Constants.WRAPPER) Wrapper<Menu> wrapper);
 }

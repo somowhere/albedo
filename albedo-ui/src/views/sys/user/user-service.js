@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 import { encrypt } from '@/utils/rsaEncrypt'
+import qs from 'qs'
 
 export function save(obj) {
   return request({
@@ -23,11 +24,20 @@ export function get(id) {
     method: 'get'
   })
 }
+
 export function lock(ids) {
   return request({
     url: '/sys/user/',
     method: 'put',
     data: ids
+  })
+}
+
+export function download(params) {
+  return request({
+    url: '/sys/user/download?' + qs.stringify(params, { indices: false }),
+    method: 'get',
+    responseType: 'blob'
   })
 }
 
@@ -63,5 +73,5 @@ export function updateEmail(form) {
   })
 }
 
-export default { save, lock, del, get }
+export default { save, lock, del, get, download }
 

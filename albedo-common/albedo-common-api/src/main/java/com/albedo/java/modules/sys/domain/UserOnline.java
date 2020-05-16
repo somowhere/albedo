@@ -1,6 +1,7 @@
 package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
+import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.persistence.domain.BaseEntity;
 import com.albedo.java.modules.sys.domain.enums.OnlineStatus;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -22,11 +23,10 @@ import java.util.Date;
 public class UserOnline extends BaseEntity<UserOnline> {
 	private static final long serialVersionUID = 1L;
 
-	@TableId(type = IdType.ASSIGN_ID)
-	protected String id;
 	/**
 	 * 用户会话id
 	 */
+	@TableId(type = IdType.ASSIGN_ID)
 	private String sessionId;
 
 	/**
@@ -91,7 +91,7 @@ public class UserOnline extends BaseEntity<UserOnline> {
 	/**
 	 * 在线状态
 	 */
-	@DictType("sys_online_status")
+	@DictType(DictNameConstants.SYS_ONLINE_STATUS)
 	private OnlineStatus status = OnlineStatus.on_line;
 
 }

@@ -19,7 +19,7 @@ import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.web.resource.TreeVoResource;
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.log.annotation.Log;
-import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}DataVo;
+import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
 import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.Lists;
@@ -37,7 +37,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping(value = "${r"${application.admin-path}"}/${urlPrefix}")
-public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${ClassName}DataVo> {
+public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${ClassName}Dto> {
     public ${ClassName}Resource(${ClassName}Service service) {
         super(service);
     }
@@ -69,7 +69,7 @@ public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${
 	 * @param pm the pagination information
 	 * @return the ResponseEntity with status 200 (OK) and with body all ${className}
 	 */
-	@GetMapping("/")
+	@GetMapping
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_view')")
 	public R<IPage> getPage(PageModel pm) {
 		return R.buildOkData(service.findRelationPage(pm));
@@ -83,11 +83,11 @@ public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_edit')")
 	@PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Log(value = "${functionName}", businessType = BusinessType.EDIT)
-	public R save(@Valid @RequestBody ${ClassName}DataVo ${className}Vo) {
+	public R save(@Valid @RequestBody ${ClassName}Dto ${className}Vo) {
 		log.debug("REST request to save ${ClassName} : {}", ${className}Vo);
 		<#assign firstListField = true><#list table.columnList as column>
 			<#if column.unique && !column.pk>
-		<#if firstListField><#assign firstListField = false>${ClassName}DataVo </#if>${className}Validate = new ${ClassName}DataVo();
+		<#if firstListField><#assign firstListField = false>${ClassName}Dto </#if>${className}Validate = new ${ClassName}Dto();
 		${className}Validate.setId(${className}Vo.getId());
 		${className}Validate.set${column.simpleJavaField?cap_first}(${className}Vo.get${column.simpleJavaField?cap_first}());
 		if (<#if column.null>StringUtil.isNotEmpty(${className}Vo.get${column.simpleJavaField?cap_first}()) && </#if>!checkByProperty(${className}Validate)) {

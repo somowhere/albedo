@@ -2,8 +2,8 @@ import router from './routers'
 import store from '@/store'
 import Config from '@/settings'
 import NProgress from 'nprogress' // progress bar
-import 'nprogress/nprogress.css'// progress bar style
-import { buildMenus } from '@/api/sys/menu'
+import 'nprogress/nprogress.css' // progress bar style
+import { buildMenus } from '@/views/sys/menu/menu-service'
 import { filterAsyncRouter } from '@/store/modules/permission'
 import validate from '../utils/validate'
 
@@ -40,7 +40,7 @@ router.beforeEach((to, from, next) => {
             location.reload() // 为了重新实例化vue-router对象 避免bug
           })
         })
-      // 登录时未拉取 菜单，在此处拉取
+        // 登录时未拉取 菜单，在此处拉取
       } else {
         next()
       }

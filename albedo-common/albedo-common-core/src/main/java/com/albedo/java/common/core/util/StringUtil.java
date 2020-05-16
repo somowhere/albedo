@@ -1,7 +1,6 @@
 package com.albedo.java.common.core.util;
 
 import cn.hutool.core.util.StrUtil;
-import com.albedo.java.common.core.constant.CommonConstants;
 import com.google.common.collect.Lists;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;

@@ -1,13 +1,20 @@
 <template>
   <div class="login">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" label-position="left" label-width="0px" class="login-form">
+    <el-form
+      ref="loginForm"
+      :model="loginForm"
+      :rules="loginRules"
+      class="login-form"
+      label-position="left"
+      label-width="0px"
+    >
       <h3 class="title">
         Albedo 快速开发框架
       </h3>
 
       <el-form-item prop="username">
-        <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
-          <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
+        <el-input v-model="loginForm.username" auto-complete="off" placeholder="账号" type="text">
+          <svg-icon slot="prefix" class="el-input__icon input-icon" icon-class="user" />
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
@@ -19,13 +26,21 @@
           size="small"
           @keyup.enter.native="handleLogin"
         >
-          <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
-          <svg-icon slot="suffix" icon-class="eye" class="el-input__icon input-icon" @click="showPassword" />
+          <svg-icon slot="prefix" class="el-input__icon input-icon" icon-class="password" />
+          <svg-icon slot="suffix" class="el-input__icon input-icon" icon-class="eye" @click="showPassword" />
         </el-input>
       </el-form-item>
       <el-form-item prop="code">
-        <el-input v-model="loginForm.code" auto-complete="off" placeholder="验证码" :maxlength="codeLength" :minlength="codeLength" style="width: 63%" @keyup.enter.native="handleLogin">
-          <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
+        <el-input
+          v-model="loginForm.code"
+          :maxlength="codeLength"
+          :minlength="codeLength"
+          auto-complete="off"
+          placeholder="验证码"
+          style="width: 63%"
+          @keyup.enter.native="handleLogin"
+        >
+          <svg-icon slot="prefix" class="el-input__icon input-icon" icon-class="validCode" />
         </el-input>
         <div class="login-code">
           <img :src="codeUrl" @click="refreshCode">
@@ -35,7 +50,13 @@
         记住我
       </el-checkbox>
       <el-form-item style="width:100%;">
-        <el-button :loading="loading" size="medium" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
+        <el-button
+          :loading="loading"
+          size="medium"
+          style="width:100%;"
+          type="primary"
+          @click.native.prevent="handleLogin"
+        >
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
         </el-button>
@@ -52,6 +73,7 @@
 
 <script>
 import commonUtil from '../utils/common'
+
 export default {
   name: 'Login',
   data() {
@@ -107,7 +129,8 @@ export default {
             this.loading = false
             console.log(this.redirect)
             this.$router.push({ path: this.redirect || '/' })
-          }).catch(() => {
+          }).catch((e) => {
+            console.log(e)
             this.loading = false
             this.refreshCode()
           })
@@ -118,7 +141,7 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss">
+<style lang="scss" rel="stylesheet/scss">
   .login {
     display: flex;
     justify-content: center;
@@ -129,6 +152,7 @@ export default {
     /*background-image:url(https://aurora-1255840532.cos.ap-chengdu.myqcloud.com/bg.jpeg);*/
     /*background-size: cover;*/
   }
+
   .title {
     margin: 0 auto 30px auto;
     text-align: center;
@@ -141,29 +165,37 @@ export default {
     width: 385px;
     padding: 25px 25px 5px 25px;
     box-shadow: -4px 5px 10px rgba(0, 0, 0, 0.4);
+
     .el-input {
       height: 38px;
+
       input {
         height: 38px;
       }
     }
-    .input-icon{
-      height: 39px;width: 14px;margin-left: 2px;
+
+    .input-icon {
+      height: 39px;
+      width: 14px;
+      margin-left: 2px;
     }
   }
+
   .login-tip {
     font-size: 13px;
     text-align: center;
     color: #bfbfbf;
   }
+
   .login-code {
     width: 33%;
     display: inline-block;
     height: 38px;
     float: right;
-    img{
+
+    img {
       cursor: pointer;
-      vertical-align:middle
+      vertical-align: middle
     }
   }
 </style>

@@ -17,6 +17,7 @@
 package com.albedo.java.modules.sys.domain.dto;
 
 import com.albedo.java.common.core.annotation.DictType;
+import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.core.vo.DataDto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,31 +37,21 @@ public class RoleDto extends DataDto<String> {
 
 
 	/**
-	 * 锁定标记
-	 */
-	@DictType("sys_flag")
-	@NotBlank(message = "锁定标记 不能为空")
-	private String available;
-
-	/**
 	 * 数据权限 1全部 2所在机构及以下数据  3 所在机构数据  4仅本人数据 5 按明细设置
 	 */
-	@DictType("sys_data_scope")
+	@DictType(DictNameConstants.SYS_DATA_SCOPE)
 	@NotBlank(message = "数据权限 不能为空")
 	private String dataScope;
-	@NotBlank(message = "角色级别 不能为空")
+
+	@NotNull(message = "角色级别 不能为空")
 	private Integer level = 3;
 
 	@NotBlank(message = "角色名称 不能为空")
 	private String name;
 
-	@NotBlank(message = "角色标识 不能为空")
-	private String code;
-
 	/**
 	 * 角色ID
 	 */
-	@NotNull
 	private List<String> menuIdList;
 	/**
 	 * 部门ID

@@ -15,26 +15,26 @@ import java.io.Serializable;
 public class ScheduleVo implements Serializable {
 
 	private ScheduleConstants.MessageType messageType;
-	private String jobId;
+	private Integer jobId;
 	private String jobGroup;
 	private String data;
 
-	public ScheduleVo(ScheduleConstants.MessageType messageType, String jobId, String jobGroup) {
+	public ScheduleVo(ScheduleConstants.MessageType messageType, Integer jobId, String jobGroup) {
 		this.messageType = messageType;
 		this.jobId = jobId;
 		this.jobGroup = jobGroup;
 	}
 
-	public ScheduleVo(ScheduleConstants.MessageType messageType, String jobId) {
+	public ScheduleVo(ScheduleConstants.MessageType messageType, Integer jobId) {
 		this.messageType = messageType;
 		this.jobId = jobId;
 	}
 
-	public static ScheduleVo create(ScheduleConstants.MessageType messageType, String jobId, String jobGroup) {
+	public static ScheduleVo create(ScheduleConstants.MessageType messageType, Integer jobId, String jobGroup) {
 		return new ScheduleVo(messageType, jobId, jobGroup);
 	}
 
-	public static ScheduleVo create(ScheduleConstants.MessageType messageType, String jobId) {
+	public static ScheduleVo create(ScheduleConstants.MessageType messageType, Integer jobId) {
 		return new ScheduleVo(messageType, jobId);
 	}
 
@@ -42,19 +42,19 @@ public class ScheduleVo implements Serializable {
 		return new ScheduleVo(messageType, null, null, data);
 	}
 
-	public static ScheduleVo createPause(String jobId, String jobGroup) {
+	public static ScheduleVo createPause(Integer jobId, String jobGroup) {
 		return create(ScheduleConstants.MessageType.PAUSE, jobId, jobGroup);
 	}
 
-	public static Object createResume(String jobId, String jobGroup) {
+	public static Object createResume(Integer jobId, String jobGroup) {
 		return create(ScheduleConstants.MessageType.RESUME, jobId, jobGroup);
 	}
 
-	public static Object createDelete(String jobId, String jobGroup) {
+	public static Object createDelete(Integer jobId, String jobGroup) {
 		return create(ScheduleConstants.MessageType.DELETE, jobId, jobGroup);
 	}
 
-	public static Object createRun(String jobId, String jobGroup) {
+	public static Object createRun(Integer jobId, String jobGroup) {
 		return create(ScheduleConstants.MessageType.RUN, jobId, jobGroup);
 	}
 

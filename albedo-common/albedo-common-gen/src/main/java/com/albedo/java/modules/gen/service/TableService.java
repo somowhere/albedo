@@ -5,30 +5,29 @@ import com.albedo.java.modules.gen.domain.Table;
 import com.albedo.java.modules.gen.domain.dto.TableColumnDto;
 import com.albedo.java.modules.gen.domain.dto.TableDto;
 import com.albedo.java.modules.gen.domain.dto.TableFromDto;
-import com.albedo.java.modules.gen.repository.TableRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public interface TableService extends DataService<TableRepository, Table, TableDto, String> {
+public interface TableService extends DataService<Table, TableDto, String> {
 
-	void save(TableDto tableDataVo);
+	void save(TableDto tableDto);
 
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	boolean checkTableName(String tableName);
 
-	TableDto getTableFormDb(TableDto tableDataVo);
+	TableDto getTableFormDb(TableDto tableDto);
 
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	List<String> findTablePK(TableDto tableDataVo);
+	List<String> findTablePK(TableDto tableDto);
 
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	List<TableColumnDto> findTableColumnList(TableDto tableDataVo);
+	List<TableColumnDto> findTableColumnList(TableDto tableDto);
 
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	List<TableDto> findTableListFormDb(TableDto tableDataVo);
+	List<TableDto> findTableListFormDb(TableDto tableDto);
 
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	Map<String, Object> findFormData(TableFromDto tableFromDto);

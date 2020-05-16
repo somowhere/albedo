@@ -1,4 +1,4 @@
-import { initData, download } from '@/api/data'
+import { initData } from '@/api/data'
 import commonUtil from '@/utils/common'
 import Vue from 'vue'
 
@@ -30,17 +30,22 @@ function CRUD(options) {
     // Form 表单
     form: {},
     // 重置表单
-    defaultForm: () => {},
-    // 排序规则，默认 id 降序， 支持多字段排序 ['id,desc', 'createTime,asc']
-    sort: ['id,desc'],
+    defaultForm: () => {
+    },
+    // 排序规则，默认 id 降序， 支持多字段排序 ['id,desc', 'createdDate,asc']
+    sorts: [],
     // 等待时间
     time: 50,
     // CRUD Method
     crudMethod: {
-      add: (form) => {},
-      del: (id) => {},
-      edit: (form) => {},
-      get: (id) => {}
+      add: (form) => {
+      },
+      del: (id) => {
+      },
+      edit: (form) => {
+      },
+      get: (id) => {
+      }
     },
     // 主页操作栏显示哪些按钮
     optShow: {
@@ -106,17 +111,17 @@ function CRUD(options) {
     /**
      * 通用的提示
      */
-    submitSuccessNotify() {
-      crud.notify(crud.msg.submit, CRUD.NOTIFICATION_TYPE.SUCCESS)
+    submitSuccessNotify(message) {
+      crud.notify(message || crud.msg.submit, CRUD.NOTIFICATION_TYPE.SUCCESS)
     },
-    addSuccessNotify() {
-      crud.notify(crud.msg.add, CRUD.NOTIFICATION_TYPE.SUCCESS)
+    addSuccessNotify(message) {
+      crud.notify(message || crud.msg.add, CRUD.NOTIFICATION_TYPE.SUCCESS)
     },
-    editSuccessNotify() {
-      crud.notify(crud.msg.edit, CRUD.NOTIFICATION_TYPE.SUCCESS)
+    editSuccessNotify(message) {
+      crud.notify(message || crud.msg.edit, CRUD.NOTIFICATION_TYPE.SUCCESS)
     },
-    delSuccessNotify() {
-      crud.notify(crud.msg.del, CRUD.NOTIFICATION_TYPE.SUCCESS)
+    delSuccessNotify(message) {
+      crud.notify(message || crud.msg.del, CRUD.NOTIFICATION_TYPE.SUCCESS)
     },
     // 搜索
     toQuery() {
@@ -132,6 +137,11 @@ function CRUD(options) {
         crud.loading = true
         // 请求数据
         initData(crud.url, crud.getQueryParams()).then(response => {
+          const table = crud.getTable()
+          if (table.lazy) { // 懒加载子节点数据，清掉已加载的数据
+            table.store.states.treeData = {}
+            table.store.states.lazyTreeNodeMap = {}
+          }
           crud.page.total = response.data.total
           crud.data = response.data.records
           crud.resetDataStatus()
@@ -140,7 +150,7 @@ function CRUD(options) {
             crud.loading = false
             callVmHook(crud, CRUD.HOOK.afterRefresh)
           }, crud.time)
-          resolve(data)
+          resolve(response)
         }).catch(err => {
           crud.loading = false
           reject(err)
@@ -253,10 +263,10 @@ function CRUD(options) {
         return
       }
       crud.status.add = CRUD.STATUS.PROCESSING
-      crud.crudMethod.save(crud.form).then(() => {
+      crud.crudMethod.save(crud.form).then((res) => {
         crud.status.add = CRUD.STATUS.NORMAL
         crud.resetForm()
-        crud.addSuccessNotify()
+        // crud.addSuccessNotify(res && res.message)
         callVmHook(crud, CRUD.HOOK.afterSubmit)
         crud.toQuery()
       }).catch(() => {
@@ -272,10 +282,10 @@ function CRUD(options) {
         return
       }
       crud.status.edit = CRUD.STATUS.PROCESSING
-      crud.crudMethod.save(crud.form).then(() => {
+      crud.crudMethod.save(crud.form).then((res) => {
         crud.status.edit = CRUD.STATUS.NORMAL
         crud.getDataStatus(crud.getDataId(crud.form)).edit = CRUD.STATUS.NORMAL
-        crud.editSuccessNotify()
+        // crud.editSuccessNotify(res && res.message)
         crud.resetForm()
         callVmHook(crud, CRUD.HOOK.afterSubmit)
         crud.refresh()
@@ -307,30 +317,18 @@ function CRUD(options) {
       if (!delAll) {
         dataStatus.delete = CRUD.STATUS.PROCESSING
       }
-      return crud.crudMethod.del(ids).then(() => {
+      return crud.crudMethod.del(ids).then((res) => {
         if (delAll) {
           crud.delAllLoading = false
         } else dataStatus.delete = CRUD.STATUS.PREPARED
         crud.dleChangePage(1)
-        crud.delSuccessNotify()
+        // crud.delSuccessNotify(res && res.message)
         callVmHook(crud, CRUD.HOOK.afterDelete, data)
         crud.refresh()
       }).catch(() => {
         if (delAll) {
           crud.delAllLoading = false
         } else dataStatus.delete = CRUD.STATUS.PREPARED
-      })
-    },
-    /**
-     * 通用导出
-     */
-    doExport() {
-      crud.downloadLoading = true
-      download(crud.url + '/download', crud.getQueryParams()).then(result => {
-        commonUtil.downloadFile(result, crud.title + '数据', 'xlsx')
-        crud.downloadLoading = false
-      }).catch(() => {
-        crud.downloadLoading = false
       })
     },
     /**
@@ -347,7 +345,7 @@ function CRUD(options) {
       return {
         page: crud.page.page - 1,
         size: crud.page.size,
-        sort: crud.sort,
+        sorts: crud.sorts,
         ...crud.query,
         ...crud.params
       }
@@ -368,6 +366,22 @@ function CRUD(options) {
       if (crud.data.length === size && crud.page.page !== 1) {
         crud.page.page -= 1
       }
+    },
+    sortChange(column) {
+      console.log(column)
+      const sort = column.prop + ',' + (column.order === 'ascending' ? 'asc' : 'desc')
+      // const hasItem = crud.sorts.some((item,index) => {
+      //   let flag = item.indexOf(column.prop+',')!=-1;
+      //   if(flag){
+      //     crud.sorts.splice(index, 1, sort)
+      //   }
+      //   return flag;
+      // })
+      // if(!hasItem){
+      //   crud.sorts.push(sort)
+      // }
+      crud.sorts = [sort]
+      crud.refresh()
     },
     // 选择改变
     selectionChangeHandler(val) {
@@ -407,6 +421,7 @@ function CRUD(options) {
      */
     resetDataStatus() {
       const dataStatus = {}
+
       function resetStatus(datas) {
         datas.forEach(e => {
           dataStatus[crud.getDataId(e)] = {
@@ -449,7 +464,9 @@ function CRUD(options) {
      */
     selectChange(selection, row) {
       // 如果selection中存在row代表是选中，否则是取消选中
-      if (selection.find(val => { return this.getDataId(val) === this.getDataId(row) })) {
+      if (selection.find(val => {
+        return crud.getDataId(val) === crud.getDataId(row)
+      })) {
         if (row.children) {
           row.children.forEach(val => {
             crud.findVM('presenter').$refs['table'].toggleRowSelection(val, true)
@@ -479,7 +496,8 @@ function CRUD(options) {
       }
     },
     findVM(type) {
-      return crud.vms.find(vm => vm && vm.type === type).vm
+      const obj = crud.vms.find(vm => vm && vm.type === type)
+      return obj && obj.vm
     },
     notify(title, type = CRUD.NOTIFICATION_TYPE.INFO) {
       crud.vms[0].vm.$notify({
@@ -494,8 +512,11 @@ function CRUD(options) {
     getDataId(data) {
       return data[this.idField]
     },
+    getTable() {
+      return this.findVM('presenter').$refs.table
+    },
     attchTable() {
-      const table = this.findVM('presenter').$refs.table
+      const table = this.getTable()
       const columns = []
       table.columns.forEach((e, index) => {
         if (!e.property || e.type !== 'default') {
@@ -511,6 +532,25 @@ function CRUD(options) {
       })
       this.updateProp('tableColumns', columns)
       this.updateProp('table', table)
+
+      const that = this
+      table.$on('expand-change', (row, expanded) => {
+        if (!expanded) {
+          return
+        }
+        const lazyTreeNodeMap = table.store.states.lazyTreeNodeMap
+        const children = lazyTreeNodeMap[row.id]
+        row.children = children
+        children && children.forEach(ele => {
+          const id = crud.getDataId(ele)
+          if (that.dataStatus[id] === undefined) {
+            that.dataStatus[id] = {
+              delete: 0,
+              edit: 0
+            }
+          }
+        })
+      })
     }
   }
   const crud = Object.assign({}, data)

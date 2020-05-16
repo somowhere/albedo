@@ -7,13 +7,14 @@ import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * View Model object for storing a user's credentials.
  */
 @Data
 @ToString
-public class PasswordChangeVo {
+public class PasswordChangeVo implements Serializable {
 
 	//    @NotBlank
 //    private String avatar;

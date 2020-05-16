@@ -24,18 +24,18 @@ public interface TableRepository extends BaseRepository<Table> {
 	/**
 	 * 获取数据表字段
 	 *
-	 * @param tableDataVo
+	 * @param tableDto
 	 * @return
 	 */
-	List<TableColumnDto> findTableColumnList(@Param("tableDataVo") TableDto tableDataVo);
+	List<TableColumnDto> findTableColumnList(@Param("tableDto") TableDto tableDto);
 
 	/**
 	 * 获取数据表主键
 	 *
-	 * @param tableDataVo
+	 * @param tableDto
 	 * @return
 	 */
-	List<String> findTablePK(@Param("tableDataVo") TableDto tableDataVo);
+	List<String> findTablePK(@Param("tableDto") TableDto tableDto);
 
 	List<Table> findAllByParentTable(String id);
 }

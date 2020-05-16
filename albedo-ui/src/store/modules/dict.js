@@ -1,5 +1,5 @@
 import loginService from '@/api/login'
-import { MSG_TYPE_SUCCESS } from '../../utils/request'
+import { MSG_TYPE_SUCCESS } from '@/const/common'
 
 const dict = {
   state: {
@@ -11,7 +11,7 @@ const dict = {
     }
   },
   actions: {
-  // 获取字典数据
+    // 获取字典数据
     GetDicts({ commit }) {
       return new Promise((resolve, reject) => {
         loginService.getDicts().then(res => {

@@ -4,6 +4,7 @@
 package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
+import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.persistence.domain.BaseEntity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -149,7 +150,7 @@ public class LogLogin extends BaseEntity<LogLogin> {
 	 */
 	@Size(max = 1)
 	@TableField(F_SQL_STATUS)
-	@DictType("sys_status")
+	@DictType(DictNameConstants.SYS_STATUS)
 	private String status;
 	/**
 	 * message 提示消息

@@ -17,7 +17,29 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.albedo.java.modules.sys.repository.UserRepository">
+
 	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.albedo.java.modules.sys.domain.User">
+		<id column="id" property="id"/>
+		<result column="username" property="username"/>
+		<result column="password" property="password"/>
+		<result column="salt" property="salt"/>
+		<result column="phone" property="phone"/>
+		<result column="email" property="email"/>
+		<result column="avatar" property="avatar"/>
+		<result column="wx_open_id" property="wxOpenId"/>
+		<result column="qq_open_id" property="qqOpenId"/>
+		<result column="available" property="available"/>
+		<result column="created_by" property="createdBy"/>
+		<result column="created_date" property="createdDate"/>
+		<result column="last_modified_by" property="lastModifiedBy"/>
+		<result column="last_modified_date" property="lastModifiedDate"/>
+		<result column="description" property="description"/>
+		<result column="version" property="version"/>
+		<result column="del_flag" property="delFlag"/>
+		<result column="deptId" property="deptId"/>
+	</resultMap>
+	<!-- 分页userVo结果集 -->
 	<resultMap id="userVoPageResultMap" type="com.albedo.java.modules.sys.domain.vo.UserVo">
 		<id column="id" property="id"/>
 		<result column="username" property="username"/>
@@ -39,7 +61,7 @@
 		<result column="deptId" property="deptId"/>
 		<result column="deptName" property="deptName"/>
 		<collection property="roleList" ofType="com.albedo.java.modules.sys.domain.Role"
-					select="com.albedo.java.modules.sys.repository.RoleRepository.findRolesByUserIdList" column="id">
+					select="com.albedo.java.modules.sys.repository.RoleRepository.findRoleByUserIdList" column="id">
 		</collection>
 	</resultMap>
 
@@ -68,7 +90,6 @@
 			<id column="role_id" property="id"/>
 			<result column="role_name" property="name"/>
 			<result column="role_data_scope" property="dataScope"/>
-			<result column="role_code" property="code"/>
 			<result column="role_level" property="level"/>
 			<result column="role_created_by" property="createdBy"/>
 			<result column="role_created_date" property="createdDate"/>
@@ -100,7 +121,6 @@
 		a.available AS available,
 		r.id AS role_id,
 		r.name AS role_name,
-		r.code AS role_code,
 		r.data_scope AS role_data_scope,
 		r.level AS role_level,
 		r.created_by AS role_created_by,
@@ -114,7 +134,7 @@
 		d.id AS dept_id
     </sql>
 
-	<select id="getUserVoByUsername" resultMap="userVoResultMap">
+	<select id="findUserVoById" resultMap="userVoResultMap">
 		SELECT
 		<include refid="userRoleDeptSql"/>
 		FROM
@@ -122,10 +142,10 @@
 		LEFT JOIN sys_user_role AS ur ON ur.user_id = a.id
 		LEFT JOIN sys_role AS r ON r.id = ur.role_id
 		LEFT JOIN sys_dept AS d ON d.id = a.dept_id
-		WHERE a.username = #{username} and a.del_flag='0'
+		WHERE a.username = #{username} and a.del_flag='0' and r.available = 1 and d.available = 1
 	</select>
 
-	<select id="getUserVoById" resultMap="userVoResultMap">
+	<select id="findUserVoById" resultMap="userVoResultMap">
 		SELECT
 		<include refid="userRoleDeptSql"/>
 		FROM
@@ -134,10 +154,10 @@
 		LEFT JOIN sys_role AS r ON r.id = ur.role_id
 		LEFT JOIN sys_dept AS d ON d.id = a.dept_id
 		WHERE
-		a.id = #{id} and a.del_flag='0'
+		a.id = #{id} and a.del_flag='0' and r.available = 1 and d.available = 1
 	</select>
 
-	<select id="getUserVoPage" resultMap="userVoPageResultMap">
+	<select id="findUserVoPage" resultMap="userVoPageResultMap">
 		SELECT
 		a.id,
 		a.username,
@@ -166,4 +186,13 @@
 			${ew.sqlSegment}
 		</where>
 	</select>
+
+	<select id="findUserByRoleId" resultType="com.albedo.java.modules.sys.domain.User">
+		SELECT
+            a.*
+        FROM
+        sys_user a, sys_user_role b WHERE a.id = b.user_id AND a.del_flag = 0 and a.available = 1 and b.role_id = #{roleId}
+
+	</select>
+
 </mapper>

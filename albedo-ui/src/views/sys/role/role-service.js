@@ -8,7 +8,7 @@ export function getAll() {
   })
 }
 
-export function add(data) {
+export function save(data) {
   return request({
     url: '/sys/role',
     method: 'post',
@@ -38,11 +38,11 @@ export function del(ids) {
   })
 }
 
-export function edit(data) {
+export function lock(ids) {
   return request({
-    url: '/sys/role',
+    url: '/sys/role/',
     method: 'put',
-    data
+    data: ids
   })
 }
 
@@ -54,4 +54,4 @@ export function editMenu(data) {
   })
 }
 
-export default { add, edit, del, get, editMenu, getLevel }
+export default { save, lock, del, get, editMenu, getLevel }

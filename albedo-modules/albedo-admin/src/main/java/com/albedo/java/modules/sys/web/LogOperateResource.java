@@ -28,6 +28,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 /**
@@ -73,9 +74,9 @@ public class LogOperateResource {
 	@Log(value = "操作日志", businessType = BusinessType.EXPORT)
 	@GetMapping(value = "/export")
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_export')")
-	public R export(PageModel pm) {
+	public void export(PageModel pm, HttpServletResponse response) {
 		ExcelUtil<LogOperate> util = new ExcelUtil(LogOperate.class);
-		return util.exportExcel(logOperateService.list(Wrappers.emptyWrapper()), "操作日志");
+		util.exportExcel(logOperateService.list(Wrappers.emptyWrapper()), "操作日志", response);
 	}
 
 }

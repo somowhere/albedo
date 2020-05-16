@@ -16,9 +16,14 @@
 
 package com.albedo.java.modules.sys.domain.vo;
 
+import com.albedo.java.common.core.annotation.DictType;
+import com.albedo.java.common.core.constant.DictNameConstants;
+import com.albedo.java.common.core.util.tree.TreeNodeAware;
 import com.albedo.java.common.core.vo.TreeVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 /**
  * <p>
@@ -30,7 +35,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class MenuVo extends TreeVo {
+public class MenuVo extends TreeVo implements TreeNodeAware<MenuVo> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -53,13 +58,20 @@ public class MenuVo extends TreeVo {
 	/**
 	 * 菜单类型 （0菜单 1按钮）
 	 */
+	@DictType(DictNameConstants.SYS_MENU_TYPE)
 	private String type;
 	/**
 	 * 是否隐藏  1是 0否
 	 */
-	private Integer hidden = 0;
+	@DictType(DictNameConstants.SYS_FLAG)
+	private Integer hidden;
+	@DictType(DictNameConstants.SYS_FLAG)
 	private Integer cache;
-	private Integer iFrame;
+	@DictType(DictNameConstants.SYS_FLAG)
+	private Integer iframe;
+
+	private List<MenuVo> children;
+	private boolean hasChildren;
 
 
 	@Override

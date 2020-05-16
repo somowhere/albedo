@@ -7,9 +7,10 @@
         v-if="crud.optShow.add"
         v-permission="permission.edit"
         class="filter-item"
+        icon="el-icon-plus"
+        plain
         size="mini"
         type="primary"
-        icon="el-icon-plus"
         @click="crud.toAdd"
       >
         新增
@@ -17,11 +18,12 @@
       <el-button
         v-if="crud.optShow.edit"
         v-permission="permission.edit"
+        :disabled="crud.selections.length !== 1"
         class="filter-item"
+        icon="el-icon-edit"
+        plain
         size="mini"
         type="success"
-        icon="el-icon-edit"
-        :disabled="crud.selections.length !== 1"
         @click="crud.toEdit(crud.selections[0])"
       >
         修改
@@ -30,56 +32,46 @@
         v-if="crud.optShow.del"
         slot="reference"
         v-permission="permission.del"
-        class="filter-item"
-        type="danger"
-        icon="el-icon-delete"
-        size="mini"
-        :loading="crud.delAllLoading"
         :disabled="crud.selections.length === 0"
+        :loading="crud.delAllLoading"
+        class="filter-item"
+        icon="el-icon-delete"
+        plain
+        size="mini"
+        type="danger"
         @click="toDelete(crud.selections)"
       >
         删除
       </el-button>
-      <el-button
-        v-if="crud.optShow.download"
-        v-permission="permission.export"
-        :loading="crud.downloadLoading"
-        :disabled="!crud.data.length"
-        class="filter-item"
-        size="mini"
-        type="warning"
-        icon="el-icon-download"
-        @click="crud.doExport"
-      >导出</el-button>
       <!--右侧-->
       <slot name="right" />
     </span>
     <el-button-group class="crud-opts-right">
       <el-button
-        size="mini"
-        plain
-        type="info"
         icon="el-icon-search"
+        plain
+        size="mini"
+        type="info"
         @click="toggleSearch()"
       />
       <el-button
-        size="mini"
         icon="el-icon-refresh"
+        size="mini"
         @click="crud.refresh()"
       />
       <el-popover
         placement="bottom-end"
-        width="150"
         trigger="click"
+        width="150"
       >
         <el-button
           slot="reference"
-          size="mini"
           icon="el-icon-s-grid"
+          size="mini"
         >
           <i
-            class="fa fa-caret-down"
             aria-hidden="true"
+            class="fa fa-caret-down"
           />
         </el-button>
         <el-checkbox
@@ -103,12 +95,15 @@
 </template>
 <script>
 import CRUD, { crud } from '@crud/crud'
+
 export default {
   mixins: [crud()],
   props: {
     permission: {
       type: Object,
-      default: () => { return {} }
+      default: () => {
+        return {}
+      }
     }
   },
   data() {
@@ -194,6 +189,7 @@ export default {
     display: flex;
     align-items: center;
   }
+
   .crud-opts .crud-opts-right {
     margin-left: auto;
   }

@@ -5,15 +5,17 @@ package com.albedo.java.modules.quartz.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.R;
-import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.web.resource.BaseResource;
-import com.albedo.java.modules.quartz.domain.vo.JobDto;
+import com.albedo.java.modules.quartz.domain.dto.JobDto;
+import com.albedo.java.modules.quartz.domain.dto.JobQueryCriteria;
 import com.albedo.java.modules.quartz.service.JobService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.AllArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,8 +55,9 @@ public class JobResource extends BaseResource {
 
 	@PreAuthorize("@pms.hasPermission('quartz_job_view')")
 	@GetMapping
-	public R getPage(PageModel pm) {
-		return R.buildOkData(jobService.page(pm));
+	public R<IPage> getPage(PageModel pm, JobQueryCriteria jobQueryCriteria) {
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, jobQueryCriteria);
+		return R.buildOkData(jobService.page(pm, wrapper));
 	}
 
 	/**
@@ -64,7 +67,7 @@ public class JobResource extends BaseResource {
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
 	@Log(value = "任务调度", businessType = BusinessType.EDIT)
-	@PostMapping(value = StringUtil.SLASH, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping
 	public R save(@Valid @RequestBody JobDto jobVo) {
 		log.debug("REST request to save JobForm : {}", jobVo);
 		jobService.saveOrUpdate(jobVo);
@@ -95,10 +98,10 @@ public class JobResource extends BaseResource {
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
 	@Log(value = "任务调度", businessType = BusinessType.EDIT)
-	@PostMapping("/available" + CommonConstants.URL_IDS_REGEX)
-	public R available(@RequestBody Set<String> ids) {
+	@PutMapping("/update-status")
+	public R updateStatus(@RequestBody Set<String> ids) {
 		log.debug("REST request to available Job: {}", ids);
-		jobService.available(ids);
+		jobService.updateStatus(ids);
 		return R.buildOk("操作成功");
 	}
 
@@ -110,7 +113,7 @@ public class JobResource extends BaseResource {
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
 	@Log(value = "任务调度", businessType = BusinessType.EDIT)
-	@PostMapping("/run" + CommonConstants.URL_IDS_REGEX)
+	@PutMapping("/run")
 	public R run(@RequestBody Set<String> ids) {
 		log.debug("REST request to available Job: {}", ids);
 		jobService.runByIds(ids);
@@ -125,7 +128,7 @@ public class JobResource extends BaseResource {
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
 	@Log(value = "任务调度", businessType = BusinessType.EDIT)
-	@PostMapping("/concurrent" + CommonConstants.URL_IDS_REGEX)
+	@PutMapping("/concurrent")
 	public R concurrent(@RequestBody Set<String> ids) {
 		log.debug("REST request to available Job: {}", ids);
 		jobService.concurrent(ids);
@@ -136,8 +139,8 @@ public class JobResource extends BaseResource {
 	 * 校验cron表达式是否有效
 	 */
 	@GetMapping("/check-cron-expression")
-	public boolean checkCronExpressionIsValid(JobDto jobDataVo) {
-		return jobService.checkCronExpressionIsValid(jobDataVo.getCronExpression());
+	public boolean checkCronExpressionIsValid(JobDto jobDto) {
+		return jobService.checkCronExpressionIsValid(jobDto.getCronExpression());
 	}
 
 }

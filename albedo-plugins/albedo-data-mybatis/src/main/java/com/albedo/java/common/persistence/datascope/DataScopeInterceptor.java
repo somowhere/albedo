@@ -94,15 +94,15 @@ public class DataScopeInterceptor extends AbstractSqlParserHandler implements In
 				Expression expression = null;
 				Alias alias = plainSelect.getFromItem().getAlias();
 				String aliaName = "";
-				if(alias!=null && StringUtil.isNotEmpty(alias.getName())){
-					aliaName = alias.getName()+".";
+				if (alias != null && StringUtil.isNotEmpty(alias.getName())) {
+					aliaName = alias.getName() + ".";
 				}
 				if (StringUtil.isNotBlank(scopeName) && CollectionUtil.isNotEmpty(deptIds)) {
-					ItemsList itemsList = new ExpressionList(deptIds.stream().map(deptId->new StringValue(deptId)).collect(Collectors.toList()));
-					expression = new InExpression(new Column(aliaName+scopeName), itemsList);
-				}else if(StringUtil.isNotEmpty(creatorName)){
+					ItemsList itemsList = new ExpressionList(deptIds.stream().map(deptId -> new StringValue(deptId)).collect(Collectors.toList()));
+					expression = new InExpression(new Column(aliaName + scopeName), itemsList);
+				} else if (StringUtil.isNotEmpty(creatorName)) {
 					EqualsTo equalsTo = new EqualsTo();
-					equalsTo.setLeftExpression(new Column(aliaName+creatorName));
+					equalsTo.setLeftExpression(new Column(aliaName + creatorName));
 					equalsTo.setRightExpression(new StringValue(userId));
 					expression = equalsTo;
 				}

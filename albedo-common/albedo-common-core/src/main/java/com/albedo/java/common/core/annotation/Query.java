@@ -28,14 +28,14 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Query {
 
-    String propName() default "";
+	String propName() default "";
 
 	Operator operator() default Operator.eq;
 
-    /**
-     * 多字段模糊搜索，仅支持String类型字段，多个用逗号隔开, 如@Query(blurry = "email,username")
-     */
-    String blurry() default "";
+	/**
+	 * 多字段模糊搜索，仅支持String类型字段，多个用逗号隔开, 如@Query(blurry = "email,username")
+	 */
+	String blurry() default "";
 
 	/**
 	 * 运算符

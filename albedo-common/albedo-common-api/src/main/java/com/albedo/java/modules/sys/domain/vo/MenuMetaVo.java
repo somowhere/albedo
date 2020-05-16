@@ -28,9 +28,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class MenuMetaVo implements Serializable {
 
-    private String title;
+	private String title;
 
-    private String icon;
+	private String icon;
 
-    private Boolean noCache;
+	private Boolean noCache;
 }

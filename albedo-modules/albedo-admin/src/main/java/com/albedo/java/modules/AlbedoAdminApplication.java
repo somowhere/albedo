@@ -49,4 +49,5 @@ public class AlbedoAdminApplication {
 			InetAddress.getLocalHost().getHostAddress(),
 			env.getProperty(SERVER_PORT));
 	}
+
 }

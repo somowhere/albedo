@@ -4,7 +4,6 @@ import cn.hutool.core.exceptions.ExceptionUtil;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.ScheduleConstants;
 import com.albedo.java.common.core.util.SpringContextHolder;
-import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.modules.quartz.domain.Job;
 import com.albedo.java.modules.quartz.domain.JobLog;
 import com.albedo.java.modules.quartz.service.JobLogService;
@@ -68,6 +67,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 		final JobLog jobLog = new JobLog();
 		jobLog.setJobName(job.getName());
 		jobLog.setJobGroup(job.getGroup());
+		jobLog.setCronExpression(job.getCronExpression());
 		jobLog.setInvokeTarget(job.getInvokeTarget());
 		jobLog.setStartTime(startTime);
 		jobLog.setEndTime(new Date());
@@ -75,13 +75,12 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 		jobLog.setJobMessage(jobLog.getJobName() + " 总共耗时：" + runMs + "毫秒");
 		if (e != null) {
 			jobLog.setStatus(CommonConstants.STR_FAIL);
-			String errorMsg = StringUtil.sub(ExceptionUtil.getMessage(e), 0, 2000);
-			jobLog.setExceptionInfo(errorMsg);
+			jobLog.setExceptionInfo(ExceptionUtil.stacktraceToString(e));
 		} else {
 			jobLog.setStatus(CommonConstants.STR_SUCCESS);
 		}
 
-		jobLog.setCreateTime(new Date());
+		jobLog.setCreatedDate(new Date());
 		// 写入数据库当中
 		SpringContextHolder.getBean(JobLogService.class).saveOrUpdate(jobLog);
 	}

@@ -4,7 +4,7 @@
       <el-col style="margin-bottom: 10px">
         <el-card class="box-card" shadow="never">
           <div slot="header" class="clearfix">
-            <span class="role-span">字段配置：{{ tableName }}</span>
+            <span class="card-span">字段配置：{{ tableName }}</span>
             <el-button
               :loading="genLoading"
               icon="el-icon-s-promotion"
@@ -144,7 +144,7 @@
       <el-col>
         <el-card class="box-card" shadow="never">
           <div slot="header" class="clearfix">
-            <span class="role-span">生成配置</span>
+            <span class="card-span">生成配置</span>
             <el-button
               :loading="configLoading"
               icon="el-icon-check"
@@ -201,7 +201,7 @@
 import crud from '@/mixins/crud'
 import { update, get } from '@/api/generator/genConfig'
 import { save, sync, generator } from '@/api/generator/generator'
-import { getDicts } from '@/views/sys/dict/dictService'
+import { getDicts } from '@/views/sys/dict/dict-service'
 export default {
   name: 'GeneratorConfig',
   components: {},

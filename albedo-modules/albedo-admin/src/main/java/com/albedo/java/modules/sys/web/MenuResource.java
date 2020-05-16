@@ -19,14 +19,13 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.R;
-import com.albedo.java.common.core.vo.PageModel;
-import com.albedo.java.common.core.vo.TreeQuery;
-import com.albedo.java.common.core.vo.TreeUtil;
+import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.Menu;
+import com.albedo.java.modules.sys.domain.dto.MenuQueryCriteria;
 import com.albedo.java.modules.sys.domain.dto.MenuSortDto;
 import com.albedo.java.modules.sys.domain.vo.MenuTree;
 import com.albedo.java.modules.sys.domain.vo.MenuVo;
@@ -51,7 +50,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("${application.admin-path}/sys/menu")
 @AllArgsConstructor
-public class MenuResource  extends BaseResource {
+public class MenuResource extends BaseResource {
 
 	private final MenuService menuService;
 
@@ -71,13 +70,13 @@ public class MenuResource  extends BaseResource {
 	 * @return 当前用户的树形菜单
 	 */
 	@GetMapping("/user-menu")
-	public R getUserMenu() {
+	public R findUserMenu() {
 		// 获取符合条件的菜单
 		Set<MenuVo> all = new HashSet<>();
 		SecurityUtil.getRoles()
-			.forEach(roleId -> all.addAll(menuService.getMenuByRoleId(roleId)));
+			.forEach(roleId -> all.addAll(menuService.findMenuByRoleId(roleId)));
 		List<MenuTree> menuTreeList = all.stream()
-			.filter(menuVo -> Menu.TYPE_MENU.equals(menuVo.getType()))
+			.filter(menuVo -> !Menu.TYPE_BUTTON.equals(menuVo.getType()))
 			.sorted(Comparator.comparingInt(MenuVo::getSort))
 			.map(MenuTree::new)
 			.collect(Collectors.toList());
@@ -93,18 +92,18 @@ public class MenuResource  extends BaseResource {
 	 */
 	public List<MenuTree> buildMenus(List<MenuTree> menuTreeList) {
 		menuTreeList.forEach(menu -> {
-				if (menu!=null){
+				if (menu != null) {
 					List<MenuTree> menuChildList = menu.getChildren();
-					if(CollUtil.isNotEmpty(menuChildList)){
+					if (CollUtil.isNotEmpty(menuChildList)) {
 						menu.setAlwaysShow(true);
 						menu.setRedirect("noredirect");
 						menu.setChildren(buildMenus(menuChildList));
 						// 处理是一级菜单并且没有子菜单的情况
-					} else if(menu.getParentId() == TreeUtil.ROOT){
+					} else if (menu.getParentId() == TreeUtil.ROOT) {
 						MenuTree menuVo = new MenuTree();
 						menuVo.setMeta(menu.getMeta());
 						// 非外链
-						if(!CommonConstants.YES.equals(menu.getIFrame())){
+						if (!CommonConstants.YES.equals(menu.getIframe())) {
 							menuVo.setPath("index");
 							menuVo.setName(menu.getName());
 							menuVo.setComponent(menu.getComponent());
@@ -123,15 +122,14 @@ public class MenuResource  extends BaseResource {
 
 	}
 
-
 	/**
 	 * 返回树形菜单集合
 	 *
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public R getTree(TreeQuery treeQuery) {
-		return R.buildOkData(menuService.listMenuTrees(treeQuery));
+	public R tree(MenuQueryCriteria menuQueryCriteria) {
+		return R.buildOkData(menuService.findTreeNode(menuQueryCriteria));
 	}
 
 	/**
@@ -140,12 +138,12 @@ public class MenuResource  extends BaseResource {
 	 * @param roleId 角色ID
 	 * @return 属性集合
 	 */
-	@GetMapping("/tree/{roleId}")
-	public List getRoleTree(@PathVariable String roleId) {
-		return menuService.getMenuByRoleId(roleId)
+	@GetMapping("/role/{roleId}")
+	public R findByRoleId(@PathVariable String roleId) {
+		return R.buildOkData(menuService.findMenuByRoleId(roleId)
 			.stream()
 			.map(MenuVo::getId)
-			.collect(Collectors.toList());
+			.collect(Collectors.toList()));
 	}
 
 	/**
@@ -191,14 +189,14 @@ public class MenuResource  extends BaseResource {
 	}
 
 	/**
-	 * 分页查询菜单信息
+	 * 查询菜单信息
 	 *
-	 * @param pm 分页对象
 	 * @return 分页对象
 	 */
 	@GetMapping
-	public R<IPage> getPage(PageModel pm) {
-		return R.buildOkData(menuService.page(pm));
+	@PreAuthorize("@pms.hasPermission('sys_menu_view')")
+	public R<IPage<MenuVo>> findTreeList(MenuQueryCriteria menuQueryCriteria) {
+		return R.buildOkData(menuService.findTreeList(menuQueryCriteria));
 	}
 
 }

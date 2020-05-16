@@ -9,9 +9,9 @@
  */
 package ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>;
 
-import com.albedo.java.common.persistence.service.DataVoService;
+import com.albedo.java.common.persistence.service.DtoService;
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
-import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}DataVo;
+import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
 <#if (table.compositeId)!>
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Id;
 </#if>
@@ -22,7 +22,7 @@ import ${packageName}.${moduleName}.repository.${ClassName}Repository;
  * @author ${functionAuthor}
  * @version ${functionVersion}
  */
-public interface ${ClassName}Service extends DataVoService<${ClassName}Repository, ${ClassName}, String, ${ClassName}DataVo>{
+public interface ${ClassName}Service extends DtoService<${ClassName}Repository, ${ClassName}, String, ${ClassName}Dto>{
 
 }
 ]]>

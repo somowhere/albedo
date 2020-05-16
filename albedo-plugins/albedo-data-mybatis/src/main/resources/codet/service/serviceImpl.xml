@@ -12,10 +12,10 @@ package ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModul
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.albedo.java.common.persistence.service.impl.DataVoServiceImpl;
+import com.albedo.java.common.persistence.service.impl.DtoServiceImpl;
 import ${packageName}.${moduleName}.service.${ClassName}Service;
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
-import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}DataVo;
+import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
 <#if (table.compositeId)!>
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Id;
 </#if>
@@ -28,7 +28,7 @@ import ${packageName}.${moduleName}.repository.${ClassName}Repository;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class ${ClassName}ServiceImpl extends DataVoServiceImpl<${ClassName}Repository, ${ClassName}, String, ${ClassName}DataVo> implements ${ClassName}Service{
+public class ${ClassName}ServiceImpl extends DtoServiceImpl<${ClassName}Repository, ${ClassName}, String, ${ClassName}Dto> implements ${ClassName}Service{
 
 }
 ]]>

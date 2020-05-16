@@ -4,13 +4,22 @@
 package com.albedo.java.modules.quartz.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
-import com.albedo.java.common.persistence.domain.IdEntity;
+import com.albedo.java.common.core.constant.DictNameConstants;
+import com.albedo.java.common.persistence.domain.DataEntity;
+import com.albedo.java.common.persistence.domain.GeneralEntity;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * 任务调度Entity 任务调度
@@ -23,8 +32,7 @@ import javax.validation.constraints.Size;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class Job extends IdEntity<Job> {
+public class Job extends DataEntity<Job> {
 
 	/**
 	 * F_NAME name  :  任务名称
@@ -85,6 +93,8 @@ public class Job extends IdEntity<Job> {
 	private static final long serialVersionUID = 1L;
 
 	//columns START
+	@TableId(value = GeneralEntity.F_SQL_ID, type = IdType.AUTO)
+	protected Integer id;
 	/**
 	 * name 任务名称
 	 */
@@ -98,7 +108,7 @@ public class Job extends IdEntity<Job> {
 	@NotBlank
 	@Size(max = 64)
 	@TableField("`group`")
-	@DictType("sys_job_group")
+	@DictType(DictNameConstants.QUARTZ_JOB_GROUP)
 	private String group;
 	/**
 	 * invokeTarget 调用目标字符串
@@ -118,31 +128,59 @@ public class Job extends IdEntity<Job> {
 	 */
 	@Size(max = 20)
 	@TableField("misfire_policy")
-	@DictType("sys_misfire_policy")
+	@DictType(DictNameConstants.QUARTZ_MISFIRE_POLICY)
 	private String misfirePolicy;
 	/**
 	 * concurrent 是否并发执行（1允许 0禁止）
 	 */
 	@Size(max = 1)
 	@TableField("concurrent")
-	@DictType("sys_flag")
+	@DictType(DictNameConstants.SYS_FLAG)
 	private String concurrent;
 	/**
-	 * available 状态(1-正常，0-锁定)
+	 * status 状态(1-运行中，0-暂停)
 	 */
 	@Size(max = 1)
-	@TableField("available")
-	@DictType("sys_flag")
-	private String available;
+	@DictType(DictNameConstants.QUARTZ_JOB_STATUS)
+	private String status;
+	/**
+	 * 子任务id 多个用逗号隔开
+	 */
+	private String subTask;
+	/**
+	 * 报警邮箱
+	 */
+	private String email;
+
 	//columns END
+	@Override
+	public Serializable pkVal() {
+		return this.getId();
+	}
+
+	@Override
+	public void setPk(Serializable pk) {
+		this.setId((Integer) pk);
+	}
 
 	@Override
 	public boolean equals(Object o) {
-		return super.equals(o);
+
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		Job job = (Job) o;
+		if (job.getId() == null || getId() == null) {
+			return false;
+		}
+		return Objects.equals(getId(), job.getId());
 	}
 
 	@Override
 	public int hashCode() {
-		return super.hashCode();
+		return Objects.hashCode(getId());
 	}
 }

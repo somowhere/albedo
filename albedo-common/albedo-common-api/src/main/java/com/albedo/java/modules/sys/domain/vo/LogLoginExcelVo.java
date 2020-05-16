@@ -18,6 +18,7 @@ package com.albedo.java.modules.sys.domain.vo;
 
 import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.annotation.ExcelField;
+import com.albedo.java.common.core.constant.DictNameConstants;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
@@ -64,13 +65,13 @@ public class LogLoginExcelVo implements Serializable {
 	 * 业务类型（0其它 1新增 2修改 3删除）
 	 */
 	@ExcelField(title = "业务类型", dictType = "sys_business_type")
-	@DictType("sys_business_type")
+	@DictType(DictNameConstants.SYS_BUSINESS_TYPE)
 	private Integer businessType;
 	/**
 	 * 操作类别（0其它 1后台用户 2手机端用户）
 	 */
 	@ExcelField(title = "操作类别", dictType = "sys_operator_type")
-	@DictType("sys_operator_type")
+	@DictType(DictNameConstants.SYS_OPERATOR_TYPE)
 	private Integer operatorType;
 	/**
 	 * 操作IP地址

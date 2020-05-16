@@ -20,24 +20,4 @@
 
 <mapper namespace="com.albedo.java.modules.sys.repository.LogOperateRepository">
 
-	<resultMap id="sysLogMap" type="com.albedo.java.modules.sys.domain.LogOperate">
-		<id property="id" column="id"/>
-		<result property="type" column="type"/>
-		<result property="title" column="title"/>
-		<result property="serviceId" column="service_id"/>
-		<result property="remoteAddr" column="remote_addr"/>
-		<result property="userAgent" column="user_agent"/>
-		<result property="requestUri" column="request_uri"/>
-		<result property="method" column="method"/>
-		<result property="params" column="params"/>
-		<result property="time" column="time"/>
-		<result property="exception" column="exception"/>
-		<result column="created_by" property="createdBy"/>
-		<result column="created_date" property="createdDate"/>
-		<result column="last_modified_by" property="lastModifiedBy"/>
-		<result column="last_modified_date" property="lastModifiedDate"/>
-		<result column="description" property="description"/>
-		<result column="version" property="version"/>
-		<result column="del_flag" property="delFlag"/>
-	</resultMap>
 </mapper>

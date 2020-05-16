@@ -3,7 +3,6 @@
  */
 package com.albedo.java.common.persistence.repository;
 
-import com.albedo.java.common.persistence.domain.GeneralEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -12,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author somewhere
  * @version 2018-03-07
  */
-public interface BaseRepository<T extends GeneralEntity> extends BaseMapper<T> {
+public interface BaseRepository<T> extends BaseMapper<T> {
 
 }

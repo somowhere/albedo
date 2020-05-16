@@ -16,23 +16,41 @@
 
 package com.albedo.java.modules.sys.service.impl;
 
+import com.albedo.java.common.core.constant.CacheNameConstants;
+import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.exception.BadRequestException;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.StringUtil;
+import com.albedo.java.common.core.util.tree.TreeUtil;
+import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.core.vo.TreeNode;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
+import com.albedo.java.common.persistence.domain.TreeEntity;
 import com.albedo.java.common.persistence.service.impl.TreeServiceImpl;
 import com.albedo.java.modules.sys.domain.Dept;
 import com.albedo.java.modules.sys.domain.DeptRelation;
+import com.albedo.java.modules.sys.domain.Role;
+import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.domain.dto.DeptDto;
 import com.albedo.java.modules.sys.domain.dto.DeptQueryCriteria;
+import com.albedo.java.modules.sys.domain.vo.DeptVo;
 import com.albedo.java.modules.sys.repository.DeptRepository;
+import com.albedo.java.modules.sys.repository.RoleRepository;
+import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.modules.sys.service.DeptRelationService;
 import com.albedo.java.modules.sys.service.DeptService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -46,10 +64,13 @@ import java.util.stream.Collectors;
  * @since 2019/2/1
  */
 @Service
+@CacheConfig(cacheNames = CacheNameConstants.DEPT_DETAILS)
 @AllArgsConstructor
 public class DeptServiceImpl extends
 	TreeServiceImpl<DeptRepository, Dept, DeptDto> implements DeptService {
 	private final DeptRelationService deptRelationService;
+	private final UserRepository userRepository;
+	private final RoleRepository roleRepository;
 
 	/**
 	 * 添加信息部门
@@ -58,6 +79,7 @@ public class DeptServiceImpl extends
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
+	@CacheEvict(allEntries = true)
 	public void saveOrUpdate(DeptDto deptDto) {
 		boolean add = StringUtil.isEmpty(deptDto.getId());
 		super.saveOrUpdate(deptDto);
@@ -81,7 +103,11 @@ public class DeptServiceImpl extends
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public Boolean removeDeptByIds(Set<String> ids) {
+	@CacheEvict(allEntries = true)
+	public boolean removeByIds(Collection<? extends Serializable> ids) {
+		repository.selectBatchIds(ids).forEach(dept -> {
+			checkDept(dept.getId(), dept.getName());
+		});
 		ids.forEach(id -> {
 			//级联删除部门
 			Set<String> idList = deptRelationService
@@ -96,7 +122,7 @@ public class DeptServiceImpl extends
 			}
 
 			//删除部门级联关系
-			deptRelationService.removeDeptRelationById(id);
+			deptRelationService.removeDeptRelationById((String) id);
 		});
 
 		return Boolean.TRUE;
@@ -104,7 +130,37 @@ public class DeptServiceImpl extends
 
 
 	@Override
+	@CacheEvict(allEntries = true)
+	public void lockOrUnLock(Set<String> ids) {
+		repository.selectBatchIds(ids).forEach(dept -> {
+			checkDept(dept.getId(), dept.getName());
+			dept.setAvailable(CommonConstants.YES.equals(dept.getAvailable()) ?
+				CommonConstants.NO : CommonConstants.YES);
+			repository.updateById(dept);
+		});
+	}
+
+	/**
+	 * 检查角色是否有用户信息
+	 *
+	 * @return /
+	 */
+	private void checkDept(String deptId, String deptName) {
+		List<User> userList = userRepository.selectList(Wrappers.<User>lambdaQuery().eq(User::getDeptId, deptId));
+		if (CollUtil.isNotEmpty(userList)) {
+			throw new BadRequestException("操作失败！用户：" + CollUtil.convertToString(userList, User.F_USERNAME, StringUtil.COMMA)
+				+ "所属要操作的部门：" + deptName);
+		}
+		List<Role> roleList = roleRepository.findRoleByDeptId(deptId);
+		if (CollUtil.isNotEmpty(roleList)) {
+			throw new BadRequestException("操作失败！角色：" + CollUtil.convertToString(roleList, Role.F_NAME, StringUtil.COMMA)
+				+ "的权限信息属于要操作的部门：" + deptName);
+		}
+	}
+
+	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
+	@Cacheable(key = "#deptId  + '_dept'")
 	public List<String> findDescendantIdList(String deptId) {
 		List<String> descendantIdList = deptRelationService
 			.list(Wrappers.<DeptRelation>query().lambda()
@@ -114,17 +170,18 @@ public class DeptServiceImpl extends
 		return descendantIdList;
 	}
 
-	/**
-	 * 查询用户部门树
-	 *
-	 * @return
-	 */
 	@Override
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public Set<TreeNode> findDeptTrees(DeptQueryCriteria deptQueryCriteria, String deptId) {
-		deptQueryCriteria.setDeptIds(findDescendantIdList(deptId));
-		List<Dept> deptList = baseMapper.selectList(QueryWrapperUtil.getWrapper(deptQueryCriteria));
-		return getNodeTree(deptList);
+	@Cacheable
+	public <Q> List<TreeNode> findTreeNode(Q queryCriteria) {
+		return super.findTreeNode(queryCriteria);
 	}
 
+	@Override
+	@Transactional(readOnly = true, rollbackFor = Exception.class)
+	public IPage<DeptVo> findTreeList(DeptQueryCriteria deptQueryCriteria) {
+		List<DeptVo> deptVoList = repository.findDeptVoList(QueryWrapperUtil.<Dept>getWrapper(deptQueryCriteria)
+			.eq(TreeEntity.F_SQL_DELFLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT));
+		return new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(deptVoList)),
+			deptVoList.size());
+	}
 }

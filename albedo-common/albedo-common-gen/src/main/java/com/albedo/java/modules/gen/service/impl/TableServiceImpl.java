@@ -43,10 +43,10 @@ public class TableServiceImpl extends
 
 
 	@Override
-	public void save(TableDto tableDataVo) {
-		boolean isNew = StringUtil.isEmpty(tableDataVo.getId());
+	public void save(TableDto tableDto) {
+		boolean isNew = StringUtil.isEmpty(tableDto.getId());
 		Table table = new Table();
-		copyDtoToBean(tableDataVo, table);
+		copyDtoToBean(tableDto, table);
 		super.saveOrUpdate(table);
 		log.debug("Save Information for Table: {}", table);
 		if (isNew) {
@@ -112,39 +112,39 @@ public class TableServiceImpl extends
 	}
 
 	@Override
-	public TableDto getTableFormDb(TableDto tableDataVo) {
+	public TableDto getTableFormDb(TableDto tableDto) {
 		// 如果有表名，则获取物理表
-		if (StringUtil.isNotBlank(tableDataVo.getName())) {
+		if (StringUtil.isNotBlank(tableDto.getName())) {
 
-			List<TableDto> list = findTableListFormDb(tableDataVo);
+			List<TableDto> list = findTableListFormDb(tableDto);
 			if (list.size() > 0) {
 
 				// 如果是新增，初始化表属性
-				if (ObjectUtil.isEmpty(tableDataVo.getId())) {
-					tableDataVo = list.get(0);
+				if (ObjectUtil.isEmpty(tableDto.getId())) {
+					tableDto = list.get(0);
 					// 设置字段说明
-					if (StringUtil.isBlank(tableDataVo.getComments())) {
-						tableDataVo.setComments(tableDataVo.getName());
+					if (StringUtil.isBlank(tableDto.getComments())) {
+						tableDto.setComments(tableDto.getName());
 					}
-					tableDataVo.setClassName(StringUtil.toCapitalizeCamelCase(tableDataVo.getName()));
+					tableDto.setClassName(StringUtil.toCapitalizeCamelCase(tableDto.getName()));
 				}
 
 				// 添加新列
-				List<TableColumnDto> columnList = findTableColumnList(tableDataVo);
+				List<TableColumnDto> columnList = findTableColumnList(tableDto);
 				for (TableColumnDto column : columnList) {
 					boolean b = false;
-					for (TableColumnDto e : tableDataVo.getColumnList()) {
+					for (TableColumnDto e : tableDto.getColumnList()) {
 						if (e.getName().equals(column.getName())) {
 							b = true;
 							break;
 						}
 					}
 					if (!b) {
-						tableDataVo.getColumnList().add(column);
+						tableDto.getColumnList().add(column);
 					}
 				}
 				// 删除已删除的列
-				for (TableColumnDto e : tableDataVo.getColumnList()) {
+				for (TableColumnDto e : tableDto.getColumnList()) {
 					boolean b = false;
 					for (TableColumnDto column : columnList) {
 						if (column.getName().equals(e.getName())) {
@@ -157,33 +157,33 @@ public class TableServiceImpl extends
 				}
 
 				// 获取主键
-				tableDataVo.setPkList(findTablePK(tableDataVo));
+				tableDto.setPkList(findTablePK(tableDto));
 
 				// 初始化列属性字段
-				GenUtil.initColumnField(tableDataVo);
+				GenUtil.initColumnField(tableDto);
 
 			}
 		}
-		return tableDataVo;
+		return tableDto;
 	}
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public List<String> findTablePK(TableDto tableDataVo) {
+	public List<String> findTablePK(TableDto tableDto) {
 		List<String> pkList = null;
 
-		pkList = repository.findTablePK(tableDataVo);
+		pkList = repository.findTablePK(tableDto);
 		return pkList;
 	}
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public List<TableColumnDto> findTableColumnList(TableDto tableDataVo) {
+	public List<TableColumnDto> findTableColumnList(TableDto tableDto) {
 		List<String[]> GenString = null;
 		List<TableColumnDto> list = null;
-		list = repository.findTableColumnList(tableDataVo);
-		Assert.notNull(list, StringUtil.toAppendStr("无法获取[", tableDataVo.getName(), "]表的列信息"));
-		if (ObjectUtil.isNotEmpty(tableDataVo.getId())) {
+		list = repository.findTableColumnList(tableDto);
+		Assert.notNull(list, StringUtil.toAppendStr("无法获取[", tableDto.getName(), "]表的列信息"));
+		if (ObjectUtil.isNotEmpty(tableDto.getId())) {
 			Collections.sort(list);
 		}
 		return list;
@@ -191,11 +191,11 @@ public class TableServiceImpl extends
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public List<TableDto> findTableListFormDb(TableDto tableDataVo) {
+	public List<TableDto> findTableListFormDb(TableDto tableDto) {
 		List<Table> tableEntities = list();
 		TableQuery tableQuery = new TableQuery();
-		if (tableDataVo != null) {
-			tableQuery.setName(tableDataVo.getName());
+		if (tableDto != null) {
+			tableQuery.setName(tableDto.getName());
 		}
 		List<String> tempNames = Lists.newArrayList("gen_");
 		tableQuery.setNotLikeNames(tempNames);
@@ -218,28 +218,28 @@ public class TableServiceImpl extends
 		Assert.isTrue(
 			StringUtil.isNotEmpty(tableFromDto.getId()) || checkTableName(tableFromDto.getName()),
 			StringUtil.toAppendStr("下一步失败！", tableFromDto.getName(), " 表已经添加！"));
-		TableDto tableDataVo = new TableDto(tableFromDto);
+		TableDto tableDto = new TableDto(tableFromDto);
 		if (ObjectUtil.isNotEmpty(tableFromDto.getId())) {
-			tableDataVo = getOneDto(tableFromDto.getId());
-			tableDataVo.setColumnList(tableColumnService.list(Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID, tableFromDto.getId()))
+			tableDto = getOneDto(tableFromDto.getId());
+			tableDto.setColumnList(tableColumnService.list(Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID, tableFromDto.getId()))
 				.stream().map(item -> tableColumnService.copyBeanToDto(item)).collect(Collectors.toList())
 			);
 		}
 		// 获取物理表字段
-		tableDataVo = getTableFormDb(tableDataVo);
-		map.put("columnList", CollUtil.convertComboDataList(tableDataVo.getColumnList(),
+		tableDto = getTableFormDb(tableDto);
+		map.put("columnList", CollUtil.convertComboDataList(tableDto.getColumnList(),
 			Table.F_NAME, Table.F_NAMESANDTITLE));
 
 
-		map.put("tableVo", tableDataVo);
+		map.put("tableVo", tableDto);
 		GenConfig config = GenUtil.getConfig();
 		map.put("config", config);
 
 		map.put("queryTypeList", CollUtil.convertComboDataList(config.getQueryTypeList(), Dict.F_VAL, Dict.F_NAME));
 		map.put("showTypeList", CollUtil.convertComboDataList(config.getShowTypeList(), Dict.F_VAL, Dict.F_NAME));
 		map.put("javaTypeList", CollUtil.convertComboDataList(config.getJavaTypeList(), Dict.F_VAL, Dict.F_NAME));
-		if (ObjectUtil.isNotEmpty(tableDataVo.getId())) {
-			Collections.sort(tableDataVo.getColumnList());
+		if (ObjectUtil.isNotEmpty(tableDto.getId())) {
+			Collections.sort(tableDto.getColumnList());
 		}
 
 		return map;
@@ -252,7 +252,7 @@ public class TableServiceImpl extends
 			Assert.notNull(entity, "对象 " + id + " 信息为空，删除失败");
 			removeById(id);
 			tableColumnService.deleteByTableId(id);
-			log.debug("Deleted TableDataVo: {}", entity);
+			log.debug("Deleted TableDto: {}", entity);
 		});
 	}
 }

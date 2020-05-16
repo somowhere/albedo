@@ -16,9 +16,12 @@
 
 package com.albedo.java.modules.sys.service.impl;
 
+import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.exception.BadRequestException;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.persistence.service.impl.DataServiceImpl;
+import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.RoleDept;
 import com.albedo.java.modules.sys.domain.RoleMenu;
@@ -30,11 +33,13 @@ import com.albedo.java.modules.sys.service.RoleService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -49,6 +54,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
+@CacheConfig(cacheNames = CacheNameConstants.ROLE_DETAILS)
 public class RoleServiceImpl extends
 	DataServiceImpl<RoleRepository, Role, RoleDto, String> implements RoleService {
 	private final CacheManager cacheManager;
@@ -80,9 +86,9 @@ public class RoleServiceImpl extends
 	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	@Cacheable(value = "role_details", key = "#userId  + '_role'")
-	public List findRolesByUserIdList(String userId) {
-		return baseMapper.findRolesByUserIdList(userId);
+	@Cacheable(key = "#userId  + '_role'")
+	public List<Role> findRoleByUserIdList(String userId) {
+		return repository.findRoleByUserIdList(userId);
 	}
 
 	/**
@@ -102,7 +108,7 @@ public class RoleServiceImpl extends
 			this.removeById(id);
 		});
 		//清空userinfo
-		cacheManager.getCache("user_details").clear();
+		cacheManager.getCache(CacheNameConstants.USER_DETAILS).clear();
 		return Boolean.TRUE;
 	}
 
@@ -111,16 +117,19 @@ public class RoleServiceImpl extends
 	@CacheEvict(allEntries = true)
 	public void saveOrUpdate(RoleDto roleDto) {
 		super.saveOrUpdate(roleDto);
-		roleMenuService.remove(Wrappers.<RoleMenu>query().lambda()
-			.eq(RoleMenu::getRoleId, roleDto.getId()));
-		List<RoleMenu> roleMenuList = roleDto.getMenuIdList().stream().map(menuId -> {
-			RoleMenu roleMenu = new RoleMenu();
-			roleMenu.setRoleId(roleDto.getId());
-			roleMenu.setMenuId(menuId);
-			return roleMenu;
-		}).collect(Collectors.toList());
+		if (CollUtil.isNotEmpty(roleDto.getMenuIdList())) {
+			roleMenuService.remove(Wrappers.<RoleMenu>query().lambda()
+				.eq(RoleMenu::getRoleId, roleDto.getId()));
 
-		roleMenuService.saveBatch(roleMenuList);
+			List<RoleMenu> roleMenuList = roleDto.getMenuIdList().stream().map(menuId -> {
+				RoleMenu roleMenu = new RoleMenu();
+				roleMenu.setRoleId(roleDto.getId());
+				roleMenu.setMenuId(menuId);
+				return roleMenu;
+			}).collect(Collectors.toList());
+
+			roleMenuService.saveBatch(roleMenuList);
+		}
 		if (CollUtil.isNotEmpty(roleDto.getDeptIdList())) {
 			roleDeptService.remove(Wrappers.<RoleDept>query().lambda()
 				.eq(RoleDept::getRoleId, roleDto.getId()));
@@ -133,21 +142,37 @@ public class RoleServiceImpl extends
 			roleDeptService.saveBatch(roleDeptList);
 		}
 		//清空userinfo
-		cacheManager.getCache("user_details").clear();
+		cacheManager.getCache(CacheNameConstants.USER_DETAILS).clear();
 	}
 
 	@Override
 	@CacheEvict(allEntries = true)
 	public void lockOrUnLock(Set<String> idList) {
 		idList.forEach(id -> {
-			Role role = baseMapper.selectById(id);
-			role.setAvailable(CommonConstants.STR_YES.equals(role.getAvailable()) ?
-				CommonConstants.STR_NO : CommonConstants.STR_YES);
-			baseMapper.updateById(role);
+			Role role = repository.selectById(id);
+			role.setAvailable(CommonConstants.YES.equals(role.getAvailable()) ?
+				CommonConstants.NO : CommonConstants.YES);
+			repository.updateById(role);
 		});
 
 		//清空userinfo
-		cacheManager.getCache("user_details").clear();
+		cacheManager.getCache(CacheNameConstants.USER_DETAILS).clear();
+	}
+
+	@Override
+	public Integer findLevelByUserId(String userId) {
+		List<Integer> levels = this.findRoleByUserIdList(SecurityUtil.getUser().getId()).stream()
+			.map(Role::getLevel).collect(Collectors.toList());
+		if (CollUtil.isEmpty(levels)) {
+			throw new BadRequestException("权限不足，找不到可用的角色信息");
+		}
+		int min = Collections.min(levels);
+		return min;
+	}
+
+	@Override
+	public List<Role> findRoleByDeptId(String deptId) {
+		return repository.findRoleByDeptId(deptId);
 	}
 
 

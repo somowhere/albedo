@@ -17,10 +17,10 @@
 package com.albedo.java.modules.sys.web;
 
 
+import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.Json;
 import com.albedo.java.common.core.util.R;
-import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.core.vo.SelectResult;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
@@ -28,6 +28,7 @@ import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.domain.dto.DictDto;
 import com.albedo.java.modules.sys.domain.dto.DictQueryCriteria;
+import com.albedo.java.modules.sys.domain.vo.DictVo;
 import com.albedo.java.modules.sys.service.DictService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.ApiOperation;
@@ -63,13 +64,14 @@ public class DictResource extends BaseResource {
 	 */
 	@GetMapping(value = "/tree")
 	public R tree(DictQueryCriteria dictQueryCriteria) {
-		return R.buildOkData(dictService.findTreeList(dictQueryCriteria));
+		return R.buildOkData(dictService.findTreeNode(dictQueryCriteria));
 	}
 
 	/**
 	 * @param id
 	 * @return
 	 */
+	@PreAuthorize("@pms.hasPermission('sys_dict_view')")
 	@GetMapping(CommonConstants.URL_ID_REGEX)
 	public R get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
@@ -77,14 +79,16 @@ public class DictResource extends BaseResource {
 	}
 
 	/**
-	 * 分页查询字典信息
+	 * 查询字典信息
 	 *
-	 * @param pm 分页对象
+	 * @param dictQueryCriteria 查询对象
 	 * @return 分页对象
 	 */
 	@GetMapping
-	public R<IPage> getPage(PageModel pm) {
-		return new R<>(dictService.page(pm));
+	@PreAuthorize("@pms.hasPermission('sys_dict_view')")
+	public R<IPage<DictVo>> findTreeList(DictQueryCriteria dictQueryCriteria) {
+		IPage<DictVo> treeList = dictService.findTreeList(dictQueryCriteria);
+		return R.buildOkData(treeList);
 	}
 
 	/**
@@ -108,11 +112,10 @@ public class DictResource extends BaseResource {
 	 * @return success、false
 	 */
 	@PostMapping
-	@CacheEvict(value = Dict.CACHE_DICT_DETAILS, allEntries = true)
+	@CacheEvict(value = CacheNameConstants.DICT_DETAILS, allEntries = true)
 	@PreAuthorize("@pms.hasPermission('sys_dict_edit')")
 	@Log(value = "字典管理", businessType = BusinessType.EDIT)
 	public R save(@Valid @RequestBody DictDto dictDto) {
-
 		dictService.saveOrUpdate(dictDto);
 		return R.buildOk("操作成功");
 	}
@@ -124,13 +127,24 @@ public class DictResource extends BaseResource {
 	 * @return R
 	 */
 	@DeleteMapping
-	@CacheEvict(value = Dict.CACHE_DICT_DETAILS, allEntries = true)
+	@CacheEvict(value = CacheNameConstants.DICT_DETAILS, allEntries = true)
 	@PreAuthorize("@pms.hasPermission('sys_dict_del')")
 	@Log(value = "字典管理", businessType = BusinessType.DELETE)
 	public R removeByIds(@RequestBody Set<String> ids) {
 		return new R<>(dictService.removeByIds(ids));
 	}
 
+	/**
+	 * @param ids
+	 * @return
+	 */
+	@PutMapping
+	@Log(value = "用户管理", businessType = BusinessType.LOCK)
+	@PreAuthorize("@pms.hasPermission('sys_dept_lock')")
+	public R lockOrUnLock(@RequestBody Set<String> ids) {
+		dictService.lockOrUnLock(ids);
+		return R.buildOk("操作成功");
+	}
 
 	/**
 	 * 所有类型字典
@@ -139,7 +153,7 @@ public class DictResource extends BaseResource {
 	 */
 
 	@GetMapping("/all")
-	public R<String> getAll() {
+	public R<String> findAllList() {
 		List<Dict> list = dictService.list();
 		return new R<>(Json.toJsonString(list));
 	}

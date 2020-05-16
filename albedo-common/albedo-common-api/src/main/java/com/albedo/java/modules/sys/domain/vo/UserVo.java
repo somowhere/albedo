@@ -17,13 +17,17 @@
 package com.albedo.java.modules.sys.domain.vo;
 
 import com.albedo.java.common.core.annotation.DictType;
+import com.albedo.java.common.core.annotation.ExcelField;
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
+import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.DataVo;
 import com.albedo.java.modules.sys.domain.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
@@ -32,6 +36,7 @@ import java.util.List;
  * @date 2019/2/1
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class UserVo extends DataVo<String> {
 
 	public static final String F_USERNAME = "username";
@@ -40,24 +45,28 @@ public class UserVo extends DataVo<String> {
 	/**
 	 * 用户名
 	 */
+	@ExcelField(title = "用户名")
 	private String username;
 
 	@JsonIgnore
 	private String password;
 
 	/**
-	 * 锁定标记
+	 * 是否启用
 	 */
-	@DictType("sys_flag")
+	@DictType(DictNameConstants.SYS_FLAG)
+	@ExcelField(title = "是否启用", dictType = DictNameConstants.SYS_FLAG)
 	private Integer available;
 
 	/**
 	 * 邮箱
 	 */
+	@ExcelField(title = "邮箱")
 	private String email;
 	/**
 	 * 电话
 	 */
+	@ExcelField(title = "电话")
 	private String phone;
 	/**
 	 * 头像
@@ -71,6 +80,7 @@ public class UserVo extends DataVo<String> {
 	/**
 	 * 部门名称
 	 */
+	@ExcelField(title = "部门名称")
 	private String deptName;
 
 	/**
@@ -83,6 +93,7 @@ public class UserVo extends DataVo<String> {
 	 */
 	private String qqOpenId;
 
+	@ExcelField(title = "角色名称")
 	private String roleNames;
 	/**
 	 * 角色ID
@@ -102,12 +113,11 @@ public class UserVo extends DataVo<String> {
 
 	public String getRoleNames() {
 		if (ObjectUtil.isEmpty(roleNames) && CollUtil.isNotEmpty(roleList)) {
-			roleNames = CollUtil.convertToString(roleList, Role.F_NAME, Role.F_ID);
+			roleNames = CollUtil.convertToString(roleList, Role.F_NAME, StringUtil.COMMA);
 		}
 		return roleNames;
 	}
 
-	@JsonIgnore
 	public boolean isAvailable() {
 		return CommonConstants.YES.equals(available);
 	}

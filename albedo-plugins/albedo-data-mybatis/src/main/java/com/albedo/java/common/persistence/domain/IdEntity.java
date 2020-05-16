@@ -13,7 +13,7 @@ import java.util.Objects;
 public class IdEntity<T extends BaseEntity<T>> extends DataEntity<T> {
 
 	private static final long serialVersionUID = 1L;
-	@TableId(value = GeneralEntity.F_SQL_ID, type = IdType.UUID)
+	@TableId(value = GeneralEntity.F_SQL_ID, type = IdType.ASSIGN_UUID)
 	protected String id;
 
 	public IdEntity() {

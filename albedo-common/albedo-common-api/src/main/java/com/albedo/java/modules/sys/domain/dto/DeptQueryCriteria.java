@@ -21,6 +21,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author somewhere
@@ -29,17 +30,21 @@ import java.util.List;
 @Data
 public class DeptQueryCriteria implements Serializable {
 
-    @Query(propName = "id", operator = Query.Operator.in)
-    private List<String> deptIds;
+	@Query(propName = "id", operator = Query.Operator.ne)
+	private String notId;
+
+	@Query(propName = "id", operator = Query.Operator.in)
+	private Set<String> deptIds;
 
 	@Query(operator = Query.Operator.like)
 	private String name;
-    @Query
-    private Boolean available;
-
 	@Query
-    private String parentId;
+	private Boolean available;
+	@Query(blurry = "name,description")
+	private String blurry;
+	@Query
+	private String parentId;
 
-    @Query(operator = Query.Operator.between)
-    private List<Timestamp> createdDate;
+	@Query(operator = Query.Operator.between)
+	private List<Timestamp> createdDate;
 }

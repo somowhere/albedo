@@ -30,7 +30,7 @@
 		<result column="sort" property="sort"/>
 		<result column="hidden" property="hidden"/>
 		<result column="cache" property="cache"/>
-		<result column="i_frame" property="iFrame"/>
+		<result column="iframe" property="iframe"/>
 		<result column="type" property="type"/>
 		<result column="created_by" property="createdBy"/>
 		<result column="created_date" property="createdDate"/>
@@ -40,8 +40,7 @@
 		<result column="version" property="version"/>
 		<result column="del_flag" property="delFlag"/>
 	</resultMap>
-	<!--通过角色查询菜单信息-->
-	<select id="listMenuVos" resultMap="MenuVoResultMap">
+	<select id="findMenuVoAllList" resultMap="MenuVoResultMap">
 		SELECT
 			*
 		FROM
@@ -52,7 +51,7 @@
 			`sort` DESC
     </select>
 	<!--通过角色查询菜单信息-->
-	<select id="listMenuVosByRoleId" resultMap="MenuVoResultMap">
+	<select id="findMenuVoListByRoleId" resultMap="MenuVoResultMap">
 		SELECT
 			sys_menu.*
 		FROM
@@ -66,10 +65,21 @@
     </select>
 
 	<!--通过角色ID 查询权限-->
-	<select id="listPermissionsByRoleIds" resultType="java.lang.String">
+	<select id="findPermissionsByRoleIds" resultType="java.lang.String">
         SELECT
             m.permission
         FROM
         sys_menu m, sys_role_menu rm WHERE m.menu_id = rm.menu_id AND m.del_flag = 0 AND rm.role_id IN (#{roleIds})
     </select>
+
+	<select id="findMenuVoList" resultType="com.albedo.java.modules.sys.domain.vo.MenuVo">
+		SELECT
+		*,
+		!leaf as hasChildren
+		FROM
+		sys_menu
+		<where>
+			${ew.sqlSegment}
+		</where>
+	</select>
 </mapper>

@@ -19,11 +19,14 @@ import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
+import com.albedo.java.common.persistence.datascope.DataScope;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.dto.DeptDto;
 import com.albedo.java.modules.sys.domain.dto.DeptQueryCriteria;
+import com.albedo.java.modules.sys.domain.vo.DeptVo;
 import com.albedo.java.modules.sys.service.DeptService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -45,35 +48,42 @@ import java.util.Set;
 public class DeptResource extends BaseResource {
 
 	private final DeptService deptService;
+
 	/**
 	 * @param id
 	 * @return
 	 */
 	@GetMapping(CommonConstants.URL_ID_REGEX)
+	@PreAuthorize("@pms.hasPermission('sys_dept_view')")
 	public R get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
 		return R.buildOkData(deptService.getOneDto(id));
 	}
 
+
 	/**
-	 * 返回树形菜单集合
+	 * 返回当前部门树形菜单集合
 	 *
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
 	public R tree(DeptQueryCriteria deptQueryCriteria) {
-		return R.buildOkData(deptService.findTreeList(deptQueryCriteria));
+		DataScope dataScope = SecurityUtil.getUser().getDataScope();
+		if (!dataScope.isAll()) {
+			deptQueryCriteria.setDeptIds(dataScope.getDeptIds());
+		}
+		return R.buildOkData(deptService.findTreeNode(deptQueryCriteria));
 	}
 
 	/**
-	 * 返回当前用户树形菜单集合
+	 * 部门树列表信息
 	 *
-	 * @return 树形菜单
+	 * @return 分页对象
 	 */
-	@GetMapping(value = "/user-tree")
-	public R userTree(DeptQueryCriteria deptQueryCriteria) {
-		String deptId = SecurityUtil.getUser().getDeptId();
-		return new R<>(deptService.findDeptTrees(deptQueryCriteria, deptId));
+	@GetMapping
+	@PreAuthorize("@pms.hasPermission('sys_dept_view')")
+	public R<IPage<DeptVo>> findTreeList(DeptQueryCriteria deptQueryCriteria) {
+		return R.buildOkData(deptService.findTreeList(deptQueryCriteria));
 	}
 
 	/**
@@ -91,6 +101,18 @@ public class DeptResource extends BaseResource {
 	}
 
 	/**
+	 * @param ids
+	 * @return
+	 */
+	@PutMapping
+	@Log(value = "用户管理", businessType = BusinessType.LOCK)
+	@PreAuthorize("@pms.hasPermission('sys_dept_lock')")
+	public R lockOrUnLock(@RequestBody Set<String> ids) {
+		deptService.lockOrUnLock(ids);
+		return R.buildOk("操作成功");
+	}
+
+	/**
 	 * 删除
 	 *
 	 * @param ids ID
@@ -100,7 +122,8 @@ public class DeptResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('sys_dept_del')")
 	@Log(value = "部门管理", businessType = BusinessType.DELETE)
 	public R removeById(@RequestBody Set<String> ids) {
-		return new R<>(deptService.removeDeptByIds(ids));
+		return new R<>(deptService.removeByIds(ids));
 	}
+
 
 }

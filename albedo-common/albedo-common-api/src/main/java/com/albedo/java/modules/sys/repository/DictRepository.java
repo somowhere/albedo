@@ -18,6 +18,12 @@ package com.albedo.java.modules.sys.repository;
 
 import com.albedo.java.common.persistence.repository.TreeRepository;
 import com.albedo.java.modules.sys.domain.Dict;
+import com.albedo.java.modules.sys.domain.vo.DictVo;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -29,4 +35,8 @@ import com.albedo.java.modules.sys.domain.Dict;
  */
 public interface DictRepository extends TreeRepository<Dict> {
 
+	List<DictVo> findDictVoList(@Param(Constants.WRAPPER) QueryWrapper<Dict> wrapper);
+
+
+	void updateAvailableByIdList(@Param("idList") List<String> idList, @Param("available") Integer available);
 }

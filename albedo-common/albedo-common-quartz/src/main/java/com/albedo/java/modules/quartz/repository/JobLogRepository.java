@@ -8,6 +8,7 @@ import com.albedo.java.common.persistence.repository.BaseRepository;
 import com.albedo.java.modules.quartz.domain.JobLog;
 import com.albedo.java.modules.quartz.domain.vo.JobLogExcelVo;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -22,5 +23,5 @@ public interface JobLogRepository extends BaseRepository<JobLog> {
 
 	void cleanJobLog();
 
-	List<JobLogExcelVo> findExcelVo(@Param("ew") Wrapper wrapper);
+	List<JobLogExcelVo> findExcelVo(@Param(Constants.WRAPPER) Wrapper wrapper);
 }

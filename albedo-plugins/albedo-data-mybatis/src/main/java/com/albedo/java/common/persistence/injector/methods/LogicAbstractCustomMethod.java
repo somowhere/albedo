@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.toolkit.sql.SqlScriptUtils;
 
 import java.util.stream.Collectors;
 
+@Deprecated
 public abstract class LogicAbstractCustomMethod extends AbstractMethod {
 
 	public String getAllSqlWhere(TableInfo table, boolean ignoreLogicDelFiled, boolean withId, String prefix, String columnPrefix) {

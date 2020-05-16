@@ -16,14 +16,11 @@
 
 package com.albedo.java.modules.sys.domain.dto;
 
-import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.vo.TreeDto;
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -54,10 +51,6 @@ public class DictDto extends TreeDto {
 	 */
 	@NotBlank(message = "字典项数据类型不能为空")
 	private String code;
-	@NotNull
-	@TableField(F_SQL_SHOW)
-	@DictType("sys_flag")
-	private Integer show = 1;
 	/**
 	 * 备注信息
 	 */

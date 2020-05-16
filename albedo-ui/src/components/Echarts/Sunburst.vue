@@ -4,10 +4,9 @@
 
 <script>
 import echarts from 'echarts'
+import commonUtil from '@/utils/common'
 
 require('echarts/theme/macarons') // echarts theme
-
-import commonUtil from '@/utils/common'
 
 export default {
   props: {

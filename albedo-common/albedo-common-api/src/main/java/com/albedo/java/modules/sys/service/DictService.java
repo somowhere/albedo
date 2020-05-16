@@ -20,10 +20,13 @@ import com.albedo.java.common.core.vo.SelectResult;
 import com.albedo.java.common.persistence.service.TreeService;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.domain.dto.DictDto;
-import com.albedo.java.modules.sys.repository.DictRepository;
+import com.albedo.java.modules.sys.domain.dto.DictQueryCriteria;
+import com.albedo.java.modules.sys.domain.vo.DictVo;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>
@@ -33,10 +36,14 @@ import java.util.Map;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface DictService extends TreeService<DictRepository, Dict, DictDto> {
+public interface DictService extends TreeService<Dict, DictDto> {
 	Map<String, List<SelectResult>> findCodeStr(String codes);
 
 	Map<String, List<SelectResult>> findCodes(String... codes);
 
 	void refresh();
+
+	IPage<DictVo> findTreeList(DictQueryCriteria dictQueryCriteria);
+
+	void lockOrUnLock(Set<String> ids);
 }

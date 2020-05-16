@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class TemplateServiceImpl extends com.albedo.java.common.persistence.service.impl.BaseServiceImpl<TemplateRepository, Template>
-	implements com.albedo.java.modules.gen.service.TemplateService,
-	com.albedo.java.common.persistence.service.BaseService<TemplateRepository, Template> {
+	implements com.albedo.java.modules.gen.service.TemplateService {
 
 }

@@ -24,7 +24,7 @@ import com.albedo.java.common.core.exception.GlobalExceptionHandler;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ClassUtil;
 import ${packageName}.${moduleName}.domain.${ClassName};
-import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}DataVo;
+import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
 import ${packageName}.${moduleName}.repository<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Repository;
 import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Service;
 import ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Resource;
@@ -107,9 +107,9 @@ public class ${ClassName}ResourceIntTest {
 	@Autowired
 	private ApplicationProperties applicationProperties;
 
-	private ${ClassName}DataVo ${className}DataVo;
+	private ${ClassName}Dto ${className}Dto;
 
-	private ${ClassName}DataVo another${ClassName}DataVo = new ${ClassName}DataVo();
+	private ${ClassName}Dto another${ClassName}Dto = new ${ClassName}Dto();
 	@BeforeEach
 	public void setup() {
 		DEFAULT_API_URL = applicationProperties.getAdminPath("/${urlPrefix}/");
@@ -129,8 +129,8 @@ public class ${ClassName}ResourceIntTest {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static ${ClassName}DataVo createEntity() {
-        ${ClassName}DataVo ${className}DataVo = ClassUtil.createObj(${ClassName}DataVo.class, Lists.newArrayList(
+    public static ${ClassName}Dto createEntity() {
+        ${ClassName}Dto ${className}Dto = ClassUtil.createObj(${ClassName}Dto.class, Lists.newArrayList(
     <#assign firstListField = true>
     <#list table.columnList as column>
 		<#if column.edit && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'parentId' || column.simpleJavaField == 'description')>
@@ -142,12 +142,12 @@ public class ${ClassName}ResourceIntTest {
 		<#if firstListField> <#assign firstListField = false><#else>,</#if>DEFAULT_${column.constantJavaField}
 		</#if>
 	</#list>);
-        return ${className}DataVo;
+        return ${className}Dto;
     }
 
     @BeforeEach
     public void initTest() {
-        ${className}DataVo = createEntity();
+        ${className}Dto = createEntity();
     }
 
     @Test
@@ -158,7 +158,7 @@ public class ${ClassName}ResourceIntTest {
         rest${ClassName}MockMvc.perform(post(DEFAULT_API_URL)
 			.param(PageModel.F_DESC, ${ClassName}.F_SQL_CREATEDDATE)
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(${className}DataVo)))
+            .content(TestUtil.convertObjectToJsonBytes(${className}Dto)))
             .andExpect(status().isOk());
         ;
         // Validate the ${ClassName} in the database
@@ -180,17 +180,17 @@ public class ${ClassName}ResourceIntTest {
     @Test
     @Transactional
     public void create${ClassName}WithExisting${column.simpleJavaField?cap_first}() throws Exception {
-        ${className}Service.save(${className}DataVo);
+        ${className}Service.save(${className}Dto);
         int databaseSizeBeforeCreate = ${className}Service.list().size();
 
         // Create the ${ClassName} with an existing ID
-        ${ClassName}DataVo ${className}DataVoNew = ClassUtil.createObj(${ClassName}DataVo.class, Lists.newArrayList(${ClassName}DataVo.F_ID, ${ClassName}DataVo.F_${column.constantJavaField}),
-            null, ${className}DataVo.get${column.simpleJavaField?cap_first}());
+        ${ClassName}Dto ${className}DtoNew = ClassUtil.createObj(${ClassName}Dto.class, Lists.newArrayList(${ClassName}Dto.F_ID, ${ClassName}Dto.F_${column.constantJavaField}),
+            null, ${className}Dto.get${column.simpleJavaField?cap_first}());
 
         // An entity with an existing ID cannot be created, so this API call must fail
         rest${ClassName}MockMvc.perform(post(DEFAULT_API_URL)
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(${className}DataVoNew)))
+            .content(TestUtil.convertObjectToJsonBytes(${className}DtoNew)))
             .andExpect(status().isBadRequest());
 
         // Validate the ${ClassName} in the database
@@ -207,13 +207,13 @@ public class ${ClassName}ResourceIntTest {
     public void check${column.simpleJavaField?cap_first}IsRequired() throws Exception {
         int databaseSizeBeforeTest = ${className}Service.list().size();
         // set the field null
-        ${className}DataVo.set${column.simpleJavaField?cap_first}(null);
+        ${className}Dto.set${column.simpleJavaField?cap_first}(null);
 
         // Create the ${ClassName}, which fails.
 
         rest${ClassName}MockMvc.perform(post(DEFAULT_API_URL)
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(${className}DataVo)))
+            .content(TestUtil.convertObjectToJsonBytes(${className}Dto)))
             .andExpect(status().isBadRequest());
 
         List<${ClassName}> ${className}List = ${className}Service.list();
@@ -227,7 +227,7 @@ public class ${ClassName}ResourceIntTest {
     @Transactional
     public void getAll${ClassName}s() throws Exception {
         // Initialize the database
-        ${className}Service.save(${className}DataVo);
+        ${className}Service.save(${className}Dto);
 
         // Get all the ${className}List
         rest${ClassName}MockMvc.perform(get(DEFAULT_API_URL))
@@ -235,7 +235,7 @@ public class ${ClassName}ResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
     <#list table.columnList as column>
         <#if column.pk>
-            .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(${className}DataVo.get${column.simpleJavaField?cap_first}())))
+            .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(${className}Dto.get${column.simpleJavaField?cap_first}())))
         <#elseif column.edit && column.isNotBaseTreeField && column.null && (column.isNotBaseField || column.simpleJavaField == 'description')>
             .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(<#if column.simpleJavaType == "Date">DateUtil.formatDateTime(DEFAULT_${column.constantJavaField})<#elseif column.simpleJavaType == "Long">DEFAULT_${column.constantJavaField}.intValue()<#else>DEFAULT_${column.constantJavaField}</#if>)))
         </#if>
@@ -246,15 +246,15 @@ public class ${ClassName}ResourceIntTest {
     @Transactional
     public void get${ClassName}() throws Exception {
         // Initialize the database
-        ${className}Service.save(${className}DataVo);
+        ${className}Service.save(${className}Dto);
 
         // Get the ${className}
-        rest${ClassName}MockMvc.perform(get(DEFAULT_API_URL+"{id}", ${className}DataVo.getId()))
+        rest${ClassName}MockMvc.perform(get(DEFAULT_API_URL+"{id}", ${className}Dto.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
     <#list table.columnList as column>
         <#if column.pk>
-            .andExpect(jsonPath("$.data.${column.simpleJavaField}").value(${className}DataVo.get${column.simpleJavaField?cap_first}()))
+            .andExpect(jsonPath("$.data.${column.simpleJavaField}").value(${className}Dto.get${column.simpleJavaField?cap_first}()))
         <#elseif column.edit && column.isNotBaseTreeField && column.null && (column.isNotBaseField || column.simpleJavaField == 'description')>
             .andExpect(jsonPath("$.data.${column.simpleJavaField}").value(<#if column.simpleJavaType == "Date">DateUtil.formatDateTime(DEFAULT_${column.constantJavaField})<#else>DEFAULT_${column.constantJavaField}</#if>))
         </#if>
@@ -266,10 +266,10 @@ public class ${ClassName}ResourceIntTest {
     @Transactional
     public void getAll${ClassName}sBy${column.simpleJavaField?cap_first}IsEqualToSomething() throws Exception {
         // Initialize the database
-        ${className}Service.save(${className}DataVo);
+        ${className}Service.save(${className}Dto);
 
         // Get all the ${className}List where ${column.simpleJavaField} equals to DEFAULT_${column.constantJavaField}
-        default${ClassName}ShouldBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}DataVo.getId()),
+        default${ClassName}ShouldBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}Dto.getId()),
         <#if column.simpleJavaType == "Date">
         new QueryCondition(${ClassName}.F_${column.constantJavaField}, QueryCondition.Operator.eq, DateUtil.formatDateTime(DEFAULT_${column.constantJavaField}), CommonConstants.TYPE_DATE)
         <#else>
@@ -277,7 +277,7 @@ public class ${ClassName}ResourceIntTest {
         </#if>);
 
         // Get all the ${className}List where ${column.simpleJavaField} equals to UPDATED_${column.constantJavaField}
-        default${ClassName}ShouldNotBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}DataVo.getId()),
+        default${ClassName}ShouldNotBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}Dto.getId()),
         <#if column.simpleJavaType == "Date">
         new QueryCondition(${ClassName}.F_${column.constantJavaField}, QueryCondition.Operator.eq, DateUtil.formatDateTime(UPDATED_${column.constantJavaField}), CommonConstants.TYPE_DATE)
         <#else>
@@ -289,10 +289,10 @@ public class ${ClassName}ResourceIntTest {
     @Transactional
     public void getAll${ClassName}sBy${column.simpleJavaField?cap_first}IsInShouldWork() throws Exception {
         // Initialize the database
-        ${className}Service.save(${className}DataVo);
+        ${className}Service.save(${className}Dto);
 
         // Get all the ${className}List where ${column.simpleJavaField} in DEFAULT_${column.constantJavaField} or UPDATED_${column.constantJavaField}
-        default${ClassName}ShouldBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}DataVo.getId()),
+        default${ClassName}ShouldBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}Dto.getId()),
         <#if column.simpleJavaType == "Date">
         new QueryCondition(${ClassName}.F_${column.constantJavaField}, QueryCondition.Operator.in, DateUtil.formatDateTime(DEFAULT_${column.constantJavaField}), CommonConstants.TYPE_DATE)
         <#else>
@@ -300,7 +300,7 @@ public class ${ClassName}ResourceIntTest {
         </#if>);
 
         // Get all the ${className}List where ${column.simpleJavaField} equals to UPDATED_${column.constantJavaField}
-        default${ClassName}ShouldNotBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}DataVo.getId()),
+        default${ClassName}ShouldNotBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}Dto.getId()),
         <#if column.simpleJavaType == "Date">
         new QueryCondition(${ClassName}.F_${column.constantJavaField}, QueryCondition.Operator.in, DateUtil.formatDateTime(UPDATED_${column.constantJavaField}), CommonConstants.TYPE_DATE)
         <#else>
@@ -312,23 +312,23 @@ public class ${ClassName}ResourceIntTest {
     @Transactional
     public void getAll${ClassName}sBy${column.simpleJavaField?cap_first}IsNullOrNotNull() throws Exception {
         // Initialize the database
-        ${className}Service.save(${className}DataVo);
+        ${className}Service.save(${className}Dto);
 
         // Get all the ${className}List where ${column.simpleJavaField} is not null
-        default${ClassName}ShouldBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}DataVo.getId()), QueryCondition.isNotNull(${ClassName}.F_${column.constantJavaField}));
+        default${ClassName}ShouldBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}Dto.getId()), QueryCondition.isNotNull(${ClassName}.F_${column.constantJavaField}));
 
         // Get all the ${className}List where ${column.simpleJavaField} is null
-        default${ClassName}ShouldNotBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}DataVo.getId()), QueryCondition.isNull(${ClassName}.F_${column.constantJavaField}));
+        default${ClassName}ShouldNotBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}Dto.getId()), QueryCondition.isNull(${ClassName}.F_${column.constantJavaField}));
     }
     <#if column.simpleJavaType == "Integer" ||  column.simpleJavaType == "Double" ||  column.simpleJavaType == "Float" ||  column.simpleJavaType == "Date">
     @Test
     @Transactional
     public void getAll${ClassName}sBy${column.simpleJavaField?cap_first}IsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
-        ${className}Service.save(${className}DataVo);
+        ${className}Service.save(${className}Dto);
 
         // Get all the ${className}List where ${column.simpleJavaField} greater than or equals to DEFAULT_${column.constantJavaField}
-        default${ClassName}ShouldBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}DataVo.getId()),
+        default${ClassName}ShouldBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}Dto.getId()),
         <#if column.simpleJavaType == "Date">
         new QueryCondition(${ClassName}.F_${column.constantJavaField}, QueryCondition.Operator.ge, DateUtil.formatDateTime(DEFAULT_${column.constantJavaField}), CommonConstants.TYPE_DATE)
         <#else>
@@ -336,7 +336,7 @@ public class ${ClassName}ResourceIntTest {
         </#if>);
 
         // Get all the ${className}List where ${column.simpleJavaField} greater than or equals to UPDATED_${column.constantJavaField}
-        default${ClassName}ShouldNotBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}DataVo.getId()),
+        default${ClassName}ShouldNotBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}Dto.getId()),
         <#if column.simpleJavaType == "Date">
         new QueryCondition(${ClassName}.F_${column.constantJavaField}, QueryCondition.Operator.ge, DateUtil.formatDateTime(UPDATED_${column.constantJavaField}), CommonConstants.TYPE_DATE)
         <#else>
@@ -348,10 +348,10 @@ public class ${ClassName}ResourceIntTest {
     @Transactional
     public void getAll${ClassName}sBy${column.simpleJavaField?cap_first}IsLessThanSomething() throws Exception {
         // Initialize the database
-        ${className}Service.save(${className}DataVo);
+        ${className}Service.save(${className}Dto);
 
         // Get all the ${className}List where ${column.simpleJavaField} less than or equals to DEFAULT_SORT
-        default${ClassName}ShouldNotBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}DataVo.getId()),
+        default${ClassName}ShouldNotBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}Dto.getId()),
         <#if column.simpleJavaType == "Date">
         new QueryCondition(${ClassName}.F_${column.constantJavaField}, QueryCondition.Operator.lt, DateUtil.formatDateTime(DEFAULT_${column.constantJavaField}), CommonConstants.TYPE_DATE)
         <#else>
@@ -359,7 +359,7 @@ public class ${ClassName}ResourceIntTest {
         </#if>);
 
         // Get all the ${className}List where ${column.simpleJavaField} less than or equals to UPDATED_SORT
-        default${ClassName}ShouldBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}DataVo.getId()),
+        default${ClassName}ShouldBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}Dto.getId()),
         <#if column.simpleJavaType == "Date">
         new QueryCondition(${ClassName}.F_${column.constantJavaField}, QueryCondition.Operator.lt, DateUtil.formatDateTime(UPDATED_${column.constantJavaField}), CommonConstants.TYPE_DATE)
         <#else>
@@ -380,7 +380,7 @@ public class ${ClassName}ResourceIntTest {
             .andExpect(jsonPath("$.data.records").isArray())
     <#list table.columnList as column>
         <#if column.pk>
-            .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(${className}DataVo.get${column.simpleJavaField?cap_first}())))
+            .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(${className}Dto.get${column.simpleJavaField?cap_first}())))
         <#elseif column.edit && column.null && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'description')>
             .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(<#if column.simpleJavaType == "Date">DateUtil.formatDateTime(DEFAULT_${column.constantJavaField})<#elseif column.simpleJavaType == "Long">DEFAULT_${column.constantJavaField}.intValue()<#else>DEFAULT_${column.constantJavaField}</#if>)))
         </#if>
@@ -412,12 +412,12 @@ public class ${ClassName}ResourceIntTest {
     @Transactional
     public void update${ClassName}() throws Exception {
         // Initialize the database
-        ${className}Service.save(${className}DataVo);
+        ${className}Service.save(${className}Dto);
 
         int databaseSizeBeforeUpdate = ${className}Service.list().size();
 
         // Update the ${className}
-        ${ClassName} updated${ClassName} = ${className}Service.getById(${className}DataVo.getId());
+        ${ClassName} updated${ClassName} = ${className}Service.getById(${className}Dto.getId());
         // Disconnect from session so that the updates on updated${ClassName} are not directly saved in db
         ClassUtil.updateObj(updated${ClassName}, Lists.newArrayList(
     <#assign firstListField = true>
@@ -432,7 +432,7 @@ public class ${ClassName}ResourceIntTest {
 		</#if>
 	</#list>);
 
-        ${ClassName}DataVo ${className}Vo = ${className}Service.copyBeanToDto(updated${ClassName});
+        ${ClassName}Dto ${className}Vo = ${className}Service.copyBeanToDto(updated${ClassName});
         rest${ClassName}MockMvc.perform(post(DEFAULT_API_URL)
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(${className}Vo)))
@@ -442,7 +442,7 @@ public class ${ClassName}ResourceIntTest {
         List<${ClassName}> ${className}List = ${className}Service.list();
         assertThat(${className}List).hasSize(databaseSizeBeforeUpdate);
 
-        ${ClassName} test${ClassName} = ${className}List.stream().filter(item->${className}DataVo.getId().equals(item.getId())).findAny().get();
+        ${ClassName} test${ClassName} = ${className}List.stream().filter(item->${className}Dto.getId().equals(item.getId())).findAny().get();
     <#list table.columnList as column>
 		<#if column.edit && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'parentId' || column.simpleJavaField == 'description')>
 		assertThat(test${ClassName}.get${column.simpleJavaField?cap_first}()).isEqualTo(UPDATED_${column.constantJavaField});
@@ -455,11 +455,11 @@ public class ${ClassName}ResourceIntTest {
     @Transactional
     public void delete${ClassName}() throws Exception {
         // Initialize the database
-        ${className}Service.save(${className}DataVo);
+        ${className}Service.save(${className}Dto);
         int databaseSizeBeforeDelete = ${className}Service.list().size();
 
         // Get the ${className}
-        rest${ClassName}MockMvc.perform(delete(DEFAULT_API_URL+"{id}", ${className}DataVo.getId())
+        rest${ClassName}MockMvc.perform(delete(DEFAULT_API_URL+"{id}", ${className}Dto.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 

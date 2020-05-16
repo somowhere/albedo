@@ -4,36 +4,67 @@
     <div class="head-container">
       <div v-if="crud.props.searchToggle">
         <!-- 搜索 -->
-        <el-input v-model="query.name" clearable size="small" placeholder="输入部门名称搜索" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+        <el-input
+          v-model="query.blurry"
+          class="filter-item"
+          clearable
+          placeholder="输入部门名称或者描述搜索"
+          size="small"
+          style="width: 200px;"
+          @keyup.enter.native="crud.toQuery"
+        />
         <el-date-picker
-          v-model="query.createTime"
+          v-model="query.createdDate"
           :default-time="['00:00:00','23:59:59']"
-          type="daterange"
+          class="date-item"
+          end-placeholder="结束日期"
           range-separator=":"
           size="small"
-          class="date-item"
-          value-format="yyyy-MM-dd HH:mm:ss"
           start-placeholder="开始日期"
-          end-placeholder="结束日期"
+          type="daterange"
+          value-format="yyyy-MM-dd HH:mm:ss"
         />
-        <el-select v-model="query.enabled" clearable size="small" placeholder="状态" class="filter-item" style="width: 90px" @change="crud.toQuery">
-          <el-option v-for="item in enabledTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
+        <el-select
+          v-model="query.enabled"
+          class="filter-item"
+          clearable
+          placeholder="状态"
+          size="small"
+          style="width: 90px"
+          @change="crud.toQuery"
+        >
+          <el-option v-for="(item,index) in flagOptions" :key="index" :label="item.label" :value="item.value" />
         </el-select>
         <rrOperation />
       </div>
       <crudOperation :permission="permission" />
     </div>
     <!--表单组件-->
-    <el-dialog append-to-body :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="500px">
-      <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="form.name" style="width: 370px;" />
+    <el-dialog
+      :before-close="crud.cancelCU"
+      :close-on-click-modal="false"
+      :title="crud.status.title"
+      :visible.sync="crud.status.cu > 0"
+      append-to-body
+      width="500px"
+    >
+      <el-form ref="form" :model="form" label-width="80px" size="small">
+        <el-form-item :rules="[{ required: true, trigger: 'change', message: '请选择上级部门'}]" label="上级部门" prop="parentId">
+          <treeselect v-model="form.parentId" :options="depts" placeholder="选择上级类目" />
         </el-form-item>
-        <el-form-item v-if="form.pid !== 0" label="状态" prop="enabled">
-          <el-radio v-for="item in dict.dept_status" :key="item.id" v-model="form.enabled" :label="item.value">{{ item.label }}</el-radio>
+        <el-form-item :rules="[{ required: true, trigger: 'blur', message: '请输入部门名称'}]" label="部门名称" prop="name">
+          <el-input v-model="form.name" />
         </el-form-item>
-        <el-form-item v-if="form.pid !== 0" style="margin-bottom: 0;" label="上级部门" prop="pid">
-          <treeselect v-model="form.pid" :options="depts" style="width: 370px;" placeholder="选择上级类目" />
+        <el-form-item label="菜单排序" prop="sort">
+          <el-input-number
+            v-model.number="form.sort"
+            :max="999"
+            :min="0"
+            controls-position="right"
+          />
+        </el-form-item>
+        <el-form-item label="备注" prop="description">
+          <el-input v-model="form.description" type="textarea" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -42,31 +73,49 @@
       </div>
     </el-dialog>
     <!--表格渲染-->
-    <el-table ref="table" v-loading="crud.loading" :tree-props="{children: 'children', hasChildren: 'hasChildren'}" default-expand-all :data="crud.data" row-key="id" @select="crud.selectChange" @select-all="crud.selectAllChange" @selection-change="crud.selectionChangeHandler">
+    <el-table
+      ref="table"
+      v-loading="crud.loading"
+      default-expand-all
+      :data="crud.data"
+      row-key="id"
+      @select="crud.selectChange"
+      @select-all="crud.selectAllChange"
+      @selection-change="crud.selectionChangeHandler"
+    >
       <el-table-column :selectable="checkboxT" type="selection" width="55" />
       <el-table-column label="名称" prop="name" />
-      <el-table-column label="状态" align="center" prop="enabled">
+      <el-table-column label="序号" prop="sort" />
+      <el-table-column align="center" label="是否可用" prop="available">
         <template slot-scope="scope">
           <el-switch
-            v-model="scope.row.enabled"
-            :disabled="scope.row.id === 1"
-            active-color="#409EFF"
-            inactive-color="#F56C6C"
-            @change="changeEnabled(scope.row, scope.row.enabled,)"
+            v-model="scope.row.available"
+            v-permission="[permission.lock]"
+            :active-value="1"
+            :inactive-value="0"
+            @change="changeAvailable(scope.row)"
           />
+          <span v-show="!permissions.includes(permission.lock)">{{ scope.row.availableText }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建日期">
+      <el-table-column label="描述" prop="description" />
+      <el-table-column label="创建日期" prop="createdDate">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createTime) }}</span>
+          <span>{{ parseTime(scope.row.createdDate) }}</span>
         </template>
       </el-table-column>
-      <el-table-column v-permission="['admin','dept:edit','dept:del']" label="操作" width="130px" align="center" fixed="right">
+      <el-table-column
+        v-permission="[permission.edit, permission.del]"
+        align="center"
+        fixed="right"
+        label="操作"
+        width="130px"
+      >
         <template slot-scope="scope">
           <udOperation
             :data="scope.row"
-            :permission="permission"
             :disabled-dle="scope.row.id === 1"
+            :permission="permission"
             msg="确定删除吗,如果存在下级节点则一并删除，此操作不能撤销！"
           />
         </template>
@@ -76,55 +125,58 @@
 </template>
 
 <script>
-import crudDept from '@/views/sys/dept/deptService'
+import crudDept from '@/views/sys/dept/dept-service'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-import CRUD, { presenter, header, form, crud } from '@crud/crud'
+import CRUD, { crud, form, header, presenter } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
+import { NO, YES } from '@/const/common'
+import { mapGetters } from 'vuex'
 
-const defaultForm = { id: null, name: null, pid: 1, enabled: 'true' }
+const defaultForm = { id: null, name: null, parentId: -1, description: null }
 export default {
   name: 'Dept',
   components: { Treeselect, crudOperation, rrOperation, udOperation },
   cruds() {
-    return CRUD({ title: '部门', url: 'api/dept', crudMethod: { ...crudDept }})
+    return CRUD({ title: '部门', url: '/sys/dept/', crudMethod: { ...crudDept }})
   },
   mixins: [presenter(), header(), form(defaultForm), crud()],
-  // 设置数据字典
-  dicts: ['dept_status'],
   data() {
     return {
       depts: [],
-      rules: {
-        name: [
-          { required: true, message: '请输入名称', trigger: 'blur' }
-        ]
-      },
       permission: {
-        add: ['admin', 'dept:add'],
-        edit: ['admin', 'dept:edit'],
-        del: ['admin', 'dept:del']
+        edit: 'sys_dept_edit',
+        lock: 'sys_dept_lock',
+        del: 'sys_dept_del'
       },
-      enabledTypeOptions: [
-        { key: 'true', display_name: '正常' },
-        { key: 'false', display_name: '禁用' }
-      ]
+      flagOptions: []
     }
+  },
+  computed: {
+    ...mapGetters([
+      'dicts', 'permissions'
+    ])
+  },
+  created() {
+    this.flagOptions = this.dicts['sys_flag']
   },
   methods: {
     // 新增与编辑前做的操作
     [CRUD.HOOK.afterToCU](crud, form) {
       form.enabled = `${form.enabled}`
       // 获取所有部门
-      crudDept.getDepts({ enabled: true }).then(res => {
-        this.depts = res.content
+      crudDept.getDepts({ notId: form.id, available: 1 }).then(res => {
+        this.depts = []
+        const dept = { id: -1, label: '顶级类目', children: [] }
+        dept.children = res.data
+        this.depts.push(dept)
       })
     },
     // 提交前的验证
     [CRUD.HOOK.afterValidateCU]() {
-      if (!this.form.pid && this.form.id !== 1) {
+      if (!this.form.parentId && this.form.id !== 1) {
         this.$message({
           message: '上级部门不能为空',
           type: 'warning'
@@ -134,20 +186,19 @@ export default {
       return true
     },
     // 改变状态
-    changeEnabled(data, val) {
-      this.$confirm('此操作将 "' + this.dict.label.dept_status[val] + '" ' + data.name + '部门, 是否继续？', '提示', {
+    changeAvailable(data) {
+      const flag = data.available === YES
+      this.$confirm('此操作将 "' + (flag ? '启用' : '锁定') + '" ' + data.name + ', 是否继续？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        crudDept.edit(data).then(res => {
-          this.crud.notify(this.dict.label.dept_status[val] + '成功', CRUD.NOTIFICATION_TYPE.SUCCESS)
-        }).catch(err => {
-          data.enabled = !data.enabled
-          console.log(err.response.data.message)
+        crudDept.lock([data.id]).then(res => {
+        }).catch(() => {
+          data.available = flag ? NO : YES
         })
       }).catch(() => {
-        data.enabled = !data.enabled
+        data.available = flag ? NO : YES
       })
     },
     checkboxT(row, rowIndex) {

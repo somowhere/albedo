@@ -22,11 +22,12 @@ import java.lang.reflect.Type;
  * @author lj
  * @version 2014-05-16
  */
+@Transactional(rollbackFor = Exception.class)
 @Data
 public abstract class DataServiceImpl<Repository extends BaseRepository<T>,
 	T extends DataEntity, D extends DataDto, PK extends Serializable>
 	extends BaseServiceImpl<Repository, T>
-	implements DataService<Repository, T, D, PK> {
+	implements DataService<T, D, PK> {
 
 	private Class<T> entityEntityClz;
 	private Class<D> entityDtoClz;

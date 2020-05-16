@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.core.vo;
+package com.albedo.java.common.core.util.tree;
 
 
+import com.albedo.java.common.core.util.StringUtil;
+import com.google.common.collect.Lists;
 import lombok.experimental.UtilityClass;
-import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -30,49 +32,36 @@ import java.util.stream.Collectors;
 @UtilityClass
 public class TreeUtil {
 	public static final String ROOT = "-1";
-	public <T extends TreeNode> Set<T> buildByLoopAutoRoot(Collection<T> treeNodes){
-		Set<T> trees = new LinkedHashSet<>();
-		Set<T> depts= new LinkedHashSet<>();
+
+	public <T extends TreeNodeAware> List<T> buildByLoopAutoRoot(List<T> treeNodes) {
+
+		List<String> deptParentIds = treeNodes.stream().map(T::getParentId).collect(Collectors.toList());
+		if (deptParentIds.contains(ROOT)) {
+			return buildByRecursive(treeNodes, ROOT);
+		}
 		List<String> deptIds = treeNodes.stream().map(T::getId).collect(Collectors.toList());
-		boolean isChild;
-		for (T deptDTO : treeNodes) {
-			isChild = false;
-			if (ROOT.equals(deptDTO.getParentId())) {
-				trees.add(deptDTO);
-			}
-			for (T it : treeNodes) {
-				if (it.getParentId().equals(deptDTO.getId())) {
-					isChild = true;
-					if (deptDTO.getChildren() == null) {
-						deptDTO.setChildren(new ArrayList<>());
-					}
-					deptDTO.getChildren().add(it);
-				}
-			}
-			if(isChild) {
-				depts.add(deptDTO);
-			} else if(!deptIds.contains(deptDTO.getParentId())) {
-				depts.add(deptDTO);
+		List<T> trees = Lists.newArrayList();
+		for (T item : treeNodes) {
+			if (!deptIds.contains(item.getParentId())) {
+				trees.add(findChildren(item, treeNodes));
 			}
 		}
 
-		if (CollectionUtils.isEmpty(trees)) {
-			trees = depts;
-		}
 		return trees;
 	}
-	public <T extends TreeNode> Set<T> buildByLoop(Collection<T> treeNodes){
+
+	public <T extends TreeNodeAware> List<T> buildByLoop(Collection<T> treeNodes) {
 		return buildByLoop(treeNodes, ROOT);
 	}
+
 	/**
 	 * 两层循环实现建树
 	 *
 	 * @param treeNodes 传入的树节点列表
 	 * @return
 	 */
-	public <T extends TreeNode> Set<T> buildByLoop(Collection<T> treeNodes, Object root) {
-
-		Set<T> trees = new LinkedHashSet<>();
+	public <T extends TreeNodeAware> List<T> buildByLoop(Collection<T> treeNodes, Object root) {
+		List<T> trees = Lists.newArrayList();
 
 		for (T treeNode : treeNodes) {
 
@@ -83,9 +72,9 @@ public class TreeUtil {
 			for (T it : treeNodes) {
 				if (it.getParentId().equals(treeNode.getId())) {
 					if (treeNode.getChildren() == null) {
-						treeNode.setChildren(new ArrayList<>());
+						treeNode.setChildren(Lists.newArrayList());
 					}
-					treeNode.add(it);
+					treeNode.getChildren().add(it);
 				}
 			}
 		}
@@ -99,13 +88,14 @@ public class TreeUtil {
 	 * @param treeNodes
 	 * @return
 	 */
-	public <T extends TreeNode> Set<T> buildByRecursive(Collection<T> treeNodes, Object root) {
-		Set<T> trees = new LinkedHashSet<>();
+	public <T extends TreeNodeAware> List<T> buildByRecursive(List<T> treeNodes, Object root) {
+		List<T> trees = Lists.newArrayList();
 		for (T treeNode : treeNodes) {
 			if (root.equals(treeNode.getParentId())) {
 				trees.add(findChildren(treeNode, treeNodes));
 			}
 		}
+
 		return trees;
 	}
 
@@ -115,18 +105,17 @@ public class TreeUtil {
 	 * @param treeNodes
 	 * @return
 	 */
-	public <T extends TreeNode> T findChildren(T treeNode, Collection<T> treeNodes) {
+	public <T extends TreeNodeAware> T findChildren(T treeNode, List<T> treeNodes) {
 		for (T it : treeNodes) {
-			if (treeNode.getId() == it.getParentId()) {
+			if (StringUtil.equals(treeNode.getId(), it.getParentId())) {
 				if (treeNode.getChildren() == null) {
-					treeNode.setChildren(new ArrayList<>());
+					treeNode.setChildren(Lists.newArrayList());
 				}
-				treeNode.add(findChildren(it, treeNodes));
+				treeNode.getChildren().add(findChildren(it, treeNodes));
 			}
 		}
 		return treeNode;
 	}
-
 
 
 }

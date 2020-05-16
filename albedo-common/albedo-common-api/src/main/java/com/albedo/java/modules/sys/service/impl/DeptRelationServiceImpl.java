@@ -17,12 +17,12 @@
 package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.core.util.CollUtil;
+import com.albedo.java.common.persistence.service.impl.BaseServiceImpl;
 import com.albedo.java.modules.sys.domain.DeptRelation;
 import com.albedo.java.modules.sys.domain.dto.DeptDto;
 import com.albedo.java.modules.sys.repository.DeptRelationRepository;
 import com.albedo.java.modules.sys.service.DeptRelationService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class DeptRelationServiceImpl extends ServiceImpl<DeptRelationRepository, DeptRelation> implements DeptRelationService {
+public class DeptRelationServiceImpl extends BaseServiceImpl<DeptRelationRepository, DeptRelation> implements DeptRelationService {
 	private final DeptRelationRepository deptRelationRepository;
 
 	/**
@@ -79,7 +79,7 @@ public class DeptRelationServiceImpl extends ServiceImpl<DeptRelationRepository,
 	 */
 	@Override
 	public void removeDeptRelationById(String id) {
-		baseMapper.deleteDeptRelationsById(id);
+		repository.deleteDeptRelationsById(id);
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class DeptRelationServiceImpl extends ServiceImpl<DeptRelationRepository,
 	 */
 	@Override
 	public void updateDeptRelation(DeptRelation relation) {
-		baseMapper.updateDeptRelations(relation);
+		repository.updateDeptRelations(relation);
 	}
 
 }

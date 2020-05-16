@@ -62,7 +62,7 @@ public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor, In
 
 	public void destroy() throws Exception {
 		if (this.executor instanceof DisposableBean) {
-			DisposableBean bean = (DisposableBean)this.executor;
+			DisposableBean bean = (DisposableBean) this.executor;
 			bean.destroy();
 		}
 
@@ -70,7 +70,7 @@ public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor, In
 
 	public void afterPropertiesSet() throws Exception {
 		if (this.executor instanceof InitializingBean) {
-			InitializingBean bean = (InitializingBean)this.executor;
+			InitializingBean bean = (InitializingBean) this.executor;
 			bean.afterPropertiesSet();
 		}
 

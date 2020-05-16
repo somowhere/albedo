@@ -17,6 +17,7 @@
 package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
+import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.persistence.domain.TreeEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -37,9 +38,9 @@ import javax.validation.constraints.NotNull;
 @TableName("sys_menu")
 public class Menu extends TreeEntity<Menu> {
 
-	public static final String TYPE_MENU = "0";
-	public static final String TYPE_BUTTON = "1";
-	public static final String TYPE_BUTTON_TAB = "2";
+	public static final String TYPE_CATALOG = "0";
+	public static final String TYPE_MENU = "1";
+	public static final String TYPE_BUTTON = "2";
 	public static final String F_SHOW = "show";
 	public static final String F_SQL_SHOW = "show";
 	private static final long serialVersionUID = 1L;
@@ -57,26 +58,26 @@ public class Menu extends TreeEntity<Menu> {
 	 */
 	private String component;
 	/**
-	 * 菜单类型 （0菜单 1按钮）
+	 * 菜单类型 （0目录 1菜单 2按钮）
 	 */
 	@NotNull(message = "菜单类型不能为空")
-	@DictType("sys_menu_type")
+	@DictType(DictNameConstants.SYS_MENU_TYPE)
 	private String type;
 	/**
 	 * 是否缓存
 	 */
-	@DictType("sys_flag")
+	@DictType(DictNameConstants.SYS_FLAG)
 	private Integer cache = 0;
 	/**
 	 * 是否外链
 	 */
-	@DictType("sys_flag")
-	private Integer iFrame;
+	@DictType(DictNameConstants.SYS_FLAG)
+	private Integer iframe;
 	/**
 	 * 是否显示1 是0否
 	 */
 	@NotNull
-	@DictType("sys_flag")
+	@DictType(DictNameConstants.SYS_FLAG)
 	private Integer hidden = 0;
 
 	/**

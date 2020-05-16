@@ -19,7 +19,6 @@ package com.albedo.java.modules.sys.service;
 import com.albedo.java.common.persistence.service.DataService;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.dto.RoleDto;
-import com.albedo.java.modules.sys.repository.RoleRepository;
 
 import java.util.List;
 import java.util.Set;
@@ -32,7 +31,7 @@ import java.util.Set;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface RoleService extends DataService<RoleRepository, Role, RoleDto, String> {
+public interface RoleService extends DataService<Role, RoleDto, String> {
 
 	/**
 	 * 通过用户ID，查询角色信息
@@ -40,7 +39,7 @@ public interface RoleService extends DataService<RoleRepository, Role, RoleDto, 
 	 * @param userId
 	 * @return
 	 */
-	List<Role> findRolesByUserIdList(String userId);
+	List<Role> findRoleByUserIdList(String userId);
 
 	List<String> findRoleDeptIdList(String id);
 
@@ -53,4 +52,8 @@ public interface RoleService extends DataService<RoleRepository, Role, RoleDto, 
 	Boolean removeRoleByIds(Set<String> ids);
 
 	void lockOrUnLock(Set<String> idList);
+
+	Integer findLevelByUserId(String userId);
+
+	List<Role> findRoleByDeptId(String deptId);
 }

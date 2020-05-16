@@ -62,9 +62,9 @@ public class SchemeResource extends BaseResource {
 
 	@GetMapping(value = "/form-data")
 	@PreAuthorize("@pms.hasPermission('gen_scheme_view')")
-	public ResponseEntity formData(SchemeDto schemeDataVo) {
+	public ResponseEntity formData(SchemeDto schemeDto) {
 		String username = SecurityUtil.getUser().getUsername();
-		Map<String, Object> formData = schemeService.findFormData(schemeDataVo, username);
+		Map<String, Object> formData = schemeService.findFormData(schemeDto, username);
 		return ResultBuilder.buildOk(formData);
 	}
 
@@ -72,38 +72,38 @@ public class SchemeResource extends BaseResource {
 	@PutMapping(value = "/gen-code")
 	@PreAuthorize("@pms.hasPermission('gen_scheme_code')")
 	public ResponseEntity genCode(@Valid @RequestBody GenCodeDto genCodeDto) {
-		SchemeDto genSchemeDataVo = schemeService.getOneDto(genCodeDto.getId());
-		Assert.isTrue(genSchemeDataVo != null, "无法获取代码生成方案信息");
-		genSchemeDataVo.setReplaceFile(genCodeDto.getReplaceFile());
-		schemeService.generateCode(genSchemeDataVo);
-		return ResultBuilder.buildOk("生成", genSchemeDataVo.getName(), "代码成功");
+		SchemeDto genSchemeDto = schemeService.getOneDto(genCodeDto.getId());
+		Assert.isTrue(genSchemeDto != null, "无法获取代码生成方案信息");
+		genSchemeDto.setReplaceFile(genCodeDto.getReplaceFile());
+		schemeService.generateCode(genSchemeDto);
+		return ResultBuilder.buildOk("生成", genSchemeDto.getName(), "代码成功");
 	}
 
 	@Log(value = "生成方案", businessType = BusinessType.EDIT)
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('gen_scheme_edit')")
-	public ResponseEntity save(@Valid @RequestBody SchemeDto schemeDataVo) {
-		schemeService.saveOrUpdate(schemeDataVo);
+	public ResponseEntity save(@Valid @RequestBody SchemeDto schemeDto) {
+		schemeService.saveOrUpdate(schemeDto);
 		// 生成代码
-		if (schemeDataVo.getGenCode()) {
-			schemeService.generateCode(schemeDataVo);
+		if (schemeDto.getGenCode()) {
+			schemeService.generateCode(schemeDto);
 		}
-		return ResultBuilder.buildOk("保存", schemeDataVo.getName(), "成功");
+		return ResultBuilder.buildOk("保存", schemeDto.getName(), "成功");
 	}
 
 	@Log(value = "生成方案", businessType = BusinessType.EDIT)
 	@PostMapping("/gen-menu")
 	@PreAuthorize("@pms.hasPermission('gen_scheme_menu')")
 	public ResponseEntity genMenu(@Valid @RequestBody SchemeGenDto schemeGenDto) {
-		SchemeDto schemeDataVo = schemeService.getOneDto(schemeGenDto.getId());
-		TableDto tableDataVo = schemeDataVo.getTableDataVo();
-		if (tableDataVo == null) {
-			tableDataVo = tableService.getOneDto(schemeDataVo.getTableId());
+		SchemeDto schemeDto = schemeService.getOneDto(schemeGenDto.getId());
+		TableDto tableDto = schemeDto.getTableDto();
+		if (tableDto == null) {
+			tableDto = tableService.getOneDto(schemeDto.getTableId());
 		}
-		String url = StringUtil.toAppendStr(StringUtil.SLASH, StringUtil.lowerCase(schemeDataVo.getModuleName()), (StringUtil.isNotBlank(schemeDataVo.getSubModuleName()) ? StringUtil.SLASH + StringUtil.lowerCase(schemeDataVo.getSubModuleName()) : ""), StringUtil.SLASH,
-			StringUtil.toRevertCamelCase(StringUtil.lowerFirst(tableDataVo.getClassName()), CharUtil.DASHED), StringUtil.SLASH);
-		menuService.saveByGenScheme(new GenSchemeDto(schemeDataVo.getName(), schemeGenDto.getParentMenuId(), url, tableDataVo.getClassName()));
-		return ResultBuilder.buildOk("生成", schemeDataVo.getName(), "菜单成功");
+		String url = StringUtil.toAppendStr(StringUtil.SLASH, StringUtil.lowerCase(schemeDto.getModuleName()), (StringUtil.isNotBlank(schemeDto.getSubModuleName()) ? StringUtil.SLASH + StringUtil.lowerCase(schemeDto.getSubModuleName()) : ""), StringUtil.SLASH,
+			StringUtil.toRevertCamelCase(StringUtil.lowerFirst(tableDto.getClassName()), CharUtil.DASHED), StringUtil.SLASH);
+		menuService.saveByGenScheme(new GenSchemeDto(schemeDto.getName(), schemeGenDto.getParentMenuId(), url, tableDto.getClassName()));
+		return ResultBuilder.buildOk("生成", schemeDto.getName(), "菜单成功");
 	}
 
 

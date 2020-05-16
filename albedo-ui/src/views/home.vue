@@ -9,17 +9,17 @@
         <line-chart :chart-data="lineChartData" />
       </el-row>
       <el-row :gutter="32">
-        <el-col :xs="24" :sm="24" :lg="8">
+        <el-col :lg="8" :sm="24" :xs="24">
           <div class="chart-wrapper">
             <radar-chart />
           </div>
         </el-col>
-        <el-col :xs="24" :sm="24" :lg="8">
+        <el-col :lg="8" :sm="24" :xs="24">
           <div class="chart-wrapper">
             <pie-chart />
           </div>
         </el-col>
-        <el-col :xs="24" :sm="24" :lg="8">
+        <el-col :lg="8" :sm="24" :xs="24">
           <div class="chart-wrapper">
             <bar-chart />
           </div>
@@ -79,7 +79,7 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style lang="scss" rel="stylesheet/scss" scoped>
   .dashboard-editor-container {
     padding: 32px;
     background-color: rgb(240, 242, 245);
@@ -99,7 +99,7 @@ export default {
     }
   }
 
-  @media (max-width:1024px) {
+  @media (max-width: 1024px) {
     .chart-wrapper {
       padding: 8px;
     }

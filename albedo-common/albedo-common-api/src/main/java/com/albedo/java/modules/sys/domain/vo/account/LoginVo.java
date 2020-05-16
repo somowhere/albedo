@@ -8,13 +8,14 @@ import lombok.ToString;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * View Model object for storing a user's credentials.
  */
 @Data
 @ToString
-public class LoginVo {
+public class LoginVo implements Serializable {
 
 	@Pattern(regexp = UserDto.USERNAME_REGEX, message = "登录名格式不合法")
 	@NotEmpty

@@ -8,13 +8,14 @@ import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * View Model object for storing a user's credentials.
  */
 @Data
 @ToString
-public class PasswordRestVo {
+public class PasswordRestVo implements Serializable {
 
 	@ApiModelProperty(hidden = true)
 	String passwordPlaintext;

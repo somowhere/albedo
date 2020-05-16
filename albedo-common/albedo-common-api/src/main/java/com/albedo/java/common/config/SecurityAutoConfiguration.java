@@ -87,6 +87,7 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 			throw new BeanInitializationException("Security configuration failed", e);
 		}
 	}
+
 	@Bean
 	public DaoAuthenticationProvider daoAuthenticationProvider() {
 		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();

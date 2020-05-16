@@ -5,7 +5,6 @@ package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.persistence.service.BaseService;
 import com.albedo.java.modules.sys.domain.LogLogin;
-import com.albedo.java.modules.sys.repository.LogLoginRepository;
 
 /**
  * 登录日志Service 登录日志
@@ -13,6 +12,6 @@ import com.albedo.java.modules.sys.repository.LogLoginRepository;
  * @author admin
  * @version 2019-08-15 09:32:16
  */
-public interface LogLoginService extends BaseService<LogLoginRepository, LogLogin> {
+public interface LogLoginService extends BaseService<LogLogin> {
 
 }

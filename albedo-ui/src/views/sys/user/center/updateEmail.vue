@@ -1,16 +1,25 @@
 <template>
   <div style="display: inline-block;">
-    <el-dialog :visible.sync="dialog" :close-on-click-modal="false" :before-close="cancel" :title="title" append-to-body width="475px" @close="cancel">
-      <el-form ref="form" :model="form" :rules="rules" size="small" label-width="88px">
+    <el-dialog
+      :before-close="cancel"
+      :close-on-click-modal="false"
+      :title="title"
+      :visible.sync="dialog"
+      append-to-body
+      width="475px"
+      @close="cancel"
+    >
+      <el-form ref="form" :model="form" :rules="rules" label-width="88px" size="small">
         <el-form-item label="新邮箱" prop="email">
           <el-input v-model="form.email" auto-complete="on" style="width: 200px;" />
-          <el-button :loading="codeLoading" :disabled="isDisabled" size="small" @click="sendCode">{{ buttonName }}</el-button>
+          <el-button :disabled="isDisabled" :loading="codeLoading" size="small" @click="sendCode">{{ buttonName }}
+          </el-button>
         </el-form-item>
         <el-form-item label="验证码" prop="code">
           <el-input v-model="form.code" style="width: 320px;" />
         </el-form-item>
         <el-form-item label="当前密码" prop="pass">
-          <el-input v-model="form.pass" type="password" style="width: 320px;" />
+          <el-input v-model="form.pass" style="width: 320px;" type="password" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -26,6 +35,7 @@ import store from '@/store'
 import validate from '@/utils/validate'
 import { updateEmail } from '@/views/sys/user'
 import { resetEmail } from '@/api/sys/code'
+
 export default {
   props: {
     email: {
@@ -109,7 +119,8 @@ export default {
               type: 'success',
               duration: 1500
             })
-            store.dispatch('GetUser').then(() => {})
+            store.dispatch('GetUser').then(() => {
+            })
           }).catch(err => {
             this.loading = false
             console.log(err.response.data.message)

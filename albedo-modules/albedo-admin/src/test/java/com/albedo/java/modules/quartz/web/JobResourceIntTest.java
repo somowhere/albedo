@@ -9,7 +9,7 @@ import com.albedo.java.common.core.util.ClassUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.modules.TestUtil;
 import com.albedo.java.modules.quartz.domain.Job;
-import com.albedo.java.modules.quartz.domain.vo.JobDto;
+import com.albedo.java.modules.quartz.domain.dto.JobDto;
 import com.albedo.java.modules.quartz.service.JobService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
@@ -117,9 +117,9 @@ public class JobResourceIntTest {
 	@Autowired
 	private ApplicationProperties applicationProperties;
 
-	private JobDto jobDataVo;
+	private JobDto jobDto;
 
-	private JobDto anotherJobDataVo = new JobDto();
+	private JobDto anotherJobDto = new JobDto();
 
 	/**
 	 * Create an entity for this test.
@@ -128,7 +128,7 @@ public class JobResourceIntTest {
 	 * if they test an entity which requires the current entity.
 	 */
 	public static JobDto createEntity() {
-		JobDto jobDataVo = ClassUtil.createObj(JobDto.class, Lists.newArrayList(
+		JobDto jobDto = ClassUtil.createObj(JobDto.class, Lists.newArrayList(
 			JobDto.F_NAME
 			, JobDto.F_GROUP
 			, JobDto.F_INVOKETARGET
@@ -158,7 +158,7 @@ public class JobResourceIntTest {
 
 
 		);
-		return jobDataVo;
+		return jobDto;
 	}
 
 	@BeforeEach
@@ -176,7 +176,7 @@ public class JobResourceIntTest {
 
 	@BeforeEach
 	public void initTest() {
-		jobDataVo = createEntity();
+		jobDto = createEntity();
 	}
 
 	@Test
@@ -187,7 +187,7 @@ public class JobResourceIntTest {
 		restJobMockMvc.perform(post(DEFAULT_API_URL)
 			.param(PageModel.F_DESC, Job.F_SQL_CREATEDDATE)
 			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(jobDataVo)))
+			.content(TestUtil.convertObjectToJsonBytes(jobDto)))
 			.andExpect(status().isOk());
 		// Validate the Job in the database
 		List<Job> jobList = jobService.list(
@@ -203,7 +203,7 @@ public class JobResourceIntTest {
 		assertThat(testJob.getCronExpression()).isEqualTo(DEFAULT_CRONEXPRESSION);
 		assertThat(testJob.getMisfirePolicy()).isEqualTo(DEFAULT_MISFIREPOLICY);
 		assertThat(testJob.getConcurrent()).isEqualTo(DEFAULT_CONCURRENT);
-		assertThat(testJob.getAvailable()).isEqualTo(DEFAULT_AVAILABLE);
+		assertThat(testJob.getStatus()).isEqualTo(DEFAULT_AVAILABLE);
 		assertThat(testJob.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
 	}
 
@@ -212,13 +212,13 @@ public class JobResourceIntTest {
 	public void checkNameIsRequired() throws Exception {
 		int databaseSizeBeforeTest = jobService.list().size();
 		// set the field null
-		jobDataVo.setName(null);
+		jobDto.setName(null);
 
 		// Create the Job, which fails.
 
 		restJobMockMvc.perform(post(DEFAULT_API_URL)
 			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(jobDataVo)))
+			.content(TestUtil.convertObjectToJsonBytes(jobDto)))
 			.andExpect(status().isBadRequest());
 
 		List<Job> jobList = jobService.list();
@@ -230,13 +230,13 @@ public class JobResourceIntTest {
 	public void checkGroupIsRequired() throws Exception {
 		int databaseSizeBeforeTest = jobService.list().size();
 		// set the field null
-		jobDataVo.setGroup(null);
+		jobDto.setGroup(null);
 
 		// Create the Job, which fails.
 
 		restJobMockMvc.perform(post(DEFAULT_API_URL)
 			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(jobDataVo)))
+			.content(TestUtil.convertObjectToJsonBytes(jobDto)))
 			.andExpect(status().isBadRequest());
 
 		List<Job> jobList = jobService.list();
@@ -248,13 +248,13 @@ public class JobResourceIntTest {
 	public void checkInvokeTargetIsRequired() throws Exception {
 		int databaseSizeBeforeTest = jobService.list().size();
 		// set the field null
-		jobDataVo.setInvokeTarget(null);
+		jobDto.setInvokeTarget(null);
 
 		// Create the Job, which fails.
 
 		restJobMockMvc.perform(post(DEFAULT_API_URL)
 			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(jobDataVo)))
+			.content(TestUtil.convertObjectToJsonBytes(jobDto)))
 			.andExpect(status().isBadRequest());
 
 		List<Job> jobList = jobService.list();
@@ -266,13 +266,13 @@ public class JobResourceIntTest {
 	@Transactional
 	public void getAllJobs() throws Exception {
 		// Initialize the database
-		jobService.saveOrUpdate(jobDataVo);
+		jobService.saveOrUpdate(jobDto);
 
 		// Get all the jobList
 		restJobMockMvc.perform(get(DEFAULT_API_URL))
 			.andExpect(status().isOk())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-			.andExpect(jsonPath("$.data.records.[*].id").value(hasItem(jobDataVo.getId())))
+			.andExpect(jsonPath("$.data.records.[*].id").value(hasItem(jobDto.getId())))
 			.andExpect(jsonPath("$.data.records.[*].cronExpression").value(hasItem(DEFAULT_CRONEXPRESSION)))
 			.andExpect(jsonPath("$.data.records.[*].misfirePolicy").value(hasItem(DEFAULT_MISFIREPOLICY)))
 			.andExpect(jsonPath("$.data.records.[*].concurrent").value(hasItem(DEFAULT_CONCURRENT)))
@@ -285,13 +285,13 @@ public class JobResourceIntTest {
 	@Transactional
 	public void getJob() throws Exception {
 		// Initialize the database
-		jobService.saveOrUpdate(jobDataVo);
+		jobService.saveOrUpdate(jobDto);
 
 		// Get the job
-		restJobMockMvc.perform(get(DEFAULT_API_URL + "{id}", jobDataVo.getId()))
+		restJobMockMvc.perform(get(DEFAULT_API_URL + "{id}", jobDto.getId()))
 			.andExpect(status().isOk())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-			.andExpect(jsonPath("$.data.id").value(jobDataVo.getId()))
+			.andExpect(jsonPath("$.data.id").value(jobDto.getId()))
 			.andExpect(jsonPath("$.data.cronExpression").value(DEFAULT_CRONEXPRESSION))
 			.andExpect(jsonPath("$.data.misfirePolicy").value(DEFAULT_MISFIREPOLICY))
 			.andExpect(jsonPath("$.data.concurrent").value(DEFAULT_CONCURRENT))
@@ -299,8 +299,6 @@ public class JobResourceIntTest {
 			.andExpect(jsonPath("$.data.description").value(DEFAULT_DESCRIPTION))
 		;
 	}
-
-
 
 
 	@Test
@@ -316,12 +314,12 @@ public class JobResourceIntTest {
 	@Transactional
 	public void updateJob() throws Exception {
 		// Initialize the database
-		jobService.saveOrUpdate(jobDataVo);
+		jobService.saveOrUpdate(jobDto);
 
 		int databaseSizeBeforeUpdate = jobService.list().size();
 
 		// Update the job
-		Job updatedJob = jobService.getById(jobDataVo.getId());
+		Job updatedJob = jobService.getById(jobDto.getId());
 		// Disconnect from session so that the updates on updatedJob are not directly saved in db
 		ClassUtil.updateObj(updatedJob, Lists.newArrayList(
 			Job.F_NAME
@@ -364,14 +362,14 @@ public class JobResourceIntTest {
 		List<Job> jobList = jobService.list();
 		assertThat(jobList).hasSize(databaseSizeBeforeUpdate);
 
-		Job testJob = jobList.stream().filter(item -> jobDataVo.getId().equals(item.getId())).findAny().get();
+		Job testJob = jobList.stream().filter(item -> jobDto.getId().equals(item.getId())).findAny().get();
 		assertThat(testJob.getName()).isEqualTo(UPDATED_NAME);
 		assertThat(testJob.getGroup()).isEqualTo(UPDATED_GROUP);
 		assertThat(testJob.getInvokeTarget()).isEqualTo(UPDATED_INVOKETARGET);
 		assertThat(testJob.getCronExpression()).isEqualTo(UPDATED_CRONEXPRESSION);
 		assertThat(testJob.getMisfirePolicy()).isEqualTo(UPDATED_MISFIREPOLICY);
 		assertThat(testJob.getConcurrent()).isEqualTo(UPDATED_CONCURRENT);
-		assertThat(testJob.getAvailable()).isEqualTo(UPDATED_AVAILABLE);
+		assertThat(testJob.getStatus()).isEqualTo(UPDATED_AVAILABLE);
 		assertThat(testJob.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
 	}
 
@@ -380,11 +378,11 @@ public class JobResourceIntTest {
 	@Transactional
 	public void deleteJob() throws Exception {
 		// Initialize the database
-		jobService.saveOrUpdate(jobDataVo);
+		jobService.saveOrUpdate(jobDto);
 		int databaseSizeBeforeDelete = jobService.list().size();
 
 		// Get the job
-		restJobMockMvc.perform(delete(DEFAULT_API_URL + "{id}", jobDataVo.getId())
+		restJobMockMvc.perform(delete(DEFAULT_API_URL + "{id}", jobDto.getId())
 			.accept(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(status().isOk());
 
@@ -398,11 +396,11 @@ public class JobResourceIntTest {
 	public void equalsVerifier() throws Exception {
 		TestUtil.equalsVerifier(Job.class);
 		Job job1 = new Job();
-		job1.setId("id1");
+		job1.setId(44);
 		Job job2 = new Job();
 		job2.setId(job1.getId());
 		assertThat(job1).isEqualTo(job2);
-		job2.setId("id2");
+		job2.setId(55);
 		assertThat(job1).isNotEqualTo(job2);
 		job1.setId(null);
 		assertThat(job1).isNotEqualTo(job2);

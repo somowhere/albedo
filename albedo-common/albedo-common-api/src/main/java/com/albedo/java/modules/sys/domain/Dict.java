@@ -17,6 +17,7 @@
 package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
+import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.persistence.domain.TreeEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -44,9 +45,6 @@ public class Dict extends TreeEntity<Dict> {
 	public static final String F_VAL = "val";
 	public static final String F_SHOW = "show";
 	public static final String F_SQL_SHOW = "show";
-	public static final String CACHE_DICT_ALL = "DictAll";
-	public static final String CACHE_DICT_RESULT_ALL = "DictResultAll";
-	public static final String CACHE_DICT_DETAILS = "dict_details";
 	private static final long serialVersionUID = 1L;
 	/**
 	 * 数据值
@@ -59,13 +57,8 @@ public class Dict extends TreeEntity<Dict> {
 	@NotBlank(message = "字典项数据类型不能为空")
 	private String code;
 	@NotNull
-	@TableField("`show`")
-	@DictType("sys_flag")
-	private Integer show = 1;
-	/**
-	 * 备注信息
-	 */
-	private String remark;
+	@DictType(DictNameConstants.SYS_FLAG)
+	private Integer available = 1;
 
 
 	@TableField(exist = false)

@@ -27,7 +27,6 @@ import com.albedo.java.modules.sys.domain.vo.UserInfo;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.albedo.java.modules.sys.domain.vo.account.PasswordChangeVo;
 import com.albedo.java.modules.sys.domain.vo.account.PasswordRestVo;
-import com.albedo.java.modules.sys.repository.UserRepository;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
@@ -37,7 +36,7 @@ import java.util.Set;
  * @author somewhere
  * @date 2019/2/1
  */
-public interface UserService extends DataService<UserRepository, User, UserDto, String> {
+public interface UserService extends DataService<User, UserDto, String> {
 	/**
 	 * 查询用户信息
 	 *
@@ -52,7 +51,10 @@ public interface UserService extends DataService<UserRepository, User, UserDto, 
 	 * @param pm 分页对象
 	 * @return
 	 */
-	IPage getUserPage(PageModel pm, UserQueryCriteria userQueryCriteria, DataScope dataScope);
+	IPage<UserVo> getUserPage(PageModel pm, UserQueryCriteria userQueryCriteria, DataScope dataScope);
+
+
+	List<UserVo> getUserPage(UserQueryCriteria userQueryCriteria, DataScope dataScope);
 
 	/**
 	 * 删除用户
@@ -68,7 +70,8 @@ public interface UserService extends DataService<UserRepository, User, UserDto, 
 	 * @param id 用户ID
 	 * @return 用户信息
 	 */
-	UserVo getUserVoById(String id);
+	UserVo findUserVoById(String id);
+
 	/**
 	 * 通过ID查询用户信息
 	 *
@@ -95,4 +98,7 @@ public interface UserService extends DataService<UserRepository, User, UserDto, 
 
 	void save(UserExcelVo userExcelVo);
 
+	List<User> findUserByRoleId(String roleId);
+
+	List<User> getUserByDeptId(String deptId);
 }

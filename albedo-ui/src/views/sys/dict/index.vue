@@ -1,13 +1,85 @@
 <template>
   <div class="app-container">
+    <!--工具栏-->
+    <div class="head-container">
+      <div v-if="crud.props.searchToggle">
+        <!-- 搜索 -->
+        <el-input
+          v-model="query.blurry"
+          class="filter-item"
+          clearable
+          placeholder="输入字典名称或者描述搜索"
+          size="small"
+          style="width: 200px;"
+          @keyup.enter.native="crud.toQuery"
+        />
+        <el-date-picker
+          v-model="query.createdDate"
+          :default-time="['00:00:00','23:59:59']"
+          class="date-item"
+          end-placeholder="结束日期"
+          range-separator=":"
+          size="small"
+          start-placeholder="开始日期"
+          type="daterange"
+          value-format="yyyy-MM-dd HH:mm:ss"
+        />
+        <el-select
+          v-model="query.enabled"
+          class="filter-item"
+          clearable
+          placeholder="状态"
+          size="small"
+          style="width: 90px"
+          @change="crud.toQuery"
+        >
+          <el-option v-for="(item,index) in flagOptions" :key="index" :label="item.label" :value="item.value" />
+        </el-select>
+        <rrOperation />
+      </div>
+      <crudOperation :permission="permission" />
+    </div>
     <!--表单组件-->
-    <el-dialog append-to-body :close-on-click-modal="false" :before-close="crud.cancelCU" :visible="crud.status.cu > 0" :title="crud.status.title" width="500px">
-      <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
-        <el-form-item label="字典名称" prop="name">
-          <el-input v-model="form.name" style="width: 370px;" />
+    <el-dialog
+      :before-close="crud.cancelCU"
+      :close-on-click-modal="false"
+      :title="crud.status.title"
+      :visible.sync="crud.status.cu > 0"
+      append-to-body
+      width="500px"
+    >
+      <el-form ref="form" :model="form" label-width="80px" size="small">
+        <el-form-item :rules="[{ required: true, trigger: 'change', message: '请选择上级字典'}]" label="上级字典" prop="parentId">
+          <treeselect v-model="form.parentId" :options="dictTreeData" placeholder="选择上级类目" />
         </el-form-item>
-        <el-form-item label="描述">
-          <el-input v-model="form.description" style="width: 370px;" />
+        <el-form-item :rules="[{ required: true, trigger: 'blur', message: '请输入字典名称'}]" label="字典名称" prop="name">
+          <el-input v-model="form.name" />
+        </el-form-item>
+        <el-form-item label="字典值" prop="val">
+          <el-input v-model="form.val" />
+        </el-form-item>
+        <el-form-item :rules="[{ required: true, trigger: 'blur', message: '请输入字典名称'}]" label="字典编码" prop="code">
+          <el-input v-model="form.code" />
+        </el-form-item>
+        <!--        <el-form-item-->
+        <!--          :rules="[{ required: true, message: '请选择是否可用', trigger: 'change' }]"-->
+        <!--          label="是否可用"-->
+        <!--          prop="available"-->
+        <!--        >-->
+        <!--          <el-radio-group v-model="form.available" size="mini">-->
+        <!--            <el-radio-button v-for="item in flagOptions" :key="item.value" :label="item.value">{{ item.label }}</el-radio-button>-->
+        <!--          </el-radio-group>-->
+        <!--        </el-form-item>-->
+        <el-form-item label="菜单排序" prop="sort">
+          <el-input-number
+            v-model.number="form.sort"
+            :max="999"
+            :min="0"
+            controls-position="right"
+          />
+        </el-form-item>
+        <el-form-item label="备注" prop="description">
+          <el-input v-model="form.description" type="textarea" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -15,115 +87,146 @@
         <el-button :loading="crud.status.cu === 2" type="primary" @click="crud.submitCU">确认</el-button>
       </div>
     </el-dialog>
-    <!-- 字典列表 -->
-    <el-row :gutter="10">
-      <el-col :xs="24" :sm="24" :md="10" :lg="11" :xl="11" style="margin-bottom: 10px">
-        <el-card class="box-card">
-          <!--工具栏-->
-          <div class="head-container">
-            <div v-if="crud.props.searchToggle">
-              <!-- 搜索 -->
-              <el-input v-model="query.blurry" clearable size="small" placeholder="输入名称或者描述搜索" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
-              <rrOperation />
-            </div>
-            <crudOperation :permission="permission" />
-          </div>
-          <!--表格渲染-->
-          <el-table ref="table" v-loading="crud.loading" :data="crud.data" highlight-current-row style="width: 100%;" @selection-change="crud.selectionChangeHandler" @current-change="handleCurrentChange">
-            <el-table-column type="selection" width="55" />
-            <el-table-column :show-overflow-tooltip="true" prop="name" label="名称" />
-            <el-table-column :show-overflow-tooltip="true" prop="description" label="描述" />
-            <el-table-column v-permission="['admin','dict:edit','dict:del']" label="操作" width="130px" align="center" fixed="right">
-              <template slot-scope="scope">
-                <udOperation
-                  :data="scope.row"
-                  :permission="permission"
-                />
-              </template>
-            </el-table-column>
-          </el-table>
-          <!--分页组件-->
-          <pagination />
-        </el-card>
-      </el-col>
-      <!-- 字典详情列表 -->
-      <el-col :xs="24" :sm="24" :md="14" :lg="13" :xl="13">
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span>字典详情</span>
-            <el-button
-              v-if="checkPermission(['admin','dict:add']) && this.$refs.dictDetail && this.$refs.dictDetail.query.dictName"
-              class="filter-item"
-              size="mini"
-              style="float: right;padding: 4px 10px"
-              type="primary"
-              icon="el-icon-plus"
-              @click="$refs.dictDetail && $refs.dictDetail.crud.toAdd()"
-            >新增</el-button>
-          </div>
-          <dictDetail ref="dictDetail" :permission="permission" />
-        </el-card>
-      </el-col>
-    </el-row>
+    <!--表格渲染-->
+    <el-table
+      ref="table"
+      v-loading="crud.loading"
+      default-expand-all
+      :data="crud.data"
+      row-key="id"
+    >
+      <el-table-column :selectable="checkboxT" type="selection" width="55" />
+      <el-table-column label="名称" prop="name" />
+      <el-table-column label="值" prop="val" :show-overflow-tooltip="true" />
+      <el-table-column label="编码" prop="code" />
+      <el-table-column label="序号" prop="sort" width="85" />
+      <el-table-column align="center" label="是否可用" prop="available" width="85">
+        <template slot-scope="scope">
+          <el-switch
+            v-model="scope.row.available"
+            v-permission="[permission.lock]"
+            :active-value="1"
+            :inactive-value="0"
+            @change="changeAvailable(scope.row)"
+          />
+          <span v-show="!permissions.includes(permission.lock)">{{ scope.row.availableText }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="描述" prop="description" :show-overflow-tooltip="true" />
+      <el-table-column label="创建日期" prop="createdDate" width="155">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.createdDate) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        v-permission="[permission.edit, permission.del]"
+        align="center"
+        fixed="right"
+        label="操作"
+        width="130px"
+      >
+        <template slot-scope="scope">
+          <udOperation
+            :data="scope.row"
+            :disabled-dle="scope.row.id === 1"
+            :permission="permission"
+            msg="确定删除吗,如果存在下级节点则不能删除，此操作不能撤销！"
+          />
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
 <script>
-import checkPermission from '@/utils/permission'
-import dictDetail from './dictDetailService'
-import crudDict from '@/views/sys/dict/dictService'
-
-import CRUD, { presenter, header, form } from '@crud/crud'
-import crudOperation from '@crud/CRUD.operation'
-import pagination from '@crud/Pagination'
+import crudDict from '@/views/sys/dict/dict-service'
+import Treeselect from '@riophae/vue-treeselect'
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import CRUD, { crud, form, header, presenter } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
+import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
+import { NO, YES } from '@/const/common'
+import { mapGetters } from 'vuex'
 
-const defaultForm = { id: null, name: null, description: null }
-
+const defaultForm = { id: null, name: null, val: null, code: null, available: null, parentId: -1, description: null }
 export default {
   name: 'Dict',
-  components: { crudOperation, pagination, rrOperation, udOperation, dictDetail },
+  components: { Treeselect, crudOperation, rrOperation, udOperation },
   cruds() {
-    return [
-      CRUD({ title: '字典', url: 'api/dict', crudMethod: { ...crudDict }})
-    ]
+    return CRUD({ title: '字典', url: '/sys/dict/', crudMethod: { ...crudDict }})
   },
-  mixins: [presenter(), header(), form(defaultForm)],
+  mixins: [presenter(), header(), form(defaultForm), crud()],
   data() {
     return {
-      queryTypeOptions: [
-        { key: 'name', display_name: '字典名称' },
-        { key: 'description', display_name: '描述' }
-      ],
-      rules: {
-        name: [
-          { required: true, message: '请输入名称', trigger: 'blur' }
-        ]
-      },
+      dictTreeData: [],
       permission: {
-        add: ['admin', 'dict:add'],
-        edit: ['admin', 'dict:edit'],
-        del: ['admin', 'dict:del']
-      }
+        edit: 'sys_dict_edit',
+        lock: 'sys_dict_lock',
+        del: 'sys_dict_del'
+      },
+      flagOptions: []
     }
   },
+  computed: {
+    ...mapGetters([
+      'dicts', 'permissions'
+    ])
+  },
+  created() {
+    this.flagOptions = this.dicts['sys_flag']
+  },
   methods: {
-    checkPermission,
-    // 获取数据前设置好接口地址
-    [CRUD.HOOK.beforeRefresh]() {
-      if (this.$refs.dictDetail) {
-        this.$refs.dictDetail.query.dictName = ''
+    // 新增与编辑前做的操作
+    [CRUD.HOOK.afterToCU](crud, form) {
+      form.enabled = `${form.enabled}`
+      // 获取所有字典
+      crudDict.getDicts({ notId: form.id, available: 1 }).then(res => {
+        this.dictTreeData = []
+        const dict = { id: -1, label: '顶级类目', children: [] }
+        dict.children = res.data
+        this.dictTreeData.push(dict)
+      })
+    },
+    getDicts(tree, treeNode, resolve) {
+      const params = this.crud.getQueryParams()
+      params.parentId = tree.id
+      setTimeout(() => {
+        crudDict.pageDict(params).then(res => {
+          resolve(res.data.records)
+        })
+      }, 100)
+    },
+    // 提交前的验证
+    [CRUD.HOOK.afterValidateCU]() {
+      if (!this.form.parentId && this.form.id !== 1) {
+        this.$message({
+          message: '上级字典不能为空',
+          type: 'warning'
+        })
+        return false
       }
       return true
     },
-    // 选中字典后，设置字典详情数据
-    handleCurrentChange(val) {
-      if (val) {
-        this.$refs.dictDetail.query.dictName = val.name
-        this.$refs.dictDetail.dictId = val.id
-        this.$refs.dictDetail.crud.toQuery()
-      }
+    // 改变状态
+    changeAvailable(data) {
+      const flag = data.available === YES
+      this.$confirm('此操作将 "' + (flag ? '启用' : '锁定') + '" ' + data.name + ' 以及下面所有子节点, 是否继续？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        crudDict.lock([data.id]).then(res => {
+          this.crud.refresh()
+        }).catch(() => {
+          data.available = flag ? NO : YES
+        })
+      }).catch(() => {
+        data.available = flag ? NO : YES
+      })
+    },
+    checkboxT(row, rowIndex) {
+      return row.id !== 1
     }
   }
 }

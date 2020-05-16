@@ -5,6 +5,7 @@ import com.albedo.java.modules.gen.domain.Scheme;
 import com.albedo.java.modules.gen.domain.vo.SchemeVo;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -21,5 +22,5 @@ public interface SchemeRepository extends BaseRepository<Scheme> {
 	 * @param wrapper 查询参数
 	 * @return list
 	 */
-	IPage<List<SchemeVo>> getSchemeVoPage(IPage page, @Param("ew") Wrapper wrapper);
+	IPage<List<SchemeVo>> getSchemeVoPage(IPage page, @Param(Constants.WRAPPER) Wrapper wrapper);
 }

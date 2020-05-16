@@ -24,7 +24,6 @@ public class ApplicationProperties {
 
 	private String adminPath = "/a";
 	private String defaultView;
-	private String baseClassPath = "com.albedo.java";
 	private Boolean addressEnabled = true;
 	private int dbSyncSessionPeriod = 1;
 	private String name = "albedo";

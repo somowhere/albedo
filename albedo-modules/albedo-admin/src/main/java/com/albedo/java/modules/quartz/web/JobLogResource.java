@@ -5,17 +5,20 @@ package com.albedo.java.modules.quartz.web;
 
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.common.web.resource.BaseResource;
+import com.albedo.java.modules.quartz.domain.dto.JobLogQueryCriteria;
 import com.albedo.java.modules.quartz.domain.vo.JobLogExcelVo;
 import com.albedo.java.modules.quartz.service.JobLogService;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 /**
@@ -40,8 +43,9 @@ public class JobLogResource extends BaseResource {
 
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_view')")
 	@GetMapping
-	public R getPage(PageModel pm) {
-		return R.buildOkData(jobLogService.page(pm));
+	public R getPage(PageModel pm, JobLogQueryCriteria jobLogQueryCriteria) {
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, jobLogQueryCriteria);
+		return R.buildOkData(jobLogService.page(pm, wrapper));
 	}
 
 
@@ -70,10 +74,11 @@ public class JobLogResource extends BaseResource {
 	}
 
 	@Log(value = "任务日志", businessType = BusinessType.EXPORT)
-	@GetMapping(value = "/export")
+	@GetMapping(value = "/download")
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_export')")
-	public R export(PageModel pm) {
+	public void download(JobLogQueryCriteria jobLogQueryCriteria, HttpServletResponse response) {
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(jobLogQueryCriteria);
 		ExcelUtil<JobLogExcelVo> util = new ExcelUtil(JobLogExcelVo.class);
-		return util.exportExcel(jobLogService.findExcelVo(Wrappers.emptyWrapper()), "任务调度日志");
+		util.exportExcel(jobLogService.findExcelVo(wrapper), "任务调度日志", response);
 	}
 }

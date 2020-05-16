@@ -18,6 +18,10 @@ package com.albedo.java.modules.sys.repository;
 
 import com.albedo.java.common.persistence.repository.TreeRepository;
 import com.albedo.java.modules.sys.domain.Dept;
+import com.albedo.java.modules.sys.domain.vo.DeptVo;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -36,5 +40,8 @@ public interface DeptRepository extends TreeRepository<Dept> {
 	 *
 	 * @return 数据列表
 	 */
-	List<Dept> listDepts();
+	List<Dept> findList();
+
+	List<DeptVo> findDeptVoList(@Param(Constants.WRAPPER) QueryWrapper<Dept> wrapper);
+
 }

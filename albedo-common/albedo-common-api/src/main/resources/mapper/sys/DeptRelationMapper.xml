@@ -18,17 +18,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.albedo.java.modules.sys.repository.DeptRelationRepository">
 
-	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.albedo.java.modules.sys.domain.DeptRelation">
-		<id column="ancestor" property="ancestor"/>
-		<result column="descendant" property="descendant"/>
-	</resultMap>
-
-	<!-- 通用查询结果列 -->
-	<sql id="Base_Column_List">
-        ancestor, descendant
-    </sql>
-
 	<!-- 更新部门关系 -->
 	<update id="updateDeptRelations">
         DELETE FROM sys_dept_relation
@@ -48,9 +37,9 @@
 
 	<!--删除部门-->
 	<delete id="deleteDeptRelationsById">
-        DELETE
-        FROM
+        update
             sys_dept_relation
+        set del_flag = '1'
         WHERE
             descendant IN (
                 SELECT

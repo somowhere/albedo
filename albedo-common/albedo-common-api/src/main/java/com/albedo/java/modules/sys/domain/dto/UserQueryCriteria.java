@@ -30,18 +30,18 @@ import java.util.Set;
 @Data
 public class UserQueryCriteria implements Serializable {
 
-    @Query(propName = "b.id", operator = Query.Operator.in)
-    private Set<String> deptIds;
+	@Query(propName = "b.id", operator = Query.Operator.in)
+	private Set<String> deptIds;
 
-    @Query(blurry = "a.email,a.username,a.phone")
-    private String blurry;
+	@Query(blurry = "a.email,a.username,a.phone")
+	private String blurry;
 
-    @Query(propName = "a.available")
-    private Integer available;
+	@Query(propName = "a.available")
+	private Integer available;
 
 	@Query(propName = "a.dept_id")
-    private String deptId;
+	private String deptId;
 
-    @Query(propName = "a.created_date", operator = Query.Operator.between)
-    private List<Timestamp> createdDate;
+	@Query(propName = "a.created_date", operator = Query.Operator.between)
+	private List<Timestamp> createdDate;
 }

@@ -17,37 +17,39 @@
 package com.albedo.java.modules.sys.service.impl;
 
 import cn.hutool.core.util.CharUtil;
+import com.albedo.java.common.core.constant.CacheNameConstants;
+import com.albedo.java.common.core.exception.BadRequestException;
 import com.albedo.java.common.core.exception.EntityExistException;
-import com.albedo.java.common.core.exception.RuntimeMsgException;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
+import com.albedo.java.common.core.util.tree.TreeUtil;
+import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.core.vo.TreeNode;
-import com.albedo.java.common.core.vo.TreeQuery;
-import com.albedo.java.common.core.vo.TreeUtil;
 import com.albedo.java.common.persistence.service.impl.TreeServiceImpl;
 import com.albedo.java.modules.sys.domain.Menu;
 import com.albedo.java.modules.sys.domain.RoleMenu;
 import com.albedo.java.modules.sys.domain.dto.GenSchemeDto;
 import com.albedo.java.modules.sys.domain.dto.MenuDto;
+import com.albedo.java.modules.sys.domain.dto.MenuQueryCriteria;
 import com.albedo.java.modules.sys.domain.dto.MenuSortDto;
 import com.albedo.java.modules.sys.domain.vo.MenuVo;
 import com.albedo.java.modules.sys.repository.MenuRepository;
 import com.albedo.java.modules.sys.repository.RoleMenuRepository;
 import com.albedo.java.modules.sys.service.MenuService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -59,16 +61,17 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
+@CacheConfig(cacheNames = CacheNameConstants.MENU_DETAILS)
 public class MenuServiceImpl extends
 	TreeServiceImpl<MenuRepository, Menu, MenuDto> implements MenuService {
 	private final RoleMenuRepository roleMenuRepository;
 
 	@Override
-	@Cacheable(value = "menu_details", key = "#roleId  + '_menu'")
+	@Cacheable(key = "#roleId  + '_menu'")
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public List<MenuVo> getMenuByRoleId(String roleId) {
-		List<MenuVo> menuAllList = baseMapper.listMenuVos();
-		List<MenuVo> menuVoList = baseMapper.listMenuVosByRoleId(roleId);
+	public List<MenuVo> findMenuByRoleId(String roleId) {
+		List<MenuVo> menuAllList = repository.findMenuVoAllList();
+		List<MenuVo> menuVoList = repository.findMenuVoListByRoleId(roleId);
 		List<String> parentIdList = Lists.newArrayList();
 		for (MenuVo menuVo : menuVoList) {
 			if (menuVo.getParentId() != null) {
@@ -119,14 +122,14 @@ public class MenuServiceImpl extends
 	}
 
 	@Override
-	@CacheEvict(value = "menu_details", allEntries = true)
+	@CacheEvict(allEntries = true)
 	public void removeMenuById(Set<String> ids) {
 		ids.forEach(id -> {
 			// 查询父节点为当前节点的节点
 			List<Menu> menuList = this.list(Wrappers.<Menu>query()
 				.lambda().eq(Menu::getParentId, id));
 			if (CollUtil.isNotEmpty(menuList)) {
-				throw new RuntimeMsgException("菜单含有下级不能删除");
+				throw new BadRequestException("菜单含有下级不能删除");
 			}
 
 			roleMenuRepository
@@ -137,40 +140,42 @@ public class MenuServiceImpl extends
 		});
 
 	}
-	public Boolean exitUserByPermission(MenuDto menuDto){
+
+	public Boolean exitUserByPermission(MenuDto menuDto) {
 		return getOne(Wrappers.<Menu>query()
 			.ne(StringUtil.isNotEmpty(menuDto.getId()), MenuDto.F_ID, menuDto.getId())
 			.eq(MenuDto.F_PERMISSION, menuDto.getPermission())) != null;
 	}
+
 	@Override
-	@CacheEvict(value = "menu_details", allEntries = true)
+	@CacheEvict(allEntries = true)
 	public void saveOrUpdate(MenuDto menuDto) {
 		// permission before comparing with database
 		if (StringUtil.isNotEmpty(menuDto.getPermission()) &&
 			exitUserByPermission(menuDto)) {
-			throw new EntityExistException(MenuDto.class,"permission", menuDto.getPermission());
+			throw new EntityExistException(MenuDto.class, "permission", menuDto.getPermission());
 		}
 
 		super.saveOrUpdate(menuDto);
 	}
 
 	@Override
-	@CacheEvict(value = "menu_details", allEntries = true)
-	public boolean saveByGenScheme(GenSchemeDto schemeDataVo) {
+	@CacheEvict(allEntries = true)
+	public boolean saveByGenScheme(GenSchemeDto schemeDto) {
 
-		String moduleName = schemeDataVo.getSchemeName(),
-			parentMenuId = schemeDataVo.getParentMenuId(),
-			url = schemeDataVo.getUrl();
+		String moduleName = schemeDto.getSchemeName(),
+			parentMenuId = schemeDto.getParentMenuId(),
+			url = schemeDto.getUrl();
 		String permission = StringUtil.toCamelCase(StringUtil.lowerFirst(url), CharUtil.DASHED)
 			.replace(StringUtil.SLASH, "_").substring(1),
 			permissionLike = permission.substring(0, permission.length() - 1);
-		List<Menu> currentMenuList = baseMapper.selectList(Wrappers.<Menu>query()
+		List<Menu> currentMenuList = repository.selectList(Wrappers.<Menu>query()
 			.lambda().eq(Menu::getName, moduleName).or()
 			.likeLeft(Menu::getPermission, permissionLike)
 		);
 		for (Menu currentMenu : currentMenuList) {
 			if (currentMenu != null) {
-				baseMapper.delete(Wrappers.<Menu>query()
+				repository.delete(Wrappers.<Menu>query()
 					.lambda()
 					.likeLeft(Menu::getPermission, permissionLike)
 					.or(i -> i.eq(Menu::getId, currentMenu.getId())
@@ -178,7 +183,7 @@ public class MenuServiceImpl extends
 				);
 			}
 		}
-		Menu parentMenu = baseMapper.selectById(parentMenuId);
+		Menu parentMenu = repository.selectById(parentMenuId);
 		Assert.isTrue(parentMenu != null, StringUtil.toAppendStr("根据模块id[", parentMenuId, "无法查询到模块信息]"));
 
 
@@ -188,7 +193,7 @@ public class MenuServiceImpl extends
 		module.setParentId(parentMenu.getId());
 		module.setType(Menu.TYPE_MENU);
 		module.setIcon("icon-right-square");
-		module.setPath(StringUtil.toRevertCamelCase(StringUtil.lowerFirst(schemeDataVo.getClassName()), CharUtil.DASHED));
+		module.setPath(StringUtil.toRevertCamelCase(StringUtil.lowerFirst(schemeDto.getClassName()), CharUtil.DASHED));
 		module.setComponent("views" + url + "index");
 		save(module);
 
@@ -225,30 +230,10 @@ public class MenuServiceImpl extends
 		return true;
 	}
 
-	@Override
-	public Set<TreeNode> listMenuTrees(TreeQuery treeQuery) {
-		List<Menu> menuEntities = super.list();
-		String extId = treeQuery.getExtId();
-		List<TreeNode> treeList = menuEntities.stream().filter(item ->
-			(ObjectUtil.isEmpty(extId) || ObjectUtil.isEmpty(item.getParentIds()) ||
-				(ObjectUtil.isNotEmpty(extId) && !extId.equals(item.getId()) && item.getParentIds() != null
-					&& item.getParentIds().indexOf("," + extId + ",") == -1))
-		)
-			.sorted(Comparator.comparingInt(Menu::getSort))
-			.map(menu -> {
-				TreeNode treeNode = new TreeNode();
-				treeNode.setId(menu.getId());
-				treeNode.setLabel(menu.getName());
-				treeNode.setParentId(menu.getParentId());
-				return treeNode;
-			}).collect(Collectors.toList());
-		return TreeUtil.buildByLoopAutoRoot(treeList);
-	}
 
 	@Override
-	@CacheEvict(value = "menu_details", allEntries = true)
+	@CacheEvict(allEntries = true)
 	public void sortUpdate(MenuSortDto menuSortDto) {
-
 		menuSortDto.getMenuSortList().forEach(menuSortVo -> {
 			Menu menu = repository.selectById(menuSortVo.getId());
 			if (menu != null) {
@@ -257,5 +242,24 @@ public class MenuServiceImpl extends
 			}
 		});
 
+	}
+
+	@Override
+	@Cacheable
+	public <Q> List<TreeNode> findTreeNode(Q queryCriteria) {
+		return super.findTreeNode(queryCriteria);
+	}
+
+	/**
+	 * 查询用户部门树
+	 *
+	 * @return
+	 */
+	@Override
+	@Transactional(readOnly = true, rollbackFor = Exception.class)
+	public IPage<MenuVo> findTreeList(MenuQueryCriteria menuQueryCriteria) {
+		List<MenuVo> menuVoList = repository.findMenuVoList(getTreeWrapper(menuQueryCriteria));
+		return new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(menuVoList)),
+			menuVoList.size());
 	}
 }

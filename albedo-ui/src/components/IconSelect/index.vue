@@ -1,7 +1,14 @@
 <!-- @author zhengjie -->
 <template>
   <div class="icon-body">
-    <el-input v-model="name" style="position: relative;" clearable placeholder="请输入图标名称" @clear="filterIcons" @input.native="filterIcons">
+    <el-input
+      v-model="name"
+      clearable
+      placeholder="请输入图标名称"
+      style="position: relative;"
+      @clear="filterIcons"
+      @input.native="filterIcons"
+    >
       <i slot="suffix" class="el-icon-search el-input__icon" />
     </el-input>
     <div class="icon-list">
@@ -15,6 +22,7 @@
 
 <script>
 import icons from './requireIcons'
+
 export default {
   name: 'IconSelect',
   data() {
@@ -43,13 +51,15 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style lang="scss" rel="stylesheet/scss" scoped>
   .icon-body {
     width: 100%;
     padding: 10px;
+
     .icon-list {
       height: 200px;
       overflow-y: scroll;
+
       div {
         height: 30px;
         line-height: 30px;
@@ -58,6 +68,7 @@ export default {
         width: 33%;
         float: left;
       }
+
       span {
         display: inline-block;
         vertical-align: -0.15em;

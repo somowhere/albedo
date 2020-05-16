@@ -86,7 +86,7 @@ public class SchemeDto extends DataDto<String> {
 	/**
 	 * 业务表名
 	 */
-	private TableDto tableDataVo;
+	private TableDto tableDto;
 
 	@JSONField(serialize = false)
 	/**

@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
  */
-package com.albedo.java.modules.quartz.domain.vo;
+package com.albedo.java.modules.quartz.domain.dto;
 
 import com.albedo.java.common.core.vo.DataDto;
 import lombok.AllArgsConstructor;
@@ -22,7 +22,7 @@ import javax.validation.constraints.Size;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class JobDto extends DataDto<String> {
+public class JobDto extends DataDto<Integer> {
 
 	/**
 	 * F_NAME name  :  任务名称
@@ -89,10 +89,18 @@ public class JobDto extends DataDto<String> {
 	@Size(max = 1)
 	private String concurrent;
 	/**
-	 * available 状态(1-正常，0-锁定)
+	 * 子任务id 多个用逗号隔开
+	 */
+	private String subTask;
+	/**
+	 * 报警邮箱
+	 */
+	private String email;
+	/**
+	 * status 状态(1-运行中，0-暂停)
 	 */
 	@Size(max = 1)
-	private String available;
+	private String status;
 	//columns END
 
 }

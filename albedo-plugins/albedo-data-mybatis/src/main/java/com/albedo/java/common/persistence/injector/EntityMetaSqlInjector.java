@@ -14,6 +14,7 @@ import java.util.List;
  *
  * @return
  */
+@Deprecated
 public class EntityMetaSqlInjector extends DefaultSqlInjector {
 
 	public final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(getClass());

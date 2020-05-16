@@ -18,7 +18,6 @@ package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.persistence.service.BaseService;
 import com.albedo.java.modules.sys.domain.LogOperate;
-import com.albedo.java.modules.sys.repository.LogOperateRepository;
 
 /**
  * <p>
@@ -28,6 +27,6 @@ import com.albedo.java.modules.sys.repository.LogOperateRepository;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface LogOperateService extends BaseService<LogOperateRepository, LogOperate> {
+public interface LogOperateService extends BaseService<LogOperate> {
 
 }

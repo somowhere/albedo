@@ -38,7 +38,7 @@ public class AsyncUtil {
 	 * @return 任务task
 	 */
 	public static void recordLogLogin(final String username, final String status,
-										   final String message, final Object... args) {
+									  final String message, final Object... args) {
 		HttpServletRequest request = ((ServletRequestAttributes) Objects
 			.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
 		String userAgentStr = request.getHeader("User-Agent");

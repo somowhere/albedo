@@ -18,17 +18,25 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BadRequestException;
+import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.Role;
+import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.domain.dto.RoleDto;
+import com.albedo.java.modules.sys.domain.dto.RoleMenuDto;
+import com.albedo.java.modules.sys.domain.dto.RoleQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.RoleComboVo;
 import com.albedo.java.modules.sys.service.RoleMenuService;
 import com.albedo.java.modules.sys.service.RoleService;
+import com.albedo.java.modules.sys.service.UserService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -36,7 +44,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -48,9 +55,10 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("${application.admin-path}/sys/role")
 @AllArgsConstructor
-public class RoleResource  extends BaseResource {
+public class RoleResource extends BaseResource {
 	private final RoleService roleService;
 	private final RoleMenuService roleMenuService;
+	private final UserService userService;
 
 	/**
 	 * @param id
@@ -72,30 +80,18 @@ public class RoleResource  extends BaseResource {
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_role_edit')")
 	public R save(@Valid @RequestBody RoleDto roleDto) {
-		getLevels(roleDto.getLevel());
+		checkLevel(roleDto.getLevel());
 		roleService.saveOrUpdate(roleDto);
 		return R.buildOk("操作成功");
 	}
 
-	/**
-	 * 删除角色
-	 *
-	 * @param ids
-	 * @return
-	 */
-	@Log(value = "角色管理", businessType = BusinessType.DELETE)
-	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('sys_role_del')")
-	public R removeByIds(@RequestBody Set<String> ids) {
-		roleService.listByIds(ids).stream().forEach(item->getLevels(item.getLevel()));
-		roleService.removeRoleByIds(ids);
-		return R.buildOk("操作成功");
-	}
+
 	@ApiOperation("获取用户级别")
 	@GetMapping(value = "/level")
-	public R getLevel(){
-		return R.buildOkData(getLevels(null));
+	public R findLevel() {
+		return R.buildOkData(roleService.findLevelByUserId(SecurityUtil.getUser().getId()));
 	}
+
 	/**
 	 * 获取角色列表
 	 *
@@ -113,24 +109,43 @@ public class RoleResource  extends BaseResource {
 	 * @return 分页对象
 	 */
 	@GetMapping
-	public R<IPage> getPage(PageModel pm) {
-		return R.buildOkData(roleService.page(pm));
+	public R<IPage> getPage(PageModel pm, RoleQueryCriteria roleQueryCriteria) {
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, roleQueryCriteria);
+		return R.buildOkData(roleService.page(pm, wrapper));
 	}
 
 	/**
 	 * 更新角色菜单
 	 *
-	 * @param roleId  角色ID
-	 * @param menuIds 菜单ID拼成的字符串，每个id之间根据逗号分隔
+	 * @param roleMenuDto 角色菜单
 	 * @return success、false
 	 */
 	@PutMapping("/menu")
 	@Log(value = "角色管理", businessType = BusinessType.EDIT)
-	@PreAuthorize("@pms.hasPermission('sys_role_perm')")
-	public R saveRoleMenus(String roleId, @RequestParam(value = "menuIds", required = false) String menuIds) {
-		Role role = roleService.getById(roleId);
-		getLevels(role.getLevel());
-		return new R<>(roleMenuService.saveRoleMenus(roleId, menuIds));
+	@PreAuthorize("@pms.hasPermission('sys_role_edit')")
+	public R saveRoleMenus(@Valid @RequestBody RoleMenuDto roleMenuDto) {
+		Role role = roleService.getById(roleMenuDto.getRoleId());
+		checkLevel(role.getLevel());
+		roleMenuService.saveRoleMenus(roleMenuDto);
+		return R.buildOk("操作成功");
+	}
+
+	/**
+	 * 删除角色
+	 *
+	 * @param ids
+	 * @return
+	 */
+	@Log(value = "角色管理", businessType = BusinessType.DELETE)
+	@DeleteMapping
+	@PreAuthorize("@pms.hasPermission('sys_role_del')")
+	public R removeByIds(@RequestBody Set<String> ids) {
+		roleService.listByIds(ids).stream().forEach(item -> {
+			checkLevel(item.getLevel());
+			checkRole(item.getId(), item.getName());
+		});
+		roleService.removeRoleByIds(ids);
+		return R.buildOk("操作成功");
 	}
 
 	/**
@@ -141,22 +156,39 @@ public class RoleResource  extends BaseResource {
 	@Log(value = "角色管理", businessType = BusinessType.LOCK)
 	@PreAuthorize("@pms.hasPermission('sys_role_lock')")
 	public R lockOrUnLock(@RequestBody Set<String> ids) {
-		roleService.listByIds(ids).stream().forEach(item->getLevels(item.getLevel()));
+		roleService.listByIds(ids).stream().forEach(item -> {
+			checkLevel(item.getLevel());
+			checkRole(item.getId(), item.getName());
+		});
 		roleService.lockOrUnLock(ids);
 		return R.buildOk("操作成功");
 	}
+
 	/**
 	 * 获取用户的角色级别
+	 *
 	 * @return /
 	 */
-	private int getLevels(Integer level){
-		List<Integer> levels = roleService.findRolesByUserIdList(SecurityUtil.getUser().getId()).stream().map(Role::getLevel).collect(Collectors.toList());
-		int min = Collections.min(levels);
-		if(level != null){
-			if(level < min){
+	private int checkLevel(Integer level) {
+		Integer min = roleService.findLevelByUserId(SecurityUtil.getUser().getId());
+		if (level != null) {
+			if (level < min) {
 				throw new BadRequestException("权限不足，你的角色级别：" + min + "，低于操作的角色级别：" + level);
 			}
 		}
 		return min;
+	}
+
+	/**
+	 * 检查角色是否有用户信息
+	 *
+	 * @return /
+	 */
+	private void checkRole(String roleId, String roleName) {
+		List<User> userList = userService.findUserByRoleId(roleId);
+		if (CollUtil.isNotEmpty(userList)) {
+			throw new BadRequestException("操作失败！用户：" + CollUtil.convertToString(userList, User.F_USERNAME, StringUtil.COMMA)
+				+ "所属要操作的角色：" + roleName);
+		}
 	}
 }

@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
 
 /**
  * @author jacky
- *  用于标记匿名访问方法
+ * 用于标记匿名访问方法
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

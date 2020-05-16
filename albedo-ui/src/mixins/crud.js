@@ -1,18 +1,15 @@
-import {
-  initData,
-  download
-} from '@/api/data'
+import { initData } from '@/api/data'
 import commonUtil from '@/utils/common'
 import checkPermission from '@/utils/permission'
+
 const parseTime = commonUtil.parseTime
-const downloadFile = commonUtil.downloadFile
 export default {
   data() {
     return {
       // 表格数据
       data: [],
-      // 排序规则，默认 id 降序， 支持多字段排序 ['id,desc', 'createTime,asc']
-      sort: ['id,desc'],
+      // 排序规则，默认 id 降序， 支持多字段排序 ['id,desc', 'createdDate,asc']
+      sort: [],
       // 页码
       page: 0,
       // 每页数据条数
@@ -29,8 +26,6 @@ export default {
       time: 50,
       // 是否为新增类型的表单
       isAdd: false,
-      // 导出的 Loading
-      downloadLoading: false,
       // 表格 Loading 属性
       loading: true,
       // 删除 Loading 属性
@@ -48,7 +43,6 @@ export default {
   },
   methods: {
     parseTime,
-    downloadFile,
     checkPermission,
     async init() {
       if (!await this.beforeInit()) {
@@ -57,14 +51,14 @@ export default {
       return new Promise((resolve, reject) => {
         this.loading = true
         // 请求数据
-        initData(this.url, this.getQueryParame()).then(data => {
-          this.total = data.totalElements
-          this.data = data.content
+        initData(this.url, this.getQueryParame()).then(response => {
+          this.total = response.data.total
+          this.data = response.data.records
           // time 毫秒后显示表格
           setTimeout(() => {
             this.loading = false
           }, this.time)
-          resolve(data)
+          resolve(response)
         }).catch(err => {
           this.loading = false
           reject(err)
@@ -172,7 +166,8 @@ export default {
         this.$refs[id].doClose()
       })
     },
-    afterDelMethod() {},
+    afterDelMethod() {
+    },
     /**
      * 多选删除提示
      */
@@ -211,7 +206,8 @@ export default {
     /**
      * 显示新增弹窗前可以调用该方法
      */
-    beforeShowAddForm() {},
+    beforeShowAddForm() {
+    },
     /**
      * 显示新增弹窗
      */
@@ -224,7 +220,8 @@ export default {
     /**
      * 显示编辑弹窗前可以调用该方法
      */
-    beforeShowEditForm(data) {},
+    beforeShowEditForm(data) {
+    },
     /**
      * 显示编辑弹窗
      */
@@ -255,11 +252,13 @@ export default {
     /**
      * 新增后可以调用该方法
      */
-    afterAddMethod() {},
+    afterAddMethod() {
+    },
     /**
      * 新增失败后调用该方法
      */
-    afterAddErrorMethod() {},
+    afterAddErrorMethod() {
+    },
     /**
      * 通用的编辑方法
      */
@@ -277,7 +276,8 @@ export default {
     /**
      * 编辑后可以调用该方法
      */
-    afterEditMethod() {},
+    afterEditMethod() {
+    },
     /**
      * 提交前可以调用该方法
      */
@@ -317,19 +317,6 @@ export default {
      */
     getFormTitle() {
       return this.isAdd ? `新增${this.title}` : `编辑${this.title}`
-    },
-    /**
-     * 通用导出
-     */
-    downloadMethod() {
-      this.beforeInit()
-      this.downloadLoading = true
-      download(this.url + '/download', this.params).then(result => {
-        this.downloadFile(result, this.title + '数据', 'xlsx')
-        this.downloadLoading = false
-      }).catch(() => {
-        this.downloadLoading = false
-      })
     }
   }
 }
