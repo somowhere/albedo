@@ -60,7 +60,7 @@ public class SysLogAspect {
 		String[] argNames = ((MethodSignature)point.getSignature()).getParameterNames();
 		if(argValues != null){
 			for (int i = 0; i < argValues.length; i++) {
-				params.append(" ").append(argNames[i]).append(": ").append(Json.toJSONString(argValues[i]));
+				params.append(" ").append(argNames[i]).append(": ").append(argValues[i]);
 			}
 		}
 		LogOperate logOperateVo = SysLogUtils.getSysLog();

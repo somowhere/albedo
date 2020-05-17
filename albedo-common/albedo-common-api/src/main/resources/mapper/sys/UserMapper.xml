@@ -23,7 +23,7 @@
 		<id column="id" property="id"/>
 		<result column="username" property="username"/>
 		<result column="password" property="password"/>
-		<result column="salt" property="salt"/>
+		<result column="nickname" property="nickname"/>
 		<result column="phone" property="phone"/>
 		<result column="email" property="email"/>
 		<result column="avatar" property="avatar"/>
@@ -44,7 +44,7 @@
 		<id column="id" property="id"/>
 		<result column="username" property="username"/>
 		<result column="password" property="password"/>
-		<result column="salt" property="salt"/>
+		<result column="nickname" property="nickname"/>
 		<result column="phone" property="phone"/>
 		<result column="email" property="email"/>
 		<result column="avatar" property="avatar"/>
@@ -70,7 +70,7 @@
 		<id column="id" property="id"/>
 		<result column="username" property="username"/>
 		<result column="password" property="password"/>
-		<result column="salt" property="salt"/>
+		<result column="nickname" property="nickname"/>
 		<result column="phone" property="phone"/>
 		<result column="email" property="email"/>
 		<result column="avatar" property="avatar"/>
@@ -105,7 +105,7 @@
 		a.id,
 		a.username,
 		a.`password`,
-		a.salt,
+		a.nickname,
 		a.phone,
 		a.email,
 		a.avatar,
@@ -134,7 +134,7 @@
 		d.id AS dept_id
     </sql>
 
-	<select id="findUserVoById" resultMap="userVoResultMap">
+	<select id="findUserVoByUsername" resultMap="userVoResultMap">
 		SELECT
 		<include refid="userRoleDeptSql"/>
 		FROM
@@ -162,7 +162,7 @@
 		a.id,
 		a.username,
 		a.`password`,
-		a.salt,
+		a.nickname,
 		a.phone,
 		a.email,
 		a.avatar,

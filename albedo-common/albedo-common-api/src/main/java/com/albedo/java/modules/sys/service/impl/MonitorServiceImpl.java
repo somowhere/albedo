@@ -20,6 +20,7 @@ import cn.hutool.core.date.DateUtil;
 import com.albedo.java.common.core.util.FileUtil;
 import com.albedo.java.common.core.util.WebUtil;
 import com.albedo.java.modules.sys.service.MonitorService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
@@ -43,6 +44,7 @@ import java.util.Map;
 * @date 2020-05-02
 */
 @Service
+@Slf4j
 public class MonitorServiceImpl implements MonitorService {
 
     private final DecimalFormat df = new DecimalFormat("0.00");
@@ -62,9 +64,9 @@ public class MonitorServiceImpl implements MonitorService {
             resultMap.put("memory", getMemoryInfo(hal.getMemory()));
             // 交换区信息
             resultMap.put("swap", getSwapInfo(hal.getMemory()));
+			resultMap.put("time", DateUtil.format(new Date(), "HH:mm:ss"));
             // 磁盘
             resultMap.put("disk", getDiskInfo(os));
-            resultMap.put("time", DateUtil.format(new Date(), "HH:mm:ss"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -77,15 +79,19 @@ public class MonitorServiceImpl implements MonitorService {
      */
     private Map<String, Object> getDiskInfo(OperatingSystem os) {
         Map<String, Object> diskInfo = new LinkedHashMap<>();
-        FileSystem fileSystem = os.getFileSystem();
-        List<OSFileStore> fsArray = fileSystem.getFileStores();
-        for (OSFileStore fs : fsArray){
-            diskInfo.put("total", fs.getTotalSpace() > 0 ? FileUtil.getSize(fs.getTotalSpace()) : "?");
-            long used = fs.getTotalSpace() - fs.getUsableSpace();
-            diskInfo.put("available", FileUtil.getSize(fs.getUsableSpace()));
-            diskInfo.put("used", FileUtil.getSize(used));
-            diskInfo.put("usageRate", df.format(used/(double)fs.getTotalSpace() * 100));
-        }
+        try {
+			FileSystem fileSystem = os.getFileSystem();
+			List<OSFileStore> fsArray = fileSystem.getFileStores(true);
+			for (OSFileStore fs : fsArray){
+				diskInfo.put("total", fs.getTotalSpace() > 0 ? FileUtil.getSize(fs.getTotalSpace()) : "?");
+				long used = fs.getTotalSpace() - fs.getUsableSpace();
+				diskInfo.put("available", FileUtil.getSize(fs.getUsableSpace()));
+				diskInfo.put("used", FileUtil.getSize(used));
+				diskInfo.put("usageRate", df.format(used/(double)fs.getTotalSpace() * 100));
+			}
+		}catch (Exception e){
+        	log.error("{}", e);
+		}
         return diskInfo;
     }
 

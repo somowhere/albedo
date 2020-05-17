@@ -29,6 +29,9 @@ public class PageModel<T> extends Page<T> {
 		}
 	}
 
-
+	@Override
+	public String toString() {
+		return "PageModel(current="+getCurrent()+",size="+getSize()+",orders="+getOrders()+") ";
+	}
 
 }

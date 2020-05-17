@@ -98,6 +98,16 @@
             </el-form-item>
             <el-form-item
               :rules="[
+                { min: 1, max: 64, message: '长度在 1 到 64 个字符', trigger: 'blur' }
+              ]"
+              label="昵称"
+              prop="nickname"
+            >
+              <el-input v-model="form.nickname" />
+            </el-form-item>
+
+            <el-form-item
+              :rules="[
                 { required: true, trigger: 'blur', validator: validPhone }
               ]"
               label="电话"
@@ -163,6 +173,7 @@
               <span>{{ scope.row.username }}</span>
             </template>
           </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" label="昵称" prop="nickname" width="100" />
           <el-table-column :show-overflow-tooltip="true" label="电话" prop="phone" width="100" />
           <el-table-column :show-overflow-tooltip="true" label="邮箱" prop="email" width="135" />
           <el-table-column :show-overflow-tooltip="true" label="角色" prop="roleNames" width="160" />

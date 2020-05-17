@@ -306,7 +306,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 
 	@Override
 	public UserVo getOneVoByUserName(String username) {
-		return repository.findUserVoById(username);
+		return repository.findUserVoByUsername(username);
 	}
 
 	public void save(@Valid UserExcelVo userExcelVo) {

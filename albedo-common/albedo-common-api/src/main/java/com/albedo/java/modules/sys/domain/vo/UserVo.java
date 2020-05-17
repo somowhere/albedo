@@ -47,6 +47,8 @@ public class UserVo extends DataVo<String> {
 	 */
 	@ExcelField(title = "用户名")
 	private String username;
+	@ExcelField(title = "昵称")
+	private String nickname;
 
 	@JsonIgnore
 	private String password;

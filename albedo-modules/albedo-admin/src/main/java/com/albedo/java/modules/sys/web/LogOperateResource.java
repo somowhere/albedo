@@ -20,13 +20,19 @@ import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
+import com.albedo.java.common.log.enums.LogType;
+import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.modules.sys.domain.LogOperate;
 import com.albedo.java.modules.sys.domain.dto.LogOperateQueryCriteria;
 import com.albedo.java.modules.sys.service.LogOperateService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -78,10 +84,19 @@ public class LogOperateResource {
 	@Log(value = "操作日志", businessType = BusinessType.EXPORT)
 	@GetMapping(value = "/download")
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_export')")
-	public void download(LogOperateQueryCriteria logOperateQueryCriteria,HttpServletResponse response) {
+	public void download(LogOperateQueryCriteria logOperateQueryCriteria, HttpServletResponse response) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(logOperateQueryCriteria);
 		ExcelUtil<LogOperate> util = new ExcelUtil(LogOperate.class);
 		util.exportExcel(logOperateService.list(wrapper), "操作日志", response);
+	}
+
+	@GetMapping(value = "/user")
+	@ApiOperation("用户日志查询")
+	public R<Object> getUserLogs(PageModel pm, LogOperateQueryCriteria criteria) {
+		criteria.setLogType(LogType.INFO.name());
+		criteria.setBlurry(SecurityUtil.getUser().getUsername());
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, criteria);
+		return R.buildOkData(logOperateService.page(pm, wrapper));
 	}
 
 }

@@ -29,14 +29,17 @@ import java.util.List;
 @Data
 public class LogOperateQueryCriteria implements Serializable {
 
-	@Query(blurry = "username,title,userAgent,browser,os")
+	@Query(blurry = "username,title,user_agent,browser,os")
 	private String blurry;
 
 	@Query
-	private Integer businessType;
+	private String logType;
 
 	@Query
-	private Integer operatorType;
+	private String businessType;
+
+	@Query
+	private String operatorType;
 
 	@Query(operator = Query.Operator.between)
 	private List<Timestamp> createdDate;

@@ -115,7 +115,7 @@ public class PersistentTokenRememberMeService extends AbstractRememberMeServices
 		String login = successfulAuthentication.getName();
 
 		log.debug("Creating new persistent login for user {}", login);
-		PersistentToken persistentToken = Optional.of(userRepository.findUserVoById(login)).map(u -> {
+		PersistentToken persistentToken = Optional.of(userRepository.findUserVoByUsername(login)).map(u -> {
 			PersistentToken t = new PersistentToken();
 			t.setSeries(RandomUtil.generateSeriesData());
 			t.setUserAgent(u.getId());

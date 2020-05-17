@@ -50,6 +50,8 @@ public class UserDto extends DataDto<String> {
 	@Pattern(regexp = UserDto.USERNAME_REGEX, message = "用户名格式不合法")
 	private String username;
 
+	private String nickname;
+
 	@Size(max = PASSWORD_MAX_LENGTH)
 	@JsonIgnore
 	private String password;
