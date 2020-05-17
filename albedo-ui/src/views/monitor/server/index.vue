@@ -147,7 +147,7 @@ export default {
   data() {
     return {
       show: false,
-      monitor: null,
+      isDestroyed: false,
       url: '/sys/monitor',
       data: {},
       cpuInfo: {
@@ -219,26 +219,27 @@ export default {
     }
   },
   created() {
-    this.init()
-    this.monitor = window.setInterval(() => {
-      setTimeout(() => {
-        this.init()
-      }, 2)
-    }, 3500)
+    this.init(true)
   },
   destroyed() {
-    clearInterval(this.monitor)
+    this.isDestroyed = true
   },
   methods: {
-    init() {
-      initData(this.url, {}).then(data => {
-        this.data = data
-        this.show = true
-        this.cpuInfo.xAxis.data.push(data.time)
-        this.memoryInfo.xAxis.data.push(data.time)
-        this.cpuInfo.series[0].data.push(parseFloat(data.memory.used))
-        this.memoryInfo.series[0].data.push(parseFloat(data.memory.usageRate))
-      })
+    init(first) {
+      if (!this.isDestroyed) {
+        setTimeout(() => {
+          initData(this.url, {}).then(res => {
+            const data = res.data
+            this.data = data
+            this.show = true
+            this.cpuInfo.xAxis.data.push(data.time)
+            this.memoryInfo.xAxis.data.push(data.time)
+            this.cpuInfo.series[0].data.push(parseFloat(data.memory.used))
+            this.memoryInfo.series[0].data.push(parseFloat(data.memory.usageRate))
+          })
+          this.init()
+        }, first ? 1 : 3500)
+      }
     }
   }
 }

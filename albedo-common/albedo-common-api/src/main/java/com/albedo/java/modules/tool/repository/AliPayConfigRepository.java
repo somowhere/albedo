@@ -14,40 +14,17 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.sys.service;
+package com.albedo.java.modules.tool.repository;
 
-import com.albedo.java.common.persistence.service.BaseService;
-import com.albedo.java.modules.sys.domain.DeptRelation;
-import com.albedo.java.modules.sys.domain.dto.DeptDto;
+
+import com.albedo.java.common.persistence.repository.BaseRepository;
+import com.albedo.java.modules.tool.domain.AlipayConfig;
 
 /**
- * <p>
- * 服务类
- * </p>
  *
  * @author somewhere
  * @since 2019/2/1
  */
-public interface DeptRelationService extends BaseService<DeptRelation> {
+public interface AliPayConfigRepository extends BaseRepository<AlipayConfig> {
 
-	/**
-	 * 新建部门关系
-	 *
-	 * @param deptDto 部门
-	 */
-	void saveDeptRelation(DeptDto deptDto);
-
-	/**
-	 * 通过ID删除部门关系
-	 *
-	 * @param id
-	 */
-	void removeDeptRelationById(String id);
-
-	/**
-	 * 更新部门关系
-	 *
-	 * @param relation
-	 */
-	void updateDeptRelation(DeptRelation relation);
 }

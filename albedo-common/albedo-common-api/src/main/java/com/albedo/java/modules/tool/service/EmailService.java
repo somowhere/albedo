@@ -14,40 +14,37 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.sys.service;
+package com.albedo.java.modules.tool.service;
+
 
 import com.albedo.java.common.persistence.service.BaseService;
-import com.albedo.java.modules.sys.domain.DeptRelation;
-import com.albedo.java.modules.sys.domain.dto.DeptDto;
+import com.albedo.java.modules.tool.domain.EmailConfig;
+import com.albedo.java.modules.tool.domain.vo.EmailVo;
 
 /**
- * <p>
- * 服务类
- * </p>
- *
  * @author somewhere
  * @since 2019/2/1
  */
-public interface DeptRelationService extends BaseService<DeptRelation> {
+public interface EmailService extends BaseService<EmailConfig> {
+	/**
+	 * 更新邮件配置
+	 * @param emailConfig 邮件配置
+	 * @param old 旧的配置
+	 * @return EmailConfig
+	 */
+	EmailConfig update(EmailConfig emailConfig, EmailConfig old);
 
 	/**
-	 * 新建部门关系
-	 *
-	 * @param deptDto 部门
+	 * 查询配置
+	 * @return EmailConfig 邮件配置
 	 */
-	void saveDeptRelation(DeptDto deptDto);
+	EmailConfig find();
 
 	/**
-	 * 通过ID删除部门关系
-	 *
-	 * @param id
+	 * 发送邮件
+	 * @param emailVo 邮件发送的内容
+	 * @param emailConfig 邮件配置
+	 * @throws Exception /
 	 */
-	void removeDeptRelationById(String id);
-
-	/**
-	 * 更新部门关系
-	 *
-	 * @param relation
-	 */
-	void updateDeptRelation(DeptRelation relation);
+	void send(EmailVo emailVo, EmailConfig emailConfig);
 }

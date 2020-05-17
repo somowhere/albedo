@@ -30,8 +30,8 @@
 	<description>albedo 通用管理系统公共api模块</description>
 	<properties>
 		<jjwt.version>0.9.1</jjwt.version>
-		<!-- oshi监控需要指定jna版本, 问题详见 https://github.com/oshi/oshi/issues/1040 -->
-		<jna.version>5.5.0</jna.version>
+		<mail.version>1.4.7</mail.version>
+		<alipay.version>3.1.0</alipay.version>
 	</properties>
 
 	<dependencies>
@@ -104,6 +104,21 @@
 			<artifactId>oshi-core</artifactId>
 			<version>${oshi.version}</version>
 		</dependency>
+
+		<!--邮件依赖-->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>${mail.version}</version>
+		</dependency>
+
+		<!--支付宝依赖-->
+		<dependency>
+			<groupId>com.alipay.sdk</groupId>
+			<artifactId>alipay-sdk-java</artifactId>
+			<version>${alipay.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>

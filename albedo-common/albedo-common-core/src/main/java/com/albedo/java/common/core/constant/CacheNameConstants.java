@@ -34,4 +34,6 @@ public interface CacheNameConstants {
 	String DEPT_DETAILS = "dept_details";
 
 
+	String EMAIL_DETAILS = "email_details";
+	String ALIPAY_DETAILS = "alipay_details";
 }

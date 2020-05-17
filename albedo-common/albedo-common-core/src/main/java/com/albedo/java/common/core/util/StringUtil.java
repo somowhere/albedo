@@ -26,39 +26,7 @@ import java.util.regex.Pattern;
 @Slf4j
 public class StringUtil extends StrUtil {
 	public static final String SPLIT_DEFAULT = ",";
-	public static final String SPLIT_FILE_DEFAULT = "|";
 	private static final char SEPARATOR = '_';
-
-	/**
-	 * 获取一定位数的随机字符串
-	 ***/
-	public static String getRandomString(int size) {
-		char[] c = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm'};
-		Random random = new Random();
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < size; ++i)
-			sb.append(c[(Math.abs(random.nextInt()) % c.length)]);
-
-		return sb.toString();
-	}
-
-	public static String[] splitDefault(final String str) {
-		return split(str, SPLIT_DEFAULT);
-	}
-
-	/**
-	 * 转换为字节数组
-	 *
-	 * @param str
-	 * @return
-	 */
-	public static byte[] getBytes(String str) {
-		if (str != null) {
-			return str.getBytes(StandardCharsets.UTF_8);
-		} else {
-			return null;
-		}
-	}
 
 	/**
 	 * 转换为字节数组
@@ -70,23 +38,6 @@ public class StringUtil extends StrUtil {
 		return new String(bytes, StandardCharsets.UTF_8);
 	}
 
-	/**
-	 * 是否包含字符串
-	 *
-	 * @param str  验证字符串
-	 * @param strs 字符串组
-	 * @return 包含返回true
-	 */
-	public static boolean inString(String str, String... strs) {
-		if (str != null) {
-			for (String s : strs) {
-				if (str.equals(trim(s))) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
 
 	/**
 	 * 替换掉HTML标签方法

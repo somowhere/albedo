@@ -17,6 +17,7 @@
 package com.albedo.java.modules.sys.repository;
 
 
+import com.albedo.java.common.persistence.repository.BaseRepository;
 import com.albedo.java.modules.sys.domain.RoleDept;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -28,6 +29,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface RoleDeptRepository extends BaseMapper<RoleDept> {
+public interface RoleDeptRepository extends BaseRepository<RoleDept> {
 
 }
