@@ -346,7 +346,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        crudUser.lock([data.id]).then(res => {
+        crudUser.lock([data.id + 'id']).then(res => {
         }).catch(() => {
           data.available = flag ? NO : YES
         })

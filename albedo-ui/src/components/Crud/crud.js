@@ -343,7 +343,7 @@ function CRUD(options) {
         if (crud.params[item] === null || crud.params[item] === '') crud.params[item] = undefined
       })
       return {
-        page: crud.page.page - 1,
+        current: crud.page.page,
         size: crud.page.size,
         sorts: crud.sorts,
         ...crud.query,
@@ -368,7 +368,6 @@ function CRUD(options) {
       }
     },
     sortChange(column) {
-      console.log(column)
       const sort = column.prop + ',' + (column.order === 'ascending' ? 'asc' : 'desc')
       // const hasItem = crud.sorts.some((item,index) => {
       //   let flag = item.indexOf(column.prop+',')!=-1;

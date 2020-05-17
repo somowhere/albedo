@@ -127,8 +127,8 @@ public class PersistentTokenRememberMeService extends AbstractRememberMeServices
 			t.setLoginLocation(AddressUtil.getRealAddressByIP(t.getIpAddress()));
 			t.setUserAgent(request.getHeader("User-Agent"));
 			UserAgent userAgent = UserAgentUtil.parse(t.getUserAgent());
-			t.setBrowser(userAgent.getOs().getName());
-			t.setOs(userAgent.getBrowser().getName());
+			t.setBrowser(userAgent.getBrowser().getName());
+			t.setOs(userAgent.getOs().getName());
 			return t;
 		}).orElseThrow(() -> new UsernameNotFoundException("User " + login + " was not found in the database"));
 		try {

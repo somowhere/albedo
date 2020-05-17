@@ -21,6 +21,7 @@ import com.albedo.java.modules.sys.domain.UserOnline;
 import com.albedo.java.modules.sys.domain.enums.OnlineStatus;
 import com.albedo.java.modules.sys.repository.UserOnlineRepository;
 import com.albedo.java.modules.sys.service.UserOnlineService;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -50,6 +51,12 @@ public class UserOnlineServiceImpl extends
 			userOnline.setStatus(OnlineStatus.off_line);
 			repository.updateById(userOnline);
 		}
+	}
+
+	@Override
+	public void saveByEvent(UserOnline userOnline) {
+		this.remove(Wrappers.<UserOnline>lambdaQuery().eq(UserOnline::getUserId, userOnline.getUserId()));
+		repository.insert(userOnline);
 	}
 
 }

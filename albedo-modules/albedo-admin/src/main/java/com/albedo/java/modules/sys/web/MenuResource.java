@@ -195,6 +195,7 @@ public class MenuResource extends BaseResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_menu_view')")
+	@Log(value = "菜单管理", businessType = BusinessType.VIEW)
 	public R<IPage<MenuVo>> findTreeList(MenuQueryCriteria menuQueryCriteria) {
 		return R.buildOkData(menuService.findTreeList(menuQueryCriteria));
 	}

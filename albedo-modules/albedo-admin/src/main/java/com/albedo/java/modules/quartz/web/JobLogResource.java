@@ -43,6 +43,7 @@ public class JobLogResource extends BaseResource {
 
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_view')")
 	@GetMapping
+	@Log(value = "任务日志", businessType = BusinessType.VIEW)
 	public R getPage(PageModel pm, JobLogQueryCriteria jobLogQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, jobLogQueryCriteria);
 		return R.buildOkData(jobLogService.page(pm, wrapper));

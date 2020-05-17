@@ -119,7 +119,7 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public AjaxLogoutSuccessHandler ajaxLogoutSuccessHandler() {
-		return new AjaxLogoutSuccessHandler(userOnlineService);
+		return new AjaxLogoutSuccessHandler();
 	}
 
 	@Override

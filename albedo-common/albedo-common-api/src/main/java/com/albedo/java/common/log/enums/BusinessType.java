@@ -7,9 +7,9 @@ package com.albedo.java.common.log.enums;
  */
 public enum BusinessType {
 	/**
-	 * 其它
+	 * 查看
 	 */
-	OTHER,
+	VIEW,
 
 	/**
 	 * 编辑
@@ -38,7 +38,11 @@ public enum BusinessType {
 	/**
 	 * 强退
 	 */
-	FORCE,
+	FORCE_LOGOUT,
+	/**
+	 * 登录
+	 */
+	LOGIN,
 
 	/**
 	 * 生成代码
@@ -49,5 +53,8 @@ public enum BusinessType {
 	 */
 	CLEAN,
 
-
+	/**
+	 * 其它
+	 */
+	OTHER
 }

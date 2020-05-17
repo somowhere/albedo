@@ -132,13 +132,16 @@ public class RedisSessionRegistry implements SessionRegistry,
 
 	public void removeSessionInformation(String sessionId) {
 		Assert.hasText(sessionId, "SessionId required as per interface contract");
-
-		SessionInformation info = getSessionInformation(sessionId);
-
+		userOnlineService.deleteBySessionId(sessionId);
+		SessionInformation info = null;
+		try {
+			info = getSessionInformation(sessionId);
+		}catch (Exception e){
+			redisTemplate.boundHashOps(SESSIONIDS).delete(sessionId);
+		}
 		if (info == null) {
 			return;
 		}
-
 		if (log.isTraceEnabled()) {
 			log.debug("Removing session " + sessionId
 				+ " from set of registered sessions");
@@ -173,7 +176,6 @@ public class RedisSessionRegistry implements SessionRegistry,
 				+ sessionsUsedByPrincipal);
 		}
 
-		userOnlineService.deleteBySessionId(sessionId);
 	}
 
 	public Set<String> putIfAbsentPrincipals(Object principal, final Set<String> set) {

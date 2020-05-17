@@ -23,6 +23,7 @@ import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.exception.EntityExistException;
 import com.albedo.java.common.core.exception.RuntimeMsgException;
 import com.albedo.java.common.core.util.BeanUtil;
+import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
@@ -181,7 +182,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public IPage<UserVo> getUserPage(PageModel pm, UserQueryCriteria userQueryCriteria, DataScope dataScope) {
-		pm.addOrder(OrderItem.desc("a.created_date"));
+//		pm.addOrder(OrderItem.desc("a.created_date"));
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, userQueryCriteria);
 		wrapper.eq("a.del_flag", User.FLAG_NORMAL);
 		IPage<UserVo> userVosPage = repository.findUserVoPage(pm, wrapper, dataScope);
@@ -268,13 +269,16 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 
 	@Override
 	public void lockOrUnLock(Set<String> idList) {
-		idList.forEach(id -> {
+		Assert.isTrue(CollUtil.isNotEmpty(idList), "idList不能为空");
+		for (String id : idList){
 			Assert.isTrue(!StringUtil.equals(SecurityUtil.getUser().getId(), id), "不能操作当前登录用户");
 			User user = repository.selectById(id);
+			Assert.isTrue(user!=null, "无法找到ID为"+id+"的数据");
 			user.setAvailable(CommonConstants.YES.equals(user.getAvailable()) ?
 				CommonConstants.NO : CommonConstants.YES);
-			repository.updateById(user);
-		});
+			int i = repository.updateById(user);
+			Assert.isTrue(i!=0, "无法更新ID为"+id+"的数据");
+		};
 	}
 
 	@Override

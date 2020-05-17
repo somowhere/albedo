@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -21,15 +22,13 @@ public class PageModel<T> extends Page<T> {
 		this.setTotal(total);
 	}
 
-	public void setSorts(List<String> sorts) {
-		sorts.forEach(sort -> setSorts(sort));
-	}
-
 	public void setSorts(String sorts) {
 		String[] split = sorts.split(StringUtil.SPLIT_DEFAULT);
 		if (split.length == 2) {
 			getOrders().add(F_DESC.equals(split[1]) ? OrderItem.desc(split[0]) : OrderItem.asc(split[0]));
 		}
 	}
+
+
 
 }

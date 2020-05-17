@@ -33,4 +33,5 @@ public interface UserOnlineService extends BaseService<UserOnline> {
 
 	void offlineBySessionId(String sessionId);
 
+	void saveByEvent(UserOnline userOnline);
 }

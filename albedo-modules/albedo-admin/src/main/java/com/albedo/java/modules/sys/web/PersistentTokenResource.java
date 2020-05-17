@@ -18,9 +18,12 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
+import com.albedo.java.modules.sys.domain.dto.PersistentTokenQueryCriteria;
 import com.albedo.java.modules.sys.service.PersistentTokenService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -60,8 +63,10 @@ public class PersistentTokenResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_persistentToken_view')")
-	public R getUserPage(PageModel pm) {
-		return R.buildOkData(persistentTokenService.page(pm));
+	@Log(value = "令牌管理", businessType = BusinessType.VIEW)
+	public R getUserPage(PageModel pm, PersistentTokenQueryCriteria persistentTokenQueryCriteria) {
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, persistentTokenQueryCriteria);
+		return R.buildOkData(persistentTokenService.page(pm, wrapper));
 	}
 
 }

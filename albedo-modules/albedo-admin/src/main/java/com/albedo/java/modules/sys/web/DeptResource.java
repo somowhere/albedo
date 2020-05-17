@@ -82,6 +82,7 @@ public class DeptResource extends BaseResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_dept_view')")
+	@Log(value = "部门管理", businessType = BusinessType.VIEW)
 	public R<IPage<DeptVo>> findTreeList(DeptQueryCriteria deptQueryCriteria) {
 		return R.buildOkData(deptService.findTreeList(deptQueryCriteria));
 	}
@@ -122,7 +123,7 @@ public class DeptResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('sys_dept_del')")
 	@Log(value = "部门管理", businessType = BusinessType.DELETE)
 	public R removeById(@RequestBody Set<String> ids) {
-		return new R<>(deptService.removeByIds(ids));
+		return R.buildOkData(deptService.removeByIds(ids));
 	}
 
 

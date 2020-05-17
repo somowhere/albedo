@@ -74,6 +74,7 @@ public class UserResource extends BaseResource {
 	 * @return 用户集合
 	 */
 	@GetMapping
+	@Log(value = "用户管理", businessType = BusinessType.VIEW)
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
 	public R<IPage<UserVo>> getUserPage(PageModel pm, UserQueryCriteria userQueryCriteria) {
 		return R.buildOkData(userService.getUserPage(pm, userQueryCriteria, SecurityUtil.getUser().getDataScope()));
@@ -127,8 +128,7 @@ public class UserResource extends BaseResource {
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_del')")
 	public R removeByIds(@RequestBody Set<String> ids) {
-		userService.removeByIds(ids);
-		return R.buildOk("操作成功");
+		return R.buildByFlag(userService.removeByIds(ids));
 	}
 
 	/**
@@ -156,7 +156,7 @@ public class UserResource extends BaseResource {
 	 */
 	@GetMapping("/ancestor/{username}")
 	public R listAncestorUsers(@PathVariable String username) {
-		return new R<>(userService.listAncestorUsersByUsername(username));
+		return R.buildOkData(userService.listAncestorUsersByUsername(username));
 	}
 
 
@@ -195,6 +195,7 @@ public class UserResource extends BaseResource {
 
 	@GetMapping(value = "/importTemplate")
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
+	@Log(value = "用户导入模板", businessType = BusinessType.EXPORT)
 	public void importTemplate(HttpServletResponse response) {
 		ExcelUtil<UserExcelVo> util = new ExcelUtil(UserExcelVo.class);
 		util.exportExcel(Lists.newArrayList(new UserExcelVo()), "操作日志", response);

@@ -23,6 +23,7 @@ import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.albedo.java.common.core.util.AddressUtil;
 import com.albedo.java.common.core.util.RequestHolder;
+import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.WebUtil;
 import com.albedo.java.common.security.filter.warpper.BodyRequestWrapper;
 import com.albedo.java.modules.sys.domain.LogOperate;
@@ -54,13 +55,13 @@ public class SysLogUtils {
 		logOperate.setBrowser(userAgent.getBrowser().getName());
 		logOperate.setOs(userAgent.getOs().getName());
 		logOperate.setRequestUri(URLUtil.getPath(request.getRequestURI()));
-		logOperate.setMethod(request.getMethod());
-		if (request instanceof BodyRequestWrapper) {
-			String body = ((BodyRequestWrapper) request).getRequestBody();
-			logOperate.setParams(body);
-		} else {
-			logOperate.setParams(HttpUtil.toParams(request.getParameterMap()));
-		}
+//		logOperate.setMethod(request.getMethod());
+//		if (request instanceof BodyRequestWrapper) {
+//			String body = ((BodyRequestWrapper) request).getRequestBody();
+//			logOperate.setParams(StringUtil.isEmpty(body) ? HttpUtil.toParams(request.getParameterMap()) : body);
+//		} else {
+//			logOperate.setParams(HttpUtil.toParams(request.getParameterMap()));
+//		}
 //		log.setServiceId(getClientId());
 		return logOperate;
 	}

@@ -63,13 +63,13 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
 		if (ArrayUtil.contains(env.getActiveProfiles(), CommonConstants.SPRING_PROFILE_PRODUCTION)) {
 			initCachingHttpHeadersFilter(servletContext, disps);
 		}
-		log.debug("Registering bodyFilter");
-		FilterRegistration.Dynamic bodyFilter = servletContext.addFilter(
-			"bodyFilter",
-			new BodyFilter(applicationProperties));
-		bodyFilter.addMappingForUrlPatterns(disps, true,
-			applicationProperties.getAdminPath("/*"));
-		bodyFilter.setAsyncSupported(true);
+//		log.debug("Registering bodyFilter");
+//		FilterRegistration.Dynamic bodyFilter = servletContext.addFilter(
+//			"bodyFilter",
+//			new BodyFilter(applicationProperties));
+//		bodyFilter.addMappingForUrlPatterns(disps, true,
+//			applicationProperties.getAdminPath("/*"));
+//		bodyFilter.setAsyncSupported(true);
 
 		log.info("Web application fully configured");
 	}

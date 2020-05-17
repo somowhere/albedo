@@ -20,12 +20,15 @@ import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.annotation.ExcelField;
 import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.persistence.domain.BaseEntity;
+import com.albedo.java.common.persistence.domain.GeneralEntity;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -42,17 +45,17 @@ import java.time.LocalDateTime;
 public class LogOperate extends BaseEntity<LogOperate> {
 
 	private static final long serialVersionUID = 1L;
+	/**
+	 * 编号
+	 */
+	@TableId(value = "id", type = IdType.AUTO)
+	private Long id;
 	protected String createdBy;
 	/**
 	 * 创建时间
 	 */
 	@ExcelField(title = "创建时间")
 	protected LocalDateTime createdDate;
-	/**
-	 * 编号
-	 */
-	@TableId(value = "id", type = IdType.AUTO)
-	private Long id;
 	/**
 	 * 用户ID
 	 */
@@ -66,17 +69,22 @@ public class LogOperate extends BaseEntity<LogOperate> {
 	@ExcelField(title = "日志标题")
 	private String title;
 	/**
+	 * 日志类型
+	 */
+	@ExcelField(title = "日志类型")
+	private String logType;
+	/**
 	 * 业务类型（0其它 1新增 2修改 3删除）
 	 */
 	@ExcelField(title = "业务类型", dictType = "sys_business_type")
 	@DictType(DictNameConstants.SYS_BUSINESS_TYPE)
-	private Integer businessType;
+	private String businessType;
 	/**
 	 * 操作类别（0其它 1后台用户 2手机端用户）
 	 */
 	@ExcelField(title = "操作类别", dictType = "sys_operator_type")
 	@DictType(DictNameConstants.SYS_OPERATOR_TYPE)
-	private Integer operatorType;
+	private String operatorType;
 	/**
 	 * 操作IP地址
 	 */
@@ -125,13 +133,16 @@ public class LogOperate extends BaseEntity<LogOperate> {
 	/**
 	 * 异常信息
 	 */
-	@ExcelField(title = "异常信息")
 	private String exception;
+	/** 异常详细  */
 	/**
 	 * 服务ID
 	 */
 	@ExcelField(title = "服务ID")
 	private String serviceId;
+	/*** 备注 */
+	@ExcelField(title = "描述")
+	protected String description;
 
 	@Override
 	public Serializable pkVal() {

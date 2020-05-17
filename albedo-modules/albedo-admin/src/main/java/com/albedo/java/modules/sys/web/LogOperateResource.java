@@ -17,13 +17,15 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.modules.sys.domain.LogOperate;
+import com.albedo.java.modules.sys.domain.dto.LogOperateQueryCriteria;
 import com.albedo.java.modules.sys.service.LogOperateService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -53,8 +55,10 @@ public class LogOperateResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_view')")
-	public R<IPage> getPage(PageModel pm) {
-		return R.buildOkData(logOperateService.page(pm));
+//	@Log(value = "操作日志", businessType = BusinessType.VIEW)
+	public R<IPage> getPage(PageModel pm, LogOperateQueryCriteria logOperateQueryCriteria) {
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, logOperateQueryCriteria);
+		return R.buildOkData(logOperateService.page(pm, wrapper));
 	}
 
 	/**
@@ -72,11 +76,12 @@ public class LogOperateResource {
 
 
 	@Log(value = "操作日志", businessType = BusinessType.EXPORT)
-	@GetMapping(value = "/export")
+	@GetMapping(value = "/download")
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_export')")
-	public void export(PageModel pm, HttpServletResponse response) {
+	public void download(LogOperateQueryCriteria logOperateQueryCriteria,HttpServletResponse response) {
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(logOperateQueryCriteria);
 		ExcelUtil<LogOperate> util = new ExcelUtil(LogOperate.class);
-		util.exportExcel(logOperateService.list(Wrappers.emptyWrapper()), "操作日志", response);
+		util.exportExcel(logOperateService.list(wrapper), "操作日志", response);
 	}
 
 }

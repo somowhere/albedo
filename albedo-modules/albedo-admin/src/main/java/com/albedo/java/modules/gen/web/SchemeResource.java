@@ -48,6 +48,7 @@ public class SchemeResource extends BaseResource {
 	 */
 	@GetMapping(value = StringUtil.SLASH)
 	@PreAuthorize("@pms.hasPermission('gen_scheme_view')")
+	@Log(value = "生成方案", businessType = BusinessType.VIEW)
 	public ResponseEntity getPage(PageModel pm) {
 		return ResultBuilder.buildOk(schemeService.getSchemeVoPage(pm));
 	}

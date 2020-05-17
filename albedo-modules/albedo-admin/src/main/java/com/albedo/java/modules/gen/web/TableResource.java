@@ -53,6 +53,7 @@ public class TableResource extends BaseResource {
 	 */
 	@GetMapping(value = StringUtil.SLASH)
 	@PreAuthorize("@pms.hasPermission('gen_table_view')")
+	@Log(value = "业务表", businessType = BusinessType.VIEW)
 	public ResponseEntity getPage(PageModel pm) {
 		pm = tableService.page(pm);
 		return ResultBuilder.buildOk(pm);

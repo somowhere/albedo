@@ -12,9 +12,6 @@ export default {
       if (!hasPermission) {
         el.parentNode && el.parentNode.removeChild(el)
       }
-    } else {
-      console.log(value, el)
-      throw new Error(`使用方式： v-permission="'edit'"`)
     }
   }
 }

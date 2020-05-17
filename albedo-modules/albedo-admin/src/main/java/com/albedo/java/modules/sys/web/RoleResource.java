@@ -109,6 +109,7 @@ public class RoleResource extends BaseResource {
 	 * @return 分页对象
 	 */
 	@GetMapping
+	@Log(value = "角色管理", businessType = BusinessType.VIEW)
 	public R<IPage> getPage(PageModel pm, RoleQueryCriteria roleQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, roleQueryCriteria);
 		return R.buildOkData(roleService.page(pm, wrapper));

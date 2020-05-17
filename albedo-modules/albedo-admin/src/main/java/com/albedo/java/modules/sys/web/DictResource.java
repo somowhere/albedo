@@ -86,6 +86,7 @@ public class DictResource extends BaseResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_dict_view')")
+	@Log(value = "字典管理", businessType = BusinessType.VIEW)
 	public R<IPage<DictVo>> findTreeList(DictQueryCriteria dictQueryCriteria) {
 		IPage<DictVo> treeList = dictService.findTreeList(dictQueryCriteria);
 		return R.buildOkData(treeList);
@@ -102,7 +103,7 @@ public class DictResource extends BaseResource {
 	public R getByCodes(String codes) {
 		Map<String, List<SelectResult>> map = codes != null ?
 			dictService.findCodes(codes) : dictService.findCodes();
-		return new R<>(map);
+		return R.buildOkData(map);
 	}
 
 	/**
@@ -131,7 +132,7 @@ public class DictResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('sys_dict_del')")
 	@Log(value = "字典管理", businessType = BusinessType.DELETE)
 	public R removeByIds(@RequestBody Set<String> ids) {
-		return new R<>(dictService.removeByIds(ids));
+		return R.buildOkData(dictService.removeByIds(ids));
 	}
 
 	/**
@@ -139,7 +140,7 @@ public class DictResource extends BaseResource {
 	 * @return
 	 */
 	@PutMapping
-	@Log(value = "用户管理", businessType = BusinessType.LOCK)
+	@Log(value = "字典管理", businessType = BusinessType.LOCK)
 	@PreAuthorize("@pms.hasPermission('sys_dept_lock')")
 	public R lockOrUnLock(@RequestBody Set<String> ids) {
 		dictService.lockOrUnLock(ids);
@@ -155,7 +156,7 @@ public class DictResource extends BaseResource {
 	@GetMapping("/all")
 	public R<String> findAllList() {
 		List<Dict> list = dictService.list();
-		return new R<>(Json.toJsonString(list));
+		return R.buildOkData(Json.toJsonString(list));
 	}
 
 }

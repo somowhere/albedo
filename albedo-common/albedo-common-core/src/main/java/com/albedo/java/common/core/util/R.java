@@ -94,6 +94,10 @@ public class R<T> implements Serializable {
 		return new R(messages);
 	}
 
+	public static R buildByFlag(boolean flag) {
+		return new R(flag, flag ? CommonConstants.SUCCESS : CommonConstants.FAIL, flag ? "操作成功" : "操作失败");
+	}
+
 	public static <T> R buildOkData(T data, String... messages) {
 		return new R(data, messages);
 	}

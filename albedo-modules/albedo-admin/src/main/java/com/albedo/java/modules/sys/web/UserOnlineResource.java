@@ -2,13 +2,16 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.security.component.session.RedisSessionRegistry;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.UserOnline;
+import com.albedo.java.modules.sys.domain.dto.UserOnlineQueryCriteria;
 import com.albedo.java.modules.sys.domain.enums.OnlineStatus;
 import com.albedo.java.modules.sys.service.UserOnlineService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,14 +44,16 @@ public class UserOnlineResource extends BaseResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_userOnline_view')")
-	public R getUserPage(PageModel pm) {
-		return R.buildOkData(userOnlineService.page(pm));
+	@Log(value = "在线用户", businessType = BusinessType.VIEW)
+	public R getUserPage(PageModel pm, UserOnlineQueryCriteria userOnlineQueryCriteria) {
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, userOnlineQueryCriteria);
+		return R.buildOkData(userOnlineService.page(pm, wrapper));
 	}
 
 
 	@PreAuthorize("@pms.hasPermission('sys_userOnline_logout')")
-	@Log(value = "在线用户", businessType = BusinessType.FORCE)
-	@PostMapping("/batchForceLogout")
+	@Log(value = "在线用户", businessType = BusinessType.FORCE_LOGOUT)
+	@PutMapping("/batch-force-logout")
 	public R batchForceLogout(@RequestBody Set<String> ids, HttpServletRequest request) {
 		for (String id : ids) {
 			UserOnline online = userOnlineService.getById(id);
@@ -78,13 +83,16 @@ public class UserOnlineResource extends BaseResource {
 			if (online == null) {
 				return R.buildFail("用户已下线");
 			}
-			SessionInformation sessionInformation = sessionRegistry.getSessionInformation(online.getSessionId());
-			if (sessionInformation != null) {
-				if (sessionInformation.getSessionId().equals(request.getSession(false).getId())) {
-					return R.buildFail("当前登陆用户无法删除");
+			try{
+				SessionInformation sessionInformation = sessionRegistry.getSessionInformation(online.getSessionId());
+				if (sessionInformation != null) {
+					if (sessionInformation.getSessionId().equals(request.getSession(false).getId())) {
+						return R.buildFail("当前登陆用户无法删除");
+					}
+					sessionInformation.expireNow();
+					redisTemplate.boundHashOps(RedisSessionRegistry.SESSIONIDS).put(online.getSessionId(), sessionInformation);
 				}
-				sessionInformation.expireNow();
-				redisTemplate.boundHashOps(RedisSessionRegistry.SESSIONIDS).put(online.getSessionId(), sessionInformation);
+			}catch (Exception e){
 			}
 			sessionRegistry.removeSessionInformation(online.getSessionId());
 			userOnlineService.removeById(online);

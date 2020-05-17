@@ -16,8 +16,10 @@
 
 package com.albedo.java.common.log.event;
 
+import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.domain.UserOnline;
 import com.albedo.java.modules.sys.service.UserOnlineService;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -41,7 +43,8 @@ public class SysUserOnlineListener {
 	@EventListener(SysUserOnlineEvent.class)
 	public void saveSysUserOnline(SysUserOnlineEvent event) {
 		UserOnline userOnline = (UserOnline) event.getSource();
-		userOnlineService.saveOrUpdate(userOnline);
+		userOnlineService.saveByEvent(userOnline);
+
 	}
 
 	@Async
