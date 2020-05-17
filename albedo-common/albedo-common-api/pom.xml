@@ -29,8 +29,9 @@
 
 	<description>albedo 通用管理系统公共api模块</description>
 	<properties>
-
 		<jjwt.version>0.9.1</jjwt.version>
+		<!-- oshi监控需要指定jna版本, 问题详见 https://github.com/oshi/oshi/issues/1040 -->
+		<jna.version>5.5.0</jna.version>
 	</properties>
 
 	<dependencies>
@@ -98,7 +99,11 @@
 			<artifactId>poi-ooxml-schemas</artifactId>
 			<version>${poi.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.github.oshi</groupId>
+			<artifactId>oshi-core</artifactId>
+			<version>${oshi.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
