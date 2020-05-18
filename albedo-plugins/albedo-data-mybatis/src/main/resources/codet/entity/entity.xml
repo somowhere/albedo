@@ -5,7 +5,7 @@
 	<fileName>${ClassName}.java</fileName>
 	<content><![CDATA[
 /**
- * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
+ * Copyright &copy; 2020 <a href="https://github.com/somowhere/albedo">albedo</a> All rights reserved.
  */
 package ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>;
 
@@ -32,8 +32,6 @@ public class ${ClassName} extends IdEntity<${ClassName}> {
 		<#if !column.pk && column.isNotBaseField>
 	/** F_${column.constantJavaField} ${column.nameAndTitle} */
 	public static final String F_${column.constantJavaField} = "${column.simpleJavaField}";
-	/** F_SQL_${column.constantJavaField} ${column.nameAndTitle} */
-	public static final String F_SQL_${column.constantJavaField} = "${column.name}";
 		</#if>
 	</#list>
 
@@ -53,16 +51,14 @@ public class ${ClassName} extends IdEntity<${ClassName}> {
 	<#list table.columnList as column>
 		<#if !column.pk && column.isNotBaseField>
 	/** ${column.simpleJavaField} ${column.title} */<#if table.parentExists && table.parentTableFk == column.name>
-	@ManyToOne(name = "${table.parentTableFk}")
 	@TableField(exist = false)
 	private ${table.parent.className} ${column.simpleJavaField};
 	<#elseif column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
 	@TableField(${ClassName}.F_SQL_${column.constantJavaField})
 	private String ${column.simpleJavaField}Id;
-    @ManyToOne(name = ${ClassName}.F_SQL_${column.constantJavaField})
 	@TableField(exist = false)
 	private ${column.simpleJavaType} ${column.simpleJavaField};
-	<#else>${column.hibernateValidatorExprssion}@TableField(F_SQL_${column.constantJavaField})<#if column.unique>@SearchField</#if><#if column.dictType?? && column.dictType != "">@DictType("${column.dictType}")</#if>
+	<#else>${column.hibernateValidatorExprssion}<#if column.dictType?? && column.dictType != "">@DictType("${column.dictType}")</#if>
 	private ${column.simpleJavaType} ${column.simpleJavaField};
 			</#if>
 		</#if>

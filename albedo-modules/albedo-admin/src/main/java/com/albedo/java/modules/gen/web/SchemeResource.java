@@ -6,18 +6,17 @@ import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.ResultBuilder;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.web.resource.BaseResource;
-import com.albedo.java.modules.gen.domain.dto.GenCodeDto;
-import com.albedo.java.modules.gen.domain.dto.SchemeDto;
-import com.albedo.java.modules.gen.domain.dto.SchemeGenDto;
-import com.albedo.java.modules.gen.domain.dto.TableDto;
+import com.albedo.java.modules.gen.domain.dto.*;
 import com.albedo.java.modules.gen.service.SchemeService;
 import com.albedo.java.modules.gen.service.TableService;
 import com.albedo.java.modules.sys.domain.dto.GenSchemeDto;
 import com.albedo.java.modules.sys.service.MenuService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -46,11 +45,11 @@ public class SchemeResource extends BaseResource {
 	 * @param pm
 	 * @return
 	 */
-	@GetMapping(value = StringUtil.SLASH)
+	@GetMapping
 	@PreAuthorize("@pms.hasPermission('gen_scheme_view')")
 	@Log(value = "生成方案", businessType = BusinessType.VIEW)
-	public ResponseEntity getPage(PageModel pm) {
-		return ResultBuilder.buildOk(schemeService.getSchemeVoPage(pm));
+	public ResponseEntity getPage(PageModel pm, SchemeQueryCriteria schemeQueryCriteria) {
+		return ResultBuilder.buildOk(schemeService.getSchemeVoPage(pm, schemeQueryCriteria));
 	}
 
 	@GetMapping(value = "/preview" + CommonConstants.URL_ID_REGEX)

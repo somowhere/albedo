@@ -162,25 +162,26 @@ function CRUD(options) {
      */
     toAdd() {
       crud.resetForm()
+      crud.status.add = CRUD.STATUS.PREPARED
       if (!(callVmHook(crud, CRUD.HOOK.beforeToAdd, crud.form) && callVmHook(crud, CRUD.HOOK.beforeToCU, crud.form))) {
         return
       }
-      crud.status.add = CRUD.STATUS.PREPARED
       callVmHook(crud, CRUD.HOOK.afterToAdd, crud.form)
       callVmHook(crud, CRUD.HOOK.afterToCU, crud.form)
+      console.log(crud)
     },
     /**
      * 启动编辑
      * @param {*} data 数据项
      */
     toEdit(data) {
+      crud.status.edit = CRUD.STATUS.PREPARED
+      crud.getDataStatus(crud.getDataId(data)).edit = CRUD.STATUS.PREPARED
       if (!(callVmHook(crud, CRUD.HOOK.beforeToEdit, crud.form) && callVmHook(crud, CRUD.HOOK.beforeToCU, crud.form))) {
         return
       }
       crud.crudMethod.get(crud.getDataId(data)).then((res) => {
         crud.resetForm(res.data)
-        crud.status.edit = CRUD.STATUS.PREPARED
-        crud.getDataStatus(crud.getDataId(data)).edit = CRUD.STATUS.PREPARED
         callVmHook(crud, CRUD.HOOK.afterToEdit, crud.form)
         callVmHook(crud, CRUD.HOOK.afterToCU, crud.form)
       })

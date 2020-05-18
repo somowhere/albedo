@@ -77,7 +77,7 @@ public class UserResource extends BaseResource {
 	@Log(value = "用户管理", businessType = BusinessType.VIEW)
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
 	public R<IPage<UserVo>> getUserPage(PageModel pm, UserQueryCriteria userQueryCriteria) {
-		return R.buildOkData(userService.getUserPage(pm, userQueryCriteria, SecurityUtil.getUser().getDataScope()));
+		return R.buildOkData(userService.getUserPage(pm, userQueryCriteria, SecurityUtil.getDataScope()));
 	}
 
 	@Log(value = "用户管理", businessType = BusinessType.EXPORT)
@@ -86,7 +86,7 @@ public class UserResource extends BaseResource {
 	public void download(UserQueryCriteria userQueryCriteria, HttpServletResponse response) {
 		ExcelUtil<UserVo> util = new ExcelUtil(UserVo.class);
 		util.exportExcel(userService.getUserPage(userQueryCriteria,
-			SecurityUtil.getUser().getDataScope()), "用户数据", response);
+			SecurityUtil.getDataScope()), "用户数据", response);
 	}
 
 	/**

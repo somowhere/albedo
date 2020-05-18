@@ -66,7 +66,8 @@
     "vuedraggable": "2.20.0",
     "vuex": "3.1.0",
     "wangeditor": ">=3.0.0",
-    "xlsx": "^0.11.16"
+    "xlsx": "^0.11.16",
+    "ace-builds": "^1.4.5"
   },
   "devDependencies": {
     "@babel/core": "7.0.0",

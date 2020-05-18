@@ -3,7 +3,7 @@
     <!--左侧插槽-->
     <slot name="left" />
     <el-button
-      v-if="permission.edit"
+      v-if="crud.optShow.edit"
       v-permission="permission.edit"
       :disabled="disabledEdit"
       :loading="crud.status.cu === 2"
@@ -14,7 +14,7 @@
       @click="crud.toEdit(data)"
     />
     <el-popover
-      v-if="permission.del"
+      v-if="crud.optShow.del"
       v-model="pop"
       v-permission="permission.del"
       placement="top"

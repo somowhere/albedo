@@ -5,7 +5,7 @@
 	<fileName>${ClassName}Resource.java</fileName>
 	<content><![CDATA[
 /**
- * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
+ * Copyright &copy; 2020 <a href="https://github.com/somowhere/albedo">albedo</a> All rights reserved.
  */
 package ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleName}</#if>;
 
@@ -19,7 +19,9 @@ import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.web.resource.TreeVoResource;
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.log.annotation.Log;
-import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
+import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Vo;
+import ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
+import ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}QueryCriteria;
 import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.Lists;
@@ -42,16 +44,6 @@ public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${
         super(service);
     }
     /**
-	 * GET / : 获取树型结构数据 ${functionNameSimple}.
-	 *
-	 * @param treeQuery
-	 * @return the ResponseEntity with status 200 (OK) and with body all ${className}
-	 */
-	@GetMapping(value = "/tree")
-	public R getTree(TreeQuery treeQuery) {
-		return R.buildOkData(service.findTreeList(treeQuery));
-	}
-	/**
 	 * GET / : 获取数据 ${functionNameSimple}.
 	 *
 	 * @param id
@@ -61,18 +53,32 @@ public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_view')")
 	public R get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
-		return R.buildOkData(service.getOneVo(id));
+		return R.buildOkData(service.getOneDto(id));
+	}
+    /**
+	 * GET / : 获取树型结构数据 ${functionNameSimple}.
+	 *
+	 * @param treeQuery
+	 * @return the ResponseEntity with status 200 (OK) and with body all ${className}
+	 */
+	@GetMapping(value = "/tree")
+	public R tree(${ClassName}QueryCriteria dictQueryCriteria) {
+		return R.buildOkData(${className}Service.findTreeNode(${className}QueryCriteria));
 	}
 	/**
-	 * GET / : 获取分页数据源 ${functionNameSimple}.
+	 * GET / : 查询${functionNameSimple}.
 	 *
-	 * @param pm the pagination information
-	 * @return the ResponseEntity with status 200 (OK) and with body all ${className}
+	 * @param ${className}QueryCriteria
+	 * @return 分页对象
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_view')")
-	public R<IPage> getPage(PageModel pm) {
-		return R.buildOkData(service.findRelationPage(pm));
+	@Log(value = "${functionNameSimple}", businessType = BusinessType.VIEW)
+	public R<IPage<${ClassName}Vo>> findTreeList(${ClassName}QueryCriteria ${className}QueryCriteria) {
+		List<${ClassName}Vo> ${className}VoList = ${className}Service.list(${className}Service.getTreeWrapper(${className}QueryCriteria)).stream()
+			.map(item -> BeanUtil.copyPropertiesByClass(item, ${ClassName}Vo.class)).collect(Collectors.toList());
+		return R.buildOkData(new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(${className}VoList)),
+			${className}VoList.size()));
 	}
 
 	/**
@@ -85,17 +91,7 @@ public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${
 	@Log(value = "${functionName}", businessType = BusinessType.EDIT)
 	public R save(@Valid @RequestBody ${ClassName}Dto ${className}Vo) {
 		log.debug("REST request to save ${ClassName} : {}", ${className}Vo);
-		<#assign firstListField = true><#list table.columnList as column>
-			<#if column.unique && !column.pk>
-		<#if firstListField><#assign firstListField = false>${ClassName}Dto </#if>${className}Validate = new ${ClassName}Dto();
-		${className}Validate.setId(${className}Vo.getId());
-		${className}Validate.set${column.simpleJavaField?cap_first}(${className}Vo.get${column.simpleJavaField?cap_first}());
-		if (<#if column.null>StringUtil.isNotEmpty(${className}Vo.get${column.simpleJavaField?cap_first}()) && </#if>!checkByProperty(${className}Validate)) {
-			throw new RuntimeMsgException(StringUtil.toAppendStr("保存${functionNameSimple}'", ${className}Vo.get${column.simpleJavaField?cap_first}(),"'失败，${column.title }已存在"));
-		}
-			</#if>
-		</#list>
-		service.save(${className}Vo);
+		service.saveOrUpdate(${className}Vo);
 		return R.buildOk("保存${functionNameSimple}成功");
 	}
 
@@ -110,7 +106,7 @@ public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${
 	@Log(value = "${functionName}", businessType = BusinessType.DELETE)
 	public R delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete ${ClassName}: {}", ids);
-		service.deleteByParentIds(ids);
+		service.removeByIds(ids);
 		return R.buildOk("删除${functionNameSimple}成功");
 	}
 

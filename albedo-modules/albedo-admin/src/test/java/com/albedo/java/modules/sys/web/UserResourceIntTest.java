@@ -5,6 +5,8 @@ import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.handler.GlobalExceptionHandler;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.security.service.UserDetail;
+import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.modules.AlbedoAdminApplication;
 import com.albedo.java.modules.TestUtil;
 import com.albedo.java.modules.sys.domain.Dept;
@@ -15,6 +17,7 @@ import com.albedo.java.modules.sys.service.DeptService;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.modules.sys.service.UserService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +58,7 @@ public class UserResourceIntTest {
 	private static final String UPDATED_PASSWORD = "passjhipster";
 	private static final String DEFAULT_PHONE = "13258812456";
 	private static final String UPDATED_PHONE = "13222222222";
+	private static final String DEFAULT_ANOTHER_PHONE = "13222221111";
 	private static final String DEFAULT_ANOTHER_EMAIL = "23423432@localhost";
 	private static final String DEFAULT_EMAIL = "johndoe@localhost";
 	private static final String UPDATED_EMAIL = "jhipster@localhost";
@@ -90,6 +96,7 @@ public class UserResourceIntTest {
 			.setConversionService(createFormattingConversionService())
 			.setMessageConverters(jacksonMessageConverter)
 			.build();
+
 	}
 
 	/**
@@ -120,7 +127,7 @@ public class UserResourceIntTest {
 		anotherUser.setUsername(DEFAULT_ANOTHER_USERNAME);
 		anotherUser.setPassword(DEFAULT_PASSWORD);
 		anotherUser.setEmail(DEFAULT_ANOTHER_EMAIL);
-		anotherUser.setPhone(DEFAULT_PHONE);
+		anotherUser.setPhone(DEFAULT_ANOTHER_PHONE);
 		anotherUser.setDeptId(deptList.get(0).getId());
 		anotherUser.setRoleIdList(CollUtil.extractToList(roleList, Role.F_ID));
 		userService.saveOrUpdate(anotherUser);
@@ -153,17 +160,16 @@ public class UserResourceIntTest {
 	@Transactional
 	public void createUserWithExistingEmail() throws Exception {
 		// Initialize the database
-		userService.saveOrUpdate(user);
 		int databaseSizeBeforeCreate = userService.list().size();
 
 		// Create the User
 		UserDto managedUserVM = createEntity();
-
+		managedUserVM.setEmail(DEFAULT_ANOTHER_EMAIL);
 		// Create the User
 		restUserMockMvc.perform(post(DEFAULT_API_URL)
 			.contentType(TestUtil.APPLICATION_JSON_UTF8)
 			.content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
-			.andExpect(status().isOk())
+			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
 			.andExpect(jsonPath("$.message").isNotEmpty());
 
@@ -216,8 +222,8 @@ public class UserResourceIntTest {
 		restUserMockMvc.perform(get(DEFAULT_API_URL + "/info/{username}", user.getUsername()))
 			.andExpect(status().isOk())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-			.andExpect(jsonPath("$.data.userVo.username").value(user.getUsername()))
-			.andExpect(jsonPath("$.data.userVo.qqOpenId").value(DEFAULT_QQOPENID))
+			.andExpect(jsonPath("$.data.user.username").value(user.getUsername()))
+			.andExpect(jsonPath("$.data.user.qqOpenId").value(DEFAULT_QQOPENID))
 			.andExpect(jsonPath("$.data.roles").value(equalTo(CollUtil.extractToList(roleList, Role.F_ID))))
 			.andExpect(jsonPath("$.data.permissions").isNotEmpty())
 		;
@@ -247,6 +253,7 @@ public class UserResourceIntTest {
 		managedUserVM.setEmail(UPDATED_EMAIL);
 		managedUserVM.setPhone(UPDATED_PHONE);
 		managedUserVM.setQqOpenId(UPDATED_QQOPENID);
+		managedUserVM.setQqOpenId(UPDATED_QQOPENID);
 		managedUserVM.setRoleIdList(CollUtil.extractToList(roleList, Role.F_ID));
 
 		managedUserVM.setId(updatedUser.getId());
@@ -262,7 +269,6 @@ public class UserResourceIntTest {
 		User testUser = userService.getById(updatedUser.getId());
 		assertThat(testUser.getUsername()).isEqualTo(UPDATED_USERNAME);
 		assertThat(testUser.getEmail()).isEqualTo(UPDATED_EMAIL);
-		assertThat(testUser.getAvailable()).isEqualTo(UPDATED_AVAILABLE);
 		assertThat(testUser.getPhone()).isEqualTo(UPDATED_PHONE);
 		assertThat(testUser.getQqOpenId()).isEqualTo(UPDATED_QQOPENID);
 	}
@@ -278,17 +284,12 @@ public class UserResourceIntTest {
 
 
 		UserDto managedUserVM = new UserDto();
-		managedUserVM.setUsername(DEFAULT_ANOTHER_USERNAME);
-		managedUserVM.setPassword(UPDATED_PASSWORD);
-		managedUserVM.setEmail(UPDATED_EMAIL);
-		managedUserVM.setPhone(UPDATED_PHONE);
-		managedUserVM.setQqOpenId(UPDATED_QQOPENID);
-		managedUserVM.setRoleIdList(CollUtil.extractToList(roleList, Role.F_ID));
+		managedUserVM.setEmail(DEFAULT_ANOTHER_EMAIL);
 		managedUserVM.setId(updatedUser.getId());
 		restUserMockMvc.perform(post(DEFAULT_API_URL)
 			.contentType(TestUtil.APPLICATION_JSON_UTF8)
 			.content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
-			.andExpect(status().isOk())
+			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
 			.andExpect(jsonPath("$.message").isNotEmpty());
 		User testUser = userService.getById(updatedUser.getId());
@@ -306,17 +307,12 @@ public class UserResourceIntTest {
 
 
 		UserDto managedUserVM = new UserDto();
-		managedUserVM.setUsername(UPDATED_USERNAME);
-		managedUserVM.setPassword(UPDATED_PASSWORD);
-		managedUserVM.setEmail(UPDATED_EMAIL);
-		managedUserVM.setPhone(UPDATED_PHONE);
-		managedUserVM.setQqOpenId(UPDATED_QQOPENID);
-		managedUserVM.setRoleIdList(CollUtil.extractToList(roleList, Role.F_ID));
+		managedUserVM.setUsername(DEFAULT_ANOTHER_USERNAME);
 		managedUserVM.setId(updatedUser.getId());
 		restUserMockMvc.perform(post(DEFAULT_API_URL)
 			.contentType(TestUtil.APPLICATION_JSON_UTF8)
 			.content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
-			.andExpect(status().isOk())
+			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
 			.andExpect(jsonPath("$.message").isNotEmpty());
 		User testUser = userService.getById(updatedUser.getId());
@@ -331,7 +327,9 @@ public class UserResourceIntTest {
 		long databaseSizeBeforeDelete = userService.count();
 
 		// Delete the user
-		restUserMockMvc.perform(delete(DEFAULT_API_URL + "{id}", user.getId())
+		restUserMockMvc.perform(delete(DEFAULT_API_URL)
+			.contentType(TestUtil.APPLICATION_JSON_UTF8)
+			.content(TestUtil.convertObjectToJsonBytes(Lists.newArrayList(user.getId())))
 			.accept(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(status().isOk());
 
@@ -347,7 +345,9 @@ public class UserResourceIntTest {
 		userService.saveOrUpdate(user);
 
 		// lockOrUnLock the user
-		restUserMockMvc.perform(put(DEFAULT_API_URL + "{id}", user.getId())
+		restUserMockMvc.perform(put(DEFAULT_API_URL)
+			.contentType(TestUtil.APPLICATION_JSON_UTF8)
+			.content(TestUtil.convertObjectToJsonBytes(Lists.newArrayList(user.getId())))
 			.accept(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(status().isOk());
 
@@ -355,7 +355,7 @@ public class UserResourceIntTest {
 		User tempUser = userService.getById(user.getId());
 		assertThat(CommonConstants.STR_YES.equals(tempUser.getAvailable()));
 		// lockOrUnLock the user
-		restUserMockMvc.perform(put(DEFAULT_API_URL + "{id}", user.getId())
+		restUserMockMvc.perform(put(DEFAULT_API_URL).content(user.getId())
 			.accept(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(status().isOk());
 

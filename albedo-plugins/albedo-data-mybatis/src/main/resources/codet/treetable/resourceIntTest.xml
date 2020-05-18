@@ -5,7 +5,7 @@
 	<fileName>${ClassName}ResourceIntTest.java</fileName>
 	<content><![CDATA[
 /**
- * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
+ * Copyright &copy; 2020 <a href="https://github.com/somowhere/albedo">albedo</a> All rights reserved.
  */
 package ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleName}</#if>;
 
@@ -24,7 +24,7 @@ import com.albedo.java.common.core.exception.GlobalExceptionHandler;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ClassUtil;
 import ${packageName}.${moduleName}.domain.${ClassName};
-import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
+import ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
 import ${packageName}.${moduleName}.repository<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Repository;
 import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Service;
 import ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Resource;

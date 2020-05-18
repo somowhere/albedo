@@ -4,6 +4,7 @@ import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.persistence.service.DataService;
 import com.albedo.java.modules.gen.domain.Scheme;
 import com.albedo.java.modules.gen.domain.dto.SchemeDto;
+import com.albedo.java.modules.gen.domain.dto.SchemeQueryCriteria;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public interface SchemeService extends DataService<Scheme, SchemeDto, String> {
 	 * @param pm 分页对象
 	 * @return
 	 */
-	IPage getSchemeVoPage(PageModel pm);
+	IPage getSchemeVoPage(PageModel pm, SchemeQueryCriteria schemeQueryCriteria);
 
 	Map<String, Object> previewCode(String id, String username);
 }

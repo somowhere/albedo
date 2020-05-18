@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>entityForm</name>
+	<filePath>src/main/java/${packageName}/${moduleName}/domain/dto/${subModuleName}</filePath>
+	<fileName>${ClassName}QueryCriteria.java</fileName>
+	<content><![CDATA[
+/**
+ * Copyright &copy; 2020 <a href="https://github.com/somowhere/albedo">albedo</a> All rights reserved.
+ */
+package ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>;
+
+import com.albedo.java.common.core.annotation.Query;
+import lombok.Data;
+
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Set;
+
+/**
+ * ${functionName}QueryCriteria ${functionNameSimple}
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@Data
+public class ${ClassName}QueryCriteria implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	<#list table.columnList as column>
+		<#if column.query>
+	/** F_${column.constantJavaField} ${column.nameAndTitle} */
+	@Query
+	private String ${column.simpleJavaField};
+		</#if>
+	</#list>
+
+}
+
+]]>
+	</content>
+</template>

@@ -2,8 +2,60 @@
   <div class="app-container">
     <div class="head-container">
       <div v-if="crud.props.searchToggle">
-        <el-input v-model="query.blurry" clearable size="small" placeholder="全表模糊搜索" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
-
+        <el-input
+          v-model="query.blurry"
+          clearable
+          size="small"
+          placeholder="全表模糊搜索"
+          style="width: 200px;"
+          class="filter-item"
+          @keyup.enter.native="crud.toQuery"
+        />
+        <el-date-picker
+          v-model="query.createdDate"
+          :default-time="['00:00:00','23:59:59']"
+          class="date-item"
+          end-placeholder="结束日期"
+          range-separator=":"
+          size="small"
+          start-placeholder="开始日期"
+          type="daterange"
+          value-format="yyyy-MM-dd HH:mm:ss"
+        />
+        <el-select
+          v-model="query.logType"
+          class="filter-item"
+          clearable
+          placeholder="日志类型"
+          size="small"
+          style="width: 100px"
+          @change="crud.toQuery"
+        >
+          <el-option value="INFO">INFO</el-option>
+          <el-option value="ERROR">ERROR</el-option>
+        </el-select>
+        <el-select
+          v-model="query.businessType"
+          class="filter-item"
+          clearable
+          placeholder="业务类型"
+          size="small"
+          style="width: 100px"
+          @change="crud.toQuery"
+        >
+          <el-option v-for="(item,index) in businessTypeOptions" :key="index" :label="item.label" :value="item.value" />
+        </el-select>
+        <el-select
+          v-model="query.operatorType"
+          class="filter-item"
+          clearable
+          placeholder="操作类别"
+          size="small"
+          style="width: 100px"
+          @change="crud.toQuery"
+        >
+          <el-option v-for="(item,index) in operatorTypeOptions" :key="index" :label="item.label" :value="item.value" />
+        </el-select>
         <rrOperation />
       </div>
       <crudOperation>
@@ -84,11 +136,13 @@
             <el-button
               v-if="scope.row.logType === 'ERROR'"
               slot="left"
-              type="text"
               plain
               size="mini"
+              type="primary"
+              icon="el-icon-info"
               @click="info(scope.row.exception)"
-            >查看详情</el-button>
+            />
+
           </udOperation>
         </template>
       </el-table-column>
@@ -109,6 +163,7 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 import commonUtil from '@/utils/common'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'OnlineUser',
@@ -120,11 +175,18 @@ export default {
   data() {
     return {
       errorInfo: '', errorDialog: false, delLoading: false,
+      businessTypeOptions: [],
+      operatorTypeOptions: [],
       permission: {
         export: 'sys_logOperate_export',
         del: 'sys_logOperate_del'
       }
     }
+  },
+  computed: {
+    ...mapGetters([
+      'dicts', 'permissions'
+    ])
   },
   created() {
     this.crud.optShow = {
@@ -132,6 +194,8 @@ export default {
       edit: false,
       del: true
     }
+    this.businessTypeOptions = this.dicts['sys_business_type']
+    this.operatorTypeOptions = this.dicts['sys_operator_type']
   },
   methods: {
     // 获取异常详情

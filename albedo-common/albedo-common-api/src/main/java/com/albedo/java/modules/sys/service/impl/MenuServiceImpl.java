@@ -141,18 +141,19 @@ public class MenuServiceImpl extends
 
 	}
 
-	public Boolean exitUserByPermission(MenuDto menuDto) {
+	public Boolean exitMenuByPermission(MenuDto menuDto) {
 		return getOne(Wrappers.<Menu>query()
 			.ne(StringUtil.isNotEmpty(menuDto.getId()), MenuDto.F_ID, menuDto.getId())
 			.eq(MenuDto.F_PERMISSION, menuDto.getPermission())) != null;
 	}
+
 
 	@Override
 	@CacheEvict(allEntries = true)
 	public void saveOrUpdate(MenuDto menuDto) {
 		// permission before comparing with database
 		if (StringUtil.isNotEmpty(menuDto.getPermission()) &&
-			exitUserByPermission(menuDto)) {
+			exitMenuByPermission(menuDto)) {
 			throw new EntityExistException(MenuDto.class, "permission", menuDto.getPermission());
 		}
 

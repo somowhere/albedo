@@ -1,17 +1,20 @@
 package com.albedo.java.common.core.vo;
 
+import com.albedo.java.common.core.util.tree.TreeNodeAware;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
  * 通常的数据基类 copyright 2014 albedo all right reserved author somewhere created on 2014年12月31日 下午1:57:09
+ * @author somewhere
  */
-@Data
 @EqualsAndHashCode(callSuper = true)
-public class TreeVo extends DataVo<String> {
+@Data
+public class TreeVo<T> extends DataVo<String> implements TreeNodeAware<T> {
 	public static final String F_NAME = "name";
 	public static final String F_PARENTID = "parentId";
 	public static final String F_PARENTIDS = "parentIds";
@@ -33,4 +36,11 @@ public class TreeVo extends DataVo<String> {
 	@JsonIgnore
 	private boolean leaf;
 
+	private List<T> children;
+	private boolean hasChildren;
+
+	public void setLeaf(boolean leaf) {
+		this.leaf = leaf;
+		this.hasChildren = !leaf;
+	}
 }

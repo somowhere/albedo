@@ -4,13 +4,16 @@ import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ResultBuilder;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.gen.domain.Table;
 import com.albedo.java.modules.gen.domain.dto.TableDto;
 import com.albedo.java.modules.gen.domain.dto.TableFromDto;
+import com.albedo.java.modules.gen.domain.dto.TableQueryCriteria;
 import com.albedo.java.modules.gen.service.TableService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -51,11 +54,12 @@ public class TableResource extends BaseResource {
 	 * @param pm
 	 * @return
 	 */
-	@GetMapping(value = StringUtil.SLASH)
+	@GetMapping
 	@PreAuthorize("@pms.hasPermission('gen_table_view')")
 	@Log(value = "业务表", businessType = BusinessType.VIEW)
-	public ResponseEntity getPage(PageModel pm) {
-		pm = tableService.page(pm);
+	public ResponseEntity getPage(PageModel pm, TableQueryCriteria tableQueryCriteria) {
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, tableQueryCriteria);
+		pm = tableService.page(pm, wrapper);
 		return ResultBuilder.buildOk(pm);
 	}
 

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <template>
 	<name>entityForm</name>
-	<filePath>src/main/java/${packageName}/${moduleName}/domain/vo/${subModuleName}</filePath>
+	<filePath>src/main/java/${packageName}/${moduleName}/domain/dto/${subModuleName}</filePath>
 	<fileName>${ClassName}Dto.java</fileName>
 	<content><![CDATA[
 /**
- * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
+ * Copyright &copy; 2020 <a href="https://github.com/somowhere/albedo">albedo</a> All rights reserved.
  */
-package ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>;
+package ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>;
 
-import com.albedo.java.common.core.vo.DataEntityVo;
+import com.albedo.java.common.core.vo.DataDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,12 +20,12 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
- * ${functionName}EntityVo ${functionNameSimple}
+ * ${functionName}Dto ${functionNameSimple}
  * @author ${functionAuthor}
  * @version ${functionVersion}
  */
 @Data @ToString @NoArgsConstructor @AllArgsConstructor
-public class ${ClassName}Dto extends DataEntityVo<${table.pkJavaType}> {
+public class ${ClassName}Dto extends DataDto<${table.pkJavaType}> {
 
 	private static final long serialVersionUID = 1L;
 	<#list table.columnList as column>

@@ -5,7 +5,7 @@
 	<fileName>${ClassName}Resource.java</fileName>
 	<content><![CDATA[
 /**
- * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
+ * Copyright &copy; 2020 <a href="https://github.com/somowhere/albedo">albedo</a> All rights reserved.
  */
 package ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleName}</#if>;
 
@@ -16,16 +16,18 @@ import com.albedo.java.common.core.vo.TreeQuery;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
-import com.albedo.java.common.web.resource.DtoResource;
+import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.log.annotation.Log;
-import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
+import ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
+import ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}QueryCriteria;
 import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.Lists;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import lombok.AllArgsConstructor;
 
 import javax.validation.Valid;
 
@@ -36,11 +38,10 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping(value = "${r"${application.admin-path}"}/${urlPrefix}")
-public class ${ClassName}Resource extends DtoResource<${ClassName}Service, ${ClassName}Dto> {
+@AllArgsConstructor
+public class ${ClassName}Resource extends BaseResource {
 
-    public ${ClassName}Resource(${ClassName}Service service) {
-        super(service);
-    }
+	private final ${ClassName}Service service;
 
 	/**
 	 * @param id
@@ -61,8 +62,9 @@ public class ${ClassName}Resource extends DtoResource<${ClassName}Service, ${Cla
 
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_view')")
 	@GetMapping
-	public R getPage(PageModel pm) {
-		return R.buildOkData(service.findPage(pm));
+	public R getPage(PageModel pm, ${ClassName}QueryCriteria ${className}QueryCriteria) {
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, ${className}QueryCriteria);
+		return R.buildOkData(service.findPage(pm, wrapper));
 	}
 
 	/**
@@ -75,16 +77,6 @@ public class ${ClassName}Resource extends DtoResource<${ClassName}Service, ${Cla
 	@PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 	public R save(@Valid @RequestBody ${ClassName}Dto ${className}Vo) {
 		log.debug("REST request to save ${ClassName}Form : {}", ${className}Vo);
-		<#assign firstListField = true><#list table.columnList as column>
-			<#if column.unique && !column.pk>
-		<#if firstListField><#assign firstListField = false>${ClassName}Dto </#if>${className}Validate = new ${ClassName}Dto();
-		${className}Validate.setId(${className}Vo.getId());
-		${className}Validate.set${column.simpleJavaField?cap_first}(${className}Vo.get${column.simpleJavaField?cap_first}());
-		if (<#if column.null>StringUtil.isNotEmpty(${className}Vo.get${column.simpleJavaField?cap_first}()) && </#if>!checkByProperty(${className}Validate)) {
-			throw new RuntimeMsgException(StringUtil.toAppendStr("保存${functionNameSimple}'", ${className}Vo.get${column.simpleJavaField?cap_first}(),"'失败，${column.title }已存在"));
-		}
-			</#if>
-		</#list>
 		service.save(${className}Vo);
 		return R.buildOk("保存${functionNameSimple}成功");
 
@@ -101,7 +93,7 @@ public class ${ClassName}Resource extends DtoResource<${ClassName}Service, ${Cla
 	@DeleteMapping
 	public R delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete ${ClassName}: {}", ids);
-		service.deleteBatchIds(ids);
+		service.removeByIds(ids);
 		return R.buildOk("删除${functionNameSimple}成功");
 	}
 }]]>

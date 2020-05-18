@@ -22,7 +22,7 @@ public class HelloResource extends BaseResource {
 	 * @param pm
 	 * @return
 	 */
-	@GetMapping(value = StringUtil.SLASH)
+	@GetMapping
 	@PreAuthorize("@pms.hasPermission('gen_scheme_view')")
 	public ResponseEntity getPage(PageModel pm) {
 

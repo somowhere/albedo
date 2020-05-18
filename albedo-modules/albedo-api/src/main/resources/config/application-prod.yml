@@ -29,7 +29,7 @@ application:
   security:
     authentication:
       jwt:
-        secret: albedo-boot-token
+        secret: albedo-token
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000

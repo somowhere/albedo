@@ -43,25 +43,22 @@ public class TableServiceImpl extends
 
 
 	@Override
-	public void save(TableDto tableDto) {
+	public void saveOrUpdate(TableDto tableDto) {
 		boolean isNew = StringUtil.isEmpty(tableDto.getId());
 		Table table = new Table();
 		copyDtoToBean(tableDto, table);
 		super.saveOrUpdate(table);
 		log.debug("Save Information for Table: {}", table);
-		if (isNew) {
-			for (TableColumn item : table.getColumnFormList()) {
-				item.setTableId(table.getId());
-			}
-		} else {
-			List<TableColumn> tableColumnEntities = tableColumnService.list(
-				Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID, table.getId()));
-			for (TableColumn item : table.getColumnFormList()) {
-				for (TableColumn tableColumn : tableColumnEntities) {
-					if (tableColumn.getId().equals(item.getId())) {
-						item.setVersion(tableColumn.getVersion());
-						break;
-					}
+		for (TableColumn item : table.getColumnFormList()) {
+			item.setTableId(table.getId());
+		}
+		List<TableColumn> tableColumnEntities = tableColumnService.list(
+			Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID, table.getId()));
+		for (TableColumn item : table.getColumnFormList()) {
+			for (TableColumn tableColumn : tableColumnEntities) {
+				if (tableColumn.getId().equals(item.getId())) {
+					item.setVersion(tableColumn.getVersion());
+					break;
 				}
 			}
 		}
@@ -117,7 +114,7 @@ public class TableServiceImpl extends
 		if (StringUtil.isNotBlank(tableDto.getName())) {
 
 			List<TableDto> list = findTableListFormDb(tableDto);
-			if (list.size() > 0) {
+			if (list.size() > 0 && CollUtil.isEmpty(tableDto.getColumnList())) {
 
 				// 如果是新增，初始化表属性
 				if (ObjectUtil.isEmpty(tableDto.getId())) {
@@ -196,11 +193,12 @@ public class TableServiceImpl extends
 		TableQuery tableQuery = new TableQuery();
 		if (tableDto != null) {
 			tableQuery.setName(tableDto.getName());
-		}
-		List<String> tempNames = Lists.newArrayList("gen_");
-		tableQuery.setNotLikeNames(tempNames);
-		if (ObjectUtil.isNotEmpty(tableEntities)) {
-			tableQuery.setNotNames(CollUtil.extractToList(tableEntities, Table.F_NAME));
+		}else{
+			List<String> tempNames = Lists.newArrayList("gen_");
+			tableQuery.setNotLikeNames(tempNames);
+			if (ObjectUtil.isNotEmpty(tableEntities)) {
+				tableQuery.setNotNames(CollUtil.extractToList(tableEntities, Table.F_NAME));
+			}
 		}
 		List<Table> list = repository.findTableList(tableQuery);
 		return list.stream().map(item -> copyBeanToDto(item)).collect(Collectors.toList());

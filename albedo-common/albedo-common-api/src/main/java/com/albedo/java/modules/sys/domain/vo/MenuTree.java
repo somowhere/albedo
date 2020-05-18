@@ -23,6 +23,7 @@ import com.albedo.java.common.core.vo.TreeNode;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author somewhere
@@ -31,6 +32,7 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@Slf4j
 public class MenuTree extends TreeNode<MenuTree> {
 	private String name;
 	private String path;
@@ -51,6 +53,8 @@ public class MenuTree extends TreeNode<MenuTree> {
 		this.meta = new MenuMetaVo(menuVo.getName(), menuVo.getIcon(), CommonConstants.YES.equals(menuVo.getCache()));
 		this.setHidden(CommonConstants.YES.equals(menuVo.getHidden()));
 		// 如果不是外链
-		this.setComponent(!CommonConstants.YES.equals(menuVo.getIframe()) && menuVo.getParentId() == TreeUtil.ROOT && StrUtil.isEmpty(menuVo.getComponent()) ? "Layout" : menuVo.getComponent());
-	}
+		this.setComponent(!CommonConstants.YES.equals(menuVo.getIframe()) && menuVo.getParentId() == TreeUtil.ROOT
+			&& StrUtil.isEmpty(menuVo.getComponent()) ? "Layout" : menuVo.getComponent());
+		log.info("name {}, component {}", this.getName(), this.getComponent());
+}
 }

@@ -20,6 +20,7 @@ package com.albedo.java.common.security.util;
 import cn.hutool.core.util.StrUtil;
 import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.util.SpringContextHolder;
+import com.albedo.java.common.persistence.datascope.DataScope;
 import com.albedo.java.common.security.service.UserDetail;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
@@ -43,8 +44,9 @@ public class SecurityUtil {
 	private UserDetailsService userDetailsService;
 
 	public UserDetailsService getUserDetailsService() {
-		if (userDetailsService == null)
+		if (userDetailsService == null) {
 			userDetailsService = SpringContextHolder.getBean(UserDetailsService.class);
+		}
 		return userDetailsService;
 	}
 
@@ -77,6 +79,10 @@ public class SecurityUtil {
 			return null;
 		}
 		return getUser(authentication);
+	}
+
+	public DataScope getDataScope(){
+		return getUser() != null ? getUser().getDataScope() : null;
 	}
 
 	/**

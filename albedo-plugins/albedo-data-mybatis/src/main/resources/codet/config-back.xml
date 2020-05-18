@@ -33,7 +33,7 @@
 <!--<template>category-ref:entity</template>-->
 <!--</category>-->
 <!--<category val="entity" name="数据层（entity）">-->
-<!--<template>entity/vo/entityDto.xml</template>-->
+<!--<template>entity/vo/entityVo.xml</template>-->
 <!--&lt;!&ndash;<template>entity/entityId.xml</template>&ndash;&gt;-->
 <!--<template>entity/entity.xml</template>-->
 <!--</category>-->
@@ -47,7 +47,7 @@
 <!--<template>treetable/resourceIntTest.xml</template>-->
 <!--<template>treetable/repository.xml</template>-->
 <!--<template>treetable/serviceImpl.xml</template>-->
-<!--<template>treetable/vo/entityDto.xml</template>-->
+<!--<template>treetable/vo/entityVo.xml</template>-->
 <!--<template>treetable/entity.xml</template>-->
 <!--<template>treetable/viewModelTs.xml</template>-->
 <!--<template>treetable/viewServiceTs.xml</template>-->

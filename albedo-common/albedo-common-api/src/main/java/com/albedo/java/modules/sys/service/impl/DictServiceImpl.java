@@ -98,18 +98,21 @@ public class DictServiceImpl extends
 		super.saveOrUpdate(dictDto);
 	}
 
+	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public Map<String, List<SelectResult>> findCodeStr(String codes) {
 		return findCodes(StringUtil.isNotEmpty(codes) ?
 			codes.split(StringUtil.SPLIT_DEFAULT) : null);
 	}
 
+	@Override
 	@Cacheable(key = "'" + CacheNameConstants.DICT_RESULT_ALL + "'")
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public Map<String, List<SelectResult>> findCodes(String... codes) {
 		return DictUtil.getSelectResultListByCodes(findAllOrderBySort(), codes);
 	}
 
+	@Override
 	public void refresh() {
 		Cache cache = cacheManager.getCache(CacheNameConstants.DICT_DETAILS);
 		if (cache == null || cache.get(CacheNameConstants.DICT_ALL) == null ||

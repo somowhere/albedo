@@ -18,12 +18,10 @@ package com.albedo.java.modules.sys.domain.vo;
 
 import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.constant.DictNameConstants;
-import com.albedo.java.common.core.util.tree.TreeNodeAware;
 import com.albedo.java.common.core.vo.TreeVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.List;
 
 /**
  * <p>
@@ -35,7 +33,7 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class MenuVo extends TreeVo implements TreeNodeAware<MenuVo> {
+public class MenuVo extends TreeVo<MenuVo> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -70,27 +68,5 @@ public class MenuVo extends TreeVo implements TreeNodeAware<MenuVo> {
 	@DictType(DictNameConstants.SYS_FLAG)
 	private Integer iframe;
 
-	private List<MenuVo> children;
-	private boolean hasChildren;
 
-
-	@Override
-	public int hashCode() {
-		return getId().hashCode();
-	}
-
-	/**
-	 * menuId 相同则相同
-	 *
-	 * @param obj
-	 * @return
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof MenuVo) {
-			String targetMenuId = ((MenuVo) obj).getId();
-			return getId().equals(targetMenuId);
-		}
-		return super.equals(obj);
-	}
 }

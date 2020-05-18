@@ -127,8 +127,7 @@
           />
         </el-form-item>
         <el-form-item
-          v-if="form.iframe!=null && form.iframe.toString() === '0' && form.type === '1'"
-          :rules="[{ required: true, message: '请填写组件路径', trigger: 'blur' }]"
+          v-if="form.iframe!=null && form.iframe.toString() === '0' && form.type !== '2'"
           label="组件路径"
           prop="component"
         >

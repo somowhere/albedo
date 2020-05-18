@@ -10,6 +10,7 @@ import com.albedo.java.modules.gen.domain.Scheme;
 import com.albedo.java.modules.gen.domain.Table;
 import com.albedo.java.modules.gen.domain.TableColumn;
 import com.albedo.java.modules.gen.domain.dto.SchemeDto;
+import com.albedo.java.modules.gen.domain.dto.SchemeQueryCriteria;
 import com.albedo.java.modules.gen.domain.dto.TableDto;
 import com.albedo.java.modules.gen.domain.vo.SchemeVo;
 import com.albedo.java.modules.gen.domain.vo.TemplateVo;
@@ -138,14 +139,15 @@ public class SchemeServiceImpl extends DataServiceImpl<SchemeRepository, Scheme,
 	}
 
 	@Override
-	public IPage getSchemeVoPage(PageModel pm) {
-		Wrapper wrapper = QueryWrapperUtil.getWrapper(pm, null);
+	public IPage getSchemeVoPage(PageModel pm, SchemeQueryCriteria schemeQueryCriteria) {
+		Wrapper wrapper = QueryWrapperUtil.getWrapper(pm, schemeQueryCriteria);
 		pm.addOrder(OrderItem.desc("a." + Scheme.F_SQL_CREATEDDATE));
 		IPage<List<SchemeVo>> userVosPage = repository.getSchemeVoPage(pm, wrapper);
 		return userVosPage;
 	}
 
 
+	@Override
 	public Map<String, Object> previewCode(String id, String username) {
 		Map<String, Object> result = Maps.newHashMap();
 		SchemeDto schemeDto = super.getOneDto(id);

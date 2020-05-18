@@ -3,6 +3,7 @@ package com.albedo.java.common.persistence.service.impl;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.tree.TreeUtil;
+import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.core.vo.TreeDto;
 import com.albedo.java.common.core.vo.TreeNode;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
@@ -10,7 +11,9 @@ import com.albedo.java.common.persistence.domain.TreeEntity;
 import com.albedo.java.common.persistence.repository.TreeRepository;
 import com.albedo.java.common.persistence.service.TreeService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.google.common.collect.Lists;
 import lombok.Data;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +22,11 @@ import java.util.stream.Collectors;
 
 
 /**
+ *
  * @author somewhere
+ * @param <Repository>
+ * @param <T>
+ * @param <D>
  */
 @Data
 public class TreeServiceImpl<Repository extends TreeRepository<T>,
@@ -33,7 +40,6 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 	 * @return
 	 */
 	public List<TreeNode> getNodeTree(List<T> trees) {
-//		Collections.sort(trees, Comparator.comparing((T t) -> t.getSort()).reversed());
 		List<TreeNode> treeList = trees.stream()
 			.map(tree -> {
 				TreeNode node = new TreeNode();
@@ -63,7 +69,8 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 	 * @param query
 	 * @return
 	 */
-	public QueryWrapper<T> getTreeWrapper(Object query) {
+	@Override
+	public <Q> QueryWrapper<T> getTreeWrapper(Q query) {
 		QueryWrapper<T> wrapper = QueryWrapperUtil.getWrapper(query);
 		boolean emptyWrapper = wrapper.isEmptyOfWhere();
 		if (emptyWrapper) {
@@ -72,6 +79,7 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 		wrapper.eq(TreeEntity.F_SQL_DELFLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT);
 		return wrapper;
 	}
+
 
 	@Override
 	public Integer countByParentId(String parentId) {

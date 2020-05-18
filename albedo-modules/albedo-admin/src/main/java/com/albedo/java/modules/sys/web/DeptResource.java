@@ -68,7 +68,7 @@ public class DeptResource extends BaseResource {
 	 */
 	@GetMapping(value = "/tree")
 	public R tree(DeptQueryCriteria deptQueryCriteria) {
-		DataScope dataScope = SecurityUtil.getUser().getDataScope();
+		DataScope dataScope = SecurityUtil.getDataScope();
 		if (!dataScope.isAll()) {
 			deptQueryCriteria.setDeptIds(dataScope.getDeptIds());
 		}

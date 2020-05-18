@@ -13,7 +13,6 @@ import java.util.Set;
 
 public interface TableService extends DataService<Table, TableDto, String> {
 
-	void save(TableDto tableDto);
 
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	boolean checkTableName(String tableName);

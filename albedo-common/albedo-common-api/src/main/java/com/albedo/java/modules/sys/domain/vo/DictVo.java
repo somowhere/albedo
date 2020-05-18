@@ -37,7 +37,7 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class DictVo extends TreeVo implements TreeNodeAware<DictVo> {
+public class DictVo extends TreeVo<DictVo> implements TreeNodeAware<DictVo> {
 
 	private static final long serialVersionUID = 1L;
 	/**
@@ -53,8 +53,6 @@ public class DictVo extends TreeVo implements TreeNodeAware<DictVo> {
 	@NotNull
 	@DictType(DictNameConstants.SYS_FLAG)
 	private Integer available;
-
-	private List<DictVo> children;
 
 
 }

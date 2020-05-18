@@ -8,7 +8,7 @@
 - 基于数据驱动视图的理念封装 Element-ui，即使没有 vue 的使用经验也能快速上手  
 - 提供 lambda 、stream api 、webflux 的生产实践   
 - 微服务版本 <a href="https://github.com/somowhere/albedo-cloud">albedo-cloud</a>  
-- 历史版本移步 <a href="https://github.com/somowhere/albedo-boot-1v">1.3.1-SNAPSHOT</a>   
+- 历史版本移步 <a href="https://github.com/somowhere/albedo-1v">1.3.1-SNAPSHOT</a>   
 
    
 ![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/Snipaste_2019-08-08_16-46-21.png)   
@@ -65,7 +65,7 @@ albedo
 1. 具备运行环境：JDK1.8、Maven3.0+、MySql8+或Oracle10g+。
 2. 导入ide前，安装lombok插件
 3. 运行albedo.sql脚本初始化数据库,修改albedo-admin src\main\resources\config\application-dev.yml文件中的数据库设置参数。
-4. 在albedo-boot目录下执行mvn clean install 
+4. 在albedo目录下执行mvn clean install 
 5. 在albedo-ui目录下执行 npm run pre && npm run build 生成dist目录
 6. 启动redis 127.0.0.1 6379 
 7. 最高管理员账号，用户名：admin 密码：admin 

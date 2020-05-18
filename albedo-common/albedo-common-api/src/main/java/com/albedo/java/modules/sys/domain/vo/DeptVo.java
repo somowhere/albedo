@@ -35,7 +35,7 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class DeptVo extends TreeVo implements TreeNodeAware<DeptVo> {
+public class DeptVo extends TreeVo<DeptVo> implements TreeNodeAware<DeptVo> {
 
 	/**
 	 * 是否启用

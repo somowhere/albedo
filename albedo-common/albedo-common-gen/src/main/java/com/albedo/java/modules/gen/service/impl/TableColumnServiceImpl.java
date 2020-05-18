@@ -22,7 +22,7 @@ public class TableColumnServiceImpl extends
 	DataServiceImpl<TableColumnRepository, TableColumn, TableColumnDto, String> implements TableColumnService {
 
 	List<TableColumn> findAllByGenTableIdOrderBySort(String id) {
-		return list(Wrappers.<TableColumn>query().eq(TableColumn.F_GENTABLEID, id)
+		return list(Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID, id)
 			.orderByAsc(TableColumn.F_SORT));
 	}
 

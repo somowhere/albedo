@@ -54,10 +54,23 @@ public interface MenuService extends TreeService<Menu, MenuDto> {
 	 */
 	void removeMenuById(Set<String> ids);
 
-
+	/**
+	 *
+	 * @param schemeDto
+	 * @return
+	 */
 	boolean saveByGenScheme(GenSchemeDto schemeDto);
 
+	/**
+	 *
+	 * @param menuSortDto
+	 */
 	void sortUpdate(MenuSortDto menuSortDto);
 
+	/**
+	 *
+	 * @param menuQueryCriteria
+	 * @return
+	 */
 	IPage<MenuVo> findTreeList(MenuQueryCriteria menuQueryCriteria);
 }
