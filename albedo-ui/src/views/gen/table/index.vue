@@ -34,10 +34,29 @@
           icon="el-icon-plus"
           plain
           size="mini"
-          type="warning"
+          type="primary"
           @click="handleEdit"
         >新增
         </el-button>
+        <el-tooltip
+          slot="left"
+          class="item"
+          effect="dark"
+          content="数据库中表字段变动时使用该功能"
+          placement="top-start"
+        >
+          <el-button
+            v-permission="permission.edit"
+            :disabled="crud.selections.length !== 1"
+            class="filter-item"
+            icon="el-icon-refresh"
+            plain
+            size="mini"
+            type="primary"
+            @click="handleRefreshColumn"
+          >同步
+          </el-button>
+        </el-tooltip>
       </crudOperation>
     </div>
     <!--Form表单-->
@@ -127,7 +146,7 @@ export default {
   name: 'Timing',
   components: { pagination, crudOperation, udOperation, rrOperation },
   cruds() {
-    return CRUD({ title: '业务表管理', url: '/gen/table/', crudMethod: { ...crudTable }})
+    return CRUD({ title: '业务表管理', crudMethod: { ...crudTable }})
   },
   mixins: [presenter(), header(), crud()],
   data() {
@@ -166,6 +185,10 @@ export default {
       } else {
         this.showEditForm({ id: row.id })
       }
+    },
+    handleRefreshColumn() {
+      crudTable.refreshColumn(this.crud.selections[0].id).then(response => {
+      })
     },
     showEditForm(params) {
       this.dialogBeforeFormVisible = false

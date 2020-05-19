@@ -1,190 +1,53 @@
 <template>
   <div class="ace-container">
-    <div ref="ace" class="ace-editor" />
-
-    <div v-show="toggle" class="config-panel">
-      <div>
-        <div class="item">
-          <label class="title">语言</label>
-          <el-select v-model="modePath" class="value" size="mini" value-key="name" @change="handleModelPathChange">
-            <el-option
-              v-for="mode in modeArray"
-              :key="mode.name"
-              :label="mode.name"
-              :value="mode.path"
-            />
-          </el-select>
-        </div>
-
-        <div class="item">
-          <label class="title">换行</label>
-          <el-select v-model="wrap" class="value" size="mini" value-key="name" @change="handleWrapChange">
-            <el-option
-              v-for="item in wrapArray"
-              :key="item.name"
-              :label="item.name"
-              :value="item.value"
-            />
-          </el-select>
-        </div>
-      </div>
-    </div>
-
-    <div class="bookmarklet" @click="toggleConfigPanel" />
+    <editor v-model="content" :lang="lang" theme="monokai" :height="height" :options="{readOnly: true, fontSize: 16}" @init="editorInit" />
   </div>
 </template>
 
 <script>
-import ace from 'ace-builds'
-import 'ace-builds/src-noconflict/snippets/javascript'
-import 'ace-builds/src-noconflict/snippets/html'
-import 'ace-builds/src-noconflict/snippets/css'
-import 'ace-builds/src-noconflict/snippets/scss'
-import 'ace-builds/src-noconflict/snippets/json'
-import 'ace-builds/src-noconflict/snippets/java'
-import 'ace-builds/src-noconflict/snippets/text'
-import 'ace-builds/webpack-resolver'
-import 'ace-builds/src-noconflict/ext-language_tools'
-import 'ace-builds/src-noconflict/theme-monokai'
-import 'ace-builds/src-noconflict/mode-javascript'
-
-// const themeArray = [{
-//   name: 'monokai',
-//   path: 'ace/theme/monokai'
-// }]
-
-const wrapArray = [{
-  name: '开启',
-  value: true
-}, {
-  name: '关闭',
-  value: false
-}]
-
-const modeArray = [{
-  name: 'JavaScript',
-  path: 'ace/mode/javascript'
-}, {
-  name: 'HTML',
-  path: 'ace/mode/html'
-}, {
-  name: 'CSS',
-  path: 'ace/mode/css'
-}, {
-  name: 'SCSS',
-  path: 'ace/mode/scss'
-}, {
-  name: 'Json',
-  path: 'ace/mode/json'
-}, {
-  name: 'Java',
-  path: 'ace/mode/java'
-}, {
-  name: 'Text',
-  path: 'ace/mode/text'
-}]
 
 export default {
+  components: {
+    editor: require('vue2-ace-editor')
+  },
   props: {
-    value: {
+    content: {
+      type: String,
+      required: true
+    },
+    lang: {
       type: String,
       required: true
     }
   },
   data() {
     return {
-      aceEditor: null,
-      toggle: false,
-      wrap: true,
-      themePath: 'ace/theme/monokai',
-      modePath: 'ace/mode/java',
-      modeArray: modeArray,
-      wrapArray: wrapArray
+      height: document.documentElement.clientHeight - 400
     }
   },
   watch: {
-    value: function(n, o) {
-      this.aceEditor.setValue(n)
-    }
   },
   mounted() {
-    this.init()
+    const that = this
+    window.onresize = function temp() {
+      that.height = document.documentElement.clientHeight - 400
+    }
   },
   methods: {
-    init() {
-      this.aceEditor = ace.edit(this.$refs.ace, {
-        maxLines: 60,
-        minLines: 20,
-        fontSize: 14,
-        value: this.value ? this.value : '',
-        theme: this.themePath,
-        mode: this.modePath,
-        wrap: this.wrap,
-        tabSize: 4
-      })
-      // 激活自动提示
-      this.aceEditor.setOptions({
-        enableSnippets: true,
-        enableLiveAutocompletion: true,
-        enableBasicAutocompletion: true
-      })
-      this.aceEditor.getSession().on('change', this.change)
-    },
-    toggleConfigPanel() {
-      this.toggle = !this.toggle
-    },
-    change() {
-      this.$emit('input', this.aceEditor.getSession().getValue())
-    },
-    handleModelPathChange(modelPath) {
-      this.aceEditor.getSession().setMode(modelPath)
-    },
-    handleWrapChange(wrap) {
-      this.aceEditor.getSession().setUseWrapMode(wrap)
+    editorInit: function() {
+      require('brace/ext/language_tools') // language extension prerequsite...
+      require('brace/mode/html')
+      require('brace/mode/java')
+      require('brace/mode/javascript') // language
+      require('brace/mode/less')
+      require('brace/theme/chrome')
+      require('brace/theme/dawn')
+      require('brace/theme/monokai')
+      require('brace/snippets/javascript') // snippet
     }
   }
 }
 </script>
 
 <style lang='scss' scoped>
-  .ace-container {
-    position: relative;
-
-    .config-panel {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      width: 50%;
-      height: 100%;
-      overflow: scroll;
-      box-shadow: grey -5px 2px 3px;
-      background-color: rgba(255, 255, 255, 0.5);
-      z-index: 1;
-
-      .item {
-        margin: 10px auto;
-        text-align: center;
-
-        .title {
-          color: white;
-          margin: 0 10px;
-          font-size: 14px;
-        }
-      }
-    }
-
-    .bookmarklet {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      width: 20px;
-      height: 20px;
-      z-index: 2;
-      cursor: pointer;
-      border-width: 9px;
-      border-style: solid;
-      border-color: lightblue gray gray rgb(206, 173, 230);
-      border-image: initial;
-    }
-  }
 </style>

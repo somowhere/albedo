@@ -62,10 +62,13 @@
         </el-form-item>
         <el-form-item label="Cron表达式" prop="cronExpression" :rules="[{ required: true, message: '请选择Cron表达式', trigger: 'blur' }]">
           <el-input v-model="form.cronExpression" style="width: 220px;" />
+          <div>
+            <el-tag type="info" size="mini">Cron表达式</el-tag>
+          </div>
         </el-form-item>
         <el-form-item label="是否并发执行" :rules="[{ required: true, message: '请选择是否并发执行', trigger: 'change' }]">
           <el-radio-group v-model="form.concurrent" style="width: 220px">
-            <el-radio-button v-for="item in flagOptions" :key="item.value" :label="item.value">{{ item.label }}</el-radio-button>
+            <el-checkbox-button v-for="item in flagOptions" :key="item.value" :label="item.value">{{ item.label }}</el-checkbox-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="执行错误策略" :rules="[{ required: true, message: '请选择计划执行错误策略', trigger: 'change' }]">
@@ -205,7 +208,7 @@ export default {
   name: 'Timing',
   components: { Log, pagination, crudOperation, rrOperation },
   cruds() {
-    return CRUD({ title: '定时任务', url: '/quartz/job', crudMethod: { ...crudJob }})
+    return CRUD({ title: '定时任务', crudMethod: { ...crudJob }})
   },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   data() {
@@ -231,9 +234,7 @@ export default {
     this.jobGroupOptions = this.dicts['quartz_job_group']
     this.jobStatusOptions = this.dicts['quartz_job_status']
     this.misfirePolicyOptions = this.dicts['quartz_misfire_policy']
-
     this.flagOptions = this.dicts['sys_flag']
-    console.log(this.jobStatusOptions)
   },
   methods: {
     // 执行

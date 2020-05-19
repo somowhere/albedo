@@ -1,5 +1,12 @@
 import request from '@/utils/request'
+import qs from 'qs'
 
+export function page(params) {
+  return request({
+    url: '/gen/scheme/?' + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
 export function save(obj) {
   return request({
     url: '/gen/scheme/',
@@ -54,5 +61,5 @@ export function previewCode(id) {
   })
 }
 
-export default { save, del, get, genMenu, genCode, previewCode, findFormData }
+export default { page, save, del, get, genMenu, genCode, previewCode, findFormData }
 

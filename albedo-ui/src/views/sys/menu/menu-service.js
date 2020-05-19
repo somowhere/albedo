@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import qs from 'qs'
 
 export function getMenuTree(query) {
   return request({
@@ -7,17 +8,18 @@ export function getMenuTree(query) {
     params: query
   })
 }
+
+export function page(params) {
+  return request({
+    url: '/sys/menu/?' + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
+
 export function get(id) {
   return request({
     url: '/sys/menu/' + id,
     method: 'get'
-  })
-}
-export function pageMenu(params) {
-  return request({
-    url: '/sys/menu/',
-    method: 'get',
-    params
   })
 }
 export function buildMenus() {
@@ -51,4 +53,4 @@ export function sortUpdate(data) {
   })
 }
 
-export default { get, save, del, getMenuTree, pageMenu, sortUpdate }
+export default { page, get, save, del, getMenuTree, sortUpdate }

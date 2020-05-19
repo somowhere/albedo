@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import qs from 'qs'
 
 export function getDepts(query) {
   return request({
@@ -7,11 +8,11 @@ export function getDepts(query) {
     params: query
   })
 }
-export function pageDept(params) {
+
+export function page(params) {
   return request({
-    url: '/sys/dept/',
-    method: 'get',
-    params
+    url: '/sys/dept/?' + qs.stringify(params, { indices: false }),
+    method: 'get'
   })
 }
 
@@ -46,4 +47,4 @@ export function lock(ids) {
   })
 }
 
-export default { save, lock, del, get, getDepts, pageDept }
+export default { page, save, lock, del, get, getDepts }

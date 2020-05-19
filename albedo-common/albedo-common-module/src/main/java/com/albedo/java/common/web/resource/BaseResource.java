@@ -14,22 +14,5 @@ import java.net.URLEncoder;
  */
 public class BaseResource extends GeneralResource {
 
-	/**
-	 * 输出到客户端
-	 *
-	 * @param fileName 输出文件名
-	 */
-	public void write(HttpServletResponse response, SXSSFWorkbook wb, String fileName) {
-		try {
-			response.reset();
-			response.setContentType("application/octet-stream; charset=utf-8");
-			response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, CommonConstants.UTF8));
-			wb.write(response.getOutputStream());
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
-	}
-
 
 }

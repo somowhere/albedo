@@ -154,7 +154,7 @@ export default {
   name: 'Dict',
   components: { Treeselect, crudOperation, rrOperation, udOperation },
   cruds() {
-    return CRUD({ title: '字典', url: '/sys/dict/', crudMethod: { ...crudDict }})
+    return CRUD({ title: '字典', crudMethod: { ...crudDict }})
   },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   data() {
@@ -187,15 +187,6 @@ export default {
         dict.children = res.data
         this.dictTreeData.push(dict)
       })
-    },
-    getDicts(tree, treeNode, resolve) {
-      const params = this.crud.getQueryParams()
-      params.parentId = tree.id
-      setTimeout(() => {
-        crudDict.pageDict(params).then(res => {
-          resolve(res.data.records)
-        })
-      }, 100)
     },
     // 提交前的验证
     [CRUD.HOOK.afterValidateCU]() {

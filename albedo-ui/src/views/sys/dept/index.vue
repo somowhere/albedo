@@ -140,7 +140,7 @@ export default {
   name: 'Dept',
   components: { Treeselect, crudOperation, rrOperation, udOperation },
   cruds() {
-    return CRUD({ title: '部门', url: '/sys/dept/', crudMethod: { ...crudDept }})
+    return CRUD({ title: '部门', crudMethod: { ...crudDept }})
   },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   data() {

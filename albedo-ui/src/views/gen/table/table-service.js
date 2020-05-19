@@ -1,4 +1,12 @@
 import request from '@/utils/request'
+import qs from 'qs'
+
+export function page(params) {
+  return request({
+    url: '/gen/table/?' + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
 
 export function save(data) {
   return request({
@@ -36,5 +44,11 @@ export function findFormData(query) {
     params: query
   })
 }
+export function refreshColumn(id) {
+  return request({
+    url: '/gen/table/refresh-column/' + id,
+    method: 'put'
+  })
+}
 
-export default { del, save, get, findFormData, findSelect }
+export default { page, del, save, get, findFormData, findSelect, refreshColumn }

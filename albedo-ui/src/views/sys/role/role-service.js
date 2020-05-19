@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import qs from 'qs'
 
 // 获取所有的Role
 export function getAll() {
@@ -16,6 +17,12 @@ export function save(data) {
   })
 }
 
+export function page(params) {
+  return request({
+    url: '/sys/role/?' + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
 export function get(id) {
   return request({
     url: '/sys/role/' + id,
@@ -54,4 +61,4 @@ export function editMenu(data) {
   })
 }
 
-export default { save, lock, del, get, editMenu, getLevel }
+export default { page, save, lock, del, get, editMenu, getLevel }

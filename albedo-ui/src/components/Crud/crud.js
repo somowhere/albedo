@@ -1,4 +1,3 @@
-import { initData } from '@/api/data'
 import commonUtil from '@/utils/common'
 import Vue from 'vue'
 
@@ -17,8 +16,6 @@ function CRUD(options) {
     idField: 'id',
     // 标题
     title: '',
-    // 请求数据的url
-    url: '',
     // 表格数据
     data: [],
     // 选择项
@@ -136,7 +133,7 @@ function CRUD(options) {
       return new Promise((resolve, reject) => {
         crud.loading = true
         // 请求数据
-        initData(crud.url, crud.getQueryParams()).then(response => {
+        crud.crudMethod.page(crud.getQueryParams()).then(response => {
           const table = crud.getTable()
           if (table.lazy) { // 懒加载子节点数据，清掉已加载的数据
             table.store.states.treeData = {}

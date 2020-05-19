@@ -32,4 +32,6 @@ public interface TableService extends DataService<Table, TableDto, String> {
 	Map<String, Object> findFormData(TableFromDto tableFromDto);
 
 	void delete(Set<String> ids);
+
+	void refreshColumn(String id);
 }

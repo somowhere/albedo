@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { toAliPay } from '@/api/tools/alipay'
+import { toAliPay } from '@/views/tool/alipay/alipay-service'
 export default {
   data() {
     return {

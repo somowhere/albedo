@@ -35,6 +35,7 @@
           icon="el-icon-info"
           plain
           size="mini"
+          type="primary"
           @click="handleGenMenuDialog"
         >生成菜单
         </el-button>
@@ -46,9 +47,21 @@
           icon="el-icon-info"
           plain
           size="mini"
+          type="primary"
           @click="handleCodePreviewDialog"
         >代码预览
         </el-button>
+        <el-button
+          slot="right"
+          v-permission="[permission.code]"
+          :disabled="crud.selections.length !== 1"
+          class="filter-item"
+          icon="el-icon-position"
+          plain
+          size="mini"
+          type="primary"
+          @click="handleGenCodeDialog"
+        >生成代码</el-button>
       </crudOperation>
     </div>
     <!--表单渲染-->
@@ -175,23 +188,13 @@
         align="center"
         fixed="right"
         label="操作"
-        width="125"
+        width="185"
       >
         <template slot-scope="scope">
           <udOperation
             :data="scope.row"
             :permission="permission"
-          >
-            <el-button
-              slot="left"
-              v-permission="[permission.edit]"
-              icon="el-icon-edit"
-              plain
-              size="mini"
-              type="primary"
-              @click="handleGenCodeDialog(scope.row)"
-            />
-          </udOperation>
+          />
         </template>
       </el-table-column>
     </el-table>
@@ -230,8 +233,8 @@
       width="90%"
     >
       <el-tabs>
-        <el-tab-pane v-for="(value, key) in tabCodePreviewMap" :key="key" :label="key">
-          <Ace ref="aceEditor" :value="value" />
+        <el-tab-pane v-for="(content, key) in tabCodePreviewMap" :key="key" :label="key">
+          <Ace :content="content" :lang="key.indexOf('.java')!==-1 ? 'java' : key.indexOf('.js')!==-1 ? 'javascript' : 'html'" />
         </el-tab-pane>
       </el-tabs>
     </el-dialog>
@@ -273,14 +276,13 @@ export default {
   name: 'Scheme',
   components: { Treeselect, crudOperation, rrOperation, udOperation, pagination, Ace },
   cruds() {
-    return CRUD({ title: '生成方案', url: '/gen/scheme/', crudMethod: { ...crudScheme }})
+    return CRUD({ title: '生成方案', crudMethod: { ...crudScheme }})
   },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   // 数据字典
   data() {
     // 自定义验证
     return {
-      currentRow: {},
       tabCodePreviewMap: {},
       viewTypeList: [],
       categoryList: [],
@@ -328,19 +330,19 @@ export default {
       })
       return false
     },
-    handleGenCodeDialog(row) {
-      this.currentRow = row
+    handleGenCodeDialog() {
       this.dialogGenCodeVisible = true
     },
     handleGenCode(replaceFile) {
-      if (validate.checkNull(this.currentRow) || validate.checkNull(this.currentRow.id)) {
+      const select = this.crud.selections
+      if (select.length !== 1 || validate.checkNull(select[0]) || validate.checkNull(select[0].id)) {
         this.$message({
           message: '无法获取选中信息',
           type: 'warning'
         })
         return
       }
-      crudScheme.genCode({ id: this.currentRow.id, replaceFile: replaceFile }).then(response => {
+      crudScheme.genCode({ id: select[0].id, replaceFile: replaceFile }).then(response => {
         this.dialogGenCodeVisible = false
         this.crud.refresh()
       })

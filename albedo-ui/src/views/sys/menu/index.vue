@@ -245,7 +245,7 @@ export default {
   name: 'Menu',
   components: { Treeselect, IconSelect, crudOperation, rrOperation, udOperation },
   cruds() {
-    return CRUD({ name: '菜单', url: '/sys/menu', crudMethod: { ...crudMenu }})
+    return CRUD({ name: '菜单', crudMethod: { ...crudMenu }})
   },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   data() {
@@ -283,7 +283,7 @@ export default {
       const params = this.crud.getQueryParams()
       params.parentId = tree.id
       setTimeout(() => {
-        crudMenu.pageMenu(params).then(res => {
+        crudMenu.page(params).then(res => {
           resolve(res.data.records)
         })
       }, 100)

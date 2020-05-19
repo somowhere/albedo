@@ -201,7 +201,7 @@ public class ${ClassName}ResourceIntTest {
 </#list>
 
 <#list table.columnList as column>
-    <#if column.edit && !column.null && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'description')>
+    <#if column.edit && !column.null && ((column.lsisNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'description')>
     @Test
     @Transactional
     public void check${column.simpleJavaField?cap_first}IsRequired() throws Exception {

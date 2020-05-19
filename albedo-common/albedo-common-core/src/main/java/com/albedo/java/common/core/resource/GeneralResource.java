@@ -1,7 +1,10 @@
 package com.albedo.java.common.core.resource;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.URLUtil;
 import com.albedo.java.common.core.util.EscapeUtil;
+import com.albedo.java.common.core.util.StringUtil;
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.WebDataBinder;
@@ -16,18 +19,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Validator;
 import java.beans.PropertyEditorSupport;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by somewhere on 2017/3/23.
  */
 public class GeneralResource {
 
-	/*** 返回消息状态头 type */
-	public static final String CODE = "code";
-	/*** 返回消息内容头 msg */
-	public static final String MSG = "msg";
-	/*** 返回消息内容头 msg */
-	public static final String DATA = "data";
 	protected static Logger logger = LoggerFactory.getLogger(GeneralResource.class);
 	/**
 	 * ThreadLocal确保高并发下每个请求的request，response都是独立的
@@ -96,7 +94,12 @@ public class GeneralResource {
 		// Date 类型转换
 		binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
 			public void setAsText(String text) {
-				setValue(DateUtil.parse(text).toJdkDate());
+				String decode = URLUtil.decode(text);
+				try{
+					setValue(DateUtil.parse(decode).toJdkDate());
+				}catch (Exception e){
+					setValue(DateUtil.calendar(Long.parseLong(decode)).getTime());
+				}
 			}
 		});
 	}

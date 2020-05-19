@@ -9,7 +9,7 @@
  */
 package ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>;
 
-import com.albedo.java.common.persistence.service.DtoService;
+import com.albedo.java.common.persistence.service.DataService;
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
 import ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
 <#if (table.compositeId)!>

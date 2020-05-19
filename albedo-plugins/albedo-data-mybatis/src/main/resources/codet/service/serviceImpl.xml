@@ -9,10 +9,13 @@
  */
 package ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.impl;
 
+import com.albedo.java.common.core.exception.EntityExistException;
+import com.albedo.java.common.core.util.StringUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.albedo.java.common.persistence.service.impl.DtoServiceImpl;
+import com.albedo.java.common.persistence.service.impl.DataServiceImpl;
 import ${packageName}.${moduleName}.service.${ClassName}Service;
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
 import ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
@@ -29,25 +32,29 @@ import ${packageName}.${moduleName}.repository.${ClassName}Repository;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class ${ClassName}ServiceImpl extends DataServiceImpl<${ClassName}Repository, ${ClassName}, ${ClassName}Dto, String> implements ${ClassName}Service{
-		<#list table.columnList as column>
-			<#if column.unique && !column.pk>public Boolean exit${ClassName}By${column.simpleJavaField?cap_first}(${ClassName}Dto ${className}Dto) {
+
+	@Override
+	public void saveOrUpdate(${ClassName}Dto ${className}Dto) {
+<#list table.columnList as column>
+	<#if column.unique && !column.pk>// ${column.simpleJavaField} before comparing with database
+		if (exit${ClassName}By${column.simpleJavaField?cap_first}(${className}Dto)) {
+			throw new EntityExistException(${ClassName}Dto.class, "${column.simpleJavaField}", ${className}Dto.get${column.simpleJavaField?cap_first}());
+		}
+	</#if>
+</#list>
+		super.saveOrUpdate(${className}Dto);
+	}
+
+<#list table.columnList as column>
+	<#if column.unique && !column.pk>
+	public Boolean exit${ClassName}By${column.simpleJavaField?cap_first}(${ClassName}Dto ${className}Dto) {
 		return getOne(Wrappers.<${ClassName}>query()
 			.ne(StringUtil.isNotEmpty(${className}Dto.getId()), ${ClassName}Dto.F_ID, ${className}Dto.getId())
 			.eq(${ClassName}Dto.F_${column.constantJavaField}, ${className}Dto.get${column.simpleJavaField?cap_first}())) != null;
 	}
-			</#if>
-		</#list>
-	@Override
-	public void saveOrUpdate(${ClassName}Dto ${className}Dto) {
-		<#list table.columnList as column>
-			<#if column.unique && !column.pk>// ${column.simpleJavaField} before comparing with database
-		if (exit${ClassName}By${column.simpleJavaField?cap_first}(${className}Dto)) {
-			throw new EntityExistException(${ClassName}Dto.class, "${column.simpleJavaField}", ${className}Dto.get${column.simpleJavaField?cap_first}());
-		}
-			</#if>
-		</#list>
-		super.saveOrUpdate(${className}Dto);
-	}
+	</#if>
+</#list>
+
 }
 ]]>
 	</content>

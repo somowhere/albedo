@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { send } from '@/api/tools/email'
+import { send } from '@/views/tool/email/email-service'
 import { upload } from '@/utils/upload'
 import validate from '@/utils/validate'
 import { mapGetters } from 'vuex'

@@ -14,8 +14,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * ${functionName}QueryCriteria ${functionNameSimple}
@@ -27,10 +26,10 @@ public class ${ClassName}QueryCriteria implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	<#list table.columnList as column>
-		<#if column.query>
+		<#if column.query><#assign flag = false>
 	/** F_${column.constantJavaField} ${column.nameAndTitle} */
-	@Query
-	private String ${column.simpleJavaField};
+	@Query(<#if column.name != column.simpleJavaField><#assign flag = true>propName = "${column.name}"</#if><#if column.queryType?? && column.queryType != "" && column.queryType != "eq"><#if flag>, </#if>operator = Query.Operator.${column.queryType}</#if>)
+	private <#if column.queryType?? && (column.queryType == "between" || column.queryType == "in")>List<${column.simpleJavaType}><#else>${column.simpleJavaType}</#if> ${column.simpleJavaField};
 		</#if>
 	</#list>
 

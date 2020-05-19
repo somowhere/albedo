@@ -10,6 +10,9 @@
 package ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.impl;
 
 
+import com.albedo.java.common.core.exception.EntityExistException;
+import com.albedo.java.common.core.util.StringUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

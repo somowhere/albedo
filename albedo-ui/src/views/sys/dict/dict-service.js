@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import qs from 'qs'
 
 export function getDicts(query) {
   return request({
@@ -7,14 +8,13 @@ export function getDicts(query) {
     params: query
   })
 }
-export function pageDict(params) {
+
+export function page(params) {
   return request({
-    url: '/sys/dict/',
-    method: 'get',
-    params
+    url: '/sys/dict/?' + qs.stringify(params, { indices: false }),
+    method: 'get'
   })
 }
-
 export function get(id) {
   return request({
     url: '/sys/dict/' + id,
@@ -46,4 +46,4 @@ export function lock(ids) {
   })
 }
 
-export default { save, lock, del, get, getDicts, pageDict }
+export default { page, save, lock, del, get, getDicts }

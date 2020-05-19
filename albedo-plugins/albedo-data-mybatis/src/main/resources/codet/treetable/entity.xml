@@ -61,16 +61,17 @@ public class ${ClassName} extends TreeEntity<${ClassName}> {
 	<#elseif column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
 	@TableField(exist = false)
 	private ${column.simpleJavaType} ${column.simpleJavaField};
-	@Column(name = "${column.name}")
+	@TableField("${column.name}")
 	private String ${column.simpleJavaField}Id;
 	<#else>${column.hibernateValidatorExprssion}<#if column.dictType?? && column.dictType != "">@DictType("${column.dictType}")</#if>
+	<#if column.name != column.simpleJavaField>@TableField("${column.name}")</#if>
 	private ${column.simpleJavaType} ${column.simpleJavaField};
 			</#if>
 		</#if>
 	</#list>
 	<#list table.childList as c>
 	@TableField(exist = false)
-	private List<${c.className}> ${c.className?uncap_first}List = Lists.newArrayList();
+	private List<${column.className}> ${column.className?uncap_first}List = Lists.newArrayList();
 	</#list>
 	//columns END
 </#macro>

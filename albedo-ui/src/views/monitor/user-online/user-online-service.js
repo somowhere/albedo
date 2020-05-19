@@ -1,4 +1,12 @@
 import request from '@/utils/request'
+import qs from 'qs'
+
+export function page(params) {
+  return request({
+    url: '/sys/user-online/?' + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
 
 export function del(ids) {
   return request({
@@ -16,4 +24,4 @@ export function batchForceLogout(ids) {
   })
 }
 
-export default { del, batchForceLogout }
+export default { page, del, batchForceLogout }

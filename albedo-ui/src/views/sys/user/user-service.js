@@ -18,6 +18,13 @@ export function del(ids) {
   })
 }
 
+export function page(params) {
+  return request({
+    url: '/sys/user/?' + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
+
 export function get(id) {
   return request({
     url: '/sys/user/' + id,
@@ -73,5 +80,5 @@ export function updateEmail(form) {
   })
 }
 
-export default { save, lock, del, get, download }
+export default { page, save, lock, del, get, download }
 

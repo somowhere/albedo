@@ -59,13 +59,14 @@ public class ${ClassName} extends IdEntity<${ClassName}> {
 	@TableField(exist = false)
 	private ${column.simpleJavaType} ${column.simpleJavaField};
 	<#else>${column.hibernateValidatorExprssion}<#if column.dictType?? && column.dictType != "">@DictType("${column.dictType}")</#if>
+	<#if column.name != column.simpleJavaField>@TableField("${column.name}")</#if>
 	private ${column.simpleJavaType} ${column.simpleJavaField};
 			</#if>
 		</#if>
 	</#list>
 	<#list table.childList as c>
 	@TableField(exist = false)
-	private List<${c.className}> ${c.className?uncap_first}List = Lists.newArrayList();
+	private List<${column.className}> ${column.className?uncap_first}List = Lists.newArrayList();
 	</#list>
 	//columns END
 </#macro>

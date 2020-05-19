@@ -176,7 +176,6 @@ public class TableServiceImpl extends
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public List<TableColumnDto> findTableColumnList(TableDto tableDto) {
-		List<String[]> GenString = null;
 		List<TableColumnDto> list = null;
 		list = repository.findTableColumnList(tableDto);
 		Assert.notNull(list, StringUtil.toAppendStr("无法获取[", tableDto.getName(), "]表的列信息"));
@@ -252,5 +251,21 @@ public class TableServiceImpl extends
 			tableColumnService.deleteByTableId(id);
 			log.debug("Deleted TableDto: {}", entity);
 		});
+	}
+
+	@Override
+	public void refreshColumn(String id) {
+		TableDto tableDto = getOneDto(id);
+		Assert.notNull(tableDto, "对象 " + id + " 信息为空，操作失败");
+		getTableFormDb(tableDto);
+		Assert.isTrue(CollUtil.isNotEmpty(tableDto.getColumnList()), "对象 " + tableDto.getName() + " 列信息为空，操作失败");
+		tableColumnService.deleteByTableId(id);
+
+		Table table = new Table();
+		copyDtoToBean(tableDto, table);
+		for (TableColumn item : table.getColumnList()) {
+			item.setTableId(table.getId());
+		}
+		tableColumnService.saveOrUpdateBatch(table.getColumnList());
 	}
 }

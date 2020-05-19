@@ -1,6 +1,13 @@
 import request from '@/utils/request'
 import qs from 'qs'
 
+export function page(params) {
+  return request({
+    url: '/sys/log-operate/?' + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
+
 export function del(ids) {
   return request({
     url: '/sys/log-operate/',
@@ -17,5 +24,5 @@ export function download(params) {
   })
 }
 
-export default { del, download }
+export default { page, del, download }
 

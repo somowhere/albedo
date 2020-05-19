@@ -170,8 +170,7 @@ public class TableDto extends DataDto<String> {
 	@JSONField(serialize = false)
 	public List<String> getImportList() {
 		List<String> importList = Lists.newArrayList(
-			"com.baomidou.mybatisplus.annotation.*",
-			"com.albedo.java.common.core.annotation.SearchField"); // 引用列表
+			"com.baomidou.mybatisplus.annotation.*"); // 引用列表
 		if ("treeTable".equalsIgnoreCase(getCategory())) {
 			importList.add("com.albedo.java.common.persistence.domain.TreeEntity");
 			initImport(importList);
@@ -219,9 +218,6 @@ public class TableDto extends DataDto<String> {
 				addNoRepeatList(importList, "javax.validation.constraints.Email");
 			}
 
-			if (column.isUnique()) {
-				addNoRepeatList(importList, "com.albedo.java.common.core.annotation.SearchField");
-			}
 		}
 	}
 

@@ -17,6 +17,13 @@ export function del(ids) {
   })
 }
 
+export function page(params) {
+  return request({
+    url: '/quartz/job/?' + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
+
 export function get(id) {
   return request({
     url: '/quartz/job/' + id,
@@ -47,4 +54,4 @@ export function downloadLog(params) {
     responseType: 'blob'
   })
 }
-export default { del, updateStatus, run, save, get, downloadLog }
+export default { page, del, updateStatus, run, save, get, downloadLog }

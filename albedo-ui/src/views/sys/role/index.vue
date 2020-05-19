@@ -195,7 +195,7 @@ export default {
   name: 'Role',
   components: { Treeselect, pagination, crudOperation, rrOperation, udOperation },
   cruds() {
-    return CRUD({ title: '角色', url: '/sys/role/', sort: 'level,asc', crudMethod: { ...crudRole }})
+    return CRUD({ title: '角色', sort: 'level,asc', crudMethod: { ...crudRole }})
   },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   data() {

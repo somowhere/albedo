@@ -24,12 +24,10 @@ import router from './router/routers'
 import './assets/icons' // icon
 import './router/index' // permission control
 import 'echarts-gl'
-import ace from 'ace-builds'
 
 Vue.use(VueHighlightJS)
 Vue.use(mavonEditor)
 Vue.use(permission)
-Vue.use(ace)
 Vue.use(Element, {
   size: Cookies.get('size') || 'small' // set element-ui default size
 })

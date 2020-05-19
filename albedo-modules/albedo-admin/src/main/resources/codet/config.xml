@@ -91,7 +91,11 @@
 		<dict val="lt" name="&lt;"/>
 		<dict val="le" name="&lt;="/>
 		<dict val="like" name="like"/>
+		<dict val="likeLeft" name="likeLeft"/>
+		<dict val="likeRight" name="likeRight"/>
+		<dict val="notLike" name="notLike"/>
 		<dict val="in" name="in"/>
+		<dict val="notIn" name="notIn"/>
 		<dict val="between" name="between"/>
 	</queryType>
 	<!-- 字段显示类型 -->
