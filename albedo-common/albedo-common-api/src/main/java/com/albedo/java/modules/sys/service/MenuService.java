@@ -67,10 +67,4 @@ public interface MenuService extends TreeService<Menu, MenuDto> {
 	 */
 	void sortUpdate(MenuSortDto menuSortDto);
 
-	/**
-	 *
-	 * @param menuQueryCriteria
-	 * @return
-	 */
-	IPage<MenuVo> findTreeList(MenuQueryCriteria menuQueryCriteria);
 }

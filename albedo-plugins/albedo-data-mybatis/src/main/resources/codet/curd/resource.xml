@@ -60,6 +60,7 @@ public class ${ClassName}Resource extends BaseResource {
 
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_view')")
 	@GetMapping
+	@Log(value = "${functionName}", businessType = BusinessType.VIEW)
 	public R getPage(PageModel pm, ${ClassName}QueryCriteria ${className}QueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, ${className}QueryCriteria);
 		return R.buildOkData(service.page(pm, wrapper));

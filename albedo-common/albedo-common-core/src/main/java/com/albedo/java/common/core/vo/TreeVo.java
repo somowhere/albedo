@@ -37,10 +37,5 @@ public class TreeVo<T> extends DataVo<String> implements TreeNodeAware<T> {
 	private boolean leaf;
 
 	private List<T> children;
-	private boolean hasChildren;
 
-	public void setLeaf(boolean leaf) {
-		this.leaf = leaf;
-		this.hasChildren = !leaf;
-	}
 }

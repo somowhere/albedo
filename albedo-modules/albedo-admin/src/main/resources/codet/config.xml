@@ -53,7 +53,7 @@
 			<template>category-ref:treeTable_front</template>
 		</category>
 
-		<category val="treeTable_back" name="树结构表（一体）- 前端">
+		<category val="treeTable_back" name="树结构表（一体）- 后端">
 			<template>treetable/resource.xml</template>
 			<template>treetable/resourceIntTest.xml</template>
 			<template>treetable/repository.xml</template>

@@ -32,7 +32,13 @@ import ${packageName}.${moduleName}.repository.${ClassName}Repository;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class ${ClassName}ServiceImpl extends DataServiceImpl<${ClassName}Repository, ${ClassName}, ${ClassName}Dto, String> implements ${ClassName}Service{
-
+<#list table.columnList as column><#if column.unique && !column.pk>
+	public Boolean exit${ClassName}By${column.simpleJavaField?cap_first}(${ClassName}Dto ${className}Dto) {
+		return getOne(Wrappers.<${ClassName}>lambdaUpdate()
+			.ne(StringUtil.isNotEmpty(${className}Dto.getId()), ${ClassName}::getIdDto, ${className}Dto.getId())
+			.eq(${ClassName}::get${column.simpleJavaField?cap_first}, ${className}Dto.get${column.simpleJavaField?cap_first}())) != null;
+	}
+</#if></#list>
 	@Override
 	public void saveOrUpdate(${ClassName}Dto ${className}Dto) {
 <#list table.columnList as column>
@@ -44,16 +50,6 @@ public class ${ClassName}ServiceImpl extends DataServiceImpl<${ClassName}Reposit
 </#list>
 		super.saveOrUpdate(${className}Dto);
 	}
-
-<#list table.columnList as column>
-	<#if column.unique && !column.pk>
-	public Boolean exit${ClassName}By${column.simpleJavaField?cap_first}(${ClassName}Dto ${className}Dto) {
-		return getOne(Wrappers.<${ClassName}>query()
-			.ne(StringUtil.isNotEmpty(${className}Dto.getId()), ${ClassName}Dto.F_ID, ${className}Dto.getId())
-			.eq(${ClassName}Dto.F_${column.constantJavaField}, ${className}Dto.get${column.simpleJavaField?cap_first}())) != null;
-	}
-	</#if>
-</#list>
 
 }
 ]]>

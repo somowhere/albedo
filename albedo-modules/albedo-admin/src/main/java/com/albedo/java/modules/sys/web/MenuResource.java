@@ -26,7 +26,7 @@ import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.web.resource.BaseResource;
-import com.albedo.java.modules.sys.domain.Menu;
+import com.albedo.java.modules.sys.domain.dto.MenuDto;
 import com.albedo.java.modules.sys.domain.dto.MenuQueryCriteria;
 import com.albedo.java.modules.sys.domain.dto.MenuSortDto;
 import com.albedo.java.modules.sys.domain.vo.MenuTree;
@@ -78,7 +78,7 @@ public class MenuResource extends BaseResource {
 		SecurityUtil.getRoles()
 			.forEach(roleId -> all.addAll(menuService.findMenuByRoleId(roleId)));
 		List<MenuTree> menuTreeList = all.stream()
-			.filter(menuVo -> !Menu.TYPE_BUTTON.equals(menuVo.getType()))
+			.filter(menuVo -> !MenuDto.TYPE_BUTTON.equals(menuVo.getType()))
 			.sorted(Comparator.comparingInt(MenuVo::getSort))
 			.map(MenuTree::new)
 			.collect(Collectors.toList());
@@ -199,7 +199,7 @@ public class MenuResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('sys_menu_view')")
 	@Log(value = "菜单管理", businessType = BusinessType.VIEW)
 	public R<IPage<MenuVo>> findTreeList(MenuQueryCriteria menuQueryCriteria) {
-		List<MenuVo> menuVoList = menuService.list(menuService.getTreeWrapper(menuQueryCriteria)).stream()
+		List<MenuVo> menuVoList = menuService.findTreeList(menuQueryCriteria).stream()
 			.map(item -> BeanUtil.copyPropertiesByClass(item, MenuVo.class)).collect(Collectors.toList());
 		return R.buildOkData(new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(menuVoList)),
 			menuVoList.size()));

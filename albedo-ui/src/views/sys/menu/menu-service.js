@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 import qs from 'qs'
 
-export function getMenuTree(query) {
+export function getTree(query) {
   return request({
     url: '/sys/menu/tree',
     method: 'get',
@@ -53,4 +53,4 @@ export function sortUpdate(data) {
   })
 }
 
-export default { page, get, save, del, getMenuTree, sortUpdate }
+export default { page, get, save, del, getTree, sortUpdate }

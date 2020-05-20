@@ -143,19 +143,7 @@
       </div>
     </el-dialog>
     <!--表格渲染-->
-    <el-table
-      ref="table"
-      v-loading="crud.loading"
-      lazy
-      :load="getMenus"
-      :data="crud.data"
-      :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
-      row-key="id"
-      @select="crud.selectChange"
-      @select-all="crud.selectAllChange"
-      @selection-change="crud.selectionChangeHandler"
-      @sort-change="crud.sortChange"
-    >
+    <el-table ref="table" v-loading="crud.loading" :data="crud.data" :tree-props="{children: 'children', hasChildren: 'hasChildren'}" row-key="id" @select="crud.selectChange" @select-all="crud.selectAllChange" @selection-change="crud.selectionChangeHandler">
       <el-table-column type="selection" width="55" />
       <el-table-column :show-overflow-tooltip="true" label="菜单标题" prop="name" />
       <el-table-column align="center" label="图标" prop="icon" width="60px">
@@ -272,21 +260,12 @@ export default {
   methods: {
     // 新增与编辑前做的操作
     [CRUD.HOOK.afterToCU](crud, form) {
-      crudMenu.getMenuTree({ notId: form.id }).then(res => {
+      crudMenu.getTree({ notId: form.id }).then(res => {
         this.menus = []
         const menu = { id: -1, label: '顶级类目', children: [] }
         menu.children = res.data
         this.menus.push(menu)
       })
-    },
-    getMenus(tree, treeNode, resolve) {
-      const params = this.crud.getQueryParams()
-      params.parentId = tree.id
-      setTimeout(() => {
-        crudMenu.page(params).then(res => {
-          resolve(res.data.records)
-        })
-      }, 100)
     },
     updateSortData(id, sort) {
       const obj = this.sortData.find(item => {
@@ -302,16 +281,6 @@ export default {
       console.log(this.sortData)
     },
     editSort() {
-      // this.crud.data.forEach(item => {
-      //   sortData.push({id: item.id, sort: this.$refs["sort" + item.id].value})
-      // });
-      // let treeData = this.crud.getTable().store.states.treeData;
-      // for(var key in treeData){
-      //   let item = {id: key, sort: this.$refs["sort" + key].value};
-      //   if(!sortData.includes(item)){
-      //     sortData.push(item)
-      //   }
-      // }
       if (validate.checkNull(this.sortData)) {
         this.$message({
           message: '请编辑需要更新的排序',
@@ -331,8 +300,3 @@ export default {
 }
 </script>
 
-<style lang="scss" rel="stylesheet/scss" scoped>
-  /deep/ .el-input-number .el-input__inner {
-    text-align: left;
-  }
-</style>

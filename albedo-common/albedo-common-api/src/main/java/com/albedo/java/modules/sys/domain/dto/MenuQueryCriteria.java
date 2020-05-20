@@ -32,6 +32,7 @@ public class MenuQueryCriteria implements Serializable {
 
 	@Query(propName = "id", operator = Query.Operator.ne)
 	private String notId;
+	private String searchId;
 	@Query
 	private String parentId;
 

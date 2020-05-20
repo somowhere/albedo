@@ -174,7 +174,7 @@ function CRUD(options) {
     toEdit(data) {
       crud.status.edit = CRUD.STATUS.PREPARED
       crud.getDataStatus(crud.getDataId(data)).edit = CRUD.STATUS.PREPARED
-      if (!(callVmHook(crud, CRUD.HOOK.beforeToEdit, crud.form) && callVmHook(crud, CRUD.HOOK.beforeToCU, crud.form))) {
+      if (!(callVmHook(crud, CRUD.HOOK.beforeToEdit, crud.form) && callVmHook(crud, CRUD.HOOK.beforeToCU, crud.form, crud.getDataId(data)))) {
         return
       }
       crud.crudMethod.get(crud.getDataId(data)).then((res) => {
@@ -451,7 +451,7 @@ function CRUD(options) {
           crud.selectChange(selection, val)
         })
       } else {
-        crud.findVM('presenter').$refs['table'].clearSelection()
+        crud.getTable().clearSelection()
       }
     },
     /**
@@ -461,12 +461,10 @@ function CRUD(options) {
      */
     selectChange(selection, row) {
       // 如果selection中存在row代表是选中，否则是取消选中
-      if (selection.find(val => {
-        return crud.getDataId(val) === crud.getDataId(row)
-      })) {
+      if (selection.find(val => { return crud.getDataId(val) === crud.getDataId(row) })) {
         if (row.children) {
           row.children.forEach(val => {
-            crud.findVM('presenter').$refs['table'].toggleRowSelection(val, true)
+            crud.getTable().toggleRowSelection(val, true)
             selection.push(val)
             if (val.children) {
               crud.selectChange(selection, val)
@@ -485,7 +483,7 @@ function CRUD(options) {
     toggleRowSelection(selection, data) {
       if (data.children) {
         data.children.forEach(val => {
-          crud.findVM('presenter').$refs['table'].toggleRowSelection(val, false)
+          crud.getTable().toggleRowSelection(val, false)
           if (val.children) {
             crud.toggleRowSelection(selection, val)
           }
@@ -535,18 +533,20 @@ function CRUD(options) {
         if (!expanded) {
           return
         }
-        const lazyTreeNodeMap = table.store.states.lazyTreeNodeMap
-        const children = lazyTreeNodeMap[row.id]
-        row.children = children
-        children && children.forEach(ele => {
-          const id = crud.getDataId(ele)
-          if (that.dataStatus[id] === undefined) {
-            that.dataStatus[id] = {
-              delete: 0,
-              edit: 0
+        if (table.lazy) { // 懒加载子节点数据
+          const lazyTreeNodeMap = table.store.states.lazyTreeNodeMap
+          const children = lazyTreeNodeMap[row.id]
+          row.children = children
+          children && children.forEach(ele => {
+            const id = crud.getDataId(ele)
+            if (that.dataStatus[id] === undefined) {
+              that.dataStatus[id] = {
+                delete: 0,
+                edit: 0
+              }
             }
-          }
-        })
+          })
+        }
       })
     }
   }

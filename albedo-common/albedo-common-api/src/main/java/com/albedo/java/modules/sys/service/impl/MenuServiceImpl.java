@@ -26,6 +26,8 @@ import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.core.vo.TreeNode;
+import com.albedo.java.common.data.util.QueryWrapperUtil;
+import com.albedo.java.common.persistence.domain.TreeEntity;
 import com.albedo.java.common.persistence.service.impl.TreeServiceImpl;
 import com.albedo.java.modules.sys.domain.Menu;
 import com.albedo.java.modules.sys.domain.RoleMenu;
@@ -251,16 +253,4 @@ public class MenuServiceImpl extends
 		return super.findTreeNode(queryCriteria);
 	}
 
-	/**
-	 * 查询用户部门树
-	 *
-	 * @return
-	 */
-	@Override
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public IPage<MenuVo> findTreeList(MenuQueryCriteria menuQueryCriteria) {
-		List<MenuVo> menuVoList = repository.findMenuVoList(getTreeWrapper(menuQueryCriteria));
-		return new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(menuVoList)),
-			menuVoList.size());
-	}
 }

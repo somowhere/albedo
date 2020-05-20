@@ -2,7 +2,7 @@
 <template>
 	<name>entityForm</name>
 	<filePath>src/main/java/${packageName}/${moduleName}/domain/vo/${subModuleName}</filePath>
-	<fileName>${ClassName}Dto.java</fileName>
+	<fileName>${ClassName}Vo.java</fileName>
 	<content><![CDATA[
 /**
  * Copyright &copy; 2020 <a href="https://github.com/somowhere/albedo">albedo</a> All rights reserved.

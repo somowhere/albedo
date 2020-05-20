@@ -169,7 +169,7 @@
 <script>
 import crudRole from '@/views/sys/role/role-service'
 import { getDepts } from '@/views/sys/dept/dept-service'
-import { getMenuTree } from '@/views/sys/menu/menu-service'
+import { getTree } from '@/views/sys/menu/menu-service'
 import CRUD, { crud, form, header, presenter } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
@@ -251,7 +251,7 @@ export default {
     },
     // 获取所有菜单
     getMenus() {
-      getMenuTree().then(res => {
+      getTree().then(res => {
         this.menus = res.data
       })
     },

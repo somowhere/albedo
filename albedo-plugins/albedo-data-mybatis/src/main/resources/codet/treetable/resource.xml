@@ -10,27 +10,27 @@
 package ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleName}</#if>;
 
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.exception.RuntimeMsgException;
+import com.albedo.java.common.core.util.BeanUtil;
+import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.common.core.vo.PageModel;
-import com.albedo.java.common.core.vo.TreeQuery;
-import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.log.enums.BusinessType;
-import com.albedo.java.common.web.resource.TreeVoResource;
-import com.albedo.java.common.core.util.R;
-import com.albedo.java.common.log.annotation.Log;
+import com.albedo.java.common.web.resource.BaseResource;
 import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Vo;
 import ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
 import ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}QueryCriteria;
 import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.Lists;
-import org.springframework.http.MediaType;
+import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * ${functionName}Controller ${functionNameSimple}
@@ -39,10 +39,9 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping(value = "${r"${application.admin-path}"}/${urlPrefix}")
-public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${ClassName}Dto> {
-    public ${ClassName}Resource(${ClassName}Service service) {
-        super(service);
-    }
+@AllArgsConstructor
+public class ${ClassName}Resource extends BaseResource {
+	private final ${ClassName}Service service;
     /**
 	 * GET / : 获取数据 ${functionNameSimple}.
 	 *
@@ -58,12 +57,12 @@ public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${
     /**
 	 * GET / : 获取树型结构数据 ${functionNameSimple}.
 	 *
-	 * @param treeQuery
-	 * @return the ResponseEntity with status 200 (OK) and with body all ${className}
+	 * @param ${className}QueryCriteria
+	 * @return the ResponseEntity with status 200 (OK) and with body all tree ${className}
 	 */
 	@GetMapping(value = "/tree")
-	public R tree(${ClassName}QueryCriteria dictQueryCriteria) {
-		return R.buildOkData(${className}Service.findTreeNode(${className}QueryCriteria));
+	public R tree(${ClassName}QueryCriteria ${className}QueryCriteria) {
+		return R.buildOkData(service.findTreeNode(${className}QueryCriteria));
 	}
 	/**
 	 * GET / : 查询${functionNameSimple}.
@@ -75,7 +74,7 @@ public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_view')")
 	@Log(value = "${functionNameSimple}", businessType = BusinessType.VIEW)
 	public R<IPage<${ClassName}Vo>> findTreeList(${ClassName}QueryCriteria ${className}QueryCriteria) {
-		List<${ClassName}Vo> ${className}VoList = ${className}Service.list(${className}Service.getTreeWrapper(${className}QueryCriteria)).stream()
+		List<${ClassName}Vo> ${className}VoList = service.findTreeList(${className}QueryCriteria).stream()
 			.map(item -> BeanUtil.copyPropertiesByClass(item, ${ClassName}Vo.class)).collect(Collectors.toList());
 		return R.buildOkData(new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(${className}VoList)),
 			${className}VoList.size()));
@@ -87,7 +86,7 @@ public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${
 	 * @param {className}Vo
 	 */
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_edit')")
-	@PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping
 	@Log(value = "${functionName}", businessType = BusinessType.EDIT)
 	public R save(@Valid @RequestBody ${ClassName}Dto ${className}Vo) {
 		log.debug("REST request to save ${ClassName} : {}", ${className}Vo);

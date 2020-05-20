@@ -34,10 +34,13 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = true)
 public class MenuDto extends TreeDto {
 
-	public static final String TYPE_MENU = "0";
-	public static final String TYPE_BUTTON = "1";
-	public static final String F_PERMISSION = "permission";
 	private static final long serialVersionUID = 1L;
+	public static final String TYPE_CATALOG = "0";
+	public static final String TYPE_MENU = "1";
+	public static final String TYPE_BUTTON = "2";
+	public static final String F_SHOW = "show";
+	public static final String F_SQL_SHOW = "show";
+	public static final String F_PERMISSION = "permission";
 
 	/**
 	 * 菜单权限标识

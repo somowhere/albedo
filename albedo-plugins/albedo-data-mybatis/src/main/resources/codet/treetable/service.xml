@@ -10,10 +10,9 @@
 package ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>;
 
 
-import com.albedo.java.common.persistence.service.TreeVoService;
+import com.albedo.java.common.persistence.service.TreeService;
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
 import ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
-import ${packageName}.${moduleName}.repository<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Repository;
 
 
 /**
@@ -21,7 +20,7 @@ import ${packageName}.${moduleName}.repository<#if subModuleName != "">.${subMod
  * @author ${functionAuthor}
  * @version ${functionVersion}
  */
-public interface ${ClassName}Service extends TreeVoService<${ClassName}Repository, ${ClassName}, ${ClassName}Dto>{
+public interface ${ClassName}Service extends TreeService<${ClassName}, ${ClassName}Dto>{
 
 
 }

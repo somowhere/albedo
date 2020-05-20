@@ -4,54 +4,50 @@
 	<filePath>src/views/${moduleName}/${subModuleName}/${classNameUrl}</filePath>
 	<fileName>${classNameUrl}-service.js</fileName>
 	<content><![CDATA[
+import request from '@/utils/request'
+import qs from 'qs'
 
-import request from '@/router/axios';
-import validate from "@/util/validate";
-import util from "@/util/util";
-const ${className}Service = {
-	fetchTree(query) {
-	  return request({
-		url: '/${urlPrefix}/tree',
-		method: 'get',
-		params: query
-	  })
-	},
-	page(query) {
-	  return request({
-		url: '/${urlPrefix}/',
-		method: 'get',
-		params: query
-	  })
-	},
-
-	save(obj) {
-	  return request({
-		url: '/${urlPrefix}/',
-		method: 'post',
-		data: obj
-	  })
-	},
-
-	find(id) {
-	  return request({
-		url: '/${urlPrefix}/' + id,
-		method: 'get'
-	  })
-	},
-
-	remove(id) {
-	  return request({
-		url: '/${urlPrefix}/' + id,
-		method: 'delete'
-	  })
-	},
-
-	validateUnique(rule, value, callback, id) {
-	  validate.isUnique(rule, value, callback, '/${urlPrefix}/checkByProperty?id='+util.objToStr(id))
-	}
+export function getTree(query) {
+  return request({
+    url: '/${urlPrefix}/tree',
+    method: 'get',
+    params: query
+  })
 }
 
-export default ${className}Service
+export function page(params) {
+  return request({
+    url: '/${urlPrefix}/?' + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
+
+export function save(data) {
+  return request({
+    url: '/${urlPrefix}',
+    method: 'post',
+    data
+  })
+}
+
+export function del(ids) {
+  return request({
+    url: '/${urlPrefix}',
+    method: 'delete',
+    data: ids
+  })
+}
+
+
+export function get(id) {
+  return request({
+    url: '/${urlPrefix}/' + id,
+    method: 'get'
+  })
+}
+
+export default { page, del, save, get }
+
 ]]>
 	</content>
 </template>

@@ -59,10 +59,14 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public <Q> List<TreeNode> findTreeNode(Q queryCriteria) {
-		return getNodeTree(repository.selectList(QueryWrapperUtil.
-			<T>getWrapper(queryCriteria).orderByAsc(TreeEntity.F_SQL_SORT)));
+		return getNodeTree(findTreeList(queryCriteria));
 	}
 
+	@Transactional(readOnly = true, rollbackFor = Exception.class)
+	public <Q> List<T> findTreeList(Q queryCriteria) {
+		return repository.selectList(QueryWrapperUtil.
+			<T>getWrapper(queryCriteria).orderByAsc(TreeEntity.F_SQL_SORT));
+	}
 	/**
 	 * 构建树Wrapper
 	 *

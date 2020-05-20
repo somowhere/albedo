@@ -86,7 +86,6 @@
       @selection-change="crud.selectionChangeHandler"
     >
       <el-table-column type="selection" width="55" />
-      <el-table-column label="任务ID" width="90px" />
       <#list table.columnList as column>
       <#if column.list && column.simpleJavaField!="parentId" && column.simpleJavaField!="parentIds" && column.simpleJavaField!="parent">
       <el-table-column align="center" label="${column.title}" :show-overflow-tooltip="true" prop="${column.simpleJavaField}"<#if column.dictType?? && column.dictType != ""> >
@@ -123,7 +122,7 @@ const defaultForm = {
   </#list>
 }
 export default {
-  name: 'User',
+  name: '${ClassName}',
   components: { crudOperation, rrOperation, udOperation, pagination },
   cruds() {
     return CRUD({ title: '${functionNameSimple}', crudMethod: { ...crud${ClassName} }})

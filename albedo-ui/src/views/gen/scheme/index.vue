@@ -318,8 +318,8 @@ export default {
   },
   methods: {
     // 新增与编辑前做的操作
-    [CRUD.HOOK.beforeToCU](crud, form) {
-      crudScheme.findFormData(form.id).then(response => {
+    [CRUD.HOOK.beforeToCU](crud, form, id) {
+      crudScheme.findFormData(id).then(response => {
         const data = response.data
         this.viewTypeList = data.viewTypeList
         this.categoryList = data.categoryList
@@ -348,7 +348,7 @@ export default {
       })
     },
     handleGenMenuDialog() {
-      crudMenu.getMenuTree({ notId: form.id }).then(res => {
+      crudMenu.getTree({ notId: form.id }).then(res => {
         this.menus = res.data
         this.genMenuForm.id = undefined
         this.genMenuForm.parentMenuId = undefined

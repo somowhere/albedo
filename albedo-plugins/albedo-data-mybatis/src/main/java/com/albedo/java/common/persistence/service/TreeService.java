@@ -38,6 +38,13 @@ public interface TreeService<T extends TreeEntity, D extends TreeDto> extends Da
 	<Q> List<TreeNode> findTreeNode(Q queryCriteria);
 
 	/**
+	 * findTreeList
+	 * @param queryCriteria
+	 * @param <Q>
+	 * @return
+	 */
+	<Q> List<T> findTreeList(Q queryCriteria);
+	/**
 	 * findAllByParentIdsLike
 	 * @param parentIds
 	 * @return

@@ -20,6 +20,7 @@ import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.core.util.tree.TreeNodeAware;
 import com.albedo.java.common.core.vo.TreeVo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -42,5 +43,4 @@ public class DeptVo extends TreeVo<DeptVo> implements TreeNodeAware<DeptVo> {
 	 */
 	@DictType(DictNameConstants.SYS_FLAG)
 	private Integer available;
-	private List<DeptVo> children;
 }

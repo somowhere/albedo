@@ -20,6 +20,7 @@ import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.core.util.tree.TreeNodeAware;
 import com.albedo.java.common.core.vo.TreeVo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -43,16 +44,13 @@ public class DictVo extends TreeVo<DictVo> implements TreeNodeAware<DictVo> {
 	/**
 	 * 数据值
 	 */
-//	@NotBlank(message = "字典项数据值不能为空")
 	private String val;
 	/**
 	 * 类型
 	 */
-	@NotBlank(message = "字典项数据类型不能为空")
 	private String code;
-	@NotNull
+
 	@DictType(DictNameConstants.SYS_FLAG)
 	private Integer available;
-
 
 }

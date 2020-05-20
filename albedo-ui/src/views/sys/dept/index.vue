@@ -83,7 +83,7 @@
       @select-all="crud.selectAllChange"
       @selection-change="crud.selectionChangeHandler"
     >
-      <el-table-column :selectable="checkboxT" type="selection" width="55" />
+      <el-table-column type="selection" width="55" />
       <el-table-column label="名称" prop="name" />
       <el-table-column label="序号" prop="sort" />
       <el-table-column align="center" label="是否可用" prop="available">
@@ -200,9 +200,6 @@ export default {
       }).catch(() => {
         data.available = flag ? NO : YES
       })
-    },
-    checkboxT(row, rowIndex) {
-      return row.id !== 1
     }
   }
 }
