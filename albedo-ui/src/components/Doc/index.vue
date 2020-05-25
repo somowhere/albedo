@@ -9,7 +9,7 @@ export default {
   name: 'Doc',
   methods: {
     click() {
-      window.open('https://docs.auauz.net/guide/', '_blank')
+      window.open('https://github.com/somowhere/albedo.git', '_blank')
     }
   }
 }

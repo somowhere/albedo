@@ -143,7 +143,8 @@
       </el-tabs>
       <el-row :gutter="20" style="margin-top: 20px">
         <el-col :offset="10" :span="6">
-          <el-button size="small" @click="cancel()">取 消</el-button>
+          <el-button size="small" @click="back()">返 回</el-button>
+          <el-button size="small" @click="cancel()">重 置</el-button>
           <el-button size="small" type="primary" @click="save()">保 存</el-button>
         </el-col>
       </el-row>
@@ -178,7 +179,6 @@ export default {
         status: undefined,
         description: undefined
       },
-      dialogFormVisible: false,
       dialogBeforeFormVisible: false,
       dialogStatus: 'create',
       textMap: {
@@ -212,8 +212,16 @@ export default {
       })
     },
     cancel() {
-      this.dialogFormVisible = false
+      this.showEditForm(this.$route.query)
+    },
+    back() {
       this.$refs['form'].resetFields()
+      this.$store.state.tagsView.visitedViews.forEach(view => {
+        if (view.path === '/gen/edit') {
+          this.$store.dispatch('tagsView/delView', view)
+        }
+      })
+      this.$router.push({ path: '/gen/table' })
     },
     save() {
       const set = this.$refs

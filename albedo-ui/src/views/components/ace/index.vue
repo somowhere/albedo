@@ -11,7 +11,7 @@ export default {
     editor: require('vue2-ace-editor')
   },
   props: {
-    content: {
+    value: {
       type: String,
       required: true
     },
@@ -22,10 +22,14 @@ export default {
   },
   data() {
     return {
+      content: this.value,
       height: document.documentElement.clientHeight - 400
     }
   },
   watch: {
+    value: function(n, o) {
+      this.content = n
+    }
   },
   mounted() {
     const that = this

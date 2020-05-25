@@ -169,7 +169,7 @@ export default {
   name: 'OnlineUser',
   components: { pagination, crudOperation, udOperation, rrOperation },
   cruds() {
-    return CRUD({ url: '/sys/log-operate', sorts: ['createdDate,desc'], title: '令牌管理', crudMethod: { ...crudLogOperate }})
+    return CRUD({ sorts: ['createdDate,desc'], title: '令牌管理', crudMethod: { ...crudLogOperate }})
   },
   mixins: [presenter(), header(), crud()],
   data() {

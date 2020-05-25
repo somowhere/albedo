@@ -52,6 +52,7 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -140,7 +141,6 @@ public class MenuServiceImpl extends
 			//删除当前菜单及其子菜单
 			this.removeById(id);
 		});
-
 	}
 
 	public Boolean exitMenuByPermission(MenuDto menuDto) {
@@ -178,12 +178,16 @@ public class MenuServiceImpl extends
 		);
 		for (Menu currentMenu : currentMenuList) {
 			if (currentMenu != null) {
-				repository.delete(Wrappers.<Menu>query()
+				List<String> idList = repository.selectList(Wrappers.<Menu>query()
 					.lambda()
 					.likeLeft(Menu::getPermission, permissionLike)
 					.or(i -> i.eq(Menu::getId, currentMenu.getId())
 						.or().eq(Menu::getParentId, currentMenu.getId()))
-				);
+				).stream().map(Menu::getId).collect(Collectors.toList());
+				roleMenuRepository
+					.delete(Wrappers.<RoleMenu>query()
+						.lambda().in(RoleMenu::getMenuId, idList));
+				repository.deleteBatchIds(idList);
 			}
 		}
 		Menu parentMenu = repository.selectById(parentMenuId);
@@ -192,12 +196,13 @@ public class MenuServiceImpl extends
 
 		Menu module = new Menu();
 //		module.setPermission(permission.substring(0, permission.length() - 1));
+
 		module.setName(moduleName);
 		module.setParentId(parentMenu.getId());
 		module.setType(Menu.TYPE_MENU);
 		module.setIcon("icon-right-square");
 		module.setPath(StringUtil.toRevertCamelCase(StringUtil.lowerFirst(schemeDto.getClassName()), CharUtil.DASHED));
-		module.setComponent("views" + url + "index");
+		module.setComponent(url.substring(1) + "index");
 		save(module);
 
 		Menu moduleView = new Menu();

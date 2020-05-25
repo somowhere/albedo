@@ -189,6 +189,49 @@ const validate = {
    */
   checkNotNull(val) {
     return !this.checkNull(val)
+  },
+
+  /**
+   * 判断是否为整数
+   */
+  isDigits(rule, value, callback) {
+    if (this.checkNotNull(value)) {
+      const rs = this.checkDigits(value)
+      if (rs) {
+        callback(new Error(this.checkNotNull(rule.message) ? rule.message : '请输入整数'))
+        return
+      }
+    }
+    callback()
+  },
+
+  /**
+   * 判断是否为整数
+   */
+  checkDigits(num) {
+    const regName = /[^\d]/g
+    if (!regName.test(num)) return false
+    return true
+  },
+
+  isNumber(rule, value, callback) {
+    if (this.checkNotNull(value)) {
+      const rs = this.checkNumber(value)
+      if (rs) {
+        callback(new Error(this.checkNotNull(rule.message) ? rule.message : '请输入数字'))
+        return
+      }
+    }
+    callback()
+  },
+
+  /**
+   * 判断是否为小数
+   */
+  checkNumber(num) {
+    const regName = /[^\d.]/g
+    if (!regName.test(num)) return false
+    return true
   }
 }
 

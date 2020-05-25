@@ -112,20 +112,20 @@ public class GenUtil {
 				column.setDictType(DictNameConstants.SYS_FLAG);
 				column.setShowType("radio");
 			}
-			// 用户
-			if (StringUtil.startWithIgnoreCase(column.getName(), "user_id")) {
-				column.setJavaType(User.class.getName());
-				column.setJavaField(column.getJavaField().replaceAll("Id", ".id|name"));
-				column.setTitle("用户");
-				column.setShowType("userselect");
-			}
-			// 部门
-			else if (StringUtil.startWithIgnoreCase(column.getName(), "dept_id")) {
-				column.setJavaType(Dept.class.getName());
-				column.setJavaField(column.getJavaField().replaceAll("Id", ".id|name"));
-				column.setTitle("机构");
-				column.setShowType("orgselect");
-			}
+//			// 用户
+//			if (StringUtil.startWithIgnoreCase(column.getName(), "user_id")) {
+//				column.setJavaType(User.class.getName());
+//				column.setJavaField(column.getJavaField().replaceAll("Id", ".id|name"));
+//				column.setTitle("用户");
+//				column.setShowType("userselect");
+//			}
+//			// 部门
+//			else if (StringUtil.startWithIgnoreCase(column.getName(), "dept_id")) {
+//				column.setJavaType(Dept.class.getName());
+//				column.setJavaField(column.getJavaField().replaceAll("Id", ".id|name"));
+//				column.setTitle("机构");
+//				column.setShowType("orgselect");
+//			}
 //            // 区域
 //            else if (StringUtil.startWithIgnoreCase(column.getName(), "area_id")) {
 //                column.setJavaType(Area.class.getName());
@@ -137,10 +137,12 @@ public class GenUtil {
 			else if (StringUtil.startWithIgnoreCase(column.getName(), DataEntity.F_CREATEDBY) || StringUtil.startWithIgnoreCase(column.getName(), DataEntity.F_LASTMODIFIEDBY)) {
 				column.setJavaType(User.class.getName());
 				column.setJavaField(column.getJavaField());
+				column.setNull(false);
 			}
 			// 创建时间、更新时间
 			else if (StringUtil.startWithIgnoreCase(column.getName(), DataEntity.F_CREATEDDATE) || StringUtil.startWithIgnoreCase(column.getName(), DataEntity.F_LASTMODIFIEDDATE)) {
 				column.setShowType("dateselect");
+				column.setNull(false);
 			}
 			// 备注、内容
 			else if (StringUtil.equalsIgnoreCase(column.getJavaField(), DataEntity.F_DESCRIPTION) || StringUtil.equalsIgnoreCase(column.getJavaField(), "content") || StringUtil.equalsIgnoreCase(column.getJavaField(), "remark")) {
@@ -148,21 +150,31 @@ public class GenUtil {
 			}
 			// 父级ID
 			else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntity.F_PARENTID)) {
-				column.setJavaType("This");
-				column.setJavaField("parent.id|name");
+//				column.setJavaType("This");
 				column.setShowType("treeselect");
+				column.setNull(false);
 				column.setTitle("父节点");
 			}
 			// 所有父级ID
 			else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntity.F_PARENTIDS)) {
 				column.setQueryType("like");
 				column.setList(false);// 列表字段
+				column.setNull(false);
 				column.setTitle("所有父级");
+			}
+			// 所有父级ID
+			else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntity.F_LEAF)) {
+				column.setQueryType("eq");
+				column.setList(false);// 列表字段
+				column.setEdit(false);
+				column.setNull(false);
+				column.setTitle("叶子节点");
 			}
 			// 删除标记
 			else if (StringUtil.equalsIgnoreCase(column.getJavaField(), DataEntity.F_DELFLAG)) {
 				column.setShowType("radio");
 				column.setDictType(DictNameConstants.SYS_FLAG);
+				column.setNull(false);
 			}
 
 			if (StringUtil.isEmpty(column.getShowType())) {

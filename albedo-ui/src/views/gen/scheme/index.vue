@@ -233,8 +233,8 @@
       width="90%"
     >
       <el-tabs>
-        <el-tab-pane v-for="(content, key) in tabCodePreviewMap" :key="key" :label="key">
-          <Ace :content="content" :lang="key.indexOf('.java')!==-1 ? 'java' : key.indexOf('.js')!==-1 ? 'javascript' : 'html'" />
+        <el-tab-pane v-for="(item, key) in tabCodePreviewMap" :key="key" :label="key">
+          <Ace :value="item" :lang="key.indexOf('.java')!==-1 ? 'java' : key.indexOf('.js')!==-1 ? 'javascript' : 'html'" />
         </el-tab-pane>
       </el-tabs>
     </el-dialog>
@@ -293,7 +293,6 @@ export default {
       dialogCodePreviewVisible: false,
       genMenuForm: {
         id: undefined,
-        parentMenuName: undefined,
         parentMenuId: undefined
       },
       permission: {
@@ -348,11 +347,10 @@ export default {
       })
     },
     handleGenMenuDialog() {
-      crudMenu.getTree({ notId: form.id }).then(res => {
+      crudMenu.getTree().then(res => {
         this.menus = res.data
-        this.genMenuForm.id = undefined
+        this.genMenuForm.id = this.crud.selections[0].id
         this.genMenuForm.parentMenuId = undefined
-        this.genMenuForm.parentMenuName = undefined
         this.dialogGenMenuVisible = true
       })
     },
@@ -367,8 +365,8 @@ export default {
       set['genMenuForm'].validate(valid => {
         if (valid) {
           crudScheme.genMenu(this.genMenuForm).then(response => {
-            this.getList()
             this.cancelGenMenu()
+            this.crud.refresh()
           })
         } else {
           return false

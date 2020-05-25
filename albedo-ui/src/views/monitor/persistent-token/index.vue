@@ -74,7 +74,7 @@ export default {
   name: 'OnlineUser',
   components: { pagination, crudOperation, rrOperation },
   cruds() {
-    return CRUD({ url: '/sys/persistent-token', title: '令牌管理' })
+    return CRUD({ title: '令牌管理', crudMethod: { ...crudPersistentToken }})
   },
   mixins: [presenter(), header(), crud()],
   data() {

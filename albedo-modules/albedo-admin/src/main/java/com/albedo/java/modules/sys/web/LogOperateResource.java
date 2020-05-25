@@ -28,6 +28,7 @@ import com.albedo.java.modules.sys.domain.dto.LogOperateQueryCriteria;
 import com.albedo.java.modules.sys.service.LogOperateService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -95,7 +96,9 @@ public class LogOperateResource {
 	public R<Object> getUserLogs(PageModel pm, LogOperateQueryCriteria criteria) {
 		criteria.setLogType(LogType.INFO.name());
 		criteria.setBlurry(SecurityUtil.getUser().getUsername());
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, criteria);
+		pm.addOrder(OrderItem.desc(LogOperate.F_SQL_CREATEDDATE));
+		QueryWrapper<LogOperate> wrapper = QueryWrapperUtil.<LogOperate>getWrapper(pm, criteria);
+
 		return R.buildOkData(logOperateService.page(pm, wrapper));
 	}
 

@@ -22,6 +22,15 @@
     height: 30.5px !important;
     width: 230px !important;
   }
+  .datetime-item {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 10px;
+    height: 30.5px !important;
+    width: 330px !important;
+    padding-right: 0px;
+    padding-left: 10px;
+  }
 }
 .el-avatar {
   display: inline-block;
@@ -111,7 +120,7 @@
 }
 
 .input-small{
-  width: 220px;
+  width: 220px !important;
 }
 
 .input-min{

@@ -46,7 +46,7 @@ export function get(id) {
   })
 }
 
-export default { page, del, save, get }
+export default { getTree, page, del, save, get }
 
 ]]>
 	</content>

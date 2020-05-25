@@ -35,7 +35,7 @@ public class ${ClassName}ServiceImpl extends DataServiceImpl<${ClassName}Reposit
 <#list table.columnList as column><#if column.unique && !column.pk>
 	public Boolean exit${ClassName}By${column.simpleJavaField?cap_first}(${ClassName}Dto ${className}Dto) {
 		return getOne(Wrappers.<${ClassName}>lambdaUpdate()
-			.ne(StringUtil.isNotEmpty(${className}Dto.getId()), ${ClassName}::getIdDto, ${className}Dto.getId())
+			.ne(StringUtil.isNotEmpty(${className}Dto.getId()), ${ClassName}::getId, ${className}Dto.getId())
 			.eq(${ClassName}::get${column.simpleJavaField?cap_first}, ${className}Dto.get${column.simpleJavaField?cap_first}())) != null;
 	}
 </#if></#list>

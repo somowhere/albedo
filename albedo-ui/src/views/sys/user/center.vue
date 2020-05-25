@@ -98,9 +98,13 @@
             <!--    操作日志    -->
             <el-tab-pane label="操作日志" name="second">
               <el-table v-loading="loading" :data="data" style="width: 100%;">
-                <el-table-column label="行为" prop="description" />
-                <el-table-column label="IP" prop="requestIp" />
-                <el-table-column :show-overflow-tooltip="true" label="IP来源" prop="address" />
+                <el-table-column label="行为">
+                  <template slot-scope="scope">
+                    {{ scope.row.title }}{{ scope.row.businessTypeText }}
+                  </template>
+                </el-table-column>
+                <el-table-column label="IP" prop="ipAddress" />
+                <el-table-column :show-overflow-tooltip="true" label="IP来源" prop="ipLocation" />
                 <el-table-column label="浏览器" prop="browser" />
                 <el-table-column align="center" label="请求耗时" prop="time">
                   <template slot-scope="scope">

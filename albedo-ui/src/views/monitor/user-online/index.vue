@@ -109,7 +109,7 @@ export default {
   name: 'OnlineUser',
   components: { pagination, crudOperation, rrOperation },
   cruds() {
-    return CRUD({ url: '/sys/user-online', title: '在线用户' })
+    return CRUD({ title: '在线用户', crudMethod: { ...crudUserOnline }})
   },
   mixins: [presenter(), header(), crud()],
   data() {

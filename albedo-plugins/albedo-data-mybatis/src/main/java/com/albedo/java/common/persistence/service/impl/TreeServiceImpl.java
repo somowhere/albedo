@@ -1,5 +1,7 @@
 package com.albedo.java.common.persistence.service.impl;
 
+import com.albedo.java.common.core.exception.BadRequestException;
+import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.tree.TreeUtil;
@@ -16,7 +18,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import lombok.Data;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -138,4 +143,17 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 		return flag;
 	}
 
+
+	@Override
+	public boolean removeByIds(Collection<? extends Serializable> idList) {
+		idList.forEach(id -> {
+			// 查询父节点为当前节点的节点
+			List<T> menuList = this.list(Wrappers.<T>query().eq(TreeEntity.F_SQL_PARENTID, id));
+			if (CollUtil.isNotEmpty(menuList)) {
+				throw new BadRequestException("含有下级不能删除");
+			}
+			Assert.isTrue(this.removeById(id), "删除失败");
+		});
+		return true;
+	}
 }

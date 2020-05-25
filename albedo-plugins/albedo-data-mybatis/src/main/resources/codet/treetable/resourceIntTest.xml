@@ -85,7 +85,7 @@ public class ${ClassName}ResourceIntTest {
     private static final ${column.simpleJavaType} UPDATED_${column.constantJavaField} = DateUtil.offset(DEFAULT_${column.constantJavaField}, DateField.DAY_OF_YEAR, 1);
 		<#else>
 	/** DEFAULT_${column.constantJavaField} ${column.nameAndTitle} */
-	private static final ${column.simpleJavaType} DEFAULT_${column.constantJavaField} = <#if column.name?contains('mail')>"1@albedo.com"<#else>"A"</#if>;
+	private static final ${column.simpleJavaType} DEFAULT_${column.constantJavaField} = <#if column.name?contains('mail')>"1@albedo.com"<#elseif column.simpleJavaField == 'parentId'>"-1"<#else>"A"</#if>;
 	/** UPDATED_${column.constantJavaField} ${column.nameAndTitle} */
     private static final ${column.simpleJavaType} UPDATED_${column.constantJavaField} = <#if column.name?contains('mail')>"2@albedo.com"<#else>"B"</#if>;
 		</#if>
@@ -127,12 +127,9 @@ public class ${ClassName}ResourceIntTest {
      */
     public static ${ClassName}Dto createEntity() {
         ${ClassName}Dto ${className}Dto = ClassUtil.createObj(${ClassName}Dto.class, Lists.newArrayList(
-    <#assign firstListField = true>
-    <#list table.columnList as column>
+    <#assign firstListField = true><#list table.columnList as column>
 		<#if column.edit && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'parentId' || column.simpleJavaField == 'description')>
-		<#if firstListField> <#assign firstListField = false><#else>,</#if>${ClassName}.F_${column.constantJavaField}
-		</#if>
-	</#list>
+		<#if firstListField> <#assign firstListField = false><#else>,</#if>${ClassName}.F_${column.constantJavaField}</#if></#list>
         ), <#assign firstListField = true><#list table.columnList as column>
 		<#if column.edit && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'parentId' || column.simpleJavaField == 'description')>
 		<#if firstListField> <#assign firstListField = false><#else>,</#if>DEFAULT_${column.constantJavaField}
@@ -326,13 +323,8 @@ public class ${ClassName}ResourceIntTest {
         // Update the ${className}
         ${ClassName} updated${ClassName} = ${className}Service.getById(${className}Dto.getId());
         // Disconnect from session so that the updates on updated${ClassName} are not directly saved in db
-        ClassUtil.updateObj(updated${ClassName}, Lists.newArrayList(
-    <#assign firstListField = true>
-    <#list table.columnList as column>
-		<#if column.edit && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'parentId' || column.simpleJavaField == 'description')>
-		<#if firstListField> <#assign firstListField = false><#else>,</#if>${ClassName}.F_${column.constantJavaField}
-		</#if>
-	</#list>
+        ClassUtil.updateObj(updated${ClassName}, Lists.newArrayList(<#assign firstListField = true><#list table.columnList as column><#if column.edit && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'parentId' || column.simpleJavaField == 'description')>
+		<#if firstListField> <#assign firstListField = false><#else>,</#if>${ClassName}.F_${column.constantJavaField}</#if></#list>
         ), <#assign firstListField = true><#list table.columnList as column>
 		<#if column.edit && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'parentId' || column.simpleJavaField == 'description')>
 		<#if firstListField> <#assign firstListField = false><#else>,</#if>UPDATED_${column.constantJavaField}

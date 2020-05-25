@@ -165,7 +165,6 @@ function CRUD(options) {
       }
       callVmHook(crud, CRUD.HOOK.afterToAdd, crud.form)
       callVmHook(crud, CRUD.HOOK.afterToCU, crud.form)
-      console.log(crud)
     },
     /**
      * 启动编辑
