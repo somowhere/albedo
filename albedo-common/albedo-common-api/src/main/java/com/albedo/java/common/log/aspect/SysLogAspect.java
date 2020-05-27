@@ -74,12 +74,12 @@ public class SysLogAspect {
 		try {
 			obj = point.proceed();
 			logOperateVo.setLogType(LogType.INFO.name());
-			saveLog(startTime, logOperateVo, log);
 		}catch (Exception e){
 			logOperateVo.setException(ExceptionUtil.stacktraceToString(e));
 			logOperateVo.setLogType(LogType.ERROR.name());
-			saveLog(startTime, logOperateVo, log);
 			throw e;
+		}finally {
+			saveLog(startTime, logOperateVo, log);
 		}
 
 		return obj;

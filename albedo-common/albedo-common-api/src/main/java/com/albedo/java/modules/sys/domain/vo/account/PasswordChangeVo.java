@@ -22,11 +22,9 @@ public class PasswordChangeVo implements Serializable {
 	private String oldPassword;
 
 	@NotBlank
-	@Size(min = 6, max = UserDto.PASSWORD_MAX_LENGTH)
 	private String newPassword;
 
 	@NotBlank
-	@Size(min = 6, max = UserDto.PASSWORD_MAX_LENGTH)
 	private String confirmPassword;
 
 }

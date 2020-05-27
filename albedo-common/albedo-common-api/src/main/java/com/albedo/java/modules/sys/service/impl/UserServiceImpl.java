@@ -36,6 +36,7 @@ import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.domain.UserRole;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
+import com.albedo.java.modules.sys.domain.dto.UserInfoDto;
 import com.albedo.java.modules.sys.domain.dto.UserQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.MenuVo;
 import com.albedo.java.modules.sys.domain.vo.UserExcelVo;
@@ -130,15 +131,18 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 		}
 		super.saveOrUpdate(user);
 		userDto.setId(user.getId());
-		List<UserRole> userRoleList = userDto.getRoleIdList()
-			.stream().map(roleId -> {
-				UserRole userRole = new UserRole();
-				userRole.setUserId(user.getId());
-				userRole.setRoleId(roleId);
-				return userRole;
-			}).collect(Collectors.toList());
-		userRoleService.removeRoleByUserId(user.getId());
-		userRoleService.saveBatch(userRoleList);
+		if (add || CollUtil.isNotEmpty(userDto.getRoleIdList())) {
+			Assert.isTrue(CollUtil.isNotEmpty(userDto.getRoleIdList()), "用户角色不能为空");
+			List<UserRole> userRoleList = userDto.getRoleIdList()
+				.stream().map(roleId -> {
+					UserRole userRole = new UserRole();
+					userRole.setUserId(user.getId());
+					userRole.setRoleId(roleId);
+					return userRole;
+				}).collect(Collectors.toList());
+			userRoleService.removeRoleByUserId(user.getId());
+			userRoleService.saveBatch(userRoleList);
+		}
 	}
 
 
@@ -335,5 +339,6 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	public List<User> getUserByDeptId(String deptId) {
 		return repository.selectList(Wrappers.<User>lambdaQuery().eq(User::getDeptId, deptId));
 	}
+
 
 }

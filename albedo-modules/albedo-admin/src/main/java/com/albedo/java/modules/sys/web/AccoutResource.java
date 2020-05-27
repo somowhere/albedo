@@ -1,6 +1,9 @@
 package com.albedo.java.modules.sys.web;
 
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.crypto.asymmetric.KeyType;
+import cn.hutool.crypto.asymmetric.RSA;
+import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.util.ResultBuilder;
@@ -45,6 +48,7 @@ public class AccoutResource extends BaseResource {
 	private final UserService userService;
 	private final Producer producer;
 	private final PasswordEncoder passwordEncoder;
+	private final ApplicationProperties applicationProperties;
 
 	/**
 	 * 功能描述: 检查密码长度
@@ -79,20 +83,29 @@ public class AccoutResource extends BaseResource {
 	@ApiOperation(value = "修改密码")
 	@PostMapping(path = "/account/change-password")
 	public R changePassword(@Valid @RequestBody PasswordChangeVo passwordChangeVo) {
+
+		// 密码解密
+		RSA rsa = new RSA(applicationProperties.getRsa().getPrivateKey(), applicationProperties.getRsa().getPublicKey());
+		String oldPass = new String(rsa.decrypt(passwordChangeVo.getOldPassword(), KeyType.PrivateKey));
+		String newPass = new String(rsa.decrypt(passwordChangeVo.getNewPassword(), KeyType.PrivateKey));
+		String confirmPass = new String(rsa.decrypt(passwordChangeVo.getConfirmPassword(), KeyType.PrivateKey));
+
+		UserDto userDto = userService.getUserDtoById(SecurityUtil.getUser().getId());
 		Assert.isTrue(passwordChangeVo != null &&
-			checkPasswordLength(passwordChangeVo.getNewPassword()), "密码格式有误");
-		Assert.isTrue(!passwordChangeVo.getNewPassword().equals(passwordChangeVo.getOldPassword()),
+			checkPasswordLength(newPass), "密码格式有误");
+		Assert.isTrue(!newPass.equals(oldPass),
 			"新旧密码不能相同");
-		Assert.isTrue(passwordChangeVo.getNewPassword().equals(passwordChangeVo.getConfirmPassword()),
+		Assert.isTrue(newPass.equals(confirmPass),
 			"两次输入密码不一致");
-		Assert.isTrue(passwordEncoder.matches(passwordChangeVo.getOldPassword(),
-			SecurityUtil.getUser().getPassword()),
+		Assert.isTrue(oldPass.equals(passwordEncoder.encode(userDto.getPassword())),
 			"输入原密码有误");
 
-		passwordChangeVo.setNewPassword(passwordEncoder.encode(passwordChangeVo.getNewPassword()));
+		passwordChangeVo.setNewPassword(passwordEncoder.encode(newPass));
+		passwordChangeVo.setConfirmPassword(confirmPass);
+		passwordChangeVo.setOldPassword(oldPass);
 		userService.changePassword(SecurityUtil.getUser().getUsername(),
 			passwordChangeVo);
-		return R.buildOk("修改成功");
+		return R.buildOk("密码修改成功，请重新登录");
 	}
 
 

@@ -33,7 +33,7 @@
 <script>
 import store from '@/store'
 import validate from '@/utils/validate'
-import { updateEmail } from '@/views/sys/user'
+import { updateEmail } from '@/views/sys/user/user-service'
 import { resetEmail } from '@/api/sys/code'
 
 export default {

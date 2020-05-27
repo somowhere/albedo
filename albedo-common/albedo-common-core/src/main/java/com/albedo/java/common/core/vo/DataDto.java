@@ -1,6 +1,8 @@
 package com.albedo.java.common.core.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,6 +17,7 @@ public class DataDto<PK extends Serializable> extends GeneralDto {
 
 	private PK id;
 	@JsonIgnore
+	@ApiModelProperty(hidden = true)
 	private String delFlag;
 	private String description;
 

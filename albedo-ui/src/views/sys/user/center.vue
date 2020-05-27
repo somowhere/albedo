@@ -77,19 +77,16 @@
                 style="margin-top: 10px;"
               >
                 <el-form-item label="昵称" prop="nickName">
-                  <el-input v-model="form.nickName" style="width: 35%" />
+                  <el-input v-model="form.nickname" style="width: 35%" />
                   <span style="color: #C0C0C0;margin-left: 10px;">用户昵称不作为登录使用</span>
                 </el-form-item>
                 <el-form-item label="手机号" prop="phone">
                   <el-input v-model="form.phone" style="width: 35%;" />
                   <span style="color: #C0C0C0;margin-left: 10px;">手机号码不能重复</span>
                 </el-form-item>
-                <!--                <el-form-item label="性别">-->
-                <!--                  <el-radio-group v-model="form.gender" style="width: 178px">-->
-                <!--                    <el-radio label="男">男</el-radio>-->
-                <!--                    <el-radio label="女">女</el-radio>-->
-                <!--                  </el-radio-group>-->
-                <!--                </el-form-item>-->
+                <el-form-item label="备注" prop="description">
+                  <el-input v-model="form.description" style="width: 35%;" type="textarea" />
+                </el-form-item>
                 <el-form-item label="">
                   <el-button :loading="saveLoading" size="mini" type="primary" @click="doSubmit">保存配置</el-button>
                 </el-form-item>
@@ -155,7 +152,7 @@ import store from '@/store'
 import validate from '@/utils/validate'
 import commonUtil from '@/utils/common'
 import crud from '@/mixins/crud'
-import { editUser } from '@/views/sys/user'
+import crudUser from '@/views/sys/user/user-service'
 import Avatar from '@/assets/images/avatar.png'
 
 const parseTime = commonUtil.parseTime
@@ -183,7 +180,7 @@ export default {
       },
       form: {},
       rules: {
-        nickName: [
+        nickname: [
           { required: true, message: '请输入用户昵称', trigger: 'blur' },
           { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
         ],
@@ -201,7 +198,7 @@ export default {
     ])
   },
   created() {
-    this.form = { id: this.user.id, nickName: this.user.nickName, gender: this.user.gender, phone: this.user.phone }
+    this.form = { id: this.user.id, nickname: this.user.nickname, description: this.user.description, phone: this.user.phone }
     store.dispatch('GetUser').then(() => {
     })
   },
@@ -239,8 +236,7 @@ export default {
         this.$refs['form'].validate((valid) => {
           if (valid) {
             this.saveLoading = true
-            editUser(this.form).then(() => {
-              this.editSuccessNotify()
+            crudUser.saveInfo(this.form).then(() => {
               store.dispatch('GetUser').then(() => {
               })
               this.saveLoading = false

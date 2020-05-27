@@ -34,6 +34,7 @@ public class ApplicationProperties {
 	private String logPath = ".logs/";
 	private Security security = new Security();
 	private Http http = new Http();
+	private Rsa rsa = new Rsa();
 	private CorsConfiguration cors = new CorsConfiguration();
 
 
@@ -117,7 +118,13 @@ public class ApplicationProperties {
 
 		}
 	}
+	@Data
+	public static class Rsa {
 
+		private String publicKey;
+		private String privateKey;
+
+	}
 	@Data
 	public static class Http {
 

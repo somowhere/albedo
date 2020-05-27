@@ -10,14 +10,14 @@
       @close="cancel"
     >
       <el-form ref="form" :model="form" :rules="rules" label-width="88px" size="small">
-        <el-form-item label="旧密码" prop="oldPass">
-          <el-input v-model="form.oldPass" auto-complete="on" style="width: 370px;" type="password" />
+        <el-form-item label="旧密码" prop="oldPassword">
+          <el-input v-model="form.oldPassword" auto-complete="on" style="width: 370px;" type="password" />
         </el-form-item>
-        <el-form-item label="新密码" prop="newPass">
-          <el-input v-model="form.newPass" auto-complete="on" style="width: 370px;" type="password" />
+        <el-form-item label="新密码" prop="newPassword">
+          <el-input v-model="form.newPassword" auto-complete="on" style="width: 370px;" type="password" />
         </el-form-item>
-        <el-form-item label="确认密码" prop="confirmPass">
-          <el-input v-model="form.confirmPass" auto-complete="on" style="width: 370px;" type="password" />
+        <el-form-item label="确认密码" prop="confirmPassword">
+          <el-input v-model="form.confirmPassword" auto-complete="on" style="width: 370px;" type="password" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -30,13 +30,13 @@
 
 <script>
 import store from '@/store'
-import { updatePass } from '@/views/sys/user'
+import { updatePass } from '@/views/sys/user/user-service'
 
 export default {
   data() {
-    const confirmPass = (rule, value, callback) => {
+    const confirmPassword = (rule, value, callback) => {
       if (value) {
-        if (this.form.newPass !== value) {
+        if (this.form.newPassword !== value) {
           callback(new Error('两次输入的密码不一致'))
         } else {
           callback()
@@ -46,17 +46,17 @@ export default {
       }
     }
     return {
-      loading: false, dialog: false, title: '修改密码', form: { oldPass: '', newPass: '', confirmPass: '' },
+      loading: false, dialog: false, title: '修改密码', form: { oldPassword: '', newPassword: '', confirmPassword: '' },
       rules: {
-        oldPass: [
+        oldPassword: [
           { required: true, message: '请输入旧密码', trigger: 'blur' }
         ],
-        newPass: [
+        newPassword: [
           { required: true, message: '请输入新密码', trigger: 'blur' },
           { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' }
         ],
-        confirmPass: [
-          { required: true, validator: confirmPass, trigger: 'blur' }
+        confirmPassword: [
+          { required: true, validator: confirmPassword, trigger: 'blur' }
         ]
       }
     }
@@ -71,11 +71,6 @@ export default {
           this.loading = true
           updatePass(this.form).then(res => {
             this.resetForm()
-            this.$notify({
-              title: '密码修改成功，请重新登录',
-              type: 'success',
-              duration: 1500
-            })
             setTimeout(() => {
               store.dispatch('LogOut').then(() => {
                 location.reload() // 为了重新实例化vue-router对象 避免bug
@@ -93,7 +88,7 @@ export default {
     resetForm() {
       this.dialog = false
       this.$refs['form'].resetFields()
-      this.form = { oldPass: '', newPass: '', confirmPass: '' }
+      this.form = { oldPassword: '', newPassword: '', confirmPassword: '' }
     }
   }
 }

@@ -21,6 +21,7 @@ import com.albedo.java.common.persistence.datascope.DataScope;
 import com.albedo.java.common.persistence.service.DataService;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
+import com.albedo.java.modules.sys.domain.dto.UserInfoDto;
 import com.albedo.java.modules.sys.domain.dto.UserQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.UserExcelVo;
 import com.albedo.java.modules.sys.domain.vo.UserInfo;
@@ -101,4 +102,5 @@ public interface UserService extends DataService<User, UserDto, String> {
 	List<User> findUserByRoleId(String roleId);
 
 	List<User> getUserByDeptId(String deptId);
+
 }

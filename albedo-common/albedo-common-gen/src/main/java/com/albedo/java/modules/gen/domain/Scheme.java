@@ -66,7 +66,6 @@ public class Scheme extends IdEntity<Scheme> {
 	private String functionNameSimple; // 生成功能名（简写）
 	@TableField("function_author")
 	private String functionAuthor; // 生成功能作者
-	@ManyToOne(name = "gen_table_id")
 	@TableField(exist = false)
 	@BeanField(ingore = true)
 	private Table table; // 业务表名

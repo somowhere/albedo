@@ -17,6 +17,7 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.util.BeanUtil;
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.util.ResultBuilder;
 import com.albedo.java.common.core.util.StringUtil;
@@ -27,6 +28,7 @@ import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
+import com.albedo.java.modules.sys.domain.dto.UserInfoDto;
 import com.albedo.java.modules.sys.domain.dto.UserQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.UserExcelVo;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
@@ -140,7 +142,7 @@ public class UserResource extends BaseResource {
 	@Log(value = "用户管理", businessType = BusinessType.EDIT)
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
-	public R saveUser(@Valid @RequestBody UserDto userDto) {
+	public R save(@Valid @RequestBody UserDto userDto) {
 		log.debug("REST request to save userDto : {}", userDto);
 		boolean add = StringUtil.isEmpty(userDto.getId());
 		if (add) {
@@ -148,6 +150,23 @@ public class UserResource extends BaseResource {
 		}
 		userService.saveOrUpdate(userDto);
 		return R.buildOk(add ? "新增成功，默认密码：123456" : "修改成功");
+	}
+
+	/**
+	 *个人中心更新信息
+	 * @param userInfoDto 用户信息
+	 * @return R
+	 */
+	@Log(value = "用户管理", businessType = BusinessType.EDIT)
+	@PostMapping("/info")
+	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
+	public R saveInfo(@Valid @RequestBody UserInfoDto userInfoDto) {
+		log.debug("REST request to save userDto : {}", userInfoDto);
+		UserDto userDto = BeanUtil.copyPropertiesByClass(userInfoDto, UserDto.class);
+		userDto.setId(SecurityUtil.getUser().getId());
+		userDto.setUsername(SecurityUtil.getUser().getUsername());
+		userService.saveOrUpdate(userDto);
+		return R.buildOk("更新成功");
 	}
 
 	/**

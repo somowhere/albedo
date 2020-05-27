@@ -10,6 +10,14 @@ export function save(obj) {
   })
 }
 
+export function saveInfo(obj) {
+  return request({
+    url: '/sys/user/info',
+    method: 'post',
+    data: obj
+  })
+}
+
 export function del(ids) {
   return request({
     url: '/sys/user/',
@@ -48,21 +56,14 @@ export function download(params) {
   })
 }
 
-export function editUser(data) {
-  return request({
-    url: '/sys/user/center',
-    method: 'put',
-    data
-  })
-}
-
 export function updatePass(user) {
   const data = {
-    oldPass: encrypt(user.oldPass),
-    newPass: encrypt(user.newPass)
+    oldPassword: encrypt(user.oldPassword),
+    newPassword: encrypt(user.newPassword),
+    confirmPassword: encrypt(user.confirmPassword)
   }
   return request({
-    url: '/sys/user/updatePass/',
+    url: '/account/change-password',
     method: 'post',
     data
   })
@@ -80,5 +81,5 @@ export function updateEmail(form) {
   })
 }
 
-export default { page, save, lock, del, get, download }
+export default { page, save, lock, del, get, download, saveInfo, updatePass, updateEmail }
 

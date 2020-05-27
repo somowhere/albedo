@@ -33,15 +33,14 @@ public class AjaxAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
 		LoginUtil.isValidateCodeLogin(useruame, false, true);
 		UserOnline userOnline = LoginUtil.getUserOnline(authentication);
 		SpringContextHolder.publishEvent(new SysUserOnlineEvent(userOnline));
-		String message = "用户";
 		LogOperate logOperate = SysLogUtils.getSysLog();
 		logOperate.setParams(HttpUtil.toParams(request.getParameterMap()));
 		logOperate.setUsername(useruame);
 		logOperate.setBusinessType(BusinessType.LOGIN.name());
 		logOperate.setLogType(LogType.INFO.name());
-		logOperate.setTitle(message);
+		logOperate.setTitle("用户");
 		AsyncUtil.recordLogLogin(logOperate);
-		WebUtil.renderJson(response, R.buildOk(message));
+		WebUtil.renderJson(response, R.buildOk("登录成功"));
 	}
 }
 
