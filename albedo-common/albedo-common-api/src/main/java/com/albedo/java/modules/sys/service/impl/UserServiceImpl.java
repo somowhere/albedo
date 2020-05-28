@@ -36,6 +36,7 @@ import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.domain.UserRole;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
+import com.albedo.java.modules.sys.domain.dto.UserEmailDto;
 import com.albedo.java.modules.sys.domain.dto.UserInfoDto;
 import com.albedo.java.modules.sys.domain.dto.UserQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.MenuVo;
@@ -54,12 +55,15 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -74,6 +78,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @AllArgsConstructor
+@CacheConfig(cacheNames = CacheNameConstants.USER_DETAILS)
 public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserDto, String> implements UserService {
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	private final MenuService menuService;
@@ -106,7 +111,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	@CacheEvict(value = CacheNameConstants.USER_DETAILS, key = "#userDto.username")
+	@CacheEvict(key = "#userDto.username")
 	public void saveOrUpdate(UserDto userDto) {
 		boolean add = StringUtil.isEmpty(userDto.getId());
 		if (add) {
@@ -242,7 +247,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	 * @param user 用户
 	 * @return Boolean
 	 */
-	@CacheEvict(value = CacheNameConstants.USER_DETAILS, key = "#user.username")
+	@CacheEvict(key = "#user.username")
 	public Boolean removeUserById(User user) {
 //		userRoleService.removeRoleByUserId(user.getId());
 		this.removeById(user.getId());
@@ -286,7 +291,15 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	}
 
 	@Override
+	@CacheEvict(key = "#passwordRestVo.username", allEntries = true)
 	public void resetPassword(PasswordRestVo passwordRestVo) {
+
+
+		Assert.isTrue(passwordRestVo.getNewPassword().equals(passwordRestVo.getConfirmPassword()),
+			"两次输入密码不一致");
+		passwordRestVo.setPasswordPlaintext(passwordRestVo.getNewPassword());
+		passwordRestVo.setNewPassword(passwordEncoder.encode(passwordRestVo.getNewPassword()));
+
 		Object tempCode = RedisUtil.getCacheString(SecurityConstants.DEFAULT_CODE_KEY + passwordRestVo.getPhone());
 		Assert.isTrue(passwordRestVo.getCode().equals(tempCode), "验证码输入有误");
 		User user = repository.selectOne(Wrappers.<User>query().lambda()
@@ -301,18 +314,44 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 //        cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLoginId());
 		log.debug("Changed password for User: {}", user);
 	}
+	/**
+	 * 功能描述: 检查密码长度
+	 *
+	 * @param: [password]
+	 * @return: boolean
+	 */
+	private static boolean checkPasswordLength(String password) {
+		return !StringUtil.isEmpty(password) &&
+			password.length() >= UserDto.PASSWORD_MIN_LENGTH &&
+			password.length() <= UserDto.PASSWORD_MAX_LENGTH;
+	}
 
+	@CacheEvict(key = "#username")
 	public void changePassword(String username, PasswordChangeVo passwordChangeVo) {
+
+		Assert.isTrue(passwordChangeVo != null &&
+			checkPasswordLength(passwordChangeVo.getNewPassword()), "密码格式有误");
+		Assert.isTrue(!passwordChangeVo.getNewPassword().equals(passwordChangeVo.getOldPassword()),
+			"新旧密码不能相同");
+		Assert.isTrue(passwordChangeVo.getNewPassword().equals(passwordChangeVo.getConfirmPassword()),
+			"两次输入密码不一致");
+ 		Assert.isTrue(passwordEncoder.matches(passwordChangeVo.getOldPassword(), SecurityUtil.getUser().getPassword()),
+			"输入原密码有误");
+
+		passwordChangeVo.setNewPassword(passwordEncoder.encode(passwordChangeVo.getNewPassword()));
+
 		User user = repository.selectOne(Wrappers.<User>query().lambda()
 			.eq(User::getUsername, username));
 		updatePassword(user, passwordChangeVo.getConfirmPassword(), passwordChangeVo.getNewPassword());
 	}
 
 	@Override
+	@Cacheable(key = "#username + '_userVo'")
 	public UserVo getOneVoByUserName(String username) {
 		return repository.findUserVoByUsername(username);
 	}
 
+	@CacheEvict(allEntries = true)
 	public void save(@Valid UserExcelVo userExcelVo) {
 		UserDto user = new UserDto();
 		BeanUtils.copyProperties(userExcelVo, user);
@@ -338,6 +377,28 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	@Override
 	public List<User> getUserByDeptId(String deptId) {
 		return repository.selectList(Wrappers.<User>lambdaQuery().eq(User::getDeptId, deptId));
+	}
+
+	@Override
+	@CacheEvict(key = "#username")
+	public void updateEmail(String username, UserEmailDto userEmailDto) {
+		User user =  repository.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
+		Assert.isTrue(user!=null,
+			"无法获取用户信息"+username);
+		Assert.isTrue(passwordEncoder.matches(userEmailDto.getPassword(), user.getPassword()),
+			"输入密码有误");
+		user.setEmail(userEmailDto.getEmail());
+		repository.updateById(user);
+	}
+
+	@Override
+	@CacheEvict(key = "#username")
+	public void updateAvatar(String username, String avatar) {
+		User user =  repository.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
+		Assert.isTrue(user!=null,
+			"无法获取用户信息"+username);
+		user.setAvatar(avatar);
+		repository.updateById(user);
 	}
 
 

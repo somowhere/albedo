@@ -45,9 +45,9 @@ public class SysLogUtils {
 	public LogOperate getSysLog() {
 		HttpServletRequest request = RequestHolder.getHttpServletRequest();
 		LogOperate logOperate = new LogOperate();
-		logOperate.setCreatedBy(Objects.requireNonNull(getUserId()));
+		logOperate.setCreatedBy(getUserId());
 		logOperate.setCreatedDate(LocalDateTime.now());
-		logOperate.setUsername(Objects.requireNonNull(getUsername()));
+		logOperate.setUsername(getUsername());
 		logOperate.setIpAddress(WebUtil.getIP(request));
 		logOperate.setIpLocation(AddressUtil.getRealAddressByIP(logOperate.getIpAddress()));
 		logOperate.setUserAgent(request.getHeader("User-Agent"));

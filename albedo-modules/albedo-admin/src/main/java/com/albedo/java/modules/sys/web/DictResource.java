@@ -86,7 +86,7 @@ public class DictResource extends BaseResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_dict_view')")
-	@Log(value = "字典管理", businessType = BusinessType.VIEW)
+	@Log(value = "字典管理查看")
 	public R<IPage<DictVo>> findTreeList(DictQueryCriteria dictQueryCriteria) {
 		IPage<DictVo> treeList = dictService.findTreeList(dictQueryCriteria);
 		return R.buildOkData(treeList);
@@ -115,7 +115,7 @@ public class DictResource extends BaseResource {
 	@PostMapping
 	@CacheEvict(value = CacheNameConstants.DICT_DETAILS, allEntries = true)
 	@PreAuthorize("@pms.hasPermission('sys_dict_edit')")
-	@Log(value = "字典管理", businessType = BusinessType.EDIT)
+	@Log(value = "字典管理编辑")
 	public R save(@Valid @RequestBody DictDto dictDto) {
 		dictService.saveOrUpdate(dictDto);
 		return R.buildOk("操作成功");
@@ -130,7 +130,7 @@ public class DictResource extends BaseResource {
 	@DeleteMapping
 	@CacheEvict(value = CacheNameConstants.DICT_DETAILS, allEntries = true)
 	@PreAuthorize("@pms.hasPermission('sys_dict_del')")
-	@Log(value = "字典管理", businessType = BusinessType.DELETE)
+	@Log(value = "字典管理删除")
 	public R removeByIds(@RequestBody Set<String> ids) {
 		return R.buildOkData(dictService.removeByIds(ids));
 	}
@@ -140,7 +140,7 @@ public class DictResource extends BaseResource {
 	 * @return
 	 */
 	@PutMapping
-	@Log(value = "字典管理", businessType = BusinessType.LOCK)
+	@Log(value = "字典管理锁定/解锁")
 	@PreAuthorize("@pms.hasPermission('sys_dept_lock')")
 	public R lockOrUnLock(@RequestBody Set<String> ids) {
 		dictService.lockOrUnLock(ids);

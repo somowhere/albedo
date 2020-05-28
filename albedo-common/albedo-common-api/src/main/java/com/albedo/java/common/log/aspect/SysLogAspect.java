@@ -67,7 +67,6 @@ public class SysLogAspect {
 		logOperateVo.setTitle(log.value());
 		logOperateVo.setMethod(methodName);
 		logOperateVo.setParams(params.toString() + " }");
-		logOperateVo.setBusinessType(log.businessType().name());
 		logOperateVo.setOperatorType(log.operatorType().name());
 		Long startTime = System.currentTimeMillis();
 		Object obj;

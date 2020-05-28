@@ -55,7 +55,7 @@ public class JobResource extends BaseResource {
 
 	@PreAuthorize("@pms.hasPermission('quartz_job_view')")
 	@GetMapping
-	@Log(value = "任务调度", businessType = BusinessType.VIEW)
+	@Log(value = "任务调度查看")
 	public R<IPage> getPage(PageModel pm, JobQueryCriteria jobQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, jobQueryCriteria);
 		return R.buildOkData(jobService.page(pm, wrapper));
@@ -67,7 +67,7 @@ public class JobResource extends BaseResource {
 	 * @param jobVo the HTTP job
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
-	@Log(value = "任务调度", businessType = BusinessType.EDIT)
+	@Log(value = "任务调度编辑")
 	@PostMapping
 	public R save(@Valid @RequestBody JobDto jobVo) {
 		log.debug("REST request to save JobForm : {}", jobVo);
@@ -83,7 +83,7 @@ public class JobResource extends BaseResource {
 	 * @return the R with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_del')")
-	@Log(value = "任务调度", businessType = BusinessType.DELETE)
+	@Log(value = "任务调度删除")
 	@DeleteMapping
 	public R delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete Job: {}", ids);
@@ -98,7 +98,7 @@ public class JobResource extends BaseResource {
 	 * @return the R with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
-	@Log(value = "任务调度", businessType = BusinessType.EDIT)
+	@Log(value = "任务调度编辑")
 	@PutMapping("/update-status")
 	public R updateStatus(@RequestBody Set<String> ids) {
 		log.debug("REST request to available Job: {}", ids);
@@ -113,7 +113,7 @@ public class JobResource extends BaseResource {
 	 * @return the R with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
-	@Log(value = "任务调度", businessType = BusinessType.EDIT)
+	@Log(value = "任务调度编辑")
 	@PutMapping("/run")
 	public R run(@RequestBody Set<String> ids) {
 		log.debug("REST request to available Job: {}", ids);
@@ -128,7 +128,7 @@ public class JobResource extends BaseResource {
 	 * @return the R with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
-	@Log(value = "任务调度", businessType = BusinessType.EDIT)
+	@Log(value = "任务调度编辑")
 	@PutMapping("/concurrent")
 	public R concurrent(@RequestBody Set<String> ids) {
 		log.debug("REST request to available Job: {}", ids);

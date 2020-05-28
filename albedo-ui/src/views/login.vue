@@ -84,7 +84,7 @@ export default {
       passwordType: 'password',
       loginForm: {
         username: 'admin',
-        password: 'admin',
+        password: '111111',
         rememberMe: false,
         code: '',
         randomStr: ''
@@ -92,7 +92,7 @@ export default {
       loginRules: {
         username: [{ required: true, trigger: 'blur', message: '用户名不能为空' }],
         password: [{ required: true, trigger: 'blur', message: '密码不能为空' }],
-        code: [{ required: true, trigger: 'change', message: '验证码不能为空' }]
+        code: [{ required: true, trigger: 'blur', message: '验证码不能为空' }]
       },
       loading: false,
       redirect: undefined

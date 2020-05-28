@@ -43,7 +43,7 @@ public class SchemeResource extends BaseResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('gen_scheme_view')")
-	@Log(value = "生成方案", businessType = BusinessType.VIEW)
+	@Log(value = "生成方案查看")
 	public R getPage(PageModel pm, SchemeQueryCriteria schemeQueryCriteria) {
 		return R.buildOkData(schemeService.getSchemeVoPage(pm, schemeQueryCriteria));
 	}
@@ -64,7 +64,7 @@ public class SchemeResource extends BaseResource {
 		return R.buildOkData(formData);
 	}
 
-	@Log(value = "生成方案", businessType = BusinessType.GENCODE)
+	@Log(value = "方案生成代码")
 	@PutMapping(value = "/gen-code")
 	@PreAuthorize("@pms.hasPermission('gen_scheme_code')")
 	public R genCode(@Valid @RequestBody GenCodeDto genCodeDto) {
@@ -75,7 +75,7 @@ public class SchemeResource extends BaseResource {
 		return R.buildOk("生成", genSchemeDto.getName(), "代码成功");
 	}
 
-	@Log(value = "生成方案", businessType = BusinessType.EDIT)
+	@Log(value = "生成方案编辑")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('gen_scheme_edit')")
 	public R save(@Valid @RequestBody SchemeDto schemeDto) {
@@ -87,7 +87,7 @@ public class SchemeResource extends BaseResource {
 		return R.buildOk("保存", schemeDto.getName(), "成功");
 	}
 
-	@Log(value = "生成方案", businessType = BusinessType.EDIT)
+	@Log(value = "生成方案编辑")
 	@PostMapping("/gen-menu")
 	@PreAuthorize("@pms.hasPermission('gen_scheme_menu')")
 	public R genMenu(@Valid @RequestBody SchemeGenDto schemeGenDto) {
@@ -103,7 +103,7 @@ public class SchemeResource extends BaseResource {
 	}
 
 
-	@Log(value = "生成方案", businessType = BusinessType.DELETE)
+	@Log(value = "生成方案删除")
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('gen_scheme_del')")
 	public R delete(@RequestBody Set<String> ids) {

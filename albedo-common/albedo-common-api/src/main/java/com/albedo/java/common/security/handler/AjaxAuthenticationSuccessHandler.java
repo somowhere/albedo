@@ -36,9 +36,8 @@ public class AjaxAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
 		LogOperate logOperate = SysLogUtils.getSysLog();
 		logOperate.setParams(HttpUtil.toParams(request.getParameterMap()));
 		logOperate.setUsername(useruame);
-		logOperate.setBusinessType(BusinessType.LOGIN.name());
 		logOperate.setLogType(LogType.INFO.name());
-		logOperate.setTitle("用户");
+		logOperate.setTitle("用户登录");
 		AsyncUtil.recordLogLogin(logOperate);
 		WebUtil.renderJson(response, R.buildOk("登录成功"));
 	}

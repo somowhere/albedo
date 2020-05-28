@@ -82,7 +82,7 @@ public class DeptResource extends BaseResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_dept_view')")
-	@Log(value = "部门管理", businessType = BusinessType.VIEW)
+	@Log(value = "部门管理查看")
 	public R<IPage<DeptVo>> findTreeList(DeptQueryCriteria deptQueryCriteria) {
 		return R.buildOkData(deptService.findTreeList(deptQueryCriteria));
 	}
@@ -95,7 +95,7 @@ public class DeptResource extends BaseResource {
 	 */
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_dept_edit')")
-	@Log(value = "部门管理", businessType = BusinessType.EDIT)
+	@Log(value = "部门管理编辑")
 	public R save(@Valid @RequestBody DeptDto deptDto) {
 		deptService.saveOrUpdate(deptDto);
 		return R.buildOk("操作成功");
@@ -106,7 +106,7 @@ public class DeptResource extends BaseResource {
 	 * @return
 	 */
 	@PutMapping
-	@Log(value = "用户管理", businessType = BusinessType.LOCK)
+	@Log(value = "用户管理锁定/解锁")
 	@PreAuthorize("@pms.hasPermission('sys_dept_lock')")
 	public R lockOrUnLock(@RequestBody Set<String> ids) {
 		deptService.lockOrUnLock(ids);
@@ -121,7 +121,7 @@ public class DeptResource extends BaseResource {
 	 */
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_dept_del')")
-	@Log(value = "部门管理", businessType = BusinessType.DELETE)
+	@Log(value = "部门管理删除")
 	public R removeById(@RequestBody Set<String> ids) {
 		return R.buildOkData(deptService.removeByIds(ids));
 	}

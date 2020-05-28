@@ -44,7 +44,7 @@ public class UserOnlineResource extends BaseResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_userOnline_view')")
-	@Log(value = "在线用户", businessType = BusinessType.VIEW)
+	@Log(value = "在线用户查看")
 	public R getUserPage(PageModel pm, UserOnlineQueryCriteria userOnlineQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, userOnlineQueryCriteria);
 		return R.buildOkData(userOnlineService.page(pm, wrapper));
@@ -52,7 +52,7 @@ public class UserOnlineResource extends BaseResource {
 
 
 	@PreAuthorize("@pms.hasPermission('sys_userOnline_logout')")
-	@Log(value = "在线用户", businessType = BusinessType.FORCE_LOGOUT)
+	@Log(value = "在线用户强退")
 	@PutMapping("/batch-force-logout")
 	public R batchForceLogout(@RequestBody Set<String> ids, HttpServletRequest request) {
 		for (String id : ids) {
@@ -75,7 +75,7 @@ public class UserOnlineResource extends BaseResource {
 	}
 
 	@PreAuthorize("@pms.hasPermission('sys_userOnline_del')")
-	@Log(value = "在线用户", businessType = BusinessType.DELETE)
+	@Log(value = "在线用户删除")
 	@DeleteMapping
 	public R remove(@RequestBody Set<String> ids, HttpServletRequest request) {
 		for (String id : ids) {

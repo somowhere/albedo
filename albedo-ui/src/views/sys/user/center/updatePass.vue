@@ -30,7 +30,7 @@
 
 <script>
 import store from '@/store'
-import { updatePass } from '@/views/sys/user/user-service'
+import accountService from '@/api/account'
 
 export default {
   data() {
@@ -69,13 +69,13 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           this.loading = true
-          updatePass(this.form).then(res => {
+          accountService.updatePass(this.form).then(res => {
             this.resetForm()
             setTimeout(() => {
               store.dispatch('LogOut').then(() => {
                 location.reload() // 为了重新实例化vue-router对象 避免bug
               })
-            }, 1500)
+            }, 500)
           }).catch(err => {
             this.loading = false
             console.log(err.response.data.message)

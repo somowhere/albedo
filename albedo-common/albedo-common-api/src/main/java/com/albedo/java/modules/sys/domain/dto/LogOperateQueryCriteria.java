@@ -31,12 +31,11 @@ public class LogOperateQueryCriteria implements Serializable {
 
 	@Query(blurry = "username,title,user_agent,browser,os")
 	private String blurry;
+	@Query(operator = Query.Operator.like)
+	private String username;
 
-	@Query
-	private String logType;
-
-	@Query
-	private String businessType;
+	@Query(operator = Query.Operator.in)
+	private List<String> logType;
 
 	@Query
 	private String operatorType;

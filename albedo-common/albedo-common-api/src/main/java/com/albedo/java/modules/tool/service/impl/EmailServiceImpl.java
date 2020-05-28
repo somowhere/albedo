@@ -16,12 +16,21 @@
 
 package com.albedo.java.modules.tool.service.impl;
 
+import cn.hutool.core.lang.Dict;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.extra.mail.Mail;
 import cn.hutool.extra.mail.MailAccount;
+import cn.hutool.extra.template.Template;
+import cn.hutool.extra.template.TemplateConfig;
+import cn.hutool.extra.template.TemplateEngine;
+import cn.hutool.extra.template.TemplateUtil;
 import com.albedo.java.common.core.constant.CacheNameConstants;
+import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BadRequestException;
 import com.albedo.java.common.core.util.EncryptUtil;
+import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.persistence.service.impl.BaseServiceImpl;
+import com.albedo.java.common.util.RedisUtil;
 import com.albedo.java.modules.tool.domain.EmailConfig;
 import com.albedo.java.modules.tool.domain.vo.EmailVo;
 import com.albedo.java.modules.tool.repository.EmailConfigRepository;
@@ -34,7 +43,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -74,7 +85,7 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, Ema
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void send(EmailVo emailVo, EmailConfig emailConfig){
-		if(emailConfig == null){
+		if(emailConfig == null || emailConfig.getId() == null){
 			throw new BadRequestException("请先配置，再操作");
 		}
 		// 封装
@@ -105,6 +116,42 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, Ema
 				.send();
 		}catch (Exception e){
 			throw new BadRequestException(e.getMessage());
+		}
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public EmailVo sendEmail(String email, String key) {
+		EmailVo emailVo;
+		String content;
+		String redisKey = key + email;
+		// 如果不存在有效的验证码，就创建一个新的
+		TemplateEngine engine = TemplateUtil.createEngine(new TemplateConfig("templates", TemplateConfig.ResourceMode.CLASSPATH));
+		Template template = engine.getTemplate("email/email.ftl");
+		Object oldCode =  RedisUtil.getCacheString(redisKey);
+		if(oldCode == null){
+			String code = RandomUtil.randomNumbers (6);
+
+			// 存入缓存
+			RedisUtil.setCacheString(redisKey, code, CommonConstants.DEFAULT_IMAGE_EXPIRE , TimeUnit.SECONDS);
+
+			content = template.render(Dict.create().set("code",code));
+			emailVo = new EmailVo(Collections.singletonList(email),"Albedo后台管理系统",content);
+			// 存在就再次发送原来的验证码
+		} else {
+			content = template.render(Dict.create().set("code",oldCode));
+			emailVo = new EmailVo(Collections.singletonList(email),"Albedo后台管理系统",content);
+		}
+		return emailVo;
+	}
+
+	@Override
+	public void validated(String key, String code) {
+		Object value = RedisUtil.getCacheString(key);
+		if(value == null || !value.toString().equals(code)){
+			throw new BadRequestException("无效验证码");
+		} else {
+			RedisUtil.delete(key);
 		}
 	}
 

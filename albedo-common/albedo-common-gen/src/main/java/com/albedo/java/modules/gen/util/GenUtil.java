@@ -203,7 +203,7 @@ public class GenUtil {
 //			if (file != null) {
 //				return StringUtil.toAppendStr(file.getAbsolutePath(), File.separator, "codet", File.separator);
 //			}
-			return StringUtil.toAppendStr("classpath*:/codet/");
+			return StringUtil.toAppendStr("classpath*:/templates/codet/");
 		} catch (Exception e) {
 			logger.error("{}", e);
 		}

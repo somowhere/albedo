@@ -9,7 +9,7 @@
           <div>
             <div style="text-align: center">
               <el-upload
-                :action="updateAvatarApi"
+                :action="fileUploadApi"
                 :headers="headers"
                 :on-error="handleError"
                 :on-success="handleSuccess"
@@ -17,7 +17,7 @@
                 class="avatar-uploader"
               >
                 <img
-                  :src="user.avatarName ? baseApi + '/avatar/' + user.avatarName : Avatar"
+                  :src="user.avatar ? baseApi + '/avatar/' + user.avatar : Avatar"
                   class="avatar"
                   title="点击上传头像"
                 >
@@ -154,6 +154,7 @@ import commonUtil from '@/utils/common'
 import crud from '@/mixins/crud'
 import crudUser from '@/views/sys/user/user-service'
 import Avatar from '@/assets/images/avatar.png'
+import accountService from '../../../api/account'
 
 const parseTime = commonUtil.parseTime
 export default {
@@ -193,7 +194,7 @@ export default {
   computed: {
     ...mapGetters([
       'user',
-      'updateAvatarApi',
+      'fileUploadApi',
       'baseApi'
     ])
   },
@@ -214,12 +215,9 @@ export default {
       return true
     },
     handleSuccess(response, file, fileList) {
-      this.$notify({
-        title: '头像修改成功',
-        type: 'success',
-        duration: 2500
-      })
-      store.dispatch('GetUser').then(() => {
+      accountService.updateAvatar(response.url).then(() => {
+        store.dispatch('GetUser').then(() => {
+        })
       })
     },
     // 监听上传失败

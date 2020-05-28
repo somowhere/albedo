@@ -114,7 +114,7 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public AjaxAuthenticationFailureHandler ajaxAuthenticationFailureHandler() {
-		return new AjaxAuthenticationFailureHandler();
+		return new AjaxAuthenticationFailureHandler(userDetailsService);
 	}
 
 	@Bean

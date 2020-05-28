@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import { encrypt } from '@/utils/rsaEncrypt'
 import qs from 'qs'
 
 export function save(obj) {
@@ -56,30 +55,5 @@ export function download(params) {
   })
 }
 
-export function updatePass(user) {
-  const data = {
-    oldPassword: encrypt(user.oldPassword),
-    newPassword: encrypt(user.newPassword),
-    confirmPassword: encrypt(user.confirmPassword)
-  }
-  return request({
-    url: '/account/change-password',
-    method: 'post',
-    data
-  })
-}
-
-export function updateEmail(form) {
-  const data = {
-    password: encrypt(form.pass),
-    email: form.email
-  }
-  return request({
-    url: '/sys/user/updateEmail/' + form.code,
-    method: 'post',
-    data
-  })
-}
-
-export default { page, save, lock, del, get, download, saveInfo, updatePass, updateEmail }
+export default { page, save, lock, del, get, download, saveInfo }
 

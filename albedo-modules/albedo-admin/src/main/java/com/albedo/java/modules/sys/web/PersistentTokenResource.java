@@ -47,7 +47,7 @@ public class PersistentTokenResource {
 	 * @param ids
 	 * @return
 	 */
-	@Log(value = "令牌管理", businessType = BusinessType.DELETE)
+	@Log(value = "令牌管理删除")
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_persistentToken_del')")
 	public R removeByIds(@RequestBody Set<String> ids) {
@@ -63,7 +63,7 @@ public class PersistentTokenResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_persistentToken_view')")
-	@Log(value = "令牌管理", businessType = BusinessType.VIEW)
+	@Log(value = "令牌管理查看")
 	public R getUserPage(PageModel pm, PersistentTokenQueryCriteria persistentTokenQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, persistentTokenQueryCriteria);
 		return R.buildOkData(persistentTokenService.page(pm, wrapper));

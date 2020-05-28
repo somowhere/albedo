@@ -33,8 +33,7 @@
 <script>
 import store from '@/store'
 import validate from '@/utils/validate'
-import { updateEmail } from '@/views/sys/user/user-service'
-import { resetEmail } from '@/api/sys/code'
+import accountService from '@/api/account'
 
 export default {
   props: {
@@ -81,7 +80,7 @@ export default {
         this.codeLoading = true
         this.buttonName = '验证码发送中'
         const _this = this
-        resetEmail(this.form.email).then(res => {
+        accountService.resetEmailSend(this.form.email).then(res => {
           this.$message({
             showClose: true,
             message: '发送成功，验证码有效期5分钟',
@@ -105,20 +104,20 @@ export default {
           this.codeLoading = false
           console.log(err.response.data.message)
         })
+      } else {
+        this.$message({
+          message: '邮箱不能为空',
+          type: 'warning'
+        })
       }
     },
     doSubmit() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           this.loading = true
-          updateEmail(this.form).then(res => {
+          accountService.updateEmail(this.form).then(res => {
             this.loading = false
             this.resetForm()
-            this.$notify({
-              title: '邮箱修改成功',
-              type: 'success',
-              duration: 1500
-            })
             store.dispatch('GetUser').then(() => {
             })
           }).catch(err => {

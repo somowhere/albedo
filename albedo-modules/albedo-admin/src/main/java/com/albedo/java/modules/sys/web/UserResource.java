@@ -76,13 +76,13 @@ public class UserResource extends BaseResource {
 	 * @return 用户集合
 	 */
 	@GetMapping
-	@Log(value = "用户管理", businessType = BusinessType.VIEW)
+	@Log(value = "用户管理查看")
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
 	public R<IPage<UserVo>> getUserPage(PageModel pm, UserQueryCriteria userQueryCriteria) {
 		return R.buildOkData(userService.getUserPage(pm, userQueryCriteria, SecurityUtil.getDataScope()));
 	}
 
-	@Log(value = "用户管理", businessType = BusinessType.EXPORT)
+	@Log(value = "用户管理导出")
 	@GetMapping(value = "/download")
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
 	public void download(UserQueryCriteria userQueryCriteria, HttpServletResponse response) {
@@ -126,7 +126,7 @@ public class UserResource extends BaseResource {
 	 * @param ids
 	 * @return
 	 */
-	@Log(value = "用户管理", businessType = BusinessType.DELETE)
+	@Log(value = "用户管理删除")
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_del')")
 	public R removeByIds(@RequestBody Set<String> ids) {
@@ -139,7 +139,7 @@ public class UserResource extends BaseResource {
 	 * @param userDto 用户信息
 	 * @return R
 	 */
-	@Log(value = "用户管理", businessType = BusinessType.EDIT)
+	@Log(value = "用户管理编辑")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
 	public R save(@Valid @RequestBody UserDto userDto) {
@@ -157,7 +157,7 @@ public class UserResource extends BaseResource {
 	 * @param userInfoDto 用户信息
 	 * @return R
 	 */
-	@Log(value = "用户管理", businessType = BusinessType.EDIT)
+	@Log(value = "用户管理编辑")
 	@PostMapping("/info")
 	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
 	public R saveInfo(@Valid @RequestBody UserInfoDto userInfoDto) {
@@ -184,7 +184,7 @@ public class UserResource extends BaseResource {
 	 * @return
 	 */
 	@PutMapping
-	@Log(value = "用户管理", businessType = BusinessType.LOCK)
+	@Log(value = "用户管理锁定/解锁")
 	@PreAuthorize("@pms.hasPermission('sys_user_lock')")
 	public R lockOrUnLock(@RequestBody Set<String> ids) {
 		userService.lockOrUnLock(ids);
@@ -194,7 +194,7 @@ public class UserResource extends BaseResource {
 
 	@PostMapping(value = "/upload")
 	@PreAuthorize("@pms.hasPermission('sys_user_upload')")
-	@Log(value = "用户管理", businessType = BusinessType.IMPORT)
+	@Log(value = "用户管理导入")
 	public ResponseEntity uploadData(@RequestParam("uploadFile") MultipartFile dataFile, HttpServletResponse response) throws Exception {
 		if (dataFile.isEmpty()) {
 			return ResultBuilder.buildFail("上传文件为空");
@@ -214,7 +214,7 @@ public class UserResource extends BaseResource {
 
 	@GetMapping(value = "/importTemplate")
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
-	@Log(value = "用户导入模板", businessType = BusinessType.EXPORT)
+	@Log(value = "用户导入模板导出")
 	public void importTemplate(HttpServletResponse response) {
 		ExcelUtil<UserExcelVo> util = new ExcelUtil(UserExcelVo.class);
 		util.exportExcel(Lists.newArrayList(new UserExcelVo()), "操作日志", response);

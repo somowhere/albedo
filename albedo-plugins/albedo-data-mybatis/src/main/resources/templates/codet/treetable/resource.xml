@@ -72,7 +72,7 @@ public class ${ClassName}Resource extends BaseResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_view')")
-	@Log(value = "${functionNameSimple}", businessType = BusinessType.VIEW)
+	@Log(value = "${functionNameSimple}查看")
 	public R<IPage<${ClassName}Vo>> findTreeList(${ClassName}QueryCriteria ${className}QueryCriteria) {
 		List<${ClassName}Vo> ${className}VoList = service.findTreeList(${className}QueryCriteria).stream()
 			.map(item -> BeanUtil.copyPropertiesByClass(item, ${ClassName}Vo.class)).collect(Collectors.toList());
@@ -87,7 +87,7 @@ public class ${ClassName}Resource extends BaseResource {
 	 */
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_edit')")
 	@PostMapping
-	@Log(value = "${functionName}", businessType = BusinessType.EDIT)
+	@Log(value = "${functionName}编辑")
 	public R save(@Valid @RequestBody ${ClassName}Dto ${className}Vo) {
 		log.debug("REST request to save ${ClassName} : {}", ${className}Vo);
 		service.saveOrUpdate(${className}Vo);
@@ -102,7 +102,7 @@ public class ${ClassName}Resource extends BaseResource {
 	 */
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_del')")
 	@DeleteMapping
-	@Log(value = "${functionName}", businessType = BusinessType.DELETE)
+	@Log(value = "${functionName}删除")
 	public R delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete ${ClassName}: {}", ids);
 		service.removeByIds(ids);

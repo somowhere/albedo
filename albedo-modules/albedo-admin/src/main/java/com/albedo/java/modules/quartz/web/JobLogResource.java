@@ -43,7 +43,7 @@ public class JobLogResource extends BaseResource {
 
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_view')")
 	@GetMapping
-	@Log(value = "任务日志", businessType = BusinessType.VIEW)
+	@Log(value = "任务日志查看")
 	public R getPage(PageModel pm, JobLogQueryCriteria jobLogQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, jobLogQueryCriteria);
 		return R.buildOkData(jobLogService.page(pm, wrapper));
@@ -57,7 +57,7 @@ public class JobLogResource extends BaseResource {
 	 * @return the R with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_del')")
-	@Log(value = "任务日志", businessType = BusinessType.DELETE)
+	@Log(value = "任务日志删除")
 	@DeleteMapping
 	public R delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete JobLog: {}", ids);
@@ -65,7 +65,7 @@ public class JobLogResource extends BaseResource {
 		return R.buildOk("删除任务调度日志成功");
 	}
 
-	@Log(value = "任务日志", businessType = BusinessType.CLEAN)
+	@Log(value = "任务日志清空")
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_clean')")
 	@PostMapping("/clean")
 	@ResponseBody
@@ -74,7 +74,7 @@ public class JobLogResource extends BaseResource {
 		return R.buildOk("清空任务调度日志成功");
 	}
 
-	@Log(value = "任务日志", businessType = BusinessType.EXPORT)
+	@Log(value = "任务日志导出")
 	@GetMapping(value = "/download")
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_export')")
 	public void download(JobLogQueryCriteria jobLogQueryCriteria, HttpServletResponse response) {

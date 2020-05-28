@@ -21,6 +21,7 @@ import com.albedo.java.common.persistence.datascope.DataScope;
 import com.albedo.java.common.persistence.service.DataService;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
+import com.albedo.java.modules.sys.domain.dto.UserEmailDto;
 import com.albedo.java.modules.sys.domain.dto.UserInfoDto;
 import com.albedo.java.modules.sys.domain.dto.UserQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.UserExcelVo;
@@ -29,6 +30,7 @@ import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.albedo.java.modules.sys.domain.vo.account.PasswordChangeVo;
 import com.albedo.java.modules.sys.domain.vo.account.PasswordRestVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Set;
@@ -91,6 +93,7 @@ public interface UserService extends DataService<User, UserDto, String> {
 
 	void lockOrUnLock(Set<String> idList);
 
+
 	void resetPassword(PasswordRestVo passwordRestVo);
 
 	void changePassword(String username, PasswordChangeVo passwordChangeVo);
@@ -103,4 +106,7 @@ public interface UserService extends DataService<User, UserDto, String> {
 
 	List<User> getUserByDeptId(String deptId);
 
+	void updateEmail(String username, UserEmailDto userEmailDto);
+
+	void updateAvatar(String username, String avatar);
 }

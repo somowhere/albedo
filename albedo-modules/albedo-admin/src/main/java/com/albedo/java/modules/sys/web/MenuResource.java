@@ -154,7 +154,7 @@ public class MenuResource extends BaseResource {
 	 * @param menuDto 菜单信息
 	 * @return success/false
 	 */
-	@Log(value = "菜单管理", businessType = BusinessType.EDIT)
+	@Log(value = "菜单管理编辑")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_menu_edit')")
 	public R save(@Valid @RequestBody com.albedo.java.modules.sys.domain.dto.MenuDto menuDto) {
@@ -168,7 +168,7 @@ public class MenuResource extends BaseResource {
 	 * @param menuSortDto 菜单信息
 	 * @return success/false
 	 */
-	@Log(value = "菜单管理", businessType = BusinessType.EDIT)
+	@Log(value = "菜单管理编辑")
 	@PostMapping("/sort-update")
 	@PreAuthorize("@pms.hasPermission('sys_menu_edit')")
 	public R sortUpdate(@Valid @RequestBody MenuSortDto menuSortDto) {
@@ -184,7 +184,7 @@ public class MenuResource extends BaseResource {
 	 */
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_menu_del')")
-	@Log(value = "菜单管理", businessType = BusinessType.DELETE)
+	@Log(value = "菜单管理删除")
 	public R removeByIds(@RequestBody Set<String> ids) {
 		menuService.removeMenuById(ids);
 		return R.buildOk("操作成功");
@@ -197,7 +197,7 @@ public class MenuResource extends BaseResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_menu_view')")
-	@Log(value = "菜单管理", businessType = BusinessType.VIEW)
+	@Log(value = "菜单管理查看")
 	public R<IPage<MenuVo>> findTreeList(MenuQueryCriteria menuQueryCriteria) {
 		List<MenuVo> menuVoList = menuService.findTreeList(menuQueryCriteria).stream()
 			.map(item -> BeanUtil.copyPropertiesByClass(item, MenuVo.class)).collect(Collectors.toList());

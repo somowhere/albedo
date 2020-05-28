@@ -60,7 +60,7 @@ public class ${ClassName}Resource extends BaseResource {
 
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_view')")
 	@GetMapping
-	@Log(value = "${functionName}", businessType = BusinessType.VIEW)
+	@Log(value = "${functionName}查看")
 	public R getPage(PageModel pm, ${ClassName}QueryCriteria ${className}QueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, ${className}QueryCriteria);
 		return R.buildOkData(service.page(pm, wrapper));
@@ -72,7 +72,7 @@ public class ${ClassName}Resource extends BaseResource {
 	 * @param ${className}Dto the HTTP ${className}
 	 */
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_edit')")
-	@Log(value = "${functionName}", businessType = BusinessType.EDIT)
+	@Log(value = "${functionName}编辑")
 	@PostMapping
 	public R save(@Valid @RequestBody ${ClassName}Dto ${className}Dto) {
 		log.debug("REST request to save ${ClassName}Dto : {}", ${className}Dto);
@@ -88,7 +88,7 @@ public class ${ClassName}Resource extends BaseResource {
 	 * @return the R with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_del')")
-	@Log(value = "${functionName}", businessType = BusinessType.DELETE)
+	@Log(value = "${functionName}删除")
 	@DeleteMapping
 	public R delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete ${ClassName}: {}", ids);

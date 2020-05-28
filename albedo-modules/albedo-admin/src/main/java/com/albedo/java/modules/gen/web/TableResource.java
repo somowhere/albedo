@@ -55,14 +55,14 @@ public class TableResource extends BaseResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('gen_table_view')")
-	@Log(value = "业务表", businessType = BusinessType.VIEW)
+	@Log(value = "业务表查看")
 	public R getPage(PageModel pm, TableQueryCriteria tableQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, tableQueryCriteria);
 		pm = tableService.page(pm, wrapper);
 		return R.buildOkData(pm);
 	}
 
-	@Log(value = "业务表", businessType = BusinessType.EDIT)
+	@Log(value = "业务表编辑")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('gen_table_edit')")
 	public R save(@Valid @RequestBody TableDto tableDto) {
@@ -86,7 +86,7 @@ public class TableResource extends BaseResource {
 	}
 
 	@DeleteMapping
-	@Log(value = "业务表", businessType = BusinessType.DELETE)
+	@Log(value = "业务表删除")
 	@PreAuthorize("@pms.hasPermission('gen_table_del')")
 	public R delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete table: {}", ids);

@@ -14,24 +14,28 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.core.constant;
+package com.albedo.java.modules.sys.domain.dto;
+
+import com.albedo.java.common.core.vo.DataDto;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotEmpty;
 
 /**
  * @author somewhere
- * @date 2018年06月22日16:41:01
- * 服务名称
+ * @date 2019/2/1
  */
-public interface DictNameConstants {
+@Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+public class UserEmailDto extends DataDto<String> {
 
-	String SYS_FLAG = "sys_flag";
-	String SYS_MENU_TYPE = "sys_menu_type";
-	String SYS_ONLINE_STATUS = "sys_online_status";
-	String SYS_OPERATOR_TYPE = "sys_operator_type";
-	String SYS_STATUS = "sys_status";
-	String SYS_DATA_SCOPE = "sys_data_scope";
-	String SYS_BUSINESS_TYPE = "sys_business_type";
-	String QUARTZ_MISFIRE_POLICY = "quartz_misfire_policy";
-	String QUARTZ_MISFIRE_POLICY_3 = "3";
-	String QUARTZ_JOB_GROUP = "quartz_job_group";
-	String QUARTZ_JOB_STATUS = "quartz_job_status";
+	@NotEmpty
+	private String password;
+
+	@NotEmpty
+	private String email;
+
 }

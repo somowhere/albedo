@@ -29,6 +29,7 @@ import com.albedo.java.modules.sys.service.LogOperateService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -62,7 +63,7 @@ public class LogOperateResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_view')")
-//	@Log(value = "操作日志", businessType = BusinessType.VIEW)
+//	@Log(value = "操作日志查看")
 	public R<IPage> getPage(PageModel pm, LogOperateQueryCriteria logOperateQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, logOperateQueryCriteria);
 		return R.buildOkData(logOperateService.page(pm, wrapper));
@@ -76,13 +77,13 @@ public class LogOperateResource {
 	 */
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_del')")
-	@Log(value = "操作日志", businessType = BusinessType.DELETE)
+	@Log(value = "操作日志删除")
 	public R removeById(@RequestBody Set<String> ids) {
 		return R.buildOkData(logOperateService.removeByIds(ids));
 	}
 
 
-	@Log(value = "操作日志", businessType = BusinessType.EXPORT)
+	@Log(value = "操作日志导出")
 	@GetMapping(value = "/download")
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_export')")
 	public void download(LogOperateQueryCriteria logOperateQueryCriteria, HttpServletResponse response) {
@@ -94,8 +95,8 @@ public class LogOperateResource {
 	@GetMapping(value = "/user")
 	@ApiOperation("用户日志查询")
 	public R<Object> getUserLogs(PageModel pm, LogOperateQueryCriteria criteria) {
-		criteria.setLogType(LogType.INFO.name());
-		criteria.setBlurry(SecurityUtil.getUser().getUsername());
+		criteria.setLogType(Lists.newArrayList(LogType.INFO.name(), LogType.WARN.name()));
+		criteria.setUsername(SecurityUtil.getUser().getUsername());
 		pm.addOrder(OrderItem.desc(LogOperate.F_SQL_CREATEDDATE));
 		QueryWrapper<LogOperate> wrapper = QueryWrapperUtil.<LogOperate>getWrapper(pm, criteria);
 

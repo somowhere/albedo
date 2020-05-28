@@ -38,13 +38,6 @@ public @interface Log {
 	 */
 	String value();
 
-
-	/**
-	 * 功能
-	 */
-	BusinessType businessType() default BusinessType.OTHER;
-
-
 	/**
 	 * 操作人类别
 	 */

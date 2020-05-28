@@ -18,6 +18,7 @@ package com.albedo.java.common.security.service;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ArrayUtil;
+import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.persistence.datascope.DataScope;
@@ -68,7 +69,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	@SneakyThrows
 	public UserDetails loadUserByUsername(String username) {
-		Cache cache = cacheManager.getCache("user_details");
+		Cache cache = cacheManager.getCache(CacheNameConstants.USER_DETAILS);
 		if (cache != null && cache.get(username) != null) {
 			return (UserDetail) cache.get(username).get();
 		}
