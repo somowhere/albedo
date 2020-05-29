@@ -29,9 +29,9 @@
 
 	<description>albedo 通用管理系统公共api模块</description>
 	<properties>
-		<jjwt.version>0.9.1</jjwt.version>
-		<mail.version>1.4.7</mail.version>
-		<alipay.version>3.1.0</alipay.version>
+		<jjwt.version>0.11.1</jjwt.version>
+		<mail.version>1.5.0-b01</mail.version>
+		<alipay.version>4.9.153.ALL</alipay.version>
 	</properties>
 
 	<dependencies>
@@ -56,9 +56,20 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
+		<!-- jwt -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt</artifactId>
+			<artifactId>jjwt-api</artifactId>
+			<version>${jjwt.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>${jjwt.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
 			<version>${jjwt.version}</version>
 		</dependency>
 		<dependency>

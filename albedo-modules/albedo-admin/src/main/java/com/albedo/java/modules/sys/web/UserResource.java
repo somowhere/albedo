@@ -66,7 +66,7 @@ public class UserResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
 	public R get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
-		return R.buildOkData(userService.getUserDtoById(id));
+		return R.buildOkData(userService.findDtoById(id));
 	}
 
 	/**
@@ -78,8 +78,8 @@ public class UserResource extends BaseResource {
 	@GetMapping
 	@Log(value = "用户管理查看")
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
-	public R<IPage<UserVo>> getUserPage(PageModel pm, UserQueryCriteria userQueryCriteria) {
-		return R.buildOkData(userService.getUserPage(pm, userQueryCriteria, SecurityUtil.getDataScope()));
+	public R<IPage<UserVo>> findPage(PageModel pm, UserQueryCriteria userQueryCriteria) {
+		return R.buildOkData(userService.findPage(pm, userQueryCriteria, SecurityUtil.getDataScope()));
 	}
 
 	@Log(value = "用户管理导出")
@@ -87,7 +87,7 @@ public class UserResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
 	public void download(UserQueryCriteria userQueryCriteria, HttpServletResponse response) {
 		ExcelUtil<UserVo> util = new ExcelUtil(UserVo.class);
-		util.exportExcel(userService.getUserPage(userQueryCriteria,
+		util.exportExcel(userService.findPage(userQueryCriteria,
 			SecurityUtil.getDataScope()), "用户数据", response);
 	}
 
@@ -99,11 +99,27 @@ public class UserResource extends BaseResource {
 	@GetMapping(value = {"/info"})
 	public R info() {
 		String username = SecurityUtil.getUser().getUsername();
-		UserVo userVo = userService.getOneVoByUserName(username);
+		UserVo userVo = userService.findVoByUsername(username);
 		if (userVo == null) {
 			return R.buildFail("获取当前用户信息失败");
 		}
-		return R.buildOkData(userService.getUserInfo(userVo));
+		return R.buildOkData(userService.getInfo(userVo));
+	}
+
+	/**
+	 *个人中心更新信息
+	 * @param userInfoDto 用户信息
+	 * @return R
+	 */
+	@Log(value = "用户管理编辑")
+	@PostMapping("/info")
+	public R saveInfo(@Valid @RequestBody UserInfoDto userInfoDto) {
+		log.debug("REST request to save userDto : {}", userInfoDto);
+		UserDto userDto = BeanUtil.copyPropertiesByClass(userInfoDto, UserDto.class);
+		userDto.setId(SecurityUtil.getUser().getId());
+		userDto.setUsername(SecurityUtil.getUser().getUsername());
+		userService.saveOrUpdate(userDto);
+		return R.buildOk("更新成功");
 	}
 
 	/**
@@ -113,11 +129,11 @@ public class UserResource extends BaseResource {
 	 */
 	@GetMapping("/info/{username}")
 	public R info(@PathVariable String username) {
-		UserVo userVo = userService.getOneVoByUserName(username);
+		UserVo userVo = userService.findVoByUsername(username);
 		if (userVo == null) {
 			return R.buildFail(String.format("用户信息为空 %s", username));
 		}
-		return R.buildOkData(userService.getUserInfo(userVo));
+		return R.buildOkData(userService.getInfo(userVo));
 	}
 
 	/**
@@ -152,22 +168,7 @@ public class UserResource extends BaseResource {
 		return R.buildOk(add ? "新增成功，默认密码：123456" : "修改成功");
 	}
 
-	/**
-	 *个人中心更新信息
-	 * @param userInfoDto 用户信息
-	 * @return R
-	 */
-	@Log(value = "用户管理编辑")
-	@PostMapping("/info")
-	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
-	public R saveInfo(@Valid @RequestBody UserInfoDto userInfoDto) {
-		log.debug("REST request to save userDto : {}", userInfoDto);
-		UserDto userDto = BeanUtil.copyPropertiesByClass(userInfoDto, UserDto.class);
-		userDto.setId(SecurityUtil.getUser().getId());
-		userDto.setUsername(SecurityUtil.getUser().getUsername());
-		userService.saveOrUpdate(userDto);
-		return R.buildOk("更新成功");
-	}
+
 
 	/**
 	 * @param username 用户名称

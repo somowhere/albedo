@@ -99,7 +99,13 @@ public class ApplicationConfig {
 	 * 获取文件上传路径
 	 */
 	public static String getStaticFileDirectory() {
-		return get("application.static-file-directory");
+		String os = System.getProperty("os.name");
+		if(os.toLowerCase().startsWith("win")) {
+			return get("application.static-file-directory.win");
+		} else if(os.toLowerCase().startsWith("mac")){
+			return get("application.static-file-directory.mac");
+		}
+		return get("application.static-file-directory.linux");
 	}
 
 	/**

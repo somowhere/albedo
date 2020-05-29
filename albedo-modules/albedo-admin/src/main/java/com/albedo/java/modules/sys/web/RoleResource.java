@@ -186,7 +186,7 @@ public class RoleResource extends BaseResource {
 	 * @return /
 	 */
 	private void checkRole(String roleId, String roleName) {
-		List<User> userList = userService.findUserByRoleId(roleId);
+		List<User> userList = userService.findListByRoleId(roleId);
 		if (CollUtil.isNotEmpty(userList)) {
 			throw new BadRequestException("操作失败！用户：" + CollUtil.convertToString(userList, User.F_USERNAME, StringUtil.COMMA)
 				+ "所属要操作的角色：" + roleName);

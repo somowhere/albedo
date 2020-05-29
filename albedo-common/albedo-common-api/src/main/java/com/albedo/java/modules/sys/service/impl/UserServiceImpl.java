@@ -37,7 +37,6 @@ import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.domain.UserRole;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
 import com.albedo.java.modules.sys.domain.dto.UserEmailDto;
-import com.albedo.java.modules.sys.domain.dto.UserInfoDto;
 import com.albedo.java.modules.sys.domain.dto.UserQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.MenuVo;
 import com.albedo.java.modules.sys.domain.vo.UserExcelVo;
@@ -47,9 +46,9 @@ import com.albedo.java.modules.sys.domain.vo.account.PasswordChangeVo;
 import com.albedo.java.modules.sys.domain.vo.account.PasswordRestVo;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.modules.sys.service.*;
+import com.albedo.java.modules.sys.util.SysCacheUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
@@ -63,7 +62,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -85,6 +83,97 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	private final RoleService roleService;
 	private final DeptService deptService;
 	private final UserRoleService userRoleService;
+
+
+	@Override
+	@Cacheable(key = "'findVoByUsername:' + #p0")
+	public UserVo findVoByUsername(String username) {
+		return repository.findVoByUsername(username);
+	}
+	/**
+	 * 通过ID查询用户信息
+	 *
+	 * @param id 用户ID
+	 * @return 用户信息
+	 */
+	@Override
+	@Transactional(readOnly = true, rollbackFor = Exception.class)
+	@Cacheable(key = "'findUserVoById:' + #p0")
+	public UserVo findUserVoById(String id) {
+		UserVo userVo = baseMapper.findUserVoById(id);
+		return userVo;
+	}
+
+	/**
+	 * 通过ID查询用户信息
+	 *
+	 * @param id 用户ID
+	 * @return 用户信息
+	 */
+	@Override
+	@Transactional(readOnly = true, rollbackFor = Exception.class)
+	@Cacheable(key = "'findDtoById:' + #p0")
+	public UserDto findDtoById(String id) {
+		UserVo userVo = repository.findUserVoById(id);
+		return new UserDto(userVo);
+	}
+
+
+	/**
+	 * 通过查用户的全部信息
+	 *
+	 * @param userVo 用户
+	 * @return
+	 */
+	@Override
+	@Transactional(readOnly = true, rollbackFor = Exception.class)
+	public UserInfo getInfo(UserVo userVo) {
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUser(userVo);
+		List<Role> roles = roleService.findListByUserId(userVo.getId());
+		//设置角色列表  （ID）
+		List<String> roleIds = roles.stream()
+			.map(Role::getId)
+			.collect(Collectors.toList());
+		userInfo.setRoles(ArrayUtil.toArray(roleIds, String.class));
+		//设置权限列表（menu.permission）
+		Set<String> permissions = new HashSet<>();
+		roleIds.forEach(roleId -> {
+			List<String> permissionList = menuService.findListByRoleId(roleId)
+				.stream()
+				.filter(menuVo -> StringUtil.isNotEmpty(menuVo.getPermission()))
+				.map(MenuVo::getPermission)
+				.collect(Collectors.toList());
+			permissions.addAll(permissionList);
+		});
+		userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
+		return userInfo;
+	}
+
+	/**
+	 * 分页查询用户信息（含有角色信息）
+	 *
+	 * @param pm 分页对象
+	 * @return
+	 */
+	@Override
+	@Transactional(readOnly = true, rollbackFor = Exception.class)
+	public IPage<UserVo> findPage(PageModel pm, UserQueryCriteria userQueryCriteria, DataScope dataScope) {
+//		pm.addOrder(OrderItem.desc("a.created_date"));
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, userQueryCriteria);
+		wrapper.eq("a.del_flag", User.FLAG_NORMAL);
+		IPage<UserVo> userVosPage = repository.findUserVoPage(pm, wrapper, dataScope);
+		return userVosPage;
+	}
+
+	@Override
+	public List<UserVo> findPage(UserQueryCriteria userQueryCriteria, DataScope dataScope) {
+		QueryWrapper wrapper = QueryWrapperUtil.<User>getWrapper(userQueryCriteria);
+		wrapper.eq("a.del_flag", User.FLAG_NORMAL);
+		wrapper.orderByDesc("a.created_date");
+		return repository.findUserVoPage(wrapper, dataScope);
+	}
+
 
 	public Boolean exitUserByUserName(UserDto userDto) {
 		return getOne(Wrappers.<User>query()
@@ -111,7 +200,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	@CacheEvict(key = "#userDto.username")
+	@CacheEvict(cacheNames = {CacheNameConstants.USER_DETAILS},allEntries = true)
 	public void saveOrUpdate(UserDto userDto) {
 		boolean add = StringUtil.isEmpty(userDto.getId());
 		if (add) {
@@ -137,7 +226,11 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 		super.saveOrUpdate(user);
 		userDto.setId(user.getId());
 		if (add || CollUtil.isNotEmpty(userDto.getRoleIdList())) {
+
 			Assert.isTrue(CollUtil.isNotEmpty(userDto.getRoleIdList()), "用户角色不能为空");
+			if(!add){
+				SysCacheUtil.delUserCaches(user.getId(), user.getUsername());
+			}
 			List<UserRole> userRoleList = userDto.getRoleIdList()
 				.stream().map(roleId -> {
 					UserRole userRole = new UserRole();
@@ -151,106 +244,15 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	}
 
 
-	/**
-	 * 通过查用户的全部信息
-	 *
-	 * @param userVo 用户
-	 * @return
-	 */
-	@Override
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public UserInfo getUserInfo(UserVo userVo) {
-		UserInfo userInfo = new UserInfo();
-		userInfo.setUser(userVo);
-		List<Role> roles = roleService.findRoleByUserIdList(userVo.getId());
-		//设置角色列表  （ID）
-		List<String> roleIds = roles.stream()
-			.map(Role::getId)
-			.collect(Collectors.toList());
-		userInfo.setRoles(ArrayUtil.toArray(roleIds, String.class));
-		//设置权限列表（menu.permission）
-		Set<String> permissions = new HashSet<>();
-		roleIds.forEach(roleId -> {
-			List<String> permissionList = menuService.findMenuByRoleId(roleId)
-				.stream()
-				.filter(menuVo -> StringUtil.isNotEmpty(menuVo.getPermission()))
-				.map(MenuVo::getPermission)
-				.collect(Collectors.toList());
-			permissions.addAll(permissionList);
-		});
-		userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
-		return userInfo;
-	}
-
-	/**
-	 * 分页查询用户信息（含有角色信息）
-	 *
-	 * @param pm 分页对象
-	 * @return
-	 */
-	@Override
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public IPage<UserVo> getUserPage(PageModel pm, UserQueryCriteria userQueryCriteria, DataScope dataScope) {
-//		pm.addOrder(OrderItem.desc("a.created_date"));
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, userQueryCriteria);
-		wrapper.eq("a.del_flag", User.FLAG_NORMAL);
-		IPage<UserVo> userVosPage = repository.findUserVoPage(pm, wrapper, dataScope);
-		return userVosPage;
-	}
-
-	@Override
-	public List<UserVo> getUserPage(UserQueryCriteria userQueryCriteria, DataScope dataScope) {
-		QueryWrapper wrapper = QueryWrapperUtil.<User>getWrapper(userQueryCriteria);
-		wrapper.eq("a.del_flag", User.FLAG_NORMAL);
-		wrapper.orderByDesc("a.created_date");
-		return repository.findUserVoPage(wrapper, dataScope);
-	}
-
 	@Override
 	public Boolean removeByIds(List<String> idList) {
 		idList.stream().forEach(id -> {
 			Assert.isTrue(!StringUtil.equals(SecurityUtil.getUser().getId(), id), "不能操作当前登录用户");
-			removeUserById(repository.selectById(id));
+			User user = repository.selectById(id);
+			SysCacheUtil.delUserCaches(user.getId(), user.getUsername());
+			userRoleService.removeRoleByUserId(user.getId());
+			this.removeById(user.getId());
 		});
-		return Boolean.TRUE;
-	}
-
-	/**
-	 * 通过ID查询用户信息
-	 *
-	 * @param id 用户ID
-	 * @return 用户信息
-	 */
-	@Override
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public UserVo findUserVoById(String id) {
-		UserVo userVo = baseMapper.findUserVoById(id);
-		return userVo;
-	}
-
-	/**
-	 * 通过ID查询用户信息
-	 *
-	 * @param id 用户ID
-	 * @return 用户信息
-	 */
-	@Override
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public UserDto getUserDtoById(String id) {
-		UserVo userVo = repository.findUserVoById(id);
-		return new UserDto(userVo);
-	}
-
-	/**
-	 * 删除用户
-	 *
-	 * @param user 用户
-	 * @return Boolean
-	 */
-	@CacheEvict(key = "#user.username")
-	public Boolean removeUserById(User user) {
-//		userRoleService.removeRoleByUserId(user.getId());
-		this.removeById(user.getId());
 		return Boolean.TRUE;
 	}
 
@@ -285,15 +287,14 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 			Assert.isTrue(user!=null, "无法找到ID为"+id+"的数据");
 			user.setAvailable(CommonConstants.YES.equals(user.getAvailable()) ?
 				CommonConstants.NO : CommonConstants.YES);
+			SysCacheUtil.delUserCaches(user.getId(), user.getUsername());
 			int i = repository.updateById(user);
 			Assert.isTrue(i!=0, "无法更新ID为"+id+"的数据");
 		};
 	}
 
 	@Override
-	@CacheEvict(key = "#passwordRestVo.username", allEntries = true)
 	public void resetPassword(PasswordRestVo passwordRestVo) {
-
 
 		Assert.isTrue(passwordRestVo.getNewPassword().equals(passwordRestVo.getConfirmPassword()),
 			"两次输入密码不一致");
@@ -310,6 +311,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	private void updatePassword(User user, String passwordPlaintext, String newPassword) {
 		user.setPassword(newPassword);
 //        user.setPasswordPlaintext(passwordPlaintext);
+		SysCacheUtil.delBaseUserCaches(user.getId(), user.getUsername());
 		repository.updateById(user);
 //        cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLoginId());
 		log.debug("Changed password for User: {}", user);
@@ -326,7 +328,6 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 			password.length() <= UserDto.PASSWORD_MAX_LENGTH;
 	}
 
-	@CacheEvict(key = "#username")
 	public void changePassword(String username, PasswordChangeVo passwordChangeVo) {
 
 		Assert.isTrue(passwordChangeVo != null &&
@@ -335,23 +336,17 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 			"新旧密码不能相同");
 		Assert.isTrue(passwordChangeVo.getNewPassword().equals(passwordChangeVo.getConfirmPassword()),
 			"两次输入密码不一致");
- 		Assert.isTrue(passwordEncoder.matches(passwordChangeVo.getOldPassword(), SecurityUtil.getUser().getPassword()),
+		User user = repository.selectOne(Wrappers.<User>query().lambda()
+			.eq(User::getUsername, username));
+ 		Assert.isTrue(passwordEncoder.matches(passwordChangeVo.getOldPassword(), user.getPassword()),
 			"输入原密码有误");
 
 		passwordChangeVo.setNewPassword(passwordEncoder.encode(passwordChangeVo.getNewPassword()));
 
-		User user = repository.selectOne(Wrappers.<User>query().lambda()
-			.eq(User::getUsername, username));
 		updatePassword(user, passwordChangeVo.getConfirmPassword(), passwordChangeVo.getNewPassword());
 	}
 
-	@Override
-	@Cacheable(key = "#username + '_userVo'")
-	public UserVo getOneVoByUserName(String username) {
-		return repository.findUserVoByUsername(username);
-	}
 
-	@CacheEvict(allEntries = true)
 	public void save(@Valid UserExcelVo userExcelVo) {
 		UserDto user = new UserDto();
 		BeanUtils.copyProperties(userExcelVo, user);
@@ -370,17 +365,12 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	}
 
 	@Override
-	public List<User> findUserByRoleId(String roleId) {
-		return repository.findUserByRoleId(roleId);
+	public List<User> findListByRoleId(String roleId) {
+		return repository.findListByRoleId(roleId);
 	}
 
-	@Override
-	public List<User> getUserByDeptId(String deptId) {
-		return repository.selectList(Wrappers.<User>lambdaQuery().eq(User::getDeptId, deptId));
-	}
 
 	@Override
-	@CacheEvict(key = "#username")
 	public void updateEmail(String username, UserEmailDto userEmailDto) {
 		User user =  repository.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
 		Assert.isTrue(user!=null,
@@ -388,18 +378,21 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 		Assert.isTrue(passwordEncoder.matches(userEmailDto.getPassword(), user.getPassword()),
 			"输入密码有误");
 		user.setEmail(userEmailDto.getEmail());
+		SysCacheUtil.delBaseUserCaches(user.getId(), user.getUsername());
 		repository.updateById(user);
 	}
 
 	@Override
-	@CacheEvict(key = "#username")
 	public void updateAvatar(String username, String avatar) {
 		User user =  repository.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
 		Assert.isTrue(user!=null,
 			"无法获取用户信息"+username);
 		user.setAvatar(avatar);
+		SysCacheUtil.delBaseUserCaches(user.getId(), user.getUsername());
 		repository.updateById(user);
 	}
+
+
 
 
 }

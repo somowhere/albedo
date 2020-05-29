@@ -64,7 +64,7 @@ public class PersistentTokenResource {
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_persistentToken_view')")
 	@Log(value = "令牌管理查看")
-	public R getUserPage(PageModel pm, PersistentTokenQueryCriteria persistentTokenQueryCriteria) {
+	public R findPage(PageModel pm, PersistentTokenQueryCriteria persistentTokenQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, persistentTokenQueryCriteria);
 		return R.buildOkData(persistentTokenService.page(pm, wrapper));
 	}

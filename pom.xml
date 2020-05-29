@@ -33,7 +33,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<spring-boot-admin.version>2.2.2</spring-boot-admin.version>
-		<hutool.version>5.2.5</hutool.version>
+		<hutool.version>5.3.4</hutool.version>
 		<mybatis-plus.version>3.3.1</mybatis-plus.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<velocity.version>1.7</velocity.version>

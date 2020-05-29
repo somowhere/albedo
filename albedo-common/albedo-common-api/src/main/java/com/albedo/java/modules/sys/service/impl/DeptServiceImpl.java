@@ -39,6 +39,7 @@ import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.modules.sys.service.DeptRelationService;
 import com.albedo.java.modules.sys.service.DeptService;
+import com.albedo.java.modules.sys.util.SysCacheUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
@@ -79,7 +80,6 @@ public class DeptServiceImpl extends
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	@CacheEvict(allEntries = true)
 	public void saveOrUpdate(DeptDto deptDto) {
 		boolean add = StringUtil.isEmpty(deptDto.getId());
 		super.saveOrUpdate(deptDto);
@@ -91,6 +91,7 @@ public class DeptServiceImpl extends
 			relation.setAncestor(deptDto.getParentId());
 			relation.setDescendant(deptDto.getId());
 			deptRelationService.updateDeptRelation(relation);
+			SysCacheUtil.delDeptCaches(deptDto.getId());
 		}
 	}
 
@@ -103,12 +104,12 @@ public class DeptServiceImpl extends
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	@CacheEvict(allEntries = true)
-	public boolean removeByIds(Collection<? extends Serializable> ids) {
+	public boolean removeByIds(Set<String> ids) {
 		repository.selectBatchIds(ids).forEach(dept -> {
 			checkDept(dept.getId(), dept.getName());
 		});
 		ids.forEach(id -> {
+			SysCacheUtil.delDeptCaches(id);
 			//级联删除部门
 			Set<String> idList = deptRelationService
 				.list(Wrappers.<DeptRelation>query().lambda()
@@ -122,21 +123,21 @@ public class DeptServiceImpl extends
 			}
 
 			//删除部门级联关系
-			deptRelationService.removeDeptRelationById((String) id);
+			deptRelationService.removeDeptRelationById(id);
 		});
-
 		return Boolean.TRUE;
 	}
 
 
 	@Override
-	@CacheEvict(allEntries = true)
+	@Transactional(rollbackFor = Exception.class)
 	public void lockOrUnLock(Set<String> ids) {
 		repository.selectBatchIds(ids).forEach(dept -> {
 			checkDept(dept.getId(), dept.getName());
 			dept.setAvailable(CommonConstants.YES.equals(dept.getAvailable()) ?
 				CommonConstants.NO : CommonConstants.YES);
 			repository.updateById(dept);
+			SysCacheUtil.delDeptCaches(dept.getId());
 		});
 	}
 
@@ -151,7 +152,7 @@ public class DeptServiceImpl extends
 			throw new BadRequestException("操作失败！用户：" + CollUtil.convertToString(userList, User.F_USERNAME, StringUtil.COMMA)
 				+ "所属要操作的部门：" + deptName);
 		}
-		List<Role> roleList = roleRepository.findRoleByDeptId(deptId);
+		List<Role> roleList = roleRepository.findListByDeptId(deptId);
 		if (CollUtil.isNotEmpty(roleList)) {
 			throw new BadRequestException("操作失败！角色：" + CollUtil.convertToString(roleList, Role.F_NAME, StringUtil.COMMA)
 				+ "的权限信息属于要操作的部门：" + deptName);
@@ -160,7 +161,7 @@ public class DeptServiceImpl extends
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	@Cacheable(key = "#deptId  + '_dept'")
+	@Cacheable(key = "'findDescendantIdList:' + #p0")
 	public List<String> findDescendantIdList(String deptId) {
 		List<String> descendantIdList = deptRelationService
 			.list(Wrappers.<DeptRelation>query().lambda()
@@ -171,7 +172,7 @@ public class DeptServiceImpl extends
 	}
 
 	@Override
-	@Cacheable
+	@Cacheable(key = "'findTreeNode:' + #p0")
 	public <Q> List<TreeNode> findTreeNode(Q queryCriteria) {
 		return super.findTreeNode(queryCriteria);
 	}
@@ -179,7 +180,7 @@ public class DeptServiceImpl extends
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public IPage<DeptVo> findTreeList(DeptQueryCriteria deptQueryCriteria) {
-		List<DeptVo> deptVoList = repository.findDeptVoList(QueryWrapperUtil.<Dept>getWrapper(deptQueryCriteria)
+		List<DeptVo> deptVoList = repository.findVoList(QueryWrapperUtil.<Dept>getWrapper(deptQueryCriteria)
 			.eq(TreeEntity.F_SQL_DELFLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT));
 		return new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(deptVoList)),
 			deptVoList.size());

@@ -29,7 +29,10 @@ spring:
     store-type: redis
   profiles:
     active: ${spring.profiles.active}
-
+  servlet:
+    multipart:
+      max-file-size: "100MB"
+      max-request-size: "1000MB"
 # mybaits-plus配置
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*/*Mapper.xml
@@ -52,7 +55,10 @@ application:
   adminPath: /a
   address-enabled: true
   logPath: .logs
-  static-file-directory: ~/albedo-file
+  static-file-directory:
+    mac: ~/albedo-file
+    linux: /home/albedo/file/
+    win: C:\albedo\file\
   cors: #By default CORS are not enabled. Uncomment to enable.
     allowed-origins: "*"
     allowed-methods: "*"

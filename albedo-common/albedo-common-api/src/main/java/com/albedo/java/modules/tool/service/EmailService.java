@@ -32,7 +32,7 @@ public interface EmailService extends BaseService<EmailConfig> {
 	 * @param old 旧的配置
 	 * @return EmailConfig
 	 */
-	EmailConfig update(EmailConfig emailConfig, EmailConfig old);
+	EmailConfig config(EmailConfig emailConfig, EmailConfig old) throws Exception;
 
 	/**
 	 * 查询配置

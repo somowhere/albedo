@@ -27,6 +27,20 @@ import com.albedo.java.modules.tool.domain.vo.TradeVo;
  * @since 2019/2/1
  */
 public interface AliPayService extends BaseService<AlipayConfig> {
+
+
+	/**
+	 * 查询配置
+	 * @return AlipayConfig
+	 */
+	AlipayConfig find();
+
+	/**
+	 * 更新配置
+	 * @param alipayConfig 支付宝配置
+	 * @return AlipayConfig
+	 */
+	AlipayConfig config(AlipayConfig alipayConfig);
 	/**
 	 * 处理来自PC的交易请求
 	 * @param alipay 支付宝配置
@@ -45,16 +59,4 @@ public interface AliPayService extends BaseService<AlipayConfig> {
 	 */
 	String toPayAsWeb(AlipayConfig alipay, TradeVo trade) throws Exception;
 
-	/**
-	 * 查询配置
-	 * @return AlipayConfig
-	 */
-	AlipayConfig find();
-
-	/**
-	 * 更新配置
-	 * @param alipayConfig 支付宝配置
-	 * @return AlipayConfig
-	 */
-	AlipayConfig update(AlipayConfig alipayConfig);
 }

@@ -19,17 +19,7 @@
 <mapper namespace="com.albedo.java.modules.sys.repository.DeptRepository">
 
 
-	<!--关联查询部门列表-->
-	<select id="findDeptList" resultType="com.albedo.java.modules.sys.domain.Dept">
-		SELECT
-			t.*
-		FROM
-			sys_dept t
-		LEFT JOIN sys_dept_relation dr ON t.id = dr.descendant
-		WHERE dr.ancestor = 0
-	</select>
-
-	<select id="findDeptVoList" resultType="com.albedo.java.modules.sys.domain.vo.DeptVo">
+	<select id="findVoList" resultType="com.albedo.java.modules.sys.domain.vo.DeptVo">
 		SELECT
 		*
 		FROM
@@ -38,4 +28,12 @@
 			${ew.sqlSegment}
 		</where>
 	</select>
+
+	<select id="findListByRoleId" resultType="com.albedo.java.modules.sys.domain.Dept">
+		SELECT
+            a.*
+        FROM
+        sys_dept a, sys_role_dept b WHERE a.id = b.dept_id AND a.del_flag = 0 and a.available = 1 and b.role_id = #{roleId}
+	</select>
+
 </mapper>

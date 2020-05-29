@@ -39,6 +39,8 @@ public interface DeptService extends TreeService<Dept, DeptDto> {
 
 	List<String> findDescendantIdList(String deptId);
 
+	boolean removeByIds(Set<String> ids);
+
 	/**
 	 * 添加信息部门
 	 *

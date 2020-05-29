@@ -17,6 +17,7 @@
 package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.core.annotation.BaseInit;
+import com.albedo.java.common.core.annotation.BaseInterface;
 import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BadRequestException;
@@ -41,6 +42,7 @@ import com.albedo.java.modules.sys.util.DictUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -66,19 +68,24 @@ import java.util.stream.Collectors;
  * @since 2019/2/1
  */
 @Service
-@BaseInit(method = "refresh")
 @CacheConfig(cacheNames = CacheNameConstants.DICT_DETAILS)
+@AllArgsConstructor
 public class DictServiceImpl extends
-	TreeServiceImpl<DictRepository, Dict, DictDto> implements DictService {
+	TreeServiceImpl<DictRepository, Dict, DictDto> implements DictService, BaseInterface {
 
-	@Autowired
-	private CacheManager cacheManager;
+	private final CacheManager cacheManager;
 
-	@Cacheable
+	@Override
+	public void init() {
+		Cache cache = cacheManager.getCache(CacheNameConstants.DICT_DETAILS);
+		List<Dict> dictList = findAllOrderBySort();
+		if (ObjectUtil.isNotEmpty(dictList)) {
+			cache.put(CacheNameConstants.DICT_ALL, dictList);
+		}
+	}
+
 	public List<Dict> findAllOrderBySort() {
-		return repository.selectList(Wrappers.<Dict>query().lambda().orderByAsc(
-			Dict::getSort
-		));
+		return repository.selectList(Wrappers.<Dict>lambdaQuery().orderByAsc(Dict::getSort));
 	}
 
 	public Boolean exitUserByCode(DictDto dictDto) {
@@ -97,33 +104,17 @@ public class DictServiceImpl extends
 
 		super.saveOrUpdate(dictDto);
 	}
-
 	@Override
+	@Cacheable(key = "'findCodes:' + #p0")
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public Map<String, List<SelectResult>> findCodeStr(String codes) {
-		return findCodes(StringUtil.isNotEmpty(codes) ?
-			codes.split(StringUtil.SPLIT_DEFAULT) : null);
+	public Map<String, List<SelectResult>> findCodes(String codes) {
+		List<Dict> dictList = findAllOrderBySort();
+		return codes!=null ? DictUtil.getSelectResultListByCodes(dictList, codes.split(StringUtil.SPLIT_DEFAULT)) :
+			DictUtil.getSelectResultListByCodes(dictList);
 	}
 
 	@Override
-	@Cacheable(key = "'" + CacheNameConstants.DICT_RESULT_ALL + "'")
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public Map<String, List<SelectResult>> findCodes(String... codes) {
-		return DictUtil.getSelectResultListByCodes(findAllOrderBySort(), codes);
-	}
-
-	@Override
-	public void refresh() {
-		Cache cache = cacheManager.getCache(CacheNameConstants.DICT_DETAILS);
-		if (cache == null || cache.get(CacheNameConstants.DICT_ALL) == null ||
-			ObjectUtil.isEmpty(cache.get(CacheNameConstants.DICT_ALL))) {
-			List<Dict> dictList = findAllOrderBySort();
-			cache.put(CacheNameConstants.DICT_ALL, dictList);
-		}
-	}
-
-	@Override
-	@Cacheable
+	@Cacheable(key = "'findTreeNode:' + #p0")
 	public <Q> List<TreeNode> findTreeNode(Q queryCriteria) {
 		return super.findTreeNode(queryCriteria);
 	}
@@ -163,4 +154,6 @@ public class DictServiceImpl extends
 		});
 		return super.removeByIds(ids);
 	}
+
+
 }

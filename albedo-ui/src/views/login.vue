@@ -73,6 +73,7 @@
 
 <script>
 import commonUtil from '../utils/common'
+import defaultSettings from '@/settings'
 
 export default {
   name: 'Login',
@@ -118,7 +119,7 @@ export default {
     },
     refreshCode() {
       this.loginForm.randomStr = commonUtil.randomLenNum(this.codeLength, true)
-      this.codeUrl = `a/code/${this.loginForm.randomStr}`
+      this.codeUrl = defaultSettings.api + `/code/${this.loginForm.randomStr}`
       this.loginForm.code = ''
     },
     handleLogin() {

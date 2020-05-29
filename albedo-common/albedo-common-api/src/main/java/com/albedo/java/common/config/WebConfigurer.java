@@ -1,6 +1,7 @@
 package com.albedo.java.common.config;
 
 import cn.hutool.core.util.ArrayUtil;
+import com.albedo.java.common.core.config.ApplicationConfig;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.DefaultProfileUtil;
@@ -25,6 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -194,6 +196,12 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
 //        bean.setOrder(0);
 //        return bean;
 //    }
+
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		String pathUtl = "file:" + ApplicationConfig.getUploadPath().replace("\\","/");
+		registry.addResourceHandler(applicationProperties.getAdminPath("/asset-file/**")).addResourceLocations(pathUtl).setCachePeriod(0);
+	}
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {

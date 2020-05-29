@@ -36,4 +36,5 @@ import org.springframework.stereotype.Service;
 public class RoleDeptServiceImpl extends ServiceImpl<RoleDeptRepository, RoleDept>
 	implements RoleDeptService {
 
+
 }

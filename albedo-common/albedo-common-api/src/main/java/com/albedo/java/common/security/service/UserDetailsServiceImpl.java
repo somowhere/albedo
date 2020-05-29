@@ -57,7 +57,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private final UserService userService;
 	private final RoleService roleService;
 	private final DeptService deptService;
-	private final CacheManager cacheManager;
 
 
 	/**
@@ -69,17 +68,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	@SneakyThrows
 	public UserDetails loadUserByUsername(String username) {
-		Cache cache = cacheManager.getCache(CacheNameConstants.USER_DETAILS);
-		if (cache != null && cache.get(username) != null) {
-			return (UserDetail) cache.get(username).get();
-		}
-		UserVo userVo = userService.getOneVoByUserName(username);
+		UserVo userVo = userService.findVoByUsername(username);
 		if (userVo == null) {
 			throw new UsernameNotFoundException("用户不存在");
 		}
 		Assert.isTrue(userVo.isAvailable(), "用户【" + username + "】已被锁定，无法登录");
-		UserDetails userDetails = getUserDetails(userService.getUserInfo(userVo));
-		cache.put(username, userDetails);
+		UserDetails userDetails = getUserDetails(userService.getInfo(userVo));
 		return userDetails;
 	}
 
@@ -119,7 +113,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 					dataScope.setSelf(true);
 					dataScope.setUserId(userVo.getId());
 				} else if (SecurityConstants.ROLE_DATA_SCOPE_CUSTOM.equals(role.getDataScope())) {
-					dataScope.getDeptIds().addAll(roleService.findRoleDeptIdList(role.getId()));
+					dataScope.getDeptIds().addAll(roleService.findDeptIdsByRoleId(role.getId()));
 				}
 			}
 		}

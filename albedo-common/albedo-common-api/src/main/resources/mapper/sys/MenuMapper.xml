@@ -72,14 +72,4 @@
         sys_menu m, sys_role_menu rm WHERE m.menu_id = rm.menu_id AND m.del_flag = 0 AND rm.role_id IN (#{roleIds})
     </select>
 
-	<select id="findMenuVoList" resultType="com.albedo.java.modules.sys.domain.vo.MenuVo">
-		SELECT
-		*,
-		!leaf as hasChildren
-		FROM
-		sys_menu
-		<where>
-			${ew.sqlSegment}
-		</where>
-	</select>
 </mapper>

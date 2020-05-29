@@ -59,10 +59,9 @@ public class AliPayResource {
     @Log("配置支付宝")
     @ApiOperation("配置支付宝")
     @PutMapping
-    public ResponseEntity<Object> payConfig(@Validated @RequestBody AlipayConfig alipayConfig){
-        alipayConfig.setId(1L);
-        alipayService.update(alipayConfig);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Object> updateConfig(@Validated @RequestBody AlipayConfig alipayConfig){
+		alipayService.config(alipayConfig);
+		return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Log("支付宝PC网页支付")

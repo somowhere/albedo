@@ -20,19 +20,22 @@ import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BadRequestException;
 import com.albedo.java.common.core.util.CollUtil;
+import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.persistence.service.impl.DataServiceImpl;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.RoleDept;
 import com.albedo.java.modules.sys.domain.RoleMenu;
+import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.domain.dto.RoleDto;
 import com.albedo.java.modules.sys.repository.RoleRepository;
+import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.modules.sys.service.RoleDeptService;
 import com.albedo.java.modules.sys.service.RoleMenuService;
 import com.albedo.java.modules.sys.service.RoleService;
+import com.albedo.java.modules.sys.util.SysCacheUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -57,7 +60,7 @@ import java.util.stream.Collectors;
 @CacheConfig(cacheNames = CacheNameConstants.ROLE_DETAILS)
 public class RoleServiceImpl extends
 	DataServiceImpl<RoleRepository, Role, RoleDto, String> implements RoleService {
-	private final CacheManager cacheManager;
+	private UserRepository userRepository;
 	private RoleMenuService roleMenuService;
 	private RoleDeptService roleDeptService;
 
@@ -67,12 +70,13 @@ public class RoleServiceImpl extends
 		oneVo.setMenuIdList(roleMenuService.list(Wrappers
 			.<RoleMenu>query().lambda()
 			.eq(RoleMenu::getRoleId, id)).stream().map(RoleMenu::getMenuId).collect(Collectors.toList()));
-		oneVo.setDeptIdList(findRoleDeptIdList(id));
+		oneVo.setDeptIdList(findDeptIdsByRoleId(id));
 		return oneVo;
 	}
 
 	@Override
-	public List<String> findRoleDeptIdList(String roleId) {
+	@Cacheable(key = "'findDeptIdsByRoleId:' + #p0")
+	public List<String> findDeptIdsByRoleId(String roleId) {
 		return roleDeptService.list(Wrappers
 			.<RoleDept>query().lambda()
 			.eq(RoleDept::getRoleId, roleId)).stream().map(RoleDept::getDeptId).collect(Collectors.toList());
@@ -86,9 +90,9 @@ public class RoleServiceImpl extends
 	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	@Cacheable(key = "#userId  + '_role'")
-	public List<Role> findRoleByUserIdList(String userId) {
-		return repository.findRoleByUserIdList(userId);
+	@Cacheable(key = "'findListByUserId:' + #p0")
+	public List<Role> findListByUserId(String userId) {
+		return repository.findListByUserId(userId);
 	}
 
 	/**
@@ -98,24 +102,31 @@ public class RoleServiceImpl extends
 	 * @return
 	 */
 	@Override
-	@CacheEvict(allEntries = true)
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean removeRoleByIds(Set<String> ids) {
+		verification(ids);
 		ids.forEach(id -> {
+			SysCacheUtil.delRoleCaches(id);
 			roleMenuService.remove(Wrappers
 				.<RoleMenu>update().lambda()
 				.eq(RoleMenu::getRoleId, id));
 			this.removeById(id);
 		});
-		//清空userinfo
-		cacheManager.getCache(CacheNameConstants.USER_DETAILS).clear();
 		return Boolean.TRUE;
 	}
 
+	public void verification(Set<String> ids) {
+		List<User> userList = userRepository.findListByRoleIds(ids);
+		if(CollUtil.isNotEmpty(userList)){
+			throw new BadRequestException("所选角色存在用户关联，请解除关联再试！");
+		}
+	}
+
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	@CacheEvict(allEntries = true)
 	public void saveOrUpdate(RoleDto roleDto) {
+		boolean add = StringUtil.isEmpty(roleDto.getId());
 		super.saveOrUpdate(roleDto);
 		if (CollUtil.isNotEmpty(roleDto.getMenuIdList())) {
 			roleMenuService.remove(Wrappers.<RoleMenu>query().lambda()
@@ -142,26 +153,26 @@ public class RoleServiceImpl extends
 			roleDeptService.saveBatch(roleDeptList);
 		}
 		//清空userinfo
-		cacheManager.getCache(CacheNameConstants.USER_DETAILS).clear();
+		if(!add){
+			SysCacheUtil.delRoleCaches(roleDto.getId());
+		}
 	}
 
 	@Override
 	@CacheEvict(allEntries = true)
 	public void lockOrUnLock(Set<String> idList) {
 		idList.forEach(id -> {
+			SysCacheUtil.delRoleCaches(id);
 			Role role = repository.selectById(id);
 			role.setAvailable(CommonConstants.YES.equals(role.getAvailable()) ?
 				CommonConstants.NO : CommonConstants.YES);
 			repository.updateById(role);
 		});
-
-		//清空userinfo
-		cacheManager.getCache(CacheNameConstants.USER_DETAILS).clear();
 	}
 
 	@Override
 	public Integer findLevelByUserId(String userId) {
-		List<Integer> levels = this.findRoleByUserIdList(SecurityUtil.getUser().getId()).stream()
+		List<Integer> levels = this.findListByUserId(SecurityUtil.getUser().getId()).stream()
 			.map(Role::getLevel).collect(Collectors.toList());
 		if (CollUtil.isEmpty(levels)) {
 			throw new BadRequestException("权限不足，找不到可用的角色信息");
@@ -170,10 +181,8 @@ public class RoleServiceImpl extends
 		return min;
 	}
 
-	@Override
-	public List<Role> findRoleByDeptId(String deptId) {
-		return repository.findRoleByDeptId(deptId);
-	}
+
+
 
 
 }

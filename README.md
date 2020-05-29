@@ -68,7 +68,7 @@ albedo
 4. 在albedo目录下执行mvn clean install 
 5. 在albedo-ui目录下执行 npm run pre && npm run build 生成dist目录
 6. 启动redis 127.0.0.1 6379 
-7. 最高管理员账号，用户名：admin 密码：admin 
+7. 最高管理员账号，用户名：admin 密码：111111 
 
 #### 提交反馈
 

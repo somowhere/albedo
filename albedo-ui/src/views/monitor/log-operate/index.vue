@@ -34,17 +34,17 @@
           <el-option value="INFO">INFO</el-option>
           <el-option value="ERROR">ERROR</el-option>
         </el-select>
-        <el-select
-          v-model="query.businessType"
-          class="filter-item"
-          clearable
-          placeholder="业务类型"
-          size="small"
-          style="width: 100px"
-          @change="crud.toQuery"
-        >
-          <el-option v-for="(item,index) in businessTypeOptions" :key="index" :label="item.label" :value="item.value" />
-        </el-select>
+        <!--        <el-select-->
+        <!--          v-model="query.businessType"-->
+        <!--          class="filter-item"-->
+        <!--          clearable-->
+        <!--          placeholder="业务类型"-->
+        <!--          size="small"-->
+        <!--          style="width: 100px"-->
+        <!--          @change="crud.toQuery"-->
+        <!--        >-->
+        <!--          <el-option v-for="(item,index) in businessTypeOptions" :key="index" :label="item.label" :value="item.value" />-->
+        <!--        </el-select>-->
         <el-select
           v-model="query.operatorType"
           class="filter-item"
@@ -107,7 +107,6 @@
       </el-table-column>
       <el-table-column type="selection" width="55" />
       <el-table-column prop="title" label="标题" />
-      <el-table-column prop="businessTypeText" label="操作类别" width="90px" />
       <el-table-column prop="logType" label="日志类型" width="90px">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.logType === 'INFO'">{{ scope.row.logType }}</el-tag>
@@ -175,7 +174,7 @@ export default {
   data() {
     return {
       errorInfo: '', errorDialog: false, delLoading: false,
-      businessTypeOptions: [],
+      // businessTypeOptions: [],
       operatorTypeOptions: [],
       permission: {
         export: 'sys_logOperate_export',
@@ -194,7 +193,7 @@ export default {
       edit: false,
       del: true
     }
-    this.businessTypeOptions = this.dicts['sys_business_type']
+    // this.businessTypeOptions = this.dicts['sys_business_type']
     this.operatorTypeOptions = this.dicts['sys_operator_type']
   },
   methods: {

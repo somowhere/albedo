@@ -45,7 +45,7 @@ public class UserOnlineResource extends BaseResource {
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_userOnline_view')")
 	@Log(value = "在线用户查看")
-	public R getUserPage(PageModel pm, UserOnlineQueryCriteria userOnlineQueryCriteria) {
+	public R findPage(PageModel pm, UserOnlineQueryCriteria userOnlineQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, userOnlineQueryCriteria);
 		return R.buildOkData(userOnlineService.page(pm, wrapper));
 	}

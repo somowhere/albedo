@@ -101,8 +101,7 @@ public class DictResource extends BaseResource {
 	@ApiOperation(value = "获取字典数据", notes = "codes 不传获取所有的业务字典，多个用','隔开")
 	@GetMapping(value = "/codes")
 	public R getByCodes(String codes) {
-		Map<String, List<SelectResult>> map = codes != null ?
-			dictService.findCodes(codes) : dictService.findCodes();
+		Map<String, List<SelectResult>> map = dictService.findCodes(codes);
 		return R.buildOkData(map);
 	}
 
@@ -113,7 +112,6 @@ public class DictResource extends BaseResource {
 	 * @return success、false
 	 */
 	@PostMapping
-	@CacheEvict(value = CacheNameConstants.DICT_DETAILS, allEntries = true)
 	@PreAuthorize("@pms.hasPermission('sys_dict_edit')")
 	@Log(value = "字典管理编辑")
 	public R save(@Valid @RequestBody DictDto dictDto) {
@@ -128,7 +126,6 @@ public class DictResource extends BaseResource {
 	 * @return R
 	 */
 	@DeleteMapping
-	@CacheEvict(value = CacheNameConstants.DICT_DETAILS, allEntries = true)
 	@PreAuthorize("@pms.hasPermission('sys_dict_del')")
 	@Log(value = "字典管理删除")
 	public R removeByIds(@RequestBody Set<String> ids) {

@@ -59,11 +59,4 @@ public interface MenuRepository extends TreeRepository<Menu> {
 	List<String> findPermissionsByRoleIds(String roleIds);
 
 
-	/**
-	 * 分页查询菜单信息
-	 *
-	 * @param wrapper 查询参数
-	 * @return list
-	 */
-	List<MenuVo> findMenuVoList(@Param(Constants.WRAPPER) Wrapper<Menu> wrapper);
 }

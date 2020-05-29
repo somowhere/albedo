@@ -8,20 +8,16 @@
           </div>
           <div>
             <div style="text-align: center">
-              <el-upload
-                :action="fileUploadApi"
-                :headers="headers"
-                :on-error="handleError"
-                :on-success="handleSuccess"
-                :show-file-list="false"
-                class="avatar-uploader"
-              >
-                <img
-                  :src="user.avatar ? baseApi + '/avatar/' + user.avatar : Avatar"
-                  class="avatar"
-                  title="点击上传头像"
-                >
-              </el-upload>
+              <div class="el-upload">
+                <img :src="user.avatar ? baseApi + user.avatar : Avatar" title="点击上传头像" class="avatar" @click="toggleShow">
+                <myUpload
+                  v-model="show"
+                  field="file"
+                  :headers="headers"
+                  :url="fileUploadApi"
+                  @crop-upload-success="cropUploadSuccess"
+                />
+              </div>
             </div>
             <ul class="user-info">
               <li>
@@ -97,7 +93,7 @@
               <el-table v-loading="loading" :data="data" style="width: 100%;">
                 <el-table-column label="行为">
                   <template slot-scope="scope">
-                    {{ scope.row.title }}{{ scope.row.businessTypeText }}
+                    {{ scope.row.title }}
                   </template>
                 </el-table-column>
                 <el-table-column label="IP" prop="ipAddress" />
@@ -144,22 +140,23 @@
 </template>
 
 <script>
+import myUpload from 'vue-image-crop-upload'
 import { mapGetters } from 'vuex'
 import updatePass from './center/updatePass'
 import updateEmail from './center/updateEmail'
-import { getToken } from '@/utils/auth'
+import { getXsrfToken } from '@/utils/auth'
 import store from '@/store'
 import validate from '@/utils/validate'
 import commonUtil from '@/utils/common'
 import crud from '@/mixins/crud'
 import crudUser from '@/views/sys/user/user-service'
 import Avatar from '@/assets/images/avatar.png'
-import accountService from '../../../api/account'
+import accountService from '@/api/account'
 
 const parseTime = commonUtil.parseTime
 export default {
   name: 'Center',
-  components: { updatePass, updateEmail },
+  components: { updatePass, updateEmail, myUpload },
   mixins: [crud],
   data() {
     // 自定义验证
@@ -173,11 +170,12 @@ export default {
       }
     }
     return {
+      show: false,
       Avatar: Avatar,
       activeName: 'first',
       saveLoading: false,
       headers: {
-        'Authorization': getToken()
+        'X-XSRF-TOKEN': getXsrfToken()
       },
       form: {},
       rules: {
@@ -214,19 +212,16 @@ export default {
       this.url = '/sys/log-operate/user'
       return true
     },
-    handleSuccess(response, file, fileList) {
-      accountService.updateAvatar(response.url).then(() => {
+
+    toggleShow() {
+      this.show = !this.show
+    },
+
+    cropUploadSuccess(jsonData, field) {
+      console.log(jsonData, field)
+      accountService.updateAvatar(jsonData.data.fileName).then(() => {
         store.dispatch('GetUser').then(() => {
         })
-      })
-    },
-    // 监听上传失败
-    handleError(e, file, fileList) {
-      const msg = JSON.parse(e.message)
-      this.$notify({
-        title: msg.message,
-        type: 'error',
-        duration: 2500
       })
     },
     doSubmit() {

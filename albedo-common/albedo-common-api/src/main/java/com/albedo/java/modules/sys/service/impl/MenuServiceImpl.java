@@ -18,38 +18,37 @@ package com.albedo.java.modules.sys.service.impl;
 
 import cn.hutool.core.util.CharUtil;
 import com.albedo.java.common.core.constant.CacheNameConstants;
+import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BadRequestException;
 import com.albedo.java.common.core.exception.EntityExistException;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.tree.TreeUtil;
-import com.albedo.java.common.core.vo.PageModel;
-import com.albedo.java.common.core.vo.TreeNode;
-import com.albedo.java.common.data.util.QueryWrapperUtil;
-import com.albedo.java.common.persistence.domain.TreeEntity;
 import com.albedo.java.common.persistence.service.impl.TreeServiceImpl;
 import com.albedo.java.modules.sys.domain.Menu;
 import com.albedo.java.modules.sys.domain.RoleMenu;
 import com.albedo.java.modules.sys.domain.dto.GenSchemeDto;
 import com.albedo.java.modules.sys.domain.dto.MenuDto;
-import com.albedo.java.modules.sys.domain.dto.MenuQueryCriteria;
 import com.albedo.java.modules.sys.domain.dto.MenuSortDto;
+import com.albedo.java.modules.sys.domain.vo.MenuTree;
 import com.albedo.java.modules.sys.domain.vo.MenuVo;
 import com.albedo.java.modules.sys.repository.MenuRepository;
 import com.albedo.java.modules.sys.repository.RoleMenuRepository;
+import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.service.MenuService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.albedo.java.modules.sys.util.SysCacheUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -67,12 +66,66 @@ import java.util.stream.Collectors;
 @CacheConfig(cacheNames = CacheNameConstants.MENU_DETAILS)
 public class MenuServiceImpl extends
 	TreeServiceImpl<MenuRepository, Menu, MenuDto> implements MenuService {
+	private final RoleRepository roleRepository;
 	private final RoleMenuRepository roleMenuRepository;
 
 	@Override
-	@Cacheable(key = "#roleId  + '_menu'")
+	@Cacheable(key = "'findTreeByUserId:' + #p0")
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public List<MenuVo> findMenuByRoleId(String roleId) {
+	public List<MenuTree> findTreeByUserId(String userId) {
+		// 获取符合条件的菜单
+		Set<MenuVo> all = new HashSet<>();
+		roleRepository.findListByUserId(userId).forEach(role -> all.addAll(findListByRoleId(role.getId())));
+		List<MenuTree> menuTreeList = all.stream()
+			.filter(menuVo -> !MenuDto.TYPE_BUTTON.equals(menuVo.getType()))
+			.sorted(Comparator.comparingInt(MenuVo::getSort))
+			.map(MenuTree::new)
+			.collect(Collectors.toList());
+		return buildMenus(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(menuTreeList)));
+	}
+
+	/**
+	 * 两层循环实现建树
+	 *
+	 * @param menuTreeList 传入的树节点列表
+	 * @return
+	 */
+	public List<MenuTree> buildMenus(List<MenuTree> menuTreeList) {
+		menuTreeList.forEach(menu -> {
+				if (menu != null) {
+					List<MenuTree> menuChildList = menu.getChildren();
+					if (CollUtil.isNotEmpty(menuChildList)) {
+						menu.setAlwaysShow(true);
+						menu.setRedirect("noredirect");
+						menu.setChildren(buildMenus(menuChildList));
+						// 处理是一级菜单并且没有子菜单的情况
+					} else if (menu.getParentId() == TreeUtil.ROOT) {
+						MenuTree menuVo = new MenuTree();
+						menuVo.setMeta(menu.getMeta());
+						// 非外链
+						if (!CommonConstants.YES.equals(menu.getIframe())) {
+							menuVo.setPath("index");
+							menuVo.setName(menu.getName());
+							menuVo.setComponent(menu.getComponent());
+						} else {
+							menuVo.setPath(menu.getPath());
+						}
+						menu.setName(null);
+						menu.setMeta(null);
+						menu.setComponent("Layout");
+						menu.setChildren(Lists.newArrayList(menuVo));
+					}
+				}
+			}
+		);
+		return menuTreeList;
+
+	}
+
+	@Override
+	@Cacheable(key = "'findListByRoleId:' + #p0")
+	@Transactional(readOnly = true, rollbackFor = Exception.class)
+	public List<MenuVo> findListByRoleId(String roleId) {
 		List<MenuVo> menuAllList = repository.findMenuVoAllList();
 		List<MenuVo> menuVoList = repository.findMenuVoListByRoleId(roleId);
 		List<String> parentIdList = Lists.newArrayList();
@@ -125,9 +178,9 @@ public class MenuServiceImpl extends
 	}
 
 	@Override
-	@CacheEvict(allEntries = true)
-	public void removeMenuById(Set<String> ids) {
+	public void removeByIds(Set<String> ids) {
 		ids.forEach(id -> {
+			SysCacheUtil.delMenuCaches(id);
 			// 查询父节点为当前节点的节点
 			List<Menu> menuList = this.list(Wrappers.<Menu>query()
 				.lambda().eq(Menu::getParentId, id));
@@ -151,8 +204,8 @@ public class MenuServiceImpl extends
 
 
 	@Override
-	@CacheEvict(allEntries = true)
 	public void saveOrUpdate(MenuDto menuDto) {
+		boolean add = StringUtil.isEmpty(menuDto.getId());
 		// permission before comparing with database
 		if (StringUtil.isNotEmpty(menuDto.getPermission()) &&
 			exitMenuByPermission(menuDto)) {
@@ -160,10 +213,14 @@ public class MenuServiceImpl extends
 		}
 
 		super.saveOrUpdate(menuDto);
+
+		if(!add){
+			SysCacheUtil.delMenuCaches(menuDto.getId());
+		}
+
 	}
 
 	@Override
-	@CacheEvict(allEntries = true)
 	public boolean saveByGenScheme(GenSchemeDto schemeDto) {
 
 		String moduleName = schemeDto.getSchemeName(),
@@ -240,7 +297,6 @@ public class MenuServiceImpl extends
 
 
 	@Override
-	@CacheEvict(allEntries = true)
 	public void sortUpdate(MenuSortDto menuSortDto) {
 		menuSortDto.getMenuSortList().forEach(menuSortVo -> {
 			Menu menu = repository.selectById(menuSortVo.getId());
@@ -250,12 +306,6 @@ public class MenuServiceImpl extends
 			}
 		});
 
-	}
-
-	@Override
-	@Cacheable
-	public <Q> List<TreeNode> findTreeNode(Q queryCriteria) {
-		return super.findTreeNode(queryCriteria);
 	}
 
 }

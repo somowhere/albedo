@@ -16,12 +16,9 @@ const getters = {
   permission_routers: state => state.permission.routers,
   addRouters: state => state.permission.addRouters,
   socketApi: state => state.api.socketApi,
-  imagesUploadApi: state => state.api.imagesUploadApi,
   baseApi: state => state.api.baseApi,
+  baseUrl: state => state.api.baseUrl,
   fileUploadApi: state => state.api.fileUploadApi,
-  updateAvatarApi: state => state.api.updateAvatarApi,
-  qiNiuUploadApi: state => state.api.qiNiuUploadApi,
-  sqlApi: state => state.api.sqlApi,
   swaggerApi: state => state.api.swaggerApi
 }
 export default getters

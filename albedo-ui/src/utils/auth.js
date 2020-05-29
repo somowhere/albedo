@@ -7,6 +7,10 @@ export function getToken() {
   return Cookies.get(TokenKey)
 }
 
+export function getXsrfToken() {
+  return Cookies.get('XSRF-TOKEN')
+}
+
 export function setToken(token, rememberMe) {
   if (rememberMe) {
     return Cookies.set(TokenKey, token, { expires: Config.tokenCookieExpires })

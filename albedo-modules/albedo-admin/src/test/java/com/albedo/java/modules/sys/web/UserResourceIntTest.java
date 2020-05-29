@@ -180,7 +180,7 @@ public class UserResourceIntTest {
 
 	@Test
 	@Transactional
-	public void getUserPage() throws Exception {
+	public void findPage() throws Exception {
 		// Initialize the database
 		userService.saveOrUpdate(user);
 		// Get all the users
@@ -214,7 +214,7 @@ public class UserResourceIntTest {
 
 	@Test
 	@Transactional
-	public void getUserInfo() throws Exception {
+	public void getInfo() throws Exception {
 		// Initialize the database
 		userService.saveOrUpdate(user);
 

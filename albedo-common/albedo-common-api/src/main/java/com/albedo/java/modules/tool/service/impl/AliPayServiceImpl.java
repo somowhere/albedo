@@ -20,6 +20,7 @@ import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.exception.BadRequestException;
 import com.albedo.java.common.persistence.service.impl.BaseServiceImpl;
 import com.albedo.java.modules.tool.domain.AlipayConfig;
+import com.albedo.java.modules.tool.domain.EmailConfig;
 import com.albedo.java.modules.tool.domain.vo.TradeVo;
 import com.albedo.java.modules.tool.repository.AliPayConfigRepository;
 import com.albedo.java.modules.tool.service.AliPayService;
@@ -47,7 +48,21 @@ import java.util.Optional;
 public class AliPayServiceImpl extends BaseServiceImpl<AliPayConfigRepository, AlipayConfig>
 	implements AliPayService {
 	private final AliPayConfigRepository alipayRepository;
+	@Override
+	@Cacheable(key = "'id:1'")
+	public AlipayConfig find() {
+		AlipayConfig alipayConfig = alipayRepository.selectById(1L);
+		return alipayConfig == null ? new AlipayConfig() : alipayConfig;
+	}
 
+	@Override
+	@CachePut(key = "'id:1'")
+	@Transactional(rollbackFor = Exception.class)
+	public AlipayConfig config(AlipayConfig alipayConfig) {
+		alipayConfig.setId(1L);
+		saveOrUpdate(alipayConfig);
+		return alipayConfig;
+	}
 	@Override
 	public String toPayAsPc(AlipayConfig alipay, TradeVo trade) throws Exception {
 
@@ -107,18 +122,4 @@ public class AliPayServiceImpl extends BaseServiceImpl<AliPayConfigRepository, A
 		return alipayClient.pageExecute(request, "GET").getBody();
 	}
 
-	@Override
-	@Cacheable(key = "'1'")
-	public AlipayConfig find() {
-		AlipayConfig alipayConfig = alipayRepository.selectById(1L);
-		return alipayConfig == null ? new AlipayConfig() : alipayConfig;
-	}
-
-	@Override
-	@CachePut(key = "'1'")
-	@Transactional(rollbackFor = Exception.class)
-	public AlipayConfig update(AlipayConfig alipayConfig) {
-		saveOrUpdate(alipayConfig);
-		return alipayConfig;
-	}
 }

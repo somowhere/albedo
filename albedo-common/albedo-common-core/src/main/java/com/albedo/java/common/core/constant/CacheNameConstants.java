@@ -23,8 +23,7 @@ package com.albedo.java.common.core.constant;
  */
 public interface CacheNameConstants {
 
-	String DICT_ALL = "DictAll";
-	String DICT_RESULT_ALL = "DictResultAll";
+	String DICT_ALL= "dict_all";
 	String DICT_DETAILS = "dict_details";
 
 

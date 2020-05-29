@@ -106,13 +106,10 @@ public class FileUploadUtil {
 	}
 
 	private static final File getAbsoluteFile(String uploadDir, String fileName) throws IOException {
-		File desc = new File(uploadDir + File.separator + fileName);
+		File desc = new File(uploadDir + File.separator + fileName).getCanonicalFile();
 
 		if (!desc.getParentFile().exists()) {
 			desc.getParentFile().mkdirs();
-		}
-		if (!desc.exists()) {
-			desc.createNewFile();
 		}
 		return desc;
 	}
@@ -120,7 +117,7 @@ public class FileUploadUtil {
 	private static final String getPathFileName(String uploadDir, String fileName) throws IOException {
 		int dirLastIndex = uploadDir.lastIndexOf(StringUtil.SLASH) + 1;
 		String currentDir = StringUtil.subSuf(uploadDir, dirLastIndex);
-		String pathFileName = "/profile/" + currentDir + StringUtil.SLASH + fileName;
+		String pathFileName = "/asset-file/" + currentDir + StringUtil.SLASH + fileName;
 		return pathFileName;
 	}
 

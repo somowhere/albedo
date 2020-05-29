@@ -35,7 +35,7 @@ public class DictUtil {
 			return (List<Dict>) cache.get(CacheNameConstants.DICT_ALL).get();
 		}
 		try {
-			List<Dict> dictList = dictService.list();
+			List<Dict> dictList = dictService.findAllOrderBySort();
 			if (ObjectUtil.isNotEmpty(dictList)) {
 				cache.put(CacheNameConstants.DICT_ALL, dictList);
 				return dictList;

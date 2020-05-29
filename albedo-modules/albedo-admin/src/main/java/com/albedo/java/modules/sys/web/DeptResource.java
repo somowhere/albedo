@@ -84,6 +84,10 @@ public class DeptResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('sys_dept_view')")
 	@Log(value = "部门管理查看")
 	public R<IPage<DeptVo>> findTreeList(DeptQueryCriteria deptQueryCriteria) {
+		DataScope dataScope = SecurityUtil.getDataScope();
+		if (!dataScope.isAll()) {
+			deptQueryCriteria.setDeptIds(dataScope.getDeptIds());
+		}
 		return R.buildOkData(deptService.findTreeList(deptQueryCriteria));
 	}
 

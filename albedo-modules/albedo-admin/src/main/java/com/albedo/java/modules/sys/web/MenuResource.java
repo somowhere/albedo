@@ -72,57 +72,10 @@ public class MenuResource extends BaseResource {
 	 * @return 当前用户的树形菜单
 	 */
 	@GetMapping("/user-menu")
-	public R findUserMenu() {
-		// 获取符合条件的菜单
-		Set<MenuVo> all = new HashSet<>();
-		SecurityUtil.getRoles()
-			.forEach(roleId -> all.addAll(menuService.findMenuByRoleId(roleId)));
-		List<MenuTree> menuTreeList = all.stream()
-			.filter(menuVo -> !MenuDto.TYPE_BUTTON.equals(menuVo.getType()))
-			.sorted(Comparator.comparingInt(MenuVo::getSort))
-			.map(MenuTree::new)
-			.collect(Collectors.toList());
-		return R.buildOkData(buildMenus(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(menuTreeList))));
+	public R findTreeByUserId() {
+		return R.buildOkData(menuService.findTreeByUserId(SecurityUtil.getUser().getId()));
 	}
 
-
-	/**
-	 * 两层循环实现建树
-	 *
-	 * @param menuTreeList 传入的树节点列表
-	 * @return
-	 */
-	public List<MenuTree> buildMenus(List<MenuTree> menuTreeList) {
-		menuTreeList.forEach(menu -> {
-				if (menu != null) {
-					List<MenuTree> menuChildList = menu.getChildren();
-					if (CollUtil.isNotEmpty(menuChildList)) {
-						menu.setAlwaysShow(true);
-						menu.setRedirect("noredirect");
-						menu.setChildren(buildMenus(menuChildList));
-						// 处理是一级菜单并且没有子菜单的情况
-					} else if (menu.getParentId() == TreeUtil.ROOT) {
-						MenuTree menuVo = new MenuTree();
-						menuVo.setMeta(menu.getMeta());
-						// 非外链
-						if (!CommonConstants.YES.equals(menu.getIframe())) {
-							menuVo.setPath("index");
-							menuVo.setName(menu.getName());
-							menuVo.setComponent(menu.getComponent());
-						} else {
-							menuVo.setPath(menu.getPath());
-						}
-						menu.setName(null);
-						menu.setMeta(null);
-						menu.setComponent("Layout");
-						menu.setChildren(Lists.newArrayList(menuVo));
-					}
-				}
-			}
-		);
-		return menuTreeList;
-
-	}
 
 	/**
 	 * 返回树形菜单集合
@@ -142,7 +95,7 @@ public class MenuResource extends BaseResource {
 	 */
 	@GetMapping("/role/{roleId}")
 	public R findByRoleId(@PathVariable String roleId) {
-		return R.buildOkData(menuService.findMenuByRoleId(roleId)
+		return R.buildOkData(menuService.findListByRoleId(roleId)
 			.stream()
 			.map(MenuVo::getId)
 			.collect(Collectors.toList()));
@@ -186,7 +139,7 @@ public class MenuResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('sys_menu_del')")
 	@Log(value = "菜单管理删除")
 	public R removeByIds(@RequestBody Set<String> ids) {
-		menuService.removeMenuById(ids);
+		menuService.removeByIds(ids);
 		return R.buildOk("操作成功");
 	}
 

@@ -46,7 +46,7 @@ public interface UserService extends DataService<User, UserDto, String> {
 	 * @param userVo 用户
 	 * @return userInfo
 	 */
-	UserInfo getUserInfo(UserVo userVo);
+	UserInfo getInfo(UserVo userVo);
 
 	/**
 	 * 分页查询用户信息（含有角色信息）
@@ -54,10 +54,10 @@ public interface UserService extends DataService<User, UserDto, String> {
 	 * @param pm 分页对象
 	 * @return
 	 */
-	IPage<UserVo> getUserPage(PageModel pm, UserQueryCriteria userQueryCriteria, DataScope dataScope);
+	IPage<UserVo> findPage(PageModel pm, UserQueryCriteria userQueryCriteria, DataScope dataScope);
 
 
-	List<UserVo> getUserPage(UserQueryCriteria userQueryCriteria, DataScope dataScope);
+	List<UserVo> findPage(UserQueryCriteria userQueryCriteria, DataScope dataScope);
 
 	/**
 	 * 删除用户
@@ -81,7 +81,7 @@ public interface UserService extends DataService<User, UserDto, String> {
 	 * @param id 用户ID
 	 * @return 用户信息
 	 */
-	UserDto getUserDtoById(String id);
+	UserDto findDtoById(String id);
 
 	/**
 	 * 查询上级部门的用户信息
@@ -98,13 +98,11 @@ public interface UserService extends DataService<User, UserDto, String> {
 
 	void changePassword(String username, PasswordChangeVo passwordChangeVo);
 
-	UserVo getOneVoByUserName(String username);
+	UserVo findVoByUsername(String username);
 
 	void save(UserExcelVo userExcelVo);
 
-	List<User> findUserByRoleId(String roleId);
-
-	List<User> getUserByDeptId(String deptId);
+	List<User> findListByRoleId(String roleId);
 
 	void updateEmail(String username, UserEmailDto userEmailDto);
 

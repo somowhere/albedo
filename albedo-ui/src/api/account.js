@@ -36,7 +36,7 @@ const accountService = {
     return request({
       url: '/account/change-avatar',
       method: 'post',
-      params: avatar
+      params: { avatar: avatar }
     })
   }
 }

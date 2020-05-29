@@ -30,7 +30,6 @@ public class ApplicationProperties {
 	private String urlSuffix = ".html";
 	private Boolean developMode = true;
 	private Boolean cluster = false;
-	private String staticFileDirectory = "";
 	private String logPath = ".logs/";
 	private Security security = new Security();
 	private Http http = new Http();
@@ -38,18 +37,10 @@ public class ApplicationProperties {
 	private CorsConfiguration cors = new CorsConfiguration();
 
 
-//    public String getStaticUrlPath(String strs) {
-//        return StringUtil.toAppendStr( "/file/get", strs);
-//    }
-
-	public String getStaticFileDirectory(String strs) {
-		return StringUtil.toAppendStr(
-			staticFileDirectory, strs);
-	}
-
 	public String getAdminPath(String url) {
 		return StringUtil.toAppendStr(adminPath, url);
 	}
+
 
 	@Data
 	public static class Security {

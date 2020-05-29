@@ -37,11 +37,10 @@ import java.util.Set;
  * @since 2019/2/1
  */
 public interface DictService extends TreeService<Dict, DictDto> {
-	Map<String, List<SelectResult>> findCodeStr(String codes);
 
-	Map<String, List<SelectResult>> findCodes(String... codes);
+	List<Dict> findAllOrderBySort();
 
-	void refresh();
+	Map<String, List<SelectResult>> findCodes(String codes);
 
 	IPage<DictVo> findTreeList(DictQueryCriteria dictQueryCriteria);
 

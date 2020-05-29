@@ -18,8 +18,11 @@ package com.albedo.java.modules.sys.repository;
 
 import com.albedo.java.common.persistence.repository.BaseRepository;
 import com.albedo.java.modules.sys.domain.Role;
+import org.apache.ibatis.annotations.Param;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -36,7 +39,21 @@ public interface RoleRepository extends BaseRepository<Role> {
 	 * @param userId
 	 * @return
 	 */
-	List<Role> findRoleByUserIdList(String userId);
+	List<Role> findListByUserId(String userId);
 
-	List<Role> findRoleByDeptId(String deptId);
+	/**
+	 * 通过部门ID，查询角色信息
+	 *
+	 * @param deptId
+	 * @return
+	 */
+	List<Role> findListByDeptId(String deptId);
+
+	/**
+	 * 通过菜单ID，查询角色信息
+	 *
+	 * @param menuId
+	 * @return
+	 */
+	List<Role> findListByMenuId(String menuId);
 }

@@ -39,9 +39,9 @@ public interface RoleService extends DataService<Role, RoleDto, String> {
 	 * @param userId
 	 * @return
 	 */
-	List<Role> findRoleByUserIdList(String userId);
+	List<Role> findListByUserId(String userId);
 
-	List<String> findRoleDeptIdList(String id);
+	List<String> findDeptIdsByRoleId(String id);
 
 	/**
 	 * 通过角色ID，删除角色
@@ -54,6 +54,4 @@ public interface RoleService extends DataService<Role, RoleDto, String> {
 	void lockOrUnLock(Set<String> idList);
 
 	Integer findLevelByUserId(String userId);
-
-	List<Role> findRoleByDeptId(String deptId);
 }
