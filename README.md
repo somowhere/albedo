@@ -16,17 +16,17 @@
 - 历史版本移步 <a href="https://github.com/somowhere/albedo-1v">1.3.1-SNAPSHOT</a>   
 
    
-![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/Snipaste_2019-08-08_16-46-21.png)   
-![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/Snipaste_2019-08-08_17-02-41.png)   
-![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/Snipaste_2019-08-08_17-02-58.png)   
-![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/Snipaste_2019-08-08_17-03-08.png)   
-![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/Snipaste_2019-08-08_17-03-33.png)   
-![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/Snipaste_2019-08-08_17-03-48.png)   
-![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/Snipaste_2019-08-08_17-04-13.png)   
-![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/Snipaste_2019-08-08_17-04-44.png)   
-![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/Snipaste_2019-08-08_17-06-21.png)   
-![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/Snipaste_2019-08-08_17-06-37.png)  
-![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/Snipaste_2019-08-08_17-06-22.png)
+![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/1.png)   
+![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/2.png)   
+![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/3.png)   
+![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/4.png)   
+![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/5.png)   
+![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/6.png)   
+![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/7.png)   
+![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/8.png)   
+![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/9.png)   
+![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/10.png)  
+![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/11.png)
 
    
 
@@ -86,7 +86,14 @@ albedo
 3. QQ群: 685728393 
 
 
-#### 系统定制服务
+#### 项目捐赠
 
-<a href="mailto:somewhere0813@gmail.com">somewhere0813@gmail.com</a>    
+项目的发展离不开您的支持，请作者喝杯咖啡吧☕  
 
+<table>
+    <tr>
+        <td><img src="https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/alipay.png"/></td>
+        <td><img src="https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/wxpay.png"/></td>
+    </tr>
+</table>
+ 
