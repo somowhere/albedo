@@ -1,9 +1,14 @@
+<h1 style="text-align: center">Albedo 2.1 - 企业信息化快速开发平台</h1>
  <p align="center">
-  <img src="https://img.shields.io/badge/Avue-2.3.9-green.svg" alt="Build Status">
-   <img src="https://img.shields.io/badge/Spring%20Boot-2.2.5.RELEASE-blue.svg" alt="Downloads">
- </p>  
  
-**Albedo 2.0 pro - 企业信息化快速开发平台**   
+ [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/elunez/eladmin/blob/master/LICENSE)
+ [![AUR](https://img.shields.io/badge/Spring%20Boot-2.3.0.RELEASE-blue.svg)](https://spring.io/projects/spring-boot#overview)
+ [![star](https://gitee.com/somowhere/albedo/badge/star.svg?theme=white)](https://gitee.com/elunez/eladmin)
+ [![GitHub stars](https://img.shields.io/github/stars/somowhere/albedo.svg?style=social&label=Stars)](https://github.com/elunez/eladmin)
+ [![GitHub forks](https://img.shields.io/github/forks/somowhere/albedo.svg?style=social&label=Fork)](https://github.com/elunez/eladmin)
+ 
+ </p> 
+  
 - 基于 Spring Boot 、Spring Security、Mybatis 的RBAC权限管理系统  
 - 基于数据驱动视图的理念封装 Element-ui，即使没有 vue 的使用经验也能快速上手  
 - 提供 lambda 、stream api 、webflux 的生产实践   
@@ -20,17 +25,19 @@
 ![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/Snipaste_2019-08-08_17-04-13.png)   
 ![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/Snipaste_2019-08-08_17-04-44.png)   
 ![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/Snipaste_2019-08-08_17-06-21.png)   
-![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/Snipaste_2019-08-08_17-06-37.png)   
+![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/Snipaste_2019-08-08_17-06-37.png)  
+![](https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/Snipaste_2019-08-08_17-06-22.png)
+
+   
 
 #### 核心依赖 
 
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.2.5.RELEASE  
+Spring Boot |  2.3.0.RELEASE  
 Mybatis Plus | 3.3.1
-hutool | 5.1.4
-Avue | 2.3.9
+hutool | 5.3.4
    
 
 
@@ -66,7 +73,7 @@ albedo
 2. 导入ide前，安装lombok插件
 3. 运行albedo.sql脚本初始化数据库,修改albedo-admin src\main\resources\config\application-dev.yml文件中的数据库设置参数。
 4. 在albedo目录下执行mvn clean install 
-5. 在albedo-ui目录下执行 npm run pre && npm run build 生成dist目录
+5. 在albedo-ui目录下执行 npm run build 生成dist目录
 6. 启动redis 127.0.0.1 6379 
 7. 最高管理员账号，用户名：admin 密码：111111 
 
@@ -77,11 +84,6 @@ albedo
 2. 不接受`功能请求`的 issue，功能请求可能会被直接关闭。  
 
 3. QQ群: 685728393 
-
-#### 开源协议
-
-
-![](https://images.gitee.com/uploads/images/2019/0330/065147_e07bc645_410595.png)
 
 
 #### 系统定制服务
