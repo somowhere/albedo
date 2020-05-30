@@ -47,7 +47,7 @@ public class ${ClassName} extends IdEntity<${ClassName}> {
     }
 }
 <#macro generateFields>
-	//columns START
+
 	<#list table.columnList as column>
 		<#if !column.pk && column.isNotBaseField>
 	/** ${column.simpleJavaField} ${column.title} */<#if table.parentExists && table.parentTableFk == column.name>

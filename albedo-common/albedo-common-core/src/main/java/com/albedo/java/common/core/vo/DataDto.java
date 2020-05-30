@@ -2,7 +2,6 @@ package com.albedo.java.common.core.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -10,6 +9,7 @@ import java.util.Objects;
 
 /**
  * 通常的数据基类 copyright 2014 albedo all right reserved author somewhere created on 2014年12月31日 下午1:57:09
+ *
  * @author somewhere
  */
 @Data

@@ -20,13 +20,8 @@ import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.core.util.tree.TreeNodeAware;
 import com.albedo.java.common.core.vo.TreeVo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
  * <p>

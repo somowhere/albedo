@@ -117,7 +117,7 @@ public class RoleServiceImpl extends
 
 	public void verification(Set<String> ids) {
 		List<User> userList = userRepository.findListByRoleIds(ids);
-		if(CollUtil.isNotEmpty(userList)){
+		if (CollUtil.isNotEmpty(userList)) {
 			throw new BadRequestException("所选角色存在用户关联，请解除关联再试！");
 		}
 	}
@@ -153,7 +153,7 @@ public class RoleServiceImpl extends
 			roleDeptService.saveBatch(roleDeptList);
 		}
 		//清空userinfo
-		if(!add){
+		if (!add) {
 			SysCacheUtil.delRoleCaches(roleDto.getId());
 		}
 	}
@@ -180,9 +180,6 @@ public class RoleServiceImpl extends
 		int min = Collections.min(levels);
 		return min;
 	}
-
-
-
 
 
 }

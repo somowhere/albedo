@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2020 Zheng Jie
+ *  Copyright 2019-2020 somewhere
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,30 +17,39 @@ package com.albedo.java.modules.tool.util;
 
 /**
  * 支付状态
+ *
  * @author zhengjie
  * @date 2018/08/01 16:45:43
  */
-public enum  AliPayStatusEnum {
+public enum AliPayStatusEnum {
 
-    /** 交易成功 */
-    FINISHED("交易成功", "TRADE_FINISHED"),
+	/**
+	 * 交易成功
+	 */
+	FINISHED("交易成功", "TRADE_FINISHED"),
 
-    /** 支付成功 */
-    SUCCESS("支付成功", "TRADE_SUCCESS"),
+	/**
+	 * 支付成功
+	 */
+	SUCCESS("支付成功", "TRADE_SUCCESS"),
 
-    /** 交易创建 */
-    BUYER_PAY("交易创建", "WAIT_BUYER_PAY"),
+	/**
+	 * 交易创建
+	 */
+	BUYER_PAY("交易创建", "WAIT_BUYER_PAY"),
 
-    /** 交易关闭 */
-    CLOSED("交易关闭", "TRADE_CLOSED");
+	/**
+	 * 交易关闭
+	 */
+	CLOSED("交易关闭", "TRADE_CLOSED");
 
-    private String value;
+	private String value;
 
-    AliPayStatusEnum(String name, String value) {
-        this.value = value;
-    }
+	AliPayStatusEnum(String name, String value) {
+		this.value = value;
+	}
 
-    public String getValue() {
-        return value;
-    }
+	public String getValue() {
+		return value;
+	}
 }

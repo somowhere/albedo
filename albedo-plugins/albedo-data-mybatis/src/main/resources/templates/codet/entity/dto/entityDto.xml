@@ -39,7 +39,7 @@ public class ${ClassName}Dto extends DataDto<${table.pkJavaType}> {
 
 }
 <#macro generateFields>
-	//columns START
+
 	<#list table.columnList as column>
 		<#if !column.pk && column.isNotBaseField>
 	/** ${column.simpleJavaField} ${column.title} */

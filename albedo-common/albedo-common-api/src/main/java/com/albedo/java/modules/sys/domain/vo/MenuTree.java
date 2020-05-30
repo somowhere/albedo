@@ -56,5 +56,5 @@ public class MenuTree extends TreeNode<MenuTree> {
 		this.setComponent(!CommonConstants.YES.equals(menuVo.getIframe()) && menuVo.getParentId() == TreeUtil.ROOT
 			&& StrUtil.isEmpty(menuVo.getComponent()) ? "Layout" : menuVo.getComponent());
 		log.info("name {}, component {}", this.getName(), this.getComponent());
-}
+	}
 }

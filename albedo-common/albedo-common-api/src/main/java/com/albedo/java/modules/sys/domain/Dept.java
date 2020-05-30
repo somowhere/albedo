@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.domain;
 
-import com.albedo.java.common.persistence.domain.TreeEntity;
+import com.albedo.java.common.persistence.domain.TreeEntityAbstract;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -32,7 +32,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_dept")
-public class Dept extends TreeEntity<Dept> {
+public class Dept extends TreeEntityAbstract<Dept> {
 
 	/**
 	 * 锁定标记

@@ -3,8 +3,6 @@ package com.albedo.java.common.core.resource;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.URLUtil;
 import com.albedo.java.common.core.util.EscapeUtil;
-import com.albedo.java.common.core.util.StringUtil;
-import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.WebDataBinder;
@@ -19,58 +17,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Validator;
 import java.beans.PropertyEditorSupport;
 import java.util.Date;
-import java.util.List;
 
 /**
- * Created by somewhere on 2017/3/23.
+ *
+ * @author somewhere
+ * @date 2017/3/23
  */
 public class GeneralResource {
 
 	protected static Logger logger = LoggerFactory.getLogger(GeneralResource.class);
-	/**
-	 * ThreadLocal确保高并发下每个请求的request，response都是独立的
-	 */
-	private static ThreadLocal<ServletRequest> currentRequest = new ThreadLocal<ServletRequest>();
-	private static ThreadLocal<ServletResponse> currentResponse = new ThreadLocal<ServletResponse>();
+
 	/**
 	 * 日志对象
 	 */
 	protected Logger log = LoggerFactory.getLogger(getClass());
-	/**
-	 * 验证Bean实例对象
-	 */
-	@Resource
-	protected Validator validator;
 
-	/**
-	 * 线程安全初始化reque，respose对象
-	 *
-	 * @param request
-	 * @param response
-	 */
-	@ModelAttribute
-	public void initReqAndRep(HttpServletRequest request, HttpServletResponse response) {
-		currentRequest.set(request);
-		currentResponse.set(response);
-	}
-
-	/**
-	 * 线程安全
-	 *
-	 * @return
-	 */
-	public HttpServletRequest request() {
-		return (HttpServletRequest) currentRequest.get();
-	}
-
-	/**
-	 * 线程安全
-	 *
-	 * @return
-	 */
-	public HttpServletResponse response() {
-		return (HttpServletResponse) currentResponse.get();
-	}
 
 	/**
 	 * 初始化数据绑定 1. 将所有传递进来的String进行HTML编码，防止XSS攻击 2. 将字段中Date类型转换为String类型
@@ -95,9 +56,9 @@ public class GeneralResource {
 		binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
 			public void setAsText(String text) {
 				String decode = URLUtil.decode(text);
-				try{
+				try {
 					setValue(DateUtil.parse(decode).toJdkDate());
-				}catch (Exception e){
+				} catch (Exception e) {
 					setValue(DateUtil.calendar(Long.parseLong(decode)).getTime());
 				}
 			}

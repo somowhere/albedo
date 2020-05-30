@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2020 Zheng Jie
+ *  Copyright 2019-2020 somewhere
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import java.util.List;
 
 /**
  * 发送邮件时，接收参数的类
+ *
  * @author 郑杰
  * @date 2018/09/28 12:02:14
  */
@@ -33,13 +34,15 @@ import java.util.List;
 @NoArgsConstructor
 public class EmailVo {
 
-    /** 收件人，支持多个收件人 */
-    @NotEmpty
-    private List<String> tos;
+	/**
+	 * 收件人，支持多个收件人
+	 */
+	@NotEmpty
+	private List<String> tos;
 
-    @NotBlank
-    private String subject;
+	@NotBlank
+	private String subject;
 
-    @NotBlank
-    private String content;
+	@NotBlank
+	private String content;
 }

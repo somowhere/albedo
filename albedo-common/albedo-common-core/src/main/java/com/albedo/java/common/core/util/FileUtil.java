@@ -21,7 +21,6 @@ import java.util.UUID;
 public class FileUtil extends cn.hutool.core.io.FileUtil {
 
 
-	public static String FILENAME_PATTERN = "[a-zA-Z0-9_\\-\\|\\.\\u4e00-\\u9fa5]+";
 	/**
 	 * 定义GB的计算常量
 	 */
@@ -34,11 +33,12 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
 	 * 定义KB的计算常量
 	 */
 	private static final int KB = 1024;
-
 	/**
 	 * 格式化小数
 	 */
 	private static final DecimalFormat DF = new DecimalFormat("0.00");
+	public static String FILENAME_PATTERN = "[a-zA-Z0-9_\\-\\|\\.\\u4e00-\\u9fa5]+";
+
 	/**
 	 * 复制单个文件，如果目标文件存在，则不覆盖
 	 *
@@ -547,7 +547,7 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
 	/**
 	 * 文件大小转换
 	 */
-	public static String getSize(long size){
+	public static String getSize(long size) {
 		String resultSize;
 		if (size / GB >= 1) {
 			//如果当前Byte的值大于等于1GB

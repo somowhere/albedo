@@ -124,7 +124,7 @@ public class DictResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void createDict() throws Exception {
 		List<Dict> databaseSizeBeforeCreate = dictService.list();
 
@@ -151,7 +151,7 @@ public class DictResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void createDictWithExistingCode() throws Exception {
 		// Initialize the database
 		dictService.saveOrUpdate(dict);
@@ -174,7 +174,7 @@ public class DictResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void getDictPage() throws Exception {
 		// Initialize the database
 		dictService.saveOrUpdate(dict);
@@ -196,7 +196,7 @@ public class DictResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void getDict() throws Exception {
 		// Initialize the database
 		dictService.saveOrUpdate(dict);
@@ -215,14 +215,14 @@ public class DictResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void getNonExistingDict() throws Exception {
 		restDictMockMvc.perform(get("/sys/dict/ddd/unknown"))
 			.andExpect(status().isNotFound());
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void updateDict() throws Exception {
 		// Initialize the database
 		dictService.saveOrUpdate(dict);
@@ -265,7 +265,7 @@ public class DictResourceIntTest {
 
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void updateDictExistingCode() throws Exception {
 
 		dictService.saveOrUpdate(dict);
@@ -295,7 +295,7 @@ public class DictResourceIntTest {
 
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void deleteDict() throws Exception {
 		// Initialize the database
 		dictService.saveOrUpdate(dict);
@@ -312,7 +312,7 @@ public class DictResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void testDictEquals() throws Exception {
 		TestUtil.equalsVerifier(Dict.class);
 		Dict dict1 = new Dict();

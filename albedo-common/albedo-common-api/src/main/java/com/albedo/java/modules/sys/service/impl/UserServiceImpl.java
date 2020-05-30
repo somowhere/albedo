@@ -84,12 +84,24 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	private final DeptService deptService;
 	private final UserRoleService userRoleService;
 
+	/**
+	 * 功能描述: 检查密码长度
+	 *
+	 * @param: [password]
+	 * @return: boolean
+	 */
+	private static boolean checkPasswordLength(String password) {
+		return !StringUtil.isEmpty(password) &&
+			password.length() >= UserDto.PASSWORD_MIN_LENGTH &&
+			password.length() <= UserDto.PASSWORD_MAX_LENGTH;
+	}
 
 	@Override
 	@Cacheable(key = "'findVoByUsername:' + #p0")
 	public UserVo findVoByUsername(String username) {
 		return repository.findVoByUsername(username);
 	}
+
 	/**
 	 * 通过ID查询用户信息
 	 *
@@ -117,7 +129,6 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 		UserVo userVo = repository.findUserVoById(id);
 		return new UserDto(userVo);
 	}
-
 
 	/**
 	 * 通过查用户的全部信息
@@ -174,7 +185,6 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 		return repository.findUserVoPage(wrapper, dataScope);
 	}
 
-
 	public Boolean exitUserByUserName(UserDto userDto) {
 		return getOne(Wrappers.<User>query()
 			.ne(StringUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
@@ -200,7 +210,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	@CacheEvict(cacheNames = {CacheNameConstants.USER_DETAILS},allEntries = true)
+	@CacheEvict(cacheNames = {CacheNameConstants.USER_DETAILS}, allEntries = true)
 	public void saveOrUpdate(UserDto userDto) {
 		boolean add = StringUtil.isEmpty(userDto.getId());
 		if (add) {
@@ -228,7 +238,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 		if (add || CollUtil.isNotEmpty(userDto.getRoleIdList())) {
 
 			Assert.isTrue(CollUtil.isNotEmpty(userDto.getRoleIdList()), "用户角色不能为空");
-			if(!add){
+			if (!add) {
 				SysCacheUtil.delUserCaches(user.getId(), user.getUsername());
 			}
 			List<UserRole> userRoleList = userDto.getRoleIdList()
@@ -242,7 +252,6 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 			userRoleService.saveBatch(userRoleList);
 		}
 	}
-
 
 	@Override
 	public Boolean removeByIds(List<String> idList) {
@@ -281,16 +290,17 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	@Override
 	public void lockOrUnLock(Set<String> idList) {
 		Assert.isTrue(CollUtil.isNotEmpty(idList), "idList不能为空");
-		for (String id : idList){
+		for (String id : idList) {
 			Assert.isTrue(!StringUtil.equals(SecurityUtil.getUser().getId(), id), "不能操作当前登录用户");
 			User user = repository.selectById(id);
-			Assert.isTrue(user!=null, "无法找到ID为"+id+"的数据");
+			Assert.isTrue(user != null, "无法找到ID为" + id + "的数据");
 			user.setAvailable(CommonConstants.YES.equals(user.getAvailable()) ?
 				CommonConstants.NO : CommonConstants.YES);
 			SysCacheUtil.delUserCaches(user.getId(), user.getUsername());
 			int i = repository.updateById(user);
-			Assert.isTrue(i!=0, "无法更新ID为"+id+"的数据");
-		};
+			Assert.isTrue(i != 0, "无法更新ID为" + id + "的数据");
+		}
+		;
 	}
 
 	@Override
@@ -316,17 +326,6 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 //        cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLoginId());
 		log.debug("Changed password for User: {}", user);
 	}
-	/**
-	 * 功能描述: 检查密码长度
-	 *
-	 * @param: [password]
-	 * @return: boolean
-	 */
-	private static boolean checkPasswordLength(String password) {
-		return !StringUtil.isEmpty(password) &&
-			password.length() >= UserDto.PASSWORD_MIN_LENGTH &&
-			password.length() <= UserDto.PASSWORD_MAX_LENGTH;
-	}
 
 	public void changePassword(String username, PasswordChangeVo passwordChangeVo) {
 
@@ -338,7 +337,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 			"两次输入密码不一致");
 		User user = repository.selectOne(Wrappers.<User>query().lambda()
 			.eq(User::getUsername, username));
- 		Assert.isTrue(passwordEncoder.matches(passwordChangeVo.getOldPassword(), user.getPassword()),
+		Assert.isTrue(passwordEncoder.matches(passwordChangeVo.getOldPassword(), user.getPassword()),
 			"输入原密码有误");
 
 		passwordChangeVo.setNewPassword(passwordEncoder.encode(passwordChangeVo.getNewPassword()));
@@ -372,9 +371,9 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 
 	@Override
 	public void updateEmail(String username, UserEmailDto userEmailDto) {
-		User user =  repository.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
-		Assert.isTrue(user!=null,
-			"无法获取用户信息"+username);
+		User user = repository.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
+		Assert.isTrue(user != null,
+			"无法获取用户信息" + username);
 		Assert.isTrue(passwordEncoder.matches(userEmailDto.getPassword(), user.getPassword()),
 			"输入密码有误");
 		user.setEmail(userEmailDto.getEmail());
@@ -384,15 +383,13 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 
 	@Override
 	public void updateAvatar(String username, String avatar) {
-		User user =  repository.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
-		Assert.isTrue(user!=null,
-			"无法获取用户信息"+username);
+		User user = repository.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
+		Assert.isTrue(user != null,
+			"无法获取用户信息" + username);
 		user.setAvatar(avatar);
 		SysCacheUtil.delBaseUserCaches(user.getId(), user.getUsername());
 		repository.updateById(user);
 	}
-
-
 
 
 }

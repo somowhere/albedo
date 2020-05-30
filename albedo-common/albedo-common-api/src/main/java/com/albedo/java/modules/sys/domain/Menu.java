@@ -18,7 +18,7 @@ package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.constant.DictNameConstants;
-import com.albedo.java.common.persistence.domain.TreeEntity;
+import com.albedo.java.common.persistence.domain.TreeEntityAbstract;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,7 +36,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_menu")
-public class Menu extends TreeEntity<Menu> {
+public class Menu extends TreeEntityAbstract<Menu> {
 
 	public static final String TYPE_CATALOG = "0";
 	public static final String TYPE_MENU = "1";

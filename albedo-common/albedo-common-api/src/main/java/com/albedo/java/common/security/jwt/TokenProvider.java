@@ -76,7 +76,7 @@ public class TokenProvider {
 
 	public String createToken(Authentication authentication, Boolean rememberMe) {
 		long expiration = rememberMe ? this.tokenValidityInMillisecondsForRememberMe : this.tokenValidityInMilliseconds;
-		return generateToken(authentication.getName(), new HashMap<String, Object>() {{
+		return generateToken(authentication.getName(), new HashMap<String, Object>(4) {{
 			put(PRINCIPAL, authentication.getName());
 		}}, expiration);
 	}
@@ -100,7 +100,7 @@ public class TokenProvider {
 	}
 
 	public long getExpirationDateSecondsFromToken(String token) {
-		return (getExpirationDateFromToken(token).getTime() - new Date().getTime()) / 1000;
+		return (getExpirationDateFromToken(token).getTime() - System.currentTimeMillis()) / 1000;
 	}
 
 	public String refreshToken(String token) {

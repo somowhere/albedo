@@ -214,7 +214,7 @@ public class MenuServiceImpl extends
 
 		super.saveOrUpdate(menuDto);
 
-		if(!add){
+		if (!add) {
 			SysCacheUtil.delMenuCaches(menuDto.getId());
 		}
 

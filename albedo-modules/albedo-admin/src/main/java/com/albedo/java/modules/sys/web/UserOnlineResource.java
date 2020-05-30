@@ -4,7 +4,6 @@ import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.Log;
-import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.security.component.session.RedisSessionRegistry;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.UserOnline;
@@ -83,7 +82,7 @@ public class UserOnlineResource extends BaseResource {
 			if (online == null) {
 				return R.buildFail("用户已下线");
 			}
-			try{
+			try {
 				SessionInformation sessionInformation = sessionRegistry.getSessionInformation(online.getSessionId());
 				if (sessionInformation != null) {
 					if (sessionInformation.getSessionId().equals(request.getSession(false).getId())) {
@@ -92,7 +91,7 @@ public class UserOnlineResource extends BaseResource {
 					sessionInformation.expireNow();
 					redisTemplate.boundHashOps(RedisSessionRegistry.SESSIONIDS).put(online.getSessionId(), sessionInformation);
 				}
-			}catch (Exception e){
+			} catch (Exception e) {
 			}
 			sessionRegistry.removeSessionInformation(online.getSessionId());
 			userOnlineService.removeById(online);

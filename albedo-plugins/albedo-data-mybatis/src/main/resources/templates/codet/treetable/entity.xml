@@ -52,7 +52,7 @@ public class ${ClassName} extends TreeEntity<${ClassName}> {
     }
 }
 <#macro generateFields>
-	//columns START
+
 	<#list table.columnList as column>
 		<#if !column.pk && column.isNotBaseField && column.isNotBaseTreeField>
 	/** ${column.simpleJavaField} ${column.title} */<#if table.parentExists && table.parentTableFk == column.name>

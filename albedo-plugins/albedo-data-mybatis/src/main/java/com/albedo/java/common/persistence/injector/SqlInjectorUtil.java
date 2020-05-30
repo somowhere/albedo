@@ -4,7 +4,7 @@ import com.albedo.java.common.core.util.BeanUtil;
 import com.albedo.java.common.core.util.ClassUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.persistence.annotation.ManyToOne;
-import com.albedo.java.common.persistence.domain.TreeEntity;
+import com.albedo.java.common.persistence.domain.TreeEntityAbstract;
 import com.albedo.java.common.persistence.injector.methods.SqlCustomMethod;
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
@@ -107,7 +107,7 @@ public class SqlInjectorUtil {
 					.append(SqlInjectorUtil.sqlSelectColumns(tableAlias, false, p.getName(), p.getName()));
 				sbLeftJoin.append(" LEFT JOIN ").append(tableAlias.getTableName()).append(" `").append(p.getName())
 					.append("` ON `").append(tableNameAlias).append("`.").append(annotation.name())
-					.append(" = `").append(p.getName()).append("`.").append(TreeEntity.F_SQL_ID);
+					.append(" = `").append(p.getName()).append("`.").append(TreeEntityAbstract.F_SQL_ID);
 			}
 		}
 

@@ -24,7 +24,6 @@ import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.Log;
-import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.Role;
@@ -38,6 +37,7 @@ import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.modules.sys.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -99,7 +99,7 @@ public class RoleResource extends BaseResource {
 	 */
 	@GetMapping("/all")
 	public R all() {
-		return R.buildOkData(roleService.list().stream().map(RoleComboVo::new).collect(Collectors.toList()));
+		return R.buildOkData(roleService.list(Wrappers.<Role>lambdaQuery().eq(Role::getAvailable, CommonConstants.STR_YES)).stream().map(RoleComboVo::new).collect(Collectors.toList()));
 	}
 
 	/**

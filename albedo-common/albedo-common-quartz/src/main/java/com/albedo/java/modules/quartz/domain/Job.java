@@ -5,7 +5,7 @@ package com.albedo.java.modules.quartz.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.constant.DictNameConstants;
-import com.albedo.java.common.persistence.domain.DataEntity;
+import com.albedo.java.common.persistence.domain.AbstractDataEntity;
 import com.albedo.java.common.persistence.domain.GeneralEntity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -32,7 +32,7 @@ import java.util.Objects;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Job extends DataEntity<Job> {
+public class Job extends AbstractDataEntity<Job> {
 
 	/**
 	 * F_NAME name  :  任务名称
@@ -92,7 +92,7 @@ public class Job extends DataEntity<Job> {
 	public static final String F_SQL_AVAILABLE = "available";
 	private static final long serialVersionUID = 1L;
 
-	//columns START
+
 	@TableId(value = GeneralEntity.F_SQL_ID, type = IdType.AUTO)
 	protected Integer id;
 	/**

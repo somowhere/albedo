@@ -2,21 +2,22 @@ package com.albedo.java.common.persistence.service;
 
 import com.albedo.java.common.core.vo.TreeDto;
 import com.albedo.java.common.core.vo.TreeNode;
-import com.albedo.java.common.persistence.domain.TreeEntity;
+import com.albedo.java.common.persistence.domain.TreeEntityAbstract;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
 
 /**
  * TreeService
- * @author somewhere
+ *
  * @param <T>
  * @param <D>
+ * @author somewhere
  */
-public interface TreeService<T extends TreeEntity, D extends TreeDto> extends DataService<T, D, String> {
+public interface TreeService<T extends TreeEntityAbstract, D extends TreeDto> extends DataService<T, D, String> {
 	/**
 	 * countByParentId
+	 *
 	 * @param parentId
 	 * @return
 	 */
@@ -24,13 +25,16 @@ public interface TreeService<T extends TreeEntity, D extends TreeDto> extends Da
 
 	/**
 	 * getTreeWrapper
+	 *
 	 * @param query
 	 * @param <Q>
 	 * @return
 	 */
 	<Q> QueryWrapper<T> getTreeWrapper(Q query);
+
 	/**
 	 * findTreeNode
+	 *
 	 * @param queryCriteria
 	 * @param <Q>
 	 * @return
@@ -39,13 +43,16 @@ public interface TreeService<T extends TreeEntity, D extends TreeDto> extends Da
 
 	/**
 	 * findTreeList
+	 *
 	 * @param queryCriteria
 	 * @param <Q>
 	 * @return
 	 */
 	<Q> List<T> findTreeList(Q queryCriteria);
+
 	/**
 	 * findAllByParentIdsLike
+	 *
 	 * @param parentIds
 	 * @return
 	 */

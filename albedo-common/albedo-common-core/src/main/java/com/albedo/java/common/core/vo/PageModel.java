@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class PageModel<T> extends Page<T> {
 
 	@Override
 	public String toString() {
-		return "PageModel(current="+getCurrent()+",size="+getSize()+",orders="+getOrders()+") ";
+		return "PageModel(current=" + getCurrent() + ",size=" + getSize() + ",orders=" + getOrders() + ") ";
 	}
 
 }

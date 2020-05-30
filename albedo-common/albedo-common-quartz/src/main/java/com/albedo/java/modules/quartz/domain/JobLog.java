@@ -103,7 +103,7 @@ public class JobLog extends GeneralEntity<JobLog> {
 	 */
 	public static final String F_SQL_EXCEPTIONINFO = "exception_info";
 	private static final long serialVersionUID = 1L;
-	//columns START
+
 	@TableId(value = GeneralEntity.F_SQL_ID, type = IdType.AUTO)
 	protected Long id;
 	@TableField(GeneralEntity.F_SQL_DESCRIPTION)

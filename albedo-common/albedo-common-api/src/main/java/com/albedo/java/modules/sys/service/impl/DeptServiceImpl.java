@@ -25,7 +25,7 @@ import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.core.vo.TreeNode;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
-import com.albedo.java.common.persistence.domain.TreeEntity;
+import com.albedo.java.common.persistence.domain.TreeEntityAbstract;
 import com.albedo.java.common.persistence.service.impl.TreeServiceImpl;
 import com.albedo.java.modules.sys.domain.Dept;
 import com.albedo.java.modules.sys.domain.DeptRelation;
@@ -45,13 +45,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -174,14 +171,16 @@ public class DeptServiceImpl extends
 	@Override
 	@Cacheable(key = "'findTreeNode:' + #p0")
 	public <Q> List<TreeNode> findTreeNode(Q queryCriteria) {
-		return super.findTreeNode(queryCriteria);
+		return super.getNodeTree(repository.selectList(QueryWrapperUtil.
+			<Dept>getWrapper(queryCriteria).lambda()
+			.eq(Dept::getAvailable, CommonConstants.STR_YES).orderByAsc(Dept::getSort)));
 	}
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public IPage<DeptVo> findTreeList(DeptQueryCriteria deptQueryCriteria) {
 		List<DeptVo> deptVoList = repository.findVoList(QueryWrapperUtil.<Dept>getWrapper(deptQueryCriteria)
-			.eq(TreeEntity.F_SQL_DELFLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT));
+			.eq(TreeEntityAbstract.F_SQL_DELFLAG, TreeEntityAbstract.FLAG_NORMAL).orderByAsc(TreeEntityAbstract.F_SQL_SORT));
 		return new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(deptVoList)),
 			deptVoList.size());
 	}

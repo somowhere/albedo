@@ -17,7 +17,6 @@
 package com.albedo.java.common.log.aspect;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-import com.albedo.java.common.core.util.Json;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.log.enums.LogType;
 import com.albedo.java.common.log.event.SysLogEvent;
@@ -25,15 +24,10 @@ import com.albedo.java.common.log.util.SysLogUtils;
 import com.albedo.java.modules.sys.domain.LogOperate;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-
-import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Method;
 
 /**
  * 操作日志使用spring event异步入库
@@ -52,13 +46,13 @@ public class SysLogAspect {
 		String strMethodName = point.getSignature().getName();
 		SysLogAspect.log.debug("[类名]:{},[方法]:{}", strClassName, strMethodName);
 		// 方法路径
-		String methodName = point.getTarget().getClass().getName()+"."+signature.getName()+"()";
+		String methodName = point.getTarget().getClass().getName() + "." + signature.getName() + "()";
 		StringBuilder params = new StringBuilder("{");
 		//参数值
 		Object[] argValues = point.getArgs();
 		//参数名称
-		String[] argNames = ((MethodSignature)point.getSignature()).getParameterNames();
-		if(argValues != null){
+		String[] argNames = ((MethodSignature) point.getSignature()).getParameterNames();
+		if (argValues != null) {
 			for (int i = 0; i < argValues.length; i++) {
 				params.append(" ").append(argNames[i]).append(": ").append(argValues[i]);
 			}
@@ -73,11 +67,11 @@ public class SysLogAspect {
 		try {
 			obj = point.proceed();
 			logOperateVo.setLogType(LogType.INFO.name());
-		}catch (Exception e){
+		} catch (Exception e) {
 			logOperateVo.setException(ExceptionUtil.stacktraceToString(e));
 			logOperateVo.setLogType(LogType.ERROR.name());
 			throw e;
-		}finally {
+		} finally {
 			saveLog(startTime, logOperateVo, log);
 		}
 

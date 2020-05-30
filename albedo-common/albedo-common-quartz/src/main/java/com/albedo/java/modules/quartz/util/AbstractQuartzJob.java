@@ -69,7 +69,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 	 * @param context 工作执行上下文对象
 	 * @param job     系统计划任务
 	 */
-	protected void after(JobExecutionContext context, Job job, Exception e	) {
+	protected void after(JobExecutionContext context, Job job, Exception e) {
 		Date startTime = threadLocal.get();
 		threadLocal.remove();
 
@@ -86,12 +86,12 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 			jobLog.setStatus(CommonConstants.STR_FAIL);
 			jobLog.setExceptionInfo(ExceptionUtil.stacktraceToString(e));
 			// 任务如果失败了则暂停
-			if(DictNameConstants.QUARTZ_MISFIRE_POLICY_3.equals(job.getMisfirePolicy())){
+			if (ScheduleConstants.MISFIRE_DO_NOTHING.equals(job.getMisfirePolicy())) {
 				//更新状态
 				job.setStatus(ScheduleConstants.Status.PAUSE.getValue());
 				RedisUtil.sendScheduleChannelMessage(ScheduleVo.createPause(job.getId(), job.getGroup()));
 			}
-			if(job.getEmail() != null){
+			if (job.getEmail() != null) {
 				EmailService emailService = SpringContextHolder.getBean(EmailService.class);
 				// 邮箱报警
 				EmailVo emailVo = taskAlarm(job, jobLog.getExceptionInfo());
@@ -107,11 +107,10 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 	}
 
 
-
 	private EmailVo taskAlarm(Job quartzJob, String msg) {
 		EmailVo emailVo = new EmailVo();
-		emailVo.setSubject("定时任务【"+ quartzJob.getName() +"】执行失败，请尽快处理！");
-		Map<String, Object> data = new HashMap<>();
+		emailVo.setSubject("定时任务【" + quartzJob.getName() + "】执行失败，请尽快处理！");
+		Map<String, Object> data = new HashMap<>(4);
 		data.put("task", quartzJob);
 		data.put("msg", msg);
 		TemplateEngine engine = TemplateUtil.createEngine(new TemplateConfig("templates", TemplateConfig.ResourceMode.CLASSPATH));

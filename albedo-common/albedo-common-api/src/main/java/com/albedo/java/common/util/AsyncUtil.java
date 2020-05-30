@@ -1,7 +1,6 @@
 package com.albedo.java.common.util;
 
 import com.albedo.java.common.core.util.SpringContextHolder;
-import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.log.enums.OperatorType;
 import com.albedo.java.common.log.event.SysLogEvent;
 import com.albedo.java.modules.sys.domain.LogOperate;
@@ -19,7 +18,7 @@ public class AsyncUtil {
 	/**
 	 * 记录登陆信息
 	 *
-	 * @param logOperate   日志
+	 * @param logOperate 日志
 	 */
 	public static void recordLogLogin(LogOperate logOperate) {
 

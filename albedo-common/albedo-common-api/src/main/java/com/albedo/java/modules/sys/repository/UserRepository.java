@@ -16,10 +16,8 @@
 
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.persistence.datascope.DataScope;
 import com.albedo.java.common.persistence.repository.BaseRepository;
-import com.albedo.java.common.util.RedisUtil;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
@@ -27,7 +25,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 

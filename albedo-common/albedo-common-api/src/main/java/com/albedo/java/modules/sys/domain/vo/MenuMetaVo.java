@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2020 Zheng Jie
+ *  Copyright 2019-2020 somewhere
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @author Zheng Jie
+ * @author somewhere
  * @date 2018-12-20
  */
 @Data

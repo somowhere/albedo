@@ -49,7 +49,6 @@ public class RedisUtil {
 	}
 
 
-
 	/**
 	 * 缓存基本的对象，Integer、String、实体类等
 	 *
@@ -75,20 +74,21 @@ public class RedisUtil {
 		operation.set(key, value, time, timeUnit);
 		return operation;
 	}
+
 	public static boolean delete(String key) {
-		Boolean flag = redisTemplate.delete(key);
-		log.info("deleteStringLike key {} flag {}", key, flag);
+		boolean flag = redisTemplate.delete(key);
+		log.debug("deleteStringLike key {} flag {}", key, flag);
 		return flag;
 	}
+
 	public static Long deleteLike(String pattern) {
 		Set<String> keys = redisTemplate.keys(pattern);
 		Long count = redisTemplate.delete(keys);
-		log.info("deleteStringLike keys {} count {}", keys, count);
+		log.debug("deleteStringLike keys {} count {}", keys, count);
 		return count;
 	}
 
 	/**
-	 *
 	 * @param prefix 前缀
 	 * @param keys
 	 */
@@ -99,7 +99,7 @@ public class RedisUtil {
 		}
 		long count = redisTemplate.delete(delKeys);
 
-		log.info("deleteStringLike keys {} count {}", delKeys, count);
+		log.debug("deleteStringLike keys {} count {}", delKeys, count);
 		return count;
 	}
 

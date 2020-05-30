@@ -2,7 +2,7 @@ package com.albedo.java.modules.gen.domain;
 
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.StringUtil;
-import com.albedo.java.common.persistence.domain.IdEntity;
+import com.albedo.java.common.persistence.domain.IdEntityAbstract;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.collect.Lists;
@@ -25,7 +25,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class Template extends IdEntity<Template> {
+public class Template extends IdEntityAbstract<Template> {
 
 	public static final String F_NAME = "name";
 	private static final long serialVersionUID = 1L;

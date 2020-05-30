@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2020 Zheng Jie
+ *  Copyright 2019-2020 somewhere
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -40,9 +40,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
-* @author Zheng Jie
-* @date 2020-05-02
-*/
+ * @author somewhere
+ * @date 2020-05-02
+ */
 @Service
 @Slf4j
 public class MonitorServiceImpl implements MonitorService {
@@ -50,7 +50,7 @@ public class MonitorServiceImpl implements MonitorService {
 	private final DecimalFormat df = new DecimalFormat("0.00");
 
 	@Override
-	public Map<String,Object> getServers(){
+	public Map<String, Object> getServers() {
 		Map<String, Object> resultMap = new LinkedHashMap<>(8);
 		try {
 			SystemInfo si = new SystemInfo();
@@ -75,21 +75,22 @@ public class MonitorServiceImpl implements MonitorService {
 
 	/**
 	 * 获取磁盘信息
+	 *
 	 * @return /
 	 */
-	private Map<String,Object> getDiskInfo(OperatingSystem os) {
-		Map<String,Object> diskInfo = new LinkedHashMap<>();
+	private Map<String, Object> getDiskInfo(OperatingSystem os) {
+		Map<String, Object> diskInfo = new LinkedHashMap<>();
 		try {
-		FileSystem fileSystem = os.getFileSystem();
-		List<OSFileStore> fsArray = fileSystem.getFileStores();
-		for (OSFileStore fs : fsArray){
-			diskInfo.put("total", fs.getTotalSpace() > 0 ? FileUtil.getSize(fs.getTotalSpace()) : "?");
-			long used = fs.getTotalSpace() - fs.getUsableSpace();
-			diskInfo.put("available", FileUtil.getSize(fs.getUsableSpace()));
-			diskInfo.put("used", FileUtil.getSize(used));
-			diskInfo.put("usageRate", df.format(used/(double)fs.getTotalSpace() * 100));
-		}
-		}catch (Exception e){
+			FileSystem fileSystem = os.getFileSystem();
+			List<OSFileStore> fsArray = fileSystem.getFileStores();
+			for (OSFileStore fs : fsArray) {
+				diskInfo.put("total", fs.getTotalSpace() > 0 ? FileUtil.getSize(fs.getTotalSpace()) : "?");
+				long used = fs.getTotalSpace() - fs.getUsableSpace();
+				diskInfo.put("available", FileUtil.getSize(fs.getUsableSpace()));
+				diskInfo.put("used", FileUtil.getSize(used));
+				diskInfo.put("usageRate", df.format(used / (double) fs.getTotalSpace() * 100));
+			}
+		} catch (Exception e) {
 			log.error("{}", e);
 		}
 		return diskInfo;
@@ -97,39 +98,42 @@ public class MonitorServiceImpl implements MonitorService {
 
 	/**
 	 * 获取交换区信息
+	 *
 	 * @param memory /
 	 * @return /
 	 */
-	private Map<String,Object> getSwapInfo(GlobalMemory memory) {
-		Map<String,Object> swapInfo = new LinkedHashMap<>();
+	private Map<String, Object> getSwapInfo(GlobalMemory memory) {
+		Map<String, Object> swapInfo = new LinkedHashMap<>();
 		swapInfo.put("total", FormatUtil.formatBytes(memory.getVirtualMemory().getSwapTotal()));
 		swapInfo.put("used", FormatUtil.formatBytes(memory.getVirtualMemory().getSwapUsed()));
 		swapInfo.put("available", FormatUtil.formatBytes(memory.getVirtualMemory().getSwapTotal() - memory.getVirtualMemory().getSwapUsed()));
-		swapInfo.put("usageRate", df.format(memory.getVirtualMemory().getSwapUsed()/(double)memory.getVirtualMemory().getSwapTotal() * 100));
+		swapInfo.put("usageRate", df.format(memory.getVirtualMemory().getSwapUsed() / (double) memory.getVirtualMemory().getSwapTotal() * 100));
 		return swapInfo;
 	}
 
 	/**
 	 * 获取内存信息
+	 *
 	 * @param memory /
 	 * @return /
 	 */
-	private Map<String,Object> getMemoryInfo(GlobalMemory memory) {
-		Map<String,Object> memoryInfo = new LinkedHashMap<>();
+	private Map<String, Object> getMemoryInfo(GlobalMemory memory) {
+		Map<String, Object> memoryInfo = new LinkedHashMap<>();
 		memoryInfo.put("total", FormatUtil.formatBytes(memory.getTotal()));
 		memoryInfo.put("available", FormatUtil.formatBytes(memory.getAvailable()));
 		memoryInfo.put("used", FormatUtil.formatBytes(memory.getTotal() - memory.getAvailable()));
-		memoryInfo.put("usageRate", df.format((memory.getTotal() - memory.getAvailable())/(double)memory.getTotal() * 100));
+		memoryInfo.put("usageRate", df.format((memory.getTotal() - memory.getAvailable()) / (double) memory.getTotal() * 100));
 		return memoryInfo;
 	}
 
 	/**
 	 * 获取Cpu相关信息
+	 *
 	 * @param processor /
 	 * @return /
 	 */
-	private Map<String,Object> getCpuInfo(CentralProcessor processor) {
-		Map<String,Object> cpuInfo = new LinkedHashMap<>();
+	private Map<String, Object> getCpuInfo(CentralProcessor processor) {
+		Map<String, Object> cpuInfo = new LinkedHashMap<>();
 		cpuInfo.put("name", processor.getProcessorIdentifier().getName());
 		cpuInfo.put("package", processor.getPhysicalPackageCount() + "个物理CPU");
 		cpuInfo.put("core", processor.getPhysicalProcessorCount() + "个物理核心");
@@ -156,16 +160,17 @@ public class MonitorServiceImpl implements MonitorService {
 
 	/**
 	 * 获取系统相关信息,系统、运行天数、系统IP
+	 *
 	 * @param os /
 	 * @return /
 	 */
-	private Map<String,Object> getSystemInfo(OperatingSystem os){
-		Map<String,Object> systemInfo = new LinkedHashMap<>();
+	private Map<String, Object> getSystemInfo(OperatingSystem os) {
+		Map<String, Object> systemInfo = new LinkedHashMap<>();
 		// jvm 运行时间
 		long time = ManagementFactory.getRuntimeMXBean().getStartTime();
 		Date date = new Date(time);
 		// 计算项目运行时间
-		String formatBetween = DateUtil.formatBetween(date, new Date(),BetweenFormater.Level.HOUR);
+		String formatBetween = DateUtil.formatBetween(date, new Date(), BetweenFormater.Level.HOUR);
 		// 系统信息
 		systemInfo.put("os", os.toString());
 		systemInfo.put("day", formatBetween);

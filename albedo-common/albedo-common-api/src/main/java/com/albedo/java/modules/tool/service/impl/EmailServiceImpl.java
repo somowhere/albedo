@@ -28,14 +28,12 @@ import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BadRequestException;
 import com.albedo.java.common.core.util.EncryptUtil;
-import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.persistence.service.impl.BaseServiceImpl;
 import com.albedo.java.common.util.RedisUtil;
 import com.albedo.java.modules.tool.domain.EmailConfig;
 import com.albedo.java.modules.tool.domain.vo.EmailVo;
 import com.albedo.java.modules.tool.repository.EmailConfigRepository;
 import com.albedo.java.modules.tool.service.EmailService;
-import com.baomidou.mybatisplus.core.toolkit.EncryptUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CachePut;
@@ -44,11 +42,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
- *
  * @author somewhere
  * @since 2019/2/1
  */
@@ -64,7 +60,7 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, Ema
 	@Transactional(rollbackFor = Exception.class)
 	public EmailConfig config(EmailConfig emailConfig, EmailConfig old) throws Exception {
 		emailConfig.setId(1L);
-		if(!emailConfig.getPass().equals(old.getPass())){
+		if (!emailConfig.getPass().equals(old.getPass())) {
 			// 对称加密
 			emailConfig.setPass(EncryptUtil.desEncrypt(emailConfig.getPass()));
 		}
@@ -81,8 +77,8 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, Ema
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public void send(EmailVo emailVo, EmailConfig emailConfig){
-		if(emailConfig == null || emailConfig.getId() == null){
+	public void send(EmailVo emailVo, EmailConfig emailConfig) {
+		if (emailConfig == null || emailConfig.getId() == null) {
 			throw new BadRequestException("请先配置，再操作");
 		}
 		// 封装
@@ -96,7 +92,7 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, Ema
 		} catch (Exception e) {
 			throw new BadRequestException(e.getMessage());
 		}
-		account.setFrom(emailConfig.getUser()+"<"+emailConfig.getFromUser()+">");
+		account.setFrom(emailConfig.getUser() + "<" + emailConfig.getFromUser() + ">");
 		// ssl方式发送
 		account.setSslEnable(true);
 		// 使用STARTTLS安全连接
@@ -113,7 +109,7 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, Ema
 				//关闭session
 				.setUseGlobalSession(false)
 				.send();
-		}catch (Exception e){
+		} catch (Exception e) {
 			throw new BadRequestException(e.getMessage());
 		}
 	}
@@ -127,19 +123,19 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, Ema
 		// 如果不存在有效的验证码，就创建一个新的
 		TemplateEngine engine = TemplateUtil.createEngine(new TemplateConfig("templates", TemplateConfig.ResourceMode.CLASSPATH));
 		Template template = engine.getTemplate("email/email.ftl");
-		Object oldCode =  RedisUtil.getCacheString(redisKey);
-		if(oldCode == null){
-			String code = RandomUtil.randomNumbers (6);
+		Object oldCode = RedisUtil.getCacheString(redisKey);
+		if (oldCode == null) {
+			String code = RandomUtil.randomNumbers(6);
 
 			// 存入缓存
-			RedisUtil.setCacheString(redisKey, code, CommonConstants.DEFAULT_IMAGE_EXPIRE , TimeUnit.SECONDS);
+			RedisUtil.setCacheString(redisKey, code, CommonConstants.DEFAULT_IMAGE_EXPIRE, TimeUnit.SECONDS);
 
-			content = template.render(Dict.create().set("code",code));
-			emailVo = new EmailVo(Collections.singletonList(email),"Albedo后台管理系统",content);
+			content = template.render(Dict.create().set("code", code));
+			emailVo = new EmailVo(Collections.singletonList(email), "Albedo后台管理系统", content);
 			// 存在就再次发送原来的验证码
 		} else {
-			content = template.render(Dict.create().set("code",oldCode));
-			emailVo = new EmailVo(Collections.singletonList(email),"Albedo后台管理系统",content);
+			content = template.render(Dict.create().set("code", oldCode));
+			emailVo = new EmailVo(Collections.singletonList(email), "Albedo后台管理系统", content);
 		}
 		return emailVo;
 	}
@@ -147,7 +143,7 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, Ema
 	@Override
 	public void validated(String key, String code) {
 		Object value = RedisUtil.getCacheString(key);
-		if(value == null || !value.toString().equals(code)){
+		if (value == null || !value.toString().equals(code)) {
 			throw new BadRequestException("无效验证码");
 		} else {
 			RedisUtil.delete(key);

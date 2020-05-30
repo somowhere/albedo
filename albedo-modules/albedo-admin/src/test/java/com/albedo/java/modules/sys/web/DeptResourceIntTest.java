@@ -106,7 +106,7 @@ public class DeptResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void createDept() throws Exception {
 		List<Dept> databaseSizeBeforeCreate = deptService.list();
 
@@ -131,7 +131,7 @@ public class DeptResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void getDept() throws Exception {
 		// Initialize the database
 		deptService.saveOrUpdate(dept);
@@ -146,14 +146,14 @@ public class DeptResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void getNonExistingDept() throws Exception {
 		restDeptMockMvc.perform(get("/sys/dept/ddd/unknown"))
 			.andExpect(status().isNotFound());
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void updateDept() throws Exception {
 		// Initialize the database
 		deptService.saveOrUpdate(dept);
@@ -191,7 +191,7 @@ public class DeptResourceIntTest {
 
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void deleteDept() throws Exception {
 		// Initialize the database
 		deptService.saveOrUpdate(dept);
@@ -208,7 +208,7 @@ public class DeptResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void testDeptEquals() throws Exception {
 		TestUtil.equalsVerifier(Dept.class);
 		Dept dept1 = new Dept();

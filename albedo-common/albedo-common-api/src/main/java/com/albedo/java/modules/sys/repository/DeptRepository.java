@@ -35,7 +35,17 @@ import java.util.List;
  */
 public interface DeptRepository extends TreeRepository<Dept> {
 
+	/**
+	 * 部门树数据集合
+	 * @param wrapper
+	 * @return
+	 */
 	List<DeptVo> findVoList(@Param(Constants.WRAPPER) QueryWrapper<Dept> wrapper);
 
+	/**
+	 *	获取集合根据roleId
+	 * @param roleId
+	 * @return
+	 */
 	List<Dept> findListByRoleId(String roleId);
 }

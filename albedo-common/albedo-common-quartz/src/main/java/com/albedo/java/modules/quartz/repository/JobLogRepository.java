@@ -21,7 +21,15 @@ import java.util.List;
  */
 public interface JobLogRepository extends BaseRepository<JobLog> {
 
+	/**
+	 * 清空日志
+	 */
 	void cleanJobLog();
 
+	/**
+	 * 获取导出集合
+	 * @param wrapper
+	 * @return
+	 */
 	List<JobLogExcelVo> findExcelVo(@Param(Constants.WRAPPER) Wrapper wrapper);
 }

@@ -180,7 +180,7 @@ public class JobResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void createJob() throws Exception {
 		int databaseSizeBeforeCreate = jobService.list().size();
 		// Create the Job
@@ -208,7 +208,7 @@ public class JobResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void checkNameIsRequired() throws Exception {
 		int databaseSizeBeforeTest = jobService.list().size();
 		// set the field null
@@ -226,7 +226,7 @@ public class JobResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void checkGroupIsRequired() throws Exception {
 		int databaseSizeBeforeTest = jobService.list().size();
 		// set the field null
@@ -244,7 +244,7 @@ public class JobResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void checkInvokeTargetIsRequired() throws Exception {
 		int databaseSizeBeforeTest = jobService.list().size();
 		// set the field null
@@ -263,7 +263,7 @@ public class JobResourceIntTest {
 
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void getAllJobs() throws Exception {
 		// Initialize the database
 		jobService.saveOrUpdate(jobDto);
@@ -282,7 +282,7 @@ public class JobResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void getJob() throws Exception {
 		// Initialize the database
 		jobService.saveOrUpdate(jobDto);
@@ -302,7 +302,7 @@ public class JobResourceIntTest {
 
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void getNonExistingJob() throws Exception {
 		// Get the job
 		restJobMockMvc.perform(get(DEFAULT_API_URL + "{id}", Long.MAX_VALUE))
@@ -311,7 +311,7 @@ public class JobResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void updateJob() throws Exception {
 		// Initialize the database
 		jobService.saveOrUpdate(jobDto);
@@ -375,7 +375,7 @@ public class JobResourceIntTest {
 
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void deleteJob() throws Exception {
 		// Initialize the database
 		jobService.saveOrUpdate(jobDto);
@@ -392,7 +392,7 @@ public class JobResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void equalsVerifier() throws Exception {
 		TestUtil.equalsVerifier(Job.class);
 		Job job1 = new Job();

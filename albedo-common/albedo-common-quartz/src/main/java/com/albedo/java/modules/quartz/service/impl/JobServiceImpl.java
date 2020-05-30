@@ -41,7 +41,7 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, 
 	 * @param job 调度信息
 	 */
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public int pauseJob(Job job) {
 		Integer jobId = job.getId();
 		String jobGroup = job.getGroup();
@@ -60,7 +60,7 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, 
 	 * @param job 调度信息
 	 */
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public int resumeJob(Job job) {
 		Integer jobId = job.getId();
 		String jobGroup = job.getGroup();
@@ -79,7 +79,7 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, 
 	 * @param job 调度信息
 	 */
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public int deleteJob(Job job) {
 		Integer jobId = job.getId();
 		String jobGroup = job.getGroup();
@@ -98,7 +98,7 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, 
 	 * @return 结果
 	 */
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void deleteJobByIds(Set<String> ids) {
 		for (String jobId : ids) {
 			Job job = repository.selectById(jobId);
@@ -112,7 +112,7 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, 
 	 * @param job 调度信息
 	 */
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public int changeStatus(Job job) {
 		int rows = 0;
 		String status = job.getStatus();
@@ -130,7 +130,7 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, 
 	 * @param job 调度信息
 	 */
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void run(Job job) {
 		Integer jobId = job.getId();
 		String jobGroup = job.getGroup();
@@ -144,7 +144,7 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, 
 	 * @param job 调度信息 调度信息
 	 */
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public boolean saveOrUpdate(Job job) {
 		Assert.isTrue(checkCronExpressionIsValid(job.getCronExpression()), "cronExpression 不合法");
 

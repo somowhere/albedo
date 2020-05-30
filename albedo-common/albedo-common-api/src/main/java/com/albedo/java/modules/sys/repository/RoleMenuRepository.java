@@ -19,7 +19,6 @@ package com.albedo.java.modules.sys.repository;
 
 import com.albedo.java.common.persistence.repository.BaseRepository;
 import com.albedo.java.modules.sys.domain.RoleMenu;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>

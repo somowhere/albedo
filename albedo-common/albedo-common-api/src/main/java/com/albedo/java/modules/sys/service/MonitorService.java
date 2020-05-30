@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2020 Zheng Jie
+ *  Copyright 2019-2020 somewhere
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,14 +18,15 @@ package com.albedo.java.modules.sys.service;
 import java.util.Map;
 
 /**
- * @author Zheng Jie
+ * @author somewhere
  * @date 2020-05-02
  */
 public interface MonitorService {
 
-    /**
-    * 查询数据分页
-    * @return Map<String,Object>
-    */
-    Map<String, Object> getServers();
+	/**
+	 * 查询数据分页
+	 *
+	 * @return Map<String, Object>
+	 */
+	Map<String, Object> getServers();
 }

@@ -18,7 +18,6 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.log.annotation.Log;
-import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.persistence.datascope.DataScope;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.web.resource.BaseResource;

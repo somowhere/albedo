@@ -18,14 +18,11 @@ package com.albedo.java.common.log.util;
 
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.URLUtil;
-import cn.hutool.http.HttpUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.albedo.java.common.core.util.AddressUtil;
 import com.albedo.java.common.core.util.RequestHolder;
-import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.WebUtil;
-import com.albedo.java.common.security.filter.warpper.BodyRequestWrapper;
 import com.albedo.java.modules.sys.domain.LogOperate;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
@@ -33,7 +30,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 /**
  * 系统日志工具类
@@ -49,7 +45,7 @@ public class SysLogUtils {
 		logOperate.setCreatedDate(LocalDateTime.now());
 		logOperate.setUsername(getUsername());
 		logOperate.setIpAddress(WebUtil.getIP(request));
-		logOperate.setIpLocation(AddressUtil.getRealAddressByIP(logOperate.getIpAddress()));
+		logOperate.setIpLocation(AddressUtil.getRealAddressByIp(logOperate.getIpAddress()));
 		logOperate.setUserAgent(request.getHeader("User-Agent"));
 		UserAgent userAgent = UserAgentUtil.parse(logOperate.getUserAgent());
 		logOperate.setBrowser(userAgent.getBrowser().getName());

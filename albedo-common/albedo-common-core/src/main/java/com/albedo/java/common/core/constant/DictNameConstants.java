@@ -31,7 +31,6 @@ public interface DictNameConstants {
 	String SYS_DATA_SCOPE = "sys_data_scope";
 	String SYS_BUSINESS_TYPE = "sys_business_type";
 	String QUARTZ_MISFIRE_POLICY = "quartz_misfire_policy";
-	String QUARTZ_MISFIRE_POLICY_3 = "3";
 	String QUARTZ_JOB_GROUP = "quartz_job_group";
 	String QUARTZ_JOB_STATUS = "quartz_job_status";
 }

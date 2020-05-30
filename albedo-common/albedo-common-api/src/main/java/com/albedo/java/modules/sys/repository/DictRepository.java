@@ -35,8 +35,17 @@ import java.util.List;
  */
 public interface DictRepository extends TreeRepository<Dict> {
 
+	/**
+	 * 字典树数据集合
+	 * @param wrapper
+	 * @return
+	 */
 	List<DictVo> findDictVoList(@Param(Constants.WRAPPER) QueryWrapper<Dict> wrapper);
 
-
+	/**
+	 * 批量更新可用状态
+	 * @param idList
+	 * @param available
+	 */
 	void updateAvailableByIdList(@Param("idList") List<String> idList, @Param("available") Integer available);
 }

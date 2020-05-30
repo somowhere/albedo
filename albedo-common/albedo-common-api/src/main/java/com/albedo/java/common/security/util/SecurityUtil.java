@@ -81,7 +81,7 @@ public class SecurityUtil {
 		return getUser(authentication);
 	}
 
-	public DataScope getDataScope(){
+	public DataScope getDataScope() {
 		return getUser() != null ? getUser().getDataScope() : null;
 	}
 

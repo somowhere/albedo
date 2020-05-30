@@ -154,7 +154,7 @@ public class TableServiceImpl extends
 				}
 
 				// 获取主键
-				tableDto.setPkList(findTablePK(tableDto));
+				tableDto.setPkList(findTablePk(tableDto));
 
 				// 初始化列属性字段
 				GenUtil.initColumnField(tableDto);
@@ -166,18 +166,17 @@ public class TableServiceImpl extends
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public List<String> findTablePK(TableDto tableDto) {
+	public List<String> findTablePk(TableDto tableDto) {
 		List<String> pkList = null;
 
-		pkList = repository.findTablePK(tableDto);
+		pkList = repository.findTablePk(tableDto);
 		return pkList;
 	}
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public List<TableColumnDto> findTableColumnList(TableDto tableDto) {
-		List<TableColumnDto> list = null;
-		list = repository.findTableColumnList(tableDto);
+		List<TableColumnDto> list = repository.findTableColumnList(tableDto);
 		Assert.notNull(list, StringUtil.toAppendStr("无法获取[", tableDto.getName(), "]表的列信息"));
 		if (ObjectUtil.isNotEmpty(tableDto.getId())) {
 			Collections.sort(list);
@@ -192,7 +191,7 @@ public class TableServiceImpl extends
 		TableQuery tableQuery = new TableQuery();
 		if (tableDto != null) {
 			tableQuery.setName(tableDto.getName());
-		}else{
+		} else {
 			List<String> tempNames = Lists.newArrayList("gen_");
 			tableQuery.setNotLikeNames(tempNames);
 			if (ObjectUtil.isNotEmpty(tableEntities)) {

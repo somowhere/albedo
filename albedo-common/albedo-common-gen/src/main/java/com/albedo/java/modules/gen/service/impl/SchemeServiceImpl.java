@@ -76,7 +76,7 @@ public class SchemeServiceImpl extends DataServiceImpl<SchemeRepository, Scheme,
 
 		// 如果有子表模板，则需要获取子表列表
 		if (childTableTemplateList.size() > 0) {
-			tableDto.setChildList(tableRepository.findAllByParentTable(tableDto.getId())
+			tableDto.setChildList(tableRepository.selectList(Wrappers.<Table>lambdaQuery().eq(Table::getParentTable, tableDto.getId()))
 				.stream().map(item -> tableService.copyBeanToDto(item)).collect(Collectors.toList()));
 		}
 
@@ -168,7 +168,7 @@ public class SchemeServiceImpl extends DataServiceImpl<SchemeRepository, Scheme,
 
 		// 如果有子表模板，则需要获取子表列表
 		if (childTableTemplateList.size() > 0) {
-			tableDto.setChildList(tableRepository.findAllByParentTable(tableDto.getId())
+			tableDto.setChildList(tableRepository.selectList(Wrappers.<Table>lambdaQuery().eq(Table::getParentTable, tableDto.getId()))
 				.stream().map(item -> tableService.copyBeanToDto(item)).collect(Collectors.toList()));
 		}
 

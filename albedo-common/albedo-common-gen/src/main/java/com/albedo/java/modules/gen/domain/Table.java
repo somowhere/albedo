@@ -1,8 +1,7 @@
 package com.albedo.java.modules.gen.domain;
 
 import com.albedo.java.common.core.util.StringUtil;
-import com.albedo.java.common.persistence.annotation.ManyToOne;
-import com.albedo.java.common.persistence.domain.IdEntity;
+import com.albedo.java.common.persistence.domain.IdEntityAbstract;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -24,7 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class Table extends IdEntity<Table> {
+public class Table extends IdEntityAbstract<Table> {
 
 	public static final String F_NAME = "name";
 	public static final String F_NAMESANDTITLE = "nameAndTitle";

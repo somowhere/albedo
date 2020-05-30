@@ -16,7 +16,6 @@
 
 package com.albedo.java.modules.sys.service.impl;
 
-import com.albedo.java.common.core.annotation.BaseInit;
 import com.albedo.java.common.core.annotation.BaseInterface;
 import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
@@ -30,7 +29,7 @@ import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.core.vo.SelectResult;
 import com.albedo.java.common.core.vo.TreeNode;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
-import com.albedo.java.common.persistence.domain.TreeEntity;
+import com.albedo.java.common.persistence.domain.TreeEntityAbstract;
 import com.albedo.java.common.persistence.service.impl.TreeServiceImpl;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.domain.dto.DictDto;
@@ -43,7 +42,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheConfig;
@@ -84,6 +82,7 @@ public class DictServiceImpl extends
 		}
 	}
 
+	@Override
 	public List<Dict> findAllOrderBySort() {
 		return repository.selectList(Wrappers.<Dict>lambdaQuery().orderByAsc(Dict::getSort));
 	}
@@ -104,12 +103,13 @@ public class DictServiceImpl extends
 
 		super.saveOrUpdate(dictDto);
 	}
+
 	@Override
 	@Cacheable(key = "'findCodes:' + #p0")
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public Map<String, List<SelectResult>> findCodes(String codes) {
 		List<Dict> dictList = findAllOrderBySort();
-		return codes!=null ? DictUtil.getSelectResultListByCodes(dictList, codes.split(StringUtil.SPLIT_DEFAULT)) :
+		return codes != null ? DictUtil.getSelectResultListByCodes(dictList, codes.split(StringUtil.SPLIT_DEFAULT)) :
 			DictUtil.getSelectResultListByCodes(dictList);
 	}
 
@@ -123,7 +123,7 @@ public class DictServiceImpl extends
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public IPage<DictVo> findTreeList(DictQueryCriteria dictQueryCriteria) {
 		List<DictVo> dictVoList = repository.findDictVoList(QueryWrapperUtil.<Dict>getWrapper(dictQueryCriteria)
-			.eq(TreeEntity.F_SQL_DELFLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT));
+			.eq(TreeEntityAbstract.F_SQL_DELFLAG, TreeEntityAbstract.FLAG_NORMAL).orderByAsc(TreeEntityAbstract.F_SQL_SORT));
 		return new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(dictVoList)),
 			dictVoList.size());
 	}

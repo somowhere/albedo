@@ -1,12 +1,9 @@
 package com.albedo.java.common.security.handler;
 
-import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.http.HttpUtil;
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.WebUtil;
-import com.albedo.java.common.log.annotation.Log;
-import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.log.enums.LogType;
 import com.albedo.java.common.log.event.SysUserOnlineEvent;
 import com.albedo.java.common.log.util.SysLogUtils;

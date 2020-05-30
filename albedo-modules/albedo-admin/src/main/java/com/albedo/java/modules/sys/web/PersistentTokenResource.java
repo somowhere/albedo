@@ -20,7 +20,6 @@ import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.Log;
-import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.modules.sys.domain.dto.PersistentTokenQueryCriteria;
 import com.albedo.java.modules.sys.service.PersistentTokenService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

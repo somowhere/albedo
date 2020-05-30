@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2020 Zheng Jie
+ *  Copyright 2019-2020 somewhere
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,7 +25,8 @@ import java.io.Serializable;
 
 /**
  * 支付宝配置类
- * @author Zheng Jie
+ *
+ * @author somewhere
  * @date 2018-12-31
  */
 @Data
@@ -33,43 +34,43 @@ import java.io.Serializable;
 public class AlipayConfig implements Serializable {
 
 	@Id
-    @ApiModelProperty(value = "ID", hidden = true)
-    private Long id;
+	@ApiModelProperty(value = "ID", hidden = true)
+	private Long id;
 
-    @NotBlank
-    @ApiModelProperty(value = "应用ID")
-    private String appId;
+	@NotBlank
+	@ApiModelProperty(value = "应用ID")
+	private String appId;
 
-    @NotBlank
-    @ApiModelProperty(value = "商户私钥")
-    private String privateKey;
+	@NotBlank
+	@ApiModelProperty(value = "商户私钥")
+	private String privateKey;
 
-    @NotBlank
-    @ApiModelProperty(value = "支付宝公钥")
-    private String publicKey;
+	@NotBlank
+	@ApiModelProperty(value = "支付宝公钥")
+	private String publicKey;
 
-    @ApiModelProperty(value = "签名方式")
-    private String signType="RSA2";
+	@ApiModelProperty(value = "签名方式")
+	private String signType = "RSA2";
 
-    @ApiModelProperty(value = "支付宝开放安全地址", hidden = true)
-    private String gatewayUrl = "https://openapi.alipaydev.com/gateway.do";
+	@ApiModelProperty(value = "支付宝开放安全地址", hidden = true)
+	private String gatewayUrl = "https://openapi.alipaydev.com/gateway.do";
 
-    @ApiModelProperty(value = "编码", hidden = true)
-    private String charset= "utf-8";
+	@ApiModelProperty(value = "编码", hidden = true)
+	private String charset = "utf-8";
 
-    @NotBlank
-    @ApiModelProperty(value = "异步通知地址")
-    private String notifyUrl;
+	@NotBlank
+	@ApiModelProperty(value = "异步通知地址")
+	private String notifyUrl;
 
-    @NotBlank
-    @ApiModelProperty(value = "订单完成后返回的页面")
-    private String returnUrl;
+	@NotBlank
+	@ApiModelProperty(value = "订单完成后返回的页面")
+	private String returnUrl;
 
-    @ApiModelProperty(value = "类型")
-    private String format="JSON";
+	@ApiModelProperty(value = "类型")
+	private String format = "JSON";
 
-    @NotBlank
-    @ApiModelProperty(value = "商户号")
-    private String sysServiceProviderId;
+	@NotBlank
+	@ApiModelProperty(value = "商户号")
+	private String sysServiceProviderId;
 
 }

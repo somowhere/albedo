@@ -109,6 +109,7 @@ public class ApplicationProperties {
 
 		}
 	}
+
 	@Data
 	public static class Rsa {
 
@@ -116,6 +117,7 @@ public class ApplicationProperties {
 		private String privateKey;
 
 	}
+
 	@Data
 	public static class Http {
 

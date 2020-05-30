@@ -37,8 +37,18 @@ import java.util.Set;
 public interface DeptService extends TreeService<Dept, DeptDto> {
 
 
+	/**
+	 * 获取祖先后代节点
+	 * @param deptId
+	 * @return
+	 */
 	List<String> findDescendantIdList(String deptId);
 
+	/**
+	 * 批量删除
+	 * @param ids
+	 * @return
+	 */
 	boolean removeByIds(Set<String> ids);
 
 	/**
@@ -47,9 +57,19 @@ public interface DeptService extends TreeService<Dept, DeptDto> {
 	 * @param deptDto
 	 * @return
 	 */
+	@Override
 	void saveOrUpdate(DeptDto deptDto);
 
+	/**
+	 * 查询部门树集合
+	 * @param deptQueryCriteria
+	 * @return
+	 */
 	IPage<DeptVo> findTreeList(DeptQueryCriteria deptQueryCriteria);
 
+	/**
+	 * 锁定、解锁
+	 * @param ids
+	 */
 	void lockOrUnLock(Set<String> ids);
 }

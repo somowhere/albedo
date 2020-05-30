@@ -7,15 +7,14 @@ import cn.hutool.core.util.CharsetUtil;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.core.util.*;
-import com.albedo.java.common.persistence.domain.DataEntity;
-import com.albedo.java.common.persistence.domain.TreeEntity;
+import com.albedo.java.common.persistence.domain.AbstractDataEntity;
+import com.albedo.java.common.persistence.domain.TreeEntityAbstract;
 import com.albedo.java.modules.gen.domain.dto.SchemeDto;
 import com.albedo.java.modules.gen.domain.dto.TableColumnDto;
 import com.albedo.java.modules.gen.domain.dto.TableDto;
 import com.albedo.java.modules.gen.domain.vo.TemplateVo;
 import com.albedo.java.modules.gen.domain.xml.GenCategory;
 import com.albedo.java.modules.gen.domain.xml.GenConfig;
-import com.albedo.java.modules.sys.domain.Dept;
 import com.albedo.java.modules.sys.domain.User;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -45,17 +44,14 @@ public class GenUtil {
 	 */
 	public static void initColumnField(TableDto table) {
 		for (TableColumnDto column : table.getColumnList()) {
-
 			// 如果是不是新增列，则跳过。
 			if (StringUtil.isNotBlank(column.getId())) {
 				continue;
 			}
-
 			// 设置字段说明
 			if (StringUtil.isBlank(column.getTitle())) {
 				column.setTitle(column.getName());
 			}
-
 			// 设置java类型
 			if (StringUtil.startWithIgnoreCase(column.getJdbcType(), "CHAR") || StringUtil.startWithIgnoreCase(column.getJdbcType(), "VARCHAR") || StringUtil.startWithIgnoreCase(column.getJdbcType(), "NARCHAR")) {
 				column.setJavaType(CommonConstants.TYPE_STRING);
@@ -83,28 +79,23 @@ public class GenUtil {
 					column.setJavaType(CommonConstants.TYPE_LONG);
 				}
 			}
-
 			// 设置java字段名
 			column.setJavaField(StringUtil.toCamelCase(column.getName()));
-
 			// 是否是主键
 			column.setPk(table.getPkList().contains(column.getName()));
-
 			// 插入字段
 			column.setInsert(true);
-
-
 			if (column.getIsNotBaseField()) {
-				column.setList(true);// 列表字段
-				column.setEdit(true);// 编辑字段
+				column.setList(true);
+				column.setEdit(true);
 			}
 
-			if (StringUtil.equalsIgnoreCase(column.getJavaField(), DataEntity.F_DESCRIPTION)) {
+			if (StringUtil.equalsIgnoreCase(column.getJavaField(), AbstractDataEntity.F_DESCRIPTION)) {
 				column.setEdit(true);
 				column.setTitle("备注");
 			}
 			// 查询字段
-			if (StringUtil.equalsIgnoreCase(column.getJavaField(), TreeEntity.F_NAME) || StringUtil.equalsIgnoreCase(column.getJavaField(), "title")) {
+			if (StringUtil.equalsIgnoreCase(column.getJavaField(), TreeEntityAbstract.F_NAME) || StringUtil.equalsIgnoreCase(column.getJavaField(), "title")) {
 				column.setQuery(true);
 				column.setQueryType("like");
 			}
@@ -112,66 +103,44 @@ public class GenUtil {
 				column.setDictType(DictNameConstants.SYS_FLAG);
 				column.setShowType("radio");
 			}
-//			// 用户
-//			if (StringUtil.startWithIgnoreCase(column.getName(), "user_id")) {
-//				column.setJavaType(User.class.getName());
-//				column.setJavaField(column.getJavaField().replaceAll("Id", ".id|name"));
-//				column.setTitle("用户");
-//				column.setShowType("userselect");
-//			}
-//			// 部门
-//			else if (StringUtil.startWithIgnoreCase(column.getName(), "dept_id")) {
-//				column.setJavaType(Dept.class.getName());
-//				column.setJavaField(column.getJavaField().replaceAll("Id", ".id|name"));
-//				column.setTitle("机构");
-//				column.setShowType("orgselect");
-//			}
-//            // 区域
-//            else if (StringUtil.startWithIgnoreCase(column.getName(), "area_id")) {
-//                column.setJavaType(Area.class.getName());
-//                column.setJavaField(column.getJavaField().replaceAll("Id", ".id|name"));
-//                column.setTitle("区域");
-//                column.setShowType("areaselect");
-//            }
 			// 创建者、更新者
-			else if (StringUtil.startWithIgnoreCase(column.getName(), DataEntity.F_CREATEDBY) || StringUtil.startWithIgnoreCase(column.getName(), DataEntity.F_LASTMODIFIEDBY)) {
+			else if (StringUtil.startWithIgnoreCase(column.getName(), AbstractDataEntity.F_CREATEDBY) || StringUtil.startWithIgnoreCase(column.getName(), AbstractDataEntity.F_LASTMODIFIEDBY)) {
 				column.setJavaType(User.class.getName());
 				column.setJavaField(column.getJavaField());
 				column.setNull(false);
 			}
 			// 创建时间、更新时间
-			else if (StringUtil.startWithIgnoreCase(column.getName(), DataEntity.F_CREATEDDATE) || StringUtil.startWithIgnoreCase(column.getName(), DataEntity.F_LASTMODIFIEDDATE)) {
+			else if (StringUtil.startWithIgnoreCase(column.getName(), AbstractDataEntity.F_CREATEDDATE) || StringUtil.startWithIgnoreCase(column.getName(), AbstractDataEntity.F_LASTMODIFIEDDATE)) {
 				column.setShowType("dateselect");
 				column.setNull(false);
 			}
 			// 备注、内容
-			else if (StringUtil.equalsIgnoreCase(column.getJavaField(), DataEntity.F_DESCRIPTION) || StringUtil.equalsIgnoreCase(column.getJavaField(), "content") || StringUtil.equalsIgnoreCase(column.getJavaField(), "remark")) {
+			else if (StringUtil.equalsIgnoreCase(column.getJavaField(), AbstractDataEntity.F_DESCRIPTION) || StringUtil.equalsIgnoreCase(column.getJavaField(), "content") || StringUtil.equalsIgnoreCase(column.getJavaField(), "remark")) {
 				column.setShowType("textarea");
 			}
 			// 父级ID
-			else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntity.F_PARENTID)) {
-//				column.setJavaType("This");
+			else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntityAbstract.F_PARENTID)) {
 				column.setShowType("treeselect");
 				column.setNull(false);
 				column.setTitle("父节点");
 			}
 			// 所有父级ID
-			else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntity.F_PARENTIDS)) {
+			else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntityAbstract.F_PARENTIDS)) {
 				column.setQueryType("like");
-				column.setList(false);// 列表字段
+				column.setList(false);
 				column.setNull(false);
 				column.setTitle("所有父级");
 			}
 			// 所有父级ID
-			else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntity.F_LEAF)) {
+			else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntityAbstract.F_LEAF)) {
 				column.setQueryType("eq");
-				column.setList(false);// 列表字段
+				column.setList(false);
 				column.setEdit(false);
 				column.setNull(false);
 				column.setTitle("叶子节点");
 			}
 			// 删除标记
-			else if (StringUtil.equalsIgnoreCase(column.getJavaField(), DataEntity.F_DELFLAG)) {
+			else if (StringUtil.equalsIgnoreCase(column.getJavaField(), AbstractDataEntity.F_DELFLAG)) {
 				column.setShowType("radio");
 				column.setDictType(DictNameConstants.SYS_FLAG);
 				column.setNull(false);

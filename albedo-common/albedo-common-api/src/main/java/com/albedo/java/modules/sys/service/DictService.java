@@ -38,11 +38,29 @@ import java.util.Set;
  */
 public interface DictService extends TreeService<Dict, DictDto> {
 
+	/**
+	 * 获取所有可用排序正序字典
+	 * @return
+	 */
 	List<Dict> findAllOrderBySort();
 
+	/**
+	 * 获取字典数据
+	 * @param codes
+	 * @return
+	 */
 	Map<String, List<SelectResult>> findCodes(String codes);
 
+	/**
+	 * 字典树集合
+	 * @param dictQueryCriteria
+	 * @return
+	 */
 	IPage<DictVo> findTreeList(DictQueryCriteria dictQueryCriteria);
 
+	/**
+	 * 批量锁定，解锁
+	 * @param ids
+	 */
 	void lockOrUnLock(Set<String> ids);
 }

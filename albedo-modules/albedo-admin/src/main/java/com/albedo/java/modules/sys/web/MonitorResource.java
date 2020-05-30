@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2020 Zheng Jie
+ *  Copyright 2019-2020 somewhere
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author Zheng Jie
+ * @author somewhere
  * @date 2020-05-02
  */
 @RestController
@@ -34,12 +34,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "系统-服务监控管理")
 @RequestMapping("${application.admin-path}/sys/monitor")
 public class MonitorResource {
-    private final MonitorService serverService;
+	private final MonitorService serverService;
 
-    @GetMapping
-    @ApiOperation("查询服务监控")
+	@GetMapping
+	@ApiOperation("查询服务监控")
 	@PreAuthorize("@pms.hasPermission('sys_monitor_view')")
-    public R getServers(){
-        return R.buildOkData(serverService.getServers());
-    }
+	public R getServers() {
+		return R.buildOkData(serverService.getServers());
+	}
 }

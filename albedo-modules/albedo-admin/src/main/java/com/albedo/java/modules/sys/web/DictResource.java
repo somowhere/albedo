@@ -17,13 +17,11 @@
 package com.albedo.java.modules.sys.web;
 
 
-import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.Json;
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.vo.SelectResult;
 import com.albedo.java.common.log.annotation.Log;
-import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.domain.dto.DictDto;
@@ -33,7 +31,6 @@ import com.albedo.java.modules.sys.service.DictService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 

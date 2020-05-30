@@ -7,7 +7,6 @@ import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.log.annotation.Log;
-import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.gen.domain.dto.*;

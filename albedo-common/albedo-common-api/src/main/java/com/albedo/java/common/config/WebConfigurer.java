@@ -6,7 +6,6 @@ import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.DefaultProfileUtil;
 import com.albedo.java.common.core.util.StringUtil;
-import com.albedo.java.common.security.filter.BodyFilter;
 import com.albedo.java.common.security.filter.CachingHttpHeadersFilter;
 import io.undertow.UndertowOptions;
 import lombok.AllArgsConstructor;
@@ -199,7 +198,7 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		String pathUtl = "file:" + ApplicationConfig.getUploadPath().replace("\\","/");
+		String pathUtl = "file:" + ApplicationConfig.getUploadPath().replace("\\", "/");
 		registry.addResourceHandler(applicationProperties.getAdminPath("/asset-file/**")).addResourceLocations(pathUtl).setCachePeriod(0);
 	}
 

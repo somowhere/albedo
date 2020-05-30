@@ -36,7 +36,7 @@ public class ${ClassName}Vo extends TreeVo<${ClassName}Vo> {
 	<@generateFields/>
 }
 <#macro generateFields>
-	//columns START
+
 	<#list table.columnList as column>
 		<#if !column.pk && column.isNotBaseField && column.isNotBaseTreeField>
 	/** ${column.simpleJavaField} ${column.title} */

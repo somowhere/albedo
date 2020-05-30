@@ -22,7 +22,6 @@ import com.albedo.java.common.persistence.service.DataService;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
 import com.albedo.java.modules.sys.domain.dto.UserEmailDto;
-import com.albedo.java.modules.sys.domain.dto.UserInfoDto;
 import com.albedo.java.modules.sys.domain.dto.UserQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.UserExcelVo;
 import com.albedo.java.modules.sys.domain.vo.UserInfo;
@@ -30,7 +29,6 @@ import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.albedo.java.modules.sys.domain.vo.account.PasswordChangeVo;
 import com.albedo.java.modules.sys.domain.vo.account.PasswordRestVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Set;

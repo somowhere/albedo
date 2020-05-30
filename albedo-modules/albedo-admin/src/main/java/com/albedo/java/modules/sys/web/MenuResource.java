@@ -18,18 +18,14 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.BeanUtil;
-import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.log.annotation.Log;
-import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.web.resource.BaseResource;
-import com.albedo.java.modules.sys.domain.dto.MenuDto;
 import com.albedo.java.modules.sys.domain.dto.MenuQueryCriteria;
 import com.albedo.java.modules.sys.domain.dto.MenuSortDto;
-import com.albedo.java.modules.sys.domain.vo.MenuTree;
 import com.albedo.java.modules.sys.domain.vo.MenuVo;
 import com.albedo.java.modules.sys.service.MenuService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -39,8 +35,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

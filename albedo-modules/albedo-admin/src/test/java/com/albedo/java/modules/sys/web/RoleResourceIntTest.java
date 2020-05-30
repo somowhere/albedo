@@ -128,7 +128,7 @@ public class RoleResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void createRole() throws Exception {
 		List<Role> databaseSizeBeforeCreate = roleService.list();
 
@@ -150,7 +150,7 @@ public class RoleResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void getRolePage() throws Exception {
 		// Initialize the database
 		roleService.saveOrUpdate(roleDto);
@@ -168,7 +168,7 @@ public class RoleResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void getRole() throws Exception {
 		// Initialize the database
 		roleService.saveOrUpdate(roleDto);
@@ -184,14 +184,14 @@ public class RoleResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void getNonExistingRole() throws Exception {
 		restRoleMockMvc.perform(get("/sys/role/ddd/unknown"))
 			.andExpect(status().isNotFound());
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void updateRole() throws Exception {
 		// Initialize the database
 		roleService.saveOrUpdate(roleDto);
@@ -235,7 +235,7 @@ public class RoleResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void deleteRole() throws Exception {
 		// Initialize the database
 		roleService.saveOrUpdate(roleDto);
@@ -252,7 +252,7 @@ public class RoleResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void testRoleEquals() throws Exception {
 		TestUtil.equalsVerifier(Role.class);
 		Role role1 = new Role();

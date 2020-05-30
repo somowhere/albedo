@@ -54,7 +54,7 @@ public class JobDto extends DataDto<Integer> {
 	public static final String F_AVAILABLE = "available";
 	private static final long serialVersionUID = 1L;
 
-	//columns START
+
 	/**
 	 * name 任务名称
 	 */

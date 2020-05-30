@@ -143,7 +143,7 @@ public class MenuResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void createMenu() throws Exception {
 		List<Menu> databaseSizeBeforeCreate = menuService.list();
 
@@ -176,7 +176,7 @@ public class MenuResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void createMenuWithExistingCode() throws Exception {
 		// Initialize the database
 		menuService.saveOrUpdate(menu);
@@ -199,7 +199,7 @@ public class MenuResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void getMenuPage() throws Exception {
 		// Initialize the database
 		menuService.saveOrUpdate(menu);
@@ -225,7 +225,7 @@ public class MenuResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void getMenu() throws Exception {
 		// Initialize the database
 		menuService.saveOrUpdate(menu);
@@ -248,14 +248,14 @@ public class MenuResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void getNonExistingMenu() throws Exception {
 		restMenuMockMvc.perform(get("/sys/menu/ddd/unknown"))
 			.andExpect(status().isNotFound());
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void updateMenu() throws Exception {
 		// Initialize the database
 		menuService.saveOrUpdate(menu);
@@ -309,7 +309,7 @@ public class MenuResourceIntTest {
 
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void updateMenuExistingPermission() throws Exception {
 
 		menuService.saveOrUpdate(menu);
@@ -344,7 +344,7 @@ public class MenuResourceIntTest {
 
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void deleteMenu() throws Exception {
 		// Initialize the database
 		menuService.saveOrUpdate(menu);
@@ -361,7 +361,7 @@ public class MenuResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void testMenuEquals() throws Exception {
 		TestUtil.equalsVerifier(Menu.class);
 		Menu menu1 = new Menu();

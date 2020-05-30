@@ -26,23 +26,26 @@ import com.albedo.java.modules.tool.domain.vo.EmailVo;
  * @since 2019/2/1
  */
 public interface EmailService extends BaseService<EmailConfig> {
-	/**
-	 * 更新邮件配置
+	/**更新邮件配置
+	 *
 	 * @param emailConfig 邮件配置
-	 * @param old 旧的配置
+	 * @param old         旧的配置
 	 * @return EmailConfig
+	 * @throws Exception
 	 */
 	EmailConfig config(EmailConfig emailConfig, EmailConfig old) throws Exception;
 
 	/**
 	 * 查询配置
+	 *
 	 * @return EmailConfig 邮件配置
 	 */
 	EmailConfig find();
 
 	/**
 	 * 发送邮件
-	 * @param emailVo 邮件发送的内容
+	 *
+	 * @param emailVo     邮件发送的内容
 	 * @param emailConfig 邮件配置
 	 * @throws Exception /
 	 */
@@ -51,8 +54,9 @@ public interface EmailService extends BaseService<EmailConfig> {
 
 	/**
 	 * 发送验证码
+	 *
 	 * @param email /
-	 * @param key /
+	 * @param key   /
 	 * @return /
 	 */
 	EmailVo sendEmail(String email, String key);
@@ -60,8 +64,9 @@ public interface EmailService extends BaseService<EmailConfig> {
 
 	/**
 	 * 验证
+	 *
 	 * @param code /
-	 * @param key /
+	 * @param key  /
 	 */
 	void validated(String key, String code);
 }

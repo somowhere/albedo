@@ -37,7 +37,7 @@ public class ${ClassName}Dto extends TreeDto {
 	<@generateFields/>
 }
 <#macro generateFields>
-	//columns START
+
 	<#list table.columnList as column>
 		<#if !column.pk && column.isNotBaseField && column.isNotBaseTreeField>
 	/** ${column.simpleJavaField} ${column.title} */

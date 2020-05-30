@@ -16,7 +16,6 @@
 
 package com.albedo.java.common.log.annotation;
 
-import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.log.enums.OperatorType;
 
 import java.lang.annotation.*;

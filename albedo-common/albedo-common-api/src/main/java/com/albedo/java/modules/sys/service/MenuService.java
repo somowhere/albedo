@@ -21,10 +21,8 @@ import com.albedo.java.common.persistence.service.TreeService;
 import com.albedo.java.modules.sys.domain.Menu;
 import com.albedo.java.modules.sys.domain.dto.GenSchemeDto;
 import com.albedo.java.modules.sys.domain.dto.MenuDto;
-import com.albedo.java.modules.sys.domain.dto.MenuQueryCriteria;
 import com.albedo.java.modules.sys.domain.dto.MenuSortDto;
 import com.albedo.java.modules.sys.domain.vo.MenuVo;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
 import java.util.Set;
@@ -55,14 +53,12 @@ public interface MenuService extends TreeService<Menu, MenuDto> {
 	void removeByIds(Set<String> ids);
 
 	/**
-	 *
 	 * @param schemeDto
 	 * @return
 	 */
 	boolean saveByGenScheme(GenSchemeDto schemeDto);
 
 	/**
-	 *
 	 * @param menuSortDto
 	 */
 	void sortUpdate(MenuSortDto menuSortDto);

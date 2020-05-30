@@ -1,12 +1,10 @@
 package com.albedo.java.modules;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
-import cn.hutool.http.HttpUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -17,7 +15,6 @@ import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
 import org.springframework.http.MediaType;
-import org.springframework.util.MultiValueMap;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -25,9 +22,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
-
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -36,7 +31,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public final class TestUtil {
 
-	private static final ObjectMapper mapper = createObjectMapper();
 	public static final String ADMIN_PATH = "application.admin-path";
 	public static final String USER_ADMIN = "sys";
 	public static final String USER_ADMIN_PASSWORD = "111111";
@@ -46,6 +40,10 @@ public final class TestUtil {
 	public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(
 		MediaType.APPLICATION_JSON.getType(),
 		MediaType.APPLICATION_JSON.getSubtype(), StandardCharsets.UTF_8);
+	private static final ObjectMapper mapper = createObjectMapper();
+
+	private TestUtil() {
+	}
 
 	public static ObjectMapper createObjectMapper() {
 		ObjectMapper mapper = new ObjectMapper();
@@ -66,6 +64,7 @@ public final class TestUtil {
 
 		return mapper.writeValueAsBytes(object);
 	}
+
 	/**
 	 * Convert an object to userParams
 	 *
@@ -98,16 +97,16 @@ public final class TestUtil {
 			if (StrUtil.isNotEmpty(key)) {
 				value = item.getValue();
 				if (value instanceof Collection) {
-					for (Object obj : (Collection) value){
-						if(isFristTwo){
+					for (Object obj : (Collection) value) {
+						if (isFristTwo) {
 							isFristTwo = false;
-						}else{
+						} else {
 							sb.append("&");
 						}
-						appendUrl( sb,  obj,  key,  charset);
+						appendUrl(sb, obj, key, charset);
 					}
-				}else{
-					appendUrl( sb,  value,  key,  charset);
+				} else {
+					appendUrl(sb, value, key, charset);
 				}
 
 			}
@@ -115,7 +114,7 @@ public final class TestUtil {
 		return sb.toString();
 	}
 
-	private static void appendUrl(StringBuilder sb, Object value, String key, Charset charset){
+	private static void appendUrl(StringBuilder sb, Object value, String key, Charset charset) {
 		String valueStr = Convert.toStr(value);
 		sb.append(URLUtil.encodeAll(key, charset)).append("=");
 		if (StrUtil.isNotEmpty(valueStr)) {
@@ -136,6 +135,47 @@ public final class TestUtil {
 			byteArray[i] = Byte.parseByte(data, 2);
 		}
 		return byteArray;
+	}
+
+	/**
+	 * Creates a matcher that matches when the examined string represents the same instant as the reference datetime.
+	 *
+	 * @param date the reference datetime against which the examined string is checked.
+	 */
+	public static ZonedDateTimeMatcher sameInstant(ZonedDateTime date) {
+		return new ZonedDateTimeMatcher(date);
+	}
+
+	/**
+	 * Verifies the equals/hashcode contract on the domain object.
+	 */
+	public static <T> void equalsVerifier(Class<T> clazz) throws Exception {
+		T domainObject1 = clazz.getConstructor().newInstance();
+		assertThat(domainObject1.toString()).isNotNull();
+		assertThat(domainObject1).isEqualTo(domainObject1);
+		assertThat(domainObject1.hashCode()).isEqualTo(domainObject1.hashCode());
+		// Test with an instance of another class
+		Object testOtherObject = new Object();
+		assertThat(domainObject1).isNotEqualTo(testOtherObject);
+		assertThat(domainObject1).isNotEqualTo(null);
+		// Test with an instance of the same class
+		T domainObject2 = clazz.getConstructor().newInstance();
+		assertThat(domainObject1).isNotEqualTo(domainObject2);
+		// HashCodes are equals because the objects are not persisted yet
+		assertThat(domainObject1.hashCode()).isEqualTo(domainObject2.hashCode());
+	}
+
+	/**
+	 * Create a {@link FormattingConversionService} which use ISO date format, instead of the localized one.
+	 *
+	 * @return the {@link FormattingConversionService}.
+	 */
+	public static FormattingConversionService createFormattingConversionService() {
+		DefaultFormattingConversionService dfcs = new DefaultFormattingConversionService();
+		DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();
+		registrar.setUseIsoFormat(true);
+		registrar.registerFormatters(dfcs);
+		return dfcs;
 	}
 
 	/**
@@ -170,47 +210,4 @@ public final class TestUtil {
 			description.appendText("a String representing the same Instant as ").appendValue(date);
 		}
 	}
-
-	/**
-	 * Creates a matcher that matches when the examined string represents the same instant as the reference datetime.
-	 *
-	 * @param date the reference datetime against which the examined string is checked.
-	 */
-	public static ZonedDateTimeMatcher sameInstant(ZonedDateTime date) {
-		return new ZonedDateTimeMatcher(date);
-	}
-
-	/**
-	 * Verifies the equals/hashcode contract on the domain object.
-	 */
-	public static <T> void equalsVerifier(Class<T> clazz) throws Exception {
-		T domainObject1 = clazz.getConstructor().newInstance();
-		assertThat(domainObject1.toString()).isNotNull();
-		assertThat(domainObject1).isEqualTo(domainObject1);
-		assertThat(domainObject1.hashCode()).isEqualTo(domainObject1.hashCode());
-		// Test with an instance of another class
-		Object testOtherObject = new Object();
-		assertThat(domainObject1).isNotEqualTo(testOtherObject);
-		assertThat(domainObject1).isNotEqualTo(null);
-		// Test with an instance of the same class
-		T domainObject2 = clazz.getConstructor().newInstance();
-		assertThat(domainObject1).isNotEqualTo(domainObject2);
-		// HashCodes are equals because the objects are not persisted yet
-		assertThat(domainObject1.hashCode()).isEqualTo(domainObject2.hashCode());
-	}
-
-	/**
-	 * Create a {@link FormattingConversionService} which use ISO date format, instead of the localized one.
-	 * @return the {@link FormattingConversionService}.
-	 */
-	public static FormattingConversionService createFormattingConversionService() {
-		DefaultFormattingConversionService dfcs = new DefaultFormattingConversionService ();
-		DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();
-		registrar.setUseIsoFormat(true);
-		registrar.registerFormatters(dfcs);
-		return dfcs;
-	}
-
-
-	private TestUtil() {}
 }

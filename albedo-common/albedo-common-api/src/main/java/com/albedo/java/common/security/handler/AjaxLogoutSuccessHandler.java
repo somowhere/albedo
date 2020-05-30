@@ -2,7 +2,6 @@ package com.albedo.java.common.security.handler;
 
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.util.WebUtil;
-import com.albedo.java.modules.sys.service.UserOnlineService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AbstractAuthenticationTargetUrlRequestHandler;

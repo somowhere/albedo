@@ -1,6 +1,6 @@
 package com.albedo.java.modules.gen.domain;
 
-import com.albedo.java.common.persistence.domain.IdEntity;
+import com.albedo.java.common.persistence.domain.IdEntityAbstract;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class TableColumn extends IdEntity<TableColumn> implements Comparable<TableColumn> {
+public class TableColumn extends IdEntityAbstract<TableColumn> implements Comparable<TableColumn> {
 
 	public static final String F_GENTABLEID = "tableId";
 	public static final String F_SORT = "sort";

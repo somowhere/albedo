@@ -16,17 +16,14 @@
 
 package com.albedo.java.common.log.event;
 
-import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.domain.UserOnline;
 import com.albedo.java.modules.sys.service.UserOnlineService;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.session.SessionInformation;
-import org.springframework.util.Assert;
 
 
 /**
@@ -52,11 +49,14 @@ public class SysUserOnlineListener {
 	@EventListener(SysUserOnlineRefreshLastRequestEvent.class)
 	public void saveSysUserOnlineRefreshLastRequestEvent(SysUserOnlineRefreshLastRequestEvent event) {
 		SessionInformation sessionInformation = (SessionInformation) event.getSource();
-
 		UserOnline userOnline = userOnlineService.getById(sessionInformation.getSessionId());
-		Assert.isTrue(userOnline != null, "sessionInformation sessionId " + sessionInformation.getSessionId() + ", onlineUser is null");
-		userOnline.setLastAccessTime(sessionInformation.getLastRequest());
-		userOnlineService.updateById(userOnline);
+		if (userOnline != null) {
+			userOnline.setLastAccessTime(sessionInformation.getLastRequest());
+			userOnlineService.updateById(userOnline);
+		} else {
+			log.debug("sessionInformation sessionId " + sessionInformation.getSessionId() + ", onlineUser is null");
+		}
+
 	}
 
 }

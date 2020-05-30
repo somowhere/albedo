@@ -19,7 +19,15 @@ import java.util.List;
 public interface JobLogService extends BaseService<JobLog> {
 
 
+	/**
+	 * 清空日志
+	 */
 	void cleanJobLog();
 
+	/**
+	 * 获取导出集合
+	 * @param toEntityWrapper
+	 * @return
+	 */
 	List<JobLogExcelVo> findExcelVo(QueryWrapper<JobLog> toEntityWrapper);
 }

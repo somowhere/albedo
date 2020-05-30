@@ -5,8 +5,6 @@ import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.handler.GlobalExceptionHandler;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.vo.PageModel;
-import com.albedo.java.common.security.service.UserDetail;
-import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.modules.AlbedoAdminApplication;
 import com.albedo.java.modules.TestUtil;
 import com.albedo.java.modules.sys.domain.Dept;
@@ -26,8 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -134,7 +130,7 @@ public class UserResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void createUser() throws Exception {
 		List<User> databaseSizeBeforeCreate = userService.list();
 
@@ -157,7 +153,7 @@ public class UserResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void createUserWithExistingEmail() throws Exception {
 		// Initialize the database
 		int databaseSizeBeforeCreate = userService.list().size();
@@ -179,7 +175,7 @@ public class UserResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void findPage() throws Exception {
 		// Initialize the database
 		userService.saveOrUpdate(user);
@@ -197,7 +193,7 @@ public class UserResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void getUser() throws Exception {
 		// Initialize the database
 		userService.saveOrUpdate(user);
@@ -213,7 +209,7 @@ public class UserResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void getInfo() throws Exception {
 		// Initialize the database
 		userService.saveOrUpdate(user);
@@ -230,14 +226,14 @@ public class UserResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void getNonExistingUser() throws Exception {
 		restUserMockMvc.perform(get("/sys/user/ddd/unknown"))
 			.andExpect(status().isNotFound());
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void updateUser() throws Exception {
 		// Initialize the database
 		userService.saveOrUpdate(user);
@@ -275,7 +271,7 @@ public class UserResourceIntTest {
 
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void updateUserExistingEmail() throws Exception {
 
 		userService.saveOrUpdate(user);
@@ -298,7 +294,7 @@ public class UserResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void updateUserExistingUsername() throws Exception {
 
 		userService.saveOrUpdate(user);
@@ -320,7 +316,7 @@ public class UserResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void deleteUser() throws Exception {
 		// Initialize the database
 		userService.saveOrUpdate(user);
@@ -339,7 +335,7 @@ public class UserResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void lockOrUnLockUser() throws Exception {
 		// Initialize the database
 		userService.saveOrUpdate(user);
@@ -365,7 +361,7 @@ public class UserResourceIntTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void testUserEquals() throws Exception {
 		TestUtil.equalsVerifier(User.class);
 		User user1 = new User();

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2020 Zheng Jie
+ *  Copyright 2019-2020 somewhere
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,34 +25,35 @@ import java.io.Serializable;
 
 /**
  * 邮件配置类，数据存覆盖式存入数据存
- * @author Zheng Jie
+ *
+ * @author somewhere
  * @date 2018-12-26
  */
 @Data
 @TableName("tool_email_config")
 public class EmailConfig implements Serializable {
 
-    @Id
-    @ApiModelProperty(value = "ID", hidden = true)
-    private Long id;
+	@Id
+	@ApiModelProperty(value = "ID", hidden = true)
+	private Long id;
 
-    @NotBlank
-    @ApiModelProperty(value = "邮件服务器SMTP地址")
-    private String host;
+	@NotBlank
+	@ApiModelProperty(value = "邮件服务器SMTP地址")
+	private String host;
 
-    @NotBlank
-    @ApiModelProperty(value = "邮件服务器 SMTP 端口")
-    private String port;
+	@NotBlank
+	@ApiModelProperty(value = "邮件服务器 SMTP 端口")
+	private String port;
 
-    @NotBlank
-    @ApiModelProperty(value = "发件者用户名")
-    private String user;
+	@NotBlank
+	@ApiModelProperty(value = "发件者用户名")
+	private String user;
 
-    @NotBlank
-    @ApiModelProperty(value = "密码")
-    private String pass;
+	@NotBlank
+	@ApiModelProperty(value = "密码")
+	private String pass;
 
-    @NotBlank
-    @ApiModelProperty(value = "收件人")
-    private String fromUser;
+	@NotBlank
+	@ApiModelProperty(value = "收件人")
+	private String fromUser;
 }

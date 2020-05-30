@@ -83,6 +83,9 @@ public @interface ExcelField {
 	 */
 	Type type() default Type.ALL;
 
+	/**
+	 * 支持类型，全部，导出，导入
+	 */
 	enum Type {
 		ALL(0), EXPORT(1), IMPORT(2);
 		private final int value;
@@ -96,6 +99,9 @@ public @interface ExcelField {
 		}
 	}
 
+	/**
+	 * 列类型
+	 */
 	enum ColumnType {
 		NUMERIC(0), STRING(1);
 		private final int value;

@@ -21,7 +21,6 @@ import com.albedo.java.common.persistence.repository.BaseRepository;
 import com.albedo.java.modules.tool.domain.EmailConfig;
 
 /**
- *
  * @author somewhere
  * @since 2019/2/1
  */

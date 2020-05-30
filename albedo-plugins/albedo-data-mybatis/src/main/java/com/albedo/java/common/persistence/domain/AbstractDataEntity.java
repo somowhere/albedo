@@ -12,9 +12,10 @@ import java.time.LocalDateTime;
 /**
  * Base abstract class for entities which will hold definitions for created, last modified by and created,
  * last modified by date.
+ * @author somewhere
  */
 @Data
-public abstract class DataEntity<T extends BaseEntity<T>> extends BaseEntity<T> {
+public abstract class AbstractDataEntity<T extends BaseEntity<T>> extends BaseEntity<T> {
 
 	private static final long serialVersionUID = 1L;
 	@TableField(value = GeneralEntity.F_SQL_CREATEDBY,
@@ -45,7 +46,16 @@ public abstract class DataEntity<T extends BaseEntity<T>> extends BaseEntity<T> 
 	@TableField(GeneralEntity.F_SQL_DESCRIPTION)
 	protected String description;
 
+	/**
+	 * 获取主键
+	 * @return
+	 */
+	@Override
 	public abstract Serializable pkVal();
 
+	/**
+	 * 设置主键
+	 * @param pk
+	 */
 	public abstract void setPk(Serializable pk);
 }

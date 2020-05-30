@@ -1,6 +1,6 @@
 package com.albedo.java.common.persistence.handler;
 
-import com.albedo.java.common.persistence.domain.DataEntity;
+import com.albedo.java.common.persistence.domain.AbstractDataEntity;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.data.domain.AuditorAware;
@@ -23,11 +23,11 @@ public class EntityMetaObjectHandler implements MetaObjectHandler {
 	@Override
 	public void insertFill(MetaObject metaObject) {
 		if (checkMetaObject(metaObject)) {
-			setFieldValByName(DataEntity.F_CREATEDBY, auditorAware.getCurrentAuditor().get(), metaObject);
+			setFieldValByName(AbstractDataEntity.F_CREATEDBY, auditorAware.getCurrentAuditor().get(), metaObject);
 			LocalDateTime date = LocalDateTime.now();
-			setFieldValByName(DataEntity.F_CREATEDDATE, date, metaObject);
-			setFieldValByName(DataEntity.F_LASTMODIFIEDBY, auditorAware.getCurrentAuditor().get(), metaObject);
-			setFieldValByName(DataEntity.F_LASTMODIFIEDDATE, date, metaObject);
+			setFieldValByName(AbstractDataEntity.F_CREATEDDATE, date, metaObject);
+			setFieldValByName(AbstractDataEntity.F_LASTMODIFIEDBY, auditorAware.getCurrentAuditor().get(), metaObject);
+			setFieldValByName(AbstractDataEntity.F_LASTMODIFIEDDATE, date, metaObject);
 		}
 
 	}
@@ -39,21 +39,21 @@ public class EntityMetaObjectHandler implements MetaObjectHandler {
 			Iterator<String> iterator = map.keySet().iterator();
 			while (iterator.hasNext()) {
 				String next = iterator.next();
-				if (map.get(next) instanceof DataEntity) {
+				if (map.get(next) instanceof AbstractDataEntity) {
 					isDataEntity = true;
 					break;
 				}
 			}
 		}
-		return isDataEntity || metaObject.getOriginalObject() instanceof DataEntity;
+		return isDataEntity || metaObject.getOriginalObject() instanceof AbstractDataEntity;
 	}
 
 	@Override
 	public void updateFill(MetaObject metaObject) {
 		if (checkMetaObject(metaObject)) {
 			LocalDateTime date = LocalDateTime.now();
-			setFieldValByName(DataEntity.F_LASTMODIFIEDBY, auditorAware.getCurrentAuditor().get(), metaObject);
-			setFieldValByName(DataEntity.F_LASTMODIFIEDDATE, date, metaObject);
+			setFieldValByName(AbstractDataEntity.F_LASTMODIFIEDBY, auditorAware.getCurrentAuditor().get(), metaObject);
+			setFieldValByName(AbstractDataEntity.F_LASTMODIFIEDDATE, date, metaObject);
 		}
 	}
 }

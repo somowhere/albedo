@@ -35,7 +35,6 @@ public interface TableRepository extends BaseRepository<Table> {
 	 * @param tableDto
 	 * @return
 	 */
-	List<String> findTablePK(@Param("tableDto") TableDto tableDto);
+	List<String> findTablePk(@Param("tableDto") TableDto tableDto);
 
-	List<Table> findAllByParentTable(String id);
 }

@@ -124,7 +124,7 @@
 		</if>
 	</select>
 
-	<select id="findTablePK" resultType="string">
+	<select id="findTablePk" resultType="string">
 		<if test="_databaseId == 'oracle'">
 			SELECT lower(cu.COLUMN_NAME) AS columnName
 			FROM user_cons_columns cu, user_constraints au

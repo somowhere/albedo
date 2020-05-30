@@ -19,7 +19,6 @@ package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.persistence.service.BaseService;
 import com.albedo.java.modules.sys.domain.RoleDept;
-import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>

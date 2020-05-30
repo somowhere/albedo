@@ -136,7 +136,7 @@ public class RedisSessionRegistry implements SessionRegistry,
 		SessionInformation info = null;
 		try {
 			info = getSessionInformation(sessionId);
-		}catch (Exception e){
+		} catch (Exception e) {
 			redisTemplate.boundHashOps(SESSIONIDS).delete(sessionId);
 		}
 		if (info == null) {

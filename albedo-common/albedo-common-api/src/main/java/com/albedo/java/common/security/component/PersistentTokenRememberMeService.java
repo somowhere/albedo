@@ -34,10 +34,11 @@ import java.util.Optional;
 public class PersistentTokenRememberMeService extends AbstractRememberMeServices {
 	// Token is valid for one month
 	private static final int TOKEN_VALIDITY_DAYS = 31;
+	private static final int TOKEN_LENGTH = 2;
 
 	private static final int TOKEN_VALIDITY_SECONDS = 60 * 60 * 24 * TOKEN_VALIDITY_DAYS;
 
-	private static final long UPGRADED_TOKEN_VALIDITY_MILLIS = 5000l;
+	private static final long UPGRADED_TOKEN_VALIDITY_MILLIS = 5000L;
 
 	private final PersistentTokenCache<UpgradedRememberMeToken> upgradedTokenCache;
 
@@ -124,7 +125,7 @@ public class PersistentTokenRememberMeService extends AbstractRememberMeServices
 			t.setTokenValue(RandomUtil.generateTokenData());
 			t.setTokenDate(LocalDateTime.now());
 			t.setIpAddress(WebUtil.getIP(request));
-			t.setLoginLocation(AddressUtil.getRealAddressByIP(t.getIpAddress()));
+			t.setLoginLocation(AddressUtil.getRealAddressByIp(t.getIpAddress()));
 			t.setUserAgent(request.getHeader("User-Agent"));
 			UserAgent userAgent = UserAgentUtil.parse(t.getUserAgent());
 			t.setBrowser(userAgent.getBrowser().getName());
@@ -170,8 +171,8 @@ public class PersistentTokenRememberMeService extends AbstractRememberMeServices
 	 * Validate the token and return it.
 	 */
 	private PersistentToken getToken(String[] cookieTokens) {
-		if (cookieTokens.length != 2) {
-			throw new InvalidCookieException("Cookie token did not contain " + 2 +
+		if (cookieTokens.length != TOKEN_LENGTH) {
+			throw new InvalidCookieException("Cookie token did not contain " + TOKEN_LENGTH +
 				" tokens, but contained '" + Arrays.asList(cookieTokens) + "'");
 		}
 		String presentedSeries = cookieTokens[0];

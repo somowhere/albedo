@@ -7,7 +7,6 @@ import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.Log;
-import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.gen.domain.Table;
 import com.albedo.java.modules.gen.domain.dto.TableDto;
@@ -73,11 +72,12 @@ public class TableResource extends BaseResource {
 		tableService.saveOrUpdate(tableDto);
 		return R.buildOk(StringUtil.toAppendStr("保存", tableDto.getName(), "成功"));
 	}
+
 	/**
 	 * @param id
 	 * @return
 	 */
-	@PutMapping("refresh-column"+CommonConstants.URL_ID_REGEX)
+	@PutMapping("refresh-column" + CommonConstants.URL_ID_REGEX)
 	@PreAuthorize("@pms.hasPermission('gen_table_edit')")
 	public R refreshColumn(@PathVariable String id) {
 		log.debug("REST request to refreshColumn Entity : {}", id);

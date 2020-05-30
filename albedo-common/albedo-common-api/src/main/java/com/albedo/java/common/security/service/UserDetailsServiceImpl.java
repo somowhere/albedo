@@ -18,7 +18,6 @@ package com.albedo.java.common.security.service;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ArrayUtil;
-import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.persistence.datascope.DataScope;
@@ -31,8 +30,6 @@ import com.albedo.java.modules.sys.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;

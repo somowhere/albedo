@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2020 Zheng Jie
+ *  Copyright 2019-2020 somewhere
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package com.albedo.java.common.core.exception;
 import org.springframework.util.StringUtils;
 
 /**
- * @author Zheng Jie
+ * @author somewhere
  * @date 2018-11-23
  */
 public class EntityNotFoundException extends RuntimeException {

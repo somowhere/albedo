@@ -15,9 +15,11 @@ public class Json extends com.alibaba.fastjson.JSON {
 
 	protected static Logger logger = LoggerFactory.getLogger(Json.class);
 	private static SerializeFilter valueFilter = new ValueFilter() {
+		@Override
 		public Object process(Object obj, String s, Object v) {
-			if (v == null)
+			if (v == null) {
 				return "";
+			}
 			return v;
 		}
 	};
@@ -33,7 +35,7 @@ public class Json extends com.alibaba.fastjson.JSON {
 	}
 
 	public static Object toJson(Object obj) {
-		if (obj != null)
+		if (obj != null) {
 			if (obj instanceof Collection) {
 				JSONArray json = new JSONArray();
 				json.addAll((Collection<? extends Object>) obj);
@@ -41,27 +43,30 @@ public class Json extends com.alibaba.fastjson.JSON {
 			} else if (obj instanceof Map) {
 				return new JSONObject((Map<String, Object>) obj);
 			}
+		}
 		return obj;
 	}
 
-	public static final String toJSONDateString(Object object, String dataFmt, String... filters) {
-		return toJSONString(object, dataFmt, Lists.newArrayList(filters), false);
+	public static final String toJsonDateString(Object object, String dataFmt, String... filters) {
+		return toJsonString(object, dataFmt, Lists.newArrayList(filters), false);
 	}
 
-	public static final String toJSONString(Object object, String... filters) {
-		return toJSONString(object, DateUtil.TIME_FORMAT, Lists.newArrayList(filters), false);
+	public static final String toJsonString(Object object, String... filters) {
+		return toJsonString(object, DateUtil.TIME_FORMAT, Lists.newArrayList(filters), false);
 	}
 
-	public static final String toJSONString(Object object, String dataFmt, List<String> filter, boolean isWriteNullStringAsEmpty) {
+	public static final String toJsonString(Object object, String dataFmt, List<String> filter, boolean isWriteNullStringAsEmpty) {
 		SerializeWriter out = new SerializeWriter();
 		try {
 			JSONSerializer serializer = new JSONSerializer(out);
 			serializer.config(SerializerFeature.WriteNullStringAsEmpty, false);
 			serializer.config(SerializerFeature.WriteDateUseDateFormat, true);
-			if (StringUtil.isNotEmpty(dataFmt))
+			if (StringUtil.isNotEmpty(dataFmt)) {
 				serializer.setDateFormat(dataFmt);
-			if (isWriteNullStringAsEmpty)
+			}
+			if (isWriteNullStringAsEmpty) {
 				setFilter(serializer, valueFilter);
+			}
 			if (filter != null) {
 				String[] strs = new String[filter.size()];
 				for (int i = 0; i < filter.size(); i++) {

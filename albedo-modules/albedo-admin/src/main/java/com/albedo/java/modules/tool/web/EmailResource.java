@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2020 Zheng Jie
+ *  Copyright 2019-2020 somewhere
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * 发送邮件
+ *
  * @author 郑杰
  * @date 2018/09/28 6:55:53
  */
@@ -38,26 +39,26 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "工具：邮件管理")
 public class EmailResource {
 
-    private final EmailService emailService;
+	private final EmailService emailService;
 
-    @GetMapping
-    public ResponseEntity<Object> get(){
-        return new ResponseEntity<>(emailService.find(), HttpStatus.OK);
-    }
+	@GetMapping
+	public ResponseEntity<Object> get() {
+		return new ResponseEntity<>(emailService.find(), HttpStatus.OK);
+	}
 
-    @Log("配置邮件")
-    @PutMapping
-    @ApiOperation("配置邮件")
-    public ResponseEntity<Object> updateConfig(@Validated @RequestBody EmailConfig emailConfig) throws Exception{
+	@Log("配置邮件")
+	@PutMapping
+	@ApiOperation("配置邮件")
+	public ResponseEntity<Object> updateConfig(@Validated @RequestBody EmailConfig emailConfig) throws Exception {
 		emailService.config(emailConfig, emailService.find());
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 
-    @Log("发送邮件")
-    @PostMapping
-    @ApiOperation("发送邮件")
-    public ResponseEntity<Object> send(@Validated @RequestBody EmailVo emailVo) {
-        emailService.send(emailVo,emailService.find());
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+	@Log("发送邮件")
+	@PostMapping
+	@ApiOperation("发送邮件")
+	public ResponseEntity<Object> send(@Validated @RequestBody EmailVo emailVo) {
+		emailService.send(emailVo, emailService.find());
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }

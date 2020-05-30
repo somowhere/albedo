@@ -100,9 +100,9 @@ public class ApplicationConfig {
 	 */
 	public static String getStaticFileDirectory() {
 		String os = System.getProperty("os.name");
-		if(os.toLowerCase().startsWith("win")) {
+		if (os.toLowerCase().startsWith("win")) {
 			return get("application.static-file-directory.win");
-		} else if(os.toLowerCase().startsWith("mac")){
+		} else if (os.toLowerCase().startsWith("mac")) {
 			return get("application.static-file-directory.mac");
 		}
 		return get("application.static-file-directory.linux");

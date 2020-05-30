@@ -23,7 +23,6 @@ import com.albedo.java.common.core.util.ResultBuilder;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.log.annotation.Log;
-import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.common.web.resource.BaseResource;
@@ -107,7 +106,8 @@ public class UserResource extends BaseResource {
 	}
 
 	/**
-	 *个人中心更新信息
+	 * 个人中心更新信息
+	 *
 	 * @param userInfoDto 用户信息
 	 * @return R
 	 */
@@ -167,7 +167,6 @@ public class UserResource extends BaseResource {
 		userService.saveOrUpdate(userDto);
 		return R.buildOk(add ? "新增成功，默认密码：123456" : "修改成功");
 	}
-
 
 
 	/**

@@ -18,11 +18,8 @@ package com.albedo.java.modules.sys.repository;
 
 import com.albedo.java.common.persistence.repository.BaseRepository;
 import com.albedo.java.modules.sys.domain.Role;
-import org.apache.ibatis.annotations.Param;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 /**
  * <p>
