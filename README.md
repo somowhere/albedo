@@ -88,7 +88,7 @@ albedo
 5. 在albedo-ui目录下执行 npm run build 生成dist目录
 6. 启动redis 127.0.0.1 6379 
 7. 最高管理员账号，用户名：admin 密码：111111 
-8. IntelliJ IDEA 推荐安装 阿里编码规范插件  [!alibaba-java-coding-guidelines](https://plugins.jetbrains.com/plugin/10046-alibaba-java-coding-guidelines)
+8. IntelliJ IDEA 推荐安装 阿里编码规范插件  [alibaba-java-coding-guidelines](https://plugins.jetbrains.com/plugin/10046-alibaba-java-coding-guidelines)
 
 #### 提交反馈
 
