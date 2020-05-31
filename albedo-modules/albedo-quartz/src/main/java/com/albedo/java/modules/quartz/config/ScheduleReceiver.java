@@ -16,6 +16,11 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
+/**
+ * @author somewhere
+ * @description
+ * @date 2020/5/31 17:11
+ */
 @Slf4j
 @AllArgsConstructor
 @BaseInit(method = "refresh")

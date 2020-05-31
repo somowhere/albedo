@@ -3,9 +3,9 @@
  
  [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/elunez/eladmin/blob/master/LICENSE)
  [![AUR](https://img.shields.io/badge/Spring%20Boot-2.3.0.RELEASE-blue.svg)](https://spring.io/projects/spring-boot#overview)
- [![star](https://gitee.com/somowhere/albedo/badge/star.svg?theme=white)](https://gitee.com/elunez/eladmin)
- [![GitHub stars](https://img.shields.io/github/stars/somowhere/albedo.svg?style=social&label=Stars)](https://github.com/elunez/eladmin)
- [![GitHub forks](https://img.shields.io/github/forks/somowhere/albedo.svg?style=social&label=Fork)](https://github.com/elunez/eladmin)
+ [![star](https://gitee.com/somowhere/albedo/badge/star.svg?theme=white)](https://gitee.com/somowhere/albedo)
+ [![GitHub stars](https://img.shields.io/github/stars/somowhere/albedo.svg?style=social&label=Stars)](https://github.com/somowhere/albedo)
+ [![GitHub forks](https://img.shields.io/github/forks/somowhere/albedo.svg?style=social&label=Fork)](https://github.com/somowhere/albedo)
  
  </p> 
   
@@ -88,6 +88,7 @@ albedo
 5. 在albedo-ui目录下执行 npm run build 生成dist目录
 6. 启动redis 127.0.0.1 6379 
 7. 最高管理员账号，用户名：admin 密码：111111 
+8. IntelliJ IDEA 推荐安装 阿里编码规范插件  [![alibaba-java-coding-guidelines](https://plugins.jetbrains.com/plugin/10046-alibaba-java-coding-guidelines)
 
 #### 提交反馈
 

@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
 
 /**
  * Persistent tokens are used by Spring Security to automatically log in users.
+ *
+ * @author somewhere
  */
 @TableName("sys_persistent_token")
 @Data

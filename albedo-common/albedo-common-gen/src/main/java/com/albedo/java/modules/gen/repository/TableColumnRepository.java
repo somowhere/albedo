@@ -5,6 +5,8 @@ import com.albedo.java.modules.gen.domain.TableColumn;
 
 /**
  * Spring Data JPA repository for the Authority domain.
+ *
+ * @author somewhere
  */
 public interface TableColumnRepository extends BaseRepository<TableColumn> {
 

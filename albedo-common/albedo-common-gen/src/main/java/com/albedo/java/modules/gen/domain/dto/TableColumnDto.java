@@ -18,6 +18,7 @@ import java.util.List;
 /**
  * 业务表字段Entity
  *
+ * @author somewhere
  * @version 2013-10-15
  */
 @Data
@@ -26,6 +27,7 @@ import java.util.List;
 @NoArgsConstructor
 public class TableColumnDto extends DataDto<String> implements Comparable {
 
+	public static final String JDBCTYPE_TEXT = "text";
 	private static final long serialVersionUID = 1L;
 	/**
 	 * 归属表
@@ -151,13 +153,13 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	 *
 	 * @return
 	 */
-	public String getDataLength() {
-		String[] ss = StringUtil.split(StringUtil.subBetween(getJdbcType(), "(", ")"), StringUtil.SPLIT_DEFAULT);
-		if (ss != null && ss.length == 1) {// &&
+	public Integer getDataLength() {
+		String[] ss = StringUtil.split(StringUtil.subBetween(getJdbcType(), StringUtil.BRACKETS_START, StringUtil.BRACKETS_END), StringUtil.SPLIT_DEFAULT);
+		if (ss != null && ss.length == 1) {
 			// CommonConstants.TYPE_STRING.equals(getJavaType())){
-			return ss[0];
+			return Integer.parseInt(ss[0]);
 		}
-		return "0";
+		return 0;
 	}
 
 	/**
@@ -167,11 +169,8 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	 */
 	@JSONField(serialize = false)
 	public String getSimpleJavaType() {
-		if ("This".equals(getJavaType())) {
-			return StringUtil.upperFirst(table.getClassName());
-		}
 		return StringUtil.indexOf(getJavaType(), StringUtil.C_DOT) != -1 ?
-			StringUtil.subAfter(getJavaType(), ".", true) : getJavaType();
+			StringUtil.subAfter(getJavaType(), StringUtil.DOT, true) : getJavaType();
 	}
 
 	/**
@@ -191,7 +190,7 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	 * @return
 	 */
 	public String getSimpleJavaField() {
-		return StringUtil.subBefore(getJavaField(), ".", false);
+		return StringUtil.subBefore(getJavaField(), StringUtil.DOT, false);
 	}
 
 	/**
@@ -220,7 +219,7 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	 */
 	public String getJavaFieldName() {
 		String[][] ss = getJavaFieldAttrs();
-		return ss.length > 0 ? getSimpleJavaField() + "." + ss[0][0] : "";
+		return ss.length > 0 ? getSimpleJavaField() + StringUtil.DOT + ss[0][0] : "";
 	}
 
 	/**
@@ -268,16 +267,12 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	 */
 	public List<String> getAnnotationList() {
 		List<String> list = Lists.newArrayList();
-		// 导入Jackson注解
-		if ("This".equals(getJavaType())) {
-			list.add("com.fasterxml.jackson.annotation.JsonBackReference");
-		}
 		// 导入JSR303验证依赖包
-		if (!"1".equals(isPk()) && !CommonConstants.TYPE_STRING.equals(getJavaType())) {
+		if (!CommonConstants.STR_YES.equals(isPk()) && !CommonConstants.TYPE_STRING.equals(getJavaType())) {
 			list.add("javax.validation.constraints.NotNull(message=\"" + getTitle() + "不能为空\")");
-		} else if (!"1".equals(isNull()) && CommonConstants.TYPE_STRING.equals(getJavaType()) && !"0".equals(getDataLength())) {
+		} else if (!CommonConstants.STR_YES.equals(isNull()) && CommonConstants.TYPE_STRING.equals(getJavaType()) && !CommonConstants.ZERO.equals(getDataLength())) {
 			list.add("javax.validation.constraints.Size(min=1, max=" + getDataLength() + ", message=\"" + getTitle() + "长度必须介于 1 和 " + getDataLength() + " 之间\")");
-		} else if (CommonConstants.TYPE_STRING.equals(getJavaType()) && !"0".equals(getDataLength())) {
+		} else if (CommonConstants.TYPE_STRING.equals(getJavaType()) && !CommonConstants.ZERO.equals(getDataLength())) {
 			list.add("javax.validation.constraints.Size(min=0, max=" + getDataLength() + ", message=\"" + getTitle() + "长度必须介于 0 和 " + getDataLength() + " 之间\")");
 		}
 		return list;
@@ -291,7 +286,7 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	public List<String> getSimpleAnnotationList() {
 		List<String> list = Lists.newArrayList();
 		for (String ann : getAnnotationList()) {
-			list.add(StringUtil.subAfter(ann, ".", true));
+			list.add(StringUtil.subAfter(ann, StringUtil.DOT, true));
 		}
 		return list;
 	}
@@ -347,9 +342,9 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 
 	public String getSize() {
 		String size;
-		if (jdbcType != null && jdbcType.contains("(")) {
-			size = jdbcType.substring(jdbcType.indexOf("(") + 1, jdbcType.length() - 1);
-		} else if ("text".equals(jdbcType)) {
+		if (jdbcType != null && jdbcType.contains(StringUtil.BRACKETS_START)) {
+			size = jdbcType.substring(jdbcType.indexOf(StringUtil.BRACKETS_START) + 1, jdbcType.length() - 1);
+		} else if (JDBCTYPE_TEXT.equals(jdbcType)) {
 			size = "65535";
 		} else {
 			size = "";

@@ -1,7 +1,7 @@
 package com.albedo.java.common.security.handler;
 
 import cn.hutool.http.HttpUtil;
-import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.WebUtil;
 import com.albedo.java.common.log.enums.LogType;
@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Spring Security success handler, specialized for Ajax requests.
+ *
  * @author somewhere
  */
 public class AjaxAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -37,7 +38,7 @@ public class AjaxAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
 		logOperate.setLogType(LogType.INFO.name());
 		logOperate.setTitle("用户登录");
 		AsyncUtil.recordLogLogin(logOperate);
-		WebUtil.renderJson(response, R.buildOk("登录成功"));
+		WebUtil.renderJson(response, Result.buildOk("登录成功"));
 	}
 }
 

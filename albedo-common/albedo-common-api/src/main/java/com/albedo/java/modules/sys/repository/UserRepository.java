@@ -72,9 +72,33 @@ public interface UserRepository extends BaseRepository<User> {
 	 */
 	UserVo findUserVoById(String id);
 
+	/**
+	 * findListByRoleId
+	 *
+	 * @param roleId
+	 * @return java.util.List<com.albedo.java.modules.sys.domain.User>
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:35
+	 */
 	List<User> findListByRoleId(String roleId);
 
+	/**
+	 * findListByRoleIds
+	 *
+	 * @param roleIds
+	 * @return java.util.List<com.albedo.java.modules.sys.domain.User>
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:35
+	 */
 	List<User> findListByRoleIds(@Param("roleIds") Set<String> roleIds);
 
+	/**
+	 * findListByMenuId
+	 *
+	 * @param menuId
+	 * @return java.util.List<com.albedo.java.modules.sys.domain.User>
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:35
+	 */
 	List<User> findListByMenuId(String menuId);
 }

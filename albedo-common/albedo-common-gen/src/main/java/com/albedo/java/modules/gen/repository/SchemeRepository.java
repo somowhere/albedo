@@ -12,6 +12,8 @@ import java.util.List;
 
 /**
  * Spring Data JPA repository for the Authority domain.
+ *
+ * @author somewhere
  */
 public interface SchemeRepository extends BaseRepository<Scheme> {
 

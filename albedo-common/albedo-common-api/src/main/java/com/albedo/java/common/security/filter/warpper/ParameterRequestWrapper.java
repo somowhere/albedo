@@ -6,6 +6,11 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.Vector;
 
+/**
+ * @author somewhere
+ * @description
+ * @date 2020/5/31 17:09
+ */
 public class ParameterRequestWrapper extends HttpServletRequestWrapper {
 
 	/**
@@ -23,6 +28,7 @@ public class ParameterRequestWrapper extends HttpServletRequestWrapper {
 
 	/**
 	 * 查找自定的Map进行返回
+	 *
 	 * @param name
 	 * @return
 	 */

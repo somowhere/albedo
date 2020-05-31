@@ -75,9 +75,33 @@ public interface JobService extends DataService<Job, JobDto, String> {
 	 */
 	boolean checkCronExpressionIsValid(String cronExpression);
 
+	/**
+	 * updateStatus
+	 *
+	 * @param idList
+	 * @throws
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:33
+	 */
 	void updateStatus(Set<String> idList);
 
+	/**
+	 * concurrent
+	 *
+	 * @param idList
+	 * @throws
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:32
+	 */
 	void concurrent(Set<String> idList);
 
+	/**
+	 * runByIds
+	 *
+	 * @param idList
+	 * @throws
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:32
+	 */
 	void runByIds(Set<String> idList);
 }

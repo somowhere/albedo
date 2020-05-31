@@ -1,6 +1,6 @@
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.Log;
@@ -44,25 +44,25 @@ public class UserOnlineResource extends BaseResource {
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_userOnline_view')")
 	@Log(value = "在线用户查看")
-	public R findPage(PageModel pm, UserOnlineQueryCriteria userOnlineQueryCriteria) {
+	public Result findPage(PageModel pm, UserOnlineQueryCriteria userOnlineQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, userOnlineQueryCriteria);
-		return R.buildOkData(userOnlineService.page(pm, wrapper));
+		return Result.buildOkData(userOnlineService.page(pm, wrapper));
 	}
 
 
 	@PreAuthorize("@pms.hasPermission('sys_userOnline_logout')")
 	@Log(value = "在线用户强退")
 	@PutMapping("/batch-force-logout")
-	public R batchForceLogout(@RequestBody Set<String> ids, HttpServletRequest request) {
+	public Result batchForceLogout(@RequestBody Set<String> ids, HttpServletRequest request) {
 		for (String id : ids) {
 			UserOnline online = userOnlineService.getById(id);
 			if (online == null) {
-				return R.buildFail("用户已下线");
+				return Result.buildFail("用户已下线");
 			}
 			SessionInformation sessionInformation = sessionRegistry.getSessionInformation(online.getSessionId());
 			if (sessionInformation != null) {
 				if (sessionInformation.getSessionId().equals(request.getSession(false).getId())) {
-					return R.buildFail("当前登陆用户无法强退");
+					return Result.buildFail("当前登陆用户无法强退");
 				}
 				sessionInformation.expireNow();
 				redisTemplate.boundHashOps(RedisSessionRegistry.SESSIONIDS).put(online.getSessionId(), sessionInformation);
@@ -70,23 +70,23 @@ public class UserOnlineResource extends BaseResource {
 			online.setStatus(OnlineStatus.off_line);
 			userOnlineService.updateById(online);
 		}
-		return R.buildOk("操作成功");
+		return Result.buildOk("操作成功");
 	}
 
 	@PreAuthorize("@pms.hasPermission('sys_userOnline_del')")
 	@Log(value = "在线用户删除")
 	@DeleteMapping
-	public R remove(@RequestBody Set<String> ids, HttpServletRequest request) {
+	public Result remove(@RequestBody Set<String> ids, HttpServletRequest request) {
 		for (String id : ids) {
 			UserOnline online = userOnlineService.getById(id);
 			if (online == null) {
-				return R.buildFail("用户已下线");
+				return Result.buildFail("用户已下线");
 			}
 			try {
 				SessionInformation sessionInformation = sessionRegistry.getSessionInformation(online.getSessionId());
 				if (sessionInformation != null) {
 					if (sessionInformation.getSessionId().equals(request.getSession(false).getId())) {
-						return R.buildFail("当前登陆用户无法删除");
+						return Result.buildFail("当前登陆用户无法删除");
 					}
 					sessionInformation.expireNow();
 					redisTemplate.boundHashOps(RedisSessionRegistry.SESSIONIDS).put(online.getSessionId(), sessionInformation);
@@ -96,7 +96,7 @@ public class UserOnlineResource extends BaseResource {
 			sessionRegistry.removeSessionInformation(online.getSessionId());
 			userOnlineService.removeById(online);
 		}
-		return R.buildOk("操作成功");
+		return Result.buildOk("操作成功");
 	}
 
 }

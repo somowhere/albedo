@@ -12,6 +12,8 @@ import static java.lang.annotation.ElementType.METHOD;
  * <p>
  * bean copy ingore 属性
  * </p>
+ *
+ * @author somewhere
  */
 @Target({METHOD, FIELD})
 @Retention(RetentionPolicy.RUNTIME)

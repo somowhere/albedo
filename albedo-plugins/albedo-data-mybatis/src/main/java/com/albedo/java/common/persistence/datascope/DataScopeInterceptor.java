@@ -95,7 +95,7 @@ public class DataScopeInterceptor extends AbstractSqlParserHandler implements In
 				Alias alias = plainSelect.getFromItem().getAlias();
 				String aliaName = "";
 				if (alias != null && StringUtil.isNotEmpty(alias.getName())) {
-					aliaName = alias.getName() + ".";
+					aliaName = alias.getName() + StringUtil.DOT;
 				}
 				if (StringUtil.isNotBlank(scopeName) && CollectionUtil.isNotEmpty(deptIds)) {
 					ItemsList itemsList = new ExpressionList(deptIds.stream().map(deptId -> new StringValue(deptId)).collect(Collectors.toList()));

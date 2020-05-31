@@ -15,7 +15,7 @@
  */
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.util.Result;
 import com.albedo.java.modules.sys.service.MonitorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,7 +39,7 @@ public class MonitorResource {
 	@GetMapping
 	@ApiOperation("查询服务监控")
 	@PreAuthorize("@pms.hasPermission('sys_monitor_view')")
-	public R getServers() {
-		return R.buildOkData(serverService.getServers());
+	public Result getServers() {
+		return Result.buildOkData(serverService.getServers());
 	}
 }

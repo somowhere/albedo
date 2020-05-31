@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
  * View Model object for storing a Logback logger.
+ *
  * @author somewhere
  */
 public class LoggerVo {

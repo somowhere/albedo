@@ -19,7 +19,7 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BadRequestException;
 import com.albedo.java.common.core.util.CollUtil;
-import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
@@ -65,9 +65,9 @@ public class RoleResource extends BaseResource {
 	 * @return
 	 */
 	@GetMapping(CommonConstants.URL_ID_REGEX)
-	public R get(@PathVariable String id) {
+	public Result get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
-		return R.buildOkData(roleService.getOneDto(id));
+		return Result.buildOkData(roleService.getOneDto(id));
 	}
 
 	/**
@@ -79,17 +79,17 @@ public class RoleResource extends BaseResource {
 	@Log(value = "角色管理编辑")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_role_edit')")
-	public R save(@Valid @RequestBody RoleDto roleDto) {
+	public Result save(@Valid @RequestBody RoleDto roleDto) {
 		checkLevel(roleDto.getLevel());
 		roleService.saveOrUpdate(roleDto);
-		return R.buildOk("操作成功");
+		return Result.buildOk("操作成功");
 	}
 
 
 	@ApiOperation("获取用户级别")
 	@GetMapping(value = "/level")
-	public R findLevel() {
-		return R.buildOkData(roleService.findLevelByUserId(SecurityUtil.getUser().getId()));
+	public Result findLevel() {
+		return Result.buildOkData(roleService.findLevelByUserId(SecurityUtil.getUser().getId()));
 	}
 
 	/**
@@ -98,8 +98,8 @@ public class RoleResource extends BaseResource {
 	 * @return 角色列表
 	 */
 	@GetMapping("/all")
-	public R all() {
-		return R.buildOkData(roleService.list(Wrappers.<Role>lambdaQuery().eq(Role::getAvailable, CommonConstants.STR_YES)).stream().map(RoleComboVo::new).collect(Collectors.toList()));
+	public Result all() {
+		return Result.buildOkData(roleService.list(Wrappers.<Role>lambdaQuery().eq(Role::getAvailable, CommonConstants.STR_YES)).stream().map(RoleComboVo::new).collect(Collectors.toList()));
 	}
 
 	/**
@@ -110,9 +110,9 @@ public class RoleResource extends BaseResource {
 	 */
 	@GetMapping
 	@Log(value = "角色管理查看")
-	public R<IPage> getPage(PageModel pm, RoleQueryCriteria roleQueryCriteria) {
+	public Result<IPage> getPage(PageModel pm, RoleQueryCriteria roleQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, roleQueryCriteria);
-		return R.buildOkData(roleService.page(pm, wrapper));
+		return Result.buildOkData(roleService.page(pm, wrapper));
 	}
 
 	/**
@@ -124,11 +124,11 @@ public class RoleResource extends BaseResource {
 	@PutMapping("/menu")
 	@Log(value = "角色管理编辑")
 	@PreAuthorize("@pms.hasPermission('sys_role_edit')")
-	public R saveRoleMenus(@Valid @RequestBody RoleMenuDto roleMenuDto) {
+	public Result saveRoleMenus(@Valid @RequestBody RoleMenuDto roleMenuDto) {
 		Role role = roleService.getById(roleMenuDto.getRoleId());
 		checkLevel(role.getLevel());
 		roleMenuService.saveRoleMenus(roleMenuDto);
-		return R.buildOk("操作成功");
+		return Result.buildOk("操作成功");
 	}
 
 	/**
@@ -140,13 +140,13 @@ public class RoleResource extends BaseResource {
 	@Log(value = "角色管理删除")
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_role_del')")
-	public R removeByIds(@RequestBody Set<String> ids) {
+	public Result removeByIds(@RequestBody Set<String> ids) {
 		roleService.listByIds(ids).stream().forEach(item -> {
 			checkLevel(item.getLevel());
 			checkRole(item.getId(), item.getName());
 		});
 		roleService.removeRoleByIds(ids);
-		return R.buildOk("操作成功");
+		return Result.buildOk("操作成功");
 	}
 
 	/**
@@ -156,13 +156,13 @@ public class RoleResource extends BaseResource {
 	@PutMapping
 	@Log(value = "角色管理锁定/解锁")
 	@PreAuthorize("@pms.hasPermission('sys_role_lock')")
-	public R lockOrUnLock(@RequestBody Set<String> ids) {
+	public Result lockOrUnLock(@RequestBody Set<String> ids) {
 		roleService.listByIds(ids).stream().forEach(item -> {
 			checkLevel(item.getLevel());
 			checkRole(item.getId(), item.getName());
 		});
 		roleService.lockOrUnLock(ids);
-		return R.buildOk("操作成功");
+		return Result.buildOk("操作成功");
 	}
 
 	/**

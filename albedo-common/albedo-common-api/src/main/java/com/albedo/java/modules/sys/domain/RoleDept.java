@@ -38,7 +38,7 @@ public class RoleDept extends GeneralEntity<RoleDept> {
 
 	private static final long serialVersionUID = 1L;
 
-	@TableId(value = "id", type = IdType.UUID)
+	@TableId(value = "id", type = IdType.ASSIGN_UUID)
 	private String id;
 	/**
 	 * 角色ID

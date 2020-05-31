@@ -23,6 +23,11 @@ import org.springframework.util.Assert;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+/**
+ * @author somewhere
+ * @description
+ * @date 2020/5/31 17:09
+ */
 @Slf4j
 @AllArgsConstructor
 public class RedisSessionRegistry implements SessionRegistry,
@@ -37,13 +42,13 @@ public class RedisSessionRegistry implements SessionRegistry,
 	// ========================================================================================================
 
 	@Override
-    public List<Object> getAllPrincipals() {
+	public List<Object> getAllPrincipals() {
 		return new ArrayList<>(redisTemplate.boundHashOps(PRINCIPALS).keys());
 	}
 
 	@Override
-    public List<SessionInformation> getAllSessions(Object principal,
-                                                   boolean includeExpiredSessions) {
+	public List<SessionInformation> getAllSessions(Object principal,
+												   boolean includeExpiredSessions) {
 		Set<String> sessionsUsedByPrincipal = getPrincipals(principal);
 
 		if (sessionsUsedByPrincipal == null) {
@@ -69,27 +74,28 @@ public class RedisSessionRegistry implements SessionRegistry,
 	}
 
 	@Override
-    public SessionInformation getSessionInformation(String sessionId) {
+	public SessionInformation getSessionInformation(String sessionId) {
 		Assert.hasText(sessionId, "SessionId required as per interface contract");
 
 		return (SessionInformation) redisTemplate.boundHashOps(SESSIONIDS).get(sessionId);
 	}
 
 	@Override
-    public void onApplicationEvent(SessionDestroyedEvent event) {
+	public void onApplicationEvent(SessionDestroyedEvent event) {
 		String sessionId = event.getId();
 		removeSessionInformation(sessionId);
 	}
 
 	@Override
-    public void refreshLastRequest(String sessionId) {
+	public void refreshLastRequest(String sessionId) {
 		Assert.hasText(sessionId, "SessionId required as per interface contract");
 
 		SessionInformation info = getSessionInformation(sessionId);
 		if (info != null) {
 			long lastRequestTime = info.getLastRequest().getTime();
 			info.refreshLastRequest();
-			if (applicationProperties.getDbSyncSessionPeriod() * 60 * 1000 < info.getLastRequest().getTime() - lastRequestTime) {
+			int dbSyncSessionPeriodTime = applicationProperties.getDbSyncSessionPeriod() * 60 * 1000;
+			if (dbSyncSessionPeriodTime < info.getLastRequest().getTime() - lastRequestTime) {
 				SpringContextHolder.publishEvent(new SysUserOnlineRefreshLastRequestEvent(info));
 			}
 		}
@@ -97,7 +103,7 @@ public class RedisSessionRegistry implements SessionRegistry,
 	}
 
 	@Override
-    public void registerNewSession(String sessionId, Object principal) {
+	public void registerNewSession(String sessionId, Object principal) {
 		Assert.hasText(sessionId, "SessionId required as per interface contract");
 		Assert.notNull(principal, "Principal required as per interface contract");
 
@@ -137,7 +143,7 @@ public class RedisSessionRegistry implements SessionRegistry,
 	}
 
 	@Override
-    public void removeSessionInformation(String sessionId) {
+	public void removeSessionInformation(String sessionId) {
 		Assert.hasText(sessionId, "SessionId required as per interface contract");
 		userOnlineService.deleteBySessionId(sessionId);
 		SessionInformation info = null;

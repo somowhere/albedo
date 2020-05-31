@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Jedis Cache 工具类
  *
+ * @author somewhere
  * @version 2014-6-29
  */
 @Slf4j

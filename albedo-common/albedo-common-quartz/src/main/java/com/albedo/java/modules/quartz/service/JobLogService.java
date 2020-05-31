@@ -26,6 +26,7 @@ public interface JobLogService extends BaseService<JobLog> {
 
 	/**
 	 * 获取导出集合
+	 *
 	 * @param toEntityWrapper
 	 * @return
 	 */

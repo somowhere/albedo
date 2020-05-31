@@ -40,12 +40,14 @@ public interface DictService extends TreeService<Dict, DictDto> {
 
 	/**
 	 * 获取所有可用排序正序字典
+	 *
 	 * @return
 	 */
 	List<Dict> findAllOrderBySort();
 
 	/**
 	 * 获取字典数据
+	 *
 	 * @param codes
 	 * @return
 	 */
@@ -53,6 +55,7 @@ public interface DictService extends TreeService<Dict, DictDto> {
 
 	/**
 	 * 字典树集合
+	 *
 	 * @param dictQueryCriteria
 	 * @return
 	 */
@@ -60,6 +63,7 @@ public interface DictService extends TreeService<Dict, DictDto> {
 
 	/**
 	 * 批量锁定，解锁
+	 *
 	 * @param ids
 	 */
 	void lockOrUnLock(Set<String> ids);

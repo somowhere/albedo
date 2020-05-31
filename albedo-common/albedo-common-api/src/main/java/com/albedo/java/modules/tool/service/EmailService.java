@@ -26,7 +26,8 @@ import com.albedo.java.modules.tool.domain.vo.EmailVo;
  * @since 2019/2/1
  */
 public interface EmailService extends BaseService<EmailConfig> {
-	/**更新邮件配置
+	/**
+	 * 更新邮件配置
 	 *
 	 * @param emailConfig 邮件配置
 	 * @param old         旧的配置

@@ -19,7 +19,7 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.Json;
-import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.vo.SelectResult;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.web.resource.BaseResource;
@@ -60,8 +60,8 @@ public class DictResource extends BaseResource {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public R tree(DictQueryCriteria dictQueryCriteria) {
-		return R.buildOkData(dictService.findTreeNode(dictQueryCriteria));
+	public Result tree(DictQueryCriteria dictQueryCriteria) {
+		return Result.buildOkData(dictService.findTreeNode(dictQueryCriteria));
 	}
 
 	/**
@@ -70,9 +70,9 @@ public class DictResource extends BaseResource {
 	 */
 	@PreAuthorize("@pms.hasPermission('sys_dict_view')")
 	@GetMapping(CommonConstants.URL_ID_REGEX)
-	public R get(@PathVariable String id) {
+	public Result get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
-		return R.buildOkData(dictService.getOneDto(id));
+		return Result.buildOkData(dictService.getOneDto(id));
 	}
 
 	/**
@@ -84,9 +84,9 @@ public class DictResource extends BaseResource {
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_dict_view')")
 	@Log(value = "字典管理查看")
-	public R<IPage<DictVo>> findTreeList(DictQueryCriteria dictQueryCriteria) {
+	public Result<IPage<DictVo>> findTreeList(DictQueryCriteria dictQueryCriteria) {
 		IPage<DictVo> treeList = dictService.findTreeList(dictQueryCriteria);
-		return R.buildOkData(treeList);
+		return Result.buildOkData(treeList);
 	}
 
 	/**
@@ -97,9 +97,9 @@ public class DictResource extends BaseResource {
 	 */
 	@ApiOperation(value = "获取字典数据", notes = "codes 不传获取所有的业务字典，多个用','隔开")
 	@GetMapping(value = "/codes")
-	public R getByCodes(String codes) {
+	public Result getByCodes(String codes) {
 		Map<String, List<SelectResult>> map = dictService.findCodes(codes);
-		return R.buildOkData(map);
+		return Result.buildOkData(map);
 	}
 
 	/**
@@ -111,9 +111,9 @@ public class DictResource extends BaseResource {
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_dict_edit')")
 	@Log(value = "字典管理编辑")
-	public R save(@Valid @RequestBody DictDto dictDto) {
+	public Result save(@Valid @RequestBody DictDto dictDto) {
 		dictService.saveOrUpdate(dictDto);
-		return R.buildOk("操作成功");
+		return Result.buildOk("操作成功");
 	}
 
 	/**
@@ -125,8 +125,8 @@ public class DictResource extends BaseResource {
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_dict_del')")
 	@Log(value = "字典管理删除")
-	public R removeByIds(@RequestBody Set<String> ids) {
-		return R.buildOkData(dictService.removeByIds(ids));
+	public Result removeByIds(@RequestBody Set<String> ids) {
+		return Result.buildOkData(dictService.removeByIds(ids));
 	}
 
 	/**
@@ -136,9 +136,9 @@ public class DictResource extends BaseResource {
 	@PutMapping
 	@Log(value = "字典管理锁定/解锁")
 	@PreAuthorize("@pms.hasPermission('sys_dept_lock')")
-	public R lockOrUnLock(@RequestBody Set<String> ids) {
+	public Result lockOrUnLock(@RequestBody Set<String> ids) {
 		dictService.lockOrUnLock(ids);
-		return R.buildOk("操作成功");
+		return Result.buildOk("操作成功");
 	}
 
 	/**
@@ -148,9 +148,9 @@ public class DictResource extends BaseResource {
 	 */
 
 	@GetMapping("/all")
-	public R<String> findAllList() {
+	public Result<String> findAllList() {
 		List<Dict> list = dictService.list();
-		return R.buildOkData(Json.toJsonString(list));
+		return Result.buildOkData(Json.toJsonString(list));
 	}
 
 }

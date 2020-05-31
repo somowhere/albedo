@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * 生成方案Entity
  *
+ * @author somewhere
  * @version 2013-10-15
  */
 @XmlRootElement(name = "config")
@@ -25,7 +26,7 @@ public class GenConfig implements Serializable {
 	private List<GenCategory> categoryList;
 
 	/**
-	 *  Java类型
+	 * Java类型
 	 */
 	private List<DictTemp> javaTypeList;
 

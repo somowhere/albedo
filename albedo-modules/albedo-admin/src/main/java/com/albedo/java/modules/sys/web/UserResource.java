@@ -18,8 +18,8 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.BeanUtil;
-import com.albedo.java.common.core.util.R;
-import com.albedo.java.common.core.util.ResultBuilder;
+import com.albedo.java.common.core.util.ResponseEntityBuilder;
+import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.log.annotation.Log;
@@ -63,9 +63,9 @@ public class UserResource extends BaseResource {
 	 */
 	@GetMapping(CommonConstants.URL_ID_REGEX)
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
-	public R get(@PathVariable String id) {
+	public Result get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
-		return R.buildOkData(userService.findDtoById(id));
+		return Result.buildOkData(userService.findDtoById(id));
 	}
 
 	/**
@@ -77,8 +77,8 @@ public class UserResource extends BaseResource {
 	@GetMapping
 	@Log(value = "用户管理查看")
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
-	public R<IPage<UserVo>> findPage(PageModel pm, UserQueryCriteria userQueryCriteria) {
-		return R.buildOkData(userService.findPage(pm, userQueryCriteria, SecurityUtil.getDataScope()));
+	public Result<IPage<UserVo>> findPage(PageModel pm, UserQueryCriteria userQueryCriteria) {
+		return Result.buildOkData(userService.findPage(pm, userQueryCriteria, SecurityUtil.getDataScope()));
 	}
 
 	@Log(value = "用户管理导出")
@@ -96,13 +96,13 @@ public class UserResource extends BaseResource {
 	 * @return 用户信息
 	 */
 	@GetMapping(value = {"/info"})
-	public R info() {
+	public Result info() {
 		String username = SecurityUtil.getUser().getUsername();
 		UserVo userVo = userService.findVoByUsername(username);
 		if (userVo == null) {
-			return R.buildFail("获取当前用户信息失败");
+			return Result.buildFail("获取当前用户信息失败");
 		}
-		return R.buildOkData(userService.getInfo(userVo));
+		return Result.buildOkData(userService.getInfo(userVo));
 	}
 
 	/**
@@ -113,13 +113,13 @@ public class UserResource extends BaseResource {
 	 */
 	@Log(value = "用户管理编辑")
 	@PostMapping("/info")
-	public R saveInfo(@Valid @RequestBody UserInfoDto userInfoDto) {
+	public Result saveInfo(@Valid @RequestBody UserInfoDto userInfoDto) {
 		log.debug("REST request to save userDto : {}", userInfoDto);
 		UserDto userDto = BeanUtil.copyPropertiesByClass(userInfoDto, UserDto.class);
 		userDto.setId(SecurityUtil.getUser().getId());
 		userDto.setUsername(SecurityUtil.getUser().getUsername());
 		userService.saveOrUpdate(userDto);
-		return R.buildOk("更新成功");
+		return Result.buildOk("更新成功");
 	}
 
 	/**
@@ -128,12 +128,12 @@ public class UserResource extends BaseResource {
 	 * @return 用户信息
 	 */
 	@GetMapping("/info/{username}")
-	public R info(@PathVariable String username) {
+	public Result info(@PathVariable String username) {
 		UserVo userVo = userService.findVoByUsername(username);
 		if (userVo == null) {
-			return R.buildFail(String.format("用户信息为空 %s", username));
+			return Result.buildFail(String.format("用户信息为空 %s", username));
 		}
-		return R.buildOkData(userService.getInfo(userVo));
+		return Result.buildOkData(userService.getInfo(userVo));
 	}
 
 	/**
@@ -145,8 +145,8 @@ public class UserResource extends BaseResource {
 	@Log(value = "用户管理删除")
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_del')")
-	public R removeByIds(@RequestBody Set<String> ids) {
-		return R.buildByFlag(userService.removeByIds(ids));
+	public Result removeByIds(@RequestBody Set<String> ids) {
+		return Result.buildByFlag(userService.removeByIds(ids));
 	}
 
 	/**
@@ -158,14 +158,14 @@ public class UserResource extends BaseResource {
 	@Log(value = "用户管理编辑")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
-	public R save(@Valid @RequestBody UserDto userDto) {
+	public Result save(@Valid @RequestBody UserDto userDto) {
 		log.debug("REST request to save userDto : {}", userDto);
 		boolean add = StringUtil.isEmpty(userDto.getId());
 		if (add) {
 			userDto.setPassword("123456");
 		}
 		userService.saveOrUpdate(userDto);
-		return R.buildOk(add ? "新增成功，默认密码：123456" : "修改成功");
+		return Result.buildOk(add ? "新增成功，默认密码：123456" : "修改成功");
 	}
 
 
@@ -174,8 +174,8 @@ public class UserResource extends BaseResource {
 	 * @return 上级部门用户列表
 	 */
 	@GetMapping("/ancestor/{username}")
-	public R listAncestorUsers(@PathVariable String username) {
-		return R.buildOkData(userService.listAncestorUsersByUsername(username));
+	public Result listAncestorUsers(@PathVariable String username) {
+		return Result.buildOkData(userService.listAncestorUsersByUsername(username));
 	}
 
 
@@ -186,9 +186,9 @@ public class UserResource extends BaseResource {
 	@PutMapping
 	@Log(value = "用户管理锁定/解锁")
 	@PreAuthorize("@pms.hasPermission('sys_user_lock')")
-	public R lockOrUnLock(@RequestBody Set<String> ids) {
+	public Result lockOrUnLock(@RequestBody Set<String> ids) {
 		userService.lockOrUnLock(ids);
-		return R.buildOk("操作成功");
+		return Result.buildOk("操作成功");
 	}
 
 
@@ -197,7 +197,7 @@ public class UserResource extends BaseResource {
 	@Log(value = "用户管理导入")
 	public ResponseEntity uploadData(@RequestParam("uploadFile") MultipartFile dataFile, HttpServletResponse response) throws Exception {
 		if (dataFile.isEmpty()) {
-			return ResultBuilder.buildFail("上传文件为空");
+			return ResponseEntityBuilder.buildFail("上传文件为空");
 		}
 		ExcelUtil<UserExcelVo> util = new ExcelUtil(UserExcelVo.class);
 		List<UserExcelVo> dataList = util.importExcel(dataFile.getInputStream());
@@ -208,7 +208,7 @@ public class UserResource extends BaseResource {
 			}
 			userService.save(userExcelVo);
 		}
-		return ResultBuilder.buildOk("操作成功");
+		return ResponseEntityBuilder.buildOk("操作成功");
 
 	}
 

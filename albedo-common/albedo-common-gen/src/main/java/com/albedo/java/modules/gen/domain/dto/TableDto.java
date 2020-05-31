@@ -24,6 +24,9 @@ public class TableDto extends DataDto<String> {
 
 	public static final String F_NAME = "name";
 	public static final String F_NAMESANDCOMMENTS = "nameAndTitle";
+	public static final String CATEGORY_TREETABLE = "treeTable";
+
+
 	private static final long serialVersionUID = 1L;
 	// 名称
 	/*** 编码 */
@@ -172,7 +175,7 @@ public class TableDto extends DataDto<String> {
 		// 引用列表
 		List<String> importList = Lists.newArrayList(
 			"com.baomidou.mybatisplus.annotation.*");
-		if ("treeTable".equalsIgnoreCase(getCategory())) {
+		if (CATEGORY_TREETABLE.equalsIgnoreCase(getCategory())) {
 			importList.add("com.albedo.java.common.persistence.domain.TreeEntity");
 			initImport(importList);
 			// 如果有子表，则需要导入List相关引用
@@ -194,9 +197,10 @@ public class TableDto extends DataDto<String> {
 
 	private void initImport(List<String> importList) {
 		for (TableColumnDto column : getColumnList()) {
-			if (column.getIsNotBaseField() || column.isQuery() && "between".equals(column.getQueryType()) &&
+			boolean isImport = column.getIsNotBaseField() || column.isQuery() && "between".equals(column.getQueryType()) &&
 				(DataDto.F_CREATEDDATE.equals(column.getSimpleJavaField()) ||
-					DataDto.F_LASTMODIFIEDDATE.equals(column.getSimpleJavaField()))) {
+					DataDto.F_LASTMODIFIEDDATE.equals(column.getSimpleJavaField()));
+			if (isImport) {
 				// 导入类型依赖包， 如果类型中包含“.”，则需要导入引用。
 				if (StringUtil.indexOf(column.getJavaType(), StringUtil.C_DOT) != -1) {
 					addNoRepeatList(importList, column.getJavaType());
@@ -205,7 +209,7 @@ public class TableDto extends DataDto<String> {
 			if (column.getIsNotBaseField()) {
 				// 导入JSR303、Json等依赖包
 				for (String ann : column.getAnnotationList()) {
-					addNoRepeatList(importList, ann.substring(0, ann.indexOf("(")));
+					addNoRepeatList(importList, ann.substring(0, ann.indexOf(StringUtil.BRACKETS_START)));
 				}
 			}
 			if (!column.isPk() && !column.isNull()

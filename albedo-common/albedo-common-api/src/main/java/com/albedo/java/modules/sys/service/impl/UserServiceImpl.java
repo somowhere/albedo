@@ -87,8 +87,8 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	/**
 	 * 功能描述: 检查密码长度
 	 *
-	 * @param: [password]
-	 * @return: boolean
+	 * @param [password]
+	 * @return boolean
 	 */
 	private static boolean checkPasswordLength(String password) {
 		return !StringUtil.isEmpty(password) &&
@@ -323,12 +323,11 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 //        user.setPasswordPlaintext(passwordPlaintext);
 		SysCacheUtil.delBaseUserCaches(user.getId(), user.getUsername());
 		repository.updateById(user);
-//        cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLoginId());
 		log.debug("Changed password for User: {}", user);
 	}
 
 	@Override
-    public void changePassword(String username, PasswordChangeVo passwordChangeVo) {
+	public void changePassword(String username, PasswordChangeVo passwordChangeVo) {
 
 		Assert.isTrue(passwordChangeVo != null &&
 			checkPasswordLength(passwordChangeVo.getNewPassword()), "密码格式有误");
@@ -348,7 +347,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 
 
 	@Override
-    public void save(@Valid UserExcelVo userExcelVo) {
+	public void save(@Valid UserExcelVo userExcelVo) {
 		UserDto user = new UserDto();
 		BeanUtils.copyProperties(userExcelVo, user);
 		Dept dept = deptService.getOne(

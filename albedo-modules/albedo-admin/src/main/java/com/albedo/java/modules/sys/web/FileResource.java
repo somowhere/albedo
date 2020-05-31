@@ -3,7 +3,7 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.core.config.ApplicationConfig;
 import com.albedo.java.common.core.util.FileUploadUtil;
 import com.albedo.java.common.core.util.FileUtil;
-import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.util.Result;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -62,7 +62,7 @@ public class FileResource {
 	 */
 	@PostMapping("/upload")
 	@ResponseBody
-	public R uploadFile(MultipartFile file, HttpServletRequest request) throws IOException {
+	public Result uploadFile(MultipartFile file, HttpServletRequest request) throws IOException {
 		// 上传文件路径
 		String filePath = ApplicationConfig.getUploadPath();
 		// 上传并返回新文件名称
@@ -71,7 +71,7 @@ public class FileResource {
 		HashMap<Object, Object> data = Maps.newHashMap();
 		data.put("fileName", fileName);
 		data.put("url", url);
-		return R.buildOkData(data);
+		return Result.buildOkData(data);
 	}
 
 	private String getDomain(HttpServletRequest request) {

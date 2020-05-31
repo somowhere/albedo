@@ -1,6 +1,6 @@
 package com.albedo.java.modules.gen.web;
 
-import com.albedo.java.common.core.util.ResultBuilder;
+import com.albedo.java.common.core.util.ResponseEntityBuilder;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.web.resource.BaseResource;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,7 @@ public class HelloResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('gen_scheme_view')")
 	public ResponseEntity getPage(PageModel pm) {
 
-		return ResultBuilder.buildOk("hello");
+		return ResponseEntityBuilder.buildOk("hello");
 	}
 
 

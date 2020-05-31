@@ -29,9 +29,30 @@ import com.albedo.java.modules.sys.domain.UserOnline;
  */
 public interface UserOnlineService extends BaseService<UserOnline> {
 
+	/**
+	 * deleteBySessionId
+	 *
+	 * @param sessionId
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:35
+	 */
 	void deleteBySessionId(String sessionId);
 
+	/**
+	 * offlineBySessionId
+	 *
+	 * @param sessionId
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:35
+	 */
 	void offlineBySessionId(String sessionId);
 
+	/**
+	 * saveByEvent
+	 *
+	 * @param userOnline
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:35
+	 */
 	void saveByEvent(UserOnline userOnline);
 }

@@ -30,10 +30,10 @@ import java.util.Arrays;
 import java.util.Optional;
 
 /**
-* @Description:
-* @Author: somewhere
-* @Date: 2020/5/30 10:01 下午
-*/
+ * @author somewhere
+ * @description
+ * @date 2020/5/30 10:01 下午
+ */
 @Component
 @Slf4j
 public class PersistentTokenRememberMeService extends AbstractRememberMeServices {
@@ -90,7 +90,7 @@ public class PersistentTokenRememberMeService extends AbstractRememberMeServices
 				log.debug("Refreshing persistent login token for user '{}', series '{}'", login, persistentToken.getSeries());
 				persistentToken.setTokenDate(LocalDateTime.now());
 				persistentToken.setTokenValue(RandomUtil.generateTokenData());
-				persistentToken.setIpAddress(WebUtil.getIP(request));
+				persistentToken.setIpAddress(WebUtil.getIp(request));
 				persistentToken.setUserAgent(request.getHeader("User-Agent"));
 				try {
 					persistentTokenRepository.updateById(persistentToken);
@@ -131,7 +131,7 @@ public class PersistentTokenRememberMeService extends AbstractRememberMeServices
 			t.setUsername(u.getUsername());
 			t.setTokenValue(RandomUtil.generateTokenData());
 			t.setTokenDate(LocalDateTime.now());
-			t.setIpAddress(WebUtil.getIP(request));
+			t.setIpAddress(WebUtil.getIp(request));
 			t.setLoginLocation(AddressUtil.getRealAddressByIp(t.getIpAddress()));
 			t.setUserAgent(request.getHeader("User-Agent"));
 			UserAgent userAgent = UserAgentUtil.parse(t.getUserAgent());

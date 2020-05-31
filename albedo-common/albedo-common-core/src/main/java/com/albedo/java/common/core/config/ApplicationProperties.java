@@ -16,6 +16,7 @@ import java.util.List;
  * <p>
  * Properties are configured in the application.yml file.
  * </p>
+ *
  * @author somewhere
  */
 @Configuration

@@ -17,7 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 字符串工具类, 继承org.apache.commons.lang3.StringUtils类
+ * 字符串工具类
  *
  * @author somewhere version 2014-1-20 下午3:37:29
  */
@@ -25,6 +25,9 @@ import java.util.regex.Pattern;
 @Slf4j
 public class StringUtil extends StrUtil {
 	public static final String SPLIT_DEFAULT = ",";
+	public static final String BRACKETS_START = "(";
+	public static final String BRACKETS_END = ")";
+	public static final String DOT_JAVA = ".java";
 	private static final char SEPARATOR = '_';
 
 	/**
@@ -75,7 +78,7 @@ public class StringUtil extends StrUtil {
 		if (txt == null) {
 			return "";
 		}
-		return replace(replace(EscapeUtil.escapeHtml(txt), "\n", "<br/>"), "\t", "&nbsp; &nbsp; ");
+		return replace(replace(EscapeUtil.escapeHtml4(txt), "\n", "<br/>"), "\t", "&nbsp; &nbsp; ");
 	}
 
 	/**
@@ -246,7 +249,7 @@ public class StringUtil extends StrUtil {
 	 *
 	 * @return
 	 */
-	public static String getProjectPath(String fileName, String relativeUIPath) {
+	public static String getProjectPath(String fileName, String relativeUiPath) {
 		String projectPath = "";
 		try {
 			File file = new DefaultResourceLoader().getResource("").getFile();
@@ -262,8 +265,8 @@ public class StringUtil extends StrUtil {
 						break;
 					}
 				}
-				if (!fileName.endsWith(".java") && isNotEmpty(relativeUIPath)) {
-					File fileTemp = new File(file.getPath() + File.separator + relativeUIPath);
+				if (!fileName.endsWith(DOT_JAVA) && isNotEmpty(relativeUiPath)) {
+					File fileTemp = new File(file.getPath() + File.separator + relativeUiPath);
 					if (fileTemp == null || fileTemp.exists()) {
 						file = fileTemp;
 					}
@@ -297,9 +300,9 @@ public class StringUtil extends StrUtil {
 	public static String jsGetVal(String objectString) {
 		StringBuilder result = new StringBuilder();
 		StringBuilder val = new StringBuilder();
-		String[] vals = split(objectString, ".");
+		String[] vals = split(objectString, StringUtil.DOT);
 		for (int i = 0; i < vals.length; i++) {
-			val.append("." + vals[i]);
+			val.append(StringUtil.DOT + vals[i]);
 			result.append("!" + (val.substring(1)) + "?'':");
 		}
 		result.append(val.substring(1));

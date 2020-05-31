@@ -1,5 +1,6 @@
 package com.albedo.java.common.core.util;
 
+import cn.hutool.core.net.NetUtil;
 import cn.hutool.http.HttpUtil;
 import com.albedo.java.common.core.config.ApplicationConfig;
 import com.alibaba.fastjson.JSON;
@@ -20,7 +21,7 @@ public class AddressUtil {
 		String address = "XX XX";
 
 		// 内网不查询
-		if (WebUtil.internalIp(ip)) {
+		if (NetUtil.isInnerIP(ip)) {
 			return "内网IP";
 		}
 		if (ApplicationConfig.isAddressEnabled()) {

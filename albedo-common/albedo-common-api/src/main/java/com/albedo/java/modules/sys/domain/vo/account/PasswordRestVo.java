@@ -12,6 +12,8 @@ import java.io.Serializable;
 
 /**
  * View Model object for storing a user's credentials.
+ *
+ * @author somewhere
  */
 @Data
 @ToString

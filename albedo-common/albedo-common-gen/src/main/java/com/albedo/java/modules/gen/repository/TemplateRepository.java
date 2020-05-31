@@ -5,6 +5,8 @@ import com.albedo.java.modules.gen.domain.Template;
 
 /**
  * Spring Data JPA repository for the Authority domain.
+ *
+ * @author somewhere
  */
 public interface TemplateRepository extends BaseRepository<Template> {
 

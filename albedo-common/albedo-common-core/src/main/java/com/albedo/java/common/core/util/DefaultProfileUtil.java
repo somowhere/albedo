@@ -12,6 +12,7 @@ import java.util.Map;
  * Utility class to load a Spring profile to be used as default
  * when there is no <code>spring.profiles.active</code> set in the environment or as command line argument.
  * If the value is not available in <code>application.yml</code> then <code>dev</code> profile will be used as default.
+ *
  * @author somewhere
  */
 public final class DefaultProfileUtil {
@@ -27,7 +28,7 @@ public final class DefaultProfileUtil {
 	 */
 	public static String resolvePathPrefix(Class<?> clz) {
 		String fullExecutablePath = clz.getResource("").getPath();
-		String rootPath = Paths.get(".").toUri().normalize().getPath();
+		String rootPath = Paths.get(StringUtil.DOT).toUri().normalize().getPath();
 		String extractedPath = fullExecutablePath.replace(rootPath, "");
 		int extractionEndIndex = extractedPath.indexOf("target/");
 		if (extractionEndIndex <= 0) {

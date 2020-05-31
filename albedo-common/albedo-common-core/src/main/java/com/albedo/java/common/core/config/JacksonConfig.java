@@ -35,9 +35,9 @@ import java.util.TimeZone;
  * JacksonConfig
  *
  * @author L.cm
- * @author: somewhere
- * @author: lishangbu
- * @date: 2018/10/22
+ * @author somewhere
+ * @author lishangbu
+ * @date 2018/10/22
  */
 @Configuration
 public class JacksonConfig {

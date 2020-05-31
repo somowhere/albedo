@@ -6,8 +6,13 @@ import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
 
+/**
+ * @author somewhere
+ * @description
+ * @date 2020/5/31 17:08
+ */
 @Deprecated
-public class LogicFindRelationPage extends LogicAbstractCustomMethod {
+public class FindRelationPageLogic extends AbstractLogicCustomMethod {
 	@Override
 	public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
 		String tableNameAlias = StringUtil.lowerCase(modelClass.getSimpleName());

@@ -18,6 +18,7 @@ import java.util.List;
 /**
  * 生成方案Entity
  *
+ * @author somewhere
  * @version 2013-10-15
  */
 @TableName("gen_template")
@@ -36,22 +37,22 @@ public class Template extends IdEntityAbstract<Template> {
 	@TableField("name")
 	private String name;
 	/**
-	 *分类
+	 * 分类
 	 */
 	@TableField("category")
 	private String category;
 	/**
-	 *生成文件路径
+	 * 生成文件路径
 	 */
 	@TableField("file_path")
 	private String filePath;
 	/**
-	 *文件名
+	 * 文件名
 	 */
 	@TableField("file_name")
 	private String fileName;
 	/**
-	 *内容
+	 * 内容
 	 */
 	@TableField("content")
 	private String content;

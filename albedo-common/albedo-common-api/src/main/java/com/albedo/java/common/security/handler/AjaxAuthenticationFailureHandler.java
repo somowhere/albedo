@@ -2,7 +2,7 @@ package com.albedo.java.common.security.handler;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.http.HttpUtil;
-import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.WebUtil;
 import com.albedo.java.common.log.enums.LogType;
 import com.albedo.java.common.log.util.SysLogUtils;
@@ -20,10 +20,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
-* @Description: Returns a 401 error code (Unauthorized) to the client, when Ajax authentication fails.
-* @Author: somewhere
-* @Date: 2020/5/30 11:23 下午
-*/
+ * @author somewhere
+ * @description Returns a 401 error code (Unauthorized) to the client, when Ajax authentication fails.
+ * @date 2020/5/30 11:23 下午
+ */
 @AllArgsConstructor
 public class AjaxAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
@@ -51,6 +51,6 @@ public class AjaxAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 		logOperate.setException(ExceptionUtil.stacktraceToString(exception));
 		AsyncUtil.recordLogLogin(logOperate);
 		response.setStatus(HttpServletResponse.SC_OK);
-		WebUtil.renderJson(response, R.buildFail(message));
+		WebUtil.renderJson(response, Result.buildFail(message));
 	}
 }

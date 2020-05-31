@@ -3,19 +3,29 @@ package com.albedo.java.common.security.jwt;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.security.service.UserDetail;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * @author somewhere
+ * @description
+ * @date 2020/5/31 16:19
+ */
 @Component
 public class TokenProvider {
 
@@ -24,7 +34,7 @@ public class TokenProvider {
 	private final Logger log = LoggerFactory.getLogger(TokenProvider.class);
 	private final ApplicationProperties applicationProperties;
 	private final UserDetailsService userDetailsService;
-	private String secretKey;
+	private Key secretKey;
 	private long tokenValidityInMilliseconds;
 	private long tokenValidityInMillisecondsForRememberMe;
 
@@ -35,8 +45,12 @@ public class TokenProvider {
 
 	@PostConstruct
 	public void init() {
-		this.secretKey =
-			applicationProperties.getSecurity().getAuthentication().getJwt().getSecret();
+
+		byte[] keyBytes;
+		String secret = applicationProperties.getSecurity().getAuthentication().getJwt().getSecret();
+		Assert.isTrue(StringUtils.isEmpty(secret), "jwt secret can not be empty");
+		keyBytes = secret.getBytes(StandardCharsets.UTF_8);
+		this.secretKey = Keys.hmacShaKeyFor(keyBytes);
 
 		this.tokenValidityInMilliseconds =
 			1000 * applicationProperties.getSecurity().getAuthentication().getJwt().getTokenValidityInSeconds();
@@ -47,8 +61,9 @@ public class TokenProvider {
 	private Claims getClaimsFromToken(String token) {
 		Claims claims;
 		try {
-			claims = Jwts.parser()
+			claims = Jwts.parserBuilder()
 				.setSigningKey(secretKey)
+				.build()
 				.parseClaimsJws(token)
 				.getBody();
 		} catch (Exception e) {
@@ -65,7 +80,7 @@ public class TokenProvider {
 			.setIssuedAt(new Date())
 			.setExpiration(generateExpirationDate(expiration))
 			.compressWith(CompressionCodecs.DEFLATE)
-			.signWith(SignatureAlgorithm.HS512, secretKey)
+			.signWith(secretKey, SignatureAlgorithm.HS512)
 			.compact();
 	}
 
@@ -121,23 +136,11 @@ public class TokenProvider {
 
 	public boolean validateToken(String authToken) {
 		try {
-			Jwts.parser().setSigningKey(secretKey).parseClaimsJws(authToken);
+			Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(authToken);
 			return true;
-		} catch (SignatureException e) {
-			log.info("Invalid JWT signature.");
-			log.trace("Invalid JWT signature trace: {}", e);
-		} catch (MalformedJwtException e) {
+		} catch (JwtException | IllegalArgumentException e) {
 			log.info("Invalid JWT token.");
-			log.trace("Invalid JWT token trace: {}", e);
-		} catch (ExpiredJwtException e) {
-			log.info("Expired JWT token.");
-			log.trace("Expired JWT token trace: {}", e);
-		} catch (UnsupportedJwtException e) {
-			log.info("Unsupported JWT token.");
-			log.trace("Unsupported JWT token trace: {}", e);
-		} catch (IllegalArgumentException e) {
-			log.info("JWT token compact of handler are invalid.");
-			log.trace("JWT token compact of handler are invalid trace: {}", e);
+			log.trace("Invalid JWT token trace.", e);
 		}
 		return false;
 	}

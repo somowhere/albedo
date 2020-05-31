@@ -2,6 +2,11 @@ package com.albedo.java.common.persistence.annotation;
 
 import java.lang.annotation.*;
 
+/**
+ * @author somewhere
+ * @description
+ * @date 2020/5/31 17:09
+ */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})

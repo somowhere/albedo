@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * 业务表Entity
  *
+ * @author somewhere
  * @version 2013-10-15
  */
 @TableName("gen_table")

@@ -6,7 +6,16 @@ package com.albedo.java.common.log.enums;
  * @author somewhere
  */
 public enum LogType {
+	/**
+	 * INFO
+	 */
 	INFO,
+	/**
+	 * WARN
+	 */
 	WARN,
+	/**
+	 * ERROR
+	 */
 	ERROR
 }

@@ -11,6 +11,7 @@ import java.io.Serializable;
 /**
  * 生成方案Entity
  *
+ * @author somewhere
  * @version 2013-10-15
  */
 @Data

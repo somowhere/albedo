@@ -8,6 +8,11 @@ import lombok.ToString;
 
 import java.io.Serializable;
 
+/**
+ * @author somewhere
+ * @description
+ * @date 2020/5/31 17:11
+ */
 @Data
 @ToString
 @NoArgsConstructor

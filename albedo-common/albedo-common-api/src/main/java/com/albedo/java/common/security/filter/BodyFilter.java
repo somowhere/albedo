@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
-* @Description:
-* @Author: somewhere
-* @Date: 2020/5/30 11:24 下午
-*/
+ * @author somewhere
+ * @description
+ * @date 2020/5/30 11:24 下午
+ */
 public class BodyFilter extends OncePerRequestFilter {
 	private final ApplicationProperties applicationProperties;
 
@@ -24,7 +24,8 @@ public class BodyFilter extends OncePerRequestFilter {
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-		if (request.getRequestURI().contains("/file/upload")) {
+		boolean isUpload = request.getRequestURI().contains("/file/upload");
+		if (isUpload) {
 			filterChain.doFilter(request, response);
 		} else {
 			filterChain.doFilter(new BodyRequestWrapper(request), response);

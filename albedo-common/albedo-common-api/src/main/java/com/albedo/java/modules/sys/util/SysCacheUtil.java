@@ -13,6 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * @author somewhere
+ * @description
+ * @date 2020/5/31 17:15
+ */
 @Slf4j
 public class SysCacheUtil {
 

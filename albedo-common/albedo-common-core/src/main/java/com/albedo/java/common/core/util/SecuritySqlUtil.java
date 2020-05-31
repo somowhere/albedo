@@ -60,7 +60,7 @@ public class SecuritySqlUtil {
 	 */
 	public static String getModuleByClass(Class<?> cls) {
 		String className = cls.getName();
-		return className.substring(className.lastIndexOf(".") + 1);
+		return className.substring(className.lastIndexOf(StringUtil.DOT) + 1);
 	}
 
 }

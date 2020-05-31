@@ -4,6 +4,7 @@ import cn.hutool.core.util.ArrayUtil;
 import com.albedo.java.common.core.annotation.AnonymousAccess;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.security.component.Http401UnauthorizedEntryPoint;
 import com.albedo.java.common.security.component.session.RedisSessionRegistry;
 import com.albedo.java.common.security.filter.PasswordDecoderFilter;
@@ -51,10 +52,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
-* @Description: 
-* @Author: somewhere
-* @Date: 2020/5/30 11:25 下午
-*/
+ * @author somewhere
+ * @description
+ * @date 2020/5/30 11:25 下午
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
@@ -187,7 +188,7 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 			.key(applicationProperties.getSecurity().getRememberMe().getKey())
 			.and()
 			.formLogin()
-			.loginProcessingUrl(applicationProperties.getAdminPath("/authenticate"))
+			.loginProcessingUrl(applicationProperties.getAdminPath(SecurityConstants.AUTHENTICATE_URL))
 			.successHandler(ajaxAuthenticationSuccessHandler())
 			.failureHandler(ajaxAuthenticationFailureHandler())
 			.permitAll()
@@ -207,7 +208,7 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 			.frameOptions().disable()
 			.and()
 			.authorizeRequests()
-			.antMatchers(applicationProperties.getAdminPath("/authenticate")).permitAll()
+			.antMatchers(applicationProperties.getAdminPath(SecurityConstants.AUTHENTICATE_URL)).permitAll()
 			// 自定义匿名访问所有url放行 ： 允许匿名和带权限以及登录用户访问
 			.antMatchers(anonymousUrls.toArray(new String[0])).permitAll()
 			.antMatchers(ArrayUtil.toArray(applicationProperties.getSecurity().getAuthorizePermitAll(), String.class)).permitAll()

@@ -91,8 +91,9 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 	 * 改变private/protected的成员变量为public，尽量不调用实际改动的语句，避免JDK的SecurityManager抱怨。
 	 */
 	public static void makeAccessible(Field field) {
-		if ((!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass().getModifiers())
-			|| Modifier.isFinal(field.getModifiers())) && !field.isAccessible()) {
+		boolean flag = (!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass().getModifiers())
+			|| Modifier.isFinal(field.getModifiers())) && !field.isAccessible();
+		if (flag) {
 			field.setAccessible(true);
 		}
 	}
@@ -253,7 +254,7 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 			return ((Map) obj).get(propertyName);
 		}
 		Object object = obj;
-		for (String name : StringUtil.split(propertyName, ".")) {
+		for (String name : StringUtil.split(propertyName, StringUtil.DOT)) {
 			object = ReflectUtil.invoke(object, GETTER_PREFIX + StringUtil.upperFirst(name));
 		}
 		return object;
@@ -264,7 +265,7 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 	 */
 	public static void invokeSetter(Object obj, String propertyName, Object value) {
 		Object object = obj;
-		String[] names = StringUtil.split(propertyName, ".");
+		String[] names = StringUtil.split(propertyName, StringUtil.DOT);
 		for (int i = 0; i < names.length; i++) {
 			if (i < names.length - 1) {
 				object = ReflectUtil.invoke(object, GETTER_PREFIX + StringUtil.upperFirst(names[i]),

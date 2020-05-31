@@ -20,15 +20,17 @@ import java.io.IOException;
 /**
  * Filters incoming requests and installs a Spring Security principal if a header corresponding to a valid user is
  * found.
+ *
+ * @author somewhere
  */
 @Slf4j
-public class JWTFilter extends GenericFilterBean {
+public class JwtFilter extends GenericFilterBean {
 
+	private final String PREFIX_TOKEN = "Bearer ";
 	private TokenProvider tokenProvider;
-
 	private ApplicationProperties applicationProperties;
 
-	public JWTFilter(TokenProvider tokenProvider, ApplicationProperties applicationProperties) {
+	public JwtFilter(TokenProvider tokenProvider, ApplicationProperties applicationProperties) {
 		this.tokenProvider = tokenProvider;
 		this.applicationProperties = applicationProperties;
 	}
@@ -51,7 +53,7 @@ public class JWTFilter extends GenericFilterBean {
 
 	private String resolveToken(HttpServletRequest request) {
 		String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
-		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(PREFIX_TOKEN)) {
 			return bearerToken.substring(7);
 		}
 		return bearerToken;

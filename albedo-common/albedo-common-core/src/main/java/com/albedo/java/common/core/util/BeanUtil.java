@@ -36,7 +36,8 @@ public class BeanUtil extends BeanUtils {
 		for (int var9 = 0; var9 < var8; ++var9) {
 			PropertyDescriptor targetPd = var7[var9];
 			Method writeMethod = targetPd.getWriteMethod();
-			if (writeMethod != null && (ignoreList == null || !ignoreList.contains(targetPd.getName()))) {
+			boolean ignore = ignoreList == null || !ignoreList.contains(targetPd.getName());
+			if (writeMethod != null && ignore) {
 				BeanField writeAnnotation = ClassUtil.findAnnotation(target.getClass(), targetPd.getName(), BeanField.class);
 				if (writeAnnotation != null && writeAnnotation.ingore()) {
 					continue;

@@ -7,19 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
-import javax.annotation.Resource;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Validator;
 import java.beans.PropertyEditorSupport;
 import java.util.Date;
 
 /**
- *
  * @author somewhere
  * @date 2017/3/23
  */
@@ -55,7 +47,7 @@ public class GeneralResource {
 		// Date 类型转换
 		binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
 			@Override
-            public void setAsText(String text) {
+			public void setAsText(String text) {
 				String decode = URLUtil.decode(text);
 				try {
 					setValue(DateUtil.parse(decode).toJdkDate());

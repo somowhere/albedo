@@ -37,7 +37,7 @@ import java.io.Serializable;
 @ToString
 @Accessors(chain = true)
 @AllArgsConstructor
-public class R<T> implements Serializable {
+public class Result<T> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Getter
@@ -57,65 +57,65 @@ public class R<T> implements Serializable {
 	private String[] messages = {};
 
 
-	public R() {
+	public Result() {
 		super();
 	}
 
-	public R(T data) {
+	public Result(T data) {
 		super();
 		this.data = data;
 	}
 
-	public R(String... msg) {
+	public Result(String... msg) {
 		super();
 		this.messages = msg;
 	}
 
-	public R(T data, String... msg) {
+	public Result(T data, String... msg) {
 		super();
 		this.data = data;
 		this.messages = msg;
 	}
 
-	public R(T data, int code, String... msg) {
+	public Result(T data, int code, String... msg) {
 		super();
 		this.data = data;
 		this.code = code;
 		this.messages = msg;
 	}
 
-	public R(Throwable e) {
+	public Result(Throwable e) {
 		super();
 		setMessage(e.getMessage());
 		this.code = CommonConstants.FAIL;
 	}
 
-	public static R buildOk(String... messages) {
-		return new R(messages);
+	public static Result buildOk(String... messages) {
+		return new Result(messages);
 	}
 
-	public static R buildByFlag(boolean flag) {
-		return new R(flag, flag ? CommonConstants.SUCCESS : CommonConstants.FAIL, flag ? "操作成功" : "操作失败");
+	public static Result buildByFlag(boolean flag) {
+		return new Result(flag, flag ? CommonConstants.SUCCESS : CommonConstants.FAIL, flag ? "操作成功" : "操作失败");
 	}
 
-	public static <T> R buildOkData(T data, String... messages) {
-		return new R(data, messages);
+	public static <T> Result buildOkData(T data, String... messages) {
+		return new Result(data, messages);
 	}
 
-	public static <T> R buildFailData(T data, String... messages) {
-		return new R(data, CommonConstants.FAIL, messages);
+	public static <T> Result buildFailData(T data, String... messages) {
+		return new Result(data, CommonConstants.FAIL, messages);
 	}
 
-	public static <T> R buildFail(String... messages) {
-		return new R(null, CommonConstants.FAIL, messages);
+	public static <T> Result buildFail(String... messages) {
+		return new Result(null, CommonConstants.FAIL, messages);
 	}
 
-	public static <T> R build(T data, int code, String... messages) {
-		return new R(data, code, messages);
+	public static <T> Result build(T data, int code, String... messages) {
+		return new Result(data, code, messages);
 	}
 
-	public static <T> R build(int code, String... messages) {
-		return new R(null, code, messages);
+	public static <T> Result build(int code, String... messages) {
+		return new Result(null, code, messages);
 	}
 
 	public String getMessage() {

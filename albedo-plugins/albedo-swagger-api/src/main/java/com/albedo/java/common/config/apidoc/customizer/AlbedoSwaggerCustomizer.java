@@ -16,6 +16,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * @author somewhere
+ * @description
+ * @date 2020/5/31 17:06
+ */
 public class AlbedoSwaggerCustomizer implements SwaggerCustomizer, Ordered {
 	public static final int DEFAULT_ORDER = 0;
 	private final ApplicationSwaggerProperties applicationSwaggerProperties;

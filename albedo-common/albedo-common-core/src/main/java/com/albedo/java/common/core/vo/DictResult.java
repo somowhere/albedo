@@ -5,6 +5,8 @@ import lombok.Data;
 /**
  * Copyright 2013 albedo All right reserved Author somewhere Created on 2013-10-23
  * 下午1:55:43
+ *
+ * @author somewhere
  */
 @Data
 public class DictResult {

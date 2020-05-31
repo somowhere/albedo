@@ -23,8 +23,8 @@ import com.albedo.java.common.core.exception.EntityExistException;
 import com.albedo.java.common.core.exception.EntityNotFoundException;
 import com.albedo.java.common.core.exception.RuntimeMsgException;
 import com.albedo.java.common.core.util.BeanValidators;
-import com.albedo.java.common.core.util.R;
-import com.albedo.java.common.core.util.ResultBuilder;
+import com.albedo.java.common.core.util.ResponseEntityBuilder;
+import com.albedo.java.common.core.util.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,9 +56,9 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public R exception(Exception e) {
+	public Result exception(Exception e) {
 		log.error("全局异常信息 ex={}", e);
-		return R.buildFail(e.getMessage());
+		return Result.buildFail(e.getMessage());
 	}
 
 	/**
@@ -69,9 +69,9 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler({AccessDeniedException.class})
 	@ResponseStatus(HttpStatus.FORBIDDEN)
-	public R bodyValidExceptionHandler(AccessDeniedException exception) {
+	public Result bodyValidExceptionHandler(AccessDeniedException exception) {
 		log.warn("AccessDeniedException:{}", exception);
-		return R.buildFail("权限不足");
+		return Result.buildFail("权限不足");
 	}
 
 	/**
@@ -82,10 +82,10 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
 	@ResponseStatus(BAD_REQUEST)
-	public R bodyValidExceptionHandler(MethodArgumentNotValidException exception) {
+	public Result bodyValidExceptionHandler(MethodArgumentNotValidException exception) {
 		List<String> messages = BeanValidators.extractPropertyAndMessageAsList(exception);
 		log.warn("Valid Error:" + messages);
-		return R.buildFail(ArrayUtil.toArray(messages, String.class));
+		return Result.buildFail(ArrayUtil.toArray(messages, String.class));
 	}
 
 	/**
@@ -95,28 +95,28 @@ public class GlobalExceptionHandler {
 	 * @return R
 	 */
 	@ExceptionHandler({RuntimeMsgException.class})
-	public R bodyRuntimeMsgExceptionHandler(RuntimeMsgException exception) {
+	public Result bodyRuntimeMsgExceptionHandler(RuntimeMsgException exception) {
 		log.error("runtime msg={}", exception.getMessage(), exception);
-		return R.buildFail(exception.getMessage());
+		return Result.buildFail(exception.getMessage());
 	}
 
 	/**
 	 * 处理 badException
 	 */
 	@ExceptionHandler(value = {BadRequestException.class, EntityExistException.class, IllegalArgumentException.class})
-	public ResponseEntity<R> badException(Exception e) {
+	public ResponseEntity<Result> badException(Exception e) {
 		// 打印堆栈信息
 		log.error(ExceptionUtil.stacktraceToString(e));
-		return ResultBuilder.buildFail(BAD_REQUEST, e.getMessage());
+		return ResponseEntityBuilder.buildFail(BAD_REQUEST, e.getMessage());
 	}
 
 	/**
 	 * 处理 EntityNotFound
 	 */
 	@ExceptionHandler(value = EntityNotFoundException.class)
-	public ResponseEntity<R> entityNotFoundException(EntityNotFoundException e) {
+	public ResponseEntity<Result> entityNotFoundException(EntityNotFoundException e) {
 		// 打印堆栈信息
 		log.error(ExceptionUtil.stacktraceToString(e));
-		return ResultBuilder.buildFail(NOT_FOUND, e.getMessage());
+		return ResponseEntityBuilder.buildFail(NOT_FOUND, e.getMessage());
 	}
 }

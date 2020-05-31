@@ -4,6 +4,11 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * @author somewhere
+ * @description
+ * @date 2020/5/31 17:09
+ */
 public class PersistentTokenCache<T> {
 	private final long expireMillis;
 	private final Map<String, Value> map;

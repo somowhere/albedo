@@ -3,8 +3,9 @@ package com.albedo.java.common.config;
 import cn.hutool.core.util.ArrayUtil;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.security.component.Http401UnauthorizedEntryPoint;
-import com.albedo.java.common.security.jwt.JWTConfigurer;
+import com.albedo.java.common.security.jwt.JwtConfigurer;
 import com.albedo.java.common.security.jwt.TokenProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.BeanInitializationException;
@@ -32,6 +33,11 @@ import org.springframework.web.filter.CorsFilter;
 import javax.annotation.PostConstruct;
 
 
+/**
+ * @author somewhere
+ * @description
+ * @date 2020/5/31 17:11
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
@@ -112,7 +118,7 @@ public class SecurityJwtConfiguration extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 			.antMatchers(applicationProperties.getAdminPath("/login")).permitAll()
 			.antMatchers(applicationProperties.getAdminPath("/logout")).permitAll()
-			.antMatchers(applicationProperties.getAdminPath("/authenticate")).permitAll()
+			.antMatchers(applicationProperties.getAdminPath(SecurityConstants.AUTHENTICATE_URL)).permitAll()
 			.antMatchers(ArrayUtil.toArray(applicationProperties.getSecurity().getAuthorizePermitAll(), String.class)).permitAll()
 			.antMatchers(ArrayUtil.toArray(applicationProperties.getSecurity().getAuthorize(), String.class)).authenticated()
 			.and()
@@ -120,8 +126,8 @@ public class SecurityJwtConfiguration extends WebSecurityConfigurerAdapter {
 
 	}
 
-	private JWTConfigurer securityConfigurerAdapter() {
-		return new JWTConfigurer(tokenProvider, applicationProperties);
+	private JwtConfigurer securityConfigurerAdapter() {
+		return new JwtConfigurer(tokenProvider, applicationProperties);
 	}
 
 }

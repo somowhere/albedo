@@ -1,5 +1,6 @@
 package com.albedo.java.common.persistence.injector.methods;
 
+import com.albedo.java.common.core.util.StringUtil;
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -8,12 +9,12 @@ import com.baomidou.mybatisplus.core.toolkit.sql.SqlScriptUtils;
 import java.util.stream.Collectors;
 
 /**
-* @Description:
-* @Author: somewhere
-* @Date: 2020/5/30 11:25 下午
-*/
+ * @author somewhere
+ * @description
+ * @date 2020/5/30 11:25 下午
+ */
 @Deprecated
-public abstract class LogicAbstractCustomMethod extends AbstractMethod {
+public abstract class AbstractLogicCustomMethod extends AbstractMethod {
 
 	public String getAllSqlWhere(TableInfo table, boolean ignoreLogicDelFiled, boolean withId, String prefix, String columnPrefix) {
 		String newPrefix = prefix == null ? "" : prefix;
@@ -34,7 +35,7 @@ public abstract class LogicAbstractCustomMethod extends AbstractMethod {
 	}
 
 	protected String getLogicDeleteSql(TableInfo table, boolean startWithAnd, boolean deleteValue, String columnPrefix) {
-		return columnPrefix + "." + table.getLogicDeleteSql(startWithAnd, deleteValue);
+		return columnPrefix + StringUtil.DOT + table.getLogicDeleteSql(startWithAnd, deleteValue);
 	}
 
 	protected String sqlWhereEntityWrapper(TableInfo table, String columnPrefix) {

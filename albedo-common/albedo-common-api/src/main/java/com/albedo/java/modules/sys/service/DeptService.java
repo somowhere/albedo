@@ -39,6 +39,7 @@ public interface DeptService extends TreeService<Dept, DeptDto> {
 
 	/**
 	 * 获取祖先后代节点
+	 *
 	 * @param deptId
 	 * @return
 	 */
@@ -46,6 +47,7 @@ public interface DeptService extends TreeService<Dept, DeptDto> {
 
 	/**
 	 * 批量删除
+	 *
 	 * @param ids
 	 * @return
 	 */
@@ -62,6 +64,7 @@ public interface DeptService extends TreeService<Dept, DeptDto> {
 
 	/**
 	 * 查询部门树集合
+	 *
 	 * @param deptQueryCriteria
 	 * @return
 	 */
@@ -69,6 +72,7 @@ public interface DeptService extends TreeService<Dept, DeptDto> {
 
 	/**
 	 * 锁定、解锁
+	 *
 	 * @param ids
 	 */
 	void lockOrUnLock(Set<String> ids);

@@ -4,7 +4,7 @@
 package com.albedo.java.modules.quartz.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.Log;
@@ -40,9 +40,9 @@ public class JobResource extends BaseResource {
 	 */
 	@GetMapping(CommonConstants.URL_ID_REGEX)
 	@PreAuthorize("@pms.hasPermission('quartz_job_view')")
-	public R get(@PathVariable String id) {
+	public Result get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
-		return R.buildOkData(jobService.getOneDto(id));
+		return Result.buildOkData(jobService.getOneDto(id));
 	}
 
 	/**
@@ -55,9 +55,9 @@ public class JobResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('quartz_job_view')")
 	@GetMapping
 	@Log(value = "任务调度查看")
-	public R<IPage> getPage(PageModel pm, JobQueryCriteria jobQueryCriteria) {
+	public Result<IPage> getPage(PageModel pm, JobQueryCriteria jobQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, jobQueryCriteria);
-		return R.buildOkData(jobService.page(pm, wrapper));
+		return Result.buildOkData(jobService.page(pm, wrapper));
 	}
 
 	/**
@@ -68,10 +68,10 @@ public class JobResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
 	@Log(value = "任务调度编辑")
 	@PostMapping
-	public R save(@Valid @RequestBody JobDto jobVo) {
+	public Result save(@Valid @RequestBody JobDto jobVo) {
 		log.debug("REST request to save JobForm : {}", jobVo);
 		jobService.saveOrUpdate(jobVo);
-		return R.buildOk("保存任务调度成功");
+		return Result.buildOk("保存任务调度成功");
 
 	}
 
@@ -84,10 +84,10 @@ public class JobResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('quartz_job_del')")
 	@Log(value = "任务调度删除")
 	@DeleteMapping
-	public R delete(@RequestBody Set<String> ids) {
+	public Result delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete Job: {}", ids);
 		jobService.deleteJobByIds(ids);
-		return R.buildOk("删除任务调度成功");
+		return Result.buildOk("删除任务调度成功");
 	}
 
 	/**
@@ -99,10 +99,10 @@ public class JobResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
 	@Log(value = "任务调度编辑")
 	@PutMapping("/update-status")
-	public R updateStatus(@RequestBody Set<String> ids) {
+	public Result updateStatus(@RequestBody Set<String> ids) {
 		log.debug("REST request to available Job: {}", ids);
 		jobService.updateStatus(ids);
-		return R.buildOk("操作成功");
+		return Result.buildOk("操作成功");
 	}
 
 	/**
@@ -114,10 +114,10 @@ public class JobResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
 	@Log(value = "任务调度编辑")
 	@PutMapping("/run")
-	public R run(@RequestBody Set<String> ids) {
+	public Result run(@RequestBody Set<String> ids) {
 		log.debug("REST request to available Job: {}", ids);
 		jobService.runByIds(ids);
-		return R.buildOk("操作成功");
+		return Result.buildOk("操作成功");
 	}
 
 	/**
@@ -129,10 +129,10 @@ public class JobResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
 	@Log(value = "任务调度编辑")
 	@PutMapping("/concurrent")
-	public R concurrent(@RequestBody Set<String> ids) {
+	public Result concurrent(@RequestBody Set<String> ids) {
 		log.debug("REST request to available Job: {}", ids);
 		jobService.concurrent(ids);
-		return R.buildOk("操作成功");
+		return Result.buildOk("操作成功");
 	}
 
 	/**

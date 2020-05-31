@@ -53,15 +53,31 @@ public interface MenuService extends TreeService<Menu, MenuDto> {
 	void removeByIds(Set<String> ids);
 
 	/**
+	 * saveByGenScheme
+	 *
 	 * @param schemeDto
-	 * @return
+	 * @return boolean
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:34
 	 */
 	boolean saveByGenScheme(GenSchemeDto schemeDto);
 
 	/**
+	 * sortUpdate
+	 *
 	 * @param menuSortDto
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:34
 	 */
 	void sortUpdate(MenuSortDto menuSortDto);
 
+	/**
+	 * findTreeByUserId
+	 *
+	 * @param userId
+	 * @return java.lang.Object
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:34
+	 */
 	Object findTreeByUserId(String userId);
 }

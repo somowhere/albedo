@@ -1,7 +1,7 @@
 package com.albedo.java.common.security.component;
 
 import com.albedo.java.common.core.config.ApplicationProperties;
-import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.WebUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Returns a 401 error code (Unauthorized) to the client.
+ *
  * @author somewhere
  */
 public class Http401UnauthorizedEntryPoint implements AuthenticationEntryPoint {
@@ -35,6 +36,6 @@ public class Http401UnauthorizedEntryPoint implements AuthenticationEntryPoint {
 		log.debug("Pre-authenticated entry point called. Rejecting access");
 
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
-		WebUtil.renderJson(response, R.buildFail("权限不足或登录超时"));
+		WebUtil.renderJson(response, Result.buildFail("权限不足或登录超时"));
 	}
 }

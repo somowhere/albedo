@@ -12,6 +12,11 @@ import org.springframework.context.annotation.Configuration;
 import springfox.documentation.schema.TypeNameExtractor;
 import springfox.documentation.spring.web.plugins.Docket;
 
+/**
+ * @author somewhere
+ * @description
+ * @date 2020/5/31 17:14
+ */
 @Configuration
 @ConditionalOnWebApplication
 @ConditionalOnBean({Docket.class})

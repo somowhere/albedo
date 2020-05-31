@@ -60,12 +60,12 @@ public class AccoutJwtResource extends BaseResource {
 	 */
 	@GetMapping("/refresh-token")
 	@ApiOperation("刷新登录Token")
-	public R refreshToken(@RequestHeader(value = HttpHeaders.AUTHORIZATION) String jwt) {
+	public Result refreshToken(@RequestHeader(value = HttpHeaders.AUTHORIZATION) String jwt) {
 		String refreshToken = tokenProvider.refreshToken(jwt);
 		if (StringUtil.isEmpty(refreshToken)) {
-			return R.buildFail("无效jwt");
+			return Result.buildFail("无效jwt");
 		}
-		return R.buildOkData(new LinkedHashMap<String, Object>() {{
+		return Result.buildOkData(new LinkedHashMap<String, Object>() {{
 			put("access_token", refreshToken);
 			put("expires_in", tokenProvider.getExpirationDateSecondsFromToken(refreshToken));
 		}});
@@ -75,20 +75,20 @@ public class AccoutJwtResource extends BaseResource {
 	/**
 	 * 功能描述: 认证授权
 	 */
-	@PostMapping("/authenticate")
+	@PostMapping(SecurityConstants.AUTHENTICATE_URL)
 	@ApiOperation("认证授权")
 	public ResponseEntity authorize(@Valid @RequestBody LoginVo loginVo) {
 
 		Date canLoginDate = RedisUtil.getCacheObject(SecurityConstants.DEFAULT_LOGIN_AFTER_24_KEY + loginVo.getUsername());
 		if (canLoginDate != null) {
-			return ResultBuilder.buildFail(HttpStatus.UNAUTHORIZED, "您的账号在" + DateUtil.format(canLoginDate) + "后才可登录");
+			return ResponseEntityBuilder.buildFail(HttpStatus.UNAUTHORIZED, "您的账号在" + DateUtil.format(canLoginDate) + "后才可登录");
 		}
 
 		if (!SpringContextHolder.isDevelopment()) {
 			LoginUtil.checkCode(loginVo);
 		}
 		try {
-			String s = PasswordDecoderFilter.decryptAES(loginVo.getPassword(), applicationProperties.getSecurity().getEncodeKey());
+			String s = PasswordDecoderFilter.decryptAes(loginVo.getPassword(), applicationProperties.getSecurity().getEncodeKey());
 			loginVo.setPassword(s.trim());
 		} catch (Exception e) {
 		}
@@ -103,7 +103,7 @@ public class AccoutJwtResource extends BaseResource {
 			String jwt = tokenProvider.createToken(authentication, rememberMe);
 			log.info("jwt:{}", jwt);
 			RedisUtil.delete(keyLoginCount);
-			return ResultBuilder.buildOkData(new LinkedHashMap<String, Object>() {{
+			return ResponseEntityBuilder.buildOkData(new LinkedHashMap<String, Object>() {{
 				put("access_token", jwt);
 				put("expires_in", tokenProvider.getExpirationDateSecondsFromToken(jwt));
 			}});
@@ -116,28 +116,31 @@ public class AccoutJwtResource extends BaseResource {
 					cacheObject = 1;
 				}
 				msg = "密码错误，请重试";
-				if (cacheObject >= 5 && cacheObject < 9) {
+				boolean level1 = cacheObject >= 5 && cacheObject < 9;
+				boolean level2 = cacheObject == 9;
+				boolean level3 = cacheObject > 9;
+				if (level1) {
 					msg = "您还剩" + (10 - cacheObject) + "次密码输入机会，建议点击‘忘记密码’";
-				} else if (cacheObject == 9) {
+				} else if (level2) {
 					msg = "您还剩1次密码输入机会，再次错误，您的账号将被暂时锁定24小时，24小时内禁止登录";
-				} else if (cacheObject > 9) {
+				} else if (level3) {
 					msg = "您密码错误次数已超过10次，您的账号将被暂时锁定24小时，建议点击‘忘记密码’，凭手机号码重置密码，24小时后再尝试登录";
 					cacheObject = 0;
 //                    RedisUtil.setCacheObject(SecurityConstants.DEFAULT_LOGIN_AFTER_24_KEY +loginVo.getUsername(), DateUtil.addDays(PublicUtil.getCurrentDate(), 1), 1, TimeUnit.DAYS);
 				}
 				RedisUtil.setCacheObject(keyLoginCount, 1 + cacheObject);
 			}
-			return ResultBuilder.buildFail(HttpStatus.UNAUTHORIZED, msg);
+			return ResponseEntityBuilder.buildFail(HttpStatus.UNAUTHORIZED, msg);
 		}
 	}
 
 	/**
-	* @Description: 登出
-	* @Param: [authHeader, request, response]
-	* @return: org.springframework.http.ResponseEntity
-	* @Author: somewhere
-	* @Date: 2020/5/30
-	*/
+	 * @return org.springframework.http.ResponseEntity
+	 * @description 登出
+	 * @Param: [authHeader, request, response]
+	 * @author somewhere
+	 * @date 2020/5/30
+	 */
 	@GetMapping(value = "/logout")
 	@ApiOperation("登出")
 	public ResponseEntity logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
@@ -150,7 +153,7 @@ public class AccoutJwtResource extends BaseResource {
 		}
 		WebUtil.removeCookie(response, HttpHeaders.AUTHORIZATION);
 		request.getSession().invalidate();
-		return ResultBuilder.buildOk("退出登录成功");
+		return ResponseEntityBuilder.buildOk("退出登录成功");
 
 	}
 }

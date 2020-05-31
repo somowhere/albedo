@@ -101,7 +101,7 @@ public class FileUploadUtil {
 	public static final String extractFilename(MultipartFile file) {
 		String fileName = file.getOriginalFilename();
 		String extension = getExtension(file);
-		fileName = DateUtil.datePath() + StringUtil.SLASH + encodingFilename(fileName) + "." + extension;
+		fileName = DateUtil.datePath() + StringUtil.SLASH + encodingFilename(fileName) + StringUtil.DOT + extension;
 		return fileName;
 	}
 

@@ -72,7 +72,7 @@ public class JobInvokeUtil {
 	 * @return true是 false否
 	 */
 	public static boolean isValidClassName(String invokeTarget) {
-		return StringUtil.contains(invokeTarget, ".");
+		return StringUtil.contains(invokeTarget, StringUtil.DOT);
 	}
 
 	/**
@@ -82,8 +82,8 @@ public class JobInvokeUtil {
 	 * @return bean名称
 	 */
 	public static String getBeanName(String invokeTarget) {
-		String beanName = StringUtil.subBefore(invokeTarget, "(", false);
-		return StringUtil.subBefore(beanName, ".", true);
+		String beanName = StringUtil.subBefore(invokeTarget, StringUtil.BRACKETS_START, false);
+		return StringUtil.subBefore(beanName, StringUtil.DOT, true);
 	}
 
 	/**
@@ -93,8 +93,8 @@ public class JobInvokeUtil {
 	 * @return method方法
 	 */
 	public static String getMethodName(String invokeTarget) {
-		String methodName = StringUtil.subBefore(invokeTarget, "(", false);
-		return StringUtil.subAfter(methodName, ".", true);
+		String methodName = StringUtil.subBefore(invokeTarget, StringUtil.BRACKETS_START, false);
+		return StringUtil.subAfter(methodName, StringUtil.DOT, true);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class JobInvokeUtil {
 	 * @return method方法相关参数列表
 	 */
 	public static List<Object[]> getMethodParams(String invokeTarget) {
-		String methodStr = StringUtil.subBetween(invokeTarget, "(", ")");
+		String methodStr = StringUtil.subBetween(invokeTarget, StringUtil.BRACKETS_START, StringUtil.BRACKETS_END);
 		if (StringUtil.isEmpty(methodStr)) {
 			return null;
 		}

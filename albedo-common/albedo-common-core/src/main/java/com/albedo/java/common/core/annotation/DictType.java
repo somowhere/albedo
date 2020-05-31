@@ -10,6 +10,8 @@ import static java.lang.annotation.ElementType.METHOD;
 
 /**
  * bean中文名注解
+ *
+ * @author somewhere
  */
 @Target({METHOD, FIELD})
 @Retention(RetentionPolicy.RUNTIME)

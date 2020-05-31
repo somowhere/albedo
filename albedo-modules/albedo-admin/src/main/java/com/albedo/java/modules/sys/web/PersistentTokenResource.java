@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.Log;
@@ -49,9 +49,9 @@ public class PersistentTokenResource {
 	@Log(value = "令牌管理删除")
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_persistentToken_del')")
-	public R removeByIds(@RequestBody Set<String> ids) {
+	public Result removeByIds(@RequestBody Set<String> ids) {
 		persistentTokenService.removeByIds(ids);
-		return R.buildOk("操作成功");
+		return Result.buildOk("操作成功");
 	}
 
 	/**
@@ -63,9 +63,9 @@ public class PersistentTokenResource {
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_persistentToken_view')")
 	@Log(value = "令牌管理查看")
-	public R findPage(PageModel pm, PersistentTokenQueryCriteria persistentTokenQueryCriteria) {
+	public Result findPage(PageModel pm, PersistentTokenQueryCriteria persistentTokenQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, persistentTokenQueryCriteria);
-		return R.buildOkData(persistentTokenService.page(pm, wrapper));
+		return Result.buildOkData(persistentTokenService.page(pm, wrapper));
 	}
 
 }

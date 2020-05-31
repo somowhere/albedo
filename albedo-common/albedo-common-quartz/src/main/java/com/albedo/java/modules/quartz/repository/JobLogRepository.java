@@ -28,6 +28,7 @@ public interface JobLogRepository extends BaseRepository<JobLog> {
 
 	/**
 	 * 获取导出集合
+	 *
 	 * @param wrapper
 	 * @return
 	 */

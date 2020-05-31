@@ -18,6 +18,7 @@ package com.albedo.java.common.log.aspect;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import com.albedo.java.common.core.util.SpringContextHolder;
+import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.log.enums.LogType;
 import com.albedo.java.common.log.event.SysLogEvent;
 import com.albedo.java.common.log.util.SysLogUtils;
@@ -46,7 +47,7 @@ public class SysLogAspect {
 		String strMethodName = point.getSignature().getName();
 		SysLogAspect.log.debug("[类名]:{},[方法]:{}", strClassName, strMethodName);
 		// 方法路径
-		String methodName = point.getTarget().getClass().getName() + "." + signature.getName() + "()";
+		String methodName = point.getTarget().getClass().getName() + StringUtil.DOT + signature.getName() + "()";
 		StringBuilder params = new StringBuilder("{");
 		//参数值
 		Object[] argValues = point.getArgs();

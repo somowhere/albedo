@@ -6,6 +6,11 @@ import cn.hutool.core.builder.HashCodeBuilder;
 
 import java.io.Serializable;
 
+/**
+ * @author somewhere
+ * @description
+ * @date 2020/5/31 17:09
+ */
 public class Order implements Serializable {
 	/**
 	 * 默认方向

@@ -47,14 +47,26 @@ public interface UserService extends DataService<User, UserDto, String> {
 	UserInfo getInfo(UserVo userVo);
 
 	/**
-	 * 分页查询用户信息（含有角色信息）
+	 * findPage 分页查询用户信息（含有角色信息）
 	 *
-	 * @param pm 分页对象
-	 * @return
+	 * @param pm
+	 * @param userQueryCriteria
+	 * @param dataScope
+	 * @return com.baomidou.mybatisplus.core.metadata.IPage<com.albedo.java.modules.sys.domain.vo.UserVo>
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:35
 	 */
 	IPage<UserVo> findPage(PageModel pm, UserQueryCriteria userQueryCriteria, DataScope dataScope);
 
-
+	/**
+	 * findPage
+	 *
+	 * @param userQueryCriteria
+	 * @param dataScope
+	 * @return java.util.List<com.albedo.java.modules.sys.domain.vo.UserVo>
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:35
+	 */
 	List<UserVo> findPage(UserQueryCriteria userQueryCriteria, DataScope dataScope);
 
 	/**
@@ -89,20 +101,80 @@ public interface UserService extends DataService<User, UserDto, String> {
 	 */
 	List<User> listAncestorUsersByUsername(String username);
 
+	/**
+	 * lockOrUnLock
+	 *
+	 * @param idList
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:35
+	 */
 	void lockOrUnLock(Set<String> idList);
 
-
+	/**
+	 * resetPassword
+	 *
+	 * @param passwordRestVo
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:35
+	 */
 	void resetPassword(PasswordRestVo passwordRestVo);
 
+	/**
+	 * changePassword
+	 *
+	 * @param username
+	 * @param passwordChangeVo
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:35
+	 */
 	void changePassword(String username, PasswordChangeVo passwordChangeVo);
 
+	/**
+	 * findVoByUsername
+	 *
+	 * @param username
+	 * @return com.albedo.java.modules.sys.domain.vo.UserVo
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:35
+	 */
 	UserVo findVoByUsername(String username);
 
+	/**
+	 * save
+	 *
+	 * @param userExcelVo
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:35
+	 */
 	void save(UserExcelVo userExcelVo);
 
+	/**
+	 * findListByRoleId
+	 *
+	 * @param roleId
+	 * @return java.util.List<com.albedo.java.modules.sys.domain.User>
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:35
+	 */
 	List<User> findListByRoleId(String roleId);
 
+	/**
+	 * updateEmail
+	 *
+	 * @param username
+	 * @param userEmailDto
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:36
+	 */
 	void updateEmail(String username, UserEmailDto userEmailDto);
 
+	/**
+	 * updateAvatar
+	 *
+	 * @param username
+	 * @param avatar
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:36
+	 */
 	void updateAvatar(String username, String avatar);
 }

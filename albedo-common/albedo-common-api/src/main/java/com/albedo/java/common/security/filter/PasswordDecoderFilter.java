@@ -24,6 +24,7 @@ import cn.hutool.crypto.Padding;
 import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.http.HttpUtil;
 import com.albedo.java.common.core.config.ApplicationProperties;
+import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.security.filter.warpper.ParameterRequestWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -55,7 +56,7 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
 	}
 
 
-	public static String decryptAES(String data, String pass) {
+	public static String decryptAes(String data, String pass) {
 		AES aes = new AES(Mode.CBC, Padding.NoPadding,
 			new SecretKeySpec(pass.getBytes(), KEY_ALGORITHM),
 			new IvParameterSpec(pass.getBytes()));
@@ -67,18 +68,18 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 		// 不是登录请求，直接向下执行
-		if (!StrUtil.containsAnyIgnoreCase(request.getRequestURI(), applicationProperties.getAdminPath("/authenticate"))) {
+		if (!StrUtil.containsAnyIgnoreCase(request.getRequestURI(), applicationProperties.getAdminPath(SecurityConstants.AUTHENTICATE_URL))) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 
 		String queryParam = request.getQueryString();
-		Map<String, String> paramMap = HttpUtil.decodeParamMap(queryParam, CharsetUtil.UTF_8);
+		Map<String, String> paramMap = HttpUtil.decodeParamMap(queryParam, CharsetUtil.CHARSET_UTF_8);
 
 		String password = request.getParameter(PASSWORD);
 		if (StrUtil.isNotBlank(password)) {
 			try {
-				password = decryptAES(password, applicationProperties.getSecurity().getEncodeKey());
+				password = decryptAes(password, applicationProperties.getSecurity().getEncodeKey());
 			} catch (Exception e) {
 				log.error("密码解密失败:{}", password);
 				throw e;

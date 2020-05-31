@@ -18,7 +18,7 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.BeanUtil;
-import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.log.annotation.Log;
@@ -55,9 +55,9 @@ public class MenuResource extends BaseResource {
 	 * @return
 	 */
 	@GetMapping(CommonConstants.URL_ID_REGEX)
-	public R get(@PathVariable String id) {
+	public Result get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
-		return R.buildOkData(menuService.getOneDto(id));
+		return Result.buildOkData(menuService.getOneDto(id));
 	}
 
 	/**
@@ -66,8 +66,8 @@ public class MenuResource extends BaseResource {
 	 * @return 当前用户的树形菜单
 	 */
 	@GetMapping("/user-menu")
-	public R findTreeByUserId() {
-		return R.buildOkData(menuService.findTreeByUserId(SecurityUtil.getUser().getId()));
+	public Result findTreeByUserId() {
+		return Result.buildOkData(menuService.findTreeByUserId(SecurityUtil.getUser().getId()));
 	}
 
 
@@ -77,8 +77,8 @@ public class MenuResource extends BaseResource {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public R tree(MenuQueryCriteria menuQueryCriteria) {
-		return R.buildOkData(menuService.findTreeNode(menuQueryCriteria));
+	public Result tree(MenuQueryCriteria menuQueryCriteria) {
+		return Result.buildOkData(menuService.findTreeNode(menuQueryCriteria));
 	}
 
 	/**
@@ -88,8 +88,8 @@ public class MenuResource extends BaseResource {
 	 * @return 属性集合
 	 */
 	@GetMapping("/role/{roleId}")
-	public R findByRoleId(@PathVariable String roleId) {
-		return R.buildOkData(menuService.findListByRoleId(roleId)
+	public Result findByRoleId(@PathVariable String roleId) {
+		return Result.buildOkData(menuService.findListByRoleId(roleId)
 			.stream()
 			.map(MenuVo::getId)
 			.collect(Collectors.toList()));
@@ -104,9 +104,9 @@ public class MenuResource extends BaseResource {
 	@Log(value = "菜单管理编辑")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_menu_edit')")
-	public R save(@Valid @RequestBody com.albedo.java.modules.sys.domain.dto.MenuDto menuDto) {
+	public Result save(@Valid @RequestBody com.albedo.java.modules.sys.domain.dto.MenuDto menuDto) {
 		menuService.saveOrUpdate(menuDto);
-		return R.buildOk("操作成功");
+		return Result.buildOk("操作成功");
 	}
 
 	/**
@@ -118,9 +118,9 @@ public class MenuResource extends BaseResource {
 	@Log(value = "菜单管理编辑")
 	@PostMapping("/sort-update")
 	@PreAuthorize("@pms.hasPermission('sys_menu_edit')")
-	public R sortUpdate(@Valid @RequestBody MenuSortDto menuSortDto) {
+	public Result sortUpdate(@Valid @RequestBody MenuSortDto menuSortDto) {
 		menuService.sortUpdate(menuSortDto);
-		return R.buildOk("操作成功");
+		return Result.buildOk("操作成功");
 	}
 
 	/**
@@ -132,9 +132,9 @@ public class MenuResource extends BaseResource {
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_menu_del')")
 	@Log(value = "菜单管理删除")
-	public R removeByIds(@RequestBody Set<String> ids) {
+	public Result removeByIds(@RequestBody Set<String> ids) {
 		menuService.removeByIds(ids);
-		return R.buildOk("操作成功");
+		return Result.buildOk("操作成功");
 	}
 
 	/**
@@ -145,10 +145,10 @@ public class MenuResource extends BaseResource {
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_menu_view')")
 	@Log(value = "菜单管理查看")
-	public R<IPage<MenuVo>> findTreeList(MenuQueryCriteria menuQueryCriteria) {
+	public Result<IPage<MenuVo>> findTreeList(MenuQueryCriteria menuQueryCriteria) {
 		List<MenuVo> menuVoList = menuService.findTreeList(menuQueryCriteria).stream()
 			.map(item -> BeanUtil.copyPropertiesByClass(item, MenuVo.class)).collect(Collectors.toList());
-		return R.buildOkData(new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(menuVoList)),
+		return Result.buildOkData(new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(menuVoList)),
 			menuVoList.size()));
 	}
 

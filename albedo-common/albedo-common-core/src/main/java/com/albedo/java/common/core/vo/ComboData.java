@@ -4,6 +4,11 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * @author somewhere
+ * @description
+ * @date 2020/5/31 17:07
+ */
 @Data
 public class ComboData implements Serializable {
 

@@ -6,7 +6,6 @@ import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.core.constant.ScheduleConstants;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.vo.ScheduleVo;

@@ -3,7 +3,6 @@ package com.albedo.java.modules.gen.domain.xml;
 import javax.xml.bind.annotation.XmlAttribute;
 
 /**
- *
  * @author somewhere
  * @date 2017/4/19
  */

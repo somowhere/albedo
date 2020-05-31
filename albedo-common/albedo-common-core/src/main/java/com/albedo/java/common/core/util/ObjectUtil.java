@@ -7,6 +7,11 @@ import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Map;
 
+/**
+ * @author somewhere
+ * @description
+ * @date 2020/5/31 17:09
+ */
 @UtilityClass
 @Slf4j
 public class ObjectUtil extends cn.hutool.core.util.ObjectUtil {

@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 /**
  * Base abstract class for entities which will hold definitions for created, last modified by and created,
  * last modified by date.
+ *
  * @author somewhere
  */
 @Data
@@ -48,6 +49,7 @@ public abstract class AbstractDataEntity<T extends BaseEntity<T>> extends BaseEn
 
 	/**
 	 * 获取主键
+	 *
 	 * @return
 	 */
 	@Override
@@ -55,6 +57,7 @@ public abstract class AbstractDataEntity<T extends BaseEntity<T>> extends BaseEn
 
 	/**
 	 * 设置主键
+	 *
 	 * @param pk
 	 */
 	public abstract void setPk(Serializable pk);

@@ -412,18 +412,19 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
 		return filePath.substring(index + dirPaths.length());
 	}
 
-	public static String getFileMD5(File file) {
+	public static String getFileMd5(File file) {
 		if (!file.isFile()) {
 			return null;
 		}
 		MessageDigest digest = null;
 		FileInputStream in = null;
-		byte[] buffer = new byte[1024];
+		int length = 1024;
+		byte[] buffer = new byte[length];
 		int len;
 		try {
 			digest = MessageDigest.getInstance("MD5");
 			in = new FileInputStream(file);
-			while ((len = in.read(buffer, 0, 1024)) != -1) {
+			while ((len = in.read(buffer, 0, length)) != -1) {
 				digest.update(buffer, 0, len);
 			}
 			in.close();
@@ -459,8 +460,8 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
 	public static String getRandomFileName(String fileName) {
 		String fileNewName = "";
 		if (StringUtil.isNotEmpty(fileName)) {
-			String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
-			fileNewName = StringUtil.toAppendStr(UUID.randomUUID(), ".", extension);
+			String extension = fileName.substring(fileName.lastIndexOf(StringUtil.DOT) + 1);
+			fileNewName = StringUtil.toAppendStr(UUID.randomUUID(), StringUtil.DOT, extension);
 		}
 		return fileNewName;
 	}
@@ -487,14 +488,17 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
 		throws UnsupportedEncodingException {
 		final String agent = request.getHeader("USER-AGENT");
 		String filename = fileName;
-		if (agent.contains("MSIE")) {
+		boolean msie = agent.contains("MSIE");
+		boolean firefox = agent.contains("Firefox");
+		boolean chrome = agent.contains("Chrome");
+		if (msie) {
 			// IE浏览器
 			filename = URLEncoder.encode(filename, "utf-8");
 			filename = filename.replace("+", " ");
-		} else if (agent.contains("Firefox")) {
+		} else if (firefox) {
 			// 火狐浏览器
 			filename = new String(fileName.getBytes(), "ISO8859-1");
-		} else if (agent.contains("Chrome")) {
+		} else if (chrome) {
 			// google浏览器
 			filename = URLEncoder.encode(filename, "utf-8");
 		} else {

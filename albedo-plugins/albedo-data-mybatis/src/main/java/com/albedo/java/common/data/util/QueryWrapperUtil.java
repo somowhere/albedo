@@ -20,6 +20,8 @@ import java.util.List;
 
 /**
  * Created by somewhere on 2018/3/8.
+ *
+ * @author somewhere
  */
 @UtilityClass
 @Slf4j
@@ -85,7 +87,7 @@ public class QueryWrapperUtil {
 	}
 
 
-	private static void parseWarpper(QueryWrapper<?> entityWrapper, Query q, String attributeName, Object val){
+	private static void parseWarpper(QueryWrapper<?> entityWrapper, Query q, String attributeName, Object val) {
 		switch (q.operator()) {
 			case eq:
 				entityWrapper.eq(attributeName, val);

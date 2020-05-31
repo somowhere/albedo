@@ -69,12 +69,6 @@ public class LogOperate extends BaseEntity<LogOperate> {
 	@ExcelField(title = "日志标题")
 	private String title;
 	/**
-	 * 业务类型（0其它 1新增 2修改 3删除）
-	 */
-//	@ExcelField(title = "业务类型", dictType = DictNameConstants.SYS_BUSINESS_TYPE)
-//	@DictType(DictNameConstants.SYS_BUSINESS_TYPE)
-//	private String businessType;
-	/**
 	 * 日志类型
 	 */
 	@ExcelField(title = "日志类型")

@@ -22,6 +22,11 @@ import java.util.function.Function;
 import static springfox.documentation.schema.ResolvedTypes.modelRefFactory;
 import static springfox.documentation.spi.schema.contexts.ModelContext.inputParam;
 
+/**
+ * @author somewhere
+ * @description
+ * @date 2020/5/31 17:09
+ */
 public class PageableParameterBuilderPlugin implements OperationBuilderPlugin {
 
 	private final TypeNameExtractor nameExtractor;

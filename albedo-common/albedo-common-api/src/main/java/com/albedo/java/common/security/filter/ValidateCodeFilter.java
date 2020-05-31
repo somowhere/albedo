@@ -1,6 +1,7 @@
 package com.albedo.java.common.security.filter;
 
 import com.albedo.java.common.core.config.ApplicationProperties;
+import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.security.util.LoginUtil;
@@ -18,10 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
-* @Description: 
-* @Author: somewhere
-* @Date: 2020/5/30 11:26 下午
-*/
+ * @author somewhere
+ * @description
+ * @date 2020/5/30 11:26 下午
+ */
 @AllArgsConstructor
 @Slf4j
 public class ValidateCodeFilter extends OncePerRequestFilter {
@@ -31,7 +32,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-		if (StringUtil.equals(applicationProperties.getAdminPath("/authenticate"), request.getRequestURI())
+		if (StringUtil.equals(applicationProperties.getAdminPath(SecurityConstants.AUTHENTICATE_URL), request.getRequestURI())
 			&& StringUtil.equalsIgnoreCase(request.getMethod(), "post")
 		) {
 			if (!SpringContextHolder.isDevelopment()) {

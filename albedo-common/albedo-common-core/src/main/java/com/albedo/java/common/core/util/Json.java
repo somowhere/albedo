@@ -11,6 +11,11 @@ import org.slf4j.LoggerFactory;
 import java.sql.Timestamp;
 import java.util.*;
 
+/**
+ * @author somewhere
+ * @description
+ * @date 2020/5/31 17:08
+ */
 public class Json extends com.alibaba.fastjson.JSON {
 
 	protected static Logger logger = LoggerFactory.getLogger(Json.class);

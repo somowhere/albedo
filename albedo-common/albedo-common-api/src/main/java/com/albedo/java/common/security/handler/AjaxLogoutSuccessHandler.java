@@ -1,6 +1,6 @@
 package com.albedo.java.common.security.handler;
 
-import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.WebUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Spring Security logout handler, specialized for Ajax requests.
+ *
  * @author somewhere
  */
 @AllArgsConstructor
@@ -23,6 +24,6 @@ public class AjaxLogoutSuccessHandler extends AbstractAuthenticationTargetUrlReq
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
 								Authentication authentication) {
 		response.setStatus(HttpServletResponse.SC_OK);
-		WebUtil.renderJson(response, R.buildOk("退出登录成功"));
+		WebUtil.renderJson(response, Result.buildOk("退出登录成功"));
 	}
 }

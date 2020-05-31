@@ -15,7 +15,7 @@
  */
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.Log;
@@ -59,9 +59,9 @@ public class LogOperateResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_view')")
-	public R<IPage> getPage(PageModel pm, LogOperateQueryCriteria logOperateQueryCriteria) {
+	public Result<IPage> getPage(PageModel pm, LogOperateQueryCriteria logOperateQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, logOperateQueryCriteria);
-		return R.buildOkData(logOperateService.page(pm, wrapper));
+		return Result.buildOkData(logOperateService.page(pm, wrapper));
 	}
 
 	/**
@@ -73,8 +73,8 @@ public class LogOperateResource {
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_del')")
 	@Log(value = "操作日志删除")
-	public R removeById(@RequestBody Set<String> ids) {
-		return R.buildOkData(logOperateService.removeByIds(ids));
+	public Result removeById(@RequestBody Set<String> ids) {
+		return Result.buildOkData(logOperateService.removeByIds(ids));
 	}
 
 
@@ -89,13 +89,13 @@ public class LogOperateResource {
 
 	@GetMapping(value = "/user")
 	@ApiOperation("用户日志查询")
-	public R<Object> getUserLogs(PageModel pm, LogOperateQueryCriteria criteria) {
+	public Result<Object> getUserLogs(PageModel pm, LogOperateQueryCriteria criteria) {
 		criteria.setLogType(Lists.newArrayList(LogType.INFO.name(), LogType.WARN.name()));
 		criteria.setUsername(SecurityUtil.getUser().getUsername());
 		pm.addOrder(OrderItem.desc(LogOperate.F_SQL_CREATEDDATE));
 		QueryWrapper<LogOperate> wrapper = QueryWrapperUtil.<LogOperate>getWrapper(pm, criteria);
 
-		return R.buildOkData(logOperateService.page(pm, wrapper));
+		return Result.buildOkData(logOperateService.page(pm, wrapper));
 	}
 
 }

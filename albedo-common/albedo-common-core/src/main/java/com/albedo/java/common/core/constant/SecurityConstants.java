@@ -50,18 +50,11 @@ public interface SecurityConstants {
 	String FROM = "from";
 
 	/**
-	 * 手机号登录URL
-	 */
-	String MOBILE_TOKEN_URL = "/mobile/token";
-
-	/**
 	 * 默认登录URL
 	 */
-	String OAUTH_TOKEN_URL = "/oauth/token";
-	/**
-	 *
-	 */
-	String OAUTH_URL = "/oauth";
+	String AUTHENTICATE_URL = "/authenticate";
+
+
 	/**
 	 * grant_type
 	 */

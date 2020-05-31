@@ -16,7 +16,7 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.persistence.datascope.DataScope;
 import com.albedo.java.common.security.util.SecurityUtil;
@@ -54,9 +54,9 @@ public class DeptResource extends BaseResource {
 	 */
 	@GetMapping(CommonConstants.URL_ID_REGEX)
 	@PreAuthorize("@pms.hasPermission('sys_dept_view')")
-	public R get(@PathVariable String id) {
+	public Result get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
-		return R.buildOkData(deptService.getOneDto(id));
+		return Result.buildOkData(deptService.getOneDto(id));
 	}
 
 
@@ -66,12 +66,12 @@ public class DeptResource extends BaseResource {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public R tree(DeptQueryCriteria deptQueryCriteria) {
+	public Result tree(DeptQueryCriteria deptQueryCriteria) {
 		DataScope dataScope = SecurityUtil.getDataScope();
 		if (!dataScope.isAll()) {
 			deptQueryCriteria.setDeptIds(dataScope.getDeptIds());
 		}
-		return R.buildOkData(deptService.findTreeNode(deptQueryCriteria));
+		return Result.buildOkData(deptService.findTreeNode(deptQueryCriteria));
 	}
 
 	/**
@@ -82,12 +82,12 @@ public class DeptResource extends BaseResource {
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_dept_view')")
 	@Log(value = "部门管理查看")
-	public R<IPage<DeptVo>> findTreeList(DeptQueryCriteria deptQueryCriteria) {
+	public Result<IPage<DeptVo>> findTreeList(DeptQueryCriteria deptQueryCriteria) {
 		DataScope dataScope = SecurityUtil.getDataScope();
 		if (!dataScope.isAll()) {
 			deptQueryCriteria.setDeptIds(dataScope.getDeptIds());
 		}
-		return R.buildOkData(deptService.findTreeList(deptQueryCriteria));
+		return Result.buildOkData(deptService.findTreeList(deptQueryCriteria));
 	}
 
 	/**
@@ -99,9 +99,9 @@ public class DeptResource extends BaseResource {
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_dept_edit')")
 	@Log(value = "部门管理编辑")
-	public R save(@Valid @RequestBody DeptDto deptDto) {
+	public Result save(@Valid @RequestBody DeptDto deptDto) {
 		deptService.saveOrUpdate(deptDto);
-		return R.buildOk("操作成功");
+		return Result.buildOk("操作成功");
 	}
 
 	/**
@@ -111,9 +111,9 @@ public class DeptResource extends BaseResource {
 	@PutMapping
 	@Log(value = "用户管理锁定/解锁")
 	@PreAuthorize("@pms.hasPermission('sys_dept_lock')")
-	public R lockOrUnLock(@RequestBody Set<String> ids) {
+	public Result lockOrUnLock(@RequestBody Set<String> ids) {
 		deptService.lockOrUnLock(ids);
-		return R.buildOk("操作成功");
+		return Result.buildOk("操作成功");
 	}
 
 	/**
@@ -125,8 +125,8 @@ public class DeptResource extends BaseResource {
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_dept_del')")
 	@Log(value = "部门管理删除")
-	public R removeById(@RequestBody Set<String> ids) {
-		return R.buildOkData(deptService.removeByIds(ids));
+	public Result removeById(@RequestBody Set<String> ids) {
+		return Result.buildOkData(deptService.removeByIds(ids));
 	}
 
 

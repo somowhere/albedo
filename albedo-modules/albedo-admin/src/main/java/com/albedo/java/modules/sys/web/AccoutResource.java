@@ -5,7 +5,8 @@ import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.constant.SecurityConstants;
+import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.log.annotation.Log;
 import com.albedo.java.common.security.util.SecurityUtil;
@@ -58,7 +59,7 @@ public class AccoutResource extends BaseResource {
 	 * @param request the HTTP request.
 	 * @return the login if the user is authenticated.
 	 */
-	@GetMapping("/authenticate")
+	@GetMapping(SecurityConstants.AUTHENTICATE_URL)
 	public String isAuthenticated(HttpServletRequest request) {
 		log.debug("REST request to check if the current user is authenticated");
 		return request.getRemoteUser();
@@ -72,7 +73,7 @@ public class AccoutResource extends BaseResource {
 	 */
 	@ApiOperation(value = "修改密码")
 	@PostMapping(path = "/account/change-password")
-	public R changePassword(@Valid @RequestBody PasswordChangeVo passwordChangeVo) {
+	public Result changePassword(@Valid @RequestBody PasswordChangeVo passwordChangeVo) {
 		// 密码解密
 		RSA rsa = new RSA(applicationProperties.getRsa().getPrivateKey(), applicationProperties.getRsa().getPublicKey());
 		String oldPass = new String(rsa.decrypt(passwordChangeVo.getOldPassword(), KeyType.PrivateKey));
@@ -83,14 +84,14 @@ public class AccoutResource extends BaseResource {
 		passwordChangeVo.setOldPassword(oldPass);
 		userService.changePassword(SecurityUtil.getUser().getUsername(),
 			passwordChangeVo);
-		return R.buildOk("密码修改成功，请重新登录");
+		return Result.buildOk("密码修改成功，请重新登录");
 	}
 
 	@ApiOperation("修改头像")
 	@PostMapping(value = "/account/change-avatar")
-	public R<Object> updateAvatar(@RequestParam String avatar) {
+	public Result<Object> updateAvatar(@RequestParam String avatar) {
 		userService.updateAvatar(SecurityUtil.getUser().getUsername(), avatar);
-		return R.buildOk("头像修改成功");
+		return Result.buildOk("头像修改成功");
 	}
 
 	@Log("修改邮箱")
@@ -134,39 +135,39 @@ public class AccoutResource extends BaseResource {
 	 */
 	@PostMapping("/reset/password")
 	@ApiOperation(value = "重置密码")
-	public R resetPassword(@RequestBody @Valid PasswordRestVo passwordRestVo) {
+	public Result resetPassword(@RequestBody @Valid PasswordRestVo passwordRestVo) {
 		userService.resetPassword(passwordRestVo);
-		return R.buildOk("发送成功");
+		return Result.buildOk("发送成功");
 	}
 
 	@PostMapping(value = "/reset/email-send")
 	@ApiOperation("重置邮箱，发送验证码")
-	public R<Object> resetEmail(@RequestParam String email) {
+	public Result<Object> resetEmail(@RequestParam String email) {
 		EmailVo emailVo = emailService.sendEmail(email, CommonConstants.EMAIL_RESET_EMAIL_CODE);
 		emailService.send(emailVo, emailService.find());
-		return R.buildOk("发送成功");
+		return Result.buildOk("发送成功");
 	}
 
 	@PostMapping(value = "/reset/pass-send")
 	@ApiOperation("重置密码，发送验证码")
-	public R<Object> resetPass(@RequestParam String email) {
+	public Result<Object> resetPass(@RequestParam String email) {
 		EmailVo emailVo = emailService.sendEmail(email, CommonConstants.EMAIL_RESET_PWD_CODE);
 		emailService.send(emailVo, emailService.find());
-		return R.buildOk("发送成功");
+		return Result.buildOk("发送成功");
 	}
 
 	@GetMapping(value = "/validate-pass")
 	@ApiOperation("验证码验证重置密码")
-	public R<Object> validatedByPass(@RequestParam String email, @RequestParam String code) {
+	public Result<Object> validatedByPass(@RequestParam String email, @RequestParam String code) {
 		emailService.validated(CommonConstants.EMAIL_RESET_PWD_CODE + email, code);
-		return R.buildOk("验证成功");
+		return Result.buildOk("验证成功");
 	}
 
 	@GetMapping(value = "/validate-email")
 	@ApiOperation("验证码验证重置邮箱")
-	public R<Object> validatedByEmail(@RequestParam String email, @RequestParam String code) {
+	public Result<Object> validatedByEmail(@RequestParam String email, @RequestParam String code) {
 		emailService.validated(CommonConstants.EMAIL_RESET_EMAIL_CODE + email, code);
-		return R.buildOk("验证成功");
+		return Result.buildOk("验证成功");
 	}
 
 

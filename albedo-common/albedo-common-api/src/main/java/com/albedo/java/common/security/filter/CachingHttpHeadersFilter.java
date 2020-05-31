@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 前端静态资源缓存过滤器
  * This filter is used in production, to put HTTP cache headers with a long (1 month) expiration time.
+ *
  * @author somewhere
  */
 public class CachingHttpHeadersFilter implements Filter {

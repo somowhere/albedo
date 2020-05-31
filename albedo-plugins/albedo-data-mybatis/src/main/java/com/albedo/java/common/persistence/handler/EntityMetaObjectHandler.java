@@ -10,6 +10,11 @@ import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * @author somewhere
+ * @description
+ * @date 2020/5/31 17:07
+ */
 public class EntityMetaObjectHandler implements MetaObjectHandler {
 
 	private final AuditorAware auditorAware;

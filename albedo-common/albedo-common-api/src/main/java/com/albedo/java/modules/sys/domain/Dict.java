@@ -70,24 +70,24 @@ public class Dict extends TreeEntityAbstract<Dict> {
 	}
 
 	@Override
-    @XmlAttribute
+	@XmlAttribute
 	public String getDescription() {
 		return super.getDescription();
 	}
 
 	@Override
-    public void setDescription(String description) {
+	public void setDescription(String description) {
 		super.setDescription(description);
 	}
 
 	@Override
-    @XmlAttribute
+	@XmlAttribute
 	public String getName() {
 		return super.getName();
 	}
 
 	@Override
-    public void setName(String name) {
+	public void setName(String name) {
 		super.setName(name);
 	}
 

@@ -17,6 +17,11 @@ import java.beans.PropertyDescriptor;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * @author somewhere
+ * @description
+ * @date 2020/5/31 17:12
+ */
 @Slf4j
 @Deprecated
 public class SqlInjectorUtil {
@@ -52,7 +57,7 @@ public class SqlInjectorUtil {
 				}
 				String keyProperty = table.getKeyProperty();
 				if (StringUtil.isNotEmpty(selectProfix)) {
-					keyProperty = selectProfix + "." + keyProperty;
+					keyProperty = selectProfix + StringUtil.DOT + keyProperty;
 				}
 				columns.append(table.getKeyColumn()).append(" AS ").append(sqlWordConvert(keyProperty));
 
@@ -68,7 +73,7 @@ public class SqlInjectorUtil {
 					TableFieldInfo fieldInfo = (TableFieldInfo) iterator.next();
 					String property = fieldInfo.getProperty();
 					if (StringUtil.isNotEmpty(selectProfix)) {
-						property = selectProfix + "." + property;
+						property = selectProfix + StringUtil.DOT + property;
 					}
 					String wordConvert = sqlWordConvert(property);
 					if (StringUtil.isNotEmpty(columnPrefix)) {

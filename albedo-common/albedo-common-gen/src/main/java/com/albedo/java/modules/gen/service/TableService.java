@@ -19,6 +19,7 @@ public interface TableService extends DataService<Table, TableDto, String> {
 
 	/**
 	 * 判断表名是否存在
+	 *
 	 * @param tableName
 	 * @return
 	 */
@@ -27,6 +28,7 @@ public interface TableService extends DataService<Table, TableDto, String> {
 
 	/**
 	 * 获取物理表信息
+	 *
 	 * @param tableDto
 	 * @return
 	 */
@@ -34,6 +36,7 @@ public interface TableService extends DataService<Table, TableDto, String> {
 
 	/**
 	 * 获取主键
+	 *
 	 * @param tableDto
 	 * @return
 	 */
@@ -42,6 +45,7 @@ public interface TableService extends DataService<Table, TableDto, String> {
 
 	/**
 	 * 获取表列信息
+	 *
 	 * @param tableDto
 	 * @return
 	 */
@@ -50,6 +54,7 @@ public interface TableService extends DataService<Table, TableDto, String> {
 
 	/**
 	 * 读取数据库表集合信息
+	 *
 	 * @param tableDto
 	 * @return
 	 */
@@ -58,6 +63,7 @@ public interface TableService extends DataService<Table, TableDto, String> {
 
 	/**
 	 * 获取编辑所需要得表对象信息
+	 *
 	 * @param tableFromDto
 	 * @return
 	 */
@@ -66,12 +72,14 @@ public interface TableService extends DataService<Table, TableDto, String> {
 
 	/**
 	 * 批量删除
+	 *
 	 * @param ids
 	 */
 	void delete(Set<String> ids);
 
 	/**
 	 * 同步对于表在数据库中表列信息
+	 *
 	 * @param id
 	 */
 	void refreshColumn(String id);

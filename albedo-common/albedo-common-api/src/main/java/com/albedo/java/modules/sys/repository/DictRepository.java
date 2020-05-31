@@ -37,6 +37,7 @@ public interface DictRepository extends TreeRepository<Dict> {
 
 	/**
 	 * 字典树数据集合
+	 *
 	 * @param wrapper
 	 * @return
 	 */
@@ -44,6 +45,7 @@ public interface DictRepository extends TreeRepository<Dict> {
 
 	/**
 	 * 批量更新可用状态
+	 *
 	 * @param idList
 	 * @param available
 	 */

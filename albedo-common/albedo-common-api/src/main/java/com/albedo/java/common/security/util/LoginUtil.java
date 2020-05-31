@@ -27,10 +27,10 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
-* @Description:
-* @Author: somewhere
-* @Date: 2020/5/30 11:25 下午
-*/
+ * @author somewhere
+ * @description
+ * @date 2020/5/30 11:25 下午
+ */
 public class LoginUtil {
 	public final static String LOGIN_FAIL_MAP = "loginFailMap";
 
@@ -102,7 +102,7 @@ public class LoginUtil {
 		online.setStartTimestamp(new Date(session.getCreationTime()));
 		online.setLastAccessTime(new Date(session.getLastAccessedTime()));
 		online.setExpireTime((long) session.getMaxInactiveInterval());
-		online.setIpAddress(WebUtil.getIP(request));
+		online.setIpAddress(WebUtil.getIp(request));
 		online.setIpLocation(AddressUtil.getRealAddressByIp(online.getIpAddress()));
 		online.setUserAgent(request.getHeader("User-Agent"));
 		UserAgent userAgent = UserAgentUtil.parse(online.getUserAgent());
