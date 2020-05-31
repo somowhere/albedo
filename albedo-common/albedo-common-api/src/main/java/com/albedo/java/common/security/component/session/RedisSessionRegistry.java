@@ -36,12 +36,14 @@ public class RedisSessionRegistry implements SessionRegistry,
 	// ~ Methods
 	// ========================================================================================================
 
-	public List<Object> getAllPrincipals() {
+	@Override
+    public List<Object> getAllPrincipals() {
 		return new ArrayList<>(redisTemplate.boundHashOps(PRINCIPALS).keys());
 	}
 
-	public List<SessionInformation> getAllSessions(Object principal,
-												   boolean includeExpiredSessions) {
+	@Override
+    public List<SessionInformation> getAllSessions(Object principal,
+                                                   boolean includeExpiredSessions) {
 		Set<String> sessionsUsedByPrincipal = getPrincipals(principal);
 
 		if (sessionsUsedByPrincipal == null) {
@@ -66,18 +68,21 @@ public class RedisSessionRegistry implements SessionRegistry,
 		return list;
 	}
 
-	public SessionInformation getSessionInformation(String sessionId) {
+	@Override
+    public SessionInformation getSessionInformation(String sessionId) {
 		Assert.hasText(sessionId, "SessionId required as per interface contract");
 
 		return (SessionInformation) redisTemplate.boundHashOps(SESSIONIDS).get(sessionId);
 	}
 
-	public void onApplicationEvent(SessionDestroyedEvent event) {
+	@Override
+    public void onApplicationEvent(SessionDestroyedEvent event) {
 		String sessionId = event.getId();
 		removeSessionInformation(sessionId);
 	}
 
-	public void refreshLastRequest(String sessionId) {
+	@Override
+    public void refreshLastRequest(String sessionId) {
 		Assert.hasText(sessionId, "SessionId required as per interface contract");
 
 		SessionInformation info = getSessionInformation(sessionId);
@@ -91,7 +96,8 @@ public class RedisSessionRegistry implements SessionRegistry,
 
 	}
 
-	public void registerNewSession(String sessionId, Object principal) {
+	@Override
+    public void registerNewSession(String sessionId, Object principal) {
 		Assert.hasText(sessionId, "SessionId required as per interface contract");
 		Assert.notNull(principal, "Principal required as per interface contract");
 
@@ -130,7 +136,8 @@ public class RedisSessionRegistry implements SessionRegistry,
 		}
 	}
 
-	public void removeSessionInformation(String sessionId) {
+	@Override
+    public void removeSessionInformation(String sessionId) {
 		Assert.hasText(sessionId, "SessionId required as per interface contract");
 		userOnlineService.deleteBySessionId(sessionId);
 		SessionInformation info = null;

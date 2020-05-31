@@ -42,8 +42,9 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
 	private static Environment environment;
 
 	public static Environment getEnvironment() {
-		if (environment == null)
+		if (environment == null) {
 			environment = SpringContextHolder.getBean(Environment.class);
+		}
 		return environment;
 	}
 

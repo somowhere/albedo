@@ -26,6 +26,11 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+* @Description:
+* @Author: somewhere
+* @Date: 2020/5/30 11:25 下午
+*/
 public class LoginUtil {
 	public final static String LOGIN_FAIL_MAP = "loginFailMap";
 

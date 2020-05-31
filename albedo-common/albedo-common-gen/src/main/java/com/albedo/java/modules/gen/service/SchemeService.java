@@ -10,6 +10,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import java.util.List;
 import java.util.Map;
 
+/**
+* @Description: 
+* @Author: somewhere
+* @Date: 2020/5/30 11:25 下午
+*/
 public interface SchemeService extends DataService<Scheme, SchemeDto, String> {
 	List<Scheme> findAllListIdNot(String id);
 

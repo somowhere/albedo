@@ -50,6 +50,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+* @Description: 
+* @Author: somewhere
+* @Date: 2020/5/30 11:25 下午
+*/
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)

@@ -75,7 +75,8 @@ public class ScheduleConfig {
 											MessageListenerAdapter listenerAdapter) {
 		RedisMessageListenerContainer container = new RedisMessageListenerContainer();
 		container.setConnectionFactory(connectionFactory);
-		container.addMessageListener(listenerAdapter, new PatternTopic(ScheduleConstants.REDIS_SCHEDULE_DEFAULT_CHANNEL)); // new PatternTopic("这里是监听的通道的名字") 通道要和发布者发布消息的通道一致
+		// new PatternTopic("这里是监听的通道的名字") 通道要和发布者发布消息的通道一致
+		container.addMessageListener(listenerAdapter, new PatternTopic(ScheduleConstants.REDIS_SCHEDULE_DEFAULT_CHANNEL));
 		return container;
 	}
 

@@ -35,6 +35,7 @@ import static springfox.documentation.builders.PathSelectors.regex;
  * Warning! When having a lot of REST endpoints, Springfox can become a performance issue. In that
  * case, you can use a specific Spring profile for this class, so that only front-end developers
  * have access to the Swagger view.
+ * @author somewhere
  */
 @Configuration
 @ConditionalOnWebApplication

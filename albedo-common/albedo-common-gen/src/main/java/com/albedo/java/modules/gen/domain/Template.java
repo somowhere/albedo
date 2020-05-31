@@ -29,17 +29,32 @@ public class Template extends IdEntityAbstract<Template> {
 
 	public static final String F_NAME = "name";
 	private static final long serialVersionUID = 1L;
+	/**
+	 * 名称
+	 */
 	@Size(min = 1, max = 200)
 	@TableField("name")
-	private String name; // 名称
+	private String name;
+	/**
+	 *分类
+	 */
 	@TableField("category")
-	private String category; // 分类
+	private String category;
+	/**
+	 *生成文件路径
+	 */
 	@TableField("file_path")
-	private String filePath; // 生成文件路径
+	private String filePath;
+	/**
+	 *文件名
+	 */
 	@TableField("file_name")
-	private String fileName; // 文件名
+	private String fileName;
+	/**
+	 *内容
+	 */
 	@TableField("content")
-	private String content; // 内容
+	private String content;
 
 	private boolean ignoreOutput;
 

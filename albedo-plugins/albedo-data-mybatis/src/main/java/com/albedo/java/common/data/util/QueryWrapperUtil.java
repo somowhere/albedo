@@ -47,7 +47,9 @@ public class QueryWrapperUtil {
 
 	public static <T> QueryWrapper<T> getWrapper(Object query) {
 		QueryWrapper<T> entityWrapper = Wrappers.query();
-		if (query == null) return entityWrapper;
+		if (query == null) {
+			return entityWrapper;
+		}
 		Field[] fields = ReflectUtil.getFields(query.getClass());
 		try {
 			for (Field field : fields) {
@@ -72,56 +74,7 @@ public class QueryWrapperUtil {
 						});
 						continue;
 					}
-					switch (q.operator()) {
-						case eq:
-							entityWrapper.eq(attributeName, val);
-							break;
-						case ne:
-							entityWrapper.ne(attributeName, val);
-							break;
-						case gt:
-							entityWrapper.gt(attributeName, val);
-							break;
-						case ge:
-							entityWrapper.ge(attributeName, val);
-							break;
-						case lt:
-							entityWrapper.lt(attributeName, val);
-							break;
-						case le:
-							entityWrapper.le(attributeName, val);
-							break;
-						case like:
-							entityWrapper.like(attributeName, val);
-							break;
-						case notLike:
-							entityWrapper.notLike(attributeName, val);
-							break;
-						case likeLeft:
-							entityWrapper.likeLeft(attributeName, val);
-							break;
-						case likeRight:
-							entityWrapper.likeRight(attributeName, val);
-							break;
-						case in:
-							entityWrapper.in(attributeName, (Collection<?>) val);
-							break;
-						case notIn:
-							entityWrapper.notIn(attributeName, (Collection<?>) val);
-							break;
-						case isNotNull:
-							entityWrapper.isNotNull(attributeName);
-							break;
-						case isNull:
-							entityWrapper.isNull(attributeName);
-							break;
-						case between:
-							List<Object> between = new ArrayList<>((List<Object>) val);
-							entityWrapper.between(attributeName, between.get(0), between.get(1));
-							break;
-						default:
-							break;
-					}
+					parseWarpper(entityWrapper, q, attributeName, val);
 				}
 				field.setAccessible(accessible);
 			}
@@ -130,4 +83,59 @@ public class QueryWrapperUtil {
 		}
 		return entityWrapper;
 	}
+
+
+	private static void parseWarpper(QueryWrapper<?> entityWrapper, Query q, String attributeName, Object val){
+		switch (q.operator()) {
+			case eq:
+				entityWrapper.eq(attributeName, val);
+				break;
+			case ne:
+				entityWrapper.ne(attributeName, val);
+				break;
+			case gt:
+				entityWrapper.gt(attributeName, val);
+				break;
+			case ge:
+				entityWrapper.ge(attributeName, val);
+				break;
+			case lt:
+				entityWrapper.lt(attributeName, val);
+				break;
+			case le:
+				entityWrapper.le(attributeName, val);
+				break;
+			case like:
+				entityWrapper.like(attributeName, val);
+				break;
+			case notLike:
+				entityWrapper.notLike(attributeName, val);
+				break;
+			case likeLeft:
+				entityWrapper.likeLeft(attributeName, val);
+				break;
+			case likeRight:
+				entityWrapper.likeRight(attributeName, val);
+				break;
+			case in:
+				entityWrapper.in(attributeName, (Collection<?>) val);
+				break;
+			case notIn:
+				entityWrapper.notIn(attributeName, (Collection<?>) val);
+				break;
+			case isNotNull:
+				entityWrapper.isNotNull(attributeName);
+				break;
+			case isNull:
+				entityWrapper.isNull(attributeName);
+				break;
+			case between:
+				List<Object> between = new ArrayList<>((List<Object>) val);
+				entityWrapper.between(attributeName, between.get(0), between.get(1));
+				break;
+			default:
+				break;
+		}
+	}
+
 }

@@ -3,7 +3,11 @@ package com.albedo.java.common.core.util;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
-
+/**
+* @Description:
+* @Author: somewhere
+* @Date: 2020/5/30 11:24 下午
+*/
 public class EscapeUtil extends cn.hutool.core.util.EscapeUtil {
 
 	/**

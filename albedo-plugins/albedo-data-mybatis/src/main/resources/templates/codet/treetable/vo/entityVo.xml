@@ -49,7 +49,7 @@ public class ${ClassName}Vo extends TreeVo<${ClassName}Vo> {
 			</#if>
 		</#if>
 	</#list>
-	//columns END
+
 </#macro>
 
 ]]>

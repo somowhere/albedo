@@ -45,7 +45,7 @@
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<poi.version>3.17</poi.version>
 		<guava.version>20.0</guava.version>
-		<oshi.version>5.0.2</oshi.version>
+		<oshi.version>5.1.0</oshi.version>
 
 		<profile.dev.log.level>INFO</profile.dev.log.level>
 		<profile.prod.log.level>INFO</profile.prod.log.level>

@@ -18,11 +18,13 @@ public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor, In
 		this.executor = executor;
 	}
 
-	public void execute(Runnable task) {
+	@Override
+    public void execute(Runnable task) {
 		this.executor.execute(this.createWrappedRunnable(task));
 	}
 
-	public void execute(Runnable task, long startTimeout) {
+	@Override
+    public void execute(Runnable task, long startTimeout) {
 		this.executor.execute(this.createWrappedRunnable(task), startTimeout);
 	}
 
@@ -52,15 +54,18 @@ public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor, In
 		this.log.error("Caught async exception", e);
 	}
 
-	public Future<?> submit(Runnable task) {
+	@Override
+    public Future<?> submit(Runnable task) {
 		return this.executor.submit(this.createWrappedRunnable(task));
 	}
 
-	public <T> Future<T> submit(Callable<T> task) {
+	@Override
+    public <T> Future<T> submit(Callable<T> task) {
 		return this.executor.submit(this.createCallable(task));
 	}
 
-	public void destroy() throws Exception {
+	@Override
+    public void destroy() throws Exception {
 		if (this.executor instanceof DisposableBean) {
 			DisposableBean bean = (DisposableBean) this.executor;
 			bean.destroy();
@@ -68,7 +73,8 @@ public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor, In
 
 	}
 
-	public void afterPropertiesSet() throws Exception {
+	@Override
+    public void afterPropertiesSet() throws Exception {
 		if (this.executor instanceof InitializingBean) {
 			InitializingBean bean = (InitializingBean) this.executor;
 			bean.afterPropertiesSet();

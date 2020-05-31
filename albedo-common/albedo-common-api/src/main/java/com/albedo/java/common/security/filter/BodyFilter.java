@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+* @Description:
+* @Author: somewhere
+* @Date: 2020/5/30 11:24 下午
+*/
 public class BodyFilter extends OncePerRequestFilter {
 	private final ApplicationProperties applicationProperties;
 

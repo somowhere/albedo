@@ -8,15 +8,15 @@ import java.util.List;
 /**
  * 生成方案Entity
  *
+ * @author somewhere
  * @version 2013-10-15
  */
 @XmlRootElement(name = "category")
 public class GenCategory extends DictTemp {
 
-	private static final long serialVersionUID = 1L;
 	public static String CATEGORY_REF = "category-ref:";
-	private List<String> template; // 主表模板
-	private List<String> childTableTemplate;// 子表模板
+	private List<String> template;
+	private List<String> childTableTemplate;
 
 	public GenCategory() {
 		super();

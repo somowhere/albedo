@@ -60,7 +60,6 @@ class Entities {
 	 * </p>
 	 */
 	public static final Entities HTML40;
-	// package scoped for testing
 	static final String[][] ISO8859_1_ARRAY = {{"nbsp", "160"}, // non-breaking space
 		{"iexcl", "161"}, // inverted exclamation mark
 		{"cent", "162"}, // cent sign
@@ -159,7 +158,6 @@ class Entities {
 		{"yuml", "255"}, // ÿ - lowercase y, umlaut
 	};
 	// http://www.w3.org/TR/REC-html40/sgml/entities.html
-	// package scoped for testing
 	static final String[][] HTML40_ARRAY = {
 		// <!-- Latin Extended-B -->
 		{"fnof", "402"}, // latin small f with hook = function= florin, U+0192 ISOtech -->
@@ -699,7 +697,8 @@ class Entities {
 		 * {@inheritDoc}
 		 */
 		// TODO not thread-safe as there is a window between changing the two maps
-		public void add(String name, int value) {
+		@Override
+        public void add(String name, int value) {
 			mapNameToValue.put(name, new Integer(value));
 			mapValueToName.put(value, name);
 		}
@@ -707,14 +706,16 @@ class Entities {
 		/**
 		 * {@inheritDoc}
 		 */
-		public String name(int value) {
+		@Override
+        public String name(int value) {
 			return (String) mapValueToName.get(value);
 		}
 
 		/**
 		 * {@inheritDoc}
 		 */
-		public int value(String name) {
+		@Override
+        public int value(String name) {
 			Object value = mapNameToValue.get(name);
 			if (value == null) {
 				return -1;
@@ -742,7 +743,8 @@ class Entities {
 		/**
 		 * {@inheritDoc}
 		 */
-		public void add(String name, int value) {
+		@Override
+        public void add(String name, int value) {
 			mapNameToValue.put(name, new Integer(value));
 			mapValueToName.put(new Integer(value), name);
 		}
@@ -750,14 +752,16 @@ class Entities {
 		/**
 		 * {@inheritDoc}
 		 */
-		public String name(int value) {
+		@Override
+        public String name(int value) {
 			return (String) mapValueToName.get(new Integer(value));
 		}
 
 		/**
 		 * {@inheritDoc}
 		 */
-		public int value(String name) {
+		@Override
+        public int value(String name) {
 			Object value = mapNameToValue.get(name);
 			if (value == null) {
 				return -1;
@@ -792,7 +796,8 @@ class Entities {
 		/**
 		 * {@inheritDoc}
 		 */
-		public String name(int value) {
+		@Override
+        public String name(int value) {
 			if (value < LOOKUP_TABLE_SIZE) {
 				return lookupTable()[value];
 			}
@@ -860,7 +865,8 @@ class Entities {
 		/**
 		 * {@inheritDoc}
 		 */
-		public void add(String name, int value) {
+		@Override
+        public void add(String name, int value) {
 			ensureCapacity(size + 1);
 			names[size] = name;
 			values[size] = value;
@@ -887,7 +893,8 @@ class Entities {
 		/**
 		 * {@inheritDoc}
 		 */
-		public String name(int value) {
+		@Override
+        public String name(int value) {
 			for (int i = 0; i < size; ++i) {
 				if (values[i] == value) {
 					return names[i];
@@ -899,7 +906,8 @@ class Entities {
 		/**
 		 * {@inheritDoc}
 		 */
-		public int value(String name) {
+		@Override
+        public int value(String name) {
 			for (int i = 0; i < size; ++i) {
 				if (names[i].equals(name)) {
 					return values[i];
@@ -959,7 +967,8 @@ class Entities {
 		/**
 		 * {@inheritDoc}
 		 */
-		public void add(String name, int value) {
+		@Override
+        public void add(String name, int value) {
 			ensureCapacity(size + 1);
 			int insertAt = binarySearch(value);
 			if (insertAt > 0) {
@@ -976,7 +985,8 @@ class Entities {
 		/**
 		 * {@inheritDoc}
 		 */
-		public String name(int value) {
+		@Override
+        public String name(int value) {
 			int index = binarySearch(value);
 			if (index < 0) {
 				return null;

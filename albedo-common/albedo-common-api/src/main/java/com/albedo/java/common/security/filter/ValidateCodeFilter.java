@@ -17,6 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+* @Description: 
+* @Author: somewhere
+* @Date: 2020/5/30 11:26 下午
+*/
 @AllArgsConstructor
 @Slf4j
 public class ValidateCodeFilter extends OncePerRequestFilter {

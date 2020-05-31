@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * 业务表Entity
  *
+ * @author somewhere
  * @version 2013-10-15
  */
 @Data
@@ -21,7 +22,7 @@ public class TableQuery implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String name; // 名称
+	private String name;
 
 	private List<String> notNames;
 

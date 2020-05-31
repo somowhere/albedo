@@ -9,13 +9,12 @@ import java.io.Serializable;
 
 /**
  * View Model object for storing a user's credentials.
+ * @author somewhere
  */
 @Data
 @ToString
 public class PasswordChangeVo implements Serializable {
 
-	//    @NotBlank
-//    private String avatar;
 	@NotBlank
 	private String oldPassword;
 

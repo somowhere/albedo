@@ -44,7 +44,6 @@ public class DictDto extends TreeDto {
 	/**
 	 * 数据值
 	 */
-//	@NotBlank(message = "字典项数据值不能为空")
 	private String val;
 	/**
 	 * 类型

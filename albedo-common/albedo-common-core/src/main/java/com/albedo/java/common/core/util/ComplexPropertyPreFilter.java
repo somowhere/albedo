@@ -37,7 +37,8 @@ public class ComplexPropertyPreFilter implements PropertyPreFilter {
 		return excludes;
 	}
 
-	public boolean apply(JSONSerializer serializer, Object source, String name) {
+	@Override
+    public boolean apply(JSONSerializer serializer, Object source, String name) {
 		if (source == null) {
 			return true;
 		}

@@ -19,15 +19,30 @@ public class GenConfig implements Serializable {
 
 	private String codeUiPath;
 
-	private List<GenCategory> categoryList; // 代码模板分类
+	/**
+	 * 代码模板分类
+	 */
+	private List<GenCategory> categoryList;
 
-	private List<DictTemp> javaTypeList; // Java类型
+	/**
+	 *  Java类型
+	 */
+	private List<DictTemp> javaTypeList;
 
-	private List<DictTemp> queryTypeList; // 查询类型
+	/**
+	 * 查询类型
+	 */
+	private List<DictTemp> queryTypeList;
 
-	private List<DictTemp> showTypeList; // 显示类型
+	/**
+	 * 显示类型
+	 */
+	private List<DictTemp> showTypeList;
 
-	private List<DictTemp> viewTypeList; // 视图类型
+	/**
+	 * 视图类型
+	 */
+	private List<DictTemp> viewTypeList;
 
 
 	public GenConfig() {

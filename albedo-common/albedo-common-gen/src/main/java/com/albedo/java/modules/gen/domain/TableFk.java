@@ -10,6 +10,7 @@ import lombok.ToString;
 /**
  * 业务表Entity
  *
+ * @author somewhere
  * @version 2013-10-15
  */
 @Data
@@ -20,13 +21,13 @@ import lombok.ToString;
 public class TableFk {
 
 	@TableField("name")
-	private String name; // 名称
+	private String name;
 	@TableField("table_name")
-	private String tableName; // 描述
+	private String tableName;
 	@TableField("table_fk")
-	private String tableFk; // 外键列名
+	private String tableFk;
 	@TableField("table.id")
-	private Table table; // 归属表
+	private Table table;
 
 
 }

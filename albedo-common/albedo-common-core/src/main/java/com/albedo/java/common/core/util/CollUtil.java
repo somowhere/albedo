@@ -12,6 +12,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+/**
+* @Description:
+* @Author: somewhere
+* @Date: 2020/5/30 11:24 下午
+*/
 @UtilityClass
 @Slf4j
 public class CollUtil extends cn.hutool.core.collection.CollUtil {

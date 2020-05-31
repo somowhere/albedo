@@ -7,6 +7,11 @@ import com.baomidou.mybatisplus.core.toolkit.sql.SqlScriptUtils;
 
 import java.util.stream.Collectors;
 
+/**
+* @Description:
+* @Author: somewhere
+* @Date: 2020/5/30 11:25 下午
+*/
 @Deprecated
 public abstract class LogicAbstractCustomMethod extends AbstractMethod {
 

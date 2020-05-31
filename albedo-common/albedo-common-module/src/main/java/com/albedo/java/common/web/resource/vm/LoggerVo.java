@@ -5,20 +5,21 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
  * View Model object for storing a Logback logger.
+ * @author somewhere
  */
-public class LoggerVM {
+public class LoggerVo {
 
 	private String name;
 
 	private String level;
 
-	public LoggerVM(Logger logger) {
+	public LoggerVo(Logger logger) {
 		this.name = logger.getName();
 		this.level = logger.getEffectiveLevel().toString();
 	}
 
 	@JsonCreator
-	public LoggerVM() {
+	public LoggerVo() {
 	}
 
 	public String getName() {

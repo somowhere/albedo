@@ -3,6 +3,7 @@ package com.albedo.java.common.security.util;
 
 /**
  * Utility class for generating random Strings.
+ * @author somewhere
  */
 public final class RandomUtil extends cn.hutool.core.util.RandomUtil {
 

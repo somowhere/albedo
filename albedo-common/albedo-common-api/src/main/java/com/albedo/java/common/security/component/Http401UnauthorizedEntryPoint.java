@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Returns a 401 error code (Unauthorized) to the client.
+ * @author somewhere
  */
 public class Http401UnauthorizedEntryPoint implements AuthenticationEntryPoint {
 

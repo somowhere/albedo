@@ -31,14 +31,14 @@ public class PageQuery<T> extends Page<T> {
 			while (iterator.hasNext()) {
 				Sort.Order order = iterator.next();
 				if (order.getDirection().isAscending()) {
-					if (ObjectUtil.isEmpty(this.ascs())) {
+					if (ObjectUtil.isEmpty(this.getOrders())) {
 						this.setAscs(Lists.newArrayList(order.getProperty()));
 					} else {
 						ArrayUtil.append(this.ascs(), order.getProperty());
 					}
 
 				} else if (order.getDirection().isDescending()) {
-					if (ObjectUtil.isEmpty(this.descs())) {
+					if (ObjectUtil.isEmpty(this.getOrders())) {
 						this.setDescs(Lists.newArrayList(order.getProperty()));
 					} else {
 						ArrayUtil.append(this.descs(), order.getProperty());

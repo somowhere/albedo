@@ -54,7 +54,8 @@ public class GeneralResource {
 		});
 		// Date 类型转换
 		binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
-			public void setAsText(String text) {
+			@Override
+            public void setAsText(String text) {
 				String decode = URLUtil.decode(text);
 				try {
 					setValue(DateUtil.parse(decode).toJdkDate());

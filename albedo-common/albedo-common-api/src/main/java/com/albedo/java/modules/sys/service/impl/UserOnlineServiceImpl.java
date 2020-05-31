@@ -56,7 +56,7 @@ public class UserOnlineServiceImpl extends
 	@Override
 	public void saveByEvent(UserOnline userOnline) {
 		this.remove(Wrappers.<UserOnline>lambdaQuery().eq(UserOnline::getUserId, userOnline.getUserId()));
-		repository.insert(userOnline);
+		saveOrUpdate(userOnline);
 	}
 
 }

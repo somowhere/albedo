@@ -11,12 +11,14 @@ import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
 public class CustomFieldModule extends SimpleModule {
 
 
-	public void setupModule(Module.SetupContext context) {
+	@Override
+    public void setupModule(Module.SetupContext context) {
 		super.setupModule(context);
 
 		context.addBeanSerializerModifier(new BeanSerializerModifier() {
 
-			public JsonSerializer<?> modifySerializer(
+			@Override
+            public JsonSerializer<?> modifySerializer(
 				SerializationConfig config,
 				BeanDescription beanDesc,
 				JsonSerializer<?> serializer) {

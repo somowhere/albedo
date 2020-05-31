@@ -101,6 +101,6 @@ public class JobDto extends DataDto<Integer> {
 	 */
 	@Size(max = 1)
 	private String status;
-	//columns END
+
 
 }

@@ -58,13 +58,7 @@ public class GenUtil {
 			} else if (StringUtil.startWithIgnoreCase(column.getJdbcType(), "DATETIME") || StringUtil.startWithIgnoreCase(column.getJdbcType(), "DATE") || StringUtil.startWithIgnoreCase(column.getJdbcType(), "TIMESTAMP")) {
 				column.setJavaType("java.util.Date");
 				column.setShowType("dateselect");
-			} else if (StringUtil.startWithIgnoreCase(column.getJdbcType(), "INT")
-				|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "TINYINT")
-				|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "BIGINT")
-				|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "NUMBER")
-				|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "DECIMAL")
-				|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "BIT")
-				|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "DOUBLE")) {
+			} else if (StringUtil.startWithIgnoreCase(column.getJdbcType(), "INT")|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "TINYINT")|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "BIGINT")|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "NUMBER")|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "DECIMAL")|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "BIT")|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "DOUBLE")) {
 				// 如果是浮点型
 				String[] ss = StringUtil.split(StringUtil.subBetween(column.getJdbcType(), "(", ")"), ",");
 				if (ss != null && ss.length == 2 && Integer.parseInt(ss[1]) > 0) {
@@ -178,7 +172,6 @@ public class GenUtil {
 		}
 
 		return "";
-		// String path = StringUtil.getProjectPath() + StringUtil.replaceEach(".src.main.java." + GenUtil.class.getName(), new String[] { "util." + GenUtil.class.getSimpleName(), "." }, new String[] { "template", File.separator });
 	}
 
 	/**
@@ -276,8 +269,7 @@ public class GenUtil {
 		model.put("urlPrefix", model.get("moduleName") + (StringUtil.isNotBlank(scheme.getSubModuleName()) ? StringUtil.SLASH +
 			StringUtil.lowerCase(scheme.getSubModuleName()) : "") + StringUtil.SLASH + model.get("classNameUrl")
 		);
-		model.put("viewPrefix", // StringUtil.substringAfterLast(model.get("packageName"),".")+StringUtil.SLASH+
-			model.get("urlPrefix"));
+		model.put("viewPrefix",  model.get("urlPrefix"));
 		model.put("permissionPrefix", model.get("moduleName") + (StringUtil.isNotBlank(scheme.getSubModuleName()) ? "_" + StringUtil.lowerCase(scheme.getSubModuleName()) : "") + "_" + model.get("className"));
 		model.put("table", scheme.getTableDto());
 		model.put("scheme", scheme);

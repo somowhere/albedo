@@ -49,7 +49,6 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, 
 		int rows = repository.updateById(job);
 		if (rows > 0) {
 			RedisUtil.sendScheduleChannelMessage(ScheduleVo.createPause(jobId, jobGroup));
-//			scheduler.pauseJob(ScheduleUtils.getJobKey(jobId, jobGroup));
 		}
 		return rows;
 	}
@@ -68,7 +67,6 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, 
 		int rows = repository.updateById(job);
 		if (rows > 0) {
 			RedisUtil.sendScheduleChannelMessage(ScheduleVo.createResume(jobId, jobGroup));
-//			scheduler.resumeJob(ScheduleUtils.getJobKey(jobId, jobGroup));
 		}
 		return rows;
 	}
@@ -86,7 +84,6 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, 
 		int rows = repository.deleteById(jobId);
 		if (rows > 0) {
 			RedisUtil.sendScheduleChannelMessage(ScheduleVo.createDelete(jobId, jobGroup));
-//			scheduler.deleteJob(ScheduleUtils.getJobKey(jobId, jobGroup));
 		}
 		return rows;
 	}
@@ -134,7 +131,6 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, 
 	public void run(Job job) {
 		Integer jobId = job.getId();
 		String jobGroup = job.getGroup();
-//		scheduler.triggerJob(ScheduleUtils.getJobKey(jobId, jobGroup), dataMap);
 		RedisUtil.sendScheduleChannelMessage(ScheduleVo.createRun(jobId, jobGroup));
 	}
 
@@ -159,7 +155,6 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, 
 				int rows = repository.insert(job);
 				if (rows > 0) {
 					RedisUtil.sendScheduleChannelMessage(ScheduleVo.createDataAdd(Json.toJsonString(job)));
-//					ScheduleUtils.createScheduleJob(scheduler, job);
 				}
 			} else {
 				Job temp = repository.selectById(job.getId());
@@ -181,15 +176,6 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, 
 	 * @param jobOldGroup 任务组名
 	 */
 	public void updateSchedulerJob(Job job, String jobOldGroup) {
-//		String jobId = job.getId();
-//		// 判断是否存在
-//		JobKey jobKey = ScheduleUtils.getJobKey(jobId, jobGroup);
-//		if (scheduler.checkExists(jobKey)) {
-//			// 防止创建时存在数据问题 先移除，然后在执行创建操作
-//			scheduler.deleteJob(jobKey);
-//		}
-//		ScheduleUtils.createScheduleJob(scheduler, job);
-
 		RedisUtil.sendScheduleChannelMessage(ScheduleVo.createDataUpdate(Json.toJsonString(job), jobOldGroup));
 	}
 

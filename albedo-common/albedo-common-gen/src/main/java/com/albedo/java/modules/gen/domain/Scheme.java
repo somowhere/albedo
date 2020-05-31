@@ -48,41 +48,76 @@ public class Scheme extends IdEntityAbstract<Scheme> {
 	private static final long serialVersionUID = 1L;
 	@Size(min = 1, max = 200)
 	@TableField("name")
-	private String name; // 名称
+	private String name;
 	@TableField("category")
-	private String category; // 分类
+	private String category;
 	@TableField("view_type")
-	private Integer viewType; // 视图类型 0 普通表格 1 表格采用ajax刷新
+	private Integer viewType;
+	/**
+	 * 生成包路径
+	 */
 	@TableField("package_name")
-	private String packageName; // 生成包路径
+	private String packageName;
+	/**
+	 * 生成模块名
+	 */
 	@TableField("module_name")
-	private String moduleName; // 生成模块名
+	private String moduleName;
+	/**
+	 * 生成子模块名
+	 */
 	@TableField("sub_module_name")
-	private String subModuleName; // 生成子模块名
+	private String subModuleName;
+	/**
+	 * 生成功能名
+	 */
 	@TableField("function_name")
-	private String functionName; // 生成功能名
+	private String functionName;
+	/**
+	 * 生成功能名（简写）
+	 */
 	@TableField("function_name_simple")
-	private String functionNameSimple; // 生成功能名（简写）
+	private String functionNameSimple;
+	/**
+	 * 生成功能作者
+	 */
 	@TableField("function_author")
-	private String functionAuthor; // 生成功能作者
+	private String functionAuthor;
+	/**
+	 * 业务表名
+	 */
 	@TableField(exist = false)
 	@BeanField(ingore = true)
-	private Table table; // 业务表名
+	private Table table;
+	/**
+	 * 业务表名主键
+	 */
 	@TableField("gen_table_id")
-	private String tableId; // 业务表名
-
+	private String tableId;
+	/**
+	 * flase：保存方案； ture：保存方案并生成代码
+	 */
 	@JSONField(serialize = false)
 	@TableField(exist = false)
-	private Boolean genCode = false; // flase：保存方案； ture：保存方案并生成代码
+	private Boolean genCode = false;
+	/**
+	 * 是否替换现有文件 true：替换文件 ；false：不替换；
+	 */
 	@JSONField(serialize = false)
 	@TableField(exist = false)
-	private Boolean replaceFile = false; // 是否替换现有文件 true：替换文件 ；false：不替换；
+	private Boolean replaceFile = false;
+	/**
+	 * 是否同步菜单数据 true：同步；false：不同步
+	 */
 	@JSONField(serialize = false)
 	@TableField(exist = false)
-	private Boolean syncMenu = false; // 是否同步菜单数据 true：同步；false：不同步
+	private Boolean syncMenu = false;
+	/**
+	 * 上级模块 ID 仅当syncMenu 为 true有效
+	 */
 	@JSONField(serialize = false)
 	@TableField(exist = false)
-	private String parentMenuId; // 上级模块 ID 仅当syncMenu 为 true有效
+	private String parentMenuId;
 
 	public Scheme(String id) {
 		super();

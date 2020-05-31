@@ -10,6 +10,11 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+* @Description:
+* @Author: somewhere
+* @Date: 2020/5/30 11:24 下午
+*/
 public class BodyRequestWrapper extends HttpServletRequestWrapper {
 
 

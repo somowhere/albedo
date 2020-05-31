@@ -327,7 +327,8 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 		log.debug("Changed password for User: {}", user);
 	}
 
-	public void changePassword(String username, PasswordChangeVo passwordChangeVo) {
+	@Override
+    public void changePassword(String username, PasswordChangeVo passwordChangeVo) {
 
 		Assert.isTrue(passwordChangeVo != null &&
 			checkPasswordLength(passwordChangeVo.getNewPassword()), "密码格式有误");
@@ -346,7 +347,8 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	}
 
 
-	public void save(@Valid UserExcelVo userExcelVo) {
+	@Override
+    public void save(@Valid UserExcelVo userExcelVo) {
 		UserDto user = new UserDto();
 		BeanUtils.copyProperties(userExcelVo, user);
 		Dept dept = deptService.getOne(

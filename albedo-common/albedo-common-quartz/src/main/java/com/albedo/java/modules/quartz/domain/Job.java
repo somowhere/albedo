@@ -152,7 +152,7 @@ public class Job extends AbstractDataEntity<Job> {
 	 */
 	private String email;
 
-	//columns END
+
 	@Override
 	public Serializable pkVal() {
 		return this.getId();

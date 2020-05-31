@@ -29,10 +29,17 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Optional;
 
+/**
+* @Description:
+* @Author: somewhere
+* @Date: 2020/5/30 10:01 下午
+*/
 @Component
 @Slf4j
 public class PersistentTokenRememberMeService extends AbstractRememberMeServices {
-	// Token is valid for one month
+	/**
+	 * Token is valid for one month
+	 */
 	private static final int TOKEN_VALIDITY_DAYS = 31;
 	private static final int TOKEN_LENGTH = 2;
 
@@ -62,8 +69,8 @@ public class PersistentTokenRememberMeService extends AbstractRememberMeServices
 	@Override
 	protected UserDetails processAutoLoginCookie(String[] cookieTokens, HttpServletRequest request,
 												 HttpServletResponse response) {
-
-		synchronized (this) { // prevent 2 authentication requests from the same user in parallel
+		// prevent 2 authentication requests from the same user in parallel
+		synchronized (this) {
 			if (cookieTokens == null) {
 				return null;
 			}

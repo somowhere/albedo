@@ -131,10 +131,13 @@ public class AccoutJwtResource extends BaseResource {
 		}
 	}
 
-
-	/*
-	 * 登出
-	 */
+	/**
+	* @Description: 登出
+	* @Param: [authHeader, request, response]
+	* @return: org.springframework.http.ResponseEntity
+	* @Author: somewhere
+	* @Date: 2020/5/30
+	*/
 	@GetMapping(value = "/logout")
 	@ApiOperation("登出")
 	public ResponseEntity logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,

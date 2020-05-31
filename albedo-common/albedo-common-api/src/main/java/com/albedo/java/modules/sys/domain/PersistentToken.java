@@ -38,7 +38,9 @@ public class PersistentToken extends GeneralEntity<PersistentToken> {
 	@TableField("token_date")
 	private LocalDateTime tokenDate;
 
-	//an IPV6 address max length is 39 characters
+	/**
+	 * an IPV6 address max length is 39 characters
+	 */
 	@Size(max = 39)
 	@TableField("ip_address")
 	private String ipAddress;

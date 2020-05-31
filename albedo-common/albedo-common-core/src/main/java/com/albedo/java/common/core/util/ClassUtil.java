@@ -136,7 +136,6 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 			try {
 				an = temp.getDeclaredField(pName).getAnnotation(annotationClass);
 			} catch (Exception e) {
-				// logger.debug(e.getMessage());
 			}
 			try {
 				if (an == null) {
@@ -144,7 +143,6 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 						.getAnnotation(annotationClass);
 				}
 			} catch (Exception e) {
-				// logger.debug(e.getMessage());
 			}
 			if (temp != null && !(temp.getClass().getName().equals(Object.class.getName()))) {
 				temp = temp.getSuperclass();

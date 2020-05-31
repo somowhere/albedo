@@ -171,7 +171,7 @@ public class RoleResource extends BaseResource {
 	 * @return /
 	 */
 	private int checkLevel(Integer level) {
-		Integer min = roleService.findLevelByUserId(SecurityUtil.getUser().getId());
+		int min = roleService.findLevelByUserId(SecurityUtil.getUser().getId());
 		if (level != null) {
 			if (level < min) {
 				throw new BadRequestException("权限不足，你的角色级别：" + min + "，低于操作的角色级别：" + level);

@@ -197,7 +197,7 @@ public class ExcelUtil<T> {
 
 		if (rows > 0) {
 			// 定义一个map用于存放excel列的序号和field.
-			Map<String, Integer> cellMap = new HashMap<String, Integer>();
+			Map<String, Integer> cellMap = new HashMap<>(32);
 			// 获取表头
 			Row heard = sheet.getRow(0);
 			for (int i = 0; i < heard.getPhysicalNumberOfCells(); i++) {
@@ -212,7 +212,7 @@ public class ExcelUtil<T> {
 			// 有数据时才处理 得到类的所有field.
 			Field[] allFields = clazz.getDeclaredFields();
 			// 定义一个map用于存放列的序号和field.
-			Map<Integer, Field> fieldsMap = new HashMap<Integer, Field>();
+			Map<Integer, Field> fieldsMap = new HashMap<Integer, Field>(32);
 			for (int col = 0; col < allFields.length; col++) {
 				Field field = allFields[col];
 				ExcelField attr = field.getAnnotation(ExcelField.class);
@@ -391,7 +391,7 @@ public class ExcelUtil<T> {
 	 */
 	private Map<String, CellStyle> createStyles(Workbook wb) {
 		// 写入各条记录,每条记录对应excel表中的一行
-		Map<String, CellStyle> styles = new HashMap<String, CellStyle>();
+		Map<String, CellStyle> styles = new HashMap<String, CellStyle>(12);
 		CellStyle style = wb.createCellStyle();
 		style.setAlignment(HorizontalAlignment.CENTER);
 		style.setVerticalAlignment(VerticalAlignment.CENTER);

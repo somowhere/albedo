@@ -25,11 +25,11 @@ public class TemplateVo {
 	public static final String F_NAME = "name";
 	private static final long serialVersionUID = 1L;
 	@Size(min = 1, max = 200)
-	private String name; // 名称
-	private String category; // 分类
-	private String filePath; // 生成文件路径
-	private String fileName; // 文件名
-	private String content; // 内容
+	private String name; 
+	private String category;
+	private String filePath;
+	private String fileName;
+	private String content;
 
 	private boolean ignoreOutput;
 

@@ -3,7 +3,9 @@ package com.albedo.java.modules.gen.domain.xml;
 import javax.xml.bind.annotation.XmlAttribute;
 
 /**
- * Created by somewhere on 2017/4/19.
+ *
+ * @author somewhere
+ * @date 2017/4/19
  */
 public class DictTemp {
 

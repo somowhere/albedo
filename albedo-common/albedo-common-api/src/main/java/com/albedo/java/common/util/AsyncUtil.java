@@ -22,7 +22,6 @@ public class AsyncUtil {
 	 */
 	public static void recordLogLogin(LogOperate logOperate) {
 
-//		logOperate.setBusinessType(BusinessType.LOGIN.name());
 		logOperate.setOperatorType(OperatorType.MANAGE.name());
 		// 打印信息到日志
 		sys_user_logger.info("[logOperateVo]:{}", logOperate);

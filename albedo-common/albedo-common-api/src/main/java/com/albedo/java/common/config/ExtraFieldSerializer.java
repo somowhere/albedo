@@ -21,6 +21,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+* @Description:
+* @Author: somewhere
+* @Date: 2020/5/30 11:24 下午
+*/
 @Log4j2
 public class ExtraFieldSerializer extends BeanSerializerBase {
 
@@ -47,12 +52,14 @@ public class ExtraFieldSerializer extends BeanSerializerBase {
 		super(source, objectIdWriter, filterId);
 	}
 
-	public BeanSerializerBase withObjectIdWriter(
+	@Override
+    public BeanSerializerBase withObjectIdWriter(
 		ObjectIdWriter objectIdWriter) {
 		return new ExtraFieldSerializer(this, objectIdWriter);
 	}
 
-	protected BeanSerializerBase withIgnorals(Set<String> toIgnore) {
+	@Override
+    protected BeanSerializerBase withIgnorals(Set<String> toIgnore) {
 		return new ExtraFieldSerializer(this, toIgnore);
 	}
 
@@ -67,7 +74,8 @@ public class ExtraFieldSerializer extends BeanSerializerBase {
 	}
 
 
-	protected void serializeFields(Object bean, JsonGenerator gen, SerializerProvider provider) throws IOException {
+	@Override
+    protected void serializeFields(Object bean, JsonGenerator gen, SerializerProvider provider) throws IOException {
 		BeanPropertyWriter[] props;
 		if (this._filteredProps != null && provider.getActiveView() != null) {
 			props = this._filteredProps;
@@ -159,8 +167,9 @@ public class ExtraFieldSerializer extends BeanSerializerBase {
 	}
 
 
-	public void serialize(Object bean, JsonGenerator jgen,
-						  SerializerProvider provider) throws IOException {
+	@Override
+    public void serialize(Object bean, JsonGenerator jgen,
+                          SerializerProvider provider) throws IOException {
 		jgen.writeStartObject();
 		serializeFields(bean, jgen, provider);
 		jgen.writeEndObject();

@@ -252,7 +252,6 @@ public class MenuServiceImpl extends
 
 
 		Menu module = new Menu();
-//		module.setPermission(permission.substring(0, permission.length() - 1));
 
 		module.setName(moduleName);
 		module.setParentId(parentMenu.getId());
@@ -265,32 +264,26 @@ public class MenuServiceImpl extends
 		Menu moduleView = new Menu();
 		moduleView.setParent(module);
 		moduleView.setName(moduleName + "查看");
-//		moduleView.setIcon("fa-info-circle");
 		moduleView.setPermission(permission + "view");
 		moduleView.setParentId(module.getId());
 		moduleView.setType(Menu.TYPE_BUTTON);
 		moduleView.setSort(20);
-//		moduleView.setPath(url);
 		save(moduleView);
 		Menu moduleEdit = new Menu();
 		moduleEdit.setParent(module);
 		moduleEdit.setName(moduleName + "编辑");
-//        moduleEdit.setIconCls("icon-edit-fill");
 		moduleEdit.setPermission(permission + "edit");
 		moduleEdit.setParentId(module.getId());
 		moduleEdit.setType(Menu.TYPE_BUTTON);
 		moduleEdit.setSort(40);
-//		moduleEdit.setPath(url);
 		save(moduleEdit);
 		Menu moduleDelete = new Menu();
 		moduleDelete.setParent(module);
 		moduleDelete.setName(moduleName + "删除");
-//        moduleDelete.setIconCls("fa-trash-o");
 		moduleDelete.setPermission(permission + "del");
 		moduleDelete.setParentId(module.getId());
 		moduleDelete.setType(Menu.TYPE_BUTTON);
 		moduleDelete.setSort(80);
-//		moduleDelete.setPath(url);
 		save(moduleDelete);
 		return true;
 	}

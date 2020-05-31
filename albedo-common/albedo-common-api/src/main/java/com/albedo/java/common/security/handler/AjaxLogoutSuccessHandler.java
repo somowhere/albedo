@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Spring Security logout handler, specialized for Ajax requests.
+ * @author somewhere
  */
 @AllArgsConstructor
 public class AjaxLogoutSuccessHandler extends AbstractAuthenticationTargetUrlRequestHandler

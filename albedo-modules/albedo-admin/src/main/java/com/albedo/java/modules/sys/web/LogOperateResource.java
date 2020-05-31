@@ -59,7 +59,6 @@ public class LogOperateResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_view')")
-//	@Log(value = "操作日志查看")
 	public R<IPage> getPage(PageModel pm, LogOperateQueryCriteria logOperateQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, logOperateQueryCriteria);
 		return R.buildOkData(logOperateService.page(pm, wrapper));

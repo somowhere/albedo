@@ -169,8 +169,9 @@ public class TableDto extends DataDto<String> {
 	 */
 	@JSONField(serialize = false)
 	public List<String> getImportList() {
+		// 引用列表
 		List<String> importList = Lists.newArrayList(
-			"com.baomidou.mybatisplus.annotation.*"); // 引用列表
+			"com.baomidou.mybatisplus.annotation.*");
 		if ("treeTable".equalsIgnoreCase(getCategory())) {
 			importList.add("com.albedo.java.common.persistence.domain.TreeEntity");
 			initImport(importList);

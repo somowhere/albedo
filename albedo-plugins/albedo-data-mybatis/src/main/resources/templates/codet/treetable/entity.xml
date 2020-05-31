@@ -73,7 +73,7 @@ public class ${ClassName} extends TreeEntity<${ClassName}> {
 	@TableField(exist = false)
 	private List<${column.className}> ${column.className?uncap_first}List = Lists.newArrayList();
 	</#list>
-	//columns END
+
 </#macro>
 <#macro generateCompositeIdConstructorIfis>
 

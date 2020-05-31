@@ -169,7 +169,7 @@ public class JobLog extends GeneralEntity<JobLog> {
 	@Size(max = 3000)
 	@TableField("exception_info")
 	private String exceptionInfo;
-	//columns END
+
 
 	@Override
 	public boolean equals(Object o) {
