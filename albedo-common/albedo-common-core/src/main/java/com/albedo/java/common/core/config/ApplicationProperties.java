@@ -79,7 +79,7 @@ public class ApplicationProperties {
 
 			@Data
 			public static class Jwt {
-				private String secret;
+				private String base64Secret;
 				private long tokenValidityInSeconds = 1800L;
 				private long tokenValidityInSecondsForRememberMe = 2592000L;
 

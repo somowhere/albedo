@@ -1,8 +1,10 @@
 package com.albedo.java.common.security.jwt;
 
 import com.albedo.java.common.core.config.ApplicationProperties;
+import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.security.service.UserDetail;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,11 +47,9 @@ public class TokenProvider {
 
 	@PostConstruct
 	public void init() {
-
-		byte[] keyBytes;
-		String secret = applicationProperties.getSecurity().getAuthentication().getJwt().getSecret();
-		Assert.isTrue(StringUtils.isEmpty(secret), "jwt secret can not be empty");
-		keyBytes = secret.getBytes(StandardCharsets.UTF_8);
+		String secret = applicationProperties.getSecurity().getAuthentication().getJwt().getBase64Secret();
+		Assert.isTrue(StringUtil.isNotEmpty(secret), "jwt secret can not be empty");
+		byte[] keyBytes = Decoders.BASE64.decode(secret);
 		this.secretKey = Keys.hmacShaKeyFor(keyBytes);
 
 		this.tokenValidityInMilliseconds =
