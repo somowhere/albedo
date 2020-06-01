@@ -50,7 +50,7 @@ public class ${ClassName}Resource extends BaseResource {
 	 */
 	@GetMapping(CommonConstants.URL_ID_REGEX)
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_view')")
-	public R get(@PathVariable String id) {
+	public Result get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
 		return R.buildOkData(service.getOneDto(id));
 	}
@@ -61,7 +61,7 @@ public class ${ClassName}Resource extends BaseResource {
 	 * @return the ResponseEntity with status 200 (OK) and with body all tree ${className}
 	 */
 	@GetMapping(value = "/tree")
-	public R tree(${ClassName}QueryCriteria ${className}QueryCriteria) {
+	public Result tree(${ClassName}QueryCriteria ${className}QueryCriteria) {
 		return R.buildOkData(service.findTreeNode(${className}QueryCriteria));
 	}
 	/**
@@ -88,7 +88,7 @@ public class ${ClassName}Resource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_edit')")
 	@PostMapping
 	@Log(value = "${functionName}编辑")
-	public R save(@Valid @RequestBody ${ClassName}Dto ${className}Vo) {
+	public Result save(@Valid @RequestBody ${ClassName}Dto ${className}Vo) {
 		log.debug("REST request to save ${ClassName} : {}", ${className}Vo);
 		service.saveOrUpdate(${className}Vo);
 		return R.buildOk("保存${functionNameSimple}成功");
@@ -103,7 +103,7 @@ public class ${ClassName}Resource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_del')")
 	@DeleteMapping
 	@Log(value = "${functionName}删除")
-	public R delete(@RequestBody Set<String> ids) {
+	public Result delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete ${ClassName}: {}", ids);
 		service.removeByIds(ids);
 		return R.buildOk("删除${functionNameSimple}成功");

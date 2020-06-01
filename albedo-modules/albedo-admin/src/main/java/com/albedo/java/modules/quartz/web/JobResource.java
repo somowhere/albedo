@@ -49,7 +49,7 @@ public class JobResource extends BaseResource {
 	 * GET / : get all job.
 	 *
 	 * @param pm the pagination information
-	 * @return the R with status 200 (OK) and with body all job
+	 * @return the Result with status 200 (OK) and with body all job
 	 */
 
 	@PreAuthorize("@pms.hasPermission('quartz_job_view')")
@@ -79,7 +79,7 @@ public class JobResource extends BaseResource {
 	 * DELETE //:ids : delete the "ids" Job.
 	 *
 	 * @param ids the id of the job to delete
-	 * @return the R with status 200 (OK)
+	 * @return the Result with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_del')")
 	@Log(value = "任务调度删除")
@@ -94,7 +94,7 @@ public class JobResource extends BaseResource {
 	 * available //:ids : available the "ids" Job.
 	 *
 	 * @param ids the id of the job to delete
-	 * @return the R with status 200 (OK)
+	 * @return the Result with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
 	@Log(value = "任务调度编辑")
@@ -109,7 +109,7 @@ public class JobResource extends BaseResource {
 	 * concurrent //:ids : concurrent the "ids" Job.
 	 *
 	 * @param ids the id of the job to delete
-	 * @return the R with status 200 (OK)
+	 * @return the Result with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
 	@Log(value = "任务调度编辑")
@@ -124,7 +124,7 @@ public class JobResource extends BaseResource {
 	 * concurrent //:ids : concurrent the "ids" Job.
 	 *
 	 * @param ids the id of the job to delete
-	 * @return the R with status 200 (OK)
+	 * @return the Result with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
 	@Log(value = "任务调度编辑")

@@ -37,7 +37,7 @@ public class JobLogResource extends BaseResource {
 	 * GET / : get all jobLog.
 	 *
 	 * @param pm the pagination information
-	 * @return the R with status 200 (OK) and with body all jobLog
+	 * @return the Result with status 200 (OK) and with body all jobLog
 	 */
 
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_view')")
@@ -53,7 +53,7 @@ public class JobLogResource extends BaseResource {
 	 * DELETE //:ids : delete the "ids" JobLog.
 	 *
 	 * @param ids the id of the jobLog to delete
-	 * @return the R with status 200 (OK)
+	 * @return the Result with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_del')")
 	@Log(value = "任务日志删除")
