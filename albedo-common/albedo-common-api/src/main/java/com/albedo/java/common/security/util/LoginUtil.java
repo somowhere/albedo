@@ -15,6 +15,7 @@ import com.albedo.java.modules.sys.domain.vo.account.LoginVo;
 import com.google.common.collect.Maps;
 import lombok.SneakyThrows;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -104,7 +105,7 @@ public class LoginUtil {
 		online.setExpireTime((long) session.getMaxInactiveInterval());
 		online.setIpAddress(WebUtil.getIp(request));
 		online.setIpLocation(AddressUtil.getRealAddressByIp(online.getIpAddress()));
-		online.setUserAgent(request.getHeader("User-Agent"));
+		online.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
 		UserAgent userAgent = UserAgentUtil.parse(online.getUserAgent());
 		online.setBrowser(userAgent.getBrowser().getName());
 		online.setOs(userAgent.getOs().getName());

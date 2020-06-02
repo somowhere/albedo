@@ -37,7 +37,7 @@ service.interceptors.request.use(
     }
     config.headers['Content-Type'] = 'application/json'
     // headers中配置serialize为true开启序列化
-    if (config.methods === 'post' && config.headers.serialize) {
+    if (config.method === 'post' && config.headers.serialize) {
       config.data = commonUtil.serialize(config.data)
     }
     return config

@@ -12,6 +12,7 @@ import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -91,7 +92,7 @@ public class PersistentTokenRememberMeService extends AbstractRememberMeServices
 				persistentToken.setTokenDate(LocalDateTime.now());
 				persistentToken.setTokenValue(RandomUtil.generateTokenData());
 				persistentToken.setIpAddress(WebUtil.getIp(request));
-				persistentToken.setUserAgent(request.getHeader("User-Agent"));
+				persistentToken.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
 				try {
 					persistentTokenRepository.updateById(persistentToken);
 				} catch (DataAccessException e) {
@@ -133,7 +134,7 @@ public class PersistentTokenRememberMeService extends AbstractRememberMeServices
 			t.setTokenDate(LocalDateTime.now());
 			t.setIpAddress(WebUtil.getIp(request));
 			t.setLoginLocation(AddressUtil.getRealAddressByIp(t.getIpAddress()));
-			t.setUserAgent(request.getHeader("User-Agent"));
+			t.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
 			UserAgent userAgent = UserAgentUtil.parse(t.getUserAgent());
 			t.setBrowser(userAgent.getBrowser().getName());
 			t.setOs(userAgent.getOs().getName());
