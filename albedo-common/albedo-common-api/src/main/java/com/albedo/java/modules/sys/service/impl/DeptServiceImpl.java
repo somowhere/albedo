@@ -25,7 +25,7 @@ import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.core.vo.TreeNode;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
-import com.albedo.java.common.persistence.domain.TreeEntityAbstract;
+import com.albedo.java.common.persistence.domain.TreeEntity;
 import com.albedo.java.common.persistence.service.impl.TreeServiceImpl;
 import com.albedo.java.modules.sys.domain.Dept;
 import com.albedo.java.modules.sys.domain.DeptRelation;
@@ -180,7 +180,7 @@ public class DeptServiceImpl extends
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public IPage<DeptVo> findTreeList(DeptQueryCriteria deptQueryCriteria) {
 		List<DeptVo> deptVoList = repository.findVoList(QueryWrapperUtil.<Dept>getWrapper(deptQueryCriteria)
-			.eq(TreeEntityAbstract.F_SQL_DELFLAG, TreeEntityAbstract.FLAG_NORMAL).orderByAsc(TreeEntityAbstract.F_SQL_SORT));
+			.eq(TreeEntity.F_SQL_DELFLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT));
 		return new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(deptVoList)),
 			deptVoList.size());
 	}

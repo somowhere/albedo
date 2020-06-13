@@ -1,7 +1,7 @@
 package com.albedo.java.modules.gen.domain;
 
 import com.albedo.java.common.core.annotation.BeanField;
-import com.albedo.java.common.persistence.domain.IdEntityAbstract;
+import com.albedo.java.common.persistence.domain.IdEntity;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class Scheme extends IdEntityAbstract<Scheme> {
+public class Scheme extends IdEntity<Scheme> {
 
 	/**
 	 * @Fields CATEGORY_CURD : 增删改查（单表）

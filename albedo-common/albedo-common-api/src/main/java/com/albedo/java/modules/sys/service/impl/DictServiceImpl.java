@@ -29,7 +29,7 @@ import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.core.vo.SelectResult;
 import com.albedo.java.common.core.vo.TreeNode;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
-import com.albedo.java.common.persistence.domain.TreeEntityAbstract;
+import com.albedo.java.common.persistence.domain.TreeEntity;
 import com.albedo.java.common.persistence.service.impl.TreeServiceImpl;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.domain.dto.DictDto;
@@ -123,7 +123,7 @@ public class DictServiceImpl extends
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public IPage<DictVo> findTreeList(DictQueryCriteria dictQueryCriteria) {
 		List<DictVo> dictVoList = repository.findDictVoList(QueryWrapperUtil.<Dict>getWrapper(dictQueryCriteria)
-			.eq(TreeEntityAbstract.F_SQL_DELFLAG, TreeEntityAbstract.FLAG_NORMAL).orderByAsc(TreeEntityAbstract.F_SQL_SORT));
+			.eq(TreeEntity.F_SQL_DELFLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT));
 		return new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(dictVoList)),
 			dictVoList.size());
 	}

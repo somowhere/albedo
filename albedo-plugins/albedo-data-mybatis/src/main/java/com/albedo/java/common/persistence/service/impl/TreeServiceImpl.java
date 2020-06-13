@@ -8,7 +8,7 @@ import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.common.core.vo.TreeDto;
 import com.albedo.java.common.core.vo.TreeNode;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
-import com.albedo.java.common.persistence.domain.TreeEntityAbstract;
+import com.albedo.java.common.persistence.domain.TreeEntity;
 import com.albedo.java.common.persistence.repository.TreeRepository;
 import com.albedo.java.common.persistence.service.TreeService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  */
 @Data
 public class TreeServiceImpl<Repository extends TreeRepository<T>,
-	T extends TreeEntityAbstract, D extends TreeDto>
+	T extends TreeEntity, D extends TreeDto>
 	extends DataServiceImpl<Repository, T, D, String> implements TreeService<T, D> {
 
 	/**
@@ -67,7 +67,7 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public <Q> List<T> findTreeList(Q queryCriteria) {
 		return repository.selectList(QueryWrapperUtil.
-			<T>getWrapper(queryCriteria).orderByAsc(TreeEntityAbstract.F_SQL_SORT));
+			<T>getWrapper(queryCriteria).orderByAsc(TreeEntity.F_SQL_SORT));
 	}
 
 	/**
@@ -81,9 +81,9 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 		QueryWrapper<T> wrapper = QueryWrapperUtil.getWrapper(query);
 		boolean emptyWrapper = wrapper.isEmptyOfWhere();
 		if (emptyWrapper) {
-			wrapper.eq(TreeEntityAbstract.F_SQL_PARENTID, TreeUtil.ROOT);
+			wrapper.eq(TreeEntity.F_SQL_PARENTID, TreeUtil.ROOT);
 		}
-		wrapper.eq(TreeEntityAbstract.F_SQL_DELFLAG, TreeEntityAbstract.FLAG_NORMAL).orderByAsc(TreeEntityAbstract.F_SQL_SORT);
+		wrapper.eq(TreeEntity.F_SQL_DELFLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT);
 		return wrapper;
 	}
 
@@ -91,7 +91,7 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 	@Override
 	public Integer countByParentId(String parentId) {
 		return repository.selectCount(
-			Wrappers.<T>query().eq(TreeEntityAbstract.F_SQL_PARENTID, parentId)
+			Wrappers.<T>query().eq(TreeEntity.F_SQL_PARENTID, parentId)
 		);
 	}
 
@@ -99,7 +99,7 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 	@Override
 	public List<T> findAllByParentIdsLike(String parentIds) {
 		return repository.selectList(
-			Wrappers.<T>query().like(TreeEntityAbstract.F_SQL_PARENTIDS, parentIds));
+			Wrappers.<T>query().like(TreeEntity.F_SQL_PARENTIDS, parentIds));
 	}
 
 
@@ -146,7 +146,7 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 	public boolean removeByIds(Collection<? extends Serializable> idList) {
 		idList.forEach(id -> {
 			// 查询父节点为当前节点的节点
-			List<T> menuList = this.list(Wrappers.<T>query().eq(TreeEntityAbstract.F_SQL_PARENTID, id));
+			List<T> menuList = this.list(Wrappers.<T>query().eq(TreeEntity.F_SQL_PARENTID, id));
 			if (CollUtil.isNotEmpty(menuList)) {
 				throw new BadRequestException("含有下级不能删除");
 			}

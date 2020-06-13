@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @see com.albedo.java.modules.sys.web.UserResource
  */
 @SpringBootTest(classes = {AlbedoAdminApplication.class})
+@WithMockUser(username = "admin")
 @Slf4j
 public class UserResourceIntTest {
 
@@ -351,7 +353,9 @@ public class UserResourceIntTest {
 		User tempUser = userService.getById(user.getId());
 		assertThat(CommonConstants.STR_YES.equals(tempUser.getAvailable()));
 		// lockOrUnLock the user
-		restUserMockMvc.perform(put(DEFAULT_API_URL).content(user.getId())
+		restUserMockMvc.perform(put(DEFAULT_API_URL)
+			.contentType(TestUtil.APPLICATION_JSON_UTF8)
+			.content(TestUtil.convertObjectToJsonBytes(Lists.newArrayList(user.getId())))
 			.accept(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(status().isOk());
 

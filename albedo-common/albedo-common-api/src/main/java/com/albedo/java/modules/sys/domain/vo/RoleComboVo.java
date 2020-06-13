@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.domain.vo;
 
-import com.albedo.java.common.persistence.domain.IdEntityAbstract;
+import com.albedo.java.common.persistence.domain.IdEntity;
 import com.albedo.java.modules.sys.domain.Role;
 import lombok.Data;
 
@@ -51,7 +51,7 @@ public class RoleComboVo implements Serializable {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		IdEntityAbstract idEntity = (IdEntityAbstract) o;
+		IdEntity idEntity = (IdEntity) o;
 		if (idEntity.getId() == null || getId() == null) {
 			return false;
 		}

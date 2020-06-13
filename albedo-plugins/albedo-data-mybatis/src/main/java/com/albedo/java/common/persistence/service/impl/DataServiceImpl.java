@@ -6,7 +6,7 @@ package com.albedo.java.common.persistence.service.impl;
 import com.albedo.java.common.core.util.BeanUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.vo.DataDto;
-import com.albedo.java.common.persistence.domain.AbstractDataEntity;
+import com.albedo.java.common.persistence.domain.BaseDataEntity;
 import com.albedo.java.common.persistence.repository.BaseRepository;
 import com.albedo.java.common.persistence.service.DataService;
 import lombok.Data;
@@ -25,7 +25,7 @@ import java.lang.reflect.Type;
 @Transactional(rollbackFor = Exception.class)
 @Data
 public class DataServiceImpl<Repository extends BaseRepository<T>,
-	T extends AbstractDataEntity, D extends DataDto, PK extends Serializable>
+	T extends BaseDataEntity, D extends DataDto, PK extends Serializable>
 	extends BaseServiceImpl<Repository, T>
 	implements DataService<T, D, PK> {
 

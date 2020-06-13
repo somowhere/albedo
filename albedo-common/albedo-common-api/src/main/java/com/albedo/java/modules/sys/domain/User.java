@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.domain;
 
-import com.albedo.java.common.persistence.domain.IdEntityAbstract;
+import com.albedo.java.common.persistence.domain.IdEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -36,7 +36,7 @@ import lombok.ToString;
 @ToString
 @TableName("sys_user")
 @EqualsAndHashCode(callSuper = true)
-public class User extends IdEntityAbstract<User> {
+public class User extends IdEntity<User> {
 
 	public static final String F_USERNAME = "username";
 	private static final long serialVersionUID = 1L;

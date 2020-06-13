@@ -19,7 +19,7 @@ package com.albedo.java.modules.sys.domain;
 import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.DictNameConstants;
-import com.albedo.java.common.persistence.domain.IdEntityAbstract;
+import com.albedo.java.common.persistence.domain.IdEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -37,7 +37,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_role")
-public class Role extends IdEntityAbstract<Role> {
+public class Role extends IdEntity<Role> {
 
 	public static final String F_NAME = "name";
 	private static final long serialVersionUID = 1L;

@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class TreeEntityAbstract<T extends TreeEntityAbstract<T>> extends IdEntityAbstract<T> {
+public class TreeEntity<T extends TreeEntity<T>> extends IdEntity<T> {
 
 	public static final String F_NAME = "name";
 	public static final String F_PARENTID = "parentId";
@@ -55,12 +55,12 @@ public class TreeEntityAbstract<T extends TreeEntityAbstract<T>> extends IdEntit
 	@TableField
 	private boolean leaf = false;
 
-	public TreeEntityAbstract() {
+	public TreeEntity() {
 		super();
 		this.sort = 30;
 	}
 
-	public TreeEntityAbstract(String id) {
+	public TreeEntity(String id) {
 		super();
 		this.id = id;
 		this.sort = 30;

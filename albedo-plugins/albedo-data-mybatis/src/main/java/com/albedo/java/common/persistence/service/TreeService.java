@@ -2,7 +2,7 @@ package com.albedo.java.common.persistence.service;
 
 import com.albedo.java.common.core.vo.TreeDto;
 import com.albedo.java.common.core.vo.TreeNode;
-import com.albedo.java.common.persistence.domain.TreeEntityAbstract;
+import com.albedo.java.common.persistence.domain.TreeEntity;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  * @param <D>
  * @author somewhere
  */
-public interface TreeService<T extends TreeEntityAbstract, D extends TreeDto> extends DataService<T, D, String> {
+public interface TreeService<T extends TreeEntity, D extends TreeDto> extends DataService<T, D, String> {
 	/**
 	 * countByParentId
 	 *

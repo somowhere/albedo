@@ -19,7 +19,7 @@ package com.albedo.java.modules.sys.domain;
 import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.core.util.StringUtil;
-import com.albedo.java.common.persistence.domain.TreeEntityAbstract;
+import com.albedo.java.common.persistence.domain.TreeEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -40,7 +40,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_dict")
-public class Dict extends TreeEntityAbstract<Dict> {
+public class Dict extends TreeEntity<Dict> {
 
 	public static final String F_VAL = "val";
 	public static final String F_SHOW = "show";

@@ -1,7 +1,7 @@
 package com.albedo.java.common.persistence.service;
 
 import com.albedo.java.common.core.vo.DataDto;
-import com.albedo.java.common.persistence.domain.AbstractDataEntity;
+import com.albedo.java.common.persistence.domain.BaseDataEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @date 2020/5/31 17:07
  */
 public interface DataService<
-	T extends AbstractDataEntity, D extends DataDto, PK extends Serializable> extends BaseService<T> {
+	T extends BaseDataEntity, D extends DataDto, PK extends Serializable> extends BaseService<T> {
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	/**
 	 * getOneDto

@@ -7,8 +7,8 @@ import cn.hutool.core.util.CharsetUtil;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.core.util.*;
-import com.albedo.java.common.persistence.domain.AbstractDataEntity;
-import com.albedo.java.common.persistence.domain.TreeEntityAbstract;
+import com.albedo.java.common.persistence.domain.BaseDataEntity;
+import com.albedo.java.common.persistence.domain.TreeEntity;
 import com.albedo.java.modules.gen.domain.dto.SchemeDto;
 import com.albedo.java.modules.gen.domain.dto.TableColumnDto;
 import com.albedo.java.modules.gen.domain.dto.TableDto;
@@ -40,24 +40,24 @@ public class GenUtil {
 
 	private static void initTreeColumn(TableColumnDto column) {
 		boolean isTitle = StringUtil.equalsIgnoreCase(column.getJavaField(), "title");
-		if (StringUtil.equalsIgnoreCase(column.getJavaField(), TreeEntityAbstract.F_NAME) || isTitle) {
+		if (StringUtil.equalsIgnoreCase(column.getJavaField(), TreeEntity.F_NAME) || isTitle) {
 			column.setQuery(true);
 			column.setQueryType("like");
 		}// 父级ID
-		else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntityAbstract.F_PARENTID)) {
+		else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntity.F_PARENTID)) {
 			column.setShowType("treeselect");
 			column.setNull(false);
 			column.setTitle("父节点");
 		}
 		// 所有父级ID
-		else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntityAbstract.F_PARENTIDS)) {
+		else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntity.F_PARENTIDS)) {
 			column.setQueryType("like");
 			column.setList(false);
 			column.setNull(false);
 			column.setTitle("所有父级");
 		}
 		// 所有父级ID
-		else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntityAbstract.F_LEAF)) {
+		else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntity.F_LEAF)) {
 			column.setQueryType("eq");
 			column.setList(false);
 			column.setEdit(false);
@@ -70,27 +70,27 @@ public class GenUtil {
 	private static void initDataColumn(TableColumnDto column) {
 		boolean content = StringUtil.equalsIgnoreCase(column.getJavaField(), "content");
 		boolean remark = StringUtil.equalsIgnoreCase(column.getJavaField(), "remark");
-		if (StringUtil.equalsIgnoreCase(column.getJavaField(), AbstractDataEntity.F_DESCRIPTION)) {
+		if (StringUtil.equalsIgnoreCase(column.getJavaField(), BaseDataEntity.F_DESCRIPTION)) {
 			column.setEdit(true);
 			column.setTitle("备注");
 		}
 		// 创建者、更新者
-		else if (StringUtil.startWithIgnoreCase(column.getName(), AbstractDataEntity.F_CREATEDBY) || StringUtil.startWithIgnoreCase(column.getName(), AbstractDataEntity.F_LASTMODIFIEDBY)) {
+		else if (StringUtil.startWithIgnoreCase(column.getName(), BaseDataEntity.F_CREATEDBY) || StringUtil.startWithIgnoreCase(column.getName(), BaseDataEntity.F_LASTMODIFIEDBY)) {
 			column.setJavaType(User.class.getName());
 			column.setJavaField(column.getJavaField());
 			column.setNull(false);
 		}
 		// 创建时间、更新时间
-		else if (StringUtil.startWithIgnoreCase(column.getName(), AbstractDataEntity.F_CREATEDDATE) || StringUtil.startWithIgnoreCase(column.getName(), AbstractDataEntity.F_LASTMODIFIEDDATE)) {
+		else if (StringUtil.startWithIgnoreCase(column.getName(), BaseDataEntity.F_CREATEDDATE) || StringUtil.startWithIgnoreCase(column.getName(), BaseDataEntity.F_LASTMODIFIEDDATE)) {
 			column.setShowType("dateselect");
 			column.setNull(false);
 		}
 		// 备注、内容
-		else if (StringUtil.equalsIgnoreCase(column.getJavaField(), AbstractDataEntity.F_DESCRIPTION) || content || remark) {
+		else if (StringUtil.equalsIgnoreCase(column.getJavaField(), BaseDataEntity.F_DESCRIPTION) || content || remark) {
 			column.setShowType("textarea");
 		}
 		// 删除标记
-		else if (StringUtil.equalsIgnoreCase(column.getJavaField(), AbstractDataEntity.F_DELFLAG)) {
+		else if (StringUtil.equalsIgnoreCase(column.getJavaField(), BaseDataEntity.F_DELFLAG)) {
 			column.setShowType("radio");
 			column.setDictType(DictNameConstants.SYS_FLAG);
 			column.setNull(false);

@@ -107,7 +107,7 @@ public class MonitorServiceImpl implements MonitorService {
 		swapInfo.put("total", FormatUtil.formatBytes(memory.getVirtualMemory().getSwapTotal()));
 		swapInfo.put("used", FormatUtil.formatBytes(memory.getVirtualMemory().getSwapUsed()));
 		swapInfo.put("available", FormatUtil.formatBytes(memory.getVirtualMemory().getSwapTotal() - memory.getVirtualMemory().getSwapUsed()));
-		swapInfo.put("usageRate", df.format(memory.getVirtualMemory().getSwapUsed() / (double) memory.getVirtualMemory().getSwapTotal() * 100));
+		swapInfo.put("usageRate", df.format(memory.getVirtualMemory().getSwapTotal() <= 0 ? 0 : memory.getVirtualMemory().getSwapUsed() / (double) memory.getVirtualMemory().getSwapTotal() * 100));
 		return swapInfo;
 	}
 

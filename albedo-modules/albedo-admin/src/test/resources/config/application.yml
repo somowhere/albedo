@@ -40,7 +40,10 @@ application:
   adminPath: /a
   address-enabled: true
   log-path: .logs
-  static-file-directory: D:/albedo-file
+  static-file-directory:
+    mac: ~/albedo-file
+    linux: /home/albedo/file/
+    win: C:\albedo\file\
   cors: #By default CORS are not enabled. Uncomment to enable.
     allowed-origins: "*"
     allowed-methods: "*"

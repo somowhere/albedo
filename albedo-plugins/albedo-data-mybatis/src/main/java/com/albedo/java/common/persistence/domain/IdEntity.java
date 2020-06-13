@@ -10,13 +10,13 @@ import java.util.Objects;
 /**
  * @author somewhere
  */
-public class IdEntityAbstract<T extends BaseEntity<T>> extends AbstractDataEntity<T> {
+public class IdEntity<T extends BaseEntity<T>> extends BaseDataEntity<T> {
 
 	private static final long serialVersionUID = 1L;
 	@TableId(value = GeneralEntity.F_SQL_ID, type = IdType.ASSIGN_UUID)
 	protected String id;
 
-	public IdEntityAbstract() {
+	public IdEntity() {
 		super();
 	}
 
@@ -47,7 +47,7 @@ public class IdEntityAbstract<T extends BaseEntity<T>> extends AbstractDataEntit
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		IdEntityAbstract idEntity = (IdEntityAbstract) o;
+		IdEntity idEntity = (IdEntity) o;
 		if (idEntity.getId() == null || getId() == null) {
 			return false;
 		}

@@ -139,6 +139,7 @@ import ECharts from 'vue-echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/polar'
 import { initData } from '@/api/data'
+import validate from '../../../utils/validate'
 export default {
   name: 'ServerMonitor',
   components: {
@@ -148,6 +149,7 @@ export default {
     return {
       show: false,
       isDestroyed: false,
+      val: null,
       url: '/sys/monitor',
       data: {},
       cpuInfo: {
@@ -227,7 +229,10 @@ export default {
   methods: {
     init(first) {
       if (!this.isDestroyed) {
-        setTimeout(() => {
+        if (validate.checkNotNull(this.val)) {
+          clearTimeout(this.val)
+        }
+        this.val = setTimeout(() => {
           initData(this.url, {}).then(res => {
             const data = res.data
             this.data = data

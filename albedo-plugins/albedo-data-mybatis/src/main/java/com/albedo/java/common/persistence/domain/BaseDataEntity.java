@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  * @author somewhere
  */
 @Data
-public abstract class AbstractDataEntity<T extends BaseEntity<T>> extends BaseEntity<T> {
+public abstract class BaseDataEntity<T extends BaseEntity<T>> extends BaseEntity<T> {
 
 	private static final long serialVersionUID = 1L;
 	@TableField(value = GeneralEntity.F_SQL_CREATEDBY,
