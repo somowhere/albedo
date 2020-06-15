@@ -100,15 +100,17 @@ public class DataScopeInterceptor extends AbstractSqlParserHandler implements In
 				if (StringUtil.isNotBlank(scopeName) && CollectionUtil.isNotEmpty(deptIds)) {
 					ItemsList itemsList = new ExpressionList(deptIds.stream().map(deptId -> new StringValue(deptId)).collect(Collectors.toList()));
 					expression = new InExpression(new Column(aliaName + scopeName), itemsList);
-				} else if (StringUtil.isNotEmpty(creatorName)) {
+				} else if (StringUtil.isNotEmpty(creatorName) && dataScope.isSelf()) {
 					EqualsTo equalsTo = new EqualsTo();
 					equalsTo.setLeftExpression(new Column(aliaName + creatorName));
 					equalsTo.setRightExpression(new StringValue(userId));
 					expression = equalsTo;
 				}
-				AndExpression andExpression = new AndExpression(plainSelect.getWhere(), expression);
-				plainSelect.setWhere(andExpression);
-				metaObject.setValue("delegate.boundSql.sql", plainSelect.toString());
+				if(expression!=null){
+					AndExpression andExpression = new AndExpression(plainSelect.getWhere(), expression);
+					plainSelect.setWhere(andExpression);
+					metaObject.setValue("delegate.boundSql.sql", plainSelect.toString());
+				}
 			}
 			return invocation.proceed();
 		}

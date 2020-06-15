@@ -1,6 +1,7 @@
 package com.albedo.java.modules.gen.web;
 
 import cn.hutool.core.util.StrUtil;
+import com.albedo.java.common.core.annotation.AnonymousAccess;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.SecurityConstants;
@@ -75,6 +76,7 @@ public class AccoutJwtResource extends BaseResource {
 	/**
 	 * 功能描述: 认证授权
 	 */
+	@AnonymousAccess
 	@PostMapping(SecurityConstants.AUTHENTICATE_URL)
 	@ApiOperation("认证授权")
 	public ResponseEntity authorize(@Valid @RequestBody LoginVo loginVo) {
@@ -141,6 +143,7 @@ public class AccoutJwtResource extends BaseResource {
 	 * @author somewhere
 	 * @date 2020/5/30
 	 */
+	@AnonymousAccess
 	@GetMapping(value = "/logout")
 	@ApiOperation("登出")
 	public ResponseEntity logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,

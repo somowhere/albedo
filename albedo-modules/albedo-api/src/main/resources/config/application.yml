@@ -77,7 +77,6 @@ application:
     authorize:
       - ${application.adminPath}/**
     authorize-permit-all:
-      - ${application.adminPath}/code/**
       - /management/health
       - /v2/api-docs/**
       - /swagger-resources/configuration/ui

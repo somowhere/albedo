@@ -3,6 +3,7 @@ package com.albedo.java.modules.sys.web;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
+import com.albedo.java.common.core.annotation.AnonymousAccess;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.SecurityConstants;
@@ -59,6 +60,7 @@ public class AccoutResource extends BaseResource {
 	 * @param request the HTTP request.
 	 * @return the login if the user is authenticated.
 	 */
+	@AnonymousAccess
 	@GetMapping(SecurityConstants.AUTHENTICATE_URL)
 	public String isAuthenticated(HttpServletRequest request) {
 		log.debug("REST request to check if the current user is authenticated");
@@ -107,6 +109,7 @@ public class AccoutResource extends BaseResource {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	@AnonymousAccess
 	@GetMapping(path = "/code/{randomStr}")
 	@ApiOperation(value = "获取验证码")
 	public void valicode(@PathVariable String randomStr, HttpServletResponse response) throws IOException {
