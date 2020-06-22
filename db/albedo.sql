@@ -14,8 +14,14 @@
  Date: 29/05/2020 22:34:34
 */
 
+DROP DATABASE IF EXISTS `albedo`;
+
+CREATE DATABASE  `albedo` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+USE `albedo`;
 
 -- ----------------------------
 -- Table structure for gen_scheme

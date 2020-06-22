@@ -23,9 +23,27 @@ services:
   albedo-admin:
     build:
       context: ./
-      dockerfile: ./albedo-admin/albedo-admin-biz/Dockerfile
+      dockerfile: ./albedo-modules/albedo-admin/Dockerfile
     restart: always
     container_name: albedo-admin
     hostname: albedo-admin
     image: albedo-admin
+
+  albedo-api:
+    build:
+      context: ./
+      dockerfile: ./albedo-modules/albedo-api/Dockerfile
+    restart: always
+    container_name: albedo-api
+    hostname: albedo-api
+    image: albedo-api
+
+  albedo-quartz:
+    build:
+      context: ./
+      dockerfile: ./albedo-modules/albedo-quartz/Dockerfile
+    restart: always
+    container_name: albedo-quartz
+    hostname: albedo-quartz
+    image: albedo-quartz
 
