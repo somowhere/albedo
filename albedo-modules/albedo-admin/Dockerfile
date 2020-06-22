@@ -10,7 +10,7 @@ RUN mkdir -p /albedo-admin
 
 WORKDIR /albedo-admin
 
-EXPOSE 8061
+EXPOSE 4000
 
 ADD ./albedo-modules/albedo-admin/target/albedo-admin.jar ./
 

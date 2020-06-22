@@ -3,7 +3,7 @@ logging:
     ROOT: ${logback.loglevel}
     com.albedo.java: INFO
 server:
-  port: 8021
+  port: 4002
 
 spring:
   profiles:

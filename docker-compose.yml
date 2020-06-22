@@ -5,7 +5,7 @@ services:
       context: ./
       dockerfile: ./db/Dockerfile
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: 111111
     restart: always
     container_name: albedo-mysql
     image: albedo-mysql

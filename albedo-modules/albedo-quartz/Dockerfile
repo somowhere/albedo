@@ -10,7 +10,7 @@ RUN mkdir -p /albedo-quartz
 
 WORKDIR /albedo-quartz
 
-EXPOSE 8011
+EXPOSE 4002
 
 ADD ./albedo-modules/albedo-quartz/target/albedo-quartz.jar ./
 

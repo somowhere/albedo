@@ -10,7 +10,7 @@ RUN mkdir -p /albedo-api
 
 WORKDIR /albedo-api
 
-EXPOSE 8031
+EXPOSE 4001
 
 ADD ./albedo-modules/albedo-api/target/albedo-api.jar ./
 
