@@ -44,7 +44,7 @@ public class AlbedoApiApplication {
 				"Application '{}' is running! Access URLs:\n\t" +
 				"Local: \t\thttp://localhost:{}\n\t" +
 				"External: \thttp://{}:{}\n\t" +
-				"Swagger: \thttp://localhost:{}/swagger-ui.html\n----------------------------------------------------------",
+				"Swagger: \thttp://localhost:{}\n----------------------------------------------------------",
 			env.getProperty(SPRING_APPLICATION_NAME),
 			env.getProperty(SERVER_PORT),
 			InetAddress.getLocalHost().getHostAddress(),
