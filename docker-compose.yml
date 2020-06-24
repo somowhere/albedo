@@ -7,31 +7,20 @@ services:
     restart: always
     container_name: albedo-mysql
     image: albedo-mysql
-    # 映射端口 相当于 -p 宿主机端口:容器端口
     ports:
       - 3306:3306
-      # 设置环境变量
     environment:
-      # 设置root用户的密码
       MYSQL_ROOT_PASSWORD: 111111
       MYSQL_USER: mysql
       MYSQL_PASSWORD: mysql
-      # 设置时区
       TZ: Asia/Shanghai
     command:
-      #  防止低版本的连接客服报错的问题
       --default-authentication-plugin=mysql_native_password
-      # 设置数据库的编码
       --character-set-server=utf8mb4
-      # 设置数据库默认的排序方式
       --collation-server=utf8mb4_general_ci
-      # 不允许时间字段 not null
       --explicit_defaults_for_timestamp=true
-      # Linux  表名区分大小写   1 表示不区分大小写
       --lower_case_table_names=1
-    #  挂载
     volumes:
-      #  数据的数据挂载到容器中
       - ./mysql/data:/var/lib/mysql
       - ./mysql/log:/var/log/mysql
       - ./mysql/config:/etc/mysql
