@@ -1,5 +1,5 @@
 <template>
-  <a aria-label="View source on Github" class="github-corner" href="https://github.com/elunez/eladmin" target="_blank">
+  <a aria-label="View source on Github" class="github-corner" href="https://github.com/somowhere/albedo" target="_blank">
     <svg
       aria-hidden="true"
       height="80"

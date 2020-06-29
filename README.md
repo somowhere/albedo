@@ -1,7 +1,7 @@
 <h1 style="text-align: center">Albedo 2.1 - 企业信息化快速开发平台</h1>
  <p align="center">
  
- [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/elunez/eladmin/blob/master/LICENSE)
+ [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/somowhere/albedo/blob/master/LICENSE)
  [![AUR](https://img.shields.io/badge/Spring%20Boot-2.3.0.RELEASE-blue.svg)](https://spring.io/projects/spring-boot#overview)
  [![star](https://gitee.com/somowhere/albedo/badge/star.svg?theme=white)](https://gitee.com/somowhere/albedo)
  [![GitHub stars](https://img.shields.io/github/stars/somowhere/albedo.svg?style=social&label=Stars)](https://github.com/somowhere/albedo)
