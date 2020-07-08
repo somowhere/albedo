@@ -4,7 +4,6 @@ import cn.hutool.core.util.ArrayUtil;
 import com.albedo.java.common.core.annotation.AnonymousAccess;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.security.component.Http401UnauthorizedEntryPoint;
 import com.albedo.java.common.security.enums.RequestMethodEnum;
 import com.albedo.java.common.security.jwt.JwtConfigurer;
@@ -154,8 +153,6 @@ public class SecurityJwtConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 
-
-
 	private Map<String, Set<String>> getAnonymousUrl(Map<RequestMappingInfo, HandlerMethod> handlerMethodMap) {
 		Map<String, Set<String>> anonymousUrls = new HashMap<>(6);
 		Set<String> get = new HashSet<>();
@@ -170,7 +167,7 @@ public class SecurityJwtConfiguration extends WebSecurityConfigurerAdapter {
 			if (null != anonymousAccess) {
 				List<RequestMethod> requestMethods = new ArrayList<>(infoEntry.getKey().getMethodsCondition().getMethods());
 				RequestMethodEnum request = RequestMethodEnum.find(requestMethods.size() == 0 ? RequestMethodEnum.ALL.getType() : requestMethods.get(0).name());
-				switch (Objects.requireNonNull(request)){
+				switch (Objects.requireNonNull(request)) {
 					case GET:
 						get.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
 						break;

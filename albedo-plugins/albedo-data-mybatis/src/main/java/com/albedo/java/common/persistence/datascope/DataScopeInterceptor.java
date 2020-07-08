@@ -106,7 +106,7 @@ public class DataScopeInterceptor extends AbstractSqlParserHandler implements In
 					equalsTo.setRightExpression(new StringValue(userId));
 					expression = equalsTo;
 				}
-				if(expression!=null){
+				if (expression != null) {
 					AndExpression andExpression = new AndExpression(plainSelect.getWhere(), expression);
 					plainSelect.setWhere(andExpression);
 					metaObject.setValue("delegate.boundSql.sql", plainSelect.toString());

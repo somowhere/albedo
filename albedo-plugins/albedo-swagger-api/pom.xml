@@ -12,11 +12,11 @@
 	<artifactId>albedo-swagger-api</artifactId>
 	<dependencies>
 
+		<!--core 工具类-->
 		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>mybatis-plus-extension</artifactId>
-			<version>${mybatis-plus.version}</version>
-			<scope>provided</scope>
+			<groupId>com.albedo.java</groupId>
+			<artifactId>albedo-common-core</artifactId>
+			<version>${project.release.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>

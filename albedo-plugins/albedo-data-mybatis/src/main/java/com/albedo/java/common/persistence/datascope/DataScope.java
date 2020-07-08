@@ -29,7 +29,7 @@ import java.util.Set;
  * 数据权限查询参数
  */
 @Data
-public class DataScope  implements Serializable {
+public class DataScope implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	/**

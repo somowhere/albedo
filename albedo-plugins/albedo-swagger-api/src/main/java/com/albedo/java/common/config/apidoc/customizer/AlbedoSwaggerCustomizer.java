@@ -1,6 +1,7 @@
 package com.albedo.java.common.config.apidoc.customizer;
 
 import com.albedo.java.common.config.ApplicationSwaggerProperties;
+import com.albedo.java.common.core.vo.PageModel;
 import com.google.common.collect.Lists;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
@@ -41,7 +42,8 @@ public class AlbedoSwaggerCustomizer implements SwaggerCustomizer, Ordered {
 			.securitySchemes(securitySchemes())
 			.securityContexts(securityContexts())
 			.forCodeGeneration(true).directModelSubstitute(ByteBuffer.class, String.class)
-			.genericModelSubstitutes(new Class[]{ResponseEntity.class}).select()
+			.genericModelSubstitutes(new Class[]{ResponseEntity.class})
+			.ignoredParameterTypes(PageModel.class).select()
 			.paths(PathSelectors.regex(this.applicationSwaggerProperties.getDefaultIncludePattern()))
 			.build();
 	}

@@ -19,7 +19,7 @@ import com.albedo.java.common.core.annotation.Query;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,5 +34,5 @@ public class PersistentTokenQueryCriteria implements Serializable {
 
 
 	@Query(operator = Query.Operator.between)
-	private List<Timestamp> tokenDate;
+	private List<Date> tokenDate;
 }

@@ -227,7 +227,6 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 
-
 	private Map<String, Set<String>> getAnonymousUrl(Map<RequestMappingInfo, HandlerMethod> handlerMethodMap) {
 		Map<String, Set<String>> anonymousUrls = new HashMap<>(6);
 		Set<String> get = new HashSet<>();
@@ -242,7 +241,7 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 			if (null != anonymousAccess) {
 				List<RequestMethod> requestMethods = new ArrayList<>(infoEntry.getKey().getMethodsCondition().getMethods());
 				RequestMethodEnum request = RequestMethodEnum.find(requestMethods.size() == 0 ? RequestMethodEnum.ALL.getType() : requestMethods.get(0).name());
-				switch (Objects.requireNonNull(request)){
+				switch (Objects.requireNonNull(request)) {
 					case GET:
 						get.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
 						break;

@@ -19,7 +19,7 @@ import com.albedo.java.common.core.annotation.Query;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,5 +41,5 @@ public class DictQueryCriteria implements Serializable {
 	private String parentId;
 
 	@Query(operator = Query.Operator.between)
-	private List<Timestamp> createdDate;
+	private List<Date> createdDate;
 }

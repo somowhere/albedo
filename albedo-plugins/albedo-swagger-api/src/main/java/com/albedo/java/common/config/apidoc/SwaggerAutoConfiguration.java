@@ -3,6 +3,7 @@ package com.albedo.java.common.config.apidoc;
 import com.albedo.java.common.config.ApplicationSwaggerProperties;
 import com.albedo.java.common.config.apidoc.customizer.AlbedoSwaggerCustomizer;
 import com.albedo.java.common.config.apidoc.customizer.SwaggerCustomizer;
+import com.albedo.java.common.core.vo.PageModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StopWatch;
 import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.DispatcherServlet;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.schema.AlternateTypeRule;
 import springfox.documentation.service.ApiInfo;
@@ -40,8 +42,7 @@ import static springfox.documentation.builders.PathSelectors.regex;
  */
 @Configuration
 @ConditionalOnWebApplication
-@ConditionalOnClass({ApiInfo.class, BeanValidatorPluginsConfiguration.class,
-	Servlet.class})
+@ConditionalOnClass({ApiInfo.class, BeanValidatorPluginsConfiguration.class, Servlet.class, DispatcherServlet.class, Docket.class})
 @Profile({"swagger"})
 @AutoConfigureAfter({ApplicationSwaggerProperties.class})
 @EnableSwagger2
@@ -134,6 +135,7 @@ public class SwaggerAutoConfiguration {
 			.forCodeGeneration(true)
 			.directModelSubstitute(ByteBuffer.class, String.class)
 			.genericModelSubstitutes(ResponseEntity.class)
+			.ignoredParameterTypes(PageModel.class)
 			.select()
 			.paths(regex(managementContextPath + ".*"))
 			.build();
