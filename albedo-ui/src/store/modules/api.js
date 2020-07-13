@@ -5,7 +5,7 @@ const api = {
     // 实时控制台
     socketApi: baseUrl + '/websocket?token=kl',
     // swagger
-    swaggerApi: baseUrl + '/swagger-ui.html',
+    swaggerApi: baseUrl + '/doc.html',
     // 文件上传
     fileUploadApi: defaultSettings.api + '/file/upload',
     // baseUrl，
