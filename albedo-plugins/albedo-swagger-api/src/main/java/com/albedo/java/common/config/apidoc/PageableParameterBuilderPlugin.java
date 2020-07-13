@@ -57,7 +57,7 @@ public class PageableParameterBuilderPlugin implements OperationBuilderPlugin {
 	/**
 	 * Constant <code>DEFAULT_SORT_NAME="sort"</code>
 	 */
-	public static final String DEFAULT_SORT_NAME = "sort";
+	public static final String DEFAULT_SORT_NAME = "sorts";
 	/**
 	 * Constant <code>SORT_TYPE="query"</code>
 	 */
@@ -66,8 +66,7 @@ public class PageableParameterBuilderPlugin implements OperationBuilderPlugin {
 	 * Constant <code>SORT_DESCRIPTION="Sorting criteria in the format: propert"{trunked}</code>
 	 */
 	public static final String SORT_DESCRIPTION = "Sorting criteria in the format: property(,asc|desc). "
-		+ "Default sort order is ascending. "
-		+ "Multiple sort criteria are supported.";
+		+ "Default sort order is ascending. ";
 
 	private final TypeNameExtractor nameExtractor;
 	private final TypeResolver resolver;

@@ -82,7 +82,6 @@
 	<logger name="org.springframework.web" level="INFO"/>
 	<logger name="org.springframework.security" level="INFO"/>
 	<logger name="org.springframework" level="INFO"/>
-	<logger name="com.albedo.java" level="DEBUG"/>
 	<!-- Level: FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7 -->
 	<root level="INFO">
 		<appender-ref ref="console"/>

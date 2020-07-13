@@ -55,6 +55,6 @@ public class MenuTree extends TreeNode<MenuTree> {
 		// 如果不是外链
 		this.setComponent(!CommonConstants.YES.equals(menuVo.getIframe()) && menuVo.getParentId() == TreeUtil.ROOT
 			&& StrUtil.isEmpty(menuVo.getComponent()) ? "Layout" : menuVo.getComponent());
-		log.info("name {}, component {}", this.getName(), this.getComponent());
+		log.debug("name {}, component {}", this.getName(), this.getComponent());
 	}
 }

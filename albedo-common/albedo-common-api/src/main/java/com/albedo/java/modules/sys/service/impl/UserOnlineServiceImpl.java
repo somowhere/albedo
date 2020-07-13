@@ -55,7 +55,8 @@ public class UserOnlineServiceImpl extends
 
 	@Override
 	public void saveByEvent(UserOnline userOnline) {
-		this.remove(Wrappers.<UserOnline>lambdaQuery().eq(UserOnline::getUserId, userOnline.getUserId()));
+		this.remove(Wrappers.<UserOnline>lambdaQuery().eq(UserOnline::getUserId, userOnline.getUserId())
+			.or().eq(UserOnline::getSessionId, userOnline.getSessionId()));
 		saveOrUpdate(userOnline);
 	}
 

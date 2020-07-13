@@ -4,7 +4,7 @@
 
 application:
   swagger:
-    default-include-pattern: /.*
+    default-include-pattern: ${application.adminPath}/.*
     title: ${spring.application.name} API
     description: ${spring.application.name} API documentation
     version: 0.0.1
@@ -14,4 +14,3 @@ application:
     contactEmail:
     license:
     licenseUrl:
-    oauthServer: /auth/oauth/token
