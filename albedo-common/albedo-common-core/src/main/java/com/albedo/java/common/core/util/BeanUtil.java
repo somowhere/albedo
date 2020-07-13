@@ -5,6 +5,7 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.FatalBeanException;
+import org.springframework.cglib.beans.BeanMap;
 import org.springframework.util.Assert;
 
 import java.beans.PropertyDescriptor;
@@ -12,6 +13,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * bean copy 工具类
@@ -92,6 +94,15 @@ public class BeanUtil extends BeanUtils {
 			log.error("{}", e);
 		}
 		return target;
+	}
+
+	/**
+	 * 将对象装成map形式
+	 * @param bean 源对象
+	 * @return {Map}
+	 */
+	public static Map<String, Object> toMap(Object bean) {
+		return BeanMap.create(bean);
 	}
 
 }

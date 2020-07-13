@@ -6,7 +6,7 @@ import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
-import com.albedo.java.common.log.annotation.Log;
+import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.gen.domain.Table;
 import com.albedo.java.modules.gen.domain.dto.TableDto;
@@ -54,14 +54,14 @@ public class TableResource extends BaseResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('gen_table_view')")
-	@Log(value = "业务表查看")
+	@LogOperate(value = "业务表查看")
 	public Result getPage(PageModel pm, TableQueryCriteria tableQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, tableQueryCriteria);
 		pm = tableService.page(pm, wrapper);
 		return Result.buildOkData(pm);
 	}
 
-	@Log(value = "业务表编辑")
+	@LogOperate(value = "业务表编辑")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('gen_table_edit')")
 	public Result save(@Valid @RequestBody TableDto tableDto) {
@@ -86,7 +86,7 @@ public class TableResource extends BaseResource {
 	}
 
 	@DeleteMapping
-	@Log(value = "业务表删除")
+	@LogOperate(value = "业务表删除")
 	@PreAuthorize("@pms.hasPermission('gen_table_del')")
 	public Result delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete table: {}", ids);

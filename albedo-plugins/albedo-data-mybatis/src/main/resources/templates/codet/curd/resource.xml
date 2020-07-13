@@ -13,7 +13,7 @@ package ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleNam
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
-import com.albedo.java.common.log.annotation.Log;
+import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.common.core.util.R;

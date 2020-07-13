@@ -15,7 +15,7 @@
  */
 package com.albedo.java.modules.tool.web;
 
-import com.albedo.java.common.log.annotation.Log;
+import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.modules.tool.domain.EmailConfig;
 import com.albedo.java.modules.tool.domain.vo.EmailVo;
 import com.albedo.java.modules.tool.service.EmailService;
@@ -46,7 +46,7 @@ public class EmailResource {
 		return new ResponseEntity<>(emailService.find(), HttpStatus.OK);
 	}
 
-	@Log("配置邮件")
+	@LogOperate("配置邮件")
 	@PutMapping
 	@ApiOperation("配置邮件")
 	public ResponseEntity<Object> updateConfig(@Validated @RequestBody EmailConfig emailConfig) throws Exception {
@@ -54,7 +54,7 @@ public class EmailResource {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@Log("发送邮件")
+	@LogOperate("发送邮件")
 	@PostMapping
 	@ApiOperation("发送邮件")
 	public ResponseEntity<Object> send(@Validated @RequestBody EmailVo emailVo) {

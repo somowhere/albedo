@@ -17,10 +17,6 @@ import java.util.stream.Collectors;
  * @date 2017/3/2
  */
 public class ResponseEntityBuilder {
-	public static ResponseEntity<Result> build(Result customMessage) {
-		return new ResponseEntity(customMessage, customMessage.getHttpStatus() == null ?
-			HttpStatus.OK : customMessage.getHttpStatus());
-	}
 
 	public static ResponseEntity<Result> buildOk(String... messages) {
 		return new ResponseEntity(Result.buildOk(messages), HttpStatus.OK);
@@ -39,7 +35,6 @@ public class ResponseEntityBuilder {
 			messages = new String[]{"failed"};
 		}
 		Result warn = Result.buildFailData(data, messages);
-		warn.setHttpStatus(httpStatus);
 		return new ResponseEntity(warn, httpStatus != null ? httpStatus : HttpStatus.OK);
 
 	}

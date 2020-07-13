@@ -9,7 +9,7 @@ import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.StringUtil;
-import com.albedo.java.common.log.annotation.Log;
+import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.RedisUtil;
 import com.albedo.java.common.web.resource.BaseResource;
@@ -96,7 +96,7 @@ public class AccoutResource extends BaseResource {
 		return Result.buildOk("头像修改成功");
 	}
 
-	@Log("修改邮箱")
+	@LogOperate("修改邮箱")
 	@ApiOperation("修改邮箱")
 	@PostMapping(value = "/account/change-email/{code}")
 	public ResponseEntity<Object> updateEmail(@PathVariable String code, @RequestBody UserEmailDto userEmailDto) {

@@ -23,7 +23,7 @@ import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
-import com.albedo.java.common.log.annotation.Log;
+import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.Role;
@@ -76,7 +76,7 @@ public class RoleResource extends BaseResource {
 	 * @param roleDto 角色信息
 	 * @return success、false
 	 */
-	@Log(value = "角色管理编辑")
+	@LogOperate(value = "角色管理编辑")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_role_edit')")
 	public Result save(@Valid @RequestBody RoleDto roleDto) {
@@ -109,7 +109,7 @@ public class RoleResource extends BaseResource {
 	 * @return 分页对象
 	 */
 	@GetMapping
-	@Log(value = "角色管理查看")
+	@LogOperate(value = "角色管理查看")
 	public Result<IPage> getPage(PageModel pm, RoleQueryCriteria roleQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, roleQueryCriteria);
 		return Result.buildOkData(roleService.page(pm, wrapper));
@@ -122,7 +122,7 @@ public class RoleResource extends BaseResource {
 	 * @return success、false
 	 */
 	@PutMapping("/menu")
-	@Log(value = "角色管理编辑")
+	@LogOperate(value = "角色管理编辑")
 	@PreAuthorize("@pms.hasPermission('sys_role_edit')")
 	public Result saveRoleMenus(@Valid @RequestBody RoleMenuDto roleMenuDto) {
 		Role role = roleService.getById(roleMenuDto.getRoleId());
@@ -137,7 +137,7 @@ public class RoleResource extends BaseResource {
 	 * @param ids
 	 * @return
 	 */
-	@Log(value = "角色管理删除")
+	@LogOperate(value = "角色管理删除")
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_role_del')")
 	public Result removeByIds(@RequestBody Set<String> ids) {
@@ -154,7 +154,7 @@ public class RoleResource extends BaseResource {
 	 * @return
 	 */
 	@PutMapping
-	@Log(value = "角色管理锁定/解锁")
+	@LogOperate(value = "角色管理锁定/解锁")
 	@PreAuthorize("@pms.hasPermission('sys_role_lock')")
 	public Result lockOrUnLock(@RequestBody Set<String> ids) {
 		roleService.listByIds(ids).stream().forEach(item -> {

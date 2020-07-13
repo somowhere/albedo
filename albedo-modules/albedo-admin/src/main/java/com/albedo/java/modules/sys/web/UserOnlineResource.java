@@ -3,7 +3,7 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
-import com.albedo.java.common.log.annotation.Log;
+import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.security.component.session.RedisSessionRegistry;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.UserOnline;
@@ -43,7 +43,7 @@ public class UserOnlineResource extends BaseResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_userOnline_view')")
-	@Log(value = "在线用户查看")
+	@LogOperate(value = "在线用户查看")
 	public Result findPage(PageModel pm, UserOnlineQueryCriteria userOnlineQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, userOnlineQueryCriteria);
 		return Result.buildOkData(userOnlineService.page(pm, wrapper));
@@ -51,7 +51,7 @@ public class UserOnlineResource extends BaseResource {
 
 
 	@PreAuthorize("@pms.hasPermission('sys_userOnline_logout')")
-	@Log(value = "在线用户强退")
+	@LogOperate(value = "在线用户强退")
 	@PutMapping("/batch-force-logout")
 	public Result batchForceLogout(@RequestBody Set<String> ids, HttpServletRequest request) {
 		for (String id : ids) {
@@ -74,7 +74,7 @@ public class UserOnlineResource extends BaseResource {
 	}
 
 	@PreAuthorize("@pms.hasPermission('sys_userOnline_del')")
-	@Log(value = "在线用户删除")
+	@LogOperate(value = "在线用户删除")
 	@DeleteMapping
 	public Result remove(@RequestBody Set<String> ids, HttpServletRequest request) {
 		for (String id : ids) {

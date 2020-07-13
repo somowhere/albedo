@@ -28,7 +28,7 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Log {
+public @interface LogOperate {
 
 	/**
 	 * 描述

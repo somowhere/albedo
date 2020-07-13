@@ -19,7 +19,7 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
-import com.albedo.java.common.log.annotation.Log;
+import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.modules.sys.domain.dto.PersistentTokenQueryCriteria;
 import com.albedo.java.modules.sys.service.PersistentTokenService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -46,7 +46,7 @@ public class PersistentTokenResource {
 	 * @param ids
 	 * @return
 	 */
-	@Log(value = "令牌管理删除")
+	@LogOperate(value = "令牌管理删除")
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_persistentToken_del')")
 	public Result removeByIds(@RequestBody Set<String> ids) {
@@ -62,7 +62,7 @@ public class PersistentTokenResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_persistentToken_view')")
-	@Log(value = "令牌管理查看")
+	@LogOperate(value = "令牌管理查看")
 	public Result findPage(PageModel pm, PersistentTokenQueryCriteria persistentTokenQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, persistentTokenQueryCriteria);
 		return Result.buildOkData(persistentTokenService.page(pm, wrapper));

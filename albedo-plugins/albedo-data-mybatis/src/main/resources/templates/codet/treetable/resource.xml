@@ -14,7 +14,7 @@ import com.albedo.java.common.core.util.BeanUtil;
 import com.albedo.java.common.core.util.R;
 import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.common.core.vo.PageModel;
-import com.albedo.java.common.log.annotation.Log;
+import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.web.resource.BaseResource;
 import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Vo;

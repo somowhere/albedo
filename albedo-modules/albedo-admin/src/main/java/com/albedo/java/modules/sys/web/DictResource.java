@@ -21,7 +21,7 @@ import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.Json;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.vo.SelectResult;
-import com.albedo.java.common.log.annotation.Log;
+import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.domain.dto.DictDto;
@@ -83,7 +83,7 @@ public class DictResource extends BaseResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_dict_view')")
-	@Log(value = "字典管理查看")
+	@LogOperate(value = "字典管理查看")
 	public Result<IPage<DictVo>> findTreeList(DictQueryCriteria dictQueryCriteria) {
 		IPage<DictVo> treeList = dictService.findTreeList(dictQueryCriteria);
 		return Result.buildOkData(treeList);
@@ -110,7 +110,7 @@ public class DictResource extends BaseResource {
 	 */
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_dict_edit')")
-	@Log(value = "字典管理编辑")
+	@LogOperate(value = "字典管理编辑")
 	public Result save(@Valid @RequestBody DictDto dictDto) {
 		dictService.saveOrUpdate(dictDto);
 		return Result.buildOk("操作成功");
@@ -124,7 +124,7 @@ public class DictResource extends BaseResource {
 	 */
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_dict_del')")
-	@Log(value = "字典管理删除")
+	@LogOperate(value = "字典管理删除")
 	public Result removeByIds(@RequestBody Set<String> ids) {
 		return Result.buildOkData(dictService.removeByIds(ids));
 	}
@@ -134,7 +134,7 @@ public class DictResource extends BaseResource {
 	 * @return
 	 */
 	@PutMapping
-	@Log(value = "字典管理锁定/解锁")
+	@LogOperate(value = "字典管理锁定/解锁")
 	@PreAuthorize("@pms.hasPermission('sys_dept_lock')")
 	public Result lockOrUnLock(@RequestBody Set<String> ids) {
 		dictService.lockOrUnLock(ids);

@@ -7,7 +7,7 @@ import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
-import com.albedo.java.common.log.annotation.Log;
+import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.quartz.domain.dto.JobDto;
 import com.albedo.java.modules.quartz.domain.dto.JobQueryCriteria;
@@ -54,7 +54,7 @@ public class JobResource extends BaseResource {
 
 	@PreAuthorize("@pms.hasPermission('quartz_job_view')")
 	@GetMapping
-	@Log(value = "任务调度查看")
+	@LogOperate(value = "任务调度查看")
 	public Result<IPage> getPage(PageModel pm, JobQueryCriteria jobQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, jobQueryCriteria);
 		return Result.buildOkData(jobService.page(pm, wrapper));
@@ -66,7 +66,7 @@ public class JobResource extends BaseResource {
 	 * @param jobVo the HTTP job
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
-	@Log(value = "任务调度编辑")
+	@LogOperate(value = "任务调度编辑")
 	@PostMapping
 	public Result save(@Valid @RequestBody JobDto jobVo) {
 		log.debug("REST request to save JobForm : {}", jobVo);
@@ -82,7 +82,7 @@ public class JobResource extends BaseResource {
 	 * @return the Result with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_del')")
-	@Log(value = "任务调度删除")
+	@LogOperate(value = "任务调度删除")
 	@DeleteMapping
 	public Result delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete Job: {}", ids);
@@ -97,7 +97,7 @@ public class JobResource extends BaseResource {
 	 * @return the Result with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
-	@Log(value = "任务调度编辑")
+	@LogOperate(value = "任务调度编辑")
 	@PutMapping("/update-status")
 	public Result updateStatus(@RequestBody Set<String> ids) {
 		log.debug("REST request to available Job: {}", ids);
@@ -112,7 +112,7 @@ public class JobResource extends BaseResource {
 	 * @return the Result with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
-	@Log(value = "任务调度编辑")
+	@LogOperate(value = "任务调度编辑")
 	@PutMapping("/run")
 	public Result run(@RequestBody Set<String> ids) {
 		log.debug("REST request to available Job: {}", ids);
@@ -127,7 +127,7 @@ public class JobResource extends BaseResource {
 	 * @return the Result with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
-	@Log(value = "任务调度编辑")
+	@LogOperate(value = "任务调度编辑")
 	@PutMapping("/concurrent")
 	public Result concurrent(@RequestBody Set<String> ids) {
 		log.debug("REST request to available Job: {}", ids);

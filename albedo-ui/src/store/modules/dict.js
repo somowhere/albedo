@@ -1,5 +1,5 @@
 import loginService from '@/api/login'
-import { MSG_TYPE_SUCCESS } from '@/const/common'
+import {MSG_TYPE_SUCCESS} from '@/const/common'
 
 const dict = {
   state: {

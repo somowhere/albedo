@@ -314,7 +314,7 @@ export default {
     },
     // 获取部门数据
     getDepts() {
-      getDepts({ enabled: true }).then(res => {
+      getDepts({ available: true }).then(res => {
         this.depts = res.data
       })
     },

@@ -22,7 +22,7 @@ import com.albedo.java.common.core.util.ResponseEntityBuilder;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
-import com.albedo.java.common.log.annotation.Log;
+import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.common.web.resource.BaseResource;
@@ -75,13 +75,13 @@ public class UserResource extends BaseResource {
 	 * @return 用户集合
 	 */
 	@GetMapping
-	@Log(value = "用户管理查看")
+	@LogOperate(value = "用户管理查看")
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
 	public Result<IPage<UserVo>> findPage(PageModel pm, UserQueryCriteria userQueryCriteria) {
 		return Result.buildOkData(userService.findPage(pm, userQueryCriteria, SecurityUtil.getDataScope()));
 	}
 
-	@Log(value = "用户管理导出")
+	@LogOperate(value = "用户管理导出")
 	@GetMapping(value = "/download")
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
 	public void download(UserQueryCriteria userQueryCriteria, HttpServletResponse response) {
@@ -111,7 +111,7 @@ public class UserResource extends BaseResource {
 	 * @param userInfoDto 用户信息
 	 * @return R
 	 */
-	@Log(value = "用户管理编辑")
+	@LogOperate(value = "用户管理编辑")
 	@PostMapping("/info")
 	public Result saveInfo(@Valid @RequestBody UserInfoDto userInfoDto) {
 		log.debug("REST request to save userDto : {}", userInfoDto);
@@ -142,7 +142,7 @@ public class UserResource extends BaseResource {
 	 * @param ids
 	 * @return
 	 */
-	@Log(value = "用户管理删除")
+	@LogOperate(value = "用户管理删除")
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_del')")
 	public Result removeByIds(@RequestBody Set<String> ids) {
@@ -155,7 +155,7 @@ public class UserResource extends BaseResource {
 	 * @param userDto 用户信息
 	 * @return R
 	 */
-	@Log(value = "用户管理编辑")
+	@LogOperate(value = "用户管理编辑")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
 	public Result save(@Valid @RequestBody UserDto userDto) {
@@ -184,7 +184,7 @@ public class UserResource extends BaseResource {
 	 * @return
 	 */
 	@PutMapping
-	@Log(value = "用户管理锁定/解锁")
+	@LogOperate(value = "用户管理锁定/解锁")
 	@PreAuthorize("@pms.hasPermission('sys_user_lock')")
 	public Result lockOrUnLock(@RequestBody Set<String> ids) {
 		userService.lockOrUnLock(ids);
@@ -194,7 +194,7 @@ public class UserResource extends BaseResource {
 
 	@PostMapping(value = "/upload")
 	@PreAuthorize("@pms.hasPermission('sys_user_upload')")
-	@Log(value = "用户管理导入")
+	@LogOperate(value = "用户管理导入")
 	public ResponseEntity uploadData(@RequestParam("uploadFile") MultipartFile dataFile, HttpServletResponse response) throws Exception {
 		if (dataFile.isEmpty()) {
 			return ResponseEntityBuilder.buildFail("上传文件为空");
@@ -214,7 +214,7 @@ public class UserResource extends BaseResource {
 
 	@GetMapping(value = "/importTemplate")
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
-	@Log(value = "用户导入模板导出")
+	@LogOperate(value = "用户导入模板导出")
 	public void importTemplate(HttpServletResponse response) {
 		ExcelUtil<UserExcelVo> util = new ExcelUtil(UserExcelVo.class);
 		util.exportExcel(Lists.newArrayList(new UserExcelVo()), "操作日志", response);

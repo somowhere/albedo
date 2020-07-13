@@ -6,7 +6,7 @@ package com.albedo.java.modules.quartz.web;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
-import com.albedo.java.common.log.annotation.Log;
+import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.quartz.domain.dto.JobLogQueryCriteria;
@@ -42,7 +42,7 @@ public class JobLogResource extends BaseResource {
 
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_view')")
 	@GetMapping
-	@Log(value = "任务日志查看")
+	@LogOperate(value = "任务日志查看")
 	public Result getPage(PageModel pm, JobLogQueryCriteria jobLogQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, jobLogQueryCriteria);
 		return Result.buildOkData(jobLogService.page(pm, wrapper));
@@ -56,7 +56,7 @@ public class JobLogResource extends BaseResource {
 	 * @return the Result with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_del')")
-	@Log(value = "任务日志删除")
+	@LogOperate(value = "任务日志删除")
 	@DeleteMapping
 	public Result delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete JobLog: {}", ids);
@@ -64,7 +64,7 @@ public class JobLogResource extends BaseResource {
 		return Result.buildOk("删除任务调度日志成功");
 	}
 
-	@Log(value = "任务日志清空")
+	@LogOperate(value = "任务日志清空")
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_clean')")
 	@PostMapping("/clean")
 	@ResponseBody
@@ -73,7 +73,7 @@ public class JobLogResource extends BaseResource {
 		return Result.buildOk("清空任务调度日志成功");
 	}
 
-	@Log(value = "任务日志导出")
+	@LogOperate(value = "任务日志导出")
 	@GetMapping(value = "/download")
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_export')")
 	public void download(JobLogQueryCriteria jobLogQueryCriteria, HttpServletResponse response) {

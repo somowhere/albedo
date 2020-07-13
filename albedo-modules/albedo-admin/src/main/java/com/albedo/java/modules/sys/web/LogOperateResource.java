@@ -18,11 +18,10 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
-import com.albedo.java.common.log.annotation.Log;
+import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.log.enums.LogType;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.ExcelUtil;
-import com.albedo.java.modules.sys.domain.LogOperate;
 import com.albedo.java.modules.sys.domain.dto.LogOperateQueryCriteria;
 import com.albedo.java.modules.sys.service.LogOperateService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -72,18 +71,18 @@ public class LogOperateResource {
 	 */
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_del')")
-	@Log(value = "操作日志删除")
+	@LogOperate(value = "操作日志删除")
 	public Result removeById(@RequestBody Set<String> ids) {
 		return Result.buildOkData(logOperateService.removeByIds(ids));
 	}
 
 
-	@Log(value = "操作日志导出")
+	@LogOperate(value = "操作日志导出")
 	@GetMapping(value = "/download")
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_export')")
 	public void download(LogOperateQueryCriteria logOperateQueryCriteria, HttpServletResponse response) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(logOperateQueryCriteria);
-		ExcelUtil<LogOperate> util = new ExcelUtil(LogOperate.class);
+		ExcelUtil<com.albedo.java.modules.sys.domain.LogOperate> util = new ExcelUtil(com.albedo.java.modules.sys.domain.LogOperate.class);
 		util.exportExcel(logOperateService.list(wrapper), "操作日志", response);
 	}
 
@@ -92,8 +91,8 @@ public class LogOperateResource {
 	public Result<Object> getUserLogs(PageModel pm, LogOperateQueryCriteria criteria) {
 		criteria.setLogType(Lists.newArrayList(LogType.INFO.name(), LogType.WARN.name()));
 		criteria.setUsername(SecurityUtil.getUser().getUsername());
-		pm.addOrder(OrderItem.desc(LogOperate.F_SQL_CREATEDDATE));
-		QueryWrapper<LogOperate> wrapper = QueryWrapperUtil.<LogOperate>getWrapper(pm, criteria);
+		pm.addOrder(OrderItem.desc(com.albedo.java.modules.sys.domain.LogOperate.F_SQL_CREATEDDATE));
+		QueryWrapper<com.albedo.java.modules.sys.domain.LogOperate> wrapper = QueryWrapperUtil.<com.albedo.java.modules.sys.domain.LogOperate>getWrapper(pm, criteria);
 
 		return Result.buildOkData(logOperateService.page(pm, wrapper));
 	}

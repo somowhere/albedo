@@ -25,7 +25,7 @@
           value-format="yyyy-MM-dd HH:mm:ss"
         />
         <el-select
-          v-model="query.enabled"
+          v-model="query.available"
           class="filter-item"
           clearable
           placeholder="状态"
@@ -179,7 +179,6 @@ export default {
   methods: {
     // 新增与编辑前做的操作
     [CRUD.HOOK.afterToCU](crud, form) {
-      form.enabled = `${form.enabled}`
       // 获取所有字典
       crudDict.getDicts({ notId: form.id, available: 1 }).then(res => {
         this.dictTreeData = []

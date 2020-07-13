@@ -46,11 +46,6 @@ public class Result<T> implements Serializable {
 
 	@Getter
 	@Setter
-	private HttpStatus httpStatus;
-
-
-	@Getter
-	@Setter
 	private T data;
 
 
