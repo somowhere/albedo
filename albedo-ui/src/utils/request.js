@@ -1,10 +1,10 @@
 import axios from 'axios'
 import router from '@/router/routers'
-import {MessageBox, Notification} from 'element-ui'
+import { MessageBox, Notification } from 'element-ui'
 import store from '../store'
 import Config from '@/settings'
 import commonUtil from './common'
-import {MSG_TYPE_FAIL, MSG_TYPE_SUCCESS} from '@/const/common'
+import { MSG_TYPE_FAIL, MSG_TYPE_SUCCESS } from '@/const/common'
 import validate from './validate'
 
 export const errorCode = {

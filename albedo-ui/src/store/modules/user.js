@@ -1,7 +1,7 @@
 import commonUtil from '@/utils/common'
 import loginService from '@/api/login'
 import storeApi from '@/utils/store'
-import {MSG_TYPE_SUCCESS} from '@/const/common'
+import { MSG_TYPE_SUCCESS } from '@/const/common'
 
 const user = {
   state: {
