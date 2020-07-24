@@ -19,7 +19,7 @@ import com.albedo.java.common.core.annotation.Query;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,5 +34,5 @@ public class TableQueryCriteria implements Serializable {
 
 
 	@Query(propName = "created_date", operator = Query.Operator.between)
-	private List<Timestamp> createdDate;
+	private List<Date> createdDate;
 }

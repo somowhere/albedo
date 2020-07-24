@@ -118,9 +118,8 @@ public class SysLogAspect {
 		StringBuilder beforeReqLog = new StringBuilder(300);
 		// 日志参数
 		List<Object> beforeReqArgs = new ArrayList<>();
-		beforeReqLog.append("\n\n================  Request Start  ================\n");
 		// 打印路由
-		beforeReqLog.append("===> {}: {}");
+		beforeReqLog.append("Request===> {}: {}");
 		beforeReqArgs.add(requestMethod);
 		beforeReqArgs.add(requestURI);
 		// 方法路径
@@ -137,34 +136,27 @@ public class SysLogAspect {
 		logOperateVo.setOperatorType(logOperate.operatorType().name());
 		// 请求参数
 		if (paramMap.isEmpty()) {
-			beforeReqLog.append("\n");
+			beforeReqLog.append("");
 		} else {
-			beforeReqLog.append(" Parameters: {}\n");
+			beforeReqLog.append(" Parameters: {}");
 			beforeReqArgs.add(logOperateVo.getParams());
 		}
-		// 打印请求头
-		Enumeration<String> headers = request.getHeaderNames();
-		while (headers.hasMoreElements()) {
-			String headerName = headers.nextElement();
-			String headerValue = request.getHeader(headerName);
-			beforeReqLog.append("===Headers===  {} : {}\n");
-			beforeReqArgs.add(headerName);
-			beforeReqArgs.add(headerValue);
-		}
-		beforeReqLog.append("================  Request End   ================\n");
 		log.info(beforeReqLog.toString(), beforeReqArgs.toArray());
 		// aop 执行后的日志
 		StringBuilder afterReqLog = new StringBuilder(200);
 		// 日志参数
 		List<Object> afterReqArgs = new ArrayList<>();
-		afterReqLog.append("\n\n================  Response Start  ================\n");
 		long startNs = System.nanoTime();
-		Object result;
+		Object result = null;
 		try {
 			result = point.proceed();
+			beforeReqLog.append("Request===> {}: {}");
+			beforeReqArgs.add(requestMethod);
+			beforeReqArgs.add(requestURI);
 			// 打印返回结构体
-			afterReqLog.append("===Result===  {}\n");
-			afterReqArgs.add(Json.toJsonString(result));
+			afterReqLog.append("Response===> {}: {}");
+			afterReqArgs.add(requestMethod);
+			afterReqArgs.add(requestURI);
 			logOperateVo.setLogType(LogType.INFO.name());
 		} catch (Exception e) {
 			logOperateVo.setException(ExceptionUtil.stacktraceToString(e));
@@ -172,11 +164,9 @@ public class SysLogAspect {
 			throw e;
 		} finally {
 			long tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs);
-			afterReqLog.append("<=== {}: {} ({} ms)\n");
-			afterReqArgs.add(requestMethod);
-			afterReqArgs.add(requestURI);
+			afterReqLog.append(" time ({} ms) Result:{}");
 			afterReqArgs.add(tookMs);
-			afterReqLog.append("================  Response End   ================\n");
+			afterReqArgs.add(Json.toJsonString(result));
 			log.info(afterReqLog.toString(), afterReqArgs.toArray());
 			saveLog(tookMs, logOperateVo, logOperate);
 		}

@@ -38,7 +38,6 @@ public class AlbedoSwaggerCustomizer implements SwaggerCustomizer, Ordered {
 		docket.host(this.applicationSwaggerProperties.getHost())
 			.protocols(new HashSet(Arrays.asList(this.applicationSwaggerProperties.getProtocols())))
 			.apiInfo(apiInfo).useDefaultResponseMessages(this.applicationSwaggerProperties.isUseDefaultResponseMessages())
-//            .forCodeGeneration(true)
 			.securitySchemes(securitySchemes())
 			.securityContexts(securityContexts())
 			.forCodeGeneration(true).directModelSubstitute(ByteBuffer.class, String.class)
