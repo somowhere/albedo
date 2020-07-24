@@ -49,7 +49,6 @@ import java.util.LinkedHashMap;
 @Profile(CommonConstants.SPRING_PROFILE_JWT)
 public class AccoutJwtResource extends BaseResource {
 
-	private final RedisTemplate redisTemplate;
 	private final TokenProvider tokenProvider;
 	private final ApplicationProperties applicationProperties;
 	private final AuthenticationManager authenticationManager;
@@ -79,7 +78,7 @@ public class AccoutJwtResource extends BaseResource {
 	@AnonymousAccess
 	@PostMapping(SecurityConstants.AUTHENTICATE_URL)
 	@ApiOperation("认证授权")
-	public ResponseEntity authorize(@Valid @RequestBody LoginVo loginVo) {
+	public ResponseEntity<Result> authorize(@Valid @RequestBody LoginVo loginVo) {
 
 		Date canLoginDate = RedisUtil.getCacheObject(SecurityConstants.DEFAULT_LOGIN_AFTER_24_KEY + loginVo.getUsername());
 		if (canLoginDate != null) {
@@ -146,7 +145,7 @@ public class AccoutJwtResource extends BaseResource {
 	@AnonymousAccess
 	@GetMapping(value = "/logout")
 	@ApiOperation("登出")
-	public ResponseEntity logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
+	public ResponseEntity<Result> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
 								 HttpServletRequest request, HttpServletResponse response) {
 		String tokenValue = authHeader.replace("Bearer ", StrUtil.EMPTY).trim();
 		RedisUtil.delete(tokenValue);
