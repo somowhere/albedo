@@ -135,9 +135,7 @@ public class SysLogAspect {
 		logOperateVo.setParams(Json.toJsonString(paramMap));
 		logOperateVo.setOperatorType(logOperate.operatorType().name());
 		// 请求参数
-		if (paramMap.isEmpty()) {
-			beforeReqLog.append("");
-		} else {
+		if (!paramMap.isEmpty()) {
 			beforeReqLog.append(" Parameters: {}");
 			beforeReqArgs.add(logOperateVo.getParams());
 		}
