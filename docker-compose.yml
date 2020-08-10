@@ -60,12 +60,3 @@ services:
     hostname: albedo-quartz
     image: albedo-quartz
 
-  albedo-ui:
-    build:
-      context: ./
-      dockerfile: ./albedo-ui/Dockerfile
-    restart: always
-    container_name: albedo-ui
-    hostname: albedo-ui
-    image: albedo-ui
-
