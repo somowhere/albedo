@@ -38,6 +38,8 @@ services:
       context: ./
       dockerfile: ./albedo-modules/albedo-admin/Dockerfile
     restart: always
+    ports:
+      - 4000:4000
     container_name: albedo-admin
     hostname: albedo-admin
     image: albedo-admin
@@ -47,6 +49,8 @@ services:
       context: ./
       dockerfile: ./albedo-modules/albedo-api/Dockerfile
     restart: always
+    ports:
+      - 4001:4001
     container_name: albedo-api
     hostname: albedo-api
     image: albedo-api
@@ -56,6 +60,8 @@ services:
       context: ./
       dockerfile: ./albedo-modules/albedo-quartz/Dockerfile
     restart: always
+    ports:
+      - 4002:4002
     container_name: albedo-quartz
     hostname: albedo-quartz
     image: albedo-quartz
