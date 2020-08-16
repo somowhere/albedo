@@ -20,10 +20,10 @@ services:
       --collation-server=utf8mb4_general_ci
       --explicit_defaults_for_timestamp=true
       --lower_case_table_names=1
-    volumes:
-      - ./mysql/data:/var/lib/mysql
-      - ./mysql/log:/var/log/mysql
-      - ./mysql/config:/etc/mysql
+#    volumes:
+#      - ./mysql/data:/var/lib/mysql
+#      - ./mysql/log:/var/log/mysql
+#      - ./mysql/config:/etc/mysql
 
   albedo-redis:
     image: redis:5.0
@@ -66,3 +66,13 @@ services:
     hostname: albedo-quartz
     image: albedo-quartz
 
+  albedo-ui:
+    build:
+      context: ./
+      dockerfile: ./albedo-ui/Dockerfile
+    restart: always
+    container_name: albedo-ui
+    hostname: albedo-ui
+    image: albedo-ui
+    ports:
+      - 8081:80
