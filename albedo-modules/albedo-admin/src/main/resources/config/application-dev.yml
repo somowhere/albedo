@@ -15,7 +15,6 @@ spring:
       - swagger
   #      - jwt
   redis:
-    password:
     host: localhost
   datasource:
     type: com.zaxxer.hikari.HikariDataSource

@@ -21,7 +21,6 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtil {
 
 	public static RedisTemplate redisTemplate = SpringContextHolder.getBean("redisTemplate");
-	public static StringRedisTemplate stringRedisTemplate = SpringContextHolder.getBean("stringRedisTemplate");
 
 	/**
 	 * 缓存基本的对象，Integer、String、实体类等
@@ -261,7 +260,7 @@ public class RedisUtil {
 		if (log.isDebugEnabled()) {
 			log.debug("sendScheduleChannelMessage===>" + Json.toJSONString(message));
 		}
-		stringRedisTemplate.convertAndSend(ScheduleConstants.REDIS_SCHEDULE_DEFAULT_CHANNEL,
-			Json.toJSONString(message));
+		redisTemplate.convertAndSend(ScheduleConstants.REDIS_SCHEDULE_DEFAULT_CHANNEL,
+			message);
 	}
 }

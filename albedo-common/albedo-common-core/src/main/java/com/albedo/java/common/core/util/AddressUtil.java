@@ -21,7 +21,7 @@ public class AddressUtil {
 		String address = "XX XX";
 
 		// 内网不查询
-		if (NetUtil.isInnerIP(ip)) {
+		if ("0:0:0:0:0:0:0:1".equals(ip) || NetUtil.isInnerIP(ip)) {
 			return "内网IP";
 		}
 		if (ApplicationConfig.isAddressEnabled()) {

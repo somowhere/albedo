@@ -15,7 +15,6 @@ spring:
       - swagger
       - jwt
   redis:
-    password:
     host: albedo-redis
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
