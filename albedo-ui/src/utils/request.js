@@ -100,13 +100,11 @@ service.interceptors.response.use(
       } else if (status === 403) {
         router.push({ path: '/401' })
       } else {
-        const errorMsg = error.response.data.message
-        if (errorMsg !== undefined) {
-          Notification.error({
-            title: errorMsg,
-            duration: 5000
-          })
-        }
+        const errorMsg = error.response.data.message || message
+        Notification.error({
+          title: errorMsg,
+          duration: 5000
+        })
       }
     } else {
       Notification.error({
