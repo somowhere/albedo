@@ -25,6 +25,9 @@ import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.http.HttpUtil;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.SecurityConstants;
+import com.albedo.java.common.core.exception.RuntimeMsgException;
+import com.albedo.java.common.core.util.Result;
+import com.albedo.java.common.core.util.WebUtil;
 import com.albedo.java.common.security.filter.warpper.ParameterRequestWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -82,7 +85,8 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
 				password = decryptAes(password, applicationProperties.getSecurity().getEncodeKey());
 			} catch (Exception e) {
 				log.error("密码解密失败:{}", password);
-				throw e;
+				WebUtil.renderJson(response, Result.buildFail("非法密码输入"));
+				return;
 			}
 			paramMap.put(PASSWORD, password.trim());
 		}

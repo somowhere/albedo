@@ -45,7 +45,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${application.admin-path}/tool/aliPay")
-@Api(tags = "工具：支付宝管理")
+@Api(tags = "工具-支付宝管理")
 public class AliPayResource {
 
 	private final AliPayUtils alipayUtils;

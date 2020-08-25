@@ -4,6 +4,7 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import com.albedo.java.common.core.util.ResponseEntityBuilder;
 import com.albedo.java.common.web.resource.vm.LoggerVo;
+import io.swagger.annotations.Api;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/management")
+@Api(tags = "系统日志")
 public class LogsResource {
 
 	@GetMapping("/logs")

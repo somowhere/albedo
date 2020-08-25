@@ -38,6 +38,7 @@ import com.albedo.java.modules.sys.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -55,6 +56,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("${application.admin-path}/sys/role")
 @AllArgsConstructor
+@Api(tags = "角色管理")
 public class RoleResource extends BaseResource {
 	private final RoleService roleService;
 	private final RoleMenuService roleMenuService;

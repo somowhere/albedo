@@ -41,7 +41,7 @@ public class AlbedoSwaggerCustomizer implements SwaggerCustomizer, Ordered {
 			.securitySchemes(securitySchemes())
 			.securityContexts(securityContexts())
 			.forCodeGeneration(true).directModelSubstitute(ByteBuffer.class, String.class)
-			.genericModelSubstitutes(new Class[]{ResponseEntity.class})
+			.genericModelSubstitutes(ResponseEntity.class)
 			.ignoredParameterTypes(PageModel.class).select()
 			.paths(PathSelectors.regex(this.applicationSwaggerProperties.getDefaultIncludePattern()))
 			.build();

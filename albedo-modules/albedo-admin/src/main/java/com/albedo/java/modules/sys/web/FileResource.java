@@ -5,6 +5,7 @@ import com.albedo.java.common.core.util.FileUploadUtil;
 import com.albedo.java.common.core.util.FileUtil;
 import com.albedo.java.common.core.util.Result;
 import com.google.common.collect.Maps;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,7 @@ import java.util.HashMap;
 @Controller
 @Slf4j
 @RequestMapping("${application.admin-path}/file")
+@Api(tags = "文件管理")
 public class FileResource {
 
 

@@ -16,6 +16,17 @@ router.beforeEach((to, from, next) => {
     document.title = to.meta.title + ' - ' + Config.title
   }
   NProgress.start()
+  if (!store.getters.loginSuccess) {
+    store.dispatch('isAuthenticate').then(() => {
+      checkLogin(next, to)
+    }).catch((err) => {
+      console.log(err)
+    })
+  } else {
+    checkLogin(next, to)
+  }
+})
+export const checkLogin = (next, to) => {
   // 是否登录成功
   if (store.getters.loginSuccess) {
     // 已登录且要跳转的页面是登录页
@@ -24,8 +35,8 @@ router.beforeEach((to, from, next) => {
       NProgress.done()
     } else {
       if (validate.checkNull(store.getters.user)) { // 判断当前用户是否已拉取完user_info信息
-        store.dispatch('GetUser').then(res => { // 拉取user_info
-          store.dispatch('GetDicts').then(res => {
+        store.dispatch('GetUser').then(() => { // 拉取user_info
+          store.dispatch('GetDicts').then(() => {
             // 动态路由，拉取菜单
             loadMenus(next, to)
           }).catch((err) => {
@@ -54,8 +65,7 @@ router.beforeEach((to, from, next) => {
       NProgress.done()
     }
   }
-})
-
+}
 export const loadMenus = (next, to) => {
   buildMenus().then(res => {
     const asyncRouter = filterAsyncRouter(res.data)

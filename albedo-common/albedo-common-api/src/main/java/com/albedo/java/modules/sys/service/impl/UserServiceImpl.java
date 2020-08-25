@@ -300,7 +300,6 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 			int i = repository.updateById(user);
 			Assert.isTrue(i != 0, "无法更新ID为" + id + "的数据");
 		}
-		;
 	}
 
 	@Override

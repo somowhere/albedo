@@ -2,8 +2,10 @@ package com.albedo.java.common.security.filter;
 
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.SecurityConstants;
+import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.StringUtil;
+import com.albedo.java.common.core.util.WebUtil;
 import com.albedo.java.common.security.util.LoginUtil;
 import com.albedo.java.modules.sys.domain.vo.account.LoginVo;
 import lombok.AllArgsConstructor;
@@ -42,7 +44,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 				try {
 					LoginUtil.checkCode(loginVo);
 				} catch (AuthenticationException e) {
-					authenticationFailureHandler.onAuthenticationFailure(request, response, e);
+					WebUtil.renderJson(response, Result.buildFail(e.getMessage()));
 					return;
 				}
 			}

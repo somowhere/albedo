@@ -11,6 +11,7 @@ import com.albedo.java.modules.sys.domain.dto.UserOnlineQueryCriteria;
 import com.albedo.java.modules.sys.domain.enums.OnlineStatus;
 import com.albedo.java.modules.sys.service.UserOnlineService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,6 +30,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("${application.admin-path}/sys/user-online")
 @AllArgsConstructor
+@Api(tags = "在线用户")
 public class UserOnlineResource extends BaseResource {
 
 	private final UserOnlineService userOnlineService;

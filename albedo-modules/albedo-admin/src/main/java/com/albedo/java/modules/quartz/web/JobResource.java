@@ -14,6 +14,7 @@ import com.albedo.java.modules.quartz.domain.dto.JobQueryCriteria;
 import com.albedo.java.modules.quartz.service.JobService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,7 @@ import java.util.Set;
 @RestController
 @RequestMapping(value = "${application.admin-path}/quartz/job")
 @AllArgsConstructor
+@Api(tags = "定时任务")
 public class JobResource extends BaseResource {
 
 	private final JobService jobService;

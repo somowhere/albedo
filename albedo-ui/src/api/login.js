@@ -22,6 +22,12 @@ const loginService = {
       method: 'get'
     })
   },
+  isAuthenticate() {
+    return request({
+      url: '/authenticate',
+      method: 'get'
+    })
+  },
   logout() {
     return request({
       url: '/logout',

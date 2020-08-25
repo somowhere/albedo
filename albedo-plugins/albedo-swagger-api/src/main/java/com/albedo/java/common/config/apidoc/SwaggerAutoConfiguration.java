@@ -3,6 +3,7 @@ package com.albedo.java.common.config.apidoc;
 import com.albedo.java.common.config.ApplicationSwaggerProperties;
 import com.albedo.java.common.config.apidoc.customizer.AlbedoSwaggerCustomizer;
 import com.albedo.java.common.config.apidoc.customizer.SwaggerCustomizer;
+import com.albedo.java.common.config.apidoc.customizer.SwaggerLoginApi;
 import com.albedo.java.common.core.vo.PageModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,6 +99,15 @@ public class SwaggerAutoConfiguration {
 	@Bean
 	public AlbedoSwaggerCustomizer albedoSwaggerCustomizer() {
 		return new AlbedoSwaggerCustomizer(applicationSwaggerProperties);
+	}
+
+	/**
+	 * Albedo login api
+	 *
+	 */
+	@Bean
+	public SwaggerLoginApi swaggerLoginApi() {
+		return new SwaggerLoginApi(applicationSwaggerProperties);
 	}
 
 	/**

@@ -29,6 +29,7 @@ import com.albedo.java.modules.sys.domain.dto.DictQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.DictVo;
 import com.albedo.java.modules.sys.service.DictService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -50,6 +51,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("${application.admin-path}/sys/dict")
 @AllArgsConstructor
+@Api(tags = "字典管理")
 public class DictResource extends BaseResource {
 
 	private final DictService dictService;

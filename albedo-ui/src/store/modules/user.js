@@ -2,6 +2,7 @@ import commonUtil from '@/utils/common'
 import loginService from '@/api/login'
 import storeApi from '@/utils/store'
 import { MSG_TYPE_SUCCESS } from '@/const/common'
+import validate from '../../utils/validate'
 
 const user = {
   state: {
@@ -58,7 +59,20 @@ const user = {
         })
       })
     },
-
+    // 获取用户信息
+    isAuthenticate({ commit }) {
+      return new Promise((resolve, reject) => {
+        loginService.isAuthenticate().then((res) => {
+          if (validate.checkNotNull(res.data)) {
+            commit('SET_LOGIN_SUCCESS', true)
+            commit('SET_LOAD_MENUS', true)
+          }
+          resolve()
+        }).catch((err) => {
+          reject(err)
+        })
+      })
+    },
     // 获取用户信息
     GetUser({ commit }) {
       return new Promise((resolve, reject) => {

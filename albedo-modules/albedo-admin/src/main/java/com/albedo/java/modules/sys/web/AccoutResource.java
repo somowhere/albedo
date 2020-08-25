@@ -20,17 +20,19 @@ import com.albedo.java.modules.sys.service.UserService;
 import com.albedo.java.modules.tool.domain.vo.EmailVo;
 import com.albedo.java.modules.tool.service.EmailService;
 import com.google.code.kaptcha.Producer;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.awt.image.BufferedImage;
@@ -46,6 +48,7 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("${application.admin-path}")
 @Slf4j
 @AllArgsConstructor
+@Api(tags = "账户相关")
 public class AccoutResource extends BaseResource {
 
 	private final UserService userService;
@@ -57,14 +60,16 @@ public class AccoutResource extends BaseResource {
 	/**
 	 * {@code GET  /authenticate} : check if the user is authenticated, and return its login.
 	 *
-	 * @param request the HTTP request.
 	 * @return the login if the user is authenticated.
 	 */
 	@AnonymousAccess
 	@GetMapping(SecurityConstants.AUTHENTICATE_URL)
-	public String isAuthenticated(HttpServletRequest request) {
+	public Result isAuthenticated() throws AccessDeniedException {
 		log.debug("REST request to check if the current user is authenticated");
-		return request.getRemoteUser();
+		if(SecurityUtil.getUser() == null ){
+			throw new AccessDeniedException("没有登录权限");
+		}
+		return Result.buildOkData(SecurityUtil.getUser().getUsername());
 	}
 
 	/**
@@ -91,7 +96,7 @@ public class AccoutResource extends BaseResource {
 
 	@ApiOperation("修改头像")
 	@PostMapping(value = "/account/change-avatar")
-	public Result<Object> updateAvatar(@RequestParam String avatar) {
+	public Result<String> updateAvatar(@RequestParam String avatar) {
 		userService.updateAvatar(SecurityUtil.getUser().getUsername(), avatar);
 		return Result.buildOk("头像修改成功");
 	}
@@ -99,18 +104,18 @@ public class AccoutResource extends BaseResource {
 	@LogOperate("修改邮箱")
 	@ApiOperation("修改邮箱")
 	@PostMapping(value = "/account/change-email/{code}")
-	public ResponseEntity<Object> updateEmail(@PathVariable String code, @RequestBody UserEmailDto userEmailDto) {
+	public Result<String> updateEmail(@PathVariable String code, @RequestBody UserEmailDto userEmailDto) {
 		// 密码解密
 		RSA rsa = new RSA(applicationProperties.getRsa().getPrivateKey(), applicationProperties.getRsa().getPublicKey());
 		String password = new String(rsa.decrypt(userEmailDto.getPassword(), KeyType.PrivateKey));
 		userEmailDto.setPassword(password);
 		emailService.validated(CommonConstants.EMAIL_RESET_EMAIL_CODE + userEmailDto.getEmail(), code);
 		userService.updateEmail(SecurityUtil.getUser().getUsername(), userEmailDto);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return Result.buildOk("修改邮箱成功");
 	}
 
 	@AnonymousAccess
-	@GetMapping(path = "/code/{randomStr}")
+	@GetMapping(path = "/code/{randomStr}", produces = MediaType.IMAGE_JPEG_VALUE)
 	@ApiOperation(value = "获取验证码")
 	public void valicode(@PathVariable String randomStr, HttpServletResponse response) throws IOException {
 		Assert.isTrue(StringUtil.isNotEmpty(randomStr), "机器码不能为空");

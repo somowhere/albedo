@@ -35,7 +35,6 @@
 		<spring-boot-admin.version>2.2.3</spring-boot-admin.version>
 		<hutool.version>5.3.8</hutool.version>
 		<mybatis-plus.version>3.3.2</mybatis-plus.version>
-		<knife4j.version>2.0.4</knife4j.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<velocity.version>1.7</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
@@ -43,6 +42,7 @@
 		<jackson.version>2.9.9</jackson.version>
 		<h2.version>1.4.199</h2.version>
 		<springfox.version>2.9.2</springfox.version>
+		<knife4j.version>2.0.4</knife4j.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<poi.version>3.17</poi.version>
 		<guava.version>20.0</guava.version>

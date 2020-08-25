@@ -14,6 +14,7 @@ import com.albedo.java.modules.gen.domain.dto.TableFromDto;
 import com.albedo.java.modules.gen.domain.dto.TableQueryCriteria;
 import com.albedo.java.modules.gen.service.TableService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("${application.admin-path}/gen/table")
 @AllArgsConstructor
+@Api(tags = "代码表")
 public class TableResource extends BaseResource {
 
 	private final TableService tableService;

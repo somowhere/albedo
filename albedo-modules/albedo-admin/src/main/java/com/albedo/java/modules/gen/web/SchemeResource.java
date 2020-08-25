@@ -14,6 +14,7 @@ import com.albedo.java.modules.gen.service.SchemeService;
 import com.albedo.java.modules.gen.service.TableService;
 import com.albedo.java.modules.sys.domain.dto.GenSchemeDto;
 import com.albedo.java.modules.sys.service.MenuService;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("${application.admin-path}/gen/scheme")
 @AllArgsConstructor
+@Api(tags = "生成方案")
 public class SchemeResource extends BaseResource {
 
 	private final SchemeService schemeService;

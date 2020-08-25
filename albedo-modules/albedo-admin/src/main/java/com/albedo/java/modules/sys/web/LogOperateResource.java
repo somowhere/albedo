@@ -28,6 +28,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.google.common.collect.Lists;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -47,6 +48,7 @@ import java.util.Set;
 @RestController
 @AllArgsConstructor
 @RequestMapping("${application.admin-path}/sys/log-operate")
+@Api(tags = "操作日志")
 public class LogOperateResource {
 	private final LogOperateService logOperateService;
 

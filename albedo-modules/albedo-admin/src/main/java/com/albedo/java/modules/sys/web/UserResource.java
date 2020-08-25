@@ -34,6 +34,7 @@ import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.albedo.java.modules.sys.service.UserService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.Lists;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -53,6 +54,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("${application.admin-path}/sys/user")
 @AllArgsConstructor
+@Api(tags = "用户管理")
 public class UserResource extends BaseResource {
 
 	private final UserService userService;
