@@ -24,9 +24,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
@@ -66,7 +64,7 @@ public class AccoutResource extends BaseResource {
 	@GetMapping(SecurityConstants.AUTHENTICATE_URL)
 	public Result isAuthenticated() throws AccessDeniedException {
 		log.debug("REST request to check if the current user is authenticated");
-		if(SecurityUtil.getUser() == null ){
+		if (SecurityUtil.getUser() == null) {
 			throw new AccessDeniedException("没有登录权限");
 		}
 		return Result.buildOkData(SecurityUtil.getUser().getUsername());

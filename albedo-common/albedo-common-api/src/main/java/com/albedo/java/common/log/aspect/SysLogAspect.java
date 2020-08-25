@@ -17,7 +17,6 @@
 package com.albedo.java.common.log.aspect;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-import cn.hutool.json.JSONUtil;
 import com.albedo.java.common.core.util.*;
 import com.albedo.java.common.log.enums.LogType;
 import com.albedo.java.common.log.event.SysLogEvent;
@@ -112,7 +111,7 @@ public class SysLogAspect {
 	public Object around(ProceedingJoinPoint point, com.albedo.java.common.log.annotation.LogOperate logOperate) {
 		MethodSignature signature = (MethodSignature) point.getSignature();
 		HttpServletRequest request = WebUtil.getRequest();
-		String requestURI = Objects.requireNonNull(request).getRequestURI();
+		String requestUri = Objects.requireNonNull(request).getRequestURI();
 		String requestMethod = request.getMethod();
 		// 构建成一条长 日志，避免并发下日志错乱
 		StringBuilder beforeReqLog = new StringBuilder(300);
@@ -121,7 +120,7 @@ public class SysLogAspect {
 		// 打印路由
 		beforeReqLog.append("Request===> {}: {}");
 		beforeReqArgs.add(requestMethod);
-		beforeReqArgs.add(requestURI);
+		beforeReqArgs.add(requestUri);
 		// 方法路径
 		String methodName = point.getTarget().getClass().getName() + StringUtil.DOT + signature.getName() + "()";
 		// 请求参数处理
@@ -150,11 +149,11 @@ public class SysLogAspect {
 			result = point.proceed();
 			beforeReqLog.append("Request===> {}: {}");
 			beforeReqArgs.add(requestMethod);
-			beforeReqArgs.add(requestURI);
+			beforeReqArgs.add(requestUri);
 			// 打印返回结构体
 			afterReqLog.append("Response===> {}: {}");
 			afterReqArgs.add(requestMethod);
-			afterReqArgs.add(requestURI);
+			afterReqArgs.add(requestUri);
 			logOperateVo.setLogType(LogType.INFO.name());
 		} catch (Exception e) {
 			logOperateVo.setException(ExceptionUtil.stacktraceToString(e));

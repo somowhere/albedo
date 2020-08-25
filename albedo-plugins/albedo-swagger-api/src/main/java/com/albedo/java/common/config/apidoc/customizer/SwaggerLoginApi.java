@@ -1,7 +1,6 @@
 package com.albedo.java.common.config.apidoc.customizer;
 
 import com.albedo.java.common.config.ApplicationSwaggerProperties;
-import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.StringUtil;
 import com.fasterxml.classmate.TypeResolver;
 import com.google.common.collect.Sets;
@@ -22,8 +21,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author somewhere
+ */
 public class SwaggerLoginApi implements ApiListingScannerPlugin {
 	private final ApplicationSwaggerProperties applicationSwaggerProperties;
+
 	public SwaggerLoginApi(ApplicationSwaggerProperties applicationSwaggerProperties) {
 		this.applicationSwaggerProperties = applicationSwaggerProperties;
 	}
@@ -34,8 +37,10 @@ public class SwaggerLoginApi implements ApiListingScannerPlugin {
 			.method(HttpMethod.POST)
 			.summary("用户名密码登录")
 			.notes("username/password登录")
-			.consumes(Sets.newHashSet(MediaType.APPLICATION_FORM_URLENCODED_VALUE)) // 接收参数格式
-			.produces(Sets.newHashSet(MediaType.APPLICATION_JSON_VALUE)) // 返回参数格式
+			// 接收参数格式
+			.consumes(Sets.newHashSet(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
+			// 返回参数格式
+			.produces(Sets.newHashSet(MediaType.APPLICATION_JSON_VALUE))
 			.tags(Sets.newHashSet("账户相关"))
 			.parameters(Arrays.asList(
 				new ParameterBuilder()

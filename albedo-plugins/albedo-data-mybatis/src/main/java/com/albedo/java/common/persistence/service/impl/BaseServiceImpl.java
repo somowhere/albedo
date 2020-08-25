@@ -16,8 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 2014-05-16
  */
 @Transactional(rollbackFor = Exception.class)
-public abstract class BaseServiceImpl<Repository extends BaseRepository<T>,
-	T>
+public abstract class BaseServiceImpl<Repository extends BaseRepository<T>, T>
 	extends ServiceImpl<Repository, T>
 	implements BaseService<T> {
 	public final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(getClass());

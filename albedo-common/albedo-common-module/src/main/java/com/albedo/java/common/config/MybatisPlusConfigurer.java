@@ -57,16 +57,6 @@ public class MybatisPlusConfigurer {
 	}
 
 	/**
-	 * ql注入
-	 *
-	 * @return
-	 */
-//	@Bean
-//	public EntityMetaSqlInjector entityMetaSqlInjector() {
-//		return new EntityMetaSqlInjector();
-//	}
-
-	/**
 	 * 新增，修改 公共字段填充
 	 *
 	 * @return

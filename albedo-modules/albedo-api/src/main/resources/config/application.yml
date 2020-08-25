@@ -29,11 +29,12 @@ spring:
     store-type: redis
   profiles:
     active: ${spring.profiles.active}
-  http:
-    encoding:
-      charset: utf-8
-      force: true
 
+server:
+  servlet:
+    encoding:
+      force: true
+      charset: utf-8
 # mybaits-plus配置
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*/*Mapper.xml

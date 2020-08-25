@@ -22,7 +22,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.springframework.http.HttpStatus;
 import org.springframework.util.ObjectUtils;
 
 import java.io.Serializable;

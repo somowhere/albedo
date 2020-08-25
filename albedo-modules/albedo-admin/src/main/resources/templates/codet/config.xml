@@ -76,10 +76,10 @@
 		<dict val="Integer" name="Integer"/>
 		<dict val="Double" name="Double"/>
 		<dict val="java.util.Date" name="Date"/>
-<!--		<dict val="com.albedo.java.modules.sys.domain.User" name="User"/>-->
-<!--		<dict val="com.albedo.java.modules.sys.domain.Org" name="Org"/>-->
-<!--		<dict val="com.albedo.java.modules.sys.domain.Area" name="Area"/>-->
-<!--		<dict val="This" name="ThisObj" description="生成当前对象"/>-->
+		<!--		<dict val="com.albedo.java.modules.sys.domain.User" name="User"/>-->
+		<!--		<dict val="com.albedo.java.modules.sys.domain.Org" name="Org"/>-->
+		<!--		<dict val="com.albedo.java.modules.sys.domain.Area" name="Area"/>-->
+		<!--		<dict val="This" name="ThisObj" description="生成当前对象"/>-->
 		<dict val="Custom" name="Custom" description="自定义对象，生成后手动设置"/>
 	</javaType>
 	<!-- 查询类型 -->

@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Jedis Cache 工具类
+ * Redis Cache 工具类
  *
  * @author somewhere
  * @version 2014-6-29
@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtil {
 
 	public static RedisTemplate redisTemplate = SpringContextHolder.getBean("redisTemplate");
+	public static StringRedisTemplate stringRedisTemplate = SpringContextHolder.getBean("stringRedisTemplate");
 
 	/**
 	 * 缓存基本的对象，Integer、String、实体类等
@@ -260,7 +261,7 @@ public class RedisUtil {
 		if (log.isDebugEnabled()) {
 			log.debug("sendScheduleChannelMessage===>" + Json.toJSONString(message));
 		}
-		redisTemplate.convertAndSend(ScheduleConstants.REDIS_SCHEDULE_DEFAULT_CHANNEL,
+		stringRedisTemplate.convertAndSend(ScheduleConstants.REDIS_SCHEDULE_DEFAULT_CHANNEL,
 			Json.toJSONString(message));
 	}
 }

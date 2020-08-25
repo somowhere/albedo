@@ -17,7 +17,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -146,7 +145,7 @@ public class AccoutJwtResource extends BaseResource {
 	@GetMapping(value = "/logout")
 	@ApiOperation("登出")
 	public ResponseEntity<Result> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
-								 HttpServletRequest request, HttpServletResponse response) {
+										 HttpServletRequest request, HttpServletResponse response) {
 		String tokenValue = authHeader.replace("Bearer ", StrUtil.EMPTY).trim();
 		RedisUtil.delete(tokenValue);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

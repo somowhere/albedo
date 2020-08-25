@@ -52,30 +52,8 @@ public class SysLogUtils {
 		logOperate.setBrowser(userAgent.getBrowser().getName());
 		logOperate.setOs(userAgent.getOs().getName());
 		logOperate.setRequestUri(URLUtil.getPath(request.getRequestURI()));
-//		logOperate.setMethod(request.getMethod());
-//		if (request instanceof BodyRequestWrapper) {
-//			String body = ((BodyRequestWrapper) request).getRequestBody();
-//			logOperate.setParams(StringUtil.isEmpty(body) ? HttpUtil.toParams(request.getParameterMap()) : body);
-//		} else {
-//			logOperate.setParams(HttpUtil.toParams(request.getParameterMap()));
-//		}
-//		log.setServiceId(getClientId());
 		return logOperate;
 	}
-
-	/**
-	 * 获取客户端
-	 *
-	 * @return clientId
-	 */
-//	private String getClientId() {
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		if (authentication instanceof OAuth2Authentication) {
-//			OAuth2Authentication auth2Authentication = (OAuth2Authentication) authentication;
-//			return auth2Authentication.getOAuth2Request().getClientId();
-//		}
-//		return null;
-//	}
 
 	/**
 	 * 获取用户名称

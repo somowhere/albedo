@@ -72,9 +72,6 @@ public class DictUtil {
 						break;
 					}
 				}
-//                if(Globals.UA_SYS_CITY.equals(codeItem)){
-//                    map.put(Globals.UA_SYS_CITY, repository.findCitys());
-//                }
 			}
 		} else {
 			dictCodes = dictList;
@@ -85,10 +82,6 @@ public class DictUtil {
 				map.put(dict.getCode(), dictTempList);
 			}
 		});
-//        if(!map.containsKey(Globals.UA_SYS_CITY) && PublicUtil.isEmpty(codeList)){
-//            map.put(Globals.UA_SYS_CITY, repository.findCitys());
-//        }
-
 		return map;
 	}
 

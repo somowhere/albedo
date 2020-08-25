@@ -103,7 +103,6 @@ public class SwaggerAutoConfiguration {
 
 	/**
 	 * Albedo login api
-	 *
 	 */
 	@Bean
 	public SwaggerLoginApi swaggerLoginApi() {

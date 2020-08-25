@@ -170,7 +170,6 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public IPage<UserVo> findPage(PageModel pm, UserQueryCriteria userQueryCriteria, DataScope dataScope) {
-//		pm.addOrder(OrderItem.desc("a.created_date"));
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, userQueryCriteria);
 		wrapper.eq("a.del_flag", User.FLAG_NORMAL);
 		IPage<UserVo> userVosPage = repository.findUserVoPage(pm, wrapper, dataScope);
@@ -319,7 +318,6 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 
 	private void updatePassword(User user, String passwordPlaintext, String newPassword) {
 		user.setPassword(newPassword);
-//        user.setPasswordPlaintext(passwordPlaintext);
 		SysCacheUtil.delBaseUserCaches(user.getId(), user.getUsername());
 		repository.updateById(user);
 		log.debug("Changed password for User: {}", user);

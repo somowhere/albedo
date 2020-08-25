@@ -85,7 +85,6 @@ public class ApplicationConfig {
 		// in
 		// the
 		// classpath
-//        props.load(is);
 		props = new Yaml().load(is);
 		// dumpSystemConfig();
 	}

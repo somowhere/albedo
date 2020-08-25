@@ -1,5 +1,5 @@
 /**
- * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
+ * Copyright &copy; 2020 <a href="https://github.com/somowhere/albedo">albedo</a> All rights reserved.
  */
 package com.albedo.java.common.persistence;
 
@@ -12,7 +12,7 @@ import java.util.UUID;
 /**
  * 封装各种生成唯一性ID算法的工具类.
  *
- * @author ThinkGem
+ * @author somewhere
  * @version 2013-01-15
  */
 @Service

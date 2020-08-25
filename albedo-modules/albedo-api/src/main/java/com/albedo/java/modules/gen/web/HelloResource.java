@@ -23,7 +23,7 @@ public class HelloResource extends BaseResource {
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('gen_scheme_view')")
 	public Result getPage(PageModel pm) {
-		return Result.buildOk("hello "+pm);
+		return Result.buildOk("hello " + pm);
 	}
 
 

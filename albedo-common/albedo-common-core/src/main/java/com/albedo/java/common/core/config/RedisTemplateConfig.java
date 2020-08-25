@@ -51,6 +51,11 @@ public class RedisTemplateConfig extends CachingConfigurerSupport {
 	private final RedisConnectionFactory factory;
 
 	@Bean
+	StringRedisTemplate stringRedisTemplate(RedisConnectionFactory connectionFactory) {
+		return new StringRedisTemplate(connectionFactory);
+	}
+
+	@Bean
 	public RedisTemplate<String, Object> redisTemplate() {
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setKeySerializer(new StringRedisSerializer());
