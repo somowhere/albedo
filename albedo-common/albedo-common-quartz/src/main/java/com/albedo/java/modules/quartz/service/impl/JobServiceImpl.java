@@ -5,6 +5,7 @@ package com.albedo.java.modules.quartz.service.impl;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.ScheduleConstants;
+import com.albedo.java.common.core.exception.BadRequestException;
 import com.albedo.java.common.core.exception.RuntimeMsgException;
 import com.albedo.java.common.core.util.Json;
 import com.albedo.java.common.core.util.StringUtil;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -143,12 +145,6 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, 
 	@Transactional(rollbackFor = Exception.class)
 	public boolean saveOrUpdate(Job job) {
 		Assert.isTrue(checkCronExpressionIsValid(job.getCronExpression()), "cronExpression 不合法");
-
-		if (StringUtil.isNotEmpty(job.getSubTask())) {
-			String[] tasks = job.getSubTask().split("[,，]");
-			List<Job> jobs = repository.selectBatchIds(Lists.newArrayList(tasks));
-			Assert.isTrue(jobs != null && jobs.size() == tasks.length, "子任务数据ID不完整");
-		}
 		try {
 			if (job.getId() == null) {
 				job.setStatus(ScheduleConstants.Status.PAUSE.getValue());
@@ -210,6 +206,17 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, 
 
 	@Override
 	public void runByIds(Set<String> ids) {
+
+		ids.forEach(id -> {
+			Job job = repository.selectById(id);
+			if (job != null) {
+				run(job);
+			}
+		});
+	}
+
+	@Override
+	public void runBySubIds(Set<String> ids) {
 
 		ids.forEach(id -> {
 			Job job = repository.selectById(id);

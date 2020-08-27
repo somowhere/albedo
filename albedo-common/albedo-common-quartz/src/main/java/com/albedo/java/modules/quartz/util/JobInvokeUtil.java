@@ -39,11 +39,6 @@ public class JobInvokeUtil {
 			Object bean = Class.forName(beanName).newInstance();
 			invokeMethod(bean, methodName, methodParams);
 		}
-		// 判断是否存在子任务
-		if (job.getSubTask() != null) {
-			String[] tasks = job.getSubTask().split("[,，]");
-			jobService.runByIds(Sets.newHashSet(tasks));
-		}
 	}
 
 	/**

@@ -12,8 +12,7 @@ const user = {
     loginSuccess: storeApi.get({
       name: 'loginSuccess'
     }) || false,
-    // 第一次加载菜单时用到
-    loadMenus: false
+    requestAuthenticate: false
   },
 
   mutations: {
@@ -26,8 +25,8 @@ const user = {
     SET_PERMISSIONS: (state, permissions) => {
       state.permissions = permissions
     },
-    SET_LOAD_MENUS: (state, loadMenus) => {
-      state.loadMenus = loadMenus
+    SET_REQUEST_AUTHENTICATE: (state, requestAuthenticate) => {
+      state.requestAuthenticate = requestAuthenticate
     },
     SET_LOGIN_SUCCESS: (state, loginSuccess) => {
       state.loginSuccess = loginSuccess
@@ -51,7 +50,6 @@ const user = {
         loginService.login(params).then(res => {
           if (res.code === MSG_TYPE_SUCCESS) {
             commit('SET_LOGIN_SUCCESS', true)
-            commit('SET_LOAD_MENUS', true)
             resolve()
           }
         }).catch(error => {
@@ -65,8 +63,8 @@ const user = {
         loginService.isAuthenticate().then((res) => {
           if (validate.checkNotNull(res.data)) {
             commit('SET_LOGIN_SUCCESS', true)
-            commit('SET_LOAD_MENUS', true)
           }
+          commit('SET_REQUEST_AUTHENTICATE', true)
           resolve()
         }).catch((err) => {
           reject(err)
@@ -95,12 +93,6 @@ const user = {
           logOut(commit)
           reject(error)
         })
-      })
-    },
-
-    updateLoadMenus({ commit }) {
-      return new Promise((resolve, reject) => {
-        commit('SET_LOAD_MENUS', false)
       })
     }
   }

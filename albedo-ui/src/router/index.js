@@ -16,11 +16,11 @@ router.beforeEach((to, from, next) => {
     document.title = to.meta.title + ' - ' + Config.title
   }
   NProgress.start()
-  if (!store.getters.loginSuccess) {
+  if (!store.getters.requestAuthenticate && !store.getters.loginSuccess) {
     store.dispatch('isAuthenticate').then(() => {
       checkLogin(next, to)
-    }).catch((err) => {
-      console.log(err)
+    }).catch(() => {
+      checkLogin(next, to)
     })
   } else {
     checkLogin(next, to)

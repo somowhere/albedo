@@ -89,10 +89,6 @@ public class JobDto extends DataDto<Integer> {
 	@Size(max = 1)
 	private String concurrent;
 	/**
-	 * 子任务id 多个用逗号隔开
-	 */
-	private String subTask;
-	/**
 	 * 报警邮箱
 	 */
 	private String email;

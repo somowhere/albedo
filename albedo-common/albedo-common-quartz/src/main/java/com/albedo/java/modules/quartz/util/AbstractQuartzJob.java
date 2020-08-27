@@ -59,6 +59,9 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 	 * @param job     系统计划任务
 	 */
 	protected void before(JobExecutionContext context, Job job) {
+		if(log.isDebugEnabled()){
+			log.debug("start Task===>" + job.getName()+job.getGroup());
+		}
 		threadLocal.set(new Date());
 	}
 
@@ -81,6 +84,9 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 		jobLog.setEndTime(new Date());
 		long runMs = jobLog.getEndTime().getTime() - jobLog.getStartTime().getTime();
 		jobLog.setJobMessage(jobLog.getJobName() + " 总共耗时：" + runMs + "毫秒");
+		if(log.isDebugEnabled()){
+			log.debug("end Task===>" + jobLog.getJobMessage());
+		}
 		if (e != null) {
 			jobLog.setStatus(CommonConstants.STR_FAIL);
 			jobLog.setExceptionInfo(ExceptionUtil.stacktraceToString(e));

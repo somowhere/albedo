@@ -10,6 +10,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import javax.sql.DataSource;
@@ -36,12 +37,11 @@ public class ScheduleConfig {
 		prop.put("org.quartz.threadPool.threadCount", "20");
 		prop.put("org.quartz.threadPool.threadPriority", "5");
 		// JobStore配置
-		prop.put("org.quartz.jobStore.driverDelegateClass", "org.quartz.impl.jdbcjobstore.StdJDBCDelegate");
 		prop.put("org.quartz.jobStore.class", "org.quartz.impl.jdbcjobstore.JobStoreTX");
 		// 集群配置
 		prop.put("org.quartz.jobStore.isClustered", "true");
 		prop.put("org.quartz.jobStore.clusterCheckinInterval", "15000");
-		prop.put("org.quartz.jobStore.maxMisfiresToHandleAtATime", "20");
+		prop.put("org.quartz.jobStore.maxMisfiresToHandleAtATime", "1");
 		prop.put("org.quartz.jobStore.txIsolationLevelSerializable", "true");
 
 		// sqlserver 启用
@@ -99,8 +99,9 @@ public class ScheduleConfig {
 	 * @return
 	 */
 	@Bean
-	ScheduleReceiver scheduleReceiver(Scheduler scheduler, JobRepository jobRepository, RedissonClient redissonClient) {
-		return new ScheduleReceiver(scheduler, jobRepository, redissonClient);
+	ScheduleReceiver scheduleReceiver(Scheduler scheduler, JobRepository jobRepository,
+									  RedissonClient redissonClient, JdkSerializationRedisSerializer jdkSerializationRedisSerializer) {
+		return new ScheduleReceiver(scheduler, jobRepository, redissonClient, jdkSerializationRedisSerializer);
 	}
 
 

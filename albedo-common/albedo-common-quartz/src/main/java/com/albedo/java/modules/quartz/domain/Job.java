@@ -144,10 +144,6 @@ public class Job extends BaseDataEntity<Job> {
 	@DictType(DictNameConstants.QUARTZ_JOB_STATUS)
 	private String status;
 	/**
-	 * 子任务id 多个用逗号隔开
-	 */
-	private String subTask;
-	/**
 	 * 报警邮箱
 	 */
 	private String email;

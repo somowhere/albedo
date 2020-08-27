@@ -55,7 +55,7 @@ service.interceptors.response.use(
     const status = Number(response.status) || 200
     const code = Number(response.data.code)
     const message = errorCode[response.data.message] || response.data.message || errorCode[response.status]
-    if (code === MSG_TYPE_FAIL) {
+    if (code === MSG_TYPE_FAIL && validate.checkNotNull(message)) {
       Notification.error({
         title: message
       })

@@ -81,9 +81,6 @@
             <el-radio-button v-for="item in jobStatusOptions" :key="item.value" :label="item.value">{{ item.label }}</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="子任务ID">
-          <el-input v-model="form.subTask" placeholder="多个用逗号隔开，按顺序执行" style="width: 220px;" />
-        </el-form-item>
         <el-form-item label="告警邮箱" prop="email">
           <el-input v-model="form.email" placeholder="多个邮箱用逗号隔开" style="width: 220px;" />
         </el-form-item>
@@ -111,7 +108,6 @@
       <el-table-column :show-overflow-tooltip="true" label="任务ID" prop="id" width="90px" />
       <el-table-column :show-overflow-tooltip="true" label="任务名称" prop="name" />
       <el-table-column :show-overflow-tooltip="true" label="任务分组" prop="groupText" width="90px" />
-      <el-table-column :show-overflow-tooltip="true" label="子任务ID" prop="subTask" width="90px" />
       <el-table-column :show-overflow-tooltip="true" label="调用目标" prop="invokeTarget" />
       <el-table-column :show-overflow-tooltip="true" label="cron表达式" prop="cronExpression" width="120px" />
       <el-table-column :show-overflow-tooltip="true" label="执行失败策略" prop="misfirePolicyText" width="100px" />
@@ -195,7 +191,6 @@ const defaultForm = {
   id: null,
   name: null,
   group: null,
-  subTask: null,
   invokeTarget: null,
   cronExpression: null,
   misfirePolicy: null,

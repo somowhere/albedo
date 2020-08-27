@@ -62,15 +62,22 @@ import java.util.*;
 @AutoConfigureBefore(RedisAutoConfiguration.class)
 public class RedisConfig extends CachingConfigurerSupport {
 	private final RedisConnectionFactory factory;
-	private final RedisProperties redisProperties;
 
 	@Bean
-	public RedisTemplate<String, Object> redisTemplate() {
+	public JdkSerializationRedisSerializer jdkSerializationRedisSerializer(){
+		return  new JdkSerializationRedisSerializer();
+	}
+	@Bean
+	public StringRedisSerializer stringRedisSerializer(){
+		return  new StringRedisSerializer();
+	}
+	@Bean
+	public RedisTemplate<String, Object> redisTemplate(JdkSerializationRedisSerializer jdkSerializationRedisSerializer, StringRedisSerializer stringRedisSerializer) {
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-		redisTemplate.setKeySerializer(new StringRedisSerializer());
-		redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-		redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-		redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+		redisTemplate.setKeySerializer(stringRedisSerializer);
+		redisTemplate.setHashKeySerializer(stringRedisSerializer);
+		redisTemplate.setValueSerializer(jdkSerializationRedisSerializer);
+		redisTemplate.setHashValueSerializer(jdkSerializationRedisSerializer);
 		redisTemplate.setConnectionFactory(factory);
 		return redisTemplate;
 	}
