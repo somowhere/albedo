@@ -93,6 +93,7 @@ public class ScheduleConfig {
 		// receiveMessage 消息接收后的方法
 		return new MessageListenerAdapter(scheduleReceiver);
 	}
+
 	/**
 	 * 注册订阅者
 	 *
@@ -103,8 +104,6 @@ public class ScheduleConfig {
 									  RedissonClient redissonClient, JdkSerializationRedisSerializer jdkSerializationRedisSerializer) {
 		return new ScheduleReceiver(scheduler, jobRepository, redissonClient, jdkSerializationRedisSerializer);
 	}
-
-
 
 
 }

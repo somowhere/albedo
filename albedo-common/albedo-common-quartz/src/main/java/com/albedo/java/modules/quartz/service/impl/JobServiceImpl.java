@@ -5,10 +5,8 @@ package com.albedo.java.modules.quartz.service.impl;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.ScheduleConstants;
-import com.albedo.java.common.core.exception.BadRequestException;
 import com.albedo.java.common.core.exception.RuntimeMsgException;
 import com.albedo.java.common.core.util.Json;
-import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.ScheduleVo;
 import com.albedo.java.common.persistence.service.impl.DataServiceImpl;
 import com.albedo.java.common.util.RedisUtil;
@@ -17,13 +15,10 @@ import com.albedo.java.modules.quartz.domain.dto.JobDto;
 import com.albedo.java.modules.quartz.repository.JobRepository;
 import com.albedo.java.modules.quartz.service.JobService;
 import com.albedo.java.modules.quartz.util.CronUtils;
-import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 /**

@@ -3,6 +3,7 @@ package com.albedo.java.common.config;
 import com.albedo.java.common.core.jackson.JavaTimeModule;
 import com.albedo.java.common.core.util.DateUtil;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -43,8 +44,8 @@ public class JacksonMapperConfiguration {
 		//序列化时，日期的统一格式
 		objectMapper.setDateFormat(new SimpleDateFormat(DateUtil.TIME_FORMAT, Locale.CHINA));
 		//序列化处理
-//		objectMapper.configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true);
-//		objectMapper.configure(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER.mappedFeature(), true);
+		objectMapper.configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true);
+		objectMapper.configure(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER.mappedFeature(), true);
 		objectMapper.findAndRegisterModules();
 		//失败处理
 		objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);

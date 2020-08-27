@@ -52,7 +52,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class SysLogAspect {
 
-	private void parseParams(ProceedingJoinPoint point, Map<String, Object> paramMap){
+	private void parseParams(ProceedingJoinPoint point, Map<String, Object> paramMap) {
 		//参数值
 		Object[] argValues = point.getArgs();
 		//参数名称

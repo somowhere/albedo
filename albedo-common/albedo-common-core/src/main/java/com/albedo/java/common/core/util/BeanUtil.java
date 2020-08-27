@@ -98,6 +98,7 @@ public class BeanUtil extends BeanUtils {
 
 	/**
 	 * 将对象装成map形式
+	 *
 	 * @param bean 源对象
 	 * @return {Map}
 	 */

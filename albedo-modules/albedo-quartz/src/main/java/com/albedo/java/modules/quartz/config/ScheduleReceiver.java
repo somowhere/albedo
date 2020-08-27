@@ -15,8 +15,6 @@ import org.quartz.SchedulerException;
 import org.redisson.api.RedissonClient;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.util.Assert;
 
@@ -37,6 +35,7 @@ public class ScheduleReceiver implements MessageListener {
 	private final JobRepository jobRepository;
 	private final RedissonClient redissonClient;
 	private final RedisSerializer serializer;
+
 	/**
 	 * 项目启动时，初始化定时器
 	 * 主要是防止手动修改数据库导致未同步到定时任务处理（注：不能手动修改数据库ID和任务组名，否则会导致脏数据）
@@ -78,7 +77,7 @@ public class ScheduleReceiver implements MessageListener {
 		}
 
 		Lock lock = redissonClient.getLock(DEFAULT_QUARTZ_REGISTRY_KEY);
-		try{
+		try {
 			lock.lock();
 			ScheduleVo scheduleVo = (ScheduleVo) serializer.deserialize(message.getBody());
 			if (log.isDebugEnabled()) {

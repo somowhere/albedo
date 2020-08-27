@@ -104,6 +104,7 @@ public interface JobService extends DataService<Job, JobDto, String> {
 	 * @updateTime 2020/5/31 17:32
 	 */
 	void runByIds(Set<String> idList);
+
 	/**
 	 * runByIds
 	 *

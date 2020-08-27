@@ -20,15 +20,8 @@ import cn.hutool.crypto.digest.DigestUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.Redisson;
-import org.redisson.api.RedissonClient;
-import org.redisson.config.Config;
-import org.redisson.spring.starter.RedissonAutoConfigurationCustomizer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -40,15 +33,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.*;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.util.ReflectionUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Method;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author somewhere
@@ -64,13 +53,15 @@ public class RedisConfig extends CachingConfigurerSupport {
 	private final RedisConnectionFactory factory;
 
 	@Bean
-	public JdkSerializationRedisSerializer jdkSerializationRedisSerializer(){
-		return  new JdkSerializationRedisSerializer();
+	public JdkSerializationRedisSerializer jdkSerializationRedisSerializer() {
+		return new JdkSerializationRedisSerializer();
 	}
+
 	@Bean
-	public StringRedisSerializer stringRedisSerializer(){
-		return  new StringRedisSerializer();
+	public StringRedisSerializer stringRedisSerializer() {
+		return new StringRedisSerializer();
 	}
+
 	@Bean
 	public RedisTemplate<String, Object> redisTemplate(JdkSerializationRedisSerializer jdkSerializationRedisSerializer, StringRedisSerializer stringRedisSerializer) {
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
