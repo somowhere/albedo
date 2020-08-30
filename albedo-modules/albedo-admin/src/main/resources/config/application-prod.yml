@@ -9,7 +9,6 @@ spring:
   profiles:
     active: prod
   redis:
-    password
     host: albedo-redis
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
