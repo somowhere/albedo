@@ -1,4 +1,4 @@
-<h1 style="text-align: center">Albedo 2.1 - 企业信息化快速开发平台</h1>
+<h1 style="text-align: center">Albedo 3.0.2 - 企业信息化快速开发平台</h1>
  <p align="center">
  
  [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/somowhere/albedo/blob/master/LICENSE)
