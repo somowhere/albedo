@@ -16,6 +16,7 @@
 
 package com.albedo.java.common.config;
 
+import com.albedo.java.common.log.aspect.RequestLogAspect;
 import com.albedo.java.common.log.aspect.SysLogAspect;
 import com.albedo.java.common.log.event.SysLogListener;
 import com.albedo.java.common.log.event.SysUserOnlineListener;
@@ -57,5 +58,10 @@ public class LogAutoConfiguration {
 	@Bean
 	public SysLogAspect loggingAspect() {
 		return new SysLogAspect();
+	}
+
+	@Bean
+	public RequestLogAspect requestLogAspect() {
+		return new RequestLogAspect();
 	}
 }

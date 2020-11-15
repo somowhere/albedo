@@ -52,123 +52,44 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class SysLogAspect {
 
-	private void parseParams(ProceedingJoinPoint point, Map<String, Object> paramMap) {
-		//参数值
-		Object[] argValues = point.getArgs();
-		//参数名称
-		MethodSignature ms = (MethodSignature) point.getSignature();
-		Method method = ms.getMethod();
-		if (argValues != null) {
-			for (int i = 0; i < argValues.length; i++) {
-				// 读取方法参数
-				MethodParameter methodParam = ClassUtil.getMethodParameter(method, i);
-				// PathVariable 参数跳过
-				PathVariable pathVariable = methodParam.getParameterAnnotation(PathVariable.class);
-				if (pathVariable != null) {
-					continue;
-				}
-				RequestBody requestBody = methodParam.getParameterAnnotation(RequestBody.class);
-				Object value = argValues[i];
-				// 如果是body的json则是对象
-				if (requestBody != null && value != null) {
-					paramMap.putAll(BeanUtil.toMap(value));
-					continue;
-				}
-				// 处理 List
-				if (value instanceof List) {
-					value = ((List) value).get(0);
-				}
-				// 处理 参数
-				if (value instanceof HttpServletRequest) {
-					paramMap.putAll(((HttpServletRequest) value).getParameterMap());
-				} else if (value instanceof WebRequest) {
-					paramMap.putAll(((WebRequest) value).getParameterMap());
-				} else if (value instanceof MultipartFile) {
-					MultipartFile multipartFile = (MultipartFile) value;
-					String name = multipartFile.getName();
-					String fileName = multipartFile.getOriginalFilename();
-					paramMap.put(name, fileName);
-				} else if (value instanceof HttpServletResponse) {
-				} else if (value instanceof InputStream) {
-				} else if (value instanceof InputStreamSource) {
-				} else {
-					// 参数名
-					RequestParam requestParam = methodParam.getParameterAnnotation(RequestParam.class);
-					String paraName;
-					if (requestParam != null && StringUtil.isNotBlank(requestParam.value())) {
-						paraName = requestParam.value();
-					} else {
-						paraName = methodParam.getParameterName();
-					}
-					paramMap.put(paraName, value);
-				}
-			}
-		}
-	}
-
 	@Around("@annotation(logOperate)")
 	@SneakyThrows
 	public Object around(ProceedingJoinPoint point, com.albedo.java.common.log.annotation.LogOperate logOperate) {
 		MethodSignature signature = (MethodSignature) point.getSignature();
-		HttpServletRequest request = WebUtil.getRequest();
-		String requestUri = Objects.requireNonNull(request).getRequestURI();
-		String requestMethod = request.getMethod();
-		// 构建成一条长 日志，避免并发下日志错乱
-		StringBuilder beforeReqLog = new StringBuilder(300);
-		// 日志参数
-		List<Object> beforeReqArgs = new ArrayList<>();
-		// 打印路由
-		beforeReqLog.append("Request===> {}: {}");
-		beforeReqArgs.add(requestMethod);
-		beforeReqArgs.add(requestUri);
+		String strClassName = point.getTarget().getClass().getName();
+		String strMethodName = point.getSignature().getName();
+		SysLogAspect.log.debug("[类名]:{},[方法]:{}", strClassName, strMethodName);
 		// 方法路径
 		String methodName = point.getTarget().getClass().getName() + StringUtil.DOT + signature.getName() + "()";
-		// 请求参数处理
-		final Map<String, Object> paramMap = new HashMap<>(16);
-
-		parseParams(point, paramMap);
-
+		StringBuilder params = new StringBuilder("{");
+		//参数值
+		Object[] argValues = point.getArgs();
+		//参数名称
+		String[] argNames = ((MethodSignature) point.getSignature()).getParameterNames();
+		if (argValues != null) {
+			for (int i = 0; i < argValues.length; i++) {
+				params.append(" ").append(argNames[i]).append(": ").append(argValues[i]);
+			}
+		}
 		LogOperate logOperateVo = SysLogUtils.getSysLog();
 		logOperateVo.setTitle(logOperate.value());
 		logOperateVo.setMethod(methodName);
-		logOperateVo.setParams(Json.toJsonString(paramMap));
+		logOperateVo.setParams(params.toString() + " }");
 		logOperateVo.setOperatorType(logOperate.operatorType().name());
-		// 请求参数
-		if (!paramMap.isEmpty()) {
-			beforeReqLog.append(" Parameters: {}");
-			beforeReqArgs.add(logOperateVo.getParams());
-		}
-		log.info(beforeReqLog.toString(), beforeReqArgs.toArray());
-		// aop 执行后的日志
-		StringBuilder afterReqLog = new StringBuilder(200);
-		// 日志参数
-		List<Object> afterReqArgs = new ArrayList<>();
-		long startNs = System.nanoTime();
-		Object result = null;
+		Long startTime = System.currentTimeMillis();
+		Object obj;
 		try {
-			result = point.proceed();
-			beforeReqLog.append("Request===> {}: {}");
-			beforeReqArgs.add(requestMethod);
-			beforeReqArgs.add(requestUri);
-			// 打印返回结构体
-			afterReqLog.append("Response===> {}: {}");
-			afterReqArgs.add(requestMethod);
-			afterReqArgs.add(requestUri);
+			obj = point.proceed();
 			logOperateVo.setLogType(LogType.INFO.name());
 		} catch (Exception e) {
 			logOperateVo.setException(ExceptionUtil.stacktraceToString(e));
 			logOperateVo.setLogType(LogType.ERROR.name());
 			throw e;
 		} finally {
-			long tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs);
-			afterReqLog.append(" time ({} ms) Result:{}");
-			afterReqArgs.add(tookMs);
-			afterReqArgs.add(Json.toJsonString(result));
-			log.info(afterReqLog.toString(), afterReqArgs.toArray());
-			saveLog(tookMs, logOperateVo, logOperate);
+			saveLog(startTime, logOperateVo, logOperate);
 		}
 
-		return result;
+		return obj;
 	}
 
 	/**

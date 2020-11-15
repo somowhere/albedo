@@ -21,20 +21,21 @@
 
 	<groupId>com.albedo.java</groupId>
 	<artifactId>albedo</artifactId>
-	<version>2.2.0-SNAPSHOT</version>
+	<version>3.0.2-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 	<packaging>pom</packaging>
 	<url>https://github.com/somowhere</url>
 
 	<properties>
-		<project.release.version>2.2.0-SNAPSHOT</project.release.version>
-		<spring-boot.version>2.3.1.RELEASE</spring-boot.version>
+		<project.release.version>3.0.2-SNAPSHOT</project.release.version>
+		<spring-boot.version>2.3.5.RELEASE</spring-boot.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<spring-boot-admin.version>2.2.3</spring-boot-admin.version>
-		<hutool.version>5.3.8</hutool.version>
-		<mybatis-plus.version>3.3.2</mybatis-plus.version>
+		<spring-boot-admin.version>2.3.1</spring-boot-admin.version>
+		<hutool.version>5.4.7</hutool.version>
+		<mybatis-plus.version>3.4.0</mybatis-plus.version>
+		<dynamic-ds.version>3.2.0</dynamic-ds.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<velocity.version>1.7</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
@@ -125,26 +126,22 @@
 				<filtering>true</filtering>
 			</resource>
 		</resources>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-maven-plugin</artifactId>
-					<version>${spring-boot.version}</version>
-					<configuration>
-						<finalName>${project.build.finalName}</finalName>
-					</configuration>
-					<executions>
-						<execution>
-							<goals>
-								<goal>repackage</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${spring-boot.version}</version>
+				<configuration>
+					<finalName>${project.build.finalName}</finalName>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
