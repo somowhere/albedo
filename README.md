@@ -2,7 +2,7 @@
  <p align="center">
  
  [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/somowhere/albedo/blob/master/LICENSE)
- [![AUR](https://img.shields.io/badge/Spring%20Boot-2.3.5.RELEASE-blue.svg)](https://spring.io/projects/spring-boot#overview)
+ [![AUR](https://img.shields.io/badge/Spring%20Boot-2.3.6.RELEASE-blue.svg)](https://spring.io/projects/spring-boot#overview)
  [![star](https://gitee.com/somowhere/albedo/badge/star.svg?theme=white)](https://gitee.com/somowhere/albedo)
  [![GitHub stars](https://img.shields.io/github/stars/somowhere/albedo.svg?style=social&label=Stars)](https://github.com/somowhere/albedo)
  [![GitHub forks](https://img.shields.io/github/forks/somowhere/albedo.svg?style=social&label=Fork)](https://github.com/somowhere/albedo)
@@ -47,9 +47,9 @@
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.3.5.RELEASE  
-Mybatis Plus | 3.4.0
-hutool | 5.4.6
+Spring Boot |  2.3.6.RELEASE  
+Mybatis Plus | 3.4.1
+hutool | 5.4.7
    
 
 
@@ -63,6 +63,8 @@ albedo
      ├── albedo-common-module -- 模块基础包
 └── albedo-modules -- 功能模块
      ├── albedo-admin -- 通用用户权限管理系统业务处理模块[4000]
+     ├── albedo-api -- 接口模块
+     ├── albedo-quartz -- 定时任务模块
 └── albedo-plugin  -- 插件模块 
      ├── albedo-data-mybatis -- mybatis 基础模块
      └── albedo-swagger-api -- swagger api

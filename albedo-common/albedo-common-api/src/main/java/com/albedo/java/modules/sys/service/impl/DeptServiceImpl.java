@@ -116,7 +116,7 @@ public class DeptServiceImpl extends
 				.collect(Collectors.toSet());
 
 			if (CollUtil.isNotEmpty(idList)) {
-				this.removeByIds(idList);
+				super.removeByIds(idList);
 			}
 
 			//删除部门级联关系

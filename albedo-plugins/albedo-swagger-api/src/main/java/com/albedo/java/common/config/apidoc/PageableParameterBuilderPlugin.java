@@ -31,7 +31,7 @@ public class PageableParameterBuilderPlugin implements OperationBuilderPlugin {
 	/**
 	 * Constant <code>DEFAULT_PAGE_NAME="page"</code>
 	 */
-	public static final String DEFAULT_PAGE_NAME = "page";
+	public static final String DEFAULT_PAGE_NAME = "current";
 	/**
 	 * Constant <code>PAGE_TYPE="query"</code>
 	 */
