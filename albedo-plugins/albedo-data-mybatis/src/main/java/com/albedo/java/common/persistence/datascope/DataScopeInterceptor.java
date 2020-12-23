@@ -60,8 +60,7 @@ import java.util.stream.Collectors;
  * mybatis 数据权限拦截器
  */
 @Slf4j
-@Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})})
-public class DataScopeInterceptor extends AbstractSqlParserHandler implements InnerInterceptor {
+public class DataScopeInterceptor implements InnerInterceptor {
 
 
 	@SneakyThrows
