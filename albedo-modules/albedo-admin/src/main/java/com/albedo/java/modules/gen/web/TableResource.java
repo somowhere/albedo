@@ -59,8 +59,8 @@ public class TableResource extends BaseResource {
 	@LogOperate(value = "业务表查看")
 	public Result getPage(PageModel pageModel, TableQueryCriteria tableQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, tableQueryCriteria);
-		pm = tableService.page(pageModel, wrapper);
-		return Result.buildOkData(pm);
+		pageModel = tableService.page(pageModel, wrapper);
+		return Result.buildOkData(pageModel);
 	}
 
 	@LogOperate(value = "业务表编辑")

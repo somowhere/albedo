@@ -93,7 +93,7 @@ public class LogOperateResource {
 	public Result<Object> getUserLogs(PageModel pageModel, LogOperateQueryCriteria criteria) {
 		criteria.setLogType(Lists.newArrayList(LogType.INFO.name(), LogType.WARN.name()));
 		criteria.setUsername(SecurityUtil.getUser().getUsername());
-		pm.addOrder(OrderItem.desc(com.albedo.java.modules.sys.domain.LogOperate.F_SQL_CREATEDDATE));
+		pageModel.addOrder(OrderItem.desc(com.albedo.java.modules.sys.domain.LogOperate.F_SQL_CREATEDDATE));
 		QueryWrapper<com.albedo.java.modules.sys.domain.LogOperate> wrapper = QueryWrapperUtil.<com.albedo.java.modules.sys.domain.LogOperate>getWrapper(pageModel, criteria);
 
 		return Result.buildOkData(logOperateService.page(pageModel, wrapper));
