@@ -47,9 +47,9 @@
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<poi.version>3.17</poi.version>
 		<guava.version>20.0</guava.version>
-		<oshi.version>5.3.6</oshi.version>
+		<oshi.version>5.3.7</oshi.version>
 		<!-- oshi监控需要指定jna版本, 问题详见 https://github.com/oshi/oshi/issues/1040 -->
-		<jna.version>5.5.0</jna.version>
+		<jna.version>5.6.0</jna.version>
 
 		<profile.dev.log.level>INFO</profile.dev.log.level>
 		<profile.prod.log.level>INFO</profile.prod.log.level>
