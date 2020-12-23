@@ -18,8 +18,8 @@ package com.albedo.java.common.config;
 
 import com.albedo.java.common.persistence.datascope.DataScopeInterceptor;
 import com.albedo.java.common.persistence.handler.EntityMetaObjectHandler;
-import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.mapping.VendorDatabaseIdProvider;
 import org.mybatis.spring.annotation.MapperScan;
@@ -39,11 +39,11 @@ public class MybatisPlusConfigurer {
 	/**
 	 * 分页插件
 	 *
-	 * @return PaginationInterceptor
+	 * @return PaginationInnerInterceptor
 	 */
 	@Bean
-	public PaginationInterceptor paginationInterceptor() {
-		return new PaginationInterceptor();
+	public PaginationInnerInterceptor paginationInnerInterceptor() {
+		return new PaginationInnerInterceptor();
 	}
 
 	/**
@@ -73,8 +73,8 @@ public class MybatisPlusConfigurer {
 	 * @return
 	 */
 	@Bean
-	public OptimisticLockerInterceptor optimisticLockerInterceptor() {
-		return new OptimisticLockerInterceptor();
+	public OptimisticLockerInnerInterceptor optimisticLockerInnerInterceptor() {
+		return new OptimisticLockerInnerInterceptor();
 	}
 
 
