@@ -18,6 +18,9 @@ package com.albedo.java.common.config;
 
 import com.albedo.java.common.persistence.datascope.DataScopeInterceptor;
 import com.albedo.java.common.persistence.handler.EntityMetaObjectHandler;
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
@@ -26,7 +29,9 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -37,26 +42,6 @@ import java.util.Properties;
 @MapperScan("com.albedo.java.modules.*.repository")
 public class MybatisPlusConfigurer {
 	/**
-	 * 分页插件
-	 *
-	 * @return PaginationInnerInterceptor
-	 */
-	@Bean
-	public PaginationInnerInterceptor paginationInnerInterceptor() {
-		return new PaginationInnerInterceptor();
-	}
-
-	/**
-	 * 数据权限插件
-	 *
-	 * @return DataScopeInterceptor
-	 */
-	@Bean
-	public DataScopeInterceptor dataScopeInterceptor() {
-		return new DataScopeInterceptor();
-	}
-
-	/**
 	 * 新增，修改 公共字段填充
 	 *
 	 * @return
@@ -66,15 +51,17 @@ public class MybatisPlusConfigurer {
 		return new EntityMetaObjectHandler(auditorAware);
 	}
 
-
 	/**
-	 * 乐观锁拦截器 version
-	 *
+	 * 插件
 	 * @return
 	 */
 	@Bean
-	public OptimisticLockerInnerInterceptor optimisticLockerInnerInterceptor() {
-		return new OptimisticLockerInnerInterceptor();
+	public MybatisPlusInterceptor mybatisPlusInterceptor() {
+		MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+		interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+		interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
+		interceptor.addInnerInterceptor(new DataScopeInterceptor());
+		return interceptor;
 	}
 
 
