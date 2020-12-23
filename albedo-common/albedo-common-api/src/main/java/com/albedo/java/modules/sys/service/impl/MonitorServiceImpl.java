@@ -76,7 +76,7 @@ public class MonitorServiceImpl implements MonitorService {
 	/**
 	 * 获取磁盘信息
 	 *
-	 * @return /
+	 * @return
 	 */
 	private Map<String, Object> getDiskInfo(OperatingSystem os) {
 		Map<String, Object> diskInfo = new LinkedHashMap<>();
@@ -100,7 +100,7 @@ public class MonitorServiceImpl implements MonitorService {
 	 * 获取交换区信息
 	 *
 	 * @param memory /
-	 * @return /
+	 * @return
 	 */
 	private Map<String, Object> getSwapInfo(GlobalMemory memory) {
 		Map<String, Object> swapInfo = new LinkedHashMap<>();
@@ -115,7 +115,7 @@ public class MonitorServiceImpl implements MonitorService {
 	 * 获取内存信息
 	 *
 	 * @param memory /
-	 * @return /
+	 * @return
 	 */
 	private Map<String, Object> getMemoryInfo(GlobalMemory memory) {
 		Map<String, Object> memoryInfo = new LinkedHashMap<>();
@@ -130,7 +130,7 @@ public class MonitorServiceImpl implements MonitorService {
 	 * 获取Cpu相关信息
 	 *
 	 * @param processor /
-	 * @return /
+	 * @return
 	 */
 	private Map<String, Object> getCpuInfo(CentralProcessor processor) {
 		Map<String, Object> cpuInfo = new LinkedHashMap<>();
@@ -162,7 +162,7 @@ public class MonitorServiceImpl implements MonitorService {
 	 * 获取系统相关信息,系统、运行天数、系统IP
 	 *
 	 * @param os /
-	 * @return /
+	 * @return
 	 */
 	private Map<String, Object> getSystemInfo(OperatingSystem os) {
 		Map<String, Object> systemInfo = new LinkedHashMap<>();

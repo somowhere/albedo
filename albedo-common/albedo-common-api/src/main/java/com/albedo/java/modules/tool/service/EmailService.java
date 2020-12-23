@@ -58,7 +58,7 @@ public interface EmailService extends BaseService<EmailConfig> {
 	 *
 	 * @param email /
 	 * @param key   /
-	 * @return /
+	 * @return
 	 */
 	EmailVo sendEmail(String email, String key);
 

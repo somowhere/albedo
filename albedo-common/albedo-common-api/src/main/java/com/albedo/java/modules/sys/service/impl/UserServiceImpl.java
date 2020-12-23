@@ -87,7 +87,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	/**
 	 * 功能描述: 检查密码长度
 	 *
-	 * @param [password]
+	 * @param password
 	 * @return boolean
 	 */
 	private static boolean checkPasswordLength(String password) {

@@ -141,7 +141,7 @@ public class DeptServiceImpl extends
 	/**
 	 * 检查角色是否有用户信息
 	 *
-	 * @return /
+	 * @return
 	 */
 	private void checkDept(String deptId, String deptName) {
 		List<User> userList = userRepository.selectList(Wrappers.<User>lambdaQuery().eq(User::getDeptId, deptId));
