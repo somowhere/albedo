@@ -59,15 +59,15 @@ public class PersistentTokenResource {
 	/**
 	 * 分页查询令牌
 	 *
-	 * @param pm 参数集
+	 * @param pageModel 参数集
 	 * @return 令牌集合
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_persistentToken_view')")
 	@LogOperate(value = "令牌管理查看")
-	public Result findPage(PageModel pm, PersistentTokenQueryCriteria persistentTokenQueryCriteria) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, persistentTokenQueryCriteria);
-		return Result.buildOkData(persistentTokenService.page(pm, wrapper));
+	public Result findPage(PageModel pageModel, PersistentTokenQueryCriteria persistentTokenQueryCriteria) {
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, persistentTokenQueryCriteria);
+		return Result.buildOkData(persistentTokenService.page(pageModel, wrapper));
 	}
 
 }

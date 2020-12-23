@@ -49,14 +49,14 @@ public interface UserService extends DataService<User, UserDto, String> {
 	/**
 	 * findPage 分页查询用户信息（含有角色信息）
 	 *
-	 * @param pm
+	 * @param pageModel
 	 * @param userQueryCriteria
 	 * @param dataScope
 	 * @return com.baomidou.mybatisplus.core.metadata.IPage<com.albedo.java.modules.sys.domain.vo.UserVo>
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:35
 	 */
-	IPage<UserVo> findPage(PageModel pm, UserQueryCriteria userQueryCriteria, DataScope dataScope);
+	IPage<UserVo> findPage(PageModel pageModel, UserQueryCriteria userQueryCriteria, DataScope dataScope);
 
 	/**
 	 * findPage

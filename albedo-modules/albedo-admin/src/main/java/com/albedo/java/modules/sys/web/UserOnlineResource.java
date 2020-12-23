@@ -40,15 +40,15 @@ public class UserOnlineResource extends BaseResource {
 	/**
 	 * 分页查询用户
 	 *
-	 * @param pm 参数集
+	 * @param pageModel 参数集
 	 * @return 用户集合
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_userOnline_view')")
 	@LogOperate(value = "在线用户查看")
-	public Result findPage(PageModel pm, UserOnlineQueryCriteria userOnlineQueryCriteria) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, userOnlineQueryCriteria);
-		return Result.buildOkData(userOnlineService.page(pm, wrapper));
+	public Result findPage(PageModel pageModel, UserOnlineQueryCriteria userOnlineQueryCriteria) {
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, userOnlineQueryCriteria);
+		return Result.buildOkData(userOnlineService.page(pageModel, wrapper));
 	}
 
 

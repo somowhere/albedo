@@ -164,15 +164,15 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	/**
 	 * 分页查询用户信息（含有角色信息）
 	 *
-	 * @param pm 分页对象
+	 * @param pageModel 分页对象
 	 * @return
 	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public IPage<UserVo> findPage(PageModel pm, UserQueryCriteria userQueryCriteria, DataScope dataScope) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, userQueryCriteria);
+	public IPage<UserVo> findPage(PageModel pageModel, UserQueryCriteria userQueryCriteria, DataScope dataScope) {
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, userQueryCriteria);
 		wrapper.eq("a.del_flag", User.FLAG_NORMAL);
-		IPage<UserVo> userVosPage = repository.findUserVoPage(pm, wrapper, dataScope);
+		IPage<UserVo> userVosPage = repository.findUserVoPage(pageModel, wrapper, dataScope);
 		return userVosPage;
 	}
 

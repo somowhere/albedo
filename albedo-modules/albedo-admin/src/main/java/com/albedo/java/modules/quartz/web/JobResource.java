@@ -50,16 +50,16 @@ public class JobResource extends BaseResource {
 	/**
 	 * GET / : get all job.
 	 *
-	 * @param pm the pagination information
+	 * @param pageModel the pagination information
 	 * @return the Result with status 200 (OK) and with body all job
 	 */
 
 	@PreAuthorize("@pms.hasPermission('quartz_job_view')")
 	@GetMapping
 	@LogOperate(value = "任务调度查看")
-	public Result<IPage> getPage(PageModel pm, JobQueryCriteria jobQueryCriteria) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, jobQueryCriteria);
-		return Result.buildOkData(jobService.page(pm, wrapper));
+	public Result<IPage> getPage(PageModel pageModel, JobQueryCriteria jobQueryCriteria) {
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, jobQueryCriteria);
+		return Result.buildOkData(jobService.page(pageModel, wrapper));
 	}
 
 	/**

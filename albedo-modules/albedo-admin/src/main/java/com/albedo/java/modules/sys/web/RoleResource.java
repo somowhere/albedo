@@ -110,14 +110,14 @@ public class RoleResource extends BaseResource {
 	/**
 	 * 分页查询角色信息
 	 *
-	 * @param pm 分页对象
+	 * @param pageModel 分页对象
 	 * @return 分页对象
 	 */
 	@GetMapping
 	@LogOperate(value = "角色管理查看")
-	public Result<IPage> getPage(PageModel pm, RoleQueryCriteria roleQueryCriteria) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, roleQueryCriteria);
-		return Result.buildOkData(roleService.page(pm, wrapper));
+	public Result<IPage> getPage(PageModel pageModel, RoleQueryCriteria roleQueryCriteria) {
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, roleQueryCriteria);
+		return Result.buildOkData(roleService.page(pageModel, wrapper));
 	}
 
 	/**

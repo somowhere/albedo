@@ -43,8 +43,8 @@ public class QueryWrapperUtil {
 		return queryWrapper;
 	}
 
-	public static <T> QueryWrapper<T> getWrapper(PageModel<T> pm, Object query) {
-		return (QueryWrapper) fillWrapperOrder(pm, getWrapper(query));
+	public static <T> QueryWrapper<T> getWrapper(PageModel<T> pageModel, Object query) {
+		return (QueryWrapper) fillWrapperOrder(pageModel, getWrapper(query));
 	}
 
 	public static <T> QueryWrapper<T> getWrapper(Object query) {
