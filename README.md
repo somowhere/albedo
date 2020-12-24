@@ -11,7 +11,7 @@
  
 - 基于 Spring Boot 、Spring Security、Mybatis 的RBAC权限管理系统  
 
-- 基于数据驱动视图的理念封装 Element-ui，即使没有 vue 的使用经验也能快速上手 
+- 基于数据驱动视图的理念封装 Element-ui，即使没有 vue 的使用经验也能快速上手 
  
 - 微服务版本 <a href="https://github.com/somowhere/albedo-cloud">albedo-cloud</a>   
 
