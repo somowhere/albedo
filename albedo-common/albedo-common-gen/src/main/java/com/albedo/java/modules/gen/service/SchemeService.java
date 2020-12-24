@@ -50,13 +50,13 @@ public interface SchemeService extends DataService<Scheme, SchemeDto, String> {
 	/**
 	 * getSchemeVoPage  分页查询用户信息（含有角色信息）
 	 *
-	 * @param pm
+	 * @param pageModel
 	 * @param schemeQueryCriteria
 	 * @return com.baomidou.mybatisplus.core.metadata.IPage
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:38
 	 */
-	IPage getSchemeVoPage(PageModel pm, SchemeQueryCriteria schemeQueryCriteria);
+	IPage getSchemeVoPage(PageModel pageModel, SchemeQueryCriteria schemeQueryCriteria);
 
 	/**
 	 * previewCode

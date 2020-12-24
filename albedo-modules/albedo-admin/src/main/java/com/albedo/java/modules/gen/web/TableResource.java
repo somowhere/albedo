@@ -51,16 +51,16 @@ public class TableResource extends BaseResource {
 	}
 
 	/**
-	 * @param pm
+	 * @param pageModel
 	 * @return
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('gen_table_view')")
 	@LogOperate(value = "业务表查看")
-	public Result getPage(PageModel pm, TableQueryCriteria tableQueryCriteria) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, tableQueryCriteria);
-		pm = tableService.page(pm, wrapper);
-		return Result.buildOkData(pm);
+	public Result getPage(PageModel pageModel, TableQueryCriteria tableQueryCriteria) {
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, tableQueryCriteria);
+		pageModel = tableService.page(pageModel, wrapper);
+		return Result.buildOkData(pageModel);
 	}
 
 	@LogOperate(value = "业务表编辑")

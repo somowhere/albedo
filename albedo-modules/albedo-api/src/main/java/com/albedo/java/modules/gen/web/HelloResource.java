@@ -17,7 +17,7 @@ public class HelloResource extends BaseResource {
 
 
 	/**
-	 * @param pm
+	 * @param pageModel
 	 * @return
 	 */
 	@GetMapping

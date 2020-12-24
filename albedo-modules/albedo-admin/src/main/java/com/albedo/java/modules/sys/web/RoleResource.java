@@ -87,7 +87,10 @@ public class RoleResource extends BaseResource {
 		return Result.buildOk("操作成功");
 	}
 
-
+	/**
+	 * 获取用户级别
+	 * @return
+	 */
 	@ApiOperation("获取用户级别")
 	@GetMapping(value = "/level")
 	public Result findLevel() {
@@ -107,14 +110,14 @@ public class RoleResource extends BaseResource {
 	/**
 	 * 分页查询角色信息
 	 *
-	 * @param pm 分页对象
+	 * @param pageModel 分页对象
 	 * @return 分页对象
 	 */
 	@GetMapping
 	@LogOperate(value = "角色管理查看")
-	public Result<IPage> getPage(PageModel pm, RoleQueryCriteria roleQueryCriteria) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, roleQueryCriteria);
-		return Result.buildOkData(roleService.page(pm, wrapper));
+	public Result<IPage> getPage(PageModel pageModel, RoleQueryCriteria roleQueryCriteria) {
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, roleQueryCriteria);
+		return Result.buildOkData(roleService.page(pageModel, wrapper));
 	}
 
 	/**
@@ -135,7 +138,6 @@ public class RoleResource extends BaseResource {
 
 	/**
 	 * 删除角色
-	 *
 	 * @param ids
 	 * @return
 	 */
@@ -170,7 +172,7 @@ public class RoleResource extends BaseResource {
 	/**
 	 * 获取用户的角色级别
 	 *
-	 * @return /
+	 * @return
 	 */
 	private int checkLevel(Integer level) {
 		int min = roleService.findLevelByUserId(SecurityUtil.getUser().getId());
@@ -185,7 +187,7 @@ public class RoleResource extends BaseResource {
 	/**
 	 * 检查角色是否有用户信息
 	 *
-	 * @return /
+	 * @return
 	 */
 	private void checkRole(String roleId, String roleName) {
 		List<User> userList = userService.findListByRoleId(roleId);

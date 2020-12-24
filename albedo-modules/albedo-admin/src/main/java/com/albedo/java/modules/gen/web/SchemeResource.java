@@ -39,14 +39,14 @@ public class SchemeResource extends BaseResource {
 	private final MenuService menuService;
 
 	/**
-	 * @param pm
+	 * @param pageModel
 	 * @return
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('gen_scheme_view')")
 	@LogOperate(value = "生成方案查看")
-	public Result getPage(PageModel pm, SchemeQueryCriteria schemeQueryCriteria) {
-		return Result.buildOkData(schemeService.getSchemeVoPage(pm, schemeQueryCriteria));
+	public Result getPage(PageModel pageModel, SchemeQueryCriteria schemeQueryCriteria) {
+		return Result.buildOkData(schemeService.getSchemeVoPage(pageModel, schemeQueryCriteria));
 	}
 
 	@GetMapping(value = "/preview" + CommonConstants.URL_ID_REGEX)

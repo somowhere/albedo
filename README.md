@@ -8,9 +8,11 @@
  [![GitHub forks](https://img.shields.io/github/forks/somowhere/albedo.svg?style=social&label=Fork)](https://github.com/somowhere/albedo)
  
  </p> 
-  
+ 
 - 基于 Spring Boot 、Spring Security、Mybatis 的RBAC权限管理系统  
-- 基于数据驱动视图的理念封装 Element-ui，即使没有 vue 的使用经验也能快速上手  
+
+- 基于数据驱动视图的理念封装 Element-ui，即使没有 vue 的使用经验也能快速上手 
+ 
 - 微服务版本 <a href="https://github.com/somowhere/albedo-cloud">albedo-cloud</a>   
 
 <table>
@@ -99,6 +101,10 @@ albedo
 2. 不接受`功能请求`的 issue，功能请求可能会被直接关闭。  
 
 3. QQ群: 685728393 
+
+#### 特别感谢
+ [jhipster](https://www.jhipster.tech/)  [pig](https://gitee.com/log4j/pig)  [RuoYi](https://gitee.com/y_project/RuoYi)  [eladmin](https://github.com/elunez/eladmin)
+
 
 
 #### 项目捐赠

@@ -43,7 +43,9 @@
 		<springfox.version>3.0.0</springfox.version>
 		<knife4j.version>3.0.1</knife4j.version>
 		<poi.version>3.17</poi.version>
-		<oshi.version>5.1.0</oshi.version>
+		<oshi.version>5.3.7</oshi.version>
+		<!-- oshi监控需要指定jna版本, 问题详见 https://github.com/oshi/oshi/issues/1040 -->
+		<jna.version>5.6.0</jna.version>
 
 		<profile.dev.log.level>INFO</profile.dev.log.level>
 		<profile.prod.log.level>INFO</profile.prod.log.level>

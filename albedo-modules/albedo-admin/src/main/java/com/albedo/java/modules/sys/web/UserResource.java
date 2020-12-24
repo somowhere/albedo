@@ -73,16 +73,21 @@ public class UserResource extends BaseResource {
 	/**
 	 * 分页查询用户
 	 *
-	 * @param pm 参数集
+	 * @param pageModel 参数集
 	 * @return 用户集合
 	 */
 	@GetMapping
 	@LogOperate(value = "用户管理查看")
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
-	public Result<IPage<UserVo>> findPage(PageModel pm, UserQueryCriteria userQueryCriteria) {
-		return Result.buildOkData(userService.findPage(pm, userQueryCriteria, SecurityUtil.getDataScope()));
+	public Result<IPage<UserVo>> findPage(PageModel pageModel, UserQueryCriteria userQueryCriteria) {
+		return Result.buildOkData(userService.findPage(pageModel, userQueryCriteria, SecurityUtil.getDataScope()));
 	}
 
+	/**
+	 *
+	 * @param userQueryCriteria
+	 * @param response
+	 */
 	@LogOperate(value = "用户管理导出")
 	@GetMapping(value = "/download")
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
@@ -194,6 +199,13 @@ public class UserResource extends BaseResource {
 	}
 
 
+	/**
+	 *
+	 * @param dataFile
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping(value = "/upload")
 	@PreAuthorize("@pms.hasPermission('sys_user_upload')")
 	@LogOperate(value = "用户管理导入")
@@ -214,6 +226,10 @@ public class UserResource extends BaseResource {
 
 	}
 
+	/**
+	 *
+	 * @param response
+	 */
 	@GetMapping(value = "/importTemplate")
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
 	@LogOperate(value = "用户导入模板导出")

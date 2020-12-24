@@ -20,6 +20,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
 import com.baomidou.mybatisplus.extension.handlers.AbstractSqlParserHandler;
+import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.expression.Alias;
@@ -34,16 +35,18 @@ import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.statement.select.PlainSelect;
 import net.sf.jsqlparser.statement.select.Select;
+import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.statement.StatementHandler;
-import org.apache.ibatis.mapping.BoundSql;
-import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.mapping.SqlCommandType;
-import org.apache.ibatis.mapping.StatementType;
+import org.apache.ibatis.mapping.*;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
+import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.session.RowBounds;
 
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -57,88 +60,52 @@ import java.util.stream.Collectors;
  * mybatis 数据权限拦截器
  */
 @Slf4j
-@Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})})
-public class DataScopeInterceptor extends AbstractSqlParserHandler implements Interceptor {
+public class DataScopeInterceptor implements InnerInterceptor {
 
-	@Override
+
 	@SneakyThrows
-	public Object intercept(Invocation invocation) {
-		StatementHandler statementHandler = PluginUtils.realTarget(invocation.getTarget());
-		MetaObject metaObject = SystemMetaObject.forObject(statementHandler);
-		this.sqlParser(metaObject);
-		// 先判断是不是SELECT操作  (2019-04-10 00:37:31 跳过存储过程)
-		MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
-		if (SqlCommandType.SELECT != mappedStatement.getSqlCommandType()
+	@Override
+	public void beforeQuery(Executor executor, MappedStatement mappedStatement, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) throws SQLException {
+		if (SqlCommandType.SELECT == mappedStatement.getSqlCommandType() && StatementType.CALLABLE != mappedStatement.getStatementType()) {
+			//查找参数中包含DataScope类型的参数
+			DataScope dataScope = findDataScopeObject(parameter);
 
-			|| StatementType.CALLABLE == mappedStatement.getStatementType()) {
-			return invocation.proceed();
-		}
-
-		BoundSql boundSql = (BoundSql) metaObject.getValue("delegate.boundSql");
-		Object parameterObject = boundSql.getParameterObject();
-
-		//查找参数中包含DataScope类型的参数
-		DataScope dataScope = findDataScopeObject(parameterObject);
-
-		if (dataScope == null || dataScope.isAll()) {
-			return invocation.proceed();
-		} else {
-			String scopeName = dataScope.getScopeName(),
-				creatorName = dataScope.getCreatorName(),
-				userId = dataScope.getUserId();
-			Set<String> deptIds = dataScope.getDeptIds();
-			String originalSql = boundSql.getSql();
-			Select selectStatement = (Select) CCJSqlParserUtil.parse(originalSql);
-			if (selectStatement.getSelectBody() instanceof PlainSelect) {
-				PlainSelect plainSelect = (PlainSelect) selectStatement.getSelectBody();
-				Expression expression = null;
-				Alias alias = plainSelect.getFromItem().getAlias();
-				String aliaName = "";
-				if (alias != null && StringUtil.isNotEmpty(alias.getName())) {
-					aliaName = alias.getName() + StringUtil.DOT;
-				}
-				if (StringUtil.isNotBlank(scopeName) && CollectionUtil.isNotEmpty(deptIds)) {
-					ItemsList itemsList = new ExpressionList(deptIds.stream().map(deptId -> new StringValue(deptId)).collect(Collectors.toList()));
-					expression = new InExpression(new Column(aliaName + scopeName), itemsList);
-				} else if (StringUtil.isNotEmpty(creatorName) && dataScope.isSelf()) {
-					EqualsTo equalsTo = new EqualsTo();
-					equalsTo.setLeftExpression(new Column(aliaName + creatorName));
-					equalsTo.setRightExpression(new StringValue(userId));
-					expression = equalsTo;
-				}
-				if (expression != null) {
-					AndExpression andExpression = new AndExpression(plainSelect.getWhere(), expression);
-					plainSelect.setWhere(andExpression);
-					metaObject.setValue("delegate.boundSql.sql", plainSelect.toString());
+			if (dataScope != null && !dataScope.isAll()) {
+				String scopeName = dataScope.getScopeName(),
+					creatorName = dataScope.getCreatorName(),
+					userId = dataScope.getUserId();
+				Set<String> deptIds = dataScope.getDeptIds();
+				String originalSql = boundSql.getSql();
+				Select selectStatement = (Select) CCJSqlParserUtil.parse(originalSql);
+				if (selectStatement.getSelectBody() instanceof PlainSelect) {
+					PlainSelect plainSelect = (PlainSelect) selectStatement.getSelectBody();
+					Expression expression = null;
+					Alias alias = plainSelect.getFromItem().getAlias();
+					String aliaName = "";
+					if (alias != null && StringUtil.isNotEmpty(alias.getName())) {
+						aliaName = alias.getName() + StringUtil.DOT;
+					}
+					if (StringUtil.isNotBlank(scopeName) && CollectionUtil.isNotEmpty(deptIds)) {
+						ItemsList itemsList = new ExpressionList(deptIds.stream().map(deptId -> new StringValue(deptId)).collect(Collectors.toList()));
+						expression = new InExpression(new Column(aliaName + scopeName), itemsList);
+					} else if (StringUtil.isNotEmpty(creatorName) && dataScope.isSelf()) {
+						EqualsTo equalsTo = new EqualsTo();
+						equalsTo.setLeftExpression(new Column(aliaName + creatorName));
+						equalsTo.setRightExpression(new StringValue(userId));
+						expression = equalsTo;
+					}
+					if (expression != null) {
+						AndExpression andExpression = new AndExpression(plainSelect.getWhere(), expression);
+						plainSelect.setWhere(andExpression);
+						PluginUtils.MPBoundSql mpBoundSql = PluginUtils.mpBoundSql(boundSql);
+						mpBoundSql.sql(plainSelect.toString());
+					}
 				}
 			}
-			return invocation.proceed();
 		}
 	}
 
 	/**
-	 * 生成拦截对象的代理
-	 *
-	 * @param target 目标对象
-	 * @return 代理对象
-	 */
-	@Override
-	public Object plugin(Object target) {
-		if (target instanceof StatementHandler) {
-			return Plugin.wrap(target, this);
-		}
-		return target;
-	}
-
-	/**
-	 * mybatis配置的属性
-	 *
-	 * @param properties mybatis配置的属性
-	 */
-	@Override
-	public void setProperties(Properties properties) {
-
-	}
 
 	/**
 	 * 查找参数是否包括DataScope对象

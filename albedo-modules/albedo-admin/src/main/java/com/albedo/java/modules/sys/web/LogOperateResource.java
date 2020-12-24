@@ -55,14 +55,14 @@ public class LogOperateResource {
 	/**
 	 * 简单分页查询
 	 *
-	 * @param pm 分页对象
+	 * @param pageModel 分页对象
 	 * @return
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_view')")
-	public Result<IPage> getPage(PageModel pm, LogOperateQueryCriteria logOperateQueryCriteria) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, logOperateQueryCriteria);
-		return Result.buildOkData(logOperateService.page(pm, wrapper));
+	public Result<IPage> getPage(PageModel pageModel, LogOperateQueryCriteria logOperateQueryCriteria) {
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, logOperateQueryCriteria);
+		return Result.buildOkData(logOperateService.page(pageModel, wrapper));
 	}
 
 	/**
@@ -90,13 +90,13 @@ public class LogOperateResource {
 
 	@GetMapping(value = "/user")
 	@ApiOperation("用户日志查询")
-	public Result<Object> getUserLogs(PageModel pm, LogOperateQueryCriteria criteria) {
+	public Result<Object> getUserLogs(PageModel pageModel, LogOperateQueryCriteria criteria) {
 		criteria.setLogType(Lists.newArrayList(LogType.INFO.name(), LogType.WARN.name()));
 		criteria.setUsername(SecurityUtil.getUser().getUsername());
-		pm.addOrder(OrderItem.desc(com.albedo.java.modules.sys.domain.LogOperate.F_SQL_CREATEDDATE));
-		QueryWrapper<com.albedo.java.modules.sys.domain.LogOperate> wrapper = QueryWrapperUtil.<com.albedo.java.modules.sys.domain.LogOperate>getWrapper(pm, criteria);
+		pageModel.addOrder(OrderItem.desc(com.albedo.java.modules.sys.domain.LogOperate.F_SQL_CREATEDDATE));
+		QueryWrapper<com.albedo.java.modules.sys.domain.LogOperate> wrapper = QueryWrapperUtil.<com.albedo.java.modules.sys.domain.LogOperate>getWrapper(pageModel, criteria);
 
-		return Result.buildOkData(logOperateService.page(pm, wrapper));
+		return Result.buildOkData(logOperateService.page(pageModel, wrapper));
 	}
 
 }

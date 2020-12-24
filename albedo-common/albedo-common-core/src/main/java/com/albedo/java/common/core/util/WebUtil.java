@@ -50,6 +50,22 @@ import java.nio.charset.StandardCharsets;
 @UtilityClass
 public class WebUtil extends org.springframework.web.util.WebUtils {
 
+	public static String getHostIp() {
+		try {
+			return InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+		}
+		return "127.0.0.1";
+	}
+
+	public static String getHostName() {
+		try {
+			return InetAddress.getLocalHost().getHostName();
+		} catch (UnknownHostException e) {
+		}
+		return "未知";
+	}
+
 	/**
 	 * 判断是否ajax请求
 	 * spring ajax 返回含有 ResponseBody 或者 RestController注解
@@ -227,22 +243,6 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
 			throw new CheckedException("Invalid basic authentication token");
 		}
 		return new String[]{token.substring(0, delim), token.substring(delim + 1)};
-	}
-
-	public static String getHostIp() {
-		try {
-			return InetAddress.getLocalHost().getHostAddress();
-		} catch (UnknownHostException e) {
-		}
-		return "127.0.0.1";
-	}
-
-	public static String getHostName() {
-		try {
-			return InetAddress.getLocalHost().getHostName();
-		} catch (UnknownHostException e) {
-		}
-		return "未知";
 	}
 }
 

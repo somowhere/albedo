@@ -38,16 +38,15 @@ public class JobLogResource extends BaseResource {
 	/**
 	 * GET / : get all jobLog.
 	 *
-	 * @param pm the pagination information
+	 * @param pageModel the pagination information
 	 * @return the Result with status 200 (OK) and with body all jobLog
 	 */
 
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_view')")
 	@GetMapping
 	@LogOperate(value = "任务日志查看")
-	public Result getPage(PageModel pm, JobLogQueryCriteria jobLogQueryCriteria) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, jobLogQueryCriteria);
-		return Result.buildOkData(jobLogService.page(pm, wrapper));
+	public Result getPage(PageModel pageModel, JobLogQueryCriteria jobLogQueryCriteria) {
+		return Result.buildOkData(jobLogService.page(pageModel, QueryWrapperUtil.getWrapper(pageModel, jobLogQueryCriteria)));
 	}
 
 

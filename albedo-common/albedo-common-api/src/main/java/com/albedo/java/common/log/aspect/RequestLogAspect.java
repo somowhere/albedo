@@ -93,7 +93,7 @@ public class RequestLogAspect {
 	@Around("execution(!static com.albedo.java.common.core.util.Result *(..)) && (@within(org.springframework.stereotype.Controller) || @within(org.springframework.web.bind.annotation.RestController))")
 	public Object around(ProceedingJoinPoint point) {
 		HttpServletRequest request = WebUtil.getRequest();
-		String requestURI = Objects.requireNonNull(request).getRequestURI();
+		String requestUri = Objects.requireNonNull(request).getRequestURI();
 		String requestMethod = request.getMethod();
 		// 构建成一条长 日志，避免并发下日志错乱
 		StringBuilder beforeReqLog = new StringBuilder(300);
@@ -102,7 +102,7 @@ public class RequestLogAspect {
 		// 打印路由
 		beforeReqLog.append("Request===> {}: {}");
 		beforeReqArgs.add(requestMethod);
-		beforeReqArgs.add(requestURI);
+		beforeReqArgs.add(requestUri);
 		// 请求参数处理
 		final Map<String, Object> paramMap = new HashMap<>(16);
 
@@ -111,6 +111,7 @@ public class RequestLogAspect {
 		// 请求参数
 		if (!paramMap.isEmpty()) {
 			beforeReqLog.append(" Parameters: {}");
+			beforeReqArgs.add(paramMap);
 		}
 		log.info(beforeReqLog.toString(), beforeReqArgs.toArray());
 		// aop 执行后的日志
@@ -123,11 +124,11 @@ public class RequestLogAspect {
 			result = point.proceed();
 			beforeReqLog.append("Request===> {}: {}");
 			beforeReqArgs.add(requestMethod);
-			beforeReqArgs.add(requestURI);
+			beforeReqArgs.add(requestUri);
 			// 打印返回结构体
 			afterReqLog.append("Response===> {}: {}");
 			afterReqArgs.add(requestMethod);
-			afterReqArgs.add(requestURI);
+			afterReqArgs.add(requestUri);
 		} finally {
 			long tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs);
 			afterReqLog.append(" time ({} ms) Result:{}");
