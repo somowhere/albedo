@@ -14,9 +14,8 @@ import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.LogOperate;
-import com.albedo.java.common.log.enums.BusinessType;
 import com.albedo.java.common.web.resource.BaseResource;
-import com.albedo.java.common.core.util.R;
+import com.albedo.java.common.core.util.Result;
 import ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
 import ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}QueryCriteria;
 import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Service;
@@ -49,7 +48,7 @@ public class ${ClassName}Resource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_view')")
 	public Result get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
-		return  R.buildOkData(service.getOneDto(id));
+		return  Result.buildOkData(service.getOneDto(id));
 	}
 	/**
 	 * GET / : get all ${className}.
@@ -60,10 +59,10 @@ public class ${ClassName}Resource extends BaseResource {
 
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_view')")
 	@GetMapping
-	@Log(value = "${functionName}查看")
+	@LogOperate(value = "${functionName}查看")
 	public Result getPage(PageModel pm, ${ClassName}QueryCriteria ${className}QueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, ${className}QueryCriteria);
-		return R.buildOkData(service.page(pm, wrapper));
+		return Result.buildOkData(service.page(pm, wrapper));
 	}
 
 	/**
@@ -72,12 +71,12 @@ public class ${ClassName}Resource extends BaseResource {
 	 * @param ${className}Dto the HTTP ${className}
 	 */
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_edit')")
-	@Log(value = "${functionName}编辑")
+	@LogOperate(value = "${functionName}编辑")
 	@PostMapping
 	public Result save(@Valid @RequestBody ${ClassName}Dto ${className}Dto) {
 		log.debug("REST request to save ${ClassName}Dto : {}", ${className}Dto);
 		service.saveOrUpdate(${className}Dto);
-		return R.buildOk("保存${functionNameSimple}成功");
+		return Result.buildOk("保存${functionNameSimple}成功");
 
 	}
 
@@ -88,12 +87,12 @@ public class ${ClassName}Resource extends BaseResource {
 	 * @return the Result with status 200 (OK)
 	 */
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_del')")
-	@Log(value = "${functionName}删除")
+	@LogOperate(value = "${functionName}删除")
 	@DeleteMapping
 	public Result delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete ${ClassName}: {}", ids);
 		service.removeByIds(ids);
-		return R.buildOk("删除${functionNameSimple}成功");
+		return Result.buildOk("删除${functionNameSimple}成功");
 	}
 }]]>
 	</content>

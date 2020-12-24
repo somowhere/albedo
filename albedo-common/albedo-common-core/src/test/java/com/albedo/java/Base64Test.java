@@ -1,7 +1,7 @@
 package com.albedo.java;
 
 import cn.hutool.core.codec.Base64;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
 

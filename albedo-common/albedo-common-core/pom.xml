@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>com.albedo.java</groupId>
 		<artifactId>albedo-common</artifactId>
-		<version>3.0.2-SNAPSHOT</version>
+		<version>3.0.3-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>albedo-common-core</artifactId>
@@ -116,12 +116,6 @@
 			<artifactId>fastjson</artifactId>
 			<version>${fastjson.version}</version>
 		</dependency>
-		<!-- google java library -->
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>${guava.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-annotations</artifactId>
@@ -140,10 +134,23 @@
 			<version>1.8</version>
 		</dependency>
 
+		<!-- google java library -->
 		<dependency>
-			<groupId>com.github.axet</groupId>
-			<artifactId>kaptcha</artifactId>
-			<version>${kaptcha.version}</version>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.pig4cloud.plugin</groupId>
+			<artifactId>captcha-spring-boot-starter</artifactId>
+			<version>${captcha.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.googlecode.aviator</groupId>
+			<artifactId>aviator</artifactId>
+			<version>5.1.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>

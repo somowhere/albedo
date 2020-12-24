@@ -14,8 +14,7 @@ spring:
     password: 111111
     url: jdbc:mysql://albedo-mysql:3306/albedo-cloud?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowMultiQueries=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
   redis:
-    password:
-    host: albedo-redis
+    host: localhost
 
 
 # mybaits-plus配置

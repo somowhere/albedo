@@ -19,14 +19,17 @@ import com.albedo.java.modules.sys.domain.vo.account.PasswordRestVo;
 import com.albedo.java.modules.sys.service.UserService;
 import com.albedo.java.modules.tool.domain.vo.EmailVo;
 import com.albedo.java.modules.tool.service.EmailService;
-import com.google.code.kaptcha.Producer;
+import com.pig4cloud.captcha.ArithmeticCaptcha;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.util.Assert;
+import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
@@ -49,8 +52,10 @@ import java.util.concurrent.TimeUnit;
 @Api(tags = "账户相关")
 public class AccoutResource extends BaseResource {
 
+	private static final Integer DEFAULT_IMAGE_WIDTH = 100;
+
+	private static final Integer DEFAULT_IMAGE_HEIGHT = 40;
 	private final UserService userService;
-	private final Producer producer;
 	private final ApplicationProperties applicationProperties;
 	private final EmailService emailService;
 
@@ -117,16 +122,16 @@ public class AccoutResource extends BaseResource {
 		response.setHeader("Cache-Control", "no-store, no-cache");
 		response.setHeader("Transfer-Encoding", "JPG");
 		response.setContentType("image/jpeg");
-		//生成文字验证码
-		String text = producer.createText();
-		//生成图片验证码
-		BufferedImage image = producer.createImage(text);
-		RedisUtil.setCacheString(CommonConstants.DEFAULT_CODE_KEY + randomStr, text, CommonConstants.DEFAULT_IMAGE_EXPIRE, TimeUnit.SECONDS);
+
+		ArithmeticCaptcha captcha = new ArithmeticCaptcha(DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT);
+
+		String result = captcha.text();
+		RedisUtil.setCacheString(CommonConstants.DEFAULT_CODE_KEY + randomStr, result, CommonConstants.DEFAULT_IMAGE_EXPIRE, TimeUnit.SECONDS);
 		//创建输出流
 		ServletOutputStream out = response.getOutputStream();
-		//写入数据
-		ImageIO.write(image, "jpeg", out);
+		captcha.out(out);
 		IoUtil.close(out);
+
 	}
 
 

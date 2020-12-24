@@ -92,15 +92,15 @@ public class ${ClassName}ResourceIntTest {
 		</#if>
 	</#list>
 
-    @autowired
+    @Autowired
 	private ${ClassName}Service ${className}Service;
 
 	private MockMvc rest${ClassName}MockMvc;
-	@autowired
+	@Autowired
 	private MappingJackson2HttpMessageConverter jacksonMessageConverter;
-	@autowired
+	@Autowired
 	private GlobalExceptionHandler globalExceptionHandler;
-	@autowired
+	@Autowired
 	private ApplicationProperties applicationProperties;
 
 	private ${ClassName}Dto ${className}Dto;

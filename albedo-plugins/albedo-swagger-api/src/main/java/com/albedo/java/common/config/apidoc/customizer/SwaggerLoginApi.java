@@ -8,10 +8,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import springfox.documentation.builders.OperationBuilder;
 import springfox.documentation.builders.ParameterBuilder;
+import springfox.documentation.builders.RequestParameterBuilder;
 import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.schema.ModelRef;
+import springfox.documentation.schema.ScalarType;
 import springfox.documentation.service.ApiDescription;
 import springfox.documentation.service.Operation;
+import springfox.documentation.service.ParameterType;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.ApiListingScannerPlugin;
 import springfox.documentation.spi.service.contexts.DocumentationContext;
@@ -42,45 +45,22 @@ public class SwaggerLoginApi implements ApiListingScannerPlugin {
 			// 返回参数格式
 			.produces(Sets.newHashSet(MediaType.APPLICATION_JSON_VALUE))
 			.tags(Sets.newHashSet("账户相关"))
-			.parameters(Arrays.asList(
-				new ParameterBuilder()
-					.description("用户名")
-					.type(new TypeResolver().resolve(String.class))
-					.name("username")
-					.defaultValue("admin")
-					.parameterType("query")
-					.parameterAccess("access")
-					.required(true)
-					.modelRef(new ModelRef("string"))
-					.build(),
-				new ParameterBuilder()
-					.description("密码(采用AES加密，默认key=somewhere-albedo[application.security.encode-key])(Mode.CBC)")
-					.type(new TypeResolver().resolve(String.class))
-					.name("password")
-					.parameterType("query")
-					.parameterAccess("access")
-					.required(true)
-					.modelRef(new ModelRef("string"))
-					.build(),
-				new ParameterBuilder()
-					.description("验证码唯一标识")
-					.type(new TypeResolver().resolve(String.class))
-					.name("randomKey")
-					.defaultValue("666666")
-					.parameterType("query")
-					.parameterAccess("access")
-					.required(true)
-					.modelRef(new ModelRef("string"))
-					.build(),
-				new ParameterBuilder()
-					.description("验证码")
-					.type(new TypeResolver().resolve(String.class))
-					.name("code")
-					.parameterType("query")
-					.parameterAccess("access")
-					.required(true)
-					.modelRef(new ModelRef("string"))
-					.build()
+			.requestParameters(Arrays.asList(
+				new RequestParameterBuilder().description("用户名")
+					.in(ParameterType.QUERY).name("username").required(true)
+					.query(param -> param.model(model -> model.scalarModel(ScalarType.STRING))).build(),
+				new RequestParameterBuilder().description("密码(采用AES加密，默认key=somewhere-albedo[application.security.encode-key])(Mode.CBC)")
+					.in(ParameterType.QUERY).name("password").required(true)
+					.query(param -> param.model(model -> model.scalarModel(ScalarType.STRING))).build(),
+				new RequestParameterBuilder().description("唯一标识")
+					.in(ParameterType.QUERY).name("randomKey").required(true)
+					.query(param -> param.model(model -> model.scalarModel(ScalarType.STRING))).build(),
+				new RequestParameterBuilder().description("验证码")
+					.in(ParameterType.QUERY).name("code").required(true)
+					.query(param -> param.model(model -> model.scalarModel(ScalarType.STRING))).build(),
+				new RequestParameterBuilder().description("用户名")
+					.in(ParameterType.QUERY).name("username").required(true)
+					.query(param -> param.model(model -> model.scalarModel(ScalarType.STRING))).build()
 			))
 			.responseMessages(Collections.singleton(
 				new ResponseMessageBuilder().code(200).message("请求成功")
@@ -89,7 +69,7 @@ public class SwaggerLoginApi implements ApiListingScannerPlugin {
 					).build()))
 			.build();
 		String path = StringUtil.isNotEmpty(applicationSwaggerProperties.getDefaultIncludePattern()) ? applicationSwaggerProperties.getDefaultIncludePattern().replace(".*", "authenticate") : "/authenticate";
-		ApiDescription loginApiDescription = new ApiDescription("login", path, "登录接口",
+		ApiDescription loginApiDescription = new ApiDescription("login", path, "登录接口","登录接口",
 			Arrays.asList(usernamePasswordOperation), false);
 
 		return Arrays.asList(loginApiDescription);
