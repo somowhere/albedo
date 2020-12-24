@@ -28,25 +28,21 @@
 
 	<properties>
 		<project.release.version>3.0.2-SNAPSHOT</project.release.version>
-		<spring-boot.version>2.3.6.RELEASE</spring-boot.version>
+		<spring-boot.version>2.4.1</spring-boot.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<spring-boot-admin.version>2.3.1</spring-boot-admin.version>
-		<hutool.version>5.4.7</hutool.version>
+		<hutool.version>5.5.3</hutool.version>
 		<mybatis-plus.version>3.4.1</mybatis-plus.version>
 		<dynamic-ds.version>3.2.0</dynamic-ds.version>
-		<kaptcha.version>0.0.9</kaptcha.version>
+		<kaptcha.version>2.2.0</kaptcha.version>
 		<velocity.version>1.7</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
-		<security.oauth.version>2.3.6.RELEASE</security.oauth.version>
-		<jackson.version>2.9.9</jackson.version>
 		<h2.version>1.4.199</h2.version>
-		<springfox.version>2.9.2</springfox.version>
-		<knife4j.version>2.0.4</knife4j.version>
-		<kaptcha.version>0.0.9</kaptcha.version>
+		<springfox.version>3.0.0</springfox.version>
+		<knife4j.version>3.0.1</knife4j.version>
 		<poi.version>3.17</poi.version>
-		<guava.version>20.0</guava.version>
 		<oshi.version>5.1.0</oshi.version>
 
 		<profile.dev.log.level>INFO</profile.dev.log.level>
@@ -96,22 +92,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
 				<version>${spring-boot.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<!--jackson模块-->
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-annotations</artifactId>
-				<version>${jackson.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<!--jackson模块-->
-			<dependency>
-				<groupId>com.fasterxml.jackson.module</groupId>
-				<artifactId>jackson-modules-java8</artifactId>
-				<version>${jackson.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
