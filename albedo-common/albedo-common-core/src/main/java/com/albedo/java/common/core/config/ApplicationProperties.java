@@ -32,7 +32,7 @@ public class ApplicationProperties {
 	private String urlSuffix = ".html";
 	private Boolean developMode = true;
 	private Boolean cluster = false;
-	private String logPath = ".logs/";
+	private String logPath = "logs/";
 	private Security security = new Security();
 	private Http http = new Http();
 	private Rsa rsa = new Rsa();

@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -30,11 +31,16 @@ public class TableDto extends DataDto<String> {
 	private static final long serialVersionUID = 1L;
 	// 名称
 	/*** 编码 */
+	@NotBlank
 	private String name;
 	/*** 描述 */
 	private String comments;
 	/*** 实体类名称 */
+	@NotBlank
 	private String className;
+	/*** 数据源 */
+	@NotBlank
+	private String dsName;
 	/*** 关联父表 */
 	private String parentTable;
 	/*** 关联父表外键 */
@@ -74,7 +80,8 @@ public class TableDto extends DataDto<String> {
 
 	public TableDto(TableFromDto tableFromDto) {
 		this.setId(tableFromDto.getId());
-		this.name = tableFromDto.getName();
+		this.setDsName(tableFromDto.getDsName());
+		this.name = tableFromDto.getTableName();
 
 	}
 

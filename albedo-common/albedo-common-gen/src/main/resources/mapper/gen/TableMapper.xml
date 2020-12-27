@@ -10,16 +10,16 @@
 			c.COMMENTS AS comments
 			FROM user_tables t, user_tab_comments c
 			WHERE t.table_name = c.table_name
-			<if test="name != null">
-				AND t.TABLE_NAME = upper(#{name})
+			<if test="tableQuery.name != null and tableQuery.name.trim() != ''">
+				AND t.TABLE_NAME = upper(#{tableQuery.name})
 			</if>
-			<if test="notNames != null">
-				<foreach collection="notNames" item="notName">
+			<if test="tableQuery.notNames != null">
+				<foreach collection="tableQuery.notNames" item="notName">
 					AND t.TABLE_NAME != #{notName}
 				</foreach>
 			</if>
-			<if test="notLikeNames != null">
-				<foreach collection="notLikeNames" item="notLikeName">
+			<if test="tableQuery.notLikeNames != null">
+				<foreach collection="tableQuery.notLikeNames" item="notLikeName">
 					AND instr(t.TABLE_NAME, #{notLikeName}) &lt;= 0
 				</foreach>
 			</if>
@@ -30,16 +30,16 @@
 			FROM sys.objects t LEFT JOIN sys.extended_properties b ON b.major_id=t.object_id and b.minor_id=0 and
 			b.class=1 AND b.name='MS_Description'
 			WHERE t.type='U'
-			<if test="name != null">
-				AND t.name = upper(#{name})
+			<if test="tableQuery.name != null and tableQuery.name.trim() != ''">
+				AND t.name = upper(#{tableQuery.name})
 			</if>
-			<if test="notNames != null">
-				<foreach collection="notNames" item="notName">
+			<if test="tableQuery.notNames != null">
+				<foreach collection="tableQuery.notNames" item="notName">
 					AND t.name != #{notName}
 				</foreach>
 			</if>
-			<if test="notLikeNames != null">
-				<foreach collection="notLikeNames" item="notLikeName">
+			<if test="tableQuery.notLikeNames != null">
+				<foreach collection="tableQuery.notLikeNames" item="notLikeName">
 					AND instr(t.name, #{notLikeName}) &lt;= 0
 				</foreach>
 			</if>
@@ -49,16 +49,16 @@
 			SELECT t.table_name AS name,t.TABLE_COMMENT AS comments
 			FROM information_schema.`TABLES` t
 			WHERE t.TABLE_SCHEMA = (select database())
-			<if test="name != null">
-				AND t.TABLE_NAME = #{name}
+			<if test="tableQuery.name != null and tableQuery.name.trim() != ''">
+				AND t.TABLE_NAME = #{tableQuery.name}
 			</if>
-			<if test="notNames != null">
-				<foreach collection="notNames" item="notName">
+			<if test="tableQuery.notNames != null">
+				<foreach collection="tableQuery.notNames" item="notName">
 					AND t.TABLE_NAME != #{notName}
 				</foreach>
 			</if>
-			<if test="notLikeNames != null">
-				<foreach collection="notLikeNames" item="notLikeName">
+			<if test="tableQuery.notLikeNames != null">
+				<foreach collection="tableQuery.notLikeNames" item="notLikeName">
 					AND instr(t.TABLE_NAME, #{notLikeName}) &lt;= 0
 				</foreach>
 			</if>
@@ -88,8 +88,8 @@
 			FROM user_tab_columns t, user_col_comments c
 			WHERE t.TABLE_NAME = c.table_name
 			AND t.COLUMN_NAME = c.column_name
-			<if test="name != null">
-				AND t.TABLE_NAME = upper(#{name})
+			<if test="tableName != null and tableName.trim() != ''">
+				AND t.TABLE_NAME = upper(#{tableName})
 			</if>
 			ORDER BY t.COLUMN_ID
 		</if>
@@ -107,8 +107,8 @@
 			LEFT JOIN sys.extended_properties g ON o.id = g.major_id
 			AND t.ORDINAL_POSITION = g.minor_id AND g.name='MS_Description'
 			WHERE t.TABLE_SCHEMA = (SCHEMA_NAME())
-			<if test="name != null">
-				AND t.TABLE_NAME = (#{name})
+			<if test="tableName != null and tableName.trim() != ''">
+				AND t.TABLE_NAME = (#{tableName})
 			</if>
 			ORDER BY t.ORDINAL_POSITION
 		</if>
@@ -117,8 +117,8 @@
 			(t.ORDINAL_POSITION * 10) AS sort,t.COLUMN_COMMENT AS title,t.COLUMN_TYPE AS jdbcType
 			FROM information_schema.`COLUMNS` t
 			WHERE t.TABLE_SCHEMA = (select database())
-			<if test="name != null">
-				AND t.TABLE_NAME = (#{name})
+			<if test="tableName != null and tableName.trim() != ''">
+				AND t.TABLE_NAME = (#{tableName})
 			</if>
 			ORDER BY t.ORDINAL_POSITION
 		</if>
@@ -130,19 +130,19 @@
 			FROM user_cons_columns cu, user_constraints au
 			WHERE cu.constraint_name = au.constraint_name
 			AND au.constraint_type = 'P'
-			AND au.table_name = upper(#{name})
+			AND au.table_name = upper(#{tableName})
 		</if>
 		<if test="_databaseId == 'mssql'">
 			SELECT lower(au.COLUMN_NAME) AS columnName
 			FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE au
-			WHERE au.TABLE_NAME = (#{name})
+			WHERE au.TABLE_NAME = (#{tableName})
 			AND au.TABLE_SCHEMA = (SCHEMA_NAME())
 		</if>
 		<if test="_databaseId == 'mysql'">
 			SELECT lower(au.COLUMN_NAME) AS columnName
 			FROM information_schema.`COLUMNS` au
 			WHERE au.TABLE_SCHEMA = (select database())
-			AND au.COLUMN_KEY='PRI' AND au.TABLE_NAME = (#{name})
+			AND au.COLUMN_KEY='PRI' AND au.TABLE_NAME = (#{tableName})
 		</if>
 	</select>
 

@@ -17,5 +17,6 @@
 	<modules>
 		<module>albedo-data-mybatis</module>
 		<module>albedo-swagger-api</module>
+		<module>albedo-dynamic-datasource</module>
 	</modules>
 </project>

@@ -1,5 +1,6 @@
 import { constantRouterMap } from '@/router/routers'
 import Layout from '@/layout/index'
+import validate from '@/utils/validate'
 
 const permission = {
   state: {
@@ -21,13 +22,15 @@ const permission = {
 
 export const filterAsyncRouter = (routers) => { // 遍历后台传来的路由字符串，转换为组件对象
   return routers.filter(router => {
-    if (router.component) {
+    if (validate.checkNotNull(router.component)) {
       if (router.component === 'Layout') { // Layout组件特殊处理
         router.component = Layout
       } else {
         const component = router.component
         router.component = loadView(component)
       }
+    } else {
+      router.component = Layout
     }
     if (router.children && router.children.length) {
       router.children = filterAsyncRouter(router.children)

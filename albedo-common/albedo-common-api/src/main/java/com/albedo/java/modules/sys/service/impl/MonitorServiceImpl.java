@@ -80,17 +80,17 @@ public class MonitorServiceImpl implements MonitorService {
 	 * @return
 	 */
 	private Map<String, Object> getDiskInfo(OperatingSystem os) {
-		Map<String,Object> diskInfo = new LinkedHashMap<>();
+		Map<String, Object> diskInfo = new LinkedHashMap<>();
 		FileSystem fileSystem = os.getFileSystem();
 		List<OSFileStore> fsArray = fileSystem.getFileStores();
-		for (OSFileStore fs : fsArray){
+		for (OSFileStore fs : fsArray) {
 			long available = fs.getUsableSpace();
 			long total = fs.getTotalSpace();
 			long used = total - available;
 			diskInfo.put("total", total > 0 ? FileUtil.getSize(total) : "?");
 			diskInfo.put("available", FileUtil.getSize(available));
 			diskInfo.put("used", FileUtil.getSize(used));
-			diskInfo.put("usageRate", df.format(used/(double)fs.getTotalSpace() * 100));
+			diskInfo.put("usageRate", df.format(used / (double) fs.getTotalSpace() * 100));
 		}
 		return diskInfo;
 	}
@@ -102,17 +102,17 @@ public class MonitorServiceImpl implements MonitorService {
 	 * @return
 	 */
 	private Map<String, Object> getSwapInfo(GlobalMemory memory) {
-		Map<String,Object> swapInfo = new LinkedHashMap<>();
+		Map<String, Object> swapInfo = new LinkedHashMap<>();
 		VirtualMemory virtualMemory = memory.getVirtualMemory();
 		long total = virtualMemory.getSwapTotal();
 		long used = virtualMemory.getSwapUsed();
 		swapInfo.put("total", FormatUtil.formatBytes(total));
 		swapInfo.put("used", FormatUtil.formatBytes(used));
 		swapInfo.put("available", FormatUtil.formatBytes(total - used));
-		if(used == 0){
+		if (used == 0) {
 			swapInfo.put("usageRate", 0);
 		} else {
-			swapInfo.put("usageRate", df.format(used/(double)total * 100));
+			swapInfo.put("usageRate", df.format(used / (double) total * 100));
 		}
 		return swapInfo;
 

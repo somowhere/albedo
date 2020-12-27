@@ -14,14 +14,14 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SelectResult implements Serializable {
+public class SelectVo implements Serializable {
 
 	private static final long serialVersionUID = 1848699240546373048L;
 	private String value;
 	private String label;
 	private Integer version;
 
-	public SelectResult(String value, String label) {
+	public SelectVo(String value, String label) {
 		this.value = value;
 		this.label = label;
 	}
@@ -35,7 +35,7 @@ public class SelectResult implements Serializable {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		SelectResult idEntity = (SelectResult) o;
+		SelectVo idEntity = (SelectVo) o;
 		if (idEntity.toString() == null || toString() == null) {
 			return false;
 		}

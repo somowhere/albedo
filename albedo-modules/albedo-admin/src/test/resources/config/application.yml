@@ -38,7 +38,7 @@ mybatis-plus:
 application:
   adminPath: /a
   address-enabled: true
-  log-path: .logs
+  log-path: logs
   static-file-directory:
     mac: ~/albedo-file
     linux: /home/albedo/file/

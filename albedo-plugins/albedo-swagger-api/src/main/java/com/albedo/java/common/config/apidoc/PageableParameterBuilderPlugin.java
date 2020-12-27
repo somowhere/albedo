@@ -3,28 +3,19 @@ package com.albedo.java.common.config.apidoc;
 import com.albedo.java.common.core.vo.PageModel;
 import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.TypeResolver;
-import com.google.common.base.Function;
-import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.RequestParameterBuilder;
-import springfox.documentation.schema.ModelReference;
-import springfox.documentation.schema.ModelSpecification;
 import springfox.documentation.schema.ScalarType;
 import springfox.documentation.schema.TypeNameExtractor;
-import springfox.documentation.service.Parameter;
 import springfox.documentation.service.ParameterType;
 import springfox.documentation.service.RequestParameter;
 import springfox.documentation.service.ResolvedMethodParameter;
 import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.schema.contexts.ModelContext;
 import springfox.documentation.spi.service.OperationBuilderPlugin;
 import springfox.documentation.spi.service.contexts.OperationContext;
-import springfox.documentation.spi.service.contexts.ParameterContext;
 
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static springfox.documentation.schema.ResolvedTypes.modelRefFactory;
-import static springfox.documentation.spi.schema.contexts.ModelContext.inputParam;
 
 /**
  * @author somewhere

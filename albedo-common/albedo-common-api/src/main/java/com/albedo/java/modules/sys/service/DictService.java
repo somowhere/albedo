@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.core.vo.SelectResult;
+import com.albedo.java.common.core.vo.SelectVo;
 import com.albedo.java.common.persistence.service.TreeService;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.domain.dto.DictDto;
@@ -51,7 +51,7 @@ public interface DictService extends TreeService<Dict, DictDto> {
 	 * @param codes
 	 * @return
 	 */
-	Map<String, List<SelectResult>> findCodes(String codes);
+	Map<String, List<SelectVo>> findCodes(String codes);
 
 	/**
 	 * 字典树集合

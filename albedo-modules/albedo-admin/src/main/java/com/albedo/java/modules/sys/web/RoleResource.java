@@ -89,6 +89,7 @@ public class RoleResource extends BaseResource {
 
 	/**
 	 * 获取用户级别
+	 *
 	 * @return
 	 */
 	@ApiOperation("获取用户级别")
@@ -138,6 +139,7 @@ public class RoleResource extends BaseResource {
 
 	/**
 	 * 删除角色
+	 *
 	 * @param ids
 	 * @return
 	 */

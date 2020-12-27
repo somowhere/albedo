@@ -56,7 +56,7 @@ mybatis-plus:
 application:
   adminPath: /api
   address-enabled: true
-  logPath: .logs
+  logPath: logs
   static-file-directory:
     mac: ~/albedo-file
     linux: /home/albedo/file/

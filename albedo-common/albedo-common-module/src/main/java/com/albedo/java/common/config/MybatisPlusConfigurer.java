@@ -19,7 +19,6 @@ package com.albedo.java.common.config;
 import com.albedo.java.common.persistence.datascope.DataScopeInterceptor;
 import com.albedo.java.common.persistence.handler.EntityMetaObjectHandler;
 import com.baomidou.mybatisplus.annotation.DbType;
-import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
@@ -29,9 +28,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
-import java.util.List;
 import java.util.Properties;
 
 /**
@@ -53,6 +50,7 @@ public class MybatisPlusConfigurer {
 
 	/**
 	 * 插件
+	 *
 	 * @return
 	 */
 	@Bean

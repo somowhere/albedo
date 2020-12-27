@@ -66,9 +66,21 @@
       width="570px"
     >
       <el-form ref="formSelect" :model="formSelect" label-width="100px">
-        <el-form-item :rules="[{required: true,message: '请选择表名'}]" label="表名" prop="name">
+        <el-form-item :rules="[{required: true,message: '请选择数据源'}]" label="数据源" prop="dsName">
           <el-select
-            v-model="formSelect.name"
+            v-model="formSelect.dsName"
+            clearable
+            placeholder="请选择数据源"
+            size="small"
+            style="width: 90%"
+            @change="changeDsName"
+          >
+            <el-option v-for="(item,index) in dsNameList" :key="index" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item>
+        <el-form-item :rules="[{required: true,message: '请选择表名'}]" label="表名" prop="tableName">
+          <el-select
+            v-model="formSelect.tableName"
             clearable
             placeholder="请选择表名"
             size="small"
@@ -95,6 +107,7 @@
       <el-table-column :show-overflow-tooltip="true" label="表名" prop="name" />
       <el-table-column :show-overflow-tooltip="true" label="说明" prop="comments" />
       <el-table-column :show-overflow-tooltip="true" label="类名" prop="className" />
+      <el-table-column :show-overflow-tooltip="true" label="数据源" prop="dsName" />
       <el-table-column :show-overflow-tooltip="true" label="父表名" prop="parentTable" />
       <el-table-column :show-overflow-tooltip="true" label="描述" prop="description" />
       <el-table-column :show-overflow-tooltip="true" label="创建日期" prop="createdDate" width="136px">
@@ -153,7 +166,8 @@ export default {
     return {
       delLoading: false,
       dialogBeforeFormVisible: false,
-      formSelect: { name: null },
+      formSelect: { dsName: null, tableName: null },
+      dsNameList: [],
       selectTableList: [],
       dialogStatus: 'create',
       permission: {
@@ -178,8 +192,8 @@ export default {
     handleEdit(row) {
       this.dialogStatus = row && !validate.checkNull(row.id) ? 'update' : 'create'
       if (this.dialogStatus === 'create') {
-        crudTable.findSelect().then(response => {
-          this.selectTableList = response.data
+        crudTable.findSelectDs().then(response => {
+          this.dsNameList = response.data
           this.dialogBeforeFormVisible = true
         })
       } else {
@@ -197,8 +211,13 @@ export default {
     showNextForm() {
       this.$refs['formSelect'].validate(valid => {
         if (valid) {
-          this.showEditForm({ name: this.formSelect.name })
+          this.showEditForm(this.formSelect)
         }
+      })
+    },
+    changeDsName() {
+      validate.checkNotNull(this.formSelect.dsName) && crudTable.findDsTable(this.formSelect.dsName).then(response => {
+        this.selectTableList = response.data
       })
     }
   }

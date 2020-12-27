@@ -17,6 +17,7 @@
 package com.albedo.java.modules;
 
 
+import com.albedo.java.common.datasource.annotation.EnableDynamicDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -31,6 +32,7 @@ import java.net.InetAddress;
  * 用户统一管理系统
  */
 @Slf4j
+@EnableDynamicDataSource
 @SpringBootApplication
 public class AlbedoAdminApplication {
 	static String SERVER_PORT = "server.port";

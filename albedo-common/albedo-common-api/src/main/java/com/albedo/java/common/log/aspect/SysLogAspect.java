@@ -17,7 +17,8 @@
 package com.albedo.java.common.log.aspect;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-import com.albedo.java.common.core.util.*;
+import com.albedo.java.common.core.util.SpringContextHolder;
+import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.log.enums.LogType;
 import com.albedo.java.common.log.event.SysLogEvent;
 import com.albedo.java.common.log.util.SysLogUtils;
@@ -28,20 +29,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.core.MethodParameter;
-import org.springframework.core.io.InputStreamSource;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.InputStream;
-import java.lang.reflect.Method;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 操作日志使用spring event异步入库

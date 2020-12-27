@@ -2,12 +2,10 @@ package com.albedo.java.common.config.apidoc.customizer;
 
 import com.albedo.java.common.config.ApplicationSwaggerProperties;
 import com.albedo.java.common.core.util.StringUtil;
-import com.fasterxml.classmate.TypeResolver;
 import com.google.common.collect.Sets;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import springfox.documentation.builders.OperationBuilder;
-import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.RequestParameterBuilder;
 import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.schema.ModelRef;
@@ -69,7 +67,7 @@ public class SwaggerLoginApi implements ApiListingScannerPlugin {
 					).build()))
 			.build();
 		String path = StringUtil.isNotEmpty(applicationSwaggerProperties.getDefaultIncludePattern()) ? applicationSwaggerProperties.getDefaultIncludePattern().replace(".*", "authenticate") : "/authenticate";
-		ApiDescription loginApiDescription = new ApiDescription("login", path, "登录接口","登录接口",
+		ApiDescription loginApiDescription = new ApiDescription("login", path, "登录接口", "登录接口",
 			Arrays.asList(usernamePasswordOperation), false);
 
 		return Arrays.asList(loginApiDescription);

@@ -84,7 +84,6 @@ public class UserResource extends BaseResource {
 	}
 
 	/**
-	 *
 	 * @param userQueryCriteria
 	 * @param response
 	 */
@@ -200,7 +199,6 @@ public class UserResource extends BaseResource {
 
 
 	/**
-	 *
 	 * @param dataFile
 	 * @param response
 	 * @return
@@ -227,7 +225,6 @@ public class UserResource extends BaseResource {
 	}
 
 	/**
-	 *
 	 * @param response
 	 */
 	@GetMapping(value = "/importTemplate")

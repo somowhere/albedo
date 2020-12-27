@@ -30,5 +30,11 @@
 			<version>${project.release.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.albedo.java</groupId>
+			<artifactId>albedo-dynamic-datasource</artifactId>
+			<version>${project.release.version}</version>
+		</dependency>
+
 	</dependencies>
 </project>

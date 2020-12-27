@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -31,13 +32,18 @@ public class Table extends IdEntity<Table> {
 	private static final long serialVersionUID = 1L;
 	@TableField("name")
 	@Size(min = 1, max = 200)
+	@NotBlank
 	private String name;
 	@TableField("comments")
 	private String comments;
 	@TableField("class_name")
+	@NotBlank
 	private String className;
 	@TableField("parent_table")
 	private String parentTable;
+	@TableField("ds_name")
+	@NotBlank
+	private String dsName;
 	@TableField("parent_table_fk")
 	private String parentTableFk;
 

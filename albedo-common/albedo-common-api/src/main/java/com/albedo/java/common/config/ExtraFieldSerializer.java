@@ -4,7 +4,7 @@ import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
-import com.albedo.java.common.core.vo.SelectResult;
+import com.albedo.java.common.core.vo.SelectVo;
 import com.albedo.java.modules.sys.util.DictUtil;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -23,14 +23,12 @@ import java.util.Set;
 
 /**
  * @author somewhere
- * @description
- * @date 2020/5/30 11:24 下午
  */
 @Log4j2
 public class ExtraFieldSerializer extends BeanSerializerBase {
 
 
-	Map<String, List<SelectResult>> codeItemData = Maps.newHashMap();
+	Map<String, List<SelectVo>> codeItemData = Maps.newHashMap();
 
 
 	public ExtraFieldSerializer(BeanSerializerBase source) {
@@ -52,13 +50,11 @@ public class ExtraFieldSerializer extends BeanSerializerBase {
 		super(source, objectIdWriter, filterId);
 	}
 
-	@Override
 	public BeanSerializerBase withObjectIdWriter(
 		ObjectIdWriter objectIdWriter) {
 		return new ExtraFieldSerializer(this, objectIdWriter);
 	}
 
-	@Override
 	protected BeanSerializerBase withIgnorals(Set<String> toIgnore) {
 		return new ExtraFieldSerializer(this, toIgnore);
 	}
@@ -74,7 +70,6 @@ public class ExtraFieldSerializer extends BeanSerializerBase {
 	}
 
 
-	@Override
 	protected void serializeFields(Object bean, JsonGenerator gen, SerializerProvider provider) throws IOException {
 		BeanPropertyWriter[] props;
 		if (this._filteredProps != null && provider.getActiveView() != null) {
@@ -117,10 +112,10 @@ public class ExtraFieldSerializer extends BeanSerializerBase {
 
 	}
 
-	private List<SelectResult> getCodeItemData(String code) {
-		List<SelectResult> jobj = codeItemData.get(code);
+	private List<SelectVo> getCodeItemData(String code) {
+		List<SelectVo> jobj = codeItemData.get(code);
 		if (jobj == null) {
-			Map<String, List<SelectResult>> selectResultListByCodes = DictUtil.getSelectResultListByCodes(code);
+			Map<String, List<SelectVo>> selectResultListByCodes = DictUtil.getSelectVoListByCodes(code);
 			if (CollUtil.isNotEmpty(selectResultListByCodes)) {
 				codeItemData.putAll(selectResultListByCodes);
 			} else {
@@ -132,15 +127,15 @@ public class ExtraFieldSerializer extends BeanSerializerBase {
 	}
 
 	private String getDictVal(String code, Object val) {
-		List<SelectResult> selectResults = getCodeItemData(code);
-		if (selectResults != null) {
+		List<SelectVo> selectVos = getCodeItemData(code);
+		if (selectVos != null) {
 			String valStr = val + "";
 			if (valStr.contains(StringUtil.SPLIT_DEFAULT)) {
 				StringBuffer temp = new StringBuffer();
 				String[] vals = valStr.split(StringUtil.SPLIT_DEFAULT);
 				for (String item : vals) {
 					if (ObjectUtil.isNotEmpty(item)) {
-						temp.append(getDictVal(selectResults, item)).append(StringUtil.SPLIT_DEFAULT);
+						temp.append(getDictVal(selectVos, item)).append(StringUtil.SPLIT_DEFAULT);
 					}
 				}
 				if (temp.length() > 0) {
@@ -148,7 +143,7 @@ public class ExtraFieldSerializer extends BeanSerializerBase {
 				}
 				return temp.toString();
 			} else {
-				return getDictVal(selectResults, valStr);
+				return getDictVal(selectVos, valStr);
 			}
 		} else {
 			log.warn("无法查询到code {} val {}  的字典对象", code, val);
@@ -156,18 +151,17 @@ public class ExtraFieldSerializer extends BeanSerializerBase {
 		return null;
 	}
 
-	private String getDictVal(List<SelectResult> selectResults, Object value) {
-		for (int i = 0, size = selectResults.size(); i < size; i++) {
-			SelectResult selectResult = selectResults.get(i);
-			if (selectResult.getValue().equals(value)) {
-				return selectResult.getLabel();
+	private String getDictVal(List<SelectVo> selectVos, Object value) {
+		for (int i = 0, size = selectVos.size(); i < size; i++) {
+			SelectVo selectVo = selectVos.get(i);
+			if (selectVo.getValue().equals(value)) {
+				return selectVo.getLabel();
 			}
 		}
 		return null;
 	}
 
 
-	@Override
 	public void serialize(Object bean, JsonGenerator jgen,
 						  SerializerProvider provider) throws IOException {
 		jgen.writeStartObject();

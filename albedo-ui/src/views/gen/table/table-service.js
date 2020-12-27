@@ -31,12 +31,20 @@ export function get(id) {
   })
 }
 
-export function findSelect() {
+export function findSelectDs() {
   return request({
-    url: '/gen/table/table-list',
+    url: '/gen/table/ds-list',
     method: 'get'
   })
 }
+
+export function findDsTable(dsName) {
+  return request({
+    url: '/gen/table/ds-table-list/' + dsName,
+    method: 'get'
+  })
+}
+
 export function findFormData(query) {
   return request({
     url: '/gen/table/form-data',
@@ -51,4 +59,4 @@ export function refreshColumn(id) {
   })
 }
 
-export default { page, del, save, get, findFormData, findSelect, refreshColumn }
+export default { page, del, save, get, findFormData, findSelectDs, findDsTable, refreshColumn }

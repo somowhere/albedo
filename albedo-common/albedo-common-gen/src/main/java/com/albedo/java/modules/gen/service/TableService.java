@@ -5,10 +5,10 @@ import com.albedo.java.modules.gen.domain.Table;
 import com.albedo.java.modules.gen.domain.dto.TableColumnDto;
 import com.albedo.java.modules.gen.domain.dto.TableDto;
 import com.albedo.java.modules.gen.domain.dto.TableFromDto;
+import com.albedo.java.modules.gen.domain.vo.TableFormDataVo;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -58,7 +58,6 @@ public interface TableService extends DataService<Table, TableDto, String> {
 	 * @param tableDto
 	 * @return
 	 */
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	List<TableDto> findTableListFormDb(TableDto tableDto);
 
 	/**
@@ -67,8 +66,7 @@ public interface TableService extends DataService<Table, TableDto, String> {
 	 * @param tableFromDto
 	 * @return
 	 */
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	Map<String, Object> findFormData(TableFromDto tableFromDto);
+	TableFormDataVo findFormData(TableFromDto tableFromDto);
 
 	/**
 	 * 批量删除
@@ -80,7 +78,7 @@ public interface TableService extends DataService<Table, TableDto, String> {
 	/**
 	 * 同步对于表在数据库中表列信息
 	 *
-	 * @param id
+	 * @param tableDto
 	 */
-	void refreshColumn(String id);
+	void refreshColumn(TableDto tableDto);
 }

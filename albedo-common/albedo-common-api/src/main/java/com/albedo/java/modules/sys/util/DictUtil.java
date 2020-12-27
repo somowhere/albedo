@@ -6,7 +6,7 @@ import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.StringUtil;
-import com.albedo.java.common.core.vo.SelectResult;
+import com.albedo.java.common.core.vo.SelectVo;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.service.DictService;
 import com.google.common.collect.Lists;
@@ -53,12 +53,12 @@ public class DictUtil {
 		return getDictList().stream().filter(dict -> first.get().getId().equals(dict.getParentId())).collect(Collectors.toList());
 	}
 
-	public static Map<String, List<SelectResult>> getSelectResultListByCodes(String... codes) {
-		return getSelectResultListByCodes(DictUtil.getDictList(), codes);
+	public static Map<String, List<SelectVo>> getSelectVoListByCodes(String... codes) {
+		return getSelectVoListByCodes(DictUtil.getDictList(), codes);
 	}
 
-	public static Map<String, List<SelectResult>> getSelectResultListByCodes(List<Dict> dictList, String... codes) {
-		Map<String, List<SelectResult>> map = Maps.newHashMap();
+	public static Map<String, List<SelectVo>> getSelectVoListByCodes(List<Dict> dictList, String... codes) {
+		Map<String, List<SelectVo>> map = Maps.newHashMap();
 		if (ObjectUtil.isEmpty(dictList)) {
 			return map;
 		}
@@ -72,29 +72,35 @@ public class DictUtil {
 						break;
 					}
 				}
+//                if(Globals.UA_SYS_CITY.equals(codeItem)){
+//                    map.put(Globals.UA_SYS_CITY, repository.findCitys());
+//                }
 			}
 		} else {
 			dictCodes = dictList;
 		}
 		dictCodes.forEach(dict -> {
-			List<SelectResult> dictTempList = getDictList(dictList, dict);
+			List<SelectVo> dictTempList = getDictList(dictList, dict);
 			if (CollUtil.isNotEmpty(dictTempList)) {
 				map.put(dict.getCode(), dictTempList);
 			}
 		});
+//        if(!map.containsKey(Globals.UA_SYS_CITY) && PublicUtil.isEmpty(codeList)){
+//            map.put(Globals.UA_SYS_CITY, repository.findCitys());
+//        }
+
 		return map;
 	}
 
-	private static List<SelectResult> getDictList(List<Dict> dictList, Dict dict) {
-		List<SelectResult> list = Lists.newLinkedList();
+	private static List<SelectVo> getDictList(List<Dict> dictList, Dict dict) {
+		List<SelectVo> list = Lists.newLinkedList();
 		if (CollUtil.isNotEmpty(dictList)) {
 			for (Dict item : dictList) {
 				if (CommonConstants.YES.equals(item.getAvailable()) && StringUtil.isNotEmpty(item.getParentId()) && item.getParentId().equals(dict.getId())) {
-					list.add(new SelectResult(item.getVal(), item.getName(), item.getVersion()));
+					list.add(new SelectVo(item.getVal(), item.getName(), item.getVersion()));
 				}
 			}
 		}
 		return list;
 	}
-
 }

@@ -3,9 +3,9 @@ package com.albedo.java.modules.gen.repository;
 import com.albedo.java.common.persistence.repository.BaseRepository;
 import com.albedo.java.modules.gen.domain.Table;
 import com.albedo.java.modules.gen.domain.dto.TableColumnDto;
-import com.albedo.java.modules.gen.domain.dto.TableDto;
 import com.albedo.java.modules.gen.domain.vo.TableQuery;
-import org.springframework.data.repository.query.Param;
+import com.baomidou.dynamic.datasource.annotation.DS;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,22 +21,25 @@ public interface TableRepository extends BaseRepository<Table> {
 	 * @param tableQuery
 	 * @return
 	 */
-	List<Table> findTableList(@Param("tableQuery") TableQuery tableQuery);
+	@DS("#last")
+	List<Table> findTableList(@Param("tableQuery") TableQuery tableQuery, String dsName);
 
 	/**
 	 * 获取数据表字段
 	 *
-	 * @param tableDto
+	 * @param tableName
 	 * @return
 	 */
-	List<TableColumnDto> findTableColumnList(@Param("tableDto") TableDto tableDto);
+	@DS("#last")
+	List<TableColumnDto> findTableColumnList(@Param("tableName") String tableName, String dsName);
 
 	/**
 	 * 获取数据表主键
 	 *
-	 * @param tableDto
+	 * @param tableName
 	 * @return
 	 */
-	List<String> findTablePk(@Param("tableDto") TableDto tableDto);
+	@DS("#last")
+	List<String> findTablePk(@Param("tableName") String tableName, String dsName);
 
 }

@@ -17,7 +17,7 @@
 
 <configuration debug="false" scan="false">
 	<springProperty scope="context" name="application.logPath" source="application.logPath"
-					defaultValue=".logs"/>
+					defaultValue="logs"/>
 	<springProperty scope="context" name="spring.application.name" source="spring.application.name" defaultValue=""/>
 	<!-- 彩色日志格式 -->
 	<property name="CONSOLE_LOG_PATTERN"
