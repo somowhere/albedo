@@ -7,7 +7,7 @@
   ~  you may not use this file except in compliance with the License.
   ~  You may obtain a copy of the License at
   ~  <p>
-  ~ https://www.gnu.org/licenses/lgpl.html
+  ~ https://www.gnu.org/licensesmaven-compiler-plugin/lgpl.html
   ~  <p>
   ~ Unless required by applicable law or agreed to in writing, software
   ~ distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,27 +21,27 @@
 
 	<groupId>com.albedo.java</groupId>
 	<artifactId>albedo</artifactId>
-	<version>3.0.3-SNAPSHOT</version>
+	<version>3.0.4-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 	<packaging>pom</packaging>
 	<url>https://github.com/somowhere</url>
 
 	<properties>
-		<project.release.version>3.0.3-SNAPSHOT</project.release.version>
-		<spring-boot.version>2.4.1</spring-boot.version>
+		<project.release.version>3.0.4-SNAPSHOT</project.release.version>
+		<spring-boot.version>2.4.2</spring-boot.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<spring-boot-admin.version>2.3.1</spring-boot-admin.version>
-		<hutool.version>5.5.3</hutool.version>
-		<mybatis-plus.version>3.4.1</mybatis-plus.version>
+		<hutool.version>5.5.7</hutool.version>
+		<mybatis-plus.version>3.4.2</mybatis-plus.version>
 		<dynamic-ds.version>3.2.0</dynamic-ds.version>
 		<captcha.version>2.2.0</captcha.version>
 		<velocity.version>1.7</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
 		<h2.version>1.4.199</h2.version>
 		<springfox.version>3.0.0</springfox.version>
-		<knife4j.version>3.0.1</knife4j.version>
+		<knife4j.version>3.0.2</knife4j.version>
 		<poi.version>3.17</poi.version>
 		<oshi.version>5.3.7</oshi.version>
 		<guava.version>30.1-jre</guava.version>
