@@ -10,7 +10,6 @@ server:
 
 spring:
   profiles:
-    active: dev
     include:
       - swagger
   #      - jwt

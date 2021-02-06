@@ -6,8 +6,6 @@ server:
   port: 4000
 
 spring:
-  profiles:
-    active: prod
   redis:
     host: albedo-redis
   datasource:
