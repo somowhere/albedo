@@ -73,7 +73,7 @@ public class SysLogAspect {
 			logOperateVo.setLogType(LogType.ERROR.name());
 			throw e;
 		} finally {
-			saveLog(System.currentTimeMillis()-startTime, logOperateVo, logOperate);
+			saveLog(System.currentTimeMillis() - startTime, logOperateVo, logOperate);
 		}
 
 		return obj;

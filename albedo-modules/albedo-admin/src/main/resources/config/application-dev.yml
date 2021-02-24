@@ -9,9 +9,10 @@ server:
       timeout: 30m
 
 spring:
-  profiles:
-    include:
-      - swagger
+  config:
+    activate:
+      on-profile:
+        - swagger
   #      - jwt
   redis:
     host: localhost
