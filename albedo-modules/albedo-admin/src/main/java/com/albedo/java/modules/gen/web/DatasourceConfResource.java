@@ -14,6 +14,7 @@ import com.albedo.java.modules.gen.domain.dto.DatasourceConfDto;
 import com.albedo.java.modules.gen.domain.dto.DatasourceConfQueryCriteria;
 import com.albedo.java.modules.gen.service.DatasourceConfService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,7 @@ import java.util.Set;
 @RestController
 @RequestMapping(value = "${application.admin-path}/gen/datasource-conf")
 @AllArgsConstructor
+@Api(tags = "表数据源")
 public class DatasourceConfResource extends BaseResource {
 
 	private final DatasourceConfService service;

@@ -7,18 +7,19 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import springfox.documentation.builders.OperationBuilder;
 import springfox.documentation.builders.RequestParameterBuilder;
-import springfox.documentation.builders.ResponseMessageBuilder;
-import springfox.documentation.schema.ModelRef;
+import springfox.documentation.builders.ResponseBuilder;
 import springfox.documentation.schema.ScalarType;
 import springfox.documentation.service.ApiDescription;
 import springfox.documentation.service.Operation;
 import springfox.documentation.service.ParameterType;
+import springfox.documentation.service.Response;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.ApiListingScannerPlugin;
 import springfox.documentation.spi.service.contexts.DocumentationContext;
 import springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,9 +34,33 @@ public class SwaggerLoginApi implements ApiListingScannerPlugin {
 	}
 
 	@Override
-	public List<ApiDescription> apply(DocumentationContext documentationContext) {
+	public boolean supports(DocumentationType documentationType) {
+		return DocumentationType.SWAGGER_2.equals(documentationType);
+	}
+
+	/**
+	 * @return Set of response messages that overide the default/global response messages
+	 */
+	private Collection<Response> responses() { //<8b>
+		return Collections.singleton(new ResponseBuilder()
+			.code("200")
+			.description("登录成功")
+			.representation(MediaType.APPLICATION_JSON)
+			.apply(r -> r.model(m -> m.name("Result").scalarModel(ScalarType.STRING))
+				.build())
+//			.apply(r -> r.model(m -> m.referenceModel( rmb -> rmb.key(mkb -> mkb.qualifiedModelName(qmb ->
+//				qmb.namespace(PackageNames.safeGetPackageName(Result.class))
+//					.name(Result.class.getSimpleName())).isResponse(true)))
+//				.build()))
+			.build());
+	}
+
+	@Override
+	public List<ApiDescription> apply(DocumentationContext context) {
+		String path = StringUtil.isNotEmpty(applicationSwaggerProperties.getDefaultIncludePattern()) ? applicationSwaggerProperties.getDefaultIncludePattern().replace(".*", "authenticate") : "/authenticate";
 		Operation usernamePasswordOperation = new OperationBuilder(new CachingOperationNameGenerator())
 			.method(HttpMethod.POST)
+			.uniqueId("authenticate")
 			.summary("用户名密码登录")
 			.notes("username/password登录")
 			// 接收参数格式
@@ -60,22 +85,10 @@ public class SwaggerLoginApi implements ApiListingScannerPlugin {
 					.in(ParameterType.QUERY).name("username").required(true)
 					.query(param -> param.model(model -> model.scalarModel(ScalarType.STRING))).build()
 			))
-			.responseMessages(Collections.singleton(
-				new ResponseMessageBuilder().code(200).message("请求成功")
-					.responseModel(new ModelRef(
-						"com.albedo.java.common.core.util.Result")
-					).build()))
+			.responses(responses())
 			.build();
-		String path = StringUtil.isNotEmpty(applicationSwaggerProperties.getDefaultIncludePattern()) ? applicationSwaggerProperties.getDefaultIncludePattern().replace(".*", "authenticate") : "/authenticate";
 		ApiDescription loginApiDescription = new ApiDescription("login", path, "登录接口", "登录接口",
 			Arrays.asList(usernamePasswordOperation), false);
-
 		return Arrays.asList(loginApiDescription);
-
-	}
-
-	@Override
-	public boolean supports(DocumentationType documentationType) {
-		return DocumentationType.SWAGGER_2.equals(documentationType);
 	}
 }
