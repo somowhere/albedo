@@ -75,9 +75,9 @@ public class ScheduleReceiver implements MessageListener {
 		if (log.isDebugEnabled()) {
 			log.debug("receiveMessage===>" + message);
 		}
-
-		Lock lock = redissonClient.getLock(DEFAULT_QUARTZ_REGISTRY_KEY);
+		Lock lock = null;
 		try {
+			lock = redissonClient.getLock(DEFAULT_QUARTZ_REGISTRY_KEY);
 			lock.lock();
 			ScheduleVo scheduleVo = (ScheduleVo) serializer.deserialize(message.getBody());
 			if (log.isDebugEnabled()) {
@@ -107,13 +107,15 @@ public class ScheduleReceiver implements MessageListener {
 					scheduler.triggerJob(ScheduleUtils.getJobKey(jobId, jobGroup));
 					break;
 				default:
-					log.warn("unkown message type :" + message);
+					log.warn("unknown message type :" + message);
 					break;
 			}
 		} catch (Exception e) {
 			log.warn("error message type {}", e);
 		} finally {
-			lock.unlock();
+			if(lock!=null){
+				lock.unlock();
+			}
 		}
 	}
 }

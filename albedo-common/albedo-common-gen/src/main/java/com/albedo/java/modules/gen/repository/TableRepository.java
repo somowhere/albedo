@@ -17,8 +17,8 @@ import java.util.List;
 public interface TableRepository extends BaseRepository<Table> {
 	/**
 	 * 查询表列表
-	 *
 	 * @param tableQuery
+	 * @param dsName
 	 * @return
 	 */
 	@DS("#last")
@@ -26,8 +26,8 @@ public interface TableRepository extends BaseRepository<Table> {
 
 	/**
 	 * 获取数据表字段
-	 *
 	 * @param tableName
+	 * @param dsName
 	 * @return
 	 */
 	@DS("#last")
@@ -37,6 +37,7 @@ public interface TableRepository extends BaseRepository<Table> {
 	 * 获取数据表主键
 	 *
 	 * @param tableName
+	 * @param dsName
 	 * @return
 	 */
 	@DS("#last")

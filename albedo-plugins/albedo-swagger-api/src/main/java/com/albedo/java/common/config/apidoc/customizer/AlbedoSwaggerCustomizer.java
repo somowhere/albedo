@@ -104,7 +104,6 @@ public class AlbedoSwaggerCustomizer implements SwaggerCustomizer, Ordered {
 //			securityOauthContext(),
 			SecurityContext.builder()
 				.securityReferences(defaultAuth())
-				.forPaths(PathSelectors.regex("^(?!auth).*$"))
 				.build()
 		);
 	}

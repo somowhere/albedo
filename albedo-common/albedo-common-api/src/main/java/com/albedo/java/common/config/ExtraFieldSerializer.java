@@ -50,11 +50,13 @@ public class ExtraFieldSerializer extends BeanSerializerBase {
 		super(source, objectIdWriter, filterId);
 	}
 
+	@Override
 	public BeanSerializerBase withObjectIdWriter(
 		ObjectIdWriter objectIdWriter) {
 		return new ExtraFieldSerializer(this, objectIdWriter);
 	}
 
+	@Override
 	protected BeanSerializerBase withIgnorals(Set<String> toIgnore) {
 		return new ExtraFieldSerializer(this, toIgnore);
 	}
@@ -70,6 +72,7 @@ public class ExtraFieldSerializer extends BeanSerializerBase {
 	}
 
 
+	@Override
 	protected void serializeFields(Object bean, JsonGenerator gen, SerializerProvider provider) throws IOException {
 		BeanPropertyWriter[] props;
 		if (this._filteredProps != null && provider.getActiveView() != null) {
@@ -162,6 +165,7 @@ public class ExtraFieldSerializer extends BeanSerializerBase {
 	}
 
 
+	@Override
 	public void serialize(Object bean, JsonGenerator jgen,
 						  SerializerProvider provider) throws IOException {
 		jgen.writeStartObject();

@@ -16,12 +16,15 @@ import lombok.extern.slf4j.Slf4j;
 public class AddressUtil {
 
 	public static final String IP_URL = "http://ip.taobao.com/service/getIpInfo.php";
+	public static final String LOCAL_IP = "0:0:0:0:0:0:0:1";
+
+
 
 	public static String getRealAddressByIp(String ip) {
 		String address = "XX XX";
 
 		// 内网不查询
-		if ("0:0:0:0:0:0:0:1".equals(ip) || NetUtil.isInnerIP(ip)) {
+		if (LOCAL_IP.equals(ip) || NetUtil.isInnerIP(ip)) {
 			return "内网IP";
 		}
 		if (ApplicationConfig.isAddressEnabled()) {
