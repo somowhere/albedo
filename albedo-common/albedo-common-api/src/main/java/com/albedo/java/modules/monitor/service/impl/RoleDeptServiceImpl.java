@@ -14,27 +14,27 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.sys.service.impl;
+package com.albedo.java.modules.monitor.service.impl;
 
-import com.albedo.java.common.persistence.service.impl.BaseServiceImpl;
-import com.albedo.java.modules.sys.domain.PersistentToken;
-import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
-import com.albedo.java.modules.sys.service.PersistentTokenService;
-import lombok.extern.slf4j.Slf4j;
+import com.albedo.java.modules.sys.domain.RoleDept;
+import com.albedo.java.modules.sys.repository.RoleDeptRepository;
+import com.albedo.java.modules.sys.service.RoleDeptService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
  * <p>
- * token 服务实现类
+ * 角色菜单表 服务实现类
  * </p>
  *
  * @author somewhere
  * @since 2019/2/1
  */
 @Service
-@Slf4j
-public class PersistentTokenServiceImpl extends
-	BaseServiceImpl<PersistentTokenRepository, PersistentToken> implements PersistentTokenService {
+@AllArgsConstructor
+public class RoleDeptServiceImpl extends ServiceImpl<RoleDeptRepository, RoleDept>
+	implements RoleDeptService {
 
 
 }

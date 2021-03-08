@@ -13,13 +13,14 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.albedo.java.modules.sys.service.impl;
+package com.albedo.java.modules.monitor.service.impl;
 
 import cn.hutool.core.date.BetweenFormatter;
 import cn.hutool.core.date.DateUtil;
 import com.albedo.java.common.core.util.FileUtil;
 import com.albedo.java.common.core.util.WebUtil;
-import com.albedo.java.modules.sys.service.MonitorService;
+import com.albedo.java.modules.monitor.service.MonitorService;
+import com.albedo.java.modules.monitor.service.RedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
@@ -33,6 +34,7 @@ import oshi.software.os.OperatingSystem;
 import oshi.util.FormatUtil;
 import oshi.util.Util;
 
+import javax.annotation.Resource;
 import java.lang.management.ManagementFactory;
 import java.text.DecimalFormat;
 import java.util.Date;
@@ -49,6 +51,9 @@ import java.util.Map;
 public class MonitorServiceImpl implements MonitorService {
 
 	private final DecimalFormat df = new DecimalFormat("0.00");
+
+	@Resource
+	private RedisService redisService;
 
 	@Override
 	public Map<String, Object> getServers() {
@@ -67,11 +72,25 @@ public class MonitorServiceImpl implements MonitorService {
 			resultMap.put("swap", getSwapInfo(hal.getMemory()));
 			// 磁盘
 			resultMap.put("disk", getDiskInfo(os));
+			// redis
+			resultMap.put("redis", getRedisInfo());
 			resultMap.put("time", DateUtil.format(new Date(), "HH:mm:ss"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return resultMap;
+	}
+
+	/**
+	 * 获取redis信息
+	 *
+	 * @return
+	 */
+	private Map<String, Object> getRedisInfo() {
+		Map<String, Object> redisInfo = new LinkedHashMap<>();
+		redisInfo.put("keySize", redisService.getKeySize());
+		redisInfo.put("usedMemory", redisService.getUsedMemory());
+		return redisInfo;
 	}
 
 	/**

@@ -14,27 +14,35 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.sys.service.impl;
+package com.albedo.java.modules.monitor.service.impl;
 
-import com.albedo.java.modules.sys.domain.RoleDept;
-import com.albedo.java.modules.sys.repository.RoleDeptRepository;
-import com.albedo.java.modules.sys.service.RoleDeptService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import lombok.AllArgsConstructor;
+import com.albedo.java.common.persistence.service.impl.BaseServiceImpl;
+import com.albedo.java.modules.sys.domain.UserRole;
+import com.albedo.java.modules.sys.repository.UserRoleRepository;
+import com.albedo.java.modules.sys.service.UserRoleService;
 import org.springframework.stereotype.Service;
 
 /**
  * <p>
- * 角色菜单表 服务实现类
+ * 用户角色表 服务实现类
  * </p>
  *
  * @author somewhere
  * @since 2019/2/1
  */
 @Service
-@AllArgsConstructor
-public class RoleDeptServiceImpl extends ServiceImpl<RoleDeptRepository, RoleDept>
-	implements RoleDeptService {
+public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleRepository, UserRole> implements UserRoleService {
 
-
+	/**
+	 * 根据用户Id删除该用户的角色关系
+	 *
+	 * @param userId 用户ID
+	 * @return boolean
+	 * @author 寻欢·李
+	 * @date 2017年12月7日 16:31:38
+	 */
+	@Override
+	public Boolean removeRoleByUserId(String userId) {
+		return repository.deleteByUserId(userId);
+	}
 }

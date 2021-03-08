@@ -128,9 +128,31 @@
               </div>
             </el-card>
           </el-col>
+          <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" style="margin-bottom: 10px">
+            <el-card class="box-card">
+              <div slot="header" class="clearfix">
+                <span style="font-weight: bold;color: #666;font-size: 15px">redis内存实时占用情况（KB）</span>
+              </div>
+              <div>
+                <v-chart :options="redisMemory" />
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" style="margin-bottom: 10px">
+            <el-card class="box-card">
+              <div slot="header" class="clearfix">
+                <span style="font-weight: bold;color: #666;font-size: 15px">Radis Key 实时数量（个）</span>
+                <el-button style="float: right; padding: 3px 0" type="text" @click="showRedisDetail">查看详细</el-button>
+              </div>
+              <div>
+                <v-chart :options="redisKeySize" />
+              </div>
+            </el-card>
+          </el-col>
         </el-row>
       </div>
     </div>
+    <redis-detail ref="redisDetail" />
   </div>
 </template>
 
@@ -140,17 +162,19 @@ import 'echarts/lib/chart/line'
 import 'echarts/lib/component/polar'
 import { initData } from '@/api/data'
 import validate from '../../../utils/validate'
+import RedisDetail from './redis-detail'
 export default {
   name: 'ServerMonitor',
   components: {
-    'v-chart': ECharts
+    'v-chart': ECharts,
+    'redis-detail': RedisDetail
   },
   data() {
     return {
       show: false,
       isDestroyed: false,
       val: null,
-      url: '/sys/monitor',
+      url: '/actuator/system',
       data: {},
       cpuInfo: {
         tooltip: {
@@ -162,10 +186,7 @@ export default {
           data: []
         },
         yAxis: {
-          type: 'value',
-          min: 0,
-          max: 100,
-          interval: 20
+          type: 'value'
         },
         series: [{
           data: [],
@@ -195,10 +216,69 @@ export default {
           data: []
         },
         yAxis: {
+          type: 'value'
+        },
+        series: [{
+          data: [],
+          type: 'line',
+          areaStyle: {
+            normal: {
+              color: 'rgb(32, 160, 255)' // 改变区域颜色
+            }
+          },
+          itemStyle: {
+            normal: {
+              color: '#6fbae1',
+              lineStyle: {
+                color: '#6fbae1' // 改变折线颜色
+              }
+            }
+          }
+        }]
+      },
+      redisMemory: {
+        tooltip: {
+          trigger: 'axis'
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: []
+        },
+        yAxis: {
           type: 'value',
-          min: 0,
-          max: 100,
-          interval: 20
+          min: 0
+        },
+        series: [{
+          data: [],
+          type: 'line',
+          areaStyle: {
+            normal: {
+              color: 'rgb(32, 160, 255)' // 改变区域颜色
+            }
+          },
+          itemStyle: {
+            normal: {
+              color: '#6fbae1',
+              lineStyle: {
+                color: '#6fbae1' // 改变折线颜色
+              }
+            }
+          }
+        }]
+      },
+      redisKeySize: {
+        tooltip: {
+          trigger: 'axis'
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: []
+        },
+        yAxis: {
+          type: 'value',
+          min: 0
         },
         series: [{
           data: [],
@@ -245,12 +325,20 @@ export default {
             }
             this.cpuInfo.xAxis.data.push(data.time)
             this.memoryInfo.xAxis.data.push(data.time)
+            this.redisMemory.xAxis.data.push(data.time)
+            this.redisKeySize.xAxis.data.push(data.time)
             this.cpuInfo.series[0].data.push(parseFloat(data.memory.used))
             this.memoryInfo.series[0].data.push(parseFloat(data.memory.usageRate))
+            this.redisMemory.series[0].data.push(parseFloat(data.redis.usedMemory / 1000))
+            this.redisKeySize.series[0].data.push(parseInt(data.redis.keySize))
           })
           this.init()
         }, first ? 1 : 3500)
       }
+    },
+    showRedisDetail() {
+      this.$refs.redisDetail.dialog = true
+      this.$refs.redisDetail.doInit()
     }
   }
 }

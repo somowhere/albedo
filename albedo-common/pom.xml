@@ -20,5 +20,6 @@
 		<module>albedo-common-api</module>
 		<module>albedo-common-quartz</module>
 		<module>albedo-common-gen</module>
+		<module>albedo-common-monitor</module>
 	</modules>
 </project>

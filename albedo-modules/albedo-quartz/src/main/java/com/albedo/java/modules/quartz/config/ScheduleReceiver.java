@@ -113,7 +113,7 @@ public class ScheduleReceiver implements MessageListener {
 		} catch (Exception e) {
 			log.warn("error message type {}", e);
 		} finally {
-			if(lock!=null){
+			if (lock != null) {
 				lock.unlock();
 			}
 		}

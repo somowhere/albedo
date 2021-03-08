@@ -112,11 +112,6 @@
 			<artifactId>poi-ooxml-schemas</artifactId>
 			<version>${poi.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.github.oshi</groupId>
-			<artifactId>oshi-core</artifactId>
-			<version>${oshi.version}</version>
-		</dependency>
 
 		<!--邮件依赖-->
 		<dependency>
