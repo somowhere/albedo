@@ -14,27 +14,35 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.monitor.service.impl;
+package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.persistence.service.impl.BaseServiceImpl;
-import com.albedo.java.modules.sys.domain.PersistentToken;
-import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
-import com.albedo.java.modules.sys.service.PersistentTokenService;
-import lombok.extern.slf4j.Slf4j;
+import com.albedo.java.modules.sys.domain.UserRole;
+import com.albedo.java.modules.sys.repository.UserRoleRepository;
+import com.albedo.java.modules.sys.service.UserRoleService;
 import org.springframework.stereotype.Service;
 
 /**
  * <p>
- * token 服务实现类
+ * 用户角色表 服务实现类
  * </p>
  *
  * @author somewhere
  * @since 2019/2/1
  */
 @Service
-@Slf4j
-public class PersistentTokenServiceImpl extends
-	BaseServiceImpl<PersistentTokenRepository, PersistentToken> implements PersistentTokenService {
+public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleRepository, UserRole> implements UserRoleService {
 
-
+	/**
+	 * 根据用户Id删除该用户的角色关系
+	 *
+	 * @param userId 用户ID
+	 * @return boolean
+	 * @author 寻欢·李
+	 * @date 2017年12月7日 16:31:38
+	 */
+	@Override
+	public Boolean removeRoleByUserId(String userId) {
+		return repository.deleteByUserId(userId);
+	}
 }
