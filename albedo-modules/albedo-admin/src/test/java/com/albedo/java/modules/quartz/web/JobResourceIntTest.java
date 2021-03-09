@@ -185,7 +185,7 @@ public class JobResourceIntTest {
 		int databaseSizeBeforeCreate = jobService.list().size();
 		// Create the Job
 		restJobMockMvc.perform(post(DEFAULT_API_URL)
-			.param(PageModel.F_DESC, Job.F_SQL_CREATEDDATE)
+			.param(PageModel.F_DESC, Job.F_SQL_CREATED_DATE)
 			.contentType(TestUtil.APPLICATION_JSON_UTF8)
 			.content(TestUtil.convertObjectToJsonBytes(jobDto)))
 			.andExpect(status().isOk());

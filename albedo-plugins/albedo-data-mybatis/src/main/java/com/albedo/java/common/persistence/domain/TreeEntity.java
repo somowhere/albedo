@@ -19,14 +19,14 @@ import javax.validation.constraints.NotNull;
 public class TreeEntity<T extends TreeEntity<T>> extends IdEntity<T> {
 
 	public static final String F_NAME = "name";
-	public static final String F_PARENTID = "parentId";
-	public static final String F_PARENTIDS = "parentIds";
+	public static final String F_PARENT_ID = "parentId";
+	public static final String F_PARENT_IDS = "parentIds";
 	public static final String F_LEAF = "leaf";
 	public static final String F_SORT = "sort";
 	public static final String F_PARENT = "parent";
 	public static final String F_SQL_NAME = "name";
-	public static final String F_SQL_PARENTID = "parent_id";
-	public static final String F_SQL_PARENTIDS = "parent_ids";
+	public static final String F_SQL_PARENT_ID = "parent_id";
+	public static final String F_SQL_PARENT_IDS = "parent_ids";
 	public static final String F_SQL_LEAF = "leaf";
 	public static final String F_SQL_SORT = "sort";
 	private static final long serialVersionUID = 1L;

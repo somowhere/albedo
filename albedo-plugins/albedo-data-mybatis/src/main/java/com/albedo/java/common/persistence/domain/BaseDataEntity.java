@@ -19,20 +19,20 @@ import java.time.LocalDateTime;
 public abstract class BaseDataEntity<T extends BaseEntity<T>> extends BaseEntity<T> {
 
 	private static final long serialVersionUID = 1L;
-	@TableField(value = GeneralEntity.F_SQL_CREATEDBY,
+	@TableField(value = GeneralEntity.F_SQL_CREATED_BY,
 		fill = FieldFill.INSERT)
 	protected String createdBy;
 
 
-	@TableField(value = GeneralEntity.F_SQL_CREATEDDATE,
+	@TableField(value = GeneralEntity.F_SQL_CREATED_DATE,
 		fill = FieldFill.INSERT)
 	protected LocalDateTime createdDate;
 
-	@TableField(value = GeneralEntity.F_SQL_LASTMODIFIEDBY,
+	@TableField(value = GeneralEntity.F_SQL_LAST_MODIFIED_BY,
 		fill = FieldFill.INSERT_UPDATE)
 	protected String lastModifiedBy;
 
-	@TableField(value = GeneralEntity.F_SQL_LASTMODIFIEDDATE,
+	@TableField(value = GeneralEntity.F_SQL_LAST_MODIFIED_DATE,
 		fill = FieldFill.INSERT_UPDATE)
 	protected LocalDateTime lastModifiedDate;
 

@@ -205,8 +205,8 @@ public class TableDto extends DataDto<String> {
 	private void initImport(List<String> importList) {
 		for (TableColumnDto column : getColumnList()) {
 			boolean isImport = column.getIsNotBaseField() || column.isQuery() && "between".equals(column.getQueryType()) &&
-				(DataDto.F_CREATEDDATE.equals(column.getSimpleJavaField()) ||
-					DataDto.F_LASTMODIFIEDDATE.equals(column.getSimpleJavaField()));
+				(DataDto.F_CREATED_DATE.equals(column.getSimpleJavaField()) ||
+					DataDto.F_LAST_MODIFIED_DATE.equals(column.getSimpleJavaField()));
 			if (isImport) {
 				// 导入类型依赖包， 如果类型中包含“.”，则需要导入引用。
 				if (StringUtil.indexOf(column.getJavaType(), StringUtil.C_DOT) != -1) {

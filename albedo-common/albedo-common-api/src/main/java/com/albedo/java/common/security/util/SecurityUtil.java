@@ -18,9 +18,11 @@ package com.albedo.java.common.security.util;
 
 
 import cn.hutool.core.util.StrUtil;
+import com.albedo.java.common.core.annotation.AnonymousAccess;
 import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.persistence.datascope.DataScope;
+import com.albedo.java.common.security.enums.RequestMethodEnum;
 import com.albedo.java.common.security.service.UserDetail;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
@@ -28,15 +30,16 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * 安全工具类
  *
- * @author L.cm
+ * @author somewhere
  */
 @UtilityClass
 public class SecurityUtil {
@@ -102,5 +105,50 @@ public class SecurityUtil {
 				roleIds.add(id);
 			});
 		return roleIds;
+	}
+
+	public static Map<String, Set<String>> getAnonymousUrl(Map<RequestMappingInfo, HandlerMethod> handlerMethodMap) {
+		Map<String, Set<String>> anonymousUrls = new HashMap<>(6);
+		Set<String> get = new HashSet<>();
+		Set<String> post = new HashSet<>();
+		Set<String> put = new HashSet<>();
+		Set<String> patch = new HashSet<>();
+		Set<String> delete = new HashSet<>();
+		Set<String> all = new HashSet<>();
+		for (Map.Entry<RequestMappingInfo, HandlerMethod> infoEntry : handlerMethodMap.entrySet()) {
+			HandlerMethod handlerMethod = infoEntry.getValue();
+			AnonymousAccess anonymousAccess = handlerMethod.getMethodAnnotation(AnonymousAccess.class);
+			if (null != anonymousAccess) {
+				List<RequestMethod> requestMethods = new ArrayList<>(infoEntry.getKey().getMethodsCondition().getMethods());
+				RequestMethodEnum request = RequestMethodEnum.find(requestMethods.size() == 0 ? RequestMethodEnum.ALL.getType() : requestMethods.get(0).name());
+				switch (Objects.requireNonNull(request)) {
+					case GET:
+						get.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
+						break;
+					case POST:
+						post.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
+						break;
+					case PUT:
+						put.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
+						break;
+					case PATCH:
+						patch.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
+						break;
+					case DELETE:
+						delete.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
+						break;
+					default:
+						all.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
+						break;
+				}
+			}
+		}
+		anonymousUrls.put(RequestMethodEnum.GET.getType(), get);
+		anonymousUrls.put(RequestMethodEnum.POST.getType(), post);
+		anonymousUrls.put(RequestMethodEnum.PUT.getType(), put);
+		anonymousUrls.put(RequestMethodEnum.PATCH.getType(), patch);
+		anonymousUrls.put(RequestMethodEnum.DELETE.getType(), delete);
+		anonymousUrls.put(RequestMethodEnum.ALL.getType(), all);
+		return anonymousUrls;
 	}
 }

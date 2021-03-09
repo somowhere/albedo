@@ -35,7 +35,7 @@ import java.time.LocalDateTime;
 /**
  * 系统日志工具类
  *
- * @author L.cm
+ * @author somewhere
  */
 @UtilityClass
 public class SysLogUtils {

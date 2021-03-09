@@ -180,7 +180,7 @@ public class DeptServiceImpl extends
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public IPage<DeptVo> findTreeList(DeptQueryCriteria deptQueryCriteria) {
 		List<DeptVo> deptVoList = repository.findVoList(QueryWrapperUtil.<Dept>getWrapper(deptQueryCriteria)
-			.eq(TreeEntity.F_SQL_DELFLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT));
+			.eq(TreeEntity.F_SQL_DEL_FLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT));
 		return new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(deptVoList)),
 			deptVoList.size());
 	}

@@ -33,7 +33,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 /**
  * 操作日志使用spring event异步入库
  *
- * @author L.cm
+ * @author somewhere
  */
 @Aspect
 @Slf4j

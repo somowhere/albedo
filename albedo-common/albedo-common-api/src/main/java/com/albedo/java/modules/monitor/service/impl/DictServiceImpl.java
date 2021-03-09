@@ -123,7 +123,7 @@ public class DictServiceImpl extends
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public IPage<DictVo> findTreeList(DictQueryCriteria dictQueryCriteria) {
 		List<DictVo> dictVoList = repository.findDictVoList(QueryWrapperUtil.<Dict>getWrapper(dictQueryCriteria)
-			.eq(TreeEntity.F_SQL_DELFLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT));
+			.eq(TreeEntity.F_SQL_DEL_FLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT));
 		return new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(dictVoList)),
 			dictVoList.size());
 	}

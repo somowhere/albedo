@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.log.event;
+package com.albedo.java.common.security.event;
 
 import org.springframework.context.ApplicationEvent;
 import org.springframework.security.core.session.SessionInformation;

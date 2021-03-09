@@ -41,9 +41,9 @@ public class DeptResourceIntTest {
 	private static final String DEFAULT_ANOTHER_NAME = "ANOTHER_NAME";
 	private static final String DEFAULT_NAME = "NAME1";
 	private static final String UPDATED_NAME = "NAME2";
-	private static final String DEFAULT_ANOTHER_PARENTID = "ANOTHER_PARENTID";
-	//    private static final String DEFAULT_PARENTID = "PARENTID1";
-	private static final String UPDATED_PARENTID = "PARENTID2";
+	private static final String DEFAULT_ANOTHER_PARENT_ID = "ANOTHER_PARENT_ID";
+	//    private static final String DEFAULT_PARENT_ID = "PARENT_ID1";
+	private static final String UPDATED_PARENT_ID = "PARENT_ID2";
 	private static final Integer DEFAULT_SORT = 10;
 	private static final Integer UPDATED_SORT = 20;
 	private static final String DEFAULT_DESCRIPTION = "DESCRIPTION1";
@@ -97,7 +97,7 @@ public class DeptResourceIntTest {
 		// Initialize the database
 
 		anotherDept.setName(DEFAULT_ANOTHER_NAME);
-		anotherDept.setParentId(DEFAULT_ANOTHER_PARENTID);
+		anotherDept.setParentId(DEFAULT_ANOTHER_PARENT_ID);
 		anotherDept.setSort(DEFAULT_SORT);
 		anotherDept.setDescription(DEFAULT_DESCRIPTION);
 		deptService.saveOrUpdate(anotherDept);
@@ -166,7 +166,7 @@ public class DeptResourceIntTest {
 		DeptDto managedDeptVM = new DeptDto();
 		managedDeptVM.setName(UPDATED_NAME);
 		managedDeptVM.setSort(UPDATED_SORT);
-		managedDeptVM.setParentId(UPDATED_PARENTID);
+		managedDeptVM.setParentId(UPDATED_PARENT_ID);
 		managedDeptVM.setDescription(UPDATED_DESCRIPTION);
 
 		managedDeptVM.setId(updatedDept.getId());
@@ -182,8 +182,8 @@ public class DeptResourceIntTest {
 		Dept testDept = deptService.getById(updatedDept.getId());
 		assertThat(testDept.getName()).isEqualTo(UPDATED_NAME);
 		assertThat(testDept.getSort()).isEqualTo(UPDATED_SORT);
-		assertThat(testDept.getParentId()).isEqualTo(UPDATED_PARENTID);
-//		assertThat(testDept.getParentIds()).contains(UPDATED_PARENTID);
+		assertThat(testDept.getParentId()).isEqualTo(UPDATED_PARENT_ID);
+//		assertThat(testDept.getParentIds()).contains(UPDATED_PARENT_ID);
 		assertThat(testDept.isLeaf()).isEqualTo(true);
 		assertThat(testDept.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
 		assertThat(testDept.getDelFlag()).isEqualTo(Dept.FLAG_NORMAL);

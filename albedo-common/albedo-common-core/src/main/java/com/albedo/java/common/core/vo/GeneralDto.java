@@ -19,15 +19,15 @@ public class GeneralDto implements Serializable {
 	/**
 	 * 状态（0：正常 1：删除）
 	 */
-	public static final String F_DELFLAG = "delFlag";
+	public static final String F_DEL_FLAG = "delFlag";
 	/*** ID */
 	public static final String F_ID = "id";
-	public static final String F_CREATEDBY = "createdBy";
+	public static final String F_CREATED_BY = "createdBy";
 	public static final String F_CREATOR = "creator";
-	public static final String F_CREATEDDATE = "createdDate";
-	public static final String F_LASTMODIFIEDBY = "lastModifiedBy";
+	public static final String F_CREATED_DATE = "createdDate";
+	public static final String F_LAST_MODIFIED_BY = "lastModifiedBy";
 	public static final String F_MODIFIER = "modifier";
-	public static final String F_LASTMODIFIEDDATE = "lastModifiedDate";
+	public static final String F_LAST_MODIFIED_DATE = "lastModifiedDate";
 	public static final String F_VERSION = "version";
 	public static final String F_DESCRIPTION = "description";
 	private static final long serialVersionUID = 1L;

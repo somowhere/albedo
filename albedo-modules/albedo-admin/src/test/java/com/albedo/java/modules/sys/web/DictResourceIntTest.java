@@ -51,9 +51,9 @@ public class DictResourceIntTest {
 	private static final String DEFAULT_ANOTHER_VAL = "ANOTHER_VAL";
 	private static final String DEFAULT_VAL = "VAL1";
 	private static final String UPDATED_VAL = "VAL2";
-	private static final String DEFAULT_ANOTHER_PARENTID = "ANOTHER_PARENTID";
-	//    private static final String DEFAULT_PARENTID = "PARENTID1";
-	private static final String UPDATED_PARENTID = "PARENTID2";
+	private static final String DEFAULT_ANOTHER_PARENT_ID = "ANOTHER_PARENT_ID";
+	//    private static final String DEFAULT_PARENT_ID = "PARENT_ID1";
+	private static final String UPDATED_PARENT_ID = "PARENT_ID2";
 	private static final Integer DEFAULT_SORT = 10;
 	private static final Integer UPDATED_SORT = 20;
 	private static final String DEFAULT_REMARK = "REMARK1";
@@ -113,7 +113,7 @@ public class DictResourceIntTest {
 
 		anotherDict.setName(DEFAULT_ANOTHER_NAME);
 		anotherDict.setVal(DEFAULT_ANOTHER_VAL);
-		anotherDict.setParentId(DEFAULT_ANOTHER_PARENTID);
+		anotherDict.setParentId(DEFAULT_ANOTHER_PARENT_ID);
 		anotherDict.setCode(DEFAULT_ANOTHER_CODE);
 		anotherDict.setSort(DEFAULT_SORT);
 		anotherDict.setRemark(DEFAULT_REMARK);
@@ -237,7 +237,7 @@ public class DictResourceIntTest {
 		managedDictVM.setCode(UPDATED_CODE);
 		managedDictVM.setVal(UPDATED_VAL);
 		managedDictVM.setSort(UPDATED_SORT);
-		managedDictVM.setParentId(UPDATED_PARENTID);
+		managedDictVM.setParentId(UPDATED_PARENT_ID);
 		managedDictVM.setRemark(UPDATED_REMARK);
 		managedDictVM.setDescription(UPDATED_DESCRIPTION);
 
@@ -256,8 +256,8 @@ public class DictResourceIntTest {
 		assertThat(testDict.getCode()).isEqualTo(UPDATED_CODE);
 		assertThat(testDict.getVal()).isEqualTo(UPDATED_VAL);
 		assertThat(testDict.getSort()).isEqualTo(UPDATED_SORT);
-		assertThat(testDict.getParentId()).isEqualTo(UPDATED_PARENTID);
-//		assertThat(testDict.getParentIds()).contains(UPDATED_PARENTID);
+		assertThat(testDict.getParentId()).isEqualTo(UPDATED_PARENT_ID);
+//		assertThat(testDict.getParentIds()).contains(UPDATED_PARENT_ID);
 		assertThat(testDict.isLeaf()).isEqualTo(true);
 		assertThat(testDict.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
 		assertThat(testDict.getDelFlag()).isEqualTo(Dict.FLAG_NORMAL);
@@ -275,7 +275,7 @@ public class DictResourceIntTest {
 		DictDto managedDictVM = new DictDto();
 		managedDictVM.setName(DEFAULT_ANOTHER_NAME);
 		managedDictVM.setVal(DEFAULT_ANOTHER_VAL);
-		managedDictVM.setParentId(DEFAULT_ANOTHER_PARENTID);
+		managedDictVM.setParentId(DEFAULT_ANOTHER_PARENT_ID);
 		managedDictVM.setCode(DEFAULT_ANOTHER_CODE);
 		managedDictVM.setSort(DEFAULT_SORT);
 		managedDictVM.setRemark(DEFAULT_REMARK);

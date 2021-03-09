@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.log.event;
+package com.albedo.java.common.security.event;
 
 import com.albedo.java.modules.sys.domain.UserOnline;
 import com.albedo.java.modules.sys.service.UserOnlineService;

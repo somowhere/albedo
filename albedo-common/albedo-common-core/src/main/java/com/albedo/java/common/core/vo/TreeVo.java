@@ -17,8 +17,8 @@ import java.util.List;
 @Data
 public class TreeVo<T> extends DataVo<String> implements TreeNodeAware<T> {
 	public static final String F_NAME = "name";
-	public static final String F_PARENTID = "parentId";
-	public static final String F_PARENTIDS = "parentIds";
+	public static final String F_PARENT_ID = "parentId";
+	public static final String F_PARENT_IDS = "parentIds";
 	public static final String F_ISLEAF = "leaf";
 	public static final String F_SORT = "sort";
 	public static final String F_PARENT = "parent";

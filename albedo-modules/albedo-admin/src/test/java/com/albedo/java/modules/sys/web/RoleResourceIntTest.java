@@ -156,7 +156,7 @@ public class RoleResourceIntTest {
 		roleService.saveOrUpdate(roleDto);
 		// Get all the roles
 		restRoleMockMvc.perform(get(DEFAULT_API_URL)
-			.param(PageModel.F_DESC, Role.F_SQL_CREATEDDATE)
+			.param(PageModel.F_DESC, Role.F_SQL_CREATED_DATE)
 			.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -228,7 +228,7 @@ public class RoleResourceIntTest {
 		assertThat(listRoleDept.size()).isEqualTo(1);
 		assertThat(listRoleDept.get(0).getDeptId()).isEqualTo(anotherRole.getDeptIdList().get(0));
 		assertThat(testRole.getName()).isEqualTo(UPDATED_NAME);
-//		assertThat(testRole.getParentIds()).contains(UPDATED_PARENTID);
+//		assertThat(testRole.getParentIds()).contains(UPDATED_PARENT_ID);
 		assertThat(testRole.getLevel()).isEqualTo(UPDATED_LEVEL);
 		assertThat(testRole.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
 		assertThat(testRole.getDelFlag()).isEqualTo(Role.FLAG_NORMAL);

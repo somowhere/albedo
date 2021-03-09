@@ -141,7 +141,7 @@ public class SchemeServiceImpl extends DataServiceImpl<SchemeRepository, Scheme,
 	@Override
 	public IPage getSchemeVoPage(PageModel pageModel, SchemeQueryCriteria schemeQueryCriteria) {
 		Wrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, schemeQueryCriteria);
-		pageModel.addOrder(OrderItem.desc("a." + Scheme.F_SQL_CREATEDDATE));
+		pageModel.addOrder(OrderItem.desc("a." + Scheme.F_SQL_CREATED_DATE));
 		IPage<List<SchemeVo>> userVosPage = repository.getSchemeVoPage(pageModel, wrapper);
 		return userVosPage;
 	}

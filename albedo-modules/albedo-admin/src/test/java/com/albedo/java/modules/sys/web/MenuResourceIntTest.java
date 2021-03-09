@@ -55,9 +55,9 @@ public class MenuResourceIntTest {
 	private static final String DEFAULT_ANOTHER_ICON = "ANOTHER_ICON";
 	private static final String DEFAULT_ICON = "ICON1";
 	private static final String UPDATED_ICON = "ICON2";
-	private static final String DEFAULT_ANOTHER_PARENTID = "ANOTHER_PARENTID";
-	//    private static final String DEFAULT_PARENTID = "PARENTID1";
-	private static final String UPDATED_PARENTID = "PARENTID2";
+	private static final String DEFAULT_ANOTHER_PARENT_ID = "ANOTHER_PARENT_ID";
+	//    private static final String DEFAULT_PARENT_ID = "PARENT_ID1";
+	private static final String UPDATED_PARENT_ID = "PARENT_ID2";
 	private static final Integer DEFAULT_SORT = 10;
 	private static final Integer UPDATED_SORT = 20;
 	private static final String DEFAULT_COMPONENT = "COMPONENT1";
@@ -127,7 +127,7 @@ public class MenuResourceIntTest {
 
 		anotherMenu.setName(DEFAULT_ANOTHER_NAME);
 		anotherMenu.setIcon(DEFAULT_ANOTHER_ICON);
-		anotherMenu.setParentId(DEFAULT_ANOTHER_PARENTID);
+		anotherMenu.setParentId(DEFAULT_ANOTHER_PARENT_ID);
 		anotherMenu.setPermission(DEFAULT_ANOTHER_PERMISSION);
 		anotherMenu.setHidden(DEFAULT_HIDDEN);
 		anotherMenu.setCache(DEFAULT_CACHE);
@@ -205,7 +205,7 @@ public class MenuResourceIntTest {
 		menuService.saveOrUpdate(menu);
 		// Get all the menus
 		restMenuMockMvc.perform(get(DEFAULT_API_URL)
-			.param(PageModel.F_DESC, "menu." + Menu.F_SQL_CREATEDDATE)
+			.param(PageModel.F_DESC, "menu." + Menu.F_SQL_CREATED_DATE)
 			.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -273,7 +273,7 @@ public class MenuResourceIntTest {
 		managedMenuVM.setHidden(UPDATED_HIDDEN);
 		managedMenuVM.setCache(UPDATED_CACHE);
 		managedMenuVM.setIframe(UPDATED_IFRAME);
-		managedMenuVM.setParentId(UPDATED_PARENTID);
+		managedMenuVM.setParentId(UPDATED_PARENT_ID);
 		managedMenuVM.setComponent(UPDATED_COMPONENT);
 		managedMenuVM.setPath(UPDATED_PATH);
 		managedMenuVM.setType(UPDATED_TYPE);
@@ -297,8 +297,8 @@ public class MenuResourceIntTest {
 		assertThat(testMenu.getCache()).isEqualTo(UPDATED_CACHE);
 		assertThat(testMenu.getIframe()).isEqualTo(UPDATED_IFRAME);
 		assertThat(testMenu.getSort()).isEqualTo(UPDATED_SORT);
-		assertThat(testMenu.getParentId()).isEqualTo(UPDATED_PARENTID);
-//		assertThat(testMenu.getParentIds()).contains(UPDATED_PARENTID);
+		assertThat(testMenu.getParentId()).isEqualTo(UPDATED_PARENT_ID);
+//		assertThat(testMenu.getParentIds()).contains(UPDATED_PARENT_ID);
 		assertThat(testMenu.getComponent()).isEqualTo(UPDATED_COMPONENT);
 		assertThat(testMenu.getPath()).isEqualTo(UPDATED_PATH);
 		assertThat(testMenu.getType()).isEqualTo(UPDATED_TYPE);
@@ -319,7 +319,7 @@ public class MenuResourceIntTest {
 		MenuDto managedMenuVM = new MenuDto();
 		managedMenuVM.setName(DEFAULT_ANOTHER_NAME);
 		managedMenuVM.setIcon(DEFAULT_ANOTHER_ICON);
-		managedMenuVM.setParentId(DEFAULT_ANOTHER_PARENTID);
+		managedMenuVM.setParentId(DEFAULT_ANOTHER_PARENT_ID);
 		managedMenuVM.setPermission(DEFAULT_ANOTHER_PERMISSION);
 		managedMenuVM.setHidden(DEFAULT_HIDDEN);
 		managedMenuVM.setCache(DEFAULT_CACHE);

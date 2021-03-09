@@ -81,9 +81,9 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 		QueryWrapper<T> wrapper = QueryWrapperUtil.getWrapper(query);
 		boolean emptyWrapper = wrapper.isEmptyOfWhere();
 		if (emptyWrapper) {
-			wrapper.eq(TreeEntity.F_SQL_PARENTID, TreeUtil.ROOT);
+			wrapper.eq(TreeEntity.F_SQL_PARENT_ID, TreeUtil.ROOT);
 		}
-		wrapper.eq(TreeEntity.F_SQL_DELFLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT);
+		wrapper.eq(TreeEntity.F_SQL_DEL_FLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT);
 		return wrapper;
 	}
 
@@ -91,7 +91,7 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 	@Override
 	public Integer countByParentId(String parentId) {
 		return repository.selectCount(
-			Wrappers.<T>query().eq(TreeEntity.F_SQL_PARENTID, parentId)
+			Wrappers.<T>query().eq(TreeEntity.F_SQL_PARENT_ID, parentId)
 		);
 	}
 
@@ -99,7 +99,7 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 	@Override
 	public List<T> findAllByParentIdsLike(String parentIds) {
 		return repository.selectList(
-			Wrappers.<T>query().like(TreeEntity.F_SQL_PARENTIDS, parentIds));
+			Wrappers.<T>query().like(TreeEntity.F_SQL_PARENT_IDS, parentIds));
 	}
 
 
@@ -146,7 +146,7 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 	public boolean removeByIds(Collection<? extends Serializable> idList) {
 		idList.forEach(id -> {
 			// 查询父节点为当前节点的节点
-			List<T> menuList = this.list(Wrappers.<T>query().eq(TreeEntity.F_SQL_PARENTID, id));
+			List<T> menuList = this.list(Wrappers.<T>query().eq(TreeEntity.F_SQL_PARENT_ID, id));
 			if (CollUtil.isNotEmpty(menuList)) {
 				throw new BadRequestException("含有下级不能删除");
 			}

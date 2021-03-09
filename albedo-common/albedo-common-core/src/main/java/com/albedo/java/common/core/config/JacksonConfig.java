@@ -39,7 +39,7 @@ import java.util.TimeZone;
 /**
  * JacksonConfig
  *
- * @author L.cm
+ * @author somewhere
  * @author somewhere
  * @author lishangbu
  * @date 2018/10/22

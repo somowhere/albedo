@@ -299,11 +299,11 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	public Boolean getIsNotBaseField() {
 		return !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_ID) && !StringUtil.equalsIgnoreCase(getName(), "id") &&
 			!StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_DESCRIPTION) && !StringUtil.equalsIgnoreCase(getName(), "description")
-			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_CREATEDBY) && !StringUtil.equalsIgnoreCase(getName(), "created_by") &&
-			!StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_CREATEDDATE) && !StringUtil.equalsIgnoreCase(getName(), "created_date")
-			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_LASTMODIFIEDBY) && !StringUtil.equalsIgnoreCase(getName(), "last_modified_by") &&
-			!StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_LASTMODIFIEDDATE) && !StringUtil.equalsIgnoreCase(getName(), "last_modified_date")
-			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_DELFLAG) && !StringUtil.equalsIgnoreCase(getName(), "del_flag") &&
+			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_CREATED_BY) && !StringUtil.equalsIgnoreCase(getName(), "created_by") &&
+			!StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_CREATED_DATE) && !StringUtil.equalsIgnoreCase(getName(), "created_date")
+			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_LAST_MODIFIED_BY) && !StringUtil.equalsIgnoreCase(getName(), "last_modified_by") &&
+			!StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_LAST_MODIFIED_DATE) && !StringUtil.equalsIgnoreCase(getName(), "last_modified_date")
+			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_DEL_FLAG) && !StringUtil.equalsIgnoreCase(getName(), "del_flag") &&
 			!StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_VERSION) && !StringUtil.equalsIgnoreCase(getName(), "version");
 	}
 
@@ -314,9 +314,9 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	 */
 	public Boolean getIsNotBaseTreeField() {
 		return !StringUtil.equalsIgnoreCase(getSimpleJavaField(), TreeDto.F_NAME) && !StringUtil.equalsIgnoreCase(getName(), "name") &&
-			!StringUtil.equalsIgnoreCase(getSimpleJavaField(), TreeDto.F_PARENTID) && !StringUtil.equalsIgnoreCase(getSimpleJavaField(), "parent")
+			!StringUtil.equalsIgnoreCase(getSimpleJavaField(), TreeDto.F_PARENT_ID) && !StringUtil.equalsIgnoreCase(getSimpleJavaField(), "parent")
 			&& !StringUtil.equalsIgnoreCase(getName(), "parent_id") &&
-			!StringUtil.equalsIgnoreCase(getSimpleJavaField(), TreeDto.F_PARENTIDS)
+			!StringUtil.equalsIgnoreCase(getSimpleJavaField(), TreeDto.F_PARENT_IDS)
 			&& !StringUtil.equalsIgnoreCase(getName(), "parent_ids")
 			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), TreeDto.F_SORT)
 			&& !StringUtil.equalsIgnoreCase(getName(), "sort")

@@ -44,7 +44,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * Miscellaneous utilities for web applications.
  *
- * @author L.cm
+ * @author somewhere
  */
 @Slf4j
 @UtilityClass

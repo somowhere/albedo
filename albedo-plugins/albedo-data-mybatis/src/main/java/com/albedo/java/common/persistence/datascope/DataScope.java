@@ -39,7 +39,7 @@ public class DataScope implements Serializable {
 	/**
 	 * 限制范围的字段名称
 	 */
-	private String creatorName = BaseEntity.F_SQL_CREATEDBY;
+	private String creatorName = BaseEntity.F_SQL_CREATED_BY;
 
 	/**
 	 * 具体的数据范围

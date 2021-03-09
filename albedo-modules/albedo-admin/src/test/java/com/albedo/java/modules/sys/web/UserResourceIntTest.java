@@ -183,7 +183,7 @@ public class UserResourceIntTest {
 		userService.saveOrUpdate(user);
 		// Get all the users
 		restUserMockMvc.perform(get(DEFAULT_API_URL)
-			.param(PageModel.F_DESC, User.F_SQL_CREATEDDATE)
+			.param(PageModel.F_DESC, User.F_SQL_CREATED_DATE)
 			.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))

@@ -32,8 +32,7 @@ import net.sf.jsqlparser.expression.operators.relational.InExpression;
 import net.sf.jsqlparser.expression.operators.relational.ItemsList;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.schema.Column;
-import net.sf.jsqlparser.statement.select.PlainSelect;
-import net.sf.jsqlparser.statement.select.Select;
+import net.sf.jsqlparser.statement.select.*;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -43,6 +42,7 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -72,8 +72,9 @@ public class DataScopeInterceptor implements InnerInterceptor {
 				Set<String> deptIds = dataScope.getDeptIds();
 				String originalSql = boundSql.getSql();
 				Select selectStatement = (Select) CCJSqlParserUtil.parse(originalSql);
-				if (selectStatement.getSelectBody() instanceof PlainSelect) {
-					PlainSelect plainSelect = (PlainSelect) selectStatement.getSelectBody();
+				SelectBody selectBody = selectStatement.getSelectBody();
+				if (selectBody instanceof PlainSelect) {
+					PlainSelect plainSelect = (PlainSelect) selectBody;
 					Expression expression = null;
 					Alias alias = plainSelect.getFromItem().getAlias();
 					String aliaName = "";
@@ -95,6 +96,9 @@ public class DataScopeInterceptor implements InnerInterceptor {
 						PluginUtils.MPBoundSql mpBoundSql = PluginUtils.mpBoundSql(boundSql);
 						mpBoundSql.sql(plainSelect.toString());
 					}
+				} else {
+					// todo: don't known how to resole
+					log.warn("can not parse "+selectBody);
 				}
 			}
 		}

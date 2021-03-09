@@ -19,7 +19,7 @@ package com.albedo.java.common.config;
 import com.albedo.java.common.log.aspect.RequestLogAspect;
 import com.albedo.java.common.log.aspect.SysLogAspect;
 import com.albedo.java.common.log.event.SysLogListener;
-import com.albedo.java.common.log.event.SysUserOnlineListener;
+import com.albedo.java.common.security.event.SysUserOnlineListener;
 import com.albedo.java.modules.sys.service.LogOperateService;
 import com.albedo.java.modules.sys.service.UserOnlineService;
 import lombok.AllArgsConstructor;

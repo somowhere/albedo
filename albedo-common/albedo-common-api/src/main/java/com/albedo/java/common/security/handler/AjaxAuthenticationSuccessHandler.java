@@ -5,7 +5,7 @@ import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.WebUtil;
 import com.albedo.java.common.log.enums.LogType;
-import com.albedo.java.common.log.event.SysUserOnlineEvent;
+import com.albedo.java.common.security.event.SysUserOnlineEvent;
 import com.albedo.java.common.log.util.SysLogUtils;
 import com.albedo.java.common.security.util.LoginUtil;
 import com.albedo.java.common.util.AsyncUtil;

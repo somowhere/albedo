@@ -40,7 +40,7 @@ import java.util.Map;
 /**
  * 类工具类
  *
- * @author L.cm
+ * @author somewhere
  */
 @UtilityClass
 @Slf4j

@@ -28,11 +28,11 @@ public class EntityMetaObjectHandler implements MetaObjectHandler {
 	@Override
 	public void insertFill(MetaObject metaObject) {
 		if (checkMetaObject(metaObject)) {
-			setFieldValByName(BaseDataEntity.F_CREATEDBY, auditorAware.getCurrentAuditor().get(), metaObject);
+			setFieldValByName(BaseDataEntity.F_CREATED_BY, auditorAware.getCurrentAuditor().get(), metaObject);
 			LocalDateTime date = LocalDateTime.now();
-			setFieldValByName(BaseDataEntity.F_CREATEDDATE, date, metaObject);
-			setFieldValByName(BaseDataEntity.F_LASTMODIFIEDBY, auditorAware.getCurrentAuditor().get(), metaObject);
-			setFieldValByName(BaseDataEntity.F_LASTMODIFIEDDATE, date, metaObject);
+			setFieldValByName(BaseDataEntity.F_CREATED_DATE, date, metaObject);
+			setFieldValByName(BaseDataEntity.F_LAST_MODIFIED_BY, auditorAware.getCurrentAuditor().get(), metaObject);
+			setFieldValByName(BaseDataEntity.F_LAST_MODIFIED_DATE, date, metaObject);
 		}
 
 	}
@@ -57,8 +57,8 @@ public class EntityMetaObjectHandler implements MetaObjectHandler {
 	public void updateFill(MetaObject metaObject) {
 		if (checkMetaObject(metaObject)) {
 			LocalDateTime date = LocalDateTime.now();
-			setFieldValByName(BaseDataEntity.F_LASTMODIFIEDBY, auditorAware.getCurrentAuditor().get(), metaObject);
-			setFieldValByName(BaseDataEntity.F_LASTMODIFIEDDATE, date, metaObject);
+			setFieldValByName(BaseDataEntity.F_LAST_MODIFIED_BY, auditorAware.getCurrentAuditor().get(), metaObject);
+			setFieldValByName(BaseDataEntity.F_LAST_MODIFIED_DATE, date, metaObject);
 		}
 	}
 }
