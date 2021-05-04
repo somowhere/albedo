@@ -36,7 +36,8 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -150,7 +151,6 @@ public class SecurityJwtConfiguration extends WebSecurityConfigurerAdapter {
 	private JwtConfigurer securityConfigurerAdapter() {
 		return new JwtConfigurer(tokenProvider, applicationProperties);
 	}
-
 
 
 }
