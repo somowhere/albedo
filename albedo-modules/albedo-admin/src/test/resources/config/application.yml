@@ -12,7 +12,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 111111
-    url: jdbc:mysql://albedo-mysql:3306/albedo-cloud?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowMultiQueries=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://albedo-mysql:3306/albedo?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowMultiQueries=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
   redis:
     host: localhost
 
@@ -64,4 +64,11 @@ application:
       - /v2/api-docs/**
       - /swagger-resources/configuration/ui
       - /swagger-ui.html
+    authentication:
+      jwt:
+        # 必须使用最少88位的Base64对该令牌进行编码
+        base64-secret: bXktc2VjcmV0LWtleS13aGljaC1zaG91bGQtYmUtY2hhbmdlZC1pbi1wcm9kdWN0aW9uLWFuZC1iZS1iYXNlNjQtZW5jb2RlZAo=
+        # Token is valid 24 hours
+        token-validity-in-seconds: 300
+        token-validity-in-seconds-for-remember-me: 2592000
 
