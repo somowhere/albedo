@@ -1,7 +1,7 @@
 logging:
   level:
-    ROOT: ${logback.loglevel}
-    com.albedo.java: DEBUG
+    ROOT: DEBUG
+    com.albedo.java: ${logback.loglevel}
 server:
   port: 8011
   servlet:
@@ -9,10 +9,10 @@ server:
       timeout: 30m
 
 spring:
-  profiles:
-    active: dev
-    include:
-      - swagger
+  config:
+    activate:
+      on-profile:
+        - swagger
   #      - jwt
   redis:
     host: albedo-redis

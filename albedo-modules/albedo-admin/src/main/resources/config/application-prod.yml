@@ -1,7 +1,7 @@
 logging:
   level:
-    ROOT: ${logback.loglevel}
-    com.albedo.java: INFO
+    ROOT: INFO
+    com.albedo.java: ${logback.loglevel}
 server:
   port: 4000
 

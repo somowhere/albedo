@@ -5,8 +5,6 @@ jasypt:
 
 # Spring 相关
 spring:
-  profiles:
-    active: dev
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
