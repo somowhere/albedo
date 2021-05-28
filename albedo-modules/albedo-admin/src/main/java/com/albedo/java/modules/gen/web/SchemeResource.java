@@ -35,7 +35,9 @@ import java.util.Set;
 public class SchemeResource extends BaseResource {
 
 	private final SchemeService schemeService;
+
 	private final TableService tableService;
+
 	private final MenuService menuService;
 
 	/**
@@ -97,12 +99,16 @@ public class SchemeResource extends BaseResource {
 		if (tableDto == null) {
 			tableDto = tableService.getOneDto(schemeDto.getTableId());
 		}
-		String url = StringUtil.toAppendStr(StringUtil.SLASH, StringUtil.lowerCase(schemeDto.getModuleName()), (StringUtil.isNotBlank(schemeDto.getSubModuleName()) ? StringUtil.SLASH + StringUtil.lowerCase(schemeDto.getSubModuleName()) : ""), StringUtil.SLASH,
-			StringUtil.toRevertCamelCase(StringUtil.lowerFirst(tableDto.getClassName()), CharUtil.DASHED), StringUtil.SLASH);
-		menuService.saveByGenScheme(new GenSchemeDto(schemeDto.getName(), schemeGenDto.getParentMenuId(), url, tableDto.getClassName()));
+		String url = StringUtil.toAppendStr(StringUtil.SLASH, StringUtil.lowerCase(schemeDto.getModuleName()),
+			(StringUtil.isNotBlank(schemeDto.getSubModuleName())
+				? StringUtil.SLASH + StringUtil.lowerCase(schemeDto.getSubModuleName()) : ""),
+			StringUtil.SLASH,
+			StringUtil.toRevertCamelCase(StringUtil.lowerFirst(tableDto.getClassName()), CharUtil.DASHED),
+			StringUtil.SLASH);
+		menuService.saveByGenScheme(
+			new GenSchemeDto(schemeDto.getName(), schemeGenDto.getParentMenuId(), url, tableDto.getClassName()));
 		return Result.buildOk("生成", schemeDto.getName(), "菜单成功");
 	}
-
 
 	@LogOperate(value = "生成方案删除")
 	@DeleteMapping
@@ -112,6 +118,5 @@ public class SchemeResource extends BaseResource {
 		schemeService.removeByIds(ids);
 		return Result.buildOk("删除成功");
 	}
-
 
 }

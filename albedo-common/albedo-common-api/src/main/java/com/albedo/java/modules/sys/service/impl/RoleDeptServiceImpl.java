@@ -33,8 +33,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @AllArgsConstructor
-public class RoleDeptServiceImpl extends ServiceImpl<RoleDeptRepository, RoleDept>
-	implements RoleDeptService {
-
+public class RoleDeptServiceImpl extends ServiceImpl<RoleDeptRepository, RoleDept> implements RoleDeptService {
 
 }

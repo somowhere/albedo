@@ -34,13 +34,21 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor
 @Slf4j
 public class MenuTree extends TreeNode<MenuTree> {
+
 	private String name;
+
 	private String path;
+
 	private Boolean hidden;
+
 	private String redirect;
+
 	private String component;
+
 	private Boolean iframe;
+
 	private Boolean alwaysShow;
+
 	private MenuMetaVo meta;
 
 	public MenuTree(MenuVo menuVo) {
@@ -57,4 +65,5 @@ public class MenuTree extends TreeNode<MenuTree> {
 			&& StrUtil.isEmpty(menuVo.getComponent()) ? "Layout" : menuVo.getComponent());
 		log.debug("name {}, component {}", this.getName(), this.getComponent());
 	}
+
 }

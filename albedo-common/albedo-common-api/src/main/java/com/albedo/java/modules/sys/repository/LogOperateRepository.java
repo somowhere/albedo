@@ -28,4 +28,5 @@ import com.albedo.java.modules.sys.domain.LogOperate;
  * @since 2019/2/1
  */
 public interface LogOperateRepository extends BaseRepository<LogOperate> {
+
 }

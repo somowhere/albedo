@@ -43,7 +43,7 @@ public class GenUtil {
 		if (StringUtil.equalsIgnoreCase(column.getJavaField(), TreeEntity.F_NAME) || isTitle) {
 			column.setQuery(true);
 			column.setQueryType("like");
-		}// 父级ID
+		} // 父级ID
 		else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntity.F_PARENT_ID)) {
 			column.setShowType("treeselect");
 			column.setNull(false);
@@ -66,7 +66,6 @@ public class GenUtil {
 		}
 	}
 
-
 	private static void initDataColumn(TableColumnDto column) {
 		boolean content = StringUtil.equalsIgnoreCase(column.getJavaField(), "content");
 		boolean remark = StringUtil.equalsIgnoreCase(column.getJavaField(), "remark");
@@ -75,18 +74,21 @@ public class GenUtil {
 			column.setTitle("备注");
 		}
 		// 创建者、更新者
-		else if (StringUtil.startWithIgnoreCase(column.getName(), BaseDataEntity.F_CREATED_BY) || StringUtil.startWithIgnoreCase(column.getName(), BaseDataEntity.F_LAST_MODIFIED_BY)) {
+		else if (StringUtil.startWithIgnoreCase(column.getName(), BaseDataEntity.F_CREATED_BY)
+			|| StringUtil.startWithIgnoreCase(column.getName(), BaseDataEntity.F_LAST_MODIFIED_BY)) {
 			column.setJavaType(User.class.getName());
 			column.setJavaField(column.getJavaField());
 			column.setNull(false);
 		}
 		// 创建时间、更新时间
-		else if (StringUtil.startWithIgnoreCase(column.getName(), BaseDataEntity.F_CREATED_DATE) || StringUtil.startWithIgnoreCase(column.getName(), BaseDataEntity.F_LAST_MODIFIED_DATE)) {
+		else if (StringUtil.startWithIgnoreCase(column.getName(), BaseDataEntity.F_CREATED_DATE)
+			|| StringUtil.startWithIgnoreCase(column.getName(), BaseDataEntity.F_LAST_MODIFIED_DATE)) {
 			column.setShowType("dateselect");
 			column.setNull(false);
 		}
 		// 备注、内容
-		else if (StringUtil.equalsIgnoreCase(column.getJavaField(), BaseDataEntity.F_DESCRIPTION) || content || remark) {
+		else if (StringUtil.equalsIgnoreCase(column.getJavaField(), BaseDataEntity.F_DESCRIPTION) || content
+			|| remark) {
 			column.setShowType("textarea");
 		}
 		// 删除标记
@@ -113,14 +115,26 @@ public class GenUtil {
 				column.setTitle(column.getName());
 			}
 			// 设置java类型
-			if (StringUtil.startWithIgnoreCase(column.getJdbcType(), "CHAR") || StringUtil.startWithIgnoreCase(column.getJdbcType(), "VARCHAR") || StringUtil.startWithIgnoreCase(column.getJdbcType(), "NARCHAR")) {
+			if (StringUtil.startWithIgnoreCase(column.getJdbcType(), "CHAR")
+				|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "VARCHAR")
+				|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "NARCHAR")) {
 				column.setJavaType(CommonConstants.TYPE_STRING);
-			} else if (StringUtil.startWithIgnoreCase(column.getJdbcType(), "DATETIME") || StringUtil.startWithIgnoreCase(column.getJdbcType(), "DATE") || StringUtil.startWithIgnoreCase(column.getJdbcType(), "TIMESTAMP")) {
+			} else if (StringUtil.startWithIgnoreCase(column.getJdbcType(), "DATETIME")
+				|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "DATE")
+				|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "TIMESTAMP")) {
 				column.setJavaType("java.util.Date");
 				column.setShowType("dateselect");
-			} else if (StringUtil.startWithIgnoreCase(column.getJdbcType(), "INT") || StringUtil.startWithIgnoreCase(column.getJdbcType(), "TINYINT") || StringUtil.startWithIgnoreCase(column.getJdbcType(), "BIGINT") || StringUtil.startWithIgnoreCase(column.getJdbcType(), "NUMBER") || StringUtil.startWithIgnoreCase(column.getJdbcType(), "DECIMAL") || StringUtil.startWithIgnoreCase(column.getJdbcType(), "BIT") || StringUtil.startWithIgnoreCase(column.getJdbcType(), "DOUBLE")) {
+			} else if (StringUtil.startWithIgnoreCase(column.getJdbcType(), "INT")
+				|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "TINYINT")
+				|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "BIGINT")
+				|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "NUMBER")
+				|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "DECIMAL")
+				|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "BIT")
+				|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "DOUBLE")) {
 				// 如果是浮点型
-				String[] ss = StringUtil.split(StringUtil.subBetween(column.getJdbcType(), StringUtil.BRACKETS_START, StringUtil.BRACKETS_END), StringUtil.SPLIT_DEFAULT);
+				String[] ss = StringUtil.split(
+					StringUtil.subBetween(column.getJdbcType(), StringUtil.BRACKETS_START, StringUtil.BRACKETS_END),
+					StringUtil.SPLIT_DEFAULT);
 				if (ss != null && ss.length == 2 && Integer.parseInt(ss[1]) > 0) {
 					column.setJavaType(CommonConstants.TYPE_DOUBLE);
 				}
@@ -144,7 +158,8 @@ public class GenUtil {
 				column.setEdit(true);
 			}
 			// 查询字段
-			if (StringUtil.startWithIgnoreCase(column.getName(), "is_") || StringUtil.startWithIgnoreCase(column.getName(), "has_")) {
+			if (StringUtil.startWithIgnoreCase(column.getName(), "is_")
+				|| StringUtil.startWithIgnoreCase(column.getName(), "has_")) {
 				column.setDictType(DictNameConstants.SYS_FLAG);
 				column.setShowType("radio");
 			}
@@ -231,7 +246,8 @@ public class GenUtil {
 					if (list != null) {
 						for (String s : list) {
 							if (StringUtil.startWith(s, GenCategory.CATEGORY_REF)) {
-								templateList.addAll(getTemplateList(config, StringUtil.replace(s, GenCategory.CATEGORY_REF, ""), false));
+								templateList.addAll(getTemplateList(config,
+									StringUtil.replace(s, GenCategory.CATEGORY_REF, ""), false));
 							} else {
 								TemplateVo template = fileToObject(s, TemplateVo.class);
 								if (template != null) {
@@ -255,25 +271,37 @@ public class GenUtil {
 	 */
 	public static Map<String, Object> getDataModel(SchemeDto scheme) {
 		Map<String, Object> model = Maps.newHashMap();
-		String applicationName = SpringContextHolder.getApplicationContext().getBeansWithAnnotation(SpringBootApplication.class).keySet().iterator().next();
-		model.put("applicationName", SpringContextHolder.getApplicationContext().getBean(applicationName).getClass().getPackage().getName() + StringUtil.DOT + StringUtil.upperFirst(applicationName));
+		String applicationName = SpringContextHolder.getApplicationContext()
+			.getBeansWithAnnotation(SpringBootApplication.class).keySet().iterator().next();
+		model.put("applicationName",
+			SpringContextHolder.getApplicationContext().getBean(applicationName).getClass().getPackage().getName()
+				+ StringUtil.DOT + StringUtil.upperFirst(applicationName));
 		model.put("packageName", StringUtil.lowerCase(scheme.getPackageName()));
 		model.put("lastPackageName", StringUtil.subAfter((String) model.get("packageName"), StringUtil.DOT, true));
 		model.put("moduleName", StringUtil.lowerCase(scheme.getModuleName()));
-		model.put("subModuleName", StringUtil.lowerCase(StringUtil.isEmpty(scheme.getSubModuleName()) ? "" : scheme.getSubModuleName()));
+		model.put("subModuleName",
+			StringUtil.lowerCase(StringUtil.isEmpty(scheme.getSubModuleName()) ? "" : scheme.getSubModuleName()));
 		model.put("className", StringUtil.lowerFirst(scheme.getTableDto().getClassName()));
-		model.put("classNameUrl", StringUtil.toRevertCamelCase(StringUtil.toStrString(model.get("className")), CharUtil.DASHED));
+		model.put("classNameUrl",
+			StringUtil.toRevertCamelCase(StringUtil.toStrString(model.get("className")), CharUtil.DASHED));
 		model.put("ClassName", StringUtil.upperFirst(scheme.getTableDto().getClassName()));
 
 		model.put("functionName", scheme.getFunctionName());
 		model.put("functionNameSimple", scheme.getFunctionNameSimple());
-		model.put("functionAuthor", StringUtil.isNotBlank(scheme.getFunctionAuthor()) ? scheme.getFunctionAuthor() : "");
+		model.put("functionAuthor",
+			StringUtil.isNotBlank(scheme.getFunctionAuthor()) ? scheme.getFunctionAuthor() : "");
 		model.put("functionVersion", DateUtil.now());
-		model.put("urlPrefix", model.get("moduleName") + (StringUtil.isNotBlank(scheme.getSubModuleName()) ? StringUtil.SLASH +
-			StringUtil.lowerCase(scheme.getSubModuleName()) : "") + StringUtil.SLASH + model.get("classNameUrl")
-		);
+		model.put("urlPrefix",
+			model.get("moduleName")
+				+ (StringUtil.isNotBlank(scheme.getSubModuleName())
+				? StringUtil.SLASH + StringUtil.lowerCase(scheme.getSubModuleName()) : "")
+				+ StringUtil.SLASH + model.get("classNameUrl"));
 		model.put("viewPrefix", model.get("urlPrefix"));
-		model.put("permissionPrefix", model.get("moduleName") + (StringUtil.isNotBlank(scheme.getSubModuleName()) ? "_" + StringUtil.lowerCase(scheme.getSubModuleName()) : "") + "_" + model.get("className"));
+		model.put("permissionPrefix",
+			model.get("moduleName")
+				+ (StringUtil.isNotBlank(scheme.getSubModuleName())
+				? "_" + StringUtil.lowerCase(scheme.getSubModuleName()) : "")
+				+ "_" + model.get("className"));
 		model.put("table", scheme.getTableDto());
 		model.put("scheme", scheme);
 		return model;
@@ -291,7 +319,8 @@ public class GenUtil {
 		// 获取生成文件 "c:\\temp\\"//
 		String realFileName = FreeMarkers.renderString(tpl.getFileName(), model),
 			fileName = StringUtil.getProjectPath(realFileName, getConfig().getCodeUiPath()) + File.separator
-				+ FreeMarkers.renderString(tpl.getFilePath() + StringUtil.SLASH, model).replaceAll("//|/|\\.", "\\" + File.separator)
+				+ FreeMarkers.renderString(tpl.getFilePath() + StringUtil.SLASH, model).replaceAll("//|/|\\.",
+				"\\" + File.separator)
 				+ realFileName;
 
 		logger.debug(" fileName === " + fileName);
@@ -323,14 +352,14 @@ public class GenUtil {
 		}
 	}
 
-//	public static void main(String[] args) {
-//		try {
-//			GenConfig config = getConfig();
-//			System.out.println(config);
-//			System.out.println(JaxbMapper.toXml(config));
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
+	// public static void main(String[] args) {
+	// try {
+	// GenConfig config = getConfig();
+	// System.out.println(config);
+	// System.out.println(JaxbMapper.toXml(config));
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
 
 }

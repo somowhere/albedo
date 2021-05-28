@@ -44,4 +44,5 @@ public class UserQueryCriteria implements Serializable {
 
 	@Query(propName = "a.created_date", operator = Query.Operator.between)
 	private List<Date> createdDate;
+
 }

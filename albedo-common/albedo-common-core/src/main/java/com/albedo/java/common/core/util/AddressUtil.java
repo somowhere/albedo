@@ -16,8 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 public class AddressUtil {
 
 	public static final String IP_URL = "http://ip.taobao.com/service/getIpInfo.php";
-	public static final String LOCAL_IP = "0:0:0:0:0:0:0:1";
 
+	public static final String LOCAL_IP = "0:0:0:0:0:0:0:1";
 
 	public static String getRealAddressByIp(String ip) {
 		String address = "XX XX";
@@ -45,4 +45,5 @@ public class AddressUtil {
 		}
 		return address;
 	}
+
 }

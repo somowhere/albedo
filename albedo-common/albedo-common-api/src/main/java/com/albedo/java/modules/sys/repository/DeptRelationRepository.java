@@ -28,6 +28,7 @@ import com.albedo.java.modules.sys.domain.DeptRelation;
  * @since 2019/2/1
  */
 public interface DeptRelationRepository extends BaseRepository<DeptRelation> {
+
 	/**
 	 * 删除部门关系表数据
 	 *

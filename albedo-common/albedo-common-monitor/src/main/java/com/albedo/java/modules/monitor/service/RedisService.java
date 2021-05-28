@@ -41,4 +41,5 @@ public interface RedisService {
 	 * @return Map
 	 */
 	Map<String, JSONArray> getMapForReport(ReportSearchType reportSearchType);
+
 }

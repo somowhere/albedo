@@ -23,14 +23,15 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * @author somewhere
- * @date 2019/2/1
- * RestTemplate
+ * @date 2019/2/1 RestTemplate
  */
 @Configuration
 public class RestTemplateConfig {
+
 	@Bean
 	@ConditionalOnMissingBean
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
+
 }

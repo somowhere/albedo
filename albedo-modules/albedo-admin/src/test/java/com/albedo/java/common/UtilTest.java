@@ -1,6 +1,5 @@
 package com.albedo.java.common;
 
-
 import cn.hutool.core.util.EscapeUtil;
 import cn.hutool.http.HtmlUtil;
 import com.albedo.java.common.core.util.Json;
@@ -10,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 public class UtilTest {
+
 	public static void main(String[] args) throws UnsupportedEncodingException {
 		String rs = "Webhook \u7684 payload POST \u65f6\u5fc5\u987b\u662f JSON \u5b57\u7b26\u4e32";
 		System.out.println(EscapeUtil.unescapeHtml4(rs));
@@ -19,4 +19,5 @@ public class UtilTest {
 		System.out.println(URLDecoder.decode(s, "utf-8"));
 		System.out.println(Json.toJSONString("utf-8".split(StringUtil.SPLIT_DEFAULT)));
 	}
+
 }

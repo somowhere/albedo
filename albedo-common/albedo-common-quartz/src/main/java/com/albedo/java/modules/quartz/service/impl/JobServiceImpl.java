@@ -31,7 +31,6 @@ import java.util.Set;
 @Transactional(rollbackFor = Exception.class)
 public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, String> implements JobService {
 
-
 	/**
 	 * 暂停任务
 	 *
@@ -193,8 +192,8 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, 
 	public void concurrent(Set<String> ids) {
 		ids.forEach(id -> {
 			Job job = repository.selectById(id);
-			job.setConcurrent(CommonConstants.STR_YES.equals(job.getConcurrent()) ?
-				CommonConstants.STR_NO : CommonConstants.STR_YES);
+			job.setConcurrent(CommonConstants.STR_YES.equals(job.getConcurrent()) ? CommonConstants.STR_NO
+				: CommonConstants.STR_YES);
 			repository.updateById(job);
 		});
 	}
@@ -220,4 +219,5 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, 
 			}
 		});
 	}
+
 }

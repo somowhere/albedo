@@ -16,6 +16,7 @@ import java.io.IOException;
  * @date 2020/5/30 11:24 下午
  */
 public class BodyFilter extends OncePerRequestFilter {
+
 	private final ApplicationProperties applicationProperties;
 
 	public BodyFilter(ApplicationProperties applicationProperties) {
@@ -23,7 +24,8 @@ public class BodyFilter extends OncePerRequestFilter {
 	}
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+		throws ServletException, IOException {
 		boolean isUpload = request.getRequestURI().contains("/file/upload");
 		if (isUpload) {
 			filterChain.doFilter(request, response);
@@ -31,4 +33,5 @@ public class BodyFilter extends OncePerRequestFilter {
 			filterChain.doFilter(new BodyRequestWrapper(request), response);
 		}
 	}
+
 }

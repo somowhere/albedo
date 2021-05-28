@@ -7,13 +7,11 @@ import java.nio.charset.StandardCharsets;
 
 public class Base64Test {
 
-
 	@Test
 	/**
 	 * YWxiZWRvOmFsYmVkbw==
 	 */
 	public void encode() {
-
 
 		System.out.println(Base64.encode("albedo:albedo"));
 
@@ -34,4 +32,5 @@ public class Base64Test {
 		System.out.println(token);
 
 	}
+
 }

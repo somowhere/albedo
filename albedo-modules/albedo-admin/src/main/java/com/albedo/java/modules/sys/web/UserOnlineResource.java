@@ -34,7 +34,9 @@ import java.util.Set;
 public class UserOnlineResource extends BaseResource {
 
 	private final UserOnlineService userOnlineService;
+
 	private final SessionRegistry sessionRegistry;
+
 	private final RedisTemplate redisTemplate;
 
 	/**
@@ -51,7 +53,6 @@ public class UserOnlineResource extends BaseResource {
 		return Result.buildOkData(userOnlineService.page(pageModel, wrapper));
 	}
 
-
 	@PreAuthorize("@pms.hasPermission('sys_userOnline_logout')")
 	@LogOperate(value = "在线用户强退")
 	@PutMapping("/batch-force-logout")
@@ -67,7 +68,8 @@ public class UserOnlineResource extends BaseResource {
 					return Result.buildFail("当前登陆用户无法强退");
 				}
 				sessionInformation.expireNow();
-				redisTemplate.boundHashOps(RedisSessionRegistry.SESSIONIDS).put(online.getSessionId(), sessionInformation);
+				redisTemplate.boundHashOps(RedisSessionRegistry.SESSIONIDS).put(online.getSessionId(),
+					sessionInformation);
 			}
 			online.setStatus(OnlineStatus.off_line);
 			userOnlineService.updateById(online);
@@ -91,7 +93,8 @@ public class UserOnlineResource extends BaseResource {
 						return Result.buildFail("当前登陆用户无法删除");
 					}
 					sessionInformation.expireNow();
-					redisTemplate.boundHashOps(RedisSessionRegistry.SESSIONIDS).put(online.getSessionId(), sessionInformation);
+					redisTemplate.boundHashOps(RedisSessionRegistry.SESSIONIDS).put(online.getSessionId(),
+						sessionInformation);
 				}
 			} catch (Exception e) {
 			}

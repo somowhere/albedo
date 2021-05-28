@@ -41,9 +41,11 @@ public class RoleMenuDto extends GeneralDto {
 	 */
 	@NotBlank
 	private String roleId;
+
 	/**
 	 * 菜单IDs
 	 */
 	@NotNull
 	private Set<String> menuIdList;
+
 }

@@ -40,13 +40,17 @@ import java.util.List;
 public class UserVo extends DataVo<String> {
 
 	public static final String F_USERNAME = "username";
+
 	public static final String F_EMAIL = "email";
+
 	public static final String F_PHONE = "phone";
+
 	/**
 	 * 用户名
 	 */
 	@ExcelField(title = "用户名")
 	private String username;
+
 	@ExcelField(title = "昵称")
 	private String nickname;
 
@@ -65,11 +69,13 @@ public class UserVo extends DataVo<String> {
 	 */
 	@ExcelField(title = "邮箱")
 	private String email;
+
 	/**
 	 * 电话
 	 */
 	@ExcelField(title = "电话")
 	private String phone;
+
 	/**
 	 * 头像
 	 */
@@ -79,6 +85,7 @@ public class UserVo extends DataVo<String> {
 	 * 部门ID
 	 */
 	private String deptId;
+
 	/**
 	 * 部门名称
 	 */
@@ -97,6 +104,7 @@ public class UserVo extends DataVo<String> {
 
 	@ExcelField(title = "角色名称")
 	private String roleNames;
+
 	/**
 	 * 角色ID
 	 */
@@ -123,4 +131,5 @@ public class UserVo extends DataVo<String> {
 	public boolean isAvailable() {
 		return CommonConstants.YES.equals(available);
 	}
+
 }

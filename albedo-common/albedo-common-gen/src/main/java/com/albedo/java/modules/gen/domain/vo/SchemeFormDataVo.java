@@ -22,10 +22,15 @@ import java.util.List;
 public class SchemeFormDataVo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
 	private SchemeDto schemeVo;
+
 	private GenConfig config;
+
 	private List<SelectVo> categoryList;
+
 	private List<SelectVo> viewTypeList;
+
 	private List<SelectVo> tableList;
 
 }

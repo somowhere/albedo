@@ -25,10 +25,7 @@ public class LogsResource {
 	@GetMapping("/logs")
 	public List<LoggerVo> getList() {
 		LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
-		return context.getLoggerList()
-			.stream()
-			.map(LoggerVo::new)
-			.collect(Collectors.toList());
+		return context.getLoggerList().stream().map(LoggerVo::new).collect(Collectors.toList());
 	}
 
 	@PutMapping("/logs")
@@ -37,4 +34,5 @@ public class LogsResource {
 		context.getLogger(jsonLogger.getName()).setLevel(Level.valueOf(jsonLogger.getLevel()));
 		return ResponseEntityBuilder.buildOk("操作成功");
 	}
+
 }

@@ -11,6 +11,7 @@ import org.quartz.*;
  * @author somewhere
  */
 public class ScheduleUtils {
+
 	/**
 	 * 得到quartz任务类
 	 *
@@ -86,8 +87,10 @@ public class ScheduleUtils {
 			case ScheduleConstants.MISFIRE_DO_NOTHING:
 				return cb.withMisfireHandlingInstructionDoNothing();
 			default:
-				throw new TaskException("The task misfire policy '" + job.getMisfirePolicy()
-					+ "' cannot be used in cron schedule tasks", TaskException.Code.CONFIG_ERROR);
+				throw new TaskException(
+					"The task misfire policy '" + job.getMisfirePolicy() + "' cannot be used in cron schedule tasks",
+					TaskException.Code.CONFIG_ERROR);
 		}
 	}
+
 }

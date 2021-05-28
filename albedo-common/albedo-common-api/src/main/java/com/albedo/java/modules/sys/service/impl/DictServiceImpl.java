@@ -68,8 +68,8 @@ import java.util.stream.Collectors;
 @Service
 @CacheConfig(cacheNames = CacheNameConstants.DICT_DETAILS)
 @AllArgsConstructor
-public class DictServiceImpl extends
-	TreeServiceImpl<DictRepository, Dict, DictDto> implements DictService, BaseInterface {
+public class DictServiceImpl extends TreeServiceImpl<DictRepository, Dict, DictDto>
+	implements DictService, BaseInterface {
 
 	private final CacheManager cacheManager;
 
@@ -88,8 +88,7 @@ public class DictServiceImpl extends
 	}
 
 	public Boolean exitUserByCode(DictDto dictDto) {
-		return getOne(Wrappers.<Dict>query()
-			.ne(StringUtil.isNotEmpty(dictDto.getId()), DictDto.F_ID, dictDto.getId())
+		return getOne(Wrappers.<Dict>query().ne(StringUtil.isNotEmpty(dictDto.getId()), DictDto.F_ID, dictDto.getId())
 			.eq(DictDto.F_CODE, dictDto.getCode())) != null;
 	}
 
@@ -109,8 +108,8 @@ public class DictServiceImpl extends
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public Map<String, List<SelectVo>> findCodes(String codes) {
 		List<Dict> dictList = findAllOrderBySort();
-		return codes != null ? DictUtil.getSelectVoListByCodes(dictList, codes.split(StringUtil.SPLIT_DEFAULT)) :
-			DictUtil.getSelectVoListByCodes(dictList);
+		return codes != null ? DictUtil.getSelectVoListByCodes(dictList, codes.split(StringUtil.SPLIT_DEFAULT))
+			: DictUtil.getSelectVoListByCodes(dictList);
 	}
 
 	@Override
@@ -124,8 +123,7 @@ public class DictServiceImpl extends
 	public IPage<DictVo> findTreeList(DictQueryCriteria dictQueryCriteria) {
 		List<DictVo> dictVoList = repository.findDictVoList(QueryWrapperUtil.<Dict>getWrapper(dictQueryCriteria)
 			.eq(TreeEntity.F_SQL_DEL_FLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT));
-		return new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(dictVoList)),
-			dictVoList.size());
+		return new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(dictVoList)), dictVoList.size());
 	}
 
 	@Override
@@ -133,8 +131,9 @@ public class DictServiceImpl extends
 	public void lockOrUnLock(Set<String> ids) {
 		List<Dict> dictList = Lists.newArrayList();
 		repository.selectBatchIds(ids).forEach(dict -> {
-			dictList.addAll(repository.selectList(Wrappers.<Dict>lambdaQuery().likeRight(Dict::getParentIds,
-				TreeUtil.ROOT.equals(dict.getParentId()) ? (dict.getId() + ",") : (dict.getParentIds() + dict.getId()))));
+			dictList.addAll(repository.selectList(
+				Wrappers.<Dict>lambdaQuery().likeRight(Dict::getParentIds, TreeUtil.ROOT.equals(dict.getParentId())
+					? (dict.getId() + ",") : (dict.getParentIds() + dict.getId()))));
 			dictList.add(dict);
 			repository.updateAvailableByIdList(dictList.stream().map(Dict::getId).collect(Collectors.toList()),
 				CommonConstants.YES.equals(dict.getAvailable()) ? CommonConstants.NO : CommonConstants.YES);
@@ -146,14 +145,12 @@ public class DictServiceImpl extends
 	public boolean removeByIds(Collection<? extends Serializable> ids) {
 		ids.forEach(id -> {
 			// 查询父节点为当前节点的节点
-			List<Dict> menuList = this.list(Wrappers.<Dict>query()
-				.lambda().eq(Dict::getParentId, id));
+			List<Dict> menuList = this.list(Wrappers.<Dict>query().lambda().eq(Dict::getParentId, id));
 			if (CollUtil.isNotEmpty(menuList)) {
 				throw new BadRequestException("字典含有下级不能删除");
 			}
 		});
 		return super.removeByIds(ids);
 	}
-
 
 }

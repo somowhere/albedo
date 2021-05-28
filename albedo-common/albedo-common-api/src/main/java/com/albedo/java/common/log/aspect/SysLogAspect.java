@@ -49,9 +49,9 @@ public class SysLogAspect {
 		// 方法路径
 		String methodName = point.getTarget().getClass().getName() + StringUtil.DOT + signature.getName() + "()";
 		StringBuilder params = new StringBuilder("{");
-		//参数值
+		// 参数值
 		Object[] argValues = point.getArgs();
-		//参数名称
+		// 参数名称
 		String[] argNames = ((MethodSignature) point.getSignature()).getParameterNames();
 		if (argValues != null) {
 			for (int i = 0; i < argValues.length; i++) {
@@ -84,7 +84,8 @@ public class SysLogAspect {
 	 * @param logOperateVo
 	 * @param logOperate
 	 */
-	public void saveLog(Long tookMs, LogOperate logOperateVo, com.albedo.java.common.log.annotation.LogOperate logOperate) {
+	public void saveLog(Long tookMs, LogOperate logOperateVo,
+						com.albedo.java.common.log.annotation.LogOperate logOperate) {
 		logOperateVo.setTime(tookMs);
 		log.debug("[logOperateVo]:{}", logOperateVo);
 		// 是否需要保存request，参数和值

@@ -92,8 +92,7 @@ public class UserResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
 	public void download(UserQueryCriteria userQueryCriteria, HttpServletResponse response) {
 		ExcelUtil<UserVo> util = new ExcelUtil(UserVo.class);
-		util.exportExcel(userService.findPage(userQueryCriteria,
-			SecurityUtil.getDataScope()), "用户数据", response);
+		util.exportExcel(userService.findPage(userQueryCriteria, SecurityUtil.getDataScope()), "用户数据", response);
 	}
 
 	/**
@@ -174,7 +173,6 @@ public class UserResource extends BaseResource {
 		return Result.buildOk(add ? "新增成功，默认密码：123456" : "修改成功");
 	}
 
-
 	/**
 	 * @param username 用户名称
 	 * @return 上级部门用户列表
@@ -183,7 +181,6 @@ public class UserResource extends BaseResource {
 	public Result listAncestorUsers(@PathVariable String username) {
 		return Result.buildOkData(userService.listAncestorUsersByUsername(username));
 	}
-
 
 	/**
 	 * @param ids
@@ -197,7 +194,6 @@ public class UserResource extends BaseResource {
 		return Result.buildOk("操作成功");
 	}
 
-
 	/**
 	 * @param dataFile
 	 * @param response
@@ -207,7 +203,8 @@ public class UserResource extends BaseResource {
 	@PostMapping(value = "/upload")
 	@PreAuthorize("@pms.hasPermission('sys_user_upload')")
 	@LogOperate(value = "用户管理导入")
-	public ResponseEntity uploadData(@RequestParam("uploadFile") MultipartFile dataFile, HttpServletResponse response) throws Exception {
+	public ResponseEntity uploadData(@RequestParam("uploadFile") MultipartFile dataFile, HttpServletResponse response)
+		throws Exception {
 		if (dataFile.isEmpty()) {
 			return ResponseEntityBuilder.buildFail("上传文件为空");
 		}

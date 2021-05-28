@@ -22,9 +22,11 @@ public class SchemeGenDto implements Serializable {
 
 	@NotEmpty
 	private String id;
+
 	/**
 	 * 上级模块 ID
 	 */
 	@NotEmpty
 	private String parentMenuId;
+
 }

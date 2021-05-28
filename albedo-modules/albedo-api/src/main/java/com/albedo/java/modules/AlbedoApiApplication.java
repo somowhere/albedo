@@ -16,7 +16,6 @@
 
 package com.albedo.java.modules;
 
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,12 +26,12 @@ import java.net.InetAddress;
 
 /**
  * @author somewhere
- * @date 2018年06月21日
- * 用户统一管理系统
+ * @date 2018年06月21日 用户统一管理系统
  */
 @Slf4j
 @SpringBootApplication
 public class AlbedoApiApplication {
+
 	static String SERVER_PORT = "server.port";
 	static String SPRING_APPLICATION_NAME = "spring.application.name";
 
@@ -40,15 +39,14 @@ public class AlbedoApiApplication {
 		SpringApplication app = new SpringApplication(AlbedoApiApplication.class);
 		final ApplicationContext applicationContext = app.run(args);
 		Environment env = applicationContext.getEnvironment();
-		log.info("\n----------------------------------------------------------\n\t" +
-				"Application '{}' is running! Access URLs:\n\t" +
-				"Local: \t\thttp://localhost:{}\n\t" +
-				"External: \thttp://{}:{}\n\t" +
-				"Swagger: \thttp://localhost:{}\n----------------------------------------------------------",
-			env.getProperty(SPRING_APPLICATION_NAME),
-			env.getProperty(SERVER_PORT),
-			InetAddress.getLocalHost().getHostAddress(),
-			env.getProperty(SERVER_PORT),
+		log.info(
+			"\n----------------------------------------------------------\n\t"
+				+ "Application '{}' is running! Access URLs:\n\t" + "Local: \t\thttp://localhost:{}\n\t"
+				+ "External: \thttp://{}:{}\n\t"
+				+ "Swagger: \thttp://localhost:{}\n----------------------------------------------------------",
+			env.getProperty(SPRING_APPLICATION_NAME), env.getProperty(SERVER_PORT),
+			InetAddress.getLocalHost().getHostAddress(), env.getProperty(SERVER_PORT),
 			env.getProperty(SERVER_PORT));
 	}
+
 }

@@ -32,7 +32,7 @@ public class TableQueryCriteria implements Serializable {
 	@Query(blurry = "name,comments,className,parentTable,description")
 	private String blurry;
 
-
 	@Query(propName = "created_date", operator = Query.Operator.between)
 	private List<Date> createdDate;
+
 }

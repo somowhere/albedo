@@ -22,8 +22,7 @@ import java.lang.annotation.*;
 
 /**
  * @author somewhere
- * @date 2019/2/1
- * 操作日志注解
+ * @date 2019/2/1 操作日志注解
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -46,4 +45,5 @@ public @interface LogOperate {
 	 * 是否保存请求的参数
 	 */
 	boolean isSaveRequestData() default true;
+
 }

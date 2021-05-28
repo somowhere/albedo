@@ -37,8 +37,9 @@ import java.util.Collection;
 @Service
 @Transactional(rollbackFor = Exception.class)
 @RequiredArgsConstructor
-public class DatasourceConfServiceImpl extends DataServiceImpl<DatasourceConfRepository, DatasourceConf, DatasourceConfDto, String> implements DatasourceConfService {
-
+public class DatasourceConfServiceImpl
+	extends DataServiceImpl<DatasourceConfRepository, DatasourceConf, DatasourceConfDto, String>
+	implements DatasourceConfService {
 
 	private final StringEncryptor stringEncryptor;
 

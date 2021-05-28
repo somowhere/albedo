@@ -24,10 +24,8 @@ import java.lang.reflect.Type;
  */
 @Transactional(rollbackFor = Exception.class)
 @Data
-public class DataServiceImpl<Repository extends BaseRepository<T>,
-	T extends BaseDataEntity, D extends DataDto, PK extends Serializable>
-	extends BaseServiceImpl<Repository, T>
-	implements DataService<T, D, PK> {
+public class DataServiceImpl<Repository extends BaseRepository<T>, T extends BaseDataEntity, D extends DataDto, PK extends Serializable>
+	extends BaseServiceImpl<Repository, T> implements DataService<T, D, PK> {
 
 	private Class<D> entityDtoClz;
 
@@ -47,13 +45,12 @@ public class DataServiceImpl<Repository extends BaseRepository<T>,
 		return copyBeanToDto(repository.selectById(id));
 	}
 
-
 	@Override
 	public void saveOrUpdate(D entityDto) {
 		T entity = null;
 		try {
-			entity = ObjectUtil.isNotEmpty(entityDto.getId()) ? repository.selectById(entityDto.getId()) :
-				entityClass.newInstance();
+			entity = ObjectUtil.isNotEmpty(entityDto.getId()) ? repository.selectById(entityDto.getId())
+				: entityClass.newInstance();
 			copyDtoToBean(entityDto, entity);
 		} catch (Exception e) {
 			log.warn("{}", e);
@@ -115,6 +112,5 @@ public class DataServiceImpl<Repository extends BaseRepository<T>,
 		}
 		return result;
 	}
-
 
 }

@@ -39,12 +39,14 @@ import java.util.Set;
 public class TableResource extends BaseResource {
 
 	private final TableService tableService;
+
 	private final DatasourceConfService datasourceConfService;
 
 	@GetMapping(value = "/ds-list")
 	@PreAuthorize("@pms.hasPermission('gen_table_view')")
 	public Result<SelectVo> dsList() {
-		return Result.buildOkData(CollUtil.convertSelectVoList(datasourceConfService.list(), DatasourceConf.F_NAME, DatasourceConf.F_NAME));
+		return Result.buildOkData(CollUtil.convertSelectVoList(datasourceConfService.list(), DatasourceConf.F_NAME,
+			DatasourceConf.F_NAME));
 	}
 
 	@GetMapping(value = "/ds-table-list/{dsName:^[a-zA-Z0-9]+$}")
@@ -52,7 +54,8 @@ public class TableResource extends BaseResource {
 	public Result<SelectVo> tableList(@PathVariable String dsName) {
 		TableDto tableDto = new TableDto();
 		tableDto.setDsName(dsName);
-		return Result.buildOkData(CollUtil.convertSelectVoList(tableService.findTableListFormDb(tableDto), Table.F_NAME, Table.F_NAMESANDTITLE));
+		return Result.buildOkData(CollUtil.convertSelectVoList(tableService.findTableListFormDb(tableDto), Table.F_NAME,
+			Table.F_NAMESANDTITLE));
 	}
 
 	@GetMapping(value = "/form-data")
@@ -110,6 +113,5 @@ public class TableResource extends BaseResource {
 		tableService.delete(ids);
 		return Result.buildOk("删除成功");
 	}
-
 
 }

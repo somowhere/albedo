@@ -17,7 +17,6 @@ import java.util.Set;
  */
 public interface JobService extends DataService<Job, JobDto, String> {
 
-
 	/**
 	 * 暂停任务
 	 *
@@ -66,7 +65,6 @@ public interface JobService extends DataService<Job, JobDto, String> {
 	 */
 	void run(Job job);
 
-
 	/**
 	 * 校验cron表达式是否有效
 	 *
@@ -114,4 +112,5 @@ public interface JobService extends DataService<Job, JobDto, String> {
 	 * @updateTime 2020/5/31 17:32
 	 */
 	void runBySubIds(Set<String> idList);
+
 }

@@ -40,4 +40,5 @@ public class DeptVo extends TreeVo<DeptVo> implements TreeNodeAware<DeptVo> {
 	 */
 	@DictType(DictNameConstants.SYS_FLAG)
 	private Integer available;
+
 }

@@ -28,81 +28,101 @@ import java.util.List;
 public class TableColumnDto extends DataDto<String> implements Comparable {
 
 	public static final String JDBCTYPE_TEXT = "text";
+
 	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 归属表
 	 */
 	private String tableId;
+
 	/**
 	 * 归属表
 	 */
 	@JSONField(serialize = false)
 	private TableDto table;
+
 	/**
 	 * 列名
 	 */
 	private String name;
+
 	/**
 	 * 标题
 	 */
 	@NotBlank
 	private String title;
+
 	/**
 	 * 描述
 	 */
 	private String comments;
+
 	/**
 	 * JDBC类型
 	 */
 	private String jdbcType;
+
 	/**
 	 * JAVA类型
 	 */
 	private String javaType;
+
 	/**
 	 * JAVA字段名
 	 */
 	private String javaField;
+
 	/**
 	 * 是否主键（1：主键）
 	 */
 	private boolean isPk;
+
 	/**
 	 * 是否唯一（1：是；0：否）
 	 */
 	private boolean isUnique;
+
 	/**
 	 * 是否可为空（1：可为空；0：不为空）
 	 */
 	private boolean isNull;
+
 	/**
 	 * 是否为插入字段（1：插入字段）
 	 */
 	private boolean isInsert;
+
 	/**
 	 * 是否编辑字段（1：编辑字段）
 	 */
 	private boolean isEdit;
+
 	/**
 	 * 是否列表字段（1：列表字段）
 	 */
 	private boolean isList;
+
 	/**
 	 * 是否查询字段（1：查询字段）
 	 */
 	private boolean isQuery;
+
 	/**
 	 * 查询方式（等于、不等于、大于、小于、范围、左LIKE、右LIKE、左右LIKE）
 	 */
 	private String queryType;
+
 	/**
 	 * 字段生成方案（文本框、文本域、下拉框、复选框、单选框、字典选择、人员选择、部门选择、区域选择）
 	 */
 	private String showType;
+
 	/**
 	 * 字典类型
 	 */
 	private String dictType;
+
 	/**
 	 * 排序（升序）
 	 */
@@ -112,7 +132,6 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	 * hibernate验证表达式
 	 */
 	private String hibernateValidatorExprssion;
-
 
 	private String nameAndTitle;
 
@@ -138,7 +157,6 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 		return dictType == null ? "" : dictType;
 	}
 
-
 	/**
 	 * 获取列名和说明
 	 *
@@ -154,7 +172,9 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	 * @return
 	 */
 	public Integer getDataLength() {
-		String[] ss = StringUtil.split(StringUtil.subBetween(getJdbcType(), StringUtil.BRACKETS_START, StringUtil.BRACKETS_END), StringUtil.SPLIT_DEFAULT);
+		String[] ss = StringUtil.split(
+			StringUtil.subBetween(getJdbcType(), StringUtil.BRACKETS_START, StringUtil.BRACKETS_END),
+			StringUtil.SPLIT_DEFAULT);
 		if (ss != null && ss.length == 1) {
 			// CommonConstants.TYPE_STRING.equals(getJavaType())){
 			return Integer.parseInt(ss[0]);
@@ -169,8 +189,8 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	 */
 	@JSONField(serialize = false)
 	public String getSimpleJavaType() {
-		return StringUtil.indexOf(getJavaType(), StringUtil.C_DOT) != -1 ?
-			StringUtil.subAfter(getJavaType(), StringUtil.DOT, true) : getJavaType();
+		return StringUtil.indexOf(getJavaType(), StringUtil.C_DOT) != -1
+			? StringUtil.subAfter(getJavaType(), StringUtil.DOT, true) : getJavaType();
 	}
 
 	/**
@@ -181,7 +201,9 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	@JSONField(serialize = false)
 	public String getSimpleTsType() {
 		String javaSimpleType = getSimpleJavaType();
-		return StringUtil.isNotEmpty(javaSimpleType) && (javaSimpleType.indexOf("Integer") != -1 || javaSimpleType.indexOf("Double") != -1 || javaSimpleType.indexOf("Float") != -1) ? "number" : "string";
+		return StringUtil.isNotEmpty(javaSimpleType) && (javaSimpleType.indexOf("Integer") != -1
+			|| javaSimpleType.indexOf("Double") != -1 || javaSimpleType.indexOf("Float") != -1) ? "number"
+			: "string";
 	}
 
 	/**
@@ -232,7 +254,6 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 		return ss.length > 0 ? getSimpleJavaField() + StringUtil.upperFirst(ss[0][0]) : "";
 	}
 
-
 	/**
 	 * 获取Java字段，如果是对象，则获取对象.附加属性2 默认 name
 	 *
@@ -270,10 +291,13 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 		// 导入JSR303验证依赖包
 		if (!CommonConstants.STR_YES.equals(isPk()) && !CommonConstants.TYPE_STRING.equals(getJavaType())) {
 			list.add("javax.validation.constraints.NotNull(message=\"" + getTitle() + "不能为空\")");
-		} else if (!CommonConstants.STR_YES.equals(isNull()) && CommonConstants.TYPE_STRING.equals(getJavaType()) && !CommonConstants.ZERO.equals(getDataLength())) {
-			list.add("javax.validation.constraints.Size(min=1, max=" + getDataLength() + ", message=\"" + getTitle() + "长度必须介于 1 和 " + getDataLength() + " 之间\")");
+		} else if (!CommonConstants.STR_YES.equals(isNull()) && CommonConstants.TYPE_STRING.equals(getJavaType())
+			&& !CommonConstants.ZERO.equals(getDataLength())) {
+			list.add("javax.validation.constraints.Size(min=1, max=" + getDataLength() + ", message=\"" + getTitle()
+				+ "长度必须介于 1 和 " + getDataLength() + " 之间\")");
 		} else if (CommonConstants.TYPE_STRING.equals(getJavaType()) && !CommonConstants.ZERO.equals(getDataLength())) {
-			list.add("javax.validation.constraints.Size(min=0, max=" + getDataLength() + ", message=\"" + getTitle() + "长度必须介于 0 和 " + getDataLength() + " 之间\")");
+			list.add("javax.validation.constraints.Size(min=0, max=" + getDataLength() + ", message=\"" + getTitle()
+				+ "长度必须介于 0 和 " + getDataLength() + " 之间\")");
 		}
 		return list;
 	}
@@ -297,14 +321,22 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	 * @return
 	 */
 	public Boolean getIsNotBaseField() {
-		return !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_ID) && !StringUtil.equalsIgnoreCase(getName(), "id") &&
-			!StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_DESCRIPTION) && !StringUtil.equalsIgnoreCase(getName(), "description")
-			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_CREATED_BY) && !StringUtil.equalsIgnoreCase(getName(), "created_by") &&
-			!StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_CREATED_DATE) && !StringUtil.equalsIgnoreCase(getName(), "created_date")
-			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_LAST_MODIFIED_BY) && !StringUtil.equalsIgnoreCase(getName(), "last_modified_by") &&
-			!StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_LAST_MODIFIED_DATE) && !StringUtil.equalsIgnoreCase(getName(), "last_modified_date")
-			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_DEL_FLAG) && !StringUtil.equalsIgnoreCase(getName(), "del_flag") &&
-			!StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_VERSION) && !StringUtil.equalsIgnoreCase(getName(), "version");
+		return !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_ID)
+			&& !StringUtil.equalsIgnoreCase(getName(), "id")
+			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_DESCRIPTION)
+			&& !StringUtil.equalsIgnoreCase(getName(), "description")
+			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_CREATED_BY)
+			&& !StringUtil.equalsIgnoreCase(getName(), "created_by")
+			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_CREATED_DATE)
+			&& !StringUtil.equalsIgnoreCase(getName(), "created_date")
+			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_LAST_MODIFIED_BY)
+			&& !StringUtil.equalsIgnoreCase(getName(), "last_modified_by")
+			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_LAST_MODIFIED_DATE)
+			&& !StringUtil.equalsIgnoreCase(getName(), "last_modified_date")
+			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_DEL_FLAG)
+			&& !StringUtil.equalsIgnoreCase(getName(), "del_flag")
+			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_VERSION)
+			&& !StringUtil.equalsIgnoreCase(getName(), "version");
 	}
 
 	/**
@@ -313,10 +345,12 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	 * @return
 	 */
 	public Boolean getIsNotBaseTreeField() {
-		return !StringUtil.equalsIgnoreCase(getSimpleJavaField(), TreeDto.F_NAME) && !StringUtil.equalsIgnoreCase(getName(), "name") &&
-			!StringUtil.equalsIgnoreCase(getSimpleJavaField(), TreeDto.F_PARENT_ID) && !StringUtil.equalsIgnoreCase(getSimpleJavaField(), "parent")
-			&& !StringUtil.equalsIgnoreCase(getName(), "parent_id") &&
-			!StringUtil.equalsIgnoreCase(getSimpleJavaField(), TreeDto.F_PARENT_IDS)
+		return !StringUtil.equalsIgnoreCase(getSimpleJavaField(), TreeDto.F_NAME)
+			&& !StringUtil.equalsIgnoreCase(getName(), "name")
+			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), TreeDto.F_PARENT_ID)
+			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), "parent")
+			&& !StringUtil.equalsIgnoreCase(getName(), "parent_id")
+			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), TreeDto.F_PARENT_IDS)
 			&& !StringUtil.equalsIgnoreCase(getName(), "parent_ids")
 			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), TreeDto.F_SORT)
 			&& !StringUtil.equalsIgnoreCase(getName(), "sort")
@@ -351,6 +385,5 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 		}
 		return size;
 	}
-
 
 }

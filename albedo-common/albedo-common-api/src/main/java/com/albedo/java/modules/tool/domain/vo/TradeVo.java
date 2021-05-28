@@ -78,4 +78,5 @@ public class TradeVo {
 	 */
 	@ApiModelProperty(hidden = true)
 	private Date cancelTime;
+
 }

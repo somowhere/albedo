@@ -15,8 +15,11 @@ import java.util.concurrent.Future;
  * @date 2020/5/31 17:08
  */
 public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor, InitializingBean, DisposableBean {
+
 	static final String EXCEPTION_MESSAGE = "Caught async exception";
+
 	private final Logger log = LoggerFactory.getLogger(ExceptionHandlingAsyncTaskExecutor.class);
+
 	private final AsyncTaskExecutor executor;
 
 	public ExceptionHandlingAsyncTaskExecutor(AsyncTaskExecutor executor) {
@@ -86,4 +89,5 @@ public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor, In
 		}
 
 	}
+
 }

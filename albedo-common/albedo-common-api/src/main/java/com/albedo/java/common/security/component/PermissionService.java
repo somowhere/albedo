@@ -29,12 +29,12 @@ import java.util.Collection;
 
 /**
  * @author somewhere
- * @date 2019/2/1
- * 接口权限判断工具
+ * @date 2019/2/1 接口权限判断工具
  */
 @Slf4j
 @Component("pms")
 public class PermissionService {
+
 	/**
 	 * 判断接口是否有xxx:xxx权限
 	 *
@@ -50,9 +50,8 @@ public class PermissionService {
 			return false;
 		}
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-		return authorities.stream()
-			.map(GrantedAuthority::getAuthority)
-			.filter(StringUtils::hasText)
+		return authorities.stream().map(GrantedAuthority::getAuthority).filter(StringUtils::hasText)
 			.anyMatch(x -> PatternMatchUtils.simpleMatch(permission, x));
 	}
+
 }

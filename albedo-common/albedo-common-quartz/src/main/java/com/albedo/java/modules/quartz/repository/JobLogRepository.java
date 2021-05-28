@@ -3,7 +3,6 @@
  */
 package com.albedo.java.modules.quartz.repository;
 
-
 import com.albedo.java.common.persistence.repository.BaseRepository;
 import com.albedo.java.modules.quartz.domain.JobLog;
 import com.albedo.java.modules.quartz.domain.vo.JobLogExcelVo;
@@ -33,4 +32,5 @@ public interface JobLogRepository extends BaseRepository<JobLog> {
 	 * @return
 	 */
 	List<JobLogExcelVo> findExcelVo(@Param(Constants.WRAPPER) Wrapper wrapper);
+
 }

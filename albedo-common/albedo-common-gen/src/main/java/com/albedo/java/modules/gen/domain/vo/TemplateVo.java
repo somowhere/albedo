@@ -23,12 +23,18 @@ import java.util.List;
 public class TemplateVo {
 
 	public static final String F_NAME = "name";
+
 	private static final long serialVersionUID = 1L;
+
 	@Size(min = 1, max = 200)
 	private String name;
+
 	private String category;
+
 	private String filePath;
+
 	private String fileName;
+
 	private String content;
 
 	private boolean ignoreOutput;
@@ -50,7 +56,9 @@ public class TemplateVo {
 		if (categoryList == null) {
 			this.category = "";
 		} else {
-			this.category = StringUtil.SPLIT_DEFAULT + CollUtil.join(categoryList, StringUtil.SPLIT_DEFAULT) + StringUtil.SPLIT_DEFAULT;
+			this.category = StringUtil.SPLIT_DEFAULT + CollUtil.join(categoryList, StringUtil.SPLIT_DEFAULT)
+				+ StringUtil.SPLIT_DEFAULT;
 		}
 	}
+
 }

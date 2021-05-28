@@ -15,7 +15,9 @@ import java.util.List;
 public class GenCategory extends DictTemp {
 
 	public static String CATEGORY_REF = "category-ref:";
+
 	private List<String> template;
+
 	private List<String> childTableTemplate;
 
 	public GenCategory() {

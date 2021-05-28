@@ -45,4 +45,5 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleRepository, Use
 	public Boolean removeRoleByUserId(String userId) {
 		return repository.deleteByUserId(userId);
 	}
+
 }

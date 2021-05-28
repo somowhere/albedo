@@ -64,9 +64,10 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 @CacheConfig(cacheNames = CacheNameConstants.MENU_DETAILS)
-public class MenuServiceImpl extends
-	TreeServiceImpl<MenuRepository, Menu, MenuDto> implements MenuService {
+public class MenuServiceImpl extends TreeServiceImpl<MenuRepository, Menu, MenuDto> implements MenuService {
+
 	private final RoleRepository roleRepository;
+
 	private final RoleMenuRepository roleMenuRepository;
 
 	@Override
@@ -76,11 +77,8 @@ public class MenuServiceImpl extends
 		// 获取符合条件的菜单
 		Set<MenuVo> all = new HashSet<>();
 		roleRepository.findListByUserId(userId).forEach(role -> all.addAll(findListByRoleId(role.getId())));
-		List<MenuTree> menuTreeList = all.stream()
-			.filter(menuVo -> !MenuDto.TYPE_BUTTON.equals(menuVo.getType()))
-			.sorted(Comparator.comparingInt(MenuVo::getSort))
-			.map(MenuTree::new)
-			.collect(Collectors.toList());
+		List<MenuTree> menuTreeList = all.stream().filter(menuVo -> !MenuDto.TYPE_BUTTON.equals(menuVo.getType()))
+			.sorted(Comparator.comparingInt(MenuVo::getSort)).map(MenuTree::new).collect(Collectors.toList());
 		return buildMenus(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(menuTreeList)));
 	}
 
@@ -92,32 +90,31 @@ public class MenuServiceImpl extends
 	 */
 	public List<MenuTree> buildMenus(List<MenuTree> menuTreeList) {
 		menuTreeList.forEach(menu -> {
-				if (menu != null) {
-					List<MenuTree> menuChildList = menu.getChildren();
-					if (CollUtil.isNotEmpty(menuChildList)) {
-						menu.setAlwaysShow(true);
-						menu.setRedirect("noredirect");
-						menu.setChildren(buildMenus(menuChildList));
-						// 处理是一级菜单并且没有子菜单的情况
-					} else if (menu.getParentId() == TreeUtil.ROOT) {
-						MenuTree menuVo = new MenuTree();
-						menuVo.setMeta(menu.getMeta());
-						// 非外链
-						if (!CommonConstants.YES.equals(menu.getIframe())) {
-							menuVo.setPath("index");
-							menuVo.setName(menu.getName());
-							menuVo.setComponent(menu.getComponent());
-						} else {
-							menuVo.setPath(menu.getPath());
-						}
-						menu.setName(null);
-						menu.setMeta(null);
-						menu.setComponent("Layout");
-						menu.setChildren(Lists.newArrayList(menuVo));
+			if (menu != null) {
+				List<MenuTree> menuChildList = menu.getChildren();
+				if (CollUtil.isNotEmpty(menuChildList)) {
+					menu.setAlwaysShow(true);
+					menu.setRedirect("noredirect");
+					menu.setChildren(buildMenus(menuChildList));
+					// 处理是一级菜单并且没有子菜单的情况
+				} else if (menu.getParentId() == TreeUtil.ROOT) {
+					MenuTree menuVo = new MenuTree();
+					menuVo.setMeta(menu.getMeta());
+					// 非外链
+					if (!CommonConstants.YES.equals(menu.getIframe())) {
+						menuVo.setPath("index");
+						menuVo.setName(menu.getName());
+						menuVo.setComponent(menu.getComponent());
+					} else {
+						menuVo.setPath(menu.getPath());
 					}
+					menu.setName(null);
+					menu.setMeta(null);
+					menu.setComponent("Layout");
+					menu.setChildren(Lists.newArrayList(menuVo));
 				}
 			}
-		);
+		});
 		return menuTreeList;
 
 	}
@@ -167,7 +164,6 @@ public class MenuServiceImpl extends
 		return null;
 	}
 
-
 	private boolean contain(String id, List<MenuVo> resourceList) {
 		for (MenuVo resource : resourceList) {
 			if (resource.getId().equals(id)) {
@@ -182,33 +178,27 @@ public class MenuServiceImpl extends
 		ids.forEach(id -> {
 			SysCacheUtil.delMenuCaches(id);
 			// 查询父节点为当前节点的节点
-			List<Menu> menuList = this.list(Wrappers.<Menu>query()
-				.lambda().eq(Menu::getParentId, id));
+			List<Menu> menuList = this.list(Wrappers.<Menu>query().lambda().eq(Menu::getParentId, id));
 			if (CollUtil.isNotEmpty(menuList)) {
 				throw new BadRequestException("菜单含有下级不能删除");
 			}
 
-			roleMenuRepository
-				.delete(Wrappers.<RoleMenu>query()
-					.lambda().eq(RoleMenu::getMenuId, id));
-			//删除当前菜单及其子菜单
+			roleMenuRepository.delete(Wrappers.<RoleMenu>query().lambda().eq(RoleMenu::getMenuId, id));
+			// 删除当前菜单及其子菜单
 			this.removeById(id);
 		});
 	}
 
 	public Boolean exitMenuByPermission(MenuDto menuDto) {
-		return getOne(Wrappers.<Menu>query()
-			.ne(StringUtil.isNotEmpty(menuDto.getId()), MenuDto.F_ID, menuDto.getId())
+		return getOne(Wrappers.<Menu>query().ne(StringUtil.isNotEmpty(menuDto.getId()), MenuDto.F_ID, menuDto.getId())
 			.eq(MenuDto.F_PERMISSION, menuDto.getPermission())) != null;
 	}
-
 
 	@Override
 	public void saveOrUpdate(MenuDto menuDto) {
 		boolean add = StringUtil.isEmpty(menuDto.getId());
 		// permission before comparing with database
-		if (StringUtil.isNotEmpty(menuDto.getPermission()) &&
-			exitMenuByPermission(menuDto)) {
+		if (StringUtil.isNotEmpty(menuDto.getPermission()) && exitMenuByPermission(menuDto)) {
 			throw new EntityExistException(MenuDto.class, "permission", menuDto.getPermission());
 		}
 
@@ -223,33 +213,27 @@ public class MenuServiceImpl extends
 	@Override
 	public boolean saveByGenScheme(GenSchemeDto schemeDto) {
 
-		String moduleName = schemeDto.getSchemeName(),
-			parentMenuId = schemeDto.getParentMenuId(),
+		String moduleName = schemeDto.getSchemeName(), parentMenuId = schemeDto.getParentMenuId(),
 			url = schemeDto.getUrl();
 		String permission = StringUtil.toCamelCase(StringUtil.lowerFirst(url), CharUtil.DASHED)
 			.replace(StringUtil.SLASH, "_").substring(1),
 			permissionLike = permission.substring(0, permission.length() - 1);
-		List<Menu> currentMenuList = repository.selectList(Wrappers.<Menu>query()
-			.lambda().eq(Menu::getName, moduleName).or()
-			.likeLeft(Menu::getPermission, permissionLike)
-		);
+		List<Menu> currentMenuList = repository.selectList(Wrappers.<Menu>query().lambda().eq(Menu::getName, moduleName)
+			.or().likeLeft(Menu::getPermission, permissionLike));
 		for (Menu currentMenu : currentMenuList) {
 			if (currentMenu != null) {
-				List<String> idList = repository.selectList(Wrappers.<Menu>query()
-					.lambda()
-					.likeLeft(Menu::getPermission, permissionLike)
-					.or(i -> i.eq(Menu::getId, currentMenu.getId())
-						.or().eq(Menu::getParentId, currentMenu.getId()))
-				).stream().map(Menu::getId).collect(Collectors.toList());
-				roleMenuRepository
-					.delete(Wrappers.<RoleMenu>query()
-						.lambda().in(RoleMenu::getMenuId, idList));
+				List<String> idList = repository
+					.selectList(
+						Wrappers.<Menu>query().lambda().likeLeft(Menu::getPermission, permissionLike)
+							.or(i -> i.eq(Menu::getId, currentMenu.getId()).or().eq(Menu::getParentId,
+								currentMenu.getId())))
+					.stream().map(Menu::getId).collect(Collectors.toList());
+				roleMenuRepository.delete(Wrappers.<RoleMenu>query().lambda().in(RoleMenu::getMenuId, idList));
 				repository.deleteBatchIds(idList);
 			}
 		}
 		Menu parentMenu = repository.selectById(parentMenuId);
 		Assert.isTrue(parentMenu != null, StringUtil.toAppendStr("根据模块id[", parentMenuId, "无法查询到模块信息]"));
-
 
 		Menu module = new Menu();
 
@@ -287,7 +271,6 @@ public class MenuServiceImpl extends
 		save(moduleDelete);
 		return true;
 	}
-
 
 	@Override
 	public void sortUpdate(MenuSortDto menuSortDto) {

@@ -30,8 +30,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author somewhere
- * @date 2019/2/1
- * Spring 工具类
+ * @date 2019/2/1 Spring 工具类
  */
 @Slf4j
 @Service
@@ -39,6 +38,7 @@ import org.springframework.stereotype.Service;
 public class SpringContextHolder implements ApplicationContextAware, DisposableBean {
 
 	private static ApplicationContext applicationContext = null;
+
 	private static Environment environment;
 
 	public static Environment getEnvironment() {
@@ -55,7 +55,6 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
 	public static boolean isDevelopment(Environment environment) {
 		return ArrayUtil.contains(environment.getActiveProfiles(), CommonConstants.SPRING_PROFILE_DEVELOPMENT);
 	}
-
 
 	/**
 	 * 取得存储在静态变量中的ApplicationContext.

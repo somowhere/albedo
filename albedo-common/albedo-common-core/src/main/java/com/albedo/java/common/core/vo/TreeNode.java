@@ -30,9 +30,13 @@ import java.util.Objects;
  */
 @Data
 public class TreeNode<T> implements TreeNodeAware<T>, Serializable {
+
 	protected String id;
+
 	protected String parentId;
+
 	protected List<T> children = new ArrayList<T>();
+
 	private String label;
 
 	@Override
@@ -50,4 +54,5 @@ public class TreeNode<T> implements TreeNodeAware<T>, Serializable {
 	public int hashCode() {
 		return Objects.hash(id);
 	}
+
 }

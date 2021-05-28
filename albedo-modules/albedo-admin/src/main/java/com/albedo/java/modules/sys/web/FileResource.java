@@ -30,7 +30,6 @@ import java.util.HashMap;
 @Api(tags = "文件管理")
 public class FileResource {
 
-
 	/**
 	 * 通用下载请求
 	 *
@@ -38,7 +37,8 @@ public class FileResource {
 	 * @param delete   是否删除
 	 */
 	@GetMapping("/download")
-	public void fileDownload(String fileName, Boolean delete, HttpServletResponse response, HttpServletRequest request) {
+	public void fileDownload(String fileName, Boolean delete, HttpServletResponse response,
+							 HttpServletRequest request) {
 		try {
 			if (!FileUtil.isValidFilename(fileName)) {
 				throw new Exception(String.format("文件名称({})非法，不允许下载。 ", fileName));
@@ -81,4 +81,5 @@ public class FileResource {
 		String contextPath = request.getServletContext().getContextPath();
 		return url.delete(url.length() - request.getRequestURI().length(), url.length()).append(contextPath).toString();
 	}
+
 }

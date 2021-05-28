@@ -46,11 +46,9 @@ import java.util.Map;
 @Slf4j
 public class ClassUtil extends org.springframework.util.ClassUtils {
 
-
 	private static final String SETTER_PREFIX = "set";
 
 	private static final String GETTER_PREFIX = "get";
-
 
 	private final ParameterNameDiscoverer PARAMETERNAMEDISCOVERER = new DefaultParameterNameDiscoverer();
 
@@ -65,7 +63,8 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 	 * 改变private/protected的成员变量为public，尽量不调用实际改动的语句，避免JDK的SecurityManager抱怨。
 	 */
 	public static void makeAccessible(Field field) {
-		boolean flag = (!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass().getModifiers())
+		boolean flag = (!Modifier.isPublic(field.getModifiers())
+			|| !Modifier.isPublic(field.getDeclaringClass().getModifiers())
 			|| Modifier.isFinal(field.getModifiers())) && !field.isAccessible();
 		if (flag) {
 			field.setAccessible(true);
@@ -78,8 +77,7 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 	public static Field getAccessibleField(final Class<?> cls, final String fieldName) {
 		Assert.notNull(cls, "cls can't be null");
 		Assert.notEmpty(fieldName, "fieldName can't be blank");
-		for (Class<?> superClass = cls; superClass != Object.class; superClass = superClass
-			.getSuperclass()) {
+		for (Class<?> superClass = cls; superClass != Object.class; superClass = superClass.getSuperclass()) {
 			try {
 				Field field = superClass.getDeclaredField(fieldName);
 				makeAccessible(field);
@@ -162,11 +160,9 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 		String[] names = StringUtil.split(propertyName, StringUtil.DOT);
 		for (int i = 0; i < names.length; i++) {
 			if (i < names.length - 1) {
-				object = ReflectUtil.invoke(object, GETTER_PREFIX + StringUtil.upperFirst(names[i]),
-					value);
+				object = ReflectUtil.invoke(object, GETTER_PREFIX + StringUtil.upperFirst(names[i]), value);
 			} else {
-				ReflectUtil.invoke(object, SETTER_PREFIX + StringUtil.upperFirst(names[i]),
-					value);
+				ReflectUtil.invoke(object, SETTER_PREFIX + StringUtil.upperFirst(names[i]), value);
 			}
 		}
 	}
@@ -206,9 +202,7 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 	 * @param <A>
 	 * @return
 	 */
-	public <A extends Annotation> A findAnnotation(Class<?> clazz,
-												   String pName,
-												   Class<A> annotationClass) {
+	public <A extends Annotation> A findAnnotation(Class<?> clazz, String pName, Class<A> annotationClass) {
 		Class<?> temp = clazz;
 
 		A an = null;
@@ -219,8 +213,7 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 			}
 			try {
 				if (an == null) {
-					an = temp.getDeclaredMethod(StringUtil.genGetter(pName))
-						.getAnnotation(annotationClass);
+					an = temp.getDeclaredMethod(StringUtil.genGetter(pName)).getAnnotation(annotationClass);
 				}
 			} catch (Exception e) {
 			}
@@ -244,10 +237,12 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 	 */
 	public <A extends Annotation> A getAnnotation(Method method, Class<A> annotationType) {
 		Class<?> targetClass = method.getDeclaringClass();
-		// The method may be on an interface, but we need attributes from the target class.
+		// The method may be on an interface, but we need attributes from the target
+		// class.
 		// If the target class is null, the method will be unchanged.
 		Method specificMethod = ClassUtil.getMostSpecificMethod(method, targetClass);
-		// If we are dealing with method with generic parameters, find the original method.
+		// If we are dealing with method with generic parameters, find the original
+		// method.
 		specificMethod = BridgeMethodResolver.findBridgedMethod(specificMethod);
 		// 先找方法，再找方法上的类
 		A annotation = AnnotatedElementUtils.findMergedAnnotation(specificMethod, annotationType);
@@ -276,6 +271,5 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 		Class<?> beanType = handlerMethod.getBeanType();
 		return AnnotatedElementUtils.findMergedAnnotation(beanType, annotationType);
 	}
-
 
 }

@@ -21,6 +21,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_user_online")
 public class UserOnline extends BaseEntity<UserOnline> {
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -63,6 +64,7 @@ public class UserOnline extends BaseEntity<UserOnline> {
 	 * 操作系统
 	 */
 	private String userAgent;
+
 	/**
 	 * 浏览器类型
 	 */

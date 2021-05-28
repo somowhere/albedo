@@ -64,10 +64,12 @@ import java.util.stream.Collectors;
 @Service
 @CacheConfig(cacheNames = CacheNameConstants.DEPT_DETAILS)
 @AllArgsConstructor
-public class DeptServiceImpl extends
-	TreeServiceImpl<DeptRepository, Dept, DeptDto> implements DeptService {
+public class DeptServiceImpl extends TreeServiceImpl<DeptRepository, Dept, DeptDto> implements DeptService {
+
 	private final DeptRelationService deptRelationService;
+
 	private final UserRepository userRepository;
+
 	private final RoleRepository roleRepository;
 
 	/**
@@ -83,7 +85,7 @@ public class DeptServiceImpl extends
 		if (add) {
 			deptRelationService.saveDeptRelation(deptDto);
 		} else {
-			//更新部门关系
+			// 更新部门关系
 			DeptRelation relation = new DeptRelation();
 			relation.setAncestor(deptDto.getParentId());
 			relation.setDescendant(deptDto.getId());
@@ -91,7 +93,6 @@ public class DeptServiceImpl extends
 			SysCacheUtil.delDeptCaches(deptDto.getId());
 		}
 	}
-
 
 	/**
 	 * 删除部门
@@ -107,32 +108,28 @@ public class DeptServiceImpl extends
 		});
 		ids.forEach(id -> {
 			SysCacheUtil.delDeptCaches(id);
-			//级联删除部门
+			// 级联删除部门
 			Set<String> idList = deptRelationService
-				.list(Wrappers.<DeptRelation>query().lambda()
-					.eq(DeptRelation::getAncestor, id))
-				.stream()
-				.map(DeptRelation::getDescendant)
-				.collect(Collectors.toSet());
+				.list(Wrappers.<DeptRelation>query().lambda().eq(DeptRelation::getAncestor, id)).stream()
+				.map(DeptRelation::getDescendant).collect(Collectors.toSet());
 
 			if (CollUtil.isNotEmpty(idList)) {
 				super.removeByIds(idList);
 			}
 
-			//删除部门级联关系
+			// 删除部门级联关系
 			deptRelationService.removeDeptRelationById(id);
 		});
 		return Boolean.TRUE;
 	}
-
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void lockOrUnLock(Set<String> ids) {
 		repository.selectBatchIds(ids).forEach(dept -> {
 			checkDept(dept.getId(), dept.getName());
-			dept.setAvailable(CommonConstants.YES.equals(dept.getAvailable()) ?
-				CommonConstants.NO : CommonConstants.YES);
+			dept.setAvailable(
+				CommonConstants.YES.equals(dept.getAvailable()) ? CommonConstants.NO : CommonConstants.YES);
 			repository.updateById(dept);
 			SysCacheUtil.delDeptCaches(dept.getId());
 		});
@@ -146,8 +143,8 @@ public class DeptServiceImpl extends
 	private void checkDept(String deptId, String deptName) {
 		List<User> userList = userRepository.selectList(Wrappers.<User>lambdaQuery().eq(User::getDeptId, deptId));
 		if (CollUtil.isNotEmpty(userList)) {
-			throw new BadRequestException("操作失败！用户：" + CollUtil.convertToString(userList, User.F_USERNAME, StringUtil.COMMA)
-				+ "所属要操作的部门：" + deptName);
+			throw new BadRequestException("操作失败！用户："
+				+ CollUtil.convertToString(userList, User.F_USERNAME, StringUtil.COMMA) + "所属要操作的部门：" + deptName);
 		}
 		List<Role> roleList = roleRepository.findListByDeptId(deptId);
 		if (CollUtil.isNotEmpty(roleList)) {
@@ -161,18 +158,15 @@ public class DeptServiceImpl extends
 	@Cacheable(key = "'findDescendantIdList:' + #p0")
 	public List<String> findDescendantIdList(String deptId) {
 		List<String> descendantIdList = deptRelationService
-			.list(Wrappers.<DeptRelation>query().lambda()
-				.eq(DeptRelation::getAncestor, deptId))
-			.stream().map(DeptRelation::getDescendant)
-			.collect(Collectors.toList());
+			.list(Wrappers.<DeptRelation>query().lambda().eq(DeptRelation::getAncestor, deptId)).stream()
+			.map(DeptRelation::getDescendant).collect(Collectors.toList());
 		return descendantIdList;
 	}
 
 	@Override
 	@Cacheable(key = "'findTreeNode:' + #p0")
 	public <Q> List<TreeNode> findTreeNode(Q queryCriteria) {
-		return super.getNodeTree(repository.selectList(QueryWrapperUtil.
-			<Dept>getWrapper(queryCriteria).lambda()
+		return super.getNodeTree(repository.selectList(QueryWrapperUtil.<Dept>getWrapper(queryCriteria).lambda()
 			.eq(Dept::getAvailable, CommonConstants.STR_YES).orderByAsc(Dept::getSort)));
 	}
 
@@ -181,7 +175,7 @@ public class DeptServiceImpl extends
 	public IPage<DeptVo> findTreeList(DeptQueryCriteria deptQueryCriteria) {
 		List<DeptVo> deptVoList = repository.findVoList(QueryWrapperUtil.<Dept>getWrapper(deptQueryCriteria)
 			.eq(TreeEntity.F_SQL_DEL_FLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT));
-		return new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(deptVoList)),
-			deptVoList.size());
+		return new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(deptVoList)), deptVoList.size());
 	}
+
 }

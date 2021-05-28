@@ -20,6 +20,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JobLogExcelVo implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	/**

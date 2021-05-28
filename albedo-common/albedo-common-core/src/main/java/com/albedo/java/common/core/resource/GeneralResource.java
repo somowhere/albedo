@@ -24,7 +24,6 @@ public class GeneralResource {
 	 */
 	protected Logger log = LoggerFactory.getLogger(getClass());
 
-
 	/**
 	 * 初始化数据绑定 1. 将所有传递进来的String进行HTML编码，防止XSS攻击 2. 将字段中Date类型转换为String类型
 	 */
@@ -57,4 +56,5 @@ public class GeneralResource {
 			}
 		});
 	}
+
 }

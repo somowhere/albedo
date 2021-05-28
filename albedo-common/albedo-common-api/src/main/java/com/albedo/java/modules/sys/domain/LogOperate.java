@@ -42,93 +42,112 @@ import java.time.LocalDateTime;
 public class LogOperate extends BaseEntity<LogOperate> {
 
 	private static final long serialVersionUID = 1L;
+
 	protected String createdBy;
+
 	/**
 	 * 创建时间
 	 */
 	@ExcelField(title = "创建时间")
 	protected LocalDateTime createdDate;
+
 	/*** 备注 */
 	@ExcelField(title = "描述")
 	protected String description;
+
 	/**
 	 * 编号
 	 */
 	@TableId(value = "id", type = IdType.AUTO)
 	private Long id;
+
 	/**
 	 * 用户ID
 	 */
 	@NotBlank(message = "用户名不能为空")
 	@ExcelField(title = "用户名")
 	private String username;
+
 	/**
 	 * 日志标题
 	 */
 	@NotBlank(message = "日志标题不能为空")
 	@ExcelField(title = "日志标题")
 	private String title;
+
 	/**
 	 * 日志类型
 	 */
 	@ExcelField(title = "日志类型")
 	private String logType;
+
 	/**
 	 * 操作类别（0其它 1后台用户 2手机端用户）
 	 */
 	@ExcelField(title = "操作类别", dictType = DictNameConstants.SYS_OPERATOR_TYPE)
 	@DictType(DictNameConstants.SYS_OPERATOR_TYPE)
 	private String operatorType;
+
 	/**
 	 * 操作IP地址
 	 */
 	@ExcelField(title = "操作IP")
 	private String ipAddress;
+
 	/**
 	 * 登录地址
 	 */
 	@ExcelField(title = "IP位置")
 	private String ipLocation;
+
 	/**
 	 * 用户代理
 	 */
 	@ExcelField(title = "用户代理")
 	private String userAgent;
+
 	/**
 	 * 浏览器类型
 	 */
 	@ExcelField(title = "浏览器类型")
 	private String browser;
+
 	/**
 	 * 操作系统
 	 */
 	@ExcelField(title = "操作系统")
 	private String os;
+
 	/**
 	 * 请求URI
 	 */
 	@ExcelField(title = "请求URI")
 	private String requestUri;
+
 	/**
 	 * 操作方式
 	 */
 	@ExcelField(title = "操作方式")
 	private String method;
+
 	/**
 	 * 操作提交的数据
 	 */
 	@ExcelField(title = "操作提交的数据")
 	private String params;
+
 	/**
 	 * 执行时间
 	 */
 	@ExcelField(title = "执行时间")
 	private Long time;
-	/** 异常详细  */
+
+	/** 异常详细 */
 	/**
 	 * 异常信息
 	 */
 	private String exception;
+
 	/**
 	 * 服务ID
 	 */

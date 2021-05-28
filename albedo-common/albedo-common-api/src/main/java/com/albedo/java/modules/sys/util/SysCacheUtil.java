@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 public class SysCacheUtil {
 
 	public static UserRepository userRepository = SpringContextHolder.getBean(UserRepository.class);
+
 	public static RoleRepository roleRepository = SpringContextHolder.getBean(RoleRepository.class);
 
 	/**
@@ -36,7 +37,6 @@ public class SysCacheUtil {
 		RedisUtil.delete(CacheNameConstants.USER_DETAILS + "::findDtoById:" + userId);
 	}
 
-
 	/**
 	 * 清理用户缓存
 	 *
@@ -48,7 +48,6 @@ public class SysCacheUtil {
 		RedisUtil.delete(CacheNameConstants.ROLE_DETAILS + "::findListByUserId:" + userId);
 		RedisUtil.delete(CacheNameConstants.MENU_DETAILS + "::findTreeByUserId:" + userId);
 	}
-
 
 	/**
 	 * 清理角色缓存
@@ -70,9 +69,11 @@ public class SysCacheUtil {
 	 * @param menuId /
 	 */
 	public static void delMenuCaches(String menuId) {
-		Set<String> roleIds = roleRepository.findListByMenuId(menuId).stream().map(Role::getId).collect(Collectors.toSet());
+		Set<String> roleIds = roleRepository.findListByMenuId(menuId).stream().map(Role::getId)
+			.collect(Collectors.toSet());
 		RedisUtil.deleteLike(CacheNameConstants.MENU_DETAILS + "::findListByRoleId:", roleIds);
-		Set<String> userIds = userRepository.findListByMenuId(menuId).stream().map(User::getId).collect(Collectors.toSet());
+		Set<String> userIds = userRepository.findListByMenuId(menuId).stream().map(User::getId)
+			.collect(Collectors.toSet());
 		RedisUtil.deleteLike(CacheNameConstants.MENU_DETAILS + "::findTreeByUserId:", userIds);
 	}
 
@@ -84,12 +85,12 @@ public class SysCacheUtil {
 	public static void delDeptCaches(String deptId) {
 		RedisUtil.deleteLike(CacheNameConstants.DEPT_DETAILS + "::findTreeNode*");
 		RedisUtil.delete(CacheNameConstants.DEPT_DETAILS + "::findDescendantIdList:" + deptId);
-		Set<String> roleIds = roleRepository.findListByDeptId(deptId).stream().map(Role::getId).collect(Collectors.toSet());
+		Set<String> roleIds = roleRepository.findListByDeptId(deptId).stream().map(Role::getId)
+			.collect(Collectors.toSet());
 		RedisUtil.deleteLike(CacheNameConstants.ROLE_DETAILS + "::findDeptIdsByRoleId:", roleIds);
 		userRepository.selectList(Wrappers.<User>lambdaQuery().eq(User::getDeptId, deptId)).forEach(user -> {
 			delUserCaches(user.getId(), user.getUsername());
 		});
 	}
-
 
 }

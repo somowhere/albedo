@@ -40,5 +40,5 @@ public class AjaxAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
 		AsyncUtil.recordLogLogin(logOperate);
 		WebUtil.renderJson(response, Result.buildOk("登录成功"));
 	}
-}
 
+}

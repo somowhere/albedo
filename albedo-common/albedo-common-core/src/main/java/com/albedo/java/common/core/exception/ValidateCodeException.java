@@ -23,9 +23,11 @@ import org.springframework.security.core.AuthenticationException;
  * @date 2018年06月22日16:22:15
  */
 public class ValidateCodeException extends AuthenticationException {
+
 	private static final long serialVersionUID = -7285211528095468156L;
 
 	public ValidateCodeException(String msg) {
 		super(msg);
 	}
+
 }

@@ -37,26 +37,38 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 public class DeptResourceIntTest {
 
-
 	private static final String DEFAULT_ANOTHER_NAME = "ANOTHER_NAME";
+
 	private static final String DEFAULT_NAME = "NAME1";
+
 	private static final String UPDATED_NAME = "NAME2";
+
 	private static final String DEFAULT_ANOTHER_PARENT_ID = "ANOTHER_PARENT_ID";
-	//    private static final String DEFAULT_PARENT_ID = "PARENT_ID1";
+
+	// private static final String DEFAULT_PARENT_ID = "PARENT_ID1";
 	private static final String UPDATED_PARENT_ID = "PARENT_ID2";
+
 	private static final Integer DEFAULT_SORT = 10;
+
 	private static final Integer UPDATED_SORT = 20;
+
 	private static final String DEFAULT_DESCRIPTION = "DESCRIPTION1";
+
 	private static final String UPDATED_DESCRIPTION = "DESCRIPTION2";
+
 	private String DEFAULT_API_URL;
+
 	@Autowired
 	private DeptService deptService;
 
 	private MockMvc restDeptMockMvc;
+
 	@Autowired
 	private MappingJackson2HttpMessageConverter jacksonMessageConverter;
+
 	@Autowired
 	private GlobalExceptionHandler globalExceptionHandler;
+
 	@Autowired
 	private ApplicationProperties applicationProperties;
 
@@ -71,17 +83,15 @@ public class DeptResourceIntTest {
 		final DeptResource deptResource = new DeptResource(deptService);
 		this.restDeptMockMvc = MockMvcBuilders.standaloneSetup(deptResource)
 			.addPlaceholderValue(TestUtil.ADMIN_PATH, applicationProperties.getAdminPath())
-			.setControllerAdvice(globalExceptionHandler)
-			.setConversionService(createFormattingConversionService())
-			.setMessageConverters(jacksonMessageConverter)
-			.build();
+			.setControllerAdvice(globalExceptionHandler).setConversionService(createFormattingConversionService())
+			.setMessageConverters(jacksonMessageConverter).build();
 	}
 
 	/**
 	 * Create a Dept.
 	 * <p>
-	 * This is a static method, as tests for other entities might also need it,
-	 * if they test an domain which has a required relationship to the Dept domain.
+	 * This is a static method, as tests for other entities might also need it, if they
+	 * test an domain which has a required relationship to the Dept domain.
 	 */
 	public DeptDto createEntity() {
 		DeptDto dept = new DeptDto();
@@ -111,16 +121,13 @@ public class DeptResourceIntTest {
 		List<Dept> databaseSizeBeforeCreate = deptService.list();
 
 		// Create the Dept
-		restDeptMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(dept)))
-			.andExpect(status().isOk());
+		restDeptMockMvc.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+			.content(TestUtil.convertObjectToJsonBytes(dept))).andExpect(status().isOk());
 
 		// Validate the Dept in the database
 		List<Dept> deptList = deptService.list();
 		assertThat(deptList).hasSize(databaseSizeBeforeCreate.size() + 1);
-		Dept testDept = deptService.getOne(Wrappers.<Dept>query().lambda()
-			.eq(Dept::getName, dept.getName()));
+		Dept testDept = deptService.getOne(Wrappers.<Dept>query().lambda().eq(Dept::getName, dept.getName()));
 		assertThat(testDept.getName()).isEqualTo(DEFAULT_NAME);
 		assertThat(testDept.getSort()).isEqualTo(DEFAULT_SORT);
 		assertThat(testDept.getParentId()).isEqualTo(anotherDept.getId());
@@ -137,8 +144,7 @@ public class DeptResourceIntTest {
 		deptService.saveOrUpdate(dept);
 
 		// Get the dept
-		restDeptMockMvc.perform(get(DEFAULT_API_URL + "{id}", dept.getId()))
-			.andExpect(status().isOk())
+		restDeptMockMvc.perform(get(DEFAULT_API_URL + "{id}", dept.getId())).andExpect(status().isOk())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.name").value(DEFAULT_NAME))
 			.andExpect(jsonPath("$.data.parentId").value(anotherDept.getId()))
@@ -148,8 +154,7 @@ public class DeptResourceIntTest {
 	@Test
 	@Transactional(rollbackFor = Exception.class)
 	public void getNonExistingDept() throws Exception {
-		restDeptMockMvc.perform(get("/sys/dept/ddd/unknown"))
-			.andExpect(status().isNotFound());
+		restDeptMockMvc.perform(get("/sys/dept/ddd/unknown")).andExpect(status().isNotFound());
 	}
 
 	@Test
@@ -162,7 +167,6 @@ public class DeptResourceIntTest {
 		// Update the dept
 		Dept updatedDept = deptService.getById(dept.getId());
 
-
 		DeptDto managedDeptVM = new DeptDto();
 		managedDeptVM.setName(UPDATED_NAME);
 		managedDeptVM.setSort(UPDATED_SORT);
@@ -170,11 +174,10 @@ public class DeptResourceIntTest {
 		managedDeptVM.setDescription(UPDATED_DESCRIPTION);
 
 		managedDeptVM.setId(updatedDept.getId());
-		restDeptMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(managedDeptVM)))
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.code").value(CommonConstants.SUCCESS));
+		restDeptMockMvc
+			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(managedDeptVM)))
+			.andExpect(status().isOk()).andExpect(jsonPath("$.code").value(CommonConstants.SUCCESS));
 
 		// Validate the Dept in the database
 		List<Dept> deptList = deptService.list();
@@ -183,12 +186,11 @@ public class DeptResourceIntTest {
 		assertThat(testDept.getName()).isEqualTo(UPDATED_NAME);
 		assertThat(testDept.getSort()).isEqualTo(UPDATED_SORT);
 		assertThat(testDept.getParentId()).isEqualTo(UPDATED_PARENT_ID);
-//		assertThat(testDept.getParentIds()).contains(UPDATED_PARENT_ID);
+		// assertThat(testDept.getParentIds()).contains(UPDATED_PARENT_ID);
 		assertThat(testDept.isLeaf()).isEqualTo(true);
 		assertThat(testDept.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
 		assertThat(testDept.getDelFlag()).isEqualTo(Dept.FLAG_NORMAL);
 	}
-
 
 	@Test
 	@Transactional(rollbackFor = Exception.class)
@@ -198,8 +200,7 @@ public class DeptResourceIntTest {
 		long databaseSizeBeforeDelete = deptService.count();
 
 		// Delete the dept
-		restDeptMockMvc.perform(delete(DEFAULT_API_URL + "{id}", dept.getId())
-			.accept(TestUtil.APPLICATION_JSON_UTF8))
+		restDeptMockMvc.perform(delete(DEFAULT_API_URL + "{id}", dept.getId()).accept(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(status().isOk());
 
 		// Validate the database is empty

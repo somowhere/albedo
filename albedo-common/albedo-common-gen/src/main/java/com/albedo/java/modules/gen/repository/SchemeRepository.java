@@ -25,4 +25,5 @@ public interface SchemeRepository extends BaseRepository<Scheme> {
 	 * @return list
 	 */
 	IPage<List<SchemeVo>> getSchemeVoPage(IPage page, @Param(Constants.WRAPPER) Wrapper wrapper);
+
 }

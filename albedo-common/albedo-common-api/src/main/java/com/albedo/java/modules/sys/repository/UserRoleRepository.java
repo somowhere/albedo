@@ -16,7 +16,6 @@
 
 package com.albedo.java.modules.sys.repository;
 
-
 import com.albedo.java.common.persistence.repository.BaseRepository;
 import com.albedo.java.modules.sys.domain.UserRole;
 import org.apache.ibatis.annotations.Param;
@@ -30,6 +29,7 @@ import org.apache.ibatis.annotations.Param;
  * @since 2019/2/1
  */
 public interface UserRoleRepository extends BaseRepository<UserRole> {
+
 	/**
 	 * 根据用户Id删除该用户的角色关系
 	 *
@@ -41,10 +41,10 @@ public interface UserRoleRepository extends BaseRepository<UserRole> {
 	boolean deleteByUserId(@Param("userId") String userId);
 	/**
 	 * 根据用户Id删除该用户的角色关系
-	 *
 	 * @param userId 用户ID
 	 * @return boolean
 	 * @author somewhere
 	 * @date 2017年12月7日 16:31:38
 	 */
+
 }

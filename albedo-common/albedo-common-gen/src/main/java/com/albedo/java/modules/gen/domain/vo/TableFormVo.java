@@ -18,8 +18,10 @@ import java.io.Serializable;
 public class TableFormVo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
 	/*** 编码 */
 	private String id;
+
 	// 名称
 	/*** 编码 */
 	private String name;

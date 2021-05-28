@@ -37,4 +37,5 @@ public class JobLogQueryCriteria implements Serializable {
 
 	@Query(propName = "created_date", operator = Query.Operator.between)
 	private List<Date> createdDate;
+
 }

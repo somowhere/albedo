@@ -25,16 +25,16 @@ import java.util.Objects;
 
 /**
  * @author somewhere
- * @date 2019/2/1
- * 角色Dto
+ * @date 2019/2/1 角色Dto
  */
 @Data
 public class RoleComboVo implements Serializable {
 
 	private String id;
-	private Integer level;
-	private String name;
 
+	private Integer level;
+
+	private String name;
 
 	public RoleComboVo(Role role) {
 		this.id = role.getId();
@@ -62,4 +62,5 @@ public class RoleComboVo implements Serializable {
 	public int hashCode() {
 		return Objects.hashCode(getId());
 	}
+
 }

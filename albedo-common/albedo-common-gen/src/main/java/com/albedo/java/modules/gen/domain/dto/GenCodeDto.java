@@ -20,6 +20,7 @@ import java.io.Serializable;
 public class GenCodeDto implements Serializable {
 
 	private String id;
+
 	/**
 	 * 是否替换现有文件 true：替换文件 ；false：不替换；
 	 */

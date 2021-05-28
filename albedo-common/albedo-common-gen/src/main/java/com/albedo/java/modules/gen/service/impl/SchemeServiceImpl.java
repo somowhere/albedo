@@ -43,10 +43,13 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class SchemeServiceImpl extends DataServiceImpl<SchemeRepository, Scheme, SchemeDto, String> implements SchemeService {
+public class SchemeServiceImpl extends DataServiceImpl<SchemeRepository, Scheme, SchemeDto, String>
+	implements SchemeService {
 
 	private final TableRepository tableRepository;
+
 	private final TableService tableService;
+
 	private final TableColumnService tableColumnService;
 
 	@Override
@@ -54,17 +57,15 @@ public class SchemeServiceImpl extends DataServiceImpl<SchemeRepository, Scheme,
 		return super.list(Wrappers.<Scheme>query().ne(Table.F_ID, id == null ? "-1" : id));
 	}
 
-
 	@Override
 	public String generateCode(SchemeDto schemeDto) {
 		StringBuilder result = new StringBuilder();
 
 		// 查询主表及字段列
 		TableDto tableDto = tableService.getOneDto(schemeDto.getTableId());
-		tableDto.setColumnList(tableColumnService.list(Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID,
-			tableDto.getId()))
-			.stream().map(item -> tableColumnService.copyBeanToDto(item)).collect(Collectors.toList())
-		);
+		tableDto.setColumnList(tableColumnService
+			.list(Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID, tableDto.getId())).stream()
+			.map(item -> tableColumnService.copyBeanToDto(item)).collect(Collectors.toList()));
 		Collections.sort(tableDto.getColumnList());
 
 		// 获取所有代码模板
@@ -76,8 +77,9 @@ public class SchemeServiceImpl extends DataServiceImpl<SchemeRepository, Scheme,
 
 		// 如果有子表模板，则需要获取子表列表
 		if (childTableTemplateList.size() > 0) {
-			tableDto.setChildList(tableRepository.selectList(Wrappers.<Table>lambdaQuery().eq(Table::getParentTable, tableDto.getId()))
-				.stream().map(item -> tableService.copyBeanToDto(item)).collect(Collectors.toList()));
+			tableDto.setChildList(tableRepository
+				.selectList(Wrappers.<Table>lambdaQuery().eq(Table::getParentTable, tableDto.getId())).stream()
+				.map(item -> tableService.copyBeanToDto(item)).collect(Collectors.toList()));
 		}
 
 		// 生成子表模板代码
@@ -146,17 +148,15 @@ public class SchemeServiceImpl extends DataServiceImpl<SchemeRepository, Scheme,
 		return userVosPage;
 	}
 
-
 	@Override
 	public Map<String, Object> previewCode(String id, String username) {
 		Map<String, Object> result = Maps.newHashMap();
 		SchemeDto schemeDto = super.getOneDto(id);
 		// 查询主表及字段列
 		TableDto tableDto = tableService.getOneDto(schemeDto.getTableId());
-		tableDto.setColumnList(tableColumnService.list(Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID,
-			tableDto.getId()))
-			.stream().map(item -> tableColumnService.copyBeanToDto(item)).collect(Collectors.toList())
-		);
+		tableDto.setColumnList(tableColumnService
+			.list(Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID, tableDto.getId())).stream()
+			.map(item -> tableColumnService.copyBeanToDto(item)).collect(Collectors.toList()));
 		Collections.sort(tableDto.getColumnList());
 
 		// 获取所有代码模板
@@ -168,8 +168,9 @@ public class SchemeServiceImpl extends DataServiceImpl<SchemeRepository, Scheme,
 
 		// 如果有子表模板，则需要获取子表列表
 		if (childTableTemplateList.size() > 0) {
-			tableDto.setChildList(tableRepository.selectList(Wrappers.<Table>lambdaQuery().eq(Table::getParentTable, tableDto.getId()))
-				.stream().map(item -> tableService.copyBeanToDto(item)).collect(Collectors.toList()));
+			tableDto.setChildList(tableRepository
+				.selectList(Wrappers.<Table>lambdaQuery().eq(Table::getParentTable, tableDto.getId())).stream()
+				.map(item -> tableService.copyBeanToDto(item)).collect(Collectors.toList()));
 		}
 
 		// 生成子表模板代码
@@ -196,6 +197,6 @@ public class SchemeServiceImpl extends DataServiceImpl<SchemeRepository, Scheme,
 		}
 		return result;
 
-
 	}
+
 }

@@ -41,8 +41,7 @@ import java.util.Map;
 
 /**
  * @author somewhere
- * @date 2019/2/1
- * Redis 配置类
+ * @date 2019/2/1 Redis 配置类
  */
 @EnableCaching
 @Configuration
@@ -50,6 +49,7 @@ import java.util.Map;
 @Slf4j
 @AutoConfigureBefore(RedisAutoConfiguration.class)
 public class RedisConfig extends CachingConfigurerSupport {
+
 	private final RedisConnectionFactory factory;
 
 	@Bean
@@ -63,7 +63,8 @@ public class RedisConfig extends CachingConfigurerSupport {
 	}
 
 	@Bean
-	public RedisTemplate<String, Object> redisTemplate(JdkSerializationRedisSerializer jdkSerializationRedisSerializer, StringRedisSerializer stringRedisSerializer) {
+	public RedisTemplate<String, Object> redisTemplate(JdkSerializationRedisSerializer jdkSerializationRedisSerializer,
+													   StringRedisSerializer stringRedisSerializer) {
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setKeySerializer(stringRedisSerializer);
 		redisTemplate.setHashKeySerializer(stringRedisSerializer);

@@ -78,10 +78,15 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @CacheConfig(cacheNames = CacheNameConstants.USER_DETAILS)
 public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserDto, String> implements UserService {
+
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 	private final MenuService menuService;
+
 	private final RoleService roleService;
+
 	private final DeptService deptService;
+
 	private final UserRoleService userRoleService;
 
 	/**
@@ -91,9 +96,8 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	 * @return boolean
 	 */
 	private static boolean checkPasswordLength(String password) {
-		return !StringUtil.isEmpty(password) &&
-			password.length() >= UserDto.PASSWORD_MIN_LENGTH &&
-			password.length() <= UserDto.PASSWORD_MAX_LENGTH;
+		return !StringUtil.isEmpty(password) && password.length() >= UserDto.PASSWORD_MIN_LENGTH
+			&& password.length() <= UserDto.PASSWORD_MAX_LENGTH;
 	}
 
 	@Override
@@ -142,18 +146,14 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 		UserInfo userInfo = new UserInfo();
 		userInfo.setUser(userVo);
 		List<Role> roles = roleService.findListByUserId(userVo.getId());
-		//设置角色列表  （ID）
-		List<String> roleIds = roles.stream()
-			.map(Role::getId)
-			.collect(Collectors.toList());
+		// 设置角色列表 （ID）
+		List<String> roleIds = roles.stream().map(Role::getId).collect(Collectors.toList());
 		userInfo.setRoles(ArrayUtil.toArray(roleIds, String.class));
-		//设置权限列表（menu.permission）
+		// 设置权限列表（menu.permission）
 		Set<String> permissions = new HashSet<>();
 		roleIds.forEach(roleId -> {
-			List<String> permissionList = menuService.findListByRoleId(roleId)
-				.stream()
-				.filter(menuVo -> StringUtil.isNotEmpty(menuVo.getPermission()))
-				.map(MenuVo::getPermission)
+			List<String> permissionList = menuService.findListByRoleId(roleId).stream()
+				.filter(menuVo -> StringUtil.isNotEmpty(menuVo.getPermission())).map(MenuVo::getPermission)
 				.collect(Collectors.toList());
 			permissions.addAll(permissionList);
 		});
@@ -185,20 +185,17 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	}
 
 	public Boolean exitUserByUserName(UserDto userDto) {
-		return getOne(Wrappers.<User>query()
-			.ne(StringUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
+		return getOne(Wrappers.<User>query().ne(StringUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
 			.eq(UserDto.F_USERNAME, userDto.getUsername())) != null;
 	}
 
 	public Boolean exitUserByEmail(UserDto userDto) {
-		return getOne(Wrappers.<User>query()
-			.ne(StringUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
+		return getOne(Wrappers.<User>query().ne(StringUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
 			.eq(UserDto.F_EMAIL, userDto.getEmail())) != null;
 	}
 
 	public Boolean exitUserByPhone(UserDto userDto) {
-		return getOne(Wrappers.<User>query()
-			.ne(StringUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
+		return getOne(Wrappers.<User>query().ne(StringUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
 			.eq(UserDto.F_PHONE, userDto.getPhone())) != null;
 	}
 
@@ -240,13 +237,12 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 			if (!add) {
 				SysCacheUtil.delUserCaches(user.getId(), user.getUsername());
 			}
-			List<UserRole> userRoleList = userDto.getRoleIdList()
-				.stream().map(roleId -> {
-					UserRole userRole = new UserRole();
-					userRole.setUserId(user.getId());
-					userRole.setRoleId(roleId);
-					return userRole;
-				}).collect(Collectors.toList());
+			List<UserRole> userRoleList = userDto.getRoleIdList().stream().map(roleId -> {
+				UserRole userRole = new UserRole();
+				userRole.setUserId(user.getId());
+				userRole.setRoleId(roleId);
+				return userRole;
+			}).collect(Collectors.toList());
 			userRoleService.removeRoleByUserId(user.getId());
 			userRoleService.saveBatch(userRoleList);
 		}
@@ -273,8 +269,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public List<User> listAncestorUsersByUsername(String username) {
-		User user = this.getOne(Wrappers.<User>query().lambda()
-			.eq(User::getUsername, username));
+		User user = this.getOne(Wrappers.<User>query().lambda().eq(User::getUsername, username));
 
 		Dept dept = deptService.getById(user.getDeptId());
 		if (dept == null) {
@@ -282,8 +277,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 		}
 
 		String parentId = dept.getParentId();
-		return this.list(Wrappers.<User>query().lambda()
-			.eq(User::getDeptId, parentId));
+		return this.list(Wrappers.<User>query().lambda().eq(User::getDeptId, parentId));
 	}
 
 	@Override
@@ -293,8 +287,8 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 			Assert.isTrue(!StringUtil.equals(SecurityUtil.getUser().getId(), id), "不能操作当前登录用户");
 			User user = repository.selectById(id);
 			Assert.isTrue(user != null, "无法找到ID为" + id + "的数据");
-			user.setAvailable(CommonConstants.YES.equals(user.getAvailable()) ?
-				CommonConstants.NO : CommonConstants.YES);
+			user.setAvailable(
+				CommonConstants.YES.equals(user.getAvailable()) ? CommonConstants.NO : CommonConstants.YES);
 			SysCacheUtil.delUserCaches(user.getId(), user.getUsername());
 			int i = repository.updateById(user);
 			Assert.isTrue(i != 0, "无法更新ID为" + id + "的数据");
@@ -304,15 +298,14 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	@Override
 	public void resetPassword(PasswordRestVo passwordRestVo) {
 
-		Assert.isTrue(passwordRestVo.getNewPassword().equals(passwordRestVo.getConfirmPassword()),
-			"两次输入密码不一致");
+		Assert.isTrue(passwordRestVo.getNewPassword().equals(passwordRestVo.getConfirmPassword()), "两次输入密码不一致");
 		passwordRestVo.setPasswordPlaintext(passwordRestVo.getNewPassword());
 		passwordRestVo.setNewPassword(passwordEncoder.encode(passwordRestVo.getNewPassword()));
 
 		Object tempCode = RedisUtil.getCacheString(SecurityConstants.DEFAULT_CODE_KEY + passwordRestVo.getPhone());
 		Assert.isTrue(passwordRestVo.getCode().equals(tempCode), "验证码输入有误");
-		User user = repository.selectOne(Wrappers.<User>query().lambda()
-			.eq(User::getUsername, passwordRestVo.getUsername()));
+		User user = repository
+			.selectOne(Wrappers.<User>query().lambda().eq(User::getUsername, passwordRestVo.getUsername()));
 		updatePassword(user, passwordRestVo.getPasswordPlaintext(), passwordRestVo.getNewPassword());
 	}
 
@@ -326,34 +319,26 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	@Override
 	public void changePassword(String username, PasswordChangeVo passwordChangeVo) {
 
-		Assert.isTrue(passwordChangeVo != null &&
-			checkPasswordLength(passwordChangeVo.getNewPassword()), "密码格式有误");
-		Assert.isTrue(!passwordChangeVo.getNewPassword().equals(passwordChangeVo.getOldPassword()),
-			"新旧密码不能相同");
-		Assert.isTrue(passwordChangeVo.getNewPassword().equals(passwordChangeVo.getConfirmPassword()),
-			"两次输入密码不一致");
-		User user = repository.selectOne(Wrappers.<User>query().lambda()
-			.eq(User::getUsername, username));
-		Assert.isTrue(passwordEncoder.matches(passwordChangeVo.getOldPassword(), user.getPassword()),
-			"输入原密码有误");
+		Assert.isTrue(passwordChangeVo != null && checkPasswordLength(passwordChangeVo.getNewPassword()), "密码格式有误");
+		Assert.isTrue(!passwordChangeVo.getNewPassword().equals(passwordChangeVo.getOldPassword()), "新旧密码不能相同");
+		Assert.isTrue(passwordChangeVo.getNewPassword().equals(passwordChangeVo.getConfirmPassword()), "两次输入密码不一致");
+		User user = repository.selectOne(Wrappers.<User>query().lambda().eq(User::getUsername, username));
+		Assert.isTrue(passwordEncoder.matches(passwordChangeVo.getOldPassword(), user.getPassword()), "输入原密码有误");
 
 		passwordChangeVo.setNewPassword(passwordEncoder.encode(passwordChangeVo.getNewPassword()));
 
 		updatePassword(user, passwordChangeVo.getConfirmPassword(), passwordChangeVo.getNewPassword());
 	}
 
-
 	@Override
 	public void save(@Valid UserExcelVo userExcelVo) {
 		UserDto user = new UserDto();
 		BeanUtils.copyProperties(userExcelVo, user);
-		Dept dept = deptService.getOne(
-			Wrappers.<Dept>query().lambda().eq(Dept::getName, userExcelVo.getDeptName()));
+		Dept dept = deptService.getOne(Wrappers.<Dept>query().lambda().eq(Dept::getName, userExcelVo.getDeptName()));
 		if (dept != null) {
 			user.setDeptId(dept.getId());
 		}
-		Role role = roleService.getOne(
-			Wrappers.<Role>query().lambda().eq(Role::getName, userExcelVo.getRoleName()));
+		Role role = roleService.getOne(Wrappers.<Role>query().lambda().eq(Role::getName, userExcelVo.getRoleName()));
 		if (role == null) {
 			throw new RuntimeMsgException("无法获取角色" + userExcelVo.getRoleName() + "信息");
 		}
@@ -366,14 +351,11 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 		return repository.findListByRoleId(roleId);
 	}
 
-
 	@Override
 	public void updateEmail(String username, UserEmailDto userEmailDto) {
 		User user = repository.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
-		Assert.isTrue(user != null,
-			"无法获取用户信息" + username);
-		Assert.isTrue(passwordEncoder.matches(userEmailDto.getPassword(), user.getPassword()),
-			"输入密码有误");
+		Assert.isTrue(user != null, "无法获取用户信息" + username);
+		Assert.isTrue(passwordEncoder.matches(userEmailDto.getPassword(), user.getPassword()), "输入密码有误");
 		user.setEmail(userEmailDto.getEmail());
 		SysCacheUtil.delBaseUserCaches(user.getId(), user.getUsername());
 		repository.updateById(user);
@@ -382,12 +364,10 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	@Override
 	public void updateAvatar(String username, String avatar) {
 		User user = repository.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
-		Assert.isTrue(user != null,
-			"无法获取用户信息" + username);
+		Assert.isTrue(user != null, "无法获取用户信息" + username);
 		user.setAvatar(avatar);
 		SysCacheUtil.delBaseUserCaches(user.getId(), user.getUsername());
 		repository.updateById(user);
 	}
-
 
 }

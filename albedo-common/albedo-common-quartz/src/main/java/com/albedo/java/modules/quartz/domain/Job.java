@@ -35,66 +35,80 @@ import java.util.Objects;
 public class Job extends BaseDataEntity<Job> {
 
 	/**
-	 * F_NAME name  :  任务名称
+	 * F_NAME name : 任务名称
 	 */
 	public static final String F_NAME = "name";
+
 	/**
-	 * F_SQL_NAME name  :  任务名称
+	 * F_SQL_NAME name : 任务名称
 	 */
 	public static final String F_SQL_NAME = "name";
+
 	/**
-	 * F_GROUP group  :  任务组名
+	 * F_GROUP group : 任务组名
 	 */
 	public static final String F_GROUP = "group";
+
 	/**
-	 * F_SQL_GROUP group  :  任务组名
+	 * F_SQL_GROUP group : 任务组名
 	 */
 	public static final String F_SQL_GROUP = "group";
+
 	/**
-	 * F_INVOKETARGET invoke_target  :  调用目标字符串
+	 * F_INVOKETARGET invoke_target : 调用目标字符串
 	 */
 	public static final String F_INVOKETARGET = "invokeTarget";
+
 	/**
-	 * F_SQL_INVOKETARGET invoke_target  :  调用目标字符串
+	 * F_SQL_INVOKETARGET invoke_target : 调用目标字符串
 	 */
 	public static final String F_SQL_INVOKETARGET = "invoke_target";
+
 	/**
-	 * F_CRONEXPRESSION cron_expression  :  cron执行表达式
+	 * F_CRONEXPRESSION cron_expression : cron执行表达式
 	 */
 	public static final String F_CRONEXPRESSION = "cronExpression";
+
 	/**
-	 * F_SQL_CRONEXPRESSION cron_expression  :  cron执行表达式
+	 * F_SQL_CRONEXPRESSION cron_expression : cron执行表达式
 	 */
 	public static final String F_SQL_CRONEXPRESSION = "cron_expression";
+
 	/**
-	 * F_MISFIREPOLICY misfire_policy  :  计划执行错误策略（1立即执行 2执行一次 3放弃执行）
+	 * F_MISFIREPOLICY misfire_policy : 计划执行错误策略（1立即执行 2执行一次 3放弃执行）
 	 */
 	public static final String F_MISFIREPOLICY = "misfirePolicy";
+
 	/**
-	 * F_SQL_MISFIREPOLICY misfire_policy  :  计划执行错误策略（1立即执行 2执行一次 3放弃执行）
+	 * F_SQL_MISFIREPOLICY misfire_policy : 计划执行错误策略（1立即执行 2执行一次 3放弃执行）
 	 */
 	public static final String F_SQL_MISFIREPOLICY = "misfire_policy";
+
 	/**
-	 * F_CONCURRENT concurrent  :  是否并发执行（1允许 0禁止）
+	 * F_CONCURRENT concurrent : 是否并发执行（1允许 0禁止）
 	 */
 	public static final String F_CONCURRENT = "concurrent";
+
 	/**
-	 * F_SQL_CONCURRENT concurrent  :  是否并发执行（1允许 0禁止）
+	 * F_SQL_CONCURRENT concurrent : 是否并发执行（1允许 0禁止）
 	 */
 	public static final String F_SQL_CONCURRENT = "concurrent";
+
 	/**
-	 * F_AVAILABLE available  :  状态(1-正常，0-锁定)
+	 * F_AVAILABLE available : 状态(1-正常，0-锁定)
 	 */
 	public static final String F_AVAILABLE = "available";
+
 	/**
-	 * F_SQL_AVAILABLE available  :  状态(1-正常，0-锁定)
+	 * F_SQL_AVAILABLE available : 状态(1-正常，0-锁定)
 	 */
 	public static final String F_SQL_AVAILABLE = "available";
-	private static final long serialVersionUID = 1L;
 
+	private static final long serialVersionUID = 1L;
 
 	@TableId(value = GeneralEntity.F_SQL_ID, type = IdType.AUTO)
 	protected Integer id;
+
 	/**
 	 * name 任务名称
 	 */
@@ -102,6 +116,7 @@ public class Job extends BaseDataEntity<Job> {
 	@Size(max = 64)
 	@TableField("name")
 	private String name;
+
 	/**
 	 * group 任务组名
 	 */
@@ -110,6 +125,7 @@ public class Job extends BaseDataEntity<Job> {
 	@TableField("`group`")
 	@DictType(DictNameConstants.QUARTZ_JOB_GROUP)
 	private String group;
+
 	/**
 	 * invokeTarget 调用目标字符串
 	 */
@@ -117,12 +133,14 @@ public class Job extends BaseDataEntity<Job> {
 	@Size(max = 500)
 	@TableField("invoke_target")
 	private String invokeTarget;
+
 	/**
 	 * cronExpression cron执行表达式
 	 */
 	@Size(max = 255)
 	@TableField("cron_expression")
 	private String cronExpression;
+
 	/**
 	 * misfirePolicy 计划执行错误策略（1立即执行 2执行一次 3放弃执行）
 	 */
@@ -130,6 +148,7 @@ public class Job extends BaseDataEntity<Job> {
 	@TableField("misfire_policy")
 	@DictType(DictNameConstants.QUARTZ_MISFIRE_POLICY)
 	private String misfirePolicy;
+
 	/**
 	 * concurrent 是否并发执行（1允许 0禁止）
 	 */
@@ -137,17 +156,18 @@ public class Job extends BaseDataEntity<Job> {
 	@TableField("concurrent")
 	@DictType(DictNameConstants.SYS_FLAG)
 	private String concurrent;
+
 	/**
 	 * status 状态(1-运行中，0-暂停)
 	 */
 	@Size(max = 1)
 	@DictType(DictNameConstants.QUARTZ_JOB_STATUS)
 	private String status;
+
 	/**
 	 * 报警邮箱
 	 */
 	private String email;
-
 
 	@Override
 	public Serializable pkVal() {
@@ -179,4 +199,5 @@ public class Job extends BaseDataEntity<Job> {
 	public int hashCode() {
 		return Objects.hashCode(getId());
 	}
+
 }

@@ -3,7 +3,6 @@
  */
 package com.albedo.java.modules.gen.web;
 
-
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.vo.PageModel;
@@ -93,4 +92,5 @@ public class DatasourceConfResource extends BaseResource {
 		service.removeByIds(ids);
 		return Result.buildOk("删除数据源成功");
 	}
+
 }

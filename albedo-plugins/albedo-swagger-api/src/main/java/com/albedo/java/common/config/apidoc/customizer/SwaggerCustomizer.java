@@ -9,6 +9,7 @@ import springfox.documentation.spring.web.plugins.Docket;
  */
 @FunctionalInterface
 public interface SwaggerCustomizer {
+
 	/**
 	 * customize
 	 *
@@ -17,4 +18,5 @@ public interface SwaggerCustomizer {
 	 * @updateTime 2020/5/31 17:34
 	 */
 	void customize(Docket var1);
+
 }

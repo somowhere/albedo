@@ -31,6 +31,7 @@ public class LogOperateQueryCriteria implements Serializable {
 
 	@Query(blurry = "username,title,user_agent,browser,os")
 	private String blurry;
+
 	@Query(operator = Query.Operator.like)
 	private String username;
 
@@ -42,4 +43,5 @@ public class LogOperateQueryCriteria implements Serializable {
 
 	@Query(operator = Query.Operator.between)
 	private List<Date> createdDate;
+
 }

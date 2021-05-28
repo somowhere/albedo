@@ -35,26 +35,26 @@ public class JacksonMapperConfiguration {
 	public ObjectMapper myObjectMapper(Jackson2ObjectMapperBuilder builder) {
 		builder.simpleDateFormat(DateUtil.TIME_FORMAT);
 		ObjectMapper objectMapper = builder.createXmlMapper(false).modules(new CustomFieldModule()).build();
-		//设置地点为中国
+		// 设置地点为中国
 		objectMapper.setLocale(Locale.CHINA);
-		//去掉默认的时间戳格式
+		// 去掉默认的时间戳格式
 		objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-		//设置为中国上海时区
+		// 设置为中国上海时区
 		objectMapper.setTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
-		//序列化时，日期的统一格式
+		// 序列化时，日期的统一格式
 		objectMapper.setDateFormat(new SimpleDateFormat(DateUtil.TIME_FORMAT, Locale.CHINA));
-		//序列化处理
+		// 序列化处理
 		objectMapper.configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true);
 		objectMapper.configure(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER.mappedFeature(), true);
 		objectMapper.findAndRegisterModules();
-		//失败处理
+		// 失败处理
 		objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		//单引号处理
+		// 单引号处理
 		objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
-		//反序列化时，属性不存在的兼容处理s
+		// 反序列化时，属性不存在的兼容处理s
 		objectMapper.getDeserializationConfig().withoutFeatures(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-		//日期格式化
+		// 日期格式化
 		objectMapper.registerModule(new JavaTimeModule());
 		objectMapper.findAndRegisterModules();
 		return objectMapper;

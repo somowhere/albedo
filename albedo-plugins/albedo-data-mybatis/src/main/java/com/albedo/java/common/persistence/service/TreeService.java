@@ -15,6 +15,7 @@ import java.util.List;
  * @author somewhere
  */
 public interface TreeService<T extends TreeEntity, D extends TreeDto> extends DataService<T, D, String> {
+
 	/**
 	 * countByParentId
 	 *

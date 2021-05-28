@@ -126,7 +126,7 @@ public @interface Query {
 		public void setOperator(String operator) {
 			this.operator = operator;
 		}
+
 	}
 
 }
-

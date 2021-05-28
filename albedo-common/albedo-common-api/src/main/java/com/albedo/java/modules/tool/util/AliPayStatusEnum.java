@@ -52,4 +52,5 @@ public enum AliPayStatusEnum {
 	public String getValue() {
 		return value;
 	}
+
 }

@@ -33,4 +33,5 @@ public class JobLogServiceImpl extends BaseServiceImpl<JobLogRepository, JobLog>
 	public List<JobLogExcelVo> findExcelVo(QueryWrapper<JobLog> toEntityWrapper) {
 		return repository.findExcelVo(toEntityWrapper);
 	}
+
 }

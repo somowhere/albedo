@@ -20,12 +20,12 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.security.core.session.SessionInformation;
 
 /**
- * @author somewhere
- * 用户登录事件
+ * @author somewhere 用户登录事件
  */
 public class SysUserOnlineRefreshLastRequestEvent extends ApplicationEvent {
 
 	public SysUserOnlineRefreshLastRequestEvent(SessionInformation sessionInformation) {
 		super(sessionInformation);
 	}
+
 }

@@ -49,7 +49,6 @@ public class RedisUtil {
 		return operation;
 	}
 
-
 	/**
 	 * 缓存基本的对象，Integer、String、实体类等
 	 *
@@ -70,7 +69,8 @@ public class RedisUtil {
 	 * @param value 缓存的值
 	 * @return 缓存的对象
 	 */
-	public static ValueOperations<String, String> setCacheString(String key, String value, long time, TimeUnit timeUnit) {
+	public static ValueOperations<String, String> setCacheString(String key, String value, long time,
+																 TimeUnit timeUnit) {
 		ValueOperations<String, String> operation = redisTemplate.opsForValue();
 		operation.set(key, value, time, timeUnit);
 		return operation;
@@ -103,7 +103,6 @@ public class RedisUtil {
 		log.debug("deleteStringLike keys {} count {}", delKeys, count);
 		return count;
 	}
-
 
 	/**
 	 * 获得缓存的基本对象。
@@ -223,7 +222,6 @@ public class RedisUtil {
 		return map;
 	}
 
-
 	/**
 	 * 缓存Map
 	 *
@@ -260,7 +258,7 @@ public class RedisUtil {
 		if (log.isDebugEnabled()) {
 			log.debug("sendScheduleChannelMessage===>" + Json.toJSONString(message));
 		}
-		redisTemplate.convertAndSend(ScheduleConstants.REDIS_SCHEDULE_DEFAULT_CHANNEL,
-			message);
+		redisTemplate.convertAndSend(ScheduleConstants.REDIS_SCHEDULE_DEFAULT_CHANNEL, message);
 	}
+
 }

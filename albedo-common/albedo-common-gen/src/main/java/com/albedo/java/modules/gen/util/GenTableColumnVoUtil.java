@@ -13,13 +13,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GenTableColumnVoUtil {
 
-
 	public static String getHibernateValidatorExpression(TableColumnDto c) {
 		if (!c.isPk() && !c.isNull()) {
 			if (c.getJavaType() != null && c.getJavaType().endsWith(CommonConstants.TYPE_STRING)) {
-				return (new StringBuilder()).append("@NotBlank ").append(getNotRequiredHibernateValidatorExpression(c)).toString();
+				return (new StringBuilder()).append("@NotBlank ").append(getNotRequiredHibernateValidatorExpression(c))
+					.toString();
 			} else {
-				return (new StringBuilder()).append("@NotNull ").append(getNotRequiredHibernateValidatorExpression(c)).toString();
+				return (new StringBuilder()).append("@NotNull ").append(getNotRequiredHibernateValidatorExpression(c))
+					.toString();
 			}
 		} else {
 			return getNotRequiredHibernateValidatorExpression(c);
@@ -39,11 +40,14 @@ public class GenTableColumnVoUtil {
 			javaType = "";
 		}
 		if (javaType.endsWith(CommonConstants.TYPE_STRING) && jdbcType != null) {
-			Integer size = "text".equals(jdbcType) || "blob".equalsIgnoreCase(jdbcType) || "clob".equalsIgnoreCase(jdbcType) || "nclob".equalsIgnoreCase(jdbcType) ? 65535 : Integer.valueOf(jdbcType.substring(jdbcType.indexOf("(") + 1, jdbcType.length() - 1));
+			Integer size = "text".equals(jdbcType) || "blob".equalsIgnoreCase(jdbcType)
+				|| "clob".equalsIgnoreCase(jdbcType) || "nclob".equalsIgnoreCase(jdbcType) ? 65535
+				: Integer.valueOf(jdbcType.substring(jdbcType.indexOf("(") + 1, jdbcType.length() - 1));
 			result = (new StringBuilder()).append(result).append(String.format("@Size(max=%s)", size)).toString();
 		}
 		boolean javaTypeByte = javaType.endsWith("Byte");
-		if (javaType.endsWith(CommonConstants.TYPE_LONG) || javaType.endsWith(CommonConstants.TYPE_INTEGER) || javaType.endsWith(CommonConstants.TYPE_SHORT) || javaTypeByte) {
+		if (javaType.endsWith(CommonConstants.TYPE_LONG) || javaType.endsWith(CommonConstants.TYPE_INTEGER)
+			|| javaType.endsWith(CommonConstants.TYPE_SHORT) || javaTypeByte) {
 			boolean aShort = javaType.toLowerCase().contains("short");
 			boolean abyte = javaType.toLowerCase().contains("byte");
 			if (aShort) {

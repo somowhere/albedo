@@ -35,5 +35,4 @@ public class IdGen {
 		return Math.abs(random.nextLong());
 	}
 
-
 }

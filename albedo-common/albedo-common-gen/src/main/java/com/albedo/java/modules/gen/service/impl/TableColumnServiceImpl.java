@@ -18,14 +18,12 @@ import java.util.stream.Collectors;
  * @author somewhere
  */
 @Service
-public class TableColumnServiceImpl extends
-	DataServiceImpl<TableColumnRepository, TableColumn, TableColumnDto, String> implements TableColumnService {
+public class TableColumnServiceImpl extends DataServiceImpl<TableColumnRepository, TableColumn, TableColumnDto, String>
+	implements TableColumnService {
 
 	List<TableColumn> findAllByGenTableIdOrderBySort(String id) {
-		return list(Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID, id)
-			.orderByAsc(TableColumn.F_SORT));
+		return list(Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID, id).orderByAsc(TableColumn.F_SORT));
 	}
-
 
 	@Override
 	public void deleteByTableId(String id) {
@@ -34,6 +32,5 @@ public class TableColumnServiceImpl extends
 		super.removeByIds(tableColumnList.stream().map(item -> item.getId()).collect(Collectors.toList()));
 
 	}
-
 
 }

@@ -11,8 +11,9 @@ import java.io.Serializable;
  * @description
  * @date 2020/5/31 17:07
  */
-public interface DataService<
-	T extends BaseDataEntity, D extends DataDto, PK extends Serializable> extends BaseService<T> {
+public interface DataService<T extends BaseDataEntity, D extends DataDto, PK extends Serializable>
+	extends BaseService<T> {
+
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	/**
 	 * getOneDto
@@ -71,4 +72,5 @@ public interface DataService<
 	 * @updateTime 2020/5/31 17:34
 	 */
 	T copyDtoToBean(D form);
+
 }

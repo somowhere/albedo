@@ -22,8 +22,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 /**
  * @author somewhere
- * @date 2018-11-23
- * 统一异常处理
+ * @date 2018-11-23 统一异常处理
  */
 @Getter
 public class BadRequestException extends RuntimeException {
@@ -38,4 +37,5 @@ public class BadRequestException extends RuntimeException {
 		super(msg);
 		this.status = status;
 	}
+
 }

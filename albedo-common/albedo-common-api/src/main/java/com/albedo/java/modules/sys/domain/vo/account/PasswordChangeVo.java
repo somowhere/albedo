@@ -1,6 +1,5 @@
 package com.albedo.java.modules.sys.domain.vo.account;
 
-
 import lombok.Data;
 import lombok.ToString;
 

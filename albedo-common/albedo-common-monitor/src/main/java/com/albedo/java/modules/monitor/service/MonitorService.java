@@ -29,4 +29,5 @@ public interface MonitorService {
 	 * @return Map<String, Object>
 	 */
 	Map<String, Object> getServers();
+
 }

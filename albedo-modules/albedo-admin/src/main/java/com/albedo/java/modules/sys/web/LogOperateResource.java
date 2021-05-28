@@ -50,6 +50,7 @@ import java.util.Set;
 @RequestMapping("${application.admin-path}/sys/log-operate")
 @Api(tags = "操作日志")
 public class LogOperateResource {
+
 	private final LogOperateService logOperateService;
 
 	/**
@@ -78,13 +79,13 @@ public class LogOperateResource {
 		return Result.buildOkData(logOperateService.removeByIds(ids));
 	}
 
-
 	@LogOperate(value = "操作日志导出")
 	@GetMapping(value = "/download")
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_export')")
 	public void download(LogOperateQueryCriteria logOperateQueryCriteria, HttpServletResponse response) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(logOperateQueryCriteria);
-		ExcelUtil<com.albedo.java.modules.sys.domain.LogOperate> util = new ExcelUtil(com.albedo.java.modules.sys.domain.LogOperate.class);
+		ExcelUtil<com.albedo.java.modules.sys.domain.LogOperate> util = new ExcelUtil(
+			com.albedo.java.modules.sys.domain.LogOperate.class);
 		util.exportExcel(logOperateService.list(wrapper), "操作日志", response);
 	}
 
@@ -94,7 +95,8 @@ public class LogOperateResource {
 		criteria.setLogType(Lists.newArrayList(LogType.INFO.name(), LogType.WARN.name()));
 		criteria.setUsername(SecurityUtil.getUser().getUsername());
 		pageModel.addOrder(OrderItem.desc(com.albedo.java.modules.sys.domain.LogOperate.F_SQL_CREATED_DATE));
-		QueryWrapper<com.albedo.java.modules.sys.domain.LogOperate> wrapper = QueryWrapperUtil.<com.albedo.java.modules.sys.domain.LogOperate>getWrapper(pageModel, criteria);
+		QueryWrapper<com.albedo.java.modules.sys.domain.LogOperate> wrapper = QueryWrapperUtil.<com.albedo.java.modules.sys.domain.LogOperate>getWrapper(
+			pageModel, criteria);
 
 		return Result.buildOkData(logOperateService.page(pageModel, wrapper));
 	}

@@ -25,17 +25,18 @@ import java.util.Set;
 
 /**
  * @author somewhere
- * @date 2019/2/1
- * 数据权限查询参数
+ * @date 2019/2/1 数据权限查询参数
  */
 @Data
 public class DataScope implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 限制范围的字段名称
 	 */
 	private String scopeName = "dept_id";
+
 	/**
 	 * 限制范围的字段名称
 	 */
@@ -45,10 +46,12 @@ public class DataScope implements Serializable {
 	 * 具体的数据范围
 	 */
 	private Set<String> deptIds = Sets.newLinkedHashSet();
+
 	/**
 	 * 全部数据
 	 */
 	private boolean isAll;
+
 	/**
 	 * 本人数据
 	 */

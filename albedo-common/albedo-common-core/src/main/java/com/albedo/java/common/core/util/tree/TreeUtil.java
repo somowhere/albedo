@@ -16,7 +16,6 @@
 
 package com.albedo.java.common.core.util.tree;
 
-
 import com.albedo.java.common.core.util.StringUtil;
 import com.google.common.collect.Lists;
 import lombok.experimental.UtilityClass;
@@ -31,6 +30,7 @@ import java.util.stream.Collectors;
  */
 @UtilityClass
 public class TreeUtil {
+
 	public static final String ROOT = "-1";
 
 	public <T extends TreeNodeAware> List<T> buildByLoopAutoRoot(List<T> treeNodes) {
@@ -81,7 +81,6 @@ public class TreeUtil {
 		return trees;
 	}
 
-
 	/**
 	 * 使用递归方法建树
 	 *
@@ -116,6 +115,5 @@ public class TreeUtil {
 		}
 		return treeNode;
 	}
-
 
 }

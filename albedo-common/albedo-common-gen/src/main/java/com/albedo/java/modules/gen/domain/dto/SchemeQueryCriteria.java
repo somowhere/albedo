@@ -32,7 +32,7 @@ public class SchemeQueryCriteria implements Serializable {
 	@Query(blurry = "a.name,a.module_name,a.sub_module_name,a.function_name,a.description")
 	private String blurry;
 
-
 	@Query(propName = "a.created_date", operator = Query.Operator.between)
 	private List<Date> createdDate;
+
 }

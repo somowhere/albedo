@@ -26,7 +26,6 @@ import org.springframework.util.ObjectUtils;
 
 import java.io.Serializable;
 
-
 /**
  * 响应信息主体
  *
@@ -37,6 +36,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @AllArgsConstructor
 public class Result<T> implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Getter
@@ -47,9 +47,7 @@ public class Result<T> implements Serializable {
 	@Setter
 	private T data;
 
-
 	private String[] messages = {};
-
 
 	public Result() {
 		super();

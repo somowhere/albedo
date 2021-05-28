@@ -3,7 +3,6 @@
  */
 package com.albedo.java.modules.quartz.repository;
 
-
 import com.albedo.java.common.persistence.repository.BaseRepository;
 import com.albedo.java.modules.quartz.domain.Job;
 
@@ -14,6 +13,5 @@ import com.albedo.java.modules.quartz.domain.Job;
  * @version 2019-08-14 11:24:16
  */
 public interface JobRepository extends BaseRepository<Job> {
-
 
 }

@@ -24,48 +24,63 @@ import java.util.List;
 public class TableDto extends DataDto<String> {
 
 	public static final String F_NAME = "name";
+
 	public static final String F_NAMESANDCOMMENTS = "nameAndTitle";
+
 	public static final String CATEGORY_TREETABLE = "treeTable";
 
-
 	private static final long serialVersionUID = 1L;
+
 	// 名称
 	/*** 编码 */
 	@NotBlank
 	private String name;
+
 	/*** 描述 */
 	private String comments;
+
 	/*** 实体类名称 */
 	@NotBlank
 	private String className;
+
 	/*** 数据源 */
 	@NotBlank
 	private String dsName;
+
 	/*** 关联父表 */
 	private String parentTable;
+
 	/*** 关联父表外键 */
 	private String parentTableFk;
+
 	/*** 父表对象 */
 	@JSONField(serialize = false)
 	private TableDto parent;
+
 	/*** 子表列表 */
 	@JSONField(serialize = false)
 	private List<TableDto> childList;
+
 	private String nameAndTitle;
+
 	/*** 按名称模糊查询 */
 	private String nameLike;
+
 	/*** 当前表主键列表 */
 	private List<String> pkList;
 
 	private String category;
+
 	/**
 	 * 当前表主键列表
 	 */
 	@JSONField(serialize = false)
 	private List<TableColumnDto> pkColumnList;
+
 	/*** 列 - 列表 */
 	@JSONField(serialize = false)
 	private List<TableColumnDto> columnList;
+
 	/*** 表单提交列 - 列表 */
 	@NotNull
 	private List<TableColumnDto> columnFormList;
@@ -180,14 +195,14 @@ public class TableDto extends DataDto<String> {
 	@JSONField(serialize = false)
 	public List<String> getImportList() {
 		// 引用列表
-		List<String> importList = Lists.newArrayList(
-			"com.baomidou.mybatisplus.annotation.*");
+		List<String> importList = Lists.newArrayList("com.baomidou.mybatisplus.annotation.*");
 		if (CATEGORY_TREETABLE.equalsIgnoreCase(getCategory())) {
 			importList.add("com.albedo.java.common.persistence.domain.TreeEntity");
 			initImport(importList);
 			// 如果有子表，则需要导入List相关引用
 			if (getChildList() != null && getChildList().size() > 0) {
-				addNoRepeatList(importList, "java.util.List", "com.google.common.collect.Lists", "org.hibernate.annotations.FetchMode", "org.hibernate.annotations.Fetch",
+				addNoRepeatList(importList, "java.util.List", "com.google.common.collect.Lists",
+					"org.hibernate.annotations.FetchMode", "org.hibernate.annotations.Fetch",
 					"org.hibernate.annotations.Where");
 			}
 		} else {
@@ -204,9 +219,9 @@ public class TableDto extends DataDto<String> {
 
 	private void initImport(List<String> importList) {
 		for (TableColumnDto column : getColumnList()) {
-			boolean isImport = column.getIsNotBaseField() || column.isQuery() && "between".equals(column.getQueryType()) &&
-				(DataDto.F_CREATED_DATE.equals(column.getSimpleJavaField()) ||
-					DataDto.F_LAST_MODIFIED_DATE.equals(column.getSimpleJavaField()));
+			boolean isImport = column.getIsNotBaseField() || column.isQuery() && "between".equals(column.getQueryType())
+				&& (DataDto.F_CREATED_DATE.equals(column.getSimpleJavaField())
+				|| DataDto.F_LAST_MODIFIED_DATE.equals(column.getSimpleJavaField()));
 			if (isImport) {
 				// 导入类型依赖包， 如果类型中包含“.”，则需要导入引用。
 				if (StringUtil.indexOf(column.getJavaType(), StringUtil.C_DOT) != -1) {
@@ -219,8 +234,7 @@ public class TableDto extends DataDto<String> {
 					addNoRepeatList(importList, ann.substring(0, ann.indexOf(StringUtil.BRACKETS_START)));
 				}
 			}
-			if (!column.isPk() && !column.isNull()
-				&& column.getJavaType().endsWith(CommonConstants.TYPE_STRING)) {
+			if (!column.isPk() && !column.isNull() && column.getJavaType().endsWith(CommonConstants.TYPE_STRING)) {
 				addNoRepeatList(importList, "javax.validation.constraints.NotBlank");
 			}
 			if (StringUtil.isNotEmpty(column.getDictType())) {
@@ -232,7 +246,6 @@ public class TableDto extends DataDto<String> {
 
 		}
 	}
-
 
 	private void addNoRepeatList(List<String> list, String... val) {
 		if (CollUtil.isNotEmpty(list)) {
@@ -385,4 +398,5 @@ public class TableDto extends DataDto<String> {
 		}
 		return null;
 	}
+
 }

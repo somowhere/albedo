@@ -14,6 +14,7 @@ import java.io.IOException;
  * @author somewhere
  */
 public class FileUploadUtil {
+
 	/**
 	 * 默认大小 50M
 	 */
@@ -79,7 +80,8 @@ public class FileUploadUtil {
 	 * @return 返回上传成功的文件名
 	 * @throws IOException 比如读写文件出错时
 	 */
-	public static final String upload(String baseDir, MultipartFile file, String[] allowedExtension) throws IOException {
+	public static final String upload(String baseDir, MultipartFile file, String[] allowedExtension)
+		throws IOException {
 		int fileNamelength = file.getOriginalFilename().length();
 		if (fileNamelength > FileUploadUtil.DEFAULT_FILE_NAME_LENGTH) {
 			throw new RuntimeMsgException("最大文件名长度：" + FileUploadUtil.DEFAULT_FILE_NAME_LENGTH);
@@ -145,8 +147,9 @@ public class FileUploadUtil {
 		String fileName = file.getOriginalFilename();
 		String extension = getExtension(file);
 		if (allowedExtension != null && !isAllowedExtension(extension, allowedExtension)) {
-			throw new RuntimeMsgException(String.format("InvalidExtensionException : allowedExtension-{} extension-{} fileName-{}", allowedExtension, extension,
-				fileName));
+			throw new RuntimeMsgException(
+				String.format("InvalidExtensionException : allowedExtension-{} extension-{} fileName-{}",
+					allowedExtension, extension, fileName));
 		}
 
 	}
@@ -180,4 +183,5 @@ public class FileUploadUtil {
 		}
 		return extension;
 	}
+
 }

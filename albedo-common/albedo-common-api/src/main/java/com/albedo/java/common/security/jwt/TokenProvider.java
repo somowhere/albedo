@@ -30,12 +30,19 @@ import java.util.UUID;
 public class TokenProvider {
 
 	private static final String EXPIRATION = "expiration";
+
 	private static final String PRINCIPAL = "principal";
+
 	private final Logger log = LoggerFactory.getLogger(TokenProvider.class);
+
 	private final ApplicationProperties applicationProperties;
+
 	private final UserDetailsService userDetailsService;
+
 	private Key secretKey;
+
 	private long tokenValidityInMilliseconds;
+
 	private long tokenValidityInMillisecondsForRememberMe;
 
 	public TokenProvider(ApplicationProperties applicationProperties, UserDetailsService userDetailsService) {
@@ -50,20 +57,16 @@ public class TokenProvider {
 		byte[] keyBytes = Decoders.BASE64.decode(secret);
 		this.secretKey = Keys.hmacShaKeyFor(keyBytes);
 
-		this.tokenValidityInMilliseconds =
-			1000 * applicationProperties.getSecurity().getAuthentication().getJwt().getTokenValidityInSeconds();
-		this.tokenValidityInMillisecondsForRememberMe =
-			1000 * applicationProperties.getSecurity().getAuthentication().getJwt().getTokenValidityInSecondsForRememberMe();
+		this.tokenValidityInMilliseconds = 1000
+			* applicationProperties.getSecurity().getAuthentication().getJwt().getTokenValidityInSeconds();
+		this.tokenValidityInMillisecondsForRememberMe = 1000 * applicationProperties.getSecurity().getAuthentication()
+			.getJwt().getTokenValidityInSecondsForRememberMe();
 	}
 
 	private Claims getClaimsFromToken(String token) {
 		Claims claims;
 		try {
-			claims = Jwts.parserBuilder()
-				.setSigningKey(secretKey)
-				.build()
-				.parseClaimsJws(token)
-				.getBody();
+			claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
 		} catch (Exception e) {
 			claims = null;
 		}
@@ -71,17 +74,10 @@ public class TokenProvider {
 	}
 
 	private String generateToken(String subject, Map<String, Object> claims, long expiration) {
-		return Jwts.builder()
-			.setClaims(claims)
-			.setSubject(subject)
-			.setId(UUID.randomUUID().toString())
-			.setIssuedAt(new Date())
-			.setExpiration(generateExpirationDate(expiration))
-			.compressWith(CompressionCodecs.DEFLATE)
-			.signWith(secretKey, SignatureAlgorithm.HS512)
-			.compact();
+		return Jwts.builder().setClaims(claims).setSubject(subject).setId(UUID.randomUUID().toString())
+			.setIssuedAt(new Date()).setExpiration(generateExpirationDate(expiration))
+			.compressWith(CompressionCodecs.DEFLATE).signWith(secretKey, SignatureAlgorithm.HS512).compact();
 	}
-
 
 	private Date generateExpirationDate(long expiration) {
 		return new Date(System.currentTimeMillis() + expiration * 1000);
@@ -89,16 +85,17 @@ public class TokenProvider {
 
 	public String createToken(Authentication authentication, Boolean rememberMe) {
 		long expiration = rememberMe ? this.tokenValidityInMillisecondsForRememberMe : this.tokenValidityInMilliseconds;
-		return generateToken(authentication.getName(), new HashMap<String, Object>(4) {{
-			put(PRINCIPAL, authentication.getName());
-		}}, expiration);
+		return generateToken(authentication.getName(), new HashMap<String, Object>(4) {
+			{
+				put(PRINCIPAL, authentication.getName());
+			}
+		}, expiration);
 	}
 
 	public Authentication getAuthentication(String token) {
 		Claims claims = getClaimsFromToken(token);
 		UserDetail userDetail = (UserDetail) userDetailsService.loadUserByUsername((String) claims.get(PRINCIPAL));
-		return new UsernamePasswordAuthenticationToken(userDetail, token,
-			userDetail.getAuthorities());
+		return new UsernamePasswordAuthenticationToken(userDetail, token, userDetail.getAuthorities());
 	}
 
 	public Date getExpirationDateFromToken(String token) {
@@ -142,6 +139,5 @@ public class TokenProvider {
 		}
 		return false;
 	}
-
 
 }

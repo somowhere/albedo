@@ -56,5 +56,4 @@ public interface MenuRepository extends TreeRepository<Menu> {
 	 */
 	List<String> findPermissionsByRoleIds(String roleIds);
 
-
 }

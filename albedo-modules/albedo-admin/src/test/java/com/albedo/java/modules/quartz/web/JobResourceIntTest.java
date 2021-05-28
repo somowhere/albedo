@@ -42,78 +42,98 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class JobResourceIntTest {
 
 	/**
-	 * DEFAULT_NAME name  :  任务名称
+	 * DEFAULT_NAME name : 任务名称
 	 */
 	private static final String DEFAULT_NAME = "A";
+
 	/**
-	 * UPDATED_NAME name  :  任务名称
+	 * UPDATED_NAME name : 任务名称
 	 */
 	private static final String UPDATED_NAME = "B";
+
 	/**
-	 * DEFAULT_GROUP group  :  任务组名
+	 * DEFAULT_GROUP group : 任务组名
 	 */
 	private static final String DEFAULT_GROUP = "A";
+
 	/**
-	 * UPDATED_GROUP group  :  任务组名
+	 * UPDATED_GROUP group : 任务组名
 	 */
 	private static final String UPDATED_GROUP = "B";
+
 	/**
-	 * DEFAULT_INVOKETARGET invoke_target  :  调用目标字符串
+	 * DEFAULT_INVOKETARGET invoke_target : 调用目标字符串
 	 */
 	private static final String DEFAULT_INVOKETARGET = "A";
+
 	/**
-	 * UPDATED_INVOKETARGET invoke_target  :  调用目标字符串
+	 * UPDATED_INVOKETARGET invoke_target : 调用目标字符串
 	 */
 	private static final String UPDATED_INVOKETARGET = "B";
+
 	/**
-	 * DEFAULT_CRONEXPRESSION cron_expression  :  cron执行表达式
+	 * DEFAULT_CRONEXPRESSION cron_expression : cron执行表达式
 	 */
 	private static final String DEFAULT_CRONEXPRESSION = "A";
+
 	/**
-	 * UPDATED_CRONEXPRESSION cron_expression  :  cron执行表达式
+	 * UPDATED_CRONEXPRESSION cron_expression : cron执行表达式
 	 */
 	private static final String UPDATED_CRONEXPRESSION = "B";
+
 	/**
-	 * DEFAULT_MISFIREPOLICY misfire_policy  :  计划执行错误策略（1立即执行 2执行一次 3放弃执行）
+	 * DEFAULT_MISFIREPOLICY misfire_policy : 计划执行错误策略（1立即执行 2执行一次 3放弃执行）
 	 */
 	private static final String DEFAULT_MISFIREPOLICY = "A";
+
 	/**
-	 * UPDATED_MISFIREPOLICY misfire_policy  :  计划执行错误策略（1立即执行 2执行一次 3放弃执行）
+	 * UPDATED_MISFIREPOLICY misfire_policy : 计划执行错误策略（1立即执行 2执行一次 3放弃执行）
 	 */
 	private static final String UPDATED_MISFIREPOLICY = "B";
+
 	/**
-	 * DEFAULT_CONCURRENT concurrent  :  是否并发执行（1允许 0禁止）
+	 * DEFAULT_CONCURRENT concurrent : 是否并发执行（1允许 0禁止）
 	 */
 	private static final String DEFAULT_CONCURRENT = "A";
+
 	/**
-	 * UPDATED_CONCURRENT concurrent  :  是否并发执行（1允许 0禁止）
+	 * UPDATED_CONCURRENT concurrent : 是否并发执行（1允许 0禁止）
 	 */
 	private static final String UPDATED_CONCURRENT = "B";
+
 	/**
-	 * DEFAULT_AVAILABLE available  :  状态(1-正常，0-锁定)
+	 * DEFAULT_AVAILABLE available : 状态(1-正常，0-锁定)
 	 */
 	private static final String DEFAULT_AVAILABLE = "A";
+
 	/**
-	 * UPDATED_AVAILABLE available  :  状态(1-正常，0-锁定)
+	 * UPDATED_AVAILABLE available : 状态(1-正常，0-锁定)
 	 */
 	private static final String UPDATED_AVAILABLE = "B";
+
 	/**
-	 * DEFAULT_DESCRIPTION description  :  备注
+	 * DEFAULT_DESCRIPTION description : 备注
 	 */
 	private static final String DEFAULT_DESCRIPTION = "A";
+
 	/**
-	 * UPDATED_DESCRIPTION description  :  备注
+	 * UPDATED_DESCRIPTION description : 备注
 	 */
 	private static final String UPDATED_DESCRIPTION = "B";
+
 	private String DEFAULT_API_URL;
+
 	@Autowired
 	private JobService jobService;
 
 	private MockMvc restJobMockMvc;
+
 	@Autowired
 	private MappingJackson2HttpMessageConverter jacksonMessageConverter;
+
 	@Autowired
 	private GlobalExceptionHandler globalExceptionHandler;
+
 	@Autowired
 	private ApplicationProperties applicationProperties;
 
@@ -124,20 +144,13 @@ public class JobResourceIntTest {
 	/**
 	 * Create an entity for this test.
 	 * <p>
-	 * This is a static method, as tests for other entities might also need it,
-	 * if they test an entity which requires the current entity.
+	 * This is a static method, as tests for other entities might also need it, if they
+	 * test an entity which requires the current entity.
 	 */
 	public static JobDto createEntity() {
-		JobDto jobDto = ClassUtil.createObj(JobDto.class, Lists.newArrayList(
-			JobDto.F_NAME
-			, JobDto.F_GROUP
-			, JobDto.F_INVOKETARGET
-			, JobDto.F_CRONEXPRESSION
-			, JobDto.F_MISFIREPOLICY
-			, JobDto.F_CONCURRENT
-			, JobDto.F_AVAILABLE
-			, JobDto.F_DESCRIPTION
-			),
+		JobDto jobDto = ClassUtil.createObj(JobDto.class,
+			Lists.newArrayList(JobDto.F_NAME, JobDto.F_GROUP, JobDto.F_INVOKETARGET, JobDto.F_CRONEXPRESSION,
+				JobDto.F_MISFIREPOLICY, JobDto.F_CONCURRENT, JobDto.F_AVAILABLE, JobDto.F_DESCRIPTION),
 
 			DEFAULT_NAME
 
@@ -153,9 +166,7 @@ public class JobResourceIntTest {
 
 			, DEFAULT_AVAILABLE
 
-
 			, DEFAULT_DESCRIPTION
-
 
 		);
 		return jobDto;
@@ -170,8 +181,7 @@ public class JobResourceIntTest {
 			.addPlaceholderValue(TestUtil.ADMIN_PATH, applicationProperties.getAdminPath())
 			.setControllerAdvice(globalExceptionHandler)
 			.setConversionService(TestUtil.createFormattingConversionService())
-			.setMessageConverters(jacksonMessageConverter)
-			.build();
+			.setMessageConverters(jacksonMessageConverter).build();
 	}
 
 	@BeforeEach
@@ -184,17 +194,12 @@ public class JobResourceIntTest {
 	public void createJob() throws Exception {
 		int databaseSizeBeforeCreate = jobService.list().size();
 		// Create the Job
-		restJobMockMvc.perform(post(DEFAULT_API_URL)
-			.param(PageModel.F_DESC, Job.F_SQL_CREATED_DATE)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(jobDto)))
+		restJobMockMvc
+			.perform(post(DEFAULT_API_URL).param(PageModel.F_DESC, Job.F_SQL_CREATED_DATE)
+				.contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(jobDto)))
 			.andExpect(status().isOk());
 		// Validate the Job in the database
-		List<Job> jobList = jobService.list(
-			Wrappers.<Job>query().lambda().orderByAsc(
-				Job::getCreatedDate
-			)
-		);
+		List<Job> jobList = jobService.list(Wrappers.<Job>query().lambda().orderByAsc(Job::getCreatedDate));
 		assertThat(jobList).hasSize(databaseSizeBeforeCreate + 1);
 		Job testJob = jobList.get(jobList.size() - 1);
 		assertThat(testJob.getName()).isEqualTo(DEFAULT_NAME);
@@ -216,10 +221,8 @@ public class JobResourceIntTest {
 
 		// Create the Job, which fails.
 
-		restJobMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(jobDto)))
-			.andExpect(status().isBadRequest());
+		restJobMockMvc.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+			.content(TestUtil.convertObjectToJsonBytes(jobDto))).andExpect(status().isBadRequest());
 
 		List<Job> jobList = jobService.list();
 		assertThat(jobList).hasSize(databaseSizeBeforeTest);
@@ -234,10 +237,8 @@ public class JobResourceIntTest {
 
 		// Create the Job, which fails.
 
-		restJobMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(jobDto)))
-			.andExpect(status().isBadRequest());
+		restJobMockMvc.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+			.content(TestUtil.convertObjectToJsonBytes(jobDto))).andExpect(status().isBadRequest());
 
 		List<Job> jobList = jobService.list();
 		assertThat(jobList).hasSize(databaseSizeBeforeTest);
@@ -252,15 +253,12 @@ public class JobResourceIntTest {
 
 		// Create the Job, which fails.
 
-		restJobMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(jobDto)))
-			.andExpect(status().isBadRequest());
+		restJobMockMvc.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+			.content(TestUtil.convertObjectToJsonBytes(jobDto))).andExpect(status().isBadRequest());
 
 		List<Job> jobList = jobService.list();
 		assertThat(jobList).hasSize(databaseSizeBeforeTest);
 	}
-
 
 	@Test
 	@Transactional(rollbackFor = Exception.class)
@@ -269,16 +267,14 @@ public class JobResourceIntTest {
 		jobService.saveOrUpdate(jobDto);
 
 		// Get all the jobList
-		restJobMockMvc.perform(get(DEFAULT_API_URL))
-			.andExpect(status().isOk())
+		restJobMockMvc.perform(get(DEFAULT_API_URL)).andExpect(status().isOk())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.records.[*].id").value(hasItem(jobDto.getId())))
 			.andExpect(jsonPath("$.data.records.[*].cronExpression").value(hasItem(DEFAULT_CRONEXPRESSION)))
 			.andExpect(jsonPath("$.data.records.[*].misfirePolicy").value(hasItem(DEFAULT_MISFIREPOLICY)))
 			.andExpect(jsonPath("$.data.records.[*].concurrent").value(hasItem(DEFAULT_CONCURRENT)))
 			.andExpect(jsonPath("$.data.records.[*].available").value(hasItem(DEFAULT_AVAILABLE)))
-			.andExpect(jsonPath("$.data.records.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-		;
+			.andExpect(jsonPath("$.data.records.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
 	}
 
 	@Test
@@ -288,25 +284,21 @@ public class JobResourceIntTest {
 		jobService.saveOrUpdate(jobDto);
 
 		// Get the job
-		restJobMockMvc.perform(get(DEFAULT_API_URL + "{id}", jobDto.getId()))
-			.andExpect(status().isOk())
+		restJobMockMvc.perform(get(DEFAULT_API_URL + "{id}", jobDto.getId())).andExpect(status().isOk())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.id").value(jobDto.getId()))
 			.andExpect(jsonPath("$.data.cronExpression").value(DEFAULT_CRONEXPRESSION))
 			.andExpect(jsonPath("$.data.misfirePolicy").value(DEFAULT_MISFIREPOLICY))
 			.andExpect(jsonPath("$.data.concurrent").value(DEFAULT_CONCURRENT))
 			.andExpect(jsonPath("$.data.available").value(DEFAULT_AVAILABLE))
-			.andExpect(jsonPath("$.data.description").value(DEFAULT_DESCRIPTION))
-		;
+			.andExpect(jsonPath("$.data.description").value(DEFAULT_DESCRIPTION));
 	}
-
 
 	@Test
 	@Transactional(rollbackFor = Exception.class)
 	public void getNonExistingJob() throws Exception {
 		// Get the job
-		restJobMockMvc.perform(get(DEFAULT_API_URL + "{id}", Long.MAX_VALUE))
-			.andExpect(status().isOk())
+		restJobMockMvc.perform(get(DEFAULT_API_URL + "{id}", Long.MAX_VALUE)).andExpect(status().isOk())
 			.andExpect(jsonPath("$.data").isEmpty());
 	}
 
@@ -320,17 +312,11 @@ public class JobResourceIntTest {
 
 		// Update the job
 		Job updatedJob = jobService.getById(jobDto.getId());
-		// Disconnect from session so that the updates on updatedJob are not directly saved in db
-		ClassUtil.updateObj(updatedJob, Lists.newArrayList(
-			Job.F_NAME
-			, Job.F_GROUP
-			, Job.F_INVOKETARGET
-			, Job.F_CRONEXPRESSION
-			, Job.F_MISFIREPOLICY
-			, Job.F_CONCURRENT
-			, Job.F_AVAILABLE
-			, Job.F_DESCRIPTION
-			),
+		// Disconnect from session so that the updates on updatedJob are not directly
+		// saved in db
+		ClassUtil.updateObj(updatedJob,
+			Lists.newArrayList(Job.F_NAME, Job.F_GROUP, Job.F_INVOKETARGET, Job.F_CRONEXPRESSION,
+				Job.F_MISFIREPOLICY, Job.F_CONCURRENT, Job.F_AVAILABLE, Job.F_DESCRIPTION),
 
 			UPDATED_NAME
 
@@ -346,17 +332,13 @@ public class JobResourceIntTest {
 
 			, UPDATED_AVAILABLE
 
-
 			, UPDATED_DESCRIPTION
-
 
 		);
 
 		JobDto jobVo = jobService.copyBeanToDto(updatedJob);
-		restJobMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(jobVo)))
-			.andExpect(status().isOk());
+		restJobMockMvc.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+			.content(TestUtil.convertObjectToJsonBytes(jobVo))).andExpect(status().isOk());
 
 		// Validate the Job in the database
 		List<Job> jobList = jobService.list();
@@ -373,7 +355,6 @@ public class JobResourceIntTest {
 		assertThat(testJob.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
 	}
 
-
 	@Test
 	@Transactional(rollbackFor = Exception.class)
 	public void deleteJob() throws Exception {
@@ -382,8 +363,7 @@ public class JobResourceIntTest {
 		int databaseSizeBeforeDelete = jobService.list().size();
 
 		// Get the job
-		restJobMockMvc.perform(delete(DEFAULT_API_URL + "{id}", jobDto.getId())
-			.accept(TestUtil.APPLICATION_JSON_UTF8))
+		restJobMockMvc.perform(delete(DEFAULT_API_URL + "{id}", jobDto.getId()).accept(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(status().isOk());
 
 		// Validate the database is empty

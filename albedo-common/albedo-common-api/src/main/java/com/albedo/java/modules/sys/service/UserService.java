@@ -38,6 +38,7 @@ import java.util.Set;
  * @date 2019/2/1
  */
 public interface UserService extends DataService<User, UserDto, String> {
+
 	/**
 	 * 查询用户信息
 	 *
@@ -177,4 +178,5 @@ public interface UserService extends DataService<User, UserDto, String> {
 	 * @updateTime 2020/5/31 17:36
 	 */
 	void updateAvatar(String username, String avatar);
+
 }

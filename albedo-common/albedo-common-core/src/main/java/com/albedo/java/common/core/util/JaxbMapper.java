@@ -12,7 +12,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * 使用Jaxb2.0实现XML<->Java Object的Mapper. 在创建时需要设定所有需要序列化的Root对象的Class. 特别支持Root对象是Collection的情形.
+ * 使用Jaxb2.0实现XML<->Java Object的Mapper. 在创建时需要设定所有需要序列化的Root对象的Class.
+ * 特别支持Root对象是Collection的情形.
  *
  * @author calvin
  * @version 2013-01-15
@@ -50,7 +51,8 @@ public class JaxbMapper {
 			CollectionWrapper wrapper = new CollectionWrapper();
 			wrapper.collection = root;
 
-			JAXBElement<CollectionWrapper> wrapperElement = new JAXBElement<CollectionWrapper>(new QName(rootName), CollectionWrapper.class, wrapper);
+			JAXBElement<CollectionWrapper> wrapperElement = new JAXBElement<CollectionWrapper>(new QName(rootName),
+				CollectionWrapper.class, wrapper);
 
 			StringWriter writer = new StringWriter();
 			createMarshaller(clazz, encoding).marshal(wrapperElement, writer);
@@ -115,7 +117,8 @@ public class JaxbMapper {
 				jaxbContext = JAXBContext.newInstance(clazz, CollectionWrapper.class);
 				jaxbContexts.putIfAbsent(clazz, jaxbContext);
 			} catch (JAXBException ex) {
-				throw new RuntimeException("Could not instantiate JAXBContext for class [" + clazz + "]: " + ex.getMessage());
+				throw new RuntimeException(
+					"Could not instantiate JAXBContext for class [" + clazz + "]: " + ex.getMessage());
 			}
 		}
 		return jaxbContext;
@@ -128,6 +131,7 @@ public class JaxbMapper {
 
 		@XmlAnyElement
 		protected Collection<?> collection;
+
 	}
 
 }

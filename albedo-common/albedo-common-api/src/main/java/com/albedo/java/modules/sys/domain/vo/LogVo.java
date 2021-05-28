@@ -27,8 +27,11 @@ import java.io.Serializable;
  */
 @Data
 public class LogVo implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	private LogOperate logOperate;
+
 	private String username;
+
 }

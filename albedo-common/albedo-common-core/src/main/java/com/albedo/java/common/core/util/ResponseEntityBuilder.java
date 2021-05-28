@@ -54,7 +54,8 @@ public class ResponseEntityBuilder {
 		if (data instanceof BindingResult) {
 			List<String> errorsList = new ArrayList();
 			BindingResult bindingResult = (BindingResult) data;
-			errorsList.addAll(bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList()));
+			errorsList.addAll(bindingResult.getAllErrors().stream()
+				.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList()));
 			data = null;
 			msg = new String[errorsList.size()];
 			msg = errorsList.toArray(msg);
@@ -73,8 +74,9 @@ public class ResponseEntityBuilder {
 	}
 
 	public static <X> ResponseEntity<X> wrapOrNotFound(Optional<X> maybeResponse, HttpHeaders header) {
-		return (ResponseEntity) maybeResponse.map((response) -> ResponseEntity.ok().headers(header).
-			body(Result.buildOkData(response))).orElse(new ResponseEntity(HttpStatus.NOT_FOUND));
+		return (ResponseEntity) maybeResponse
+			.map((response) -> ResponseEntity.ok().headers(header).body(Result.buildOkData(response)))
+			.orElse(new ResponseEntity(HttpStatus.NOT_FOUND));
 	}
 
 }

@@ -148,7 +148,8 @@ public class MonitorServiceImpl implements MonitorService {
 		memoryInfo.put("total", FormatUtil.formatBytes(memory.getTotal()));
 		memoryInfo.put("available", FormatUtil.formatBytes(memory.getAvailable()));
 		memoryInfo.put("used", FormatUtil.formatBytes(memory.getTotal() - memory.getAvailable()));
-		memoryInfo.put("usageRate", df.format((memory.getTotal() - memory.getAvailable()) / (double) memory.getTotal() * 100));
+		memoryInfo.put("usageRate",
+			df.format((memory.getTotal() - memory.getAvailable()) / (double) memory.getTotal() * 100));
 		return memoryInfo;
 	}
 
@@ -170,14 +171,22 @@ public class MonitorServiceImpl implements MonitorService {
 		// 等待1秒...
 		Util.sleep(1000);
 		long[] ticks = processor.getSystemCpuLoadTicks();
-		long user = ticks[CentralProcessor.TickType.USER.getIndex()] - prevTicks[CentralProcessor.TickType.USER.getIndex()];
-		long nice = ticks[CentralProcessor.TickType.NICE.getIndex()] - prevTicks[CentralProcessor.TickType.NICE.getIndex()];
-		long sys = ticks[CentralProcessor.TickType.SYSTEM.getIndex()] - prevTicks[CentralProcessor.TickType.SYSTEM.getIndex()];
-		long idle = ticks[CentralProcessor.TickType.IDLE.getIndex()] - prevTicks[CentralProcessor.TickType.IDLE.getIndex()];
-		long iowait = ticks[CentralProcessor.TickType.IOWAIT.getIndex()] - prevTicks[CentralProcessor.TickType.IOWAIT.getIndex()];
-		long irq = ticks[CentralProcessor.TickType.IRQ.getIndex()] - prevTicks[CentralProcessor.TickType.IRQ.getIndex()];
-		long softirq = ticks[CentralProcessor.TickType.SOFTIRQ.getIndex()] - prevTicks[CentralProcessor.TickType.SOFTIRQ.getIndex()];
-		long steal = ticks[CentralProcessor.TickType.STEAL.getIndex()] - prevTicks[CentralProcessor.TickType.STEAL.getIndex()];
+		long user = ticks[CentralProcessor.TickType.USER.getIndex()]
+			- prevTicks[CentralProcessor.TickType.USER.getIndex()];
+		long nice = ticks[CentralProcessor.TickType.NICE.getIndex()]
+			- prevTicks[CentralProcessor.TickType.NICE.getIndex()];
+		long sys = ticks[CentralProcessor.TickType.SYSTEM.getIndex()]
+			- prevTicks[CentralProcessor.TickType.SYSTEM.getIndex()];
+		long idle = ticks[CentralProcessor.TickType.IDLE.getIndex()]
+			- prevTicks[CentralProcessor.TickType.IDLE.getIndex()];
+		long iowait = ticks[CentralProcessor.TickType.IOWAIT.getIndex()]
+			- prevTicks[CentralProcessor.TickType.IOWAIT.getIndex()];
+		long irq = ticks[CentralProcessor.TickType.IRQ.getIndex()]
+			- prevTicks[CentralProcessor.TickType.IRQ.getIndex()];
+		long softirq = ticks[CentralProcessor.TickType.SOFTIRQ.getIndex()]
+			- prevTicks[CentralProcessor.TickType.SOFTIRQ.getIndex()];
+		long steal = ticks[CentralProcessor.TickType.STEAL.getIndex()]
+			- prevTicks[CentralProcessor.TickType.STEAL.getIndex()];
 		long totalCpu = user + nice + sys + idle + iowait + irq + softirq + steal;
 		cpuInfo.put("used", df.format(100d * user / totalCpu + 100d * sys / totalCpu));
 		cpuInfo.put("idle", df.format(100d * idle / totalCpu));
@@ -203,4 +212,5 @@ public class MonitorServiceImpl implements MonitorService {
 		systemInfo.put("ip", WebUtil.getHostIp());
 		return systemInfo;
 	}
+
 }

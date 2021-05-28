@@ -30,13 +30,14 @@ import java.io.IOException;
 public class ValidateCodeFilter extends OncePerRequestFilter {
 
 	private final AuthenticationFailureHandler authenticationFailureHandler;
+
 	private final ApplicationProperties applicationProperties;
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-		if (StringUtil.equals(applicationProperties.getAdminPath(SecurityConstants.AUTHENTICATE_URL), request.getRequestURI())
-			&& StringUtil.equalsIgnoreCase(request.getMethod(), "post")
-		) {
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+		throws ServletException, IOException {
+		if (StringUtil.equals(applicationProperties.getAdminPath(SecurityConstants.AUTHENTICATE_URL),
+			request.getRequestURI()) && StringUtil.equalsIgnoreCase(request.getMethod(), "post")) {
 			if (!SpringContextHolder.isDevelopment()) {
 				LoginVo loginVo = new LoginVo();
 				loginVo.setCode(request.getParameter("code"));
@@ -51,4 +52,5 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 		}
 		filterChain.doFilter(request, response);
 	}
+
 }

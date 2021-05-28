@@ -39,14 +39,14 @@
 		<captcha.version>2.2.0</captcha.version>
 		<velocity.version>1.7</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
-		<h2.version>1.4.199</h2.version>
+		<h2.version>1.4.200</h2.version>
 		<springfox.version>3.0.0</springfox.version>
 		<knife4j.version>3.0.2</knife4j.version>
 		<poi.version>5.0.0</poi.version>
 		<oshi.version>5.7.3</oshi.version>
 		<guava.version>30.1.1-jre</guava.version>
-		<git.commit.plugin>2.2.5</git.commit.plugin>
-		<spring.checkstyle.plugin>0.0.23</spring.checkstyle.plugin>
+		<git.commit.plugin>4.0.4</git.commit.plugin>
+		<spring.checkstyle.plugin>0.0.28</spring.checkstyle.plugin>
 
 		<profile.dev.log.level>DEBUG</profile.dev.log.level>
 		<profile.prod.log.level>INFO</profile.prod.log.level>

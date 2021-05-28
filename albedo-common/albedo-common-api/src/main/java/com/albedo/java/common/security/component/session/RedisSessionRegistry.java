@@ -30,12 +30,16 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 @Slf4j
 @AllArgsConstructor
-public class RedisSessionRegistry implements SessionRegistry,
-	ApplicationListener<SessionDestroyedEvent> {
+public class RedisSessionRegistry implements SessionRegistry, ApplicationListener<SessionDestroyedEvent> {
+
 	public static final String SESSIONIDS = "sessionIds";
+
 	public static final String PRINCIPALS = "principals";
+
 	private final ApplicationProperties applicationProperties;
+
 	private final RedisTemplate redisTemplate;
+
 	private final UserOnlineService userOnlineService;
 
 	// ~ Methods
@@ -47,16 +51,14 @@ public class RedisSessionRegistry implements SessionRegistry,
 	}
 
 	@Override
-	public List<SessionInformation> getAllSessions(Object principal,
-												   boolean includeExpiredSessions) {
+	public List<SessionInformation> getAllSessions(Object principal, boolean includeExpiredSessions) {
 		Set<String> sessionsUsedByPrincipal = getPrincipals(principal);
 
 		if (sessionsUsedByPrincipal == null) {
 			return Collections.emptyList();
 		}
 
-		List<SessionInformation> list = new ArrayList<>(
-			sessionsUsedByPrincipal.size());
+		List<SessionInformation> list = new ArrayList<>(sessionsUsedByPrincipal.size());
 
 		for (String sessionId : sessionsUsedByPrincipal) {
 			SessionInformation sessionInformation = getSessionInformation(sessionId);
@@ -108,8 +110,7 @@ public class RedisSessionRegistry implements SessionRegistry,
 		Assert.notNull(principal, "Principal required as per interface contract");
 
 		if (log.isDebugEnabled()) {
-			log.debug("Registering session " + sessionId + ", for principal "
-				+ principal);
+			log.debug("Registering session " + sessionId + ", for principal " + principal);
 		}
 
 		if (getSessionInformation(sessionId) != null) {
@@ -129,8 +130,7 @@ public class RedisSessionRegistry implements SessionRegistry,
 		sessionsUsedByPrincipal.add(sessionId);
 
 		if (log.isTraceEnabled()) {
-			log.trace("Sessions used by '" + principal + "' : "
-				+ sessionsUsedByPrincipal);
+			log.trace("Sessions used by '" + principal + "' : " + sessionsUsedByPrincipal);
 		}
 		Authentication authentication = SecurityUtil.getAuthentication();
 		if (authentication != null && authentication.isAuthenticated()) {
@@ -156,8 +156,7 @@ public class RedisSessionRegistry implements SessionRegistry,
 			return;
 		}
 		if (log.isTraceEnabled()) {
-			log.debug("Removing session " + sessionId
-				+ " from set of registered sessions");
+			log.debug("Removing session " + sessionId + " from set of registered sessions");
 		}
 
 		redisTemplate.boundHashOps(SESSIONIDS).delete(sessionId);
@@ -169,8 +168,7 @@ public class RedisSessionRegistry implements SessionRegistry,
 		}
 
 		if (log.isDebugEnabled()) {
-			log.debug("Removing session " + sessionId
-				+ " from principal's set of registered sessions");
+			log.debug("Removing session " + sessionId + " from principal's set of registered sessions");
 		}
 
 		sessionsUsedByPrincipal.remove(sessionId);
@@ -178,15 +176,13 @@ public class RedisSessionRegistry implements SessionRegistry,
 		if (sessionsUsedByPrincipal.isEmpty()) {
 			// No need to keep object in principals Map anymore
 			if (log.isDebugEnabled()) {
-				log.debug("Removing principal " + info.getPrincipal()
-					+ " from registry");
+				log.debug("Removing principal " + info.getPrincipal() + " from registry");
 			}
 			removePrincipal(info.getPrincipal());
 		}
 
 		if (log.isTraceEnabled()) {
-			log.trace("Sessions used by '" + info.getPrincipal() + "' : "
-				+ sessionsUsedByPrincipal);
+			log.trace("Sessions used by '" + info.getPrincipal() + "' : " + sessionsUsedByPrincipal);
 		}
 
 	}
@@ -207,4 +203,5 @@ public class RedisSessionRegistry implements SessionRegistry,
 		UserDetail userDetail = (UserDetail) principal;
 		redisTemplate.boundHashOps(PRINCIPALS).delete(userDetail.getId());
 	}
+
 }

@@ -18,19 +18,28 @@ package com.albedo.java.common.core.constant;
 
 /**
  * @author somewhere
- * @date 2018年06月22日16:41:01
- * 服务名称
+ * @date 2018年06月22日16:41:01 服务名称
  */
 public interface DictNameConstants {
 
 	String SYS_FLAG = "sys_flag";
+
 	String SYS_MENU_TYPE = "sys_menu_type";
+
 	String SYS_ONLINE_STATUS = "sys_online_status";
+
 	String SYS_OPERATOR_TYPE = "sys_operator_type";
+
 	String SYS_STATUS = "sys_status";
+
 	String SYS_DATA_SCOPE = "sys_data_scope";
+
 	String SYS_BUSINESS_TYPE = "sys_business_type";
+
 	String QUARTZ_MISFIRE_POLICY = "quartz_misfire_policy";
+
 	String QUARTZ_JOB_GROUP = "quartz_job_group";
+
 	String QUARTZ_JOB_STATUS = "quartz_job_status";
+
 }

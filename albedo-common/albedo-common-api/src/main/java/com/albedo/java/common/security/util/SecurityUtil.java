@@ -16,7 +16,6 @@
 
 package com.albedo.java.common.security.util;
 
-
 import cn.hutool.core.util.StrUtil;
 import com.albedo.java.common.core.annotation.AnonymousAccess;
 import com.albedo.java.common.core.constant.SecurityConstants;
@@ -98,8 +97,7 @@ public class SecurityUtil {
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
 		List<String> roleIds = new ArrayList<>();
-		authorities.stream()
-			.filter(granted -> StrUtil.startWith(granted.getAuthority(), SecurityConstants.ROLE))
+		authorities.stream().filter(granted -> StrUtil.startWith(granted.getAuthority(), SecurityConstants.ROLE))
 			.forEach(granted -> {
 				String id = StrUtil.removePrefix(granted.getAuthority(), SecurityConstants.ROLE);
 				roleIds.add(id);
@@ -119,8 +117,10 @@ public class SecurityUtil {
 			HandlerMethod handlerMethod = infoEntry.getValue();
 			AnonymousAccess anonymousAccess = handlerMethod.getMethodAnnotation(AnonymousAccess.class);
 			if (null != anonymousAccess) {
-				List<RequestMethod> requestMethods = new ArrayList<>(infoEntry.getKey().getMethodsCondition().getMethods());
-				RequestMethodEnum request = RequestMethodEnum.find(requestMethods.size() == 0 ? RequestMethodEnum.ALL.getType() : requestMethods.get(0).name());
+				List<RequestMethod> requestMethods = new ArrayList<>(
+					infoEntry.getKey().getMethodsCondition().getMethods());
+				RequestMethodEnum request = RequestMethodEnum.find(
+					requestMethods.size() == 0 ? RequestMethodEnum.ALL.getType() : requestMethods.get(0).name());
 				switch (Objects.requireNonNull(request)) {
 					case GET:
 						get.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
@@ -151,4 +151,5 @@ public class SecurityUtil {
 		anonymousUrls.put(RequestMethodEnum.ALL.getType(), all);
 		return anonymousUrls;
 	}
+
 }

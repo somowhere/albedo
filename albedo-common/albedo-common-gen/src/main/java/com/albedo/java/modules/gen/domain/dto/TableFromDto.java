@@ -18,10 +18,13 @@ import java.io.Serializable;
 public class TableFromDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
 	/*** 编码 */
 	private String id;
+
 	/*** 名称 */
 	private String tableName;
+
 	/*** 数据源 */
 	private String dsName;
 

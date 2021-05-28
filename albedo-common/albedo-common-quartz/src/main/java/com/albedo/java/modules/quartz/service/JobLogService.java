@@ -18,7 +18,6 @@ import java.util.List;
  */
 public interface JobLogService extends BaseService<JobLog> {
 
-
 	/**
 	 * 清空日志
 	 */
@@ -31,4 +30,5 @@ public interface JobLogService extends BaseService<JobLog> {
 	 * @return
 	 */
 	List<JobLogExcelVo> findExcelVo(QueryWrapper<JobLog> toEntityWrapper);
+
 }

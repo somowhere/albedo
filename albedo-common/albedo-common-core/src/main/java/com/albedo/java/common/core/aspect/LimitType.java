@@ -21,8 +21,10 @@ package com.albedo.java.common.core.aspect;
  * @author /
  */
 public enum LimitType {
+
 	// 默认
 	CUSTOMER,
-	//  by ip addr
+	// by ip addr
 	IP
+
 }

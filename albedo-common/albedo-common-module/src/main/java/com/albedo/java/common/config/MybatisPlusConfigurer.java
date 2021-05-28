@@ -38,6 +38,7 @@ import java.util.Properties;
 @Configuration
 @MapperScan("com.albedo.java.modules.*.repository")
 public class MybatisPlusConfigurer {
+
 	/**
 	 * 新增，修改 公共字段填充
 	 *
@@ -61,7 +62,6 @@ public class MybatisPlusConfigurer {
 		interceptor.addInnerInterceptor(new DataScopeInterceptor());
 		return interceptor;
 	}
-
 
 	@Bean
 	public DatabaseIdProvider getDatabaseIdProvider() {

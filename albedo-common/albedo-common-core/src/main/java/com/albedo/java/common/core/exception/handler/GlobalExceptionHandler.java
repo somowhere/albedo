@@ -42,12 +42,12 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 /**
  * @author somewhere
- * @date 2019/2/1
- * 全局的的异常处理器
+ * @date 2019/2/1 全局的的异常处理器
  */
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
 	/**
 	 * 全局异常.
 	 *
@@ -119,4 +119,5 @@ public class GlobalExceptionHandler {
 		log.error(ExceptionUtil.stacktraceToString(e));
 		return ResponseEntityBuilder.buildFail(NOT_FOUND, e.getMessage());
 	}
+
 }

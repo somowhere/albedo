@@ -28,4 +28,5 @@ import com.albedo.java.modules.sys.domain.UserOnline;
  * @since 2019/2/1
  */
 public interface UserOnlineRepository extends BaseRepository<UserOnline> {
+
 }

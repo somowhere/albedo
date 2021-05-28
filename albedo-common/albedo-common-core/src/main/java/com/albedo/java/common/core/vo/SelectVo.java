@@ -17,15 +17,17 @@ import java.util.Objects;
 public class SelectVo implements Serializable {
 
 	private static final long serialVersionUID = 1848699240546373048L;
+
 	private String value;
+
 	private String label;
+
 	private Integer version;
 
 	public SelectVo(String value, String label) {
 		this.value = value;
 		this.label = label;
 	}
-
 
 	@Override
 	public boolean equals(Object o) {
@@ -46,6 +48,5 @@ public class SelectVo implements Serializable {
 	public int hashCode() {
 		return Objects.hashCode(toString());
 	}
-
 
 }

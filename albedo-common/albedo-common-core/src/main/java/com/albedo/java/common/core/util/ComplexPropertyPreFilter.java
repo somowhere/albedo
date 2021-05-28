@@ -12,8 +12,11 @@ import java.util.Set;
  * @date 2020/5/31 17:07
  */
 public class ComplexPropertyPreFilter implements PropertyPreFilter {
+
 	private final Class<?> clazz;
+
 	private final Set<String> includes = new HashSet<String>();
+
 	private final Set<String> excludes = new HashSet<String>();
 
 	public ComplexPropertyPreFilter(String... properties) {

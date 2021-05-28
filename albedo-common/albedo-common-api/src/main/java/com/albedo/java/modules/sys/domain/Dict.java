@@ -43,23 +43,28 @@ import javax.xml.bind.annotation.XmlAttribute;
 public class Dict extends TreeEntity<Dict> {
 
 	public static final String F_VAL = "val";
+
 	public static final String F_SHOW = "show";
+
 	public static final String F_SQL_SHOW = "show";
+
 	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 数据值
 	 */
 	@NotBlank(message = "字典项数据值不能为空")
 	private String val;
+
 	/**
 	 * 类型
 	 */
 	@NotBlank(message = "字典项数据类型不能为空")
 	private String code;
+
 	@NotNull
 	@DictType(DictNameConstants.SYS_FLAG)
 	private Integer available = 1;
-
 
 	@TableField(exist = false)
 	private String parentCode;

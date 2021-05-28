@@ -40,7 +40,9 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class DeptRelationServiceImpl extends BaseServiceImpl<DeptRelationRepository, DeptRelation> implements DeptRelationService {
+public class DeptRelationServiceImpl extends BaseServiceImpl<DeptRelationRepository, DeptRelation>
+	implements DeptRelationService {
+
 	private final DeptRelationRepository deptRelationRepository;
 
 	/**
@@ -51,12 +53,12 @@ public class DeptRelationServiceImpl extends BaseServiceImpl<DeptRelationReposit
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void saveDeptRelation(DeptDto deptDto) {
-		//增加部门关系表
+		// 增加部门关系表
 		DeptRelation condition = new DeptRelation();
 		condition.setDescendant(deptDto.getParentId());
 		List<DeptRelation> relationList = deptRelationRepository
-			.selectList(Wrappers.<DeptRelation>query().lambda()
-				.eq(DeptRelation::getDescendant, deptDto.getParentId()))
+			.selectList(
+				Wrappers.<DeptRelation>query().lambda().eq(DeptRelation::getDescendant, deptDto.getParentId()))
 			.stream().map(relation -> {
 				relation.setDescendant(deptDto.getId());
 				return relation;
@@ -65,7 +67,7 @@ public class DeptRelationServiceImpl extends BaseServiceImpl<DeptRelationReposit
 			this.saveBatch(relationList);
 		}
 
-		//自己也要维护到关系表中
+		// 自己也要维护到关系表中
 		DeptRelation own = new DeptRelation();
 		own.setDescendant(deptDto.getId());
 		own.setAncestor(deptDto.getId());

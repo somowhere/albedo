@@ -16,6 +16,7 @@ import java.util.Map;
  * @date 2020/5/30 11:25 下午
  */
 public interface SchemeService extends DataService<Scheme, SchemeDto, String> {
+
 	/**
 	 * findAllListIdNot
 	 *
@@ -48,7 +49,7 @@ public interface SchemeService extends DataService<Scheme, SchemeDto, String> {
 	Map<String, Object> findFormData(SchemeDto schemeDto, String loginId);
 
 	/**
-	 * getSchemeVoPage  分页查询用户信息（含有角色信息）
+	 * getSchemeVoPage 分页查询用户信息（含有角色信息）
 	 *
 	 * @param pageModel
 	 * @param schemeQueryCriteria
@@ -68,4 +69,5 @@ public interface SchemeService extends DataService<Scheme, SchemeDto, String> {
 	 * @updateTime 2020/5/31 17:34
 	 */
 	Map<String, Object> previewCode(String id, String username);
+
 }

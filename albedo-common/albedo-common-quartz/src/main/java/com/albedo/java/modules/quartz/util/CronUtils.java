@@ -11,6 +11,7 @@ import java.util.Date;
  * @author somewhere
  */
 public class CronUtils {
+
 	/**
 	 * 返回一个布尔值代表一个给定的Cron表达式的有效性
 	 *
@@ -50,4 +51,5 @@ public class CronUtils {
 			throw new IllegalArgumentException(e.getMessage());
 		}
 	}
+
 }

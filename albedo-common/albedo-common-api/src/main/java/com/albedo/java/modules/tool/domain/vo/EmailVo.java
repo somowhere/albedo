@@ -45,4 +45,5 @@ public class EmailVo {
 
 	@NotBlank
 	private String content;
+
 }

@@ -1,6 +1,5 @@
 package com.albedo.java.modules.sys.component;
 
-
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import lombok.AllArgsConstructor;
@@ -25,7 +24,9 @@ import java.util.Set;
 public class InitCacheDataComponent implements InitializingBean {
 
 	private final Environment environment;
+
 	private final CacheManager cacheManager;
+
 	private final RedisTemplate redisTemplate;
 
 	@Override
@@ -41,4 +42,5 @@ public class InitCacheDataComponent implements InitializingBean {
 			redisTemplate.delete(keys);
 		}
 	}
+
 }

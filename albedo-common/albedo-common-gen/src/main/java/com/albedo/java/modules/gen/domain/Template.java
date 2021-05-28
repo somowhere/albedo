@@ -29,28 +29,34 @@ import java.util.List;
 public class Template extends IdEntity<Template> {
 
 	public static final String F_NAME = "name";
+
 	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 名称
 	 */
 	@Size(min = 1, max = 200)
 	@TableField("name")
 	private String name;
+
 	/**
 	 * 分类
 	 */
 	@TableField("category")
 	private String category;
+
 	/**
 	 * 生成文件路径
 	 */
 	@TableField("file_path")
 	private String filePath;
+
 	/**
 	 * 文件名
 	 */
 	@TableField("file_name")
 	private String fileName;
+
 	/**
 	 * 内容
 	 */

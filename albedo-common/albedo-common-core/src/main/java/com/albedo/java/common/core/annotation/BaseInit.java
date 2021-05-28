@@ -1,6 +1,5 @@
 package com.albedo.java.common.core.annotation;
 
-
 import java.lang.annotation.*;
 
 /**
@@ -22,4 +21,3 @@ public @interface BaseInit {
 	String method() default "init";
 
 }
-

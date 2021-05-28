@@ -18,6 +18,7 @@ import java.util.Map;
 public class ApplicationConfig {
 
 	private static java.util.Map<String, Object> props = null;
+
 	private static java.util.Map<String, String> paramMap = Maps.newHashMap();
 
 	static {
@@ -79,7 +80,6 @@ public class ApplicationConfig {
 			props = Maps.newHashMap();
 		}
 
-
 		PathMatchingResourcePatternResolver resourceLoader = new PathMatchingResourcePatternResolver();
 		InputStream is = resourceLoader.getResources("classpath*:/config/application.yml")[0].getInputStream();
 		// in
@@ -92,7 +92,6 @@ public class ApplicationConfig {
 	public static boolean isAddressEnabled() {
 		return Boolean.valueOf(get("application.address-enabled"));
 	}
-
 
 	/**
 	 * 获取文件上传路径
@@ -129,6 +128,5 @@ public class ApplicationConfig {
 	public static String getUploadPath() {
 		return getStaticFileDirectory() + "/upload";
 	}
-
 
 }

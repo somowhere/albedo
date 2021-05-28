@@ -58,18 +58,19 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 @CacheConfig(cacheNames = CacheNameConstants.ROLE_DETAILS)
-public class RoleServiceImpl extends
-	DataServiceImpl<RoleRepository, Role, RoleDto, String> implements RoleService {
+public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleDto, String> implements RoleService {
+
 	private UserRepository userRepository;
+
 	private RoleMenuService roleMenuService;
+
 	private RoleDeptService roleDeptService;
 
 	@Override
 	public RoleDto getOneDto(String id) {
 		RoleDto oneVo = super.getOneDto(id);
-		oneVo.setMenuIdList(roleMenuService.list(Wrappers
-			.<RoleMenu>query().lambda()
-			.eq(RoleMenu::getRoleId, id)).stream().map(RoleMenu::getMenuId).collect(Collectors.toList()));
+		oneVo.setMenuIdList(roleMenuService.list(Wrappers.<RoleMenu>query().lambda().eq(RoleMenu::getRoleId, id))
+			.stream().map(RoleMenu::getMenuId).collect(Collectors.toList()));
 		oneVo.setDeptIdList(findDeptIdsByRoleId(id));
 		return oneVo;
 	}
@@ -77,9 +78,8 @@ public class RoleServiceImpl extends
 	@Override
 	@Cacheable(key = "'findDeptIdsByRoleId:' + #p0")
 	public List<String> findDeptIdsByRoleId(String roleId) {
-		return roleDeptService.list(Wrappers
-			.<RoleDept>query().lambda()
-			.eq(RoleDept::getRoleId, roleId)).stream().map(RoleDept::getDeptId).collect(Collectors.toList());
+		return roleDeptService.list(Wrappers.<RoleDept>query().lambda().eq(RoleDept::getRoleId, roleId)).stream()
+			.map(RoleDept::getDeptId).collect(Collectors.toList());
 	}
 
 	/**
@@ -107,9 +107,7 @@ public class RoleServiceImpl extends
 		verification(ids);
 		ids.forEach(id -> {
 			SysCacheUtil.delRoleCaches(id);
-			roleMenuService.remove(Wrappers
-				.<RoleMenu>update().lambda()
-				.eq(RoleMenu::getRoleId, id));
+			roleMenuService.remove(Wrappers.<RoleMenu>update().lambda().eq(RoleMenu::getRoleId, id));
 			this.removeById(id);
 		});
 		return Boolean.TRUE;
@@ -122,15 +120,13 @@ public class RoleServiceImpl extends
 		}
 	}
 
-
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void saveOrUpdate(RoleDto roleDto) {
 		boolean add = StringUtil.isEmpty(roleDto.getId());
 		super.saveOrUpdate(roleDto);
 		if (CollUtil.isNotEmpty(roleDto.getMenuIdList())) {
-			roleMenuService.remove(Wrappers.<RoleMenu>query().lambda()
-				.eq(RoleMenu::getRoleId, roleDto.getId()));
+			roleMenuService.remove(Wrappers.<RoleMenu>query().lambda().eq(RoleMenu::getRoleId, roleDto.getId()));
 
 			List<RoleMenu> roleMenuList = roleDto.getMenuIdList().stream().map(menuId -> {
 				RoleMenu roleMenu = new RoleMenu();
@@ -142,8 +138,7 @@ public class RoleServiceImpl extends
 			roleMenuService.saveBatch(roleMenuList);
 		}
 		if (CollUtil.isNotEmpty(roleDto.getDeptIdList())) {
-			roleDeptService.remove(Wrappers.<RoleDept>query().lambda()
-				.eq(RoleDept::getRoleId, roleDto.getId()));
+			roleDeptService.remove(Wrappers.<RoleDept>query().lambda().eq(RoleDept::getRoleId, roleDto.getId()));
 			List<RoleDept> roleDeptList = roleDto.getDeptIdList().stream().map(deptId -> {
 				RoleDept roleDept = new RoleDept();
 				roleDept.setRoleId(roleDto.getId());
@@ -152,7 +147,7 @@ public class RoleServiceImpl extends
 			}).collect(Collectors.toList());
 			roleDeptService.saveBatch(roleDeptList);
 		}
-		//清空userinfo
+		// 清空userinfo
 		if (!add) {
 			SysCacheUtil.delRoleCaches(roleDto.getId());
 		}
@@ -164,22 +159,21 @@ public class RoleServiceImpl extends
 		idList.forEach(id -> {
 			SysCacheUtil.delRoleCaches(id);
 			Role role = repository.selectById(id);
-			role.setAvailable(CommonConstants.YES.equals(role.getAvailable()) ?
-				CommonConstants.NO : CommonConstants.YES);
+			role.setAvailable(
+				CommonConstants.YES.equals(role.getAvailable()) ? CommonConstants.NO : CommonConstants.YES);
 			repository.updateById(role);
 		});
 	}
 
 	@Override
 	public Integer findLevelByUserId(String userId) {
-		List<Integer> levels = this.findListByUserId(SecurityUtil.getUser().getId()).stream()
-			.map(Role::getLevel).collect(Collectors.toList());
+		List<Integer> levels = this.findListByUserId(SecurityUtil.getUser().getId()).stream().map(Role::getLevel)
+			.collect(Collectors.toList());
 		if (CollUtil.isEmpty(levels)) {
 			throw new BadRequestException("权限不足，找不到可用的角色信息");
 		}
 		int min = Collections.min(levels);
 		return min;
 	}
-
 
 }

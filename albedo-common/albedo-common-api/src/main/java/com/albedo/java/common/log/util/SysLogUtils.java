@@ -39,6 +39,7 @@ import java.time.LocalDateTime;
  */
 @UtilityClass
 public class SysLogUtils {
+
 	public LogOperate getSysLog() {
 		HttpServletRequest request = RequestHolder.getHttpServletRequest();
 		LogOperate logOperate = new LogOperate();
@@ -80,4 +81,5 @@ public class SysLogUtils {
 		}
 		return (String) ReflectUtil.getFieldValue(authentication.getPrincipal(), "id");
 	}
+
 }

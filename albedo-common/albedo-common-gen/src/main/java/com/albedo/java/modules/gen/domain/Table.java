@@ -28,22 +28,30 @@ import java.util.List;
 public class Table extends IdEntity<Table> {
 
 	public static final String F_NAME = "name";
+
 	public static final String F_NAMESANDTITLE = "nameAndTitle";
+
 	private static final long serialVersionUID = 1L;
+
 	@TableField("name")
 	@Size(min = 1, max = 200)
 	@NotBlank
 	private String name;
+
 	@TableField("comments")
 	private String comments;
+
 	@TableField("class_name")
 	@NotBlank
 	private String className;
+
 	@TableField("parent_table")
 	private String parentTable;
+
 	@TableField("ds_name")
 	@NotBlank
 	private String dsName;
+
 	@TableField("parent_table_fk")
 	private String parentTableFk;
 
@@ -60,16 +68,21 @@ public class Table extends IdEntity<Table> {
 
 	@TableField(exist = false)
 	private String nameAndTitle;
+
 	@TableField(exist = false)
 	private String nameLike;
+
 	@TableField(exist = false)
 	@JSONField(serialize = false)
 	private List<String> pkList;
+
 	@TableField(exist = false)
 	@JSONField(serialize = false)
 	private List<TableColumn> pkColumnList;
+
 	@TableField(exist = false)
 	private String category;
+
 	@TableField(exist = false)
 	@JSONField(serialize = false)
 	private List<TableColumn> columnFormList;
@@ -83,7 +96,6 @@ public class Table extends IdEntity<Table> {
 		this.name = name;
 		this.comments = comments;
 	}
-
 
 	public String getName() {
 		return StringUtil.lowerCase(name);
@@ -162,4 +174,5 @@ public class Table extends IdEntity<Table> {
 	public int hashCode() {
 		return super.hashCode();
 	}
+
 }

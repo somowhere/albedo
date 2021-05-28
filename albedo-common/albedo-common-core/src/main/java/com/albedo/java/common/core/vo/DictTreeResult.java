@@ -15,10 +15,13 @@ import lombok.NoArgsConstructor;
 public class DictTreeResult {
 
 	private String id;
-	private String pid;
-	private String name;
-	private String value;
-	private String label;
 
+	private String pid;
+
+	private String name;
+
+	private String value;
+
+	private String label;
 
 }

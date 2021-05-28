@@ -36,10 +36,12 @@ import lombok.EqualsAndHashCode;
 public class DictVo extends TreeVo<DictVo> implements TreeNodeAware<DictVo> {
 
 	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 数据值
 	 */
 	private String val;
+
 	/**
 	 * 类型
 	 */

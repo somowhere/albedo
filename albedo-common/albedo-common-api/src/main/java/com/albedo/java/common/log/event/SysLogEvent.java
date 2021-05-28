@@ -20,12 +20,12 @@ import com.albedo.java.modules.sys.domain.LogOperate;
 import org.springframework.context.ApplicationEvent;
 
 /**
- * @author somewhere
- * 系统日志事件
+ * @author somewhere 系统日志事件
  */
 public class SysLogEvent extends ApplicationEvent {
 
 	public SysLogEvent(LogOperate source) {
 		super(source);
 	}
+
 }

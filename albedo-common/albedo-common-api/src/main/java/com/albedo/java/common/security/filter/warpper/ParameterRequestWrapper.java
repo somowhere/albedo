@@ -37,7 +37,7 @@ public class ParameterRequestWrapper extends HttpServletRequestWrapper {
 		Object v = params.get(name);
 		if (v == null) {
 			return null;
-			//一个name可能对应多个value， 返回第一个
+			// 一个name可能对应多个value， 返回第一个
 		} else if (v instanceof String[]) {
 			String[] strArr = (String[]) v;
 			if (strArr.length > 0) {
@@ -75,4 +75,5 @@ public class ParameterRequestWrapper extends HttpServletRequestWrapper {
 			return new String[]{v.toString()};
 		}
 	}
+
 }

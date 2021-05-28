@@ -45,7 +45,6 @@ public class GenConfig implements Serializable {
 	 */
 	private List<DictTemp> viewTypeList;
 
-
 	public GenConfig() {
 		super();
 	}
@@ -108,4 +107,5 @@ public class GenConfig implements Serializable {
 	public void setCodeUiPath(String codeUiPath) {
 		this.codeUiPath = codeUiPath;
 	}
+
 }

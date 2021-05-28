@@ -71,19 +71,16 @@ public class AliPayUtils {
 			String[] values = (String[]) requestParams.get(name);
 			String valueStr = "";
 			for (int i = 0; i < values.length; i++) {
-				valueStr = (i == values.length - 1) ? valueStr + values[i]
-					: valueStr + values[i] + ",";
+				valueStr = (i == values.length - 1) ? valueStr + values[i] : valueStr + values[i] + ",";
 			}
 			params.put(name, valueStr);
 		}
 
 		try {
-			return AlipaySignature.rsaCheckV1(params,
-				alipay.getPublicKey(),
-				alipay.getCharset(),
-				alipay.getSignType());
+			return AlipaySignature.rsaCheckV1(params, alipay.getPublicKey(), alipay.getCharset(), alipay.getSignType());
 		} catch (AlipayApiException e) {
 			return false;
 		}
 	}
+
 }

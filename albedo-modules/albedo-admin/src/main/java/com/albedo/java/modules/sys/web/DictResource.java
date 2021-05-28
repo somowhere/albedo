@@ -16,7 +16,6 @@
 
 package com.albedo.java.modules.sys.web;
 
-
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.Json;
 import com.albedo.java.common.core.util.Result;

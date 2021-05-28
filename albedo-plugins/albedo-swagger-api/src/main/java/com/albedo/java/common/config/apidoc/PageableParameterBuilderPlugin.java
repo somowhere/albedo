@@ -28,6 +28,7 @@ public class PageableParameterBuilderPlugin implements OperationBuilderPlugin {
 	 * Constant <code>DEFAULT_PAGE_NAME="page"</code>
 	 */
 	public static final String DEFAULT_PAGE_NAME = "current";
+
 	/**
 	 * Constant <code>PAGE_DESCRIPTION="Page number of the requested page"</code>
 	 */
@@ -37,6 +38,7 @@ public class PageableParameterBuilderPlugin implements OperationBuilderPlugin {
 	 * Constant <code>DEFAULT_SIZE_NAME="size"</code>
 	 */
 	public static final String DEFAULT_SIZE_NAME = "size";
+
 	/**
 	 * Constant <code>SIZE_DESCRIPTION="Size of a page"</code>
 	 */
@@ -46,20 +48,27 @@ public class PageableParameterBuilderPlugin implements OperationBuilderPlugin {
 	 * Constant <code>DEFAULT_SORT_NAME="sort"</code>
 	 */
 	public static final String DEFAULT_SORT_NAME = "sorts";
+
 	/**
-	 * Constant <code>SORT_DESCRIPTION="Sorting criteria in the format: propert"{trunked}</code>
+	 * Constant
+	 * <code>SORT_DESCRIPTION="Sorting criteria in the format: propert"{trunked}</code>
 	 */
 	public static final String SORT_DESCRIPTION = "Sorting criteria in the format: property(,asc|desc). "
 		+ "Default sort order is ascending. ";
 
 	private final TypeNameExtractor nameExtractor;
+
 	private final TypeResolver resolver;
+
 	private final ResolvedType pageModelType;
 
 	/**
-	 * <p>Constructor for PageableParameterBuilderPlugin.</p>
+	 * <p>
+	 * Constructor for PageableParameterBuilderPlugin.
+	 * </p>
 	 *
-	 * @param nameExtractor a {@link springfox.documentation.schema.TypeNameExtractor} object.
+	 * @param nameExtractor a {@link springfox.documentation.schema.TypeNameExtractor}
+	 *                      object.
 	 * @param resolver      a {@link com.fasterxml.classmate.TypeResolver} object.
 	 */
 	public PageableParameterBuilderPlugin(TypeNameExtractor nameExtractor, TypeResolver resolver) {
@@ -123,42 +132,34 @@ public class PageableParameterBuilderPlugin implements OperationBuilderPlugin {
 	}
 
 	/**
-	 * Create a page parameter.
-	 * Override it if needed. Set a default value for example.
+	 * Create a page parameter. Override it if needed. Set a default value for example.
 	 *
 	 * @return The page parameter
 	 */
 	protected RequestParameter createPageParameter() {
-		return new RequestParameterBuilder().description(PAGE_DESCRIPTION)
-			.in(ParameterType.QUERY).name(getPageName()).required(true)
-			.query(param -> param.model(model -> model.scalarModel(ScalarType.INTEGER)))
-			.build();
+		return new RequestParameterBuilder().description(PAGE_DESCRIPTION).in(ParameterType.QUERY).name(getPageName())
+			.required(true).query(param -> param.model(model -> model.scalarModel(ScalarType.INTEGER))).build();
 	}
 
 	/**
-	 * Create a size parameter.
-	 * Override it if needed. Set a default value for example.
+	 * Create a size parameter. Override it if needed. Set a default value for example.
 	 *
 	 * @return The size parameter
 	 */
 	protected RequestParameter createSizeParameter() {
-		return new RequestParameterBuilder().description(SIZE_DESCRIPTION)
-			.in(ParameterType.QUERY).name(getSizeName()).required(true)
-			.query(param -> param.model(model -> model.scalarModel(ScalarType.STRING)))
-			.build();
+		return new RequestParameterBuilder().description(SIZE_DESCRIPTION).in(ParameterType.QUERY).name(getSizeName())
+			.required(true).query(param -> param.model(model -> model.scalarModel(ScalarType.STRING))).build();
 	}
 
 	/**
-	 * Create a sort parameter.
-	 * Override it if needed. Set a default value or further description for example.
+	 * Create a sort parameter. Override it if needed. Set a default value or further
+	 * description for example.
 	 *
 	 * @return The sort parameter
 	 */
 	protected RequestParameter createSortParameter() {
-		return new RequestParameterBuilder().description(SORT_DESCRIPTION)
-			.in(ParameterType.QUERY).name(getSortName()).required(true)
-			.query(param -> param.model(model -> model.scalarModel(ScalarType.INTEGER)))
-			.build();
+		return new RequestParameterBuilder().description(SORT_DESCRIPTION).in(ParameterType.QUERY).name(getSortName())
+			.required(true).query(param -> param.model(model -> model.scalarModel(ScalarType.INTEGER))).build();
 	}
 
 }
