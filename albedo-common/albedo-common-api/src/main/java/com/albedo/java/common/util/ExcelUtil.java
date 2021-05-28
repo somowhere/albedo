@@ -711,9 +711,9 @@ public class ExcelUtil<T> {
 		try {
 			Cell cell = row.getCell(column);
 			if (cell != null) {
-				if (cell.getCellTypeEnum() == CellType.NUMERIC || cell.getCellTypeEnum() == CellType.FORMULA) {
+				if (cell.getCellType() == CellType.NUMERIC || cell.getCellType() == CellType.FORMULA) {
 					val = cell.getNumericCellValue();
-					if (HSSFDateUtil.isCellDateFormatted(cell)) {
+					if (DateUtil.isCellDateFormatted(cell)) {
 						// POI Excel 日期格式转换
 						val = DateUtil.getJavaDate((Double) val);
 					} else {
@@ -723,11 +723,11 @@ public class ExcelUtil<T> {
 							val = new DecimalFormat("0").format(val);
 						}
 					}
-				} else if (cell.getCellTypeEnum() == CellType.STRING) {
+				} else if (cell.getCellType() == CellType.STRING) {
 					val = cell.getStringCellValue();
-				} else if (cell.getCellTypeEnum() == CellType.BOOLEAN) {
+				} else if (cell.getCellType() == CellType.BOOLEAN) {
 					val = cell.getBooleanCellValue();
-				} else if (cell.getCellTypeEnum() == CellType.ERROR) {
+				} else if (cell.getCellType() == CellType.ERROR) {
 					val = cell.getErrorCellValue();
 				}
 

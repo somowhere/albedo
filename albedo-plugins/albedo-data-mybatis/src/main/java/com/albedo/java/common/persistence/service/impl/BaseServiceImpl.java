@@ -23,4 +23,13 @@ public abstract class BaseServiceImpl<Repository extends BaseRepository<T>, T>
 	@Autowired
 	public Repository repository;
 
+	protected Class<T> currentMapperClass() {
+		return (Class<T>) this.getResolvableType().as(ServiceImpl.class).getGeneric(0).resolve();
+	}
+
+	protected Class<T> currentModelClass() {
+		return (Class<T>) this.getResolvableType().as(ServiceImpl.class).getGeneric(1).resolve();
+	}
+
+
 }

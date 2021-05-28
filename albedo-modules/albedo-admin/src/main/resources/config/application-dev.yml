@@ -1,6 +1,6 @@
 logging:
   level:
-    ROOT: DEBUG
+    ROOT: INFO
     com.albedo.java: ${logback.loglevel}
 server:
   port: 8061

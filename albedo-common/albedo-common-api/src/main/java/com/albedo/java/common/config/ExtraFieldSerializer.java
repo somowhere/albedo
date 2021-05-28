@@ -41,8 +41,8 @@ public class ExtraFieldSerializer extends BeanSerializerBase {
 	}
 
 	public ExtraFieldSerializer(ExtraFieldSerializer source,
-								Set<String> toIgnore) {
-		super(source, toIgnore);
+								Set<String> toIgnore, Set<String> var2) {
+		super(source, toIgnore, var2);
 	}
 
 	public ExtraFieldSerializer(ExtraFieldSerializer source,
@@ -57,8 +57,8 @@ public class ExtraFieldSerializer extends BeanSerializerBase {
 	}
 
 	@Override
-	protected BeanSerializerBase withIgnorals(Set<String> toIgnore) {
-		return new ExtraFieldSerializer(this, toIgnore);
+	protected BeanSerializerBase withByNameInclusion(Set<String> toIgnore, Set<String> set1) {
+		return new ExtraFieldSerializer(this, toIgnore, set1);
 	}
 
 	@Override
@@ -69,6 +69,11 @@ public class ExtraFieldSerializer extends BeanSerializerBase {
 	@Override
 	public BeanSerializerBase withFilterId(Object filterId) {
 		return new ExtraFieldSerializer(this, this._objectIdWriter, filterId);
+	}
+
+	@Override
+	protected BeanSerializerBase withProperties(BeanPropertyWriter[] beanPropertyWriters, BeanPropertyWriter[] beanPropertyWriters1) {
+		return null;
 	}
 
 
