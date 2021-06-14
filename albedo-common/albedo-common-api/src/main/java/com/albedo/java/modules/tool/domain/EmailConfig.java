@@ -57,4 +57,5 @@ public class EmailConfig implements Serializable {
 	@NotBlank
 	@ApiModelProperty(value = "收件人")
 	private String fromUser;
+
 }

@@ -44,16 +44,14 @@ import java.util.List;
 
 /**
  * @author somewhere
- * @date 2019/2/1
- * 角色Dto
+ * @date 2019/2/1 角色Dto
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class RoleDto extends DataDto<String> {
 
-
 	/**
-	 * 数据权限 1全部 2所在机构及以下数据  3 所在机构数据  4仅本人数据 5 按明细设置
+	 * 数据权限 1全部 2所在机构及以下数据 3 所在机构数据 4仅本人数据 5 按明细设置
 	 */
 	@DictType(DictNameConstants.SYS_DATA_SCOPE)
 	@NotBlank(message = "数据权限 不能为空")
@@ -69,8 +67,10 @@ public class RoleDto extends DataDto<String> {
 	 * 角色ID
 	 */
 	private List<String> menuIdList;
+
 	/**
 	 * 部门ID
 	 */
 	private List<String> deptIdList;
+
 }

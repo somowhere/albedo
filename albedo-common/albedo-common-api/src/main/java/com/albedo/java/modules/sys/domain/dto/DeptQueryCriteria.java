@@ -39,13 +39,17 @@ public class DeptQueryCriteria implements Serializable {
 
 	@Query(operator = Query.Operator.like)
 	private String name;
+
 	@Query
 	private Boolean available;
+
 	@Query(blurry = "name,description")
 	private String blurry;
+
 	@Query
 	private String parentId;
 
 	@Query(operator = Query.Operator.between)
 	private List<Date> createdDate;
+
 }

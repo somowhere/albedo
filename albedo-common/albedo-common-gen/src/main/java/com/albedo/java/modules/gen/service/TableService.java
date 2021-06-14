@@ -32,7 +32,6 @@ import java.util.Set;
  */
 public interface TableService extends DataService<Table, TableDto, String> {
 
-
 	/**
 	 * 判断表名是否存在
 	 *
@@ -97,4 +96,5 @@ public interface TableService extends DataService<Table, TableDto, String> {
 	 * @param tableDto
 	 */
 	void refreshColumn(TableDto tableDto);
+
 }

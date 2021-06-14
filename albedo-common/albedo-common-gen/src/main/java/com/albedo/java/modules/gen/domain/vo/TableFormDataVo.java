@@ -38,13 +38,21 @@ import java.util.List;
 public class TableFormDataVo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
 	private TableDto tableVo;
+
 	private GenConfig config;
+
 	private List<SelectVo> dsNameList;
+
 	private List<SelectVo> columnList;
+
 	private List<SelectVo> tableList;
+
 	private List<SelectVo> queryTypeList;
+
 	private List<SelectVo> showTypeList;
+
 	private List<SelectVo> javaTypeList;
 
 }

@@ -51,25 +51,32 @@ import static springfox.documentation.builders.PathSelectors.regex;
 /**
  * Springfox Swagger configuration.
  * <p>
- * Warning! When having a lot of REST endpoints, Springfox can become a performance issue. In that
- * case, you can use a specific Spring profile for this class, so that only front-end developers
- * have access to the Swagger view.
+ * Warning! When having a lot of REST endpoints, Springfox can become a performance issue.
+ * In that case, you can use a specific Spring profile for this class, so that only
+ * front-end developers have access to the Swagger view.
  *
  * @author somewhere
  */
 @Configuration
 @ConditionalOnWebApplication
-@ConditionalOnClass({ApiInfo.class, BeanValidatorPluginsConfiguration.class, Servlet.class, DispatcherServlet.class, Docket.class})
+@ConditionalOnClass({ApiInfo.class, BeanValidatorPluginsConfiguration.class, Servlet.class, DispatcherServlet.class,
+	Docket.class})
 @Profile({"swagger"})
 @AutoConfigureAfter({ApplicationSwaggerProperties.class})
 @EnableSwagger2
 @Import({BeanValidatorPluginsConfiguration.class})
 public class SwaggerAutoConfiguration {
+
 	public static final String STARTING_MESSAGE = "Starting Swagger";
+
 	public static final String STARTED_MESSAGE = "Started Swagger in {} ms";
+
 	public static final String MANAGEMENT_TITLE_SUFFIX = "Management API";
+
 	public static final String MANAGEMENT_GROUP_NAME = "management";
+
 	public static final String MANAGEMENT_DESCRIPTION = "Management endpoints documentation";
+
 	private final Logger log = LoggerFactory.getLogger(SwaggerAutoConfiguration.class);
 
 	private final ApplicationSwaggerProperties applicationSwaggerProperties;
@@ -140,33 +147,21 @@ public class SwaggerAutoConfiguration {
 	public Docket swaggerSpringfoxManagementDocket(@Value("${spring.application.name:application}") String appName,
 												   @Value("${management.endpoints.web.base-path}") String managementContextPath) {
 
-		ApiInfo apiInfo = new ApiInfo(
-			StringUtils.capitalize(appName) + " " + MANAGEMENT_TITLE_SUFFIX,
-			MANAGEMENT_DESCRIPTION,
-			applicationSwaggerProperties.getVersion(),
-			"",
-			ApiInfo.DEFAULT_CONTACT,
-			"",
-			"",
-			new ArrayList<>()
-		);
+		ApiInfo apiInfo = new ApiInfo(StringUtils.capitalize(appName) + " " + MANAGEMENT_TITLE_SUFFIX,
+			MANAGEMENT_DESCRIPTION, applicationSwaggerProperties.getVersion(), "", ApiInfo.DEFAULT_CONTACT, "", "",
+			new ArrayList<>());
 
-		return createDocket()
-			.apiInfo(apiInfo)
+		return createDocket().apiInfo(apiInfo)
 			.useDefaultResponseMessages(applicationSwaggerProperties.isUseDefaultResponseMessages())
-			.groupName(MANAGEMENT_GROUP_NAME)
-			.host(applicationSwaggerProperties.getHost())
+			.groupName(MANAGEMENT_GROUP_NAME).host(applicationSwaggerProperties.getHost())
 			.protocols(new HashSet<>(Arrays.asList(applicationSwaggerProperties.getProtocols())))
-			.forCodeGeneration(true)
-			.directModelSubstitute(ByteBuffer.class, String.class)
-			.genericModelSubstitutes(ResponseEntity.class)
-			.ignoredParameterTypes(PageModel.class)
-			.select()
-			.paths(regex(managementContextPath + ".*"))
-			.build();
+			.forCodeGeneration(true).directModelSubstitute(ByteBuffer.class, String.class)
+			.genericModelSubstitutes(ResponseEntity.class).ignoredParameterTypes(PageModel.class).select()
+			.paths(regex(managementContextPath + ".*")).build();
 	}
 
 	protected Docket createDocket() {
 		return new Docket(DocumentationType.SWAGGER_2);
 	}
+
 }

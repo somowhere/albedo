@@ -51,39 +51,52 @@ import javax.validation.constraints.NotNull;
 public class MenuDto extends TreeDto {
 
 	public static final String TYPE_CATALOG = "0";
+
 	public static final String TYPE_MENU = "1";
+
 	public static final String TYPE_BUTTON = "2";
+
 	public static final String F_SHOW = "show";
+
 	public static final String F_SQL_SHOW = "show";
+
 	public static final String F_PERMISSION = "permission";
+
 	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 菜单权限标识
 	 */
 	private String permission;
+
 	/**
 	 * 图标
 	 */
 	private String icon;
+
 	/**
 	 * VUE页面
 	 */
 	private String component;
+
 	/**
 	 * 菜单类型 （0菜单 1按钮）
 	 */
 	@NotNull(message = "菜单类型不能为空")
 	private String type;
+
 	/**
-	 * 是否隐藏  1是 0否
+	 * 是否隐藏 1是 0否
 	 */
 	private Integer hidden = 0;
+
 	private Integer cache;
+
 	private Integer iframe;
+
 	/**
 	 * 前端URL
 	 */
 	private String path;
-
 
 }

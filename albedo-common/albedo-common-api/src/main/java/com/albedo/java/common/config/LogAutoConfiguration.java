@@ -47,8 +47,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * @author somewhere
- * @date 2019/2/1
- * 日志自动配置
+ * @date 2019/2/1 日志自动配置
  */
 @EnableAsync
 @Configuration
@@ -80,4 +79,5 @@ public class LogAutoConfiguration {
 	public RequestLogAspect requestLogAspect() {
 		return new RequestLogAspect();
 	}
+
 }

@@ -44,4 +44,5 @@ import com.albedo.java.modules.sys.domain.PersistentToken;
  * @since 2019/2/1
  */
 public interface PersistentTokenRepository extends BaseRepository<PersistentToken> {
+
 }

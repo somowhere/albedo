@@ -32,7 +32,6 @@ import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.util.DictUtil;
 import com.google.common.collect.Maps;
-import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddressList;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
@@ -57,40 +56,50 @@ import java.util.*;
  * @author somewhere
  */
 public class ExcelUtil<T> {
+
 	/**
 	 * Excel sheet最大行数，默认65536
 	 */
 	public static final int SHEET_SIZE = 65536;
+
 	private static final Logger log = LoggerFactory.getLogger(ExcelUtil.class);
+	public static String CELL_TITLE_TYPE1 = "注：";
 	private static Map<String, Object> dataDictMap = Maps.newHashMap();
 	/**
 	 * 实体对象
 	 */
 	public Class<T> clazz;
+
 	/**
 	 * 工作表名称
 	 */
 	private String sheetName;
+
 	/**
 	 * 导出类型（EXPORT:导出数据；IMPORT：导入模板）
 	 */
 	private Type type;
+
 	/**
 	 * 工作薄对象
 	 */
 	private Workbook wb;
+
 	/**
 	 * 工作表对象
 	 */
 	private Sheet sheet;
+
 	/**
 	 * 样式列表
 	 */
 	private Map<String, CellStyle> styles;
+
 	/**
 	 * 导入导出数据列表
 	 */
 	private List<T> list;
+
 	/**
 	 * 注解列表
 	 */
@@ -243,61 +252,65 @@ public class ExcelUtil<T> {
 			for (int i = 1; i < rows; i++) {
 				// 从第2行开始取数据,默认第一行是表头.
 				Row row = sheet.getRow(i);
-				T entity = null;
-				for (Map.Entry<Integer, Field> entry : fieldsMap.entrySet()) {
-					Object val = this.getCellValue(row, entry.getKey());
-
-					// 如果不存在实例则新建.
-					entity = (entity == null ? clazz.newInstance() : entity);
-					// 从map中得到对应列的field.
-					Field field = fieldsMap.get(entry.getKey());
-					// 取得类型,并根据对象类型设置值.
-					Class<?> fieldType = field.getType();
-					if (String.class == fieldType) {
-						String s = Convert.toStr(val);
-						if (StringUtil.endWith(s, ".0")) {
-							val = StringUtil.subBefore(s, ".0", true);
-						} else {
-							val = Convert.toStr(val);
-						}
-					} else if ((Integer.TYPE == fieldType) || (Integer.class == fieldType)) {
-						val = Convert.toInt(val);
-					} else if ((Long.TYPE == fieldType) || (Long.class == fieldType)) {
-						val = Convert.toLong(val);
-					} else if ((Double.TYPE == fieldType) || (Double.class == fieldType)) {
-						val = Convert.toDouble(val);
-					} else if ((Float.TYPE == fieldType) || (Float.class == fieldType)) {
-						val = Convert.toFloat(val);
-					} else if (BigDecimal.class == fieldType) {
-						val = Convert.toBigDecimal(val);
-					} else if (Date.class == fieldType) {
-						if (val instanceof String) {
-							val = com.albedo.java.common.core.util.DateUtil.parse((String) val);
-						} else if (val instanceof Double) {
-							val = DateUtil.getJavaDate((Double) val);
-						}
-					}
-					if (ObjectUtil.isNotNull(fieldType)) {
-						ExcelField attr = field.getAnnotation(ExcelField.class);
-						String propertyName = field.getName();
-						String readConverterExp = attr.readConverterExp();
-						String dictType = attr.dictType();
-						if (StringUtil.isNotEmpty(attr.targetAttr())) {
-							propertyName = field.getName() + StringUtil.DOT + attr.targetAttr();
-						} else if (StringUtil.isNotEmpty(dictType)) {
-
-							val = getDataDictValue(dictType, val);
-
-						} else if (StringUtil.isNotEmpty(readConverterExp)) {
-							val = reverseByExp(String.valueOf(val), readConverterExp);
-						}
-						ClassUtil.invokeSetter(entity, propertyName, val);
-					}
-				}
-				list.add(entity);
+				list.add(processEntity(row, fieldsMap));
 			}
 		}
 		return list;
+	}
+
+	private T processEntity(Row row, Map<Integer, Field> fieldsMap) throws Exception {
+		T entity = null;
+		for (Map.Entry<Integer, Field> entry : fieldsMap.entrySet()) {
+			Object val = this.getCellValue(row, entry.getKey());
+
+			// 如果不存在实例则新建.
+			entity = (entity == null ? clazz.newInstance() : entity);
+			// 从map中得到对应列的field.
+			Field field = fieldsMap.get(entry.getKey());
+			// 取得类型,并根据对象类型设置值.
+			Class<?> fieldType = field.getType();
+			if (String.class == fieldType) {
+				String s = Convert.toStr(val);
+				if (StringUtil.endWith(s, ".0")) {
+					val = StringUtil.subBefore(s, ".0", true);
+				} else {
+					val = Convert.toStr(val);
+				}
+			} else if ((Integer.TYPE == fieldType) || (Integer.class == fieldType)) {
+				val = Convert.toInt(val);
+			} else if ((Long.TYPE == fieldType) || (Long.class == fieldType)) {
+				val = Convert.toLong(val);
+			} else if ((Double.TYPE == fieldType) || (Double.class == fieldType)) {
+				val = Convert.toDouble(val);
+			} else if ((Float.TYPE == fieldType) || (Float.class == fieldType)) {
+				val = Convert.toFloat(val);
+			} else if (BigDecimal.class == fieldType) {
+				val = Convert.toBigDecimal(val);
+			} else if (Date.class == fieldType) {
+				if (val instanceof String) {
+					val = com.albedo.java.common.core.util.DateUtil.parse((String) val);
+				} else if (val instanceof Double) {
+					val = DateUtil.getJavaDate((Double) val);
+				}
+			}
+			if (ObjectUtil.isNotNull(fieldType)) {
+				ExcelField attr = field.getAnnotation(ExcelField.class);
+				String propertyName = field.getName();
+				String readConverterExp = attr.readConverterExp();
+				String dictType = attr.dictType();
+				if (StringUtil.isNotEmpty(attr.targetAttr())) {
+					propertyName = field.getName() + StringUtil.DOT + attr.targetAttr();
+				} else if (StringUtil.isNotEmpty(dictType)) {
+
+					val = getDataDictValue(dictType, val);
+
+				} else if (StringUtil.isNotEmpty(readConverterExp)) {
+					val = reverseByExp(String.valueOf(val), readConverterExp);
+				}
+				ClassUtil.invokeSetter(entity, propertyName, val);
+			}
+		}
+		return entity;
 	}
 
 	/**
@@ -332,7 +345,7 @@ public class ExcelUtil<T> {
 		ServletOutputStream out = null;
 		String filename = encodingFilename(sheetName);
 		response.setCharacterEncoding(CharsetUtil.UTF_8);
-		//response为HttpServletResponse对象
+		// response为HttpServletResponse对象
 		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
 		response.setHeader("Content-Disposition", "attachment;filename=" + filename);
 		try {
@@ -465,10 +478,8 @@ public class ExcelUtil<T> {
 	 */
 	public void setCellVo(Object value, ExcelField attr, Cell cell) {
 		if (ColumnType.STRING == attr.cellType()) {
-			cell.setCellType(CellType.NUMERIC);
 			cell.setCellValue(ObjectUtil.isNull(value) ? attr.defaultValue() : value + attr.suffix());
 		} else if (ColumnType.NUMERIC == attr.cellType()) {
-			cell.setCellType(CellType.NUMERIC);
 			cell.setCellValue(Integer.parseInt(value + ""));
 		}
 	}
@@ -477,7 +488,7 @@ public class ExcelUtil<T> {
 	 * 创建表格样式
 	 */
 	public void setDataValidation(ExcelField attr, Row row, int column) {
-		if (attr.title().indexOf("注：") >= 0) {
+		if (attr.title().indexOf(CELL_TITLE_TYPE1) >= 0) {
 			sheet.setColumnWidth(column, 6000);
 		} else {
 			// 设置列宽
@@ -515,7 +526,8 @@ public class ExcelUtil<T> {
 				String dateFormat = attr.dateFormat();
 				String readConverterExp = attr.readConverterExp();
 				String dictType = attr.dictType();
-				boolean isDate = StringUtil.isNotEmpty(dateFormat) && ObjectUtil.isNotNull(value) && (value instanceof Date || value instanceof java.sql.Date);
+				boolean isDate = StringUtil.isNotEmpty(dateFormat) && ObjectUtil.isNotNull(value)
+					&& (value instanceof Date || value instanceof java.sql.Date);
 				if (isDate) {
 					cell.setCellValue(com.albedo.java.common.core.util.DateUtil.format((Date) value, dateFormat));
 				} else if (StringUtil.isNotEmpty(dictType) && ObjectUtil.isNotNull(value)) {
@@ -589,7 +601,8 @@ public class ExcelUtil<T> {
 	 * 编码文件名
 	 */
 	public String encodingFilename(String filename) {
-		filename = UUID.randomUUID().toString() + "_" + URLEncoder.createDefault().encode(filename, CharsetUtil.CHARSET_UTF_8) + ".xlsx";
+		filename = UUID.randomUUID().toString() + "_"
+			+ URLEncoder.createDefault().encode(filename, CharsetUtil.CHARSET_UTF_8) + ".xlsx";
 		return filename;
 	}
 
@@ -727,9 +740,9 @@ public class ExcelUtil<T> {
 		try {
 			Cell cell = row.getCell(column);
 			if (cell != null) {
-				if (cell.getCellTypeEnum() == CellType.NUMERIC || cell.getCellTypeEnum() == CellType.FORMULA) {
+				if (cell.getCellType() == CellType.NUMERIC || cell.getCellType() == CellType.FORMULA) {
 					val = cell.getNumericCellValue();
-					if (HSSFDateUtil.isCellDateFormatted(cell)) {
+					if (DateUtil.isCellDateFormatted(cell)) {
 						// POI Excel 日期格式转换
 						val = DateUtil.getJavaDate((Double) val);
 					} else {
@@ -739,11 +752,11 @@ public class ExcelUtil<T> {
 							val = new DecimalFormat("0").format(val);
 						}
 					}
-				} else if (cell.getCellTypeEnum() == CellType.STRING) {
+				} else if (cell.getCellType() == CellType.STRING) {
 					val = cell.getStringCellValue();
-				} else if (cell.getCellTypeEnum() == CellType.BOOLEAN) {
+				} else if (cell.getCellType() == CellType.BOOLEAN) {
 					val = cell.getBooleanCellValue();
-				} else if (cell.getCellTypeEnum() == CellType.ERROR) {
+				} else if (cell.getCellType() == CellType.ERROR) {
 					val = cell.getErrorCellValue();
 				}
 
@@ -753,4 +766,5 @@ public class ExcelUtil<T> {
 		}
 		return val;
 	}
+
 }

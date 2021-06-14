@@ -59,12 +59,13 @@ import java.util.Map;
 
 /**
  * @author somewhere
- * @date 2019/2/1
- * 密码解密工具类
+ * @date 2019/2/1 密码解密工具类
  */
 @Slf4j
 public class PasswordDecoderFilter extends OncePerRequestFilter {
+
 	private static final String PASSWORD = "password";
+
 	private static final String KEY_ALGORITHM = "AES";
 
 	private final ApplicationProperties applicationProperties;
@@ -73,20 +74,19 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
 		this.applicationProperties = applicationProperties;
 	}
 
-
 	public static String decryptAes(String data, String pass) {
-		AES aes = new AES(Mode.CBC, Padding.NoPadding,
-			new SecretKeySpec(pass.getBytes(), KEY_ALGORITHM),
+		AES aes = new AES(Mode.CBC, Padding.NoPadding, new SecretKeySpec(pass.getBytes(), KEY_ALGORITHM),
 			new IvParameterSpec(pass.getBytes()));
 		byte[] result = aes.decrypt(Base64.decode(data.getBytes(StandardCharsets.UTF_8)));
 		return new String(result, StandardCharsets.UTF_8);
 	}
 
-
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+		throws ServletException, IOException {
 		// 不是登录请求，直接向下执行
-		if (!StrUtil.containsAnyIgnoreCase(request.getRequestURI(), applicationProperties.getAdminPath(SecurityConstants.AUTHENTICATE_URL))) {
+		if (!StrUtil.containsAnyIgnoreCase(request.getRequestURI(),
+			applicationProperties.getAdminPath(SecurityConstants.AUTHENTICATE_URL))) {
 			filterChain.doFilter(request, response);
 			return;
 		}
@@ -108,4 +108,5 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
 		ParameterRequestWrapper requestWrapper = new ParameterRequestWrapper(request, paramMap);
 		filterChain.doFilter(requestWrapper, response);
 	}
+
 }

@@ -43,43 +43,38 @@ import java.util.Set;
 @Log4j2
 public class ExtraFieldSerializer extends BeanSerializerBase {
 
-
 	Map<String, List<SelectVo>> codeItemData = Maps.newHashMap();
-
 
 	public ExtraFieldSerializer(BeanSerializerBase source) {
 		super(source);
 	}
 
-	public ExtraFieldSerializer(ExtraFieldSerializer source,
-								ObjectIdWriter objectIdWriter) {
+	public ExtraFieldSerializer(ExtraFieldSerializer source, ObjectIdWriter objectIdWriter) {
 		super(source, objectIdWriter);
 	}
 
-	public ExtraFieldSerializer(ExtraFieldSerializer source,
-								Set<String> toIgnore) {
-		super(source, toIgnore);
+	public ExtraFieldSerializer(ExtraFieldSerializer source, Set<String> toIgnore, Set<String> var2) {
+		super(source, toIgnore, var2);
 	}
 
-	public ExtraFieldSerializer(ExtraFieldSerializer source,
-								ObjectIdWriter objectIdWriter, Object filterId) {
+	public ExtraFieldSerializer(ExtraFieldSerializer source, ObjectIdWriter objectIdWriter, Object filterId) {
 		super(source, objectIdWriter, filterId);
 	}
 
 	@Override
-	public BeanSerializerBase withObjectIdWriter(
-		ObjectIdWriter objectIdWriter) {
+	public BeanSerializerBase withObjectIdWriter(ObjectIdWriter objectIdWriter) {
 		return new ExtraFieldSerializer(this, objectIdWriter);
 	}
 
 	@Override
-	protected BeanSerializerBase withIgnorals(Set<String> toIgnore) {
-		return new ExtraFieldSerializer(this, toIgnore);
+	protected BeanSerializerBase withByNameInclusion(Set<String> toIgnore, Set<String> set1) {
+		return new ExtraFieldSerializer(this, toIgnore, set1);
 	}
 
 	@Override
 	protected BeanSerializerBase asArraySerializer() {
-		return (this._objectIdWriter == null && this._anyGetterWriter == null && this._propertyFilterId == null ? new BeanAsArraySerializer(this) : this);
+		return (this._objectIdWriter == null && this._anyGetterWriter == null && this._propertyFilterId == null
+			? new BeanAsArraySerializer(this) : this);
 	}
 
 	@Override
@@ -87,6 +82,11 @@ public class ExtraFieldSerializer extends BeanSerializerBase {
 		return new ExtraFieldSerializer(this, this._objectIdWriter, filterId);
 	}
 
+	@Override
+	protected BeanSerializerBase withProperties(BeanPropertyWriter[] beanPropertyWriters,
+												BeanPropertyWriter[] beanPropertyWriters1) {
+		return null;
+	}
 
 	@Override
 	protected void serializeFields(Object bean, JsonGenerator gen, SerializerProvider provider) throws IOException {
@@ -180,10 +180,8 @@ public class ExtraFieldSerializer extends BeanSerializerBase {
 		return null;
 	}
 
-
 	@Override
-	public void serialize(Object bean, JsonGenerator jgen,
-						  SerializerProvider provider) throws IOException {
+	public void serialize(Object bean, JsonGenerator jgen, SerializerProvider provider) throws IOException {
 		jgen.writeStartObject();
 		serializeFields(bean, jgen, provider);
 		jgen.writeEndObject();

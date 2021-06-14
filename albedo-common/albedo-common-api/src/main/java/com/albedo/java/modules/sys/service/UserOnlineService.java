@@ -71,4 +71,5 @@ public interface UserOnlineService extends BaseService<UserOnline> {
 	 * @updateTime 2020/5/31 17:35
 	 */
 	void saveByEvent(UserOnline userOnline);
+
 }

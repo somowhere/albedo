@@ -45,6 +45,7 @@ import java.util.*;
  * @author somewhere
  */
 public abstract class AbstractQuartzJob implements org.quartz.Job {
+
 	private static final Logger log = LoggerFactory.getLogger(AbstractQuartzJob.class);
 
 	/**
@@ -108,7 +109,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 			jobLog.setExceptionInfo(ExceptionUtil.stacktraceToString(e));
 			// 任务如果失败了则暂停
 			if (ScheduleConstants.MISFIRE_DO_NOTHING.equals(job.getMisfirePolicy())) {
-				//更新状态
+				// 更新状态
 				job.setStatus(ScheduleConstants.Status.PAUSE.getValue());
 				RedisUtil.sendScheduleChannelMessage(ScheduleVo.createPause(job.getId(), job.getGroup()));
 			}
@@ -127,14 +128,14 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 		SpringContextHolder.getBean(JobLogService.class).saveOrUpdate(jobLog);
 	}
 
-
 	private EmailVo taskAlarm(Job quartzJob, String msg) {
 		EmailVo emailVo = new EmailVo();
 		emailVo.setSubject("定时任务【" + quartzJob.getName() + "】执行失败，请尽快处理！");
 		Map<String, Object> data = new HashMap<>(4);
 		data.put("task", quartzJob);
 		data.put("msg", msg);
-		TemplateEngine engine = TemplateUtil.createEngine(new TemplateConfig("templates", TemplateConfig.ResourceMode.CLASSPATH));
+		TemplateEngine engine = TemplateUtil
+			.createEngine(new TemplateConfig("templates", TemplateConfig.ResourceMode.CLASSPATH));
 		Template template = engine.getTemplate("email/taskAlarm.ftl");
 		emailVo.setContent(template.render(data));
 		List<String> emails = Arrays.asList(quartzJob.getEmail().split("[,，]"));
@@ -150,4 +151,5 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 	 * @throws Exception 执行过程中的异常
 	 */
 	protected abstract void doExecute(JobExecutionContext context, Job job) throws Exception;
+
 }

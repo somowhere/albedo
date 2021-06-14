@@ -39,6 +39,7 @@ import java.util.Properties;
  */
 @Configuration
 public class ScheduleConfig {
+
 	@Bean
 	public SchedulerFactoryBean schedulerFactoryBean(DataSource dataSource) {
 		SchedulerFactoryBean factory = new SchedulerFactoryBean();
@@ -61,7 +62,8 @@ public class ScheduleConfig {
 		prop.put("org.quartz.jobStore.txIsolationLevelSerializable", "true");
 
 		// sqlserver 启用
-		// prop.put("org.quartz.jobStore.selectWithLockSQL", "SELECT * FROM {0}LOCKS UPDLOCK WHERE LOCK_NAME = ?");
+		// prop.put("org.quartz.jobStore.selectWithLockSQL", "SELECT * FROM {0}LOCKS
+		// UPDLOCK WHERE LOCK_NAME = ?");
 		prop.put("org.quartz.jobStore.misfireThreshold", "12000");
 		prop.put("org.quartz.jobStore.tablePrefix", "QRTZ_");
 		factory.setQuartzProperties(prop);
@@ -79,7 +81,6 @@ public class ScheduleConfig {
 		return factory;
 	}
 
-
 	/**
 	 * 初始化监听器
 	 *
@@ -93,7 +94,8 @@ public class ScheduleConfig {
 		RedisMessageListenerContainer container = new RedisMessageListenerContainer();
 		container.setConnectionFactory(connectionFactory);
 		// new PatternTopic("这里是监听的通道的名字") 通道要和发布者发布消息的通道一致
-		container.addMessageListener(listenerAdapter, new PatternTopic(ScheduleConstants.REDIS_SCHEDULE_DEFAULT_CHANNEL));
+		container.addMessageListener(listenerAdapter,
+			new PatternTopic(ScheduleConstants.REDIS_SCHEDULE_DEFAULT_CHANNEL));
 		return container;
 	}
 
@@ -116,10 +118,9 @@ public class ScheduleConfig {
 	 * @return
 	 */
 	@Bean
-	ScheduleReceiver scheduleReceiver(Scheduler scheduler, JobRepository jobRepository,
-									  RedissonClient redissonClient, JdkSerializationRedisSerializer jdkSerializationRedisSerializer) {
+	ScheduleReceiver scheduleReceiver(Scheduler scheduler, JobRepository jobRepository, RedissonClient redissonClient,
+									  JdkSerializationRedisSerializer jdkSerializationRedisSerializer) {
 		return new ScheduleReceiver(scheduler, jobRepository, redissonClient, jdkSerializationRedisSerializer);
 	}
-
 
 }

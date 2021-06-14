@@ -49,15 +49,16 @@ import javax.validation.constraints.NotEmpty;
 public class UserInfoDto extends DataDto<String> {
 
 	private String nickname;
+
 	/**
 	 * 电话
 	 */
 	@NotEmpty
 	private String phone;
+
 	/**
 	 * 头像
 	 */
 	private String avatar;
-
 
 }

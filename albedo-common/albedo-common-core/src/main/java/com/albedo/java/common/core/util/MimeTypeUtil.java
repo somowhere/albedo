@@ -22,6 +22,7 @@ package com.albedo.java.common.core.util;
  * @author somewhere
  */
 public class MimeTypeUtil {
+
 	public static final String IMAGE_PNG = "image/png";
 
 	public static final String IMAGE_JPG = "image/jpg";
@@ -65,4 +66,5 @@ public class MimeTypeUtil {
 				return "";
 		}
 	}
+
 }

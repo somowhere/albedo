@@ -31,8 +31,9 @@ import java.io.Serializable;
 public class DatasourceConfQueryCriteria implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
 	/**
-	 * F_NAME name  :  名称
+	 * F_NAME name : 名称
 	 */
 	@Query(operator = Query.Operator.like)
 	private String name;

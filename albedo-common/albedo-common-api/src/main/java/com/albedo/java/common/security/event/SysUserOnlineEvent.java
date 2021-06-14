@@ -36,12 +36,12 @@ import com.albedo.java.modules.sys.domain.UserOnline;
 import org.springframework.context.ApplicationEvent;
 
 /**
- * @author somewhere
- * 用户登录事件
+ * @author somewhere 用户登录事件
  */
 public class SysUserOnlineEvent extends ApplicationEvent {
 
 	public SysUserOnlineEvent(UserOnline source) {
 		super(source);
 	}
+
 }

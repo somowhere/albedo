@@ -34,8 +34,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Filters incoming requests and installs a Spring Security principal if a header corresponding to a valid user is
- * found.
+ * Filters incoming requests and installs a Spring Security principal if a header
+ * corresponding to a valid user is found.
  *
  * @author somewhere
  */
@@ -43,7 +43,9 @@ import java.io.IOException;
 public class JwtFilter extends GenericFilterBean {
 
 	private final String PREFIX_TOKEN = "Bearer ";
+
 	private TokenProvider tokenProvider;
+
 	private ApplicationProperties applicationProperties;
 
 	public JwtFilter(TokenProvider tokenProvider, ApplicationProperties applicationProperties) {
@@ -74,4 +76,5 @@ public class JwtFilter extends GenericFilterBean {
 		}
 		return bearerToken;
 	}
+
 }

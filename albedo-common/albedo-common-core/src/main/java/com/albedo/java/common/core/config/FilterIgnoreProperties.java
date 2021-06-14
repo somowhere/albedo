@@ -42,24 +42,27 @@ import java.util.List;
 
 /**
  * @author somewhere
- * @date 2019/2/1
- * 放行参数配置
+ * @date 2019/2/1 放行参数配置
  */
 @Data
 @Configuration
 @ConditionalOnExpression("!'${ignore}'.isEmpty()")
 @ConfigurationProperties(prefix = "ignore")
 public class FilterIgnoreProperties {
+
 	/**
 	 * 放行终端配置，网关不校验此处的终端
 	 */
 	private List<String> clients = new ArrayList<>();
+
 	/**
 	 * 放行url,放行的url不再被安全框架拦截
 	 */
 	private List<String> urls = new ArrayList<>();
+
 	/**
 	 * 不聚合swagger
 	 */
 	private List<String> swaggerProviders = new ArrayList<>();
+
 }

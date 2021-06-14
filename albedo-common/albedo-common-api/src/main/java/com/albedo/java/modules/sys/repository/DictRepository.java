@@ -66,4 +66,5 @@ public interface DictRepository extends TreeRepository<Dict> {
 	 * @param available
 	 */
 	void updateAvailableByIdList(@Param("idList") List<String> idList, @Param("available") Integer available);
+
 }

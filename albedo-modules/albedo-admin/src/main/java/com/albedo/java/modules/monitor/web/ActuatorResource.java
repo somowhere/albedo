@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 /**
  * @author somewhere
  * @date 2020-05-02
@@ -37,7 +36,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "服务监控")
 @RequestMapping("${application.admin-path}/actuator/")
 public class ActuatorResource {
+
 	private final MonitorService monitorService;
+
 	private final RedisService redisService;
 
 	@GetMapping("system")

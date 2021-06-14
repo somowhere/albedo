@@ -32,7 +32,6 @@
 
 package com.albedo.java.modules;
 
-
 import com.albedo.java.common.datasource.annotation.EnableDynamicDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -44,13 +43,13 @@ import java.net.InetAddress;
 
 /**
  * @author somewhere
- * @date 2018年06月21日
- * 用户统一管理系统
+ * @date 2018年06月21日 用户统一管理系统
  */
 @Slf4j
 @EnableDynamicDataSource
 @SpringBootApplication
 public class AlbedoAdminApplication {
+
 	static String SERVER_PORT = "server.port";
 	static String SPRING_APPLICATION_NAME = "spring.application.name";
 
@@ -58,14 +57,12 @@ public class AlbedoAdminApplication {
 		SpringApplication app = new SpringApplication(AlbedoAdminApplication.class);
 		final ApplicationContext applicationContext = app.run(args);
 		Environment env = applicationContext.getEnvironment();
-		log.info("\n----------------------------------------------------------\n\t" +
-				"Application '{}' is running! Access URLs:\n\t" +
-				"Local: \t\thttp://localhost:{}\n\t" +
-				"External: \thttp://{}:{}\n----------------------------------------------------------",
-			env.getProperty(SPRING_APPLICATION_NAME),
-			env.getProperty(SERVER_PORT),
-			InetAddress.getLocalHost().getHostAddress(),
-			env.getProperty(SERVER_PORT));
+		log.info(
+			"\n----------------------------------------------------------\n\t"
+				+ "Application '{}' is running! Access URLs:\n\t" + "Local: \t\thttp://localhost:{}\n\t"
+				+ "External: \thttp://{}:{}\n----------------------------------------------------------",
+			env.getProperty(SPRING_APPLICATION_NAME), env.getProperty(SERVER_PORT),
+			InetAddress.getLocalHost().getHostAddress(), env.getProperty(SERVER_PORT));
 	}
 
 }

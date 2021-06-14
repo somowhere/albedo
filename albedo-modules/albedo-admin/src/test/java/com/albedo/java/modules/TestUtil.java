@@ -48,14 +48,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 public final class TestUtil {
 
 	public static final String ADMIN_PATH = "application.admin-path";
+
 	public static final String USER_ADMIN = "sys";
+
 	public static final String USER_ADMIN_PASSWORD = "111111";
+
 	/**
 	 * MediaType for JSON UTF8
 	 */
-	public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(
-		MediaType.APPLICATION_JSON.getType(),
+	public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(),
 		MediaType.APPLICATION_JSON.getSubtype(), StandardCharsets.UTF_8);
+
 	private static final ObjectMapper mapper = createObjectMapper();
 
 	private TestUtil() {
@@ -154,7 +157,8 @@ public final class TestUtil {
 	}
 
 	/**
-	 * Creates a matcher that matches when the examined string represents the same instant as the reference datetime.
+	 * Creates a matcher that matches when the examined string represents the same instant
+	 * as the reference datetime.
 	 *
 	 * @param date the reference datetime against which the examined string is checked.
 	 */
@@ -182,7 +186,8 @@ public final class TestUtil {
 	}
 
 	/**
-	 * Create a {@link FormattingConversionService} which use ISO date format, instead of the localized one.
+	 * Create a {@link FormattingConversionService} which use ISO date format, instead of
+	 * the localized one.
 	 *
 	 * @return the {@link FormattingConversionService}.
 	 */
@@ -195,7 +200,8 @@ public final class TestUtil {
 	}
 
 	/**
-	 * A matcher that tests that the examined string represents the same instant as the reference datetime.
+	 * A matcher that tests that the examined string represents the same instant as the
+	 * reference datetime.
 	 */
 	public static class ZonedDateTimeMatcher extends TypeSafeDiagnosingMatcher<String> {
 
@@ -225,5 +231,7 @@ public final class TestUtil {
 		public void describeTo(Description description) {
 			description.appendText("a String representing the same Instant as ").appendValue(date);
 		}
+
 	}
+
 }

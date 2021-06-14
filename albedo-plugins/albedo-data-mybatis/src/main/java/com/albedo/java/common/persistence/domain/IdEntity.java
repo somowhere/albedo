@@ -22,13 +22,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.util.Objects;
 
-
 /**
  * @author somewhere
  */
 public class IdEntity<T extends BaseEntity<T>> extends BaseDataEntity<T> {
 
 	private static final long serialVersionUID = 1L;
+
 	@TableId(value = GeneralEntity.F_SQL_ID, type = IdType.ASSIGN_UUID)
 	protected String id;
 
@@ -74,4 +74,5 @@ public class IdEntity<T extends BaseEntity<T>> extends BaseDataEntity<T> {
 	public int hashCode() {
 		return Objects.hashCode(getId());
 	}
+
 }

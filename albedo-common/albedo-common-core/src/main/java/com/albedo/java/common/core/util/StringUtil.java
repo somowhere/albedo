@@ -40,10 +40,15 @@ import java.util.regex.Pattern;
 @UtilityClass
 @Slf4j
 public class StringUtil extends StrUtil {
+
 	public static final String SPLIT_DEFAULT = ",";
+
 	public static final String BRACKETS_START = "(";
+
 	public static final String BRACKETS_END = ")";
+
 	public static final String DOT_JAVA = ".java";
+
 	private static final char SEPARATOR = '_';
 
 	/**
@@ -55,7 +60,6 @@ public class StringUtil extends StrUtil {
 	public static String toString(byte[] bytes) {
 		return new String(bytes, StandardCharsets.UTF_8);
 	}
-
 
 	/**
 	 * 替换掉HTML标签方法
@@ -127,7 +131,6 @@ public class StringUtil extends StrUtil {
 		return "";
 	}
 
-
 	/**
 	 * 转换为Double类型
 	 */
@@ -166,12 +169,13 @@ public class StringUtil extends StrUtil {
 	/**
 	 * 驼峰命名法工具
 	 *
-	 * @return toCamelCase(" hello_world ") == "helloWorld" toCapitalizeCamelCase("hello_world") == "HelloWorld" toUnderScoreCase("helloWorld") = "hello_world"
+	 * @return toCamelCase(" hello_world ") == "helloWorld"
+	 * toCapitalizeCamelCase("hello_world") == "HelloWorld" toUnderScoreCase("helloWorld")
+	 * = "hello_world"
 	 */
 	public static String toCamelCase(String s) {
 		return toCamelCase(s, SEPARATOR);
 	}
-
 
 	public static String toCamelCase(String s, Character... splits) {
 		if (s == null) {
@@ -215,7 +219,9 @@ public class StringUtil extends StrUtil {
 	/**
 	 * 驼峰命名法工具
 	 *
-	 * @return toCamelCase(" hello_world ") == "helloWorld" toCapitalizeCamelCase("hello_world") == "HelloWorld" toUnderScoreCase("helloWorld") = "hello_world"
+	 * @return toCamelCase(" hello_world ") == "helloWorld"
+	 * toCapitalizeCamelCase("hello_world") == "HelloWorld" toUnderScoreCase("helloWorld")
+	 * = "hello_world"
 	 */
 	public static String toCapitalizeCamelCase(String s) {
 		if (s == null) {
@@ -228,7 +234,9 @@ public class StringUtil extends StrUtil {
 	/**
 	 * 驼峰命名法工具
 	 *
-	 * @return toCamelCase(" hello_world ") == "helloWorld" toCapitalizeCamelCase("hello_world") == "HelloWorld" toUnderScoreCase("helloWorld") = "hello_world"
+	 * @return toCamelCase(" hello_world ") == "helloWorld"
+	 * toCapitalizeCamelCase("hello_world") == "HelloWorld" toUnderScoreCase("helloWorld")
+	 * = "hello_world"
 	 */
 	public static String toUnderScoreCase(String s) {
 		if (s == null) {
@@ -311,7 +319,8 @@ public class StringUtil extends StrUtil {
 	/**
 	 * 转换为JS获取对象值，生成三目运算返回结果
 	 *
-	 * @param objectString 对象串 例如：row.user.id 返回：!row?'':!row.user?'':!row.user.id?'':row.user.id
+	 * @param objectString 对象串 例如：row.user.id
+	 *                     返回：!row?'':!row.user?'':!row.user.id?'':row.user.id
 	 */
 	public static String jsGetVal(String objectString) {
 		StringBuilder result = new StringBuilder();
@@ -381,18 +390,18 @@ public class StringUtil extends StrUtil {
 	 * @return
 	 */
 	public static int getFromIndex(String str, String modelStr, Integer count) {
-		//对子字符串进行匹配
+		// 对子字符串进行匹配
 		Matcher slashMatcher = Pattern.compile(modelStr).matcher(str);
 		int index = 0;
-		//matcher.find();尝试查找与该模式匹配的输入序列的下一个子序列
+		// matcher.find();尝试查找与该模式匹配的输入序列的下一个子序列
 		while (slashMatcher.find()) {
 			index++;
-			//当modelStr字符第count次出现的位置
+			// 当modelStr字符第count次出现的位置
 			if (index == count) {
 				break;
 			}
 		}
-		//matcher.start();返回以前匹配的初始索引。
+		// matcher.start();返回以前匹配的初始索引。
 		return slashMatcher.start();
 	}
 
@@ -409,4 +418,5 @@ public class StringUtil extends StrUtil {
 		}
 		return "[" + msg.toString() + "]";
 	}
+
 }

@@ -22,6 +22,7 @@ package com.albedo.java.common.core.exception;
  * @author somewhere
  */
 public class TaskException extends Exception {
+
 	private static final long serialVersionUID = 1L;
 
 	private Code code;
@@ -40,6 +41,7 @@ public class TaskException extends Exception {
 	}
 
 	public enum Code {
+
 		/**
 		 * TASK_EXISTS
 		 */
@@ -64,5 +66,7 @@ public class TaskException extends Exception {
 		 * TASK_NODE_NOT_AVAILABLE
 		 */
 		TASK_NODE_NOT_AVAILABLE
+
 	}
+
 }

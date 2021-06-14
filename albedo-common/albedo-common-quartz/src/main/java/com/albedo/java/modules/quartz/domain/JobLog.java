@@ -44,83 +44,103 @@ import java.util.Date;
 public class JobLog extends GeneralEntity<JobLog> {
 
 	/**
-	 * F_JOBNAME job_name  :  任务名称
+	 * F_JOBNAME job_name : 任务名称
 	 */
 	public static final String F_JOBNAME = "jobName";
+
 	/**
-	 * F_SQL_JOBNAME job_name  :  任务名称
+	 * F_SQL_JOBNAME job_name : 任务名称
 	 */
 	public static final String F_SQL_JOBNAME = "job_name";
+
 	/**
-	 * F_JOBGROUP job_group  :  任务组名
+	 * F_JOBGROUP job_group : 任务组名
 	 */
 	public static final String F_JOBGROUP = "jobGroup";
+
 	/**
-	 * F_SQL_JOBGROUP job_group  :  任务组名
+	 * F_SQL_JOBGROUP job_group : 任务组名
 	 */
 	public static final String F_SQL_JOBGROUP = "job_group";
+
 	/**
-	 * F_INVOKETARGET invoke_target  :  调用目标字符串
+	 * F_INVOKETARGET invoke_target : 调用目标字符串
 	 */
 	public static final String F_INVOKETARGET = "invokeTarget";
+
 	/**
-	 * F_SQL_INVOKETARGET invoke_target  :  调用目标字符串
+	 * F_SQL_INVOKETARGET invoke_target : 调用目标字符串
 	 */
 	public static final String F_SQL_INVOKETARGET = "invoke_target";
+
 	/**
-	 * F_JOBMESSAGE job_message  :  日志信息
+	 * F_JOBMESSAGE job_message : 日志信息
 	 */
 	public static final String F_JOBMESSAGE = "jobMessage";
+
 	/**
-	 * F_SQL_JOBMESSAGE job_message  :  日志信息
+	 * F_SQL_JOBMESSAGE job_message : 日志信息
 	 */
 	public static final String F_SQL_JOBMESSAGE = "job_message";
+
 	/**
-	 * F_STATUS status  :  执行状态（1正常 1失败）
+	 * F_STATUS status : 执行状态（1正常 1失败）
 	 */
 	public static final String F_STATUS = "status";
+
 	/**
-	 * F_SQL_STATUS status  :  执行状态（1正常 1失败）
+	 * F_SQL_STATUS status : 执行状态（1正常 1失败）
 	 */
 	public static final String F_SQL_STATUS = "status";
+
 	/**
-	 * F_STARTTIME start_time  :  开始时间
+	 * F_STARTTIME start_time : 开始时间
 	 */
 	public static final String F_STARTTIME = "startTime";
+
 	/**
-	 * F_SQL_STARTTIME start_time  :  开始时间
+	 * F_SQL_STARTTIME start_time : 开始时间
 	 */
 	public static final String F_SQL_STARTTIME = "start_time";
+
 	/**
-	 * F_ENDTIME end_time  :  结束时间
+	 * F_ENDTIME end_time : 结束时间
 	 */
 	public static final String F_ENDTIME = "endTime";
+
 	/**
-	 * F_SQL_ENDTIME end_time  :  结束时间
+	 * F_SQL_ENDTIME end_time : 结束时间
 	 */
 	public static final String F_SQL_ENDTIME = "end_time";
+
 	/**
-	 * F_CREATETIME create_time  :  创建时间
+	 * F_CREATETIME create_time : 创建时间
 	 */
 	public static final String F_CREATETIME = "createdDate";
+
 	/**
-	 * F_SQL_CREATETIME create_time  :  创建时间
+	 * F_SQL_CREATETIME create_time : 创建时间
 	 */
 	public static final String F_SQL_CREATETIME = "create_time";
+
 	/**
-	 * F_EXCEPTIONINFO exception_info  :  异常信息
+	 * F_EXCEPTIONINFO exception_info : 异常信息
 	 */
 	public static final String F_EXCEPTIONINFO = "exceptionInfo";
+
 	/**
-	 * F_SQL_EXCEPTIONINFO exception_info  :  异常信息
+	 * F_SQL_EXCEPTIONINFO exception_info : 异常信息
 	 */
 	public static final String F_SQL_EXCEPTIONINFO = "exception_info";
+
 	private static final long serialVersionUID = 1L;
 
 	@TableId(value = GeneralEntity.F_SQL_ID, type = IdType.AUTO)
 	protected Long id;
+
 	@TableField(GeneralEntity.F_SQL_DESCRIPTION)
 	protected String description;
+
 	/**
 	 * jobName 任务名称
 	 */
@@ -128,6 +148,7 @@ public class JobLog extends GeneralEntity<JobLog> {
 	@Size(max = 64)
 	@TableField(F_SQL_JOBNAME)
 	private String jobName;
+
 	/**
 	 * jobGroup 任务组名
 	 */
@@ -135,12 +156,14 @@ public class JobLog extends GeneralEntity<JobLog> {
 	@Size(max = 64)
 	@TableField(F_SQL_JOBGROUP)
 	private String jobGroup;
+
 	/**
 	 * cronExpression cron执行表达式
 	 */
 	@Size(max = 255)
 	@TableField("cron_expression")
 	private String cronExpression;
+
 	/**
 	 * invokeTarget 调用目标字符串
 	 */
@@ -148,12 +171,14 @@ public class JobLog extends GeneralEntity<JobLog> {
 	@Size(max = 500)
 	@TableField(F_SQL_INVOKETARGET)
 	private String invokeTarget;
+
 	/**
 	 * jobMessage 日志信息
 	 */
 	@Size(max = 500)
 	@TableField(F_SQL_JOBMESSAGE)
 	private String jobMessage;
+
 	/**
 	 * status 执行状态（1正常 1失败）
 	 */
@@ -161,28 +186,31 @@ public class JobLog extends GeneralEntity<JobLog> {
 	@TableField("status")
 	@DictType(DictNameConstants.SYS_STATUS)
 	private String status;
+
 	/**
 	 * startTime 开始时间
 	 */
 	@TableField("start_time")
 	private Date startTime;
+
 	/**
 	 * endTime 结束时间
 	 */
 	@TableField("end_time")
 	private Date endTime;
+
 	/**
 	 * createdDate 创建时间
 	 */
 	@TableField("create_time")
 	private Date createdDate;
+
 	/**
 	 * exceptionInfo 异常信息
 	 */
 	@Size(max = 3000)
 	@TableField("exception_info")
 	private String exceptionInfo;
-
 
 	@Override
 	public boolean equals(Object o) {
@@ -193,4 +221,5 @@ public class JobLog extends GeneralEntity<JobLog> {
 	public int hashCode() {
 		return super.hashCode();
 	}
+
 }

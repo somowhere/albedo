@@ -51,25 +51,33 @@ import javax.validation.constraints.NotBlank;
 public class DictDto extends TreeDto {
 
 	public static final String F_VAL = "val";
+
 	public static final String F_CODE = "code";
+
 	public static final String F_SHOW = "show";
+
 	public static final String F_SQL_SHOW = "show";
+
 	public static final String CACHE_GET_DICT_ALL = "getDictAll";
+
 	public static final String CACHE_DICT_DETAILS = "dict_details";
+
 	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 数据值
 	 */
 	private String val;
+
 	/**
 	 * 类型
 	 */
 	@NotBlank(message = "字典项数据类型不能为空")
 	private String code;
+
 	/**
 	 * 备注信息
 	 */
 	private String remark;
-
 
 }

@@ -56,7 +56,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 
-
 /**
  * Miscellaneous utilities for web applications.
  *
@@ -83,8 +82,7 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
 	}
 
 	/**
-	 * 判断是否ajax请求
-	 * spring ajax 返回含有 ResponseBody 或者 RestController注解
+	 * 判断是否ajax请求 spring ajax 返回含有 ResponseBody 或者 RestController注解
 	 *
 	 * @param handlerMethod HandlerMethod
 	 * @return 是否ajax请求
@@ -247,8 +245,7 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
 		try {
 			decoded = Base64.decode(base64Token);
 		} catch (IllegalArgumentException e) {
-			throw new CheckedException(
-				"Failed to decode basic authentication token");
+			throw new CheckedException("Failed to decode basic authentication token");
 		}
 
 		String token = new String(decoded, StandardCharsets.UTF_8);
@@ -260,5 +257,5 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
 		}
 		return new String[]{token.substring(0, delim), token.substring(delim + 1)};
 	}
-}
 
+}

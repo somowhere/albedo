@@ -38,4 +38,5 @@ public class RoleQueryCriteria implements Serializable {
 
 	@Query(operator = Query.Operator.between)
 	private List<Date> createdDate;
+
 }

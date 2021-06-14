@@ -32,7 +32,6 @@
 
 package com.albedo.java.modules.sys.service;
 
-
 import com.albedo.java.common.persistence.service.BaseService;
 import com.albedo.java.modules.sys.domain.UserRole;
 
@@ -55,4 +54,5 @@ public interface UserRoleService extends BaseService<UserRole> {
 	 * @date 2017年12月7日 16:31:38
 	 */
 	Boolean removeRoleByUserId(String userId);
+
 }

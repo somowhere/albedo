@@ -41,14 +41,13 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.session.SessionInformation;
 
-
 /**
- * @author somewhere
- * 异步监听日志事件
+ * @author somewhere 异步监听日志事件
  */
 @Slf4j
 @AllArgsConstructor
 public class SysUserOnlineListener {
+
 	private final UserOnlineService userOnlineService;
 
 	@Async

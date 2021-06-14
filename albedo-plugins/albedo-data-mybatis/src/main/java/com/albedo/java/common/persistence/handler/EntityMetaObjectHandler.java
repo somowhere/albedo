@@ -40,7 +40,6 @@ public class EntityMetaObjectHandler implements MetaObjectHandler {
 		this.auditorAware = auditorAware;
 	}
 
-
 	@Override
 	public void insertFill(MetaObject metaObject) {
 		if (checkMetaObject(metaObject)) {
@@ -77,4 +76,5 @@ public class EntityMetaObjectHandler implements MetaObjectHandler {
 			setFieldValByName(BaseDataEntity.F_LAST_MODIFIED_DATE, date, metaObject);
 		}
 	}
+
 }

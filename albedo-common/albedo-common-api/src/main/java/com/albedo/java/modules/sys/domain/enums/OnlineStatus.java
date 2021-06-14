@@ -22,6 +22,7 @@ package com.albedo.java.modules.sys.domain.enums;
  * @author somewhere
  */
 public enum OnlineStatus {
+
 	/**
 	 * 用户状态
 	 */
@@ -36,4 +37,5 @@ public enum OnlineStatus {
 	public String getInfo() {
 		return info;
 	}
+
 }

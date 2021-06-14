@@ -108,18 +108,18 @@ public class RedisServiceImpl implements RedisService {
 		}
 		for (int i = 0; i < 5; i++) {
 			JSONObject jo = new JSONObject();
-			Map<String, Object> map;
 			if (ReportSearchType.KEY.equals(reportSearchType)) {
 				jo.put("value", getKeySize());
 			} else {
-				Integer used_memory = Integer.valueOf(getUsedMemory());
-				jo.put("value", used_memory / 1000);
+				Integer usedMemory = Integer.valueOf(getUsedMemory());
+				jo.put("value", usedMemory / 1000);
 			}
-			String create_time = DateUtil.formatTime(DateUtil.date(System.currentTimeMillis() - (4 - i) * 1000));
-			jo.put("name", create_time);
+			String createTime = DateUtil.formatTime(DateUtil.date(System.currentTimeMillis() - (4 - i) * 1000));
+			jo.put("name", createTime);
 			json.add(jo);
 		}
 		mapJson.put("data", json);
 		return mapJson;
 	}
+
 }

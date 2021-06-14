@@ -48,14 +48,14 @@ import java.util.Set;
 
 /**
  * @author somewhere
- * @date 2018/9/4
- * getTokenPage 管理
+ * @date 2018/9/4 getTokenPage 管理
  */
 @RestController
 @AllArgsConstructor
 @RequestMapping("${application.admin-path}/sys/persistent-token")
 @Api(tags = "令牌管理")
 public class PersistentTokenResource {
+
 	private final PersistentTokenService persistentTokenService;
 
 	/**

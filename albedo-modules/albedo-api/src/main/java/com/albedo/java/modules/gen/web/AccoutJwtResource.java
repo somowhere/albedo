@@ -65,7 +65,9 @@ import java.util.LinkedHashMap;
 public class AccoutJwtResource extends BaseResource {
 
 	private final TokenProvider tokenProvider;
+
 	private final ApplicationProperties applicationProperties;
+
 	private final AuthenticationManager authenticationManager;
 
 	/**
@@ -80,12 +82,13 @@ public class AccoutJwtResource extends BaseResource {
 		if (StringUtil.isEmpty(refreshToken)) {
 			return Result.buildFail("无效jwt");
 		}
-		return Result.buildOkData(new LinkedHashMap<String, Object>() {{
-			put("access_token", refreshToken);
-			put("expires_in", tokenProvider.getExpirationDateSecondsFromToken(refreshToken));
-		}});
+		return Result.buildOkData(new LinkedHashMap<String, Object>() {
+			{
+				put("access_token", refreshToken);
+				put("expires_in", tokenProvider.getExpirationDateSecondsFromToken(refreshToken));
+			}
+		});
 	}
-
 
 	/**
 	 * 功能描述: 认证授权
@@ -95,21 +98,24 @@ public class AccoutJwtResource extends BaseResource {
 	@ApiOperation("认证授权")
 	public ResponseEntity<Result> authorize(@Valid @RequestBody LoginVo loginVo) {
 
-		Date canLoginDate = RedisUtil.getCacheObject(SecurityConstants.DEFAULT_LOGIN_AFTER_24_KEY + loginVo.getUsername());
+		Date canLoginDate = RedisUtil
+			.getCacheObject(SecurityConstants.DEFAULT_LOGIN_AFTER_24_KEY + loginVo.getUsername());
 		if (canLoginDate != null) {
-			return ResponseEntityBuilder.buildFail(HttpStatus.UNAUTHORIZED, "您的账号在" + DateUtil.format(canLoginDate) + "后才可登录");
+			return ResponseEntityBuilder.buildFail(HttpStatus.UNAUTHORIZED,
+				"您的账号在" + DateUtil.format(canLoginDate) + "后才可登录");
 		}
 
 		if (!SpringContextHolder.isDevelopment()) {
 			LoginUtil.checkCode(loginVo);
 		}
 		try {
-			String s = PasswordDecoderFilter.decryptAes(loginVo.getPassword(), applicationProperties.getSecurity().getEncodeKey());
+			String s = PasswordDecoderFilter.decryptAes(loginVo.getPassword(),
+				applicationProperties.getSecurity().getEncodeKey());
 			loginVo.setPassword(s.trim());
 		} catch (Exception e) {
 		}
-		UsernamePasswordAuthenticationToken authenticationToken =
-			new UsernamePasswordAuthenticationToken(loginVo.getUsername(), loginVo.getPassword());
+		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+			loginVo.getUsername(), loginVo.getPassword());
 
 		String keyLoginCount = SecurityConstants.DEFAULT_LOGIN_KEY + loginVo.getUsername();
 		try {
@@ -119,10 +125,12 @@ public class AccoutJwtResource extends BaseResource {
 			String jwt = tokenProvider.createToken(authentication, rememberMe);
 			log.info("jwt:{}", jwt);
 			RedisUtil.delete(keyLoginCount);
-			return ResponseEntityBuilder.buildOkData(new LinkedHashMap<String, Object>() {{
-				put("access_token", jwt);
-				put("expires_in", tokenProvider.getExpirationDateSecondsFromToken(jwt));
-			}});
+			return ResponseEntityBuilder.buildOkData(new LinkedHashMap<String, Object>() {
+				{
+					put("access_token", jwt);
+					put("expires_in", tokenProvider.getExpirationDateSecondsFromToken(jwt));
+				}
+			});
 		} catch (AuthenticationException ae) {
 			log.warn("Authentication exception trace: {}", ae);
 			String msg = ae.getMessage();
@@ -142,7 +150,10 @@ public class AccoutJwtResource extends BaseResource {
 				} else if (level3) {
 					msg = "您密码错误次数已超过10次，您的账号将被暂时锁定24小时，建议点击‘忘记密码’，凭手机号码重置密码，24小时后再尝试登录";
 					cacheObject = 0;
-//                    RedisUtil.setCacheObject(SecurityConstants.DEFAULT_LOGIN_AFTER_24_KEY +loginVo.getUsername(), DateUtil.addDays(PublicUtil.getCurrentDate(), 1), 1, TimeUnit.DAYS);
+					// RedisUtil.setCacheObject(SecurityConstants.DEFAULT_LOGIN_AFTER_24_KEY
+					// +loginVo.getUsername(),
+					// DateUtil.addDays(PublicUtil.getCurrentDate(), 1), 1,
+					// TimeUnit.DAYS);
 				}
 				RedisUtil.setCacheObject(keyLoginCount, 1 + cacheObject);
 			}
@@ -160,8 +171,9 @@ public class AccoutJwtResource extends BaseResource {
 	@AnonymousAccess
 	@GetMapping(value = "/logout")
 	@ApiOperation("登出")
-	public ResponseEntity<Result> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
-										 HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<Result> logout(
+		@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
+		HttpServletRequest request, HttpServletResponse response) {
 		String tokenValue = authHeader.replace("Bearer ", StrUtil.EMPTY).trim();
 		RedisUtil.delete(tokenValue);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -173,4 +185,5 @@ public class AccoutJwtResource extends BaseResource {
 		return ResponseEntityBuilder.buildOk("退出登录成功");
 
 	}
+
 }

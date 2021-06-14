@@ -29,6 +29,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface ExcelField {
+
 	/**
 	 * 导出到Excel中的名字.
 	 */
@@ -116,6 +117,7 @@ public @interface ExcelField {
 		 * 导入
 		 */
 		IMPORT(2);
+
 		private final int value;
 
 		Type(int value) {
@@ -125,12 +127,14 @@ public @interface ExcelField {
 		public int value() {
 			return this.value;
 		}
+
 	}
 
 	/**
 	 * 列类型
 	 */
 	enum ColumnType {
+
 		/**
 		 * 数字
 		 */
@@ -139,6 +143,7 @@ public @interface ExcelField {
 		 * 字符串
 		 */
 		STRING(1);
+
 		private final int value;
 
 		ColumnType(int value) {
@@ -148,5 +153,7 @@ public @interface ExcelField {
 		public int value() {
 			return this.value;
 		}
+
 	}
+
 }

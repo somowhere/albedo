@@ -27,7 +27,8 @@ import java.io.StringWriter;
 import java.util.Map;
 
 /**
- * copyright 2014 albedo all right reserved author somewhere created on 2015年1月28日 上午9:19:27
+ * copyright 2014 albedo all right reserved author somewhere created on 2015年1月28日
+ * 上午9:19:27
  *
  * @author somewhere
  */
@@ -36,7 +37,8 @@ public class FreeMarkers {
 	public static String renderString(String templateString, Map<String, ?> model) {
 		try {
 			StringWriter result = new StringWriter();
-			Template t = new Template("name", new StringReader(templateString), new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS));
+			Template t = new Template("name", new StringReader(templateString),
+				new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS));
 			t.process(model, result);
 			return result.toString();
 		} catch (Exception e) {
@@ -60,6 +62,5 @@ public class FreeMarkers {
 		cfg.setDirectoryForTemplateLoading(path.getFile());
 		return cfg;
 	}
-
 
 }

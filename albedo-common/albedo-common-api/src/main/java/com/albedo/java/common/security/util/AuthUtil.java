@@ -43,12 +43,12 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * @author somewhere
- * @date 2019/2/1
- * 认证授权相关工具类
+ * @date 2019/2/1 认证授权相关工具类
  */
 @Slf4j
 @UtilityClass
 public class AuthUtil {
+
 	private final String BASIC_ = "Basic ";
 
 	/**
@@ -64,8 +64,7 @@ public class AuthUtil {
 		try {
 			decoded = Base64.decode(base64Token);
 		} catch (IllegalArgumentException e) {
-			throw new RuntimeException(
-				"Failed to decode basic authentication token");
+			throw new RuntimeException("Failed to decode basic authentication token");
 		}
 
 		String token = new String(decoded, StandardCharsets.UTF_8);
@@ -94,4 +93,5 @@ public class AuthUtil {
 
 		return extractAndDecodeHeader(header);
 	}
+
 }

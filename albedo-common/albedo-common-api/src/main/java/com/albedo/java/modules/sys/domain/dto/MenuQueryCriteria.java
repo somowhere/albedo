@@ -30,10 +30,11 @@ import java.util.List;
 @Data
 public class MenuQueryCriteria implements Serializable {
 
-
 	@Query(propName = "id", operator = Query.Operator.ne)
 	private String notId;
+
 	private String searchId;
+
 	@Query
 	private String parentId;
 
@@ -45,4 +46,5 @@ public class MenuQueryCriteria implements Serializable {
 
 	@Query(operator = Query.Operator.between)
 	private List<Date> createdDate;
+
 }

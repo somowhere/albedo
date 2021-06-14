@@ -37,14 +37,16 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * 数据字典工具类 copyright 2014 albedo all right reserved author somewhere created on
- * 2015年1月27日 上午9:52:55
+ * 数据字典工具类 copyright 2014 albedo all right reserved author somewhere created on 2015年1月27日
+ * 上午9:52:55
  *
  * @author somewhere
  */
 @Slf4j
 public class DictUtil {
+
 	public static CacheManager cacheManager = SpringContextHolder.getBean(CacheManager.class);
+
 	public static DictService dictService = SpringContextHolder.getBean(DictService.class);
 
 	public static List<Dict> getDictList() {
@@ -66,7 +68,8 @@ public class DictUtil {
 
 	public static List<Dict> getDictListByParentCode(String code) {
 		Optional<Dict> first = getDictList().stream().filter(dict -> dict.getCode().equals(code)).findFirst();
-		return getDictList().stream().filter(dict -> first.get().getId().equals(dict.getParentId())).collect(Collectors.toList());
+		return getDictList().stream().filter(dict -> first.get().getId().equals(dict.getParentId()))
+			.collect(Collectors.toList());
 	}
 
 	public static Map<String, List<SelectVo>> getSelectVoListByCodes(String... codes) {
@@ -82,15 +85,12 @@ public class DictUtil {
 		if (ObjectUtil.isNotEmpty(codes)) {
 			for (String codeItem : codes) {
 				for (Dict dict : dictList) {
-					//命中的数据字段
+					// 命中的数据字段
 					if (codeItem.equals(dict.getCode())) {
 						dictCodes.add(dict);
 						break;
 					}
 				}
-//                if(Globals.UA_SYS_CITY.equals(codeItem)){
-//                    map.put(Globals.UA_SYS_CITY, repository.findCitys());
-//                }
 			}
 		} else {
 			dictCodes = dictList;
@@ -101,9 +101,6 @@ public class DictUtil {
 				map.put(dict.getCode(), dictTempList);
 			}
 		});
-//        if(!map.containsKey(Globals.UA_SYS_CITY) && PublicUtil.isEmpty(codeList)){
-//            map.put(Globals.UA_SYS_CITY, repository.findCitys());
-//        }
 
 		return map;
 	}
@@ -112,11 +109,13 @@ public class DictUtil {
 		List<SelectVo> list = Lists.newLinkedList();
 		if (CollUtil.isNotEmpty(dictList)) {
 			for (Dict item : dictList) {
-				if (CommonConstants.YES.equals(item.getAvailable()) && StringUtil.isNotEmpty(item.getParentId()) && item.getParentId().equals(dict.getId())) {
+				if (CommonConstants.YES.equals(item.getAvailable()) && StringUtil.isNotEmpty(item.getParentId())
+					&& item.getParentId().equals(dict.getId())) {
 					list.add(new SelectVo(item.getVal(), item.getName(), item.getVersion()));
 				}
 			}
 		}
 		return list;
 	}
+
 }

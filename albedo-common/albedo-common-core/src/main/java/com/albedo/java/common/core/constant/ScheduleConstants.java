@@ -22,6 +22,7 @@ package com.albedo.java.common.core.constant;
  * @author somewhere
  */
 public interface ScheduleConstants {
+
 	String TASK_CLASS_NAME = "TASK_CLASS_NAME";
 
 	String REDIS_SCHEDULE_DEFAULT_CHANNEL = "REDIS_SCHEDULE_DEFAULT_CHANNEL";
@@ -71,10 +72,11 @@ public interface ScheduleConstants {
 		public String getValue() {
 			return value;
 		}
+
 	}
 
-
 	enum MessageType {
+
 		/**
 		 * 创建
 		 */

@@ -37,10 +37,12 @@ package com.albedo.java.common.core.constant;
  * @date 2019/2/1
  */
 public interface SecurityConstants {
+
 	/**
 	 * 角色前缀
 	 */
 	String ROLE = "ROLE_";
+
 	/**
 	 * 前缀
 	 */
@@ -50,6 +52,7 @@ public interface SecurityConstants {
 	 * oauth 相关前缀
 	 */
 	String OAUTH_PREFIX = "oauth:";
+
 	/**
 	 * 项目的license
 	 */
@@ -70,7 +73,6 @@ public interface SecurityConstants {
 	 */
 	String AUTHENTICATE_URL = "/authenticate";
 
-
 	/**
 	 * grant_type
 	 */
@@ -85,6 +87,7 @@ public interface SecurityConstants {
 	 * {bcrypt} 加密的特征码
 	 */
 	String BCRYPT = "{bcrypt}";
+
 	/**
 	 * sys_oauth_client_detail 表的字段，不包括client_id、client_secret
 	 */
@@ -95,8 +98,7 @@ public interface SecurityConstants {
 	/**
 	 * JdbcClientDetailsService 查询语句
 	 */
-	String BASE_FIND_STATEMENT = "select " + CLIENT_FIELDS
-		+ " from sys_oauth_client_detail";
+	String BASE_FIND_STATEMENT = "select " + CLIENT_FIELDS + " from sys_oauth_client_detail";
 
 	/**
 	 * 默认的查询语句
@@ -112,7 +114,6 @@ public interface SecurityConstants {
 	 * 资源服务器默认bean名称
 	 */
 	String RESOURCE_SERVER_CONFIGURER = "resourceServerConfigurerAdapter";
-
 
 	/**
 	 * 默认生成图形验证码宽度
@@ -133,6 +134,7 @@ public interface SecurityConstants {
 	 * 默认生成图形验证码过期时间
 	 */
 	int DEFAULT_IMAGE_EXPIRE = 60;
+
 	/**
 	 * 边框颜色，合法值： r,g,b (and optional alpha) 或者 white,black,blue.
 	 */
@@ -142,6 +144,7 @@ public interface SecurityConstants {
 	 * 图片边框
 	 */
 	String DEFAULT_IMAGE_BORDER = "no";
+
 	/**
 	 * 默认图片间隔
 	 */
@@ -151,41 +154,51 @@ public interface SecurityConstants {
 	 * 默认保存code的前缀
 	 */
 	String DEFAULT_CODE_KEY = "default_code_key";
+
 	/**
 	 * 默认保存登录的前缀
 	 */
 	String DEFAULT_LOGIN_KEY = "default_login_key";
+
 	/**
 	 * 默认保存登录的前缀
 	 */
 	String DEFAULT_LOGIN_JWT_KEY = "default_login_jwt_key_";
+
 	String DEFAULT_LOGIN_JWT_MAP_KEY = "default_login_jwt_map_key";
+
 	/**
 	 * 默认保存24小时后登录的前缀
 	 */
 	String DEFAULT_LOGIN_AFTER_24_KEY = "default_login_after_24_key";
+
 	/**
 	 * 验证码文字大小
 	 */
 	String DEFAULT_IMAGE_FONT_SIZE = "30";
+
 	/**
-	 * 数据权限 1全部 2所在机构及以下数据  3 所在机构数据  4仅本人数据 5 按明细设置
+	 * 数据权限 1全部 2所在机构及以下数据 3 所在机构数据 4仅本人数据 5 按明细设置
 	 */
 	String ROLE_DATA_SCOPE_ALL = "1";
+
 	/**
-	 * 数据权限 1全部 2所在机构及以下数据  3 所在机构数据  4仅本人数据 5 按明细设置
+	 * 数据权限 1全部 2所在机构及以下数据 3 所在机构数据 4仅本人数据 5 按明细设置
 	 */
 	String ROLE_DATA_SCOPE_DEPT_ALL = "2";
+
 	/**
-	 * 数据权限 1全部 2所在机构及以下数据  3 所在机构数据  4仅本人数据 5 按明细设置
+	 * 数据权限 1全部 2所在机构及以下数据 3 所在机构数据 4仅本人数据 5 按明细设置
 	 */
 	String ROLE_DATA_SCOPE_DEPT = "3";
+
 	/**
-	 * 数据权限 1全部 2所在机构及以下数据  3 所在机构数据  4仅本人数据 5 按明细设置
+	 * 数据权限 1全部 2所在机构及以下数据 3 所在机构数据 4仅本人数据 5 按明细设置
 	 */
 	String ROLE_DATA_SCOPE_SELF = "4";
+
 	/**
-	 * 数据权限 1全部 2所在机构及以下数据  3 所在机构数据  4仅本人数据 5 按明细设置
+	 * 数据权限 1全部 2所在机构及以下数据 3 所在机构数据 4仅本人数据 5 按明细设置
 	 */
 	String ROLE_DATA_SCOPE_CUSTOM = "5";
 

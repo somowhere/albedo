@@ -31,7 +31,6 @@ import org.junit.jupiter.api.Test;
 
 public class JacksonTest {
 
-
 	@Test
 	public void testAddExtraField() throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
@@ -43,13 +42,10 @@ public class JacksonTest {
 
 				context.addBeanSerializerModifier(new BeanSerializerModifier() {
 
-					public JsonSerializer<?> modifySerializer(
-						SerializationConfig config,
-						BeanDescription beanDesc,
-						JsonSerializer<?> serializer) {
+					public JsonSerializer<?> modifySerializer(SerializationConfig config, BeanDescription beanDesc,
+															  JsonSerializer<?> serializer) {
 						if (serializer instanceof BeanSerializerBase) {
-							return new ExtraFieldSerializer(
-								(BeanSerializerBase) serializer);
+							return new ExtraFieldSerializer((BeanSerializerBase) serializer);
 						}
 						return serializer;
 
@@ -59,21 +55,23 @@ public class JacksonTest {
 		});
 
 		mapper.writeValue(System.out, Lists.newArrayList(new MyClass1(), new MyClass2()));
-		//prints {"classField":"classFieldValue","extraField":"extraFieldValue"}
+		// prints {"classField":"classFieldValue","extraField":"extraFieldValue"}
 	}
 
 	@Data
 	class MyClass1 extends DataVo<String> {
 
 		private String classField = "classFieldValue1";
+
 		private Integer available = 1;
+
 	}
 
 	@Data
 	class MyClass2 {
 
 		private String classField = "classFieldValue2";
-	}
 
+	}
 
 }

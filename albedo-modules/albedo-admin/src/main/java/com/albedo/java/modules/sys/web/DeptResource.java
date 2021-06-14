@@ -77,7 +77,6 @@ public class DeptResource extends BaseResource {
 		return Result.buildOkData(deptService.getOneDto(id));
 	}
 
-
 	/**
 	 * 返回当前部门树形菜单集合
 	 *
@@ -146,6 +145,5 @@ public class DeptResource extends BaseResource {
 	public Result removeById(@RequestBody Set<String> ids) {
 		return Result.buildOkData(deptService.removeByIds(ids));
 	}
-
 
 }

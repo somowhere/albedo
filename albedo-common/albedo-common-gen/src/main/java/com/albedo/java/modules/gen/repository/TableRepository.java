@@ -31,6 +31,7 @@ import java.util.List;
  * @author somewhere
  */
 public interface TableRepository extends BaseRepository<Table> {
+
 	/**
 	 * 查询表列表
 	 *

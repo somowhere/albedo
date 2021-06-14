@@ -51,4 +51,5 @@ public interface TreeNodeAware<T> {
 	 * @param children
 	 */
 	void setChildren(List<T> children);
+
 }

@@ -45,7 +45,6 @@ public class BeanUtil extends BeanUtils {
 		Assert.notNull(target, "Target must not be null");
 		Class<?> actualEditable = target.getClass();
 
-
 		PropertyDescriptor[] targetPds = getPropertyDescriptors(actualEditable);
 		List<String> ignoreList = ignoreProperties != null ? Arrays.asList(ignoreProperties) : null;
 		PropertyDescriptor[] var7 = targetPds;
@@ -56,7 +55,8 @@ public class BeanUtil extends BeanUtils {
 			Method writeMethod = targetPd.getWriteMethod();
 			boolean ignore = ignoreList == null || !ignoreList.contains(targetPd.getName());
 			if (writeMethod != null && ignore) {
-				BeanField writeAnnotation = ClassUtil.findAnnotation(target.getClass(), targetPd.getName(), BeanField.class);
+				BeanField writeAnnotation = ClassUtil.findAnnotation(target.getClass(), targetPd.getName(),
+					BeanField.class);
 				if (writeAnnotation != null && writeAnnotation.ingore()) {
 					continue;
 				}
@@ -68,14 +68,18 @@ public class BeanUtil extends BeanUtils {
 					if (sourcePd != null) {
 						Method readMethod = sourcePd.getReadMethod();
 						if (readMethod != null) {
-							//&& ClassUtils.isAssignable(writeMethod.getParameterTypes()[0], readMethod.getReturnType())
+							// &&
+							// ClassUtils.isAssignable(writeMethod.getParameterTypes()[0],
+							// readMethod.getReturnType())
 							if (!Modifier.isPublic(readMethod.getDeclaringClass().getModifiers())) {
 								readMethod.setAccessible(true);
 							}
 							try {
 								value = readMethod.invoke(source);
 							} catch (Throwable var15) {
-								throw new FatalBeanException("Could not copy property '" + targetPd.getName() + "' from source to target", var15);
+								throw new FatalBeanException(
+									"Could not copy property '" + targetPd.getName() + "' from source to target",
+									var15);
 							}
 							if (!Modifier.isPublic(writeMethod.getDeclaringClass().getModifiers())) {
 								writeMethod.setAccessible(true);
@@ -88,14 +92,14 @@ public class BeanUtil extends BeanUtils {
 						writeMethod.invoke(target, value);
 					}
 				} catch (Throwable var15) {
-					throw new FatalBeanException("Could not copy property '" + targetPd.getName() + "' from source to target", var15);
+					throw new FatalBeanException(
+						"Could not copy property '" + targetPd.getName() + "' from source to target", var15);
 				}
 
 			}
 		}
 
 	}
-
 
 	public static <T> T copyPropertiesByClass(Object source, Class<T> requiredType) {
 		T target = null;

@@ -33,7 +33,6 @@ import java.io.InputStreamReader;
  */
 public class BodyRequestWrapper extends HttpServletRequestWrapper {
 
-
 	private String requestBody = null;
 
 	public BodyRequestWrapper(HttpServletRequest request) {
@@ -80,6 +79,7 @@ public class BodyRequestWrapper extends HttpServletRequestWrapper {
 	}
 
 	private class CustomServletInputStream extends ServletInputStream {
+
 		private ByteArrayInputStream buffer;
 
 		public CustomServletInputStream(String body) {
@@ -106,5 +106,7 @@ public class BodyRequestWrapper extends HttpServletRequestWrapper {
 		public void setReadListener(ReadListener listener) {
 			throw new RuntimeException("Not implemented");
 		}
+
 	}
+
 }

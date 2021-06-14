@@ -1,15 +1,16 @@
 logging:
   level:
-    ROOT: ${logback.loglevel}
-    com.albedo.java: INFO
+    ROOT: INFO
+    com.albedo.java: ${logback.loglevel}
 server:
   port: 4001
 
 spring:
-  profiles:
-    active: prod
-    include:
-      - jwt
+  config:
+    activate:
+      on-profile:
+        - swagger
+  #      - jwt
   redis:
     host: albedo-redis
   datasource:

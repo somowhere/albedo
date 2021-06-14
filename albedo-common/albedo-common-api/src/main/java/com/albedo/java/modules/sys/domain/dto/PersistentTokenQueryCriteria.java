@@ -33,7 +33,7 @@ public class PersistentTokenQueryCriteria implements Serializable {
 	@Query(blurry = "series,tokenValue,username,userAgent,browser,os")
 	private String blurry;
 
-
 	@Query(operator = Query.Operator.between)
 	private List<Date> tokenDate;
+
 }

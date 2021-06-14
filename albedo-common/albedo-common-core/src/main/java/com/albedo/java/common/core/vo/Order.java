@@ -16,7 +16,6 @@
 
 package com.albedo.java.common.core.vo;
 
-
 import cn.hutool.core.builder.EqualsBuilder;
 import cn.hutool.core.builder.HashCodeBuilder;
 
@@ -28,14 +27,17 @@ import java.io.Serializable;
  * @date 2020/5/31 17:09
  */
 public class Order implements Serializable {
+
 	/**
 	 * 默认方向
 	 */
 	private static final Direction DEFAULT_DIRECTION = Direction.desc;
+
 	/**
 	 * 属性
 	 */
 	private String property;
+
 	/**
 	 * 方向
 	 */
@@ -137,7 +139,8 @@ public class Order implements Serializable {
 			return true;
 		}
 		Order other = (Order) obj;
-		return new EqualsBuilder().append(getProperty(), other.getProperty()).append(getDirection(), other.getDirection()).isEquals();
+		return new EqualsBuilder().append(getProperty(), other.getProperty())
+			.append(getDirection(), other.getDirection()).isEquals();
 	}
 
 	/**
@@ -164,5 +167,7 @@ public class Order implements Serializable {
 		 * 递减
 		 */
 		desc
+
 	}
+
 }

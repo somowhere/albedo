@@ -40,14 +40,13 @@ import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
 
-
 /**
- * @author somewhere
- * 异步监听日志事件
+ * @author somewhere 异步监听日志事件
  */
 @Slf4j
 @AllArgsConstructor
 public class SysLogListener {
+
 	private final LogOperateService logOperateService;
 
 	@Async
@@ -57,4 +56,5 @@ public class SysLogListener {
 		LogOperate logOperate = (LogOperate) event.getSource();
 		logOperateService.saveOrUpdate(logOperate);
 	}
+
 }

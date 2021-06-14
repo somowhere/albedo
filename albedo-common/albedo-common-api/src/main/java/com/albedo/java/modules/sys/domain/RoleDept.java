@@ -56,10 +56,12 @@ public class RoleDept extends GeneralEntity<RoleDept> {
 
 	@TableId(value = "id", type = IdType.ASSIGN_UUID)
 	private String id;
+
 	/**
 	 * 角色ID
 	 */
 	private String roleId;
+
 	/**
 	 * 部门ID
 	 */

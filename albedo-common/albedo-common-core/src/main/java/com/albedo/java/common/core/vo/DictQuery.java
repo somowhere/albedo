@@ -31,6 +31,7 @@ import lombok.ToString;
 public class DictQuery {
 
 	private String code;
+
 	private String filter;
 
 }

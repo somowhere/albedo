@@ -77,7 +77,8 @@ public class QueryWrapperUtil {
 				if (q != null) {
 					String propName = q.propName();
 					String blurry = q.blurry();
-					String attributeName = StringUtil.isEmpty(propName) ? StringUtil.toRevertCamelCase(field.getName(), CharUtil.UNDERLINE) : propName;
+					String attributeName = StringUtil.isEmpty(propName)
+						? StringUtil.toRevertCamelCase(field.getName(), CharUtil.UNDERLINE) : propName;
 					Object val = field.get(query);
 					if (cn.hutool.core.util.ObjectUtil.isNull(val) || "".equals(val)) {
 						continue;
@@ -101,7 +102,6 @@ public class QueryWrapperUtil {
 		}
 		return entityWrapper;
 	}
-
 
 	private static void parseWarpper(QueryWrapper<?> entityWrapper, Query q, String attributeName, Object val) {
 		switch (q.operator()) {

@@ -57,8 +57,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @CacheConfig(cacheNames = CacheNameConstants.ALIPAY_DETAILS)
 @AllArgsConstructor
-public class AliPayServiceImpl extends BaseServiceImpl<AliPayConfigRepository, AlipayConfig>
-	implements AliPayService {
+public class AliPayServiceImpl extends BaseServiceImpl<AliPayConfigRepository, AlipayConfig> implements AliPayService {
+
 	private final AliPayConfigRepository alipayRepository;
 
 	@Override
@@ -83,7 +83,9 @@ public class AliPayServiceImpl extends BaseServiceImpl<AliPayConfigRepository, A
 		if (alipay.getId() == null) {
 			throw new BadRequestException("请先添加相应配置，再操作");
 		}
-		AlipayClient alipayClient = new DefaultAlipayClient(alipay.getGatewayUrl(), alipay.getAppId(), alipay.getPrivateKey(), alipay.getFormat(), alipay.getCharset(), alipay.getPublicKey(), alipay.getSignType());
+		AlipayClient alipayClient = new DefaultAlipayClient(alipay.getGatewayUrl(), alipay.getAppId(),
+			alipay.getPrivateKey(), alipay.getFormat(), alipay.getCharset(), alipay.getPublicKey(),
+			alipay.getSignType());
 
 		// 创建API对应的request(电脑网页版)
 		AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
@@ -92,16 +94,11 @@ public class AliPayServiceImpl extends BaseServiceImpl<AliPayConfigRepository, A
 		request.setReturnUrl(alipay.getReturnUrl());
 		request.setNotifyUrl(alipay.getNotifyUrl());
 		// 填充订单参数
-		request.setBizContent("{" +
-			"    \"out_trade_no\":\"" + trade.getOutTradeNo() + "\"," +
-			"    \"product_code\":\"FAST_INSTANT_TRADE_PAY\"," +
-			"    \"total_amount\":" + trade.getTotalAmount() + "," +
-			"    \"subject\":\"" + trade.getSubject() + "\"," +
-			"    \"body\":\"" + trade.getBody() + "\"," +
-			"    \"extend_params\":{" +
-			"    \"sys_service_provider_id\":\"" + alipay.getSysServiceProviderId() + "\"" +
-			"    }" +
-			"  }");//填充业务参数
+		request.setBizContent("{" + "    \"out_trade_no\":\"" + trade.getOutTradeNo() + "\","
+			+ "    \"product_code\":\"FAST_INSTANT_TRADE_PAY\"," + "    \"total_amount\":" + trade.getTotalAmount()
+			+ "," + "    \"subject\":\"" + trade.getSubject() + "\"," + "    \"body\":\"" + trade.getBody() + "\","
+			+ "    \"extend_params\":{" + "    \"sys_service_provider_id\":\"" + alipay.getSysServiceProviderId()
+			+ "\"" + "    }" + "  }");// 填充业务参数
 		// 调用SDK生成表单, 通过GET方式，口可以获取url
 		return alipayClient.pageExecute(request, "GET").getBody();
 
@@ -112,7 +109,9 @@ public class AliPayServiceImpl extends BaseServiceImpl<AliPayConfigRepository, A
 		if (alipay.getId() == null) {
 			throw new BadRequestException("请先添加相应配置，再操作");
 		}
-		AlipayClient alipayClient = new DefaultAlipayClient(alipay.getGatewayUrl(), alipay.getAppId(), alipay.getPrivateKey(), alipay.getFormat(), alipay.getCharset(), alipay.getPublicKey(), alipay.getSignType());
+		AlipayClient alipayClient = new DefaultAlipayClient(alipay.getGatewayUrl(), alipay.getAppId(),
+			alipay.getPrivateKey(), alipay.getFormat(), alipay.getCharset(), alipay.getPublicKey(),
+			alipay.getSignType());
 
 		double money = Double.parseDouble(trade.getTotalAmount());
 		double maxMoney = 5000;
@@ -123,16 +122,11 @@ public class AliPayServiceImpl extends BaseServiceImpl<AliPayConfigRepository, A
 		AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
 		request.setReturnUrl(alipay.getReturnUrl());
 		request.setNotifyUrl(alipay.getNotifyUrl());
-		request.setBizContent("{" +
-			"    \"out_trade_no\":\"" + trade.getOutTradeNo() + "\"," +
-			"    \"product_code\":\"FAST_INSTANT_TRADE_PAY\"," +
-			"    \"total_amount\":" + trade.getTotalAmount() + "," +
-			"    \"subject\":\"" + trade.getSubject() + "\"," +
-			"    \"body\":\"" + trade.getBody() + "\"," +
-			"    \"extend_params\":{" +
-			"    \"sys_service_provider_id\":\"" + alipay.getSysServiceProviderId() + "\"" +
-			"    }" +
-			"  }");
+		request.setBizContent("{" + "    \"out_trade_no\":\"" + trade.getOutTradeNo() + "\","
+			+ "    \"product_code\":\"FAST_INSTANT_TRADE_PAY\"," + "    \"total_amount\":" + trade.getTotalAmount()
+			+ "," + "    \"subject\":\"" + trade.getSubject() + "\"," + "    \"body\":\"" + trade.getBody() + "\","
+			+ "    \"extend_params\":{" + "    \"sys_service_provider_id\":\"" + alipay.getSysServiceProviderId()
+			+ "\"" + "    }" + "  }");
 		return alipayClient.pageExecute(request, "GET").getBody();
 	}
 

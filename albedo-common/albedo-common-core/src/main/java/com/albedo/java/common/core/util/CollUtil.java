@@ -47,7 +47,8 @@ public class CollUtil extends cn.hutool.core.collection.CollUtil {
 	/**
 	 * 转换Collection所有元素(通过toString())为String, 中间以 separator分隔。
 	 */
-	public static String convertToString(final Collection collection, final String propertyName, final String separator) {
+	public static String convertToString(final Collection collection, final String propertyName,
+										 final String separator) {
 		List list = extractToList(collection, propertyName);
 		return convertToString(list, separator);
 	}
@@ -84,16 +85,17 @@ public class CollUtil extends cn.hutool.core.collection.CollUtil {
 
 	public static List<ComboData> convertComboDataList(List<?> dataList, String idFieldName, String nameFieldName) {
 		List<ComboData> comboDataList = Lists.newArrayList();
-		dataList.forEach(item -> comboDataList.add(
-			new ComboData(StringUtil.toStrString(BeanUtil.getFieldValue(item, idFieldName)),
+		dataList.forEach(item -> comboDataList
+			.add(new ComboData(StringUtil.toStrString(BeanUtil.getFieldValue(item, idFieldName)),
 				StringUtil.toStrString(ClassUtil.invokeGetter(item, nameFieldName)))));
 		return comboDataList;
 	}
 
 	public static List<SelectVo> convertSelectVoList(List<?> dataList, String idFieldName, String nameFieldName) {
 		List<SelectVo> selectVoList = Lists.newArrayList();
-		dataList.forEach(item -> selectVoList.add(new SelectVo(StringUtil.toStrString(BeanUtil.getFieldValue(item, idFieldName)),
-			StringUtil.toStrString(ClassUtil.invokeGetter(item, nameFieldName)))));
+		dataList.forEach(
+			item -> selectVoList.add(new SelectVo(StringUtil.toStrString(BeanUtil.getFieldValue(item, idFieldName)),
+				StringUtil.toStrString(ClassUtil.invokeGetter(item, nameFieldName)))));
 		return selectVoList;
 	}
 
@@ -114,4 +116,5 @@ public class CollUtil extends cn.hutool.core.collection.CollUtil {
 		}
 		return null;
 	}
+
 }

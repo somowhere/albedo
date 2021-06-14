@@ -22,6 +22,7 @@ package com.albedo.java.common.log.enums;
  * @author somewhere
  */
 public enum OperatorType {
+
 	/**
 	 * 其它
 	 */
@@ -36,4 +37,5 @@ public enum OperatorType {
 	 * 手机端用户
 	 */
 	MOBILE
+
 }

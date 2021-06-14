@@ -54,4 +54,5 @@ public class Dept extends TreeEntity<Dept> {
 	 * 锁定标记
 	 */
 	private Integer available;
+
 }

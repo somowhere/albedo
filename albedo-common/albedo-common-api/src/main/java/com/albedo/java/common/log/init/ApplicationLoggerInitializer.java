@@ -41,10 +41,10 @@ import org.springframework.core.env.ConfigurableEnvironment;
  * @author somewhere
  * @date 2019-06-25
  * <p>
- * 通过环境变量的形式注入 logging.file
- * 自动维护 Spring Boot Admin Logger Viewer
+ * 通过环境变量的形式注入 logging.file 自动维护 Spring Boot Admin Logger Viewer
  */
 public class ApplicationLoggerInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+
 	@Override
 	public void initialize(ConfigurableApplicationContext applicationContext) {
 		ConfigurableEnvironment environment = applicationContext.getEnvironment();
@@ -55,4 +55,5 @@ public class ApplicationLoggerInitializer implements ApplicationContextInitializ
 		// spring boot sys 直接加载日志
 		System.setProperty("logging.file", String.format("%s/%s/debug.log", logPath, applicationName));
 	}
+
 }

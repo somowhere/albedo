@@ -57,40 +57,62 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 public class RoleResourceIntTest {
 
-
 	private static final String DEFAULT_ANOTHER_NAME = "ANOTHER_NAME";
+
 	private static final String DEFAULT_NAME = "NAME1";
+
 	private static final String UPDATED_NAME = "NAME2";
+
 	private static final String DEFAULT_ANOTHER_CODE = "ANOTHER_CODE";
+
 	private static final String DEFAULT_CODE = "CODE1";
+
 	private static final String UPDATED_CODE = "CODE2";
+
 	private static final Integer DEFAULT_AVAILABLE = CommonConstants.YES;
+
 	private static final Integer UPDATED_AVAILABLE = CommonConstants.NO;
+
 	private static final String DEFAULT_DATASCOPE = CommonConstants.STR_YES;
+
 	private static final String UPDATED_DATASCOPE = CommonConstants.STR_NO;
+
 	private static final Integer DEFAULT_LEVEL = 1;
+
 	private static final Integer UPDATED_LEVEL = 2;
+
 	private static final String DEFAULT_DESCRIPTION = "DESCRIPTION1";
+
 	private static final String UPDATED_DESCRIPTION = "DESCRIPTION2";
+
 	private String DEFAULT_API_URL;
+
 	@Autowired
 	private RoleService roleService;
+
 	@Autowired
 	private UserService userService;
+
 	@Autowired
 	private MenuService menuService;
+
 	@Autowired
 	private DeptService deptService;
+
 	@Autowired
 	private RoleMenuService roleMenuService;
+
 	@Autowired
 	private RoleDeptService roleDeptService;
 
 	private MockMvc restRoleMockMvc;
+
 	@Autowired
 	private MappingJackson2HttpMessageConverter jacksonMessageConverter;
+
 	@Autowired
 	private GlobalExceptionHandler globalExceptionHandler;
+
 	@Autowired
 	private ApplicationProperties applicationProperties;
 
@@ -105,17 +127,15 @@ public class RoleResourceIntTest {
 		final RoleResource roleResource = new RoleResource(roleService, roleMenuService, userService);
 		this.restRoleMockMvc = MockMvcBuilders.standaloneSetup(roleResource)
 			.addPlaceholderValue(TestUtil.ADMIN_PATH, applicationProperties.getAdminPath())
-			.setControllerAdvice(globalExceptionHandler)
-			.setConversionService(createFormattingConversionService())
-			.setMessageConverters(jacksonMessageConverter)
-			.build();
+			.setControllerAdvice(globalExceptionHandler).setConversionService(createFormattingConversionService())
+			.setMessageConverters(jacksonMessageConverter).build();
 	}
 
 	/**
 	 * Create a Role.
 	 * <p>
-	 * This is a static method, as tests for other entities might also need it,
-	 * if they test an domain which has a required relationship to the Role domain.
+	 * This is a static method, as tests for other entities might also need it, if they
+	 * test an domain which has a required relationship to the Role domain.
 	 */
 	public RoleDto createEntity() {
 		RoleDto roleDto = new RoleDto();
@@ -149,16 +169,13 @@ public class RoleResourceIntTest {
 		List<Role> databaseSizeBeforeCreate = roleService.list();
 
 		// Create the Role
-		restRoleMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(roleDto)))
-			.andExpect(status().isOk());
+		restRoleMockMvc.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+			.content(TestUtil.convertObjectToJsonBytes(roleDto))).andExpect(status().isOk());
 
 		// Validate the Role in the database
 		List<Role> roleList = roleService.list();
 		assertThat(roleList).hasSize(databaseSizeBeforeCreate.size() + 1);
-		Role testRole = roleService.getOne(Wrappers.<Role>query().lambda()
-			.eq(Role::getName, roleDto.getName()));
+		Role testRole = roleService.getOne(Wrappers.<Role>query().lambda().eq(Role::getName, roleDto.getName()));
 		assertThat(testRole.getName()).isEqualTo(DEFAULT_NAME);
 		assertThat(testRole.getLevel()).isEqualTo(DEFAULT_LEVEL);
 		assertThat(testRole.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
@@ -171,16 +188,14 @@ public class RoleResourceIntTest {
 		// Initialize the database
 		roleService.saveOrUpdate(roleDto);
 		// Get all the roles
-		restRoleMockMvc.perform(get(DEFAULT_API_URL)
-			.param(PageModel.F_DESC, Role.F_SQL_CREATED_DATE)
-			.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+		restRoleMockMvc
+			.perform(get(DEFAULT_API_URL).param(PageModel.F_DESC, Role.F_SQL_CREATED_DATE)
+				.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.records.[*].name").value(hasItem(DEFAULT_NAME)))
 			.andExpect(jsonPath("$.data.records.[*].code").value(hasItem(DEFAULT_CODE)))
 			.andExpect(jsonPath("$.data.records.[*].remark").value(hasItem(DEFAULT_LEVEL)))
-			.andExpect(jsonPath("$.data.records.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-		;
+			.andExpect(jsonPath("$.data.records.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
 	}
 
 	@Test
@@ -190,8 +205,7 @@ public class RoleResourceIntTest {
 		roleService.saveOrUpdate(roleDto);
 
 		// Get the role
-		restRoleMockMvc.perform(get(DEFAULT_API_URL + "{id}", roleDto.getId()))
-			.andExpect(status().isOk())
+		restRoleMockMvc.perform(get(DEFAULT_API_URL + "{id}", roleDto.getId())).andExpect(status().isOk())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.name").value(DEFAULT_NAME))
 			.andExpect(jsonPath("$.data.code").value(DEFAULT_CODE))
@@ -202,8 +216,7 @@ public class RoleResourceIntTest {
 	@Test
 	@Transactional(rollbackFor = Exception.class)
 	public void getNonExistingRole() throws Exception {
-		restRoleMockMvc.perform(get("/sys/role/ddd/unknown"))
-			.andExpect(status().isNotFound());
+		restRoleMockMvc.perform(get("/sys/role/ddd/unknown")).andExpect(status().isNotFound());
 	}
 
 	@Test
@@ -216,7 +229,6 @@ public class RoleResourceIntTest {
 		// Update the role
 		Role updatedRole = roleService.getById(roleDto.getId());
 
-
 		RoleDto managedRoleVM = new RoleDto();
 		managedRoleVM.setName(UPDATED_NAME);
 		managedRoleVM.setLevel(UPDATED_LEVEL);
@@ -225,26 +237,25 @@ public class RoleResourceIntTest {
 		managedRoleVM.setMenuIdList(Lists.newArrayList(anotherRole.getMenuIdList().get(0)));
 		managedRoleVM.setDeptIdList(Lists.newArrayList(anotherRole.getDeptIdList().get(0)));
 		managedRoleVM.setId(updatedRole.getId());
-		restRoleMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(managedRoleVM)))
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.code").value(CommonConstants.SUCCESS));
+		restRoleMockMvc
+			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(managedRoleVM)))
+			.andExpect(status().isOk()).andExpect(jsonPath("$.code").value(CommonConstants.SUCCESS));
 
 		// Validate the Role in the database
 		List<Role> roleList = roleService.list();
 		assertThat(roleList).hasSize(databaseSizeBeforeUpdate);
 		Role testRole = roleService.getById(updatedRole.getId());
-		List<RoleMenu> listRoleMenuEntities = roleMenuService.list(Wrappers.<RoleMenu>query().lambda()
-			.eq(RoleMenu::getRoleId, testRole.getId()));
+		List<RoleMenu> listRoleMenuEntities = roleMenuService
+			.list(Wrappers.<RoleMenu>query().lambda().eq(RoleMenu::getRoleId, testRole.getId()));
 		assertThat(listRoleMenuEntities.size()).isEqualTo(1);
 		assertThat(listRoleMenuEntities.get(0).getMenuId()).isEqualTo(anotherRole.getMenuIdList().get(0));
-		List<RoleDept> listRoleDept = roleDeptService.list(Wrappers.<RoleDept>query().lambda()
-			.eq(RoleDept::getRoleId, testRole.getId()));
+		List<RoleDept> listRoleDept = roleDeptService
+			.list(Wrappers.<RoleDept>query().lambda().eq(RoleDept::getRoleId, testRole.getId()));
 		assertThat(listRoleDept.size()).isEqualTo(1);
 		assertThat(listRoleDept.get(0).getDeptId()).isEqualTo(anotherRole.getDeptIdList().get(0));
 		assertThat(testRole.getName()).isEqualTo(UPDATED_NAME);
-//		assertThat(testRole.getParentIds()).contains(UPDATED_PARENT_ID);
+		// assertThat(testRole.getParentIds()).contains(UPDATED_PARENT_ID);
 		assertThat(testRole.getLevel()).isEqualTo(UPDATED_LEVEL);
 		assertThat(testRole.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
 		assertThat(testRole.getDelFlag()).isEqualTo(Role.FLAG_NORMAL);
@@ -258,8 +269,8 @@ public class RoleResourceIntTest {
 		long databaseSizeBeforeDelete = roleService.count();
 
 		// Delete the role
-		restRoleMockMvc.perform(delete(DEFAULT_API_URL + "{id}", roleDto.getId())
-			.accept(TestUtil.APPLICATION_JSON_UTF8))
+		restRoleMockMvc
+			.perform(delete(DEFAULT_API_URL + "{id}", roleDto.getId()).accept(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(status().isOk());
 
 		// Validate the database is empty

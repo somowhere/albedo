@@ -67,8 +67,8 @@ import java.util.concurrent.TimeUnit;
 @Service
 @CacheConfig(cacheNames = CacheNameConstants.EMAIL_DETAILS)
 @AllArgsConstructor
-public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, EmailConfig>
-	implements EmailService {
+public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, EmailConfig> implements EmailService {
+
 	private final EmailConfigRepository emailRepository;
 
 	@Override
@@ -117,14 +117,10 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, Ema
 		// 发送
 		try {
 			int size = emailVo.getTos().size();
-			Mail.create(account)
-				.setTos(emailVo.getTos().toArray(new String[size]))
-				.setTitle(emailVo.getSubject())
-				.setContent(content)
-				.setHtml(true)
-				//关闭session
-				.setUseGlobalSession(false)
-				.send();
+			Mail.create(account).setTos(emailVo.getTos().toArray(new String[size])).setTitle(emailVo.getSubject())
+				.setContent(content).setHtml(true)
+				// 关闭session
+				.setUseGlobalSession(false).send();
 		} catch (Exception e) {
 			throw new BadRequestException(e.getMessage());
 		}
@@ -137,7 +133,8 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, Ema
 		String content;
 		String redisKey = key + email;
 		// 如果不存在有效的验证码，就创建一个新的
-		TemplateEngine engine = TemplateUtil.createEngine(new TemplateConfig("templates", TemplateConfig.ResourceMode.CLASSPATH));
+		TemplateEngine engine = TemplateUtil
+			.createEngine(new TemplateConfig("templates", TemplateConfig.ResourceMode.CLASSPATH));
 		Template template = engine.getTemplate("email/email.ftl");
 		Object oldCode = RedisUtil.getCacheString(redisKey);
 		if (oldCode == null) {

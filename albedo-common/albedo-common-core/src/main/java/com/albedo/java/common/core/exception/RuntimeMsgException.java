@@ -24,6 +24,7 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 public class RuntimeMsgException extends RuntimeException {
+
 	private static final long serialVersionUID = 1L;
 
 	public RuntimeMsgException(String message) {
@@ -41,4 +42,5 @@ public class RuntimeMsgException extends RuntimeException {
 	public RuntimeMsgException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
+
 }

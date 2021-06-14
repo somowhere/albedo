@@ -36,7 +36,8 @@ public class SecuritySqlUtil {
 	 */
 	public static boolean checkStrForSqlWhere(String where) {
 		if (where != null) {
-			return !where.contains(" delete ") && !where.contains(" select ") && !where.contains(" update ") && !where.contains(" insert ") && !where.contains(";");
+			return !where.contains(" delete ") && !where.contains(" select ") && !where.contains(" update ")
+				&& !where.contains(" insert ") && !where.contains(";");
 		}
 		return true;
 	}
@@ -62,8 +63,9 @@ public class SecuritySqlUtil {
 	 */
 	public static boolean checkStrForSqlOrderBy(String orderBy) {
 		if (orderBy != null) {
-			return !orderBy.contains("order by") && !orderBy.contains(" and ") && !orderBy.contains(" or ") && !orderBy.contains(" delete ") && !orderBy.contains(" select ") && !orderBy.contains(" update ") && !orderBy.contains(" insert ")
-				&& !orderBy.contains(";");
+			return !orderBy.contains("order by") && !orderBy.contains(" and ") && !orderBy.contains(" or ")
+				&& !orderBy.contains(" delete ") && !orderBy.contains(" select ") && !orderBy.contains(" update ")
+				&& !orderBy.contains(" insert ") && !orderBy.contains(";");
 		}
 		return true;
 	}

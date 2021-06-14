@@ -62,4 +62,5 @@ public class EmailResource {
 		emailService.send(emailVo, emailService.find());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+
 }

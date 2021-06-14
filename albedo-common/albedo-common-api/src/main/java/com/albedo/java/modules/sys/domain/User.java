@@ -55,7 +55,9 @@ import lombok.ToString;
 public class User extends IdEntity<User> {
 
 	public static final String F_USERNAME = "username";
+
 	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 用户名
 	 */
@@ -74,10 +76,12 @@ public class User extends IdEntity<User> {
 	 * 邮箱
 	 */
 	private String email;
+
 	/**
 	 * 电话
 	 */
 	private String phone;
+
 	/**
 	 * 头像
 	 */

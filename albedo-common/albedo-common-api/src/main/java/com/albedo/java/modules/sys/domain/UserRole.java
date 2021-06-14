@@ -56,6 +56,7 @@ public class UserRole extends GeneralEntity<UserRole> {
 	 * 用户ID
 	 */
 	private String userId;
+
 	/**
 	 * 角色ID
 	 */

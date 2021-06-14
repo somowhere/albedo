@@ -36,8 +36,11 @@ import java.io.Serializable;
 public class ScheduleVo implements Serializable {
 
 	private ScheduleConstants.MessageType messageType;
+
 	private Integer jobId;
+
 	private String jobGroup;
+
 	private String data;
 
 	public ScheduleVo(ScheduleConstants.MessageType messageType, Integer jobId, String jobGroup) {
@@ -86,4 +89,5 @@ public class ScheduleVo implements Serializable {
 	public static Object createDataUpdate(String data, String jobGroup) {
 		return new ScheduleVo(ScheduleConstants.MessageType.UPDATE, null, jobGroup, data);
 	}
+
 }

@@ -22,6 +22,7 @@ package com.albedo.java.common.log.enums;
  * @author somewhere
  */
 public enum BusinessType {
+
 	/**
 	 * 查看
 	 */
@@ -73,4 +74,5 @@ public enum BusinessType {
 	 * 其它
 	 */
 	OTHER
+
 }

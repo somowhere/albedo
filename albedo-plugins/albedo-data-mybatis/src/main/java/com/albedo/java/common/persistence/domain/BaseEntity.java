@@ -29,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public abstract class BaseEntity<T extends GeneralEntity<T>> extends GeneralEntity<T> {
 
 	private static final long serialVersionUID = 1L;
+
 	@TableField(value = GeneralEntity.F_SQL_DEL_FLAG)
 	@TableLogic(delval = "1")
 	@JsonIgnore
@@ -46,4 +47,5 @@ public abstract class BaseEntity<T extends GeneralEntity<T>> extends GeneralEnti
 	public void setDelFlag(String delFlag) {
 		this.delFlag = delFlag;
 	}
+
 }

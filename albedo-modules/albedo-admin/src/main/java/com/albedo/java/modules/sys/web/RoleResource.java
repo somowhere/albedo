@@ -74,8 +74,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Api(tags = "角色管理")
 public class RoleResource extends BaseResource {
+
 	private final RoleService roleService;
+
 	private final RoleMenuService roleMenuService;
+
 	private final UserService userService;
 
 	/**
@@ -121,7 +124,9 @@ public class RoleResource extends BaseResource {
 	 */
 	@GetMapping("/all")
 	public Result all() {
-		return Result.buildOkData(roleService.list(Wrappers.<Role>lambdaQuery().eq(Role::getAvailable, CommonConstants.STR_YES)).stream().map(RoleComboVo::new).collect(Collectors.toList()));
+		return Result.buildOkData(
+			roleService.list(Wrappers.<Role>lambdaQuery().eq(Role::getAvailable, CommonConstants.STR_YES)).stream()
+				.map(RoleComboVo::new).collect(Collectors.toList()));
 	}
 
 	/**
@@ -210,8 +215,9 @@ public class RoleResource extends BaseResource {
 	private void checkRole(String roleId, String roleName) {
 		List<User> userList = userService.findListByRoleId(roleId);
 		if (CollUtil.isNotEmpty(userList)) {
-			throw new BadRequestException("操作失败！用户：" + CollUtil.convertToString(userList, User.F_USERNAME, StringUtil.COMMA)
-				+ "所属要操作的角色：" + roleName);
+			throw new BadRequestException("操作失败！用户："
+				+ CollUtil.convertToString(userList, User.F_USERNAME, StringUtil.COMMA) + "所属要操作的角色：" + roleName);
 		}
 	}
+
 }

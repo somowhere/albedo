@@ -50,6 +50,7 @@ import java.util.Map;
 public class AliPayResource {
 
 	private final AliPayUtils alipayUtils;
+
 	private final AliPayService alipayService;
 
 	@GetMapping
@@ -92,12 +93,14 @@ public class AliPayResource {
 	public ResponseEntity<String> returnPage(HttpServletRequest request, HttpServletResponse response) {
 		AlipayConfig alipay = alipayService.find();
 		response.setContentType("text/html;charset=" + alipay.getCharset());
-		//内容验签，防止黑客篡改参数
+		// 内容验签，防止黑客篡改参数
 		if (alipayUtils.rsaCheck(request, alipay)) {
-			//商户订单号
-			String outTradeNo = new String(request.getParameter("out_trade_no").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
-			//支付宝交易号
-			String tradeNo = new String(request.getParameter("trade_no").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+			// 商户订单号
+			String outTradeNo = new String(request.getParameter("out_trade_no").getBytes(StandardCharsets.ISO_8859_1),
+				StandardCharsets.UTF_8);
+			// 支付宝交易号
+			String tradeNo = new String(request.getParameter("trade_no").getBytes(StandardCharsets.ISO_8859_1),
+				StandardCharsets.UTF_8);
 			System.out.println("商户订单号" + outTradeNo + "  " + "第三方交易号" + tradeNo);
 
 			// 根据业务需要返回数据，这里统一返回OK
@@ -116,22 +119,28 @@ public class AliPayResource {
 	public ResponseEntity<Object> notify(HttpServletRequest request) {
 		AlipayConfig alipay = alipayService.find();
 		Map<String, String[]> parameterMap = request.getParameterMap();
-		//内容验签，防止黑客篡改参数
+		// 内容验签，防止黑客篡改参数
 		if (alipayUtils.rsaCheck(request, alipay)) {
-			//交易状态
-			String tradeStatus = new String(request.getParameter("trade_status").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+			// 交易状态
+			String tradeStatus = new String(request.getParameter("trade_status").getBytes(StandardCharsets.ISO_8859_1),
+				StandardCharsets.UTF_8);
 			// 商户订单号
-			String outTradeNo = new String(request.getParameter("out_trade_no").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
-			//支付宝交易号
-			String tradeNo = new String(request.getParameter("trade_no").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
-			//付款金额
-			String totalAmount = new String(request.getParameter("total_amount").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
-			//验证
-			if (tradeStatus.equals(AliPayStatusEnum.SUCCESS.getValue()) || tradeStatus.equals(AliPayStatusEnum.FINISHED.getValue())) {
+			String outTradeNo = new String(request.getParameter("out_trade_no").getBytes(StandardCharsets.ISO_8859_1),
+				StandardCharsets.UTF_8);
+			// 支付宝交易号
+			String tradeNo = new String(request.getParameter("trade_no").getBytes(StandardCharsets.ISO_8859_1),
+				StandardCharsets.UTF_8);
+			// 付款金额
+			String totalAmount = new String(request.getParameter("total_amount").getBytes(StandardCharsets.ISO_8859_1),
+				StandardCharsets.UTF_8);
+			// 验证
+			if (tradeStatus.equals(AliPayStatusEnum.SUCCESS.getValue())
+				|| tradeStatus.equals(AliPayStatusEnum.FINISHED.getValue())) {
 				// 验证通过后应该根据业务需要处理订单
 			}
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+
 }

@@ -32,7 +32,6 @@
 
 package com.albedo.java.modules.tool.service;
 
-
 import com.albedo.java.common.persistence.service.BaseService;
 import com.albedo.java.modules.tool.domain.AlipayConfig;
 import com.albedo.java.modules.tool.domain.vo.TradeVo;
@@ -42,7 +41,6 @@ import com.albedo.java.modules.tool.domain.vo.TradeVo;
  * @since 2019/2/1
  */
 public interface AliPayService extends BaseService<AlipayConfig> {
-
 
 	/**
 	 * 查询配置

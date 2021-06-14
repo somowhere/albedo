@@ -38,7 +38,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 /**
  * @param <Repository>
  * @param <T>
@@ -46,8 +45,7 @@ import java.util.stream.Collectors;
  * @author somewhere
  */
 @Data
-public class TreeServiceImpl<Repository extends TreeRepository<T>,
-	T extends TreeEntity, D extends TreeDto>
+public class TreeServiceImpl<Repository extends TreeRepository<T>, T extends TreeEntity, D extends TreeDto>
 	extends DataServiceImpl<Repository, T, D, String> implements TreeService<T, D> {
 
 	/**
@@ -57,14 +55,13 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 	 * @return
 	 */
 	public List<TreeNode> getNodeTree(List<T> trees) {
-		List<TreeNode> treeList = trees.stream()
-			.map(tree -> {
-				TreeNode node = new TreeNode();
-				node.setId(tree.getId());
-				node.setParentId(tree.getParentId());
-				node.setLabel(tree.getName());
-				return node;
-			}).collect(Collectors.toList());
+		List<TreeNode> treeList = trees.stream().map(tree -> {
+			TreeNode node = new TreeNode();
+			node.setId(tree.getId());
+			node.setParentId(tree.getParentId());
+			node.setLabel(tree.getName());
+			return node;
+		}).collect(Collectors.toList());
 		return TreeUtil.buildByLoopAutoRoot(treeList);
 	}
 
@@ -82,8 +79,7 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public <Q> List<T> findTreeList(Q queryCriteria) {
-		return repository.selectList(QueryWrapperUtil.
-			<T>getWrapper(queryCriteria).orderByAsc(TreeEntity.F_SQL_SORT));
+		return repository.selectList(QueryWrapperUtil.<T>getWrapper(queryCriteria).orderByAsc(TreeEntity.F_SQL_SORT));
 	}
 
 	/**
@@ -103,21 +99,15 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 		return wrapper;
 	}
 
-
 	@Override
 	public Integer countByParentId(String parentId) {
-		return repository.selectCount(
-			Wrappers.<T>query().eq(TreeEntity.F_SQL_PARENT_ID, parentId)
-		);
+		return repository.selectCount(Wrappers.<T>query().eq(TreeEntity.F_SQL_PARENT_ID, parentId));
 	}
-
 
 	@Override
 	public List<T> findAllByParentIdsLike(String parentIds) {
-		return repository.selectList(
-			Wrappers.<T>query().like(TreeEntity.F_SQL_PARENT_IDS, parentIds));
+		return repository.selectList(Wrappers.<T>query().like(TreeEntity.F_SQL_PARENT_IDS, parentIds));
 	}
-
 
 	@Override
 	public boolean saveOrUpdate(T entityDto) {
@@ -128,7 +118,8 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 			if (parent != null && ObjectUtil.isNotEmpty(parent.getId())) {
 				parent.setLeaf(false);
 				super.updateById(parent);
-				entityDto.setParentIds(StringUtil.toAppendStr(parent.getParentIds(), parent.getId(), StringUtil.SPLIT_DEFAULT));
+				entityDto.setParentIds(
+					StringUtil.toAppendStr(parent.getParentIds(), parent.getId(), StringUtil.SPLIT_DEFAULT));
 			}
 		} else {
 			entityDto.setParentId(TreeUtil.ROOT);
@@ -157,7 +148,6 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 		return flag;
 	}
 
-
 	@Override
 	public boolean removeByIds(Collection<? extends Serializable> idList) {
 		idList.forEach(id -> {
@@ -170,4 +160,5 @@ public class TreeServiceImpl<Repository extends TreeRepository<T>,
 		});
 		return true;
 	}
+
 }

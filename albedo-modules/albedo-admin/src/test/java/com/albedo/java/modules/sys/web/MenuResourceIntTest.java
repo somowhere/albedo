@@ -55,44 +55,74 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 public class MenuResourceIntTest {
 
-
 	private static final String DEFAULT_ANOTHER_NAME = "ANOTHER_NAME";
+
 	private static final String DEFAULT_NAME = "NAME1";
+
 	private static final String UPDATED_NAME = "NAME2";
+
 	private static final String DEFAULT_ANOTHER_PERMISSION = "ANOTHER_PERMISSION";
+
 	private static final String DEFAULT_PERMISSION = "PERMISSION1";
+
 	private static final String UPDATED_PERMISSION = "PERMISSION2";
+
 	private static final Integer DEFAULT_HIDDEN = CommonConstants.NO;
+
 	private static final Integer UPDATED_HIDDEN = CommonConstants.YES;
+
 	private static final Integer DEFAULT_CACHE = CommonConstants.YES;
+
 	private static final Integer UPDATED_CACHE = CommonConstants.NO;
+
 	private static final Integer DEFAULT_IFRAME = CommonConstants.YES;
+
 	private static final Integer UPDATED_IFRAME = CommonConstants.NO;
+
 	private static final String DEFAULT_ANOTHER_ICON = "ANOTHER_ICON";
+
 	private static final String DEFAULT_ICON = "ICON1";
+
 	private static final String UPDATED_ICON = "ICON2";
+
 	private static final String DEFAULT_ANOTHER_PARENT_ID = "ANOTHER_PARENT_ID";
-	//    private static final String DEFAULT_PARENT_ID = "PARENT_ID1";
+
+	// private static final String DEFAULT_PARENT_ID = "PARENT_ID1";
 	private static final String UPDATED_PARENT_ID = "PARENT_ID2";
+
 	private static final Integer DEFAULT_SORT = 10;
+
 	private static final Integer UPDATED_SORT = 20;
+
 	private static final String DEFAULT_COMPONENT = "COMPONENT1";
+
 	private static final String UPDATED_COMPONENT = "COMPONENT2";
+
 	private static final String DEFAULT_TYPE = CommonConstants.STR_YES;
+
 	private static final String UPDATED_TYPE = CommonConstants.STR_NO;
+
 	private static final String DEFAULT_PATH = "PATH1";
+
 	private static final String UPDATED_PATH = "PATH2";
+
 	private static final String DEFAULT_DESCRIPTION = "DESCRIPTION1";
+
 	private static final String UPDATED_DESCRIPTION = "DESCRIPTION2";
+
 	private String DEFAULT_API_URL;
+
 	@Autowired
 	private MenuService menuService;
 
 	private MockMvc restMenuMockMvc;
+
 	@Autowired
 	private MappingJackson2HttpMessageConverter jacksonMessageConverter;
+
 	@Autowired
 	private GlobalExceptionHandler globalExceptionHandler;
+
 	@Autowired
 	private ApplicationProperties applicationProperties;
 
@@ -107,17 +137,15 @@ public class MenuResourceIntTest {
 		final MenuResource menuResource = new MenuResource(menuService);
 		this.restMenuMockMvc = MockMvcBuilders.standaloneSetup(menuResource)
 			.addPlaceholderValue(TestUtil.ADMIN_PATH, applicationProperties.getAdminPath())
-			.setControllerAdvice(globalExceptionHandler)
-			.setConversionService(createFormattingConversionService())
-			.setMessageConverters(jacksonMessageConverter)
-			.build();
+			.setControllerAdvice(globalExceptionHandler).setConversionService(createFormattingConversionService())
+			.setMessageConverters(jacksonMessageConverter).build();
 	}
 
 	/**
 	 * Create a Menu.
 	 * <p>
-	 * This is a static method, as tests for other entities might also need it,
-	 * if they test an domain which has a required relationship to the Menu domain.
+	 * This is a static method, as tests for other entities might also need it, if they
+	 * test an domain which has a required relationship to the Menu domain.
 	 */
 	public MenuDto createEntity() {
 		MenuDto menu = new MenuDto();
@@ -164,16 +192,13 @@ public class MenuResourceIntTest {
 		List<Menu> databaseSizeBeforeCreate = menuService.list();
 
 		// Create the Menu
-		restMenuMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(menu)))
-			.andExpect(status().isOk());
+		restMenuMockMvc.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+			.content(TestUtil.convertObjectToJsonBytes(menu))).andExpect(status().isOk());
 
 		// Validate the Menu in the database
 		List<Menu> menuList = menuService.list();
 		assertThat(menuList).hasSize(databaseSizeBeforeCreate.size() + 1);
-		Menu testMenu = menuService.getOne(Wrappers.<Menu>query().lambda()
-			.eq(Menu::getName, menu.getName()));
+		Menu testMenu = menuService.getOne(Wrappers.<Menu>query().lambda().eq(Menu::getName, menu.getName()));
 		assertThat(testMenu.getName()).isEqualTo(DEFAULT_NAME);
 		assertThat(testMenu.getPermission()).isEqualTo(DEFAULT_PERMISSION);
 		assertThat(testMenu.getIcon()).isEqualTo(DEFAULT_ICON);
@@ -202,11 +227,10 @@ public class MenuResourceIntTest {
 		MenuDto managedMenuVM = createEntity();
 
 		// Create the Menu
-		restMenuMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(managedMenuVM)))
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
+		restMenuMockMvc
+			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(managedMenuVM)))
+			.andExpect(status().isOk()).andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
 			.andExpect(jsonPath("$.message").isNotEmpty());
 
 		// Validate the Menu in the database
@@ -220,11 +244,10 @@ public class MenuResourceIntTest {
 		// Initialize the database
 		menuService.saveOrUpdate(menu);
 		// Get all the menus
-		restMenuMockMvc.perform(get(DEFAULT_API_URL)
-			.param(PageModel.F_DESC, "menu." + Menu.F_SQL_CREATED_DATE)
-			.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+		restMenuMockMvc
+			.perform(get(DEFAULT_API_URL).param(PageModel.F_DESC, "menu." + Menu.F_SQL_CREATED_DATE)
+				.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.records.[*].name").value(hasItem(DEFAULT_NAME)))
 			.andExpect(jsonPath("$.data.records.[*].permission").value(hasItem(DEFAULT_PERMISSION)))
 			.andExpect(jsonPath("$.data.records.[*].icon").value(hasItem(DEFAULT_ICON)))
@@ -236,8 +259,7 @@ public class MenuResourceIntTest {
 			.andExpect(jsonPath("$.data.records.[*].component").value(hasItem(DEFAULT_COMPONENT)))
 			.andExpect(jsonPath("$.data.records.[*].type").value(hasItem(DEFAULT_TYPE)))
 			.andExpect(jsonPath("$.data.records.[*].path").value(hasItem(DEFAULT_PATH)))
-			.andExpect(jsonPath("$.data.records.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-		;
+			.andExpect(jsonPath("$.data.records.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
 	}
 
 	@Test
@@ -247,8 +269,7 @@ public class MenuResourceIntTest {
 		menuService.saveOrUpdate(menu);
 
 		// Get the menu
-		restMenuMockMvc.perform(get(DEFAULT_API_URL + "{id}", menu.getId()))
-			.andExpect(status().isOk())
+		restMenuMockMvc.perform(get(DEFAULT_API_URL + "{id}", menu.getId())).andExpect(status().isOk())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.name").value(DEFAULT_NAME))
 			.andExpect(jsonPath("$.data.permission").value(DEFAULT_PERMISSION))
@@ -266,8 +287,7 @@ public class MenuResourceIntTest {
 	@Test
 	@Transactional(rollbackFor = Exception.class)
 	public void getNonExistingMenu() throws Exception {
-		restMenuMockMvc.perform(get("/sys/menu/ddd/unknown"))
-			.andExpect(status().isNotFound());
+		restMenuMockMvc.perform(get("/sys/menu/ddd/unknown")).andExpect(status().isNotFound());
 	}
 
 	@Test
@@ -279,7 +299,6 @@ public class MenuResourceIntTest {
 
 		// Update the menu
 		Menu updatedMenu = menuService.getById(menu.getId());
-
 
 		MenuDto managedMenuVM = new MenuDto();
 		managedMenuVM.setName(UPDATED_NAME);
@@ -296,11 +315,10 @@ public class MenuResourceIntTest {
 		managedMenuVM.setDescription(UPDATED_DESCRIPTION);
 
 		managedMenuVM.setId(updatedMenu.getId());
-		restMenuMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(managedMenuVM)))
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.code").value(CommonConstants.SUCCESS));
+		restMenuMockMvc
+			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(managedMenuVM)))
+			.andExpect(status().isOk()).andExpect(jsonPath("$.code").value(CommonConstants.SUCCESS));
 
 		// Validate the Menu in the database
 		List<Menu> menuList = menuService.list();
@@ -314,7 +332,7 @@ public class MenuResourceIntTest {
 		assertThat(testMenu.getIframe()).isEqualTo(UPDATED_IFRAME);
 		assertThat(testMenu.getSort()).isEqualTo(UPDATED_SORT);
 		assertThat(testMenu.getParentId()).isEqualTo(UPDATED_PARENT_ID);
-//		assertThat(testMenu.getParentIds()).contains(UPDATED_PARENT_ID);
+		// assertThat(testMenu.getParentIds()).contains(UPDATED_PARENT_ID);
 		assertThat(testMenu.getComponent()).isEqualTo(UPDATED_COMPONENT);
 		assertThat(testMenu.getPath()).isEqualTo(UPDATED_PATH);
 		assertThat(testMenu.getType()).isEqualTo(UPDATED_TYPE);
@@ -322,7 +340,6 @@ public class MenuResourceIntTest {
 		assertThat(testMenu.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
 		assertThat(testMenu.getDelFlag()).isEqualTo(Menu.FLAG_NORMAL);
 	}
-
 
 	@Test
 	@Transactional(rollbackFor = Exception.class)
@@ -346,18 +363,16 @@ public class MenuResourceIntTest {
 		managedMenuVM.setPath(DEFAULT_PATH);
 		managedMenuVM.setDescription(DEFAULT_DESCRIPTION);
 		managedMenuVM.setId(updatedMenu.getId());
-		restMenuMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(managedMenuVM)))
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
+		restMenuMockMvc
+			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(managedMenuVM)))
+			.andExpect(status().isOk()).andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
 			.andExpect(jsonPath("$.message").isNotEmpty());
 
 		// Update the menu
 		Menu updatedMenuAfter = menuService.getById(menu.getId());
 		assertThat(updatedMenuAfter.getPermission()).isEqualTo(updatedMenu.getPermission());
 	}
-
 
 	@Test
 	@Transactional(rollbackFor = Exception.class)
@@ -367,8 +382,7 @@ public class MenuResourceIntTest {
 		long databaseSizeBeforeDelete = menuService.count();
 
 		// Delete the menu
-		restMenuMockMvc.perform(delete(DEFAULT_API_URL + "{id}", menu.getId())
-			.accept(TestUtil.APPLICATION_JSON_UTF8))
+		restMenuMockMvc.perform(delete(DEFAULT_API_URL + "{id}", menu.getId()).accept(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(status().isOk());
 
 		// Validate the database is empty

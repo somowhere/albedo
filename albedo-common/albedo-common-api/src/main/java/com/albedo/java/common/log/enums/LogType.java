@@ -22,6 +22,7 @@ package com.albedo.java.common.log.enums;
  * @author somewhere
  */
 public enum LogType {
+
 	/**
 	 * INFO
 	 */
@@ -34,4 +35,5 @@ public enum LogType {
 	 * ERROR
 	 */
 	ERROR
+
 }

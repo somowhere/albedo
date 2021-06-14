@@ -26,7 +26,7 @@ services:
 #      - ./mysql/config:/etc/mysql
 
   albedo-redis:
-    image: redis:5.0
+    image: redis:6.0
     ports:
       - 6379:6379
     restart: always
@@ -35,8 +35,7 @@ services:
 
   albedo-admin:
     build:
-      context: ./
-      dockerfile: ./albedo-modules/albedo-admin/Dockerfile
+      context: ./albedo-modules/albedo-admin
     restart: always
     ports:
       - 4000:4000
@@ -46,8 +45,7 @@ services:
 
   albedo-api:
     build:
-      context: ./
-      dockerfile: ./albedo-modules/albedo-api/Dockerfile
+      context: ./albedo-modules/albedo-api
     restart: always
     ports:
       - 4001:4001
@@ -57,8 +55,7 @@ services:
 
   albedo-quartz:
     build:
-      context: ./
-      dockerfile: ./albedo-modules/albedo-quartz/Dockerfile
+      context: ./albedo-modules/albedo-quartz
     restart: always
     ports:
       - 4002:4002
@@ -68,8 +65,7 @@ services:
 
   albedo-ui:
     build:
-      context: ./
-      dockerfile: ./albedo-ui/Dockerfile
+      context: ./albedo-ui
     restart: always
     container_name: albedo-ui
     hostname: albedo-ui

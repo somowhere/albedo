@@ -28,12 +28,17 @@ import lombok.Data;
 public class DictResult {
 
 	public static final String F_CODE = "code";
+
 	public static final String F_NAME = "name";
+
 	public static final String F_VAL = "val";
+
 	/*** 名称 */
 	private String name;
+
 	/*** 编码 */
 	private String code;
+
 	/*** 字典值 */
 	private String val;
 

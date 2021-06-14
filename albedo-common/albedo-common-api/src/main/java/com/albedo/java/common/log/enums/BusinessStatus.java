@@ -22,6 +22,7 @@ package com.albedo.java.common.log.enums;
  * @author somewhere
  */
 public enum BusinessStatus {
+
 	/**
 	 * 成功
 	 */
@@ -31,4 +32,5 @@ public enum BusinessStatus {
 	 * 失败
 	 */
 	FAIL,
+
 }

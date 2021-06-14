@@ -37,12 +37,9 @@ import java.lang.reflect.Type;
  */
 @Transactional(rollbackFor = Exception.class)
 @Data
-public class DataServiceImpl<Repository extends BaseRepository<T>,
-	T extends BaseDataEntity, D extends DataDto, PK extends Serializable>
-	extends BaseServiceImpl<Repository, T>
-	implements DataService<T, D, PK> {
+public class DataServiceImpl<Repository extends BaseRepository<T>, T extends BaseDataEntity, D extends DataDto, PK extends Serializable>
+	extends BaseServiceImpl<Repository, T> implements DataService<T, D, PK> {
 
-	private Class<T> entityEntityClz;
 	private Class<D> entityDtoClz;
 
 	public DataServiceImpl() {
@@ -51,7 +48,6 @@ public class DataServiceImpl<Repository extends BaseRepository<T>,
 		Type type = c.getGenericSuperclass();
 		if (type instanceof ParameterizedType) {
 			Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
-			entityEntityClz = (Class<T>) parameterizedType[1];
 			entityDtoClz = (Class<D>) parameterizedType[2];
 		}
 	}
@@ -62,13 +58,12 @@ public class DataServiceImpl<Repository extends BaseRepository<T>,
 		return copyBeanToDto(repository.selectById(id));
 	}
 
-
 	@Override
 	public void saveOrUpdate(D entityDto) {
 		T entity = null;
 		try {
-			entity = ObjectUtil.isNotEmpty(entityDto.getId()) ? repository.selectById(entityDto.getId()) :
-				entityEntityClz.newInstance();
+			entity = ObjectUtil.isNotEmpty(entityDto.getId()) ? repository.selectById(entityDto.getId())
+				: entityClass.newInstance();
 			copyDtoToBean(entityDto, entity);
 		} catch (Exception e) {
 			log.warn("{}", e);
@@ -117,9 +112,9 @@ public class DataServiceImpl<Repository extends BaseRepository<T>,
 	@Override
 	public T copyDtoToBean(D entityDto) {
 		T result = null;
-		if (entityDto != null && entityEntityClz != null) {
+		if (entityDto != null && entityClass != null) {
 			try {
-				result = entityEntityClz.newInstance();
+				result = entityClass.newInstance();
 				copyDtoToBean(entityDto, result);
 				if (ObjectUtil.isNotEmpty(entityDto.getId())) {
 					result.setPk(entityDto.getId());
@@ -130,6 +125,5 @@ public class DataServiceImpl<Repository extends BaseRepository<T>,
 		}
 		return result;
 	}
-
 
 }

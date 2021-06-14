@@ -42,13 +42,17 @@ public class SwaggerPluginsAutoConfiguration {
 	@Configuration
 	@ConditionalOnClass({PageModel.class})
 	public static class MybatisPlusPagePluginConfiguration {
+
 		public MybatisPlusPagePluginConfiguration() {
 		}
 
 		@Bean
 		@ConditionalOnMissingBean
-		public PageableParameterBuilderPlugin pageableParameterBuilderPlugin(TypeNameExtractor typeNameExtractor, TypeResolver typeResolver) {
+		public PageableParameterBuilderPlugin pageableParameterBuilderPlugin(TypeNameExtractor typeNameExtractor,
+																			 TypeResolver typeResolver) {
 			return new PageableParameterBuilderPlugin(typeNameExtractor, typeResolver);
 		}
+
 	}
+
 }

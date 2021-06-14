@@ -38,7 +38,6 @@ import com.albedo.java.common.core.vo.TreeVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-
 /**
  * <p>
  * 菜单权限表
@@ -57,32 +56,38 @@ public class MenuVo extends TreeVo<MenuVo> {
 	 * 菜单权限标识
 	 */
 	private String permission;
+
 	/**
 	 * 图标
 	 */
 	private String icon;
+
 	/**
 	 * 一个路径
 	 */
 	private String path;
+
 	/**
 	 * VUE页面
 	 */
 	private String component;
+
 	/**
 	 * 菜单类型 （0菜单 1按钮）
 	 */
 	@DictType(DictNameConstants.SYS_MENU_TYPE)
 	private String type;
+
 	/**
-	 * 是否隐藏  1是 0否
+	 * 是否隐藏 1是 0否
 	 */
 	@DictType(DictNameConstants.SYS_FLAG)
 	private Integer hidden;
+
 	@DictType(DictNameConstants.SYS_FLAG)
 	private Integer cache;
+
 	@DictType(DictNameConstants.SYS_FLAG)
 	private Integer iframe;
-
 
 }

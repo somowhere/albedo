@@ -26,6 +26,6 @@ import com.albedo.java.modules.gen.domain.TableColumn;
  */
 public interface TableColumnRepository extends BaseRepository<TableColumn> {
 
+	// Set<Role> selectListByTableId(String tableId);
 
-//    Set<Role> selectListByTableId(String tableId);
 }

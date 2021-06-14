@@ -161,7 +161,7 @@ public class ${ClassName}ResourceIntTest {
         int databaseSizeBeforeCreate = ${className}Service.list().size();
         // Create the ${ClassName}
         rest${ClassName}MockMvc.perform(post(DEFAULT_API_URL)
-			.param(PageModel.F_DESC, ${ClassName}.F_SQL_CREATEDDATE)
+			.param(PageModel.F_DESC, ${ClassName}.F_SQL_CREATED_DATE)
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(${className}Dto)))
             .andExpect(status().isOk());

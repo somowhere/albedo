@@ -62,5 +62,4 @@ public class QuickSortArray {
 		return index - 1;
 	}
 
-
 }

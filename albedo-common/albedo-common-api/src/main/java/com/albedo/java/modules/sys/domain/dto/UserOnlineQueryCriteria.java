@@ -30,10 +30,10 @@ import java.util.List;
 @Data
 public class UserOnlineQueryCriteria implements Serializable {
 
-
 	@Query(blurry = "dept_name,os,username,ip_location")
 	private String blurry;
 
 	@Query(propName = "a.created_date", operator = Query.Operator.between)
 	private List<Date> createdDate;
+
 }

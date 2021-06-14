@@ -41,7 +41,7 @@ mybatis-plus:
   global-config:
     banner: false
     db-config:
-      id-type: UUID
+      id-type: ASSIGN_UUID
       insert-strategy: NOT_NULL
       update-strategy: NOT_NULL
       table-underline: true

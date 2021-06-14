@@ -66,4 +66,5 @@ public interface DeptRepository extends TreeRepository<Dept> {
 	 * @return
 	 */
 	List<Dept> findListByRoleId(String roleId);
+
 }

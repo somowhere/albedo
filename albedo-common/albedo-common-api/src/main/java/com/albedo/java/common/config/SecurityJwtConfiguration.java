@@ -55,7 +55,6 @@ import javax.annotation.PostConstruct;
 import java.util.Map;
 import java.util.Set;
 
-
 /**
  * @author somewhere
  * @description
@@ -70,12 +69,16 @@ import java.util.Set;
 public class SecurityJwtConfiguration extends WebSecurityConfigurerAdapter {
 
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
-	private final ApplicationProperties applicationProperties;
-	private final UserDetailsService userDetailsService;
-	private final TokenProvider tokenProvider;
-	private final CorsFilter corsFilter;
-	private final ApplicationContext applicationContext;
 
+	private final ApplicationProperties applicationProperties;
+
+	private final UserDetailsService userDetailsService;
+
+	private final TokenProvider tokenProvider;
+
+	private final CorsFilter corsFilter;
+
+	private final ApplicationContext applicationContext;
 
 	/**
 	 * https://spring.io/blog/2017/11/01/spring-security-5-0-0-rc1-released#password-storage-updated
@@ -91,9 +94,7 @@ public class SecurityJwtConfiguration extends WebSecurityConfigurerAdapter {
 	@PostConstruct
 	public void init() {
 		try {
-			authenticationManagerBuilder
-				.userDetailsService(userDetailsService)
-				.passwordEncoder(passwordEncoder());
+			authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 		} catch (Exception e) {
 			throw new BeanInitializationException("Security configuration failed", e);
 		}
@@ -107,13 +108,8 @@ public class SecurityJwtConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring()
-			.antMatchers(HttpMethod.OPTIONS, "/**")
-			.antMatchers("/i18n/**")
-			.antMatchers("/content/**")
-			.antMatchers("/statics/**")
-			.antMatchers("/assets/**/*.{js,html}")
-			.antMatchers("/test/**");
+		web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**").antMatchers("/i18n/**").antMatchers("/content/**")
+			.antMatchers("/statics/**").antMatchers("/assets/**/*.{js,html}").antMatchers("/test/**");
 	}
 
 	@Bean
@@ -122,51 +118,50 @@ public class SecurityJwtConfiguration extends WebSecurityConfigurerAdapter {
 		return new Http401UnauthorizedEntryPoint(applicationProperties);
 	}
 
-
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
 		// 搜寻匿名标记 url： @AnonymousAccess
-		Map<RequestMappingInfo, HandlerMethod> handlerMethodMap = applicationContext.getBean(RequestMappingHandlerMapping.class).getHandlerMethods();
+		Map<RequestMappingInfo, HandlerMethod> handlerMethodMap = applicationContext
+			.getBean(RequestMappingHandlerMapping.class).getHandlerMethods();
 		// 获取匿名标记
 		Map<String, Set<String>> anonymousUrls = SecurityUtil.getAnonymousUrl(handlerMethodMap);
 
-		http.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
-			.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint())
-			.and()
-			.csrf()
-			.disable()
-			.headers()
-			.frameOptions()
-			.disable()
-			.and()
-			.sessionManagement()
-			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			.and()
+		http.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class).exceptionHandling()
+			.authenticationEntryPoint(authenticationEntryPoint()).and().csrf().disable().headers().frameOptions()
+			.disable().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests()
 			// 自定义匿名访问所有url放行：允许匿名和带Token访问，细腻化到每个 Request 类型
 			// GET
-			.antMatchers(HttpMethod.GET, anonymousUrls.get(RequestMethodEnum.GET.getType()).toArray(new String[0])).permitAll()
+			.antMatchers(HttpMethod.GET, anonymousUrls.get(RequestMethodEnum.GET.getType()).toArray(new String[0]))
+			.permitAll()
 			// POST
-			.antMatchers(HttpMethod.POST, anonymousUrls.get(RequestMethodEnum.POST.getType()).toArray(new String[0])).permitAll()
+			.antMatchers(HttpMethod.POST,
+				anonymousUrls.get(RequestMethodEnum.POST.getType()).toArray(new String[0]))
+			.permitAll()
 			// PUT
-			.antMatchers(HttpMethod.PUT, anonymousUrls.get(RequestMethodEnum.PUT.getType()).toArray(new String[0])).permitAll()
+			.antMatchers(HttpMethod.PUT, anonymousUrls.get(RequestMethodEnum.PUT.getType()).toArray(new String[0]))
+			.permitAll()
 			// PATCH
-			.antMatchers(HttpMethod.PATCH, anonymousUrls.get(RequestMethodEnum.PATCH.getType()).toArray(new String[0])).permitAll()
+			.antMatchers(HttpMethod.PATCH,
+				anonymousUrls.get(RequestMethodEnum.PATCH.getType()).toArray(new String[0]))
+			.permitAll()
 			// DELETE
-			.antMatchers(HttpMethod.DELETE, anonymousUrls.get(RequestMethodEnum.DELETE.getType()).toArray(new String[0])).permitAll()
+			.antMatchers(HttpMethod.DELETE,
+				anonymousUrls.get(RequestMethodEnum.DELETE.getType()).toArray(new String[0]))
+			.permitAll()
 			// 所有类型的接口都放行
 			.antMatchers(anonymousUrls.get(RequestMethodEnum.ALL.getType()).toArray(new String[0])).permitAll()
-			.antMatchers(ArrayUtil.toArray(applicationProperties.getSecurity().getAuthorizePermitAll(), String.class)).permitAll()
-			.antMatchers(ArrayUtil.toArray(applicationProperties.getSecurity().getAuthorize(), String.class)).authenticated()
-			.and()
-			.apply(securityConfigurerAdapter());
+			.antMatchers(
+				ArrayUtil.toArray(applicationProperties.getSecurity().getAuthorizePermitAll(), String.class))
+			.permitAll()
+			.antMatchers(ArrayUtil.toArray(applicationProperties.getSecurity().getAuthorize(), String.class))
+			.authenticated().and().apply(securityConfigurerAdapter());
 
 	}
 
 	private JwtConfigurer securityConfigurerAdapter() {
 		return new JwtConfigurer(tokenProvider, applicationProperties);
 	}
-
 
 }

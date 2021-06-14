@@ -32,15 +32,20 @@ public class DictQueryCriteria implements Serializable {
 
 	@Query(propName = "id", operator = Query.Operator.ne)
 	private String notId;
+
 	@Query(operator = Query.Operator.like)
 	private String name;
+
 	@Query
 	private Integer available;
+
 	@Query(blurry = "name,code,val,description")
 	private String blurry;
+
 	@Query
 	private String parentId;
 
 	@Query(operator = Query.Operator.between)
 	private List<Date> createdDate;
+
 }

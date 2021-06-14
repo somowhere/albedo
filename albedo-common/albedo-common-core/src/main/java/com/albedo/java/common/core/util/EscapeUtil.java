@@ -16,7 +16,6 @@
 
 package com.albedo.java.common.core.util;
 
-
 import org.apache.commons.text.StringEscapeUtils;
 
 /**

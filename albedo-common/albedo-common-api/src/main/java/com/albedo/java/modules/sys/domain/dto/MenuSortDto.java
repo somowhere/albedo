@@ -53,4 +53,5 @@ public class MenuSortDto implements Serializable {
 
 	@NotEmpty
 	List<MenuSortItemDto> menuSortList;
+
 }

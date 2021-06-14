@@ -32,7 +32,6 @@
 
 package com.albedo.java.modules.sys.service;
 
-
 import com.albedo.java.common.persistence.service.TreeService;
 import com.albedo.java.modules.sys.domain.Menu;
 import com.albedo.java.modules.sys.domain.dto.GenSchemeDto;
@@ -52,6 +51,7 @@ import java.util.Set;
  * @since 2019/2/1
  */
 public interface MenuService extends TreeService<Menu, MenuDto> {
+
 	/**
 	 * 通过角色编号查询URL 权限
 	 *
@@ -96,4 +96,5 @@ public interface MenuService extends TreeService<Menu, MenuDto> {
 	 * @updateTime 2020/5/31 17:34
 	 */
 	Object findTreeByUserId(String userId);
+
 }

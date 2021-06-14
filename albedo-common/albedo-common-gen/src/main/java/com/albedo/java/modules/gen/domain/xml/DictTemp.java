@@ -25,7 +25,9 @@ import javax.xml.bind.annotation.XmlAttribute;
 public class DictTemp {
 
 	private String name;
+
 	private String val;
+
 	private String description;
 
 	@XmlAttribute
@@ -54,4 +56,5 @@ public class DictTemp {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 }

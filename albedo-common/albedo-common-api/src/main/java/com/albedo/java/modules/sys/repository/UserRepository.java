@@ -53,6 +53,7 @@ import java.util.Set;
  * @since 2019/2/1
  */
 public interface UserRepository extends BaseRepository<User> {
+
 	/**
 	 * 通过用户名查询用户信息（含有角色信息）
 	 *
@@ -117,4 +118,5 @@ public interface UserRepository extends BaseRepository<User> {
 	 * @updateTime 2020/5/31 17:35
 	 */
 	List<User> findListByMenuId(String menuId);
+
 }

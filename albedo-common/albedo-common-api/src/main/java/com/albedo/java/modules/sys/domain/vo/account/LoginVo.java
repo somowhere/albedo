@@ -16,7 +16,6 @@
 
 package com.albedo.java.modules.sys.domain.vo.account;
 
-
 import com.albedo.java.modules.sys.domain.dto.UserDto;
 import lombok.Data;
 import lombok.ToString;
@@ -41,8 +40,8 @@ public class LoginVo implements Serializable {
 	private String username;
 
 	@NotEmpty
-	@Size(min = UserDto.PASSWORD_MIN_LENGTH, max = UserDto.PASSWORD_MAX_LENGTH, message =
-		"允许的密码长度区间为[" + UserDto.PASSWORD_MIN_LENGTH + "-" + UserDto.PASSWORD_MAX_LENGTH + "]")
+	@Size(min = UserDto.PASSWORD_MIN_LENGTH, max = UserDto.PASSWORD_MAX_LENGTH,
+		message = "允许的密码长度区间为[" + UserDto.PASSWORD_MIN_LENGTH + "-" + UserDto.PASSWORD_MAX_LENGTH + "]")
 	private String password;
 
 	private String code;
@@ -50,6 +49,5 @@ public class LoginVo implements Serializable {
 	private String randomStr;
 
 	private Boolean rememberMe;
-
 
 }

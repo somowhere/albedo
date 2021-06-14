@@ -52,9 +52,9 @@ public class RequestLogAspect {
 	}
 
 	private void parseParams(ProceedingJoinPoint point, Map<String, Object> paramMap) {
-		//参数值
+		// 参数值
 		Object[] argValues = point.getArgs();
-		//参数名称
+		// 参数名称
 		MethodSignature ms = (MethodSignature) point.getSignature();
 		Method method = ms.getMethod();
 		if (argValues != null) {
@@ -155,6 +155,5 @@ public class RequestLogAspect {
 
 		return result;
 	}
-
 
 }

@@ -37,7 +37,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author somewhere
- * @description Returns a 401 error code (Unauthorized) to the client, when Ajax authentication fails.
+ * @description Returns a 401 error code (Unauthorized) to the client, when Ajax
+ * authentication fails.
  * @date 2020/5/30 11:23 下午
  */
 @AllArgsConstructor
@@ -50,7 +51,8 @@ public class AjaxAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 										AuthenticationException exception) {
 		String useruame = request.getParameter("username");
 		LoginUtil.isValidateCodeLogin(useruame, true, false);
-		String message = exception instanceof BadCredentialsException && "Bad credentials".equals(exception.getMessage()) ? "密码填写错误！" : exception.getMessage();
+		String message = exception instanceof BadCredentialsException
+			&& "Bad credentials".equals(exception.getMessage()) ? "密码填写错误！" : exception.getMessage();
 		LogOperate logOperate = SysLogUtils.getSysLog();
 		logOperate.setParams(HttpUtil.toParams(request.getParameterMap()));
 		logOperate.setUsername(useruame);
@@ -69,4 +71,5 @@ public class AjaxAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 		response.setStatus(HttpServletResponse.SC_OK);
 		WebUtil.renderJson(response, Result.buildFail(message));
 	}
+
 }

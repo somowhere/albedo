@@ -88,7 +88,6 @@ public class MenuResource extends BaseResource {
 		return Result.buildOkData(menuService.findTreeByUserId(SecurityUtil.getUser().getId()));
 	}
 
-
 	/**
 	 * 返回树形菜单集合
 	 *
@@ -107,10 +106,8 @@ public class MenuResource extends BaseResource {
 	 */
 	@GetMapping("/role/{roleId}")
 	public Result findByRoleId(@PathVariable String roleId) {
-		return Result.buildOkData(menuService.findListByRoleId(roleId)
-			.stream()
-			.map(MenuVo::getId)
-			.collect(Collectors.toList()));
+		return Result.buildOkData(
+			menuService.findListByRoleId(roleId).stream().map(MenuVo::getId).collect(Collectors.toList()));
 	}
 
 	/**
@@ -166,8 +163,8 @@ public class MenuResource extends BaseResource {
 	public Result<IPage<MenuVo>> findTreeList(MenuQueryCriteria menuQueryCriteria) {
 		List<MenuVo> menuVoList = menuService.findTreeList(menuQueryCriteria).stream()
 			.map(item -> BeanUtil.copyPropertiesByClass(item, MenuVo.class)).collect(Collectors.toList());
-		return Result.buildOkData(new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(menuVoList)),
-			menuVoList.size()));
+		return Result.buildOkData(
+			new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(menuVoList)), menuVoList.size()));
 	}
 
 }

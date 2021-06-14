@@ -67,10 +67,12 @@ import java.util.Set;
 @Service
 @AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
-	private final UserService userService;
-	private final RoleService roleService;
-	private final DeptService deptService;
 
+	private final UserService userService;
+
+	private final RoleService roleService;
+
+	private final DeptService deptService;
 
 	/**
 	 * 用户密码登录
@@ -109,8 +111,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			dbAuthsSet.addAll(Arrays.asList(userInfo.getPermissions()));
 
 		}
-		Collection<? extends GrantedAuthority> authorities
-			= AuthorityUtils.createAuthorityList(dbAuthsSet.toArray(new String[0]));
+		Collection<? extends GrantedAuthority> authorities = AuthorityUtils
+			.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 		UserVo userVo = userInfo.getUser();
 		DataScope dataScope = new DataScope();
 		if (CollUtil.isNotEmpty(userVo.getRoleList())) {
@@ -131,7 +133,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			}
 		}
 		// 构造security用户
-		return new UserDetail(userVo.getId(), userVo.getDeptId(), userVo.getDeptName(), userVo.getUsername(), SecurityConstants.BCRYPT + userVo.getPassword(),
-			userVo.isAvailable(), true, true, true, authorities, dataScope);
+		return new UserDetail(userVo.getId(), userVo.getDeptId(), userVo.getDeptName(), userVo.getUsername(),
+			SecurityConstants.BCRYPT + userVo.getPassword(), userVo.isAvailable(), true, true, true, authorities,
+			dataScope);
 	}
+
 }

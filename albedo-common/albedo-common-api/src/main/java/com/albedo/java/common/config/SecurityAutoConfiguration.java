@@ -81,14 +81,20 @@ import java.util.Set;
 public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
-	private final ApplicationProperties applicationProperties;
-	private final UserDetailsService userDetailsService;
-	private final UserOnlineService userOnlineService;
-	private final RedisTemplate redisTemplate;
-	private final RememberMeServices rememberMeServices;
-	private final CorsFilter corsFilter;
-	private final ApplicationContext applicationContext;
 
+	private final ApplicationProperties applicationProperties;
+
+	private final UserDetailsService userDetailsService;
+
+	private final UserOnlineService userOnlineService;
+
+	private final RedisTemplate redisTemplate;
+
+	private final RememberMeServices rememberMeServices;
+
+	private final CorsFilter corsFilter;
+
+	private final ApplicationContext applicationContext;
 
 	/**
 	 * https://spring.io/blog/2017/11/01/spring-security-5-0-0-rc1-released#password-storage-updated
@@ -152,10 +158,7 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring()
-			.antMatchers(HttpMethod.OPTIONS, "/**")
-			.antMatchers("/webjars/**")
-			.antMatchers("/**/*.{js,html}");
+		web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**").antMatchers("/webjars/**").antMatchers("/**/*.{js,html}");
 	}
 
 	@Bean
@@ -166,7 +169,8 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public SessionRegistry sessionRegistry() {
-		SessionRegistry sessionRegistry = new RedisSessionRegistry(applicationProperties, redisTemplate, userOnlineService);
+		SessionRegistry sessionRegistry = new RedisSessionRegistry(applicationProperties, redisTemplate,
+			userOnlineService);
 		return sessionRegistry;
 	}
 
@@ -176,71 +180,64 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 		return new HttpSessionEventPublisher();
 	}
 
-
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// 搜寻匿名标记 url： @AnonymousAccess
-		Map<RequestMappingInfo, HandlerMethod> handlerMethodMap = applicationContext.getBean(RequestMappingHandlerMapping.class).getHandlerMethods();
+		Map<RequestMappingInfo, HandlerMethod> handlerMethodMap = applicationContext
+			.getBean(RequestMappingHandlerMapping.class).getHandlerMethods();
 		// 获取匿名标记
 		Map<String, Set<String>> anonymousUrls = SecurityUtil.getAnonymousUrl(handlerMethodMap);
-		http
-			.csrf()
-			.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-			.and()
+		http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
 			.addFilterBefore(validateCodeFilter(), UsernamePasswordAuthenticationFilter.class)
 			.addFilterBefore(passwordDecoderFilter(), CsrfFilter.class)
-			.addFilterBefore(corsFilter, CsrfFilter.class)
-			.exceptionHandling()
-			.authenticationEntryPoint(authenticationEntryPoint())
-			.and()
-			.rememberMe()
+			.addFilterBefore(corsFilter, CsrfFilter.class).exceptionHandling()
+			.authenticationEntryPoint(authenticationEntryPoint()).and().rememberMe()
 			.rememberMeServices(rememberMeServices)
-			.key(applicationProperties.getSecurity().getRememberMe().getKey())
-			.and()
-			.formLogin()
+			.key(applicationProperties.getSecurity().getRememberMe().getKey()).and().formLogin()
 			.loginProcessingUrl(applicationProperties.getAdminPath(SecurityConstants.AUTHENTICATE_URL))
-			.successHandler(ajaxAuthenticationSuccessHandler())
-			.failureHandler(ajaxAuthenticationFailureHandler())
-			.permitAll()
-			.and()
-			.logout()
-			.logoutUrl(applicationProperties.getAdminPath("/logout"))
-			.logoutSuccessHandler(ajaxLogoutSuccessHandler())
-			.permitAll()
-			.and()
-			.headers()
-//			.contentSecurityPolicy("default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:")
-//			.and()
-//			.referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
-//			.and()
-//			.featurePolicy("geolocation 'none'; midi 'none'; sync-xhr 'none'; microphone 'none'; camera 'none'; magnetometer 'none'; gyroscope 'none'; speaker 'none'; fullscreen 'self'; payment 'none'")
-//			.and()
-			.frameOptions().disable()
-			.and()
-			.authorizeRequests()
+			.successHandler(ajaxAuthenticationSuccessHandler()).failureHandler(ajaxAuthenticationFailureHandler())
+			.permitAll().and().logout().logoutUrl(applicationProperties.getAdminPath("/logout"))
+			.logoutSuccessHandler(ajaxLogoutSuccessHandler()).permitAll().and().headers()
+			// .contentSecurityPolicy("default-src 'self'; script-src 'self'
+			// 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';
+			// img-src 'self' data:")
+			// .and()
+			// .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
+			// .and()
+			// .featurePolicy("geolocation 'none'; midi 'none'; sync-xhr 'none';
+			// microphone 'none'; camera 'none'; magnetometer 'none'; gyroscope
+			// 'none'; speaker 'none'; fullscreen 'self'; payment 'none'")
+			// .and()
+			.frameOptions().disable().and().authorizeRequests()
 			// 自定义匿名访问所有url放行：允许匿名和带Token访问，细腻化到每个 Request 类型
 			// GET
-			.antMatchers(HttpMethod.GET, anonymousUrls.get(RequestMethodEnum.GET.getType()).toArray(new String[0])).permitAll()
+			.antMatchers(HttpMethod.GET, anonymousUrls.get(RequestMethodEnum.GET.getType()).toArray(new String[0]))
+			.permitAll()
 			// POST
-			.antMatchers(HttpMethod.POST, anonymousUrls.get(RequestMethodEnum.POST.getType()).toArray(new String[0])).permitAll()
+			.antMatchers(HttpMethod.POST,
+				anonymousUrls.get(RequestMethodEnum.POST.getType()).toArray(new String[0]))
+			.permitAll()
 			// PUT
-			.antMatchers(HttpMethod.PUT, anonymousUrls.get(RequestMethodEnum.PUT.getType()).toArray(new String[0])).permitAll()
+			.antMatchers(HttpMethod.PUT, anonymousUrls.get(RequestMethodEnum.PUT.getType()).toArray(new String[0]))
+			.permitAll()
 			// PATCH
-			.antMatchers(HttpMethod.PATCH, anonymousUrls.get(RequestMethodEnum.PATCH.getType()).toArray(new String[0])).permitAll()
+			.antMatchers(HttpMethod.PATCH,
+				anonymousUrls.get(RequestMethodEnum.PATCH.getType()).toArray(new String[0]))
+			.permitAll()
 			// DELETE
-			.antMatchers(HttpMethod.DELETE, anonymousUrls.get(RequestMethodEnum.DELETE.getType()).toArray(new String[0])).permitAll()
+			.antMatchers(HttpMethod.DELETE,
+				anonymousUrls.get(RequestMethodEnum.DELETE.getType()).toArray(new String[0]))
+			.permitAll()
 			// 所有类型的接口都放行
 			.antMatchers(anonymousUrls.get(RequestMethodEnum.ALL.getType()).toArray(new String[0])).permitAll()
-			.antMatchers(ArrayUtil.toArray(applicationProperties.getSecurity().getAuthorizePermitAll(), String.class)).permitAll()
-			.antMatchers(ArrayUtil.toArray(applicationProperties.getSecurity().getAuthorize(), String.class)).authenticated()
-			.and()
-			.sessionManagement()
-			.maximumSessions(1).sessionRegistry(sessionRegistry())
+			.antMatchers(
+				ArrayUtil.toArray(applicationProperties.getSecurity().getAuthorizePermitAll(), String.class))
+			.permitAll()
+			.antMatchers(ArrayUtil.toArray(applicationProperties.getSecurity().getAuthorize(), String.class))
+			.authenticated().and().sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry())
 
 		;
 
-
 	}
-
 
 }

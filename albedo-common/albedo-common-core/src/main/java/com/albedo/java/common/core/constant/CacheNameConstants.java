@@ -34,21 +34,24 @@ package com.albedo.java.common.core.constant;
 
 /**
  * @author somewhere
- * @date 2018年06月22日16:41:01
- * 服务名称
+ * @date 2018年06月22日16:41:01 服务名称
  */
 public interface CacheNameConstants {
 
 	String DICT_ALL = "dict_all";
+
 	String DICT_DETAILS = "dict_details";
 
-
 	String USER_DETAILS = "user_details";
+
 	String ROLE_DETAILS = "role_details";
+
 	String MENU_DETAILS = "menu_details";
+
 	String DEPT_DETAILS = "dept_details";
 
-
 	String EMAIL_DETAILS = "email_details";
+
 	String ALIPAY_DETAILS = "alipay_details";
+
 }

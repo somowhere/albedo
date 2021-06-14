@@ -66,4 +66,5 @@ public interface DeptRelationService extends BaseService<DeptRelation> {
 	 * @param relation
 	 */
 	void updateDeptRelation(DeptRelation relation);
+
 }

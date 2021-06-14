@@ -49,8 +49,8 @@ import java.util.Objects;
  * @date 2020/5/30 11:25 下午
  */
 public class LoginUtil {
-	public final static String LOGIN_FAIL_MAP = "loginFailMap";
 
+	public final static String LOGIN_FAIL_MAP = "loginFailMap";
 
 	@SneakyThrows
 	public static void checkCode(@Valid LoginVo loginVo) {
@@ -73,7 +73,6 @@ public class LoginUtil {
 		}
 
 	}
-
 
 	/**
 	 * 是否是验证码登录
@@ -104,7 +103,6 @@ public class LoginUtil {
 		return !SpringContextHolder.isDevelopment() && loginFailNum >= 3;
 	}
 
-
 	public static UserOnline getUserOnline(Authentication authentication) {
 		UserOnline online = new UserOnline();
 		HttpServletRequest request = ((ServletRequestAttributes) Objects
@@ -127,4 +125,5 @@ public class LoginUtil {
 		online.setOs(userAgent.getOs().getName());
 		return online;
 	}
+
 }

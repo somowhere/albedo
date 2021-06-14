@@ -73,4 +73,5 @@ public class ObjectUtil extends cn.hutool.core.util.ObjectUtil {
 			return false;
 		}
 	}
+
 }

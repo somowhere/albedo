@@ -25,8 +25,10 @@ import org.quartz.JobExecutionContext;
  * @author somewhere
  */
 public class QuartzJobExecution extends AbstractQuartzJob {
+
 	@Override
 	protected void doExecute(JobExecutionContext context, Job job) throws Exception {
 		JobInvokeUtil.invokeMethod(job);
 	}
+
 }

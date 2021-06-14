@@ -38,12 +38,14 @@ public class TableFk {
 
 	@TableField("name")
 	private String name;
+
 	@TableField("table_name")
 	private String tableName;
+
 	@TableField("table_fk")
 	private String tableFk;
+
 	@TableField("table.id")
 	private Table table;
-
 
 }

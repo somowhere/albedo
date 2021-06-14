@@ -35,6 +35,7 @@ import java.util.*;
 public class Json extends com.alibaba.fastjson.JSON {
 
 	protected static Logger logger = LoggerFactory.getLogger(Json.class);
+
 	private static SerializeFilter valueFilter = new ValueFilter() {
 		@Override
 		public Object process(Object obj, String s, Object v) {
@@ -76,7 +77,8 @@ public class Json extends com.alibaba.fastjson.JSON {
 		return toJsonString(object, DateUtil.TIME_FORMAT, Lists.newArrayList(filters), false);
 	}
 
-	public static final String toJsonString(Object object, String dataFmt, List<String> filter, boolean isWriteNullStringAsEmpty) {
+	public static final String toJsonString(Object object, String dataFmt, List<String> filter,
+											boolean isWriteNullStringAsEmpty) {
 		SerializeWriter out = new SerializeWriter();
 		try {
 			JSONSerializer serializer = new JSONSerializer(out);

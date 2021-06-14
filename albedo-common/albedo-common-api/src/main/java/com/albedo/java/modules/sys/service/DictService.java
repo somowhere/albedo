@@ -83,4 +83,5 @@ public interface DictService extends TreeService<Dict, DictDto> {
 	 * @param ids
 	 */
 	void lockOrUnLock(Set<String> ids);
+
 }

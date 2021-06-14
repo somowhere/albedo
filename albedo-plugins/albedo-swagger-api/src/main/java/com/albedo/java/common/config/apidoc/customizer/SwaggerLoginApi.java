@@ -43,6 +43,7 @@ import java.util.List;
  * @author somewhere
  */
 public class SwaggerLoginApi implements ApiListingScannerPlugin {
+
 	private final ApplicationSwaggerProperties applicationSwaggerProperties;
 
 	public SwaggerLoginApi(ApplicationSwaggerProperties applicationSwaggerProperties) {
@@ -57,54 +58,52 @@ public class SwaggerLoginApi implements ApiListingScannerPlugin {
 	/**
 	 * @return Set of response messages that overide the default/global response messages
 	 */
-	private Collection<Response> responses() { //<8b>
-		return Collections.singleton(new ResponseBuilder()
-			.code("200")
-			.description("登录成功")
-			.representation(MediaType.APPLICATION_JSON)
-			.apply(r -> r.model(m -> m.name("Result").scalarModel(ScalarType.STRING))
-				.build())
-//			.apply(r -> r.model(m -> m.referenceModel( rmb -> rmb.key(mkb -> mkb.qualifiedModelName(qmb ->
-//				qmb.namespace(PackageNames.safeGetPackageName(Result.class))
-//					.name(Result.class.getSimpleName())).isResponse(true)))
-//				.build()))
-			.build());
+	private Collection<Response> responses() { // <8b>
+		return Collections.singleton(
+			new ResponseBuilder().code("200").description("登录成功").representation(MediaType.APPLICATION_JSON)
+				.apply(r -> r.model(m -> m.name("Result").scalarModel(ScalarType.STRING)).build())
+				// .apply(r -> r.model(m -> m.referenceModel( rmb -> rmb.key(mkb
+				// -> mkb.qualifiedModelName(qmb ->
+				// qmb.namespace(PackageNames.safeGetPackageName(Result.class))
+				// .name(Result.class.getSimpleName())).isResponse(true)))
+				// .build()))
+				.build());
 	}
 
 	@Override
 	public List<ApiDescription> apply(DocumentationContext context) {
-		String path = StringUtil.isNotEmpty(applicationSwaggerProperties.getDefaultIncludePattern()) ? applicationSwaggerProperties.getDefaultIncludePattern().replace(".*", "authenticate") : "/authenticate";
+		String path = StringUtil.isNotEmpty(applicationSwaggerProperties.getDefaultIncludePattern())
+			? applicationSwaggerProperties.getDefaultIncludePattern().replace(".*", "authenticate")
+			: "/authenticate";
 		Operation usernamePasswordOperation = new OperationBuilder(new CachingOperationNameGenerator())
-			.method(HttpMethod.POST)
-			.uniqueId("authenticate")
-			.summary("用户名密码登录")
-			.notes("username/password登录")
+			.method(HttpMethod.POST).uniqueId("authenticate").summary("用户名密码登录").notes("username/password登录")
 			// 接收参数格式
 			.consumes(Sets.newHashSet(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
 			// 返回参数格式
-			.produces(Sets.newHashSet(MediaType.APPLICATION_JSON_VALUE))
-			.tags(Sets.newHashSet("账户相关"))
+			.produces(Sets.newHashSet(MediaType.APPLICATION_JSON_VALUE)).tags(
+				Sets.newHashSet("账户相关"))
 			.requestParameters(Arrays.asList(
-				new RequestParameterBuilder().description("用户名")
-					.in(ParameterType.QUERY).name("username").required(true)
+				new RequestParameterBuilder().description("用户名").in(ParameterType.QUERY).name("username")
+					.required(true)
 					.query(param -> param.model(model -> model.scalarModel(ScalarType.STRING))).build(),
-				new RequestParameterBuilder().description("密码(采用AES加密，默认key=somewhere-albedo[application.security.encode-key])(Mode.CBC)")
+				new RequestParameterBuilder()
+					.description(
+						"密码(采用AES加密，默认key=somewhere-albedo[application.security.encode-key])(Mode.CBC)")
 					.in(ParameterType.QUERY).name("password").required(true)
 					.query(param -> param.model(model -> model.scalarModel(ScalarType.STRING))).build(),
-				new RequestParameterBuilder().description("唯一标识")
-					.in(ParameterType.QUERY).name("randomKey").required(true)
+				new RequestParameterBuilder().description("唯一标识").in(ParameterType.QUERY).name("randomKey")
+					.required(true)
 					.query(param -> param.model(model -> model.scalarModel(ScalarType.STRING))).build(),
-				new RequestParameterBuilder().description("验证码")
-					.in(ParameterType.QUERY).name("code").required(true)
+				new RequestParameterBuilder().description("验证码").in(ParameterType.QUERY).name("code")
+					.required(true)
 					.query(param -> param.model(model -> model.scalarModel(ScalarType.STRING))).build(),
-				new RequestParameterBuilder().description("用户名")
-					.in(ParameterType.QUERY).name("username").required(true)
-					.query(param -> param.model(model -> model.scalarModel(ScalarType.STRING))).build()
-			))
-			.responses(responses())
-			.build();
+				new RequestParameterBuilder().description("用户名").in(ParameterType.QUERY).name("username")
+					.required(true)
+					.query(param -> param.model(model -> model.scalarModel(ScalarType.STRING))).build()))
+			.responses(responses()).build();
 		ApiDescription loginApiDescription = new ApiDescription("login", path, "登录接口", "登录接口",
 			Arrays.asList(usernamePasswordOperation), false);
 		return Arrays.asList(loginApiDescription);
 	}
+
 }

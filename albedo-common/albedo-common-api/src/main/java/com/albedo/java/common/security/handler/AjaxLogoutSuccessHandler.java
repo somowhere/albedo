@@ -35,11 +35,11 @@ import javax.servlet.http.HttpServletResponse;
 public class AjaxLogoutSuccessHandler extends AbstractAuthenticationTargetUrlRequestHandler
 	implements LogoutSuccessHandler {
 
-
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
 								Authentication authentication) {
 		response.setStatus(HttpServletResponse.SC_OK);
 		WebUtil.renderJson(response, Result.buildOk("退出登录成功"));
 	}
+
 }

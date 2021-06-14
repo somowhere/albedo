@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>com.albedo.java</groupId>
 		<artifactId>albedo-modules</artifactId>
-		<version>3.0.6-SNAPSHOT</version>
+		<version>3.0.8-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>albedo-admin</artifactId>
@@ -121,22 +121,6 @@
 			<!--					<warSourceDirectory>${basedir}/../../albedo-ui/dist/</warSourceDirectory>-->
 			<!--				</configuration>-->
 			<!--			</plugin>-->
-
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>${spring-boot.version}</version>
-				<configuration>
-					<finalName>${project.build.finalName}</finalName>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

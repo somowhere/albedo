@@ -23,5 +23,18 @@ package com.albedo.java.modules.monitor.domain;
  * @date 2021-03-08
  */
 public enum ReportSearchType {
-	KEY, RAM, INFO
+
+	/**
+	 * key数量
+	 */
+	KEY,
+	/**
+	 * 占用内存
+	 */
+	RAM,
+	/**
+	 * redis信息
+	 */
+	INFO
+
 }

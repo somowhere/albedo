@@ -51,9 +51,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class UserOnlineServiceImpl extends
-	BaseServiceImpl<UserOnlineRepository, UserOnline> implements UserOnlineService {
-
+public class UserOnlineServiceImpl extends BaseServiceImpl<UserOnlineRepository, UserOnline>
+	implements UserOnlineService {
 
 	@Override
 	public void deleteBySessionId(String sessionId) {
@@ -71,8 +70,8 @@ public class UserOnlineServiceImpl extends
 
 	@Override
 	public void saveByEvent(UserOnline userOnline) {
-		this.remove(Wrappers.<UserOnline>lambdaQuery().eq(UserOnline::getUserId, userOnline.getUserId())
-			.or().eq(UserOnline::getSessionId, userOnline.getSessionId()));
+		this.remove(Wrappers.<UserOnline>lambdaQuery().eq(UserOnline::getUserId, userOnline.getUserId()).or()
+			.eq(UserOnline::getSessionId, userOnline.getSessionId()));
 		saveOrUpdate(userOnline);
 	}
 

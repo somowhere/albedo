@@ -32,7 +32,6 @@
 
 package com.albedo.java.modules.tool.service;
 
-
 import com.albedo.java.common.persistence.service.BaseService;
 import com.albedo.java.modules.tool.domain.EmailConfig;
 import com.albedo.java.modules.tool.domain.vo.EmailVo;
@@ -42,6 +41,7 @@ import com.albedo.java.modules.tool.domain.vo.EmailVo;
  * @since 2019/2/1
  */
 public interface EmailService extends BaseService<EmailConfig> {
+
 	/**
 	 * 更新邮件配置
 	 *
@@ -68,7 +68,6 @@ public interface EmailService extends BaseService<EmailConfig> {
 	 */
 	void send(EmailVo emailVo, EmailConfig emailConfig);
 
-
 	/**
 	 * 发送验证码
 	 *
@@ -78,7 +77,6 @@ public interface EmailService extends BaseService<EmailConfig> {
 	 */
 	EmailVo sendEmail(String email, String key);
 
-
 	/**
 	 * 验证
 	 *
@@ -86,4 +84,5 @@ public interface EmailService extends BaseService<EmailConfig> {
 	 * @param key  /
 	 */
 	void validated(String key, String code);
+
 }

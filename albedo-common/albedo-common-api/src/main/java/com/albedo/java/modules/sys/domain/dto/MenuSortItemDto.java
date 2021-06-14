@@ -54,7 +54,9 @@ public class MenuSortItemDto implements Serializable {
 	/*** id */
 	@NotEmpty
 	protected String id;
+
 	/*** 序号 */
 	@NotNull
 	protected Integer sort;
+
 }

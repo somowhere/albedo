@@ -59,9 +59,9 @@ public class JobLogResource extends BaseResource {
 	@GetMapping
 	@LogOperate(value = "任务日志查看")
 	public Result getPage(PageModel pageModel, JobLogQueryCriteria jobLogQueryCriteria) {
-		return Result.buildOkData(jobLogService.page(pageModel, QueryWrapperUtil.getWrapper(pageModel, jobLogQueryCriteria)));
+		return Result.buildOkData(
+			jobLogService.page(pageModel, QueryWrapperUtil.getWrapper(pageModel, jobLogQueryCriteria)));
 	}
-
 
 	/**
 	 * DELETE //:ids : delete the "ids" JobLog.
@@ -95,4 +95,5 @@ public class JobLogResource extends BaseResource {
 		ExcelUtil<JobLogExcelVo> util = new ExcelUtil(JobLogExcelVo.class);
 		util.exportExcel(jobLogService.findExcelVo(wrapper), "任务调度日志", response);
 	}
+
 }

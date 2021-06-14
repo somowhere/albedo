@@ -26,8 +26,11 @@ import java.util.Map;
  * @date 2020/5/31 17:09
  */
 public class PersistentTokenCache<T> {
+
 	private final long expireMillis;
+
 	private final Map<String, Value> map;
+
 	private long latestWriteTime;
 
 	public PersistentTokenCache(long expireMillis) {
@@ -75,12 +78,16 @@ public class PersistentTokenCache<T> {
 	}
 
 	private class Value {
+
 		private final T token;
+
 		private final long expire;
 
 		Value(T token, long expire) {
 			this.token = token;
 			this.expire = expire;
 		}
+
 	}
+
 }

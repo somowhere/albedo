@@ -66,13 +66,16 @@ public class AccoutResource extends BaseResource {
 	private static final Integer DEFAULT_IMAGE_WIDTH = 100;
 
 	private static final Integer DEFAULT_IMAGE_HEIGHT = 40;
+
 	private final UserService userService;
+
 	private final ApplicationProperties applicationProperties;
+
 	private final EmailService emailService;
 
-
 	/**
-	 * {@code GET  /authenticate} : check if the user is authenticated, and return its login.
+	 * {@code GET  /authenticate} : check if the user is authenticated, and return its
+	 * login.
 	 *
 	 * @return the login if the user is authenticated.
 	 */
@@ -84,8 +87,7 @@ public class AccoutResource extends BaseResource {
 	}
 
 	/**
-	 * 修改密码
-	 * POST  /account/changePassword : changes the current user's password
+	 * 修改密码 POST /account/changePassword : changes the current user's password
 	 *
 	 * @param passwordChangeVo the passwordVo
 	 */
@@ -93,15 +95,15 @@ public class AccoutResource extends BaseResource {
 	@PostMapping(path = "/account/change-password")
 	public Result changePassword(@Valid @RequestBody PasswordChangeVo passwordChangeVo) {
 		// 密码解密
-		RSA rsa = new RSA(applicationProperties.getRsa().getPrivateKey(), applicationProperties.getRsa().getPublicKey());
+		RSA rsa = new RSA(applicationProperties.getRsa().getPrivateKey(),
+			applicationProperties.getRsa().getPublicKey());
 		String oldPass = new String(rsa.decrypt(passwordChangeVo.getOldPassword(), KeyType.PrivateKey));
 		String newPass = new String(rsa.decrypt(passwordChangeVo.getNewPassword(), KeyType.PrivateKey));
 		String confirmPass = new String(rsa.decrypt(passwordChangeVo.getConfirmPassword(), KeyType.PrivateKey));
 		passwordChangeVo.setNewPassword(newPass);
 		passwordChangeVo.setConfirmPassword(confirmPass);
 		passwordChangeVo.setOldPassword(oldPass);
-		userService.changePassword(SecurityUtil.getUser().getUsername(),
-			passwordChangeVo);
+		userService.changePassword(SecurityUtil.getUser().getUsername(), passwordChangeVo);
 		return Result.buildOk("密码修改成功，请重新登录");
 	}
 
@@ -117,7 +119,8 @@ public class AccoutResource extends BaseResource {
 	@PostMapping(value = "/account/change-email/{code}")
 	public Result<String> updateEmail(@PathVariable String code, @RequestBody UserEmailDto userEmailDto) {
 		// 密码解密
-		RSA rsa = new RSA(applicationProperties.getRsa().getPrivateKey(), applicationProperties.getRsa().getPublicKey());
+		RSA rsa = new RSA(applicationProperties.getRsa().getPrivateKey(),
+			applicationProperties.getRsa().getPublicKey());
 		String password = new String(rsa.decrypt(userEmailDto.getPassword(), KeyType.PrivateKey));
 		userEmailDto.setPassword(password);
 		emailService.validated(CommonConstants.EMAIL_RESET_EMAIL_CODE + userEmailDto.getEmail(), code);
@@ -137,14 +140,14 @@ public class AccoutResource extends BaseResource {
 		ArithmeticCaptcha captcha = new ArithmeticCaptcha(DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT);
 
 		String result = captcha.text();
-		RedisUtil.setCacheString(CommonConstants.DEFAULT_CODE_KEY + randomStr, result, CommonConstants.DEFAULT_IMAGE_EXPIRE, TimeUnit.SECONDS);
-		//创建输出流
+		RedisUtil.setCacheString(CommonConstants.DEFAULT_CODE_KEY + randomStr, result,
+			CommonConstants.DEFAULT_IMAGE_EXPIRE, TimeUnit.SECONDS);
+		// 创建输出流
 		ServletOutputStream out = response.getOutputStream();
 		captcha.out(out);
 		IoUtil.close(out);
 
 	}
-
 
 	/**
 	 * 重置密码
@@ -188,6 +191,5 @@ public class AccoutResource extends BaseResource {
 		emailService.validated(CommonConstants.EMAIL_RESET_EMAIL_CODE + email, code);
 		return Result.buildOk("验证成功");
 	}
-
 
 }

@@ -54,4 +54,5 @@ public class Http401UnauthorizedEntryPoint implements AuthenticationEntryPoint {
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
 		WebUtil.renderJson(response, Result.buildFail("权限不足或登录超时"));
 	}
+
 }

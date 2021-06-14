@@ -55,36 +55,58 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 public class DictResourceIntTest {
 
-
 	private static final String DEFAULT_ANOTHER_NAME = "ANOTHER_NAME";
+
 	private static final String DEFAULT_NAME = "NAME1";
+
 	private static final String UPDATED_NAME = "NAME2";
+
 	private static final String DEFAULT_ANOTHER_CODE = "ANOTHER_CODE";
+
 	private static final String DEFAULT_CODE = "CODE1";
+
 	private static final String UPDATED_CODE = "CODE2";
+
 	private static final Integer DEFAULT_SHOW = CommonConstants.YES;
+
 	private static final Integer UPDATED_SHOW = CommonConstants.NO;
+
 	private static final String DEFAULT_ANOTHER_VAL = "ANOTHER_VAL";
+
 	private static final String DEFAULT_VAL = "VAL1";
+
 	private static final String UPDATED_VAL = "VAL2";
+
 	private static final String DEFAULT_ANOTHER_PARENT_ID = "ANOTHER_PARENT_ID";
-	//    private static final String DEFAULT_PARENT_ID = "PARENT_ID1";
+
+	// private static final String DEFAULT_PARENT_ID = "PARENT_ID1";
 	private static final String UPDATED_PARENT_ID = "PARENT_ID2";
+
 	private static final Integer DEFAULT_SORT = 10;
+
 	private static final Integer UPDATED_SORT = 20;
+
 	private static final String DEFAULT_REMARK = "REMARK1";
+
 	private static final String UPDATED_REMARK = "REMARK2";
+
 	private static final String DEFAULT_DESCRIPTION = "DESCRIPTION1";
+
 	private static final String UPDATED_DESCRIPTION = "DESCRIPTION2";
+
 	private String DEFAULT_API_URL;
+
 	@Autowired
 	private DictService dictService;
 
 	private MockMvc restDictMockMvc;
+
 	@Autowired
 	private MappingJackson2HttpMessageConverter jacksonMessageConverter;
+
 	@Autowired
 	private GlobalExceptionHandler globalExceptionHandler;
+
 	@Autowired
 	private ApplicationProperties applicationProperties;
 
@@ -99,17 +121,15 @@ public class DictResourceIntTest {
 		final DictResource dictResource = new DictResource(dictService);
 		this.restDictMockMvc = MockMvcBuilders.standaloneSetup(dictResource)
 			.addPlaceholderValue(TestUtil.ADMIN_PATH, applicationProperties.getAdminPath())
-			.setControllerAdvice(globalExceptionHandler)
-			.setConversionService(createFormattingConversionService())
-			.setMessageConverters(jacksonMessageConverter)
-			.build();
+			.setControllerAdvice(globalExceptionHandler).setConversionService(createFormattingConversionService())
+			.setMessageConverters(jacksonMessageConverter).build();
 	}
 
 	/**
 	 * Create a Dict.
 	 * <p>
-	 * This is a static method, as tests for other entities might also need it,
-	 * if they test an domain which has a required relationship to the Dict domain.
+	 * This is a static method, as tests for other entities might also need it, if they
+	 * test an domain which has a required relationship to the Dict domain.
 	 */
 	public DictDto createEntity() {
 		DictDto dict = new DictDto();
@@ -145,16 +165,13 @@ public class DictResourceIntTest {
 		List<Dict> databaseSizeBeforeCreate = dictService.list();
 
 		// Create the Dict
-		restDictMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(dict)))
-			.andExpect(status().isOk());
+		restDictMockMvc.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+			.content(TestUtil.convertObjectToJsonBytes(dict))).andExpect(status().isOk());
 
 		// Validate the Dict in the database
 		List<Dict> dictList = dictService.list();
 		assertThat(dictList).hasSize(databaseSizeBeforeCreate.size() + 1);
-		Dict testDict = dictService.getOne(Wrappers.<Dict>query().lambda()
-			.eq(Dict::getName, dict.getName()));
+		Dict testDict = dictService.getOne(Wrappers.<Dict>query().lambda().eq(Dict::getName, dict.getName()));
 		assertThat(testDict.getName()).isEqualTo(DEFAULT_NAME);
 		assertThat(testDict.getCode()).isEqualTo(DEFAULT_CODE);
 		assertThat(testDict.getVal()).isEqualTo(DEFAULT_VAL);
@@ -177,11 +194,10 @@ public class DictResourceIntTest {
 		DictDto managedDictVM = createEntity();
 
 		// Create the Dict
-		restDictMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(managedDictVM)))
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
+		restDictMockMvc
+			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(managedDictVM)))
+			.andExpect(status().isOk()).andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
 			.andExpect(jsonPath("$.message").isNotEmpty());
 
 		// Validate the Dict in the database
@@ -195,11 +211,10 @@ public class DictResourceIntTest {
 		// Initialize the database
 		dictService.saveOrUpdate(dict);
 		// Get all the dicts
-		restDictMockMvc.perform(get(DEFAULT_API_URL)
-			.param(PageModel.F_DESC, "parent.created_date")
-			.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+		restDictMockMvc
+			.perform(get(DEFAULT_API_URL).param(PageModel.F_DESC, "parent.created_date")
+				.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.records.[*].name").value(hasItem(DEFAULT_NAME)))
 			.andExpect(jsonPath("$.data.records.[*].code").value(hasItem(DEFAULT_CODE)))
 			.andExpect(jsonPath("$.data.records.[*].val").value(hasItem(DEFAULT_VAL)))
@@ -207,8 +222,7 @@ public class DictResourceIntTest {
 			.andExpect(jsonPath("$.data.records.[*].sort").value(hasItem(DEFAULT_SORT)))
 			.andExpect(jsonPath("$.data.records.[*].parentId").value(hasItem(anotherDict.getId())))
 			.andExpect(jsonPath("$.data.records.[*].remark").value(hasItem(DEFAULT_REMARK)))
-			.andExpect(jsonPath("$.data.records.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-		;
+			.andExpect(jsonPath("$.data.records.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
 	}
 
 	@Test
@@ -218,8 +232,7 @@ public class DictResourceIntTest {
 		dictService.saveOrUpdate(dict);
 
 		// Get the dict
-		restDictMockMvc.perform(get(DEFAULT_API_URL + "{id}", dict.getId()))
-			.andExpect(status().isOk())
+		restDictMockMvc.perform(get(DEFAULT_API_URL + "{id}", dict.getId())).andExpect(status().isOk())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.name").value(DEFAULT_NAME))
 			.andExpect(jsonPath("$.data.code").value(DEFAULT_CODE))
@@ -233,8 +246,7 @@ public class DictResourceIntTest {
 	@Test
 	@Transactional(rollbackFor = Exception.class)
 	public void getNonExistingDict() throws Exception {
-		restDictMockMvc.perform(get("/sys/dict/ddd/unknown"))
-			.andExpect(status().isNotFound());
+		restDictMockMvc.perform(get("/sys/dict/ddd/unknown")).andExpect(status().isNotFound());
 	}
 
 	@Test
@@ -247,7 +259,6 @@ public class DictResourceIntTest {
 		// Update the dict
 		Dict updatedDict = dictService.getById(dict.getId());
 
-
 		DictDto managedDictVM = new DictDto();
 		managedDictVM.setName(UPDATED_NAME);
 		managedDictVM.setCode(UPDATED_CODE);
@@ -258,11 +269,10 @@ public class DictResourceIntTest {
 		managedDictVM.setDescription(UPDATED_DESCRIPTION);
 
 		managedDictVM.setId(updatedDict.getId());
-		restDictMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(managedDictVM)))
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.code").value(CommonConstants.SUCCESS));
+		restDictMockMvc
+			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(managedDictVM)))
+			.andExpect(status().isOk()).andExpect(jsonPath("$.code").value(CommonConstants.SUCCESS));
 
 		// Validate the Dict in the database
 		List<Dict> dictList = dictService.list();
@@ -273,12 +283,11 @@ public class DictResourceIntTest {
 		assertThat(testDict.getVal()).isEqualTo(UPDATED_VAL);
 		assertThat(testDict.getSort()).isEqualTo(UPDATED_SORT);
 		assertThat(testDict.getParentId()).isEqualTo(UPDATED_PARENT_ID);
-//		assertThat(testDict.getParentIds()).contains(UPDATED_PARENT_ID);
+		// assertThat(testDict.getParentIds()).contains(UPDATED_PARENT_ID);
 		assertThat(testDict.isLeaf()).isEqualTo(true);
 		assertThat(testDict.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
 		assertThat(testDict.getDelFlag()).isEqualTo(Dict.FLAG_NORMAL);
 	}
-
 
 	@Test
 	@Transactional(rollbackFor = Exception.class)
@@ -297,18 +306,16 @@ public class DictResourceIntTest {
 		managedDictVM.setRemark(DEFAULT_REMARK);
 		managedDictVM.setDescription(DEFAULT_DESCRIPTION);
 		managedDictVM.setId(updatedDict.getId());
-		restDictMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(managedDictVM)))
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
+		restDictMockMvc
+			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(managedDictVM)))
+			.andExpect(status().isOk()).andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
 			.andExpect(jsonPath("$.message").isNotEmpty());
 
 		// Update the dict
 		Dict updatedDictAfter = dictService.getById(dict.getId());
 		assertThat(updatedDictAfter.getCode()).isEqualTo(updatedDict.getCode());
 	}
-
 
 	@Test
 	@Transactional(rollbackFor = Exception.class)
@@ -318,8 +325,7 @@ public class DictResourceIntTest {
 		long databaseSizeBeforeDelete = dictService.count();
 
 		// Delete the dict
-		restDictMockMvc.perform(delete(DEFAULT_API_URL + "{id}", dict.getId())
-			.accept(TestUtil.APPLICATION_JSON_UTF8))
+		restDictMockMvc.perform(delete(DEFAULT_API_URL + "{id}", dict.getId()).accept(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(status().isOk());
 
 		// Validate the database is empty

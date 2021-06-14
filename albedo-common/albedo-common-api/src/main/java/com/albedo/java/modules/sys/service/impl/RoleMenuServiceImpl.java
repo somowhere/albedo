@@ -57,8 +57,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuRepository, RoleMenu>
-	implements RoleMenuService {
+public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuRepository, RoleMenu> implements RoleMenuService {
 
 	/**
 	 * @param roleMenuDto 角色菜单
@@ -68,17 +67,16 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuRepository, RoleMen
 	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(value = {CacheNameConstants.ROLE_DETAILS, CacheNameConstants.MENU_DETAILS}, allEntries = true)
 	public Boolean saveRoleMenus(RoleMenuDto roleMenuDto) {
-		this.remove(Wrappers.<RoleMenu>query().lambda()
-			.eq(RoleMenu::getRoleId, roleMenuDto.getRoleId()));
+		this.remove(Wrappers.<RoleMenu>query().lambda().eq(RoleMenu::getRoleId, roleMenuDto.getRoleId()));
 
-		List<RoleMenu> roleMenuList = roleMenuDto.getMenuIdList().stream()
-			.map(menuId -> {
-				RoleMenu roleMenu = new RoleMenu();
-				roleMenu.setRoleId(roleMenuDto.getRoleId());
-				roleMenu.setMenuId(menuId);
-				return roleMenu;
-			}).collect(Collectors.toList());
+		List<RoleMenu> roleMenuList = roleMenuDto.getMenuIdList().stream().map(menuId -> {
+			RoleMenu roleMenu = new RoleMenu();
+			roleMenu.setRoleId(roleMenuDto.getRoleId());
+			roleMenu.setMenuId(menuId);
+			return roleMenu;
+		}).collect(Collectors.toList());
 
 		return this.saveBatch(roleMenuList);
 	}
+
 }

@@ -44,7 +44,9 @@ import java.io.Serializable;
 public class UserSearchVo implements Serializable {
 
 	public static final String F_USERNAME = "username";
+
 	public static final String F_EMAIL = "email";
+
 	/**
 	 * 用户名
 	 */
@@ -59,10 +61,12 @@ public class UserSearchVo implements Serializable {
 	 * 邮箱
 	 */
 	private String email;
+
 	/**
 	 * 电话
 	 */
 	private String phone;
+
 	/**
 	 * 头像
 	 */
@@ -82,4 +86,5 @@ public class UserSearchVo implements Serializable {
 	 * QQ openId
 	 */
 	private String qqOpenId;
+
 }

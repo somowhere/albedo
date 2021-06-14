@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
  * @author somewhere
  */
 public class AsyncUtil {
+
 	private static final Logger sys_user_logger = LoggerFactory.getLogger("sys-user");
 
 	/**
@@ -44,4 +45,5 @@ public class AsyncUtil {
 		// 发送异步日志事件
 		SpringContextHolder.publishEvent(new SysLogEvent(logOperate));
 	}
+
 }

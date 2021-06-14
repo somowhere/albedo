@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("${application.admin-path}/hello")
 public class HelloResource extends BaseResource {
 
-
 	/**
 	 * @param pageModel
 	 * @return
@@ -41,6 +40,5 @@ public class HelloResource extends BaseResource {
 	public Result getPage(PageModel pm) {
 		return Result.buildOk("hello " + pm);
 	}
-
 
 }

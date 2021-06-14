@@ -64,39 +64,64 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 public class UserResourceIntTest {
 
-
 	private static final String DEFAULT_ANOTHER_USERNAME = "johndoeddd";
+
 	private static final String DEFAULT_USERNAME = "johndoe";
+
 	private static final String UPDATED_USERNAME = "jhipster";
+
 	private static final String DEFAULT_PASSWORD = "passjohndoe";
+
 	private static final String UPDATED_PASSWORD = "passjhipster";
+
 	private static final String DEFAULT_PHONE = "13258812456";
+
 	private static final String UPDATED_PHONE = "13222222222";
+
 	private static final String DEFAULT_ANOTHER_PHONE = "13222221111";
+
 	private static final String DEFAULT_ANOTHER_EMAIL = "23423432@localhost";
+
 	private static final String DEFAULT_EMAIL = "johndoe@localhost";
+
 	private static final String UPDATED_EMAIL = "jhipster@localhost";
+
 	private static final String DEFAULT_QQOPENID = "QQOPENID1";
+
 	private static final String UPDATED_QQOPENID = "QQOPENID2";
+
 	private static final Integer DEFAULT_AVAILABLE = CommonConstants.YES;
+
 	private static final Integer UPDATED_AVAILABLE = CommonConstants.NO;
+
 	UserDto anotherUser = new UserDto();
+
 	private String DEFAULT_API_URL;
+
 	@Autowired
 	private UserService userService;
+
 	@Autowired
 	private RoleService roleService;
+
 	@Autowired
 	private DeptService deptService;
+
 	private MockMvc restUserMockMvc;
+
 	@Autowired
 	private MappingJackson2HttpMessageConverter jacksonMessageConverter;
+
 	@Autowired
 	private GlobalExceptionHandler globalExceptionHandler;
+
 	@Autowired
 	private ApplicationProperties applicationProperties;
+
 	private UserDto user;
+
 	private List<Role> roleList;
+
 	private List<Dept> deptList;
 
 	@BeforeEach
@@ -106,18 +131,16 @@ public class UserResourceIntTest {
 		final UserResource userResource = new UserResource(userService);
 		this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
 			.addPlaceholderValue(TestUtil.ADMIN_PATH, applicationProperties.getAdminPath())
-			.setControllerAdvice(globalExceptionHandler)
-			.setConversionService(createFormattingConversionService())
-			.setMessageConverters(jacksonMessageConverter)
-			.build();
+			.setControllerAdvice(globalExceptionHandler).setConversionService(createFormattingConversionService())
+			.setMessageConverters(jacksonMessageConverter).build();
 
 	}
 
 	/**
 	 * Create a User.
 	 * <p>
-	 * This is a static method, as tests for other entities might also need it,
-	 * if they test an domain which has a required relationship to the User domain.
+	 * This is a static method, as tests for other entities might also need it, if they
+	 * test an domain which has a required relationship to the User domain.
 	 */
 	public UserDto createEntity() {
 		UserDto user = new UserDto();
@@ -153,16 +176,13 @@ public class UserResourceIntTest {
 		List<User> databaseSizeBeforeCreate = userService.list();
 
 		// Create the User
-		restUserMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(user)))
-			.andExpect(status().isOk());
+		restUserMockMvc.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+			.content(TestUtil.convertObjectToJsonBytes(user))).andExpect(status().isOk());
 
 		// Validate the User in the database
 		List<User> userList = userService.list();
 		assertThat(userList).hasSize(databaseSizeBeforeCreate.size() + 1);
-		User testUser = userService.getOne(Wrappers.<User>query().lambda()
-			.eq(User::getUsername, user.getUsername()));
+		User testUser = userService.getOne(Wrappers.<User>query().lambda().eq(User::getUsername, user.getUsername()));
 		assertThat(testUser.getUsername()).isEqualTo(DEFAULT_USERNAME);
 		assertThat(testUser.getPhone()).isEqualTo(DEFAULT_PHONE);
 		assertThat(testUser.getEmail()).isEqualTo(DEFAULT_EMAIL);
@@ -180,11 +200,10 @@ public class UserResourceIntTest {
 		UserDto managedUserVM = createEntity();
 		managedUserVM.setEmail(DEFAULT_ANOTHER_EMAIL);
 		// Create the User
-		restUserMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
-			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
+		restUserMockMvc
+			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
+			.andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
 			.andExpect(jsonPath("$.message").isNotEmpty());
 
 		// Validate the User in the database
@@ -198,16 +217,14 @@ public class UserResourceIntTest {
 		// Initialize the database
 		userService.saveOrUpdate(user);
 		// Get all the users
-		restUserMockMvc.perform(get(DEFAULT_API_URL)
-			.param(PageModel.F_DESC, User.F_SQL_CREATED_DATE)
-			.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+		restUserMockMvc
+			.perform(get(DEFAULT_API_URL).param(PageModel.F_DESC, User.F_SQL_CREATED_DATE)
+				.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.records.[*].username").value(hasItem(DEFAULT_USERNAME)))
 			.andExpect(jsonPath("$.data.records.[*].qqOpenId").value(hasItem(DEFAULT_QQOPENID)))
 			.andExpect(jsonPath("$.data.records.[*].phone").value(hasItem(DEFAULT_PHONE)))
-			.andExpect(jsonPath("$.data.records.[*].email").value(hasItem(DEFAULT_EMAIL)))
-		;
+			.andExpect(jsonPath("$.data.records.[*].email").value(hasItem(DEFAULT_EMAIL)));
 	}
 
 	@Test
@@ -217,8 +234,7 @@ public class UserResourceIntTest {
 		userService.saveOrUpdate(user);
 
 		// Get the user
-		restUserMockMvc.perform(get(DEFAULT_API_URL + "{id}", user.getId()))
-			.andExpect(status().isOk())
+		restUserMockMvc.perform(get(DEFAULT_API_URL + "{id}", user.getId())).andExpect(status().isOk())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.username").value(user.getUsername()))
 			.andExpect(jsonPath("$.data.qqOpenId").value(DEFAULT_QQOPENID))
@@ -234,20 +250,17 @@ public class UserResourceIntTest {
 
 		// Get the user
 		restUserMockMvc.perform(get(DEFAULT_API_URL + "/info/{username}", user.getUsername()))
-			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.user.username").value(user.getUsername()))
 			.andExpect(jsonPath("$.data.user.qqOpenId").value(DEFAULT_QQOPENID))
 			.andExpect(jsonPath("$.data.roles").value(equalTo(CollUtil.extractToList(roleList, Role.F_ID))))
-			.andExpect(jsonPath("$.data.permissions").isNotEmpty())
-		;
+			.andExpect(jsonPath("$.data.permissions").isNotEmpty());
 	}
 
 	@Test
 	@Transactional(rollbackFor = Exception.class)
 	public void getNonExistingUser() throws Exception {
-		restUserMockMvc.perform(get("/sys/user/ddd/unknown"))
-			.andExpect(status().isNotFound());
+		restUserMockMvc.perform(get("/sys/user/ddd/unknown")).andExpect(status().isNotFound());
 	}
 
 	@Test
@@ -260,7 +273,6 @@ public class UserResourceIntTest {
 		// Update the user
 		User updatedUser = userService.getById(user.getId());
 
-
 		UserDto managedUserVM = new UserDto();
 		managedUserVM.setUsername(UPDATED_USERNAME);
 		managedUserVM.setPassword(UPDATED_PASSWORD);
@@ -271,11 +283,10 @@ public class UserResourceIntTest {
 		managedUserVM.setRoleIdList(CollUtil.extractToList(roleList, Role.F_ID));
 
 		managedUserVM.setId(updatedUser.getId());
-		restUserMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.code").value(CommonConstants.SUCCESS));
+		restUserMockMvc
+			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
+			.andExpect(status().isOk()).andExpect(jsonPath("$.code").value(CommonConstants.SUCCESS));
 
 		// Validate the User in the database
 		List<User> userList = userService.list();
@@ -287,7 +298,6 @@ public class UserResourceIntTest {
 		assertThat(testUser.getQqOpenId()).isEqualTo(UPDATED_QQOPENID);
 	}
 
-
 	@Test
 	@Transactional(rollbackFor = Exception.class)
 	public void updateUserExistingEmail() throws Exception {
@@ -296,15 +306,13 @@ public class UserResourceIntTest {
 		// Update the user
 		User updatedUser = userService.getById(user.getId());
 
-
 		UserDto managedUserVM = new UserDto();
 		managedUserVM.setEmail(DEFAULT_ANOTHER_EMAIL);
 		managedUserVM.setId(updatedUser.getId());
-		restUserMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
-			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
+		restUserMockMvc
+			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
+			.andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
 			.andExpect(jsonPath("$.message").isNotEmpty());
 		User testUser = userService.getById(updatedUser.getId());
 		assertThat(testUser.getEmail()).isEqualTo(DEFAULT_EMAIL);
@@ -319,15 +327,13 @@ public class UserResourceIntTest {
 		// Update the user
 		User updatedUser = userService.getById(user.getId());
 
-
 		UserDto managedUserVM = new UserDto();
 		managedUserVM.setUsername(DEFAULT_ANOTHER_USERNAME);
 		managedUserVM.setId(updatedUser.getId());
-		restUserMockMvc.perform(post(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
-			.content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
-			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
+		restUserMockMvc
+			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
+			.andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
 			.andExpect(jsonPath("$.message").isNotEmpty());
 		User testUser = userService.getById(updatedUser.getId());
 		assertThat(testUser.getUsername()).isEqualTo(DEFAULT_USERNAME);
@@ -341,11 +347,9 @@ public class UserResourceIntTest {
 		long databaseSizeBeforeDelete = userService.count();
 
 		// Delete the user
-		restUserMockMvc.perform(delete(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
+		restUserMockMvc.perform(delete(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
 			.content(TestUtil.convertObjectToJsonBytes(Lists.newArrayList(user.getId())))
-			.accept(TestUtil.APPLICATION_JSON_UTF8))
-			.andExpect(status().isOk());
+			.accept(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isOk());
 
 		// Validate the database is empty
 		long databaseSizeAfterDelete = userService.count();
@@ -359,21 +363,17 @@ public class UserResourceIntTest {
 		userService.saveOrUpdate(user);
 
 		// lockOrUnLock the user
-		restUserMockMvc.perform(put(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
+		restUserMockMvc.perform(put(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
 			.content(TestUtil.convertObjectToJsonBytes(Lists.newArrayList(user.getId())))
-			.accept(TestUtil.APPLICATION_JSON_UTF8))
-			.andExpect(status().isOk());
+			.accept(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isOk());
 
 		// Validate the database is empty
 		User tempUser = userService.getById(user.getId());
 		assertThat(CommonConstants.STR_YES.equals(tempUser.getAvailable()));
 		// lockOrUnLock the user
-		restUserMockMvc.perform(put(DEFAULT_API_URL)
-			.contentType(TestUtil.APPLICATION_JSON_UTF8)
+		restUserMockMvc.perform(put(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
 			.content(TestUtil.convertObjectToJsonBytes(Lists.newArrayList(user.getId())))
-			.accept(TestUtil.APPLICATION_JSON_UTF8))
-			.andExpect(status().isOk());
+			.accept(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isOk());
 
 		// Validate the database is empty
 		User tempUser1 = userService.getById(user.getId());

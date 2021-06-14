@@ -52,7 +52,6 @@ import java.util.Set;
  */
 public interface DeptService extends TreeService<Dept, DeptDto> {
 
-
 	/**
 	 * 获取祖先后代节点
 	 *
@@ -92,4 +91,5 @@ public interface DeptService extends TreeService<Dept, DeptDto> {
 	 * @param ids
 	 */
 	void lockOrUnLock(Set<String> ids);
+
 }

@@ -24,7 +24,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * 通常的数据基类 copyright 2014 albedo all right reserved author somewhere created on 2014年12月31日 下午1:57:09
+ * 通常的数据基类 copyright 2014 albedo all right reserved author somewhere created on
+ * 2014年12月31日 下午1:57:09
  *
  * @author somewhere
  */
@@ -32,9 +33,11 @@ import java.util.Objects;
 public class DataDto<PK extends Serializable> extends GeneralDto {
 
 	private PK id;
+
 	@JsonIgnore
 	@ApiModelProperty(hidden = true)
 	private String delFlag;
+
 	private String description;
 
 	@Override
@@ -52,4 +55,5 @@ public class DataDto<PK extends Serializable> extends GeneralDto {
 	public int hashCode() {
 		return Objects.hash(id);
 	}
+
 }

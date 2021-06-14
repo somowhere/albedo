@@ -26,6 +26,7 @@ import com.albedo.java.modules.gen.domain.dto.TableColumnDto;
  * @date 2020/5/30 11:25 下午
  */
 public interface TableColumnService extends DataService<TableColumn, TableColumnDto, String> {
+
 	/**
 	 * deleteByTableId
 	 *
@@ -34,4 +35,5 @@ public interface TableColumnService extends DataService<TableColumn, TableColumn
 	 * @updateTime 2020/5/31 17:34
 	 */
 	void deleteByTableId(String id);
+
 }

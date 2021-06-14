@@ -47,7 +47,7 @@ import org.springframework.stereotype.Service;
  * @since 2019/2/1
  */
 @Service
-public class LogOperateServiceImpl extends
-	BaseServiceImpl<LogOperateRepository, LogOperate> implements LogOperateService {
+public class LogOperateServiceImpl extends BaseServiceImpl<LogOperateRepository, LogOperate>
+	implements LogOperateService {
 
 }

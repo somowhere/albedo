@@ -93,4 +93,5 @@ public interface RoleService extends DataService<Role, RoleDto, String> {
 	 * @updateTime 2020/5/31 17:34
 	 */
 	Integer findLevelByUserId(String userId);
+
 }

@@ -60,7 +60,8 @@ import java.util.EnumSet;
  */
 @Configuration
 @AllArgsConstructor
-public class WebConfigurer implements ServletContextInitializer, WebServerFactoryCustomizer<WebServerFactory>, WebMvcConfigurer {
+public class WebConfigurer
+	implements ServletContextInitializer, WebServerFactoryCustomizer<WebServerFactory>, WebMvcConfigurer {
 
 	private final Logger log = LoggerFactory.getLogger(WebConfigurer.class);
 
@@ -75,18 +76,9 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
 		}
 		EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD,
 			DispatcherType.ASYNC);
-//        initPageInitParamFilter(servletContext, disps);
-//        initMetrics(servletContext, disps);
 		if (ArrayUtil.contains(env.getActiveProfiles(), CommonConstants.SPRING_PROFILE_PRODUCTION)) {
 			initCachingHttpHeadersFilter(servletContext, disps);
 		}
-//		log.debug("Registering bodyFilter");
-//		FilterRegistration.Dynamic bodyFilter = servletContext.addFilter(
-//			"bodyFilter",
-//			new BodyFilter(applicationProperties));
-//		bodyFilter.addMappingForUrlPatterns(disps, true,
-//			applicationProperties.getAdminPath("/*"));
-//		bodyFilter.setAsyncSupported(true);
 
 		log.info("Web application fully configured");
 	}
@@ -102,16 +94,15 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
 		setLocationForStaticAssets(server);
 
 		/*
-		 * Enable HTTP/2 for Undertow - https://twitter.com/ankinson/status/829256167700492288
-		 * HTTP/2 requires HTTPS, so HTTP requests will fallback to HTTP/1.1.
-		 * See the ApplicationProperties class and your application-*.yml configuration files
-		 * for more information.
+		 * Enable HTTP/2 for Undertow -
+		 * https://twitter.com/ankinson/status/829256167700492288 HTTP/2 requires HTTPS,
+		 * so HTTP requests will fallback to HTTP/1.1. See the ApplicationProperties class
+		 * and your application-*.yml configuration files for more information.
 		 */
-		if (applicationProperties.getHttp().getVersion().equals(ApplicationProperties.Http.Version.V_2_0) &&
-			server instanceof UndertowServletWebServerFactory) {
+		if (applicationProperties.getHttp().getVersion().equals(ApplicationProperties.Http.Version.V_2_0)
+			&& server instanceof UndertowServletWebServerFactory) {
 			((UndertowServletWebServerFactory) server)
-				.addBuilderCustomizers(builder ->
-					builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true));
+				.addBuilderCustomizers(builder -> builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true));
 		}
 
 	}
@@ -145,7 +136,6 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
 		}
 	}
 
-
 	/**
 	 * Initializes the caching HTTP Headers Filter.
 	 */
@@ -158,18 +148,19 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
 		cachingHttpHeadersFilter.setAsyncSupported(true);
 
 	}
-//    /**
-//     * Initializes the Page Init Params Filter.
-//     */
-//    private void initPageInitParamFilter(ServletContext servletContext, EnumSet<DispatcherType> disps) {
-//        log.debug("Registering PageInitParamFilter");
-//        FilterRegistration.Dynamic pageInitParamFilter = servletContext.addFilter(
-//                "pageInitParamFilter",
-//                new PageInitParamFilter());
-//        pageInitParamFilter.addMappingForUrlPatterns(disps, true,
-//                ApplicationProperties.getAdminPath("/*"));
-//        pageInitParamFilter.setAsyncSupported(true);
-//    }
+	// /**
+	// * Initializes the Page Init Params Filter.
+	// */
+	// private void initPageInitParamFilter(ServletContext servletContext,
+	// EnumSet<DispatcherType> disps) {
+	// log.debug("Registering PageInitParamFilter");
+	// FilterRegistration.Dynamic pageInitParamFilter = servletContext.addFilter(
+	// "pageInitParamFilter",
+	// new PageInitParamFilter());
+	// pageInitParamFilter.addMappingForUrlPatterns(disps, true,
+	// ApplicationProperties.getAdminPath("/*"));
+	// pageInitParamFilter.setAsyncSupported(true);
+	// }
 
 	@Bean
 	public CorsFilter corsFilter() {
@@ -184,43 +175,46 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
 		return new CorsFilter(source);
 	}
 
-//    @Bean
-//    public FilterRegistrationBean testFilterRegistration() {
-//
-//        FilterRegistrationBean registration = new FilterRegistrationBean();
-//        registration.setFilter(new SimpleCORSFilter());
-//        registration.addUrlPatterns("/*");
-//        registration.setName("simpleCORSFilter");
-//        registration.setOrder(0);
-//        return registration;
-//    }
+	// @Bean
+	// public FilterRegistrationBean testFilterRegistration() {
+	//
+	// FilterRegistrationBean registration = new FilterRegistrationBean();
+	// registration.setFilter(new SimpleCORSFilter());
+	// registration.addUrlPatterns("/*");
+	// registration.setName("simpleCORSFilter");
+	// registration.setOrder(0);
+	// return registration;
+	// }
 
-//    @Bean
-//    public FilterRegistrationBean corsFilter() {
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        CorsConfiguration config = new CorsConfiguration();
-//        config.setAllowCredentials(true);
-//        // 设置你要允许的网站域名，如果全允许则设为 *
-//        config.addAllowedOrigin("*");
-//        // 如果要限制 HEADER 或 METHOD 请自行更改
-//        config.addAllowedHeader("*");
-//        config.addAllowedMethod("*");
-//        source.registerCorsConfiguration("/**", config);
-//        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
-//        // 这个顺序很重要哦，为避免麻烦请设置在最前
-//        bean.setOrder(0);
-//        return bean;
-//    }
+	// @Bean
+	// public FilterRegistrationBean corsFilter() {
+	// UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	// CorsConfiguration config = new CorsConfiguration();
+	// config.setAllowCredentials(true);
+	// // 设置你要允许的网站域名，如果全允许则设为 *
+	// config.addAllowedOrigin("*");
+	// // 如果要限制 HEADER 或 METHOD 请自行更改
+	// config.addAllowedHeader("*");
+	// config.addAllowedMethod("*");
+	// source.registerCorsConfiguration("/**", config);
+	// FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+	// // 这个顺序很重要哦，为避免麻烦请设置在最前
+	// bean.setOrder(0);
+	// return bean;
+	// }
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		String pathUtl = "file:" + ApplicationConfig.getUploadPath().replace("\\", "/");
-		registry.addResourceHandler(applicationProperties.getAdminPath("/asset-file/**")).addResourceLocations(pathUtl).setCachePeriod(0);
+		registry.addResourceHandler(applicationProperties.getAdminPath("/asset-file/**")).addResourceLocations(pathUtl)
+			.setCachePeriod(0);
 	}
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController(StringUtil.SLASH).setViewName(StringUtil.isEmpty(applicationProperties.getDefaultView()) ? "index.html" : applicationProperties.getDefaultView());
+		registry.addViewController(StringUtil.SLASH)
+			.setViewName(StringUtil.isEmpty(applicationProperties.getDefaultView()) ? "index.html"
+				: applicationProperties.getDefaultView());
 		registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
 	}
 

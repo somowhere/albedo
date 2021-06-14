@@ -55,40 +55,51 @@ import javax.validation.constraints.NotNull;
 public class Menu extends TreeEntity<Menu> {
 
 	public static final String TYPE_CATALOG = "0";
+
 	public static final String TYPE_MENU = "1";
+
 	public static final String TYPE_BUTTON = "2";
+
 	public static final String F_SHOW = "show";
+
 	public static final String F_SQL_SHOW = "show";
+
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 菜单权限标识
 	 */
 	private String permission;
+
 	/**
 	 * 图标
 	 */
 	private String icon;
+
 	/**
 	 * VUE页面
 	 */
 	private String component;
+
 	/**
 	 * 菜单类型 （0目录 1菜单 2按钮）
 	 */
 	@NotNull(message = "菜单类型不能为空")
 	@DictType(DictNameConstants.SYS_MENU_TYPE)
 	private String type;
+
 	/**
 	 * 是否缓存
 	 */
 	@DictType(DictNameConstants.SYS_FLAG)
 	private Integer cache = 0;
+
 	/**
 	 * 是否外链
 	 */
 	@DictType(DictNameConstants.SYS_FLAG)
 	private Integer iframe;
+
 	/**
 	 * 是否显示1 是0否
 	 */
@@ -100,6 +111,5 @@ public class Menu extends TreeEntity<Menu> {
 	 * 前端URL
 	 */
 	private String path;
-
 
 }
