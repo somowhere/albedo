@@ -121,7 +121,7 @@ public class ${ClassName}ResourceIntTest {
 	@BeforeEach
 	public void setup() {
 		DEFAULT_API_URL = applicationProperties.getAdminPath("/${urlPrefix}/");
-		MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.openMocks(this);
 		final ${ClassName}Resource ${className}Resource = new ${ClassName}Resource(${className}Service);
 		this.rest${ClassName}MockMvc = MockMvcBuilders.standaloneSetup(${className}Resource)
 			.addPlaceholderValue(TestUtil.ADMIN_PATH, applicationProperties.getAdminPath())

@@ -188,7 +188,7 @@ public class JobResourceIntTest {
 	@BeforeEach
 	public void setup() {
 		DEFAULT_API_URL = applicationProperties.getAdminPath("/quartz/job/");
-		MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.openMocks(this);
 		final JobResource jobResource = new JobResource(jobService);
 		this.restJobMockMvc = MockMvcBuilders.standaloneSetup(jobResource)
 			.addPlaceholderValue(TestUtil.ADMIN_PATH, applicationProperties.getAdminPath())

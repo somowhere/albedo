@@ -133,7 +133,7 @@ public class MenuResourceIntTest {
 	@BeforeEach
 	public void setup() {
 		DEFAULT_API_URL = applicationProperties.getAdminPath("/sys/menu/");
-		MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.openMocks(this);
 		final MenuResource menuResource = new MenuResource(menuService);
 		this.restMenuMockMvc = MockMvcBuilders.standaloneSetup(menuResource)
 			.addPlaceholderValue(TestUtil.ADMIN_PATH, applicationProperties.getAdminPath())

@@ -127,7 +127,7 @@ public class UserResourceIntTest {
 	@BeforeEach
 	public void setup() {
 		DEFAULT_API_URL = applicationProperties.getAdminPath("/sys/user/");
-		MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.openMocks(this);
 		final UserResource userResource = new UserResource(userService);
 		this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
 			.addPlaceholderValue(TestUtil.ADMIN_PATH, applicationProperties.getAdminPath())

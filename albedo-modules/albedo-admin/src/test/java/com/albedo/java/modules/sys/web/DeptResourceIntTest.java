@@ -95,7 +95,7 @@ public class DeptResourceIntTest {
 	@BeforeEach
 	public void setup() {
 		DEFAULT_API_URL = applicationProperties.getAdminPath("/sys/dept/");
-		MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.openMocks(this);
 		final DeptResource deptResource = new DeptResource(deptService);
 		this.restDeptMockMvc = MockMvcBuilders.standaloneSetup(deptResource)
 			.addPlaceholderValue(TestUtil.ADMIN_PATH, applicationProperties.getAdminPath())

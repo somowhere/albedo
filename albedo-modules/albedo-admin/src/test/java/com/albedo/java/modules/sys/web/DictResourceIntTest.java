@@ -117,7 +117,7 @@ public class DictResourceIntTest {
 	@BeforeEach
 	public void setup() {
 		DEFAULT_API_URL = applicationProperties.getAdminPath("/sys/dict/");
-		MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.openMocks(this);
 		final DictResource dictResource = new DictResource(dictService);
 		this.restDictMockMvc = MockMvcBuilders.standaloneSetup(dictResource)
 			.addPlaceholderValue(TestUtil.ADMIN_PATH, applicationProperties.getAdminPath())

@@ -123,7 +123,7 @@ public class RoleResourceIntTest {
 	@BeforeEach
 	public void setup() {
 		DEFAULT_API_URL = applicationProperties.getAdminPath("/sys/role//");
-		MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.openMocks(this);
 		final RoleResource roleResource = new RoleResource(roleService, roleMenuService, userService);
 		this.restRoleMockMvc = MockMvcBuilders.standaloneSetup(roleResource)
 			.addPlaceholderValue(TestUtil.ADMIN_PATH, applicationProperties.getAdminPath())
