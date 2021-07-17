@@ -188,12 +188,12 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	 * @return
 	 */
 	public Integer getDataLength() {
-		String[] ss = StringUtil.split(
+		List<String> ss = StringUtil.split(
 			StringUtil.subBetween(getJdbcType(), StringUtil.BRACKETS_START, StringUtil.BRACKETS_END),
 			StringUtil.SPLIT_DEFAULT);
-		if (ss != null && ss.length == 1) {
+		if (ss != null && ss.size() == 1) {
 			// CommonConstants.TYPE_STRING.equals(getJavaType())){
-			return Integer.parseInt(ss[0]);
+			return Integer.parseInt(ss.get(0));
 		}
 		return 0;
 	}
@@ -286,12 +286,12 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	 * @return
 	 */
 	public String[][] getJavaFieldAttrs() {
-		String[] ss = StringUtil.split(StringUtil.subAfter(getJavaField(), "|", false), "|");
-		String[][] sss = new String[ss.length][2];
+		List<String> ss = StringUtil.split(StringUtil.subAfter(getJavaField(), "|", false), "|");
+		String[][] sss = new String[ss.size()][2];
 		if (ss != null) {
-			for (int i = 0; i < ss.length; i++) {
-				sss[i][0] = ss[i];
-				sss[i][1] = StringUtil.toUnderScoreCase(ss[i]);
+			for (int i = 0; i < ss.size(); i++) {
+				sss[i][0] = ss.get(i);
+				sss[i][1] = StringUtil.toUnderScoreCase(ss.get(i));
 			}
 		}
 		return sss;

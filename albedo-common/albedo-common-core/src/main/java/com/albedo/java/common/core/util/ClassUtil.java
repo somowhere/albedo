@@ -173,12 +173,12 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 	 */
 	public static void invokeSetter(Object obj, String propertyName, Object value) {
 		Object object = obj;
-		String[] names = StringUtil.split(propertyName, StringUtil.DOT);
-		for (int i = 0; i < names.length; i++) {
-			if (i < names.length - 1) {
-				object = ReflectUtil.invoke(object, GETTER_PREFIX + StringUtil.upperFirst(names[i]), value);
+		List<String> names = StringUtil.split(propertyName, StringUtil.DOT);
+		for (int i = 0, size = names.size(); i < size; i++) {
+			if (i < size - 1) {
+				object = ReflectUtil.invoke(object, GETTER_PREFIX + StringUtil.upperFirst(names.get(i)), value);
 			} else {
-				ReflectUtil.invoke(object, SETTER_PREFIX + StringUtil.upperFirst(names[i]), value);
+				ReflectUtil.invoke(object, SETTER_PREFIX + StringUtil.upperFirst(names.get(i)), value);
 			}
 		}
 	}

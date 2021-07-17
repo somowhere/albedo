@@ -16,6 +16,7 @@
 
 package com.albedo.java.common.config;
 
+import cn.hutool.core.map.MapUtil;
 import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
@@ -135,7 +136,7 @@ public class ExtraFieldSerializer extends BeanSerializerBase {
 		List<SelectVo> jobj = codeItemData.get(code);
 		if (jobj == null) {
 			Map<String, List<SelectVo>> selectResultListByCodes = DictUtil.getSelectVoListByCodes(code);
-			if (CollUtil.isNotEmpty(selectResultListByCodes)) {
+			if (MapUtil.isNotEmpty(selectResultListByCodes)) {
 				codeItemData.putAll(selectResultListByCodes);
 			} else {
 				log.warn("can not find code {} dict data ", code);

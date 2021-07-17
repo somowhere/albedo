@@ -148,14 +148,14 @@ public class GenUtil {
 				|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "BIT")
 				|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "DOUBLE")) {
 				// 如果是浮点型
-				String[] ss = StringUtil.split(
+				List<String> ss = StringUtil.split(
 					StringUtil.subBetween(column.getJdbcType(), StringUtil.BRACKETS_START, StringUtil.BRACKETS_END),
 					StringUtil.SPLIT_DEFAULT);
-				if (ss != null && ss.length == 2 && Integer.parseInt(ss[1]) > 0) {
+				if (ss != null && ss.size() == 2 && Integer.parseInt(ss.get(1)) > 0) {
 					column.setJavaType(CommonConstants.TYPE_DOUBLE);
 				}
 				// 如果是整形
-				else if (ss != null && ss.length == 1 && Integer.parseInt(ss[0]) <= 10) {
+				else if (ss != null && ss.size() == 1 && Integer.parseInt(ss.get(0)) <= 10) {
 					column.setJavaType(CommonConstants.TYPE_INTEGER);
 				}
 				// 长整形

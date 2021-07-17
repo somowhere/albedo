@@ -325,9 +325,9 @@ public class StringUtil extends StrUtil {
 	public static String jsGetVal(String objectString) {
 		StringBuilder result = new StringBuilder();
 		StringBuilder val = new StringBuilder();
-		String[] vals = split(objectString, StringUtil.DOT);
-		for (int i = 0; i < vals.length; i++) {
-			val.append(StringUtil.DOT + vals[i]);
+		List<String> vals = split(objectString, StringUtil.DOT);
+		for (int i = 0; i < vals.size(); i++) {
+			val.append(StringUtil.DOT + vals.get(i));
 			result.append("!" + (val.substring(1)) + "?'':");
 		}
 		result.append(val.substring(1));
