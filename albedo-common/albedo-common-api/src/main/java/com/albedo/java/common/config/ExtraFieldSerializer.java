@@ -18,7 +18,6 @@ package com.albedo.java.common.config;
 
 import cn.hutool.core.map.MapUtil;
 import com.albedo.java.common.core.annotation.DictType;
-import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.SelectVo;

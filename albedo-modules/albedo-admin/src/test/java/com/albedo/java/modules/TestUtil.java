@@ -16,7 +16,6 @@
 
 package com.albedo.java.modules;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.CharsetUtil;
