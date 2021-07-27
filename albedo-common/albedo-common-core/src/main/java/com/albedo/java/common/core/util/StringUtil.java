@@ -354,12 +354,11 @@ public class StringUtil extends StrUtil {
 	/**
 	 * 拼接字符串
 	 *
-	 * @param strs
 	 * @return
 	 */
-	public static String toAppendStr(Object... strs) {
+	public static String toAppendStr(Object... strings) {
 		StringBuffer sb = new StringBuffer();
-		for (Object str : strs) {
+		for (Object str : strings) {
 			if (str != null) {
 				sb.append(str);
 			}

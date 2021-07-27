@@ -106,7 +106,7 @@ public class RedisServiceImpl implements RedisService {
 			mapJson.put("data", json);
 			return mapJson;
 		}
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0, size = 5; i < size; i++) {
 			JSONObject jo = new JSONObject();
 			if (ReportSearchType.KEY.equals(reportSearchType)) {
 				jo.put("value", getKeySize());
