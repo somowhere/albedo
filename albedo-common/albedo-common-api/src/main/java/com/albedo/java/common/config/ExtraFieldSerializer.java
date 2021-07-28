@@ -107,9 +107,10 @@ public class ExtraFieldSerializer extends BeanSerializerBase {
 					DictType dictType = prop.getAnnotation(DictType.class);
 					if (dictType != null) {
 						String code = dictType.value();
+						String showText = dictType.showText();
 						String result = getDictVal(code, prop.get(bean));
 						if (result != null) {
-							gen.writeStringField(prop.getName() + "Text", result);
+							gen.writeStringField(StringUtil.isEmpty(showText) ? (prop.getName() + "Text") : showText, result);
 						}
 					}
 					prop.serializeAsField(bean, gen, provider);
