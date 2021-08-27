@@ -38,7 +38,7 @@ public interface TreeService<T extends TreeEntity, D extends TreeDto> extends Da
 	 * @param parentId
 	 * @return
 	 */
-	Integer countByParentId(String parentId);
+	Long countByParentId(String parentId);
 
 	/**
 	 * getTreeWrapper
