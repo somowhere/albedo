@@ -222,12 +222,6 @@
 <!--	</pluginRepositories>-->
 	<profiles>
 		<profile>
-			<id>swagger</id>
-			<properties>
-				<profile.swagger>,swagger</profile.swagger>
-			</properties>
-		</profile>
-		<profile>
 			<id>dev</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
@@ -236,7 +230,7 @@
 				<!-- log configuration -->
 				<logback.loglevel>${profile.dev.log.level}</logback.loglevel>
 				<!-- default Spring profiles -->
-				<spring.profiles.active>dev</spring.profiles.active>
+				<mvn.spring.profiles.active>dev</mvn.spring.profiles.active>
 			</properties>
 		</profile>
 		<profile>
@@ -245,7 +239,7 @@
 				<!-- log configuration -->
 				<logback.loglevel>${profile.prod.log.level}</logback.loglevel>
 				<!-- default Spring profiles -->
-				<spring.profiles.active>prod</spring.profiles.active>
+				<mvn.spring.profiles.active>prod</mvn.spring.profiles.active>
 			</properties>
 		</profile>
 	</profiles>

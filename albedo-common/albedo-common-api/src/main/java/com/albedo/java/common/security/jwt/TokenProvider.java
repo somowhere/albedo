@@ -17,6 +17,7 @@
 package com.albedo.java.common.security.jwt;
 
 import com.albedo.java.common.core.config.ApplicationProperties;
+import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.security.service.UserDetail;
 import io.jsonwebtoken.*;
@@ -24,6 +25,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -43,6 +45,7 @@ import java.util.UUID;
  * @date 2020/5/31 16:19
  */
 @Component
+@Profile(CommonConstants.SPRING_PROFILE_JWT)
 public class TokenProvider {
 
 	private static final String EXPIRATION = "expiration";

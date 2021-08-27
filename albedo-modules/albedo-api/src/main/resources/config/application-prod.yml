@@ -6,11 +6,6 @@ server:
   port: 4001
 
 spring:
-  config:
-    activate:
-      on-profile:
-        - swagger
-  #      - jwt
   redis:
     host: albedo-redis
   datasource:

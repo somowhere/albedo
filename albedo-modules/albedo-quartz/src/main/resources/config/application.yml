@@ -28,7 +28,7 @@ spring:
   session:
     store-type: redis
   profiles:
-    active: ${spring.profiles.active}
+    active: ${mvn.spring.profiles.active}
 
 # mybaits-plus配置
 mybatis-plus:
@@ -49,13 +49,14 @@ mybatis-plus:
 # ===================================================================
 
 application:
-  adminPath: /a
+  adminPath: /quartz
+  version: @project.release.version@
   address-enabled: true
   logPath: logs
   static-file-directory:
-    mac: ~/albedo-file
-    linux: /home/albedo/file/
-    win: C:\albedo\file\
+    mac: ~/albedo/quartz-file
+    linux: /home/albedo/quartz-file/
+    win: C:\albedo\quartz-file\
   cors: #By default CORS are not enabled. Uncomment to enable.
     allowed-origins: "*"
     allowed-methods: "*"

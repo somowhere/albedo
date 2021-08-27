@@ -41,6 +41,7 @@ import java.util.List;
 public class ApplicationProperties {
 
 	private String adminPath = "/a";
+	private String version;
 
 	private String defaultView;
 

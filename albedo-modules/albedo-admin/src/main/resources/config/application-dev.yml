@@ -9,11 +9,6 @@ server:
       timeout: 30m
 
 spring:
-  config:
-    activate:
-      on-profile:
-        - swagger
-  #      - jwt
   redis:
     host: localhost
   datasource:

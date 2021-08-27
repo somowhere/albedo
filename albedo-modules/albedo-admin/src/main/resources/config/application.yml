@@ -16,7 +16,6 @@ management:
   metrics:
     enabled: false # http://micrometer.io/ is disabled by default, as we use http://metrics.dropwizard.io/ instead
 
-
 # 加解密根密码
 jasypt:
   encryptor:
@@ -28,7 +27,7 @@ spring:
   session:
     store-type: redis
   profiles:
-    active: ${spring.profiles.active}
+    active: ${mvn.spring.profiles.active}
   servlet:
     multipart:
       max-file-size: "100MB"
@@ -53,12 +52,13 @@ mybatis-plus:
 
 application:
   adminPath: /a
+  version: @project.release.version@
   address-enabled: true
   logPath: logs
   static-file-directory:
-    mac: ~/albedo-file
-    linux: /home/albedo/file/
-    win: C:\albedo\file\
+    mac: ~/albedo/admin-file
+    linux: /home/albedo/admin-file/
+    win: C:\albedo\admin-file\
   cors: #By default CORS are not enabled. Uncomment to enable.
     allowed-origins-pattern: "*"
     allowed-methods: "*"
