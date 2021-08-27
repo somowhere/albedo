@@ -115,7 +115,6 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 	 * @param <T>
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public static <T> T createObj(Class<T> cls, List<String> fields, Object... value) {
 		Object obj = null;
 		try {
@@ -134,7 +133,6 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 	 * @param value
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public static <T> T updateObj(Object obj, List<String> fields, Object... value) {
 		try {
 			if (obj != null) {

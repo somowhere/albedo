@@ -25,7 +25,7 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 
 /**
- * bean中文名注解
+ * bean 字典注解，生成value在字典中对应名称
  *
  * @author somewhere
  */
@@ -38,5 +38,10 @@ public @interface DictType {
 	 * 如果是字典类型，请设置字典的name值
 	 */
 	String value() default "";
+
+	/**
+	 * 生成对应属性的名称 默认空则为原有 Field + "Text"
+	 */
+	String showText() default "";
 
 }

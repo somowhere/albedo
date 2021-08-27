@@ -95,10 +95,9 @@ public class ScheduleReceiver implements MessageListener {
 		if (log.isDebugEnabled()) {
 			log.debug("receiveMessage===>" + message);
 		}
-		Lock lock = null;
+		Lock lock = redissonClient.getLock(DEFAULT_QUARTZ_REGISTRY_KEY);
+		lock.lock();
 		try {
-			lock = redissonClient.getLock(DEFAULT_QUARTZ_REGISTRY_KEY);
-			lock.lock();
 			ScheduleVo scheduleVo = (ScheduleVo) serializer.deserialize(message.getBody());
 			if (log.isDebugEnabled()) {
 				log.debug("receiveMessage scheduleVo===>" + scheduleVo);
@@ -133,9 +132,7 @@ public class ScheduleReceiver implements MessageListener {
 		} catch (Exception e) {
 			log.warn("error message type {}", e);
 		} finally {
-			if (lock != null) {
-				lock.unlock();
-			}
+			lock.unlock();
 		}
 	}
 
