@@ -23,11 +23,9 @@ import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.DefaultProfileUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.security.filter.CachingHttpHeadersFilter;
-import io.undertow.UndertowOptions;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory;
 import org.springframework.boot.web.server.MimeMappings;
 import org.springframework.boot.web.server.WebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
@@ -93,17 +91,6 @@ public class WebConfigurer
 		// of the static web assets.
 		setLocationForStaticAssets(server);
 
-		/*
-		 * Enable HTTP/2 for Undertow -
-		 * https://twitter.com/ankinson/status/829256167700492288 HTTP/2 requires HTTPS,
-		 * so HTTP requests will fallback to HTTP/1.1. See the ApplicationProperties class
-		 * and your application-*.yml configuration files for more information.
-		 */
-		if (applicationProperties.getHttp().getVersion().equals(ApplicationProperties.Http.Version.V_2_0)
-			&& server instanceof UndertowServletWebServerFactory) {
-			((UndertowServletWebServerFactory) server)
-				.addBuilderCustomizers(builder -> builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true));
-		}
 
 	}
 
