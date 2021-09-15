@@ -31,7 +31,7 @@
 	<properties>
 		<jjwt.version>0.11.2</jjwt.version>
 		<mail.version>1.5.0-b01</mail.version>
-		<alipay.version>4.16.11.ALL</alipay.version>
+		<alipay.version>4.16.38.ALL</alipay.version>
 	</properties>
 
 	<dependencies>

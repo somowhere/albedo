@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Service基类
  *
- * @author ThinkGem
+ * @author somewhere
  * @version 2014-05-16
  */
 @Transactional(rollbackFor = Exception.class)
