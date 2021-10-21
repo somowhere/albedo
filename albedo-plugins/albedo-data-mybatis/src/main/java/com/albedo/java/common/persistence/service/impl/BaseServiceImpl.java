@@ -19,6 +19,7 @@ package com.albedo.java.common.persistence.service.impl;
 import com.albedo.java.common.persistence.repository.BaseRepository;
 import com.albedo.java.common.persistence.service.BaseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,9 +33,16 @@ import org.springframework.transaction.annotation.Transactional;
 public abstract class BaseServiceImpl<Repository extends BaseRepository<T>, T> extends ServiceImpl<Repository, T>
 	implements BaseService<T> {
 
-	public final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(getClass());
-
 	@Autowired
 	public Repository repository;
 
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean updateAllById(T model) {
+		return SqlHelper.retBool(repository.updateAllById(model));
+	}
+
+	public Repository getRepository() {
+		return repository;
+	}
 }

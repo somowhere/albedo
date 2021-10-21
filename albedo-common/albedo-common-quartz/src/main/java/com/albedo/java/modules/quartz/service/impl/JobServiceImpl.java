@@ -18,7 +18,7 @@ package com.albedo.java.modules.quartz.service.impl;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.ScheduleConstants;
-import com.albedo.java.common.core.exception.RuntimeMsgException;
+import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.Json;
 import com.albedo.java.common.core.vo.ScheduleVo;
 import com.albedo.java.common.persistence.service.impl.DataServiceImpl;
@@ -42,7 +42,7 @@ import java.util.Set;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, String> implements JobService {
+public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto> implements JobService {
 
 	/**
 	 * 暂停任务
@@ -168,7 +168,7 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto, 
 			}
 			return true;
 		} catch (Exception e) {
-			throw new RuntimeMsgException(e);
+			throw new BizException(e);
 		}
 	}
 

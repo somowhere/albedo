@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.gen.service;
 
-import com.albedo.java.common.persistence.service.DataService;
+import com.albedo.java.common.persistence.service.DataCacheService;
 import com.albedo.java.modules.gen.domain.TableColumn;
 import com.albedo.java.modules.gen.domain.dto.TableColumnDto;
 
@@ -25,7 +25,7 @@ import com.albedo.java.modules.gen.domain.dto.TableColumnDto;
  * @description
  * @date 2020/5/30 11:25 下午
  */
-public interface TableColumnService extends DataService<TableColumn, TableColumnDto, String> {
+public interface TableColumnService extends DataCacheService<TableColumn, TableColumnDto> {
 
 	/**
 	 * deleteByTableId

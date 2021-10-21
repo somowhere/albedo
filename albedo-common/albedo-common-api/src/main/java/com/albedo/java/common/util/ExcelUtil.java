@@ -25,7 +25,7 @@ import com.albedo.java.common.core.annotation.ExcelField.ColumnType;
 import com.albedo.java.common.core.annotation.ExcelField.Type;
 import com.albedo.java.common.core.annotation.ExcelFields;
 import com.albedo.java.common.core.config.ApplicationConfig;
-import com.albedo.java.common.core.exception.RuntimeMsgException;
+import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.ClassUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
@@ -370,7 +370,7 @@ public class ExcelUtil<T> {
 			wb.write(out);
 		} catch (Exception e) {
 			log.error("导出Excel异常{}", e.getMessage());
-			throw new RuntimeMsgException("导出Excel失败，请联系网站管理员！");
+			throw new BizException("导出Excel失败，请联系网站管理员！");
 		} finally {
 			if (wb != null) {
 				try {

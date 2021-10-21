@@ -17,7 +17,7 @@
 package com.albedo.java.common.core.aspect;
 
 import com.albedo.java.common.core.annotation.Limit;
-import com.albedo.java.common.core.exception.BadRequestException;
+import com.albedo.java.common.core.exception.ArgumentException;
 import com.albedo.java.common.core.util.RequestHolder;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.WebUtil;
@@ -82,7 +82,7 @@ public class LimitAspect {
 			logger.info("第{}次访问key为 {}，描述为 [{}] 的接口", count, keys, limit.name());
 			return joinPoint.proceed();
 		} else {
-			throw new BadRequestException("访问次数受限制");
+			throw new ArgumentException("访问次数受限制");
 		}
 	}
 

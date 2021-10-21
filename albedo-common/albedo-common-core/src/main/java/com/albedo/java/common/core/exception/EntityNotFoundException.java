@@ -16,20 +16,25 @@
 
 package com.albedo.java.common.core.exception;
 
+import com.albedo.java.common.core.exception.code.ResponseCode;
 import org.springframework.util.StringUtils;
 
 /**
  * @author somewhere
  * @date 2018-11-23
  */
-public class EntityNotFoundException extends RuntimeException {
+public class EntityNotFoundException extends BaseUncheckedException {
 
 	public EntityNotFoundException(Class clazz, String field, String val) {
-		super(EntityNotFoundException.generateMessage(clazz.getSimpleName(), field, val));
+		super(ResponseCode.ILLEGAL_ARGUMENT_EX.getCode(), EntityNotFoundException.generateMessage(clazz.getSimpleName(), field, val));
 	}
 
 	private static String generateMessage(String entity, String field, String val) {
 		return StringUtils.capitalize(entity) + " with " + field + " " + val + " does not exist";
 	}
 
+	@Override
+	public String toString() {
+		return "EntityNotFoundException [message=" + getMessage() + ", errorCode=" + getErrorCode() + "]";
+	}
 }

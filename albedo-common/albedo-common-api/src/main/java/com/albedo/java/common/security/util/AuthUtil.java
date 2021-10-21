@@ -33,13 +33,17 @@
 package com.albedo.java.common.security.util;
 
 import cn.hutool.core.codec.Base64;
+import com.albedo.java.common.security.service.CustomSimpleGrantedAuthority;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author somewhere
@@ -92,6 +96,19 @@ public class AuthUtil {
 		}
 
 		return extractAndDecodeHeader(header);
+	}
+
+	public static List<GrantedAuthority> createAuthorityList(String... authorities) {
+		List<GrantedAuthority> grantedAuthorities = new ArrayList(authorities.length);
+		String[] var2 = authorities;
+		int var3 = authorities.length;
+
+		for (int var4 = 0; var4 < var3; ++var4) {
+			String authority = var2[var4];
+			grantedAuthorities.add(new CustomSimpleGrantedAuthority(authority));
+		}
+
+		return grantedAuthorities;
 	}
 
 }

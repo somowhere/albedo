@@ -28,7 +28,7 @@ import java.util.Set;
  * @author admin
  * @version 2019-08-14 11:24:16
  */
-public interface JobService extends DataService<Job, JobDto, String> {
+public interface JobService extends DataService<Job, JobDto> {
 
 	/**
 	 * 暂停任务

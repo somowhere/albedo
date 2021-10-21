@@ -18,6 +18,7 @@ package com.albedo.java.modules.sys.domain.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -27,6 +28,7 @@ import java.io.Serializable;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class MenuMetaVo implements Serializable {
 
 	private String title;

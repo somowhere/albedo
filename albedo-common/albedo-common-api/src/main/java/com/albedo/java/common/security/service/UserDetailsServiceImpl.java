@@ -37,6 +37,7 @@ import cn.hutool.core.util.ArrayUtil;
 import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.persistence.datascope.DataScope;
+import com.albedo.java.common.security.util.AuthUtil;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.vo.UserInfo;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
@@ -47,7 +48,6 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -111,8 +111,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			dbAuthsSet.addAll(Arrays.asList(userInfo.getPermissions()));
 
 		}
-		Collection<? extends GrantedAuthority> authorities = AuthorityUtils
-			.createAuthorityList(dbAuthsSet.toArray(new String[0]));
+		Collection<? extends GrantedAuthority> authorities = AuthUtil.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 		UserVo userVo = userInfo.getUser();
 		DataScope dataScope = new DataScope();
 		if (CollUtil.isNotEmpty(userVo.getRoleList())) {

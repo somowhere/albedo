@@ -16,7 +16,13 @@
 
 package com.albedo.java.common.persistence.service;
 
+import com.albedo.java.common.core.exception.BizException;
+import com.albedo.java.common.core.exception.code.ResponseCode;
+import com.albedo.java.common.persistence.repository.BaseRepository;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+
+import java.util.List;
 
 /**
  * @author somewhere
@@ -24,5 +30,39 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @date 2020/5/31 17:42
  */
 public interface BaseService<T> extends IService<T> {
+	/**
+	 * 获取实体的类型
+	 *
+	 * @return
+	 */
+	@Override
+	Class<T> getEntityClass();
 
+	/**
+	 * 批量保存数据
+	 * <p>
+	 * 注意：该方法仅仅测试过mysql
+	 *
+	 * @param entityList
+	 * @return
+	 */
+	default boolean saveBatchSomeColumn(List<T> entityList) {
+		if (entityList.isEmpty()) {
+			return true;
+		}
+		if (entityList.size() > 5000) {
+			throw BizException.wrap(ResponseCode.TOO_MUCH_DATA_ERROR);
+		}
+		return SqlHelper.retBool(((BaseRepository) getBaseMapper()).insertBatchSomeColumn(entityList));
+	}
+
+	/**
+	 * 根据id修改 entity 的所有字段
+	 *
+	 * @param entity
+	 * @return
+	 */
+	boolean updateAllById(T entity);
+
+	BaseRepository<T> getRepository();
 }

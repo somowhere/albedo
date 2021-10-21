@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>com.albedo.java</groupId>
 		<artifactId>albedo-common</artifactId>
-		<version>3.1.1-SNAPSHOT</version>
+		<version>3.1.2-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>albedo-common-core</artifactId>
@@ -124,6 +124,11 @@
 			<groupId>com.pig4cloud.plugin</groupId>
 			<artifactId>captcha-spring-boot-starter</artifactId>
 			<version>${captcha.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>transmittable-thread-local</artifactId>
+			<version>${transmittable-thread-local.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>

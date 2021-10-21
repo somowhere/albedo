@@ -16,12 +16,14 @@
 
 package com.albedo.java.modules.gen.service.impl;
 
+import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.FreeMarkers;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.data.util.QueryWrapperUtil;
-import com.albedo.java.common.persistence.service.impl.DataServiceImpl;
+import com.albedo.java.common.persistence.service.impl.DataCacheServiceImpl;
+import com.albedo.java.modules.gen.cache.SchemeCacheKeyBuilder;
 import com.albedo.java.modules.gen.domain.Scheme;
 import com.albedo.java.modules.gen.domain.Table;
 import com.albedo.java.modules.gen.domain.TableColumn;
@@ -59,7 +61,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class SchemeServiceImpl extends DataServiceImpl<SchemeRepository, Scheme, SchemeDto, String>
+public class SchemeServiceImpl extends DataCacheServiceImpl<SchemeRepository, Scheme, SchemeDto>
 	implements SchemeService {
 
 	private final TableRepository tableRepository;
@@ -67,6 +69,11 @@ public class SchemeServiceImpl extends DataServiceImpl<SchemeRepository, Scheme,
 	private final TableService tableService;
 
 	private final TableColumnService tableColumnService;
+
+	@Override
+	protected CacheKeyBuilder cacheKeyBuilder() {
+		return new SchemeCacheKeyBuilder();
+	}
 
 	@Override
 	public List<Scheme> findAllListIdNot(String id) {

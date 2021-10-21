@@ -76,8 +76,7 @@ public class UserResource extends BaseResource {
 	private final UserService userService;
 
 	/**
-	 * @param id
-	 * @return
+	 * @param id &allowPublicKeyRetrieval=true * @return
 	 */
 	@GetMapping(CommonConstants.URL_ID_REGEX)
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")

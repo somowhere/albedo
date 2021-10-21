@@ -18,6 +18,7 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.exception.code.ResponseCode;
 import com.albedo.java.common.core.exception.handler.GlobalExceptionHandler;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.modules.AlbedoAdminApplication;
@@ -230,7 +231,7 @@ public class MenuResourceIntTest {
 		restMenuMockMvc
 			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(managedMenuVM)))
-			.andExpect(status().isOk()).andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
+			.andExpect(status().isOk()).andExpect(jsonPath("$.code").value(ResponseCode.FAIL.getCode()))
 			.andExpect(jsonPath("$.message").isNotEmpty());
 
 		// Validate the Menu in the database
@@ -366,7 +367,7 @@ public class MenuResourceIntTest {
 		restMenuMockMvc
 			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(managedMenuVM)))
-			.andExpect(status().isOk()).andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
+			.andExpect(status().isOk()).andExpect(jsonPath("$.code").value(ResponseCode.FAIL.getCode()))
 			.andExpect(jsonPath("$.message").isNotEmpty());
 
 		// Update the menu

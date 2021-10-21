@@ -39,6 +39,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * @author somewhere
@@ -97,6 +98,11 @@ public class UserDetail extends User {
 		this.deptId = deptId;
 		this.deptName = deptName;
 		this.dataScope = dataScope;
+	}
+
+	public UserDetail() {
+		super("NA", "NA", Collections.emptyList());
+
 	}
 
 }

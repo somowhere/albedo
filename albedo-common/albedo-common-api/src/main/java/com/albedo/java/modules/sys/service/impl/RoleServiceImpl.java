@@ -34,7 +34,7 @@ package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.exception.BadRequestException;
+import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.persistence.service.impl.DataServiceImpl;
@@ -74,7 +74,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 @CacheConfig(cacheNames = CacheNameConstants.ROLE_DETAILS)
-public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleDto, String> implements RoleService {
+public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleDto> implements RoleService {
 
 	private UserRepository userRepository;
 
@@ -82,7 +82,6 @@ public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleD
 
 	private RoleDeptService roleDeptService;
 
-	@Override
 	public RoleDto getOneDto(String id) {
 		RoleDto oneVo = super.getOneDto(id);
 		oneVo.setMenuIdList(roleMenuService.list(Wrappers.<RoleMenu>query().lambda().eq(RoleMenu::getRoleId, id))
@@ -132,7 +131,7 @@ public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleD
 	public void verification(Set<String> ids) {
 		List<User> userList = userRepository.findListByRoleIds(ids);
 		if (CollUtil.isNotEmpty(userList)) {
-			throw new BadRequestException("所选角色存在用户关联，请解除关联再试！");
+			throw new BizException("所选角色存在用户关联，请解除关联再试！");
 		}
 	}
 
@@ -186,7 +185,7 @@ public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleD
 		List<Integer> levels = this.findListByUserId(SecurityUtil.getUser().getId()).stream().map(Role::getLevel)
 			.collect(Collectors.toList());
 		if (CollUtil.isEmpty(levels)) {
-			throw new BadRequestException("权限不足，找不到可用的角色信息");
+			throw new BizException("权限不足，找不到可用的角色信息");
 		}
 		int min = Collections.min(levels);
 		return min;

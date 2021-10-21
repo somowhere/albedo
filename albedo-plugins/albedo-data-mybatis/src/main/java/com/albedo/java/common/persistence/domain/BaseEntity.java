@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * Entity支持类
  *
- * @author lj
+ * @author somewhere
  * @version 2014-05-16
  */
 public abstract class BaseEntity<T extends GeneralEntity<T>> extends GeneralEntity<T> {

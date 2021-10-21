@@ -16,12 +16,14 @@
 
 package com.albedo.java.common.core.exception;
 
+import com.albedo.java.common.core.exception.code.ResponseCode;
+
 /**
  * 计划策略异常
  *
  * @author somewhere
  */
-public class TaskException extends Exception {
+public class TaskException extends BaseUncheckedException {
 
 	private static final long serialVersionUID = 1L;
 
@@ -32,12 +34,17 @@ public class TaskException extends Exception {
 	}
 
 	public TaskException(String msg, Code code, Exception nestedEx) {
-		super(msg, nestedEx);
+		super(ResponseCode.FAIL.getCode(), msg, nestedEx);
 		this.code = code;
 	}
 
 	public Code getCode() {
 		return code;
+	}
+
+	@Override
+	public String toString() {
+		return "TaskException [message=" + getMessage() + ", errorCode=" + getErrorCode() + "]";
 	}
 
 	public enum Code {

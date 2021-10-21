@@ -102,6 +102,9 @@
             <el-form-item label="登录地点">
               <span>{{ props.row.ipLocation }}</span>
             </el-form-item>
+            <el-form-item label="描述">
+              <span>{{ props.row.description }}</span>
+            </el-form-item>
           </el-form>
         </template>
       </el-table-column>

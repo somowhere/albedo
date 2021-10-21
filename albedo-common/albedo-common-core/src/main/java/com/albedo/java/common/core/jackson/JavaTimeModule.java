@@ -32,7 +32,10 @@
 package com.albedo.java.common.core.jackson;
 
 import cn.hutool.core.date.DatePattern;
+import com.albedo.java.common.core.annotation.BaseEnum;
+import com.albedo.java.common.core.converter.EnumSerializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.PackageVersion;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -41,6 +44,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -69,6 +74,11 @@ public class JavaTimeModule extends SimpleModule {
 			new LocalDateDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATE_PATTERN)));
 		this.addDeserializer(LocalTime.class,
 			new LocalTimeDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_TIME_PATTERN)));
+		this.addSerializer(Long.class, ToStringSerializer.instance);
+		this.addSerializer(Long.TYPE, ToStringSerializer.instance);
+		this.addSerializer(BigInteger.class, ToStringSerializer.instance);
+		this.addSerializer(BigDecimal.class, ToStringSerializer.instance);
+		this.addSerializer(BaseEnum.class, EnumSerializer.INSTANCE);
 	}
 
 }

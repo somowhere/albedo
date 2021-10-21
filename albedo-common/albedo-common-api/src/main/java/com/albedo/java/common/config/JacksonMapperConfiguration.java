@@ -70,9 +70,11 @@ public class JacksonMapperConfiguration {
 		objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
 		// 反序列化时，属性不存在的兼容处理s
 		objectMapper.getDeserializationConfig().withoutFeatures(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+
 		// 日期格式化
 		objectMapper.registerModule(new JavaTimeModule());
 		objectMapper.findAndRegisterModules();
+
 		return objectMapper;
 	}
 

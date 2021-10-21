@@ -42,7 +42,7 @@ import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
 import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.exception.BadRequestException;
+import com.albedo.java.common.core.exception.ArgumentException;
 import com.albedo.java.common.core.util.EncryptUtil;
 import com.albedo.java.common.persistence.service.impl.BaseServiceImpl;
 import com.albedo.java.common.util.RedisUtil;
@@ -95,7 +95,7 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, Ema
 	@Transactional(rollbackFor = Exception.class)
 	public void send(EmailVo emailVo, EmailConfig emailConfig) {
 		if (emailConfig == null || emailConfig.getId() == null) {
-			throw new BadRequestException("请先配置，再操作");
+			throw new ArgumentException("请先配置，再操作");
 		}
 		// 封装
 		MailAccount account = new MailAccount();
@@ -106,7 +106,7 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, Ema
 			// 对称解密
 			account.setPass(EncryptUtil.desDecrypt(emailConfig.getPass()));
 		} catch (Exception e) {
-			throw new BadRequestException(e.getMessage());
+			throw new ArgumentException(e.getMessage());
 		}
 		account.setFrom(emailConfig.getUser() + "<" + emailConfig.getFromUser() + ">");
 		// ssl方式发送
@@ -122,7 +122,7 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, Ema
 				// 关闭session
 				.setUseGlobalSession(false).send();
 		} catch (Exception e) {
-			throw new BadRequestException(e.getMessage());
+			throw new ArgumentException(e.getMessage());
 		}
 	}
 
@@ -157,7 +157,7 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, Ema
 	public void validated(String key, String code) {
 		Object value = RedisUtil.getCacheString(key);
 		if (value == null || !value.toString().equals(code)) {
-			throw new BadRequestException("无效验证码");
+			throw new ArgumentException("无效验证码");
 		} else {
 			RedisUtil.delete(key);
 		}

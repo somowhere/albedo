@@ -33,6 +33,7 @@
 package com.albedo.java.common.log.aspect;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
+import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.log.enums.LogType;
@@ -77,7 +78,7 @@ public class SysLogAspect {
 		LogOperate logOperateVo = SysLogUtils.getSysLog();
 		logOperateVo.setTitle(logOperate.value());
 		logOperateVo.setMethod(methodName);
-		logOperateVo.setParams(params.toString() + " }");
+		logOperateVo.setParams(params + " }");
 		logOperateVo.setOperatorType(logOperate.operatorType().name());
 		Long startTime = System.currentTimeMillis();
 		Object obj;
@@ -85,8 +86,13 @@ public class SysLogAspect {
 			obj = point.proceed();
 			logOperateVo.setLogType(LogType.INFO.name());
 		} catch (Exception e) {
-			logOperateVo.setException(ExceptionUtil.stacktraceToString(e));
-			logOperateVo.setLogType(LogType.ERROR.name());
+			logOperateVo.setDescription(e.getMessage());
+			if (e instanceof BizException) {
+				logOperateVo.setLogType(LogType.WARN.name());
+			} else {
+				logOperateVo.setException(ExceptionUtil.stacktraceToString(e));
+				logOperateVo.setLogType(LogType.ERROR.name());
+			}
 			throw e;
 		} finally {
 			saveLog(System.currentTimeMillis() - startTime, logOperateVo, logOperate);

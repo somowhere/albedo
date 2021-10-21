@@ -33,12 +33,12 @@
 package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.core.constant.CacheNameConstants;
+import com.albedo.java.common.persistence.service.impl.BaseServiceImpl;
 import com.albedo.java.modules.sys.domain.RoleMenu;
 import com.albedo.java.modules.sys.domain.dto.RoleMenuDto;
 import com.albedo.java.modules.sys.repository.RoleMenuRepository;
 import com.albedo.java.modules.sys.service.RoleMenuService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -57,7 +57,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuRepository, RoleMenu> implements RoleMenuService {
+public class RoleMenuServiceImpl extends BaseServiceImpl<RoleMenuRepository, RoleMenu> implements RoleMenuService {
 
 	/**
 	 * @param roleMenuDto 角色菜单

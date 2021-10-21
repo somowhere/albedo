@@ -16,7 +16,9 @@
 
 package com.albedo.java.modules.gen.service.impl;
 
-import com.albedo.java.common.persistence.service.impl.DataServiceImpl;
+import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
+import com.albedo.java.common.persistence.service.impl.DataCacheServiceImpl;
+import com.albedo.java.modules.gen.cache.TableColumnCacheKeyBuilder;
 import com.albedo.java.modules.gen.domain.TableColumn;
 import com.albedo.java.modules.gen.domain.dto.TableColumnDto;
 import com.albedo.java.modules.gen.repository.TableColumnRepository;
@@ -34,8 +36,13 @@ import java.util.stream.Collectors;
  * @author somewhere
  */
 @Service
-public class TableColumnServiceImpl extends DataServiceImpl<TableColumnRepository, TableColumn, TableColumnDto, String>
+public class TableColumnServiceImpl extends DataCacheServiceImpl<TableColumnRepository, TableColumn, TableColumnDto>
 	implements TableColumnService {
+
+	@Override
+	protected CacheKeyBuilder cacheKeyBuilder() {
+		return new TableColumnCacheKeyBuilder();
+	}
 
 	List<TableColumn> findAllByGenTableIdOrderBySort(String id) {
 		return list(Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID, id).orderByAsc(TableColumn.F_SORT));

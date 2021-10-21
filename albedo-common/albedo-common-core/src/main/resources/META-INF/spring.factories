@@ -1,6 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.albedo.java.common.core.config.JacksonConfig,\
-  com.albedo.java.common.core.config.RedisConfig,\
   com.albedo.java.common.core.config.RestTemplateConfig,\
   com.albedo.java.common.core.config.ApplicationProperties,\
   com.albedo.java.common.core.config.FilterIgnoreProperties,\

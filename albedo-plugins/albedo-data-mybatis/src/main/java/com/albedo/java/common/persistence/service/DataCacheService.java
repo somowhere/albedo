@@ -14,33 +14,34 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.core.exception;
+package com.albedo.java.common.persistence.service;
 
-import lombok.NoArgsConstructor;
+import com.albedo.java.common.core.vo.DataDto;
+import com.albedo.java.common.persistence.domain.BaseDataEntity;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.Serializable;
 
 /**
  * @author somewhere
- * @date 😴2019年06月02日16:21:57
+ * @description
+ * @date 2020/5/31 17:07
  */
-@NoArgsConstructor
-public class RuntimeMsgException extends RuntimeException {
+public interface DataCacheService<T extends BaseDataEntity, D extends DataDto>
+	extends DataService<T, D>, CacheService<T> {
 
-	private static final long serialVersionUID = 1L;
-
-	public RuntimeMsgException(String message) {
-		super(message);
-	}
-
-	public RuntimeMsgException(Throwable cause) {
-		super(cause);
-	}
-
-	public RuntimeMsgException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public RuntimeMsgException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
+	/**
+	 * getOneDto
+	 *
+	 * @param id
+	 * @return D
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:33
+	 */
+	@Override
+	@Transactional(readOnly = true, rollbackFor = Exception.class)
+	default D getOneDto(Serializable id) {
+		return copyBeanToDto(getByIdCache(id));
 	}
 
 }

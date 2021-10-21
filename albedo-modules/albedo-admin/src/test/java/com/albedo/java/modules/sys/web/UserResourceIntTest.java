@@ -18,6 +18,7 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.exception.code.ResponseCode;
 import com.albedo.java.common.core.exception.handler.GlobalExceptionHandler;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.vo.PageModel;
@@ -203,7 +204,7 @@ public class UserResourceIntTest {
 		restUserMockMvc
 			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
-			.andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
+			.andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value(ResponseCode.FAIL.getCode()))
 			.andExpect(jsonPath("$.message").isNotEmpty());
 
 		// Validate the User in the database
@@ -312,7 +313,7 @@ public class UserResourceIntTest {
 		restUserMockMvc
 			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
-			.andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
+			.andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value(ResponseCode.FAIL.getCode()))
 			.andExpect(jsonPath("$.message").isNotEmpty());
 		User testUser = userService.getById(updatedUser.getId());
 		assertThat(testUser.getEmail()).isEqualTo(DEFAULT_EMAIL);
@@ -333,7 +334,7 @@ public class UserResourceIntTest {
 		restUserMockMvc
 			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
-			.andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value(CommonConstants.FAIL))
+			.andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value(ResponseCode.FAIL.getCode()))
 			.andExpect(jsonPath("$.message").isNotEmpty());
 		User testUser = userService.getById(updatedUser.getId());
 		assertThat(testUser.getUsername()).isEqualTo(DEFAULT_USERNAME);

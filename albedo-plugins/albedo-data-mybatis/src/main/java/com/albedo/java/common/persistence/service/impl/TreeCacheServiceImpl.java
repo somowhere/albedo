@@ -14,29 +14,22 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.core.exception;
+package com.albedo.java.common.persistence.service.impl;
 
-import lombok.Getter;
-import org.springframework.http.HttpStatus;
-
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import com.albedo.java.common.core.vo.TreeDto;
+import com.albedo.java.common.persistence.domain.TreeEntity;
+import com.albedo.java.common.persistence.repository.TreeRepository;
+import com.albedo.java.common.persistence.service.TreeService;
+import lombok.Data;
 
 /**
+ * @param <Repository>
+ * @param <T>
+ * @param <D>
  * @author somewhere
- * @date 2018-11-23 统一异常处理
  */
-@Getter
-public class BadRequestException extends RuntimeException {
-
-	private HttpStatus status = BAD_REQUEST;
-
-	public BadRequestException(String msg) {
-		super(msg);
-	}
-
-	public BadRequestException(HttpStatus status, String msg) {
-		super(msg);
-		this.status = status;
-	}
+@Data
+public abstract class TreeCacheServiceImpl<Repository extends TreeRepository<T>, T extends TreeEntity, D extends TreeDto>
+	extends DataCacheServiceImpl<Repository, T, D> implements TreeService<T, D> {
 
 }

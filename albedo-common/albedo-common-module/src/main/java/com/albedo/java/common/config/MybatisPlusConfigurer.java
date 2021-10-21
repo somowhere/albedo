@@ -34,6 +34,7 @@ package com.albedo.java.common.config;
 
 import com.albedo.java.common.persistence.datascope.DataScopeInterceptor;
 import com.albedo.java.common.persistence.handler.EntityMetaObjectHandler;
+import com.albedo.java.common.persistence.injector.LampSqlInjector;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
@@ -41,15 +42,22 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.mapping.VendorDatabaseIdProvider;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 
 import java.util.Properties;
 
+
 /**
- * @author somewhere
- * @date 2019/06/05
+ * Mybatis 常用重用拦截器，lamp.database.multiTenantType=任意模式 都需要实例出来
+ * <p>
+ * 拦截器执行一定是：
+ * WriteInterceptor > DataScopeInterceptor > PaginationInterceptor
+ *
+ * @author zuihou
+ * @date 2018/10/24
  */
 @Configuration
 @MapperScan("com.albedo.java.modules.*.repository")
@@ -87,6 +95,13 @@ public class MybatisPlusConfigurer {
 		p.setProperty("MySQL", "mysql");
 		databaseIdProvider.setProperties(p);
 		return databaseIdProvider;
+	}
+
+
+	@Bean
+	@ConditionalOnMissingBean
+	public LampSqlInjector getMySqlInjector() {
+		return new LampSqlInjector();
 	}
 
 }

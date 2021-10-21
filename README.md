@@ -1,4 +1,4 @@
-<h1 style="text-align: center">Albedo 3.1.1 - 企业信息化快速开发平台</h1>
+<h1 style="text-align: center">Albedo 3.1.2 - 企业信息化快速开发平台</h1>
  <p align="center">
  
  [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/somowhere/albedo/blob/master/LICENSE)
@@ -49,9 +49,9 @@
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.5.4 
-Mybatis Plus | 3.4.3.3
-hutool | 5.7.12
+Spring Boot |  2.5.5 
+Mybatis Plus | 3.4.3.4
+hutool | 5.7.14
    
 
 
@@ -98,7 +98,7 @@ albedo
 
 - 感谢 [JetBrains](https://www.jetbrains.com/) 提供的非商业开源软件开发授权
 - 感谢
-  [jhipster](https://www.jhipster.tech/)  [pig](https://gitee.com/log4j/pig)  [RuoYi](https://gitee.com/y_project/RuoYi)  [eladmin](https://github.com/elunez/eladmin)
+  [jhipster](https://www.jhipster.tech/)  [pig](https://gitee.com/log4j/pig)  [RuoYi](https://gitee.com/y_project/RuoYi)  [eladmin](https://github.com/elunez/eladmin) [lamp](https://github.com/zuihou/lamp-boot)
   
 
 #### 提交反馈

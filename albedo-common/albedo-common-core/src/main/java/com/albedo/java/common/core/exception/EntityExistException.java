@@ -16,20 +16,27 @@
 
 package com.albedo.java.common.core.exception;
 
+import com.albedo.java.common.core.exception.code.ResponseCode;
 import org.springframework.util.StringUtils;
 
 /**
  * @author somewhere
  * @date 2018-11-23
  */
-public class EntityExistException extends RuntimeException {
+public class EntityExistException extends BaseUncheckedException {
 
 	public EntityExistException(Class clazz, String field, String val) {
-		super(EntityExistException.generateMessage(clazz.getSimpleName(), field, val));
+		super(ResponseCode.ILLEGAL_ARGUMENT_EX.getCode(), EntityExistException.generateMessage(clazz.getSimpleName(), field, val));
 	}
+
 
 	private static String generateMessage(String entity, String field, String val) {
 		return StringUtils.capitalize(entity) + " with " + field + " " + val + " existed";
+	}
+
+	@Override
+	public String toString() {
+		return "EntityExistException [message=" + getMessage() + ", errorCode=" + getErrorCode() + "]";
 	}
 
 }

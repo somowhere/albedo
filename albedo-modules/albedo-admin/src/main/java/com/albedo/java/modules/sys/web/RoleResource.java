@@ -33,7 +33,7 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.exception.BadRequestException;
+import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.StringUtil;
@@ -201,7 +201,7 @@ public class RoleResource extends BaseResource {
 		int min = roleService.findLevelByUserId(SecurityUtil.getUser().getId());
 		if (level != null) {
 			if (level < min) {
-				throw new BadRequestException("权限不足，你的角色级别：" + min + "，低于操作的角色级别：" + level);
+				throw new BizException("权限不足，你的角色级别：" + min + "，低于操作的角色级别：" + level);
 			}
 		}
 		return min;
@@ -215,7 +215,7 @@ public class RoleResource extends BaseResource {
 	private void checkRole(String roleId, String roleName) {
 		List<User> userList = userService.findListByRoleId(roleId);
 		if (CollUtil.isNotEmpty(userList)) {
-			throw new BadRequestException("操作失败！用户："
+			throw new BizException("操作失败！用户："
 				+ CollUtil.convertToString(userList, User.F_USERNAME, StringUtil.COMMA) + "所属要操作的角色：" + roleName);
 		}
 	}

@@ -16,8 +16,11 @@
 
 package com.albedo.java.common.persistence.service;
 
+import com.albedo.java.common.core.util.BeanUtil;
+import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.vo.DataDto;
 import com.albedo.java.common.persistence.domain.BaseDataEntity;
+import lombok.SneakyThrows;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
@@ -27,27 +30,40 @@ import java.io.Serializable;
  * @description
  * @date 2020/5/31 17:07
  */
-public interface DataService<T extends BaseDataEntity, D extends DataDto, PK extends Serializable>
+public interface DataService<T extends BaseDataEntity, D extends DataDto>
 	extends BaseService<T> {
 
-	@Transactional(readOnly = true, rollbackFor = Exception.class)
+	Class<D> getEntityDtoClz();
+
 	/**
 	 * getOneDto
-	 * @author somewhere
+	 *
 	 * @param id
-	 * @updateTime 2020/5/31 17:33
 	 * @return D
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:33
 	 */
-	D getOneDto(PK id);
+	@Transactional(readOnly = true, rollbackFor = Exception.class)
+	default D getOneDto(Serializable id) {
+		return copyBeanToDto(getById(id));
+	}
 
 	/**
 	 * saveOrUpdate
 	 *
-	 * @param form
+	 * @param entityDto
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:33
 	 */
-	void saveOrUpdate(D form);
+	@SneakyThrows
+	default void saveOrUpdate(D entityDto) {
+		T entity;
+		entity = ObjectUtil.isNotEmpty(entityDto.getId()) ? getById(entityDto.getId())
+			: getEntityClass().newInstance();
+		copyDtoToBean(entityDto, entity);
+		saveOrUpdate(entity);
+		entityDto.setId(entity.pkVal());
+	}
 
 	/**
 	 * copyBeanToDto
@@ -57,7 +73,53 @@ public interface DataService<T extends BaseDataEntity, D extends DataDto, PK ext
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:33
 	 */
-	void copyBeanToDto(T module, D result);
+	default void copyBeanToDto(T module, D result) {
+		if (result != null && module != null) {
+			BeanUtil.copyProperties(module, result, true);
+			if (ObjectUtil.isNotEmpty(module.pkVal())) {
+				result.setId(module.pkVal());
+			}
+		}
+	}
+
+	/**
+	 * copyDtoToBean
+	 *
+	 * @param entityDto
+	 * @param entity
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:33
+	 */
+	default void copyDtoToBean(D entityDto, T entity) {
+		if (entityDto != null && entity != null) {
+			BeanUtil.copyProperties(entityDto, entity, true);
+			if (ObjectUtil.isNotEmpty(entityDto.getId())) {
+				entity.setPk(entityDto.getId());
+			}
+		}
+	}
+
+	/**
+	 * copyDtoToBean
+	 *
+	 * @param entityDto
+	 * @return T
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:34
+	 */
+	@SneakyThrows
+	default T copyDtoToBean(D entityDto) {
+		T result = null;
+		if (entityDto != null && getEntityClass() != null) {
+			result = getEntityClass().newInstance();
+			copyDtoToBean(entityDto, result);
+			if (ObjectUtil.isNotEmpty(entityDto.getId())) {
+				result.setPk(entityDto.getId());
+			}
+		}
+		return result;
+	}
+
 
 	/**
 	 * copyBeanToDto
@@ -67,26 +129,16 @@ public interface DataService<T extends BaseDataEntity, D extends DataDto, PK ext
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:33
 	 */
-	D copyBeanToDto(T module);
-
-	/**
-	 * copyDtoToBean
-	 *
-	 * @param form
-	 * @param entity
-	 * @author somewhere
-	 * @updateTime 2020/5/31 17:33
-	 */
-	void copyDtoToBean(D form, T entity);
-
-	/**
-	 * copyDtoToBean
-	 *
-	 * @param form
-	 * @return T
-	 * @author somewhere
-	 * @updateTime 2020/5/31 17:34
-	 */
-	T copyDtoToBean(D form);
-
+	@SneakyThrows
+	default D copyBeanToDto(T module) {
+		D result = null;
+		if (module != null && getEntityDtoClz() != null) {
+			result = getEntityDtoClz().newInstance();
+			copyBeanToDto(module, result);
+			if (ObjectUtil.isNotEmpty(module.pkVal())) {
+				result.setId(module.pkVal());
+			}
+		}
+		return result;
+	}
 }

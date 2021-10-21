@@ -16,10 +16,12 @@
 
 package com.albedo.java.modules.gen.service.impl;
 
+import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
-import com.albedo.java.common.persistence.service.impl.DataServiceImpl;
+import com.albedo.java.common.persistence.service.impl.DataCacheServiceImpl;
+import com.albedo.java.modules.gen.cache.TableCacheKeyBuilder;
 import com.albedo.java.modules.gen.domain.DatasourceConf;
 import com.albedo.java.modules.gen.domain.Table;
 import com.albedo.java.modules.gen.domain.TableColumn;
@@ -32,6 +34,7 @@ import com.albedo.java.modules.gen.domain.xml.GenConfig;
 import com.albedo.java.modules.gen.repository.TableRepository;
 import com.albedo.java.modules.gen.service.DatasourceConfService;
 import com.albedo.java.modules.gen.service.TableColumnService;
+import com.albedo.java.modules.gen.service.TableService;
 import com.albedo.java.modules.gen.util.GenUtil;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -52,14 +55,19 @@ import java.util.stream.Collectors;
  * @author somewhere
  */
 @Service
-public class TableServiceImpl extends DataServiceImpl<TableRepository, Table, TableDto, String>
-	implements com.albedo.java.modules.gen.service.TableService {
+public class TableServiceImpl extends DataCacheServiceImpl<TableRepository, Table, TableDto>
+	implements TableService {
 
 	@Resource
 	private TableColumnService tableColumnService;
 
 	@Resource
 	private DatasourceConfService datasourceConfService;
+
+	@Override
+	protected CacheKeyBuilder cacheKeyBuilder() {
+		return new TableCacheKeyBuilder();
+	}
 
 	@Override
 	public void saveOrUpdate(TableDto tableDto) {
@@ -89,6 +97,10 @@ public class TableServiceImpl extends DataServiceImpl<TableRepository, Table, Ta
 	public void copyDtoToBean(TableDto form, Table table) {
 		super.copyDtoToBean(form, table);
 		if (table != null) {
+			if (ObjectUtil.isNotEmpty(form.getPkColumnList())) {
+				table.setPkColumnList(form.getPkColumnList().stream().map(item -> tableColumnService.copyDtoToBean(item))
+					.collect(Collectors.toList()));
+			}
 			if (ObjectUtil.isNotEmpty(form.getColumnFormList())) {
 				table.setColumnFormList(form.getColumnFormList().stream()
 					.map(item -> tableColumnService.copyDtoToBean(item)).collect(Collectors.toList()));

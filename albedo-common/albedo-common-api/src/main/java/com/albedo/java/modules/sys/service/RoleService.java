@@ -47,7 +47,7 @@ import java.util.Set;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface RoleService extends DataService<Role, RoleDto, String> {
+public interface RoleService extends DataService<Role, RoleDto> {
 
 	/**
 	 * 通过用户ID，查询角色信息

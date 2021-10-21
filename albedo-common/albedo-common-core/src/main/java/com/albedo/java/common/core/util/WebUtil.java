@@ -34,7 +34,7 @@ package com.albedo.java.common.core.util;
 
 import cn.hutool.core.codec.Base64;
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.exception.CheckedException;
+import com.albedo.java.common.core.exception.BizException;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -238,14 +238,14 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
 		String header = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
 		if (header == null || !header.startsWith(CommonConstants.BASIC_)) {
-			throw new CheckedException("请求头中client信息为空");
+			throw new BizException("请求头中client信息为空");
 		}
 		byte[] base64Token = header.substring(6).getBytes(StandardCharsets.UTF_8);
 		byte[] decoded;
 		try {
 			decoded = Base64.decode(base64Token);
 		} catch (IllegalArgumentException e) {
-			throw new CheckedException("Failed to decode basic authentication token");
+			throw new BizException("Failed to decode basic authentication token");
 		}
 
 		String token = new String(decoded, StandardCharsets.UTF_8);
@@ -253,7 +253,7 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
 		int delim = token.indexOf(":");
 
 		if (delim == -1) {
-			throw new CheckedException("Invalid basic authentication token");
+			throw new BizException("Invalid basic authentication token");
 		}
 		return new String[]{token.substring(0, delim), token.substring(delim + 1)};
 	}

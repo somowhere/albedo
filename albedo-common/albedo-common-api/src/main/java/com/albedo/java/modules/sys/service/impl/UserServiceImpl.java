@@ -36,8 +36,8 @@ import cn.hutool.core.util.ArrayUtil;
 import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.SecurityConstants;
+import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.exception.EntityExistException;
-import com.albedo.java.common.core.exception.RuntimeMsgException;
 import com.albedo.java.common.core.util.BeanUtil;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.StringUtil;
@@ -93,7 +93,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 @CacheConfig(cacheNames = CacheNameConstants.USER_DETAILS)
-public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserDto, String> implements UserService {
+public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserDto> implements UserService {
 
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -356,7 +356,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 		}
 		Role role = roleService.getOne(Wrappers.<Role>query().lambda().eq(Role::getName, userExcelVo.getRoleName()));
 		if (role == null) {
-			throw new RuntimeMsgException("无法获取角色" + userExcelVo.getRoleName() + "信息");
+			throw new BizException("无法获取角色" + userExcelVo.getRoleName() + "信息");
 		}
 		user.setRoleIdList(Lists.newArrayList(role.getId()));
 		saveOrUpdate(user);

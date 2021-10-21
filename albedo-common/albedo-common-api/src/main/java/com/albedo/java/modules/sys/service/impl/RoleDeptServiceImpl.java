@@ -32,10 +32,10 @@
 
 package com.albedo.java.modules.sys.service.impl;
 
+import com.albedo.java.common.persistence.service.impl.BaseServiceImpl;
 import com.albedo.java.modules.sys.domain.RoleDept;
 import com.albedo.java.modules.sys.repository.RoleDeptRepository;
 import com.albedo.java.modules.sys.service.RoleDeptService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +49,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @AllArgsConstructor
-public class RoleDeptServiceImpl extends ServiceImpl<RoleDeptRepository, RoleDept> implements RoleDeptService {
+public class RoleDeptServiceImpl extends BaseServiceImpl<RoleDeptRepository, RoleDept> implements RoleDeptService {
 
 }

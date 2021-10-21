@@ -16,12 +16,24 @@
 
 package com.albedo.java.common.persistence.service;
 
+import com.albedo.java.common.core.exception.BizException;
+import com.albedo.java.common.core.util.CollUtil;
+import com.albedo.java.common.core.util.ObjectUtil;
+import com.albedo.java.common.core.util.StringUtil;
+import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.common.core.vo.TreeDto;
 import com.albedo.java.common.core.vo.TreeNode;
+import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.persistence.domain.TreeEntity;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * TreeService
@@ -30,49 +42,113 @@ import java.util.List;
  * @param <D>
  * @author somewhere
  */
-public interface TreeService<T extends TreeEntity, D extends TreeDto> extends DataService<T, D, String> {
+public interface TreeService<T extends TreeEntity, D extends TreeDto> extends DataService<T, D> {
 
 	/**
-	 * countByParentId
+	 * 构建树
 	 *
-	 * @param parentId
+	 * @param trees
 	 * @return
 	 */
-	Long countByParentId(String parentId);
+	default List<TreeNode> getNodeTree(List<T> trees) {
+		List<TreeNode> treeList = trees.stream().map(tree -> {
+			TreeNode node = new TreeNode();
+			node.setId(tree.getId());
+			node.setParentId(tree.getParentId());
+			node.setLabel(tree.getName());
+			return node;
+		}).collect(Collectors.toList());
+		return TreeUtil.buildByLoopAutoRoot(treeList);
+	}
 
 	/**
-	 * getTreeWrapper
+	 * 查询全部部门树
+	 *
+	 * @return 树
+	 */
+	@Transactional(readOnly = true, rollbackFor = Exception.class)
+	default <Q> List<TreeNode> findTreeNode(Q queryCriteria) {
+		return getNodeTree(findTreeList(queryCriteria));
+	}
+
+	@Transactional(readOnly = true, rollbackFor = Exception.class)
+	default <Q> List<T> findTreeList(Q queryCriteria) {
+		return getRepository().selectList(QueryWrapperUtil.<T>getWrapper(queryCriteria).orderByAsc(TreeEntity.F_SQL_SORT));
+	}
+
+	/**
+	 * 构建树Wrapper
 	 *
 	 * @param query
-	 * @param <Q>
 	 * @return
 	 */
-	<Q> QueryWrapper<T> getTreeWrapper(Q query);
+	default <Q> QueryWrapper<T> getTreeWrapper(Q query) {
+		QueryWrapper<T> wrapper = QueryWrapperUtil.getWrapper(query);
+		boolean emptyWrapper = wrapper.isEmptyOfWhere();
+		if (emptyWrapper) {
+			wrapper.eq(TreeEntity.F_SQL_PARENT_ID, TreeUtil.ROOT);
+		}
+		wrapper.eq(TreeEntity.F_SQL_DEL_FLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT);
+		return wrapper;
+	}
 
-	/**
-	 * findTreeNode
-	 *
-	 * @param queryCriteria
-	 * @param <Q>
-	 * @return
-	 */
-	<Q> List<TreeNode> findTreeNode(Q queryCriteria);
+	default Long countByParentId(String parentId) {
+		return getRepository().selectCount(Wrappers.<T>query().eq(TreeEntity.F_SQL_PARENT_ID, parentId));
+	}
 
-	/**
-	 * findTreeList
-	 *
-	 * @param queryCriteria
-	 * @param <Q>
-	 * @return
-	 */
-	<Q> List<T> findTreeList(Q queryCriteria);
+	default List<T> findAllByParentIdsLike(String parentIds) {
+		return getRepository().selectList(Wrappers.<T>query().like(TreeEntity.F_SQL_PARENT_IDS, parentIds));
+	}
 
-	/**
-	 * findAllByParentIdsLike
-	 *
-	 * @param parentIds
-	 * @return
-	 */
-	List<T> findAllByParentIdsLike(String parentIds);
+	@Override
+	default boolean saveOrUpdate(T entityDto) {
+		// 获取修改前的parentIds，用于更新子节点的parentIds
+		String oldParentIds = entityDto.getParentIds();
+		if (entityDto.getParentId() != null) {
+			T parent = getRepository().selectById(entityDto.getParentId());
+			if (parent != null && ObjectUtil.isNotEmpty(parent.getId())) {
+				parent.setLeaf(false);
+				getRepository().updateById(parent);
+				entityDto.setParentIds(
+					StringUtil.toAppendStr(parent.getParentIds(), parent.getId(), StringUtil.SPLIT_DEFAULT));
+			}
+		} else {
+			entityDto.setParentId(TreeUtil.ROOT);
+		}
+
+		if (ObjectUtil.isNotEmpty(entityDto.getId())) {
+			Long count = countByParentId(entityDto.getId());
+			entityDto.setLeaf(count == null || count == 0);
+		} else {
+			entityDto.setLeaf(true);
+		}
+		boolean flag = StringUtil.isNotEmpty(entityDto.getId()) ? this.updateById(entityDto) : this.save(entityDto);
+		if (ObjectUtil.isNotEmpty(oldParentIds)) {
+			// 更新子节点 parentIds
+			List<T> list = findAllByParentIdsLike(entityDto.getId());
+			for (T e : list) {
+				if (StringUtil.isNotEmpty(e.getParentIds())) {
+					e.setParentIds(e.getParentIds().replace(oldParentIds, entityDto.getParentIds()));
+				}
+			}
+			if (ObjectUtil.isNotEmpty(list)) {
+				updateBatchById(list);
+			}
+		}
+		return flag;
+	}
+
+	@Override
+	default boolean removeByIds(Collection<? extends Serializable> idList) {
+		idList.forEach(id -> {
+			// 查询父节点为当前节点的节点
+			List<T> menuList = this.list(Wrappers.<T>query().eq(TreeEntity.F_SQL_PARENT_ID, id));
+			if (CollUtil.isNotEmpty(menuList)) {
+				throw new BizException("含有下级不能删除");
+			}
+			Assert.isTrue(this.removeById(id), "删除失败");
+		});
+		return true;
+	}
 
 }

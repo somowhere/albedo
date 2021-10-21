@@ -35,7 +35,7 @@ package com.albedo.java.modules.sys.service.impl;
 import cn.hutool.core.util.CharUtil;
 import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.exception.BadRequestException;
+import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.exception.EntityExistException;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
@@ -196,7 +196,7 @@ public class MenuServiceImpl extends TreeServiceImpl<MenuRepository, Menu, MenuD
 			// 查询父节点为当前节点的节点
 			List<Menu> menuList = this.list(Wrappers.<Menu>query().lambda().eq(Menu::getParentId, id));
 			if (CollUtil.isNotEmpty(menuList)) {
-				throw new BadRequestException("菜单含有下级不能删除");
+				throw new BizException("菜单含有下级不能删除");
 			}
 
 			roleMenuRepository.delete(Wrappers.<RoleMenu>query().lambda().eq(RoleMenu::getMenuId, id));

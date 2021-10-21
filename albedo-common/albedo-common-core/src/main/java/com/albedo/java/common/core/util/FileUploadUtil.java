@@ -18,7 +18,7 @@ package com.albedo.java.common.core.util;
 
 import cn.hutool.core.io.FileUtil;
 import com.albedo.java.common.core.config.ApplicationConfig;
-import com.albedo.java.common.core.exception.RuntimeMsgException;
+import com.albedo.java.common.core.exception.BizException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -100,7 +100,7 @@ public class FileUploadUtil {
 		throws IOException {
 		int fileNamelength = file.getOriginalFilename().length();
 		if (fileNamelength > FileUploadUtil.DEFAULT_FILE_NAME_LENGTH) {
-			throw new RuntimeMsgException("最大文件名长度：" + FileUploadUtil.DEFAULT_FILE_NAME_LENGTH);
+			throw new BizException("最大文件名长度：" + FileUploadUtil.DEFAULT_FILE_NAME_LENGTH);
 		}
 
 		assertAllowed(file, allowedExtension);
@@ -157,13 +157,13 @@ public class FileUploadUtil {
 	public static final void assertAllowed(MultipartFile file, String[] allowedExtension) {
 		long size = file.getSize();
 		if (DEFAULT_MAX_SIZE != -1 && size > DEFAULT_MAX_SIZE) {
-			throw new RuntimeMsgException("最大上传文件大小：" + (DEFAULT_MAX_SIZE / 1024 / 1024));
+			throw new BizException("最大上传文件大小：" + (DEFAULT_MAX_SIZE / 1024 / 1024));
 		}
 
 		String fileName = file.getOriginalFilename();
 		String extension = getExtension(file);
 		if (allowedExtension != null && !isAllowedExtension(extension, allowedExtension)) {
-			throw new RuntimeMsgException(
+			throw new BizException(
 				String.format("InvalidExtensionException : allowedExtension-{} extension-{} fileName-{}",
 					allowedExtension, extension, fileName));
 		}

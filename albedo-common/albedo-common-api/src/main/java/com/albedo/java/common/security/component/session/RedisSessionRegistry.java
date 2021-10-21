@@ -132,7 +132,7 @@ public class RedisSessionRegistry implements SessionRegistry, ApplicationListene
 		if (getSessionInformation(sessionId) != null) {
 			removeSessionInformation(sessionId);
 		}
-		SessionInformation sessionInformation = new SessionInformation(principal, sessionId, new Date());
+		SessionInformation sessionInformation = new CustomSessionInformation(principal, sessionId, new Date());
 		redisTemplate.boundHashOps(SESSIONIDS).put(sessionId, sessionInformation);
 
 		Set<String> sessionsUsedByPrincipal = getPrincipals(principal);

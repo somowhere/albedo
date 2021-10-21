@@ -53,7 +53,7 @@ import java.util.Set;
  * @author somewhere
  * @date 2019/2/1
  */
-public interface UserService extends DataService<User, UserDto, String> {
+public interface UserService extends DataService<User, UserDto> {
 
 	/**
 	 * 查询用户信息

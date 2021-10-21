@@ -35,7 +35,7 @@ package com.albedo.java.modules.sys.service.impl;
 import com.albedo.java.common.core.annotation.BaseInterface;
 import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.exception.BadRequestException;
+import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.exception.EntityExistException;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
@@ -163,7 +163,7 @@ public class DictServiceImpl extends TreeServiceImpl<DictRepository, Dict, DictD
 			// 查询父节点为当前节点的节点
 			List<Dict> menuList = this.list(Wrappers.<Dict>query().lambda().eq(Dict::getParentId, id));
 			if (CollUtil.isNotEmpty(menuList)) {
-				throw new BadRequestException("字典含有下级不能删除");
+				throw new BizException("字典含有下级不能删除");
 			}
 		});
 		return super.removeByIds(ids);

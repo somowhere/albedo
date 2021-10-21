@@ -35,6 +35,7 @@ import com.albedo.java.modules.gen.service.DatasourceConfService;
 import com.albedo.java.modules.gen.service.TableService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.Assert;
@@ -128,6 +129,34 @@ public class TableResource extends BaseResource {
 		log.debug("REST request to delete table: {}", ids);
 		tableService.delete(ids);
 		return Result.buildOk("删除成功");
+	}
+
+	/**
+	 * 刷新缓存
+	 *
+	 * @return 是否成功
+	 */
+	@ApiOperation(value = "刷新缓存", notes = "刷新缓存")
+	@PostMapping("refresh-cache")
+	@LogOperate("业务表刷新缓存")
+	@PreAuthorize("@pms.hasPermission('gen_table_edit')")
+	public Result refreshCache() {
+		tableService.refreshCache();
+		return Result.buildOk("刷新缓存成功");
+	}
+
+	/**
+	 * 清理缓存
+	 *
+	 * @return 是否成功
+	 */
+	@ApiOperation(value = "清理缓存", notes = "清理缓存")
+	@PostMapping("clearCache")
+	@LogOperate("'业务表清理缓存'")
+	@PreAuthorize("hasAnyPermission('gen_table_edit')")
+	public Result clearCache() {
+		tableService.clearCache();
+		return Result.buildOk("清理缓存成功");
 	}
 
 }

@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.gen.service;
 
-import com.albedo.java.common.persistence.service.DataService;
+import com.albedo.java.common.persistence.service.DataCacheService;
 import com.albedo.java.modules.gen.domain.Table;
 import com.albedo.java.modules.gen.domain.dto.TableColumnDto;
 import com.albedo.java.modules.gen.domain.dto.TableDto;
@@ -30,7 +30,7 @@ import java.util.Set;
 /**
  * @author somewhere
  */
-public interface TableService extends DataService<Table, TableDto, String> {
+public interface TableService extends DataCacheService<Table, TableDto> {
 
 	/**
 	 * 判断表名是否存在

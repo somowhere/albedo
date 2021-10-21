@@ -33,7 +33,7 @@
 package com.albedo.java.modules.tool.service.impl;
 
 import com.albedo.java.common.core.constant.CacheNameConstants;
-import com.albedo.java.common.core.exception.BadRequestException;
+import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.persistence.service.impl.BaseServiceImpl;
 import com.albedo.java.modules.tool.domain.AlipayConfig;
 import com.albedo.java.modules.tool.domain.vo.TradeVo;
@@ -81,7 +81,7 @@ public class AliPayServiceImpl extends BaseServiceImpl<AliPayConfigRepository, A
 	public String toPayAsPc(AlipayConfig alipay, TradeVo trade) throws Exception {
 
 		if (alipay.getId() == null) {
-			throw new BadRequestException("请先添加相应配置，再操作");
+			throw new BizException("请先添加相应配置，再操作");
 		}
 		AlipayClient alipayClient = new DefaultAlipayClient(alipay.getGatewayUrl(), alipay.getAppId(),
 			alipay.getPrivateKey(), alipay.getFormat(), alipay.getCharset(), alipay.getPublicKey(),
@@ -107,7 +107,7 @@ public class AliPayServiceImpl extends BaseServiceImpl<AliPayConfigRepository, A
 	@Override
 	public String toPayAsWeb(AlipayConfig alipay, TradeVo trade) throws Exception {
 		if (alipay.getId() == null) {
-			throw new BadRequestException("请先添加相应配置，再操作");
+			throw new BizException("请先添加相应配置，再操作");
 		}
 		AlipayClient alipayClient = new DefaultAlipayClient(alipay.getGatewayUrl(), alipay.getAppId(),
 			alipay.getPrivateKey(), alipay.getFormat(), alipay.getCharset(), alipay.getPublicKey(),
@@ -116,7 +116,7 @@ public class AliPayServiceImpl extends BaseServiceImpl<AliPayConfigRepository, A
 		double money = Double.parseDouble(trade.getTotalAmount());
 		double maxMoney = 5000;
 		if (money <= 0 || money >= maxMoney) {
-			throw new BadRequestException("测试金额过大");
+			throw new BizException("测试金额过大");
 		}
 		// 创建API对应的request(手机网页版)
 		AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();

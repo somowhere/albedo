@@ -34,7 +34,7 @@ package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.exception.BadRequestException;
+import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.tree.TreeUtil;
@@ -159,12 +159,12 @@ public class DeptServiceImpl extends TreeServiceImpl<DeptRepository, Dept, DeptD
 	private void checkDept(String deptId, String deptName) {
 		List<User> userList = userRepository.selectList(Wrappers.<User>lambdaQuery().eq(User::getDeptId, deptId));
 		if (CollUtil.isNotEmpty(userList)) {
-			throw new BadRequestException("操作失败！用户："
+			throw new BizException("操作失败！用户："
 				+ CollUtil.convertToString(userList, User.F_USERNAME, StringUtil.COMMA) + "所属要操作的部门：" + deptName);
 		}
 		List<Role> roleList = roleRepository.findListByDeptId(deptId);
 		if (CollUtil.isNotEmpty(roleList)) {
-			throw new BadRequestException("操作失败！角色：" + CollUtil.convertToString(roleList, Role.F_NAME, StringUtil.COMMA)
+			throw new BizException("操作失败！角色：" + CollUtil.convertToString(roleList, Role.F_NAME, StringUtil.COMMA)
 				+ "的权限信息属于要操作的部门：" + deptName);
 		}
 	}

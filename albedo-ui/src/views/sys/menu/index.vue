@@ -143,7 +143,15 @@
       </div>
     </el-dialog>
     <!--表格渲染-->
-    <el-table ref="table" v-loading="crud.loading" :data="crud.data" row-key="id" @select="crud.selectChange" @select-all="crud.selectAllChange" @selection-change="crud.selectionChangeHandler">
+    <el-table
+      ref="table"
+      v-loading="crud.loading"
+      :data="crud.data"
+      row-key="id"
+      @select="crud.selectChange"
+      @select-all="crud.selectAllChange"
+      @selection-change="crud.selectionChangeHandler"
+    >
       <el-table-column type="selection" width="55" />
       <el-table-column :show-overflow-tooltip="true" label="菜单标题" prop="name" />
       <el-table-column align="center" label="图标" prop="icon" width="60px">

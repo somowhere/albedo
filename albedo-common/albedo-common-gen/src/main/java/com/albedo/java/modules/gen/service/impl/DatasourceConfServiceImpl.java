@@ -16,11 +16,13 @@
 
 package com.albedo.java.modules.gen.service.impl;
 
+import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.common.core.exception.EntityExistException;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.datasource.support.DataSourceConstants;
-import com.albedo.java.common.persistence.service.impl.DataServiceImpl;
+import com.albedo.java.common.persistence.service.impl.DataCacheServiceImpl;
+import com.albedo.java.modules.gen.cache.DatasourceConfCacheKeyBuilder;
 import com.albedo.java.modules.gen.domain.DatasourceConf;
 import com.albedo.java.modules.gen.domain.dto.DatasourceConfDto;
 import com.albedo.java.modules.gen.repository.DatasourceConfRepository;
@@ -51,12 +53,17 @@ import java.util.Collection;
 @Transactional(rollbackFor = Exception.class)
 @RequiredArgsConstructor
 public class DatasourceConfServiceImpl
-	extends DataServiceImpl<DatasourceConfRepository, DatasourceConf, DatasourceConfDto, String>
+	extends DataCacheServiceImpl<DatasourceConfRepository, DatasourceConf, DatasourceConfDto>
 	implements DatasourceConfService {
 
 	private final StringEncryptor stringEncryptor;
 
 	private final DataSourceCreator hikariDataSourceCreator;
+
+	@Override
+	protected CacheKeyBuilder cacheKeyBuilder() {
+		return new DatasourceConfCacheKeyBuilder();
+	}
 
 	public Boolean exitDatasourceConfByName(DatasourceConfDto datasourceConfDto) {
 		return getOne(Wrappers.<DatasourceConf>lambdaUpdate()
