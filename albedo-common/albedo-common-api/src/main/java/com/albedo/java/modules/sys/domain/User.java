@@ -32,7 +32,7 @@
 
 package com.albedo.java.modules.sys.domain;
 
-import com.albedo.java.common.persistence.domain.IdEntity;
+import com.albedo.java.common.core.basic.domain.IdEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -52,7 +52,7 @@ import lombok.ToString;
 @ToString
 @TableName("sys_user")
 @EqualsAndHashCode(callSuper = true)
-public class User extends IdEntity<User> {
+public class User extends IdEntity<User, String> {
 
 	public static final String F_USERNAME = "username";
 

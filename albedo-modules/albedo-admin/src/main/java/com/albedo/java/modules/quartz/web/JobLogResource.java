@@ -18,7 +18,7 @@ package com.albedo.java.modules.quartz.web;
 
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.vo.PageModel;
-import com.albedo.java.common.data.util.QueryWrapperUtil;
+import com.albedo.java.plugins.mybatis.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.common.web.resource.BaseResource;

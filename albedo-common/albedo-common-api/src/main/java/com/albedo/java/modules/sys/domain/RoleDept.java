@@ -32,7 +32,7 @@
 
 package com.albedo.java.modules.sys.domain;
 
-import com.albedo.java.common.persistence.domain.GeneralEntity;
+import com.albedo.java.common.core.basic.domain.GeneralEntity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;

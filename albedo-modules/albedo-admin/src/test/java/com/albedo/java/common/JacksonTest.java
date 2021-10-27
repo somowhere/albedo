@@ -16,7 +16,7 @@
 
 package com.albedo.java.common;
 
-import com.albedo.java.common.config.ExtraFieldSerializer;
+import com.albedo.java.plugins.swagger.config.ExtraFieldSerializer;
 import com.albedo.java.common.core.vo.DataVo;
 import com.fasterxml.jackson.databind.BeanDescription;
 import com.fasterxml.jackson.databind.JsonSerializer;

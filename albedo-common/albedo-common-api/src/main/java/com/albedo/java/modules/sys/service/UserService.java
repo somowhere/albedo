@@ -33,8 +33,8 @@
 package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.core.vo.PageModel;
-import com.albedo.java.common.persistence.datascope.DataScope;
-import com.albedo.java.common.persistence.service.DataService;
+import com.albedo.java.plugins.mybatis.datascope.DataScope;
+import com.albedo.java.plugins.mybatis.service.DataService;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
 import com.albedo.java.modules.sys.domain.dto.UserEmailDto;

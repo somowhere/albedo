@@ -33,7 +33,7 @@
 package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.core.constant.CacheNameConstants;
-import com.albedo.java.common.persistence.service.impl.BaseServiceImpl;
+import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
 import com.albedo.java.modules.sys.domain.RoleMenu;
 import com.albedo.java.modules.sys.domain.dto.RoleMenuDto;
 import com.albedo.java.modules.sys.repository.RoleMenuRepository;

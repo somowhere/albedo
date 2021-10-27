@@ -32,7 +32,7 @@
 
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.common.persistence.repository.TreeRepository;
+import com.albedo.java.plugins.mybatis.repository.TreeRepository;
 import com.albedo.java.modules.sys.domain.Dept;
 import com.albedo.java.modules.sys.domain.vo.DeptVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

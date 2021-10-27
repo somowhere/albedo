@@ -32,7 +32,7 @@
 package com.albedo.java.common.core.jackson;
 
 import cn.hutool.core.date.DatePattern;
-import com.albedo.java.common.core.annotation.BaseEnum;
+import com.albedo.java.common.core.enumeration.BaseEnum;
 import com.albedo.java.common.core.converter.EnumSerializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;

@@ -32,7 +32,7 @@
 
 package com.albedo.java.common.security.service;
 
-import com.albedo.java.common.persistence.datascope.DataScope;
+import com.albedo.java.plugins.mybatis.datascope.DataScope;
 import lombok.Getter;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.GrantedAuthority;

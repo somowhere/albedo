@@ -34,7 +34,7 @@ package com.albedo.java.modules.tool.service.impl;
 
 import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.exception.BizException;
-import com.albedo.java.common.persistence.service.impl.BaseServiceImpl;
+import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
 import com.albedo.java.modules.tool.domain.AlipayConfig;
 import com.albedo.java.modules.tool.domain.vo.TradeVo;
 import com.albedo.java.modules.tool.repository.AliPayConfigRepository;

@@ -34,7 +34,7 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.log.annotation.LogOperate;
-import com.albedo.java.common.persistence.datascope.DataScope;
+import com.albedo.java.plugins.mybatis.datascope.DataScope;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.dto.DeptDto;

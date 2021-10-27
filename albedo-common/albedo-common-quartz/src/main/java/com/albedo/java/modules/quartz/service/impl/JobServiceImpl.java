@@ -21,7 +21,7 @@ import com.albedo.java.common.core.constant.ScheduleConstants;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.Json;
 import com.albedo.java.common.core.vo.ScheduleVo;
-import com.albedo.java.common.persistence.service.impl.DataServiceImpl;
+import com.albedo.java.plugins.mybatis.service.impl.DataServiceImpl;
 import com.albedo.java.common.util.RedisUtil;
 import com.albedo.java.modules.quartz.domain.Job;
 import com.albedo.java.modules.quartz.domain.dto.JobDto;

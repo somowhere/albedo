@@ -44,7 +44,7 @@ import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.ArgumentException;
 import com.albedo.java.common.core.util.EncryptUtil;
-import com.albedo.java.common.persistence.service.impl.BaseServiceImpl;
+import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
 import com.albedo.java.common.util.RedisUtil;
 import com.albedo.java.modules.tool.domain.EmailConfig;
 import com.albedo.java.modules.tool.domain.vo.EmailVo;

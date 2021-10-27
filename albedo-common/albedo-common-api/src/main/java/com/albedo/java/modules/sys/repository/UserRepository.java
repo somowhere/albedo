@@ -32,8 +32,8 @@
 
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.common.persistence.datascope.DataScope;
-import com.albedo.java.common.persistence.repository.BaseRepository;
+import com.albedo.java.plugins.mybatis.datascope.DataScope;
+import com.albedo.java.plugins.mybatis.repository.BaseRepository;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;

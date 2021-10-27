@@ -32,7 +32,7 @@
 
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.persistence.service.DataService;
+import com.albedo.java.plugins.mybatis.service.DataService;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.dto.RoleDto;
 

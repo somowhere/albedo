@@ -32,7 +32,7 @@
 
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.common.persistence.repository.TreeRepository;
+import com.albedo.java.plugins.mybatis.repository.TreeRepository;
 import com.albedo.java.modules.sys.domain.Menu;
 import com.albedo.java.modules.sys.domain.vo.MenuVo;
 import org.apache.ibatis.annotations.Param;

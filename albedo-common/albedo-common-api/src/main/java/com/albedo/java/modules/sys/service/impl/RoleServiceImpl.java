@@ -37,7 +37,7 @@ import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.StringUtil;
-import com.albedo.java.common.persistence.service.impl.DataServiceImpl;
+import com.albedo.java.plugins.mybatis.service.impl.DataServiceImpl;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.RoleDept;

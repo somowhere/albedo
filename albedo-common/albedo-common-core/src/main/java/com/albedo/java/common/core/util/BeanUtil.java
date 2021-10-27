@@ -27,9 +27,8 @@ import org.springframework.util.Assert;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * bean copy 工具类
@@ -38,7 +37,7 @@ import java.util.Map;
  */
 @Slf4j
 @UtilityClass
-public class BeanUtil extends BeanUtils {
+public class BeanUtil extends cn.hutool.core.bean.BeanUtil {
 
 	public static void copyProperties(Object source, Object target, boolean ignoreNull, String... ignoreProperties) {
 		Assert.notNull(source, "Source must not be null");
@@ -125,5 +124,20 @@ public class BeanUtil extends BeanUtils {
 	public static Map<String, Object> toMap(Object bean) {
 		return BeanMap.create(bean);
 	}
-
+	/**
+	 * 转换 list
+	 *
+	 * @param sourceList       源集合
+	 * @param destinationClass 目标类型
+	 * @return 目标集合
+	 */
+	public static <T, E> List<T> toBeanList(Collection<E> sourceList, Class<T> destinationClass) {
+		if (sourceList == null || sourceList.isEmpty() || destinationClass == null) {
+			return Collections.emptyList();
+		}
+		return sourceList.parallelStream()
+			.filter(Objects::nonNull)
+			.map(source -> toBean(source, destinationClass))
+			.collect(Collectors.toList());
+	}
 }

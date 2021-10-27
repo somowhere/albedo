@@ -1,7 +1,7 @@
 package com.albedo.java.common.core.converter;
 
 import cn.hutool.core.util.StrUtil;
-import com.albedo.java.common.core.annotation.BaseEnum;
+import com.albedo.java.common.core.enumeration.BaseEnum;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;

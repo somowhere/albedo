@@ -32,7 +32,7 @@
 
 package com.albedo.java.modules;
 
-import com.albedo.java.common.datasource.annotation.EnableDynamicDataSource;
+import com.albedo.java.plugins.dynamic.datasource.annotation.EnableDynamicDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

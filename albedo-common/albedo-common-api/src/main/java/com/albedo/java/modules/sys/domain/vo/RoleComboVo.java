@@ -32,7 +32,7 @@
 
 package com.albedo.java.modules.sys.domain.vo;
 
-import com.albedo.java.common.persistence.domain.IdEntity;
+import com.albedo.java.common.core.basic.domain.IdEntity;
 import com.albedo.java.modules.sys.domain.Role;
 import lombok.Data;
 

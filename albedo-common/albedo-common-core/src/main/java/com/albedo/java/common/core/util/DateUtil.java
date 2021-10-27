@@ -16,8 +16,13 @@
 
 package com.albedo.java.common.core.util;
 
+import cn.hutool.core.date.LocalDateTimeUtil;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -55,6 +60,76 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
 	public static final String datePath() {
 		Date now = new Date();
 		return format(now, "yyyy/MM/dd");
+	}
+
+	/**
+	 * 计算开始时间
+	 *
+	 * @param time 日期
+	 * @return 计算开始时间
+	 */
+	public static LocalDateTime getStartTime(String time) {
+		String startTime = time;
+		if (time.matches("^\\d{4}-\\d{1,2}$")) {
+			startTime = time + "-01 00:00:00";
+		} else if (time.matches("^\\d{4}-\\d{1,2}-\\d{1,2}$")) {
+			startTime = time + " 00:00:00";
+		} else if (time.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}$")) {
+			startTime = time + ":00";
+		} else if (time.matches("^\\d{4}-\\d{1,2}-\\d{1,2}T{1}\\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{3}Z$")) {
+			startTime = time.replace("T", " ").substring(0, time.indexOf('.'));
+		}
+		return LocalDateTimeUtil.beginOfDay(LocalDateTime.parse(startTime, DateTimeFormatter.ofPattern(TIME_FORMAT)));
+	}
+
+	/**
+	 * 计算结束时间
+	 *
+	 * @param time 日期
+	 * @return 结束时间
+	 */
+	public static LocalDateTime getEndTime(String time) {
+		String startTime = time;
+		if (time.matches("^\\d{4}-\\d{1,2}$")) {
+			Date date = DateUtil.parse(time, "yyyy-MM");
+			date = DateUtil.getLastDateOfMonth(date);
+			startTime = DateUtil.formatAsDate(date) + " 23:59:59";
+		} else if (time.matches("^\\d{4}-\\d{1,2}-\\d{1,2}$")) {
+			startTime = time + " 23:59:59";
+		} else if (time.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}$")) {
+			startTime = time + ":59";
+		} else if (time.matches("^\\d{4}-\\d{1,2}-\\d{1,2}T{1}\\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{3}Z$")) {
+			time = time.replace("T", " ").substring(0, time.indexOf('.'));
+			startTime = time;
+		}
+		return LocalDateTimeUtil.endOfDay(LocalDateTime.parse(startTime, DateTimeFormatter.ofPattern(TIME_FORMAT)));
+	}
+
+
+	/**
+	 * 格式化日期,返回格式为 yyyy-MM-dd
+	 *
+	 * @param date 日期
+	 * @return 格式化后的字符串
+	 */
+	public static String formatAsDate(Date date) {
+		SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
+		return df.format(date);
+	}
+
+
+	/**
+	 * 获取当月最后一天
+	 *
+	 * @param date 日期
+	 * @return 当月最后一天
+	 */
+	public static Date getLastDateOfMonth(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.MONTH, 1);
+		calendar.set(Calendar.DAY_OF_MONTH, 0);
+		return calendar.getTime();
 	}
 
 }

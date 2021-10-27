@@ -36,7 +36,7 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ArrayUtil;
 import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.util.CollUtil;
-import com.albedo.java.common.persistence.datascope.DataScope;
+import com.albedo.java.plugins.mybatis.datascope.DataScope;
 import com.albedo.java.common.security.util.AuthUtil;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.vo.UserInfo;

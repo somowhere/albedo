@@ -32,7 +32,7 @@
 
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.persistence.service.TreeService;
+import com.albedo.java.plugins.mybatis.service.TreeService;
 import com.albedo.java.modules.sys.domain.Dept;
 import com.albedo.java.modules.sys.domain.dto.DeptDto;
 import com.albedo.java.modules.sys.domain.dto.DeptQueryCriteria;

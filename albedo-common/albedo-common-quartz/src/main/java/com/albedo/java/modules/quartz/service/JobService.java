@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.quartz.service;
 
-import com.albedo.java.common.persistence.service.DataService;
+import com.albedo.java.plugins.mybatis.service.DataService;
 import com.albedo.java.modules.quartz.domain.Job;
 import com.albedo.java.modules.quartz.domain.dto.JobDto;
 

@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.albedo.java.common.core.annotation.BaseEnum;
+import com.albedo.java.common.core.enumeration.BaseEnum;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableMap;

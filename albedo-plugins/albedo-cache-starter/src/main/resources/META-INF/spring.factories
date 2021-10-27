@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.albedo.java.cache.CacheAutoConfigure
+    com.albedo.java.plugins.cache.CacheAutoConfigure

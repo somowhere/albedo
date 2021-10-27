@@ -32,7 +32,7 @@
 
 package com.albedo.java.modules.sys.service.impl;
 
-import com.albedo.java.common.persistence.service.impl.BaseServiceImpl;
+import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
 import com.albedo.java.modules.sys.domain.PersistentToken;
 import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
 import com.albedo.java.modules.sys.service.PersistentTokenService;

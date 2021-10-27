@@ -18,7 +18,7 @@ package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.constant.DictNameConstants;
-import com.albedo.java.common.persistence.domain.BaseEntity;
+import com.albedo.java.common.core.basic.domain.BaseEntity;
 import com.albedo.java.modules.sys.domain.enums.OnlineStatus;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

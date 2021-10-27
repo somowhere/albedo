@@ -32,7 +32,7 @@
 
 package com.albedo.java.modules.sys.service.impl;
 
-import com.albedo.java.common.persistence.service.impl.BaseServiceImpl;
+import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
 import com.albedo.java.modules.sys.domain.LogOperate;
 import com.albedo.java.modules.sys.repository.LogOperateRepository;
 import com.albedo.java.modules.sys.service.LogOperateService;

@@ -32,7 +32,7 @@
 
 package com.albedo.java.modules.sys.service.impl;
 
-import com.albedo.java.common.persistence.service.impl.BaseServiceImpl;
+import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
 import com.albedo.java.modules.sys.domain.UserRole;
 import com.albedo.java.modules.sys.repository.UserRoleRepository;
 import com.albedo.java.modules.sys.service.UserRoleService;

@@ -36,7 +36,7 @@ import cn.hutool.core.util.StrUtil;
 import com.albedo.java.common.core.annotation.AnonymousAccess;
 import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.util.SpringContextHolder;
-import com.albedo.java.common.persistence.datascope.DataScope;
+import com.albedo.java.plugins.mybatis.datascope.DataScope;
 import com.albedo.java.common.security.enums.RequestMethodEnum;
 import com.albedo.java.common.security.service.UserDetail;
 import lombok.experimental.UtilityClass;

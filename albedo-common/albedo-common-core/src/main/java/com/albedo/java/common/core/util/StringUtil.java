@@ -17,6 +17,8 @@
 package com.albedo.java.common.core.util;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.enums.SqlLike;
+import com.baomidou.mybatisplus.core.toolkit.sql.SqlUtils;
 import com.google.common.collect.Lists;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -416,6 +418,37 @@ public class StringUtil extends StrUtil {
 			msg = "";
 		}
 		return "[" + msg.toString() + "]";
+	}
+
+	/**
+	 * mybatis plus like查询转换
+	 */
+	public static String keywordConvert(String value) {
+		if (StrUtil.isBlank(value)) {
+			return StrPool.EMPTY;
+		}
+		value = value.replaceAll(StrPool.PERCENT, "\\\\%");
+		value = value.replaceAll(StrPool.UNDERSCORE, "\\\\_");
+		return value;
+	}
+
+	public static Object keywordConvert(Object value) {
+		if (value instanceof String) {
+			return keywordConvert(String.valueOf(value));
+		}
+		return value;
+	}
+
+
+	/**
+	 * 拼接like条件
+	 *
+	 * @param value   值
+	 * @param sqlType 拼接类型
+	 * @return 拼接后的值
+	 */
+	public static String like(Object value, SqlLike sqlType) {
+		return SqlUtils.concatLike(keywordConvert(String.valueOf(value)), sqlType);
 	}
 
 }

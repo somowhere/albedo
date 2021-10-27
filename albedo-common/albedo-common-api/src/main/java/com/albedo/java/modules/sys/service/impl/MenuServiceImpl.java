@@ -41,7 +41,7 @@ import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.tree.TreeUtil;
-import com.albedo.java.common.persistence.service.impl.TreeServiceImpl;
+import com.albedo.java.plugins.mybatis.service.impl.TreeServiceImpl;
 import com.albedo.java.modules.sys.domain.Menu;
 import com.albedo.java.modules.sys.domain.RoleMenu;
 import com.albedo.java.modules.sys.domain.dto.GenSchemeDto;

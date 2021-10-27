@@ -32,7 +32,7 @@
 
 package com.albedo.java.modules.tool.repository;
 
-import com.albedo.java.common.persistence.repository.BaseRepository;
+import com.albedo.java.plugins.mybatis.repository.BaseRepository;
 import com.albedo.java.modules.tool.domain.EmailConfig;
 
 /**
