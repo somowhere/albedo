@@ -34,10 +34,8 @@ package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.basic.domain.IdEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 /**
  * <p>
@@ -50,9 +48,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@Accessors(chain = true)
 @TableName("sys_user")
 @EqualsAndHashCode(callSuper = true)
-public class User extends IdEntity<User, String> {
+@NoArgsConstructor
+public class User extends IdEntity<User, Long> {
 
 	public static final String F_USERNAME = "username";
 
@@ -102,4 +102,18 @@ public class User extends IdEntity<User, String> {
 	 */
 	private String qqOpenId;
 
+
+	@Builder
+	public User(String username, String nickname, String password, Integer available, String email, String phone, String avatar, String deptId, String wxOpenId, String qqOpenId) {
+		this.username = username;
+		this.nickname = nickname;
+		this.password = password;
+		this.available = available;
+		this.email = email;
+		this.phone = phone;
+		this.avatar = avatar;
+		this.deptId = deptId;
+		this.wxOpenId = wxOpenId;
+		this.qqOpenId = qqOpenId;
+	}
 }

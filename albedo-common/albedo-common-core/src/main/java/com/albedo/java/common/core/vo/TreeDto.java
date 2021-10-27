@@ -29,7 +29,7 @@ import javax.validation.constraints.NotBlank;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class TreeDto extends DataDto<String> {
+public class TreeDto extends DataDto<Long> {
 
 	public static final String F_NAME = "name";
 

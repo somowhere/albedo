@@ -8,6 +8,7 @@ import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.modules.file.service.AppendixService;
 import com.albedo.java.modules.tenant.TenantCacheKeyBuilder;
 import com.albedo.java.modules.tenant.TenantCodeCacheKeyBuilder;
+import com.albedo.java.modules.tenant.domain.dto.TenantConnectDto;
 import com.albedo.java.modules.tenant.enumeration.TenantStatusEnum;
 import com.albedo.java.modules.tenant.enumeration.TenantTypeEnum;
 import com.albedo.java.plugins.database.mybatis.conditions.Wraps;
@@ -94,11 +95,11 @@ public class TenantServiceImpl extends DataCacheServiceImpl<TenantRepository, Te
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public Boolean connect(TenantConnectDTO tenantConnect) {
+	public Boolean connect(TenantConnectDto tenantConnect) {
 		return initSystemContext.initConnect(tenantConnect) && updateTenantStatus(tenantConnect);
 	}
 
-	private Boolean updateTenantStatus(TenantConnectDTO tenantConnect) {
+	private Boolean updateTenantStatus(TenantConnectDto tenantConnect) {
 		Boolean flag = this.update(Wraps.<Tenant>lbU()
 			.set(Tenant::getStatus, TenantStatusEnum.NORMAL)
 			.set(Tenant::getConnectType, tenantConnect.getConnectType())

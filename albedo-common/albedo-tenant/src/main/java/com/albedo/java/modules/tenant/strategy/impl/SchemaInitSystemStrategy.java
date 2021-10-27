@@ -1,6 +1,13 @@
 package com.albedo.java.modules.tenant.strategy.impl;
 
 import cn.hutool.core.util.StrUtil;
+import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.exception.BizException;
+import com.albedo.java.common.core.util.StrPool;
+import com.albedo.java.modules.tenant.domain.dto.TenantConnectDto;
+import com.albedo.java.modules.tenant.repository.InitDbRepository;
+import com.albedo.java.modules.tenant.strategy.InitSystemStrategy;
+import com.albedo.java.plugins.database.properties.DatabaseProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.io.Resources;
@@ -8,12 +15,6 @@ import org.apache.ibatis.jdbc.ScriptRunner;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import top.tangyh.basic.database.properties.DatabaseProperties;
-import top.tangyh.basic.exception.BizException;
-import top.tangyh.basic.utils.StrPool;
-import top.tangyh.lamp.tenant.dao.InitDbMapper;
-import top.tangyh.lamp.tenant.dto.TenantConnectDTO;
-import top.tangyh.lamp.tenant.strategy.InitSystemStrategy;
 
 import javax.sql.DataSource;
 import java.io.StringReader;
@@ -22,7 +23,6 @@ import java.sql.Connection;
 import java.util.Arrays;
 import java.util.List;
 
-import static top.tangyh.lamp.common.constant.BizConstant.BASE_DATABASE;
 
 /**
  * 初始化系统
@@ -48,10 +48,10 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
      * 需要初始化的库
      * 可能不同的服务，会连接不同的库
      */
-    private static final List<String> INIT_DATABASE_LIST = Arrays.asList(BASE_DATABASE);
+    private static final List<String> INIT_DATABASE_LIST = Arrays.asList(CommonConstants.BASE_DATABASE);
 
     private final DataSource dataSource;
-    private final InitDbMapper initDbMapper;
+    private final InitDbRepository initDbMapper;
     private final DatabaseProperties databaseProperties;
 
     @Value("${lamp.mysql.database}")
@@ -60,7 +60,7 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean initConnect(TenantConnectDTO tenantConnect) {
+    public boolean initConnect(TenantConnectDto tenantConnect) {
         String tenant = tenantConnect.getTenant();
         this.initDatabases(tenant);
         ScriptRunner runner = this.getScriptRunner();

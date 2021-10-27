@@ -55,11 +55,11 @@ public class RoleMenu extends GeneralEntity<RoleMenu> {
 	/**
 	 * 角色ID
 	 */
-	private String roleId;
+	private Long roleId;
 
 	/**
 	 * 菜单ID
 	 */
-	private String menuId;
+	private Long menuId;
 
 }

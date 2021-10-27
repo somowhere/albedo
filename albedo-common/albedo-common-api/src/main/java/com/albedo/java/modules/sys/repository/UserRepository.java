@@ -87,7 +87,7 @@ public interface UserRepository extends BaseRepository<User> {
 	 * @param id 用户ID
 	 * @return userVo
 	 */
-	UserVo findUserVoById(String id);
+	UserVo findUserVoById(Long id);
 
 	/**
 	 * findListByRoleId
@@ -97,7 +97,7 @@ public interface UserRepository extends BaseRepository<User> {
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:35
 	 */
-	List<User> findListByRoleId(String roleId);
+	List<User> findListByRoleId(Long roleId);
 
 	/**
 	 * findListByRoleIds
@@ -107,7 +107,7 @@ public interface UserRepository extends BaseRepository<User> {
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:35
 	 */
-	List<User> findListByRoleIds(@Param("roleIds") Set<String> roleIds);
+	List<User> findListByRoleIds(@Param("roleIds") Set<Long> roleIds);
 
 	/**
 	 * findListByMenuId
@@ -117,6 +117,6 @@ public interface UserRepository extends BaseRepository<User> {
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:35
 	 */
-	List<User> findListByMenuId(String menuId);
+	List<User> findListByMenuId(Long menuId);
 
 }

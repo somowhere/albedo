@@ -53,7 +53,7 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class UserVo extends DataVo<String> {
+public class UserVo extends DataVo<Long> {
 
 	public static final String F_USERNAME = "username";
 
@@ -100,7 +100,7 @@ public class UserVo extends DataVo<String> {
 	/**
 	 * 部门ID
 	 */
-	private String deptId;
+	private Long deptId;
 
 	/**
 	 * 部门名称
@@ -128,9 +128,9 @@ public class UserVo extends DataVo<String> {
 	private List<Role> roleList;
 
 	@JsonIgnore
-	private List<String> roleIdList;
+	private List<Long> roleIdList;
 
-	public List<String> getRoleIdList() {
+	public List<Long> getRoleIdList() {
 		if (CollUtil.isEmpty(roleIdList) && CollUtil.isNotEmpty(roleList)) {
 			roleIdList = CollUtil.extractToList(roleList, Role.F_ID);
 		}

@@ -1,25 +1,17 @@
 package com.albedo.java.modules.tenant.strategy.impl;
 
+import com.albedo.java.common.core.constant.ParameterKey;
+import com.albedo.java.common.core.context.ContextUtil;
+import com.albedo.java.modules.sys.domain.*;
+import com.albedo.java.modules.sys.domain.enums.AuthorizeType;
+import com.albedo.java.modules.sys.service.*;
+import com.albedo.java.modules.tenant.domain.dto.TenantConnectDto;
+import com.albedo.java.modules.tenant.strategy.InitSystemStrategy;
 import com.baidu.fsg.uid.UidGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import top.tangyh.basic.context.ContextUtil;
-import top.tangyh.basic.database.mybatis.auth.DataScopeType;
-import top.tangyh.lamp.authority.entity.auth.*;
-import top.tangyh.lamp.authority.entity.common.Dictionary;
-import top.tangyh.lamp.authority.entity.common.Parameter;
-import top.tangyh.lamp.authority.enumeration.auth.ApplicationAppTypeEnum;
-import top.tangyh.lamp.authority.enumeration.auth.AuthorizeType;
-import top.tangyh.lamp.authority.enumeration.auth.Sex;
-import top.tangyh.lamp.authority.service.auth.*;
-import top.tangyh.lamp.authority.service.common.DictionaryService;
-import top.tangyh.lamp.authority.service.common.ParameterService;
-import top.tangyh.lamp.common.constant.DictionaryType;
-import top.tangyh.lamp.common.constant.ParameterKey;
-import top.tangyh.lamp.tenant.dto.TenantConnectDTO;
-import top.tangyh.lamp.tenant.strategy.InitSystemStrategy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,11 +50,10 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
     private static final String MSG = "msg";
     private static final String ATTACHMENT = "attachment";
     private final MenuService menuService;
-    private final ResourceService resourceService;
     private final RoleService roleService;
-    private final RoleAuthorityService roleAuthorityService;
+    private final RoleMenuService roleMenuService;
     private final ApplicationService applicationService;
-    private final DictionaryService dictionaryService;
+    private final DictService dictionaryService;
     private final ParameterService parameterService;
     private final UidGenerator uidGenerator;
     private final UserService userService;
@@ -78,7 +69,7 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean initConnect(TenantConnectDTO tenantConnect) {
+    public boolean initConnect(TenantConnectDto tenantConnect) {
         String tenant = tenantConnect.getTenant();
         // 初始化数据
         //1, 生成并关联 ID TENANT
@@ -88,16 +79,16 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
         List<Menu> menuList = new ArrayList<>();
         Map<String, Long> menuMap = new HashMap<>();
         boolean menuFlag = initMenu(menuList, menuMap);
-
-        List<Resource> resourceList = new ArrayList<>();
-        boolean resourceFlag = initResource(resourceList, menuMap);
+//
+//        List<Resource> resourceList = new ArrayList<>();
+//        boolean resourceFlag = initResource(resourceList, menuMap);
 
         // 角色
         Long roleId = uidGenerator.getUid();
         boolean roleFlag = initRole(roleId);
 
         // 资源权限
-        boolean roleAuthorityFlag = initRoleAuthority(menuList, resourceList, roleId);
+        boolean roleAuthorityFlag = initRoleAuthority(menuList, roleId);
 
         // 字典
         initDictionary();
@@ -110,7 +101,7 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
         // 内置超级管理员
         initSuperUser();
 
-        return menuFlag && resourceFlag && roleFlag && roleAuthorityFlag;
+        return menuFlag  && roleFlag && roleAuthorityFlag;
     }
 
     private boolean initApplication() {
@@ -121,9 +112,8 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
 
     private boolean initSuperUser() {
         User user = User.builder()
-                .account("lampAdmin").name("内置超级管理员").password("lamp")
-                .readonly(true).sex(Sex.M).avatar("cnrhVkzwxjPwAaCfPbdc.png")
-                .state(true).passwordErrorNum(0)
+			.username("admin").password("11111")
+			.nickname("超级管理员").avatar("cnrhVkzwxjPwAaCfPbdc.png")
                 .build();
         return userService.initUser(user);
     }
@@ -134,8 +124,8 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
         return parameterService.saveBatch(list);
     }
 
-    private boolean initRoleAuthority(List<Menu> menuList, List<Resource> resourceList, Long roleId) {
-        List<RoleAuthority> roleAuthorityList = new ArrayList<>();
+    private boolean initRoleAuthority(List<Menu> menuList, Long roleId) {
+        List<RoleMenu> roleAuthorityList = new ArrayList<>();
         menuList.forEach(item ->
                 roleAuthorityList.add(RoleAuthority.builder().authorityType(AuthorizeType.MENU).authorityId(item.getId()).roleId(roleId).build())
         );

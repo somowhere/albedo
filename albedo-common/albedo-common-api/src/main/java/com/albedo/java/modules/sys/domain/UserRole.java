@@ -34,8 +34,11 @@ package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.basic.domain.GeneralEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -55,11 +58,17 @@ public class UserRole extends GeneralEntity<UserRole> {
 	/**
 	 * 用户ID
 	 */
-	private String userId;
+	private Long userId;
 
 	/**
 	 * 角色ID
 	 */
-	private String roleId;
+	private Long roleId;
+
+	@Builder
+	public UserRole(Long roleId, Long userId) {
+		this.roleId = roleId;
+		this.userId = userId;
+	}
 
 }

@@ -53,7 +53,7 @@ public interface RoleRepository extends BaseRepository<Role> {
 	 * @param userId
 	 * @return
 	 */
-	List<Role> findListByUserId(String userId);
+	List<Role> findListByUserId(Long userId);
 
 	/**
 	 * 通过部门ID，查询角色信息
@@ -61,7 +61,7 @@ public interface RoleRepository extends BaseRepository<Role> {
 	 * @param deptId
 	 * @return
 	 */
-	List<Role> findListByDeptId(String deptId);
+	List<Role> findListByDeptId(Long deptId);
 
 	/**
 	 * 通过菜单ID，查询角色信息
@@ -69,6 +69,6 @@ public interface RoleRepository extends BaseRepository<Role> {
 	 * @param menuId
 	 * @return
 	 */
-	List<Role> findListByMenuId(String menuId);
+	List<Role> findListByMenuId(Long menuId);
 
 }

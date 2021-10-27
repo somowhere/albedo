@@ -23,7 +23,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Accessors(chain = true)
 @Builder
-@ApiModel(value = "TenantConnectDTO", description = "租户连接")
+@ApiModel(value = "TenantConnectDto", description = "租户连接")
 public class TenantConnectDto {
     @ApiModelProperty(value = "企业ID")
     @NotNull(message = "ID不能为空")

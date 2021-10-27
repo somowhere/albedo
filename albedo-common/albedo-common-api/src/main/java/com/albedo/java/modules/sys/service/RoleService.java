@@ -55,17 +55,17 @@ public interface RoleService extends DataService<Role, RoleDto> {
 	 * @param userId
 	 * @return
 	 */
-	List<Role> findListByUserId(String userId);
+	List<Role> findListByUserId(Long userId);
 
 	/**
 	 * findDeptIdsByRoleId
 	 *
-	 * @param id
+	 * @param roleId
 	 * @return java.util.List<java.lang.String>
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:34
 	 */
-	List<String> findDeptIdsByRoleId(String id);
+	List<Long> findDeptIdsByRoleId(Long roleId);
 
 	/**
 	 * 通过角色ID，删除角色
@@ -73,7 +73,7 @@ public interface RoleService extends DataService<Role, RoleDto> {
 	 * @param ids
 	 * @return
 	 */
-	Boolean removeRoleByIds(Set<String> ids);
+	Boolean removeRoleByIds(Set<Long> ids);
 
 	/**
 	 * lockOrUnLock
@@ -82,7 +82,7 @@ public interface RoleService extends DataService<Role, RoleDto> {
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:34
 	 */
-	void lockOrUnLock(Set<String> idList);
+	void lockOrUnLock(Set<Long> idList);
 
 	/**
 	 * findLevelByUserId
@@ -92,6 +92,6 @@ public interface RoleService extends DataService<Role, RoleDto> {
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:34
 	 */
-	Integer findLevelByUserId(String userId);
+	Integer findLevelByUserId(Long userId);
 
 }

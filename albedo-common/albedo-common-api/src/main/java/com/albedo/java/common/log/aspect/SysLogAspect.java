@@ -37,7 +37,7 @@ import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.log.enums.LogType;
-import com.albedo.java.common.log.event.SysLogEvent;
+import com.albedo.java.common.event.listener.SysLogEvent;
 import com.albedo.java.common.log.util.SysLogUtils;
 import com.albedo.java.modules.sys.domain.LogOperate;
 import lombok.SneakyThrows;

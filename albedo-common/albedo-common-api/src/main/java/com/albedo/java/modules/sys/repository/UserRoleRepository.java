@@ -54,7 +54,7 @@ public interface UserRoleRepository extends BaseRepository<UserRole> {
 	 * @author somewhere
 	 * @date 2017年12月7日 16:31:38
 	 */
-	boolean deleteByUserId(@Param("userId") String userId);
+	boolean deleteByUserId(@Param("userId") Long userId);
 	/**
 	 * 根据用户Id删除该用户的角色关系
 	 * @param userId 用户ID

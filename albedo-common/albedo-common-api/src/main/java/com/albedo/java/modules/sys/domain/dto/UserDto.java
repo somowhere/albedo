@@ -49,7 +49,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class UserDto extends DataDto<String> {
+public class UserDto extends DataDto<Long> {
 
 	public static final int PASSWORD_MIN_LENGTH = 4;
 
@@ -95,7 +95,7 @@ public class UserDto extends DataDto<String> {
 	/**
 	 * 部门ID
 	 */
-	private String deptId;
+	private Long deptId;
 
 	/**
 	 * 微信openId
@@ -111,7 +111,7 @@ public class UserDto extends DataDto<String> {
 	 * 角色ID
 	 */
 	@NotNull
-	private List<String> roleIdList;
+	private List<Long> roleIdList;
 
 	public UserDto(UserVo userVo) {
 		this.setId(userVo.getId());

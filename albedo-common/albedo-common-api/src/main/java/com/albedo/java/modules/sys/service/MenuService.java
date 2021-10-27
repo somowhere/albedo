@@ -58,7 +58,7 @@ public interface MenuService extends TreeService<Menu, MenuDto> {
 	 * @param roleId 角色ID
 	 * @return 菜单列表
 	 */
-	List<MenuVo> findListByRoleId(String roleId);
+	List<MenuVo> findListByRoleId(Long roleId);
 
 	/**
 	 * 级联删除菜单
@@ -66,7 +66,7 @@ public interface MenuService extends TreeService<Menu, MenuDto> {
 	 * @param ids 菜单ID
 	 * @return 成功、失败
 	 */
-	void removeByIds(Set<String> ids);
+	void removeByIds(Set<Long> ids);
 
 	/**
 	 * saveByGenScheme
@@ -95,6 +95,6 @@ public interface MenuService extends TreeService<Menu, MenuDto> {
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:34
 	 */
-	Object findTreeByUserId(String userId);
+	Object findTreeByUserId(Long userId);
 
 }

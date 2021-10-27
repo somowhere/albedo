@@ -142,7 +142,7 @@ public class DictResource extends BaseResource {
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_dict_del')")
 	@LogOperate(value = "字典管理删除")
-	public Result removeByIds(@RequestBody Set<String> ids) {
+	public Result removeByIds(@RequestBody Set<Long> ids) {
 		return Result.buildOkData(dictService.removeByIds(ids));
 	}
 
@@ -153,7 +153,7 @@ public class DictResource extends BaseResource {
 	@PutMapping
 	@LogOperate(value = "字典管理锁定/解锁")
 	@PreAuthorize("@pms.hasPermission('sys_dept_lock')")
-	public Result lockOrUnLock(@RequestBody Set<String> ids) {
+	public Result lockOrUnLock(@RequestBody Set<Long> ids) {
 		dictService.lockOrUnLock(ids);
 		return Result.buildOk("操作成功");
 	}
@@ -165,7 +165,7 @@ public class DictResource extends BaseResource {
 	 */
 
 	@GetMapping("/all")
-	public Result<String> findAllList() {
+	public Result findAllList() {
 		List<Dict> list = dictService.list();
 		return Result.buildOkData(Json.toJsonString(list));
 	}

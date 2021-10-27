@@ -30,31 +30,42 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.log.event;
+package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.modules.sys.domain.LogOperate;
-import com.albedo.java.modules.sys.service.LogOperateService;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.event.EventListener;
-import org.springframework.core.annotation.Order;
-import org.springframework.scheduling.annotation.Async;
+import com.albedo.java.modules.sys.domain.Application;
+import com.albedo.java.modules.sys.domain.Parameter;
+import com.albedo.java.modules.sys.domain.dto.ApplicationDto;
+import com.albedo.java.modules.sys.domain.dto.ParameterDto;
+import com.albedo.java.plugins.mybatis.service.DataCacheService;
+import com.albedo.java.plugins.mybatis.service.DataService;
+
+import java.util.List;
+import java.util.Map;
 
 /**
- * @author somewhere 异步监听日志事件
+ * <p>
+ * 应用接口
+ * </p>
+ *
+ * @author somewhere
+ * @since 2019/2/1
  */
-@Slf4j
-@AllArgsConstructor
-public class SysLogListener {
+public interface ParameterService extends DataService<Parameter, ParameterDto> {
 
-	private final LogOperateService logOperateService;
+	/**
+	 * 根据参数键查询参数值
+	 *
+	 * @param key    参数键
+	 * @param defVal 参数值
+	 * @return 参数值
+	 */
+	String getValue(String key, String defVal);
 
-	@Async
-	@Order
-	@EventListener(SysLogEvent.class)
-	public void saveSysLog(SysLogEvent event) {
-		LogOperate logOperate = (LogOperate) event.getSource();
-		logOperateService.saveOrUpdate(logOperate);
-	}
-
+	/**
+	 * 根据参数键查询参数值
+	 *
+	 * @param keys 参数键
+	 * @return 参数值
+	 */
+	Map<String, String> findParams(List<String> keys);
 }

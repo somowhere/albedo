@@ -1,6 +1,6 @@
 package com.albedo.java.modules.tenant.strategy;
 
-import top.tangyh.lamp.tenant.dto.TenantConnectDTO;
+import com.albedo.java.modules.tenant.domain.dto.TenantConnectDto;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public interface InitSystemStrategy {
      * @param tenantConnect 链接信息
      * @return 是否成功
      */
-    boolean initConnect(TenantConnectDTO tenantConnect);
+    boolean initConnect(TenantConnectDto tenantConnect);
 
     /**
      * 重置系统

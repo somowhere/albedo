@@ -60,11 +60,11 @@ public class RoleDept extends GeneralEntity<RoleDept> {
 	/**
 	 * 角色ID
 	 */
-	private String roleId;
+	private Long roleId;
 
 	/**
 	 * 部门ID
 	 */
-	private String deptId;
+	private Long deptId;
 
 }

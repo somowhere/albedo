@@ -83,8 +83,8 @@ public class Appendix extends IdEntity<Appendix, Long> {
 
     @Builder
     public Appendix(Long id, LocalDateTime createdDate, Long createdBy, LocalDateTime lastModifiedDate, Long lastModifiedBy,
-                    Long bizId, String bizType, FileTypeEnum fileType, String bucket, String path,
-                    String originalFileName, String contentType, Long size) {
+					Long bizId, String bizType, FileTypeEnum fileType, String bucket, String path,
+					String originalFileName, String contentType, Long size) {
         this.id = id;
         this.createdDate = createdDate;
         this.createdBy = createdBy;

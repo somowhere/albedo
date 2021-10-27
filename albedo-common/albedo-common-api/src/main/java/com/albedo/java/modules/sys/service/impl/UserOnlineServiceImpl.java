@@ -63,7 +63,7 @@ public class UserOnlineServiceImpl extends BaseServiceImpl<UserOnlineRepository,
 	public void offlineBySessionId(String sessionId) {
 		UserOnline userOnline = getById(sessionId);
 		if (userOnline != null) {
-			userOnline.setStatus(OnlineStatus.off_line);
+			userOnline.setStatus(OnlineStatus.OFFLINE);
 			repository.updateById(userOnline);
 		}
 	}
@@ -73,6 +73,11 @@ public class UserOnlineServiceImpl extends BaseServiceImpl<UserOnlineRepository,
 		this.remove(Wrappers.<UserOnline>lambdaQuery().eq(UserOnline::getUserId, userOnline.getUserId()).or()
 			.eq(UserOnline::getSessionId, userOnline.getSessionId()));
 		saveOrUpdate(userOnline);
+	}
+
+	@Override
+	public void reset() {
+
 	}
 
 }

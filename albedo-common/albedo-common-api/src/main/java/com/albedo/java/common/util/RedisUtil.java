@@ -109,9 +109,9 @@ public class RedisUtil {
 	 * @param prefix 前缀
 	 * @param keys
 	 */
-	public static Long deleteLike(String prefix, Set<String> keys) {
+	public static Long deleteLike(String prefix, Set<Long> keys) {
 		Set<Object> delKeys = new HashSet<>();
-		for (String key : keys) {
+		for (Long key : keys) {
 			delKeys.addAll(redisTemplate.keys(new StringBuffer(prefix).append(key).toString()));
 		}
 		long count = redisTemplate.delete(delKeys);

@@ -1,10 +1,10 @@
 package com.albedo.java.modules.tenant.strategy;
 
 import cn.hutool.core.util.StrUtil;
+import com.albedo.java.common.core.util.ArgumentAssert;
+import com.albedo.java.modules.tenant.domain.dto.TenantConnectDto;
+import com.albedo.java.plugins.database.properties.DatabaseProperties;
 import org.springframework.stereotype.Component;
-import top.tangyh.basic.database.properties.DatabaseProperties;
-import top.tangyh.basic.utils.ArgumentAssert;
-import top.tangyh.lamp.tenant.dto.TenantConnectDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -31,7 +31,7 @@ public class InitSystemContext {
      *
      * @param tenantConnect 链接参数
      */
-    public boolean initConnect(TenantConnectDTO tenantConnect) {
+    public boolean initConnect(TenantConnectDto tenantConnect) {
         InitSystemStrategy initSystemStrategy = initSystemStrategyMap.get(databaseProperties.getMultiTenantType().name());
         ArgumentAssert.notNull(initSystemStrategy, StrUtil.format("您配置的租户模式:{}不可用", databaseProperties.getMultiTenantType().name()));
 

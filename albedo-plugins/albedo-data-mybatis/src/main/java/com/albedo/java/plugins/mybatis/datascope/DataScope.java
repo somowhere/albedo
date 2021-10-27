@@ -73,6 +73,6 @@ public class DataScope implements Serializable {
 	 */
 	private boolean isSelf;
 
-	private String userId;
+	private Long userId;
 
 }

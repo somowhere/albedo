@@ -72,4 +72,10 @@ public interface UserOnlineService extends BaseService<UserOnline> {
 	 */
 	void saveByEvent(UserOnline userOnline);
 
+	/**
+	 * 重置用户登录
+	 *
+	 * @return 是否成功
+	 */
+	void reset();
 }

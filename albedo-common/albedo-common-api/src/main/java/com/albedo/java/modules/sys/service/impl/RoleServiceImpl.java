@@ -36,6 +36,7 @@ import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.CollUtil;
+import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.plugins.mybatis.service.impl.DataServiceImpl;
 import com.albedo.java.common.security.util.SecurityUtil;
@@ -82,7 +83,7 @@ public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleD
 
 	private RoleDeptService roleDeptService;
 
-	public RoleDto getOneDto(String id) {
+	public RoleDto getOneDto(Long id) {
 		RoleDto oneVo = super.getOneDto(id);
 		oneVo.setMenuIdList(roleMenuService.list(Wrappers.<RoleMenu>query().lambda().eq(RoleMenu::getRoleId, id))
 			.stream().map(RoleMenu::getMenuId).collect(Collectors.toList()));
@@ -92,7 +93,7 @@ public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleD
 
 	@Override
 	@Cacheable(key = "'findDeptIdsByRoleId:' + #p0")
-	public List<String> findDeptIdsByRoleId(String roleId) {
+	public List<Long> findDeptIdsByRoleId(Long roleId) {
 		return roleDeptService.list(Wrappers.<RoleDept>query().lambda().eq(RoleDept::getRoleId, roleId)).stream()
 			.map(RoleDept::getDeptId).collect(Collectors.toList());
 	}
@@ -106,7 +107,7 @@ public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleD
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	@Cacheable(key = "'findListByUserId:' + #p0")
-	public List<Role> findListByUserId(String userId) {
+	public List<Role> findListByUserId(Long userId) {
 		return repository.findListByUserId(userId);
 	}
 
@@ -118,7 +119,7 @@ public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleD
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public Boolean removeRoleByIds(Set<String> ids) {
+	public Boolean removeRoleByIds(Set<Long> ids) {
 		verification(ids);
 		ids.forEach(id -> {
 			SysCacheUtil.delRoleCaches(id);
@@ -128,7 +129,7 @@ public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleD
 		return Boolean.TRUE;
 	}
 
-	public void verification(Set<String> ids) {
+	public void verification(Set<Long> ids) {
 		List<User> userList = userRepository.findListByRoleIds(ids);
 		if (CollUtil.isNotEmpty(userList)) {
 			throw new BizException("所选角色存在用户关联，请解除关联再试！");
@@ -138,7 +139,7 @@ public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleD
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void saveOrUpdate(RoleDto roleDto) {
-		boolean add = StringUtil.isEmpty(roleDto.getId());
+		boolean add = ObjectUtil.isEmpty(roleDto.getId());
 		super.saveOrUpdate(roleDto);
 		if (CollUtil.isNotEmpty(roleDto.getMenuIdList())) {
 			roleMenuService.remove(Wrappers.<RoleMenu>query().lambda().eq(RoleMenu::getRoleId, roleDto.getId()));
@@ -170,7 +171,7 @@ public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleD
 
 	@Override
 	@CacheEvict(allEntries = true)
-	public void lockOrUnLock(Set<String> idList) {
+	public void lockOrUnLock(Set<Long> idList) {
 		idList.forEach(id -> {
 			SysCacheUtil.delRoleCaches(id);
 			Role role = repository.selectById(id);
@@ -181,7 +182,7 @@ public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleD
 	}
 
 	@Override
-	public Integer findLevelByUserId(String userId) {
+	public Integer findLevelByUserId(Long userId) {
 		List<Integer> levels = this.findListByUserId(SecurityUtil.getUser().getId()).stream().map(Role::getLevel)
 			.collect(Collectors.toList());
 		if (CollUtil.isEmpty(levels)) {

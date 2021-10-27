@@ -247,4 +247,14 @@ public interface CommonConstants {
 
 	String ANONYMOUS_USER = "anonymoususer";
 
+	/**
+	 * 初始化的租户管理员角色
+	 */
+	String ADMIN_ROLE_CODE = "SUPER_ADMIN";
+
+	/**
+	 * 基础库
+	 */
+	String BASE_DATABASE = "albedo";
+
 }

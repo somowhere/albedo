@@ -38,9 +38,7 @@ import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.exception.EntityExistException;
-import com.albedo.java.common.core.util.BeanUtil;
-import com.albedo.java.common.core.util.CollUtil;
-import com.albedo.java.common.core.util.StringUtil;
+import com.albedo.java.common.core.util.*;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.plugins.mybatis.util.QueryWrapperUtil;
 import com.albedo.java.plugins.mybatis.datascope.DataScope;
@@ -131,7 +129,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	@Cacheable(key = "'findUserVoById:' + #p0")
-	public UserVo findUserVoById(String id) {
+	public UserVo findUserVoById(Long id) {
 		UserVo userVo = baseMapper.findUserVoById(id);
 		return userVo;
 	}
@@ -145,7 +143,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	@Cacheable(key = "'findDtoById:' + #p0")
-	public UserDto findDtoById(String id) {
+	public UserDto findDtoById(Long id) {
 		UserVo userVo = repository.findUserVoById(id);
 		return new UserDto(userVo);
 	}
@@ -163,8 +161,8 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 		userInfo.setUser(userVo);
 		List<Role> roles = roleService.findListByUserId(userVo.getId());
 		// 设置角色列表 （ID）
-		List<String> roleIds = roles.stream().map(Role::getId).collect(Collectors.toList());
-		userInfo.setRoles(ArrayUtil.toArray(roleIds, String.class));
+		List<Long> roleIds = roles.stream().map(Role::getId).collect(Collectors.toList());
+		userInfo.setRoles(ArrayUtil.toArray(roleIds, Long.class));
 		// 设置权限列表（menu.permission）
 		Set<String> permissions = new HashSet<>();
 		roleIds.forEach(roleId -> {
@@ -199,19 +197,22 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 		wrapper.orderByDesc("a.created_date");
 		return repository.findUserVoPage(wrapper, dataScope);
 	}
-
+	public Boolean exitUserByUserName(User user) {
+		return getOne(Wrappers.<User>query().ne(ObjectUtil.isNotEmpty(user.getId()), UserDto.F_ID, user.getId())
+			.eq(UserDto.F_USERNAME, user.getUsername())) != null;
+	}
 	public Boolean exitUserByUserName(UserDto userDto) {
-		return getOne(Wrappers.<User>query().ne(StringUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
+		return getOne(Wrappers.<User>query().ne(ObjectUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
 			.eq(UserDto.F_USERNAME, userDto.getUsername())) != null;
 	}
 
 	public Boolean exitUserByEmail(UserDto userDto) {
-		return getOne(Wrappers.<User>query().ne(StringUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
+		return getOne(Wrappers.<User>query().ne(ObjectUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
 			.eq(UserDto.F_EMAIL, userDto.getEmail())) != null;
 	}
 
 	public Boolean exitUserByPhone(UserDto userDto) {
-		return getOne(Wrappers.<User>query().ne(StringUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
+		return getOne(Wrappers.<User>query().ne(ObjectUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
 			.eq(UserDto.F_PHONE, userDto.getPhone())) != null;
 	}
 
@@ -224,7 +225,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(cacheNames = {CacheNameConstants.USER_DETAILS}, allEntries = true)
 	public void saveOrUpdate(UserDto userDto) {
-		boolean add = StringUtil.isEmpty(userDto.getId());
+		boolean add = ObjectUtil.isEmpty(userDto.getId());
 		if (add) {
 			Assert.isTrue(StringUtil.isNotEmpty(userDto.getPassword()), "密码不能为空");
 		}
@@ -253,21 +254,18 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 			if (!add) {
 				SysCacheUtil.delUserCaches(user.getId(), user.getUsername());
 			}
-			List<UserRole> userRoleList = userDto.getRoleIdList().stream().map(roleId -> {
-				UserRole userRole = new UserRole();
-				userRole.setUserId(user.getId());
-				userRole.setRoleId(roleId);
-				return userRole;
-			}).collect(Collectors.toList());
+			List<UserRole> userRoleList = userDto.getRoleIdList().stream()
+				.map(roleId -> UserRole.builder().userId(user.getId()).roleId(roleId).build())
+				.collect(Collectors.toList());
 			userRoleService.removeRoleByUserId(user.getId());
 			userRoleService.saveBatch(userRoleList);
 		}
 	}
 
 	@Override
-	public Boolean removeByIds(List<String> idList) {
+	public Boolean removeByIds(List<Long> idList) {
 		idList.stream().forEach(id -> {
-			Assert.isTrue(!StringUtil.equals(SecurityUtil.getUser().getId(), id), "不能操作当前登录用户");
+			Assert.isTrue(!ObjectUtil.equals(SecurityUtil.getUser().getId(), id), "不能操作当前登录用户");
 			User user = repository.selectById(id);
 			SysCacheUtil.delUserCaches(user.getId(), user.getUsername());
 			userRoleService.removeRoleByUserId(user.getId());
@@ -297,10 +295,10 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	}
 
 	@Override
-	public void lockOrUnLock(Set<String> idList) {
+	public void lockOrUnLock(Set<Long> idList) {
 		Assert.isTrue(CollUtil.isNotEmpty(idList), "idList不能为空");
-		for (String id : idList) {
-			Assert.isTrue(!StringUtil.equals(SecurityUtil.getUser().getId(), id), "不能操作当前登录用户");
+		for (Long id : idList) {
+			Assert.isTrue(!ObjectUtil.equals(SecurityUtil.getUser().getId(), id), "不能操作当前登录用户");
 			User user = repository.selectById(id);
 			Assert.isTrue(user != null, "无法找到ID为" + id + "的数据");
 			user.setAvailable(
@@ -363,7 +361,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	}
 
 	@Override
-	public List<User> findListByRoleId(String roleId) {
+	public List<User> findListByRoleId(Long roleId) {
 		return repository.findListByRoleId(roleId);
 	}
 
@@ -386,4 +384,17 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 		repository.updateById(user);
 	}
 
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean initUser(User user) {
+		// username before comparing with database
+		if (exitUserByUserName(user)) {
+			throw new EntityExistException(User.class, "username", user.getUsername());
+		}
+		if (StringUtil.isNotEmpty(user.getPassword())) {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+		}
+		super.saveOrUpdate(user);
+		return userRoleService.initAdmin(user.getId());
+	}
 }

@@ -110,6 +110,6 @@ public class UserOnline extends BaseEntity<UserOnline> {
 	 * 在线状态
 	 */
 	@DictType(DictNameConstants.SYS_ONLINE_STATUS)
-	private OnlineStatus status = OnlineStatus.on_line;
+	private OnlineStatus status = OnlineStatus.ONLINE;
 
 }

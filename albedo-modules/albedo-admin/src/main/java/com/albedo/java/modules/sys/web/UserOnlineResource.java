@@ -87,7 +87,7 @@ public class UserOnlineResource extends BaseResource {
 				redisTemplate.boundHashOps(RedisSessionRegistry.SESSIONIDS).put(online.getSessionId(),
 					sessionInformation);
 			}
-			online.setStatus(OnlineStatus.off_line);
+			online.setStatus(OnlineStatus.OFFLINE);
 			userOnlineService.updateById(online);
 		}
 		return Result.buildOk("操作成功");

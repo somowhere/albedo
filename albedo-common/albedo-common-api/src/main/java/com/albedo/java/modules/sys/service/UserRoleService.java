@@ -53,6 +53,13 @@ public interface UserRoleService extends BaseService<UserRole> {
 	 * @author 寻欢·李
 	 * @date 2017年12月7日 16:31:38
 	 */
-	Boolean removeRoleByUserId(String userId);
+	Boolean removeRoleByUserId(Long userId);
 
+	/**
+	 * 初始化超级管理员角色 权限
+	 *
+	 * @param userId 用户id
+	 * @return 是否正确
+	 */
+    boolean initAdmin(Long userId);
 }

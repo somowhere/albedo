@@ -16,26 +16,57 @@
 
 package com.albedo.java.modules.sys.domain.enums;
 
+import com.albedo.java.common.core.enumeration.BaseEnum;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.util.stream.Stream;
+
 /**
  * 用户会话
  *
  * @author somewhere
  */
-public enum OnlineStatus {
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@ApiModel(value = "OnlineStatus", description = "性别-枚举")
+public enum OnlineStatus implements BaseEnum {
 
 	/**
 	 * 用户状态
 	 */
-	on_line("在线"), off_line("离线");
+	ONLINE("在线"),
+	OFFLINE("离线")
+	;
 
-	private final String info;
+	@ApiModelProperty(value = "描述")
+	private String desc;
 
-	OnlineStatus(String info) {
-		this.info = info;
+
+	/**
+	 * 根据当前枚举的name匹配
+	 */
+	public static OnlineStatus match(String val, OnlineStatus def) {
+		return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
 	}
 
-	public String getInfo() {
-		return info;
+	public static OnlineStatus get(String val) {
+		return match(val, null);
 	}
+
+	public boolean eq(OnlineStatus val) {
+		return val != null && eq(val.name());
+	}
+
+	@Override
+	@ApiModelProperty(value = "用户状态", allowableValues = "ONLINE,OFFLINE", example = "ONLINE")
+	public String getCode() {
+		return this.name();
+	}
+
 
 }

@@ -92,7 +92,7 @@ public interface UserService extends DataService<User, UserDto> {
 	 * @param idList 用户
 	 * @return boolean
 	 */
-	Boolean removeByIds(List<String> idList);
+	Boolean removeByIds(List<Long> idList);
 
 	/**
 	 * 通过ID查询用户信息
@@ -100,7 +100,7 @@ public interface UserService extends DataService<User, UserDto> {
 	 * @param id 用户ID
 	 * @return 用户信息
 	 */
-	UserVo findUserVoById(String id);
+	UserVo findUserVoById(Long id);
 
 	/**
 	 * 通过ID查询用户信息
@@ -108,7 +108,7 @@ public interface UserService extends DataService<User, UserDto> {
 	 * @param id 用户ID
 	 * @return 用户信息
 	 */
-	UserDto findDtoById(String id);
+	UserDto findDtoById(Long id);
 
 	/**
 	 * 查询上级部门的用户信息
@@ -125,7 +125,7 @@ public interface UserService extends DataService<User, UserDto> {
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:35
 	 */
-	void lockOrUnLock(Set<String> idList);
+	void lockOrUnLock(Set<Long> idList);
 
 	/**
 	 * resetPassword
@@ -173,7 +173,7 @@ public interface UserService extends DataService<User, UserDto> {
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:35
 	 */
-	List<User> findListByRoleId(String roleId);
+	List<User> findListByRoleId(Long roleId);
 
 	/**
 	 * updateEmail
@@ -195,4 +195,11 @@ public interface UserService extends DataService<User, UserDto> {
 	 */
 	void updateAvatar(String username, String avatar);
 
+	/**
+	 * 初始化用户
+	 *
+	 * @param user 用户
+	 * @return 是否成功
+	 */
+    boolean initUser(User user);
 }

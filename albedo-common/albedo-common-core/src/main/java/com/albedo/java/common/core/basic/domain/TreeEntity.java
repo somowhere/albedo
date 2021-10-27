@@ -32,7 +32,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class TreeEntity<T extends TreeEntity<T>> extends IdEntity<T, String> {
+public class TreeEntity<T extends TreeEntity<T>> extends IdEntity<T, Long> {
 
 	public static final String F_NAME = "name";
 
@@ -94,7 +94,7 @@ public class TreeEntity<T extends TreeEntity<T>> extends IdEntity<T, String> {
 		this.sort = 30;
 	}
 
-	public TreeEntity(String id) {
+	public TreeEntity(Long id) {
 		super();
 		this.id = id;
 		this.sort = 30;

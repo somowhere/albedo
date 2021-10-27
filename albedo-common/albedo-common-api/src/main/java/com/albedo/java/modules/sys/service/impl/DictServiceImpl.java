@@ -104,7 +104,7 @@ public class DictServiceImpl extends TreeServiceImpl<DictRepository, Dict, DictD
 	}
 
 	public Boolean exitUserByCode(DictDto dictDto) {
-		return getOne(Wrappers.<Dict>query().ne(StringUtil.isNotEmpty(dictDto.getId()), DictDto.F_ID, dictDto.getId())
+		return getOne(Wrappers.<Dict>query().ne(ObjectUtil.isNotEmpty(dictDto.getId()), DictDto.F_ID, dictDto.getId())
 			.eq(DictDto.F_CODE, dictDto.getCode())) != null;
 	}
 
@@ -144,7 +144,7 @@ public class DictServiceImpl extends TreeServiceImpl<DictRepository, Dict, DictD
 
 	@Override
 	@CacheEvict(allEntries = true)
-	public void lockOrUnLock(Set<String> ids) {
+	public void lockOrUnLock(Set<Long> ids) {
 		List<Dict> dictList = Lists.newArrayList();
 		repository.selectBatchIds(ids).forEach(dict -> {
 			dictList.addAll(repository.selectList(

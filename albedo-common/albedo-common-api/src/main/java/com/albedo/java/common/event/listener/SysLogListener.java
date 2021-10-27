@@ -30,18 +30,31 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.log.event;
+package com.albedo.java.common.event.listener;
 
 import com.albedo.java.modules.sys.domain.LogOperate;
-import org.springframework.context.ApplicationEvent;
+import com.albedo.java.modules.sys.service.LogOperateService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
+import org.springframework.scheduling.annotation.Async;
 
 /**
- * @author somewhere 系统日志事件
+ * @author somewhere 异步监听日志事件
  */
-public class SysLogEvent extends ApplicationEvent {
+@Slf4j
+@AllArgsConstructor
+public class SysLogListener {
 
-	public SysLogEvent(LogOperate source) {
-		super(source);
+	private final LogOperateService logOperateService;
+
+	@Async
+	@Order
+	@EventListener(SysLogEvent.class)
+	public void saveSysLog(SysLogEvent event) {
+		LogOperate logOperate = (LogOperate) event.getSource();
+		logOperateService.saveOrUpdate(logOperate);
 	}
 
 }
