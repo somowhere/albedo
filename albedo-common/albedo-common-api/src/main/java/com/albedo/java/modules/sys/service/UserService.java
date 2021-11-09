@@ -33,8 +33,6 @@
 package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.core.vo.PageModel;
-import com.albedo.java.plugins.mybatis.datascope.DataScope;
-import com.albedo.java.plugins.mybatis.service.DataService;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
 import com.albedo.java.modules.sys.domain.dto.UserEmailDto;
@@ -44,6 +42,8 @@ import com.albedo.java.modules.sys.domain.vo.UserInfo;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.albedo.java.modules.sys.domain.vo.account.PasswordChangeVo;
 import com.albedo.java.modules.sys.domain.vo.account.PasswordRestVo;
+import com.albedo.java.plugins.mybatis.datascope.DataScope;
+import com.albedo.java.plugins.mybatis.service.DataService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
@@ -201,5 +201,5 @@ public interface UserService extends DataService<User, UserDto> {
 	 * @param user 用户
 	 * @return 是否成功
 	 */
-    boolean initUser(User user);
+	boolean initUser(User user);
 }

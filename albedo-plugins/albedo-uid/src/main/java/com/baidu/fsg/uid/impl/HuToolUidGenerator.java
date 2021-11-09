@@ -8,28 +8,28 @@ import com.baidu.fsg.uid.exception.UidGenerateException;
 /**
  * 基于Hu tool 工具类实现的雪花id生成器
  *
- * @author zuihou
+ * @author somewhere
  * @date 2020/9/15 4:44 下午
  */
 public class HuToolUidGenerator implements UidGenerator {
-    private final Snowflake snowflake;
+	private final Snowflake snowflake;
 
-    public HuToolUidGenerator(long workerId, long datacenterId) {
-        this.snowflake = IdUtil.getSnowflake(workerId, datacenterId);
-    }
+	public HuToolUidGenerator(long workerId, long datacenterId) {
+		this.snowflake = IdUtil.getSnowflake(workerId, datacenterId);
+	}
 
-    @Override
-    public long getUid() throws UidGenerateException {
-        return snowflake.nextId();
-    }
+	@Override
+	public long getUid() throws UidGenerateException {
+		return snowflake.nextId();
+	}
 
-    @Override
-    public String parseUid(long uid) {
-        long workerId = snowflake.getWorkerId(uid);
-        long dataCenterId = snowflake.getDataCenterId(uid);
-        long timestamp = snowflake.getGenerateDateTime(uid);
+	@Override
+	public String parseUid(long uid) {
+		long workerId = snowflake.getWorkerId(uid);
+		long dataCenterId = snowflake.getDataCenterId(uid);
+		long timestamp = snowflake.getGenerateDateTime(uid);
 
-        return String.format("{\"UID\":\"%d\",\"timestamp\":\"%d\",\"workerId\":\"%d\",\"dataCenterId\":\"%d\"}",
-                uid, timestamp, workerId, dataCenterId);
-    }
+		return String.format("{\"UID\":\"%d\",\"timestamp\":\"%d\",\"workerId\":\"%d\",\"dataCenterId\":\"%d\"}",
+			uid, timestamp, workerId, dataCenterId);
+	}
 }

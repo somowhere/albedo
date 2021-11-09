@@ -40,7 +40,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.expression.Alias;
 import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.expression.StringValue;
+import net.sf.jsqlparser.expression.LongValue;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
 import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
@@ -59,7 +59,6 @@ import org.apache.ibatis.mapping.StatementType;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
-import java.sql.SQLException;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -76,16 +75,16 @@ public class DataScopeInterceptor implements InnerInterceptor {
 	@SneakyThrows
 	@Override
 	public void beforeQuery(Executor executor, MappedStatement mappedStatement, Object parameter, RowBounds rowBounds,
-							ResultHandler resultHandler, BoundSql boundSql) throws SQLException {
+							ResultHandler resultHandler, BoundSql boundSql) {
 		if (SqlCommandType.SELECT == mappedStatement.getSqlCommandType()
 			&& StatementType.CALLABLE != mappedStatement.getStatementType()) {
 			// 查找参数中包含DataScope类型的参数
 			DataScope dataScope = findDataScopeObject(parameter);
 
 			if (dataScope != null && !dataScope.isAll()) {
-				String scopeName = dataScope.getScopeName(), creatorName = dataScope.getCreatorName(),
-					userId = dataScope.getUserId();
-				Set<String> deptIds = dataScope.getDeptIds();
+				String scopeName = dataScope.getScopeName(), creatorName = dataScope.getCreatorName();
+				Long userId = dataScope.getUserId();
+				Set<Long> deptIds = dataScope.getDeptIds();
 				String originalSql = boundSql.getSql();
 				Select selectStatement = (Select) CCJSqlParserUtil.parse(originalSql);
 				SelectBody selectBody = selectStatement.getSelectBody();
@@ -99,12 +98,12 @@ public class DataScopeInterceptor implements InnerInterceptor {
 					}
 					if (StringUtil.isNotBlank(scopeName) && CollectionUtil.isNotEmpty(deptIds)) {
 						ItemsList itemsList = new ExpressionList(
-							deptIds.stream().map(deptId -> new StringValue(deptId)).collect(Collectors.toList()));
+							deptIds.stream().map(deptId -> new LongValue(deptId)).collect(Collectors.toList()));
 						expression = new InExpression(new Column(aliaName + scopeName), itemsList);
 					} else if (StringUtil.isNotEmpty(creatorName) && dataScope.isSelf()) {
 						EqualsTo equalsTo = new EqualsTo();
 						equalsTo.setLeftExpression(new Column(aliaName + creatorName));
-						equalsTo.setRightExpression(new StringValue(userId));
+						equalsTo.setRightExpression(new LongValue(userId));
 						expression = equalsTo;
 					}
 					if (expression != null) {

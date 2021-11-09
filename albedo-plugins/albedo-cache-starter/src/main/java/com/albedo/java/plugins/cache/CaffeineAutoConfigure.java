@@ -1,11 +1,11 @@
 package com.albedo.java.plugins.cache;
 
+import com.albedo.java.common.core.lock.DistributedLock;
 import com.albedo.java.plugins.cache.lock.CaffeineDistributedLock;
 import com.albedo.java.plugins.cache.properties.CustomCacheProperties;
 import com.albedo.java.plugins.cache.repository.CacheOps;
 import com.albedo.java.plugins.cache.repository.CachePlusOps;
 import com.albedo.java.plugins.cache.repository.impl.CaffeineOpsImpl;
-import com.albedo.java.common.core.lock.DistributedLock;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Primary;
 /**
  * 内存缓存配置
  *
- * @author zuihou
+ * @author somewhere
  * @date 2019/08/07
  */
 @Slf4j

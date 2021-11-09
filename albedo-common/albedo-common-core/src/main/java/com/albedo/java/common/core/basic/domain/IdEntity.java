@@ -18,6 +18,10 @@ package com.albedo.java.common.core.basic.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -25,11 +29,15 @@ import java.util.Objects;
 /**
  * @author somewhere
  */
+@Accessors(chain = true)
+@AllArgsConstructor
 public class IdEntity<T extends BaseEntity<T>, PK extends Serializable> extends BaseDataEntity<T> {
 
 	private static final long serialVersionUID = 1L;
 
 	@TableId(value = GeneralEntity.F_SQL_ID, type = IdType.INPUT)
+	@Getter
+	@Setter
 	protected PK id;
 
 	public IdEntity() {
@@ -44,14 +52,6 @@ public class IdEntity<T extends BaseEntity<T>, PK extends Serializable> extends 
 	@Override
 	public void setPk(Serializable pk) {
 		this.setId((PK) pk);
-	}
-
-	public PK getId() {
-		return id;
-	}
-
-	public void setId(PK id) {
-		this.id = id;
 	}
 
 	@Override

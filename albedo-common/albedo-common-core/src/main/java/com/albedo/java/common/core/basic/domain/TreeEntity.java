@@ -66,7 +66,7 @@ public class TreeEntity<T extends TreeEntity<T>> extends IdEntity<T, Long> {
 	/*** 上级组织 */
 	@TableField
 	@NotNull(message = "父ID不能为空")
-	protected String parentId;
+	protected Long parentId;
 
 	/*** 所有父编号 */
 	@TableField

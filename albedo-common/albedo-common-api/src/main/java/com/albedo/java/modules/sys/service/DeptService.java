@@ -32,11 +32,11 @@
 
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.plugins.mybatis.service.TreeService;
 import com.albedo.java.modules.sys.domain.Dept;
 import com.albedo.java.modules.sys.domain.dto.DeptDto;
 import com.albedo.java.modules.sys.domain.dto.DeptQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.DeptVo;
+import com.albedo.java.plugins.mybatis.service.TreeService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
@@ -58,7 +58,7 @@ public interface DeptService extends TreeService<Dept, DeptDto> {
 	 * @param deptId
 	 * @return
 	 */
-	List<String> findDescendantIdList(String deptId);
+	List<Long> findDescendantIdList(Long deptId);
 
 	/**
 	 * 批量删除
@@ -66,7 +66,7 @@ public interface DeptService extends TreeService<Dept, DeptDto> {
 	 * @param ids
 	 * @return
 	 */
-	boolean removeByIds(Set<String> ids);
+	boolean removeByIds(Set<Long> ids);
 
 	/**
 	 * 添加信息部门
@@ -90,6 +90,6 @@ public interface DeptService extends TreeService<Dept, DeptDto> {
 	 *
 	 * @param ids
 	 */
-	void lockOrUnLock(Set<String> ids);
+	void lockOrUnLock(Set<Long> ids);
 
 }

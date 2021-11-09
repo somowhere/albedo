@@ -32,9 +32,9 @@
 
 package com.albedo.java.modules.tool.service;
 
-import com.albedo.java.plugins.mybatis.service.BaseService;
 import com.albedo.java.modules.tool.domain.AlipayConfig;
 import com.albedo.java.modules.tool.domain.vo.TradeVo;
+import com.albedo.java.plugins.mybatis.service.BaseService;
 
 /**
  * @author somewhere

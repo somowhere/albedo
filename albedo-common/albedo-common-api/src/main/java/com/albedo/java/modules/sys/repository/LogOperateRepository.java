@@ -32,8 +32,8 @@
 
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.plugins.mybatis.repository.BaseRepository;
 import com.albedo.java.modules.sys.domain.LogOperate;
+import com.albedo.java.plugins.mybatis.repository.BaseRepository;
 
 /**
  * <p>

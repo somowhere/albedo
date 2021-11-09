@@ -105,7 +105,7 @@ public class MenuResource extends BaseResource {
 	 * @return 属性集合
 	 */
 	@GetMapping("/role/{roleId}")
-	public Result findByRoleId(@PathVariable String roleId) {
+	public Result findByRoleId(@PathVariable Long roleId) {
 		return Result.buildOkData(
 			menuService.findListByRoleId(roleId).stream().map(MenuVo::getId).collect(Collectors.toList()));
 	}
@@ -147,7 +147,7 @@ public class MenuResource extends BaseResource {
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_menu_del')")
 	@LogOperate(value = "菜单管理删除")
-	public Result removeByIds(@RequestBody Set<String> ids) {
+	public Result removeByIds(@RequestBody Set<Long> ids) {
 		menuService.removeByIds(ids);
 		return Result.buildOk("操作成功");
 	}

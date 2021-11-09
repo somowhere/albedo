@@ -1,11 +1,11 @@
 package com.albedo.java.plugins.cache.repository.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.albedo.java.plugins.cache.repository.CacheOps;
-import com.albedo.java.plugins.cache.repository.CachePlusOps;
 import com.albedo.java.common.core.cache.model.CacheHashKey;
 import com.albedo.java.common.core.cache.model.CacheKey;
 import com.albedo.java.common.core.util.StrPool;
+import com.albedo.java.plugins.cache.repository.CacheOps;
+import com.albedo.java.plugins.cache.repository.CachePlusOps;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.lang.NonNull;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * 基于 Caffeine 实现的内存缓存， 主要用于开发、测试、演示环境
  * 生产环境慎用！
  *
- * @author zuihou
+ * @author somewhere
  * @date 2019/08/07
  */
 public class CaffeineOpsImpl implements CacheOps, CachePlusOps {

@@ -32,9 +32,9 @@
 
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.plugins.mybatis.repository.TreeRepository;
 import com.albedo.java.modules.sys.domain.Menu;
 import com.albedo.java.modules.sys.domain.vo.MenuVo;
+import com.albedo.java.plugins.mybatis.repository.TreeRepository;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -62,7 +62,7 @@ public interface MenuRepository extends TreeRepository<Menu> {
 	 * @param roleId 角色ID
 	 * @return
 	 */
-	List<MenuVo> findMenuVoListByRoleId(@Param("roleId") String roleId);
+	List<MenuVo> findMenuVoListByRoleId(@Param("roleId") Long roleId);
 
 	/**
 	 * 通过角色ID查询权限

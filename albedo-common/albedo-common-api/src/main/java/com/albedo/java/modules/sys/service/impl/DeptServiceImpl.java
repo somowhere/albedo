@@ -32,17 +32,16 @@
 
 package com.albedo.java.modules.sys.service.impl;
 
+import com.albedo.java.common.core.basic.domain.TreeEntity;
 import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.CollUtil;
+import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.core.vo.TreeNode;
-import com.albedo.java.plugins.mybatis.util.QueryWrapperUtil;
-import com.albedo.java.common.core.basic.domain.TreeEntity;
-import com.albedo.java.plugins.mybatis.service.impl.TreeServiceImpl;
 import com.albedo.java.modules.sys.domain.Dept;
 import com.albedo.java.modules.sys.domain.DeptRelation;
 import com.albedo.java.modules.sys.domain.Role;
@@ -56,6 +55,8 @@ import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.modules.sys.service.DeptRelationService;
 import com.albedo.java.modules.sys.service.DeptService;
 import com.albedo.java.modules.sys.util.SysCacheUtil;
+import com.albedo.java.plugins.mybatis.service.impl.TreeServiceImpl;
+import com.albedo.java.plugins.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
@@ -96,7 +97,7 @@ public class DeptServiceImpl extends TreeServiceImpl<DeptRepository, Dept, DeptD
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void saveOrUpdate(DeptDto deptDto) {
-		boolean add = StringUtil.isEmpty(deptDto.getId());
+		boolean add = ObjectUtil.isEmpty(deptDto.getId());
 		super.saveOrUpdate(deptDto);
 		if (add) {
 			deptRelationService.saveDeptRelation(deptDto);
@@ -118,14 +119,14 @@ public class DeptServiceImpl extends TreeServiceImpl<DeptRepository, Dept, DeptD
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean removeByIds(Set<String> ids) {
+	public boolean removeByIds(Set<Long> ids) {
 		repository.selectBatchIds(ids).forEach(dept -> {
 			checkDept(dept.getId(), dept.getName());
 		});
 		ids.forEach(id -> {
 			SysCacheUtil.delDeptCaches(id);
 			// 级联删除部门
-			Set<String> idList = deptRelationService
+			Set<Long> idList = deptRelationService
 				.list(Wrappers.<DeptRelation>query().lambda().eq(DeptRelation::getAncestor, id)).stream()
 				.map(DeptRelation::getDescendant).collect(Collectors.toSet());
 
@@ -141,7 +142,7 @@ public class DeptServiceImpl extends TreeServiceImpl<DeptRepository, Dept, DeptD
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public void lockOrUnLock(Set<String> ids) {
+	public void lockOrUnLock(Set<Long> ids) {
 		repository.selectBatchIds(ids).forEach(dept -> {
 			checkDept(dept.getId(), dept.getName());
 			dept.setAvailable(
@@ -156,7 +157,7 @@ public class DeptServiceImpl extends TreeServiceImpl<DeptRepository, Dept, DeptD
 	 *
 	 * @return
 	 */
-	private void checkDept(String deptId, String deptName) {
+	private void checkDept(Long deptId, String deptName) {
 		List<User> userList = userRepository.selectList(Wrappers.<User>lambdaQuery().eq(User::getDeptId, deptId));
 		if (CollUtil.isNotEmpty(userList)) {
 			throw new BizException("操作失败！用户："
@@ -172,8 +173,8 @@ public class DeptServiceImpl extends TreeServiceImpl<DeptRepository, Dept, DeptD
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	@Cacheable(key = "'findDescendantIdList:' + #p0")
-	public List<String> findDescendantIdList(String deptId) {
-		List<String> descendantIdList = deptRelationService
+	public List<Long> findDescendantIdList(Long deptId) {
+		List<Long> descendantIdList = deptRelationService
 			.list(Wrappers.<DeptRelation>query().lambda().eq(DeptRelation::getAncestor, deptId)).stream()
 			.map(DeptRelation::getDescendant).collect(Collectors.toList());
 		return descendantIdList;

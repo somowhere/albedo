@@ -59,10 +59,10 @@ public class DeptResourceIntTest {
 
 	private static final String UPDATED_NAME = "NAME2";
 
-	private static final String DEFAULT_ANOTHER_PARENT_ID = "ANOTHER_PARENT_ID";
+	private static final Long DEFAULT_ANOTHER_PARENT_ID = -2L;
 
 	// private static final String DEFAULT_PARENT_ID = "PARENT_ID1";
-	private static final String UPDATED_PARENT_ID = "PARENT_ID2";
+	private static final Long UPDATED_PARENT_ID = 2L;
 
 	private static final Integer DEFAULT_SORT = 10;
 
@@ -147,7 +147,7 @@ public class DeptResourceIntTest {
 		assertThat(testDept.getName()).isEqualTo(DEFAULT_NAME);
 		assertThat(testDept.getSort()).isEqualTo(DEFAULT_SORT);
 		assertThat(testDept.getParentId()).isEqualTo(anotherDept.getId());
-		assertThat(testDept.getParentIds()).contains(anotherDept.getId());
+		assertThat(testDept.getParentIds()).contains(String.valueOf(anotherDept.getId()));
 		assertThat(testDept.isLeaf()).isEqualTo(true);
 		assertThat(testDept.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
 		assertThat(testDept.getDelFlag()).isEqualTo(Dept.FLAG_NORMAL);
@@ -229,13 +229,13 @@ public class DeptResourceIntTest {
 	public void testDeptEquals() throws Exception {
 		TestUtil.equalsVerifier(Dept.class);
 		Dept dept1 = new Dept();
-		dept1.setId("1");
+		dept1.setId(1L);
 		dept1.setName("Dept1");
 		Dept dept2 = new Dept();
 		dept2.setId(dept1.getId());
 		dept2.setName(dept1.getName());
 		assertThat(dept1).isEqualTo(dept2);
-		dept2.setId("2");
+		dept2.setId(2L);
 		dept2.setName("Dept2");
 		assertThat(dept1).isNotEqualTo(dept2);
 		dept1.setId(null);

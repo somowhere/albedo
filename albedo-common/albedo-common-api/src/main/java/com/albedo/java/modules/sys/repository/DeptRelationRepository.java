@@ -32,8 +32,8 @@
 
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.plugins.mybatis.repository.BaseRepository;
 import com.albedo.java.modules.sys.domain.DeptRelation;
+import com.albedo.java.plugins.mybatis.repository.BaseRepository;
 
 /**
  * <p>
@@ -50,7 +50,7 @@ public interface DeptRelationRepository extends BaseRepository<DeptRelation> {
 	 *
 	 * @param id 部门ID
 	 */
-	void deleteDeptRelationsById(String id);
+	void deleteDeptRelationsById(Long id);
 
 	/**
 	 * 更改部分关系表数据

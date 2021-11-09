@@ -88,14 +88,14 @@ public class SysLogUtils {
 	/**
 	 * 获取用户Id
 	 *
-	 * @return username
+	 * @return userId
 	 */
-	private String getUserId() {
+	private Long getUserId() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication == null || authentication.getPrincipal() == null) {
 			return null;
 		}
-		return (String) ReflectUtil.getFieldValue(authentication.getPrincipal(), "id");
+		return (Long) ReflectUtil.getFieldValue(authentication.getPrincipal(), "id");
 	}
 
 }

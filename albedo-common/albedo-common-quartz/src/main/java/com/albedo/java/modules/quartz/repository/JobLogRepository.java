@@ -16,9 +16,9 @@
 
 package com.albedo.java.modules.quartz.repository;
 
-import com.albedo.java.plugins.mybatis.repository.BaseRepository;
 import com.albedo.java.modules.quartz.domain.JobLog;
 import com.albedo.java.modules.quartz.domain.vo.JobLogExcelVo;
+import com.albedo.java.plugins.mybatis.repository.BaseRepository;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;

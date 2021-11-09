@@ -33,11 +33,11 @@
 package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.core.vo.SelectVo;
-import com.albedo.java.plugins.mybatis.service.TreeService;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.domain.dto.DictDto;
 import com.albedo.java.modules.sys.domain.dto.DictQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.DictVo;
+import com.albedo.java.plugins.mybatis.service.TreeService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;

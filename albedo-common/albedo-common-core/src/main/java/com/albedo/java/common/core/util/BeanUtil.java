@@ -19,7 +19,6 @@ package com.albedo.java.common.core.util;
 import com.albedo.java.common.core.annotation.BeanField;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.cglib.beans.BeanMap;
 import org.springframework.util.Assert;
@@ -124,6 +123,7 @@ public class BeanUtil extends cn.hutool.core.bean.BeanUtil {
 	public static Map<String, Object> toMap(Object bean) {
 		return BeanMap.create(bean);
 	}
+
 	/**
 	 * 转换 list
 	 *

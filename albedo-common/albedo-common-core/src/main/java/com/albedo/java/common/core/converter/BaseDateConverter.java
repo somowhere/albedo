@@ -7,7 +7,7 @@ import java.util.function.Function;
 /**
  * 解决入参为 Date类型
  *
- * @author zuihou
+ * @author somewhere
  * @date 2019-04-30
  */
 public abstract class BaseDateConverter<T> {

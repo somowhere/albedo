@@ -41,7 +41,6 @@ import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.tree.TreeUtil;
-import com.albedo.java.plugins.mybatis.service.impl.TreeServiceImpl;
 import com.albedo.java.modules.sys.domain.Menu;
 import com.albedo.java.modules.sys.domain.RoleMenu;
 import com.albedo.java.modules.sys.domain.dto.GenSchemeDto;
@@ -54,6 +53,7 @@ import com.albedo.java.modules.sys.repository.RoleMenuRepository;
 import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.service.MenuService;
 import com.albedo.java.modules.sys.util.SysCacheUtil;
+import com.albedo.java.plugins.mybatis.service.impl.TreeServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
@@ -89,7 +89,7 @@ public class MenuServiceImpl extends TreeServiceImpl<MenuRepository, Menu, MenuD
 	@Override
 	@Cacheable(key = "'findTreeByUserId:' + #p0")
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public List<MenuTree> findTreeByUserId(String userId) {
+	public List<MenuTree> findTreeByUserId(Long userId) {
 		// 获取符合条件的菜单
 		Set<MenuVo> all = new HashSet<>();
 		roleRepository.findListByUserId(userId).forEach(role -> all.addAll(findListByRoleId(role.getId())));
@@ -113,7 +113,7 @@ public class MenuServiceImpl extends TreeServiceImpl<MenuRepository, Menu, MenuD
 					menu.setRedirect("noredirect");
 					menu.setChildren(buildMenus(menuChildList));
 					// 处理是一级菜单并且没有子菜单的情况
-				} else if (menu.getParentId() == TreeUtil.ROOT) {
+				} else if (TreeUtil.ROOT.equals(menu.getParentId())) {
 					MenuTree menuVo = new MenuTree();
 					menuVo.setMeta(menu.getMeta());
 					// 非外链
@@ -138,10 +138,10 @@ public class MenuServiceImpl extends TreeServiceImpl<MenuRepository, Menu, MenuD
 	@Override
 	@Cacheable(key = "'findListByRoleId:' + #p0")
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public List<MenuVo> findListByRoleId(String roleId) {
+	public List<MenuVo> findListByRoleId(Long roleId) {
 		List<MenuVo> menuAllList = repository.findMenuVoAllList();
 		List<MenuVo> menuVoList = repository.findMenuVoListByRoleId(roleId);
-		List<String> parentIdList = Lists.newArrayList();
+		List<Long> parentIdList = Lists.newArrayList();
 		for (MenuVo menuVo : menuVoList) {
 			if (menuVo.getParentId() != null) {
 				if (!parentIdList.contains(menuVo.getParentId())) {
@@ -152,13 +152,13 @@ public class MenuServiceImpl extends TreeServiceImpl<MenuRepository, Menu, MenuD
 				String[] parentIds = menuVo.getParentIds().split(",");
 				for (String parentId : parentIds) {
 					if (!parentIdList.contains(parentId)) {
-						parentIdList.add(parentId);
+						parentIdList.add(Long.parseLong(parentId));
 					}
 				}
 			}
 		}
 		if (ObjectUtil.isNotEmpty(parentIdList)) {
-			for (String parenId : parentIdList) {
+			for (Long parenId : parentIdList) {
 				if (!contain(parenId, menuVoList)) {
 					MenuVo menuVo = get(parenId, menuAllList);
 					if (menuVo != null) {
@@ -171,7 +171,7 @@ public class MenuServiceImpl extends TreeServiceImpl<MenuRepository, Menu, MenuD
 
 	}
 
-	private MenuVo get(String id, List<MenuVo> resourceList) {
+	private MenuVo get(Long id, List<MenuVo> resourceList) {
 		for (MenuVo resource : resourceList) {
 			if (resource.getId().equals(id)) {
 				return resource;
@@ -180,7 +180,7 @@ public class MenuServiceImpl extends TreeServiceImpl<MenuRepository, Menu, MenuD
 		return null;
 	}
 
-	private boolean contain(String id, List<MenuVo> resourceList) {
+	private boolean contain(Long id, List<MenuVo> resourceList) {
 		for (MenuVo resource : resourceList) {
 			if (resource.getId().equals(id)) {
 				return true;
@@ -190,7 +190,7 @@ public class MenuServiceImpl extends TreeServiceImpl<MenuRepository, Menu, MenuD
 	}
 
 	@Override
-	public void removeByIds(Set<String> ids) {
+	public void removeByIds(Set<Long> ids) {
 		ids.forEach(id -> {
 			SysCacheUtil.delMenuCaches(id);
 			// 查询父节点为当前节点的节点
@@ -206,13 +206,13 @@ public class MenuServiceImpl extends TreeServiceImpl<MenuRepository, Menu, MenuD
 	}
 
 	public Boolean exitMenuByPermission(MenuDto menuDto) {
-		return getOne(Wrappers.<Menu>query().ne(StringUtil.isNotEmpty(menuDto.getId()), MenuDto.F_ID, menuDto.getId())
+		return getOne(Wrappers.<Menu>query().ne(ObjectUtil.isNotEmpty(menuDto.getId()), MenuDto.F_ID, menuDto.getId())
 			.eq(MenuDto.F_PERMISSION, menuDto.getPermission())) != null;
 	}
 
 	@Override
 	public void saveOrUpdate(MenuDto menuDto) {
-		boolean add = StringUtil.isEmpty(menuDto.getId());
+		boolean add = ObjectUtil.isEmpty(menuDto.getId());
 		// permission before comparing with database
 		if (StringUtil.isNotEmpty(menuDto.getPermission()) && exitMenuByPermission(menuDto)) {
 			throw new EntityExistException(MenuDto.class, "permission", menuDto.getPermission());
@@ -238,7 +238,7 @@ public class MenuServiceImpl extends TreeServiceImpl<MenuRepository, Menu, MenuD
 			.or().likeLeft(Menu::getPermission, permissionLike));
 		for (Menu currentMenu : currentMenuList) {
 			if (currentMenu != null) {
-				List<String> idList = repository
+				List<Long> idList = repository
 					.selectList(
 						Wrappers.<Menu>query().lambda().likeLeft(Menu::getPermission, permissionLike)
 							.or(i -> i.eq(Menu::getId, currentMenu.getId()).or().eq(Menu::getParentId,

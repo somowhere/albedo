@@ -32,7 +32,6 @@
 
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.modules.sys.domain.Application;
 import com.albedo.java.modules.sys.domain.Parameter;
 import com.albedo.java.plugins.mybatis.repository.BaseRepository;
 

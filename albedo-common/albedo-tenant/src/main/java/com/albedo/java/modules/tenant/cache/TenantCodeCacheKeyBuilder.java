@@ -11,22 +11,22 @@ import java.time.Duration;
  * <p>
  * #c_tenant
  *
- * @author zuihou
+ * @author somewhere
  * @date 2020/9/20 6:45 下午
  */
 public class TenantCodeCacheKeyBuilder implements CacheKeyBuilder {
-    @Override
-    public String getTenant() {
-        return StrPool.EMPTY;
-    }
+	@Override
+	public String getTenant() {
+		return StrPool.EMPTY;
+	}
 
-    @Override
-    public String getPrefix() {
-        return CacheKeyBuilderConstants.TENANT_CODE;
-    }
+	@Override
+	public String getPrefix() {
+		return CacheKeyBuilderConstants.TENANT_CODE;
+	}
 
-    @Override
-    public Duration getExpire() {
-        return Duration.ofHours(24);
-    }
+	@Override
+	public Duration getExpire() {
+		return Duration.ofHours(24);
+	}
 }

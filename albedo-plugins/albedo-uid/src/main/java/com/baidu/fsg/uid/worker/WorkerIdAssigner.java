@@ -22,11 +22,11 @@ package com.baidu.fsg.uid.worker;
  */
 public interface WorkerIdAssigner {
 
-    /**
-     * Assign worker id for {@link com.baidu.fsg.uid.impl.DefaultUidGenerator}
-     *
-     * @return assigned worker id
-     */
-    long assignWorkerId();
+	/**
+	 * Assign worker id for {@link com.baidu.fsg.uid.impl.DefaultUidGenerator}
+	 *
+	 * @return assigned worker id
+	 */
+	long assignWorkerId();
 
 }

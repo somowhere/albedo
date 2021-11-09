@@ -55,11 +55,11 @@ public class DeptRelation extends BaseEntity<DeptRelation> {
 	/**
 	 * 祖先节点
 	 */
-	private String ancestor;
+	private Long ancestor;
 
 	/**
 	 * 后代节点
 	 */
-	private String descendant;
+	private Long descendant;
 
 }

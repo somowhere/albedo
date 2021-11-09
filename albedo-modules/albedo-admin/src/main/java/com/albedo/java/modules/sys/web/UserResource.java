@@ -34,9 +34,9 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.BeanUtil;
+import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.ResponseEntityBuilder;
 import com.albedo.java.common.core.util.Result;
-import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.security.util.SecurityUtil;
@@ -80,7 +80,7 @@ public class UserResource extends BaseResource {
 	 */
 	@GetMapping(CommonConstants.URL_ID_REGEX)
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
-	public Result get(@PathVariable String id) {
+	public Result get(@PathVariable Long id) {
 		log.debug("REST request to get Entity : {}", id);
 		return Result.buildOkData(userService.findDtoById(id));
 	}
@@ -165,7 +165,7 @@ public class UserResource extends BaseResource {
 	@LogOperate(value = "用户管理删除")
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_del')")
-	public Result removeByIds(@RequestBody Set<String> ids) {
+	public Result removeByIds(@RequestBody Set<Long> ids) {
 		return Result.buildByFlag(userService.removeByIds(ids));
 	}
 
@@ -180,7 +180,7 @@ public class UserResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
 	public Result save(@Valid @RequestBody UserDto userDto) {
 		log.debug("REST request to save userDto : {}", userDto);
-		boolean add = StringUtil.isEmpty(userDto.getId());
+		boolean add = ObjectUtil.isEmpty(userDto.getId());
 		if (add) {
 			userDto.setPassword("123456");
 		}
@@ -204,7 +204,7 @@ public class UserResource extends BaseResource {
 	@PutMapping
 	@LogOperate(value = "用户管理锁定/解锁")
 	@PreAuthorize("@pms.hasPermission('sys_user_lock')")
-	public Result lockOrUnLock(@RequestBody Set<String> ids) {
+	public Result lockOrUnLock(@RequestBody Set<Long> ids) {
 		userService.lockOrUnLock(ids);
 		return Result.buildOk("操作成功");
 	}

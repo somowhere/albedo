@@ -32,8 +32,8 @@
 
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.plugins.mybatis.service.BaseService;
 import com.albedo.java.modules.sys.domain.UserRole;
+import com.albedo.java.plugins.mybatis.service.BaseService;
 
 /**
  * <p>
@@ -61,5 +61,5 @@ public interface UserRoleService extends BaseService<UserRole> {
 	 * @param userId 用户id
 	 * @return 是否正确
 	 */
-    boolean initAdmin(Long userId);
+	boolean initAdmin(Long userId);
 }

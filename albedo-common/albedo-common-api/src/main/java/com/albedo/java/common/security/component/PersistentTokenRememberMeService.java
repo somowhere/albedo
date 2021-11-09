@@ -72,10 +72,6 @@ public class PersistentTokenRememberMeService extends AbstractRememberMeServices
 
 	private final PersistentTokenRepository persistentTokenRepository;
 
-	private HttpServletRequest request;
-
-	private HttpServletResponse response;
-
 	protected PersistentTokenRememberMeService(ApplicationProperties applicationProperties,
 											   UserDetailsService userDetailsService, PersistentTokenRepository persistentTokenRepository,
 											   UserRepository userRepository) {
@@ -147,7 +143,6 @@ public class PersistentTokenRememberMeService extends AbstractRememberMeServices
 		PersistentToken persistentToken = Optional.of(userRepository.findVoByUsername(login)).map(u -> {
 			PersistentToken t = new PersistentToken();
 			t.setSeries(RandomUtil.generateSeriesData());
-			t.setUserAgent(u.getId());
 			t.setUserId(u.getId());
 			t.setUsername(u.getUsername());
 			t.setTokenValue(RandomUtil.generateTokenData());

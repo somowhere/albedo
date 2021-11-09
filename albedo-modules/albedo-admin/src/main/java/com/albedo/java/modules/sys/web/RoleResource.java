@@ -38,7 +38,6 @@ import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
-import com.albedo.java.plugins.mybatis.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.web.resource.BaseResource;
@@ -51,6 +50,7 @@ import com.albedo.java.modules.sys.domain.vo.RoleComboVo;
 import com.albedo.java.modules.sys.service.RoleMenuService;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.modules.sys.service.UserService;
+import com.albedo.java.plugins.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -86,7 +86,7 @@ public class RoleResource extends BaseResource {
 	 * @return
 	 */
 	@GetMapping(CommonConstants.URL_ID_REGEX)
-	public Result get(@PathVariable String id) {
+	public Result get(@PathVariable Long id) {
 		log.debug("REST request to get Entity : {}", id);
 		return Result.buildOkData(roleService.getOneDto(id));
 	}
@@ -167,7 +167,7 @@ public class RoleResource extends BaseResource {
 	@LogOperate(value = "角色管理删除")
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_role_del')")
-	public Result removeByIds(@RequestBody Set<String> ids) {
+	public Result removeByIds(@RequestBody Set<Long> ids) {
 		roleService.listByIds(ids).stream().forEach(item -> {
 			checkLevel(item.getLevel());
 			checkRole(item.getId(), item.getName());
@@ -183,7 +183,7 @@ public class RoleResource extends BaseResource {
 	@PutMapping
 	@LogOperate(value = "角色管理锁定/解锁")
 	@PreAuthorize("@pms.hasPermission('sys_role_lock')")
-	public Result lockOrUnLock(@RequestBody Set<String> ids) {
+	public Result lockOrUnLock(@RequestBody Set<Long> ids) {
 		roleService.listByIds(ids).stream().forEach(item -> {
 			checkLevel(item.getLevel());
 			checkRole(item.getId(), item.getName());
@@ -212,7 +212,7 @@ public class RoleResource extends BaseResource {
 	 *
 	 * @return
 	 */
-	private void checkRole(String roleId, String roleName) {
+	private void checkRole(Long roleId, String roleName) {
 		List<User> userList = userService.findListByRoleId(roleId);
 		if (CollUtil.isNotEmpty(userList)) {
 			throw new BizException("操作失败！用户："

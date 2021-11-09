@@ -10,17 +10,17 @@ import java.time.Duration;
  * <p>
  * #c_auth_application
  *
- * @author zuihou
+ * @author somewhere
  * @date 2020/9/20 6:45 下午
  */
 public class ApplicationCacheKeyBuilder implements CacheKeyBuilder {
-    @Override
-    public String getPrefix() {
-        return CacheKeyBuilderConstants.APPLICATION;
-    }
+	@Override
+	public String getPrefix() {
+		return CacheKeyBuilderConstants.APPLICATION;
+	}
 
-    @Override
-    public Duration getExpire() {
-        return Duration.ofHours(24);
-    }
+	@Override
+	public Duration getExpire() {
+		return Duration.ofHours(24);
+	}
 }

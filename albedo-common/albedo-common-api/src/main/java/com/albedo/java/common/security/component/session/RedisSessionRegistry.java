@@ -206,7 +206,7 @@ public class RedisSessionRegistry implements SessionRegistry, ApplicationListene
 	public Set<String> putIfAbsentPrincipals(Object principal, final Set<String> set) {
 		UserDetail userDetail = (UserDetail) principal;
 		BoundHashOperations<String, String, Set<String>> hashOperations = redisTemplate.boundHashOps(PRINCIPALS);
-		hashOperations.putIfAbsent(userDetail.getId(), set);
+		hashOperations.putIfAbsent(String.valueOf(userDetail.getId()), set);
 		return hashOperations.get(userDetail.getId());
 	}
 

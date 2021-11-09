@@ -34,13 +34,13 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.log.annotation.LogOperate;
-import com.albedo.java.plugins.mybatis.datascope.DataScope;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.dto.DeptDto;
 import com.albedo.java.modules.sys.domain.dto.DeptQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.DeptVo;
 import com.albedo.java.modules.sys.service.DeptService;
+import com.albedo.java.plugins.mybatis.datascope.DataScope;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
@@ -128,7 +128,7 @@ public class DeptResource extends BaseResource {
 	@PutMapping
 	@LogOperate(value = "用户管理锁定/解锁")
 	@PreAuthorize("@pms.hasPermission('sys_dept_lock')")
-	public Result lockOrUnLock(@RequestBody Set<String> ids) {
+	public Result lockOrUnLock(@RequestBody Set<Long> ids) {
 		deptService.lockOrUnLock(ids);
 		return Result.buildOk("操作成功");
 	}

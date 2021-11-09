@@ -16,11 +16,11 @@
 
 package com.albedo.java.plugins.swagger.config.apidoc;
 
+import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.plugins.swagger.config.ApplicationSwaggerProperties;
 import com.albedo.java.plugins.swagger.config.apidoc.customizer.AlbedoSwaggerCustomizer;
 import com.albedo.java.plugins.swagger.config.apidoc.customizer.SwaggerCustomizer;
 import com.albedo.java.plugins.swagger.config.apidoc.customizer.SwaggerLoginApi;
-import com.albedo.java.common.core.vo.PageModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;

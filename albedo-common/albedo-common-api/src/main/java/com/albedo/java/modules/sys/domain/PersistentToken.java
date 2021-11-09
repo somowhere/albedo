@@ -68,7 +68,7 @@ public class PersistentToken extends GeneralEntity<PersistentToken> {
 
 	@JsonIgnore
 	@TableField("user_id")
-	private String userId;
+	private Long userId;
 
 	private String username;
 

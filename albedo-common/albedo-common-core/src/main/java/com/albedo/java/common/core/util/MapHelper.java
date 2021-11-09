@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Map 类增强
  *
- * @author zuihou
+ * @author somewhere
  * @date 2019/07/29
  */
 public final class MapHelper {

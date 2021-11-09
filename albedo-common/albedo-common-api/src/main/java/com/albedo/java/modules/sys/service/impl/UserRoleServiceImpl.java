@@ -35,12 +35,12 @@ package com.albedo.java.modules.sys.service.impl;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.modules.sys.domain.Role;
-import com.albedo.java.modules.sys.repository.RoleRepository;
-import com.albedo.java.plugins.database.mybatis.conditions.Wraps;
-import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
 import com.albedo.java.modules.sys.domain.UserRole;
+import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.repository.UserRoleRepository;
 import com.albedo.java.modules.sys.service.UserRoleService;
+import com.albedo.java.plugins.database.mybatis.conditions.Wraps;
+import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +57,7 @@ import org.springframework.stereotype.Service;
 public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleRepository, UserRole> implements UserRoleService {
 
 	private final RoleRepository roleRepository;
+
 	/**
 	 * 根据用户Id删除该用户的角色关系
 	 *
@@ -74,7 +75,7 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleRepository, Use
 	public boolean initAdmin(Long userId) {
 		Role role = roleRepository.selectOne(Wraps.<Role>lbQ().eq(Role::getCode, CommonConstants.ADMIN_ROLE_CODE));
 		if (role == null) {
-			throw BizException.wrap("初始化用户角色失败, 无法查询到内置角色:%s",  CommonConstants.ADMIN_ROLE_CODE);
+			throw BizException.wrap("初始化用户角色失败, 无法查询到内置角色:%s", CommonConstants.ADMIN_ROLE_CODE);
 		}
 		UserRole userRole = UserRole.builder()
 			.userId(userId).roleId(role.getId())

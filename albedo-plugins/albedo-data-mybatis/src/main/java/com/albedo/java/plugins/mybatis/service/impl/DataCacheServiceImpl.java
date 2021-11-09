@@ -16,10 +16,10 @@
 
 package com.albedo.java.plugins.mybatis.service.impl;
 
-import com.albedo.java.common.core.vo.DataDto;
 import com.albedo.java.common.core.basic.domain.BaseDataEntity;
-import com.albedo.java.plugins.mybatis.service.DataCacheService;
+import com.albedo.java.common.core.vo.DataDto;
 import com.albedo.java.plugins.mybatis.repository.BaseRepository;
+import com.albedo.java.plugins.mybatis.service.DataCacheService;
 import lombok.Data;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +35,7 @@ import java.lang.reflect.Type;
 @Transactional(rollbackFor = Exception.class)
 @Data
 public abstract class DataCacheServiceImpl<Repository extends BaseRepository<T>, T extends BaseDataEntity, D extends DataDto>
-	extends CacheServiceImpl<Repository,  T>
+	extends CacheServiceImpl<Repository, T>
 	implements DataCacheService<T, D> {
 
 	public final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(getClass());

@@ -14,7 +14,7 @@ import java.util.stream.Stream;
  * 附件
  * </p>
  *
- * @author zuihou
+ * @author somewhere
  * @date 2020-11-20
  */
 @Getter
@@ -23,51 +23,51 @@ import java.util.stream.Stream;
 @ApiModel(value = "FileType", description = "文件类型-枚举")
 public enum FileTypeEnum implements BaseEnum {
 
-    /**
-     * IMAGE="图片"
-     */
-    IMAGE("图片"),
-    /**
-     * VIDEO="视频"
-     */
-    VIDEO("视频"),
-    /**
-     * AUDIO="音频"
-     */
-    AUDIO("音频"),
-    /**
-     * DOC="文档"
-     */
-    DOC("文档"),
-    /**
-     * OTHER="其他"
-     */
-    OTHER("其他"),
-    ;
+	/**
+	 * IMAGE="图片"
+	 */
+	IMAGE("图片"),
+	/**
+	 * VIDEO="视频"
+	 */
+	VIDEO("视频"),
+	/**
+	 * AUDIO="音频"
+	 */
+	AUDIO("音频"),
+	/**
+	 * DOC="文档"
+	 */
+	DOC("文档"),
+	/**
+	 * OTHER="其他"
+	 */
+	OTHER("其他"),
+	;
 
-    @ApiModelProperty(value = "描述")
-    private String desc;
+	@ApiModelProperty(value = "描述")
+	private String desc;
 
 
-    /**
-     * 根据当前枚举的name匹配
-     */
-    public static FileTypeEnum match(String val, FileTypeEnum def) {
-        return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
-    }
+	/**
+	 * 根据当前枚举的name匹配
+	 */
+	public static FileTypeEnum match(String val, FileTypeEnum def) {
+		return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+	}
 
-    public static FileTypeEnum get(String val) {
-        return match(val, null);
-    }
+	public static FileTypeEnum get(String val) {
+		return match(val, null);
+	}
 
-    public boolean eq(FileTypeEnum val) {
-        return val != null && eq(val.name());
-    }
+	public boolean eq(FileTypeEnum val) {
+		return val != null && eq(val.name());
+	}
 
-    @Override
-    @ApiModelProperty(value = "编码", allowableValues = "IMAGE,VIDEO,AUDIO,DOC,OTHER", example = "IMAGE")
-    public String getCode() {
-        return this.name();
-    }
+	@Override
+	@ApiModelProperty(value = "编码", allowableValues = "IMAGE,VIDEO,AUDIO,DOC,OTHER", example = "IMAGE")
+	public String getCode() {
+		return this.name();
+	}
 
 }

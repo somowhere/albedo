@@ -77,9 +77,9 @@ public class ${ClassName}ResourceIntTest {
     private static final int UPDATED_${column.constantJavaField} = 1;
 		<#elseif column.simpleJavaType == "Long">
 	/** DEFAULT_${column.constantJavaField} ${column.nameAndTitle} */
-	private static final Long DEFAULT_${column.constantJavaField} = 0l;
+	private static final Long DEFAULT_${column.constantJavaField} = 0L;
 	/** UPDATED_${column.constantJavaField} ${column.nameAndTitle} */
-    private static final Long UPDATED_${column.constantJavaField} = 1l;
+    private static final Long UPDATED_${column.constantJavaField} = 1L;
 		<#elseif column.simpleJavaType == "Double">
 	/** DEFAULT_${column.constantJavaField} ${column.nameAndTitle} */
 	private static final double DEFAULT_${column.constantJavaField} = 0;
@@ -386,11 +386,11 @@ public class ${ClassName}ResourceIntTest {
     public void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(${ClassName}.class);
         ${ClassName} ${className}1 = new ${ClassName}();
-        ${className}1.setId("id1");
+        ${className}1.setId(1L);
         ${ClassName} ${className}2 = new ${ClassName}();
         ${className}2.setId(${className}1.getId());
         assertThat(${className}1).isEqualTo(${className}2);
-        ${className}2.setId("id2");
+        ${className}2.setId(2L);
         assertThat(${className}1).isNotEqualTo(${className}2);
         ${className}1.setId(null);
         assertThat(${className}1).isNotEqualTo(${className}2);

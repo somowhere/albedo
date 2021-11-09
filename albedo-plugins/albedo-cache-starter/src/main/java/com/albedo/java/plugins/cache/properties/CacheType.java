@@ -3,7 +3,7 @@ package com.albedo.java.plugins.cache.properties;
 /**
  * 缓存类型
  *
- * @author zuihou
+ * @author somewhere
  * @date 2020/9/22 3:34 下午
  */
 public enum CacheType {

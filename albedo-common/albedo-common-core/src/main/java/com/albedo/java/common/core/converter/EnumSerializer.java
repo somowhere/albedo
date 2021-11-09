@@ -15,7 +15,7 @@ import java.io.IOException;
  * "desc": "xxx"
  * }
  *
- * @author zuihou
+ * @author somewhere
  * @date 2020/5/4 下午6:45
  */
 public class EnumSerializer extends StdSerializer<BaseEnum> {

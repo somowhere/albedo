@@ -25,6 +25,7 @@ import com.albedo.java.modules.AlbedoAdminApplication;
 import com.albedo.java.modules.TestUtil;
 import com.albedo.java.modules.sys.domain.*;
 import com.albedo.java.modules.sys.domain.dto.RoleDto;
+import com.albedo.java.modules.sys.domain.enums.DataScopeType;
 import com.albedo.java.modules.sys.service.*;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
@@ -73,9 +74,9 @@ public class RoleResourceIntTest {
 
 	private static final Integer UPDATED_AVAILABLE = CommonConstants.NO;
 
-	private static final String DEFAULT_DATASCOPE = CommonConstants.STR_YES;
+	private static final DataScopeType DEFAULT_DATASCOPE = DataScopeType.ALL;
 
-	private static final String UPDATED_DATASCOPE = CommonConstants.STR_NO;
+	private static final DataScopeType UPDATED_DATASCOPE = DataScopeType.CUSTOMIZE;
 
 	private static final Integer DEFAULT_LEVEL = 1;
 
@@ -283,13 +284,13 @@ public class RoleResourceIntTest {
 	public void testRoleEquals() throws Exception {
 		TestUtil.equalsVerifier(Role.class);
 		Role role1 = new Role();
-		role1.setId("1");
+		role1.setId(1L);
 		role1.setName("Role1");
 		Role role2 = new Role();
 		role2.setId(role1.getId());
 		role2.setName(role1.getName());
 		assertThat(role1).isEqualTo(role2);
-		role2.setId("2");
+		role2.setId(2L);
 		role2.setName("Role2");
 		assertThat(role1).isNotEqualTo(role2);
 		role1.setId(null);

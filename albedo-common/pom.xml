@@ -22,6 +22,7 @@
 		<module>albedo-gen</module>
 		<module>albedo-tenant</module>
 		<module>albedo-monitor</module>
-		<module>albedo-file-sdk</module>
+		<module>albedo-appendix</module>
+		<module>allbedo-file</module>
 	</modules>
 </project>

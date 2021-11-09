@@ -16,10 +16,10 @@
 
 package com.albedo.java.plugins.mybatis.service;
 
+import com.albedo.java.common.core.basic.domain.BaseDataEntity;
 import com.albedo.java.common.core.util.BeanUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.vo.DataDto;
-import com.albedo.java.common.core.basic.domain.BaseDataEntity;
 import lombok.SneakyThrows;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -2,7 +2,6 @@ package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.annotation.ExcelField;
 import com.albedo.java.common.core.basic.domain.IdEntity;
-import com.albedo.java.modules.sys.domain.enums.ApplicationAppTypeEnum;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -22,7 +21,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * 应用
  * </p>
  *
- * @author zuihou
+ * @author somewhere
  * @since 2020-11-20
  */
 @Data
@@ -35,7 +34,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @AllArgsConstructor
 public class Parameter extends IdEntity<Parameter, Long> {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 参数键

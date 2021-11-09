@@ -32,11 +32,8 @@
 
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.modules.sys.domain.Application;
 import com.albedo.java.modules.sys.domain.Parameter;
-import com.albedo.java.modules.sys.domain.dto.ApplicationDto;
 import com.albedo.java.modules.sys.domain.dto.ParameterDto;
-import com.albedo.java.plugins.mybatis.service.DataCacheService;
 import com.albedo.java.plugins.mybatis.service.DataService;
 
 import java.util.List;

@@ -26,30 +26,30 @@ import com.baidu.fsg.uid.utils.ValuedEnum;
  */
 public enum WorkerNodeType implements ValuedEnum<Integer> {
 
-    /**
-     * 容器
-     */
-    CONTAINER(1),
-    /**
-     * 实际机器
-     */
-    ACTUAL(2);
+	/**
+	 * 容器
+	 */
+	CONTAINER(1),
+	/**
+	 * 实际机器
+	 */
+	ACTUAL(2);
 
-    /**
-     * Lock type
-     */
-    private final Integer type;
+	/**
+	 * Lock type
+	 */
+	private final Integer type;
 
-    /**
-     * Constructor with field of type
-     */
-    WorkerNodeType(Integer type) {
-        this.type = type;
-    }
+	/**
+	 * Constructor with field of type
+	 */
+	WorkerNodeType(Integer type) {
+		this.type = type;
+	}
 
-    @Override
-    public Integer value() {
-        return type;
-    }
+	@Override
+	public Integer value() {
+		return type;
+	}
 
 }

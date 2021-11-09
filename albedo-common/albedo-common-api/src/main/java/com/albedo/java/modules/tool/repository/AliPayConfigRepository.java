@@ -32,8 +32,8 @@
 
 package com.albedo.java.modules.tool.repository;
 
-import com.albedo.java.plugins.mybatis.repository.BaseRepository;
 import com.albedo.java.modules.tool.domain.AlipayConfig;
+import com.albedo.java.plugins.mybatis.repository.BaseRepository;
 
 /**
  * @author somewhere

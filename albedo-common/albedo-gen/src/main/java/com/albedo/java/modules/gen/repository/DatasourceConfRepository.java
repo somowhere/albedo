@@ -16,8 +16,8 @@
 
 package com.albedo.java.modules.gen.repository;
 
-import com.albedo.java.plugins.mybatis.repository.BaseRepository;
 import com.albedo.java.modules.gen.domain.DatasourceConf;
+import com.albedo.java.plugins.mybatis.repository.BaseRepository;
 
 /**
  * 数据源Repository 数据源

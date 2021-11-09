@@ -32,7 +32,7 @@
 
 package com.albedo.java.common.core.util.tree;
 
-import com.albedo.java.common.core.util.StringUtil;
+import com.albedo.java.common.core.util.ObjectUtil;
 import com.google.common.collect.Lists;
 import lombok.experimental.UtilityClass;
 
@@ -47,15 +47,15 @@ import java.util.stream.Collectors;
 @UtilityClass
 public class TreeUtil {
 
-	public static final String ROOT = "-1";
+	public static final Long ROOT = -1L;
 
 	public <T extends TreeNodeAware> List<T> buildByLoopAutoRoot(List<T> treeNodes) {
 
-		List<String> deptParentIds = treeNodes.stream().map(T::getParentId).collect(Collectors.toList());
+		List<Long> deptParentIds = treeNodes.stream().map(T::getParentId).collect(Collectors.toList());
 		if (deptParentIds.contains(ROOT)) {
 			return buildByRecursive(treeNodes, ROOT);
 		}
-		List<String> deptIds = treeNodes.stream().map(T::getId).collect(Collectors.toList());
+		List<Long> deptIds = treeNodes.stream().map(T::getId).collect(Collectors.toList());
 		List<T> trees = Lists.newArrayList();
 		for (T item : treeNodes) {
 			if (!deptIds.contains(item.getParentId())) {
@@ -122,7 +122,7 @@ public class TreeUtil {
 	 */
 	public <T extends TreeNodeAware> T findChildren(T treeNode, List<T> treeNodes) {
 		for (T it : treeNodes) {
-			if (StringUtil.equals(treeNode.getId(), it.getParentId())) {
+			if (ObjectUtil.equals(treeNode.getId(), it.getParentId())) {
 				if (treeNode.getChildren() == null) {
 					treeNode.setChildren(Lists.newArrayList());
 				}

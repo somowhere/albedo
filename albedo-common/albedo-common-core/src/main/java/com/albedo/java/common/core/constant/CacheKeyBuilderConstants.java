@@ -5,7 +5,7 @@ package com.albedo.java.common.core.constant;
  * <p>
  * 使用@Cacheable时， 其value值一定要在此处指定
  *
- * @author zuihou
+ * @author somewhere
  * @date 2020/10/21
  */
 public interface CacheKeyBuilderConstants {

@@ -29,23 +29,23 @@ import org.springframework.stereotype.Repository;
 @InterceptorIgnore(tenantLine = "true", dynamicTableName = "true")
 public interface WorkerNodeDao {
 
-    /**
-     * Get {@link WorkerNodeEntity} by node host
-     *
-     * @param host
-     * @param port
-     * @return
-     */
+	/**
+	 * Get {@link WorkerNodeEntity} by node host
+	 *
+	 * @param host
+	 * @param port
+	 * @return
+	 */
 //    @Select("SELECT id, host_name, port, type,launch_date, modified, created FROM worker_node WHERE host_name = #{host} AND port = #{port}")
 //    WorkerNodeEntity getWorkerNodeByHostPort(@Param("host") String host, @Param("port") String port);
 
-    /**
-     * Add {@link WorkerNodeEntity}
-     *
-     * @param workerNodeEntity
-     */
-    @Insert("INSERT INTO worker_node(host_name,port, type, launch_date,modified,created) " +
-            "VALUES (#{hostName},#{port},#{type},#{launchDate},NOW(),NOW())")
-    void addWorkerNode(WorkerNodeEntity workerNodeEntity);
+	/**
+	 * Add {@link WorkerNodeEntity}
+	 *
+	 * @param workerNodeEntity
+	 */
+	@Insert("INSERT INTO worker_node(host_name,port, type, launch_date,modified,created) " +
+		"VALUES (#{hostName},#{port},#{type},#{launchDate},NOW(),NOW())")
+	void addWorkerNode(WorkerNodeEntity workerNodeEntity);
 
 }

@@ -37,7 +37,7 @@ import com.albedo.java.plugins.mybatis.repository.BaseRepository;
 
 /**
  * <p>
- *  应用
+ * 应用
  * </p>
  *
  * @author somewhere

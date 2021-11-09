@@ -29,10 +29,10 @@ import java.util.Optional;
  * @author somewhere
  */
 @Component
-public class SpringSecurityAuditorAware implements AuditorAware<String> {
+public class SpringSecurityAuditorAware implements AuditorAware<Long> {
 
 	@Override
-	public Optional<String> getCurrentAuditor() {
+	public Optional<Long> getCurrentAuditor() {
 		return Optional.of(SecurityUtil.getUser() == null ? CommonConstants.SYSTEM : SecurityUtil.getUser().getId());
 	}
 

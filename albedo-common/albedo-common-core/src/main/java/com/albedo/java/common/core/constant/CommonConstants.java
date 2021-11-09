@@ -38,6 +38,25 @@ package com.albedo.java.common.core.constant;
  */
 public interface CommonConstants {
 
+
+	/**
+	 * 初始化的租户管理员角色
+	 */
+	String ADMIN_ROLE_CODE = "SUPER_ADMIN";
+
+	/**
+	 * 基础库
+	 */
+	String BASE_DATABASE = "albedo";
+
+	/**
+	 * 工具类 需要扫描的包
+	 */
+	String UTIL_PACKAGE = "com.albedo.java";
+	/**
+	 * 业务项目 需要扫描的包
+	 */
+	String BUSINESS_PACKAGE = "com.albedo.java";
 	/**
 	 * 编码
 	 */
@@ -193,7 +212,7 @@ public interface CommonConstants {
 
 	String URL_ID_REGEX = "/{id:^[_',.@A-Za-z0-9-]*$}";
 
-	String SYSTEM = "system";
+	Long SYSTEM = 0L;
 
 	String BASIC_ = "Basic ";
 
@@ -247,14 +266,5 @@ public interface CommonConstants {
 
 	String ANONYMOUS_USER = "anonymoususer";
 
-	/**
-	 * 初始化的租户管理员角色
-	 */
-	String ADMIN_ROLE_CODE = "SUPER_ADMIN";
-
-	/**
-	 * 基础库
-	 */
-	String BASE_DATABASE = "albedo";
-
+	public static final String DATA_TYPE_MULTIPART_FILE = "MultipartFile";
 }

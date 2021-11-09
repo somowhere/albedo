@@ -38,11 +38,11 @@ import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.exception.EntityExistException;
-import com.albedo.java.common.core.util.*;
+import com.albedo.java.common.core.util.BeanUtil;
+import com.albedo.java.common.core.util.CollUtil;
+import com.albedo.java.common.core.util.ObjectUtil;
+import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
-import com.albedo.java.plugins.mybatis.util.QueryWrapperUtil;
-import com.albedo.java.plugins.mybatis.datascope.DataScope;
-import com.albedo.java.plugins.mybatis.service.impl.DataServiceImpl;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.RedisUtil;
 import com.albedo.java.modules.sys.domain.Dept;
@@ -61,6 +61,9 @@ import com.albedo.java.modules.sys.domain.vo.account.PasswordRestVo;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.modules.sys.service.*;
 import com.albedo.java.modules.sys.util.SysCacheUtil;
+import com.albedo.java.plugins.mybatis.datascope.DataScope;
+import com.albedo.java.plugins.mybatis.service.impl.DataServiceImpl;
+import com.albedo.java.plugins.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -197,10 +200,12 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 		wrapper.orderByDesc("a.created_date");
 		return repository.findUserVoPage(wrapper, dataScope);
 	}
+
 	public Boolean exitUserByUserName(User user) {
 		return getOne(Wrappers.<User>query().ne(ObjectUtil.isNotEmpty(user.getId()), UserDto.F_ID, user.getId())
 			.eq(UserDto.F_USERNAME, user.getUsername())) != null;
 	}
+
 	public Boolean exitUserByUserName(UserDto userDto) {
 		return getOne(Wrappers.<User>query().ne(ObjectUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
 			.eq(UserDto.F_USERNAME, userDto.getUsername())) != null;
@@ -290,7 +295,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 			return null;
 		}
 
-		String parentId = dept.getParentId();
+		Long parentId = dept.getParentId();
 		return this.list(Wrappers.<User>query().lambda().eq(User::getDeptId, parentId));
 	}
 

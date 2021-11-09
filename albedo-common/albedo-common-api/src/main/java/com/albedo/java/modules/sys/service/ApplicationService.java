@@ -49,7 +49,7 @@ public interface ApplicationService extends DataCacheService<Application, Applic
 	/**
 	 * 根据 clientId 和 clientSecret 查询
 	 *
-	 * @param clientId 客户端id
+	 * @param clientId     客户端id
 	 * @param clientSecret 客户端密钥
 	 * @return 应用
 	 */

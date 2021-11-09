@@ -32,9 +32,9 @@
 
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.plugins.mybatis.repository.TreeRepository;
 import com.albedo.java.modules.sys.domain.Dept;
 import com.albedo.java.modules.sys.domain.vo.DeptVo;
+import com.albedo.java.plugins.mybatis.repository.TreeRepository;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;

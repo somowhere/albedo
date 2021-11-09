@@ -32,8 +32,8 @@
 
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.plugins.mybatis.repository.BaseRepository;
 import com.albedo.java.modules.sys.domain.UserRole;
+import com.albedo.java.plugins.mybatis.repository.BaseRepository;
 import org.apache.ibatis.annotations.Param;
 
 /**

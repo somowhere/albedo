@@ -78,10 +78,10 @@ public class DictResourceIntTest {
 
 	private static final String UPDATED_VAL = "VAL2";
 
-	private static final String DEFAULT_ANOTHER_PARENT_ID = "ANOTHER_PARENT_ID";
+	private static final Long DEFAULT_ANOTHER_PARENT_ID = -2L;
 
 	// private static final String DEFAULT_PARENT_ID = "PARENT_ID1";
-	private static final String UPDATED_PARENT_ID = "PARENT_ID2";
+	private static final Long UPDATED_PARENT_ID = 2L;
 
 	private static final Integer DEFAULT_SORT = 10;
 
@@ -178,7 +178,7 @@ public class DictResourceIntTest {
 		assertThat(testDict.getVal()).isEqualTo(DEFAULT_VAL);
 		assertThat(testDict.getSort()).isEqualTo(DEFAULT_SORT);
 		assertThat(testDict.getParentId()).isEqualTo(anotherDict.getId());
-		assertThat(testDict.getParentIds()).contains(anotherDict.getId());
+		assertThat(testDict.getParentIds()).contains(String.valueOf(anotherDict.getId()));
 		assertThat(testDict.isLeaf()).isEqualTo(true);
 		assertThat(testDict.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
 		assertThat(testDict.getDelFlag()).isEqualTo(Dict.FLAG_NORMAL);
@@ -339,13 +339,13 @@ public class DictResourceIntTest {
 	public void testDictEquals() throws Exception {
 		TestUtil.equalsVerifier(Dict.class);
 		Dict dict1 = new Dict();
-		dict1.setId("1");
+		dict1.setId(1L);
 		dict1.setName("Dict1");
 		Dict dict2 = new Dict();
 		dict2.setId(dict1.getId());
 		dict2.setName(dict1.getName());
 		assertThat(dict1).isEqualTo(dict2);
-		dict2.setId("2");
+		dict2.setId(2L);
 		dict2.setName("Dict2");
 		assertThat(dict1).isNotEqualTo(dict2);
 		dict1.setId(null);

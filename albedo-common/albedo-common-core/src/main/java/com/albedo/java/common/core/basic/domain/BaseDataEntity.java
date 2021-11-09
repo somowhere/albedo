@@ -19,7 +19,10 @@ package com.albedo.java.common.core.basic.domain;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.Version;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
@@ -32,6 +35,9 @@ import java.time.LocalDateTime;
  * @author somewhere
  */
 @Data
+@Accessors(chain = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public abstract class BaseDataEntity<T extends BaseEntity<T>> extends BaseEntity<T> {
 
 	private static final long serialVersionUID = 1L;

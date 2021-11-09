@@ -32,12 +32,12 @@
 
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.plugins.mybatis.service.TreeService;
 import com.albedo.java.modules.sys.domain.Menu;
 import com.albedo.java.modules.sys.domain.dto.GenSchemeDto;
 import com.albedo.java.modules.sys.domain.dto.MenuDto;
 import com.albedo.java.modules.sys.domain.dto.MenuSortDto;
 import com.albedo.java.modules.sys.domain.vo.MenuVo;
+import com.albedo.java.plugins.mybatis.service.TreeService;
 
 import java.util.List;
 import java.util.Set;

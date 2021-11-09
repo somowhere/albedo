@@ -16,9 +16,9 @@
 
 package com.albedo.java.modules.gen.domain;
 
+import com.albedo.java.common.core.basic.domain.IdEntity;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.StringUtil;
-import com.albedo.java.common.core.basic.domain.IdEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.collect.Lists;

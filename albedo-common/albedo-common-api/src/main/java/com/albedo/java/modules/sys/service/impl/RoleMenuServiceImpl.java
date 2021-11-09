@@ -33,11 +33,11 @@
 package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.core.constant.CacheNameConstants;
-import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
 import com.albedo.java.modules.sys.domain.RoleMenu;
 import com.albedo.java.modules.sys.domain.dto.RoleMenuDto;
 import com.albedo.java.modules.sys.repository.RoleMenuRepository;
 import com.albedo.java.modules.sys.service.RoleMenuService;
+import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -61,7 +61,6 @@ public class RoleMenuServiceImpl extends BaseServiceImpl<RoleMenuRepository, Rol
 
 	/**
 	 * @param roleMenuDto 角色菜单
-	 * @return
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)

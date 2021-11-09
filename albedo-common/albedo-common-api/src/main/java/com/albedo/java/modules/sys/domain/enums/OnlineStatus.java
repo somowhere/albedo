@@ -40,8 +40,7 @@ public enum OnlineStatus implements BaseEnum {
 	 * 用户状态
 	 */
 	ONLINE("在线"),
-	OFFLINE("离线")
-	;
+	OFFLINE("离线");
 
 	@ApiModelProperty(value = "描述")
 	private String desc;

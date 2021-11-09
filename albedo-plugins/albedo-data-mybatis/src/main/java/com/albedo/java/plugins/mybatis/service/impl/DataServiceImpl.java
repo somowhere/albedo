@@ -16,8 +16,8 @@
 
 package com.albedo.java.plugins.mybatis.service.impl;
 
-import com.albedo.java.common.core.vo.DataDto;
 import com.albedo.java.common.core.basic.domain.BaseDataEntity;
+import com.albedo.java.common.core.vo.DataDto;
 import com.albedo.java.plugins.mybatis.repository.BaseRepository;
 import com.albedo.java.plugins.mybatis.service.DataService;
 import lombok.Data;

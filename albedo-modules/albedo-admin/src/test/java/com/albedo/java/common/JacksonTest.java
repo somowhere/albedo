@@ -16,8 +16,8 @@
 
 package com.albedo.java.common;
 
-import com.albedo.java.plugins.swagger.config.ExtraFieldSerializer;
 import com.albedo.java.common.core.vo.DataVo;
+import com.albedo.java.config.ExtraFieldDictSerializer;
 import com.fasterxml.jackson.databind.BeanDescription;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,7 +45,7 @@ public class JacksonTest {
 					public JsonSerializer<?> modifySerializer(SerializationConfig config, BeanDescription beanDesc,
 															  JsonSerializer<?> serializer) {
 						if (serializer instanceof BeanSerializerBase) {
-							return new ExtraFieldSerializer((BeanSerializerBase) serializer);
+							return new ExtraFieldDictSerializer((BeanSerializerBase) serializer);
 						}
 						return serializer;
 

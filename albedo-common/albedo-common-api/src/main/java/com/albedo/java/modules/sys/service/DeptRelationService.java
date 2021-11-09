@@ -32,9 +32,9 @@
 
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.plugins.mybatis.service.BaseService;
 import com.albedo.java.modules.sys.domain.DeptRelation;
 import com.albedo.java.modules.sys.domain.dto.DeptDto;
+import com.albedo.java.plugins.mybatis.service.BaseService;
 
 /**
  * <p>
@@ -58,7 +58,7 @@ public interface DeptRelationService extends BaseService<DeptRelation> {
 	 *
 	 * @param id
 	 */
-	void removeDeptRelationById(String id);
+	void removeDeptRelationById(Long id);
 
 	/**
 	 * 更新部门关系

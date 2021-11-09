@@ -16,8 +16,8 @@
 
 package com.albedo.java.plugins.mybatis.service;
 
-import com.albedo.java.common.core.vo.DataDto;
 import com.albedo.java.common.core.basic.domain.BaseDataEntity;
+import com.albedo.java.common.core.vo.DataDto;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;

@@ -33,11 +33,11 @@
 package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.core.util.CollUtil;
-import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
 import com.albedo.java.modules.sys.domain.DeptRelation;
 import com.albedo.java.modules.sys.domain.dto.DeptDto;
 import com.albedo.java.modules.sys.repository.DeptRelationRepository;
 import com.albedo.java.modules.sys.service.DeptRelationService;
+import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -96,7 +96,7 @@ public class DeptRelationServiceImpl extends BaseServiceImpl<DeptRelationReposit
 	 * @param id
 	 */
 	@Override
-	public void removeDeptRelationById(String id) {
+	public void removeDeptRelationById(Long id) {
 		repository.deleteDeptRelationsById(id);
 	}
 

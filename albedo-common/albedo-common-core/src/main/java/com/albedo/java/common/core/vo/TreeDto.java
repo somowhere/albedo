@@ -48,7 +48,7 @@ public class TreeDto extends DataDto<Long> {
 	protected String name;
 
 	/*** 上级模块 */
-	protected String parentId;
+	protected Long parentId;
 
 	/*** 序号 */
 	protected Integer sort;

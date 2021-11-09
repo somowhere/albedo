@@ -1,7 +1,7 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.albedo.java.plugins.swagger.config.AsyncConfiguration,\
-  com.albedo.java.plugins.swagger.config.JacksonMapperConfiguration,\
-  com.albedo.java.plugins.swagger.config.LogAutoConfiguration,\
-  com.albedo.java.plugins.swagger.config.SecurityAutoConfiguration,\
-  com.albedo.java.plugins.swagger.config.SecurityJwtConfiguration,\
-  com.albedo.java.plugins.swagger.config.WebConfigurer
+  com.albedo.java.config.AsyncConfiguration,\
+  com.albedo.java.config.JacksonMapperConfiguration,\
+  com.albedo.java.config.LogAutoConfiguration,\
+  com.albedo.java.config.SecurityAutoConfiguration,\
+  com.albedo.java.config.SecurityJwtConfiguration,\
+  com.albedo.java.config.WebConfigurer

@@ -68,6 +68,57 @@ application:
     max-age: 1800
   http:
     version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
+  database:
+    tenantDatabasePrefix: lamp_base
+    multiTenantType: COLUMN
+    tenantIdColumn: tenant_code
+    isNotWrite: false
+    p6spy: true
+    isBlockAttack: false  # 是否启用 攻击 SQL 阻断解析器
+    isSeata: false
+    id-type: HU_TOOL
+    hutoolId:
+      workerId: 0
+      dataCenterId: 0
+    cache-id:
+      time-bits: 31
+      worker-bits: 22
+      seq-bits: 10
+      epochStr: '2020-09-15'
+      boost-power: 3
+      padding-factor: 50
+
+  file:
+    storageType: LOCAL #  FAST_DFS LOCAL MIN_IO ALI_OSS HUAWEI_OSS QINIU_OSS
+    delFile: false
+    local:
+      storage-path: /Users/somewhere/data/projects/uploadfile/file/     # 文件存储路径  （ 某些版本的 window 需要改成  D:\\data\\projects\\uploadfile\\file\\  ）
+      endpoint: http://127.0.0.1/file/   # 文件访问 （部署nginx后，配置nginx的ip，并配置nginx静态代理storage-path地址的静态资源）
+      inner-uri-prefix: null  #  内网的url前缀
+    ali:
+      # 请填写自己的阿里云存储配置
+      uriPrefix: "http://albedo-admin-cloud.oss-cn-beijing.aliyuncs.com/"
+      bucket-name: "albedo-admin-cloud"
+      endpoint: "oss-cn-beijing.aliyuncs.com"
+      access-key-id: "填写你的id"
+      access-key-secret: "填写你的秘钥"
+    minIo:
+      endpoint: "http://127.0.0.1:9000/"
+      accessKey: "lamp"
+      secretKey: "lamp"
+      bucket: "dev"
+    huawei:
+      uriPrefix: "dev.obs.cn-southwest-2.myhuaweicloud.com"
+      endpoint: "obs.cn-southwest-2.myhuaweicloud.com"
+      accessKey: "1"
+      secretKey: "2"
+      location: "cn-southwest-2"
+      bucket: "dev"
+    qiNiu:
+      zone: "z0"
+      accessKey: "1"
+      secretKey: "2"
+      bucket: "albedo_admin_cloud"
   #密码加密传输，前端公钥加密，后端私钥解密
   rsa:
     public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAN4UOrkIuLpL0o7WItgIUkP/RFBsurMPQ7fTaOKwT+S9tWly0xMmJzSl9Kdh8MpWcyz+5nUSb7SgGWxiE3qIL2sCAwEAAQ==

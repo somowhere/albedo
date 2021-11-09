@@ -32,7 +32,7 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class TreeVo<T> extends DataVo<String> implements TreeNodeAware<T> {
+public class TreeVo<T> extends DataVo<Long> implements TreeNodeAware<T> {
 
 	public static final String F_NAME = "name";
 
@@ -51,7 +51,7 @@ public class TreeVo<T> extends DataVo<String> implements TreeNodeAware<T> {
 	protected String name;
 
 	/*** 上级模块 */
-	protected String parentId;
+	protected Long parentId;
 
 	/*** 序号 */
 	protected Integer sort;

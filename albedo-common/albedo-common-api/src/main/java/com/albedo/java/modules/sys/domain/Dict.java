@@ -33,9 +33,10 @@
 package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
+import com.albedo.java.common.core.basic.domain.BaseDataEntity;
+import com.albedo.java.common.core.basic.domain.TreeEntity;
 import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.core.util.StringUtil;
-import com.albedo.java.common.core.basic.domain.TreeEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -97,8 +98,8 @@ public class Dict extends TreeEntity<Dict> {
 	}
 
 	@Override
-	public void setDescription(String description) {
-		super.setDescription(description);
+	public BaseDataEntity<Dict> setDescription(String description) {
+		return super.setDescription(description);
 	}
 
 	@Override

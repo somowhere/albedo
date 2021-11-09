@@ -21,7 +21,6 @@ import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.SpringContextHolder;
-import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.SelectVo;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.service.DictService;
@@ -109,7 +108,7 @@ public class DictUtil {
 		List<SelectVo> list = Lists.newLinkedList();
 		if (CollUtil.isNotEmpty(dictList)) {
 			for (Dict item : dictList) {
-				if (CommonConstants.YES.equals(item.getAvailable()) && StringUtil.isNotEmpty(item.getParentId())
+				if (CommonConstants.YES.equals(item.getAvailable()) && ObjectUtil.isNotEmpty(item.getParentId())
 					&& item.getParentId().equals(dict.getId())) {
 					list.add(new SelectVo(item.getVal(), item.getName(), item.getVersion()));
 				}

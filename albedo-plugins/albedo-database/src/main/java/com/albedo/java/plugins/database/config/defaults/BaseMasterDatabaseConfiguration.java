@@ -50,84 +50,84 @@ import java.util.List;
  * <p>
  * 完成上述修改后， 位于top.tangyh.basic.product.dao 包下的dao 将操作  master 库， top.tangyh.basic.order.dao中的dao 将操作slave库
  *
- * @author zuihou
+ * @author somewhere
  * @date 2017-11-18 0:34
  */
 @Slf4j
 public abstract class BaseMasterDatabaseConfiguration extends BaseDatabaseConfiguration {
-    /**
-     * 每个数据源配置不同即可
-     */
-    public static final String DATABASE_PREFIX = "master";
+	/**
+	 * 每个数据源配置不同即可
+	 */
+	public static final String DATABASE_PREFIX = "master";
 
-    public BaseMasterDatabaseConfiguration(MybatisPlusProperties properties,
-                                           DatabaseProperties databaseProperties,
-                                           ObjectProvider<Interceptor[]> interceptorsProvider,
-                                           ObjectProvider<TypeHandler[]> typeHandlersProvider,
-                                           ObjectProvider<LanguageDriver[]> languageDriversProvider,
-                                           ResourceLoader resourceLoader,
-                                           ObjectProvider<DatabaseIdProvider> databaseIdProvider,
-                                           ObjectProvider<List<ConfigurationCustomizer>> configurationCustomizersProvider,
-                                           ObjectProvider<List<MybatisPlusPropertiesCustomizer>> mybatisPlusPropertiesCustomizerProvider,
-                                           ApplicationContext applicationContext) {
-        super(properties, databaseProperties, interceptorsProvider, typeHandlersProvider,
-                languageDriversProvider, resourceLoader, databaseIdProvider,
-                configurationCustomizersProvider, mybatisPlusPropertiesCustomizerProvider, applicationContext);
-    }
+	public BaseMasterDatabaseConfiguration(MybatisPlusProperties properties,
+										   DatabaseProperties databaseProperties,
+										   ObjectProvider<Interceptor[]> interceptorsProvider,
+										   ObjectProvider<TypeHandler[]> typeHandlersProvider,
+										   ObjectProvider<LanguageDriver[]> languageDriversProvider,
+										   ResourceLoader resourceLoader,
+										   ObjectProvider<DatabaseIdProvider> databaseIdProvider,
+										   ObjectProvider<List<ConfigurationCustomizer>> configurationCustomizersProvider,
+										   ObjectProvider<List<MybatisPlusPropertiesCustomizer>> mybatisPlusPropertiesCustomizerProvider,
+										   ApplicationContext applicationContext) {
+		super(properties, databaseProperties, interceptorsProvider, typeHandlersProvider,
+			languageDriversProvider, resourceLoader, databaseIdProvider,
+			configurationCustomizersProvider, mybatisPlusPropertiesCustomizerProvider, applicationContext);
+	}
 
-    @Bean(DATABASE_PREFIX + "SqlSessionTemplate")
-    public SqlSessionTemplate getSqlSessionTemplate(@Qualifier(DATABASE_PREFIX + "SqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
-        ExecutorType executorType = this.properties.getExecutorType();
-        if (executorType != null) {
-            return new SqlSessionTemplate(sqlSessionFactory, executorType);
-        } else {
-            return new SqlSessionTemplate(sqlSessionFactory);
-        }
-    }
+	@Bean(DATABASE_PREFIX + "SqlSessionTemplate")
+	public SqlSessionTemplate getSqlSessionTemplate(@Qualifier(DATABASE_PREFIX + "SqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
+		ExecutorType executorType = this.properties.getExecutorType();
+		if (executorType != null) {
+			return new SqlSessionTemplate(sqlSessionFactory, executorType);
+		} else {
+			return new SqlSessionTemplate(sqlSessionFactory);
+		}
+	}
 
-    /**
-     * 数据源信息
-     *
-     * @return javax.sql.DataSource Druid数据源
-     * @author tangyh
-     * @date 2021/8/15 10:16 下午
-     * @create [2021/8/15 10:16 下午 ] [tangyh] [初始创建]
-     */
-    @Bean(name = DATABASE_PREFIX + "DruidDataSource", initMethod = "init")
-    public DataSource druidDataSource() {
-        return DruidDataSourceBuilder.create().build();
-    }
+	/**
+	 * 数据源信息
+	 *
+	 * @return javax.sql.DataSource Druid数据源
+	 * @author tangyh
+	 * @date 2021/8/15 10:16 下午
+	 * @create [2021/8/15 10:16 下午 ] [tangyh] [初始创建]
+	 */
+	@Bean(name = DATABASE_PREFIX + "DruidDataSource", initMethod = "init")
+	public DataSource druidDataSource() {
+		return DruidDataSourceBuilder.create().build();
+	}
 
-    @Primary
-    @Bean(name = DATABASE_PREFIX + "DataSource")
-    public DataSource dataSource(@Qualifier(DATABASE_PREFIX + "DruidDataSource") DataSource dataSource) {
-        if (databaseProperties.getP6spy()) {
-            return new P6DataSource(dataSource);
-        } else {
-            return dataSource;
-        }
-    }
+	@Primary
+	@Bean(name = DATABASE_PREFIX + "DataSource")
+	public DataSource dataSource(@Qualifier(DATABASE_PREFIX + "DruidDataSource") DataSource dataSource) {
+		if (databaseProperties.getP6spy()) {
+			return new P6DataSource(dataSource);
+		} else {
+			return dataSource;
+		}
+	}
 
-    /**
-     * mybatis Sql Session 工厂
-     *
-     * @return sql链接工厂
-     * @throws Exception 异常
-     */
-    @Bean(DATABASE_PREFIX + "SqlSessionFactory")
-    @Primary
-    public SqlSessionFactory getSqlSessionFactory(@Qualifier(DATABASE_PREFIX + "DataSource") DataSource dataSource) throws Exception {
-        return super.sqlSessionFactory(dataSource);
-    }
+	/**
+	 * mybatis Sql Session 工厂
+	 *
+	 * @return sql链接工厂
+	 * @throws Exception 异常
+	 */
+	@Bean(DATABASE_PREFIX + "SqlSessionFactory")
+	@Primary
+	public SqlSessionFactory getSqlSessionFactory(@Qualifier(DATABASE_PREFIX + "DataSource") DataSource dataSource) throws Exception {
+		return super.sqlSessionFactory(dataSource);
+	}
 
-    /**
-     * 数据源事务管理器
-     *
-     * @return 数据源事务管理器
-     */
-    @Bean(name = DATABASE_PREFIX + "TransactionManager")
-    @Primary
-    public DataSourceTransactionManager dsTransactionManager(@Qualifier(DATABASE_PREFIX + "DataSource") DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
-    }
+	/**
+	 * 数据源事务管理器
+	 *
+	 * @return 数据源事务管理器
+	 */
+	@Bean(name = DATABASE_PREFIX + "TransactionManager")
+	@Primary
+	public DataSourceTransactionManager dsTransactionManager(@Qualifier(DATABASE_PREFIX + "DataSource") DataSource dataSource) {
+		return new DataSourceTransactionManager(dataSource);
+	}
 }

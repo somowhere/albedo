@@ -35,7 +35,7 @@ public class DeptQueryCriteria implements Serializable {
 	private String notId;
 
 	@Query(propName = "id", operator = Query.Operator.in)
-	private Set<String> deptIds;
+	private Set<Long> deptIds;
 
 	@Query(operator = Query.Operator.like)
 	private String name;

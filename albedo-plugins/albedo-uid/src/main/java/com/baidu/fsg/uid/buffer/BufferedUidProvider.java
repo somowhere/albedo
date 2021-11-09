@@ -25,11 +25,11 @@ import java.util.List;
 @FunctionalInterface
 public interface BufferedUidProvider {
 
-    /**
-     * Provides UID in one second
-     *
-     * @param momentInSecond momentInSecond
-     * @return 1秒类提供的UID
-     */
-    List<Long> provide(long momentInSecond);
+	/**
+	 * Provides UID in one second
+	 *
+	 * @param momentInSecond momentInSecond
+	 * @return 1秒类提供的UID
+	 */
+	List<Long> provide(long momentInSecond);
 }

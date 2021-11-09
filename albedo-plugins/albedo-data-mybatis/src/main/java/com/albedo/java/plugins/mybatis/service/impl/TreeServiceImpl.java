@@ -16,10 +16,10 @@
 
 package com.albedo.java.plugins.mybatis.service.impl;
 
-import com.albedo.java.common.core.vo.TreeDto;
 import com.albedo.java.common.core.basic.domain.TreeEntity;
-import com.albedo.java.plugins.mybatis.service.TreeService;
+import com.albedo.java.common.core.vo.TreeDto;
 import com.albedo.java.plugins.mybatis.repository.TreeRepository;
+import com.albedo.java.plugins.mybatis.service.TreeService;
 import lombok.Data;
 
 /**

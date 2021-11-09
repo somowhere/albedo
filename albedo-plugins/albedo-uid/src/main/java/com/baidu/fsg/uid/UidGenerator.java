@@ -24,21 +24,21 @@ import com.baidu.fsg.uid.exception.UidGenerateException;
  */
 public interface UidGenerator {
 
-    /**
-     * Get a unique ID
-     *
-     * @return UID
-     * @throws UidGenerateException
-     */
-    long getUid() throws UidGenerateException;
+	/**
+	 * Get a unique ID
+	 *
+	 * @return UID
+	 * @throws UidGenerateException
+	 */
+	long getUid() throws UidGenerateException;
 
-    /**
-     * Parse the UID into elements which are used to generate the UID. <br>
-     * Such as timestamp & workerId & sequence...
-     *
-     * @param uid
-     * @return Parsed info
-     */
-    String parseUid(long uid);
+	/**
+	 * Parse the UID into elements which are used to generate the UID. <br>
+	 * Such as timestamp & workerId & sequence...
+	 *
+	 * @param uid
+	 * @return Parsed info
+	 */
+	String parseUid(long uid);
 
 }

@@ -33,9 +33,9 @@
 package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
+import com.albedo.java.common.core.basic.domain.IdEntity;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.DictNameConstants;
-import com.albedo.java.common.core.basic.domain.IdEntity;
 import com.albedo.java.modules.sys.domain.enums.DataScopeType;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;

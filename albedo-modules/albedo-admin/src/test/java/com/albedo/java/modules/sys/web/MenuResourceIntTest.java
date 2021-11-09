@@ -86,10 +86,10 @@ public class MenuResourceIntTest {
 
 	private static final String UPDATED_ICON = "ICON2";
 
-	private static final String DEFAULT_ANOTHER_PARENT_ID = "ANOTHER_PARENT_ID";
+	private static final Long DEFAULT_ANOTHER_PARENT_ID = -2L;
 
 	// private static final String DEFAULT_PARENT_ID = "PARENT_ID1";
-	private static final String UPDATED_PARENT_ID = "PARENT_ID2";
+	private static final Long UPDATED_PARENT_ID = 2L;
 
 	private static final Integer DEFAULT_SORT = 10;
 
@@ -205,7 +205,7 @@ public class MenuResourceIntTest {
 		assertThat(testMenu.getIcon()).isEqualTo(DEFAULT_ICON);
 		assertThat(testMenu.getSort()).isEqualTo(DEFAULT_SORT);
 		assertThat(testMenu.getParentId()).isEqualTo(anotherMenu.getId());
-		assertThat(testMenu.getParentIds()).contains(anotherMenu.getId());
+		assertThat(testMenu.getParentIds()).contains(String.valueOf(anotherMenu.getId()));
 		assertThat(testMenu.getComponent()).isEqualTo(DEFAULT_COMPONENT);
 		assertThat(testMenu.getHidden()).isEqualTo(DEFAULT_HIDDEN);
 		assertThat(testMenu.getCache()).isEqualTo(DEFAULT_CACHE);
@@ -396,13 +396,13 @@ public class MenuResourceIntTest {
 	public void testMenuEquals() throws Exception {
 		TestUtil.equalsVerifier(Menu.class);
 		Menu menu1 = new Menu();
-		menu1.setId("1");
+		menu1.setId(1L);
 		menu1.setName("Menu1");
 		Menu menu2 = new Menu();
 		menu2.setId(menu1.getId());
 		menu2.setName(menu1.getName());
 		assertThat(menu1).isEqualTo(menu2);
-		menu2.setId("2");
+		menu2.setId(2L);
 		menu2.setName("Menu2");
 		assertThat(menu1).isNotEqualTo(menu2);
 		menu1.setId(null);

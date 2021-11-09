@@ -61,7 +61,7 @@ public class DataScope implements Serializable {
 	/**
 	 * 具体的数据范围
 	 */
-	private Set<String> deptIds = Sets.newLinkedHashSet();
+	private Set<Long> deptIds = Sets.newLinkedHashSet();
 
 	/**
 	 * 全部数据

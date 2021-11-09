@@ -4,20 +4,19 @@ import cn.hutool.core.convert.Convert;
 import com.albedo.java.common.core.cache.model.CacheKey;
 import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.common.core.util.BeanUtil;
-import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.modules.file.service.AppendixService;
 import com.albedo.java.modules.tenant.TenantCacheKeyBuilder;
 import com.albedo.java.modules.tenant.TenantCodeCacheKeyBuilder;
+import com.albedo.java.modules.tenant.domain.Tenant;
 import com.albedo.java.modules.tenant.domain.dto.TenantConnectDto;
+import com.albedo.java.modules.tenant.domain.dto.TenantDto;
 import com.albedo.java.modules.tenant.enumeration.TenantStatusEnum;
 import com.albedo.java.modules.tenant.enumeration.TenantTypeEnum;
-import com.albedo.java.plugins.database.mybatis.conditions.Wraps;
-import com.albedo.java.plugins.mybatis.service.impl.DataCacheServiceImpl;
-import com.albedo.java.modules.tenant.domain.Tenant;
-import com.albedo.java.modules.tenant.domain.dto.TenantDto;
 import com.albedo.java.modules.tenant.repository.TenantRepository;
 import com.albedo.java.modules.tenant.service.TenantService;
 import com.albedo.java.modules.tenant.strategy.InitSystemContext;
+import com.albedo.java.plugins.database.mybatis.conditions.Wraps;
+import com.albedo.java.plugins.mybatis.service.impl.DataCacheServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,7 +32,7 @@ import java.util.function.Function;
  * 企业
  * </p>
  *
- * @author zuihou
+ * @author somewhere
  * @date 2019-10-24
  */
 @Slf4j
@@ -72,13 +71,13 @@ public class TenantServiceImpl extends DataCacheServiceImpl<TenantRepository, Te
 		// defaults 库
 		Assert.isTrue(check(tenantDto.getCode()), "编码重复，请重新输入");
 		Tenant tenant = BeanUtil.toBean(tenantDto, Tenant.class);
-		if(tenantDto.getId() == null){
+		if (tenantDto.getId() == null) {
 			// 1， 保存租户 (默认库)
 			tenant.setStatus(TenantStatusEnum.WAIT_INIT);
 			tenant.setType(TenantTypeEnum.CREATE);
 			// defaults 库
 			save(tenant);
-		}else{
+		} else {
 			updateById(tenant);
 		}
 

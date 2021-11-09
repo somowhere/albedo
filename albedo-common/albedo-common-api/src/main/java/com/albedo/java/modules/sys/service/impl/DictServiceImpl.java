@@ -33,6 +33,7 @@
 package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.core.annotation.BaseInterface;
+import com.albedo.java.common.core.basic.domain.TreeEntity;
 import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BizException;
@@ -44,9 +45,6 @@ import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.core.vo.SelectVo;
 import com.albedo.java.common.core.vo.TreeNode;
-import com.albedo.java.plugins.mybatis.util.QueryWrapperUtil;
-import com.albedo.java.common.core.basic.domain.TreeEntity;
-import com.albedo.java.plugins.mybatis.service.impl.TreeServiceImpl;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.domain.dto.DictDto;
 import com.albedo.java.modules.sys.domain.dto.DictQueryCriteria;
@@ -54,6 +52,8 @@ import com.albedo.java.modules.sys.domain.vo.DictVo;
 import com.albedo.java.modules.sys.repository.DictRepository;
 import com.albedo.java.modules.sys.service.DictService;
 import com.albedo.java.modules.sys.util.DictUtil;
+import com.albedo.java.plugins.mybatis.service.impl.TreeServiceImpl;
+import com.albedo.java.plugins.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;

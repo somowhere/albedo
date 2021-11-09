@@ -16,6 +16,7 @@
 package com.baidu.fsg.uid.worker;
 
 import cn.hutool.core.util.RandomUtil;
+import com.albedo.java.plugins.uid.WorkerNodeDao;
 import com.baidu.fsg.uid.utils.DockerUtils;
 import com.baidu.fsg.uid.utils.NetUtils;
 import com.baidu.fsg.uid.worker.entity.WorkerNodeEntity;
@@ -23,7 +24,6 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
-import com.albedo.java.plugins.uid.WorkerNodeDao;
 
 /**
  * Represents an implementation of {@link WorkerIdAssigner},
@@ -40,45 +40,45 @@ import com.albedo.java.plugins.uid.WorkerNodeDao;
  */
 @RequiredArgsConstructor
 public class DisposableWorkerIdAssigner implements WorkerIdAssigner {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DisposableWorkerIdAssigner.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DisposableWorkerIdAssigner.class);
 
-    private final WorkerNodeDao workerNodeDao;
+	private final WorkerNodeDao workerNodeDao;
 
-    /**
-     * Assign worker id base on database.<p>
-     * If there is host name & port in the environment, we considered that the node runs in Docker container<br>
-     * Otherwise, the node runs on an actual machine.
-     *
-     * @return assigned worker id
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public long assignWorkerId() {
-        // build worker node entity
-        WorkerNodeEntity workerNodeEntity = buildWorkerNode();
+	/**
+	 * Assign worker id base on database.<p>
+	 * If there is host name & port in the environment, we considered that the node runs in Docker container<br>
+	 * Otherwise, the node runs on an actual machine.
+	 *
+	 * @return assigned worker id
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public long assignWorkerId() {
+		// build worker node entity
+		WorkerNodeEntity workerNodeEntity = buildWorkerNode();
 
-        // add worker node for new (ignore the same IP + PORT)
-        workerNodeDao.addWorkerNode(workerNodeEntity);
-        LOGGER.info("Add worker node:" + workerNodeEntity);
+		// add worker node for new (ignore the same IP + PORT)
+		workerNodeDao.addWorkerNode(workerNodeEntity);
+		LOGGER.info("Add worker node:" + workerNodeEntity);
 
-        return workerNodeEntity.getId();
-    }
+		return workerNodeEntity.getId();
+	}
 
-    /**
-     * Build worker node entity by IP and PORT
-     */
-    private WorkerNodeEntity buildWorkerNode() {
-        WorkerNodeEntity workerNodeEntity = new WorkerNodeEntity();
-        if (DockerUtils.isDocker()) {
-            workerNodeEntity.setType(WorkerNodeType.CONTAINER.value());
-            workerNodeEntity.setHostName(DockerUtils.getDockerHost());
-            workerNodeEntity.setPort(DockerUtils.getDockerPort());
-        } else {
-            workerNodeEntity.setType(WorkerNodeType.ACTUAL.value());
-            workerNodeEntity.setHostName(NetUtils.getLocalAddress());
-            workerNodeEntity.setPort(System.currentTimeMillis() + "-" + RandomUtil.randomInt(100000));
-        }
-        return workerNodeEntity;
-    }
+	/**
+	 * Build worker node entity by IP and PORT
+	 */
+	private WorkerNodeEntity buildWorkerNode() {
+		WorkerNodeEntity workerNodeEntity = new WorkerNodeEntity();
+		if (DockerUtils.isDocker()) {
+			workerNodeEntity.setType(WorkerNodeType.CONTAINER.value());
+			workerNodeEntity.setHostName(DockerUtils.getDockerHost());
+			workerNodeEntity.setPort(DockerUtils.getDockerPort());
+		} else {
+			workerNodeEntity.setType(WorkerNodeType.ACTUAL.value());
+			workerNodeEntity.setHostName(NetUtils.getLocalAddress());
+			workerNodeEntity.setPort(System.currentTimeMillis() + "-" + RandomUtil.randomInt(100000));
+		}
+		return workerNodeEntity;
+	}
 
 }

@@ -17,9 +17,9 @@
 package com.albedo.java.modules.quartz.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
-import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.core.basic.domain.BaseDataEntity;
 import com.albedo.java.common.core.basic.domain.GeneralEntity;
+import com.albedo.java.common.core.constant.DictNameConstants;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;

@@ -1,20 +1,11 @@
 package com.albedo.java.modules.sys.domain.dto;
 
-import com.albedo.java.common.core.annotation.ExcelField;
-import com.albedo.java.common.core.basic.domain.IdEntity;
 import com.albedo.java.common.core.vo.DataDto;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
-
-import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
 /**
  * <p>
@@ -22,7 +13,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * 应用
  * </p>
  *
- * @author zuihou
+ * @author somewhere
  * @since 2020-11-20
  */
 @Data
@@ -33,7 +24,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @AllArgsConstructor
 public class ParameterDto extends DataDto<Long> {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 参数键

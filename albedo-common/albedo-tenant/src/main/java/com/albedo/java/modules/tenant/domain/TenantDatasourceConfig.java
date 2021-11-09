@@ -24,7 +24,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * 租户数据源关系
  * </p>
  *
- * @author zuihou
+ * @author somewhere
  * @since 2020-11-19
  */
 @Data
@@ -37,62 +37,56 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @AllArgsConstructor
 public class TenantDatasourceConfig extends BaseEntity<TenantDatasourceConfig> {
 
-    private static final long serialVersionUID = 1L;
-
-	/**
-	 * 编号
-	 */
-	@TableId(value = "id", type = IdType.AUTO)
-	private Long id;
-
-    /**
-     * 租户id
-     */
-    @ApiModelProperty(value = "租户id")
-    @NotNull(message = "租户id不能为空")
-    @TableField("tenant_id")
-    @ExcelField(title = "租户id")
-    private Long tenantId;
-
-    /**
-     * 数据源id
-     */
-    @ApiModelProperty(value = "数据源id")
-    @NotNull(message = "数据源id不能为空")
-    @TableField("datasource_config_id")
-    @ExcelField(title = "数据源id")
-    private Long datasourceConfigId;
-
-    /**
-     * 服务
-     */
-    @ApiModelProperty(value = "服务")
-    @NotEmpty(message = "服务不能为空")
-    @Size(max = 100, message = "服务长度不能超过100")
-    @TableField(value = "application", condition = LIKE)
-    @ExcelField(title = "服务")
-    private String application;
-
+	private static final long serialVersionUID = 1L;
 	protected Long createdBy;
-
 	/**
 	 * 创建时间
 	 */
 	@ExcelField(title = "创建时间")
 	protected LocalDateTime createdDate;
-
 	/*** 备注 */
 	@ExcelField(title = "描述")
 	protected String description;
-    @Builder
-    public TenantDatasourceConfig(Long id, LocalDateTime createdDate, Long createdBy,
-                                  Long tenantId, Long datasourceConfigId, String application) {
-        this.id = id;
-        this.createdDate = createdDate;
-        this.createdBy = createdBy;
-        this.tenantId = tenantId;
-        this.datasourceConfigId = datasourceConfigId;
-        this.application = application;
-    }
+	/**
+	 * 编号
+	 */
+	@TableId(value = "id", type = IdType.AUTO)
+	private Long id;
+	/**
+	 * 租户id
+	 */
+	@ApiModelProperty(value = "租户id")
+	@NotNull(message = "租户id不能为空")
+	@TableField("tenant_id")
+	@ExcelField(title = "租户id")
+	private Long tenantId;
+	/**
+	 * 数据源id
+	 */
+	@ApiModelProperty(value = "数据源id")
+	@NotNull(message = "数据源id不能为空")
+	@TableField("datasource_config_id")
+	@ExcelField(title = "数据源id")
+	private Long datasourceConfigId;
+	/**
+	 * 服务
+	 */
+	@ApiModelProperty(value = "服务")
+	@NotEmpty(message = "服务不能为空")
+	@Size(max = 100, message = "服务长度不能超过100")
+	@TableField(value = "application", condition = LIKE)
+	@ExcelField(title = "服务")
+	private String application;
+
+	@Builder
+	public TenantDatasourceConfig(Long id, LocalDateTime createdDate, Long createdBy,
+								  Long tenantId, Long datasourceConfigId, String application) {
+		this.id = id;
+		this.createdDate = createdDate;
+		this.createdBy = createdBy;
+		this.tenantId = tenantId;
+		this.datasourceConfigId = datasourceConfigId;
+		this.application = application;
+	}
 
 }

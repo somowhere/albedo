@@ -2,9 +2,6 @@ package com.albedo.java.modules.tenant.domain.dto;
 
 import com.albedo.java.common.core.vo.AppendixDto;
 import com.albedo.java.common.core.vo.DataDto;
-import com.albedo.java.modules.tenant.enumeration.TenantConnectTypeEnum;
-import com.albedo.java.modules.tenant.enumeration.TenantStatusEnum;
-import com.albedo.java.modules.tenant.enumeration.TenantTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -20,7 +17,7 @@ import java.util.List;
  * 企业
  * </p>
  *
- * @author zuihou
+ * @author somewhere
  * @since 2020-11-19
  */
 @Data
@@ -31,7 +28,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TenantDto extends DataDto<Long> {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 企业编码

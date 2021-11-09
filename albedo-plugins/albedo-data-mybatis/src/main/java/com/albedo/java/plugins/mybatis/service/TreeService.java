@@ -16,6 +16,7 @@
 
 package com.albedo.java.plugins.mybatis.service;
 
+import com.albedo.java.common.core.basic.domain.TreeEntity;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
@@ -24,7 +25,6 @@ import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.common.core.vo.TreeDto;
 import com.albedo.java.common.core.vo.TreeNode;
 import com.albedo.java.plugins.mybatis.util.QueryWrapperUtil;
-import com.albedo.java.common.core.basic.domain.TreeEntity;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,7 +53,7 @@ public interface TreeService<T extends TreeEntity, D extends TreeDto> extends Da
 	default List<TreeNode> getNodeTree(List<T> trees) {
 		List<TreeNode> treeList = trees.stream().map(tree -> {
 			TreeNode node = new TreeNode();
-			node.setId((String) tree.getId());
+			node.setId((Long) tree.getId());
 			node.setParentId(tree.getParentId());
 			node.setLabel(tree.getName());
 			return node;

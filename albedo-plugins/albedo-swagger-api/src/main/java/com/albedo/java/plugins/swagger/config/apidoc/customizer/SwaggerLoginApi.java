@@ -16,8 +16,8 @@
 
 package com.albedo.java.plugins.swagger.config.apidoc.customizer;
 
-import com.albedo.java.plugins.swagger.config.ApplicationSwaggerProperties;
 import com.albedo.java.common.core.util.StringUtil;
+import com.albedo.java.plugins.swagger.config.ApplicationSwaggerProperties;
 import com.google.common.collect.Sets;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;

@@ -42,6 +42,8 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
 	 */
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
 
+	public static final String DATE_FORMAT_SLASH = "yyyy/MM/dd";
+
 	public static String format(ZonedDateTime val, String format) {
 		return val == null ? null : val.format(DateTimeFormatter.ofPattern(format));
 	}
@@ -59,7 +61,7 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
 	 */
 	public static final String datePath() {
 		Date now = new Date();
-		return format(now, "yyyy/MM/dd");
+		return format(now, DATE_FORMAT_SLASH);
 	}
 
 	/**

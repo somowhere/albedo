@@ -29,14 +29,14 @@ public interface TreeNodeAware<T> {
 	 *
 	 * @return
 	 */
-	String getId();
+	Long getId();
 
 	/**
 	 * getParentId
 	 *
 	 * @return
 	 */
-	String getParentId();
+	Long getParentId();
 
 	/**
 	 * getChildren

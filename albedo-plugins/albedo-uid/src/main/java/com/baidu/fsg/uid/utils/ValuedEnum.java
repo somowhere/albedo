@@ -22,10 +22,10 @@ package com.baidu.fsg.uid.utils;
  * @author yutianbao
  */
 public interface ValuedEnum<T> {
-    /**
-     * 值
-     *
-     * @return
-     */
-    T value();
+	/**
+	 * 值
+	 *
+	 * @return
+	 */
+	T value();
 }

@@ -32,9 +32,9 @@
 
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.plugins.mybatis.service.BaseService;
 import com.albedo.java.modules.sys.domain.RoleMenu;
 import com.albedo.java.modules.sys.domain.dto.RoleMenuDto;
+import com.albedo.java.plugins.mybatis.service.BaseService;
 
 /**
  * <p>

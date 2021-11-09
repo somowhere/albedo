@@ -17,8 +17,8 @@
 package com.albedo.java.common.util;
 
 import com.albedo.java.common.core.util.SpringContextHolder;
-import com.albedo.java.common.log.enums.OperatorType;
 import com.albedo.java.common.event.listener.SysLogEvent;
+import com.albedo.java.common.log.enums.OperatorType;
 import com.albedo.java.modules.sys.domain.LogOperate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

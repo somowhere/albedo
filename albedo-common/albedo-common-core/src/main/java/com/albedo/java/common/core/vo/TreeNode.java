@@ -47,9 +47,9 @@ import java.util.Objects;
 @Data
 public class TreeNode<T> implements TreeNodeAware<T>, Serializable {
 
-	protected String id;
+	protected Long id;
 
-	protected String parentId;
+	protected Long parentId;
 
 	protected List<T> children = new ArrayList<T>();
 

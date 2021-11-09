@@ -17,8 +17,8 @@
 package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
-import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.core.basic.domain.BaseEntity;
+import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.modules.sys.domain.enums.OnlineStatus;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -49,7 +49,7 @@ public class UserOnline extends BaseEntity<UserOnline> {
 	/**
 	 * 部门ID
 	 */
-	private String deptId;
+	private Long deptId;
 
 	/**
 	 * 部门名称
@@ -57,9 +57,9 @@ public class UserOnline extends BaseEntity<UserOnline> {
 	private String deptName;
 
 	/**
-	 * 登录ID
+	 * 登录userId
 	 */
-	private String userId;
+	private Long userId;
 
 	/**
 	 * 登录名称

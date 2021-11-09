@@ -32,10 +32,10 @@
 
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.plugins.mybatis.datascope.DataScope;
-import com.albedo.java.plugins.mybatis.repository.BaseRepository;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
+import com.albedo.java.plugins.mybatis.datascope.DataScope;
+import com.albedo.java.plugins.mybatis.repository.BaseRepository;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;

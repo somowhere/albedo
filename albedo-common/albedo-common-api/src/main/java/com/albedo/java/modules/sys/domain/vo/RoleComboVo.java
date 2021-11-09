@@ -46,7 +46,7 @@ import java.util.Objects;
 @Data
 public class RoleComboVo implements Serializable {
 
-	private String id;
+	private Long id;
 
 	private Integer level;
 

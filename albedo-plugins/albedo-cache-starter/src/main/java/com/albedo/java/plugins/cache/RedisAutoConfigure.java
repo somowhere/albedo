@@ -1,5 +1,7 @@
 package com.albedo.java.plugins.cache;
 
+import com.albedo.java.common.core.lock.DistributedLock;
+import com.albedo.java.common.core.util.StrPool;
 import com.albedo.java.plugins.cache.lock.RedisDistributedLock;
 import com.albedo.java.plugins.cache.properties.CustomCacheProperties;
 import com.albedo.java.plugins.cache.properties.SerializerType;
@@ -8,8 +10,6 @@ import com.albedo.java.plugins.cache.repository.CacheOps;
 import com.albedo.java.plugins.cache.repository.CachePlusOps;
 import com.albedo.java.plugins.cache.repository.impl.RedisOpsImpl;
 import com.albedo.java.plugins.cache.utils.RedisObjectSerializer;
-import com.albedo.java.common.core.lock.DistributedLock;
-import com.albedo.java.common.core.util.StrPool;
 import com.google.common.collect.Maps;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ import java.util.Optional;
 /**
  * redis 配置类
  *
- * @author zuihou
+ * @author somewhere
  * @date 2019-08-06 10:42
  */
 @ConditionalOnClass(RedisConnectionFactory.class)
