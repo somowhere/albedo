@@ -15,7 +15,7 @@ import com.albedo.java.modules.file.repository.AppendixRepository;
 import com.albedo.java.modules.file.service.AppendixService;
 import com.albedo.java.plugins.database.mybatis.conditions.Wraps;
 import com.albedo.java.plugins.database.mybatis.conditions.query.LbqWrapper;
-import com.albedo.java.plugins.mybatis.service.impl.DataServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.DataServiceImpl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.Multimap;
 import lombok.extern.slf4j.Slf4j;

@@ -27,7 +27,7 @@ import com.albedo.java.modules.quartz.domain.dto.JobDto;
 import com.albedo.java.modules.quartz.repository.JobRepository;
 import com.albedo.java.modules.quartz.service.JobService;
 import com.albedo.java.modules.quartz.util.CronUtils;
-import com.albedo.java.plugins.mybatis.service.impl.DataServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.DataServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -52,7 +52,7 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto> 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int pauseJob(Job job) {
-		Integer jobId = job.getId();
+		Long jobId = job.getId();
 		String jobGroup = job.getGroup();
 		job.setStatus(ScheduleConstants.Status.PAUSE.getValue());
 		int rows = repository.updateById(job);
@@ -70,7 +70,7 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto> 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int resumeJob(Job job) {
-		Integer jobId = job.getId();
+		Long jobId = job.getId();
 		String jobGroup = job.getGroup();
 		job.setStatus(ScheduleConstants.Status.NORMAL.getValue());
 		int rows = repository.updateById(job);
@@ -88,7 +88,7 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto> 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int deleteJob(Job job) {
-		Integer jobId = job.getId();
+		Long jobId = job.getId();
 		String jobGroup = job.getGroup();
 		int rows = repository.deleteById(jobId);
 		if (rows > 0) {
@@ -138,7 +138,7 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto> 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void run(Job job) {
-		Integer jobId = job.getId();
+		Long jobId = job.getId();
 		String jobGroup = job.getGroup();
 		RedisUtil.sendScheduleChannelMessage(ScheduleVo.createRun(jobId, jobGroup));
 	}

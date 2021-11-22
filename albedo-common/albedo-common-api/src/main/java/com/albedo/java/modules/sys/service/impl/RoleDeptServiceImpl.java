@@ -35,7 +35,7 @@ package com.albedo.java.modules.sys.service.impl;
 import com.albedo.java.modules.sys.domain.RoleDept;
 import com.albedo.java.modules.sys.repository.RoleDeptRepository;
 import com.albedo.java.modules.sys.service.RoleDeptService;
-import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.BaseServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

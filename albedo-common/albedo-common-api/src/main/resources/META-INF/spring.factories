@@ -1,4 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.albedo.java.config.datasource.AuthorityDatabaseAutoConfiguration,\
+  com.albedo.java.config.datasource.AuthorityMybatisAutoConfiguration,\
   com.albedo.java.config.AsyncConfiguration,\
   com.albedo.java.config.JacksonMapperConfiguration,\
   com.albedo.java.config.LogAutoConfiguration,\

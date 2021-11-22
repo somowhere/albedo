@@ -180,7 +180,7 @@ public abstract class BaseMybatisConfiguration {
 	@Bean("myMetaObjectHandler")
 	@ConditionalOnMissingBean
 	public MetaObjectHandler getMyMetaObjectHandler() {
-		return new LampMetaObjectHandler();
+		return new EntityMetaObjectHandler();
 	}
 
 

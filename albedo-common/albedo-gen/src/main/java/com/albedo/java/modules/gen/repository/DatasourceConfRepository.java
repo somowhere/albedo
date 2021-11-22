@@ -17,7 +17,8 @@
 package com.albedo.java.modules.gen.repository;
 
 import com.albedo.java.modules.gen.domain.DatasourceConf;
-import com.albedo.java.plugins.mybatis.repository.BaseRepository;
+import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * 数据源Repository 数据源
@@ -25,6 +26,7 @@ import com.albedo.java.plugins.mybatis.repository.BaseRepository;
  * @author somewhere
  * @version 2020-09-20 09:36:15
  */
+@Repository
 public interface DatasourceConfRepository extends BaseRepository<DatasourceConf> {
 
 }

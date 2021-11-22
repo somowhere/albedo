@@ -54,7 +54,7 @@ public class RoleDept extends GeneralEntity<RoleDept> {
 
 	private static final long serialVersionUID = 1L;
 
-	@TableId(value = "id", type = IdType.ASSIGN_UUID)
+	@TableId(value = "id", type = IdType.INPUT)
 	private String id;
 
 	/**

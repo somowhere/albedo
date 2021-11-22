@@ -55,7 +55,7 @@ public class RoleMenuDto extends GeneralDto {
 	/**
 	 * 角色ID
 	 */
-	@NotBlank
+	@NotNull
 	private Long roleId;
 
 	/**

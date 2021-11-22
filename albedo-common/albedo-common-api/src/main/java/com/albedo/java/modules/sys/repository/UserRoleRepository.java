@@ -33,8 +33,9 @@
 package com.albedo.java.modules.sys.repository;
 
 import com.albedo.java.modules.sys.domain.UserRole;
-import com.albedo.java.plugins.mybatis.repository.BaseRepository;
+import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -44,6 +45,7 @@ import org.apache.ibatis.annotations.Param;
  * @author somewhere
  * @since 2019/2/1
  */
+@Repository
 public interface UserRoleRepository extends BaseRepository<UserRole> {
 
 	/**

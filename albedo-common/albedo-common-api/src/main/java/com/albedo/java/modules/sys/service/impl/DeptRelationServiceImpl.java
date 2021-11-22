@@ -37,7 +37,7 @@ import com.albedo.java.modules.sys.domain.DeptRelation;
 import com.albedo.java.modules.sys.domain.dto.DeptDto;
 import com.albedo.java.modules.sys.repository.DeptRelationRepository;
 import com.albedo.java.modules.sys.service.DeptRelationService;
-import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.BaseServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

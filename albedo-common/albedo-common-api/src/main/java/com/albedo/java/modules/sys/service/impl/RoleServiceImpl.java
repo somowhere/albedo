@@ -49,7 +49,7 @@ import com.albedo.java.modules.sys.service.RoleDeptService;
 import com.albedo.java.modules.sys.service.RoleMenuService;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.modules.sys.util.SysCacheUtil;
-import com.albedo.java.plugins.mybatis.service.impl.DataServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.DataServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
@@ -58,6 +58,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -82,7 +83,8 @@ public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleD
 
 	private RoleDeptService roleDeptService;
 
-	public RoleDto getOneDto(Long id) {
+	@Override
+	public RoleDto getOneDto(Serializable id) {
 		RoleDto oneVo = super.getOneDto(id);
 		oneVo.setMenuIdList(roleMenuService.list(Wrappers.<RoleMenu>query().lambda().eq(RoleMenu::getRoleId, id))
 			.stream().map(RoleMenu::getMenuId).collect(Collectors.toList()));
@@ -92,7 +94,7 @@ public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleD
 
 	@Override
 	@Cacheable(key = "'findDeptIdsByRoleId:' + #p0")
-	public List<Long> findDeptIdsByRoleId(Long roleId) {
+	public List<Long> findDeptIdsByRoleId(Serializable roleId) {
 		return roleDeptService.list(Wrappers.<RoleDept>query().lambda().eq(RoleDept::getRoleId, roleId)).stream()
 			.map(RoleDept::getDeptId).collect(Collectors.toList());
 	}

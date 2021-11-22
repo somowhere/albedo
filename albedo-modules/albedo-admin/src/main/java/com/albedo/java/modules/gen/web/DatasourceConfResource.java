@@ -24,7 +24,7 @@ import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.gen.domain.dto.DatasourceConfDto;
 import com.albedo.java.modules.gen.domain.dto.DatasourceConfQueryCriteria;
 import com.albedo.java.modules.gen.service.DatasourceConfService;
-import com.albedo.java.plugins.mybatis.util.QueryWrapperUtil;
+import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;

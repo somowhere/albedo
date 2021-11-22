@@ -32,6 +32,7 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.security.util.SecurityUtil;
@@ -40,11 +41,12 @@ import com.albedo.java.modules.sys.domain.dto.DeptDto;
 import com.albedo.java.modules.sys.domain.dto.DeptQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.DeptVo;
 import com.albedo.java.modules.sys.service.DeptService;
-import com.albedo.java.plugins.mybatis.datascope.DataScope;
+import com.albedo.java.plugins.database.mybatis.datascope.DataScope;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -102,6 +104,7 @@ public class DeptResource extends BaseResource {
 	public Result<IPage<DeptVo>> findTreeList(DeptQueryCriteria deptQueryCriteria) {
 		DataScope dataScope = SecurityUtil.getDataScope();
 		if (!dataScope.isAll()) {
+			Assert.isTrue(CollUtil.isNotEmpty(dataScope.getDeptIds()), "login user deptIds is empty");
 			deptQueryCriteria.setDeptIds(dataScope.getDeptIds());
 		}
 		return Result.buildOkData(deptService.findTreeList(deptQueryCriteria));

@@ -39,7 +39,7 @@ import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.modules.sys.domain.dto.LogOperateQueryCriteria;
 import com.albedo.java.modules.sys.service.LogOperateService;
-import com.albedo.java.plugins.mybatis.util.QueryWrapperUtil;
+import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;

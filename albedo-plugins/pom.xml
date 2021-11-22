@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>albedo</artifactId>
 		<groupId>com.albedo.java</groupId>
-		<version>3.1.2-SNAPSHOT</version>
+		<version>3.2.0-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
@@ -16,7 +16,6 @@
 
 	<modules>
 		<module>albedo-cache-starter</module>
-		<module>albedo-data-mybatis</module>
 		<module>albedo-database</module>
 		<module>albedo-dynamic-datasource</module>
 		<module>albedo-swagger-api</module>

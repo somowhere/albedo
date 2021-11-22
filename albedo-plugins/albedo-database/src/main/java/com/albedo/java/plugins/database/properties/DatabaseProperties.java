@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-@ConfigurationProperties(prefix = DatabaseProperties.PREFIX)
+@ConfigurationProperties(prefix = DatabaseProperties.PREFIX, ignoreInvalidFields = true)
 public class DatabaseProperties {
 	public static final String PREFIX = "application.database";
 	/**

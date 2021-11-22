@@ -33,6 +33,8 @@
 package com.albedo.java.common.core.util;
 
 import cn.hutool.core.codec.Base64;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.URLUtil;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BizException;
 import lombok.SneakyThrows;
@@ -256,6 +258,16 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
 			throw new BizException("Invalid basic authentication token");
 		}
 		return new String[]{token.substring(0, delim), token.substring(delim + 1)};
+	}
+
+
+
+	public static String getHeader(HttpServletRequest request, String name) {
+		String value = request.getHeader(name);
+		if (StrUtil.isEmpty(value)) {
+			return StrPool.EMPTY;
+		}
+		return URLUtil.decode(value);
 	}
 
 }

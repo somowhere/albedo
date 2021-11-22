@@ -9,7 +9,7 @@ import com.albedo.java.modules.file.service.FileService;
 import com.albedo.java.modules.file.strategy.FileContext;
 import com.albedo.java.modules.file.vo.param.FileUploadVo;
 import com.albedo.java.modules.file.vo.result.FileResultVo;
-import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.BaseServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -25,7 +25,7 @@ import com.albedo.java.modules.sys.domain.UserOnline;
 import com.albedo.java.modules.sys.domain.dto.UserOnlineQueryCriteria;
 import com.albedo.java.modules.sys.domain.enums.OnlineStatus;
 import com.albedo.java.modules.sys.service.UserOnlineService;
-import com.albedo.java.plugins.mybatis.util.QueryWrapperUtil;
+import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;

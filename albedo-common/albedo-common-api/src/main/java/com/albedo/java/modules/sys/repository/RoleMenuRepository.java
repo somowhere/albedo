@@ -33,7 +33,8 @@
 package com.albedo.java.modules.sys.repository;
 
 import com.albedo.java.modules.sys.domain.RoleMenu;
-import com.albedo.java.plugins.mybatis.repository.BaseRepository;
+import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -43,6 +44,7 @@ import com.albedo.java.plugins.mybatis.repository.BaseRepository;
  * @author somewhere
  * @since 2019/2/1
  */
+@Repository
 public interface RoleMenuRepository extends BaseRepository<RoleMenu> {
 
 }

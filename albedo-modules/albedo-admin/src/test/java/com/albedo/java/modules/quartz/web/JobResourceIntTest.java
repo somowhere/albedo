@@ -389,11 +389,11 @@ public class JobResourceIntTest {
 	public void equalsVerifier() throws Exception {
 		TestUtil.equalsVerifier(Job.class);
 		Job job1 = new Job();
-		job1.setId(44);
+		job1.setId(44l);
 		Job job2 = new Job();
 		job2.setId(job1.getId());
 		assertThat(job1).isEqualTo(job2);
-		job2.setId(55);
+		job2.setId(55l);
 		assertThat(job1).isNotEqualTo(job2);
 		job1.setId(null);
 		assertThat(job1).isNotEqualTo(job2);

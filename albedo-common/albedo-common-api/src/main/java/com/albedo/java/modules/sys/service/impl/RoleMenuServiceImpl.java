@@ -37,7 +37,8 @@ import com.albedo.java.modules.sys.domain.RoleMenu;
 import com.albedo.java.modules.sys.domain.dto.RoleMenuDto;
 import com.albedo.java.modules.sys.repository.RoleMenuRepository;
 import com.albedo.java.modules.sys.service.RoleMenuService;
-import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
+import com.albedo.java.modules.sys.util.SysCacheUtil;
+import com.albedo.java.plugins.database.mybatis.service.impl.BaseServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -74,8 +75,9 @@ public class RoleMenuServiceImpl extends BaseServiceImpl<RoleMenuRepository, Rol
 			roleMenu.setMenuId(menuId);
 			return roleMenu;
 		}).collect(Collectors.toList());
-
-		return this.saveBatch(roleMenuList);
+		boolean flag = this.saveBatch(roleMenuList);
+		SysCacheUtil.delRoleCaches(roleMenuDto.getRoleId());
+		return flag;
 	}
 
 }

@@ -3,7 +3,7 @@ package com.albedo.java.modules.file.service;
 import com.albedo.java.modules.file.entity.File;
 import com.albedo.java.modules.file.vo.param.FileUploadVo;
 import com.albedo.java.modules.file.vo.result.FileResultVo;
-import com.albedo.java.plugins.mybatis.service.BaseService;
+import com.albedo.java.plugins.database.mybatis.service.BaseService;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;

@@ -24,6 +24,7 @@ import com.albedo.java.common.security.component.Http401UnauthorizedEntryPoint;
 import com.albedo.java.common.security.component.session.RedisSessionRegistry;
 import com.albedo.java.common.security.enums.RequestMethodEnum;
 import com.albedo.java.common.security.filter.PasswordDecoderFilter;
+import com.albedo.java.common.security.filter.ThreadLocalContextFilter;
 import com.albedo.java.common.security.filter.ValidateCodeFilter;
 import com.albedo.java.common.security.handler.AjaxAuthenticationFailureHandler;
 import com.albedo.java.common.security.handler.AjaxAuthenticationSuccessHandler;
@@ -94,6 +95,8 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 
 	private final CorsFilter corsFilter;
 
+	private final ThreadLocalContextFilter threadLocalContextFilter;
+
 	private final ApplicationContext applicationContext;
 
 	/**
@@ -132,7 +135,7 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public ValidateCodeFilter validateCodeFilter() {
-		return new ValidateCodeFilter(ajaxAuthenticationFailureHandler(), applicationProperties);
+		return new ValidateCodeFilter(applicationProperties);
 	}
 
 	@Bean
@@ -188,6 +191,7 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 		// 获取匿名标记
 		Map<String, Set<String>> anonymousUrls = SecurityUtil.getAnonymousUrl(handlerMethodMap);
 		http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+			.addFilterBefore(threadLocalContextFilter, UsernamePasswordAuthenticationFilter.class)
 			.addFilterBefore(validateCodeFilter(), UsernamePasswordAuthenticationFilter.class)
 			.addFilterBefore(passwordDecoderFilter(), CsrfFilter.class)
 			.addFilterBefore(corsFilter, CsrfFilter.class).exceptionHandling()

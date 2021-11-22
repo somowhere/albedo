@@ -40,7 +40,7 @@ import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.repository.UserRoleRepository;
 import com.albedo.java.modules.sys.service.UserRoleService;
 import com.albedo.java.plugins.database.mybatis.conditions.Wraps;
-import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.BaseServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

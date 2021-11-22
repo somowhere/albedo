@@ -42,7 +42,7 @@ import com.albedo.java.modules.sys.repository.ApplicationRepository;
 import com.albedo.java.modules.sys.service.ApplicationService;
 import com.albedo.java.plugins.database.mybatis.conditions.Wraps;
 import com.albedo.java.plugins.database.mybatis.conditions.query.LbqWrapper;
-import com.albedo.java.plugins.mybatis.service.impl.DataCacheServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.DataCacheServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;

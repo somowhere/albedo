@@ -9,7 +9,8 @@ import com.albedo.java.plugins.cache.redis.RedisOps;
 import com.albedo.java.plugins.cache.repository.CacheOps;
 import com.albedo.java.plugins.cache.repository.CachePlusOps;
 import com.albedo.java.plugins.cache.repository.impl.RedisOpsImpl;
-import com.albedo.java.plugins.cache.utils.RedisObjectSerializer;
+import com.albedo.java.plugins.cache.utils.RedisProtostuffSerializer;
+import com.albedo.java.plugins.cache.utils.RedisJacksonSerializer;
 import com.google.common.collect.Maps;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -83,8 +84,10 @@ public class RedisAutoConfigure {
 		if (SerializerType.JDK == serializerType) {
 			ClassLoader classLoader = this.getClass().getClassLoader();
 			return new JdkSerializationRedisSerializer(classLoader);
+		}else if (SerializerType.JACK_SON == serializerType) {
+			return new RedisJacksonSerializer();
 		}
-		return new RedisObjectSerializer();
+		return new RedisProtostuffSerializer();
 	}
 
 	private void setSerializer(RedisConnectionFactory factory, RedisTemplate template, RedisSerializer<Object> redisSerializer) {
@@ -160,7 +163,7 @@ public class RedisAutoConfigure {
 		RedisCacheConfiguration def = RedisCacheConfiguration.defaultCacheConfig()
 			.disableCachingNullValues()
 			.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-			.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new RedisObjectSerializer()));
+			.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new RedisJacksonSerializer()));
 		return handleRedisCacheConfiguration(cacheProperties.getDef(), def);
 	}
 

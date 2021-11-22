@@ -24,8 +24,8 @@ import java.util.List;
 
 
 /**
- * lamp.database.multiTenantType != DATASOURCE 时，该类启用.
- * 此时，项目的多租户模式切换成：${lamp.database.multiTenantType}。
+ * application.database.multiTenantType != DATASOURCE 时，该类启用.
+ * 此时，项目的多租户模式切换成：${application.database.multiTenantType}。
  * <p>
  * NONE("非租户模式"): 不存在租户的概念
  * COLUMN("字段模式"): 在sql中拼接 tenant_code 字段
@@ -45,8 +45,8 @@ import java.util.List;
 	annotationClass = Repository.class,
 	sqlSessionFactoryRef = BaseMasterDatabaseConfiguration.DATABASE_PREFIX + "SqlSessionFactory")
 @EnableConfigurationProperties({MybatisPlusProperties.class})
-@ConditionalOnExpression("!'DATASOURCE'.equals('${application.database.multiTenantType}') && " +
-	"!'DATASOURCE_COLUMN'.equals('${application.database.multiTenantType}') ")
+//@ConditionalOnExpression("!'DATASOURCE'.equals('${application.database.multiTenantType}') && " +
+//	"!'DATASOURCE_COLUMN'.equals('${application.database.multiTenantType}') ")
 public class AuthorityDatabaseAutoConfiguration extends BaseMasterDatabaseConfiguration {
 
 	public AuthorityDatabaseAutoConfiguration(MybatisPlusProperties properties,

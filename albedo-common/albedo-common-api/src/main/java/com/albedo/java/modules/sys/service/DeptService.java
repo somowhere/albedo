@@ -36,7 +36,7 @@ import com.albedo.java.modules.sys.domain.Dept;
 import com.albedo.java.modules.sys.domain.dto.DeptDto;
 import com.albedo.java.modules.sys.domain.dto.DeptQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.DeptVo;
-import com.albedo.java.plugins.mybatis.service.TreeService;
+import com.albedo.java.plugins.database.mybatis.service.TreeService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;

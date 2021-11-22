@@ -18,7 +18,7 @@ package com.albedo.java.modules.gen.service;
 
 import com.albedo.java.modules.gen.domain.DatasourceConf;
 import com.albedo.java.modules.gen.domain.dto.DatasourceConfDto;
-import com.albedo.java.plugins.mybatis.service.DataCacheService;
+import com.albedo.java.plugins.database.mybatis.service.DataCacheService;
 
 /**
  * 数据源Service 数据源

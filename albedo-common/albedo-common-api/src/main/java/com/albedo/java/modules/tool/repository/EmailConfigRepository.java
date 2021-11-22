@@ -33,12 +33,14 @@
 package com.albedo.java.modules.tool.repository;
 
 import com.albedo.java.modules.tool.domain.EmailConfig;
-import com.albedo.java.plugins.mybatis.repository.BaseRepository;
+import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author somewhere
  * @since 2019/2/1
  */
+@Repository
 public interface EmailConfigRepository extends BaseRepository<EmailConfig> {
 
 }

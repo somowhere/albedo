@@ -33,7 +33,7 @@
 package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.modules.sys.domain.UserRole;
-import com.albedo.java.plugins.mybatis.service.BaseService;
+import com.albedo.java.plugins.database.mybatis.service.BaseService;
 
 /**
  * <p>

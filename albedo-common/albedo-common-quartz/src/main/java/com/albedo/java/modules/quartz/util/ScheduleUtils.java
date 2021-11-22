@@ -42,14 +42,14 @@ public class ScheduleUtils {
 	/**
 	 * 构建任务触发对象
 	 */
-	public static TriggerKey getTriggerKey(Integer jobId, String jobGroup) {
+	public static TriggerKey getTriggerKey(Long jobId, String jobGroup) {
 		return TriggerKey.triggerKey(ScheduleConstants.TASK_CLASS_NAME + jobId, jobGroup);
 	}
 
 	/**
 	 * 构建任务键对象
 	 */
-	public static JobKey getJobKey(Integer jobId, String jobGroup) {
+	public static JobKey getJobKey(Long jobId, String jobGroup) {
 		return JobKey.jobKey(ScheduleConstants.TASK_CLASS_NAME + jobId, jobGroup);
 	}
 
@@ -59,7 +59,7 @@ public class ScheduleUtils {
 	public static void createScheduleJob(Scheduler scheduler, Job job) throws SchedulerException, TaskException {
 		Class<? extends org.quartz.Job> jobClass = getQuartzJobClass(job);
 		// 构建job信息
-		Integer jobId = job.getId();
+		Long jobId = job.getId();
 		String jobGroup = job.getGroup();
 		JobDetail jobDetail = JobBuilder.newJob(jobClass).withIdentity(getJobKey(jobId, jobGroup)).build();
 

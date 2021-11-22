@@ -124,21 +124,23 @@ public class RedisSessionRegistry implements SessionRegistry, ApplicationListene
 	public void registerNewSession(String sessionId, Object principal) {
 		Assert.hasText(sessionId, "SessionId required as per interface contract");
 		Assert.notNull(principal, "Principal required as per interface contract");
+		Assert.isTrue(principal instanceof UserDetail, "Principal required as UserDetail");
 
 		if (log.isDebugEnabled()) {
 			log.debug("Registering session " + sessionId + ", for principal " + principal);
 		}
 
+		UserDetail userDetail = (UserDetail) principal;
 		if (getSessionInformation(sessionId) != null) {
 			removeSessionInformation(sessionId);
 		}
-		SessionInformation sessionInformation = new CustomSessionInformation(principal, sessionId, new Date());
+		SessionInformation sessionInformation = new CustomSessionInformation(userDetail.getId(), sessionId, new Date());
 		redisTemplate.boundHashOps(SESSIONIDS).put(sessionId, sessionInformation);
 
-		Set<String> sessionsUsedByPrincipal = getPrincipals(principal);
+		Set<String> sessionsUsedByPrincipal = getPrincipals(userDetail.getId());
 		if (sessionsUsedByPrincipal == null) {
 			sessionsUsedByPrincipal = new CopyOnWriteArraySet();
-			Set<String> prevSessionsUsedByPrincipal = this.putIfAbsentPrincipals(principal, sessionsUsedByPrincipal);
+			Set<String> prevSessionsUsedByPrincipal = this.putIfAbsentPrincipals(userDetail.getId(), sessionsUsedByPrincipal);
 			if (prevSessionsUsedByPrincipal != null) {
 				sessionsUsedByPrincipal = prevSessionsUsedByPrincipal;
 			}
@@ -204,20 +206,18 @@ public class RedisSessionRegistry implements SessionRegistry, ApplicationListene
 	}
 
 	public Set<String> putIfAbsentPrincipals(Object principal, final Set<String> set) {
-		UserDetail userDetail = (UserDetail) principal;
+		String id = String.valueOf(principal);
 		BoundHashOperations<String, String, Set<String>> hashOperations = redisTemplate.boundHashOps(PRINCIPALS);
-		hashOperations.putIfAbsent(String.valueOf(userDetail.getId()), set);
-		return hashOperations.get(userDetail.getId());
+		hashOperations.putIfAbsent(id, set);
+		return hashOperations.get(id);
 	}
 
 	public Set<String> getPrincipals(Object principal) {
-		UserDetail userDetail = (UserDetail) principal;
-		return (Set<String>) redisTemplate.boundHashOps(PRINCIPALS).get(userDetail.getId());
+		return (Set<String>) redisTemplate.boundHashOps(PRINCIPALS).get(String.valueOf(principal));
 	}
 
 	public void removePrincipal(Object principal) {
-		UserDetail userDetail = (UserDetail) principal;
-		redisTemplate.boundHashOps(PRINCIPALS).delete(userDetail.getId());
+		redisTemplate.boundHashOps(PRINCIPALS).delete(String.valueOf(principal));
 	}
 
 }

@@ -98,7 +98,7 @@ public class Dict extends TreeEntity<Dict> {
 	}
 
 	@Override
-	public BaseDataEntity<Dict> setDescription(String description) {
+	public BaseDataEntity<Dict, Long> setDescription(String description) {
 		return super.setDescription(description);
 	}
 

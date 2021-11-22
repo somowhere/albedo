@@ -32,6 +32,7 @@
 
 package com.albedo.java.common.security.event;
 
+import com.albedo.java.common.core.context.ContextUtil;
 import com.albedo.java.modules.sys.domain.UserOnline;
 import com.albedo.java.modules.sys.service.UserOnlineService;
 import lombok.AllArgsConstructor;

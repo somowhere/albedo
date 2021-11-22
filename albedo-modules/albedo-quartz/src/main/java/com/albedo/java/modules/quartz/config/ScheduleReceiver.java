@@ -75,7 +75,7 @@ public class ScheduleReceiver implements MessageListener {
 	 * @param jobOldGroup 任务组名
 	 */
 	public void updateSchedulerJob(Job job, String jobOldGroup) throws SchedulerException, TaskException {
-		Integer jobId = job.getId();
+		Long jobId = job.getId();
 		// 判断是否存在
 		JobKey jobKey = ScheduleUtils.getJobKey(jobId, jobOldGroup);
 		if (scheduler.checkExists(jobKey)) {
@@ -104,7 +104,7 @@ public class ScheduleReceiver implements MessageListener {
 			}
 			Assert.isTrue(scheduleVo != null, "scheduleVo cannot be null");
 			Assert.isTrue(scheduleVo.getMessageType() != null, "scheduleVo cannot be null");
-			Integer jobId = scheduleVo.getJobId();
+			Long jobId = scheduleVo.getJobId();
 			String jobGroup = scheduleVo.getJobGroup();
 			switch (scheduleVo.getMessageType()) {
 				case ADD:

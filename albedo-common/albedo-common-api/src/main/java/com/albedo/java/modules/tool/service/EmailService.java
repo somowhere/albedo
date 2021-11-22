@@ -34,7 +34,7 @@ package com.albedo.java.modules.tool.service;
 
 import com.albedo.java.modules.tool.domain.EmailConfig;
 import com.albedo.java.modules.tool.domain.vo.EmailVo;
-import com.albedo.java.plugins.mybatis.service.BaseService;
+import com.albedo.java.plugins.database.mybatis.service.BaseService;
 
 /**
  * @author somewhere

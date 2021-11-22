@@ -69,7 +69,7 @@ application:
   http:
     version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
   database:
-    tenantDatabasePrefix: lamp_base
+    tenantDatabasePrefix: albedo_base
     multiTenantType: COLUMN
     tenantIdColumn: tenant_code
     isNotWrite: false

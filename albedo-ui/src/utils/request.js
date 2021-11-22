@@ -31,9 +31,13 @@ service.interceptors.request.use(
   config => {
     config.url = Config.api + config.url
     const isToken = (config.headers || {}).isToken === false
-    const token = store.getters.access_token
+    const token = store.getters.token
     if (token && !isToken) {
       config.headers['Authorization'] = 'Bearer ' + token// token
+    }
+    const tenant = store.getters.tenant
+    if (tenant) {
+      config.headers['tenant'] = tenant
     }
     config.headers['Content-Type'] = 'application/json'
     // headers中配置serialize为true开启序列化

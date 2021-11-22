@@ -35,7 +35,7 @@ package com.albedo.java.modules.sys.service.impl;
 import com.albedo.java.modules.sys.domain.LogOperate;
 import com.albedo.java.modules.sys.repository.LogOperateRepository;
 import com.albedo.java.modules.sys.service.LogOperateService;
-import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

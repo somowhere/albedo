@@ -45,8 +45,6 @@ import java.io.IOException;
 @Slf4j
 public class ValidateCodeFilter extends OncePerRequestFilter {
 
-	private final AuthenticationFailureHandler authenticationFailureHandler;
-
 	private final ApplicationProperties applicationProperties;
 
 	@Override

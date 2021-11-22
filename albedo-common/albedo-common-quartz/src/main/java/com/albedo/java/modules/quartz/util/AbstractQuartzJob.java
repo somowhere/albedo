@@ -135,7 +135,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 		data.put("task", quartzJob);
 		data.put("msg", msg);
 		TemplateEngine engine = TemplateUtil
-			.createEngine(new TemplateConfig("templates", TemplateConfig.ResourceMode.CLASSPATH));
+			.createEngine(new TemplateConfig("codet/templates", TemplateConfig.ResourceMode.CLASSPATH));
 		Template template = engine.getTemplate("email/taskAlarm.ftl");
 		emailVo.setContent(template.render(data));
 		List<String> emails = Arrays.asList(quartzJob.getEmail().split("[,，]"));

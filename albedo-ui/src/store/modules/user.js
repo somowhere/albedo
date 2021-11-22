@@ -8,6 +8,9 @@ const user = {
   state: {
     user: {},
     roles: [],
+    tenant: storeApi.get({
+      name: 'tenant'
+    }) || '',
     permissions: [],
     loginSuccess: storeApi.get({
       name: 'loginSuccess'
@@ -18,6 +21,14 @@ const user = {
   mutations: {
     SET_USER: (state, user) => {
       state.user = user
+    },
+    SET_TENANT: (state, tenant) => {
+      state.tenant = tenant
+      storeApi.set({
+        name: 'tenant',
+        content: state.tenant,
+        type: 'session'
+      })
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
@@ -41,6 +52,7 @@ const user = {
   actions: {
     // 登录
     Login({ commit }, user) {
+      commit('SET_TENANT', user.tenant)
       const params = commonUtil.encryption({
         data: user,
         key: 'somewhere-albedo',

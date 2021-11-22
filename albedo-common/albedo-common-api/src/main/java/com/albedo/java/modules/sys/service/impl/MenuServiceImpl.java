@@ -53,7 +53,7 @@ import com.albedo.java.modules.sys.repository.RoleMenuRepository;
 import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.service.MenuService;
 import com.albedo.java.modules.sys.util.SysCacheUtil;
-import com.albedo.java.plugins.mybatis.service.impl.TreeServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.TreeServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
@@ -151,7 +151,7 @@ public class MenuServiceImpl extends TreeServiceImpl<MenuRepository, Menu, MenuD
 			if (menuVo.getParentIds() != null) {
 				String[] parentIds = menuVo.getParentIds().split(",");
 				for (String parentId : parentIds) {
-					if (!parentIdList.contains(parentId)) {
+					if (StringUtil.isNotEmpty(parentId) && !parentIdList.contains(parentId)) {
 						parentIdList.add(Long.parseLong(parentId));
 					}
 				}

@@ -68,7 +68,7 @@ albedo
      ├── albedo-api -- 接口模块
      ├── albedo-quartz -- 定时任务模块
 └── albedo-plugin  -- 插件模块 
-     ├── albedo-data-mybatis -- mybatis 基础模块
+     ├── albedo-database -- 数据库 基础模块
      └── albedo-swagger-api -- swagger api
 	 
 ```

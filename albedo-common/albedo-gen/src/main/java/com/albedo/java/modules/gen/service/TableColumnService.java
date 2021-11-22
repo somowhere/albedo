@@ -18,7 +18,7 @@ package com.albedo.java.modules.gen.service;
 
 import com.albedo.java.modules.gen.domain.TableColumn;
 import com.albedo.java.modules.gen.domain.dto.TableColumnDto;
-import com.albedo.java.plugins.mybatis.service.DataCacheService;
+import com.albedo.java.plugins.database.mybatis.service.DataCacheService;
 
 /**
  * @author somewhere

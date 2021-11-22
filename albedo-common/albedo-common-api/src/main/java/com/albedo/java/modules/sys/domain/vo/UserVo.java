@@ -70,7 +70,6 @@ public class UserVo extends DataVo<Long> {
 	@ExcelField(title = "昵称")
 	private String nickname;
 
-	@JsonIgnore
 	private String password;
 
 	/**
@@ -124,10 +123,8 @@ public class UserVo extends DataVo<Long> {
 	/**
 	 * 角色ID
 	 */
-	@JsonIgnore
 	private List<Role> roleList;
 
-	@JsonIgnore
 	private List<Long> roleIdList;
 
 	public List<Long> getRoleIdList() {

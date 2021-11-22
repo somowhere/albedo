@@ -4,7 +4,7 @@ import com.albedo.java.modules.tenant.domain.Tenant;
 import com.albedo.java.modules.tenant.domain.dto.TenantConnectDto;
 import com.albedo.java.modules.tenant.domain.dto.TenantDto;
 import com.albedo.java.modules.tenant.enumeration.TenantStatusEnum;
-import com.albedo.java.plugins.mybatis.service.DataCacheService;
+import com.albedo.java.plugins.database.mybatis.service.DataCacheService;
 
 import java.util.List;
 
@@ -32,7 +32,8 @@ public interface TenantService extends DataCacheService<Tenant, TenantDto> {
 	 * @param data 租户保存数据
 	 * @return 租户
 	 */
-	void saveOrUpdate(TenantDto data);
+    @Override
+    void saveOrUpdate(TenantDto data);
 
 	/**
 	 * 根据编码获取

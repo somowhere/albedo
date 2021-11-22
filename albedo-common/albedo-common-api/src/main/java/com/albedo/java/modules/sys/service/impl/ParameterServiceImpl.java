@@ -47,7 +47,7 @@ import com.albedo.java.modules.sys.repository.ParameterRepository;
 import com.albedo.java.modules.sys.service.ParameterService;
 import com.albedo.java.plugins.cache.repository.CacheOps;
 import com.albedo.java.plugins.database.mybatis.conditions.Wraps;
-import com.albedo.java.plugins.mybatis.service.impl.DataServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.DataServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import lombok.RequiredArgsConstructor;

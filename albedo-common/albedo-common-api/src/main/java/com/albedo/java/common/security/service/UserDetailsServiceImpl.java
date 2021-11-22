@@ -38,12 +38,13 @@ import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.security.util.AuthUtil;
 import com.albedo.java.modules.sys.domain.Role;
+import com.albedo.java.modules.sys.domain.enums.DataScopeType;
 import com.albedo.java.modules.sys.domain.vo.UserInfo;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.albedo.java.modules.sys.service.DeptService;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.modules.sys.service.UserService;
-import com.albedo.java.plugins.mybatis.datascope.DataScope;
+import com.albedo.java.plugins.database.mybatis.datascope.DataScope;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -53,10 +54,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 用户详细信息
@@ -111,22 +109,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			dbAuthsSet.addAll(Arrays.asList(userInfo.getPermissions()));
 
 		}
-		Collection<? extends GrantedAuthority> authorities = AuthUtil.createAuthorityList(dbAuthsSet.toArray(new String[0]));
+		List<GrantedAuthority> authorities = AuthUtil.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 		UserVo userVo = userInfo.getUser();
 		DataScope dataScope = new DataScope();
 		if (CollUtil.isNotEmpty(userVo.getRoleList())) {
 			for (Role role : userVo.getRoleList()) {
-				if (SecurityConstants.ROLE_DATA_SCOPE_ALL.equals(role.getDataScope())) {
+				if (DataScopeType.ALL.eq(role.getDataScope())) {
 					dataScope.setAll(true);
 					break;
-				} else if (SecurityConstants.ROLE_DATA_SCOPE_DEPT_ALL.equals(role.getDataScope())) {
+				} else if (DataScopeType.THIS_LEVEL_CHILDREN.eq(role.getDataScope())) {
 					dataScope.getDeptIds().addAll(deptService.findDescendantIdList(userVo.getDeptId()));
-				} else if (SecurityConstants.ROLE_DATA_SCOPE_DEPT.equals(role.getDataScope())) {
+				} else if (DataScopeType.THIS_LEVEL.eq(role.getDataScope())) {
 					dataScope.getDeptIds().add(userVo.getDeptId());
-				} else if (SecurityConstants.ROLE_DATA_SCOPE_SELF.equals(role.getDataScope())) {
+				} else if (DataScopeType.SELF.eq(role.getDataScope())) {
 					dataScope.setSelf(true);
 					dataScope.setUserId(userVo.getId());
-				} else if (SecurityConstants.ROLE_DATA_SCOPE_CUSTOM.equals(role.getDataScope())) {
+				} else if (DataScopeType.CUSTOMIZE.eq(role.getDataScope())) {
 					dataScope.getDeptIds().addAll(roleService.findDeptIdsByRoleId(role.getId()));
 				}
 			}

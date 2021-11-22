@@ -20,7 +20,7 @@ import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.modules.gen.domain.Scheme;
 import com.albedo.java.modules.gen.domain.dto.SchemeDto;
 import com.albedo.java.modules.gen.domain.dto.SchemeQueryCriteria;
-import com.albedo.java.plugins.mybatis.service.DataCacheService;
+import com.albedo.java.plugins.database.mybatis.service.DataCacheService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;

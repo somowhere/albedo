@@ -42,8 +42,8 @@ import com.albedo.java.modules.sys.domain.vo.UserInfo;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.albedo.java.modules.sys.domain.vo.account.PasswordChangeVo;
 import com.albedo.java.modules.sys.domain.vo.account.PasswordRestVo;
-import com.albedo.java.plugins.mybatis.datascope.DataScope;
-import com.albedo.java.plugins.mybatis.service.DataService;
+import com.albedo.java.plugins.database.mybatis.datascope.DataScope;
+import com.albedo.java.plugins.database.mybatis.service.DataService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;

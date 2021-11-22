@@ -1,7 +1,7 @@
 package com.albedo.java.modules.file.repository;
 
 import com.albedo.java.modules.file.domain.Appendix;
-import com.albedo.java.plugins.mybatis.repository.BaseRepository;
+import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import org.springframework.stereotype.Repository;
 
 /**

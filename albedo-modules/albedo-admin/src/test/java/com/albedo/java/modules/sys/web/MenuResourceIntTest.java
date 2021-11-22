@@ -208,7 +208,7 @@ public class MenuResourceIntTest {
 		assertThat(testMenu.getParentIds()).contains(String.valueOf(anotherMenu.getId()));
 		assertThat(testMenu.getComponent()).isEqualTo(DEFAULT_COMPONENT);
 		assertThat(testMenu.getHidden()).isEqualTo(DEFAULT_HIDDEN);
-		assertThat(testMenu.getCache()).isEqualTo(DEFAULT_CACHE);
+		assertThat(testMenu.getCacheable()).isEqualTo(DEFAULT_CACHE);
 		assertThat(testMenu.getIframe()).isEqualTo(DEFAULT_IFRAME);
 		assertThat(testMenu.getType()).isEqualTo(DEFAULT_TYPE);
 		assertThat(testMenu.getPath()).isEqualTo(DEFAULT_PATH);
@@ -329,7 +329,7 @@ public class MenuResourceIntTest {
 		assertThat(testMenu.getPermission()).isEqualTo(UPDATED_PERMISSION);
 		assertThat(testMenu.getIcon()).isEqualTo(UPDATED_ICON);
 		assertThat(testMenu.getHidden()).isEqualTo(UPDATED_HIDDEN);
-		assertThat(testMenu.getCache()).isEqualTo(UPDATED_CACHE);
+		assertThat(testMenu.getCacheable()).isEqualTo(UPDATED_CACHE);
 		assertThat(testMenu.getIframe()).isEqualTo(UPDATED_IFRAME);
 		assertThat(testMenu.getSort()).isEqualTo(UPDATED_SORT);
 		assertThat(testMenu.getParentId()).isEqualTo(UPDATED_PARENT_ID);

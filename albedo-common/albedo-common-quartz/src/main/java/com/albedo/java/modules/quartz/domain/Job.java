@@ -45,7 +45,7 @@ import java.util.Objects;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Job extends BaseDataEntity<Job> {
+public class Job extends BaseDataEntity<Job, Long> {
 
 	/**
 	 * F_NAME name : 任务名称
@@ -120,7 +120,7 @@ public class Job extends BaseDataEntity<Job> {
 	private static final long serialVersionUID = 1L;
 
 	@TableId(value = GeneralEntity.F_SQL_ID, type = IdType.AUTO)
-	protected Integer id;
+	protected Long id;
 
 	/**
 	 * name 任务名称
@@ -188,8 +188,8 @@ public class Job extends BaseDataEntity<Job> {
 	}
 
 	@Override
-	public void setPk(Serializable pk) {
-		this.setId((Integer) pk);
+	public void setPk(Long pk) {
+		this.setId(pk);
 	}
 
 	@Override

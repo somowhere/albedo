@@ -31,7 +31,7 @@ import java.util.Objects;
  */
 @Accessors(chain = true)
 @AllArgsConstructor
-public class IdEntity<T extends BaseEntity<T>, PK extends Serializable> extends BaseDataEntity<T> {
+public class IdEntity<T extends BaseEntity<T>, PK extends Serializable> extends BaseDataEntity<T, PK> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -50,8 +50,8 @@ public class IdEntity<T extends BaseEntity<T>, PK extends Serializable> extends 
 	}
 
 	@Override
-	public void setPk(Serializable pk) {
-		this.setId((PK) pk);
+	public void setPk(PK pk) {
+		this.setId(pk);
 	}
 
 	@Override

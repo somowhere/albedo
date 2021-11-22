@@ -34,7 +34,7 @@ package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.modules.sys.domain.DeptRelation;
 import com.albedo.java.modules.sys.domain.dto.DeptDto;
-import com.albedo.java.plugins.mybatis.service.BaseService;
+import com.albedo.java.plugins.database.mybatis.service.BaseService;
 
 /**
  * <p>

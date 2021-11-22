@@ -12,6 +12,11 @@
         Albedo 快速开发框架
       </h3>
 
+      <el-form-item prop="tenant">
+        <el-input v-model="loginForm.tenantView" auto-complete="off" placeholder="企业编码" type="text">
+          <svg-icon slot="prefix" class="el-input__icon input-icon" icon-class="user" />
+        </el-input>
+      </el-form-item>
       <el-form-item prop="username">
         <el-input v-model="loginForm.username" auto-complete="off" placeholder="账号" type="text">
           <svg-icon slot="prefix" class="el-input__icon input-icon" icon-class="user" />
@@ -74,6 +79,7 @@
 <script>
 import commonUtil from '../utils/common'
 import defaultSettings from '@/settings'
+import { Base64 } from 'js-base64'
 
 export default {
   name: 'Login',
@@ -84,6 +90,8 @@ export default {
       cookiePass: '',
       passwordType: 'password',
       loginForm: {
+        tenantView: '0000',
+        tenant: '',
         username: 'admin',
         password: '111111',
         rememberMe: false,
@@ -126,9 +134,9 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
+          this.loginForm.tenant = `${Base64.encode(this.loginForm.tenantView)}`
           this.$store.dispatch('Login', this.loginForm).then(() => {
             this.loading = false
-            console.log(this.redirect)
             this.$router.push({ path: this.redirect || '/' })
           }).catch((e) => {
             console.log(e)

@@ -18,7 +18,7 @@ package com.albedo.java.modules.gen.service.impl;
 
 import com.albedo.java.modules.gen.domain.Template;
 import com.albedo.java.modules.gen.repository.TemplateRepository;
-import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

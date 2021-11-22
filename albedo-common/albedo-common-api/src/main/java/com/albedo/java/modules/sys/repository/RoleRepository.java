@@ -33,7 +33,8 @@
 package com.albedo.java.modules.sys.repository;
 
 import com.albedo.java.modules.sys.domain.Role;
-import com.albedo.java.plugins.mybatis.repository.BaseRepository;
+import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -45,6 +46,7 @@ import java.util.List;
  * @author somewhere
  * @since 2019/2/1
  */
+@Repository
 public interface RoleRepository extends BaseRepository<Role> {
 
 	/**

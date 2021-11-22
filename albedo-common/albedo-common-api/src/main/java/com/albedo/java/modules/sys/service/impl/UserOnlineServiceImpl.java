@@ -36,7 +36,7 @@ import com.albedo.java.modules.sys.domain.UserOnline;
 import com.albedo.java.modules.sys.domain.enums.OnlineStatus;
 import com.albedo.java.modules.sys.repository.UserOnlineRepository;
 import com.albedo.java.modules.sys.service.UserOnlineService;
-import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.BaseServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -92,7 +92,7 @@ public class Menu extends TreeEntity<Menu> {
 	 * 是否缓存
 	 */
 	@DictType(DictNameConstants.SYS_FLAG)
-	private Integer cache = 0;
+	private Integer cacheable = 0;
 
 	/**
 	 * 是否外链

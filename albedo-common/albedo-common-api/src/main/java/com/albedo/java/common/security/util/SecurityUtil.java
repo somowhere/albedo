@@ -38,7 +38,7 @@ import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.security.enums.RequestMethodEnum;
 import com.albedo.java.common.security.service.UserDetail;
-import com.albedo.java.plugins.mybatis.datascope.DataScope;
+import com.albedo.java.plugins.database.mybatis.datascope.DataScope;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

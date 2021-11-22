@@ -34,8 +34,9 @@ package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.dto.RoleDto;
-import com.albedo.java.plugins.mybatis.service.DataService;
+import com.albedo.java.plugins.database.mybatis.service.DataService;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
@@ -65,7 +66,7 @@ public interface RoleService extends DataService<Role, RoleDto> {
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:34
 	 */
-	List<Long> findDeptIdsByRoleId(Long roleId);
+	List<Long> findDeptIdsByRoleId(Serializable roleId);
 
 	/**
 	 * 通过角色ID，删除角色

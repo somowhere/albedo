@@ -1,8 +1,14 @@
 package com.albedo.java.common.core.context;
 
 import cn.hutool.core.convert.Convert;
+import com.albedo.java.common.core.basic.domain.BaseEntity;
+import com.albedo.java.common.core.util.ClassUtil;
+import com.albedo.java.common.core.util.ObjectUtil;
+import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.StrPool;
 import com.alibaba.ttl.TransmittableThreadLocal;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,6 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author somewhere
  * @date 2017-12-13 16:52
  */
+@Slf4j
 public final class ContextUtil {
 	/**
 	 * 支持多线程传递参数
@@ -24,7 +31,6 @@ public final class ContextUtil {
 	 */
 	private static final ThreadLocal<Map<String, String>> THREAD_LOCAL = new TransmittableThreadLocal<>();
 
-	//    private static final ThreadLocal<Map<String, String>> THREAD_LOCAL = new ThreadLocal<>();
 	private ContextUtil() {
 	}
 
@@ -35,6 +41,7 @@ public final class ContextUtil {
 	}
 
 	public static void set(String key, Object value) {
+		log.info("key: " + key+ " value: "+ value);
 		Map<String, String> map = getLocalMap();
 		map.put(key, value == null ? StrPool.EMPTY : value.toString());
 	}
@@ -66,95 +73,14 @@ public final class ContextUtil {
 	public static void setLocalMap(Map<String, String> localMap) {
 		THREAD_LOCAL.set(localMap);
 	}
-
-
-	/**
-	 * 是否boot项目
-	 *
-	 * @return 是否boot项目
-	 */
-	public static Boolean getBoot() {
-		return get(ContextConstants.IS_BOOT, Boolean.class, false);
-	}
-
-	public static void setBoot(Boolean val) {
-		set(ContextConstants.IS_BOOT, val);
-	}
-
 	/**
 	 * 用户ID
 	 *
 	 * @return 用户ID
 	 */
 	public static Long getUserId() {
-		return get(ContextConstants.JWT_KEY_USER_ID, Long.class, 0L);
-	}
-
-	/**
-	 * 用户ID
-	 *
-	 * @param userId 用户ID
-	 */
-	public static void setUserId(Long userId) {
-		set(ContextConstants.JWT_KEY_USER_ID, userId);
-	}
-
-	public static void setUserId(String userId) {
-		set(ContextConstants.JWT_KEY_USER_ID, userId);
-	}
-
-	public static String getUserIdStr() {
-		return String.valueOf(getUserId());
-	}
-
-	/**
-	 * 登录账号
-	 *
-	 * @return 登录账号
-	 */
-	public static String getAccount() {
-		return get(ContextConstants.JWT_KEY_ACCOUNT, String.class);
-	}
-
-	/**
-	 * 登录账号
-	 *
-	 * @param account 登录账号
-	 */
-	public static void setAccount(String account) {
-		set(ContextConstants.JWT_KEY_ACCOUNT, account);
-	}
-
-
-	/**
-	 * 用户姓名
-	 *
-	 * @return 用户姓名
-	 */
-	public static String getName() {
-		return get(ContextConstants.JWT_KEY_NAME, String.class);
-	}
-
-	/**
-	 * 用户姓名
-	 *
-	 * @param name 用户姓名
-	 */
-	public static void setName(String name) {
-		set(ContextConstants.JWT_KEY_NAME, name);
-	}
-
-	/**
-	 * 获取token
-	 *
-	 * @return token
-	 */
-	public static String getToken() {
-		return get(ContextConstants.BEARER_HEADER_KEY, String.class);
-	}
-
-	public static void setToken(String token) {
-		set(ContextConstants.BEARER_HEADER_KEY, token);
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return (Long) ClassUtil.invokeGetter(principal, BaseEntity.F_ID);
 	}
 
 	/**
@@ -163,7 +89,9 @@ public final class ContextUtil {
 	 * @return 租户编码
 	 */
 	public static String getTenant() {
-		return get(ContextConstants.JWT_KEY_TENANT, String.class, StrPool.EMPTY);
+		String tenant = get(ContextConstants.JWT_KEY_TENANT, String.class, StrPool.EMPTY);
+		log.info("tenant: " + tenant);
+		return tenant;
 	}
 
 	public static void setTenant(String val) {

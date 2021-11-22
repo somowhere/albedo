@@ -49,7 +49,7 @@ import com.albedo.java.modules.tool.domain.EmailConfig;
 import com.albedo.java.modules.tool.domain.vo.EmailVo;
 import com.albedo.java.modules.tool.repository.EmailConfigRepository;
 import com.albedo.java.modules.tool.service.EmailService;
-import com.albedo.java.plugins.mybatis.service.impl.BaseServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.BaseServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CachePut;
@@ -134,7 +134,7 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, Ema
 		String redisKey = key + email;
 		// 如果不存在有效的验证码，就创建一个新的
 		TemplateEngine engine = TemplateUtil
-			.createEngine(new TemplateConfig("templates", TemplateConfig.ResourceMode.CLASSPATH));
+			.createEngine(new TemplateConfig("codet/templates", TemplateConfig.ResourceMode.CLASSPATH));
 		Template template = engine.getTemplate("email/email.ftl");
 		Object oldCode = RedisUtil.getCacheString(redisKey);
 		if (oldCode == null) {

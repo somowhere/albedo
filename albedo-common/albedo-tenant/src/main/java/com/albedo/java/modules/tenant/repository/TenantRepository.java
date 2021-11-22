@@ -1,7 +1,7 @@
 package com.albedo.java.modules.tenant.repository;
 
 import com.albedo.java.modules.tenant.domain.Tenant;
-import com.albedo.java.plugins.mybatis.repository.BaseRepository;
+import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

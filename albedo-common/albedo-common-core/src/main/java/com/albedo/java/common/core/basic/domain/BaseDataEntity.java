@@ -38,18 +38,18 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class BaseDataEntity<T extends BaseEntity<T>> extends BaseEntity<T> {
+public abstract class BaseDataEntity<T extends BaseEntity<T>, PK extends Serializable> extends BaseEntity<T> {
 
 	private static final long serialVersionUID = 1L;
 
 	@TableField(value = F_SQL_CREATED_BY, fill = FieldFill.INSERT)
-	protected Serializable createdBy;
+	protected PK createdBy;
 
 	@TableField(value = F_SQL_CREATED_DATE, fill = FieldFill.INSERT)
 	protected LocalDateTime createdDate;
 
 	@TableField(value = F_SQL_LAST_MODIFIED_BY, fill = FieldFill.INSERT_UPDATE)
-	protected Serializable lastModifiedBy;
+	protected PK lastModifiedBy;
 
 	@TableField(value = F_SQL_LAST_MODIFIED_DATE, fill = FieldFill.INSERT_UPDATE)
 	protected LocalDateTime lastModifiedDate;
@@ -78,6 +78,6 @@ public abstract class BaseDataEntity<T extends BaseEntity<T>> extends BaseEntity
 	 *
 	 * @param pk
 	 */
-	public abstract void setPk(Serializable pk);
+	public abstract void setPk(PK pk);
 
 }

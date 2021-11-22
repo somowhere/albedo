@@ -21,7 +21,7 @@ import com.albedo.java.modules.gen.domain.dto.TableColumnDto;
 import com.albedo.java.modules.gen.domain.dto.TableDto;
 import com.albedo.java.modules.gen.domain.dto.TableFromDto;
 import com.albedo.java.modules.gen.domain.vo.TableFormDataVo;
-import com.albedo.java.plugins.mybatis.service.DataCacheService;
+import com.albedo.java.plugins.database.mybatis.service.DataCacheService;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

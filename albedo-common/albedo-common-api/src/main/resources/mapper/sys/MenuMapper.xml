@@ -53,15 +53,15 @@
 	<!--通过角色查询菜单信息-->
 	<select id="findMenuVoListByRoleId" resultMap="MenuVoResultMap">
 		SELECT
-			sys_menu.*
+			a.*
 		FROM
-			sys_menu
-		LEFT JOIN sys_role_menu ON sys_menu.id = sys_role_menu.menu_id
+			sys_menu a
+		LEFT JOIN sys_role_menu b ON a.id = b.menu_id
 		WHERE
-			sys_menu.del_flag = 0
-		AND sys_role_menu.role_id = #{roleId}
+			a.del_flag = 0
+		AND b.role_id = #{roleId}
 		ORDER BY
-			sys_menu.sort DESC
+			a.sort DESC
     </select>
 
 	<!--通过角色ID 查询权限-->

@@ -156,6 +156,9 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 	 * 调用Getter方法. 支持多级，如：对象名.对象名.方法
 	 */
 	public static Object invokeGetter(Object obj, String propertyName) {
+		if(obj == null){
+			return obj;
+		}
 		if (obj instanceof Map) {
 			return ((Map) obj).get(propertyName);
 		}

@@ -36,12 +36,14 @@ import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.annotation.ExcelField;
 import com.albedo.java.common.core.basic.domain.BaseEntity;
 import com.albedo.java.common.core.constant.DictNameConstants;
+import com.albedo.java.common.core.util.StringUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -66,6 +68,7 @@ public class LogOperate extends BaseEntity<LogOperate> {
 	protected LocalDateTime createdDate;
 	/*** 备注 */
 	@ExcelField(title = "描述")
+	@Size(max = 500)
 	protected String description;
 	/**
 	 * 编号
@@ -157,4 +160,7 @@ public class LogOperate extends BaseEntity<LogOperate> {
 		return id;
 	}
 
+	public void setDescription(String description) {
+		this.description = description.length()> 500 ? StringUtil.subPre(description, 500) : description;
+	}
 }

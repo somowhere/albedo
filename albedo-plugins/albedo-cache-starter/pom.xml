@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>albedo-plugins</artifactId>
 		<groupId>com.albedo.java</groupId>
-		<version>3.1.2-SNAPSHOT</version>
+		<version>3.2.0-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
@@ -51,5 +51,19 @@
 		<optional>true</optional>
 		<scope>compile</scope>
 	</dependency>
+
+	<!-- Protostuff 序列化&反序列化工具 -->
+	<dependency>
+		<groupId>io.protostuff</groupId>
+		<artifactId>protostuff-core</artifactId>
+		<version>${protostuff.version}</version>
+	</dependency>
+
+	<dependency>
+		<groupId>io.protostuff</groupId>
+		<artifactId>protostuff-runtime</artifactId>
+		<version>${protostuff.version}</version>
+	</dependency>
+
 </dependencies>
 </project>

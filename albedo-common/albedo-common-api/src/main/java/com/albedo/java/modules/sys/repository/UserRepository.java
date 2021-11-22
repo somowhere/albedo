@@ -34,12 +34,13 @@ package com.albedo.java.modules.sys.repository;
 
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
-import com.albedo.java.plugins.mybatis.datascope.DataScope;
-import com.albedo.java.plugins.mybatis.repository.BaseRepository;
+import com.albedo.java.plugins.database.mybatis.datascope.DataScope;
+import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Set;
@@ -52,6 +53,7 @@ import java.util.Set;
  * @author somewhere
  * @since 2019/2/1
  */
+@Repository
 public interface UserRepository extends BaseRepository<User> {
 
 	/**

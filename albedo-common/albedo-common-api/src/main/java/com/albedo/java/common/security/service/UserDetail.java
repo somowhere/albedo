@@ -32,7 +32,7 @@
 
 package com.albedo.java.common.security.service;
 
-import com.albedo.java.plugins.mybatis.datascope.DataScope;
+import com.albedo.java.plugins.database.mybatis.datascope.DataScope;
 import lombok.Getter;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.GrantedAuthority;
@@ -102,7 +102,6 @@ public class UserDetail extends User {
 
 	public UserDetail() {
 		super("NA", "NA", Collections.emptyList());
-
 	}
 
 }

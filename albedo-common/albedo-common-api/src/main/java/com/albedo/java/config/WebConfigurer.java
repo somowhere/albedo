@@ -22,7 +22,9 @@ import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.DefaultProfileUtil;
 import com.albedo.java.common.core.util.StringUtil;
+import com.albedo.java.common.interceptor.HeaderThreadLocalInterceptor;
 import com.albedo.java.common.security.filter.CachingHttpHeadersFilter;
+import com.albedo.java.common.security.filter.ThreadLocalContextFilter;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +41,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -133,21 +136,12 @@ public class WebConfigurer
 
 		cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/statics/*", "/WEB-INF/views/*");
 		cachingHttpHeadersFilter.setAsyncSupported(true);
-
 	}
-	// /**
-	// * Initializes the Page Init Params Filter.
-	// */
-	// private void initPageInitParamFilter(ServletContext servletContext,
-	// EnumSet<DispatcherType> disps) {
-	// log.debug("Registering PageInitParamFilter");
-	// FilterRegistration.Dynamic pageInitParamFilter = servletContext.addFilter(
-	// "pageInitParamFilter",
-	// new PageInitParamFilter());
-	// pageInitParamFilter.addMappingForUrlPatterns(disps, true,
-	// ApplicationProperties.getAdminPath("/*"));
-	// pageInitParamFilter.setAsyncSupported(true);
-	// }
+
+	@Bean
+	public ThreadLocalContextFilter threadLocalContextFilter() {
+		return new ThreadLocalContextFilter();
+	}
 
 	@Bean
 	public CorsFilter corsFilter() {

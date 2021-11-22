@@ -24,7 +24,7 @@ import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.quartz.domain.dto.JobDto;
 import com.albedo.java.modules.quartz.domain.dto.JobQueryCriteria;
 import com.albedo.java.modules.quartz.service.JobService;
-import com.albedo.java.plugins.mybatis.util.QueryWrapperUtil;
+import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;

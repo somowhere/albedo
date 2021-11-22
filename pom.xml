@@ -21,19 +21,19 @@
 
 	<groupId>com.albedo.java</groupId>
 	<artifactId>albedo</artifactId>
-	<version>3.1.2-SNAPSHOT</version>
+	<version>3.2.0-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 	<packaging>pom</packaging>
 	<url>https://github.com/somowhere</url>
 
 	<properties>
-		<project.release.version>3.1.2-SNAPSHOT</project.release.version>
-		<spring-boot.version>2.5.5</spring-boot.version>
+		<project.release.version>3.2.0-SNAPSHOT</project.release.version>
+		<spring-boot.version>2.5.6</spring-boot.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<spring-boot-admin.version>2.5.2</spring-boot-admin.version>
-		<hutool.version>5.7.14</hutool.version>
+		<spring-boot-admin.version>2.5.4</spring-boot-admin.version>
+		<hutool.version>5.7.16</hutool.version>
 		<p6spy.version>3.9.1</p6spy.version>
 		<mybatis-plus.version>3.4.3.4</mybatis-plus.version>
 		<mybatis.version>3.5.7</mybatis.version>
@@ -48,6 +48,7 @@
 		<poi.version>5.0.0</poi.version>
 		<oshi.version>5.8.2</oshi.version>
 		<guava.version>31.0.1-jre</guava.version>
+		<protostuff.version>1.7.4</protostuff.version>
 		<transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
 		<minio.version>8.2.2</minio.version>
 		<qcloudsms.version>1.0.6</qcloudsms.version>
