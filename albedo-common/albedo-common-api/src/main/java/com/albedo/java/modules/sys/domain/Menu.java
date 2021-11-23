@@ -35,6 +35,7 @@ package com.albedo.java.modules.sys.domain;
 import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.basic.domain.TreeEntity;
 import com.albedo.java.common.core.constant.DictNameConstants;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -92,7 +93,8 @@ public class Menu extends TreeEntity<Menu> {
 	 * 是否缓存
 	 */
 	@DictType(DictNameConstants.SYS_FLAG)
-	private Integer cacheable = 0;
+	@TableField("cache_")
+	private Integer cache = 0;
 
 	/**
 	 * 是否外链

@@ -35,7 +35,7 @@ import javax.validation.constraints.Size;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class JobDto extends DataDto<Integer> {
+public class JobDto extends DataDto<Long> {
 
 	/**
 	 * F_NAME name : 任务名称

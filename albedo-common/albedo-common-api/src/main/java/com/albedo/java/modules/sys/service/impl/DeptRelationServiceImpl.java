@@ -107,7 +107,9 @@ public class DeptRelationServiceImpl extends BaseServiceImpl<DeptRelationReposit
 	 */
 	@Override
 	public void updateDeptRelation(DeptRelation relation) {
-		repository.updateDeptRelations(relation);
+		repository.deleteDeptRelations(relation);
+		List<DeptRelation> listDeptRelation = repository.findListByDeptDto(relation);
+		repository.insertBatchSomeColumn(listDeptRelation);
 	}
 
 }

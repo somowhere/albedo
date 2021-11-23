@@ -32,6 +32,7 @@
 
 package com.albedo.java.modules.sys.service;
 
+import com.albedo.java.common.core.util.Result;
 import com.albedo.java.modules.sys.domain.RoleMenu;
 import com.albedo.java.modules.sys.domain.dto.RoleMenuDto;
 import com.albedo.java.plugins.database.mybatis.service.BaseService;
@@ -52,6 +53,6 @@ public interface RoleMenuService extends BaseService<RoleMenu> {
 	 * @param roleMenuDto 角色
 	 * @return
 	 */
-	Boolean saveRoleMenus(RoleMenuDto roleMenuDto);
+	Result saveRoleMenus(RoleMenuDto roleMenuDto);
 
 }

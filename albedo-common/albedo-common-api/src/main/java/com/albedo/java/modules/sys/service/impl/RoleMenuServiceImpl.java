@@ -33,6 +33,7 @@
 package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.core.constant.CacheNameConstants;
+import com.albedo.java.common.core.util.Result;
 import com.albedo.java.modules.sys.domain.RoleMenu;
 import com.albedo.java.modules.sys.domain.dto.RoleMenuDto;
 import com.albedo.java.modules.sys.repository.RoleMenuRepository;
@@ -66,7 +67,7 @@ public class RoleMenuServiceImpl extends BaseServiceImpl<RoleMenuRepository, Rol
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(value = {CacheNameConstants.ROLE_DETAILS, CacheNameConstants.MENU_DETAILS}, allEntries = true)
-	public Boolean saveRoleMenus(RoleMenuDto roleMenuDto) {
+	public Result saveRoleMenus(RoleMenuDto roleMenuDto) {
 		this.remove(Wrappers.<RoleMenu>query().lambda().eq(RoleMenu::getRoleId, roleMenuDto.getRoleId()));
 
 		List<RoleMenu> roleMenuList = roleMenuDto.getMenuIdList().stream().map(menuId -> {
@@ -75,9 +76,10 @@ public class RoleMenuServiceImpl extends BaseServiceImpl<RoleMenuRepository, Rol
 			roleMenu.setMenuId(menuId);
 			return roleMenu;
 		}).collect(Collectors.toList());
-		boolean flag = this.saveBatch(roleMenuList);
+		this.saveBatch(roleMenuList);
 		SysCacheUtil.delRoleCaches(roleMenuDto.getRoleId());
-		return flag;
+		return Result.buildOk("操作成功");
+
 	}
 
 }

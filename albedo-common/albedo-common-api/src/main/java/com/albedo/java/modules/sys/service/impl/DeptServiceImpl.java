@@ -107,8 +107,8 @@ public class DeptServiceImpl extends TreeServiceImpl<DeptRepository, Dept, DeptD
 			relation.setAncestor(deptDto.getParentId());
 			relation.setDescendant(deptDto.getId());
 			deptRelationService.updateDeptRelation(relation);
-			SysCacheUtil.delDeptCaches(deptDto.getId());
 		}
+		SysCacheUtil.delDeptCaches(deptDto.getId());
 	}
 
 	/**

@@ -33,8 +33,11 @@
 package com.albedo.java.modules.sys.repository;
 
 import com.albedo.java.modules.sys.domain.DeptRelation;
+import com.albedo.java.modules.sys.domain.dto.DeptDto;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * <p>
@@ -57,8 +60,10 @@ public interface DeptRelationRepository extends BaseRepository<DeptRelation> {
 	/**
 	 * 更改部分关系表数据
 	 *
-	 * @param deptRelationEntity
+	 * @param deptRelation
 	 */
-	void updateDeptRelations(DeptRelation deptRelationEntity);
+	Integer deleteDeptRelations(DeptRelation deptRelation);
+
+	List<DeptRelation> findListByDeptDto(DeptRelation deptRelation);
 
 }

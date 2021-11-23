@@ -140,9 +140,9 @@
 		FROM
 		sys_user AS a
 		LEFT JOIN sys_user_role AS ur ON ur.user_id = a.id
-		LEFT JOIN sys_role AS r ON r.id = ur.role_id
-		LEFT JOIN sys_dept AS d ON d.id = a.dept_id
-		WHERE a.username = #{username} and a.del_flag='0' and r.available = 1 and d.available = 1
+		LEFT JOIN sys_role AS r ON r.id = ur.role_id and r.available = 1
+		LEFT JOIN sys_dept AS d ON d.id = a.dept_id and d.available = 1
+		WHERE a.username = #{username} and a.del_flag='0'
 	</select>
 
 	<select id="findUserVoById" resultMap="userVoResultMap">
@@ -151,10 +151,10 @@
 		FROM
 		sys_user AS a
 		LEFT JOIN sys_user_role AS ur ON ur.user_id = a.id
-		LEFT JOIN sys_role AS r ON r.id = ur.role_id
-		LEFT JOIN sys_dept AS d ON d.id = a.dept_id
+		LEFT JOIN sys_role AS r ON r.id = ur.role_id and r.available = 1
+		LEFT JOIN sys_dept AS d ON d.id = a.dept_id and d.available = 1
 		WHERE
-		a.id = #{id} and a.del_flag='0' and r.available = 1 and d.available = 1
+		a.id = #{id} and a.del_flag='0'
 	</select>
 
 	<select id="findUserVoPage" resultMap="userVoPageResultMap">

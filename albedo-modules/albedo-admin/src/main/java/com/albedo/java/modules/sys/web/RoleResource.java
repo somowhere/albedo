@@ -154,8 +154,7 @@ public class RoleResource extends BaseResource {
 	public Result saveRoleMenus(@Valid @RequestBody RoleMenuDto roleMenuDto) {
 		Role role = roleService.getById(roleMenuDto.getRoleId());
 		checkLevel(role.getLevel());
-		roleMenuService.saveRoleMenus(roleMenuDto);
-		return Result.buildOk("操作成功");
+		return roleMenuService.saveRoleMenus(roleMenuDto);
 	}
 
 	/**

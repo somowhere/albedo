@@ -113,7 +113,7 @@ public class Result<T> implements Serializable {
 		this.data = data;
 	}
 
-	public Result(String msg) {
+	public Result(String message) {
 		super();
 		this.message = message;
 	}
@@ -147,7 +147,7 @@ public class Result<T> implements Serializable {
 	}
 
 	public static Result buildOk(String... messages) {
-		return new Result(messages);
+		return new Result(StringUtil.toAppendStr(messages));
 	}
 
 	public static Result buildByFlag(boolean flag) {
