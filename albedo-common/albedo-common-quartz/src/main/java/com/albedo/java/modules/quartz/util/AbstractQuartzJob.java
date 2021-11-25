@@ -21,13 +21,15 @@ import cn.hutool.extra.template.Template;
 import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
-import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.ScheduleConstants;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.vo.ScheduleVo;
 import com.albedo.java.common.util.RedisUtil;
 import com.albedo.java.modules.quartz.domain.Job;
 import com.albedo.java.modules.quartz.domain.JobLog;
+import com.albedo.java.modules.quartz.domain.enums.JobLogStatus;
+import com.albedo.java.modules.quartz.domain.enums.JobMisfirePolicy;
+import com.albedo.java.modules.quartz.domain.enums.JobStatus;
 import com.albedo.java.modules.quartz.service.JobLogService;
 import com.albedo.java.modules.tool.domain.vo.EmailVo;
 import com.albedo.java.modules.tool.service.EmailService;
@@ -105,12 +107,12 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 			log.debug("end Task===>" + jobLog.getJobMessage());
 		}
 		if (e != null) {
-			jobLog.setStatus(CommonConstants.STR_FAIL);
+			jobLog.setStatus(JobLogStatus.FAILURE);
 			jobLog.setExceptionInfo(ExceptionUtil.stacktraceToString(e));
 			// 任务如果失败了则暂停
-			if (ScheduleConstants.MISFIRE_DO_NOTHING.equals(job.getMisfirePolicy())) {
+			if (JobMisfirePolicy.EXECUTE_STOP.equals(job.getMisfirePolicy())) {
 				// 更新状态
-				job.setStatus(ScheduleConstants.Status.PAUSE.getValue());
+				job.setStatus(JobStatus.PAUSE);
 				RedisUtil.sendScheduleChannelMessage(ScheduleVo.createPause(job.getId(), job.getGroup()));
 			}
 			if (job.getEmail() != null) {
@@ -120,7 +122,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 				emailService.send(emailVo, emailService.find());
 			}
 		} else {
-			jobLog.setStatus(CommonConstants.STR_SUCCESS);
+			jobLog.setStatus(JobLogStatus.SUCCESS);
 		}
 
 		jobLog.setCreatedDate(new Date());

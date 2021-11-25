@@ -56,9 +56,9 @@
       <el-table-column prop="startTimestamp" label="登录时间" sortable="custom" />
       <el-table-column prop="lastAccessTime" label="最后访问时间" sortable="custom" />
       <el-table-column prop="expireTime" label="超时时间（分钟）" />
-      <el-table-column align="center" label="在线状态" prop="statusText" width="80px">
+      <el-table-column align="center" label="在线状态" prop="status" width="80px">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status === 'on_line' ? 'success' : 'info'">{{ scope.row.statusText }}</el-tag>
+          <el-tag :type="scope.row.status.code === 'ONLINE' ? 'success' : 'info'">{{ scope.row.status.desc }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column v-permission="[permission.logout, permission.del]" label="操作" width="70px" fixed="right">

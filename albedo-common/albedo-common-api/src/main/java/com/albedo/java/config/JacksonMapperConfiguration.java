@@ -16,7 +16,7 @@
 
 package com.albedo.java.config;
 
-import com.albedo.java.common.core.jackson.JavaTimeModule;
+import com.albedo.java.common.core.jackson.CustomModule;
 import com.albedo.java.common.core.util.DateUtil;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
@@ -72,7 +72,7 @@ public class JacksonMapperConfiguration {
 		objectMapper.getDeserializationConfig().withoutFeatures(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
 		// 日期格式化
-		objectMapper.registerModule(new JavaTimeModule());
+		objectMapper.registerModule(new CustomModule());
 		objectMapper.findAndRegisterModules();
 
 		return objectMapper;

@@ -23,7 +23,6 @@ import com.albedo.java.plugins.database.mybatis.service.DataService;
 import lombok.Data;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 

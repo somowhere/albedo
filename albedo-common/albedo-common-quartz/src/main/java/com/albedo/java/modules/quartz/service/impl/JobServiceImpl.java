@@ -16,14 +16,14 @@
 
 package com.albedo.java.modules.quartz.service.impl;
 
-import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.constant.ScheduleConstants;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.Json;
 import com.albedo.java.common.core.vo.ScheduleVo;
 import com.albedo.java.common.util.RedisUtil;
 import com.albedo.java.modules.quartz.domain.Job;
 import com.albedo.java.modules.quartz.domain.dto.JobDto;
+import com.albedo.java.modules.quartz.domain.enums.JobConcurrent;
+import com.albedo.java.modules.quartz.domain.enums.JobStatus;
 import com.albedo.java.modules.quartz.repository.JobRepository;
 import com.albedo.java.modules.quartz.service.JobService;
 import com.albedo.java.modules.quartz.util.CronUtils;
@@ -54,7 +54,7 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto> 
 	public int pauseJob(Job job) {
 		Long jobId = job.getId();
 		String jobGroup = job.getGroup();
-		job.setStatus(ScheduleConstants.Status.PAUSE.getValue());
+		job.setStatus(JobStatus.PAUSE);
 		int rows = repository.updateById(job);
 		if (rows > 0) {
 			RedisUtil.sendScheduleChannelMessage(ScheduleVo.createPause(jobId, jobGroup));
@@ -72,7 +72,7 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto> 
 	public int resumeJob(Job job) {
 		Long jobId = job.getId();
 		String jobGroup = job.getGroup();
-		job.setStatus(ScheduleConstants.Status.NORMAL.getValue());
+		job.setStatus(JobStatus.RUNNING);
 		int rows = repository.updateById(job);
 		if (rows > 0) {
 			RedisUtil.sendScheduleChannelMessage(ScheduleVo.createResume(jobId, jobGroup));
@@ -121,10 +121,9 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto> 
 	@Transactional(rollbackFor = Exception.class)
 	public int changeStatus(Job job) {
 		int rows = 0;
-		String status = job.getStatus();
-		if (ScheduleConstants.Status.PAUSE.getValue().equals(status)) {
+		if (JobStatus.PAUSE.eq(job.getStatus())) {
 			rows = resumeJob(job);
-		} else if (ScheduleConstants.Status.NORMAL.getValue().equals(status)) {
+		} else if (JobStatus.RUNNING.eq(job.getStatus())) {
 			rows = pauseJob(job);
 		}
 		return rows;
@@ -154,7 +153,7 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto> 
 		Assert.isTrue(checkCronExpressionIsValid(job.getCronExpression()), "cronExpression 不合法");
 		try {
 			if (job.getId() == null) {
-				job.setStatus(ScheduleConstants.Status.PAUSE.getValue());
+				job.setStatus(JobStatus.PAUSE);
 				int rows = repository.insert(job);
 				if (rows > 0) {
 					RedisUtil.sendScheduleChannelMessage(ScheduleVo.createDataAdd(Json.toJsonString(job)));
@@ -205,8 +204,8 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto> 
 	public void concurrent(Set<String> ids) {
 		ids.forEach(id -> {
 			Job job = repository.selectById(id);
-			job.setConcurrent(CommonConstants.STR_YES.equals(job.getConcurrent()) ? CommonConstants.STR_NO
-				: CommonConstants.STR_YES);
+			job.setConcurrent(JobConcurrent.YES.eq(job.getConcurrent()) ? JobConcurrent.NO
+				: JobConcurrent.YES);
 			repository.updateById(job);
 		});
 	}

@@ -33,7 +33,6 @@
 package com.albedo.java.modules.sys.repository;
 
 import com.albedo.java.modules.sys.domain.DeptRelation;
-import com.albedo.java.modules.sys.domain.dto.DeptDto;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import org.springframework.stereotype.Repository;
 

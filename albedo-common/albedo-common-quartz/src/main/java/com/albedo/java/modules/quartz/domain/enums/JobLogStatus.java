@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.sys.domain.enums;
+package com.albedo.java.modules.quartz.domain.enums;
 
 import com.albedo.java.common.core.enumeration.BaseEnum;
 import io.swagger.annotations.ApiModel;
@@ -26,22 +26,19 @@ import lombok.NoArgsConstructor;
 import java.util.stream.Stream;
 
 /**
- * 用户会话
- *
  * @author somewhere
  */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "OnlineStatus", description = "状态-枚举")
-public enum OnlineStatus implements BaseEnum {
+@ApiModel(value = "JobLogStatus", description = "任务日志状态-枚举")
+public enum JobLogStatus implements BaseEnum {
 
-	/**
-	 * 用户状态
-	 */
-	ONLINE("在线"),
-	OFFLINE("离线");
+	SUCCESS("T", "正常"),
+	FAILURE("F", "失败");
 
+	@ApiModelProperty(value = "值")
+	private String val;
 	@ApiModelProperty(value = "描述")
 	private String desc;
 
@@ -49,22 +46,22 @@ public enum OnlineStatus implements BaseEnum {
 	/**
 	 * 根据当前枚举的name匹配
 	 */
-	public static OnlineStatus match(String val, OnlineStatus def) {
-		return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+	public static JobLogStatus match(String val, JobLogStatus def) {
+		return Stream.of(values()).parallel().filter(item -> item.getVal().equalsIgnoreCase(val)).findAny().orElse(def);
 	}
 
-	public static OnlineStatus get(String val) {
+	public static JobLogStatus get(String val) {
 		return match(val, null);
 	}
 
-	public boolean eq(OnlineStatus val) {
-		return val != null && eq(val.name());
+	public boolean eq(JobLogStatus val) {
+		return val != null && eq(val.getVal());
 	}
 
 	@Override
-	@ApiModelProperty(value = "用户状态", allowableValues = "ONLINE,OFFLINE", example = "ONLINE")
+	@ApiModelProperty(value = "任务日志状态", allowableValues = "T,F", example = "T")
 	public String getCode() {
-		return this.name();
+		return this.getVal();
 	}
 
 

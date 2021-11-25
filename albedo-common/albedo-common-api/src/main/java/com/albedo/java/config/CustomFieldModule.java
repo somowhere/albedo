@@ -34,7 +34,6 @@ public class CustomFieldModule extends SimpleModule {
 	@Override
 	public void setupModule(Module.SetupContext context) {
 		super.setupModule(context);
-
 		context.addBeanSerializerModifier(new BeanSerializerModifier() {
 
 			@Override
@@ -47,6 +46,7 @@ public class CustomFieldModule extends SimpleModule {
 
 			}
 		});
+
 	}
 
 }

@@ -16,6 +16,7 @@
 
 package com.albedo.java.common.security.util;
 
+import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
@@ -39,7 +40,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 
@@ -114,8 +114,8 @@ public class LoginUtil {
 		online.setDeptName(user.getDeptName());
 		online.setUserId(user.getId());
 		online.setUsername(user.getUsername());
-		online.setStartTimestamp(new Date(session.getCreationTime()));
-		online.setLastAccessTime(new Date(session.getLastAccessedTime()));
+		online.setStartTimestamp(LocalDateTimeUtil.of(session.getCreationTime()));
+		online.setLastAccessTime(LocalDateTimeUtil.of(session.getLastAccessedTime()));
 		online.setExpireTime((long) session.getMaxInactiveInterval());
 		online.setIpAddress(WebUtil.getIp(request));
 		online.setIpLocation(AddressUtil.getRealAddressByIp(online.getIpAddress()));

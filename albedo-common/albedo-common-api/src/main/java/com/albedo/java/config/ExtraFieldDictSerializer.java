@@ -135,7 +135,7 @@ public class ExtraFieldDictSerializer extends BeanSerializerBase {
 	private List<SelectVo> getCodeItemData(String code) {
 		List<SelectVo> jobj = codeItemData.get(code);
 		if (jobj == null) {
-			Map<String, List<SelectVo>> selectResultListByCodes = DictUtil.getSelectVoListByCodes(code);
+			Map<String, List<SelectVo>> selectResultListByCodes = DictUtil.convertSelectVoMapByCodes(code);
 			if (MapUtil.isNotEmpty(selectResultListByCodes)) {
 				codeItemData.putAll(selectResultListByCodes);
 			} else {

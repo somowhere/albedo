@@ -58,9 +58,9 @@ import java.time.format.DateTimeFormatter;
  * @author lishanbu
  */
 
-public class JavaTimeModule extends SimpleModule {
+public class CustomModule extends SimpleModule {
 
-	public JavaTimeModule() {
+	public CustomModule() {
 		super(PackageVersion.VERSION);
 		this.addSerializer(LocalDateTime.class,
 			new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)));

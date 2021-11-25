@@ -202,7 +202,7 @@ public class JacksonUtil {
 				.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 				.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true)
 				.getDeserializationConfig().withoutFeatures(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-			super.registerModule(new JavaTimeModule());
+			super.registerModule(new CustomModule());
 			super.findAndRegisterModules();
 		}
 	}

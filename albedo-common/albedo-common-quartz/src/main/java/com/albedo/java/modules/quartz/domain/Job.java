@@ -20,6 +20,9 @@ import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.basic.domain.BaseDataEntity;
 import com.albedo.java.common.core.basic.domain.GeneralEntity;
 import com.albedo.java.common.core.constant.DictNameConstants;
+import com.albedo.java.modules.quartz.domain.enums.JobConcurrent;
+import com.albedo.java.modules.quartz.domain.enums.JobMisfirePolicy;
+import com.albedo.java.modules.quartz.domain.enums.JobStatus;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -159,23 +162,20 @@ public class Job extends BaseDataEntity<Job, Long> {
 	 */
 	@Size(max = 20)
 	@TableField("misfire_policy")
-	@DictType(DictNameConstants.QUARTZ_MISFIRE_POLICY)
-	private String misfirePolicy;
+	private JobMisfirePolicy misfirePolicy;
 
 	/**
 	 * concurrent 是否并发执行（1允许 0禁止）
 	 */
 	@Size(max = 1)
 	@TableField("concurrent")
-	@DictType(DictNameConstants.SYS_FLAG)
-	private String concurrent;
+	private JobConcurrent concurrent;
 
 	/**
 	 * status 状态(1-运行中，0-暂停)
 	 */
-	@Size(max = 1)
-	@DictType(DictNameConstants.QUARTZ_JOB_STATUS)
-	private String status;
+	@Size(max = 20)
+	private JobStatus status;
 
 	/**
 	 * 报警邮箱

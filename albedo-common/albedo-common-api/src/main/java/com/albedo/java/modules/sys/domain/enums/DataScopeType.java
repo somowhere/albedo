@@ -25,28 +25,26 @@ public enum DataScopeType implements BaseEnum {
 	/**
 	 * ALL=5全部
 	 */
-	ALL(1, "全部"),
+	ALL("全部"),
 	/**
 	 * THIS_LEVEL_CHILDREN=2本级以及子级
 	 */
-	THIS_LEVEL_CHILDREN(2, "本级以及子级"),
+	THIS_LEVEL_CHILDREN("本级以及子级"),
 	/**
 	 * THIS_LEVEL=3本级
 	 */
-	THIS_LEVEL(3, "本级"),
+	THIS_LEVEL("本级"),
 	/**
 	 * SELF=4个人
 	 */
-	SELF(4, "个人"),
+	SELF("个人"),
 	/**
 	 * CUSTOMIZE=5自定义
 	 */
-	CUSTOMIZE(5, "自定义"),
+	CUSTOMIZE("自定义"),
 	;
 
 	@ApiModelProperty(value = "描述")
-	private final int val;
-
 	private final String desc;
 
 
@@ -54,17 +52,10 @@ public enum DataScopeType implements BaseEnum {
 		return Stream.of(values()).parallel().filter((item) -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
 	}
 
-	public static DataScopeType match(Integer val, DataScopeType def) {
-		return Stream.of(values()).parallel().filter((item) -> val != null && item.getVal() == val).findAny().orElse(def);
-	}
-
 	public static DataScopeType get(String val) {
 		return match(val, null);
 	}
 
-	public static DataScopeType get(Integer val) {
-		return match(val, null);
-	}
 
 	public boolean eq(final DataScopeType val) {
 		return val != null && eq(val.name());

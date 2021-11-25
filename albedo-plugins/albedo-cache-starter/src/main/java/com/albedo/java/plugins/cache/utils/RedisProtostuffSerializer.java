@@ -15,15 +15,8 @@ import org.springframework.data.redis.serializer.SerializationException;
  */
 public class RedisProtostuffSerializer implements RedisSerializer<Object> {
 
-	// Protostuff 无法直接序列化集合类对象，需要包装类包一下
-	private static class ProtoWrapper {
-		public Object data;
-	}
-
 	private final Schema<ProtoWrapper> schema;
-
 	private final ProtoWrapper wrapper;
-
 	private final LinkedBuffer buffer;
 
 	public RedisProtostuffSerializer() {
@@ -74,5 +67,10 @@ public class RedisProtostuffSerializer implements RedisSerializer<Object> {
 
 	private boolean isEmpty(byte[] data) {
 		return (data == null || data.length == 0);
+	}
+
+	// Protostuff 无法直接序列化集合类对象，需要包装类包一下
+	private static class ProtoWrapper {
+		public Object data;
 	}
 }

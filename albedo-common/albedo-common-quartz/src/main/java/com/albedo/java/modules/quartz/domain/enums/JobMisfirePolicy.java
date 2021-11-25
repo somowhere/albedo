@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.sys.domain.enums;
+package com.albedo.java.modules.quartz.domain.enums;
 
 import com.albedo.java.common.core.enumeration.BaseEnum;
 import io.swagger.annotations.ApiModel;
@@ -26,21 +26,18 @@ import lombok.NoArgsConstructor;
 import java.util.stream.Stream;
 
 /**
- * 用户会话
- *
  * @author somewhere
  */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "OnlineStatus", description = "状态-枚举")
-public enum OnlineStatus implements BaseEnum {
+@ApiModel(value = "JobMisfirePolicy", description = "计划执行错误策略-枚举")
+public enum JobMisfirePolicy implements BaseEnum {
 
-	/**
-	 * 用户状态
-	 */
-	ONLINE("在线"),
-	OFFLINE("离线");
+	EXECUTE_DEFAULT("默认"),
+	IGNORE_MISFIRES("立即执行"),
+	FIRE_PROCEED("执行一次"),
+	EXECUTE_STOP("放弃执行");
 
 	@ApiModelProperty(value = "描述")
 	private String desc;
@@ -49,20 +46,20 @@ public enum OnlineStatus implements BaseEnum {
 	/**
 	 * 根据当前枚举的name匹配
 	 */
-	public static OnlineStatus match(String val, OnlineStatus def) {
+	public static JobMisfirePolicy match(String val, JobMisfirePolicy def) {
 		return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
 	}
 
-	public static OnlineStatus get(String val) {
+	public static JobMisfirePolicy get(String val) {
 		return match(val, null);
 	}
 
-	public boolean eq(OnlineStatus val) {
+	public boolean eq(JobMisfirePolicy val) {
 		return val != null && eq(val.name());
 	}
 
 	@Override
-	@ApiModelProperty(value = "用户状态", allowableValues = "ONLINE,OFFLINE", example = "ONLINE")
+	@ApiModelProperty(value = "计划执行错误策略", allowableValues = "EXECUTE_NOW,EXECUTE_ONCE,EXECUTE_STOP", example = "EXECUTE_NOW")
 	public String getCode() {
 		return this.name();
 	}

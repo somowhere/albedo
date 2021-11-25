@@ -18,22 +18,16 @@ package com.albedo.java.common.security.filter;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;
-import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.context.ContextConstants;
 import com.albedo.java.common.core.context.ContextUtil;
-import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.WebUtil;
-import com.albedo.java.common.security.filter.warpper.BodyRequestWrapper;
 import lombok.SneakyThrows;
 import org.slf4j.MDC;
-import org.springframework.util.Assert;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.*;
+import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 前端静态资源缓存过滤器 This filter is used in production, to put HTTP cache headers with a long (1

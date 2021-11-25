@@ -16,9 +16,8 @@
 
 package com.albedo.java.modules.quartz.domain;
 
-import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.basic.domain.GeneralEntity;
-import com.albedo.java.common.core.constant.DictNameConstants;
+import com.albedo.java.modules.quartz.domain.enums.JobLogStatus;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -180,12 +179,11 @@ public class JobLog extends GeneralEntity<JobLog> {
 	private String jobMessage;
 
 	/**
-	 * status 执行状态（1正常 1失败）
+	 * status 执行状态(成功/失败)
 	 */
 	@Size(max = 1)
 	@TableField("status")
-	@DictType(DictNameConstants.SYS_STATUS)
-	private String status;
+	private JobLogStatus status;
 
 	/**
 	 * startTime 开始时间

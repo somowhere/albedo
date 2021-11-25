@@ -32,8 +32,8 @@ public interface TenantService extends DataCacheService<Tenant, TenantDto> {
 	 * @param data 租户保存数据
 	 * @return 租户
 	 */
-    @Override
-    void saveOrUpdate(TenantDto data);
+	@Override
+	void saveOrUpdate(TenantDto data);
 
 	/**
 	 * 根据编码获取

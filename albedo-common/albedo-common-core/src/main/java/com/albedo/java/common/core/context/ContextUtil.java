@@ -3,8 +3,6 @@ package com.albedo.java.common.core.context;
 import cn.hutool.core.convert.Convert;
 import com.albedo.java.common.core.basic.domain.BaseEntity;
 import com.albedo.java.common.core.util.ClassUtil;
-import com.albedo.java.common.core.util.ObjectUtil;
-import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.StrPool;
 import com.alibaba.ttl.TransmittableThreadLocal;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +39,7 @@ public final class ContextUtil {
 	}
 
 	public static void set(String key, Object value) {
-		log.info("key: " + key+ " value: "+ value);
+		log.info("key: " + key + " value: " + value);
 		Map<String, String> map = getLocalMap();
 		map.put(key, value == null ? StrPool.EMPTY : value.toString());
 	}
@@ -73,6 +71,7 @@ public final class ContextUtil {
 	public static void setLocalMap(Map<String, String> localMap) {
 		THREAD_LOCAL.set(localMap);
 	}
+
 	/**
 	 * 用户ID
 	 *

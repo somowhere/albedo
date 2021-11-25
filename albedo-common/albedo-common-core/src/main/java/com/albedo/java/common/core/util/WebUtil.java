@@ -261,7 +261,6 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
 	}
 
 
-
 	public static String getHeader(HttpServletRequest request, String name) {
 		String value = request.getHeader(name);
 		if (StrUtil.isEmpty(value)) {

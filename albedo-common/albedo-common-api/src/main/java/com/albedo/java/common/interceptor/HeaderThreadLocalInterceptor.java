@@ -26,11 +26,11 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class HeaderThreadLocalInterceptor implements AsyncHandlerInterceptor {
 
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (!(handler instanceof HandlerMethod)) {
-            return true;
-        }
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		if (!(handler instanceof HandlerMethod)) {
+			return true;
+		}
 		ContextUtil.setTenant(WebUtil.getHeader(request, ContextConstants.JWT_KEY_TENANT));
 		ContextUtil.setSubTenant(WebUtil.getHeader(request, ContextConstants.JWT_KEY_SUB_TENANT));
 
@@ -40,11 +40,11 @@ public class HeaderThreadLocalInterceptor implements AsyncHandlerInterceptor {
 		MDC.put(ContextConstants.JWT_KEY_SUB_TENANT, WebUtil.getHeader(request, ContextConstants.JWT_KEY_SUB_TENANT));
 
 		return true;
-    }
+	}
 
 
-    @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        ContextUtil.remove();
-    }
+	@Override
+	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+		ContextUtil.remove();
+	}
 }

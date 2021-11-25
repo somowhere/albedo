@@ -94,13 +94,13 @@ public class ScheduleUtils {
 	public static CronScheduleBuilder handleCronScheduleMisfirePolicy(Job job, CronScheduleBuilder cb)
 		throws TaskException {
 		switch (job.getMisfirePolicy()) {
-			case ScheduleConstants.MISFIRE_DEFAULT:
+			case EXECUTE_DEFAULT:
 				return cb;
-			case ScheduleConstants.MISFIRE_IGNORE_MISFIRES:
+			case IGNORE_MISFIRES:
 				return cb.withMisfireHandlingInstructionIgnoreMisfires();
-			case ScheduleConstants.MISFIRE_FIRE_AND_PROCEED:
+			case FIRE_PROCEED:
 				return cb.withMisfireHandlingInstructionFireAndProceed();
-			case ScheduleConstants.MISFIRE_DO_NOTHING:
+			case EXECUTE_STOP:
 				return cb.withMisfireHandlingInstructionDoNothing();
 			default:
 				throw new TaskException(

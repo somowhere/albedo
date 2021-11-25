@@ -16,9 +16,7 @@
 
 package com.albedo.java.modules.sys.domain;
 
-import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.basic.domain.BaseEntity;
-import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.modules.sys.domain.enums.OnlineStatus;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -26,7 +24,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 当前在线会话 sys_user_online
@@ -94,12 +92,12 @@ public class UserOnline extends BaseEntity<UserOnline> {
 	/**
 	 * session创建时间
 	 */
-	private Date startTimestamp;
+	private LocalDateTime startTimestamp;
 
 	/**
 	 * session最后访问时间
 	 */
-	private Date lastAccessTime;
+	private LocalDateTime lastAccessTime;
 
 	/**
 	 * 超时时间，单位为分钟
@@ -109,7 +107,6 @@ public class UserOnline extends BaseEntity<UserOnline> {
 	/**
 	 * 在线状态
 	 */
-	@DictType(DictNameConstants.SYS_ONLINE_STATUS)
 	private OnlineStatus status = OnlineStatus.ONLINE;
 
 }

@@ -2,8 +2,8 @@ package com.albedo.java.config.datasource;
 
 
 import com.albedo.java.plugins.database.config.BaseMybatisConfiguration;
-import com.albedo.java.plugins.database.properties.DatabaseProperties;
 import com.albedo.java.plugins.database.mybatis.datascope.DataScopeInterceptor;
+import com.albedo.java.plugins.database.properties.DatabaseProperties;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,23 +24,23 @@ import java.util.List;
 @EnableConfigurationProperties({DatabaseProperties.class})
 public class AuthorityMybatisAutoConfiguration extends BaseMybatisConfiguration {
 
-    public AuthorityMybatisAutoConfiguration(DatabaseProperties databaseProperties) {
-        super(databaseProperties);
-    }
+	public AuthorityMybatisAutoConfiguration(DatabaseProperties databaseProperties) {
+		super(databaseProperties);
+	}
 
-    /**
-     * 数据权限插件
-     *
-     * @return 数据权限插件
-     */
-    @Override
-    protected List<InnerInterceptor> getPaginationBeforeInnerInterceptor() {
-        List<InnerInterceptor> list = new ArrayList<>();
-        Boolean isDataScope = databaseProperties.getIsDataScope();
-        if (isDataScope) {
+	/**
+	 * 数据权限插件
+	 *
+	 * @return 数据权限插件
+	 */
+	@Override
+	protected List<InnerInterceptor> getPaginationBeforeInnerInterceptor() {
+		List<InnerInterceptor> list = new ArrayList<>();
+		Boolean isDataScope = databaseProperties.getIsDataScope();
+		if (isDataScope) {
 			list.add(new OptimisticLockerInnerInterceptor());
-            list.add(new DataScopeInterceptor());
-        }
-        return list;
-    }
+			list.add(new DataScopeInterceptor());
+		}
+		return list;
+	}
 }

@@ -124,8 +124,12 @@ public class DictServiceImpl extends TreeServiceImpl<DictRepository, Dict, DictD
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public Map<String, List<SelectVo>> findCodes(String codes) {
 		List<Dict> dictList = findAllOrderBySort();
-		return codes != null ? DictUtil.getSelectVoListByCodes(dictList, codes.split(StringUtil.SPLIT_DEFAULT))
-			: DictUtil.getSelectVoListByCodes(dictList);
+
+		Map<String, List<SelectVo>> dataMap = codes != null ?
+			DictUtil.convertSelectVoMapByCodes(dictList, codes.split(StringUtil.SPLIT_DEFAULT))
+			: DictUtil.convertSelectVoMapByCodes(dictList);
+
+		return dataMap;
 	}
 
 	@Override

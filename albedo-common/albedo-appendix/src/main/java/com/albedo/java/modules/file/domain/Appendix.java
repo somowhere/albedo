@@ -28,7 +28,6 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("c_appendix")
-@AllArgsConstructor
 public class Appendix extends IdEntity<Appendix, Long> {
 
 	private static final long serialVersionUID = 1L;
