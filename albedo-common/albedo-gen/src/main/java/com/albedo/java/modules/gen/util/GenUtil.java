@@ -190,6 +190,11 @@ public class GenUtil {
 			}
 			initDataColumn(column);
 			initTreeColumn(column);
+			if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntity.F_TENANT_CODE)) {
+				column.setList(false);
+				column.setEdit(false);
+				column.setNull(false);
+			}
 		}
 	}
 

@@ -16,8 +16,8 @@
 
 package com.albedo.java.common.util;
 
+import cn.hutool.json.JSONUtil;
 import com.albedo.java.common.core.constant.ScheduleConstants;
-import com.albedo.java.common.core.util.Json;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -272,7 +272,7 @@ public class RedisUtil {
 
 	public static void sendScheduleChannelMessage(Object message) {
 		if (log.isDebugEnabled()) {
-			log.debug("sendScheduleChannelMessage===>" + Json.toJSONString(message));
+			log.debug("sendScheduleChannelMessage===>" + JSONUtil.toJsonStr(message));
 		}
 		redisTemplate.convertAndSend(ScheduleConstants.REDIS_SCHEDULE_DEFAULT_CHANNEL, message);
 	}

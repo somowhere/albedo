@@ -38,26 +38,25 @@ public class ContextInitRunner implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		log.debug(">>>>> spring afterPropertiesSet 初始化开始 <<<<<");
+		log.debug(">>>>> spring BaseInit 初始化开始 <<<<<");
 		// spring初始化完毕后，通过反射调用所有使用BaseInit注解的afterPropertiesSet方法
 		Map<String, Object> baseServices = SpringContextHolder.getApplicationContext()
 			.getBeansWithAnnotation(BaseInit.class);
 		if (ObjectUtil.isNotEmpty(baseServices)) {
 			for (Object service : baseServices.values()) {
-				log.debug(">>>>> {}.afterPropertiesSet()", service.getClass().getName());
+				log.debug(">>>>> {}.baseInit()", service.getClass().getName());
 				try {
 					BaseInit annotation = AnnotationUtils.findAnnotation(service.getClass(), BaseInit.class);
 					Method initMapper = service.getClass().getMethod(annotation.method());
 					initMapper.invoke(service);
 				} catch (Exception e) {
-					log.error("初始化BaseInit的afterPropertiesSet方法异常{}", e);
-					e.printStackTrace();
+					log.error("初始化" + service.getClass().getName() + "的BaseInit方法异常{}", e);
 				}
 			}
 		}
-		log.debug(">>>>> spring afterPropertiesSet 初始化完毕 <<<<<");
+		log.debug(">>>>> spring BaseInit 初始化完毕 <<<<<");
 		// 系统入口初始化
-		log.debug(">>>>> spring init 初始化开始 <<<<<");
+		log.debug(">>>>> spring BaseInterface 初始化开始 <<<<<");
 		Map<String, BaseInterface> baseInterfaceBeans = SpringContextHolder.getApplicationContext()
 			.getBeansOfType(BaseInterface.class);
 		if (ObjectUtil.isNotEmpty(baseInterfaceBeans)) {
@@ -73,7 +72,7 @@ public class ContextInitRunner implements ApplicationRunner {
 			}
 		}
 
-		log.debug(">>>>> spring init 初始化完毕 <<<<<");
+		log.debug(">>>>> spring BaseInterface 初始化完毕 <<<<<");
 	}
 
 }

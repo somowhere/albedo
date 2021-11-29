@@ -48,9 +48,9 @@ public class SysCacheUtil {
 	 * @param username /
 	 */
 	public static void delBaseUserCaches(Long userId, String username) {
-		RedisUtil.delete(CacheNameConstants.USER_DETAILS + "::findVoByUsername:" + username);
-		RedisUtil.delete(CacheNameConstants.USER_DETAILS + "::findUserVoById:" + userId);
-		RedisUtil.delete(CacheNameConstants.USER_DETAILS + "::findDtoById:" + userId);
+		RedisUtil.delete(CacheNameConstants.USER_DETAILS + ":findVoByUsername:" + username);
+		RedisUtil.delete(CacheNameConstants.USER_DETAILS + ":findUserVoById:" + userId);
+		RedisUtil.delete(CacheNameConstants.USER_DETAILS + ":findDtoById:" + userId);
 	}
 
 	/**
@@ -61,8 +61,8 @@ public class SysCacheUtil {
 	 */
 	public static void delUserCaches(Long userId, String username) {
 		delBaseUserCaches(userId, username);
-		RedisUtil.delete(CacheNameConstants.ROLE_DETAILS + "::findListByUserId:" + userId);
-		RedisUtil.delete(CacheNameConstants.MENU_DETAILS + "::findTreeByUserId:" + userId);
+		RedisUtil.delete(CacheNameConstants.ROLE_DETAILS + ":findListByUserId:" + userId);
+		RedisUtil.delete(CacheNameConstants.MENU_DETAILS + ":findTreeByUserId:" + userId);
 	}
 
 	/**
@@ -71,8 +71,8 @@ public class SysCacheUtil {
 	 * @param roleId /
 	 */
 	public static void delRoleCaches(Long roleId) {
-		RedisUtil.delete(CacheNameConstants.ROLE_DETAILS + "::findDeptIdsByRoleId:" + roleId);
-		RedisUtil.delete(CacheNameConstants.MENU_DETAILS + "::findListByRoleId:" + roleId);
+		RedisUtil.delete(CacheNameConstants.ROLE_DETAILS + ":findDeptIdsByRoleId:" + roleId);
+		RedisUtil.delete(CacheNameConstants.MENU_DETAILS + ":findListByRoleId:" + roleId);
 		userRepository.findListByRoleId(roleId).forEach(user -> {
 			delUserCaches(user.getId(), user.getUsername());
 		});
@@ -87,10 +87,10 @@ public class SysCacheUtil {
 	public static void delMenuCaches(Long menuId) {
 		Set<Long> roleIds = roleRepository.findListByMenuId(menuId).stream().map(Role::getId)
 			.collect(Collectors.toSet());
-		RedisUtil.deleteLike(CacheNameConstants.MENU_DETAILS + "::findListByRoleId:", roleIds);
+		RedisUtil.deleteLike(CacheNameConstants.MENU_DETAILS + ":findListByRoleId:", roleIds);
 		Set<Long> userIds = userRepository.findListByMenuId(menuId).stream().map(User::getId)
 			.collect(Collectors.toSet());
-		RedisUtil.deleteLike(CacheNameConstants.MENU_DETAILS + "::findTreeByUserId:", userIds);
+		RedisUtil.deleteLike(CacheNameConstants.MENU_DETAILS + ":findTreeByUserId:", userIds);
 	}
 
 	/**
@@ -99,11 +99,11 @@ public class SysCacheUtil {
 	 * @param deptId /
 	 */
 	public static void delDeptCaches(Long deptId) {
-		RedisUtil.deleteLike(CacheNameConstants.DEPT_DETAILS + "::findTreeNode*");
-		RedisUtil.delete(CacheNameConstants.DEPT_DETAILS + "::findDescendantIdList:" + deptId);
+		RedisUtil.deleteLike(CacheNameConstants.DEPT_DETAILS + ":findTreeNode*");
+		RedisUtil.delete(CacheNameConstants.DEPT_DETAILS + ":findDescendantIdList:" + deptId);
 		Set<Long> roleIds = roleRepository.findListByDeptId(deptId).stream().map(Role::getId)
 			.collect(Collectors.toSet());
-		RedisUtil.deleteLike(CacheNameConstants.ROLE_DETAILS + "::findDeptIdsByRoleId:", roleIds);
+		RedisUtil.deleteLike(CacheNameConstants.ROLE_DETAILS + ":findDeptIdsByRoleId:", roleIds);
 		userRepository.selectList(Wrappers.<User>lambdaQuery().eq(User::getDeptId, deptId)).forEach(user -> {
 			delUserCaches(user.getId(), user.getUsername());
 		});

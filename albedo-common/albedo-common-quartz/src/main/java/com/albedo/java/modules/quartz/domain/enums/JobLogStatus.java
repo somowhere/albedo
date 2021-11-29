@@ -40,7 +40,7 @@ public enum JobLogStatus implements BaseEnum {
 	@ApiModelProperty(value = "值")
 	private String val;
 	@ApiModelProperty(value = "描述")
-	private String desc;
+	private String text;
 
 
 	/**

@@ -7,21 +7,13 @@ server:
   servlet:
     session:
       timeout: 30m
-
-spring:
   redis:
-    host: albedo-redis
-  datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: 111111
-    url: jdbc:mysql://localhost:3306/albedo?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowMultiQueries=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-
-
-
-
-
+    host: 127.0.0.1
+    lettuce:
+      pool:
+        max-idle: 10
+        min-idle: 10
+        max-active: 100
 
 # ===================================================================
 # Albedo specific properties
@@ -29,6 +21,20 @@ spring:
 
 application:
   developMode: true
+  rabbitmq:
+    enabled: false
+    ip: 127.0.0.1
+    port: 5672
+    username: albedo
+    password: albedo
+  mysql:
+    ip: 127.0.0.1
+    port: 3306
+    driverClassName: com.mysql.cj.jdbc.Driver
+    database: albedo
+    username: root
+    password: 111111
+    url: jdbc:mysql://${application.mysql.ip}:${application.mysql.port}/${application.mysql.database}?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowMultiQueries=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
   security:
     authentication:
       jwt:

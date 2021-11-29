@@ -20,7 +20,7 @@ import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.DataDto;
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.ToString;
@@ -70,11 +70,11 @@ public class TableDto extends DataDto<String> {
 	private String parentTableFk;
 
 	/*** 父表对象 */
-	@JSONField(serialize = false)
+	@JsonIgnore
 	private TableDto parent;
 
 	/*** 子表列表 */
-	@JSONField(serialize = false)
+	@JsonIgnore
 	private List<TableDto> childList;
 
 	private String nameAndTitle;
@@ -90,11 +90,11 @@ public class TableDto extends DataDto<String> {
 	/**
 	 * 当前表主键列表
 	 */
-	@JSONField(serialize = false)
+	@JsonIgnore
 	private List<TableColumnDto> pkColumnList;
 
 	/*** 列 - 列表 */
-	@JSONField(serialize = false)
+	@JsonIgnore
 	private List<TableColumnDto> columnList;
 
 	/*** 表单提交列 - 列表 */
@@ -134,13 +134,13 @@ public class TableDto extends DataDto<String> {
 		this.pkColumnList = pkColumnList;
 	}
 
-	@JSONField(serialize = false)
+	@JsonIgnore
 	public boolean isCompositeId() {
 		List<String> pkList = getPkList();
 		return CollUtil.isNotEmpty(pkList) && pkList.size() > 1;
 	}
 
-	@JSONField(serialize = false, deserialize = false)
+	@JsonIgnore
 	public boolean isNotCompositeId() {
 		return !isCompositeId();
 	}
@@ -208,12 +208,12 @@ public class TableDto extends DataDto<String> {
 	 *
 	 * @return
 	 */
-	@JSONField(serialize = false)
+	@JsonIgnore
 	public List<String> getImportList() {
 		// 引用列表
 		List<String> importList = Lists.newArrayList("com.baomidou.mybatisplus.annotation.*");
 		if (CATEGORY_TREETABLE.equalsIgnoreCase(getCategory())) {
-			importList.add("com.albedo.java.common.persistence.domain.TreeEntity");
+			importList.add("com.albedo.java.common.core.basic.domain.TreeEntity");
 			initImport(importList);
 			// 如果有子表，则需要导入List相关引用
 			if (getChildList() != null && getChildList().size() > 0) {
@@ -222,7 +222,7 @@ public class TableDto extends DataDto<String> {
 					"org.hibernate.annotations.Where");
 			}
 		} else {
-			importList.add("com.albedo.java.common.persistence.domain.IdEntity");
+			importList.add("com.albedo.java.common.core.basic.domain.IdEntity");
 			initImport(importList);
 			// 如果有子表，则需要导入List相关引用
 			if (getChildList() != null && getChildList().size() > 0) {
@@ -282,7 +282,7 @@ public class TableDto extends DataDto<String> {
 		return parent != null && StringUtil.isNotBlank(parentTable) && StringUtil.isNotBlank(parentTableFk);
 	}
 
-	@JSONField(serialize = false)
+	@JsonIgnore
 	public List<TableDto> getChildList() {
 		return childList != null ? childList : Lists.newArrayList();
 	}

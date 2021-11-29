@@ -21,19 +21,19 @@
  */
 package ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>;
 
-import com.albedo.java.common.persistence.service.DataService;
+
+import com.albedo.java.plugins.database.mybatis.service.TreeService;
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
 import ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
-<#if (table.compositeId)!>
-import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Id;
-</#if>
+
 
 /**
  * ${functionName}Service ${functionNameSimple}
  * @author ${functionAuthor}
  * @version ${functionVersion}
  */
-public interface ${ClassName}Service extends DataService<${ClassName}, ${ClassName}Dto, String>{
+public interface ${ClassName}Service extends TreeService<${ClassName}, ${ClassName}Dto>{
+
 
 }
 ]]>

@@ -21,17 +21,21 @@
  */
 package ${packageName}.${moduleName}.repository<#if subModuleName != "">.${subModuleName}</#if>;
 
-import com.albedo.java.common.persistence.repository.TreeRepository;
-import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
 
-import java.util.List;
+import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
+
+
+
+import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
+import org.springframework.stereotype.Repository;
 
 /**
  * ${functionName}Repository ${functionNameSimple}
  * @author ${functionAuthor}
  * @version ${functionVersion}
  */
-public interface ${ClassName}Repository extends TreeRepository<${ClassName}> {
+@Repository
+public interface ${ClassName}Repository extends BaseRepository<${ClassName}> {
 
 
 }

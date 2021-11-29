@@ -17,7 +17,11 @@
 package com.albedo.java.common.log.aspect;
 
 import cn.hutool.core.map.MapUtil;
-import com.albedo.java.common.core.util.*;
+import cn.hutool.json.JSONUtil;
+import com.albedo.java.common.core.util.BeanUtil;
+import com.albedo.java.common.core.util.ClassUtil;
+import com.albedo.java.common.core.util.StringUtil;
+import com.albedo.java.common.core.util.WebUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -150,7 +154,7 @@ public class RequestLogAspect {
 			long tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs);
 			afterReqLog.append(" time ({} ms) Result:{}");
 			afterReqArgs.add(tookMs);
-			afterReqArgs.add(Json.toJsonString(result));
+			afterReqArgs.add(JSONUtil.toJsonStr(result));
 			log.info(afterReqLog.toString(), afterReqArgs.toArray());
 		}
 

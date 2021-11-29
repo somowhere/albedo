@@ -2,6 +2,7 @@ package com.albedo.java.plugins.database.config;
 
 
 import cn.hutool.core.bean.BeanUtil;
+import com.albedo.java.plugins.database.mybatis.typehandler.CustomEnumTypeHandler;
 import com.albedo.java.plugins.database.properties.DatabaseProperties;
 import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
@@ -40,7 +41,7 @@ import java.util.function.Consumer;
 
 /**
  * 数据库& 事务& MyBatis & Mp 配置
- * lamp.database.multiTenantType != DATASOURCE时， 子类需要继承它，并让程序启动时加载
+ * application.database.multiTenantType != DATASOURCE时， 子类需要继承它，并让程序启动时加载
  * <p>
  * 注意：BaseDatabaseConfiguration 和 DynamicDataSourceAutoConfiguration 只能同时加载一个
  * <p>
@@ -210,7 +211,7 @@ public abstract class BaseDatabaseConfiguration implements InitializingBean {
 		// somewhere 改过这里：  这里一定要复制一次， 否则多数据源时，会导致拦截器等执行多次
 		MybatisConfiguration configuration = new MybatisConfiguration();
 		BeanUtil.copyProperties(newConfiguration, configuration);
-
+		configuration.getTypeHandlerRegistry().setDefaultEnumTypeHandler(CustomEnumTypeHandler.class);
 		if (!CollectionUtils.isEmpty(this.configurationCustomizers)) {
 			for (ConfigurationCustomizer customizer : this.configurationCustomizers) {
 				customizer.customize(configuration);

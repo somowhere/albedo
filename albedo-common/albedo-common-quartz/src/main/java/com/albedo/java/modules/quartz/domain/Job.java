@@ -182,6 +182,8 @@ public class Job extends BaseDataEntity<Job, Long> {
 	 */
 	private String email;
 
+	private String tenantCode;
+
 	@Override
 	public Serializable pkVal() {
 		return this.getId();

@@ -33,7 +33,6 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.util.Json;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.vo.SelectVo;
 import com.albedo.java.common.log.annotation.LogOperate;
@@ -167,7 +166,7 @@ public class DictResource extends BaseResource {
 	@GetMapping("/all")
 	public Result findAllList() {
 		List<Dict> list = dictService.list();
-		return Result.buildOkData(Json.toJsonString(list));
+		return Result.buildOkData(list);
 	}
 
 }

@@ -110,11 +110,11 @@
       <el-table-column :show-overflow-tooltip="true" label="任务分组" prop="groupText" width="90px" />
       <el-table-column :show-overflow-tooltip="true" label="调用目标" prop="invokeTarget" />
       <el-table-column :show-overflow-tooltip="true" label="cron表达式" prop="cronExpression" width="120px" />
-      <el-table-column :show-overflow-tooltip="true" label="执行失败策略" prop="misfirePolicyText" width="100px" />
-      <el-table-column :show-overflow-tooltip="true" label="是否并发执行" prop="concurrentText" width="100px" />
+      <el-table-column :show-overflow-tooltip="true" label="执行失败策略" prop="misfirePolicy.text" width="100px" />
+      <el-table-column :show-overflow-tooltip="true" label="是否并发执行" prop="concurrent.text" width="100px" />
       <el-table-column :show-overflow-tooltip="true" label="状态" prop="statusText" width="90px">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status === '1' ? 'success' : 'warning'">{{ scope.row.statusText }}</el-tag>
+          <el-tag :type="scope.row.status.code === 'RUNNING' ? 'success' : 'warning'">{{ scope.row.status.text }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column :show-overflow-tooltip="true" label="描述" prop="description" />
@@ -154,7 +154,7 @@
             type="text"
             @click="updateStatus(scope.row.id)"
           >
-            {{ scope.row.status === '0' ? '恢复' : '暂停' }}
+            {{ scope.row.status.code === 'PAUSE' ? '恢复' : '暂停' }}
           </el-button>
           <el-popover
             :ref="scope.row.id"

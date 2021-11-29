@@ -31,7 +31,7 @@ public abstract class BaseEntity<T extends GeneralEntity<T>> extends GeneralEnti
 	private static final long serialVersionUID = 1L;
 
 	@TableField(value = GeneralEntity.F_SQL_DEL_FLAG)
-	@TableLogic(delval = "1")
+	@TableLogic(delval = FLAG_DELETE)
 	@JsonIgnore
 	protected String delFlag;
 

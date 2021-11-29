@@ -134,7 +134,7 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, Ema
 		String redisKey = key + email;
 		// 如果不存在有效的验证码，就创建一个新的
 		TemplateEngine engine = TemplateUtil
-			.createEngine(new TemplateConfig("codet/templates", TemplateConfig.ResourceMode.CLASSPATH));
+			.createEngine(new TemplateConfig("templates/codet/templates", TemplateConfig.ResourceMode.CLASSPATH));
 		Template template = engine.getTemplate("email/email.ftl");
 		Object oldCode = RedisUtil.getCacheString(redisKey);
 		if (oldCode == null) {

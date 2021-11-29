@@ -35,7 +35,7 @@ public final class MapHelper {
 	 * @return
 	 */
 	public static Map<String, String> getMap(BaseEnum[] list) {
-		return MapHelper.uniqueIndex(Arrays.asList(list), BaseEnum::getCode, BaseEnum::getDesc);
+		return MapHelper.uniqueIndex(Arrays.asList(list), BaseEnum::getCode, BaseEnum::getText);
 	}
 
 	/**

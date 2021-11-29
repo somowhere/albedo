@@ -18,7 +18,7 @@ package com.albedo.java.modules.gen.domain.dto;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.vo.DataDto;
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -121,13 +121,13 @@ public class SchemeDto extends DataDto<String> {
 	 */
 	private TableDto tableDto;
 
-	@JSONField(serialize = false)
+	@JsonIgnore
 	/**
 	 * flase：保存方案； ture：保存方案并生成代码
 	 */
 	private Boolean genCode = false;
 
-	@JSONField(serialize = false)
+	@JsonIgnore
 	/**
 	 * 是否替换现有文件 true：替换文件 ；false：不替换；
 	 */

@@ -11,6 +11,8 @@ import com.albedo.java.plugins.database.mybatis.typehandler.FullLikeTypeHandler;
 import com.albedo.java.plugins.database.mybatis.typehandler.LeftLikeTypeHandler;
 import com.albedo.java.plugins.database.mybatis.typehandler.RightLikeTypeHandler;
 import com.albedo.java.plugins.database.plugins.SchemaInterceptor;
+import com.albedo.java.plugins.database.plugins.TenantLineHandler;
+import com.albedo.java.plugins.database.plugins.TenantLineInnerInterceptor;
 import com.albedo.java.plugins.database.properties.DatabaseProperties;
 import com.albedo.java.plugins.database.properties.MultiTenantType;
 import com.albedo.java.plugins.uid.WorkerNodeDao;
@@ -23,11 +25,15 @@ import com.baidu.fsg.uid.impl.HuToolUidGenerator;
 import com.baidu.fsg.uid.worker.DisposableWorkerIdAssigner;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
-import com.baomidou.mybatisplus.extension.plugins.inner.*;
+import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.IllegalSQLInnerInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.StringValue;
+import org.apache.ibatis.mapping.DatabaseIdProvider;
+import org.apache.ibatis.mapping.VendorDatabaseIdProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -36,9 +42,10 @@ import org.springframework.core.annotation.Order;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
 /**
- * Mybatis 常用重用拦截器，lamp.database.multiTenantType=任意模式 都需要实例出来
+ * Mybatis 常用重用拦截器，application.database.multiTenantType=任意模式 都需要实例出来
  * <p>
  * 拦截器执行一定是：
  * WriteInterceptor > DataScopeInterceptor > PaginationInterceptor
@@ -86,7 +93,7 @@ public abstract class BaseMybatisConfiguration {
 	@ConditionalOnMissingBean
 	public MybatisPlusInterceptor mybatisPlusInterceptor() {
 		MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-		log.info("检测到 lamp.database.multiTenantType={}，已启用 {} 模式", databaseProperties.getMultiTenantType().name(), databaseProperties.getMultiTenantType().getDescribe());
+		log.info("检测到 application.database.multiTenantType={}，已启用 {} 模式", databaseProperties.getMultiTenantType().name(), databaseProperties.getMultiTenantType().getDescribe());
 		if (StrUtil.equalsAny(databaseProperties.getMultiTenantType().name(),
 			MultiTenantType.SCHEMA.name(), MultiTenantType.SCHEMA_COLUMN.name())) {
 			// SCHEMA 动态表名插件
@@ -106,6 +113,11 @@ public abstract class BaseMybatisConfiguration {
 				@Override
 				public boolean ignoreTable(String tableName) {
 					return databaseProperties.getIgnoreTables() != null && databaseProperties.getIgnoreTables().contains(tableName);
+				}
+
+				@Override
+				public boolean ignoreMapId(String mapperId) {
+					return databaseProperties.getIgnoreMapperIds() != null && databaseProperties.getIgnoreMapperIds().contains(mapperId);
 				}
 
 				@Override
@@ -276,6 +288,17 @@ public abstract class BaseMybatisConfiguration {
 	@ConditionalOnMissingBean
 	public LampSqlInjector getMySqlInjector() {
 		return new LampSqlInjector();
+	}
+
+
+	@Bean
+	public DatabaseIdProvider getDatabaseIdProvider() {
+		DatabaseIdProvider databaseIdProvider = new VendorDatabaseIdProvider();
+		Properties p = new Properties();
+		p.setProperty("Oracle", "oracle");
+		p.setProperty("MySQL", "mysql");
+		databaseIdProvider.setProperties(p);
+		return databaseIdProvider;
 	}
 
 }

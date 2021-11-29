@@ -35,6 +35,7 @@ package com.albedo.java.common.core.util;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
+import cn.hutool.json.JSONUtil;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BizException;
 import lombok.SneakyThrows;
@@ -183,7 +184,7 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
 		response.setCharacterEncoding(CommonConstants.UTF8);
 		response.setContentType(contentType);
 		try (PrintWriter out = response.getWriter()) {
-			String str = Json.toJSONString(result);
+			String str = JSONUtil.toJsonStr(result);
 			log.debug("renderJson {}", str);
 			out.append(str);
 		} catch (IOException e) {

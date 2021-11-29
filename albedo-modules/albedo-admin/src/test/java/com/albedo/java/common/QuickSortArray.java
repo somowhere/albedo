@@ -16,7 +16,7 @@
 
 package com.albedo.java.common;
 
-import com.albedo.java.common.core.util.Json;
+import cn.hutool.json.JSONUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -28,7 +28,7 @@ public class QuickSortArray {
 	@Test
 	public void doTest() {
 		int[] sortArray = {10, 6, 1, 8, 12, 31, 3, 22, 5, 7, 2, 9};
-		System.out.println(Json.toJSONString(sort(sortArray)));
+		System.out.println(JSONUtil.toJsonStr(sort(sortArray)));
 	}
 
 	public int[] sort(int[] sourceArray) {
@@ -39,9 +39,9 @@ public class QuickSortArray {
 	private int[] quickSort(int[] arr, int left, int right) {
 		if (left < right) {
 			int partitionIndex = partition(arr, left, right);
-			System.out.println(Json.toJSONString(arr));
+			System.out.println(JSONUtil.toJsonStr(arr));
 			quickSort(arr, left, partitionIndex - 1);
-			System.out.println(Json.toJSONString(arr));
+			System.out.println(JSONUtil.toJsonStr(arr));
 			quickSort(arr, partitionIndex + 1, right);
 		}
 		return arr;

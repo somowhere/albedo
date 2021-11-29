@@ -17,8 +17,10 @@
 package com.albedo.java.modules.quartz.util;
 
 import com.albedo.java.common.core.constant.ScheduleConstants;
+import com.albedo.java.common.core.context.ContextUtil;
 import com.albedo.java.common.core.exception.TaskException;
 import com.albedo.java.modules.quartz.domain.Job;
+import com.albedo.java.modules.quartz.domain.enums.JobStatus;
 import org.quartz.*;
 
 /**
@@ -43,14 +45,14 @@ public class ScheduleUtils {
 	 * 构建任务触发对象
 	 */
 	public static TriggerKey getTriggerKey(Long jobId, String jobGroup) {
-		return TriggerKey.triggerKey(ScheduleConstants.TASK_CLASS_NAME + jobId, jobGroup);
+		return TriggerKey.triggerKey(ScheduleConstants.TASK_CLASS_NAME + jobId, jobGroup + ContextUtil.getTenant());
 	}
 
 	/**
 	 * 构建任务键对象
 	 */
 	public static JobKey getJobKey(Long jobId, String jobGroup) {
-		return JobKey.jobKey(ScheduleConstants.TASK_CLASS_NAME + jobId, jobGroup);
+		return JobKey.jobKey(ScheduleConstants.TASK_CLASS_NAME + jobId, jobGroup + ContextUtil.getTenant());
 	}
 
 	/**
@@ -83,7 +85,7 @@ public class ScheduleUtils {
 		scheduler.scheduleJob(jobDetail, trigger);
 
 		// 暂停任务
-		if (job.getStatus().equals(ScheduleConstants.Status.PAUSE.getValue())) {
+		if (JobStatus.PAUSE.equals(job.getStatus())) {
 			scheduler.pauseJob(ScheduleUtils.getJobKey(jobId, jobGroup));
 		}
 	}

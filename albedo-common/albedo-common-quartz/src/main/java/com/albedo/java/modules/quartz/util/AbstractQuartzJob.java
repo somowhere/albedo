@@ -22,6 +22,7 @@ import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
 import com.albedo.java.common.core.constant.ScheduleConstants;
+import com.albedo.java.common.core.context.ContextUtil;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.vo.ScheduleVo;
 import com.albedo.java.common.util.RedisUtil;
@@ -93,7 +94,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 	protected void after(JobExecutionContext context, Job job, Exception e) {
 		Date startTime = threadLocal.get();
 		threadLocal.remove();
-
+		ContextUtil.setTenant(job.getTenantCode());
 		final JobLog jobLog = new JobLog();
 		jobLog.setJobName(job.getName());
 		jobLog.setJobGroup(job.getGroup());
@@ -128,6 +129,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 		jobLog.setCreatedDate(new Date());
 		// 写入数据库当中
 		SpringContextHolder.getBean(JobLogService.class).saveOrUpdate(jobLog);
+		ContextUtil.setTenant(null);
 	}
 
 	private EmailVo taskAlarm(Job quartzJob, String msg) {
@@ -137,7 +139,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 		data.put("task", quartzJob);
 		data.put("msg", msg);
 		TemplateEngine engine = TemplateUtil
-			.createEngine(new TemplateConfig("codet/templates", TemplateConfig.ResourceMode.CLASSPATH));
+			.createEngine(new TemplateConfig("templates/codet/templates", TemplateConfig.ResourceMode.CLASSPATH));
 		Template template = engine.getTemplate("email/taskAlarm.ftl");
 		emailVo.setContent(template.render(data));
 		List<String> emails = Arrays.asList(quartzJob.getEmail().split("[,，]"));

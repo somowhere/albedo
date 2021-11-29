@@ -2,7 +2,7 @@ package com.albedo.java.modules.file.strategy.impl.ali;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.albedo.java.common.core.util.Json;
+import cn.hutool.json.JSONUtil;
 import com.albedo.java.common.core.util.MapHelper;
 import com.albedo.java.common.core.util.StrPool;
 import com.albedo.java.modules.file.domain.FileDeleteBo;
@@ -60,7 +60,7 @@ public class AliFileStrategyImpl extends AbstractFileStrategy {
 		PutObjectRequest request = new PutObjectRequest(bucket, path, multipartFile.getInputStream(), metadata);
 		PutObjectResult result = ossClient.putObject(request);
 
-		log.info("result={}", Json.toJson(result));
+		log.info("result={}", JSONUtil.toJsonStr(result));
 		String url = ali.getUrlPrefix() + bucket + StrPool.SLASH + path;
 		file.setUrl(url);
 		file.setUniqueFileName(uniqueFileName);

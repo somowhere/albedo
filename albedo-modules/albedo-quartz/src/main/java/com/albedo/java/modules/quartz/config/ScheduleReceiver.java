@@ -16,13 +16,17 @@
 
 package com.albedo.java.modules.quartz.config;
 
+import cn.hutool.json.JSONUtil;
 import com.albedo.java.common.core.annotation.BaseInit;
+import com.albedo.java.common.core.context.ContextUtil;
 import com.albedo.java.common.core.exception.TaskException;
-import com.albedo.java.common.core.util.Json;
+import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.vo.ScheduleVo;
 import com.albedo.java.modules.quartz.domain.Job;
 import com.albedo.java.modules.quartz.repository.JobRepository;
 import com.albedo.java.modules.quartz.util.ScheduleUtils;
+import com.albedo.java.modules.tenant.domain.Tenant;
+import com.albedo.java.modules.tenant.repository.TenantRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobKey;
@@ -53,6 +57,8 @@ public class ScheduleReceiver implements MessageListener {
 
 	private final JobRepository jobRepository;
 
+	private final TenantRepository tenantRepository;
+
 	private final RedissonClient redissonClient;
 
 	private final RedisSerializer serializer;
@@ -62,9 +68,14 @@ public class ScheduleReceiver implements MessageListener {
 	 */
 	public void refresh() throws TaskException, SchedulerException {
 		scheduler.clear();
-		List<Job> jobList = jobRepository.selectList(null);
-		for (Job job : jobList) {
-			updateSchedulerJob(job, job.getGroup());
+
+		List<Tenant> tenants = tenantRepository.selectList(null);
+		for (Tenant tenant : tenants) {
+			ContextUtil.setTenant(tenant.getCode());
+			List<Job> jobList = jobRepository.selectList(null);
+			for (Job job : jobList) {
+				updateSchedulerJob(job, job.getGroup());
+			}
 		}
 	}
 
@@ -76,6 +87,7 @@ public class ScheduleReceiver implements MessageListener {
 	 */
 	public void updateSchedulerJob(Job job, String jobOldGroup) throws SchedulerException, TaskException {
 		Long jobId = job.getId();
+
 		// 判断是否存在
 		JobKey jobKey = ScheduleUtils.getJobKey(jobId, jobOldGroup);
 		if (scheduler.checkExists(jobKey)) {
@@ -103,15 +115,17 @@ public class ScheduleReceiver implements MessageListener {
 				log.debug("receiveMessage scheduleVo===>" + scheduleVo);
 			}
 			Assert.isTrue(scheduleVo != null, "scheduleVo cannot be null");
-			Assert.isTrue(scheduleVo.getMessageType() != null, "scheduleVo cannot be null");
+			Assert.isTrue(ObjectUtil.isNotEmpty(scheduleVo.getMessageType()), "scheduleVo messageType cannot be empty");
+			Assert.isTrue(ObjectUtil.isNotEmpty(scheduleVo.getTenantCode()), "scheduleVo tenantCode cannot be empty");
 			Long jobId = scheduleVo.getJobId();
 			String jobGroup = scheduleVo.getJobGroup();
+			ContextUtil.setTenant(scheduleVo.getTenantCode());
 			switch (scheduleVo.getMessageType()) {
 				case ADD:
-					ScheduleUtils.createScheduleJob(scheduler, Json.parseObject(scheduleVo.getData(), Job.class));
+					ScheduleUtils.createScheduleJob(scheduler, JSONUtil.toBean(scheduleVo.getData(), Job.class));
 					break;
 				case UPDATE:
-					updateSchedulerJob(Json.parseObject(scheduleVo.getData(), Job.class), jobGroup);
+					updateSchedulerJob(JSONUtil.toBean(scheduleVo.getData(), Job.class), jobGroup);
 					break;
 				case PAUSE:
 					scheduler.pauseJob(ScheduleUtils.getJobKey(jobId, jobGroup));

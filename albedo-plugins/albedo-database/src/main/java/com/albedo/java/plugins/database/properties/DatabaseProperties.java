@@ -84,6 +84,11 @@ public class DatabaseProperties {
 	 */
 	private List<String> ignoreTables = new ArrayList<>();
 	/**
+	 * 在执行sql时，忽略 租户插件自动拼接租户编码的mapperIds
+	 * 仅 COLUMN 模式有效
+	 */
+	private List<String> ignoreMapperIds = new ArrayList<>();
+	/**
 	 * id 类型
 	 */
 	private IdType idType = IdType.HU_TOOL;

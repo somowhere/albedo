@@ -11,6 +11,11 @@ server:
 spring:
   redis:
     host: localhost
+    lettuce:
+      pool:
+        max-idle: 10
+        min-idle: 10
+        max-active: 100
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -24,13 +29,26 @@ spring:
 
 
 
-
 # ===================================================================
 # Albedo specific properties
 # ===================================================================
 
 application:
   developMode: true
+  rabbitmq:
+    enabled: false
+    ip: 127.0.0.1
+    port: 5672
+    username: albedo
+    password: albedo
+  mysql:
+    ip: 127.0.0.1
+    port: 3306
+    driverClassName: com.mysql.cj.jdbc.Driver
+    database: albedo
+    username: root
+    password: 111111
+    url: jdbc:mysql://${application.mysql.ip}:${application.mysql.port}/${application.mysql.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&nullCatalogMeansCurrent=true&allowPublicKeyRetrieval=true
   security:
     authentication:
       jwt:

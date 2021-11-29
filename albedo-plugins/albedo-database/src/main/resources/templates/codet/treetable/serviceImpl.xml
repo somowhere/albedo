@@ -28,7 +28,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.albedo.java.common.persistence.service.impl.TreeServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.TreeServiceImpl;
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
 import ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
 import ${packageName}.${moduleName}.repository<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Repository;

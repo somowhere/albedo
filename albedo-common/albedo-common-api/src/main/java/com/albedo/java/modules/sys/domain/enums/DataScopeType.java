@@ -45,7 +45,7 @@ public enum DataScopeType implements BaseEnum {
 	;
 
 	@ApiModelProperty(value = "描述")
-	private final String desc;
+	private final String text;
 
 
 	public static DataScopeType match(String val, DataScopeType def) {

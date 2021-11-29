@@ -18,9 +18,9 @@ package com.albedo.java.modules.gen.domain;
 
 import com.albedo.java.common.core.basic.domain.IdEntity;
 import com.albedo.java.common.core.util.StringUtil;
-import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -72,10 +72,10 @@ public class Table extends IdEntity<Table, String> {
 	private String parentTableFk;
 
 	@TableField(exist = false)
-	@JSONField(serialize = false)
+	@JsonIgnore
 	private List<TableColumn> columnList;
 
-	@JSONField(serialize = false)
+	@JsonIgnore
 	@TableField(exist = false)
 	private Table parent;
 
@@ -89,18 +89,18 @@ public class Table extends IdEntity<Table, String> {
 	private String nameLike;
 
 	@TableField(exist = false)
-	@JSONField(serialize = false)
+	@JsonIgnore
 	private List<String> pkList;
 
 	@TableField(exist = false)
-	@JSONField(serialize = false)
+	@JsonIgnore
 	private List<TableColumn> pkColumnList;
 
 	@TableField(exist = false)
 	private String category;
 
 	@TableField(exist = false)
-	@JSONField(serialize = false)
+	@JsonIgnore
 	private List<TableColumn> columnFormList;
 
 	public Table(String id) {

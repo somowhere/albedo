@@ -21,7 +21,7 @@ import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.DataDto;
 import com.albedo.java.common.core.vo.TreeDto;
 import com.albedo.java.modules.gen.util.GenTableColumnVoUtil;
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -55,7 +55,7 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	/**
 	 * 归属表
 	 */
-	@JSONField(serialize = false)
+	@JsonIgnore
 	private TableDto table;
 
 	/**
@@ -203,7 +203,7 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	 *
 	 * @return
 	 */
-	@JSONField(serialize = false)
+	@JsonIgnore
 	public String getSimpleJavaType() {
 		return StringUtil.indexOf(getJavaType(), StringUtil.C_DOT) != -1
 			? StringUtil.subAfter(getJavaType(), StringUtil.DOT, true) : getJavaType();
@@ -214,7 +214,7 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	 *
 	 * @return
 	 */
-	@JSONField(serialize = false)
+	@JsonIgnore
 	public String getSimpleTsType() {
 		String javaSimpleType = getSimpleJavaType();
 		return StringUtil.isNotEmpty(javaSimpleType) && (javaSimpleType.indexOf("Integer") != -1
@@ -352,7 +352,9 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_DEL_FLAG)
 			&& !StringUtil.equalsIgnoreCase(getName(), "del_flag")
 			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_VERSION)
-			&& !StringUtil.equalsIgnoreCase(getName(), "version");
+			&& !StringUtil.equalsIgnoreCase(getName(), "version")
+			&& !StringUtil.equalsIgnoreCase(getSimpleJavaField(), DataDto.F_TENANT_CODE)
+			&& !StringUtil.equalsIgnoreCase(getName(), "tenant_code");
 	}
 
 	/**

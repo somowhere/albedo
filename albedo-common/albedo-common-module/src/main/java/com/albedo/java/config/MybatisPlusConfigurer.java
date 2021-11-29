@@ -51,7 +51,7 @@
 //
 //
 ///**
-// * Mybatis 常用重用拦截器，lamp.database.multiTenantType=任意模式 都需要实例出来
+// * Mybatis 常用重用拦截器，application.database.multiTenantType=任意模式 都需要实例出来
 // * <p>
 // * 拦截器执行一定是：
 // * WriteInterceptor > DataScopeInterceptor > PaginationInterceptor

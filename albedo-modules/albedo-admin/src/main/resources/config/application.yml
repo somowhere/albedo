@@ -32,6 +32,12 @@ spring:
     multipart:
       max-file-size: "100MB"
       max-request-size: "1000MB"
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: ${application.mysql.driverClassName}
+    username: ${application.mysql.username}
+    password: ${application.mysql.password}
+    url: ${application.mysql.url}
 # mybaits-plus配置
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*/*Mapper.xml
@@ -46,6 +52,7 @@ mybatis-plus:
       logic-not-delete-value: 0
   configuration:
     map-underscore-to-camel-case: true
+    default-enum-type-handler: com.albedo.java.plugins.database.mybatis.typehandler.CustomEnumTypeHandler
 # ===================================================================
 # Albedo specific properties
 # ===================================================================
@@ -72,6 +79,12 @@ application:
     tenantDatabasePrefix: albedo_base
     multiTenantType: COLUMN
     tenantIdColumn: tenant_code
+    ignore-tables:
+      - sys_tenant
+    ignore-mapper-ids:
+      - com.albedo.java.modules.gen.repository.TableRepository.findTableList
+      - com.albedo.java.modules.gen.repository.TableRepository.findTableColumnList
+      - com.albedo.java.modules.gen.repository.TableRepository.findTablePk
     isNotWrite: false
     p6spy: true
     isBlockAttack: false  # 是否启用 攻击 SQL 阻断解析器
@@ -87,7 +100,6 @@ application:
       epochStr: '2020-09-15'
       boost-power: 3
       padding-factor: 50
-
   file:
     storageType: LOCAL #  FAST_DFS LOCAL MIN_IO ALI_OSS HUAWEI_OSS QINIU_OSS
     delFile: false
@@ -118,7 +130,7 @@ application:
       zone: "z0"
       accessKey: "1"
       secretKey: "2"
-      bucket: "albedo_admin_cloud"
+      bucket: "albedo_admin"
   #密码加密传输，前端公钥加密，后端私钥解密
   rsa:
     public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAN4UOrkIuLpL0o7WItgIUkP/RFBsurMPQ7fTaOKwT+S9tWly0xMmJzSl9Kdh8MpWcyz+5nUSb7SgGWxiE3qIL2sCAwEAAQ==

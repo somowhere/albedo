@@ -90,7 +90,7 @@ public class DictUtil {
 					for (BaseEnum enumConstant : baseEnumClass.getEnumConstants()) {
 						selectVoList.add(SelectVo.builder()
 							.value(enumConstant.getCode())
-							.label(enumConstant.getDesc()).build());
+							.label(enumConstant.getText()).build());
 					}
 					selectVoMap.put(simpleName, selectVoList);
 				}

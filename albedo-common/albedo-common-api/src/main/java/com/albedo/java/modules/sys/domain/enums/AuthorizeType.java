@@ -35,7 +35,7 @@ public enum AuthorizeType implements BaseEnum {
 	;
 
 	@ApiModelProperty(value = "描述")
-	private String desc;
+	private String text;
 
 
 	/**

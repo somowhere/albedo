@@ -17,10 +17,8 @@
 package com.albedo.java.common.core.vo;
 
 import com.albedo.java.common.core.constant.ScheduleConstants;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.albedo.java.common.core.context.ContextUtil;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -33,6 +31,7 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ScheduleVo implements Serializable {
 
 	private ScheduleConstants.MessageType messageType;
@@ -43,27 +42,25 @@ public class ScheduleVo implements Serializable {
 
 	private String data;
 
-	public ScheduleVo(ScheduleConstants.MessageType messageType, Long jobId, String jobGroup) {
-		this.messageType = messageType;
-		this.jobId = jobId;
-		this.jobGroup = jobGroup;
-	}
+	private String tenantCode;
 
-	public ScheduleVo(ScheduleConstants.MessageType messageType, Long jobId) {
-		this.messageType = messageType;
-		this.jobId = jobId;
-	}
 
 	public static ScheduleVo create(ScheduleConstants.MessageType messageType, Long jobId, String jobGroup) {
-		return new ScheduleVo(messageType, jobId, jobGroup);
+		return ScheduleVo.builder().messageType(messageType).jobId(jobId).jobGroup(jobGroup).tenantCode(ContextUtil.getTenant()).build();
 	}
 
 	public static ScheduleVo create(ScheduleConstants.MessageType messageType, Long jobId) {
-		return new ScheduleVo(messageType, jobId);
+		return ScheduleVo.builder().messageType(messageType).jobId(jobId).tenantCode(ContextUtil.getTenant()).build();
 	}
 
 	public static ScheduleVo createData(ScheduleConstants.MessageType messageType, String data) {
-		return new ScheduleVo(messageType, null, null, data);
+		return ScheduleVo.builder().messageType(messageType).data(data).tenantCode(ContextUtil.getTenant()).build();
+	}
+
+	public static Object createDataUpdate(String data, String jobGroup) {
+		return ScheduleVo.builder().messageType(ScheduleConstants.MessageType.UPDATE)
+			.jobGroup(jobGroup).data(data).tenantCode(ContextUtil.getTenant()).build();
+
 	}
 
 	public static ScheduleVo createPause(Long jobId, String jobGroup) {
@@ -86,8 +83,5 @@ public class ScheduleVo implements Serializable {
 		return createData(ScheduleConstants.MessageType.ADD, data);
 	}
 
-	public static Object createDataUpdate(String data, String jobGroup) {
-		return new ScheduleVo(ScheduleConstants.MessageType.UPDATE, null, jobGroup, data);
-	}
 
 }

@@ -37,7 +37,7 @@ import javax.validation.constraints.*;
 @TableName(value = "${table.name}")
 @Data @ToString @NoArgsConstructor @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ${ClassName} extends IdEntity<${ClassName}> {
+public class ${ClassName} extends IdEntity<${ClassName}, ${table.pkColumn.javaType}> {
 
 	private static final long serialVersionUID = 1L;
 	<#list table.columnList as column>

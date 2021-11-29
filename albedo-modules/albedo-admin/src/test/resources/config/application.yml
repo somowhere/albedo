@@ -21,7 +21,7 @@ mybatis-plus:
   global-config:
     banner: false
     db-config:
-      id-type: UUID
+      id-type: ASSIGN_ID
       table-underline: true
       logic-delete-value: 1
       logic-not-delete-value: 0

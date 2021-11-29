@@ -40,7 +40,7 @@ public enum JobMisfirePolicy implements BaseEnum {
 	EXECUTE_STOP("放弃执行");
 
 	@ApiModelProperty(value = "描述")
-	private String desc;
+	private String text;
 
 
 	/**

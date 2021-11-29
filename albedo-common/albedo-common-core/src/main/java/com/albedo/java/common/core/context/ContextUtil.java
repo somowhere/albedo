@@ -6,6 +6,7 @@ import com.albedo.java.common.core.util.ClassUtil;
 import com.albedo.java.common.core.util.StrPool;
 import com.alibaba.ttl.TransmittableThreadLocal;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Map;
@@ -39,7 +40,7 @@ public final class ContextUtil {
 	}
 
 	public static void set(String key, Object value) {
-		log.info("key: " + key + " value: " + value);
+		log.debug("key: " + key + " value: " + value);
 		Map<String, String> map = getLocalMap();
 		map.put(key, value == null ? StrPool.EMPTY : value.toString());
 	}
@@ -78,8 +79,13 @@ public final class ContextUtil {
 	 * @return 用户ID
 	 */
 	public static Long getUserId() {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		return (Long) ClassUtil.invokeGetter(principal, BaseEntity.F_ID);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication != null) {
+			Object principal = authentication.getPrincipal();
+			return (Long) ClassUtil.invokeGetter(principal, BaseEntity.F_ID);
+		}
+		log.info("get authentication null return -1L");
+		return -1L;
 	}
 
 	/**
@@ -89,7 +95,6 @@ public final class ContextUtil {
 	 */
 	public static String getTenant() {
 		String tenant = get(ContextConstants.JWT_KEY_TENANT, String.class, StrPool.EMPTY);
-		log.info("tenant: " + tenant);
 		return tenant;
 	}
 

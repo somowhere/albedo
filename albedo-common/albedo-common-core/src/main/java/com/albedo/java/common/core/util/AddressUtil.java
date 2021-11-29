@@ -18,9 +18,9 @@ package com.albedo.java.common.core.util;
 
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.http.HttpUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.albedo.java.common.core.config.ApplicationConfig;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -50,10 +50,10 @@ public class AddressUtil {
 			}
 			JSONObject obj;
 			try {
-				obj = JSON.parseObject(rspStr, JSONObject.class);
+				obj = JSONUtil.parseObj(rspStr);
 				JSONObject data = obj.getJSONObject("data");
-				String region = data.getString("region");
-				String city = data.getString("city");
+				String region = data.getStr("region");
+				String city = data.getStr("city");
 				address = region + " " + city;
 			} catch (Exception e) {
 				log.error("获取地理位置异常 {}", ip);

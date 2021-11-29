@@ -22,7 +22,7 @@ public class EnumSerializer extends StdSerializer<BaseEnum> {
 	public static final EnumSerializer INSTANCE = new EnumSerializer();
 	public static final String ALL_ENUM_KEY_FIELD = "code";
 	public static final String ALL_ENUM_EXTRA_FIELD = "extra";
-	public static final String ALL_ENUM_DESC_FIELD = "desc";
+	public static final String ALL_ENUM_TEXT_FIELD = "text";
 
 	public EnumSerializer() {
 		super(BaseEnum.class);
@@ -34,8 +34,8 @@ public class EnumSerializer extends StdSerializer<BaseEnum> {
 		generator.writeStartObject();
 		generator.writeFieldName(ALL_ENUM_KEY_FIELD);
 		generator.writeString(distance.getCode());
-		generator.writeFieldName(ALL_ENUM_DESC_FIELD);
-		generator.writeString(distance.getDesc());
+		generator.writeFieldName(ALL_ENUM_TEXT_FIELD);
+		generator.writeString(distance.getText());
 		if (StrUtil.isNotEmpty(distance.getExtra())) {
 			generator.writeFieldName(ALL_ENUM_EXTRA_FIELD);
 			generator.writeString(distance.getExtra());

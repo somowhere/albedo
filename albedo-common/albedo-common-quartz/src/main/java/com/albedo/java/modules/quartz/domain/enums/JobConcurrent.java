@@ -22,7 +22,7 @@ public enum JobConcurrent implements BaseEnum {
 	@ApiModelProperty(value = "值")
 	private String value;
 	@ApiModelProperty(value = "描述")
-	private String desc;
+	private String text;
 
 
 	/**

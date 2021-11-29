@@ -18,6 +18,7 @@ package com.albedo.java.modules.quartz.config;
 
 import com.albedo.java.common.core.constant.ScheduleConstants;
 import com.albedo.java.modules.quartz.repository.JobRepository;
+import com.albedo.java.modules.tenant.repository.TenantRepository;
 import org.quartz.Scheduler;
 import org.redisson.api.RedissonClient;
 import org.springframework.context.annotation.Bean;
@@ -26,7 +27,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import javax.sql.DataSource;
@@ -118,9 +119,8 @@ public class ScheduleConfig {
 	 * @return
 	 */
 	@Bean
-	ScheduleReceiver scheduleReceiver(Scheduler scheduler, JobRepository jobRepository, RedissonClient redissonClient,
-									  JdkSerializationRedisSerializer jdkSerializationRedisSerializer) {
-		return new ScheduleReceiver(scheduler, jobRepository, redissonClient, jdkSerializationRedisSerializer);
+	ScheduleReceiver scheduleReceiver(Scheduler scheduler, JobRepository jobRepository, TenantRepository tenantRepository, RedissonClient redissonClient, RedisSerializer serializerr) {
+		return new ScheduleReceiver(scheduler, jobRepository, tenantRepository, redissonClient, serializerr);
 	}
 
 }

@@ -33,7 +33,7 @@
 package com.albedo.java.common.core.config;
 
 import cn.hutool.crypto.digest.DigestUtil;
-import com.alibaba.fastjson.JSON;
+import cn.hutool.json.JSONUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -140,7 +140,7 @@ public class RedisConfig extends CachingConfigurerSupport {
 				container.put(String.valueOf(i), params[i]);
 			}
 			// 转为JSON字符串
-			String jsonString = JSON.toJSONString(container);
+			String jsonString = JSONUtil.toJsonStr(container);
 			// 做SHA256 Hash计算，得到一个SHA256摘要作为Key
 			return DigestUtil.sha256Hex(jsonString);
 		};

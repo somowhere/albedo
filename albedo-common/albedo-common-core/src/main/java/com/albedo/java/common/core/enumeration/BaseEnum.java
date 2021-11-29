@@ -24,7 +24,7 @@ public interface BaseEnum extends IEnum<String> {
 	 *
 	 * @return 描述
 	 */
-	String getDesc();
+	String getText();
 
 	/**
 	 * 扩展参数

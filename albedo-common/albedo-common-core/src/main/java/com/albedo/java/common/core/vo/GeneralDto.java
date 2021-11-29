@@ -59,6 +59,8 @@ public class GeneralDto implements Serializable {
 
 	public static final String F_DESCRIPTION = "description";
 
+	public static final String F_TENANT_CODE = "tenantCode";
+
 	private static final long serialVersionUID = 1L;
 
 }

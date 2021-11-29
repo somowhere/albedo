@@ -17,6 +17,11 @@
 			<artifactId>albedo-common-quartz</artifactId>
 			<version>${project.release.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.albedo.java</groupId>
+			<artifactId>albedo-tenant</artifactId>
+			<version>${project.release.version}</version>
+		</dependency>
 		<!--数据库-->
 		<dependency>
 			<groupId>mysql</groupId>

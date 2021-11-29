@@ -38,7 +38,7 @@ public enum FileStorageType implements BaseEnum {
 	;
 
 	@ApiModelProperty(value = "描述")
-	private String desc;
+	private String text;
 
 	/**
 	 * 根据当前枚举的name匹配

@@ -18,9 +18,9 @@ package com.albedo.java.modules.gen.domain;
 
 import com.albedo.java.common.core.annotation.BeanField;
 import com.albedo.java.common.core.basic.domain.IdEntity;
-import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -130,28 +130,28 @@ public class Scheme extends IdEntity<Scheme, String> {
 	/**
 	 * flase：保存方案； ture：保存方案并生成代码
 	 */
-	@JSONField(serialize = false)
+	@JsonIgnore
 	@TableField(exist = false)
 	private Boolean genCode = false;
 
 	/**
 	 * 是否替换现有文件 true：替换文件 ；false：不替换；
 	 */
-	@JSONField(serialize = false)
 	@TableField(exist = false)
+	@JsonIgnore
 	private Boolean replaceFile = false;
 
 	/**
 	 * 是否同步菜单数据 true：同步；false：不同步
 	 */
-	@JSONField(serialize = false)
+	@JsonIgnore
 	@TableField(exist = false)
 	private Boolean syncMenu = false;
 
 	/**
 	 * 上级模块 ID 仅当syncMenu 为 true有效
 	 */
-	@JSONField(serialize = false)
+	@JsonIgnore
 	@TableField(exist = false)
 	private String parentMenuId;
 

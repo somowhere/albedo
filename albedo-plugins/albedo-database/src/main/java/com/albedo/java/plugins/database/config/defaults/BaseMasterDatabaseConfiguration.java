@@ -29,7 +29,7 @@ import java.util.List;
 
 /**
  * 数据库& 事务& MyBatis & Mp 配置
- * lamp.database.multiTenantType != DATASOURCE时， 子类需要继承它，并让程序启动时加载
+ * application.database.multiTenantType != DATASOURCE时， 子类需要继承它，并让程序启动时加载
  * <p>
  * 注意：BaseDatabaseConfiguration 和 DynamicDataSourceAutoConfiguration 只能同时加载一个
  *

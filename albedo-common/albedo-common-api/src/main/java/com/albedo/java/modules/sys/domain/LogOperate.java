@@ -161,6 +161,9 @@ public class LogOperate extends BaseEntity<LogOperate> {
 	}
 
 	public void setDescription(String description) {
-		this.description = description.length() > 500 ? StringUtil.subPre(description, 500) : description;
+		if (description != null) {
+			this.description = description.length() > 500 ? StringUtil.subPre(description, 500) : description;
+
+		}
 	}
 }

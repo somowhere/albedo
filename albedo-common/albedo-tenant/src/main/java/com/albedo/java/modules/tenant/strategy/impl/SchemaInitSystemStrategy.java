@@ -54,7 +54,7 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
 	private final InitDbRepository initDbMapper;
 	private final DatabaseProperties databaseProperties;
 
-	@Value("${lamp.mysql.database}")
+	@Value("${application.mysql.database}")
 	private String defaultDatabase;
 
 

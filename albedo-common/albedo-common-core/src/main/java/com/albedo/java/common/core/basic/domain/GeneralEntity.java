@@ -61,6 +61,8 @@ public class GeneralEntity<T extends Model<T>> extends Model<T> implements Seria
 
 	public static final String F_DESCRIPTION = "description";
 
+	public static final String F_TENANT_CODE = "tenantCode";
+
 	public static final String F_SQL_ID = "id";
 
 	public static final String F_SQL_CREATED_BY = "created_by";

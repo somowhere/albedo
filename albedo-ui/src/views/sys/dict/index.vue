@@ -94,6 +94,9 @@
       default-expand-all
       :data="crud.data"
       row-key="id"
+      @select="crud.selectChange"
+      @select-all="crud.selectAllChange"
+      @selection-change="crud.selectionChangeHandler"
     >
       <el-table-column :selectable="checkboxT" type="selection" width="55" />
       <el-table-column label="名称" prop="name" />

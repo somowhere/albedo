@@ -38,7 +38,7 @@ public enum JobStatus implements BaseEnum {
 	PAUSE("暂停");
 
 	@ApiModelProperty(value = "描述")
-	private String desc;
+	private String text;
 
 
 	/**

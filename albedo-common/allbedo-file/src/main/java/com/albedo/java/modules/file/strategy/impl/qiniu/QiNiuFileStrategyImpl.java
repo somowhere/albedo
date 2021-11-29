@@ -2,7 +2,7 @@ package com.albedo.java.modules.file.strategy.impl.qiniu;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.albedo.java.common.core.util.Json;
+import cn.hutool.json.JSONUtil;
 import com.albedo.java.common.core.util.MapHelper;
 import com.albedo.java.common.core.util.StrPool;
 import com.albedo.java.modules.file.domain.FileDeleteBo;
@@ -85,11 +85,11 @@ public class QiNiuFileStrategyImpl extends AbstractFileStrategy {
 		Response response = this.uploadManager.put(multipartFile.getInputStream(), path, getUploadToken(bucket),
 			params, file.getContentType());
 
-		log.info("response={}", Json.toJson(response));
+		log.info("response={}", JSONUtil.toJsonStr(response));
 
 		if (response.statusCode == 200) {
-			DefaultPutRet defaultPutRet = Json.parseObject(response.bodyString(), DefaultPutRet.class);
-			log.info("defaultPutRet={}", Json.toJson(defaultPutRet));
+			DefaultPutRet defaultPutRet = JSONUtil.toBean(response.bodyString(), DefaultPutRet.class);
+			log.info("defaultPutRet={}", JSONUtil.toJsonStr(defaultPutRet));
 
 			file.setUniqueFileName(uniqueFileName);
 			file.setBucket(bucket);
@@ -105,7 +105,7 @@ public class QiNiuFileStrategyImpl extends AbstractFileStrategy {
 		FileServerProperties.QiNiu qiNiu = fileProperties.getQiNiu();
 		String bucket = StrUtil.isEmpty(file.getBucket()) ? qiNiu.getBucket() : file.getBucket();
 		Response response = bucketManager.delete(bucket, file.getPath());
-		log.info("response={}", Json.toJson(response));
+		log.info("response={}", JSONUtil.toJsonStr(response));
 		return true;
 	}
 

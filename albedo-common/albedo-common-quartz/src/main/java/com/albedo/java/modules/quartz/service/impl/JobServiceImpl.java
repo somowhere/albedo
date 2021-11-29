@@ -16,8 +16,8 @@
 
 package com.albedo.java.modules.quartz.service.impl;
 
+import cn.hutool.json.JSONUtil;
 import com.albedo.java.common.core.exception.BizException;
-import com.albedo.java.common.core.util.Json;
 import com.albedo.java.common.core.vo.ScheduleVo;
 import com.albedo.java.common.util.RedisUtil;
 import com.albedo.java.modules.quartz.domain.Job;
@@ -156,7 +156,7 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto> 
 				job.setStatus(JobStatus.PAUSE);
 				int rows = repository.insert(job);
 				if (rows > 0) {
-					RedisUtil.sendScheduleChannelMessage(ScheduleVo.createDataAdd(Json.toJsonString(job)));
+					RedisUtil.sendScheduleChannelMessage(ScheduleVo.createDataAdd(JSONUtil.toJsonStr(job)));
 				}
 			} else {
 				Job temp = repository.selectById(job.getId());
@@ -178,7 +178,7 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto> 
 	 * @param jobOldGroup 任务组名
 	 */
 	public void updateSchedulerJob(Job job, String jobOldGroup) {
-		RedisUtil.sendScheduleChannelMessage(ScheduleVo.createDataUpdate(Json.toJsonString(job), jobOldGroup));
+		RedisUtil.sendScheduleChannelMessage(ScheduleVo.createDataUpdate(JSONUtil.toJsonStr(job), jobOldGroup));
 	}
 
 	/**

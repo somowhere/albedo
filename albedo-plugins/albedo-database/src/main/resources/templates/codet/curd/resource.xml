@@ -24,10 +24,10 @@ package ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleNam
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.vo.PageModel;
-import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.common.core.util.Result;
+import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
 import ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}QueryCriteria;
 import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Service;
@@ -36,6 +36,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import lombok.AllArgsConstructor;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Api;
 
 import javax.validation.Valid;
 import java.util.Set;
@@ -48,6 +50,7 @@ import java.util.Set;
 @RestController
 @RequestMapping(value = "${r"${application.admin-path}"}/${urlPrefix}")
 @AllArgsConstructor
+@Api(tags = "${functionNameSimple}")
 public class ${ClassName}Resource extends BaseResource {
 
 	private final ${ClassName}Service service;
@@ -72,6 +75,7 @@ public class ${ClassName}Resource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_view')")
 	@GetMapping
 	@LogOperate(value = "${functionName}查看")
+	@ApiOperation("${functionNameSimple}查看")
 	public Result getPage(PageModel pm, ${ClassName}QueryCriteria ${className}QueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, ${className}QueryCriteria);
 		return Result.buildOkData(service.page(pm, wrapper));
@@ -84,6 +88,7 @@ public class ${ClassName}Resource extends BaseResource {
 	 */
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_edit')")
 	@LogOperate(value = "${functionName}编辑")
+	@ApiOperation("${functionNameSimple}编辑")
 	@PostMapping
 	public Result save(@Valid @RequestBody ${ClassName}Dto ${className}Dto) {
 		log.debug("REST request to save ${ClassName}Dto : {}", ${className}Dto);
@@ -100,6 +105,7 @@ public class ${ClassName}Resource extends BaseResource {
 	 */
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_del')")
 	@LogOperate(value = "${functionName}删除")
+	@ApiOperation("${functionNameSimple}删除")
 	@DeleteMapping
 	public Result delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete ${ClassName}: {}", ids);
