@@ -38,9 +38,9 @@ import org.springframework.context.ApplicationEvent;
 /**
  * @author somewhere 系统日志事件
  */
-public class SysLogEvent extends ApplicationEvent {
+public class SysLogOperateEvent extends ApplicationEvent {
 
-	public SysLogEvent(LogOperate source) {
+	public SysLogOperateEvent(LogOperate source) {
 		super(source);
 	}
 

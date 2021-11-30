@@ -11,6 +11,7 @@
       <h3 class="title">
         Albedo 快速开发框架
       </h3>
+      <lang-select class="set-language" />
 
       <el-form-item prop="tenant">
         <el-input v-model="loginForm.tenantView" auto-complete="off" placeholder="企业编码" type="text">
@@ -80,9 +81,13 @@
 import commonUtil from '../utils/common'
 import defaultSettings from '@/settings'
 import { Base64 } from 'js-base64'
+import LangSelect from '@/components/LangSelect'
 
 export default {
   name: 'Login',
+  components: {
+    LangSelect
+  },
   data() {
     return {
       codeUrl: '',

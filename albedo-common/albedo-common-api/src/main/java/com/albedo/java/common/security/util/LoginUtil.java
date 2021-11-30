@@ -118,7 +118,7 @@ public class LoginUtil {
 		online.setLastAccessTime(LocalDateTimeUtil.of(session.getLastAccessedTime()));
 		online.setExpireTime((long) session.getMaxInactiveInterval());
 		online.setIpAddress(WebUtil.getIp(request));
-		online.setIpLocation(AddressUtil.getRealAddressByIp(online.getIpAddress()));
+		online.setIpLocation(AddressUtil.getRegion(online.getIpAddress()));
 		online.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
 		UserAgent userAgent = UserAgentUtil.parse(online.getUserAgent());
 		online.setBrowser(userAgent.getBrowser().getName());

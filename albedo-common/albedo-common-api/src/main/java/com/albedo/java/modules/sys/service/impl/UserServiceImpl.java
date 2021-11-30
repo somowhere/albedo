@@ -61,6 +61,7 @@ import com.albedo.java.modules.sys.domain.vo.account.PasswordRestVo;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.modules.sys.service.*;
 import com.albedo.java.modules.sys.util.SysCacheUtil;
+import com.albedo.java.plugins.database.mybatis.conditions.Wraps;
 import com.albedo.java.plugins.database.mybatis.datascope.DataScope;
 import com.albedo.java.plugins.database.mybatis.service.impl.DataServiceImpl;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
@@ -81,6 +82,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -366,6 +368,7 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<User> findListByRoleId(Long roleId) {
 		return repository.findListByRoleId(roleId);
 	}
@@ -401,5 +404,11 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 		}
 		super.saveOrUpdate(user);
 		return userRoleService.initAdmin(user.getId());
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Object todayUserCount() {
+		return count(Wraps.<User>lbQ().leFooter(User::getCreatedDate, LocalDateTime.now()).geHeader(User::getCreatedDate, LocalDateTime.now()));
 	}
 }

@@ -1,5 +1,6 @@
 package com.albedo.java.common.core.context;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,10 +12,10 @@ import java.io.Serializable;
  * @date 2020/11/1 2:10 下午
  */
 @Data
+@Builder
 public class ThreadLocalParam implements Serializable {
 	private Boolean boot;
 	private String tenant;
-	private Long userid;
-	private String name;
-	private String account;
+	private Long userId;
+	private String username;
 }

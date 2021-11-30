@@ -16,12 +16,17 @@
 
 package com.albedo.java.common.core.util;
 
-import cn.hutool.core.net.NetUtil;
-import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
-import com.albedo.java.common.core.config.ApplicationConfig;
+import cn.hutool.core.io.resource.ResourceUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.lionsoul.ip2region.DataBlock;
+import org.lionsoul.ip2region.DbConfig;
+import org.lionsoul.ip2region.DbSearcher;
+import org.lionsoul.ip2region.Util;
+
+import java.io.File;
+import java.io.InputStream;
+import java.lang.reflect.Method;
 
 /**
  * 获取地址类
@@ -31,35 +36,69 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AddressUtil {
 
-	public static final String IP_URL = "http://ip.taobao.com/service/getIpInfo.php";
+	private static final String JAVA_TEMP_DIR = "java.io.tmpdir";
+	private static DbConfig config = null;
+	private static DbSearcher searcher = null;
 
-	public static final String LOCAL_IP = "0:0:0:0:0:0:0:1";
-
-	public static String getRealAddressByIp(String ip) {
-		String address = "XX XX";
-
-		// 内网不查询
-		if (LOCAL_IP.equals(ip) || NetUtil.isInnerIP(ip)) {
-			return "内网IP";
-		}
-		if (ApplicationConfig.isAddressEnabled()) {
-			String rspStr = HttpUtil.post(IP_URL, "ip=" + ip);
-			if (StringUtil.isEmpty(rspStr)) {
-				log.error("获取地理位置异常 {}", ip);
-				return address;
+	static {
+		try {
+			String dbPath = AddressUtil.class.getResource("/ip2region/ip2region.db").getPath();
+			File file = new File(dbPath);
+			if (!file.exists()) {
+				String tmpDir = System.getProperties().getProperty(JAVA_TEMP_DIR);
+				dbPath = tmpDir + "ip2region.db";
+				file = new File(dbPath);
+				String classPath = "classpath*:ip2region/ip2region.db";
+				InputStream resourceAsStream = ResourceUtil.getStreamSafe(classPath);
+				if (resourceAsStream != null) {
+					FileUtil.copyInputStreamToFile(resourceAsStream, file);
+				}
 			}
-			JSONObject obj;
-			try {
-				obj = JSONUtil.parseObj(rspStr);
-				JSONObject data = obj.getJSONObject("data");
-				String region = data.getStr("region");
-				String city = data.getStr("city");
-				address = region + " " + city;
-			} catch (Exception e) {
-				log.error("获取地理位置异常 {}", ip);
-			}
+			config = new DbConfig();
+			searcher = new DbSearcher(config, dbPath);
+			log.info("bean [{}]", config);
+			log.info("bean [{}]", searcher);
+		} catch (Exception e) {
+			log.error("init ip region error", e);
 		}
-		return address;
 	}
+
+	private AddressUtil() {
+	}
+
+	/**
+	 * 解析IP
+	 *
+	 * @param ip ip
+	 * @return 地区
+	 */
+	public static String getRegion(String ip) {
+		try {
+			//db
+			if (searcher == null || StrUtil.isEmpty(ip)) {
+				log.error("DbSearcher is null");
+				return StrUtil.EMPTY;
+			}
+			long startTime = System.currentTimeMillis();
+			//查询算法
+			Method method = searcher.getClass().getMethod("memorySearch", String.class);
+
+			DataBlock dataBlock;
+			if (!Util.isIpAddress(ip)) {
+				log.warn("warning: Invalid ip address");
+			}
+
+			dataBlock = (DataBlock) method.invoke(searcher, ip);
+			String result = dataBlock != null ? dataBlock.getRegion() : StrUtil.EMPTY;
+			long endTime = System.currentTimeMillis();
+			log.debug("region use time[{}] result[{}]", endTime - startTime, result);
+			return result;
+
+		} catch (Exception e) {
+			log.error("根据ip查询地区失败:", e);
+		}
+		return StrUtil.EMPTY;
+	}
+
 
 }

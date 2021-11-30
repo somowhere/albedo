@@ -586,4 +586,44 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
 		return resultSize;
 	}
 
+	public static boolean copyInputStreamToFile(InputStream ins, File descFile) {
+		// 准备复制文件
+		if (ins == null) {
+			return false;
+		}
+		// 读取的位数
+		int readByte = 0;
+		OutputStream outs = null;
+		try {
+			// 打开目标文件的输出流
+			outs = new FileOutputStream(descFile);
+			byte[] buf = new byte[1024];
+			// 一次读取1024个字节，当readByte为-1时表示文件已经读取完毕
+			while ((readByte = ins.read(buf)) != -1) {
+				// 将读取的字节流写入到输出流
+				outs.write(buf, 0, readByte);
+			}
+			return true;
+		} catch (Exception e) {
+			log.debug("复制文件失败：" + e.getMessage());
+			return false;
+		} finally {
+			// 关闭输入输出流，首先关闭输出流，然后再关闭输入流
+			if (outs != null) {
+				try {
+					outs.close();
+				} catch (IOException oute) {
+					oute.printStackTrace();
+				}
+			}
+			if (ins != null) {
+				try {
+					ins.close();
+				} catch (IOException ine) {
+					ine.printStackTrace();
+				}
+			}
+		}
+
+	}
 }

@@ -17,6 +17,9 @@
           <Doc class="right-menu-item hover-effect" />
         </el-tooltip>
 
+        <el-tooltip content="语言设置" effect="dark" placement="bottom">
+          <lang-select class="right-menu-item hover-effect" />
+        </el-tooltip>
         <el-tooltip content="全屏缩放" effect="dark" placement="bottom">
           <screenfull id="screenfull" class="right-menu-item hover-effect" />
         </el-tooltip>
@@ -61,6 +64,7 @@ import Hamburger from '@/components/Hamburger'
 import Doc from '@/components/Doc'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
+import LangSelect from '@/components/LangSelect'
 import Search from '@/components/HeaderSearch'
 import Avatar from '@/assets/images/avatar.png'
 
@@ -70,6 +74,7 @@ export default {
     Hamburger,
     Screenfull,
     SizeSelect,
+    LangSelect,
     Search,
     Doc
   },

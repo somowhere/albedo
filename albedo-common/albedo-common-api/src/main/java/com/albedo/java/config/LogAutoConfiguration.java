@@ -32,10 +32,12 @@
 
 package com.albedo.java.config;
 
-import com.albedo.java.common.event.listener.SysLogListener;
+import com.albedo.java.common.event.listener.SysLogLoginListener;
+import com.albedo.java.common.event.listener.SysLogOperateListener;
 import com.albedo.java.common.log.aspect.RequestLogAspect;
 import com.albedo.java.common.log.aspect.SysLogAspect;
 import com.albedo.java.common.security.event.SysUserOnlineListener;
+import com.albedo.java.modules.sys.service.LogLoginService;
 import com.albedo.java.modules.sys.service.LogOperateService;
 import com.albedo.java.modules.sys.service.UserOnlineService;
 import lombok.AllArgsConstructor;
@@ -57,12 +59,19 @@ import org.springframework.scheduling.annotation.EnableAsync;
 public class LogAutoConfiguration {
 
 	private final LogOperateService logOperateService;
+	
+	private final LogLoginService logLoginService;
 
 	private final UserOnlineService userOnlineService;
 
 	@Bean
-	public SysLogListener sysLogListener() {
-		return new SysLogListener(logOperateService);
+	public SysLogOperateListener sysLogOperateListener() {
+		return new SysLogOperateListener(logOperateService);
+	}
+
+	@Bean
+	public SysLogLoginListener sysLogLoginListener() {
+		return new SysLogLoginListener(logLoginService);
 	}
 
 	@Bean

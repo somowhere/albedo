@@ -45,14 +45,14 @@ import org.springframework.scheduling.annotation.Async;
  */
 @Slf4j
 @AllArgsConstructor
-public class SysLogListener {
+public class SysLogOperateListener {
 
 	private final LogOperateService logOperateService;
 
 	@Async
 	@Order
-	@EventListener(SysLogEvent.class)
-	public void saveSysLog(SysLogEvent event) {
+	@EventListener(SysLogOperateEvent.class)
+	public void saveSysLog(SysLogOperateEvent event) {
 		LogOperate logOperate = (LogOperate) event.getSource();
 		logOperateService.saveOrUpdate(logOperate);
 	}

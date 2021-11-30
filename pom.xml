@@ -49,6 +49,7 @@
 		<oshi.version>5.8.2</oshi.version>
 		<guava.version>31.0.1-jre</guava.version>
 		<protostuff.version>1.7.4</protostuff.version>
+		<ip2region.version>1.7.2</ip2region.version>
 		<transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
 		<minio.version>8.2.2</minio.version>
 		<qcloudsms.version>1.0.6</qcloudsms.version>
@@ -196,6 +197,12 @@
 				<groupId>com.baidubce</groupId>
 				<artifactId>bce-java-sdk</artifactId>
 				<version>${bce-java-sdk.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.lionsoul</groupId>
+				<artifactId>ip2region</artifactId>
+				<version>${ip2region.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

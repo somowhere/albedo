@@ -39,6 +39,7 @@ import cn.hutool.http.useragent.UserAgentUtil;
 import com.albedo.java.common.core.util.AddressUtil;
 import com.albedo.java.common.core.util.RequestHolder;
 import com.albedo.java.common.core.util.WebUtil;
+import com.albedo.java.modules.sys.domain.LogLogin;
 import com.albedo.java.modules.sys.domain.LogOperate;
 import lombok.experimental.UtilityClass;
 import org.springframework.http.HttpHeaders;
@@ -56,20 +57,37 @@ import java.time.LocalDateTime;
 @UtilityClass
 public class SysLogUtils {
 
-	public LogOperate getSysLog() {
+	public LogOperate getSysLogOperate() {
 		HttpServletRequest request = RequestHolder.getHttpServletRequest();
 		LogOperate logOperate = new LogOperate();
 		logOperate.setCreatedBy(getUserId());
 		logOperate.setCreatedDate(LocalDateTime.now());
 		logOperate.setUsername(getUsername());
 		logOperate.setIpAddress(WebUtil.getIp(request));
-		logOperate.setIpLocation(AddressUtil.getRealAddressByIp(logOperate.getIpAddress()));
+		logOperate.setIpLocation(AddressUtil.getRegion(logOperate.getIpAddress()));
 		logOperate.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
 		UserAgent userAgent = UserAgentUtil.parse(logOperate.getUserAgent());
 		logOperate.setBrowser(userAgent.getBrowser().getName());
 		logOperate.setOs(userAgent.getOs().getName());
 		logOperate.setRequestUri(URLUtil.getPath(request.getRequestURI()));
 		return logOperate;
+	}
+
+	public LogLogin getSysLogLogin() {
+		HttpServletRequest request = RequestHolder.getHttpServletRequest();
+		String userAgentStr = request.getHeader(HttpHeaders.USER_AGENT);
+		UserAgent userAgent = UserAgentUtil.parse(userAgentStr);
+		String tempIp = WebUtil.getIp(request);
+		return LogLogin.builder()
+			.ipAddress(tempIp)
+			.ipLocation(AddressUtil.getRegion(tempIp))
+			.username(getUsername())
+			.createdBy(getUserId())
+			.createdDate(LocalDateTime.now())
+			.userAgent(userAgentStr)
+			.browser(userAgent.getBrowser().getName())
+			.os(userAgent.getOs().getName())
+			.requestUri(URLUtil.getPath(request.getRequestURI())).build();
 	}
 
 	/**

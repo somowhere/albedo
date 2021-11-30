@@ -202,4 +202,6 @@ public interface UserService extends DataService<User, UserDto> {
 	 * @return 是否成功
 	 */
 	boolean initUser(User user);
+
+	Object todayUserCount();
 }

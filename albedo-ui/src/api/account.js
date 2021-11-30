@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import { encrypt } from '@/utils/rsaEncrypt'
+import { encrypt } from '@/utils/rsa-encrypt'
 
 const accountService = {
   updatePass(user) {

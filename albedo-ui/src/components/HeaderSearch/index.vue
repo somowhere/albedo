@@ -22,6 +22,7 @@
 // make search results more in line with expectations
 import Fuse from 'fuse.js'
 import path from 'path'
+import i18n from '@/lang'
 
 export default {
   name: 'HeaderSearch',
@@ -111,7 +112,9 @@ export default {
         }
 
         if (router.meta && router.meta.title) {
-          data.title = [...data.title, router.meta.title]
+          const i18ntitle = i18n.t(`${router.meta.title}`)
+
+          data.title = [...data.title, i18ntitle]
 
           if (router.redirect !== 'noRedirect') {
             // only push the routes with title

@@ -62,4 +62,11 @@ public @interface LogOperate {
 	 */
 	boolean isSaveRequestData() default true;
 
+	/**
+	 * 是否拼接Controller类上@Api注解的描述值
+	 *
+	 * @return 是否拼接Controller类上的描述值
+	 */
+	boolean controllerApiValue() default true;
+
 }

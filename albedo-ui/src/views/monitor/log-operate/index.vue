@@ -168,10 +168,10 @@ import commonUtil from '@/utils/common'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'OnlineUser',
+  name: 'LogOperate',
   components: { pagination, crudOperation, udOperation, rrOperation },
   cruds() {
-    return CRUD({ sorts: ['createdDate,desc'], title: '令牌管理', crudMethod: { ...crudLogOperate }})
+    return CRUD({ sorts: ['createdDate,desc'], title: '操作日志', crudMethod: { ...crudLogOperate }})
   },
   mixins: [presenter(), header(), crud()],
   data() {

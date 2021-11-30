@@ -40,7 +40,11 @@ import com.albedo.java.common.core.util.StringUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -56,7 +60,11 @@ import java.time.LocalDateTime;
  * @since 2019/2/1
  */
 @Data
+@Builder
+@Accessors(chain = true)
 @TableName("sys_log_operate")
+@NoArgsConstructor
+@AllArgsConstructor
 public class LogOperate extends BaseEntity<LogOperate> {
 
 	private static final long serialVersionUID = 1L;
@@ -73,7 +81,7 @@ public class LogOperate extends BaseEntity<LogOperate> {
 	/**
 	 * 编号
 	 */
-	@TableId(value = "id", type = IdType.AUTO)
+	@TableId(value = "id", type = IdType.INPUT)
 	private Long id;
 	/**
 	 * 用户ID

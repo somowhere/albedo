@@ -148,7 +148,7 @@ public class PersistentTokenRememberMeService extends AbstractRememberMeServices
 			t.setTokenValue(RandomUtil.generateTokenData());
 			t.setTokenDate(LocalDateTime.now());
 			t.setIpAddress(WebUtil.getIp(request));
-			t.setLoginLocation(AddressUtil.getRealAddressByIp(t.getIpAddress()));
+			t.setLoginLocation(AddressUtil.getRegion(t.getIpAddress()));
 			t.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
 			UserAgent userAgent = UserAgentUtil.parse(t.getUserAgent());
 			t.setBrowser(userAgent.getBrowser().getName());
