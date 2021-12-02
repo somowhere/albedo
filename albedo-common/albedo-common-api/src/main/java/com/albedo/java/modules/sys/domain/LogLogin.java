@@ -167,11 +167,11 @@ public class LogLogin extends BaseEntity<LogLogin> {
 	@ExcelField(title = "操作提交的数据")
 	private String params;
 	/**
-	 * executeTime 执行时间
+	 * loginDate 登录日期
 	 */
-	@TableField("login_time")
-	@ExcelField(title = "执行时间")
-	private LocalDateTime loginTime;
+	@TableField("login_date")
+	@ExcelField(title = "登录时间")
+	private String loginDate;
 
 	@Override
 	public boolean equals(Object o) {

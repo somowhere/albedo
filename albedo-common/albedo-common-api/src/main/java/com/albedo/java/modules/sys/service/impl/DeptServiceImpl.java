@@ -33,7 +33,8 @@
 package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.core.basic.domain.TreeEntity;
-import com.albedo.java.common.core.constant.CacheNameConstants;
+import com.albedo.java.common.core.cache.model.CacheKey;
+import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.CollUtil;
@@ -42,6 +43,7 @@ import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.core.vo.TreeNode;
+import com.albedo.java.modules.sys.cache.DeptCacheKeyBuilder;
 import com.albedo.java.modules.sys.domain.Dept;
 import com.albedo.java.modules.sys.domain.DeptRelation;
 import com.albedo.java.modules.sys.domain.Role;
@@ -55,14 +57,12 @@ import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.modules.sys.service.DeptRelationService;
 import com.albedo.java.modules.sys.service.DeptService;
 import com.albedo.java.modules.sys.util.SysCacheUtil;
-import com.albedo.java.plugins.database.mybatis.service.impl.TreeServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.TreeCacheServiceImpl;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,9 +79,8 @@ import java.util.stream.Collectors;
  * @since 2019/2/1
  */
 @Service
-@CacheConfig(cacheNames = CacheNameConstants.DEPT_DETAILS)
 @AllArgsConstructor
-public class DeptServiceImpl extends TreeServiceImpl<DeptRepository, Dept, DeptDto> implements DeptService {
+public class DeptServiceImpl extends TreeCacheServiceImpl<DeptRepository, Dept, DeptDto> implements DeptService {
 
 	private final DeptRelationService deptRelationService;
 
@@ -172,16 +171,14 @@ public class DeptServiceImpl extends TreeServiceImpl<DeptRepository, Dept, DeptD
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	@Cacheable(key = "'findDescendantIdList:' + #p0")
 	public List<Long> findDescendantIdList(Long deptId) {
-		List<Long> descendantIdList = deptRelationService
+		CacheKey cacheKey = new DeptCacheKeyBuilder().key("findDescendantIdList", deptId);
+		return cacheOps.get(cacheKey, (k) -> deptRelationService
 			.list(Wrappers.<DeptRelation>query().lambda().eq(DeptRelation::getAncestor, deptId)).stream()
-			.map(DeptRelation::getDescendant).collect(Collectors.toList());
-		return descendantIdList;
+			.map(DeptRelation::getDescendant).collect(Collectors.toList()));
 	}
 
 	@Override
-	@Cacheable(key = "'findTreeNode:' + #p0")
 	public <Q> List<TreeNode> findTreeNode(Q queryCriteria) {
 		return super.getNodeTree(repository.selectList(QueryWrapperUtil.<Dept>getWrapper(queryCriteria).lambda()
 			.eq(Dept::getAvailable, CommonConstants.STR_YES).orderByAsc(Dept::getSort)));
@@ -195,4 +192,8 @@ public class DeptServiceImpl extends TreeServiceImpl<DeptRepository, Dept, DeptD
 		return new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(deptVoList)), deptVoList.size());
 	}
 
+	@Override
+	protected CacheKeyBuilder cacheKeyBuilder() {
+		return new DeptCacheKeyBuilder();
+	}
 }

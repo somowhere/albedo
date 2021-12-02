@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * 配置一些 Mybatis 常用重用拦截器
  *
- * @author zuihou
+ * @author somewhere
  * @date 2017-11-18 0:34
  */
 @Configuration

@@ -10,7 +10,7 @@ import com.albedo.java.common.core.constant.CacheKeyBuilderConstants;
  * <p>
  * #sys_log_login
  *
- * @author zuihou
+ * @author somewhere
  * @date 2020/9/20 6:45 下午
  */
 public class LogLoginSystemCacheKeyBuilder implements CacheKeyBuilder {

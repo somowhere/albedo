@@ -14,7 +14,7 @@ export default {
     deleteCache: 'DeleteCache'
   },
   login: {
-    title: 'lamp-cloud',
+    title: 'albedo-cloud',
     logIn: 'Login',
     tenant: 'tenant',
     username: 'Username',
@@ -417,7 +417,7 @@ export default {
     uniqueOpened: 'unique Opened'
   },
   system: {
-    title: 'lamp-cloud'
+    title: 'albedo-cloud'
   },
   tips: {
     readonly: 'Readonly Data, Inoperable',
@@ -437,7 +437,7 @@ export default {
     confirmDelete: 'The selected data will be permanently deleted, continue?',
     confirmDeleteCache: 'Whether to clear the user permission cache immediately?',
     containCurrentUser: 'The operation has been canceled because it contains the currently logged in user',
-    neverLogin: 'Never logged in to the lamp-web system',
+    neverLogin: 'Never logged in to the albedo-web system',
     nothing: 'Nothing',
     topId: 'A value of 0 indicates a top-level node',
     choose: 'Select: ',
@@ -445,7 +445,7 @@ export default {
     onlyChooseOne: 'Only one node can be selected as the parent node',
     noNodeSelected: 'Please select a node first',
     confirmDeleteNode: 'The selected node and its child nodes will be permanently deleted. Continue?',
-    iframeGrant: 'Userame: lamp Password: lamp',
+    iframeGrant: 'Userame: albedo Password: 111111',
     notEqual: 'Inconsistent values entered twice',
     oldPasswordIncorrect: 'Old password incorrect',
     uploadSuccess: 'Upload Successfully',

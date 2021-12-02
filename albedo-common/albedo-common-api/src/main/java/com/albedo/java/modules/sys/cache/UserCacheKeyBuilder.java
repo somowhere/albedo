@@ -1,22 +1,23 @@
 package com.albedo.java.modules.sys.cache;
 
-
 import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.common.core.constant.CacheKeyBuilderConstants;
 
+import java.time.Duration;
+
 /**
- * 参数 KEY
- * {tenant}:LOGIN_LOG_BROWSER -> long
- * <p>
- * #sys_log_login
- *
  * @author somewhere
- * @date 2020/9/20 6:45 下午
+ * @date 2021/10/21 11:25 上午
  */
-public class LogLoginBrowserCacheKeyBuilder implements CacheKeyBuilder {
+public class UserCacheKeyBuilder implements CacheKeyBuilder {
 	@Override
 	public String getPrefix() {
-		return CacheKeyBuilderConstants.LOGIN_LOG_BROWSER;
+		return CacheKeyBuilderConstants.USER;
 	}
 
+	@Override
+	public Duration getExpire() {
+		return Duration.ofHours(12);
+	}
 }
+

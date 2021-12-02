@@ -2,6 +2,7 @@ logging:
   level:
     ROOT: INFO
     com.albedo.java: ${logback.loglevel}
+    com.albedo.java.plugins.database.plugins: INFO
 server:
   port: 8061
   servlet:

@@ -40,7 +40,6 @@ import cn.hutool.extra.template.Template;
 import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
-import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.ArgumentException;
 import com.albedo.java.common.core.util.EncryptUtil;
@@ -51,9 +50,6 @@ import com.albedo.java.modules.tool.repository.EmailConfigRepository;
 import com.albedo.java.modules.tool.service.EmailService;
 import com.albedo.java.plugins.database.mybatis.service.impl.BaseServiceImpl;
 import lombok.AllArgsConstructor;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,14 +61,12 @@ import java.util.concurrent.TimeUnit;
  * @since 2019/2/1
  */
 @Service
-@CacheConfig(cacheNames = CacheNameConstants.EMAIL_DETAILS)
 @AllArgsConstructor
 public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, EmailConfig> implements EmailService {
 
 	private final EmailConfigRepository emailRepository;
 
 	@Override
-	@CachePut(key = "'id:1'")
 	@Transactional(rollbackFor = Exception.class)
 	public EmailConfig config(EmailConfig emailConfig, EmailConfig old) throws Exception {
 		emailConfig.setId(1L);
@@ -85,7 +79,6 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, Ema
 	}
 
 	@Override
-	@Cacheable(key = "'id:1'")
 	public EmailConfig find() {
 		EmailConfig emailConfig = emailRepository.selectById(1L);
 		return emailConfig == null ? new EmailConfig() : emailConfig;

@@ -32,9 +32,9 @@
 
 package com.albedo.java.modules.sys.service.impl;
 
-import com.albedo.java.common.core.annotation.BaseInterface;
 import com.albedo.java.common.core.basic.domain.TreeEntity;
-import com.albedo.java.common.core.constant.CacheNameConstants;
+import com.albedo.java.common.core.cache.model.CacheKey;
+import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.exception.EntityExistException;
@@ -45,6 +45,7 @@ import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.core.vo.SelectVo;
 import com.albedo.java.common.core.vo.TreeNode;
+import com.albedo.java.modules.sys.cache.DictCacheKeyBuilder;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.domain.dto.DictDto;
 import com.albedo.java.modules.sys.domain.dto.DictQueryCriteria;
@@ -52,17 +53,12 @@ import com.albedo.java.modules.sys.domain.vo.DictVo;
 import com.albedo.java.modules.sys.repository.DictRepository;
 import com.albedo.java.modules.sys.service.DictService;
 import com.albedo.java.modules.sys.util.DictUtil;
-import com.albedo.java.plugins.database.mybatis.service.impl.TreeServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.TreeCacheServiceImpl;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -82,21 +78,11 @@ import java.util.stream.Collectors;
  * @since 2019/2/1
  */
 @Service
-@CacheConfig(cacheNames = CacheNameConstants.DICT_DETAILS)
 @AllArgsConstructor
-public class DictServiceImpl extends TreeServiceImpl<DictRepository, Dict, DictDto>
-	implements DictService, BaseInterface {
+public class DictServiceImpl extends TreeCacheServiceImpl<DictRepository, Dict, DictDto>
+	implements DictService {
+	public final String CACHE_FIND_CODES="findCodes";
 
-	private final CacheManager cacheManager;
-
-	@Override
-	public void init() {
-		Cache cache = cacheManager.getCache(CacheNameConstants.DICT_DETAILS);
-		List<Dict> dictList = findAllOrderBySort();
-		if (ObjectUtil.isNotEmpty(dictList)) {
-			cache.put(CacheNameConstants.DICT_ALL, dictList);
-		}
-	}
 
 	@Override
 	public List<Dict> findAllOrderBySort() {
@@ -109,31 +95,25 @@ public class DictServiceImpl extends TreeServiceImpl<DictRepository, Dict, DictD
 	}
 
 	@Override
-	@CacheEvict(allEntries = true)
 	public void saveOrUpdate(DictDto dictDto) {
 		// code before comparing with database
 		if (exitUserByCode(dictDto)) {
 			throw new EntityExistException(DictDto.class, "code", dictDto.getCode());
 		}
-
 		super.saveOrUpdate(dictDto);
+		cacheOps.del(new DictCacheKeyBuilder().key(CACHE_FIND_CODES));
 	}
 
 	@Override
-	@Cacheable(key = "'findCodes:' + #p0")
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public Map<String, List<SelectVo>> findCodes(String codes) {
-		List<Dict> dictList = findAllOrderBySort();
-
-		Map<String, List<SelectVo>> dataMap = codes != null ?
-			DictUtil.convertSelectVoMapByCodes(dictList, codes.split(StringUtil.SPLIT_DEFAULT))
-			: DictUtil.convertSelectVoMapByCodes(dictList);
-
-		return dataMap;
+		CacheKey cacheKey = new DictCacheKeyBuilder().key(CACHE_FIND_CODES, codes);
+		return cacheOps.get(cacheKey, (k) -> codes != null ?
+			DictUtil.convertSelectVoMapByCodes(findAllOrderBySort(), codes.split(StringUtil.SPLIT_DEFAULT))
+			: DictUtil.convertSelectVoMapByCodes(findAllOrderBySort()));
 	}
 
 	@Override
-	@Cacheable(key = "'findTreeNode:' + #p0")
 	public <Q> List<TreeNode> findTreeNode(Q queryCriteria) {
 		return super.findTreeNode(queryCriteria);
 	}
@@ -147,7 +127,6 @@ public class DictServiceImpl extends TreeServiceImpl<DictRepository, Dict, DictD
 	}
 
 	@Override
-	@CacheEvict(allEntries = true)
 	public void lockOrUnLock(Set<Long> ids) {
 		List<Dict> dictList = Lists.newArrayList();
 		repository.selectBatchIds(ids).forEach(dict -> {
@@ -161,7 +140,11 @@ public class DictServiceImpl extends TreeServiceImpl<DictRepository, Dict, DictD
 	}
 
 	@Override
-	@CacheEvict(allEntries = true)
+	protected CacheKeyBuilder cacheKeyBuilder() {
+		return new DictCacheKeyBuilder();
+	}
+
+	@Override
 	public boolean removeByIds(Collection<? extends Serializable> ids) {
 		ids.forEach(id -> {
 			// 查询父节点为当前节点的节点
@@ -170,7 +153,9 @@ public class DictServiceImpl extends TreeServiceImpl<DictRepository, Dict, DictD
 				throw new BizException("字典含有下级不能删除");
 			}
 		});
-		return super.removeByIds(ids);
+		boolean b = super.removeByIds(ids);
+		cacheOps.del(new DictCacheKeyBuilder().key(CACHE_FIND_CODES));
+		return b;
 	}
 
 }

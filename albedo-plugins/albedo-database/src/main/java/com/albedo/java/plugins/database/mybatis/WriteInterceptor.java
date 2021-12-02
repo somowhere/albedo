@@ -45,7 +45,7 @@ public class WriteInterceptor implements Interceptor {
 		if (SpringContextHolder.getApplicationContext() == null) {
 			return invocation.proceed();
 		}
-		if (!SpringContextHolder.getApplicationContext().getEnvironment().getProperty("lamp.database.isNotWrite", Boolean.class, false)) {
+		if (!SpringContextHolder.getApplicationContext().getEnvironment().getProperty("application.database.isNotWrite", Boolean.class, false)) {
 			return invocation.proceed();
 		}
 
@@ -76,7 +76,7 @@ public class WriteInterceptor implements Interceptor {
 		boolean isAuthority = StrUtil.containsAnyIgnoreCase(mappedStatement.getId(), "Tenant", "GlobalUser", "User", "Menu", "Resource", "Role", "Dictionary", "Parameter", "Application");
 		boolean isWrite = CollectionUtil.contains(Arrays.asList(DELETE, UPDATE, INSERT), mappedStatement.getSqlCommandType());
 		if ("0000".equals(tenant) && isWrite && isAuthority) {
-			throw new BizException(-1, "演示环境禁止修改、删除重要数据！请登录租户【0000】，账号【lamp_pt】创建其他租户管理员账号后测试全部功能");
+			throw new BizException(-1, "演示环境禁止修改、删除重要数据！请登录租户【0000】，账号【manage】创建其他租户管理员账号后测试全部功能");
 		}
 
 		// 你还可以自定义其他限制规则， 比如：IP 等

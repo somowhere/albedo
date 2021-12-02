@@ -16,18 +16,18 @@
 
 package com.albedo.java.modules.sys.util;
 
-import com.albedo.java.common.core.constant.CacheNameConstants;
+import com.albedo.java.common.core.cache.model.CacheKey;
 import com.albedo.java.common.core.util.SpringContextHolder;
-import com.albedo.java.common.util.RedisUtil;
-import com.albedo.java.modules.sys.domain.Role;
+import com.albedo.java.modules.sys.cache.DeptCacheKeyBuilder;
+import com.albedo.java.modules.sys.cache.MenuCacheKeyBuilder;
+import com.albedo.java.modules.sys.cache.RoleCacheKeyBuilder;
+import com.albedo.java.modules.sys.cache.UserCacheKeyBuilder;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
+import com.albedo.java.plugins.cache.repository.CacheOps;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author somewhere
@@ -41,6 +41,9 @@ public class SysCacheUtil {
 
 	public static RoleRepository roleRepository = SpringContextHolder.getBean(RoleRepository.class);
 
+
+	public static CacheOps cacheOps = SpringContextHolder.getBean("cacheOps");
+
 	/**
 	 * 清理用户缓存
 	 *
@@ -48,9 +51,9 @@ public class SysCacheUtil {
 	 * @param username /
 	 */
 	public static void delBaseUserCaches(Long userId, String username) {
-		RedisUtil.delete(CacheNameConstants.USER_DETAILS + ":findVoByUsername:" + username);
-		RedisUtil.delete(CacheNameConstants.USER_DETAILS + ":findUserVoById:" + userId);
-		RedisUtil.delete(CacheNameConstants.USER_DETAILS + ":findDtoById:" + userId);
+		cacheOps.del(new UserCacheKeyBuilder().key(username));
+		cacheOps.del(new UserCacheKeyBuilder().key("findUserVoById", userId));
+		cacheOps.del(new UserCacheKeyBuilder().key("findDtoById", userId));
 	}
 
 	/**
@@ -61,8 +64,8 @@ public class SysCacheUtil {
 	 */
 	public static void delUserCaches(Long userId, String username) {
 		delBaseUserCaches(userId, username);
-		RedisUtil.delete(CacheNameConstants.ROLE_DETAILS + ":findListByUserId:" + userId);
-		RedisUtil.delete(CacheNameConstants.MENU_DETAILS + ":findTreeByUserId:" + userId);
+		cacheOps.del(new RoleCacheKeyBuilder().key("findListByUserId", userId));
+		cacheOps.del(new MenuCacheKeyBuilder().key("findTreeByUserId", userId));
 	}
 
 	/**
@@ -71,8 +74,8 @@ public class SysCacheUtil {
 	 * @param roleId /
 	 */
 	public static void delRoleCaches(Long roleId) {
-		RedisUtil.delete(CacheNameConstants.ROLE_DETAILS + ":findDeptIdsByRoleId:" + roleId);
-		RedisUtil.delete(CacheNameConstants.MENU_DETAILS + ":findListByRoleId:" + roleId);
+		cacheOps.del(new RoleCacheKeyBuilder().key("findDeptIdsByRoleId", roleId));
+		cacheOps.del(new MenuCacheKeyBuilder().key("findListByRoleId", roleId));
 		userRepository.findListByRoleId(roleId).forEach(user -> {
 			delUserCaches(user.getId(), user.getUsername());
 		});
@@ -85,25 +88,18 @@ public class SysCacheUtil {
 	 * @param menuId /
 	 */
 	public static void delMenuCaches(Long menuId) {
-		Set<Long> roleIds = roleRepository.findListByMenuId(menuId).stream().map(Role::getId)
-			.collect(Collectors.toSet());
-		RedisUtil.deleteLike(CacheNameConstants.MENU_DETAILS + ":findListByRoleId:", roleIds);
-		Set<Long> userIds = userRepository.findListByMenuId(menuId).stream().map(User::getId)
-			.collect(Collectors.toSet());
-		RedisUtil.deleteLike(CacheNameConstants.MENU_DETAILS + ":findTreeByUserId:", userIds);
+		cacheOps.del(roleRepository.findListByMenuId(menuId).stream().map(k -> new MenuCacheKeyBuilder().key("findListByRoleId", k.getId())).toArray(CacheKey[]::new));
+		cacheOps.del(userRepository.findListByMenuId(menuId).stream().map(k -> new MenuCacheKeyBuilder().key("findTreeByUserId", k.getId())).toArray(CacheKey[]::new));
 	}
 
 	/**
-	 * 清理字典缓存
+	 * 清理部门缓存
 	 *
 	 * @param deptId /
 	 */
 	public static void delDeptCaches(Long deptId) {
-		RedisUtil.deleteLike(CacheNameConstants.DEPT_DETAILS + ":findTreeNode*");
-		RedisUtil.delete(CacheNameConstants.DEPT_DETAILS + ":findDescendantIdList:" + deptId);
-		Set<Long> roleIds = roleRepository.findListByDeptId(deptId).stream().map(Role::getId)
-			.collect(Collectors.toSet());
-		RedisUtil.deleteLike(CacheNameConstants.ROLE_DETAILS + ":findDeptIdsByRoleId:", roleIds);
+		cacheOps.del(new DeptCacheKeyBuilder().key("findDescendantIdList", deptId));
+		cacheOps.del(roleRepository.findListByDeptId(deptId).stream().map(k -> new RoleCacheKeyBuilder().key("findDeptIdsByRoleId", k.getId())).toArray(CacheKey[]::new));
 		userRepository.selectList(Wrappers.<User>lambdaQuery().eq(User::getDeptId, deptId)).forEach(user -> {
 			delUserCaches(user.getId(), user.getUsername());
 		});

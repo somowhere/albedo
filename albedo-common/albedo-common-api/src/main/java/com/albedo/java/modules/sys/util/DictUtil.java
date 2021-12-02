@@ -23,13 +23,13 @@ import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.enumeration.BaseEnum;
 import com.albedo.java.common.core.util.*;
 import com.albedo.java.common.core.vo.SelectVo;
+import com.albedo.java.modules.sys.cache.DictCacheKeyBuilder;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.service.DictService;
+import com.albedo.java.plugins.cache.repository.CacheOps;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -46,25 +46,13 @@ import java.util.stream.Collectors;
 @Slf4j
 public class DictUtil {
 
-	public static CacheManager cacheManager = SpringContextHolder.getBean(CacheManager.class);
+
+	public static CacheOps cacheOps = SpringContextHolder.getBean("cacheOps");
 
 	public static DictService dictService = SpringContextHolder.getBean(DictService.class);
 
 	public static List<Dict> getDictList() {
-		Cache cache = cacheManager.getCache(CacheNameConstants.DICT_DETAILS);
-		if (cache != null && cache.get(CacheNameConstants.DICT_ALL) != null) {
-			return (List<Dict>) cache.get(CacheNameConstants.DICT_ALL).get();
-		}
-		try {
-			List<Dict> dictList = dictService.findAllOrderBySort();
-			if (ObjectUtil.isNotEmpty(dictList)) {
-				cache.put(CacheNameConstants.DICT_ALL, dictList);
-				return dictList;
-			}
-		} catch (Exception e) {
-			log.warn("{}", e);
-		}
-		return null;
+		return cacheOps.get(new DictCacheKeyBuilder().key(CacheNameConstants.DICT_ALL), (k) -> dictService.findAllOrderBySort());
 	}
 
 	public static List<Dict> getDictListByParentCode(String code) {

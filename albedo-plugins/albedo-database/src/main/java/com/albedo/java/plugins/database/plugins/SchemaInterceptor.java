@@ -34,7 +34,7 @@ public class SchemaInterceptor implements InnerInterceptor {
 	}
 
 	protected String changeTable(String sql) {
-		// 想要 执行sql时， 不切换到 lamp_base_{TENANT} 库, 请直接返回null
+		// 想要 执行sql时， 不切换到 albedo_base_{TENANT} 库, 请直接返回null
 		String tenantCode = ContextUtil.getTenant();
 		if (StrUtil.isEmpty(tenantCode)) {
 			return sql;

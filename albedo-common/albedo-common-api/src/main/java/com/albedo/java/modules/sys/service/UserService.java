@@ -43,7 +43,7 @@ import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.albedo.java.modules.sys.domain.vo.account.PasswordChangeVo;
 import com.albedo.java.modules.sys.domain.vo.account.PasswordRestVo;
 import com.albedo.java.plugins.database.mybatis.datascope.DataScope;
-import com.albedo.java.plugins.database.mybatis.service.DataService;
+import com.albedo.java.plugins.database.mybatis.service.DataCacheService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
@@ -53,7 +53,7 @@ import java.util.Set;
  * @author somewhere
  * @date 2019/2/1
  */
-public interface UserService extends DataService<User, UserDto> {
+public interface UserService extends DataCacheService<User, UserDto> {
 
 	/**
 	 * 查询用户信息

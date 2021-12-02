@@ -34,7 +34,7 @@ package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.dto.RoleDto;
-import com.albedo.java.plugins.database.mybatis.service.DataService;
+import com.albedo.java.plugins.database.mybatis.service.DataCacheService;
 
 import java.io.Serializable;
 import java.util.List;
@@ -48,7 +48,7 @@ import java.util.Set;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface RoleService extends DataService<Role, RoleDto> {
+public interface RoleService extends DataCacheService<Role, RoleDto> {
 
 	/**
 	 * 通过用户ID，查询角色信息
@@ -62,7 +62,7 @@ public interface RoleService extends DataService<Role, RoleDto> {
 	 * findDeptIdsByRoleId
 	 *
 	 * @param roleId
-	 * @return java.util.List<java.lang.String>
+	 * @return java.util.List<java.lang.Long>
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:34
 	 */

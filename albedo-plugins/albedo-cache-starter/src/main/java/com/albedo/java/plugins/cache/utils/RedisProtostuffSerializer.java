@@ -39,6 +39,7 @@ public class RedisProtostuffSerializer implements RedisSerializer<Object> {
 		if (t == null) {
 			return new byte[0];
 		}
+		buffer.clear();
 		wrapper.data = t;
 		try {
 			return ProtostuffIOUtil.toByteArray(wrapper, schema, buffer);
@@ -69,7 +70,9 @@ public class RedisProtostuffSerializer implements RedisSerializer<Object> {
 		return (data == null || data.length == 0);
 	}
 
-	// Protostuff 无法直接序列化集合类对象，需要包装类包一下
+	/**
+	 * Protostuff 无法直接序列化集合类对象，需要包装类包一下
+	 */
 	private static class ProtoWrapper {
 		public Object data;
 	}

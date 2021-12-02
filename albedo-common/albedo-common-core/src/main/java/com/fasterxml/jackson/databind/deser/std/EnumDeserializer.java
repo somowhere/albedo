@@ -36,7 +36,7 @@ import java.util.Objects;
  * 本类跟jackson-databind包中的EnumDeserializer类同包名，利用类加载机制，会加载此类，不会加载到jackson-databind中的类
  * 参考 BasicDeserializerFactory#1495 行代码
  *
- * @author zuihou
+ * @author somewhere
  * @version 3.2.1
  */
 @SuppressWarnings("ALL")
@@ -194,7 +194,7 @@ public class EnumDeserializer
 			return _fromString(p, ctxt, p.getText());
 		}
 
-		// zuihou 新增的代码！ 支持前端传递对象 {"code": "xx"}
+		// somewhere 新增的代码！ 支持前端传递对象 {"code": "xx"}
 		if (curr == JsonToken.START_OBJECT) {
 			CompactStringObjectMap lookup = ctxt.isEnabled(DeserializationFeature.READ_ENUMS_USING_TO_STRING)
 				? _getToStringLookup(ctxt) : _lookupByName;
@@ -229,7 +229,7 @@ public class EnumDeserializer
 		throws IOException {
 		CompactStringObjectMap lookup = ctxt.isEnabled(DeserializationFeature.READ_ENUMS_USING_TO_STRING)
 			? _getToStringLookup(ctxt) : _lookupByName;
-		// zuihou 增强
+		// somewhere 增强
 		if (StrUtil.isBlank(text) || StrPool.NULL.equals(text)) {
 			return null;
 		}

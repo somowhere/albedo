@@ -224,9 +224,6 @@
               label="技术栈"
               name="second"
             >
-              <!--              <div class="project-header">-->
-              <!--                <el-link href="https://www.kancloud.cn/zuihou/lamp-cloud" style="float: right;" target="_blank" type="primary">{{ $t('common.docDetails') }}</el-link>-->
-              <!--              </div>-->
               <table>
                 <template v-for="(project, index) in projects">
                   <tr
@@ -315,7 +312,7 @@ export default {
   components: { countTo },
   filters: {
     userAvatarFilter(name) {
-      return name.charAt(0)
+      return name && name.charAt(0)
     }
   },
   mixins: [resize],
@@ -533,7 +530,7 @@ export default {
       const legend_data = []
       const series_data = []
       data.forEach(item => {
-        const browser = item.operating_system || '未知'
+        const browser = item.os || '未知'
         series_data.push({ value: item.count, name: browser })
         legend_data.push(browser)
       })

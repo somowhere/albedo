@@ -17,6 +17,7 @@
 package com.albedo.java.common.security.component.session;
 
 import com.albedo.java.common.core.config.ApplicationProperties;
+import com.albedo.java.common.core.context.ContextUtil;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.security.event.SysUserOnlineEvent;
 import com.albedo.java.common.security.event.SysUserOnlineRefreshLastRequestEvent;
@@ -48,9 +49,9 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @AllArgsConstructor
 public class RedisSessionRegistry implements SessionRegistry, ApplicationListener<SessionDestroyedEvent> {
 
-	public static final String SESSIONIDS = "sessionIds";
+	public static final String SESSIONIDS = ":sessionIds";
 
-	public static final String PRINCIPALS = "principals";
+	public static final String PRINCIPALS = ":principals";
 
 	private final ApplicationProperties applicationProperties;
 
@@ -63,7 +64,7 @@ public class RedisSessionRegistry implements SessionRegistry, ApplicationListene
 
 	@Override
 	public List<Object> getAllPrincipals() {
-		return new ArrayList<>(redisTemplate.boundHashOps(PRINCIPALS).keys());
+		return new ArrayList<>(redisTemplate.boundHashOps(getSessionIdsKey()).keys());
 	}
 
 	@Override
@@ -95,7 +96,7 @@ public class RedisSessionRegistry implements SessionRegistry, ApplicationListene
 	public SessionInformation getSessionInformation(String sessionId) {
 		Assert.hasText(sessionId, "SessionId required as per interface contract");
 
-		return (SessionInformation) redisTemplate.boundHashOps(SESSIONIDS).get(sessionId);
+		return (SessionInformation) redisTemplate.boundHashOps(getSessionIdsKey()).get(sessionId);
 	}
 
 	@Override
@@ -135,7 +136,7 @@ public class RedisSessionRegistry implements SessionRegistry, ApplicationListene
 			removeSessionInformation(sessionId);
 		}
 		SessionInformation sessionInformation = new CustomSessionInformation(userDetail.getId(), sessionId, new Date());
-		redisTemplate.boundHashOps(SESSIONIDS).put(sessionId, sessionInformation);
+		redisTemplate.boundHashOps(getSessionIdsKey()).put(sessionId, sessionInformation);
 
 		Set<String> sessionsUsedByPrincipal = getPrincipals(userDetail.getId());
 		if (sessionsUsedByPrincipal == null) {
@@ -168,7 +169,7 @@ public class RedisSessionRegistry implements SessionRegistry, ApplicationListene
 		try {
 			info = getSessionInformation(sessionId);
 		} catch (Exception e) {
-			redisTemplate.boundHashOps(SESSIONIDS).delete(sessionId);
+			redisTemplate.boundHashOps(getSessionIdsKey()).delete(sessionId);
 		}
 		if (info == null) {
 			return;
@@ -177,7 +178,7 @@ public class RedisSessionRegistry implements SessionRegistry, ApplicationListene
 			log.debug("Removing session " + sessionId + " from set of registered sessions");
 		}
 
-		redisTemplate.boundHashOps(SESSIONIDS).delete(sessionId);
+		redisTemplate.boundHashOps(getSessionIdsKey()).delete(sessionId);
 
 		Set<String> sessionsUsedByPrincipal = getPrincipals(info.getPrincipal());
 
@@ -207,17 +208,24 @@ public class RedisSessionRegistry implements SessionRegistry, ApplicationListene
 
 	public Set<String> putIfAbsentPrincipals(Object principal, final Set<String> set) {
 		String id = String.valueOf(principal);
-		BoundHashOperations<String, String, Set<String>> hashOperations = redisTemplate.boundHashOps(PRINCIPALS);
+		BoundHashOperations<String, String, Set<String>> hashOperations = redisTemplate.boundHashOps(getSessionIdsKey());
 		hashOperations.putIfAbsent(id, set);
 		return hashOperations.get(id);
 	}
 
 	public Set<String> getPrincipals(Object principal) {
-		return (Set<String>) redisTemplate.boundHashOps(PRINCIPALS).get(String.valueOf(principal));
+		return (Set<String>) redisTemplate.boundHashOps(getSessionIdsKey()).get(String.valueOf(principal));
 	}
 
 	public void removePrincipal(Object principal) {
-		redisTemplate.boundHashOps(PRINCIPALS).delete(String.valueOf(principal));
+		redisTemplate.boundHashOps(getSessionIdsKey()).delete(String.valueOf(principal));
 	}
 
+	private String getSessionIdsKey() {
+		return ContextUtil.getTenant() + SESSIONIDS;
+	}
+
+	private String getPrincipalsKey() {
+		return ContextUtil.getTenant() + PRINCIPALS;
+	}
 }

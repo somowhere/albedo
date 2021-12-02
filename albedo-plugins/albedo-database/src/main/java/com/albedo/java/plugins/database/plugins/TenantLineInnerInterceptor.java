@@ -25,7 +25,6 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -43,7 +42,7 @@ public class TenantLineInnerInterceptor extends JsqlParserSupport implements Inn
 	private TenantLineHandler tenantLineHandler;
 
 	@Override
-	public void beforeQuery(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) throws SQLException {
+	public void beforeQuery(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
 		if (InterceptorIgnoreHelper.willIgnoreTenantLine(ms.getId()) || tenantLineHandler.ignoreMapId(ms.getId())) {
 			return;
 		}

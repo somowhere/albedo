@@ -116,8 +116,8 @@ application:
       access-key-secret: "填写你的秘钥"
     minIo:
       endpoint: "http://127.0.0.1:9000/"
-      accessKey: "lamp"
-      secretKey: "lamp"
+      accessKey: "aledo"
+      secretKey: "aledo"
       bucket: "dev"
     huawei:
       uriPrefix: "dev.obs.cn-southwest-2.myhuaweicloud.com"

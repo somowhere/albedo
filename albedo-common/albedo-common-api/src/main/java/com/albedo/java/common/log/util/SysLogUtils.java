@@ -32,6 +32,8 @@
 
 package com.albedo.java.common.log.util;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.http.useragent.UserAgent;
@@ -84,6 +86,7 @@ public class SysLogUtils {
 			.username(getUsername())
 			.createdBy(getUserId())
 			.createdDate(LocalDateTime.now())
+			.loginDate(LocalDateTimeUtil.format(LocalDateTime.now(), DatePattern.NORM_DATE_FORMATTER))
 			.userAgent(userAgentStr)
 			.browser(userAgent.getBrowser().getName())
 			.os(userAgent.getOs().getName())

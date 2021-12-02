@@ -198,7 +198,7 @@ public abstract class BaseMybatisConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean
-	@ConditionalOnExpression("'DEFAULT'.equals('${lamp.database.id-type:DEFAULT}') || 'CACHE'.equals('${lamp.database.id-type:DEFAULT}')")
+	@ConditionalOnExpression("'DEFAULT'.equals('${application.database.id-type:DEFAULT}') || 'CACHE'.equals('${application.database.id-type:DEFAULT}')")
 	public DisposableWorkerIdAssigner disposableWorkerIdAssigner(WorkerNodeDao workerNodeDao) {
 		return new DisposableWorkerIdAssigner(workerNodeDao);
 	}

@@ -32,7 +32,6 @@
 
 package com.albedo.java.modules.tool.service.impl;
 
-import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.modules.tool.domain.AlipayConfig;
 import com.albedo.java.modules.tool.domain.vo.TradeVo;
@@ -44,9 +43,6 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import lombok.AllArgsConstructor;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,21 +51,18 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 2019/2/1
  */
 @Service
-@CacheConfig(cacheNames = CacheNameConstants.ALIPAY_DETAILS)
 @AllArgsConstructor
 public class AliPayServiceImpl extends BaseServiceImpl<AliPayConfigRepository, AlipayConfig> implements AliPayService {
 
 	private final AliPayConfigRepository alipayRepository;
 
 	@Override
-	@Cacheable(key = "'id:1'")
 	public AlipayConfig find() {
 		AlipayConfig alipayConfig = alipayRepository.selectById(1L);
 		return alipayConfig == null ? new AlipayConfig() : alipayConfig;
 	}
 
 	@Override
-	@CachePut(key = "'id:1'")
 	@Transactional(rollbackFor = Exception.class)
 	public AlipayConfig config(AlipayConfig alipayConfig) {
 		alipayConfig.setId(1L);

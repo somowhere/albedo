@@ -87,11 +87,8 @@ public interface CacheKeyBuilderConstants {
 	 * 完整key: user_menu:{userId} -> [MENU_ID, MENU_ID, ...]
 	 */
 	String USER_MENU = "user_menu";
-	/**
-	 * 用户拥有的资源 前缀
-	 * 完整key: user_resource:{userId} -> [RESOURCE_ID, ...]
-	 */
-	String USER_RESOURCE = "user_resource";
+
+	String DEPT = "dept";
 
 
 	/**
@@ -165,7 +162,7 @@ public interface CacheKeyBuilderConstants {
 	 * 字典项 前缀
 	 * 完整key: dictionary:{id} -> obj
 	 */
-	String DICTIONARY = "dictionary";
+	String DICT = "dict";
 	/**
 	 * 字典类型 前缀
 	 * 完整key:  {tenant}:dictionary_type:{type}

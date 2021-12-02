@@ -9,7 +9,7 @@ import com.albedo.java.common.core.constant.CacheKeyBuilderConstants;
  * 参数 KEY
  * {tenant}:TOTAL_PV -> long
  *
- * @author zuihou
+ * @author somewhere
  * @date 2020/9/20 6:45 下午
  */
 public class TotalPvCacheKeyBuilder implements CacheKeyBuilder {

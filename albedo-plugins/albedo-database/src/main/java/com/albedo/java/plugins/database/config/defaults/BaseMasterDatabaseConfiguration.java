@@ -38,7 +38,7 @@ import java.util.List;
  * <p>
  * 1. 本类的子类的 @MapperScan(basePackages = {"top.tangyh.basic"}) 修改为  @MapperScan(basePackages = {"top.tangyh.basic.product.dao"})
  * 2. 修改本类的子类的 @ConfigurationProperties(prefix = "spring.datasource.druid") 为 @ConfigurationProperties(prefix = "spring.datasource.druid.master")
- * 3. 在lamp-xxx-server层复制该类，重命名为 SlaveDatabaseAutoConfiguration （跟AuthorityDatabaseAutoConfiguration放一起）
+ * 3. 在层复制该类，重命名为 SlaveDatabaseAutoConfiguration （跟AuthorityDatabaseAutoConfiguration放一起）
  * 4. 修改 DATABASE_PREFIX 为 slave  (任意命名，不要跟当前的重复即可)
  * 5. 修改 @ConfigurationProperties(prefix = "spring.datasource.druid") 为 @ConfigurationProperties(prefix = "spring.datasource.druid.slave")
  * 6. SlaveDatabaseAutoConfiguration 中的 basePackages = {"top.tangyh.basic"}, 修改为  basePackages = {"top.tangyh.basic.order.dao"} # 这个路径根据你的情况修改

@@ -33,7 +33,8 @@
 package com.albedo.java.modules.sys.service.impl;
 
 import cn.hutool.core.util.CharUtil;
-import com.albedo.java.common.core.constant.CacheNameConstants;
+import com.albedo.java.common.core.cache.model.CacheKey;
+import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.exception.EntityExistException;
@@ -41,6 +42,7 @@ import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.tree.TreeUtil;
+import com.albedo.java.modules.sys.cache.MenuCacheKeyBuilder;
 import com.albedo.java.modules.sys.domain.Menu;
 import com.albedo.java.modules.sys.domain.RoleMenu;
 import com.albedo.java.modules.sys.domain.dto.GenSchemeDto;
@@ -53,12 +55,10 @@ import com.albedo.java.modules.sys.repository.RoleMenuRepository;
 import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.service.MenuService;
 import com.albedo.java.modules.sys.util.SysCacheUtil;
-import com.albedo.java.plugins.database.mybatis.service.impl.TreeServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.TreeCacheServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -79,23 +79,25 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-@CacheConfig(cacheNames = CacheNameConstants.MENU_DETAILS)
-public class MenuServiceImpl extends TreeServiceImpl<MenuRepository, Menu, MenuDto> implements MenuService {
+public class MenuServiceImpl extends TreeCacheServiceImpl<MenuRepository, Menu, MenuDto> implements MenuService {
 
 	private final RoleRepository roleRepository;
 
 	private final RoleMenuRepository roleMenuRepository;
 
 	@Override
-	@Cacheable(key = "'findTreeByUserId:' + #p0")
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public List<MenuTree> findTreeByUserId(Long userId) {
-		// 获取符合条件的菜单
-		Set<MenuVo> all = new HashSet<>();
-		roleRepository.findListByUserId(userId).forEach(role -> all.addAll(findListByRoleId(role.getId())));
-		List<MenuTree> menuTreeList = all.stream().filter(menuVo -> !MenuDto.TYPE_BUTTON.equals(menuVo.getType()))
-			.sorted(Comparator.comparingInt(MenuVo::getSort)).map(MenuTree::new).collect(Collectors.toList());
-		return buildMenus(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(menuTreeList)));
+		CacheKey cacheKey = new MenuCacheKeyBuilder().key("findTreeByUserId", userId);
+		return cacheOps.get(cacheKey, (k) -> {
+			// 获取符合条件的菜单
+			Set<MenuVo> all = new HashSet<>();
+			roleRepository.findListByUserId(userId).forEach(role -> all.addAll(findListByRoleId(role.getId())));
+			List<MenuTree> menuTreeList = all.stream().filter(menuVo -> !MenuDto.TYPE_BUTTON.equals(menuVo.getType()))
+				.sorted(Comparator.comparingInt(MenuVo::getSort)).map(MenuTree::new).collect(Collectors.toList());
+			return buildMenus(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(menuTreeList)));
+
+		});
 	}
 
 	/**
@@ -136,39 +138,40 @@ public class MenuServiceImpl extends TreeServiceImpl<MenuRepository, Menu, MenuD
 	}
 
 	@Override
-	@Cacheable(key = "'findListByRoleId:' + #p0")
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public List<MenuVo> findListByRoleId(Long roleId) {
-		List<MenuVo> menuAllList = repository.findMenuVoAllList();
-		List<MenuVo> menuVoList = repository.findMenuVoListByRoleId(roleId);
-		List<Long> parentIdList = Lists.newArrayList();
-		for (MenuVo menuVo : menuVoList) {
-			if (menuVo.getParentId() != null) {
-				if (!parentIdList.contains(menuVo.getParentId())) {
-					parentIdList.add(menuVo.getParentId());
+		CacheKey cacheKey = new MenuCacheKeyBuilder().key("findListByRoleId", roleId);
+		return cacheOps.get(cacheKey, (k) -> {
+			List<MenuVo> menuAllList = repository.findMenuVoAllList();
+			List<MenuVo> menuVoList = repository.findMenuVoListByRoleId(roleId);
+			List<Long> parentIdList = Lists.newArrayList();
+			for (MenuVo menuVo : menuVoList) {
+				if (menuVo.getParentId() != null) {
+					if (!parentIdList.contains(menuVo.getParentId())) {
+						parentIdList.add(menuVo.getParentId());
+					}
 				}
-			}
-			if (menuVo.getParentIds() != null) {
-				String[] parentIds = menuVo.getParentIds().split(",");
-				for (String parentId : parentIds) {
-					if (StringUtil.isNotEmpty(parentId) && !parentIdList.contains(parentId)) {
-						parentIdList.add(Long.parseLong(parentId));
+				if (menuVo.getParentIds() != null) {
+					String[] parentIds = menuVo.getParentIds().split(",");
+					for (String parentId : parentIds) {
+						if (StringUtil.isNotEmpty(parentId) && !parentIdList.contains(parentId)) {
+							parentIdList.add(Long.parseLong(parentId));
+						}
 					}
 				}
 			}
-		}
-		if (ObjectUtil.isNotEmpty(parentIdList)) {
-			for (Long parenId : parentIdList) {
-				if (!contain(parenId, menuVoList)) {
-					MenuVo menuVo = get(parenId, menuAllList);
-					if (menuVo != null) {
-						menuVoList.add(menuVo);
+			if (ObjectUtil.isNotEmpty(parentIdList)) {
+				for (Long parenId : parentIdList) {
+					if (!contain(parenId, menuVoList)) {
+						MenuVo menuVo = get(parenId, menuAllList);
+						if (menuVo != null) {
+							menuVoList.add(menuVo);
+						}
 					}
 				}
 			}
-		}
-		return menuVoList;
-
+			return menuVoList;
+		});
 	}
 
 	private MenuVo get(Long id, List<MenuVo> resourceList) {
@@ -300,4 +303,8 @@ public class MenuServiceImpl extends TreeServiceImpl<MenuRepository, Menu, MenuD
 
 	}
 
+	@Override
+	protected CacheKeyBuilder cacheKeyBuilder() {
+		return new MenuCacheKeyBuilder();
+	}
 }

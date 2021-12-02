@@ -59,7 +59,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 public class LogAutoConfiguration {
 
 	private final LogOperateService logOperateService;
-	
+
 	private final LogLoginService logLoginService;
 
 	private final UserOnlineService userOnlineService;

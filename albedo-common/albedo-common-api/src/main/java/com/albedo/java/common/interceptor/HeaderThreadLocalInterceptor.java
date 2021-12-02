@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  * 该拦截器要优先于系统中其他的业务拦截器
  * <p>
  *
- * @author zuihou
+ * @author somewhere
  * @date 2020/10/31 9:49 下午
  */
 @Slf4j

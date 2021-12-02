@@ -14,7 +14,7 @@ export default {
     deleteCache: '清除缓存'
   },
   login: {
-    title: 'lamp-cloud',
+    title: 'albedo-cloud',
     logIn: '立即登录',
     tenant: '企业',
     username: '账号',
@@ -418,7 +418,7 @@ export default {
     uniqueOpened: '只保持一个子菜单的展开'
   },
   system: {
-    title: 'lamp-cloud'
+    title: 'albedo-cloud'
   },
   tips: {
     readonly: '系统数据，不能操作',
@@ -446,7 +446,7 @@ export default {
     onlyChooseOne: '只能选择一个节点作为父节点',
     noNodeSelected: '请先选择节点',
     confirmDeleteNode: '选中节点及其子结点将被永久删除, 是否继续？',
-    iframeGrant: '用户名：lamp 密码：lamp',
+    iframeGrant: '用户名：albedo 密码：111111',
     notEqual: '两次输入不一致',
     oldPasswordIncorrect: '原密码不正确',
     uploadSuccess: '上传成功',

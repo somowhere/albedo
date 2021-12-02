@@ -33,7 +33,8 @@
 package com.albedo.java.modules.sys.service.impl;
 
 import cn.hutool.core.util.ArrayUtil;
-import com.albedo.java.common.core.constant.CacheNameConstants;
+import com.albedo.java.common.core.cache.model.CacheKey;
+import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.exception.BizException;
@@ -45,6 +46,7 @@ import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.RedisUtil;
+import com.albedo.java.modules.sys.cache.UserCacheKeyBuilder;
 import com.albedo.java.modules.sys.domain.Dept;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.User;
@@ -63,7 +65,7 @@ import com.albedo.java.modules.sys.service.*;
 import com.albedo.java.modules.sys.util.SysCacheUtil;
 import com.albedo.java.plugins.database.mybatis.conditions.Wraps;
 import com.albedo.java.plugins.database.mybatis.datascope.DataScope;
-import com.albedo.java.plugins.database.mybatis.service.impl.DataServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.DataCacheServiceImpl;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -72,9 +74,6 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -95,8 +94,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @AllArgsConstructor
-@CacheConfig(cacheNames = CacheNameConstants.USER_DETAILS)
-public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserDto> implements UserService {
+public class UserServiceImpl extends DataCacheServiceImpl<UserRepository, User, UserDto> implements UserService {
 
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -120,9 +118,14 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	}
 
 	@Override
-	@Cacheable(key = "'findVoByUsername:' + #p0")
+	protected CacheKeyBuilder cacheKeyBuilder() {
+		return new UserCacheKeyBuilder();
+	}
+
+	@Override
 	public UserVo findVoByUsername(String username) {
-		return repository.findVoByUsername(username);
+		CacheKey cacheKey = new UserCacheKeyBuilder().key(username);
+		return cacheOps.get(cacheKey, (k) -> repository.findVoByUsername(username));
 	}
 
 	/**
@@ -133,10 +136,9 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	@Cacheable(key = "'findUserVoById:' + #p0")
 	public UserVo findUserVoById(Long id) {
-		UserVo userVo = baseMapper.findUserVoById(id);
-		return userVo;
+		CacheKey cacheKey = new UserCacheKeyBuilder().key("findUserVoById", id);
+		return cacheOps.get(cacheKey, (k) -> repository.findUserVoById(id));
 	}
 
 	/**
@@ -147,10 +149,9 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	@Cacheable(key = "'findDtoById:' + #p0")
 	public UserDto findDtoById(Long id) {
-		UserVo userVo = repository.findUserVoById(id);
-		return new UserDto(userVo);
+		CacheKey cacheKey = new UserCacheKeyBuilder().key("findDtoById", id);
+		return new UserDto(cacheOps.get(cacheKey, (k) -> repository.findUserVoById(id)));
 	}
 
 	/**
@@ -230,7 +231,6 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	@CacheEvict(cacheNames = {CacheNameConstants.USER_DETAILS}, allEntries = true)
 	public void saveOrUpdate(UserDto userDto) {
 		boolean add = ObjectUtil.isEmpty(userDto.getId());
 		if (add) {
@@ -411,4 +411,5 @@ public class UserServiceImpl extends DataServiceImpl<UserRepository, User, UserD
 	public Object todayUserCount() {
 		return count(Wraps.<User>lbQ().leFooter(User::getCreatedDate, LocalDateTime.now()).geHeader(User::getCreatedDate, LocalDateTime.now()));
 	}
+
 }

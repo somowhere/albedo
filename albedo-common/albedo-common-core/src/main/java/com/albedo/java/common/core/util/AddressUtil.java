@@ -17,6 +17,7 @@
 package com.albedo.java.common.core.util;
 
 import cn.hutool.core.io.resource.ResourceUtil;
+import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.lionsoul.ip2region.DataBlock;
@@ -36,6 +37,7 @@ import java.lang.reflect.Method;
 @Slf4j
 public class AddressUtil {
 
+	public static final String LOCAL_IP = "0:0:0:0:0:0:0:1";
 	private static final String JAVA_TEMP_DIR = "java.io.tmpdir";
 	private static DbConfig config = null;
 	private static DbSearcher searcher = null;
@@ -73,6 +75,11 @@ public class AddressUtil {
 	 * @return 地区
 	 */
 	public static String getRegion(String ip) {
+
+		// 内网不查询
+		if (LOCAL_IP.equals(ip) || NetUtil.isInnerIP(ip)) {
+			return "内网IP";
+		}
 		try {
 			//db
 			if (searcher == null || StrUtil.isEmpty(ip)) {

@@ -32,12 +32,14 @@
 
 package com.albedo.java.modules.sys.service.impl;
 
-import com.albedo.java.common.core.constant.CacheNameConstants;
+import com.albedo.java.common.core.cache.model.CacheKey;
+import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.security.util.SecurityUtil;
+import com.albedo.java.modules.sys.cache.RoleCacheKeyBuilder;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.RoleDept;
 import com.albedo.java.modules.sys.domain.RoleMenu;
@@ -49,12 +51,9 @@ import com.albedo.java.modules.sys.service.RoleDeptService;
 import com.albedo.java.modules.sys.service.RoleMenuService;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.modules.sys.util.SysCacheUtil;
-import com.albedo.java.plugins.database.mybatis.service.impl.DataServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.DataCacheServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,8 +73,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-@CacheConfig(cacheNames = CacheNameConstants.ROLE_DETAILS)
-public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleDto> implements RoleService {
+public class RoleServiceImpl extends DataCacheServiceImpl<RoleRepository, Role, RoleDto> implements RoleService {
 
 	private UserRepository userRepository;
 
@@ -93,10 +91,10 @@ public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleD
 	}
 
 	@Override
-	@Cacheable(key = "'findDeptIdsByRoleId:' + #p0")
 	public List<Long> findDeptIdsByRoleId(Serializable roleId) {
-		return roleDeptService.list(Wrappers.<RoleDept>query().lambda().eq(RoleDept::getRoleId, roleId)).stream()
-			.map(RoleDept::getDeptId).collect(Collectors.toList());
+		CacheKey cacheKey = new RoleCacheKeyBuilder().key("findDeptIdsByRoleId", roleId);
+		return cacheOps.get(cacheKey, (k) -> roleDeptService.list(Wrappers.<RoleDept>query().lambda().eq(RoleDept::getRoleId, roleId)).stream()
+			.map(RoleDept::getDeptId).collect(Collectors.toList()));
 	}
 
 	/**
@@ -107,9 +105,9 @@ public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleD
 	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	@Cacheable(key = "'findListByUserId:' + #p0")
 	public List<Role> findListByUserId(Long userId) {
-		return repository.findListByUserId(userId);
+		CacheKey cacheKey = new RoleCacheKeyBuilder().key("findListByUserId", userId);
+		return cacheOps.get(cacheKey, (k) -> repository.findListByUserId(userId));
 	}
 
 	/**
@@ -171,7 +169,6 @@ public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleD
 	}
 
 	@Override
-	@CacheEvict(allEntries = true)
 	public void lockOrUnLock(Set<Long> idList) {
 		idList.forEach(id -> {
 			SysCacheUtil.delRoleCaches(id);
@@ -193,4 +190,8 @@ public class RoleServiceImpl extends DataServiceImpl<RoleRepository, Role, RoleD
 		return min;
 	}
 
+	@Override
+	protected CacheKeyBuilder cacheKeyBuilder() {
+		return new RoleCacheKeyBuilder();
+	}
 }

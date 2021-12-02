@@ -32,7 +32,7 @@ public final class ContextConstants {
 	 * <p>
 	 * 签名密钥长度至少32位!!!
 	 */
-	public static final String JWT_SIGN_KEY = "lamp-cloud_is_a_fantastic_project";
+	public static final String JWT_SIGN_KEY = "albedo-cloud_is_a_fantastic_project";
 	/**
 	 * JWT中封装的 租户编码
 	 */

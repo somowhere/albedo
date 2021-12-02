@@ -9,7 +9,7 @@ import com.albedo.java.common.core.constant.CacheKeyBuilderConstants;
  * <p>
  * #c_application
  *
- * @author zuihou
+ * @author somewhere
  * @date 2020/9/20 6:45 下午
  */
 public class TokenUserIdCacheKeyBuilder implements CacheKeyBuilder {
