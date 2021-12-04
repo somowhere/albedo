@@ -51,7 +51,7 @@ public class SysCacheUtil {
 	 * @param username /
 	 */
 	public static void delBaseUserCaches(Long userId, String username) {
-		cacheOps.del(new UserCacheKeyBuilder().key(username));
+		cacheOps.del(new UserCacheKeyBuilder().key("findVoByUsername", username));
 		cacheOps.del(new UserCacheKeyBuilder().key("findUserVoById", userId));
 		cacheOps.del(new UserCacheKeyBuilder().key("findDtoById", userId));
 	}

@@ -41,6 +41,7 @@ import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.DataVo;
 import com.albedo.java.modules.sys.domain.Role;
+import com.albedo.java.modules.sys.domain.enums.Sex;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -78,6 +79,11 @@ public class UserVo extends DataVo<Long> {
 	@ExcelField(title = "是否启用", dictType = DictNameConstants.SYS_FLAG)
 	private Integer available;
 
+	/**
+	 * 性别
+	 */
+	@ExcelField(title = "性别")
+	private Sex sex;
 	/**
 	 * 邮箱
 	 */

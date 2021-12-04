@@ -24,7 +24,7 @@ module.exports = {
     },
     proxy: {
       '/a/': {
-        target: process.env.VUE_APP_BASE_URL + defaultSettings.api,
+        target: process.env.VUE_APP_BASE_URL + process.env.VUE_APP_BASE_API,
         changeOrigin: true,
         pathRewrite: {
           '^/a': '/'

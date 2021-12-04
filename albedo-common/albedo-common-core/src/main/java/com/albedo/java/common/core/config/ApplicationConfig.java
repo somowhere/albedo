@@ -105,44 +105,11 @@ public class ApplicationConfig {
 		// dumpSystemConfig();
 	}
 
-	public static boolean isAddressEnabled() {
-		return Boolean.valueOf(get("application.address-enabled"));
-	}
-
 	/**
 	 * 获取文件上传路径
 	 */
 	public static String getStaticFileDirectory() {
-		String os = System.getProperty("os.name").toLowerCase();
-		boolean win = os.startsWith("win");
-		boolean mac = os.startsWith("mac");
-		if (win) {
-			return get("application.static-file-directory.win");
-		} else if (mac) {
-			return get("application.static-file-directory.mac");
-		}
-		return get("application.static-file-directory.linux");
-	}
-
-	/**
-	 * 获取头像上传路径
-	 */
-	public static String getAvatarPath() {
-		return getStaticFileDirectory() + "/avatar";
-	}
-
-	/**
-	 * 获取下载路径
-	 */
-	public static String getDownloadPath() {
-		return getStaticFileDirectory() + "/download";
-	}
-
-	/**
-	 * 获取上传路径
-	 */
-	public static String getUploadPath() {
-		return getStaticFileDirectory() + "/upload";
+		return get("application.file.local.storage-path");
 	}
 
 }

@@ -24,6 +24,7 @@
 		<result column="username" property="username"/>
 		<result column="password" property="password"/>
 		<result column="nickname" property="nickname"/>
+		<result column="sex" property="sex"/>
 		<result column="phone" property="phone"/>
 		<result column="email" property="email"/>
 		<result column="avatar" property="avatar"/>
@@ -45,6 +46,7 @@
 		<result column="username" property="username"/>
 		<result column="password" property="password"/>
 		<result column="nickname" property="nickname"/>
+		<result column="sex" property="sex"/>
 		<result column="phone" property="phone"/>
 		<result column="email" property="email"/>
 		<result column="avatar" property="avatar"/>
@@ -71,6 +73,7 @@
 		<result column="username" property="username"/>
 		<result column="password" property="password"/>
 		<result column="nickname" property="nickname"/>
+		<result column="sex" property="sex"/>
 		<result column="phone" property="phone"/>
 		<result column="email" property="email"/>
 		<result column="avatar" property="avatar"/>
@@ -106,6 +109,7 @@
 		a.username,
 		a.`password`,
 		a.nickname,
+		a.sex,
 		a.phone,
 		a.email,
 		a.avatar,
@@ -163,6 +167,7 @@
 		a.username,
 		a.`password`,
 		a.nickname,
+		a.sex,
 		a.phone,
 		a.email,
 		a.avatar,

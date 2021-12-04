@@ -35,6 +35,7 @@ import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerF
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.web.cors.CorsConfiguration;
@@ -137,6 +138,7 @@ public class WebConfigurer
 	}
 
 	@Bean
+	@Order(1)
 	public ThreadLocalContextFilter threadLocalContextFilter() {
 		return new ThreadLocalContextFilter();
 	}
@@ -184,8 +186,8 @@ public class WebConfigurer
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		String pathUtl = "file:" + ApplicationConfig.getUploadPath().replace("\\", "/");
-		registry.addResourceHandler(applicationProperties.getAdminPath("/asset-file/**")).addResourceLocations(pathUtl)
+		String pathUtl = "file:" + ApplicationConfig.getStaticFileDirectory().replace("\\", "/");
+		registry.addResourceHandler("/file/**").addResourceLocations(pathUtl)
 			.setCachePeriod(0);
 	}
 

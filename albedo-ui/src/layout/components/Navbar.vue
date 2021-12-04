@@ -32,7 +32,7 @@
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="user.avatar ? baseApi + user.avatar : Avatar" class="user-avatar">
+          <img :src="avatar" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
@@ -41,7 +41,7 @@
               布局设置
             </el-dropdown-item>
           </span>
-          <router-link to="/user/center">
+          <router-link to="/profile/index">
             <el-dropdown-item>
               个人中心
             </el-dropdown-item>
@@ -91,6 +91,17 @@ export default {
       'user',
       'baseApi'
     ]),
+    avatar() {
+      if (!this.user['avatar']) {
+        return require(`@/assets/avatar/default.jpg`)
+      } else {
+        if (this.user['avatar'].startsWith('http://') || this.user['avatar'].startsWith('https://')) {
+          return this.user['avatar']
+        } else {
+          return require(`@/assets/avatar/${this.user.avatar}`)
+        }
+      }
+    },
     show: {
       get() {
         return this.$store.state.settings.showSettings

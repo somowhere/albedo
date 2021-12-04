@@ -10,37 +10,37 @@ public final class ContextConstants {
 	/**
 	 * JWT中封装的 用户id
 	 */
-	public static final String JWT_KEY_USER_ID = "userid";
+	public static final String KEY_USER_ID = "userid";
 	/**
 	 * JWT中封装的 用户名称
 	 */
-	public static final String JWT_KEY_NAME = "name";
+	public static final String KEY_NAME = "name";
 	/**
 	 * JWT中封装的 token 类型
 	 */
-	public static final String JWT_KEY_TOKEN_TYPE = "token_type";
+	public static final String KEY_TOKEN_TYPE = "token_type";
 	/**
 	 * JWT中封装的 用户账号
 	 */
-	public static final String JWT_KEY_ACCOUNT = "account";
+	public static final String KEY_ACCOUNT = "account";
 	/**
 	 * JWT中封装的 客户端id
 	 */
-	public static final String JWT_KEY_CLIENT_ID = "client_id";
+	public static final String KEY_CLIENT_ID = "client_id";
 	/**
 	 * JWT token 签名
 	 * <p>
 	 * 签名密钥长度至少32位!!!
 	 */
-	public static final String JWT_SIGN_KEY = "albedo-cloud_is_a_fantastic_project";
+	public static final String SIGN_KEY = "albedo-cloud_is_a_fantastic_project";
 	/**
 	 * JWT中封装的 租户编码
 	 */
-	public static final String JWT_KEY_TENANT = "tenant";
+	public static final String KEY_TENANT = "tenant";
 	/**
 	 * JWT中封装的 子租户编码
 	 */
-	public static final String JWT_KEY_SUB_TENANT = "sub_tenant";
+	public static final String KEY_SUB_TENANT = "sub_tenant";
 	/**
 	 * 刷新 Token
 	 */

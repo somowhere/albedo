@@ -516,7 +516,7 @@ public class RedisOps {
 		if (!cacheNullVal && value == null) {
 			return;
 		}
-
+		log.debug("key {} value {}", key, value);
 		valueOps.set(key, value == null ? newNullVal() : value);
 	}
 

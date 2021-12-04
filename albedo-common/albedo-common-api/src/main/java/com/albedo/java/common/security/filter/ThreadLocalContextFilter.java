@@ -30,22 +30,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 前端静态资源缓存过滤器 This filter is used in production, to put HTTP cache headers with a long (1
- * month) expiration time.
- *
  * @author somewhere
  */
+
 public class ThreadLocalContextFilter extends OncePerRequestFilter {
 
 	@SneakyThrows
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
-		ContextUtil.setTenant(Base64.decodeStr(WebUtil.getHeader(request, ContextConstants.JWT_KEY_TENANT)));
-		ContextUtil.setSubTenant(Base64.decodeStr(WebUtil.getHeader(request, ContextConstants.JWT_KEY_SUB_TENANT)));
+		ContextUtil.setTenant(Base64.decodeStr(WebUtil.getHeader(request, ContextConstants.KEY_TENANT)));
+		ContextUtil.setSubTenant(Base64.decodeStr(WebUtil.getHeader(request, ContextConstants.KEY_SUB_TENANT)));
 		String traceId = request.getHeader(ContextConstants.TRACE_ID_HEADER);
 		MDC.put(ContextConstants.LOG_TRACE_ID, StrUtil.isEmpty(traceId) ? StrUtil.EMPTY : traceId);
-		MDC.put(ContextConstants.JWT_KEY_TENANT, ContextUtil.getTenant());
-		MDC.put(ContextConstants.JWT_KEY_SUB_TENANT, ContextUtil.getSubTenant());
+		MDC.put(ContextConstants.KEY_TENANT, ContextUtil.getTenant());
+		MDC.put(ContextConstants.KEY_SUB_TENANT, ContextUtil.getSubTenant());
 
 		filterChain.doFilter(request, response);
 	}

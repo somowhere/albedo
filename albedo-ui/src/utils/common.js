@@ -1,4 +1,5 @@
 import validate from './validate'
+import commonService from '@/api/common'
 
 let commonUtil
 const CryptoJS = require('crypto-js')
@@ -453,6 +454,40 @@ commonUtil = {
   },
   objToStr(val) {
     return validate.checkNotNull(val) ? val.toString() : ''
+  },
+  loadEnums(codes, enums = {}) {
+    if (typeof (codes) === 'string') {
+      codes = [codes]
+    }
+
+    if (codes && codes.length > 0) {
+      commonService.getDicts(codes).then(response => {
+        const res = response.data
+        for (const code of codes) {
+          enums[code] = res.data[code]
+        }
+      })
+    }
+  },
+
+  /**
+   * 初始化权限服务枚举
+   * @param codes
+   * @param enums
+   */
+  initEnums(codes, enums = {}) {
+    this.loadEnums(codes, enums)
+  },
+  copy(msg) {
+    if (msg) {
+      const oInput = document.createElement('input') // 创建一个隐藏input（重要！）
+      oInput.value = msg // 赋值
+      document.body.appendChild(oInput)
+      oInput.select() // 选择对象
+      document.execCommand('Copy') // 执行浏览器复制命令
+      oInput.className = 'oInput'
+      oInput.style.display = 'none'
+    }
   }
 }
 

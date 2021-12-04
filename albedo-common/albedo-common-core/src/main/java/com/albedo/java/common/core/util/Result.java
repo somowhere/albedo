@@ -211,4 +211,9 @@ public class Result<T> implements Serializable {
 		return this;
 	}
 
+	public boolean isSuccess() {
+		return code == CommonConstants.SUCCESS;
+	}
+
+
 }

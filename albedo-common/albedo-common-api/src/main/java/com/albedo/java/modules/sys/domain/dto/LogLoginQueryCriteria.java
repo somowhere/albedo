@@ -33,7 +33,12 @@ public class LogLoginQueryCriteria implements Serializable {
 	/**
 	 * F_TITLE title  :  日志标题
 	 */
-	@Query(operator = Query.Operator.like)
+	@Query(blurry = "title,username,nickname,ip_location,os", operator = Query.Operator.like)
 	private String title;
+	/**
+	 * userId
+	 */
+	@Query
+	private String userId;
 
 }

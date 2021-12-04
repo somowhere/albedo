@@ -1,5 +1,5 @@
 import commonUtil from '@/utils/common'
-import loginService from '@/api/login'
+import commonService from '@/api/common'
 import storeApi from '@/utils/store'
 import { MSG_TYPE_SUCCESS } from '@/const/common'
 import validate from '../../utils/validate'
@@ -59,7 +59,7 @@ const user = {
         param: ['password']
       })
       return new Promise((resolve, reject) => {
-        loginService.login(params).then(res => {
+        commonService.login(params).then(res => {
           if (res.code === MSG_TYPE_SUCCESS) {
             commit('SET_LOGIN_SUCCESS', true)
             resolve()
@@ -72,7 +72,7 @@ const user = {
     // 获取用户信息
     isAuthenticate({ commit }) {
       return new Promise((resolve, reject) => {
-        loginService.isAuthenticate().then((res) => {
+        commonService.isAuthenticate().then((res) => {
           if (validate.checkNotNull(res.data)) {
             commit('SET_LOGIN_SUCCESS', true)
           }
@@ -86,7 +86,7 @@ const user = {
     // 获取用户信息
     GetUser({ commit }) {
       return new Promise((resolve, reject) => {
-        loginService.getUser().then((res) => {
+        commonService.getUser().then((res) => {
           const data = res.data || {}
           setUserInfo(data, commit)
           resolve(data)
@@ -98,7 +98,7 @@ const user = {
     // 登出
     LogOut({ commit }) {
       return new Promise((resolve, reject) => {
-        loginService.logout().then(res => {
+        commonService.logout().then(res => {
           logOut(commit)
           resolve()
         }).catch(error => {

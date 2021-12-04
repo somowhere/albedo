@@ -21,8 +21,8 @@ import java.io.IOException;
 public class EnumSerializer extends StdSerializer<BaseEnum> {
 	public static final EnumSerializer INSTANCE = new EnumSerializer();
 	public static final String ALL_ENUM_KEY_FIELD = "code";
-	public static final String ALL_ENUM_EXTRA_FIELD = "extra";
-	public static final String ALL_ENUM_TEXT_FIELD = "text";
+	public static final String ALL_ENUM_EXTRA_FIELD = "Extra";
+	public static final String ALL_ENUM_TEXT_FIELD = "Text";
 
 	public EnumSerializer() {
 		super(BaseEnum.class);
@@ -31,15 +31,13 @@ public class EnumSerializer extends StdSerializer<BaseEnum> {
 	@Override
 	public void serialize(BaseEnum distance, JsonGenerator generator, SerializerProvider provider)
 		throws IOException {
-		generator.writeStartObject();
-		generator.writeFieldName(ALL_ENUM_KEY_FIELD);
+		String currentName = generator.getOutputContext().getCurrentName();
 		generator.writeString(distance.getCode());
-		generator.writeFieldName(ALL_ENUM_TEXT_FIELD);
+		generator.writeFieldName(currentName + ALL_ENUM_TEXT_FIELD);
 		generator.writeString(distance.getText());
 		if (StrUtil.isNotEmpty(distance.getExtra())) {
-			generator.writeFieldName(ALL_ENUM_EXTRA_FIELD);
+			generator.writeFieldName(currentName + ALL_ENUM_EXTRA_FIELD);
 			generator.writeString(distance.getExtra());
 		}
-		generator.writeEndObject();
 	}
 }

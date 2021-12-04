@@ -243,23 +243,6 @@ public interface CommonConstants {
 	String EMAIL_RESET_PWD_CODE = "EMAIL_RESET_PWD_CODE_";
 
 	/**
-	 * 默认保存登录的前缀
-	 */
-	String DEFAULT_LOGIN_KEY = "DEFAULT_LOGIN_KEY";
-
-	/**
-	 * 默认保存登录的前缀
-	 */
-	String DEFAULT_LOGIN_JWT_KEY = "DEFAULT_LOGIN_JWT_KEY";
-
-	String DEFAULT_LOGIN_JWT_MAP_KEY = "DEFAULT_LOGIN_JWT_MAP_KEY";
-
-	/**
-	 * 默认保存24小时后登录的前缀
-	 */
-	String DEFAULT_LOGIN_AFTER_24_KEY = "DEFAULT_LOGIN_AFTER_24_KEY";
-
-	/**
 	 * 验证码文字大小
 	 */
 	String DEFAULT_IMAGE_FONT_SIZE = "30";

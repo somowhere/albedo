@@ -21,6 +21,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.context.ContextUtil;
 import com.albedo.java.common.core.exception.ValidateCodeException;
 import com.albedo.java.common.core.util.AddressUtil;
 import com.albedo.java.common.core.util.SpringContextHolder;
@@ -61,7 +62,7 @@ public class LoginUtil {
 			throw new ValidateCodeException("随机码不能为空");
 		}
 
-		String key = CommonConstants.DEFAULT_CODE_KEY + randomStr;
+		String key = ContextUtil.getTenant() + CommonConstants.DEFAULT_CODE_KEY + randomStr;
 		if (!redisTemplate.hasKey(key)) {
 			throw new ValidateCodeException("随机码不合法");
 		}

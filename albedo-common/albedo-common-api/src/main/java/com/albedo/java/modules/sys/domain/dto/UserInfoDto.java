@@ -33,11 +33,13 @@
 package com.albedo.java.modules.sys.domain.dto;
 
 import com.albedo.java.common.core.vo.DataDto;
+import com.albedo.java.modules.sys.domain.enums.Sex;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author somewhere
@@ -55,10 +57,9 @@ public class UserInfoDto extends DataDto<String> {
 	 */
 	@NotEmpty
 	private String phone;
-
-	/**
-	 * 头像
-	 */
-	private String avatar;
+	@NotEmpty
+	private String email;
+	@NotNull
+	private Sex sex;
 
 }

@@ -28,75 +28,22 @@ public interface CacheKeyBuilderConstants {
 	 * 完整key: menu:{menuId} -> obj
 	 */
 	String MENU = "menu";
-	/**
-	 * 组织 前缀
-	 * 完整key: station:{stationId} -> obj
-	 */
-	String ORG = "org";
-	/**
-	 * 岗位 前缀
-	 * 完整key: station:{stationId} -> obj
-	 */
-	String STATION = "station";
-
-	/**
-	 * 资源 前缀
-	 * 完整key: resource:{resourceId} -> obj
-	 */
-	String RESOURCE = "resource";
 
 	/**
 	 * 角色 前缀
 	 * 完整key: role:{roleId}
 	 */
 	String ROLE = "role";
-	/**
-	 * 角色拥有那些菜单 前缀
-	 * 完整key: role_menu:{ROLE_ID} -> [MENU_ID, MENU_ID, ...]
-	 */
-	String ROLE_MENU = "role_menu";
-	/**
-	 * 角色拥有那些资源 前缀
-	 * 完整key: role_resource:{ROLE_ID} -> [RESOURCE_ID, ...]
-	 */
-	String ROLE_RESOURCE = "role_resource";
-//    /**
-//     * 角色拥有那些组织 前缀
-//     * 完整key: role_org:{ROLE_ID} -> [ORG_ID, ...]
-//     */
-//    String ROLE_ORG = "role_org";
 
 	/**
 	 * 用户 前缀
 	 * 完整key: user:{USER_ID} -> obj
 	 */
 	String USER = "user";
-	/**
-	 * 用户 前缀
-	 * 完整key: user_account:{account} -> id
-	 */
-	String USER_ACCOUNT = "user_account";
 
-	/**
-	 * 用户拥有那些角色 前缀
-	 * 完整key: user_role:{USER_ID} -> [ROLE_ID, ...]
-	 */
-	String USER_ROLE = "user_role";
-	/**
-	 * 用户拥有的菜单 前缀
-	 * 完整key: user_menu:{userId} -> [MENU_ID, MENU_ID, ...]
-	 */
-	String USER_MENU = "user_menu";
 
 	String DEPT = "dept";
 
-
-	/**
-	 * 系统URI 前缀
-	 * <p>
-	 * 完整key: system_api:{id} -> [ID, ...]
-	 */
-	String SYSTEM_API = "system_api";
 
 	/**
 	 * 总 登录次数

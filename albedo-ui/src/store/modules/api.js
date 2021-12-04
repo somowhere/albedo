@@ -1,5 +1,4 @@
 const baseUrl = process.env.VUE_APP_BASE_URL
-const defaultSettings = require('@/settings.js')
 const api = {
   state: {
     // 实时控制台
@@ -7,11 +6,11 @@ const api = {
     // swagger
     swaggerApi: baseUrl + '/doc.html',
     // 文件上传
-    fileUploadApi: defaultSettings.api + '/file/upload',
+    fileUploadApi: process.env.VUE_APP_BASE_API + '/file/upload',
     // baseUrl，
     baseUrl: baseUrl,
     // baseApi，
-    baseApi: defaultSettings.api
+    baseApi: process.env.VUE_APP_BASE_API
   }
 }
 

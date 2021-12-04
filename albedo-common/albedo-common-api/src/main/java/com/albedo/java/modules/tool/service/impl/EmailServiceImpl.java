@@ -41,6 +41,7 @@ import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.context.ContextUtil;
 import com.albedo.java.common.core.exception.ArgumentException;
 import com.albedo.java.common.core.util.EncryptUtil;
 import com.albedo.java.common.util.RedisUtil;
@@ -124,7 +125,7 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, Ema
 	public EmailVo sendEmail(String email, String key) {
 		EmailVo emailVo;
 		String content;
-		String redisKey = key + email;
+		String redisKey = ContextUtil.getTenant() + key + email;
 		// 如果不存在有效的验证码，就创建一个新的
 		TemplateEngine engine = TemplateUtil
 			.createEngine(new TemplateConfig("templates/codet/templates", TemplateConfig.ResourceMode.CLASSPATH));
@@ -132,27 +133,24 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, Ema
 		Object oldCode = RedisUtil.getCacheString(redisKey);
 		if (oldCode == null) {
 			String code = RandomUtil.randomNumbers(6);
-
 			// 存入缓存
 			RedisUtil.setCacheString(redisKey, code, CommonConstants.DEFAULT_IMAGE_EXPIRE, TimeUnit.SECONDS);
-
 			content = template.render(Dict.create().set("code", code));
-			emailVo = new EmailVo(Collections.singletonList(email), "Albedo后台管理系统", content);
 			// 存在就再次发送原来的验证码
 		} else {
 			content = template.render(Dict.create().set("code", oldCode));
-			emailVo = new EmailVo(Collections.singletonList(email), "Albedo后台管理系统", content);
 		}
+		emailVo = new EmailVo(Collections.singletonList(email), "Albedo后台管理系统", content);
 		return emailVo;
 	}
 
 	@Override
 	public void validated(String key, String code) {
-		Object value = RedisUtil.getCacheString(key);
+		Object value = RedisUtil.getCacheString(ContextUtil.getTenant() + key);
 		if (value == null || !value.toString().equals(code)) {
 			throw new ArgumentException("无效验证码");
 		} else {
-			RedisUtil.delete(key);
+			RedisUtil.delete(ContextUtil.getTenant() + key);
 		}
 	}
 

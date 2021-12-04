@@ -12,7 +12,7 @@ import java.time.Duration;
 public class DeptCacheKeyBuilder implements CacheKeyBuilder {
 	@Override
 	public String getPrefix() {
-		return CacheKeyBuilderConstants.USER;
+		return CacheKeyBuilderConstants.DEPT;
 	}
 
 	@Override

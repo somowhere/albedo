@@ -107,6 +107,14 @@
             </el-form-item>
 
             <el-form-item
+              label="昵称"
+              prop="sex"
+            >
+              <el-radio-group v-model="form.sex" style="width: 220px">
+                <el-radio-button v-for="item in sexOptions" :key="item.value" :label="item.value">{{ item.label }}</el-radio-button>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item
               :rules="[
                 { required: true, trigger: 'blur', validator: validPhone }
               ]"
@@ -174,6 +182,7 @@
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="昵称" prop="nickname" width="100" />
+          <el-table-column :show-overflow-tooltip="true" label="性别" prop="sexText" />
           <el-table-column :show-overflow-tooltip="true" label="电话" prop="phone" width="100" />
           <el-table-column :show-overflow-tooltip="true" label="邮箱" prop="email" width="135" />
           <el-table-column :show-overflow-tooltip="true" label="角色" prop="roleNames" width="160" />
@@ -270,6 +279,7 @@ export default {
         export: 'sys_user_export'
       },
       flagOptions: [],
+      sexOptions: [],
       validPhone: (rule, value, callback) => {
         if (!value) {
           callback(new Error('请输入电话号码'))
@@ -290,6 +300,7 @@ export default {
     this.$nextTick(() => {
       this.getDeptDatas()
       this.flagOptions = this.dicts['sys_flag']
+      this.sexOptions = this.dicts['sex']
       this.crud.msg.add = '新增成功，默认密码：123456'
     })
   },

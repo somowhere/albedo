@@ -29,7 +29,7 @@ const service = axios.create({
 // request拦截器
 service.interceptors.request.use(
   config => {
-    config.url = Config.api + config.url
+    config.url = process.env.VUE_APP_BASE_API + config.url
     const isToken = (config.headers || {}).isToken === false
     const token = store.getters.token
     if (token && !isToken) {

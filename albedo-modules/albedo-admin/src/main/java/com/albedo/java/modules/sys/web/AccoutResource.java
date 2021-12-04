@@ -23,6 +23,7 @@ import com.albedo.java.common.core.annotation.AnonymousAccess;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.SecurityConstants;
+import com.albedo.java.common.core.context.ContextUtil;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.log.annotation.LogOperate;
@@ -30,6 +31,7 @@ import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.RedisUtil;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.dto.UserEmailDto;
+import com.albedo.java.modules.sys.domain.vo.account.AvatarInfo;
 import com.albedo.java.modules.sys.domain.vo.account.PasswordChangeVo;
 import com.albedo.java.modules.sys.domain.vo.account.PasswordRestVo;
 import com.albedo.java.modules.sys.service.UserService;
@@ -109,8 +111,8 @@ public class AccoutResource extends BaseResource {
 
 	@ApiOperation("修改头像")
 	@PostMapping(value = "/account/change-avatar")
-	public Result<String> updateAvatar(@RequestParam String avatar) {
-		userService.updateAvatar(SecurityUtil.getUser().getUsername(), avatar);
+	public Result<String> updateAvatar(@RequestBody AvatarInfo avatarInfo) {
+		userService.updateAvatar(SecurityUtil.getUser().getUsername(), avatarInfo.getAvatar());
 		return Result.buildOk("头像修改成功");
 	}
 
@@ -140,7 +142,7 @@ public class AccoutResource extends BaseResource {
 		ArithmeticCaptcha captcha = new ArithmeticCaptcha(DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT);
 
 		String result = captcha.text();
-		RedisUtil.setCacheString(CommonConstants.DEFAULT_CODE_KEY + randomStr, result,
+		RedisUtil.setCacheString(ContextUtil.getTenant() + CommonConstants.DEFAULT_CODE_KEY + randomStr, result,
 			CommonConstants.DEFAULT_IMAGE_EXPIRE, TimeUnit.SECONDS);
 		// 创建输出流
 		ServletOutputStream out = response.getOutputStream();

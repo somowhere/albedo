@@ -132,7 +132,7 @@ export default {
     },
     refreshCode() {
       this.loginForm.randomStr = commonUtil.randomLenNum(this.codeLength, true)
-      this.codeUrl = defaultSettings.api + `/code/${this.loginForm.randomStr}`
+      this.codeUrl = process.env.VUE_APP_BASE_API + `/code/${this.loginForm.randomStr}`
       this.loginForm.code = ''
     },
     handleLogin() {

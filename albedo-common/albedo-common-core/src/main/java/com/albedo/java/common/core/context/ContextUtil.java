@@ -94,28 +94,28 @@ public final class ContextUtil {
 	 * @return 租户编码
 	 */
 	public static String getTenant() {
-		String tenant = get(ContextConstants.JWT_KEY_TENANT, String.class, StrPool.EMPTY);
+		String tenant = get(ContextConstants.KEY_TENANT, String.class, StrPool.EMPTY);
 		return tenant;
 	}
 
 	public static void setTenant(String val) {
-		set(ContextConstants.JWT_KEY_TENANT, val);
+		set(ContextConstants.KEY_TENANT, val);
 	}
 
 	public static String getSubTenant() {
-		return get(ContextConstants.JWT_KEY_SUB_TENANT, String.class, StrPool.EMPTY);
+		return get(ContextConstants.KEY_SUB_TENANT, String.class, StrPool.EMPTY);
 	}
 
 	public static void setSubTenant(String val) {
-		set(ContextConstants.JWT_KEY_SUB_TENANT, val);
+		set(ContextConstants.KEY_SUB_TENANT, val);
 	}
 
 	public static String getClientId() {
-		return get(ContextConstants.JWT_KEY_CLIENT_ID, String.class);
+		return get(ContextConstants.KEY_CLIENT_ID, String.class);
 	}
 
 	public static void setClientId(String val) {
-		set(ContextConstants.JWT_KEY_CLIENT_ID, val);
+		set(ContextConstants.KEY_CLIENT_ID, val);
 	}
 
 	/**

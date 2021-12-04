@@ -83,7 +83,7 @@ public class FileServerProperties {
 		/**
 		 * 文件访问前缀
 		 */
-		private String urlPrefix = "https://static.tangyh.top/file/";
+		private String urlPrefix = "http://127.0.0.1:8061/file/";
 		/**
 		 * 文件存储路径
 		 */

@@ -81,7 +81,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class DictServiceImpl extends TreeCacheServiceImpl<DictRepository, Dict, DictDto>
 	implements DictService {
-	public final String CACHE_FIND_CODES="findCodes";
+	public final String CACHE_FIND_CODES = "findCodes";
 
 
 	@Override

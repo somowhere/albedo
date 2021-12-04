@@ -252,7 +252,7 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 import Treeselect from '@riophae/vue-treeselect'
-import Ace from '@/views/components/ace/index'
+import Ace from '@/components/Ace/index'
 import { mapGetters } from 'vuex'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 

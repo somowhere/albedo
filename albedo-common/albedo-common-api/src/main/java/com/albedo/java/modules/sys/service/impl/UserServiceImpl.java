@@ -124,7 +124,7 @@ public class UserServiceImpl extends DataCacheServiceImpl<UserRepository, User, 
 
 	@Override
 	public UserVo findVoByUsername(String username) {
-		CacheKey cacheKey = new UserCacheKeyBuilder().key(username);
+		CacheKey cacheKey = new UserCacheKeyBuilder().key("findVoByUsername", username);
 		return cacheOps.get(cacheKey, (k) -> repository.findVoByUsername(username));
 	}
 

@@ -33,6 +33,7 @@
 package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.basic.domain.IdEntity;
+import com.albedo.java.modules.sys.domain.enums.Sex;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -52,6 +53,8 @@ import lombok.experimental.Accessors;
 @TableName("sys_user")
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User extends IdEntity<User, Long> {
 
 	public static final String F_USERNAME = "username";
@@ -87,6 +90,8 @@ public class User extends IdEntity<User, Long> {
 	 */
 	private String avatar;
 
+	private Sex sex;
+
 	/**
 	 * 部门ID
 	 */
@@ -102,18 +107,4 @@ public class User extends IdEntity<User, Long> {
 	 */
 	private String qqOpenId;
 
-
-	@Builder
-	public User(String username, String nickname, String password, Integer available, String email, String phone, String avatar, String deptId, String wxOpenId, String qqOpenId) {
-		this.username = username;
-		this.nickname = nickname;
-		this.password = password;
-		this.available = available;
-		this.email = email;
-		this.phone = phone;
-		this.avatar = avatar;
-		this.deptId = deptId;
-		this.wxOpenId = wxOpenId;
-		this.qqOpenId = qqOpenId;
-	}
 }

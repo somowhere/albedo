@@ -89,17 +89,17 @@ export default {
       loginTime: '登录时间'
     },
     user: {
-      account: '账号',
-      name: '姓名',
+      username: '账号',
+      nickname: '姓名',
       password: '密码',
       orgId: '组织',
       stationId: '岗位',
       email: '邮箱',
       sex: '性别',
       state: '状态',
-      mobile: '电话',
+      phone: '电话',
       avatar: '头像',
-      workDescribe: '个人描述',
+      description: '个人描述',
       passwordErrorLastTime: '最后一次输错密码时间',
       passwordErrorNum: '密码错误次数',
       passwordExpireTime: '密码过期时间',
@@ -161,7 +161,7 @@ export default {
       state: '状态'
     },
     optLog: {
-      requestIp: 'IP',
+      ipAddress: 'IP',
       type: '类型',
       userName: '操作人',
       description: '操作描述',
@@ -180,14 +180,14 @@ export default {
     loginLog: {
       userName: '姓名',
       account: '账号',
-      requestIp: 'IP',
+      ipAddress: 'IP',
       description: '描述',
       loginDate: '登录时间',
       ua: '浏览器请求头',
       browser: '浏览器',
       browserVersion: '浏览器版本',
-      operatingSystem: '操作系统',
-      location: '地区'
+      os: '操作系统',
+      ipLocation: '地区'
     },
     attachment: {
       bizId: '业务ID',

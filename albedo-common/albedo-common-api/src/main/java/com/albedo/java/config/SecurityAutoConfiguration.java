@@ -39,6 +39,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -134,6 +135,7 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
+	@Order(30)
 	public ValidateCodeFilter validateCodeFilter() {
 		return new ValidateCodeFilter(applicationProperties);
 	}

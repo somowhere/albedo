@@ -31,8 +31,8 @@
                   </div>
                   <div class="user-dept">
                     <span>{{
-                      user.workDescribe
-                        ? user.workDescribe
+                      user.description
+                        ? user.description
                         : $t("common.noWorkDescribe")
                     }}</span>
                   </div>

@@ -1,4 +1,4 @@
-import loginService from '@/api/login'
+import commonService from '@/api/common'
 import { MSG_TYPE_SUCCESS } from '@/const/common'
 
 const dict = {
@@ -14,7 +14,7 @@ const dict = {
     // 获取字典数据
     GetDicts({ commit }) {
       return new Promise((resolve, reject) => {
-        loginService.getDicts().then(res => {
+        commonService.getDicts().then(res => {
           if (res.code === MSG_TYPE_SUCCESS) {
             commit('SET_DICTS', res.data)
             resolve()

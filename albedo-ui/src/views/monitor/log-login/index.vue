@@ -6,7 +6,7 @@
         <el-input v-model="query.title" class="filter-item input-small" clearable size="small" placeholder="输入日志标题搜索" @keyup.enter.native="toQuery" />
         <rrOperation />
       </div>
-      <crudOperation :permission="permission">
+      <crudOperation>
 
         <el-button
           slot="right"
@@ -29,6 +29,7 @@
       v-loading="crud.loading"
       :data="crud.data"
       style="width: 100%;"
+      :default-sort="{prop:'createdDate',order:'descending'}"
       @sort-change="crud.sortChange"
       @selection-change="crud.selectionChangeHandler"
     >
@@ -40,9 +41,8 @@
       <el-table-column align="center" label="浏览器类型" :show-overflow-tooltip="true" prop="browser" />
       <el-table-column align="center" label="操作系统" :show-overflow-tooltip="true" prop="os" />
       <el-table-column align="center" label="用户代理" :show-overflow-tooltip="true" prop="userAgent" />
-      <el-table-column align="center" label="请求URI" :show-overflow-tooltip="true" prop="requestUri" />
-      <el-table-column align="center" label="执行时间" :show-overflow-tooltip="true" prop="executeTime" />
-      <el-table-column v-permission="[permission.edit,permission.del]" label="操作" width="120px" fixed="right">
+      <el-table-column align="center" label="登录时间" :show-overflow-tooltip="true" prop="createdDate" sortable="custom" />
+      <el-table-column v-permission="[permission.del]" label="操作" width="120px" fixed="right">
         <template slot-scope="scope">
           <udOperation :data="scope.row" :permission="permission" />
         </template>
@@ -83,6 +83,11 @@ export default {
     ...mapGetters(['permissions', 'dicts'])
   },
   created() {
+    this.crud.optShow = {
+      add: false,
+      edit: false,
+      del: true
+    }
   },
   methods: {
     download() {

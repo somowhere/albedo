@@ -4,7 +4,6 @@ module.exports = {
    */
   title: 'Albedo',
   key: 'Albedo',
-  api: '/a',
   /**
    * @description 是否显示 tagsView
    */

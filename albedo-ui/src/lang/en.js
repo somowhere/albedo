@@ -88,17 +88,17 @@ export default {
       driverClassName: 'driverClassName'
     },
     user: {
-      account: 'Account',
-      name: 'Name',
+      username: 'Account',
+      nickname: 'Nickname',
       password: 'Password',
       orgId: 'Org',
       stationId: 'Station',
       email: 'Email',
       sex: 'Gender',
       state: 'state',
-      mobile: 'Mobile',
+      phone: 'Mobile',
       avatar: 'Avatar',
-      workDescribe: 'WorkDescribe',
+      description: 'description',
       passwordErrorLastTime: 'PasswordErrorLastTime',
       passwordErrorNum: 'PasswordErrorNum',
       passwordExpireTime: 'PasswordExpireTime',
@@ -160,7 +160,7 @@ export default {
       state: 'State'
     },
     optLog: {
-      requestIp: 'IP',
+      ipAddress: 'IP',
       type: 'type',
       userName: 'userName',
       description: 'description',
@@ -179,14 +179,14 @@ export default {
     loginLog: {
       userName: 'userName',
       account: 'account',
-      requestIp: 'IP',
+      ipAddress: 'IP',
       description: 'description',
       loginDate: 'loginDate',
       ua: 'ua',
       browser: 'browser',
       browserVersion: 'browserVersion',
-      operatingSystem: 'operatingSystem',
-      location: 'location'
+      os: 'operatingSystem',
+      ipLocation: 'location'
     },
     attachment: {
       bizId: 'bizId',

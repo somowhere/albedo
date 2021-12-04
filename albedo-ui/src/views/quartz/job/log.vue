@@ -78,7 +78,7 @@
       </el-table-column>
       <el-table-column align="center" label="状态" prop="statusText" width="80px">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status.code === 'T' ? 'success' : 'danger'">{{ scope.row.status.text }}</el-tag>
+          <el-tag :type="scope.row.status === 'T' ? 'success' : 'danger'">{{ scope.row.statusText }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column :show-overflow-tooltip="true" label="创建日期" prop="createdDate" width="130px" />

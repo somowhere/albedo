@@ -74,10 +74,9 @@ public class CustomModule extends SimpleModule {
 			new LocalDateDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATE_PATTERN)));
 		this.addDeserializer(LocalTime.class,
 			new LocalTimeDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_TIME_PATTERN)));
-		this.addSerializer(Long.class, ToStringSerializer.instance);
-		this.addSerializer(Long.TYPE, ToStringSerializer.instance);
 		this.addSerializer(BigInteger.class, ToStringSerializer.instance);
 		this.addSerializer(BigDecimal.class, ToStringSerializer.instance);
+		this.addSerializer(Long.class, ToStringSerializer.instance);
 		this.addSerializer(BaseEnum.class, EnumSerializer.INSTANCE);
 	}
 
