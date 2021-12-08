@@ -1,7 +1,7 @@
 package com.albedo.java.modules.file.entity;
 
 import com.albedo.java.common.core.basic.domain.IdEntity;
-import com.albedo.java.common.core.enumeration.FileTypeEnum;
+import com.albedo.java.common.core.enumeration.FileType;
 import com.albedo.java.modules.file.enumeration.FileStorageType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -19,9 +19,9 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * 增量文件上传日志
  * </p>
  *
- * @author tangyh
+ * @author somewhere
  * @date 2021-06-30
- * @create [2021-06-30] [tangyh] [初始创建]
+ * @create [2021-06-30] [somewhere] [初始创建]
  */
 @Data
 @NoArgsConstructor
@@ -44,7 +44,7 @@ public class File extends IdEntity<File, Long> {
 	 * 文件类型
 	 */
 	@TableField(value = "file_type", condition = LIKE)
-	private FileTypeEnum fileType;
+	private FileType fileType;
 
 	/**
 	 * 存储类型
@@ -110,7 +110,7 @@ public class File extends IdEntity<File, Long> {
 
 	@Builder
 	public File(Long id, LocalDateTime createdDate, Long createdBy, LocalDateTime lastModifiedDate, Long lastModifiedBy,
-				String bizType, FileTypeEnum fileType, FileStorageType storageType, String bucket,
+				String bizType, FileType fileType, FileStorageType storageType, String bucket,
 				String path, String url, String uniqueFileName, String fileMd5, String originalFileName, String contentType,
 				String suffix, Long size) {
 		this.id = id;

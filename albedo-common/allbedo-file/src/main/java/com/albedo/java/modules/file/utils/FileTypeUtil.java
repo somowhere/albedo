@@ -2,7 +2,7 @@ package com.albedo.java.modules.file.utils;
 
 
 import cn.hutool.core.util.StrUtil;
-import com.albedo.java.common.core.enumeration.FileTypeEnum;
+import com.albedo.java.common.core.enumeration.FileType;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -46,20 +46,20 @@ public final class FileTypeUtil {
 	 * @author somewhere
 	 * @date 2019-05-06 13:41
 	 */
-	public static FileTypeEnum getFileType(String contentType) {
+	public static FileType getFileType(String contentType) {
 		if (contentType == null || "".equals(contentType)) {
-			return FileTypeEnum.OTHER;
+			return FileType.OTHER;
 		}
 		if (contentType.contains(IMAGE)) {
-			return FileTypeEnum.IMAGE;
+			return FileType.IMAGE;
 		} else if (contentType.contains(TEXT) || StrUtil.startWithAny(contentType, TEXT_MIME)) {
-			return FileTypeEnum.DOC;
+			return FileType.DOC;
 		} else if (contentType.contains(VIDEO)) {
-			return FileTypeEnum.VIDEO;
+			return FileType.VIDEO;
 		} else if (contentType.contains(AUDIO)) {
-			return FileTypeEnum.AUDIO;
+			return FileType.AUDIO;
 		} else {
-			return FileTypeEnum.OTHER;
+			return FileType.OTHER;
 		}
 	}
 

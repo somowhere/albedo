@@ -38,7 +38,7 @@ export default {
   methods: {
     handleSetLanguage(lang) {
       this.$i18n.locale = lang
-      this.$store.commit('setting/setLanguage', lang)
+      this.$store.dispatch('settings/changeSetting', { key: 'language', value: lang })
       this.$message({
         message: this.$t('tips.switchLanguageSuccess'),
         type: 'success'

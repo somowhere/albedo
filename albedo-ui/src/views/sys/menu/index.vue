@@ -27,7 +27,6 @@
         <rrOperation />
       </div>
       <crudOperation :permission="permission">
-        <!-- 任务日志 -->
         <el-button
           slot="right"
           plain

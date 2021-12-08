@@ -1,7 +1,7 @@
 package com.albedo.java.modules.file.domain;
 
 import com.albedo.java.common.core.basic.domain.IdEntity;
-import com.albedo.java.common.core.enumeration.FileTypeEnum;
+import com.albedo.java.common.core.enumeration.FileType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
@@ -18,16 +18,16 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * 业务附件
  * </p>
  *
- * @author tangyh
+ * @author somewhere
  * @date 2021-06-30
- * @create [2021-06-30] [tangyh] [初始创建]
+ * @create [2021-06-30] [somewhere] [初始创建]
  */
 @Data
 @NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("c_appendix")
+@TableName("sys_appendix")
 public class Appendix extends IdEntity<Appendix, Long> {
 
 	private static final long serialVersionUID = 1L;
@@ -47,7 +47,7 @@ public class Appendix extends IdEntity<Appendix, Long> {
 	 * 文件类型
 	 */
 	@TableField(value = "file_type", condition = LIKE)
-	private FileTypeEnum fileType;
+	private FileType fileType;
 
 	/**
 	 * 桶
@@ -82,7 +82,7 @@ public class Appendix extends IdEntity<Appendix, Long> {
 
 	@Builder
 	public Appendix(Long id, LocalDateTime createdDate, Long createdBy, LocalDateTime lastModifiedDate, Long lastModifiedBy,
-					Long bizId, String bizType, FileTypeEnum fileType, String bucket, String path,
+					Long bizId, String bizType, FileType fileType, String bucket, String path,
 					String originalFileName, String contentType, Long size) {
 		this.id = id;
 		this.createdDate = createdDate;

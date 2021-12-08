@@ -1,6 +1,6 @@
 package com.albedo.java.common.core.vo;
 
-import com.albedo.java.common.core.enumeration.FileTypeEnum;
+import com.albedo.java.common.core.enumeration.FileType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
  * 业务附件
  * </p>
  *
- * @author tangyh
+ * @author somewhere
  * @date 2021-06-30
- * @create [2021-06-30] [tangyh] [初始创建]
+ * @create [2021-06-30] [somewhere] [初始创建]
  */
 @Data
 @NoArgsConstructor
@@ -45,7 +45,7 @@ public class AppendixVo implements Serializable {
 	 * 文件类型
 	 */
 	@ApiModelProperty(value = "文件类型")
-	private FileTypeEnum fileType;
+	private FileType fileType;
 	/**
 	 * 桶
 	 */

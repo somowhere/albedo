@@ -1,8 +1,8 @@
 package com.albedo.java.modules.file.service;
 
+import com.albedo.java.modules.file.domain.vo.param.FileUploadVo;
+import com.albedo.java.modules.file.domain.vo.result.FileResultVo;
 import com.albedo.java.modules.file.entity.File;
-import com.albedo.java.modules.file.vo.param.FileUploadVo;
-import com.albedo.java.modules.file.vo.result.FileResultVo;
 import com.albedo.java.plugins.database.mybatis.service.BaseService;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,9 +17,9 @@ import java.util.Map;
  * 增量文件上传日志
  * </p>
  *
- * @author tangyh
+ * @author somewhere
  * @date 2021-06-30
- * @create [2021-06-30] [tangyh] [初始创建]
+ * @create [2021-06-30] [somewhere] [初始创建]
  */
 public interface FileService extends BaseService<File> {
 

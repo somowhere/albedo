@@ -19,7 +19,8 @@ const messages = {
   }
 }
 export function getLanguage() {
-  const chooseLanguage = storeApi.get('LANGUAGE')
+  const chooseLanguage = storeApi.get({ name: 'LANGUAGE' })
+  console.log(chooseLanguage)
   if (chooseLanguage) return chooseLanguage
 
   // if has not choose language

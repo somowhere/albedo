@@ -20,16 +20,22 @@ import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.code.ResponseCode;
 import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.Result;
+import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.log.annotation.LogOperate;
+import com.albedo.java.modules.file.domain.dto.FileQueryCriteria;
+import com.albedo.java.modules.file.domain.vo.param.FileUploadVo;
+import com.albedo.java.modules.file.domain.vo.result.FileResultVo;
 import com.albedo.java.modules.file.service.FileService;
-import com.albedo.java.modules.file.vo.param.FileUploadVo;
-import com.albedo.java.modules.file.vo.result.FileResultVo;
+import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,6 +44,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 通用请求处理
@@ -107,6 +114,33 @@ public class FileResource {
 	public void download(@RequestBody List<Long> ids, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ArgumentAssert.notEmpty(ids, "请选择至少一个附件");
 		fileService.download(request, response, ids);
+	}
+
+	/**
+	 * 分页查询文件
+	 *
+	 * @param pageModel 参数集
+	 * @return 附件集合
+	 */
+	@GetMapping
+	@LogOperate(value = "文件分页查看")
+	@PreAuthorize("@pms.hasPermission('sys_file_view')")
+	public Result<IPage> findPage(PageModel pageModel, FileQueryCriteria fileQueryCriteria) {
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, fileQueryCriteria);
+		return Result.buildOkData(fileService.page(pageModel, wrapper));
+	}
+
+	/**
+	 * 删除操作文件
+	 *
+	 * @param ids ID
+	 * @return success/false
+	 */
+	@DeleteMapping
+	@PreAuthorize("@pms.hasPermission('sys_file_del')")
+	@LogOperate(value = "附件删除")
+	public Result removeById(@RequestBody Set<String> ids) {
+		return Result.buildOkData(fileService.removeByIds(ids));
 	}
 
 }

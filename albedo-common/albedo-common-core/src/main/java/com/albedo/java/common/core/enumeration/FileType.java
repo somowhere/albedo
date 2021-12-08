@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(value = "FileType", description = "文件类型-枚举")
-public enum FileTypeEnum implements BaseEnum {
+public enum FileType implements BaseEnum {
 
 	/**
 	 * IMAGE="图片"
@@ -52,15 +52,15 @@ public enum FileTypeEnum implements BaseEnum {
 	/**
 	 * 根据当前枚举的name匹配
 	 */
-	public static FileTypeEnum match(String val, FileTypeEnum def) {
+	public static FileType match(String val, FileType def) {
 		return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
 	}
 
-	public static FileTypeEnum get(String val) {
+	public static FileType get(String val) {
 		return match(val, null);
 	}
 
-	public boolean eq(FileTypeEnum val) {
+	public boolean eq(FileType val) {
 		return val != null && eq(val.name());
 	}
 

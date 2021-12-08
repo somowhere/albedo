@@ -86,8 +86,8 @@ public class ${ClassName}Resource extends BaseResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_view')")
-	@LogOperate(value = "${functionNameSimple}查看")
-	@ApiOperation("${functionNameSimple}查看")
+	@LogOperate(value = "${functionNameSimple}分页查看")
+	@ApiOperation("${functionNameSimple}分页查看")
 	public Result<IPage<${ClassName}Vo>> findTreeList(${ClassName}QueryCriteria ${className}QueryCriteria) {
 		List<${ClassName}Vo> ${className}VoList = service.findTreeList(${className}QueryCriteria).stream()
 			.map(item -> BeanUtil.copyPropertiesByClass(item, ${ClassName}Vo.class)).collect(Collectors.toList());

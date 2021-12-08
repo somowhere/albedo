@@ -259,7 +259,7 @@ public class MenuServiceImpl extends TreeCacheServiceImpl<MenuRepository, Menu, 
 		module.setName(moduleName);
 		module.setParentId(parentMenu.getId());
 		module.setType(Menu.TYPE_MENU);
-		module.setIcon("icon-right-square");
+		module.setIcon("app");
 		module.setPath(StringUtil.toRevertCamelCase(StringUtil.lowerFirst(schemeDto.getClassName()), CharUtil.DASHED));
 		module.setComponent(url.substring(1) + "index");
 		save(module);

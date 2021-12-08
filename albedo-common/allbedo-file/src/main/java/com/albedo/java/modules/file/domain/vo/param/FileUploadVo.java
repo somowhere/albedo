@@ -1,4 +1,4 @@
-package com.albedo.java.modules.file.vo.param;
+package com.albedo.java.modules.file.domain.vo.param;
 
 
 import com.albedo.java.modules.file.enumeration.FileStorageType;

@@ -91,7 +91,6 @@
     <el-table
       ref="table"
       v-loading="crud.loading"
-      default-expand-all
       :data="crud.data"
       row-key="id"
       @select="crud.selectChange"

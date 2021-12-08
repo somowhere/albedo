@@ -110,7 +110,7 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
 
 	private boolean initApplication() {
 		List<Application> list = new ArrayList<>();
-		list.add(Application.builder().clientId("albedo_web").clientSecret("albedo_web_secret").website("http://tangyh.top:10000/albedo-web/").name("微服务快速开发管理后台").appType(ApplicationAppTypeEnum.PC).state(true).build());
+		list.add(Application.builder().clientId("albedo_web").clientSecret("albedo_web_secret").website("http://somewhere.top:10000/albedo-web/").name("微服务快速开发管理后台").appType(ApplicationAppTypeEnum.PC).state(true).build());
 		return applicationService.saveBatch(list);
 	}
 

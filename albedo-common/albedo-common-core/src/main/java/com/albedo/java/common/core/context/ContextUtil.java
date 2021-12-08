@@ -24,9 +24,9 @@ public final class ContextUtil {
 	/**
 	 * 支持多线程传递参数
 	 *
-	 * @author tangyh
+	 * @author somewhere
 	 * @date 2021/6/23 9:26 下午
-	 * @create [2021/6/23 9:26 下午 ] [tangyh] [初始创建]
+	 * @create [2021/6/23 9:26 下午 ] [somewhere] [初始创建]
 	 */
 	private static final ThreadLocal<Map<String, String>> THREAD_LOCAL = new TransmittableThreadLocal<>();
 

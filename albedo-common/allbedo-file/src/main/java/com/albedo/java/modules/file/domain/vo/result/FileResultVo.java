@@ -1,7 +1,6 @@
-package com.albedo.java.modules.file.vo.param;
+package com.albedo.java.modules.file.domain.vo.result;
 
-import com.albedo.java.common.core.enumeration.FileTypeEnum;
-import com.albedo.java.modules.file.enumeration.FileStorageType;
+import com.albedo.java.common.core.enumeration.FileType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -15,9 +14,9 @@ import java.io.Serializable;
  * 增量文件上传日志
  * </p>
  *
- * @author tangyh
+ * @author somewhere
  * @date 2021-06-30
- * @create [2021-06-30] [tangyh] [初始创建]
+ * @create [2021-06-30] [somewhere] [初始创建]
  */
 @Data
 @NoArgsConstructor
@@ -26,8 +25,8 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "FileFileParamVO", description = "增量文件上传日志")
-public class FileParamVo implements Serializable {
+@ApiModel(value = "FileFileResultVO", description = "增量文件上传日志")
+public class FileResultVo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -40,13 +39,7 @@ public class FileParamVo implements Serializable {
 	 * 文件类型
 	 */
 	@ApiModelProperty(value = "文件类型")
-	private FileTypeEnum fileType;
-	/**
-	 * 存储类型
-	 * LOCAL FAST_DFS MIN_IO ALI
-	 */
-	@ApiModelProperty(value = "存储类型")
-	private FileStorageType storageType;
+	private FileType fileType;
 	/**
 	 * 桶
 	 */
@@ -59,6 +52,7 @@ public class FileParamVo implements Serializable {
 	private String path;
 	/**
 	 * 文件访问地址
+	 * 当bucket设置为私有桶时，可能无法访问
 	 */
 	@ApiModelProperty(value = "文件访问地址")
 	private String url;
@@ -95,5 +89,4 @@ public class FileParamVo implements Serializable {
 
 	@ApiModelProperty("主键")
 	private Long id;
-
 }

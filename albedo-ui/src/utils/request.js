@@ -68,6 +68,9 @@ service.interceptors.response.use(
       if (status === 200 && (response.data && response.data.code === MSG_TYPE_SUCCESS) && validate.checkNotNull(response.data.message)) {
         Notification.success(response.data.message)
       }
+      if (response.headers['content-disposition']) {
+        return response
+      }
       return response.data
     }
   },

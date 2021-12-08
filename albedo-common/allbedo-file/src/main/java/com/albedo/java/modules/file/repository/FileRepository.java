@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
  * 增量文件上传日志
  * </p>
  *
- * @author tangyh
+ * @author somewhere
  * @date 2021-06-30
- * @create [2021-06-30] [tangyh] [初始创建]
+ * @create [2021-06-30] [somewhere] [初始创建]
  */
 @Repository
 public interface FileRepository extends BaseRepository<File> {

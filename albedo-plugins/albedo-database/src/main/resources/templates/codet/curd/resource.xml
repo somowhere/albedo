@@ -74,8 +74,8 @@ public class ${ClassName}Resource extends BaseResource {
 
 	@PreAuthorize("@pms.hasPermission('${permissionPrefix}_view')")
 	@GetMapping
-	@LogOperate(value = "${functionName}查看")
-	@ApiOperation("${functionNameSimple}查看")
+	@LogOperate(value = "${functionName}分页查看")
+	@ApiOperation("${functionNameSimple}分页查看")
 	public Result getPage(PageModel pm, ${ClassName}QueryCriteria ${className}QueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, ${className}QueryCriteria);
 		return Result.buildOkData(service.page(pm, wrapper));

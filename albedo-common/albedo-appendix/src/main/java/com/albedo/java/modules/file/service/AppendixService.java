@@ -21,9 +21,9 @@ import java.util.List;
  * 业务附件
  * </p>
  *
- * @author tangyh
+ * @author somewhere
  * @date 2021-06-30
- * @create [2021-06-30] [tangyh] [初始创建]
+ * @create [2021-06-30] [somewhere] [初始创建]
  */
 public interface AppendixService extends DataService<Appendix, AppendixDto> {
 
@@ -32,9 +32,9 @@ public interface AppendixService extends DataService<Appendix, AppendixDto> {
 	 *
 	 * @param page     分页数据
 	 * @param bizTypes 业务类型
-	 * @author tangyh
+	 * @author somewhere
 	 * @date 2021/8/28 3:53 下午
-	 * @create [2021/8/28 3:53 下午 ] [tangyh] [初始创建]
+	 * @create [2021/8/28 3:53 下午 ] [somewhere] [初始创建]
 	 */
 	<T extends IdEntity<T, Long> & EchoVo> void echoAppendix(IPage<T> page, String... bizTypes);
 
@@ -43,9 +43,9 @@ public interface AppendixService extends DataService<Appendix, AppendixDto> {
 	 *
 	 * @param list     列表数据
 	 * @param bizTypes 业务类型
-	 * @author tangyh
+	 * @author somewhere
 	 * @date 2021/8/28 3:53 下午
-	 * @create [2021/8/28 3:53 下午 ] [tangyh] [初始创建]
+	 * @create [2021/8/28 3:53 下午 ] [somewhere] [初始创建]
 	 */
 	<T extends IdEntity<T, Long> & EchoVo> void echoAppendix(List<T> list, String... bizTypes);
 

@@ -229,9 +229,9 @@ public class RedisOps {
 	 * 批量扫描后删除 匹配到的key
 	 *
 	 * @param pattern pattern
-	 * @author tangyh
+	 * @author somewhere
 	 * @date 2021/6/18 3:21 下午
-	 * @create [2021/6/18 3:21 下午 ] [tangyh] [初始创建]
+	 * @create [2021/6/18 3:21 下午 ] [somewhere] [初始创建]
 	 */
 	public void scanUnlink(@NonNull String pattern) {
 		log.info("pattern={}", pattern);

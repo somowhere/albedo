@@ -167,7 +167,7 @@ public class FileServerProperties {
 		/**
 		 * 访问域名
 		 */
-		private String domain = "qiniu.tangyh.top";
+		private String domain = "qiniu.somewhere.top";
 		private Boolean useHttps = false;
 
 		/**

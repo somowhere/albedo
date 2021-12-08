@@ -36,19 +36,19 @@ import java.util.List;
  * <p>
  * 不使用多数据源模式时，一个服务如何配置多数据源？
  * <p>
- * 1. 本类的子类的 @MapperScan(basePackages = {"top.tangyh.basic"}) 修改为  @MapperScan(basePackages = {"top.tangyh.basic.product.dao"})
+ * 1. 本类的子类的 @MapperScan(basePackages = {"top.somewhere.basic"}) 修改为  @MapperScan(basePackages = {"top.somewhere.basic.product.dao"})
  * 2. 修改本类的子类的 @ConfigurationProperties(prefix = "spring.datasource.druid") 为 @ConfigurationProperties(prefix = "spring.datasource.druid.master")
  * 3. 在层复制该类，重命名为 SlaveDatabaseAutoConfiguration （跟AuthorityDatabaseAutoConfiguration放一起）
  * 4. 修改 DATABASE_PREFIX 为 slave  (任意命名，不要跟当前的重复即可)
  * 5. 修改 @ConfigurationProperties(prefix = "spring.datasource.druid") 为 @ConfigurationProperties(prefix = "spring.datasource.druid.slave")
- * 6. SlaveDatabaseAutoConfiguration 中的 basePackages = {"top.tangyh.basic"}, 修改为  basePackages = {"top.tangyh.basic.order.dao"} # 这个路径根据你的情况修改
+ * 6. SlaveDatabaseAutoConfiguration 中的 basePackages = {"top.somewhere.basic"}, 修改为  basePackages = {"top.somewhere.basic.order.dao"} # 这个路径根据你的情况修改
  * 7. mysql.yml 中增加2个数据源的配置 spring.database.druid.master 和 spring.database.druid.slave
  * 8. mysql.yml 中将 mybatis-plus: 相关的所有配置完整的复制一份为： mybatis-plus-slave: ， 并修改各自的子项 mapper-locations: 进行修改
  * 8. 复制 MybatisPlusProperties 为 MybatisPlusSlaveProperties， 并修改类上的配置为 @ConfigurationProperties(prefix = "mybatis-plus-slave")
  * 9. SlaveDatabaseAutoConfiguration 类上面需要配置 AuthorityDatabaseAutoConfiguration 类上的一系列注解
  * 10. SlaveDatabaseAutoConfiguration 类上面需要配置 @EnableConfigurationProperties({MybatisPlusSlaveProperties.class}) ， 构造器第一个参数也改成 MybatisPlusSlaveProperties
  * <p>
- * 完成上述修改后， 位于top.tangyh.basic.product.dao 包下的dao 将操作  master 库， top.tangyh.basic.order.dao中的dao 将操作slave库
+ * 完成上述修改后， 位于top.somewhere.basic.product.dao 包下的dao 将操作  master 库， top.somewhere.basic.order.dao中的dao 将操作slave库
  *
  * @author somewhere
  * @date 2017-11-18 0:34
@@ -89,9 +89,9 @@ public abstract class BaseMasterDatabaseConfiguration extends BaseDatabaseConfig
 	 * 数据源信息
 	 *
 	 * @return javax.sql.DataSource Druid数据源
-	 * @author tangyh
+	 * @author somewhere
 	 * @date 2021/8/15 10:16 下午
-	 * @create [2021/8/15 10:16 下午 ] [tangyh] [初始创建]
+	 * @create [2021/8/15 10:16 下午 ] [somewhere] [初始创建]
 	 */
 	@Bean(name = DATABASE_PREFIX + "DruidDataSource", initMethod = "init")
 	public DataSource druidDataSource() {
