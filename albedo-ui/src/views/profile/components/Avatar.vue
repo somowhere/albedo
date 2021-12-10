@@ -85,7 +85,6 @@
 import imgUpload from '@/components/Upload/imgUpload'
 import accountService from '@/api/account'
 import { mapGetters } from 'vuex'
-import store from '@/store'
 const hthz = [
   'default.jpg', '1d22f3e41d284f50b2c8fc32e0788698.jpeg',
   '2dd7a2d09fa94bf8b5c52e5318868b4d9.jpg', '2dd7a2d09fa94bf8b5c52e5318868b4df.jpg',

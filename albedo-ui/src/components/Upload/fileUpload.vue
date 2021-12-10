@@ -31,10 +31,8 @@
 </template>
 
 <script>
-import store from '@/utils/store'
 import commonService from '@/api/common'
 import commonUtil from '@/utils/common'
-import { Base64 } from 'js-base64'
 import { getXsrfToken } from '@/utils/auth'
 
 export default {
@@ -214,7 +212,7 @@ export default {
       if (value === null || value === '') {
         return '0 B'
       }
-      const unitArr = new Array[
+      const unitArr = [
         'B',
         'KB',
         'MB',
@@ -224,7 +222,7 @@ export default {
         'EB',
         'ZB',
         'YB'
-      ]()
+      ]
       let index = 0
       const srcsize = parseFloat(value)
       index = Math.floor(Math.log(srcsize) / Math.log(1024))

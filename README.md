@@ -1,4 +1,4 @@
-<h1 style="text-align: center">Albedo 3.2.0 - 企业信息化快速开发平台</h1>
+<h1 style="text-align: center">Albedo 3.2.1 - 企业信息化快速开发平台</h1>
  <p align="center">
  
  [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/somowhere/albedo/blob/master/LICENSE)
@@ -49,7 +49,7 @@
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.5.6 
+Spring Boot |  2.6.1 
 Mybatis Plus | 3.4.3.4
 hutool | 5.7.16
    
@@ -60,16 +60,25 @@ hutool | 5.7.16
 albedo
 ├── albedo-ui -- 前端工程[8080]
 └── albedo-common -- 系统公共模块 
+     ├── albedo-common-appendix --  附件模块
      ├── albedo-common-api --  服务基础api
      ├── albedo-common-core -- 公共工具类核心包
      ├── albedo-common-module -- 模块基础包
+     ├── albedo-common-quartz -- 定时基础包
+     ├── albedo-common-gen -- 代码生成基础包
+     ├── albedo-common-monitor -- 监控api
+     ├── albedo-common-tenant -- 租户基础包
+     ├── albedo-common-quartz -- 文件api
 └── albedo-modules -- 功能模块
      ├── albedo-admin -- 通用用户权限管理系统业务处理模块[4000]
-     ├── albedo-api -- 接口模块
+     ├── albedo-app -- 接口模块
      ├── albedo-quartz -- 定时任务模块
 └── albedo-plugin  -- 插件模块 
-     ├── albedo-database -- 数据库 基础模块
-     └── albedo-swagger-api -- swagger api
+     ├── albedo-cache-starter -- 缓存模块
+     ├── albedo-database -- 数据库基础模块
+     ├── albedo-dynamic-database -- 动态数据源模块
+     ├── albedo-swagger-api -- swagger api
+     └── albedo-uid -- 主键uid
 	 
 ```
 

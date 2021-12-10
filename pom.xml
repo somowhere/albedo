@@ -21,14 +21,14 @@
 
 	<groupId>com.albedo.java</groupId>
 	<artifactId>albedo</artifactId>
-	<version>3.2.0-SNAPSHOT</version>
+	<version>3.2.1-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 	<packaging>pom</packaging>
 	<url>https://github.com/somowhere</url>
 
 	<properties>
-		<project.release.version>3.2.0-SNAPSHOT</project.release.version>
-		<spring-boot.version>2.5.6</spring-boot.version>
+		<project.release.version>3.2.1-SNAPSHOT</project.release.version>
+		<spring-boot.version>2.6.1</spring-boot.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -38,7 +38,7 @@
 		<mybatis-plus.version>3.4.3.4</mybatis-plus.version>
 		<mybatis.version>3.5.7</mybatis.version>
 		<dynamic-ds.version>3.4.1</dynamic-ds.version>
-		<captcha.version>2.2.0</captcha.version>
+		<captcha.version>2.2.1</captcha.version>
 		<velocity.version>1.7</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
 		<druid.version>1.2.8</druid.version>
@@ -46,7 +46,7 @@
 		<springfox.version>3.0.0</springfox.version>
 		<knife4j.version>3.0.3</knife4j.version>
 		<poi.version>5.0.0</poi.version>
-		<oshi.version>5.8.2</oshi.version>
+		<oshi.version>5.8.5</oshi.version>
 		<guava.version>31.0.1-jre</guava.version>
 		<protostuff.version>1.7.4</protostuff.version>
 		<ip2region.version>1.7.2</ip2region.version>
@@ -56,9 +56,9 @@
 		<tobato-fastdfs-client.version>1.27.2</tobato-fastdfs-client.version>
 		<aliyun-java-sdk-core.version>4.5.25</aliyun-java-sdk-core.version>
 		<aliyun-java-sdk-dysmsapi.version>2.1.0</aliyun-java-sdk-dysmsapi.version>
-		<aliyun-sdk-oss.version>3.13.0</aliyun-sdk-oss.version>
+		<aliyun-sdk-oss.version>3.13.2</aliyun-sdk-oss.version>
 		<bce-java-sdk.version>0.10.21</bce-java-sdk.version>
-		<esdk-obs-java.version>3.21.4.1</esdk-obs-java.version>
+		<esdk-obs-java.version>3.21.8.1</esdk-obs-java.version>
 		<qiniu-java-sdk.version>7.8.0</qiniu-java-sdk.version>
 
 		<profile.dev.log.level>DEBUG</profile.dev.log.level>
