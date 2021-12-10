@@ -82,8 +82,6 @@ import java.util.Set;
 @Profile("!" + CommonConstants.SPRING_PROFILE_JWT)
 public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 
-	private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
 	private final ApplicationProperties applicationProperties;
 
 	private final UserDetailsService userDetailsService;
@@ -111,14 +109,19 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
 
-	@PostConstruct
-	public void init() {
-		try {
-			authenticationManagerBuilder.authenticationProvider(daoAuthenticationProvider());
-		} catch (Exception e) {
-			throw new BeanInitializationException("Security configuration failed", e);
-		}
+	@Override
+	protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+		authenticationManagerBuilder.authenticationProvider(daoAuthenticationProvider());
 	}
+
+	//	@PostConstruct
+//	public void init() {
+//		try {
+//			authenticationManagerBuilder.authenticationProvider(daoAuthenticationProvider());
+//		} catch (Exception e) {
+//			throw new BeanInitializationException("Security configuration failed", e);
+//		}
+//	}
 
 	@Bean
 	public DaoAuthenticationProvider daoAuthenticationProvider() {

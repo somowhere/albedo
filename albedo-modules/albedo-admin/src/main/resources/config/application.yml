@@ -32,12 +32,9 @@ spring:
     multipart:
       max-file-size: "100MB"
       max-request-size: "1000MB"
-  datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    driver-class-name: ${application.mysql.driverClassName}
-    username: ${application.mysql.username}
-    password: ${application.mysql.password}
-    url: ${application.mysql.url}
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 # mybaits-plus配置
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*/*Mapper.xml

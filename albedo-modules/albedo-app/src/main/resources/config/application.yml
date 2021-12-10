@@ -29,6 +29,9 @@ spring:
     store-type: redis
   profiles:
     active: ${mvn.spring.profiles.active}
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 server:
   servlet:

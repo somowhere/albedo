@@ -91,13 +91,10 @@ public class SecurityJwtConfiguration extends WebSecurityConfigurerAdapter {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
 
-	@PostConstruct
-	public void init() {
-		try {
-			authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-		} catch (Exception e) {
-			throw new BeanInitializationException("Security configuration failed", e);
-		}
+
+	@Override
+	protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+		authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 
 	@Override
