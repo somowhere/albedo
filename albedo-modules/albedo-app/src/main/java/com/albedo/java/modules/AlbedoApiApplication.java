@@ -59,8 +59,10 @@ public class AlbedoApiApplication {
 		log.info(
 			"\n----------------------------------------------------------\n\t"
 				+ "Application '{} v{}' is running! Access URLs:\n\t" + "Local: \t\thttp://localhost:{}\n\t"
-				+ "External: \thttp://{}:{}\n----------------------------------------------------------",
-			env.getProperty(SPRING_APPLICATION_NAME), env.getProperty(APPLICATION_VERSION), env.getProperty(SERVER_PORT),
+				+ "Doc: \t\thttp://localhost:{}/doc.html\n\t"
+				+ "External: \thttp://{}:{}\n\t"
+				+ "\n----------------------------------------------------------",
+			env.getProperty(SPRING_APPLICATION_NAME), env.getProperty(APPLICATION_VERSION), env.getProperty(SERVER_PORT), env.getProperty(SERVER_PORT),
 			InetAddress.getLocalHost().getHostAddress(), env.getProperty(SERVER_PORT));
 	}
 

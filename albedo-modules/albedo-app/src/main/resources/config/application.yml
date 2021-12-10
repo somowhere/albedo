@@ -29,6 +29,12 @@ spring:
     store-type: redis
   profiles:
     active: ${mvn.spring.profiles.active}
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: ${application.mysql.driverClassName}
+    username: ${application.mysql.username}
+    password: ${application.mysql.password}
+    url: ${application.mysql.url}
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

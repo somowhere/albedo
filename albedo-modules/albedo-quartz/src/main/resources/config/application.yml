@@ -27,8 +27,16 @@ spring:
     name: albedo-quartz
   session:
     store-type: redis
+  quartz:
+    job-store-type: jdbc
   profiles:
     active: ${mvn.spring.profiles.active}
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: ${application.mysql.driverClassName}
+    username: ${application.mysql.username}
+    password: ${application.mysql.password}
+    url: ${application.mysql.url}
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -76,7 +84,6 @@ application:
     tenantIdColumn: tenant_code
     ignore-tables:
       - sys_tenant
-      - sys_job
     isNotWrite: false
     p6spy: true
     isBlockAttack: false  # 是否启用 攻击 SQL 阻断解析器
