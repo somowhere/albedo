@@ -26,6 +26,7 @@ import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.gen.domain.dto.*;
+import com.albedo.java.modules.gen.domain.vo.SchemeFormDataVo;
 import com.albedo.java.modules.gen.service.SchemeService;
 import com.albedo.java.modules.gen.service.TableService;
 import com.albedo.java.modules.sys.domain.dto.GenSchemeDto;
@@ -79,7 +80,7 @@ public class SchemeResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('gen_scheme_view')")
 	public Result formData(SchemeDto schemeDto) {
 		String username = SecurityUtil.getUser().getUsername();
-		Map<String, Object> formData = schemeService.findFormData(schemeDto, username);
+		SchemeFormDataVo formData = schemeService.findFormData(schemeDto, username);
 		return Result.buildOkData(formData);
 	}
 

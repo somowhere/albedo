@@ -2,7 +2,7 @@ package com.albedo.java.modules.file.strategy;
 
 import com.albedo.java.modules.file.domain.FileDeleteBo;
 import com.albedo.java.modules.file.domain.FileGetUrlBo;
-import com.albedo.java.modules.file.entity.File;
+import com.albedo.java.modules.file.domain.File;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

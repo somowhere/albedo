@@ -47,7 +47,7 @@ mybatis-plus:
   global-config:
     banner: false
     db-config:
-      id-type: ASSIGN_UUID
+      id-type: input
       insert-strategy: NOT_NULL
       update-strategy: NOT_NULL
       table-underline: true
@@ -65,10 +65,6 @@ application:
   version: @project.release.version@
   address-enabled: true
   logPath: logs
-  static-file-directory:
-    mac: ~/albedo/admin-file
-    linux: /home/albedo/admin-file/
-    win: C:\albedo\admin-file\
   cors: #By default CORS are not enabled. Uncomment to enable.
     allowed-origins-pattern: "*"
     allowed-methods: "*"

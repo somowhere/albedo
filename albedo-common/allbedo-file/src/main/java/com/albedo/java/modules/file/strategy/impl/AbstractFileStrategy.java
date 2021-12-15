@@ -7,7 +7,7 @@ import com.albedo.java.common.core.exception.code.ResponseCode;
 import com.albedo.java.common.core.util.DateUtil;
 import com.albedo.java.common.core.util.StrPool;
 import com.albedo.java.modules.file.domain.FileGetUrlBo;
-import com.albedo.java.modules.file.entity.File;
+import com.albedo.java.modules.file.domain.File;
 import com.albedo.java.modules.file.properties.FileServerProperties;
 import com.albedo.java.modules.file.repository.FileRepository;
 import com.albedo.java.modules.file.strategy.FileStrategy;

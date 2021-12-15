@@ -28,6 +28,7 @@ import com.albedo.java.modules.gen.domain.TableColumn;
 import com.albedo.java.modules.gen.domain.dto.SchemeDto;
 import com.albedo.java.modules.gen.domain.dto.SchemeQueryCriteria;
 import com.albedo.java.modules.gen.domain.dto.TableDto;
+import com.albedo.java.modules.gen.domain.vo.SchemeFormDataVo;
 import com.albedo.java.modules.gen.domain.vo.SchemeVo;
 import com.albedo.java.modules.gen.domain.vo.TemplateVo;
 import com.albedo.java.modules.gen.domain.xml.GenConfig;
@@ -48,6 +49,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -129,8 +131,9 @@ public class SchemeServiceImpl extends DataCacheServiceImpl<SchemeRepository, Sc
 	}
 
 	@Override
-	public Map<String, Object> findFormData(SchemeDto schemeDto, String loginId) {
-		Map<String, Object> map = Maps.newHashMap();
+	@Transactional(readOnly = true)
+	public SchemeFormDataVo findFormData(SchemeDto schemeDto, String loginId) {
+		SchemeFormDataVo schemeFormDataVo = new SchemeFormDataVo();
 
 		if (StringUtil.isNotEmpty(schemeDto.getId())) {
 			schemeDto = super.getOneDto(schemeDto.getId());
@@ -141,12 +144,12 @@ public class SchemeServiceImpl extends DataCacheServiceImpl<SchemeRepository, Sc
 		if (StringUtil.isBlank(schemeDto.getFunctionAuthor())) {
 			schemeDto.setFunctionAuthor(loginId);
 		}
-		map.put("schemeVo", schemeDto);
+		schemeFormDataVo.setSchemeVo(schemeDto);
 		GenConfig config = GenUtil.getConfig();
-		map.put("config", config);
+		schemeFormDataVo.setConfig(config);
 
-		map.put("categoryList", CollUtil.convertComboDataList(config.getCategoryList(), Dict.F_VAL, Dict.F_NAME));
-		map.put("viewTypeList", CollUtil.convertComboDataList(config.getViewTypeList(), Dict.F_VAL, Dict.F_NAME));
+		schemeFormDataVo.setCategoryList(CollUtil.convertSelectVoList(config.getCategoryList(), Dict.F_VAL, Dict.F_NAME));
+		schemeFormDataVo.setViewTypeList(CollUtil.convertSelectVoList(config.getViewTypeList(), Dict.F_VAL, Dict.F_NAME));
 
 		List<Table> tableList = tableService.list(), list = Lists.newArrayList();
 		List<String> tableIds = Lists.newArrayList();
@@ -159,8 +162,8 @@ public class SchemeServiceImpl extends DataCacheServiceImpl<SchemeRepository, Sc
 				list.add(table);
 			}
 		}
-		map.put("tableList", CollUtil.convertComboDataList(list, Table.F_ID, Table.F_NAMESANDTITLE));
-		return map;
+		schemeFormDataVo.setTableList(CollUtil.convertSelectVoList(list, Table.F_ID, Table.F_NAMESANDTITLE));
+		return schemeFormDataVo;
 	}
 
 	@Override

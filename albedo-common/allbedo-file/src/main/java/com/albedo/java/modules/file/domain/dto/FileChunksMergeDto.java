@@ -1,4 +1,4 @@
-package com.albedo.java.modules.file.dto.chunk;
+package com.albedo.java.modules.file.domain.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

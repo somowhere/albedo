@@ -1,7 +1,7 @@
 package com.albedo.java.modules.file.domain.vo.param;
 
 
-import com.albedo.java.modules.file.enumeration.FileStorageType;
+import com.albedo.java.modules.file.domain.enums.FileStorageType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

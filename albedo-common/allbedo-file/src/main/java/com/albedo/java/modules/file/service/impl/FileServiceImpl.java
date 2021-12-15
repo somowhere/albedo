@@ -5,7 +5,7 @@ import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.BeanUtil;
 import com.albedo.java.modules.file.domain.vo.param.FileUploadVo;
 import com.albedo.java.modules.file.domain.vo.result.FileResultVo;
-import com.albedo.java.modules.file.entity.File;
+import com.albedo.java.modules.file.domain.File;
 import com.albedo.java.modules.file.repository.FileRepository;
 import com.albedo.java.modules.file.service.FileService;
 import com.albedo.java.modules.file.strategy.FileContext;

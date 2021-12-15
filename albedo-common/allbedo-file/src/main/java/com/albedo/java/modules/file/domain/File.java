@@ -1,8 +1,8 @@
-package com.albedo.java.modules.file.entity;
+package com.albedo.java.modules.file.domain;
 
 import com.albedo.java.common.core.basic.domain.IdEntity;
 import com.albedo.java.common.core.enumeration.FileType;
-import com.albedo.java.modules.file.enumeration.FileStorageType;
+import com.albedo.java.modules.file.domain.enums.FileStorageType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;

@@ -3,7 +3,7 @@ package com.albedo.java.modules.file.properties;
 
 import cn.hutool.core.util.StrUtil;
 import com.albedo.java.common.core.util.StrPool;
-import com.albedo.java.modules.file.enumeration.FileStorageType;
+import com.albedo.java.modules.file.domain.enums.FileStorageType;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

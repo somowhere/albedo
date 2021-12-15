@@ -1,6 +1,6 @@
 package com.albedo.java.modules.file.domain;
 
-import com.albedo.java.modules.file.enumeration.FileStorageType;
+import com.albedo.java.modules.file.domain.enums.FileStorageType;
 import lombok.Builder;
 import lombok.Data;
 

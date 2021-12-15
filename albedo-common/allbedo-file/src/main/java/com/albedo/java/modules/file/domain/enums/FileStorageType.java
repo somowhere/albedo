@@ -1,4 +1,4 @@
-package com.albedo.java.modules.file.enumeration;
+package com.albedo.java.modules.file.domain.enums;
 
 import com.albedo.java.common.core.enumeration.BaseEnum;
 import io.swagger.annotations.ApiModel;

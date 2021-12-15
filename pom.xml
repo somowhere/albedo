@@ -47,7 +47,7 @@
 		<knife4j.version>3.0.3</knife4j.version>
 		<poi.version>5.0.0</poi.version>
 		<oshi.version>5.8.5</oshi.version>
-		<guava.version>31.0.1-jre</guava.version>
+		<guava.version>30.1-jre</guava.version>
 		<protostuff.version>1.7.4</protostuff.version>
 		<ip2region.version>1.7.2</ip2region.version>
 		<transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
