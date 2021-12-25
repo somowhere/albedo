@@ -1,4 +1,4 @@
-package com.albedo.java.plugins.database.plugins;
+package com.albedo.java.plugins.database.handler;
 
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.schema.Column;

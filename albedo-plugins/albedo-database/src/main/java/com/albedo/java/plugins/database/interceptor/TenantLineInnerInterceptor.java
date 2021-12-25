@@ -1,5 +1,6 @@
-package com.albedo.java.plugins.database.plugins;
+package com.albedo.java.plugins.database.interceptor;
 
+import com.albedo.java.plugins.database.handler.TenantLineHandler;
 import com.baomidou.mybatisplus.core.plugins.InterceptorIgnoreHelper;
 import com.baomidou.mybatisplus.core.toolkit.*;
 import com.baomidou.mybatisplus.extension.parser.JsqlParserSupport;
@@ -25,22 +26,11 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
- * COLUMN 级别多租户拦截器
- * 相对于mybatis-plus 的 TenantLineInnerInterceptor，本插件支持：
- * 1. select 语句 where条件拼接多个租户id （tenant_id in (1，2，3，4)）
- * 2. insert、update、 delete 时，不传递租户id，则不拼接
- *
- * @author somewhere
  * @author hubin
- * @version v1.0
- * @date 2021/5/17 8:49 下午
- * @create [2021/5/17 8:49 下午 ] [hubin] [初始创建]
- * @see com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor
+ * @since 3.4.0
  */
 @Data
 @NoArgsConstructor
@@ -48,17 +38,16 @@ import java.util.Properties;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings({"rawtypes"})
-public class MultiTenantLineInnerInterceptor extends JsqlParserSupport implements InnerInterceptor {
+public class TenantLineInnerInterceptor extends JsqlParserSupport implements InnerInterceptor {
 
-	private final static String SELECT = "SELECT";
-
-	private MultiTenantLineHandler tenantLineHandler;
+	private TenantLineHandler tenantLineHandler;
 
 	@Override
-	public void beforeQuery(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) throws SQLException {
-		if (InterceptorIgnoreHelper.willIgnoreTenantLine(ms.getId())) {
+	public void beforeQuery(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
+		if (InterceptorIgnoreHelper.willIgnoreTenantLine(ms.getId()) || tenantLineHandler.ignoreMapId(ms.getId())) {
 			return;
 		}
+
 		PluginUtils.MPBoundSql mpBs = PluginUtils.mpBoundSql(boundSql);
 		mpBs.sql(parserSingle(mpBs.sql(), null));
 	}
@@ -67,14 +56,17 @@ public class MultiTenantLineInnerInterceptor extends JsqlParserSupport implement
 	public void beforePrepare(StatementHandler sh, Connection connection, Integer transactionTimeout) {
 		PluginUtils.MPStatementHandler mpSh = PluginUtils.mpStatementHandler(sh);
 		MappedStatement ms = mpSh.mappedStatement();
-		SqlCommandType sct = ms.getSqlCommandType();
-		if (sct == SqlCommandType.INSERT || sct == SqlCommandType.UPDATE || sct == SqlCommandType.DELETE) {
-			if (InterceptorIgnoreHelper.willIgnoreTenantLine(ms.getId())) {
-				return;
+		if (!tenantLineHandler.ignoreMapId(ms.getId())) {
+			SqlCommandType sct = ms.getSqlCommandType();
+			if (sct == SqlCommandType.INSERT || sct == SqlCommandType.UPDATE || sct == SqlCommandType.DELETE) {
+				if (InterceptorIgnoreHelper.willIgnoreTenantLine(ms.getId())) {
+					return;
+				}
+				PluginUtils.MPBoundSql mpBs = mpSh.mPBoundSql();
+				mpBs.sql(parserMulti(mpBs.sql(), null));
 			}
-			PluginUtils.MPBoundSql mpBs = mpSh.mPBoundSql();
-			mpBs.sql(parserMulti(mpBs.sql(), null));
 		}
+
 	}
 
 	@Override
@@ -116,17 +108,17 @@ public class MultiTenantLineInnerInterceptor extends JsqlParserSupport implement
 			return;
 		}
 		String tenantIdColumn = tenantLineHandler.getTenantIdColumn();
-		if (columns.stream().map(Column::getColumnName).anyMatch(i -> i.equals(tenantIdColumn))) {
+		if (tenantLineHandler.ignoreInsert(columns, tenantIdColumn)) {
 			// 针对已给出租户列的insert 不处理
 			return;
 		}
-		columns.add(new Column(tenantLineHandler.getTenantIdColumn()));
+		columns.add(new Column(tenantIdColumn));
 
 		// fixed gitee pulls/141 duplicate update
 		List<Expression> duplicateUpdateColumns = insert.getDuplicateUpdateExpressionList();
 		if (CollectionUtils.isNotEmpty(duplicateUpdateColumns)) {
 			EqualsTo equalsTo = new EqualsTo();
-			equalsTo.setLeftExpression(new StringValue(tenantLineHandler.getTenantIdColumn()));
+			equalsTo.setLeftExpression(new StringValue(tenantIdColumn));
 			equalsTo.setRightExpression(tenantLineHandler.getTenantId());
 			duplicateUpdateColumns.add(equalsTo);
 		}
@@ -157,12 +149,7 @@ public class MultiTenantLineInnerInterceptor extends JsqlParserSupport implement
 			// 过滤退出执行
 			return;
 		}
-		// update by somewhere
-		Expression expression = this.andExpression(table, update.getWhere());
-		if (expression == null) {
-			return;
-		}
-		update.setWhere(expression);
+		update.setWhere(this.andExpression(table, update.getWhere()));
 	}
 
 	/**
@@ -174,22 +161,13 @@ public class MultiTenantLineInnerInterceptor extends JsqlParserSupport implement
 			// 过滤退出执行
 			return;
 		}
-		// update by somewhere
-		Expression expression = this.andExpression(delete.getTable(), delete.getWhere());
-		if (expression == null) {
-			return;
-		}
-		delete.setWhere(expression);
+		delete.setWhere(this.andExpression(delete.getTable(), delete.getWhere()));
 	}
 
 	/**
 	 * delete update 语句 where 处理
 	 */
-	protected Expression andExpression(Table table, Expression where) {
-		// update by somewhere 返回空即表示当前语句不需要拼接 租户id
-		if (tenantLineHandler.getTenantId() == null) {
-			return null;
-		}
+	protected BinaryExpression andExpression(Table table, Expression where) {
 		//获得where条件表达式
 		EqualsTo equalsTo = new EqualsTo();
 		equalsTo.setLeftExpression(this.getAliasColumn(table));
@@ -216,13 +194,6 @@ public class MultiTenantLineInnerInterceptor extends JsqlParserSupport implement
 		PlainSelect plainSelect = (PlainSelect) selectBody;
 		FromItem fromItem = plainSelect.getFromItem();
 		if (fromItem instanceof Table) {
-			// Table fromTable = (Table) fromItem;
-			// update by somewhere
-            /* Expression builderExpression = builderExpression(plainSelect.getWhere(), fromTable);
-            if (builderExpression != null) {
-                plainSelect.setWhere(builderExpression);
-                appendSelectItem(plainSelect.getSelectItems());
-            }*/
 			// fixed gitee pulls/141 duplicate update
 			processPlainSelect(plainSelect);
 			appendSelectItem(plainSelect.getSelectItems());
@@ -261,12 +232,8 @@ public class MultiTenantLineInnerInterceptor extends JsqlParserSupport implement
 		if (fromItem instanceof Table) {
 			Table fromTable = (Table) fromItem;
 			if (!tenantLineHandler.ignoreTable(fromTable.getName())) {
-				// #1186 github
-				Expression builderExpression = builderExpression(where, fromTable);
-				// update by somewhere
-				if (builderExpression != null) {
-					plainSelect.setWhere(builderExpression);
-				}
+				//#1186 github
+				plainSelect.setWhere(builderExpression(where, fromTable));
 			}
 		} else {
 			processFromItem(fromItem);
@@ -278,10 +245,7 @@ public class MultiTenantLineInnerInterceptor extends JsqlParserSupport implement
 		}
 		List<Join> joins = plainSelect.getJoins();
 		if (CollectionUtils.isNotEmpty(joins)) {
-			joins.forEach(j -> {
-				processJoin(j);
-				processFromItem(j.getRightItem());
-			});
+			processJoins(joins);
 		}
 	}
 
@@ -313,7 +277,7 @@ public class MultiTenantLineInnerInterceptor extends JsqlParserSupport implement
 			processFromItem((FromItem) where);
 			return;
 		}
-		if (where.toString().indexOf(SELECT) > 0) {
+		if (where.toString().indexOf("SELECT") > 0) {
 			// 有子查询
 			if (where instanceof BinaryExpression) {
 				// 比较符号 , and , or , 等等
@@ -380,7 +344,7 @@ public class MultiTenantLineInnerInterceptor extends JsqlParserSupport implement
 		if (fromItem instanceof SubJoin) {
 			SubJoin subJoin = (SubJoin) fromItem;
 			if (subJoin.getJoinList() != null) {
-				subJoin.getJoinList().forEach(this::processJoin);
+				processJoins(subJoin.getJoinList());
 			}
 			if (subJoin.getLeft() != null) {
 				processFromItem(subJoin.getLeft());
@@ -404,6 +368,50 @@ public class MultiTenantLineInnerInterceptor extends JsqlParserSupport implement
 	}
 
 	/**
+	 * 处理 joins
+	 *
+	 * @param joins join 集合
+	 */
+	private void processJoins(List<Join> joins) {
+		//对于 on 表达式写在最后的 join，需要记录下前面多个 on 的表名
+		Deque<Table> tables = new LinkedList<>();
+		for (Join join : joins) {
+			// 处理 on 表达式
+			FromItem fromItem = join.getRightItem();
+			if (fromItem instanceof Table) {
+				Table fromTable = (Table) fromItem;
+				// 获取 join 尾缀的 on 表达式列表
+				Collection<Expression> originOnExpressions = join.getOnExpressions();
+				// 正常 join on 表达式只有一个，立刻处理
+				if (originOnExpressions.size() == 1) {
+					processJoin(join);
+					continue;
+				}
+				// 当前表是否忽略
+				boolean needIgnore = tenantLineHandler.ignoreTable(fromTable.getName());
+				// 表名压栈，忽略的表压入 null，以便后续不处理
+				tables.push(needIgnore ? null : fromTable);
+				// 尾缀多个 on 表达式的时候统一处理
+				if (originOnExpressions.size() > 1) {
+					Collection<Expression> onExpressions = new LinkedList<>();
+					for (Expression originOnExpression : originOnExpressions) {
+						Table currentTable = tables.poll();
+						if (currentTable == null) {
+							onExpressions.add(originOnExpression);
+						} else {
+							onExpressions.add(builderExpression(originOnExpression, currentTable));
+						}
+					}
+					join.setOnExpressions(onExpressions);
+				}
+			} else {
+				// 处理右边连接的子表达式
+				processFromItem(fromItem);
+			}
+		}
+	}
+
+	/**
 	 * 处理联接语句
 	 */
 	protected void processJoin(Join join) {
@@ -413,51 +421,28 @@ public class MultiTenantLineInnerInterceptor extends JsqlParserSupport implement
 				// 过滤退出执行
 				return;
 			}
-			// update by somewhere
-			Expression builderExpression = builderExpression(join.getOnExpression(), fromTable);
-			if (builderExpression == null) {
-				return;
-			}
-			join.setOnExpression(builderExpression);
+			// 走到这里说明 on 表达式肯定只有一个
+			Collection<Expression> originOnExpressions = join.getOnExpressions();
+			List<Expression> onExpressions = new LinkedList<>();
+			onExpressions.add(builderExpression(originOnExpressions.iterator().next(), fromTable));
+			join.setOnExpressions(onExpressions);
 		}
 	}
 
 	/**
 	 * 处理条件
-	 *
-	 * @update [2021年07月10日09:28:28] [somewhere] 支持拼接多个租户id
 	 */
 	protected Expression builderExpression(Expression currentExpression, Table table) {
-		ValueListExpression listExpression = tenantLineHandler.getTenantIdList();
-		if (listExpression != null) {
-			InExpression in = new InExpression();
-			in.setLeftExpression(this.getAliasColumn(table));
-			in.setRightExpression(listExpression);
-			if (currentExpression == null) {
-				return in;
-			}
-			if (currentExpression instanceof OrExpression) {
-				return new AndExpression(new Parenthesis(currentExpression), in);
-			} else {
-				return new AndExpression(currentExpression, in);
-			}
+		EqualsTo equalsTo = new EqualsTo();
+		equalsTo.setLeftExpression(this.getAliasColumn(table));
+		equalsTo.setRightExpression(tenantLineHandler.getTenantId());
+		if (currentExpression == null) {
+			return equalsTo;
+		}
+		if (currentExpression instanceof OrExpression) {
+			return new AndExpression(new Parenthesis(currentExpression), equalsTo);
 		} else {
-			Expression tenantId = tenantLineHandler.getTenantId();
-			EqualsTo equalsTo = new EqualsTo();
-			if (tenantId != null) {
-				equalsTo.setLeftExpression(this.getAliasColumn(table));
-				equalsTo.setRightExpression(tenantLineHandler.getTenantId());
-			} else {
-				return null;
-			}
-			if (currentExpression == null) {
-				return equalsTo;
-			}
-			if (currentExpression instanceof OrExpression) {
-				return new AndExpression(new Parenthesis(currentExpression), equalsTo);
-			} else {
-				return new AndExpression(currentExpression, equalsTo);
-			}
+			return new AndExpression(currentExpression, equalsTo);
 		}
 	}
 
@@ -479,8 +464,10 @@ public class MultiTenantLineInnerInterceptor extends JsqlParserSupport implement
 
 	@Override
 	public void setProperties(Properties properties) {
-		PropertyMapper.newInstance(properties).whenNotBlank("tenantLineHandler", ClassUtils::newInstance, this::setTenantLineHandler);
+		PropertyMapper.newInstance(properties).whenNotBlank("tenantLineHandler",
+			ClassUtils::newInstance, this::setTenantLineHandler);
 	}
 }
+
 
 

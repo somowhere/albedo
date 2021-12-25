@@ -1,4 +1,4 @@
-package com.albedo.java.plugins.database.plugins;
+package com.albedo.java.plugins.database.interceptor;
 
 import cn.hutool.core.util.StrUtil;
 import com.albedo.java.common.core.context.ContextUtil;

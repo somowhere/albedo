@@ -1,4 +1,4 @@
-package com.albedo.java.plugins.database.plugins;
+package com.albedo.java.plugins.database.handler;
 
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import net.sf.jsqlparser.expression.ValueListExpression;
