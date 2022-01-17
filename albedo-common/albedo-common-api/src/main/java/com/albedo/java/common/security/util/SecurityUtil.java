@@ -139,22 +139,22 @@ public class SecurityUtil {
 					requestMethods.size() == 0 ? RequestMethodEnum.ALL.getType() : requestMethods.get(0).name());
 				switch (Objects.requireNonNull(request)) {
 					case GET:
-						get.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
+						get.addAll(getPatterns(infoEntry));
 						break;
 					case POST:
-						post.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
+						post.addAll(getPatterns(infoEntry));
 						break;
 					case PUT:
-						put.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
+						put.addAll(getPatterns(infoEntry));
 						break;
 					case PATCH:
-						patch.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
+						patch.addAll(getPatterns(infoEntry));
 						break;
 					case DELETE:
-						delete.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
+						delete.addAll(getPatterns(infoEntry));
 						break;
 					default:
-						all.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
+						all.addAll(getPatterns(infoEntry));
 						break;
 				}
 			}
@@ -166,6 +166,10 @@ public class SecurityUtil {
 		anonymousUrls.put(RequestMethodEnum.DELETE.getType(), delete);
 		anonymousUrls.put(RequestMethodEnum.ALL.getType(), all);
 		return anonymousUrls;
+	}
+
+	private Set<String> getPatterns(Map.Entry<RequestMappingInfo, HandlerMethod> infoEntry){
+		return infoEntry.getKey().getPatternsCondition().getPatterns();
 	}
 
 }
