@@ -120,7 +120,7 @@ public class ${ClassName}Resource extends BaseResource {
 	@DeleteMapping
 	@LogOperate(value = "${functionName}删除")
 	@ApiOperation("${functionNameSimple}删除")
-	public Result delete(@RequestBody Set<String> ids) {
+	public Result delete(@RequestBody Set<${table.pkColumn.javaType}> ids) {
 		log.debug("REST request to delete ${ClassName}: {}", ids);
 		service.removeByIds(ids);
 		return Result.buildOk("删除${functionNameSimple}成功");

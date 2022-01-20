@@ -10,9 +10,12 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 111111
-    url: jdbc:mysql://albedo-mysql:3306/albedo?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowMultiQueries=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://127.0.0.1:3306/albedo?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowMultiQueries=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
   redis:
     host: localhost
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 
 # mybaits-plus配置
