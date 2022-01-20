@@ -34,6 +34,7 @@ package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.basic.domain.GeneralEntity;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -55,7 +56,7 @@ public class RoleDept extends GeneralEntity<RoleDept> {
 	private static final long serialVersionUID = 1L;
 
 	@TableId(value = "id", type = IdType.INPUT)
-	private String id;
+	private Long id;
 
 	/**
 	 * 角色ID

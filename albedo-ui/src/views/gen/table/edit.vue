@@ -176,6 +176,7 @@ export default {
       formSelect: { name: null },
       form: {
         name: undefined,
+        code: undefined,
         comments: undefined,
         className: undefined,
         parentTable: undefined,

@@ -169,7 +169,7 @@ public abstract class BaseDatabaseConfiguration implements InitializingBean {
 		GlobalConfig globalConfig = this.properties.getGlobalConfig();
 		// TODO 注入填充器
 		this.getBeanThen(MetaObjectHandler.class, globalConfig::setMetaObjectHandler);
-		// TODO 注入主键生成器
+		// TODO 注入主键成器
 		this.getBeansThen(IKeyGenerator.class, i -> globalConfig.getDbConfig().setKeyGenerators(i));
 		// TODO 注入sql注入器
 		this.getBeanThen(ISqlInjector.class, globalConfig::setSqlInjector);

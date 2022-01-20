@@ -145,7 +145,7 @@ public class DictServiceImpl extends TreeCacheServiceImpl<DictRepository, Dict, 
 	}
 
 	@Override
-	public boolean removeByIds(Collection<? extends Serializable> ids) {
+	public boolean removeByIds(Collection<?> ids) {
 		ids.forEach(id -> {
 			// 查询父节点为当前节点的节点
 			List<Dict> menuList = this.list(Wrappers.<Dict>query().lambda().eq(Dict::getParentId, id));

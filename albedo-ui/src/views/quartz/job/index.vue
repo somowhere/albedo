@@ -227,8 +227,8 @@ export default {
   },
   created() {
     this.jobGroupOptions = this.dicts['quartz_job_group']
-    this.jobStatusOptions = this.dicts['quartz_job_status']
-    this.misfirePolicyOptions = this.dicts['quartz_misfire_policy']
+    this.jobStatusOptions = this.dicts['job_status']
+    this.misfirePolicyOptions = this.dicts['job_misfire_policy']
     this.flagOptions = this.dicts['sys_flag']
   },
   methods: {

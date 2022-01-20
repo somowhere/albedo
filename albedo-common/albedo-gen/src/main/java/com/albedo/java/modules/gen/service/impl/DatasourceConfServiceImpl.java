@@ -87,7 +87,7 @@ public class DatasourceConfServiceImpl
 	}
 
 	@Override
-	public boolean removeByIds(Collection<? extends Serializable> idList) {
+	public boolean removeByIds(Collection<?> idList) {
 		idList.forEach(id -> removeDynamicDataSourceById((String) id));
 		return super.removeByIds(idList);
 

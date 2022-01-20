@@ -26,7 +26,9 @@ import com.albedo.java.common.core.vo.TreeDto;
 import com.albedo.java.common.core.vo.TreeNode;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -139,16 +141,15 @@ public interface TreeService<T extends TreeEntity, D extends TreeDto> extends Da
 	}
 
 	@Override
-	default boolean removeByIds(Collection<? extends Serializable> idList) {
+	default boolean removeByIds(Collection<?> idList) {
 		idList.forEach(id -> {
 			// 查询父节点为当前节点的节点
 			List<T> menuList = this.list(Wrappers.<T>query().eq(TreeEntity.F_SQL_PARENT_ID, id));
 			if (CollUtil.isNotEmpty(menuList)) {
 				throw new BizException("含有下级不能删除");
 			}
-			Assert.isTrue(this.removeById(id), "删除失败");
 		});
-		return true;
+		return CollectionUtils.isEmpty(idList) ? false : SqlHelper.retBool(this.getBaseMapper().deleteBatchIds(idList));
 	}
 
 }

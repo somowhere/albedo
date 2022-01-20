@@ -17,12 +17,16 @@
 package com.albedo.java.modules.quartz.domain.dto;
 
 import com.albedo.java.common.core.vo.DataDto;
+import com.albedo.java.modules.quartz.domain.enums.JobConcurrent;
+import com.albedo.java.modules.quartz.domain.enums.JobMisfirePolicy;
+import com.albedo.java.modules.quartz.domain.enums.JobStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -104,14 +108,14 @@ public class JobDto extends DataDto<Long> {
 	/**
 	 * misfirePolicy 计划执行错误策略（1立即执行 2执行一次 3放弃执行）
 	 */
-	@Size(max = 20)
-	private String misfirePolicy;
+	@NotNull
+	private JobMisfirePolicy misfirePolicy;
 
 	/**
-	 * concurrent 是否并发执行（1允许 0禁止）
+	 * concurrent 是否并发执行（允许 禁止）
 	 */
-	@Size(max = 1)
-	private String concurrent;
+	@NotNull
+	private JobConcurrent concurrent;
 
 	/**
 	 * 报警邮箱
@@ -119,9 +123,9 @@ public class JobDto extends DataDto<Long> {
 	private String email;
 
 	/**
-	 * status 状态(1-运行中，0-暂停)
+	 * status 状态(运行中，暂停)
 	 */
-	@Size(max = 1)
-	private String status;
+	@NotNull
+	private JobStatus status;
 
 }

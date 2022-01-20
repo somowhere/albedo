@@ -63,7 +63,7 @@ public class FileServiceImpl extends BaseServiceImpl<FileRepository, File> imple
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean removeByIds(Collection<? extends Serializable> ids) {
+	public boolean removeByIds(Collection<?> ids) {
 		if (CollUtil.isEmpty(ids)) {
 			return false;
 		}
