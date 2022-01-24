@@ -1,5 +1,6 @@
 import validate from './validate'
 import commonService from '@/api/common'
+import {Notification} from "element-ui";
 
 let commonUtil
 const CryptoJS = require('crypto-js')
@@ -399,9 +400,9 @@ commonUtil = {
       reader.onload = e => {
         if (e.target.readyState === 2) {
           const data = JSON.parse(e.target.result)
-          this.$message({
-            message: data.msg,
-            type: 'warning'
+          Notification.error({
+            title: data.message,
+            duration: 5000
           })
         }
       }

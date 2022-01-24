@@ -91,7 +91,7 @@ public class LogOperateResource {
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_del')")
 	@LogOperate(value = "操作日志删除")
-	public Result removeById(@RequestBody Set<String> ids) {
+	public Result removeById(@RequestBody Set<Long> ids) {
 		return Result.buildOkData(logOperateService.removeByIds(ids));
 	}
 

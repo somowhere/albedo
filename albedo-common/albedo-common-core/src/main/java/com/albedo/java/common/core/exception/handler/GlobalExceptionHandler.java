@@ -41,6 +41,7 @@ import com.albedo.java.common.core.exception.ForbiddenException;
 import com.albedo.java.common.core.exception.code.ResponseCode;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.StrPool;
+import com.albedo.java.common.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.mybatis.spring.MyBatisSystemException;
@@ -67,6 +68,7 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.sql.SQLException;
@@ -94,6 +96,18 @@ public class GlobalExceptionHandler {
 			path = request.getRequestURI();
 		}
 		return path;
+	}
+
+	private void setContentType(String contentType){
+		if(StringUtil.isNotEmpty(contentType)){
+			RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+			if (requestAttributes != null) {
+				HttpServletResponse response = ((ServletRequestAttributes) requestAttributes).getResponse();
+				if(response.getContentType() != contentType){
+					response.setContentType(contentType);
+				}
+			}
+		}
 	}
 
 	/**
@@ -262,6 +276,7 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler({BizException.class})
 	public Result bodyBizExceptionHandler(BizException ex) {
+		setContentType("application/json; charset=utf-8");
 		log.warn("BizException={}", ex.getMessage());
 		return Result.build(ex.getErrorCode(), ex.getMessage()).setPath(getPath());
 	}

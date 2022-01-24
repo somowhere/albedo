@@ -139,7 +139,7 @@ public class FileResource {
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_file_del')")
 	@LogOperate(value = "附件删除")
-	public Result removeById(@RequestBody Set<String> ids) {
+	public Result removeById(@RequestBody Set<Long> ids) {
 		return Result.buildOkData(fileService.removeByIds(ids));
 	}
 
