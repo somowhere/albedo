@@ -18,10 +18,12 @@ public class CustomSimpleGrantedAuthority implements GrantedAuthority {
 	public CustomSimpleGrantedAuthority() {
 	}
 
+	@Override
 	public String getAuthority() {
 		return this.role;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
@@ -30,10 +32,12 @@ public class CustomSimpleGrantedAuthority implements GrantedAuthority {
 		}
 	}
 
+	@Override
 	public int hashCode() {
 		return this.role.hashCode();
 	}
 
+	@Override
 	public String toString() {
 		return this.role;
 	}

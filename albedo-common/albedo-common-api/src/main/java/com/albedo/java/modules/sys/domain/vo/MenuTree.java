@@ -77,7 +77,7 @@ public class MenuTree extends TreeNode<MenuTree> {
 		this.meta = new MenuMetaVo(menuVo.getName(), menuVo.getIcon(), CommonConstants.YES.equals(menuVo.getCache()));
 		this.setHidden(CommonConstants.YES.equals(menuVo.getHidden()));
 		// 如果不是外链
-		this.setComponent(!CommonConstants.YES.equals(menuVo.getIframe()) && menuVo.getParentId() == TreeUtil.ROOT
+		this.setComponent(!CommonConstants.YES.equals(menuVo.getIframe()) && menuVo.getParentId().equals(TreeUtil.ROOT)
 			&& StrUtil.isEmpty(menuVo.getComponent()) ? "Layout" : menuVo.getComponent());
 		log.debug("name {}, component {}", this.getName(), this.getComponent());
 	}

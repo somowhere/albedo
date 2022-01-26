@@ -85,7 +85,7 @@ public class AccoutResource extends BaseResource {
 	@GetMapping(SecurityConstants.AUTHENTICATE_URL)
 	public Result isAuthenticated() throws AccessDeniedException {
 		log.debug("REST request to check if the current user is authenticated");
-		return Result.buildOkData(SecurityUtil.getUser() == null ? null : SecurityUtil.getUser().getUsername());
+		return  SecurityUtil.getUser() == null ? Result.buildFail("") : Result.buildOkData(SecurityUtil.getUser().getUsername());
 	}
 
 	/**

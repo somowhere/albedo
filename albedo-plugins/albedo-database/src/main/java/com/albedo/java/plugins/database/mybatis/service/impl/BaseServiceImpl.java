@@ -42,6 +42,7 @@ public abstract class BaseServiceImpl<Repository extends BaseRepository<T>, T> e
 		return SqlHelper.retBool(repository.updateAllById(model));
 	}
 
+	@Override
 	public Repository getRepository() {
 		return repository;
 	}
