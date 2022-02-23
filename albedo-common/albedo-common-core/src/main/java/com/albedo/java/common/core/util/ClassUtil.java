@@ -370,7 +370,8 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 		File[] files = file.listFiles();
 		for (File file2 : files) {
 			if (file2.isDirectory()) {
-				assert !file2.getName().contains(".");//添加断言用于判断
+				//添加断言用于判断
+				assert !file2.getName().contains(".");
 				ArrayList<Class> arrayList = findClass(file2, packagename + "." + file2.getName());
 				list.addAll(arrayList);
 			} else if (file2.getName().endsWith(".class")) {

@@ -122,9 +122,7 @@ public abstract class BaseMybatisConfiguration {
 
 				@Override
 				public Expression getTenantId() {
-					return MultiTenantType.COLUMN.eq(databaseProperties.getMultiTenantType()) ?
-						new StringValue(ContextUtil.getTenant()) :
-						new StringValue(ContextUtil.getSubTenant());
+					return new StringValue(ContextUtil.getTenant());
 				}
 			});
 			interceptor.addInnerInterceptor(tli);

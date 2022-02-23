@@ -38,6 +38,9 @@ spring:
     username: ${application.mysql.username}
     password: ${application.mysql.password}
     url: ${application.mysql.url}
+    dynamic:
+      p6spy: ${application.database.p6spy}
+      seata: ${application.database.isSeata}
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -76,7 +79,7 @@ application:
     version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
   database:
     tenantDatabasePrefix: albedo_base
-    multiTenantType: COLUMN
+    multiTenantType: DATASOURCE_COLUMN
     tenantIdColumn: tenant_code
     ignore-tables:
       - sys_tenant
@@ -85,7 +88,7 @@ application:
       - com.albedo.java.modules.gen.repository.TableRepository.findTableColumnList
       - com.albedo.java.modules.gen.repository.TableRepository.findTablePk
     isNotWrite: false
-    p6spy: true
+    p6spy: false
     isBlockAttack: false  # 是否启用 攻击 SQL 阻断解析器
     isSeata: false
     id-type: HU_TOOL

@@ -22,7 +22,7 @@ import com.albedo.java.modules.gen.domain.vo.TableQuery;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -31,37 +31,31 @@ import java.util.List;
  *
  * @author somewhere
  */
-@Repository
+@Mapper
 public interface TableRepository extends BaseRepository<Table> {
 
 	/**
 	 * 查询表列表
 	 *
 	 * @param tableQuery
-	 * @param dsName
 	 * @return
 	 */
-	@DS("#last")
-	List<Table> findTableList(@Param("tableQuery") TableQuery tableQuery, String dsName);
+	List<Table> findTableList(@Param("tableQuery") TableQuery tableQuery);
 
 	/**
 	 * 获取数据表字段
 	 *
 	 * @param tableName
-	 * @param dsName
 	 * @return
 	 */
-	@DS("#last")
-	List<TableColumnDto> findTableColumnList(@Param("tableName") String tableName, String dsName);
+	List<TableColumnDto> findTableColumnList(@Param("tableName") String tableName);
 
 	/**
 	 * 获取数据表主键
 	 *
 	 * @param tableName
-	 * @param dsName
 	 * @return
 	 */
-	@DS("#last")
-	List<String> findTablePk(@Param("tableName") String tableName, String dsName);
+	List<String> findTablePk(@Param("tableName") String tableName);
 
 }

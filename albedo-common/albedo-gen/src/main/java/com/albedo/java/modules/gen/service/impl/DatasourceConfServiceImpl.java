@@ -25,7 +25,7 @@ import com.albedo.java.modules.gen.domain.DatasourceConf;
 import com.albedo.java.modules.gen.domain.dto.DatasourceConfDto;
 import com.albedo.java.modules.gen.repository.DatasourceConfRepository;
 import com.albedo.java.modules.gen.service.DatasourceConfService;
-import com.albedo.java.plugins.database.mybatis.service.impl.DataCacheServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.AbstractDataCacheServiceImpl;
 import com.albedo.java.plugins.dynamic.datasource.support.DataSourceConstants;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.creator.DataSourceCreator;
@@ -38,7 +38,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
-import java.io.Serializable;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -53,7 +52,7 @@ import java.util.Collection;
 @Transactional(rollbackFor = Exception.class)
 @RequiredArgsConstructor
 public class DatasourceConfServiceImpl
-	extends DataCacheServiceImpl<DatasourceConfRepository, DatasourceConf, DatasourceConfDto>
+	extends AbstractDataCacheServiceImpl<DatasourceConfRepository, DatasourceConf, DatasourceConfDto>
 	implements DatasourceConfService {
 
 	private final StringEncryptor stringEncryptor;
@@ -119,6 +118,7 @@ public class DatasourceConfServiceImpl
 		DataSource dataSource = hikariDataSourceCreator.createDataSource(dataSourceProperty);
 		SpringContextHolder.getBean(DynamicRoutingDataSource.class).addDataSource(dataSourceProperty.getPoolName(),
 			dataSource);
+		log.info("addDataSource key[{}] value[{}]", dataSourceProperty.getPoolName(), dataSource);
 	}
 
 	/**

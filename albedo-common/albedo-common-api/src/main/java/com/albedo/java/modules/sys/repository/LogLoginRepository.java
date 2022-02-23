@@ -19,7 +19,7 @@ package com.albedo.java.modules.sys.repository;
 import com.albedo.java.modules.sys.domain.LogLogin;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,7 +32,7 @@ import java.util.Map;
  * @author admin
  * @version 2021-11-30 10:15:00
  */
-@Repository
+@Mapper
 public interface LogLoginRepository extends BaseRepository<LogLogin> {
 
 	/**

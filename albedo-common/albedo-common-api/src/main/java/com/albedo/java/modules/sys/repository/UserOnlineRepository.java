@@ -34,7 +34,7 @@ package com.albedo.java.modules.sys.repository;
 
 import com.albedo.java.modules.sys.domain.UserOnline;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -44,7 +44,7 @@ import org.springframework.stereotype.Repository;
  * @author somewhere
  * @since 2019/2/1
  */
-@Repository
+@Mapper
 public interface UserOnlineRepository extends BaseRepository<UserOnline> {
 
 }

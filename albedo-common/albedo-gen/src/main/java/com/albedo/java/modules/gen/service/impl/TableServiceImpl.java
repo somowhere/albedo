@@ -36,7 +36,8 @@ import com.albedo.java.modules.gen.service.TableColumnService;
 import com.albedo.java.modules.gen.service.TableService;
 import com.albedo.java.modules.gen.util.GenUtil;
 import com.albedo.java.modules.sys.domain.Dict;
-import com.albedo.java.plugins.database.mybatis.service.impl.DataCacheServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.AbstractDataCacheServiceImpl;
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
@@ -55,7 +56,7 @@ import java.util.stream.Collectors;
  * @author somewhere
  */
 @Service
-public class TableServiceImpl extends DataCacheServiceImpl<TableRepository, Table, TableDto>
+public class TableServiceImpl extends AbstractDataCacheServiceImpl<TableRepository, Table, TableDto>
 	implements TableService {
 
 	@Resource
@@ -196,15 +197,17 @@ public class TableServiceImpl extends DataCacheServiceImpl<TableRepository, Tabl
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
+	@DS("#tableDto.dsName")
 	public List<String> findTablePk(TableDto tableDto) {
-		List<String> pkList = repository.findTablePk(tableDto.getName(), tableDto.getDsName());
+		List<String> pkList = repository.findTablePk(tableDto.getName());
 		return pkList;
 	}
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
+	@DS("#tableDto.dsName")
 	public List<TableColumnDto> findTableColumnList(TableDto tableDto) {
-		List<TableColumnDto> list = repository.findTableColumnList(tableDto.getName(), tableDto.getDsName());
+		List<TableColumnDto> list = repository.findTableColumnList(tableDto.getName());
 		Assert.notNull(list, StringUtil.toAppendStr("无法获取[", tableDto.getName(), "]表的列信息"));
 		if (ObjectUtil.isNotEmpty(tableDto.getId())) {
 			Collections.sort(list);
@@ -213,6 +216,7 @@ public class TableServiceImpl extends DataCacheServiceImpl<TableRepository, Tabl
 	}
 
 	@Override
+	@DS("#tableDto.dsName")
 	public List<TableDto> findTableListFormDb(TableDto tableDto) {
 		Assert.isTrue(tableDto != null, "无效参数");
 		List<Table> tableEntities = list();
@@ -226,7 +230,7 @@ public class TableServiceImpl extends DataCacheServiceImpl<TableRepository, Tabl
 				tableQuery.setNotNames(CollUtil.extractToList(tableEntities, Table.F_NAME));
 			}
 		}
-		List<Table> list = repository.findTableList(tableQuery, tableDto.getDsName());
+		List<Table> list = repository.findTableList(tableQuery);
 		return list.stream().map(item -> copyBeanToDto(item)).collect(Collectors.toList());
 	}
 

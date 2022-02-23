@@ -39,7 +39,7 @@ import com.albedo.java.modules.gen.service.TableColumnService;
 import com.albedo.java.modules.gen.service.TableService;
 import com.albedo.java.modules.gen.util.GenUtil;
 import com.albedo.java.modules.sys.domain.Dict;
-import com.albedo.java.plugins.database.mybatis.service.impl.DataCacheServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.AbstractDataCacheServiceImpl;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -63,7 +63,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class SchemeServiceImpl extends DataCacheServiceImpl<SchemeRepository, Scheme, SchemeDto>
+public class SchemeServiceImpl extends AbstractDataCacheServiceImpl<SchemeRepository, Scheme, SchemeDto>
 	implements SchemeService {
 
 	private final TableRepository tableRepository;

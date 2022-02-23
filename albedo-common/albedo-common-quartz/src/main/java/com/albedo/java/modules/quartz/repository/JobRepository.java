@@ -18,7 +18,7 @@ package com.albedo.java.modules.quartz.repository;
 
 import com.albedo.java.modules.quartz.domain.Job;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 任务调度Repository 任务调度
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Repository;
  * @author admin
  * @version 2019-08-14 11:24:16
  */
-@Repository
+@Mapper
 public interface JobRepository extends BaseRepository<Job> {
 
 }

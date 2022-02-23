@@ -22,7 +22,7 @@ import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ import java.util.List;
  * @author admin
  * @version 2019-08-14 11:25:03
  */
-@Repository
+@Mapper
 public interface JobLogRepository extends BaseRepository<JobLog> {
 
 	/**

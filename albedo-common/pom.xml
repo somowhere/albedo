@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.albedo.java</groupId>
 		<artifactId>albedo</artifactId>
-		<version>3.2.2-SNAPSHOT</version>
+		<version>3.2.3-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>albedo-common</artifactId>
@@ -23,6 +23,6 @@
 		<module>albedo-tenant</module>
 		<module>albedo-monitor</module>
 		<module>albedo-appendix</module>
-		<module>allbedo-file</module>
+		<module>albedo-file</module>
 	</modules>
 </project>

@@ -51,7 +51,7 @@ import com.albedo.java.modules.sys.service.RoleDeptService;
 import com.albedo.java.modules.sys.service.RoleMenuService;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.modules.sys.util.SysCacheUtil;
-import com.albedo.java.plugins.database.mybatis.service.impl.DataCacheServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.AbstractDataCacheServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -73,7 +73,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class RoleServiceImpl extends DataCacheServiceImpl<RoleRepository, Role, RoleDto> implements RoleService {
+public class RoleServiceImpl extends AbstractDataCacheServiceImpl<RoleRepository, Role, RoleDto> implements RoleService {
 
 	private UserRepository userRepository;
 

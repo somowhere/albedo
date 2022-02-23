@@ -1,4 +1,4 @@
-<h1 style="text-align: center">Albedo 3.2.1 - 企业信息化快速开发平台</h1>
+<h1 style="text-align: center">Albedo 3.2.3 - 企业信息化快速开发平台</h1>
  <p align="center">
  
  [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/somowhere/albedo/blob/master/LICENSE)
@@ -49,9 +49,9 @@
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.6.1 
-Mybatis Plus | 3.4.3.4
-hutool | 5.7.16
+Spring Boot |  2.6.3 
+Mybatis Plus | 3.5.0
+hutool | 5.7.21
    
 
 
@@ -65,10 +65,10 @@ albedo
      ├── albedo-common-core -- 公共工具类核心包
      ├── albedo-common-module -- 模块基础包
      ├── albedo-common-quartz -- 定时基础包
-     ├── albedo-common-gen -- 代码生成基础包
-     ├── albedo-common-monitor -- 监控api
-     ├── albedo-common-tenant -- 租户基础包
-     ├── albedo-common-quartz -- 文件api
+     ├── albedo-gen -- 代码生成基础包
+     ├── albedo-monitor -- 监控api
+     ├── albedo-tenant -- 租户基础包
+     ├── albedo-file -- 文件api
 └── albedo-modules -- 功能模块
      ├── albedo-admin -- 通用用户权限管理系统业务处理模块[4000]
      ├── albedo-app -- 接口模块

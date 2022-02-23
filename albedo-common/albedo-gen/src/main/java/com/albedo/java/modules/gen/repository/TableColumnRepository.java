@@ -18,14 +18,14 @@ package com.albedo.java.modules.gen.repository;
 
 import com.albedo.java.modules.gen.domain.TableColumn;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * Spring Data JPA repository for the Authority domain.
  *
  * @author somewhere
  */
-@Repository
+@Mapper
 public interface TableColumnRepository extends BaseRepository<TableColumn> {
 
 	// Set<Role> selectListByTableId(String tableId);

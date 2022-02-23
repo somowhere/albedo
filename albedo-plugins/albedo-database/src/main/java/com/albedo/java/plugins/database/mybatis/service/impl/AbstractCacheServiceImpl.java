@@ -45,7 +45,7 @@ import java.util.stream.Collectors;
  * @author somewhere
  * @date 2020年02月27日18:15:17
  */
-public abstract class CacheServiceImpl<Repository extends BaseRepository<T>, T> extends BaseServiceImpl<Repository, T>
+public abstract class AbstractCacheServiceImpl<Repository extends BaseRepository<T>, T> extends BaseServiceImpl<Repository, T>
 	implements CacheService<T> {
 
 	protected static final int MAX_BATCH_KEY_SIZE = 20;

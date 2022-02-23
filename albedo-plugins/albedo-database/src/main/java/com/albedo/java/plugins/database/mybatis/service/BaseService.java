@@ -37,25 +37,6 @@ public interface BaseService<T> extends IService<T> {
 	 */
 	@Override
 	Class<T> getEntityClass();
-
-	/**
-	 * 批量保存数据
-	 * <p>
-	 * 注意：该方法仅仅测试过mysql
-	 *
-	 * @param entityList
-	 * @return
-	 */
-	default boolean saveBatchSomeColumn(List<T> entityList) {
-		if (entityList.isEmpty()) {
-			return true;
-		}
-		if (entityList.size() > 5000) {
-			throw BizException.wrap(ResponseCode.TOO_MUCH_DATA_ERROR);
-		}
-		return SqlHelper.retBool(((BaseRepository) getBaseMapper()).insertBatchSomeColumn(entityList));
-	}
-
 	/**
 	 * 根据id修改 entity 的所有字段
 	 *

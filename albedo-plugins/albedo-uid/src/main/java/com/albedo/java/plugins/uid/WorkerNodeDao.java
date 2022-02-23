@@ -18,14 +18,14 @@ package com.albedo.java.plugins.uid;
 import com.baidu.fsg.uid.worker.entity.WorkerNodeEntity;
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import org.apache.ibatis.annotations.Insert;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * DAO for M_WORKER_NODE
  *
  * @author yutianbao
  */
-@Repository
+@Mapper
 @InterceptorIgnore(tenantLine = "true", dynamicTableName = "true")
 public interface WorkerNodeDao {
 

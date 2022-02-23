@@ -38,10 +38,6 @@ public final class ContextConstants {
 	 */
 	public static final String KEY_TENANT = "tenant";
 	/**
-	 * JWT中封装的 子租户编码
-	 */
-	public static final String KEY_SUB_TENANT = "sub_tenant";
-	/**
 	 * 刷新 Token
 	 */
 	public static final String REFRESH_TOKEN_KEY = "refresh_token";

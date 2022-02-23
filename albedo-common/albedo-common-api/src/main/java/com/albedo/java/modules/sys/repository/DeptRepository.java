@@ -38,7 +38,7 @@ import com.albedo.java.plugins.database.mybatis.repository.TreeRepository;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -50,7 +50,7 @@ import java.util.List;
  * @author somewhere
  * @since 2019/2/1
  */
-@Repository
+@Mapper
 public interface DeptRepository extends TreeRepository<Dept> {
 
 	/**

@@ -40,7 +40,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 import java.util.Set;
@@ -53,7 +53,7 @@ import java.util.Set;
  * @author somewhere
  * @since 2019/2/1
  */
-@Repository
+@Mapper
 public interface UserRepository extends BaseRepository<User> {
 
 	/**

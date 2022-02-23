@@ -34,15 +34,15 @@ import java.lang.reflect.Type;
  */
 @Transactional(rollbackFor = Exception.class)
 @Data
-public abstract class DataCacheServiceImpl<Repository extends BaseRepository<T>, T extends BaseDataEntity, D extends DataDto>
-	extends CacheServiceImpl<Repository, T>
+public abstract class AbstractDataCacheServiceImpl<Repository extends BaseRepository<T>, T extends BaseDataEntity, D extends DataDto>
+	extends AbstractCacheServiceImpl<Repository, T>
 	implements DataCacheService<T, D> {
 
 	public final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(getClass());
 
 	private Class<D> entityDtoClz;
 
-	public DataCacheServiceImpl() {
+	public AbstractDataCacheServiceImpl() {
 		super();
 		Class<?> c = getClass();
 		Type type = c.getGenericSuperclass();

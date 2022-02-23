@@ -2,7 +2,7 @@ package com.albedo.java.modules.tenant.repository;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 初始化数据库DAO
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
  * @author somewhere
  * @date 2019/09/02
  */
-@Repository
+@Mapper
 @InterceptorIgnore(tenantLine = "true", dynamicTableName = "true")
 public interface InitDbRepository {
 	/**

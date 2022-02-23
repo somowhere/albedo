@@ -22,7 +22,7 @@ import com.albedo.java.modules.gen.domain.TableColumn;
 import com.albedo.java.modules.gen.domain.dto.TableColumnDto;
 import com.albedo.java.modules.gen.repository.TableColumnRepository;
 import com.albedo.java.modules.gen.service.TableColumnService;
-import com.albedo.java.plugins.database.mybatis.service.impl.DataCacheServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.AbstractDataCacheServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  * @author somewhere
  */
 @Service
-public class TableColumnServiceImpl extends DataCacheServiceImpl<TableColumnRepository, TableColumn, TableColumnDto>
+public class TableColumnServiceImpl extends AbstractDataCacheServiceImpl<TableColumnRepository, TableColumn, TableColumnDto>
 	implements TableColumnService {
 
 	@Override

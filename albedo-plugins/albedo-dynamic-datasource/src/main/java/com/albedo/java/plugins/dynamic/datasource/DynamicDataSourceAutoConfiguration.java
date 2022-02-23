@@ -35,15 +35,21 @@ package com.albedo.java.plugins.dynamic.datasource;
 import com.albedo.java.plugins.dynamic.datasource.config.DataSourceProperties;
 import com.albedo.java.plugins.dynamic.datasource.config.JdbcDynamicDataSourceProvider;
 import com.albedo.java.plugins.dynamic.datasource.config.LastParamDsProcessor;
+import com.baomidou.dynamic.datasource.processor.DsHeaderProcessor;
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
+import com.baomidou.dynamic.datasource.processor.DsSessionProcessor;
+import com.baomidou.dynamic.datasource.processor.DsSpelExpressionProcessor;
 import com.baomidou.dynamic.datasource.provider.DynamicDataSourceProvider;
 import lombok.RequiredArgsConstructor;
 import org.jasypt.encryption.StringEncryptor;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.expression.BeanFactoryResolver;
 
 /**
  * @author somewhere
@@ -67,8 +73,16 @@ public class DynamicDataSourceAutoConfiguration {
 	}
 
 	@Bean
-	public DsProcessor dsProcessor() {
-		return new LastParamDsProcessor();
+	public DsProcessor dsProcessor(BeanFactory beanFactory) {
+		DsHeaderProcessor headerProcessor = new DsHeaderProcessor();
+		DsSessionProcessor sessionProcessor = new DsSessionProcessor();
+		DsSpelExpressionProcessor spelExpressionProcessor = new DsSpelExpressionProcessor();
+		spelExpressionProcessor.setBeanResolver(new BeanFactoryResolver(beanFactory));
+		LastParamDsProcessor lastParamDsProcessor = new LastParamDsProcessor();
+		headerProcessor.setNextProcessor(sessionProcessor);
+		sessionProcessor.setNextProcessor(lastParamDsProcessor);
+		lastParamDsProcessor.setNextProcessor(spelExpressionProcessor);
+		return headerProcessor;
 	}
 
 }

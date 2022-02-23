@@ -48,6 +48,10 @@ import static springfox.documentation.builders.BuilderDefaults.*;
 import static springfox.documentation.spi.service.contexts.Orderings.*;
 import static springfox.documentation.spring.web.paths.Paths.*;
 
+/**
+ *
+ * @author somewhere
+ */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)

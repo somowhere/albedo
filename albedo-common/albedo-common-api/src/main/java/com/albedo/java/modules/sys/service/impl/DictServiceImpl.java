@@ -53,7 +53,7 @@ import com.albedo.java.modules.sys.domain.vo.DictVo;
 import com.albedo.java.modules.sys.repository.DictRepository;
 import com.albedo.java.modules.sys.service.DictService;
 import com.albedo.java.modules.sys.util.DictUtil;
-import com.albedo.java.plugins.database.mybatis.service.impl.TreeCacheServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.AbstractTreeCacheServiceImpl;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -62,7 +62,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -79,7 +78,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class DictServiceImpl extends TreeCacheServiceImpl<DictRepository, Dict, DictDto>
+public class DictServiceImpl extends AbstractTreeCacheServiceImpl<DictRepository, Dict, DictDto>
 	implements DictService {
 	public final String CACHE_FIND_CODES = "findCodes";
 

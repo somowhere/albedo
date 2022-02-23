@@ -55,7 +55,7 @@ import com.albedo.java.modules.sys.repository.RoleMenuRepository;
 import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.service.MenuService;
 import com.albedo.java.modules.sys.util.SysCacheUtil;
-import com.albedo.java.plugins.database.mybatis.service.impl.TreeCacheServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.AbstractTreeCacheServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
@@ -79,7 +79,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class MenuServiceImpl extends TreeCacheServiceImpl<MenuRepository, Menu, MenuDto> implements MenuService {
+public class MenuServiceImpl extends AbstractTreeCacheServiceImpl<MenuRepository, Menu, MenuDto> implements MenuService {
 
 	private final RoleRepository roleRepository;
 

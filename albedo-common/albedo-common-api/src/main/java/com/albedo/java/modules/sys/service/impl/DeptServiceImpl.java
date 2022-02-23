@@ -57,7 +57,7 @@ import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.modules.sys.service.DeptRelationService;
 import com.albedo.java.modules.sys.service.DeptService;
 import com.albedo.java.modules.sys.util.SysCacheUtil;
-import com.albedo.java.plugins.database.mybatis.service.impl.TreeCacheServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.AbstractTreeCacheServiceImpl;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -80,7 +80,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class DeptServiceImpl extends TreeCacheServiceImpl<DeptRepository, Dept, DeptDto> implements DeptService {
+public class DeptServiceImpl extends AbstractTreeCacheServiceImpl<DeptRepository, Dept, DeptDto> implements DeptService {
 
 	private final DeptRelationService deptRelationService;
 

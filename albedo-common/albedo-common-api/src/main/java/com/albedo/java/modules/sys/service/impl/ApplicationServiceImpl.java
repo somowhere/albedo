@@ -42,7 +42,7 @@ import com.albedo.java.modules.sys.repository.ApplicationRepository;
 import com.albedo.java.modules.sys.service.ApplicationService;
 import com.albedo.java.plugins.database.mybatis.conditions.Wraps;
 import com.albedo.java.plugins.database.mybatis.conditions.query.LbqWrapper;
-import com.albedo.java.plugins.database.mybatis.service.impl.DataCacheServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.AbstractDataCacheServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;
@@ -56,7 +56,7 @@ import java.util.function.Function;
  * @since 2019/2/1
  */
 @Service
-public class ApplicationServiceImpl extends DataCacheServiceImpl<ApplicationRepository, Application, ApplicationDto>
+public class ApplicationServiceImpl extends AbstractDataCacheServiceImpl<ApplicationRepository, Application, ApplicationDto>
 	implements ApplicationService {
 
 	@Override

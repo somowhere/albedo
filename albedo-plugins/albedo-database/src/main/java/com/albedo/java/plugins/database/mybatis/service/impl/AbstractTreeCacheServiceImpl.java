@@ -29,7 +29,7 @@ import lombok.Data;
  * @author somewhere
  */
 @Data
-public abstract class TreeCacheServiceImpl<Repository extends TreeRepository<T>, T extends TreeEntity, D extends TreeDto>
-	extends DataCacheServiceImpl<Repository, T, D> implements TreeService<T, D> {
+public abstract class AbstractTreeCacheServiceImpl<Repository extends TreeRepository<T>, T extends TreeEntity, D extends TreeDto>
+	extends AbstractDataCacheServiceImpl<Repository, T, D> implements TreeService<T, D> {
 
 }

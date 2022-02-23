@@ -13,11 +13,11 @@ import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.type.TypeHandler;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -41,11 +41,10 @@ import java.util.List;
 @Slf4j
 @MapperScan(
 	basePackages = {CommonConstants.UTIL_PACKAGE, CommonConstants.BUSINESS_PACKAGE},
-	annotationClass = Repository.class,
 	sqlSessionFactoryRef = BaseMasterDatabaseConfiguration.DATABASE_PREFIX + "SqlSessionFactory")
 @EnableConfigurationProperties({MybatisPlusProperties.class})
-//@ConditionalOnExpression("!'DATASOURCE'.equals('${application.database.multiTenantType}') && " +
-//	"!'DATASOURCE_COLUMN'.equals('${application.database.multiTenantType}') ")
+@ConditionalOnExpression("!'DATASOURCE'.equals('${application.database.multiTenantType}') && " +
+	"!'DATASOURCE_COLUMN'.equals('${application.database.multiTenantType}') ")
 public class AuthorityDatabaseAutoConfiguration extends BaseMasterDatabaseConfiguration {
 
 	public AuthorityDatabaseAutoConfiguration(MybatisPlusProperties properties,

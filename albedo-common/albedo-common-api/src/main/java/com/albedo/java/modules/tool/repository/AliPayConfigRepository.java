@@ -34,13 +34,13 @@ package com.albedo.java.modules.tool.repository;
 
 import com.albedo.java.modules.tool.domain.AlipayConfig;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * @author somewhere
  * @since 2019/2/1
  */
-@Repository
+@Mapper
 public interface AliPayConfigRepository extends BaseRepository<AlipayConfig> {
 
 }

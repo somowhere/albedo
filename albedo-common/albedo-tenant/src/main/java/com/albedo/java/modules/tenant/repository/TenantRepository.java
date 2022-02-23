@@ -4,7 +4,7 @@ import com.albedo.java.modules.tenant.domain.Tenant;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
  * @author somewhere
  * @date 2019-10-25
  */
-@Repository
+@Mapper
 @InterceptorIgnore(tenantLine = "true", dynamicTableName = "true")
 public interface TenantRepository extends BaseRepository<Tenant> {
 

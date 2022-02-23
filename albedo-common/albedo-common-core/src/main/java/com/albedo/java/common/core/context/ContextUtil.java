@@ -102,13 +102,6 @@ public final class ContextUtil {
 		set(ContextConstants.KEY_TENANT, val);
 	}
 
-	public static String getSubTenant() {
-		return get(ContextConstants.KEY_SUB_TENANT, String.class, StrPool.EMPTY);
-	}
-
-	public static void setSubTenant(String val) {
-		set(ContextConstants.KEY_SUB_TENANT, val);
-	}
 
 	public static String getClientId() {
 		return get(ContextConstants.KEY_CLIENT_ID, String.class);

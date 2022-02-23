@@ -5,11 +5,11 @@
 	<parent>
 		<artifactId>albedo-common</artifactId>
 		<groupId>com.albedo.java</groupId>
-		<version>3.2.2-SNAPSHOT</version>
+		<version>3.2.3-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>allbedo-file</artifactId>
+	<artifactId>albedo-file</artifactId>
 
 	<dependencies>
 		<dependency>

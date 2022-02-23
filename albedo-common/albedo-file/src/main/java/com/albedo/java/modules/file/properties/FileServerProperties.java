@@ -54,12 +54,26 @@ public class FileServerProperties {
 	private FastDfs fastDfs = new FastDfs();
 
 	public enum Region {
+		/**
+		 * 华东 z0
+		 */
 		z0,
+		/**
+		 * 华北 z1
+		 */
 		z1,
+		/**
+		 * 华南 z2
+		 */
 		z2,
+		/**
+		 * 北美 na0
+		 */
 		na0,
-		as0,
-		;
+		/**
+		 * 东南亚 as0
+		 */
+		as0;
 	}
 
 	@Data

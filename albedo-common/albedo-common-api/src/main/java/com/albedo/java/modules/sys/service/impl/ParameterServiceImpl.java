@@ -154,7 +154,7 @@ public class ParameterServiceImpl extends DataServiceImpl<ParameterRepository, P
 			return Collections.emptyMap();
 		}
 		List<Parameter> list = list(Wraps.<Parameter>lbQ().in(Parameter::getKey, keys));
-		Map<String, String> map = new HashMap<>();
+		Map<String, String> map = new HashMap<>(16);
 		list.forEach(item -> map.put(item.getKey(), item.getValue()));
 		return map;
 	}

@@ -16,7 +16,7 @@ import com.albedo.java.modules.tenant.repository.TenantRepository;
 import com.albedo.java.modules.tenant.service.TenantService;
 import com.albedo.java.modules.tenant.strategy.InitSystemContext;
 import com.albedo.java.plugins.database.mybatis.conditions.Wraps;
-import com.albedo.java.plugins.database.mybatis.service.impl.DataCacheServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.AbstractDataCacheServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ import java.util.function.Function;
 @Service
 
 @RequiredArgsConstructor
-public class TenantServiceImpl extends DataCacheServiceImpl<TenantRepository, Tenant, TenantDto> implements TenantService {
+public class TenantServiceImpl extends AbstractDataCacheServiceImpl<TenantRepository, Tenant, TenantDto> implements TenantService {
 
 	private final InitSystemContext initSystemContext;
 	private final AppendixService appendixService;

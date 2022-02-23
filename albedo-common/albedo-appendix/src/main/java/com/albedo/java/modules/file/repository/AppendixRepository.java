@@ -2,7 +2,7 @@ package com.albedo.java.modules.file.repository;
 
 import com.albedo.java.modules.file.domain.Appendix;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
  * @date 2021-06-30
  * @create [2021-06-30] [somewhere] [初始创建]
  */
-@Repository
+@Mapper
 public interface AppendixRepository extends BaseRepository<Appendix> {
 
 }

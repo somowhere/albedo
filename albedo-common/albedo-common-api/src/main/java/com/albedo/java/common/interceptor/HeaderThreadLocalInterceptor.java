@@ -32,12 +32,10 @@ public class HeaderThreadLocalInterceptor implements AsyncHandlerInterceptor {
 			return true;
 		}
 		ContextUtil.setTenant(WebUtil.getHeader(request, ContextConstants.KEY_TENANT));
-		ContextUtil.setSubTenant(WebUtil.getHeader(request, ContextConstants.KEY_SUB_TENANT));
 
 		String traceId = request.getHeader(ContextConstants.TRACE_ID_HEADER);
 		MDC.put(ContextConstants.LOG_TRACE_ID, StrUtil.isEmpty(traceId) ? StrUtil.EMPTY : traceId);
 		MDC.put(ContextConstants.KEY_TENANT, WebUtil.getHeader(request, ContextConstants.KEY_TENANT));
-		MDC.put(ContextConstants.KEY_SUB_TENANT, WebUtil.getHeader(request, ContextConstants.KEY_SUB_TENANT));
 
 		return true;
 	}

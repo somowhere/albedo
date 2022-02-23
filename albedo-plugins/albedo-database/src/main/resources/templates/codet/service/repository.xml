@@ -27,14 +27,14 @@ import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 
 
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * ${functionName}Repository ${functionNameSimple}
  * @author ${functionAuthor}
  * @version ${functionVersion}
  */
-@Repository
+@Mapper
 public interface ${ClassName}Repository extends BaseRepository<${ClassName}> {
 
 

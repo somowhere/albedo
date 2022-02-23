@@ -23,7 +23,7 @@ package ${packageName}.${moduleName}.repository<#if subModuleName != "">.${subMo
 
 import com.albedo.java.plugins.database.mybatis.repository.TreeRepository;
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ import java.util.List;
  * @author ${functionAuthor}
  * @version ${functionVersion}
  */
-@Repository
+@Mapper
 public interface ${ClassName}Repository extends TreeRepository<${ClassName}> {
 
 

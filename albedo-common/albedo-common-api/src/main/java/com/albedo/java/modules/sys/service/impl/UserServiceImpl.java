@@ -65,7 +65,7 @@ import com.albedo.java.modules.sys.service.*;
 import com.albedo.java.modules.sys.util.SysCacheUtil;
 import com.albedo.java.plugins.database.mybatis.conditions.Wraps;
 import com.albedo.java.plugins.database.mybatis.datascope.DataScope;
-import com.albedo.java.plugins.database.mybatis.service.impl.DataCacheServiceImpl;
+import com.albedo.java.plugins.database.mybatis.service.impl.AbstractDataCacheServiceImpl;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -94,7 +94,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class UserServiceImpl extends DataCacheServiceImpl<UserRepository, User, UserDto> implements UserService {
+public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository, User, UserDto> implements UserService {
 
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 

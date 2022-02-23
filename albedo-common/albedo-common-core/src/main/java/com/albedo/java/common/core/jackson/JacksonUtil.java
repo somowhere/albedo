@@ -23,6 +23,10 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ *
+ * @author somewhere
+ */
 @Slf4j
 public class JacksonUtil {
 	private JacksonUtil() {

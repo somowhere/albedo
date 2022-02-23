@@ -39,11 +39,9 @@ public class ThreadLocalContextFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
 		ContextUtil.setTenant(Base64.decodeStr(WebUtil.getHeader(request, ContextConstants.KEY_TENANT)));
-		ContextUtil.setSubTenant(Base64.decodeStr(WebUtil.getHeader(request, ContextConstants.KEY_SUB_TENANT)));
 		String traceId = request.getHeader(ContextConstants.TRACE_ID_HEADER);
 		MDC.put(ContextConstants.LOG_TRACE_ID, StrUtil.isEmpty(traceId) ? StrUtil.EMPTY : traceId);
 		MDC.put(ContextConstants.KEY_TENANT, ContextUtil.getTenant());
-		MDC.put(ContextConstants.KEY_SUB_TENANT, ContextUtil.getSubTenant());
 
 		filterChain.doFilter(request, response);
 	}

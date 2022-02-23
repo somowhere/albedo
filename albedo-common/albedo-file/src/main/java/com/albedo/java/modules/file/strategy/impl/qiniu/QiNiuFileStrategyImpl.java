@@ -3,6 +3,7 @@ package com.albedo.java.modules.file.strategy.impl.qiniu;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
+import com.albedo.java.common.core.exception.code.ResponseCode;
 import com.albedo.java.common.core.util.MapHelper;
 import com.albedo.java.common.core.util.StrPool;
 import com.albedo.java.modules.file.domain.FileDeleteBo;
@@ -87,7 +88,7 @@ public class QiNiuFileStrategyImpl extends AbstractFileStrategy {
 
 		log.info("response={}", JSONUtil.toJsonStr(response));
 
-		if (response.statusCode == 200) {
+		if (response.statusCode == ResponseCode.OK.getCode()) {
 			DefaultPutRet defaultPutRet = JSONUtil.toBean(response.bodyString(), DefaultPutRet.class);
 			log.info("defaultPutRet={}", JSONUtil.toJsonStr(defaultPutRet));
 

@@ -10,6 +10,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.stream.Stream;
 
+/**
+ *
+ * @author somewhere
+ */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
