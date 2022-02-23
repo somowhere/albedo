@@ -50,7 +50,7 @@
 依赖 | 版本
 ---|---
 Spring Boot |  2.6.3 
-Mybatis Plus | 3.5.0
+Mybatis Plus | 3.5.1
 hutool | 5.7.21
    
 
