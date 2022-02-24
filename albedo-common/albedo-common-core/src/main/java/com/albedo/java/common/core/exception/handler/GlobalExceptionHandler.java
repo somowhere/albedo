@@ -34,10 +34,7 @@ package com.albedo.java.common.core.exception.handler;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.StrUtil;
-import com.albedo.java.common.core.exception.BizException;
-import com.albedo.java.common.core.exception.EntityExistException;
-import com.albedo.java.common.core.exception.EntityNotFoundException;
-import com.albedo.java.common.core.exception.ForbiddenException;
+import com.albedo.java.common.core.exception.*;
 import com.albedo.java.common.core.exception.code.ResponseCode;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.StrPool;
@@ -98,12 +95,12 @@ public class GlobalExceptionHandler {
 		return path;
 	}
 
-	private void setContentType(String contentType){
-		if(StringUtil.isNotEmpty(contentType)){
+	private void setContentType(String contentType) {
+		if (StringUtil.isNotEmpty(contentType)) {
 			RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
 			if (requestAttributes != null) {
 				HttpServletResponse response = ((ServletRequestAttributes) requestAttributes).getResponse();
-				if(response.getContentType() != contentType){
+				if (response.getContentType() != contentType) {
 					response.setContentType(contentType);
 				}
 			}
@@ -280,6 +277,19 @@ public class GlobalExceptionHandler {
 		log.warn("BizException={}", ex.getMessage());
 		return Result.build(ex.getErrorCode(), ex.getMessage()).setPath(getPath());
 	}
+
+	/**
+	 * ArgumentException
+	 *
+	 * @param ex
+	 * @return Result
+	 */
+	@ExceptionHandler({ArgumentException.class})
+	public Result bodyArgumentExceptionHandler(ArgumentException ex) {
+		log.warn("ArgumentException={}", ex.getMessage());
+		return Result.build(ex.getErrorCode(), ex.getMessage()).setPath(getPath());
+	}
+
 
 	/**
 	 * 处理 badException

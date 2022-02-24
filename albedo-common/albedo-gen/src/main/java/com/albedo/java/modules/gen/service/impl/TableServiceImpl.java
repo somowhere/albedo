@@ -17,6 +17,7 @@
 package com.albedo.java.modules.gen.service.impl;
 
 import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
@@ -208,7 +209,7 @@ public class TableServiceImpl extends AbstractDataCacheServiceImpl<TableReposito
 	@DS("#tableDto.dsName")
 	public List<TableColumnDto> findTableColumnList(TableDto tableDto) {
 		List<TableColumnDto> list = repository.findTableColumnList(tableDto.getName());
-		Assert.notNull(list, StringUtil.toAppendStr("无法获取[", tableDto.getName(), "]表的列信息"));
+		ArgumentAssert.notNull(list, StringUtil.toAppendStr("无法获取[", tableDto.getName(), "]表的列信息"));
 		if (ObjectUtil.isNotEmpty(tableDto.getId())) {
 			Collections.sort(list);
 		}
@@ -218,7 +219,7 @@ public class TableServiceImpl extends AbstractDataCacheServiceImpl<TableReposito
 	@Override
 	@DS("#tableDto.dsName")
 	public List<TableDto> findTableListFormDb(TableDto tableDto) {
-		Assert.isTrue(tableDto != null, "无效参数");
+		ArgumentAssert.notNull(tableDto, "无效参数");
 		List<Table> tableEntities = list();
 		TableQuery tableQuery = new TableQuery();
 		if (StringUtil.isNotEmpty(tableDto.getName())) {
@@ -237,7 +238,7 @@ public class TableServiceImpl extends AbstractDataCacheServiceImpl<TableReposito
 	@Override
 	public TableFormDataVo findFormData(TableFromDto tableFromDto) {
 		// 验证参数缺失
-		Assert.isTrue(tableFromDto == null || StringUtil.isNotEmpty(tableFromDto.getId())
+		ArgumentAssert.isTrue(tableFromDto == null || StringUtil.isNotEmpty(tableFromDto.getId())
 			|| StringUtil.isNotEmpty(tableFromDto.getTableName())
 			|| StringUtil.isNotEmpty(tableFromDto.getDsName()), "参数缺失！");
 		TableFormDataVo tableFormDataVo = new TableFormDataVo();
@@ -245,7 +246,7 @@ public class TableServiceImpl extends AbstractDataCacheServiceImpl<TableReposito
 		tableFormDataVo.setTableList(
 			CollUtil.convertSelectVoList(findTableListFormDb(tableDto), Table.F_NAME, Table.F_NAMESANDTITLE));
 		// 验证表是否存在
-		Assert.isTrue(StringUtil.isNotEmpty(tableFromDto.getId()) || checkTableName(tableFromDto.getTableName()),
+		ArgumentAssert.isTrue(StringUtil.isNotEmpty(tableFromDto.getId()) || checkTableName(tableFromDto.getTableName()),
 			StringUtil.toAppendStr("下一步失败！", tableFromDto.getTableName(), " 表已经添加！"));
 		if (ObjectUtil.isNotEmpty(tableFromDto.getId())) {
 			tableDto = getOneDto(tableFromDto.getId());

@@ -35,8 +35,8 @@ package com.albedo.java.modules.sys.repository;
 import com.albedo.java.modules.sys.domain.Menu;
 import com.albedo.java.modules.sys.domain.vo.MenuVo;
 import com.albedo.java.plugins.database.mybatis.repository.TreeRepository;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

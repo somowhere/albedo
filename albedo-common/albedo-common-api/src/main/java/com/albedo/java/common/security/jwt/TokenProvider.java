@@ -18,6 +18,7 @@ package com.albedo.java.common.security.jwt;
 
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.security.service.UserDetail;
 import io.jsonwebtoken.*;
@@ -30,7 +31,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
 import java.security.Key;
@@ -72,7 +72,7 @@ public class TokenProvider {
 	@PostConstruct
 	public void init() {
 		String secret = applicationProperties.getSecurity().getAuthentication().getJwt().getBase64Secret();
-		Assert.isTrue(StringUtil.isNotEmpty(secret), "jwt secret can not be empty");
+		ArgumentAssert.isTrue(StringUtil.isNotEmpty(secret), "jwt secret can not be empty");
 		byte[] keyBytes = Decoders.BASE64.decode(secret);
 		this.secretKey = Keys.hmacShaKeyFor(keyBytes);
 

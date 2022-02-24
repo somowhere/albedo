@@ -6,7 +6,6 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
- *
  * @author somewhere
  */
 @Data

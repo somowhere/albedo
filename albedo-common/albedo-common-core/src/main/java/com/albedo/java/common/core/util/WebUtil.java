@@ -44,7 +44,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -103,7 +102,7 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
 	 */
 	public String getCookieVal(String name) {
 		HttpServletRequest request = WebUtil.getRequest();
-		Assert.notNull(request, "request from RequestContextHolder is null");
+		ArgumentAssert.notNull(request, "request from RequestContextHolder is null");
 		return getCookieVal(request, name);
 	}
 
@@ -208,7 +207,7 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
 	 * @return {String}
 	 */
 	public String getIp(HttpServletRequest request) {
-		Assert.notNull(request, "HttpServletRequest is null");
+		ArgumentAssert.notNull(request, "HttpServletRequest is null");
 		String ip = request.getHeader("X-Requested-For");
 		if (StringUtil.isBlank(ip) || CommonConstants.UNKNOWN.equalsIgnoreCase(ip)) {
 			ip = request.getHeader("X-Forwarded-For");

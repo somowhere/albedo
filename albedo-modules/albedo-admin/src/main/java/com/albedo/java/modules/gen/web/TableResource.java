@@ -17,6 +17,7 @@
 package com.albedo.java.modules.gen.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.StringUtil;
@@ -38,7 +39,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -116,7 +116,7 @@ public class TableResource extends BaseResource {
 	public Result refreshColumn(@PathVariable String id) {
 		log.debug("REST request to refreshColumn Entity : {}", id);
 		TableDto tableDto = tableService.getOneDto(id);
-		Assert.notNull(tableDto, "对象 " + id + " 信息为空，操作失败");
+		ArgumentAssert.notNull(tableDto, "对象 " + id + " 信息为空，操作失败");
 		tableService.getTableFormDb(tableDto);
 		tableService.refreshColumn(tableDto);
 		return Result.buildOk("操作成功");

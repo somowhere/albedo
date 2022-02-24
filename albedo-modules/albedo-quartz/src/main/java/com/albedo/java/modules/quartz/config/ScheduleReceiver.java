@@ -20,7 +20,7 @@ import cn.hutool.json.JSONUtil;
 import com.albedo.java.common.core.annotation.BaseInit;
 import com.albedo.java.common.core.context.ContextUtil;
 import com.albedo.java.common.core.exception.TaskException;
-import com.albedo.java.common.core.util.ObjectUtil;
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.vo.ScheduleVo;
 import com.albedo.java.modules.quartz.domain.Job;
 import com.albedo.java.modules.quartz.repository.JobRepository;
@@ -36,7 +36,6 @@ import org.redisson.api.RedissonClient;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.concurrent.locks.Lock;
@@ -114,9 +113,9 @@ public class ScheduleReceiver implements MessageListener {
 			if (log.isDebugEnabled()) {
 				log.debug("receiveMessage scheduleVo===>" + scheduleVo);
 			}
-			Assert.isTrue(scheduleVo != null, "scheduleVo cannot be null");
-			Assert.isTrue(ObjectUtil.isNotEmpty(scheduleVo.getMessageType()), "scheduleVo messageType cannot be empty");
-			Assert.isTrue(ObjectUtil.isNotEmpty(scheduleVo.getTenantCode()), "scheduleVo tenantCode cannot be empty");
+			ArgumentAssert.notNull(scheduleVo, "scheduleVo cannot be null");
+			ArgumentAssert.notNull(scheduleVo.getMessageType(), "scheduleVo messageType cannot be null");
+			ArgumentAssert.notEmpty(scheduleVo.getTenantCode(), "scheduleVo tenantCode cannot be empty");
 			Long jobId = scheduleVo.getJobId();
 			String jobGroup = scheduleVo.getJobGroup();
 			ContextUtil.setTenant(scheduleVo.getTenantCode());

@@ -168,7 +168,7 @@ public class SecurityUtil {
 		return anonymousUrls;
 	}
 
-	private Set<String> getPatterns(Map.Entry<RequestMappingInfo, HandlerMethod> infoEntry){
+	private Set<String> getPatterns(Map.Entry<RequestMappingInfo, HandlerMethod> infoEntry) {
 		return infoEntry.getKey().getPatternsCondition().getPatterns();
 	}
 

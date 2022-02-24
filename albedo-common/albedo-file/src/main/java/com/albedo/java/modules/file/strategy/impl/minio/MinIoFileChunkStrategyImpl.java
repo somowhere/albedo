@@ -1,8 +1,8 @@
 package com.albedo.java.modules.file.strategy.impl.minio;
 
 import com.albedo.java.common.core.util.Result;
-import com.albedo.java.modules.file.domain.dto.FileChunksMergeDto;
 import com.albedo.java.modules.file.domain.File;
+import com.albedo.java.modules.file.domain.dto.FileChunksMergeDto;
 import com.albedo.java.modules.file.properties.FileServerProperties;
 import com.albedo.java.modules.file.repository.FileRepository;
 import com.albedo.java.modules.file.strategy.impl.AbstractFileChunkStrategy;

@@ -30,7 +30,6 @@ import com.albedo.java.plugins.cache.repository.CacheOps;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Map;
@@ -73,7 +72,7 @@ public class DictUtil {
 				boolean containsKey = selectVoMap.containsKey(simpleName),
 					hitCode = (ArrayUtil.isEmpty(codes) || ArrayUtil.contains(codes, simpleName));
 				if (!containsKey && hitCode) {
-					Assert.isTrue(baseEnumClass.isEnum(), "this is not enum form BaseEnum " + baseEnumClass + " !!!");
+					ArgumentAssert.isTrue(baseEnumClass.isEnum(), "this is not enum form BaseEnum " + baseEnumClass + " !!!");
 					List<SelectVo> selectVoList = Lists.newArrayList();
 					for (BaseEnum enumConstant : baseEnumClass.getEnumConstants()) {
 						selectVoList.add(SelectVo.builder()

@@ -18,8 +18,8 @@ package com.albedo.java.modules.sys.repository;
 
 import com.albedo.java.modules.sys.domain.LogLogin;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

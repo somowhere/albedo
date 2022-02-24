@@ -18,6 +18,7 @@ package com.albedo.java.modules.gen.service.impl;
 
 import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.common.core.exception.EntityExistException;
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.modules.gen.cache.DatasourceConfCacheKeyBuilder;
@@ -35,7 +36,6 @@ import lombok.RequiredArgsConstructor;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
 import java.sql.DriverManager;
@@ -72,7 +72,7 @@ public class DatasourceConfServiceImpl
 
 	@Override
 	public void saveOrUpdate(DatasourceConfDto datasourceConfDto) {
-		Assert.isTrue(checkDataSource(datasourceConfDto), "无效数据源");
+		ArgumentAssert.isTrue(checkDataSource(datasourceConfDto), "无效数据源");
 		// name before comparing with database
 		if (exitDatasourceConfByName(datasourceConfDto)) {
 			throw new EntityExistException(DatasourceConfDto.class, "name", datasourceConfDto.getName());

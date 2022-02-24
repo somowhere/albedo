@@ -2,8 +2,8 @@ package com.albedo.java.modules.file.strategy;
 
 
 import com.albedo.java.common.core.util.Result;
-import com.albedo.java.modules.file.domain.dto.FileChunksMergeDto;
 import com.albedo.java.modules.file.domain.File;
+import com.albedo.java.modules.file.domain.dto.FileChunksMergeDto;
 
 /**
  * 文件分片处理策略类

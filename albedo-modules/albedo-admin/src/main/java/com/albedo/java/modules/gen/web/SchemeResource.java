@@ -16,9 +16,9 @@
 
 package com.albedo.java.modules.gen.web;
 
-import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.CharUtil;
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.PageModel;
@@ -89,7 +89,7 @@ public class SchemeResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('gen_scheme_code')")
 	public Result genCode(@Valid @RequestBody GenCodeDto genCodeDto) {
 		SchemeDto genSchemeDto = schemeService.getOneDto(genCodeDto.getId());
-		Assert.isTrue(genSchemeDto != null, "无法获取代码生成方案信息");
+		ArgumentAssert.notNull(genSchemeDto, "无法获取代码生成方案信息");
 		genSchemeDto.setReplaceFile(genCodeDto.getReplaceFile());
 		schemeService.generateCode(genSchemeDto);
 		return Result.buildOk("生成", genSchemeDto.getName(), "代码成功");

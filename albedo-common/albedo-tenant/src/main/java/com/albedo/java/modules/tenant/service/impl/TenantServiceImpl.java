@@ -3,6 +3,7 @@ package com.albedo.java.modules.tenant.service.impl;
 import cn.hutool.core.convert.Convert;
 import com.albedo.java.common.core.cache.model.CacheKey;
 import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.BeanUtil;
 import com.albedo.java.modules.file.service.AppendixService;
 import com.albedo.java.modules.tenant.TenantCacheKeyBuilder;
@@ -21,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.function.Function;
@@ -69,7 +69,7 @@ public class TenantServiceImpl extends AbstractDataCacheServiceImpl<TenantReposi
 	@Transactional(rollbackFor = Exception.class)
 	public void saveOrUpdate(TenantDto tenantDto) {
 		// defaults 库
-		Assert.isTrue(check(tenantDto.getCode()), "编码重复，请重新输入");
+		ArgumentAssert.isTrue(check(tenantDto.getCode()), "编码重复，请重新输入");
 		Tenant tenant = BeanUtil.toBean(tenantDto, Tenant.class);
 		if (tenantDto.getId() == null) {
 			// 1， 保存租户 (默认库)

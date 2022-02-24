@@ -1,7 +1,7 @@
 package com.albedo.java.common.security.service;
 
+import com.albedo.java.common.core.util.ArgumentAssert;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.util.Assert;
 
 /**
  * @author somewhere
@@ -11,7 +11,7 @@ public class CustomSimpleGrantedAuthority implements GrantedAuthority {
 	private String role;
 
 	public CustomSimpleGrantedAuthority(String role) {
-		Assert.hasText(role, "A granted authority textual representation is required");
+		ArgumentAssert.notEmpty(role, "A granted authority textual representation is required");
 		this.role = role;
 	}
 

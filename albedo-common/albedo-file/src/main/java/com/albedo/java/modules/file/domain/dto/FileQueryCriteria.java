@@ -6,7 +6,6 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- *
  * @author somewhere
  */
 @Data

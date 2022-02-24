@@ -17,6 +17,7 @@
 package com.albedo.java.modules.gen.service.impl;
 
 import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.modules.gen.cache.TableColumnCacheKeyBuilder;
 import com.albedo.java.modules.gen.domain.TableColumn;
 import com.albedo.java.modules.gen.domain.dto.TableColumnDto;
@@ -25,7 +26,6 @@ import com.albedo.java.modules.gen.service.TableColumnService;
 import com.albedo.java.plugins.database.mybatis.service.impl.AbstractDataCacheServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,7 +51,7 @@ public class TableColumnServiceImpl extends AbstractDataCacheServiceImpl<TableCo
 	@Override
 	public void deleteByTableId(String id) {
 		List<TableColumn> tableColumnList = findAllByGenTableIdOrderBySort(id);
-		Assert.notNull(tableColumnList, "id " + id + " tableColumn 不能为空");
+		ArgumentAssert.notNull(tableColumnList, "id " + id + " tableColumn 不能为空");
 		super.removeByIds(tableColumnList.stream().map(item -> item.getId()).collect(Collectors.toList()));
 
 	}

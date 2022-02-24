@@ -4,7 +4,7 @@ import { MessageBox, Notification } from 'element-ui'
 import store from '../store'
 import Config from '@/settings'
 import commonUtil from './common'
-import { MSG_TYPE_FAIL, MSG_TYPE_SUCCESS } from '@/const/common'
+import { MSG_TYPE_SUCCESS } from '@/const/common'
 import validate from './validate'
 
 export const errorCode = {
@@ -59,7 +59,7 @@ service.interceptors.response.use(
     const status = Number(response.status) || 200
     const code = Number(response.data.code)
     const message = errorCode[response.data.message] || response.data.message || errorCode[response.status]
-    if (code === MSG_TYPE_FAIL && validate.checkNotNull(message)) {
+    if (code !== MSG_TYPE_SUCCESS && validate.checkNotNull(message)) {
       Notification.error({
         title: message
       })

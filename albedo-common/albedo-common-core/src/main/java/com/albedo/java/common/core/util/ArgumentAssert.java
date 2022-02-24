@@ -1035,7 +1035,34 @@ public class ArgumentAssert {
 	 * @throws X if expression is {@code false}
 	 */
 	public static <X extends Throwable> void equals(Object expected, Object actual, Supplier<? extends X> supplier) throws X {
-		if (!ObjectUtil.equals(expected, actual)) {
+		if (ObjectUtil.notEqual(expected, actual)) {
+			throw supplier.get();
+		}
+	}
+
+	/**
+	 * 断言2个字符串是否相等，如果相等用指定错误码抛出异常
+	 *
+	 * @param expected         预期的值
+	 * @param actual           需要比较的字符串<code>expected</code>
+	 * @param errorMsgTemplate 错误抛出异常附带的消息模板，变量用{}代替
+	 * @param params           参数列表
+	 * @throws ArgumentException if expression is {@code false}
+	 */
+	public static void notEquals(Object expected, Object actual, String errorMsgTemplate, Object... params) {
+		notEquals(expected, actual, () -> new ArgumentException(StrUtil.format(errorMsgTemplate, params)));
+	}
+
+	/**
+	 * 断言2个字符串是否相等，如果 相等 抛出给定的异常
+	 *
+	 * @param expected 预期的值
+	 * @param actual   需要比较的字符串
+	 * @param supplier 指定断言不通过时抛出的异常
+	 * @throws X if expression is {@code false}
+	 */
+	public static <X extends Throwable> void notEquals(Object expected, Object actual, Supplier<? extends X> supplier) throws X {
+		if (ObjectUtil.equals(expected, actual)) {
 			throw supplier.get();
 		}
 	}

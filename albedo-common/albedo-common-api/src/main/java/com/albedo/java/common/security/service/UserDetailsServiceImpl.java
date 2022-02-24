@@ -32,9 +32,9 @@
 
 package com.albedo.java.common.security.service;
 
-import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ArrayUtil;
 import com.albedo.java.common.core.constant.SecurityConstants;
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.security.util.AuthUtil;
 import com.albedo.java.modules.sys.domain.Role;
@@ -85,10 +85,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@SneakyThrows
 	public UserDetails loadUserByUsername(String username) {
 		UserVo userVo = userService.findVoByUsername(username);
-		if (userVo == null) {
-			throw new UsernameNotFoundException("用户不存在");
-		}
-		Assert.isTrue(userVo.isAvailable(), "用户【" + username + "】已被锁定，无法登录");
+		ArgumentAssert.notNull(userVo, () -> new UsernameNotFoundException("用户不存在"));
+		ArgumentAssert.isTrue(userVo.isAvailable(), "用户【" + username + "】已被锁定，无法登录");
 		UserDetails userDetails = getUserDetails(userService.getInfo(userVo));
 		return userDetails;
 	}
@@ -100,9 +98,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	 * @return
 	 */
 	private UserDetails getUserDetails(UserInfo userInfo) {
-		if (userInfo == null) {
-			throw new UsernameNotFoundException("用户不存在");
-		}
+		ArgumentAssert.notNull(userInfo, () -> new UsernameNotFoundException("用户不存在"));
 
 		Set<String> dbAuthsSet = new HashSet<>();
 		if (ArrayUtil.isNotEmpty(userInfo.getRoles())) {

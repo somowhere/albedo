@@ -38,7 +38,7 @@ import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.exception.EntityExistException;
-import com.albedo.java.common.core.util.CollUtil;
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.tree.TreeUtil;
@@ -148,9 +148,7 @@ public class DictServiceImpl extends AbstractTreeCacheServiceImpl<DictRepository
 		ids.forEach(id -> {
 			// 查询父节点为当前节点的节点
 			List<Dict> menuList = this.list(Wrappers.<Dict>query().lambda().eq(Dict::getParentId, id));
-			if (CollUtil.isNotEmpty(menuList)) {
-				throw new BizException("字典含有下级不能删除");
-			}
+			ArgumentAssert.notEmpty(menuList, () -> new BizException("字典含有下级不能删除"));
 		});
 		boolean b = super.removeByIds(ids);
 		cacheOps.del(new DictCacheKeyBuilder().key(CACHE_FIND_CODES));

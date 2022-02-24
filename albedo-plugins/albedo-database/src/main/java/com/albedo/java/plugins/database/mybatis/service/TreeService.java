@@ -18,7 +18,7 @@ package com.albedo.java.plugins.database.mybatis.service;
 
 import com.albedo.java.common.core.basic.domain.TreeEntity;
 import com.albedo.java.common.core.exception.BizException;
-import com.albedo.java.common.core.util.CollUtil;
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.tree.TreeUtil;
@@ -30,9 +30,7 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -145,9 +143,7 @@ public interface TreeService<T extends TreeEntity, D extends TreeDto> extends Da
 		idList.forEach(id -> {
 			// 查询父节点为当前节点的节点
 			List<T> menuList = this.list(Wrappers.<T>query().eq(TreeEntity.F_SQL_PARENT_ID, id));
-			if (CollUtil.isNotEmpty(menuList)) {
-				throw new BizException("含有下级不能删除");
-			}
+			ArgumentAssert.notEmpty(menuList, () -> new BizException("含有下级不能删除"));
 		});
 		return CollectionUtils.isEmpty(idList) ? false : SqlHelper.retBool(this.getBaseMapper().deleteBatchIds(idList));
 	}

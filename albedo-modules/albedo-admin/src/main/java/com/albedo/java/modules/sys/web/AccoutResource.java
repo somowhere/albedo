@@ -24,8 +24,8 @@ import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.context.ContextUtil;
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.Result;
-import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.RedisUtil;
@@ -44,7 +44,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletOutputStream;
@@ -85,7 +84,7 @@ public class AccoutResource extends BaseResource {
 	@GetMapping(SecurityConstants.AUTHENTICATE_URL)
 	public Result isAuthenticated() throws AccessDeniedException {
 		log.debug("REST request to check if the current user is authenticated");
-		return  SecurityUtil.getUser() == null ? Result.buildFail("") : Result.buildOkData(SecurityUtil.getUser().getUsername());
+		return SecurityUtil.getUser() == null ? Result.buildFail("") : Result.buildOkData(SecurityUtil.getUser().getUsername());
 	}
 
 	/**
@@ -134,7 +133,7 @@ public class AccoutResource extends BaseResource {
 	@GetMapping(path = "/code/{randomStr}", produces = MediaType.IMAGE_JPEG_VALUE)
 	@ApiOperation(value = "获取验证码")
 	public void valicode(@PathVariable String randomStr, HttpServletResponse response) throws IOException {
-		Assert.isTrue(StringUtil.isNotEmpty(randomStr), "机器码不能为空");
+		ArgumentAssert.notEmpty(randomStr, "机器码不能为空");
 		response.setHeader("Cache-Control", "no-store, no-cache");
 		response.setHeader("Transfer-Encoding", "JPG");
 		response.setContentType("image/jpeg");

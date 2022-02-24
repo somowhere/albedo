@@ -21,12 +21,7 @@ import com.albedo.java.common.core.converter.EnumSerializer;
 import com.albedo.java.common.core.enumeration.BaseEnum;
 import com.albedo.java.common.core.jackson.CustomModule;
 import com.albedo.java.common.core.jackson.JacksonUtil;
-import com.albedo.java.common.core.util.DateUtil;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.json.JsonReadFeature;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -35,10 +30,7 @@ import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilde
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
-import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.TimeZone;

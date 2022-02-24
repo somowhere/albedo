@@ -21,7 +21,6 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.cglib.beans.BeanMap;
-import org.springframework.util.Assert;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
@@ -39,8 +38,8 @@ import java.util.stream.Collectors;
 public class BeanUtil extends cn.hutool.core.bean.BeanUtil {
 
 	public static void copyProperties(Object source, Object target, boolean ignoreNull, String... ignoreProperties) {
-		Assert.notNull(source, "Source must not be null");
-		Assert.notNull(target, "Target must not be null");
+		ArgumentAssert.notNull(source, "Source must not be null");
+		ArgumentAssert.notNull(target, "Target must not be null");
 		Class<?> actualEditable = target.getClass();
 
 		PropertyDescriptor[] targetPds = getPropertyDescriptors(actualEditable);

@@ -1,8 +1,8 @@
 package com.albedo.java.modules.tenant.repository;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 初始化数据库DAO

@@ -32,7 +32,6 @@ import com.albedo.java.common.security.handler.AjaxLogoutSuccessHandler;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.modules.sys.service.UserOnlineService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -65,7 +64,6 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import javax.annotation.PostConstruct;
 import java.util.Map;
 import java.util.Set;
 

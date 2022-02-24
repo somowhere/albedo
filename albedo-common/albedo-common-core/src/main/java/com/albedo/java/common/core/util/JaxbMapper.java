@@ -16,8 +16,6 @@
 
 package com.albedo.java.common.core.util;
 
-import org.springframework.util.Assert;
-
 import javax.xml.bind.*;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.namespace.QName;
@@ -126,7 +124,7 @@ public class JaxbMapper {
 	}
 
 	protected static JAXBContext getJaxbContext(Class clazz) {
-		Assert.notNull(clazz, "'clazz' must not be null");
+		ArgumentAssert.notNull(clazz, "'clazz' must not be null");
 		JAXBContext jaxbContext = jaxbContexts.get(clazz);
 		if (jaxbContext == null) {
 			try {

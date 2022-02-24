@@ -1,6 +1,5 @@
 package com.albedo.java.plugins.database.injector.method;
 
-import com.baomidou.mybatisplus.core.enums.SqlMethod;
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.extension.injector.methods.AlwaysUpdateSomeColumnById;
 import lombok.NoArgsConstructor;

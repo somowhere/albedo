@@ -38,6 +38,7 @@ import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.exception.EntityExistException;
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
@@ -61,7 +62,6 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.util.Comparator;
 import java.util.HashSet;
@@ -198,9 +198,7 @@ public class MenuServiceImpl extends AbstractTreeCacheServiceImpl<MenuRepository
 			SysCacheUtil.delMenuCaches(id);
 			// 查询父节点为当前节点的节点
 			List<Menu> menuList = this.list(Wrappers.<Menu>query().lambda().eq(Menu::getParentId, id));
-			if (CollUtil.isNotEmpty(menuList)) {
-				throw new BizException("菜单含有下级不能删除");
-			}
+			ArgumentAssert.notEmpty(menuList, () -> new BizException("菜单含有下级不能删除"));
 
 			roleMenuRepository.delete(Wrappers.<RoleMenu>query().lambda().eq(RoleMenu::getMenuId, id));
 			// 删除当前菜单及其子菜单
@@ -252,7 +250,7 @@ public class MenuServiceImpl extends AbstractTreeCacheServiceImpl<MenuRepository
 			}
 		}
 		Menu parentMenu = repository.selectById(parentMenuId);
-		Assert.isTrue(parentMenu != null, StringUtil.toAppendStr("根据模块id[", parentMenuId, "无法查询到模块信息]"));
+		ArgumentAssert.notNull(parentMenu, StringUtil.toAppendStr("根据模块id[", parentMenuId, "无法查询到模块信息]"));
 
 		Menu module = new Menu();
 

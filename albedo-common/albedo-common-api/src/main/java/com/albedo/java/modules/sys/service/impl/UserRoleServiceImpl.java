@@ -33,7 +33,7 @@
 package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.exception.BizException;
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.UserRole;
 import com.albedo.java.modules.sys.repository.RoleRepository;
@@ -74,9 +74,7 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleRepository, Use
 	@Override
 	public boolean initAdmin(Long userId) {
 		Role role = roleRepository.selectOne(Wraps.<Role>lbQ().eq(Role::getCode, CommonConstants.ADMIN_ROLE_CODE));
-		if (role == null) {
-			throw BizException.wrap("初始化用户角色失败, 无法查询到内置角色:%s", CommonConstants.ADMIN_ROLE_CODE);
-		}
+		ArgumentAssert.notNull(role, "初始化用户角色失败, 无法查询到内置角色:%s", CommonConstants.ADMIN_ROLE_CODE);
 		UserRole userRole = UserRole.builder()
 			.userId(userId).roleId(role.getId())
 			.build();

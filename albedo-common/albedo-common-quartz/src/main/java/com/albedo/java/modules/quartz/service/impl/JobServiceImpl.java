@@ -18,6 +18,7 @@ package com.albedo.java.modules.quartz.service.impl;
 
 import cn.hutool.json.JSONUtil;
 import com.albedo.java.common.core.exception.BizException;
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.vo.ScheduleVo;
 import com.albedo.java.common.util.RedisUtil;
 import com.albedo.java.modules.quartz.domain.Job;
@@ -30,7 +31,6 @@ import com.albedo.java.modules.quartz.util.CronUtils;
 import com.albedo.java.plugins.database.mybatis.service.impl.DataServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.util.Set;
 
@@ -150,7 +150,7 @@ public class JobServiceImpl extends DataServiceImpl<JobRepository, Job, JobDto> 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean saveOrUpdate(Job job) {
-		Assert.isTrue(checkCronExpressionIsValid(job.getCronExpression()), "cronExpression 不合法");
+		ArgumentAssert.isTrue(checkCronExpressionIsValid(job.getCronExpression()), "cronExpression 不合法");
 		try {
 			if (job.getId() == null) {
 				job.setStatus(JobStatus.PAUSE);

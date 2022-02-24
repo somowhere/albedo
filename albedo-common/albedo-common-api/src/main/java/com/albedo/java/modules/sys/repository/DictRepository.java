@@ -37,8 +37,8 @@ import com.albedo.java.modules.sys.domain.vo.DictVo;
 import com.albedo.java.plugins.database.mybatis.repository.TreeRepository;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

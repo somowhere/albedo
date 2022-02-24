@@ -16,13 +16,8 @@
 
 package com.albedo.java.plugins.database.mybatis.service;
 
-import com.albedo.java.common.core.exception.BizException;
-import com.albedo.java.common.core.exception.code.ResponseCode;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-
-import java.util.List;
 
 /**
  * @author somewhere
@@ -37,6 +32,7 @@ public interface BaseService<T> extends IService<T> {
 	 */
 	@Override
 	Class<T> getEntityClass();
+
 	/**
 	 * 根据id修改 entity 的所有字段
 	 *

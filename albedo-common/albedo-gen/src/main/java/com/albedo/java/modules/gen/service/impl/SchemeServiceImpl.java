@@ -17,6 +17,8 @@
 package com.albedo.java.modules.gen.service.impl;
 
 import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
+import com.albedo.java.common.core.exception.BizException;
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.FreeMarkers;
 import com.albedo.java.common.core.util.StringUtil;
@@ -41,7 +43,7 @@ import com.albedo.java.modules.gen.util.GenUtil;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.plugins.database.mybatis.service.impl.AbstractDataCacheServiceImpl;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -54,6 +56,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -134,7 +137,7 @@ public class SchemeServiceImpl extends AbstractDataCacheServiceImpl<SchemeReposi
 	@Transactional(readOnly = true)
 	public SchemeFormDataVo findFormData(SchemeDto schemeDto, String loginId) {
 		SchemeFormDataVo schemeFormDataVo = new SchemeFormDataVo();
-
+		ArgumentAssert.notNull(schemeDto, "生成方案不能为空");
 		if (StringUtil.isNotEmpty(schemeDto.getId())) {
 			schemeDto = super.getOneDto(schemeDto.getId());
 		}
@@ -168,7 +171,9 @@ public class SchemeServiceImpl extends AbstractDataCacheServiceImpl<SchemeReposi
 
 	@Override
 	public IPage getSchemeVoPage(PageModel pageModel, SchemeQueryCriteria schemeQueryCriteria) {
-		Wrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, schemeQueryCriteria);
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, schemeQueryCriteria);
+
+		wrapper.eq("a.del_flag", Scheme.FLAG_NORMAL);
 		pageModel.addOrder(OrderItem.desc("a." + Scheme.F_SQL_CREATED_DATE));
 		IPage<List<SchemeVo>> userVosPage = repository.getSchemeVoPage(pageModel, wrapper);
 		return userVosPage;
@@ -180,8 +185,9 @@ public class SchemeServiceImpl extends AbstractDataCacheServiceImpl<SchemeReposi
 		SchemeDto schemeDto = super.getOneDto(id);
 		// 查询主表及字段列
 		TableDto tableDto = tableService.getOneDto(schemeDto.getTableId());
-		tableDto.setColumnList(tableColumnService
-			.list(Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID, tableDto.getId())).stream()
+		ArgumentAssert.notNull(tableDto, "无法找到业务表ID为" + id + "的数据");
+		tableDto.setColumnList(Optional.ofNullable(tableColumnService
+				.list(Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID, tableDto.getId()))).orElseThrow(() -> new BizException("业务列信息不存在")).stream()
 			.map(item -> tableColumnService.copyBeanToDto(item)).collect(Collectors.toList()));
 		Collections.sort(tableDto.getColumnList());
 
@@ -194,8 +200,8 @@ public class SchemeServiceImpl extends AbstractDataCacheServiceImpl<SchemeReposi
 
 		// 如果有子表模板，则需要获取子表列表
 		if (childTableTemplateList.size() > 0) {
-			tableDto.setChildList(tableRepository
-				.selectList(Wrappers.<Table>lambdaQuery().eq(Table::getParentTable, tableDto.getId())).stream()
+			tableDto.setChildList(Optional.ofNullable(tableRepository
+					.selectList(Wrappers.<Table>lambdaQuery().eq(Table::getParentTable, tableDto.getId()))).orElseThrow(() -> new BizException("业务表不存在")).stream()
 				.map(item -> tableService.copyBeanToDto(item)).collect(Collectors.toList()));
 		}
 

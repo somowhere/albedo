@@ -43,13 +43,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static java.util.stream.Collectors.*;
-import static springfox.documentation.builders.BuilderDefaults.*;
-import static springfox.documentation.spi.service.contexts.Orderings.*;
-import static springfox.documentation.spring.web.paths.Paths.*;
+import static java.util.stream.Collectors.toList;
+import static springfox.documentation.builders.BuilderDefaults.nullToEmptyList;
+import static springfox.documentation.spi.service.contexts.Orderings.byPatternsCondition;
+import static springfox.documentation.spring.web.paths.Paths.ROOT;
 
 /**
- *
  * @author somewhere
  */
 @Component

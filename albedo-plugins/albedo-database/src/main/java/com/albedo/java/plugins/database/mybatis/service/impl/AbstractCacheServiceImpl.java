@@ -6,13 +6,17 @@ import cn.hutool.core.util.ReflectUtil;
 import com.albedo.java.common.core.basic.domain.IdEntity;
 import com.albedo.java.common.core.cache.model.CacheKey;
 import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.plugins.cache.repository.CacheOps;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import com.albedo.java.plugins.database.mybatis.service.CacheService;
 import com.baomidou.mybatisplus.core.enums.SqlMethod;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import com.baomidou.mybatisplus.core.toolkit.*;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -182,9 +186,9 @@ public abstract class AbstractCacheServiceImpl<Repository extends BaseRepository
 	@Override
 	public boolean saveOrUpdateBatch(Collection<T> entityList, int batchSize) {
 		TableInfo tableInfo = TableInfoHelper.getTableInfo(getEntityClass());
-		Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!");
+		ArgumentAssert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!");
 		String keyProperty = tableInfo.getKeyProperty();
-		Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!");
+		ArgumentAssert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!");
 
 		BiPredicate<SqlSession, T> predicate = (sqlSession, entity) -> {
 			Object idVal = ReflectionKit.getFieldValue(entity, keyProperty);

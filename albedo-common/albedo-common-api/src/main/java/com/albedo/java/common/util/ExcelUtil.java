@@ -368,7 +368,7 @@ public class ExcelUtil<T> {
 			wb.write(out);
 		} catch (Exception e) {
 			log.error("导出Excel异常{}", e.getMessage());
-			throw new BizException("导出Excel失败，请联系网站管理员！");
+			throw BizException.wrap("导出Excel失败，请联系网站管理员！");
 		} finally {
 			if (wb != null) {
 				try {

@@ -34,6 +34,7 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.BizException;
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.StringUtil;
@@ -213,10 +214,8 @@ public class RoleResource extends BaseResource {
 	 */
 	private void checkRole(Long roleId, String roleName) {
 		List<User> userList = userService.findListByRoleId(roleId);
-		if (CollUtil.isNotEmpty(userList)) {
-			throw new BizException("操作失败！用户："
-				+ CollUtil.convertToString(userList, User.F_USERNAME, StringUtil.COMMA) + "所属要操作的角色：" + roleName);
-		}
+		ArgumentAssert.notEmpty(userList, () -> new BizException("操作失败！用户："
+			+ CollUtil.convertToString(userList, User.F_USERNAME, StringUtil.COMMA) + "所属要操作的角色：" + roleName));
 	}
 
 }

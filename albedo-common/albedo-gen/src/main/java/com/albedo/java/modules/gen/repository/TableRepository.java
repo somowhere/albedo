@@ -20,9 +20,8 @@ import com.albedo.java.modules.gen.domain.Table;
 import com.albedo.java.modules.gen.domain.dto.TableColumnDto;
 import com.albedo.java.modules.gen.domain.vo.TableQuery;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
-import com.baomidou.dynamic.datasource.annotation.DS;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

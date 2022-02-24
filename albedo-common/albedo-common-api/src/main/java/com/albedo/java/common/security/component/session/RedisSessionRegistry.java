@@ -18,6 +18,7 @@ package com.albedo.java.common.security.component.session;
 
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.context.ContextUtil;
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.security.event.SysUserOnlineEvent;
 import com.albedo.java.common.security.event.SysUserOnlineRefreshLastRequestEvent;
@@ -35,7 +36,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.session.SessionDestroyedEvent;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.util.Assert;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -94,7 +94,7 @@ public class RedisSessionRegistry implements SessionRegistry, ApplicationListene
 
 	@Override
 	public SessionInformation getSessionInformation(String sessionId) {
-		Assert.hasText(sessionId, "SessionId required as per interface contract");
+		ArgumentAssert.notEmpty(sessionId, "SessionId required as per interface contract");
 
 		return (SessionInformation) redisTemplate.boundHashOps(getSessionIdsKey()).get(sessionId);
 	}
@@ -107,7 +107,7 @@ public class RedisSessionRegistry implements SessionRegistry, ApplicationListene
 
 	@Override
 	public void refreshLastRequest(String sessionId) {
-		Assert.hasText(sessionId, "SessionId required as per interface contract");
+		ArgumentAssert.notEmpty(sessionId, "SessionId required as per interface contract");
 
 		SessionInformation info = getSessionInformation(sessionId);
 		if (info != null) {
@@ -123,9 +123,9 @@ public class RedisSessionRegistry implements SessionRegistry, ApplicationListene
 
 	@Override
 	public void registerNewSession(String sessionId, Object principal) {
-		Assert.hasText(sessionId, "SessionId required as per interface contract");
-		Assert.notNull(principal, "Principal required as per interface contract");
-		Assert.isTrue(principal instanceof UserDetail, "Principal required as UserDetail");
+		ArgumentAssert.notEmpty(sessionId, "SessionId required as per interface contract");
+		ArgumentAssert.notNull(principal, "Principal required as per interface contract");
+		ArgumentAssert.isTrue(principal instanceof UserDetail, "Principal required as UserDetail");
 
 		if (log.isDebugEnabled()) {
 			log.debug("Registering session " + sessionId + ", for principal " + principal);
@@ -163,7 +163,7 @@ public class RedisSessionRegistry implements SessionRegistry, ApplicationListene
 
 	@Override
 	public void removeSessionInformation(String sessionId) {
-		Assert.hasText(sessionId, "SessionId required as per interface contract");
+		ArgumentAssert.notEmpty(sessionId, "SessionId required as per interface contract");
 		userOnlineService.deleteBySessionId(sessionId);
 		SessionInformation info = null;
 		try {

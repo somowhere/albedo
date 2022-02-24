@@ -32,6 +32,7 @@
 
 package com.albedo.java.modules.sys.domain.dto;
 
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.vo.DataDto;
 import com.albedo.java.modules.sys.domain.enums.Sex;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
@@ -39,7 +40,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.util.Assert;
 
 import javax.validation.constraints.*;
 import java.util.List;
@@ -117,7 +117,7 @@ public class UserDto extends DataDto<Long> {
 	private List<Long> roleIdList;
 
 	public UserDto(UserVo userVo) {
-		Assert.isTrue(userVo != null, "用户不存在");
+		ArgumentAssert.notNull(userVo, "用户不存在");
 		this.setId(userVo.getId());
 		this.sex = userVo.getSex();
 		this.username = userVo.getUsername();

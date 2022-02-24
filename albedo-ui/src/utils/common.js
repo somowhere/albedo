@@ -1,6 +1,6 @@
 import validate from './validate'
 import commonService from '@/api/common'
-import {Notification} from "element-ui";
+import { Notification } from 'element-ui'
 
 let commonUtil
 const CryptoJS = require('crypto-js')

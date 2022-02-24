@@ -39,10 +39,7 @@ import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.exception.EntityExistException;
-import com.albedo.java.common.core.util.BeanUtil;
-import com.albedo.java.common.core.util.CollUtil;
-import com.albedo.java.common.core.util.ObjectUtil;
-import com.albedo.java.common.core.util.StringUtil;
+import com.albedo.java.common.core.util.*;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.RedisUtil;
@@ -78,7 +75,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -234,7 +230,7 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 	public void saveOrUpdate(UserDto userDto) {
 		boolean add = ObjectUtil.isEmpty(userDto.getId());
 		if (add) {
-			Assert.isTrue(StringUtil.isNotEmpty(userDto.getPassword()), "密码不能为空");
+			ArgumentAssert.notEmpty(userDto.getPassword(), "密码不能为空");
 		}
 		// username before comparing with database
 		if (exitUserByUserName(userDto)) {
@@ -256,8 +252,7 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 		super.saveOrUpdate(user);
 		userDto.setId(user.getId());
 		if (add || CollUtil.isNotEmpty(userDto.getRoleIdList())) {
-
-			Assert.isTrue(CollUtil.isNotEmpty(userDto.getRoleIdList()), "用户角色不能为空");
+			ArgumentAssert.notEmpty(userDto.getRoleIdList(), "用户角色不能为空");
 			if (!add) {
 				SysCacheUtil.delUserCaches(user.getId(), user.getUsername());
 			}
@@ -272,7 +267,7 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 	@Override
 	public Boolean removeByIds(List<Long> idList) {
 		idList.stream().forEach(id -> {
-			Assert.isTrue(!ObjectUtil.equals(SecurityUtil.getUser().getId(), id), "不能操作当前登录用户");
+			ArgumentAssert.notEquals(SecurityUtil.getUser().getId(), id, "不能操作当前登录用户");
 			User user = repository.selectById(id);
 			SysCacheUtil.delUserCaches(user.getId(), user.getUsername());
 			userRoleService.removeRoleByUserId(user.getId());
@@ -303,28 +298,28 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 
 	@Override
 	public void lockOrUnLock(Set<Long> idList) {
-		Assert.isTrue(CollUtil.isNotEmpty(idList), "idList不能为空");
+		ArgumentAssert.notEmpty(idList, "idList不能为空");
 		for (Long id : idList) {
-			Assert.isTrue(!ObjectUtil.equals(SecurityUtil.getUser().getId(), id), "不能操作当前登录用户");
+			ArgumentAssert.notEquals(SecurityUtil.getUser().getId(), id, "不能操作当前登录用户");
 			User user = repository.selectById(id);
-			Assert.isTrue(user != null, "无法找到ID为" + id + "的数据");
+			ArgumentAssert.notNull(user, "无法找到ID为" + id + "的数据");
 			user.setAvailable(
 				CommonConstants.YES.equals(user.getAvailable()) ? CommonConstants.NO : CommonConstants.YES);
 			SysCacheUtil.delUserCaches(user.getId(), user.getUsername());
 			int i = repository.updateById(user);
-			Assert.isTrue(i != 0, "无法更新ID为" + id + "的数据");
+			ArgumentAssert.isTrue(i != 0, "无法更新ID为" + id + "的数据");
 		}
 	}
 
 	@Override
 	public void resetPassword(PasswordRestVo passwordRestVo) {
 
-		Assert.isTrue(passwordRestVo.getNewPassword().equals(passwordRestVo.getConfirmPassword()), "两次输入密码不一致");
+		ArgumentAssert.equals(passwordRestVo.getNewPassword(), passwordRestVo.getConfirmPassword(), "两次输入密码不一致");
 		passwordRestVo.setPasswordPlaintext(passwordRestVo.getNewPassword());
 		passwordRestVo.setNewPassword(passwordEncoder.encode(passwordRestVo.getNewPassword()));
 
 		Object tempCode = RedisUtil.getCacheString(SecurityConstants.DEFAULT_CODE_KEY + passwordRestVo.getPhone());
-		Assert.isTrue(passwordRestVo.getCode().equals(tempCode), "验证码输入有误");
+		ArgumentAssert.equals(passwordRestVo.getCode(), tempCode, "验证码输入有误");
 		User user = repository
 			.selectOne(Wrappers.<User>query().lambda().eq(User::getUsername, passwordRestVo.getUsername()));
 		updatePassword(user, passwordRestVo.getPasswordPlaintext(), passwordRestVo.getNewPassword());
@@ -340,11 +335,11 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 	@Override
 	public void changePassword(String username, PasswordChangeVo passwordChangeVo) {
 
-		Assert.isTrue(passwordChangeVo != null && checkPasswordLength(passwordChangeVo.getNewPassword()), "密码格式有误");
-		Assert.isTrue(!passwordChangeVo.getNewPassword().equals(passwordChangeVo.getOldPassword()), "新旧密码不能相同");
-		Assert.isTrue(passwordChangeVo.getNewPassword().equals(passwordChangeVo.getConfirmPassword()), "两次输入密码不一致");
+		ArgumentAssert.isTrue(passwordChangeVo != null && checkPasswordLength(passwordChangeVo.getNewPassword()), "密码格式有误");
+		ArgumentAssert.notEquals(passwordChangeVo.getNewPassword(), passwordChangeVo.getOldPassword(), "新旧密码不能相同");
+		ArgumentAssert.equals(passwordChangeVo.getNewPassword(), passwordChangeVo.getConfirmPassword(), "两次输入密码不一致");
 		User user = repository.selectOne(Wrappers.<User>query().lambda().eq(User::getUsername, username));
-		Assert.isTrue(passwordEncoder.matches(passwordChangeVo.getOldPassword(), user.getPassword()), "输入原密码有误");
+		ArgumentAssert.isTrue(passwordEncoder.matches(passwordChangeVo.getOldPassword(), user.getPassword()), "输入原密码有误");
 
 		passwordChangeVo.setNewPassword(passwordEncoder.encode(passwordChangeVo.getNewPassword()));
 
@@ -360,9 +355,7 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 			user.setDeptId(dept.getId());
 		}
 		Role role = roleService.getOne(Wrappers.<Role>query().lambda().eq(Role::getName, userExcelVo.getRoleName()));
-		if (role == null) {
-			throw new BizException("无法获取角色" + userExcelVo.getRoleName() + "信息");
-		}
+		ArgumentAssert.notNull(role, () -> new BizException("无法获取角色" + userExcelVo.getRoleName() + "信息"));
 		user.setRoleIdList(Lists.newArrayList(role.getId()));
 		saveOrUpdate(user);
 	}
@@ -376,8 +369,8 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 	@Override
 	public void updateEmail(String username, UserEmailDto userEmailDto) {
 		User user = repository.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
-		Assert.isTrue(user != null, "无法获取用户信息" + username);
-		Assert.isTrue(passwordEncoder.matches(userEmailDto.getPassword(), user.getPassword()), "输入密码有误");
+		ArgumentAssert.notNull(user, "无法获取用户信息" + username);
+		ArgumentAssert.isTrue(passwordEncoder.matches(userEmailDto.getPassword(), user.getPassword()), "输入密码有误");
 		user.setEmail(userEmailDto.getEmail());
 		SysCacheUtil.delBaseUserCaches(user.getId(), user.getUsername());
 		repository.updateById(user);
@@ -386,7 +379,7 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 	@Override
 	public void updateAvatar(String username, String avatar) {
 		User user = repository.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
-		Assert.isTrue(user != null, "无法获取用户信息" + username);
+		ArgumentAssert.notNull(user, "无法获取用户信息" + username);
 		user.setAvatar(avatar);
 		SysCacheUtil.delBaseUserCaches(user.getId(), user.getUsername());
 		repository.updateById(user);
