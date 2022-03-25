@@ -75,7 +75,7 @@
 </template>
 <script>
 import elDragDialog from '@/directive/el-drag-dialog'
-import fileUpload from '@/components/Upload/fileUpload'
+import fileUpload from '@/views/components/Upload/fileUpload'
 
 export default {
   name: 'AttachmentEdit',

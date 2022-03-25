@@ -302,7 +302,7 @@
 import echarts from 'echarts'
 import commonUtil from '@/utils/common'
 import countTo from 'vue-count-to'
-import resize from '@/components/Echarts/mixins/resize'
+import resize from '@/views/components/Echarts/mixins/resize'
 import clipboard from '@/utils/clipboard'
 import { simplePie, simpleBar } from '@/utils/charts-option'
 import dashboardApi from '@/api/dashboard.js'

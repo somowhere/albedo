@@ -1,5 +1,5 @@
 import store from '@/store'
-import validate from '../../utils/validate'
+import validate from '../../../utils/validate'
 
 export default {
   inserted(el, binding, vnode) {

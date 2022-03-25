@@ -18,11 +18,11 @@
 </template>
 
 <script>
-import RightPanel from '@/components/RightPanel'
+import RightPanel from '@/views/components/RightPanel'
 import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 import { mapState } from 'vuex'
-import Theme from '@/components/ThemePicker'
+import Theme from '@/views/components/ThemePicker'
 import Cookies from 'js-cookie'
 
 export default {

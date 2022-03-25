@@ -55,63 +55,63 @@ public class GenUtil {
 	private static Logger logger = LoggerFactory.getLogger(GenUtil.class);
 
 	private static void initTreeColumn(TableColumnDto column) {
-		boolean isTitle = StringUtil.equalsIgnoreCase(column.getJavaField(), "title");
-		if (StringUtil.equalsIgnoreCase(column.getJavaField(), TreeEntity.F_NAME) || isTitle) {
-			column.setQuery(true);
+		boolean isTitle = StringUtil.equalsIgnoreCase(column.getJavaFieldName(), "title");
+		if (StringUtil.equalsIgnoreCase(column.getJavaFieldName(), TreeEntity.F_NAME) || isTitle) {
+			column.setQueryField(true);
 			column.setQueryType("like");
 		} // 父级ID
 		else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntity.F_PARENT_ID)) {
 			column.setShowType("treeselect");
-			column.setNull(false);
+			column.setNullField(false);
 			column.setTitle("父节点");
 		}
 		// 所有父级ID
 		else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntity.F_PARENT_IDS)) {
 			column.setQueryType("like");
-			column.setList(false);
-			column.setNull(false);
+			column.setListField(false);
+			column.setNullField(false);
 			column.setTitle("所有父级");
 		}
 		// 所有父级ID
 		else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntity.F_LEAF)) {
 			column.setQueryType("eq");
-			column.setList(false);
-			column.setEdit(false);
-			column.setNull(false);
+			column.setListField(false);
+			column.setEditField(false);
+			column.setNullField(false);
 			column.setTitle("叶子节点");
 		}
 	}
 
 	private static void initDataColumn(TableColumnDto column) {
-		boolean content = StringUtil.equalsIgnoreCase(column.getJavaField(), "content");
-		boolean remark = StringUtil.equalsIgnoreCase(column.getJavaField(), "remark");
-		if (StringUtil.equalsIgnoreCase(column.getJavaField(), BaseDataEntity.F_DESCRIPTION)) {
-			column.setEdit(true);
+		boolean content = StringUtil.equalsIgnoreCase(column.getJavaFieldName(), "content");
+		boolean remark = StringUtil.equalsIgnoreCase(column.getJavaFieldName(), "remark");
+		if (StringUtil.equalsIgnoreCase(column.getJavaFieldName(), BaseDataEntity.F_DESCRIPTION)) {
+			column.setEditField(true);
 			column.setTitle("备注");
 		}
 		// 创建者、更新者
 		else if (StringUtil.startWithIgnoreCase(column.getName(), BaseDataEntity.F_CREATED_BY)
 			|| StringUtil.startWithIgnoreCase(column.getName(), BaseDataEntity.F_LAST_MODIFIED_BY)) {
 			column.setJavaType(User.class.getName());
-			column.setJavaField(column.getJavaField());
-			column.setNull(false);
+			column.setJavaFieldName(column.getJavaFieldName());
+			column.setNullField(false);
 		}
 		// 创建时间、更新时间
 		else if (StringUtil.startWithIgnoreCase(column.getName(), BaseDataEntity.F_CREATED_DATE)
 			|| StringUtil.startWithIgnoreCase(column.getName(), BaseDataEntity.F_LAST_MODIFIED_DATE)) {
 			column.setShowType("dateselect");
-			column.setNull(false);
+			column.setNullField(false);
 		}
 		// 备注、内容
-		else if (StringUtil.equalsIgnoreCase(column.getJavaField(), BaseDataEntity.F_DESCRIPTION) || content
+		else if (StringUtil.equalsIgnoreCase(column.getJavaFieldName(), BaseDataEntity.F_DESCRIPTION) || content
 			|| remark) {
 			column.setShowType("textarea");
 		}
 		// 删除标记
-		else if (StringUtil.equalsIgnoreCase(column.getJavaField(), BaseDataEntity.F_DEL_FLAG)) {
+		else if (StringUtil.equalsIgnoreCase(column.getJavaFieldName(), BaseDataEntity.F_DEL_FLAG)) {
 			column.setShowType("radio");
 			column.setDictType(DictNameConstants.SYS_FLAG);
-			column.setNull(false);
+			column.setNullField(false);
 		}
 	}
 
@@ -164,21 +164,16 @@ public class GenUtil {
 				}
 			}
 			// 设置java字段名
-			column.setJavaField(StringUtil.toCamelCase(column.getName()));
+			column.setJavaFieldName(StringUtil.toCamelCase(column.getName()));
 			// 是否是主键
 			column.setPk(table.getPkList().contains(column.getName()));
 			// 插入字段
-			column.setInsert(true);
+			column.setInsertField(true);
 			if (column.getIsNotBaseField()) {
-				column.setList(true);
-				column.setEdit(true);
+				column.setListField(true);
+				column.setEditField(true);
 			}
 			// 查询字段
-			if (StringUtil.startWithIgnoreCase(column.getName(), "is_")
-				|| StringUtil.startWithIgnoreCase(column.getName(), "has_")) {
-				column.setDictType(DictNameConstants.SYS_FLAG);
-				column.setShowType("radio");
-			}
 			if (StringUtil.isEmpty(column.getShowType())) {
 				column.setShowType("input");
 			}
@@ -191,9 +186,9 @@ public class GenUtil {
 			initDataColumn(column);
 			initTreeColumn(column);
 			if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntity.F_TENANT_CODE)) {
-				column.setList(false);
-				column.setEdit(false);
-				column.setNull(false);
+				column.setListField(false);
+				column.setEditField(false);
+				column.setNullField(false);
 			}
 		}
 	}

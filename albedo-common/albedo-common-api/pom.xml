@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>com.albedo.java</groupId>
 		<artifactId>albedo-common</artifactId>
-		<version>3.2.3-SNAPSHOT</version>
+		<version>3.2.4-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>albedo-common-api</artifactId>
@@ -31,7 +31,7 @@
 	<properties>
 		<jjwt.version>0.11.2</jjwt.version>
 		<mail.version>1.5.0-b01</mail.version>
-		<alipay.version>4.20.0.ALL</alipay.version>
+		<alipay.version>4.22.56.ALL</alipay.version>
 	</properties>
 
 	<dependencies>

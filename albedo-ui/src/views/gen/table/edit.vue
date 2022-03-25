@@ -77,45 +77,45 @@
                   </el-select>
                 </td>
                 <td>
-                  <el-input v-model="form.columnFormList[i].javaField" class="input-small" />
+                  <el-input v-model="form.columnFormList[i].javaFieldName" class="input-small" />
                 </td>
                 <td>
                   <el-checkbox v-model="form.columnFormList[i].pk" :checked="form.columnFormList[i].pk" />
                 </td>
                 <td>
                   <el-checkbox
-                    v-model="form.columnFormList[i].null"
-                    :checked="form.columnFormList[i].null"
+                    v-model="form.columnFormList[i].nullField"
+                    :checked="form.columnFormList[i].nullField"
                   />
                 </td>
                 <td>
                   <el-checkbox
-                    v-model="form.columnFormList[i].unique"
-                    :checked="form.columnFormList[i].unique"
+                    v-model="form.columnFormList[i].uniqueField"
+                    :checked="form.columnFormList[i].uniqueField"
                   />
                 </td>
                 <td>
                   <el-checkbox
-                    v-model="form.columnFormList[i].insert"
-                    :checked="form.columnFormList[i].insert"
+                    v-model="form.columnFormList[i].insertField"
+                    :checked="form.columnFormList[i].insertField"
                   />
                 </td>
                 <td>
                   <el-checkbox
-                    v-model="form.columnFormList[i].edit"
-                    :checked="form.columnFormList[i].edit"
+                    v-model="form.columnFormList[i].editField"
+                    :checked="form.columnFormList[i].editField"
                   />
                 </td>
                 <td>
                   <el-checkbox
-                    v-model="form.columnFormList[i].list"
-                    :checked="form.columnFormList[i].list"
+                    v-model="form.columnFormList[i].listField"
+                    :checked="form.columnFormList[i].listField"
                   />
                 </td>
                 <td>
                   <el-checkbox
-                    v-model="form.columnFormList[i].query"
-                    :checked="form.columnFormList[i].query"
+                    v-model="form.columnFormList[i].queryField"
+                    :checked="form.columnFormList[i].queryField"
                   />
                 </td>
                 <td>

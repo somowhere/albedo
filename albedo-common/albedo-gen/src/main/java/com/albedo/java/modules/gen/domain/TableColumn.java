@@ -86,50 +86,50 @@ public class TableColumn extends IdEntity<TableColumn, String> implements Compar
 	/**
 	 * JAVA字段名
 	 */
-	@TableField("java_field")
-	private String javaField;
+	@TableField("java_field_name")
+	private String javaFieldName;
 
 	/**
 	 * 是否主键（1：主键）
 	 */
-	@TableField("is_pk")
-	private boolean isPk;
+	@TableField("pk")
+	private boolean pk;
 
 	/**
 	 * 是否唯一（1：是；0：否）
 	 */
-	@TableField("is_unique")
-	private boolean isUnique;
+	@TableField("unique_field")
+	private boolean uniqueField;
 
 	/**
 	 * 是否可为空（1：可为空；0：不为空）
 	 */
-	@TableField("is_null")
-	private boolean isNull;
+	@TableField("null_field")
+	private boolean nullField;
 
 	/**
 	 * 是否为插入字段（1：插入字段）
 	 */
-	@TableField("is_insert")
-	private boolean isInsert;
+	@TableField("insert_field")
+	private boolean insertField;
 
 	/**
 	 * 是否编辑字段（1：编辑字段）
 	 */
-	@TableField("is_edit")
-	private boolean isEdit;
+	@TableField("edit_field")
+	private boolean editField;
 
 	/**
 	 * 是否列表字段（1：列表字段）
 	 */
-	@TableField("is_list")
-	private boolean isList;
+	@TableField("list_field")
+	private boolean listField;
 
 	/**
 	 * 是否查询字段（1：查询字段）
 	 */
-	@TableField("is_query")
-	private boolean isQuery;
+	@TableField("query_field")
+	private boolean queryField;
 
 	/**
 	 * 查询方式（等于、不等于、大于、小于、范围、左LIKE、右LIKE、左右LIKE）
@@ -166,9 +166,9 @@ public class TableColumn extends IdEntity<TableColumn, String> implements Compar
 		this.id = id;
 	}
 
-	public TableColumn(String name, boolean isNull, Integer sort, String comments, String jdbcType) {
+	public TableColumn(String name, boolean nullField, Integer sort, String comments, String jdbcType) {
 		this.name = name;
-		this.isNull = isNull;
+		this.nullField = nullField;
 		this.sort = sort;
 		this.comments = comments;
 		this.jdbcType = jdbcType;

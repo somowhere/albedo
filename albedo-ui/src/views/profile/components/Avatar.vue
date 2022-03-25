@@ -82,7 +82,7 @@
   </el-dialog>
 </template>
 <script>
-import imgUpload from '@/components/Upload/imgUpload'
+import imgUpload from '@/views/components/Upload/imgUpload'
 import accountService from '@/api/account'
 import { mapGetters } from 'vuex'
 const hthz = [

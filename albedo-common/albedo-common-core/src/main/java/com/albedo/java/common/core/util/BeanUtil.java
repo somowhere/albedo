@@ -114,16 +114,6 @@ public class BeanUtil extends cn.hutool.core.bean.BeanUtil {
 	}
 
 	/**
-	 * 将对象装成map形式
-	 *
-	 * @param bean 源对象
-	 * @return {Map}
-	 */
-	public static Map<String, Object> toMap(Object bean) {
-		return BeanMap.create(bean);
-	}
-
-	/**
 	 * 转换 list
 	 *
 	 * @param sourceList       源集合

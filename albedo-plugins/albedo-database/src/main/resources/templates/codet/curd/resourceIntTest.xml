@@ -69,7 +69,7 @@ public class ${ClassName}ResourceIntTest {
 
     private String DEFAULT_API_URL;
     <#list table.columnList as column>
-		<#if column.query || (column.edit && (column.isNotBaseField || column.simpleJavaField == 'description'))>
+		<#if column.queryField || (column.editField && (column.isNotBaseField || column.simpleJavaField == 'description'))>
 		<#if column.simpleJavaType == "Integer">
 	/** DEFAULT_${column.constantJavaField} ${column.nameAndTitle} */
 	private static final int DEFAULT_${column.constantJavaField} = 0;
@@ -141,12 +141,12 @@ public class ${ClassName}ResourceIntTest {
         ${ClassName}Dto ${className}Dto = ClassUtil.createObj(${ClassName}Dto.class, Lists.newArrayList(
     <#assign firstListField = true>
     <#list table.columnList as column>
-		<#if column.edit && (column.isNotBaseField || column.simpleJavaField == 'description')>
+		<#if column.editField && (column.isNotBaseField || column.simpleJavaField == 'description')>
 		<#if firstListField> <#assign firstListField = false><#else>,</#if>${ClassName}Dto.F_${column.constantJavaField}
 		</#if>
 	</#list>
         ), <#assign firstListField = true><#list table.columnList as column>
-        <#if column.edit && (column.isNotBaseField || column.simpleJavaField == 'description')><#if firstListField> <#assign firstListField = false><#else>,</#if>DEFAULT_${column.constantJavaField}
+        <#if column.editField && (column.isNotBaseField || column.simpleJavaField == 'description')><#if firstListField> <#assign firstListField = false><#else>,</#if>DEFAULT_${column.constantJavaField}
 		</#if>
 	</#list>);
         return ${className}Dto;
@@ -177,13 +177,13 @@ public class ${ClassName}ResourceIntTest {
         assertThat(${className}List).hasSize(databaseSizeBeforeCreate + 1);
         ${ClassName} test${ClassName} = ${className}List.get(${className}List.size() - 1);
     <#list table.columnList as column>
-		<#if column.edit && (column.isNotBaseField || column.simpleJavaField == 'description')>
+		<#if column.editField && (column.isNotBaseField || column.simpleJavaField == 'description')>
 		assertThat(test${ClassName}.get${column.simpleJavaField?cap_first}()).isEqualTo(DEFAULT_${column.constantJavaField});
 		</#if>
 	</#list>
     }
 <#list table.columnList as column>
-    <#if column.edit && column.unique && (column.isNotBaseField || column.simpleJavaField == 'description')>
+    <#if column.editField && column.uniqueField && (column.isNotBaseField || column.simpleJavaField == 'description')>
     @Test
     @Transactional
     public void create${ClassName}WithExisting${column.simpleJavaField?cap_first}() throws Exception {
@@ -208,7 +208,7 @@ public class ${ClassName}ResourceIntTest {
 </#list>
 
 <#list table.columnList as column>
-    <#if column.edit && !column.null && (column.isNotBaseField || column.simpleJavaField == 'description')>
+    <#if column.editField && !column.nullField && (column.isNotBaseField || column.simpleJavaField == 'description')>
     @Test
     @Transactional
     public void check${column.simpleJavaField?cap_first}IsRequired() throws Exception {
@@ -243,7 +243,7 @@ public class ${ClassName}ResourceIntTest {
     <#list table.columnList as column>
         <#if column.pk>
             .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(${className}Dto.get${column.simpleJavaField?cap_first}())))
-        <#elseif column.edit && column.null && (column.isNotBaseField || column.simpleJavaField == 'description')>
+        <#elseif column.editField && column.nullField && (column.isNotBaseField || column.simpleJavaField == 'description')>
             .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(<#if column.simpleJavaType == "Date">DateUtil.formatDateTime(DEFAULT_${column.constantJavaField})<#elseif column.simpleJavaType == "Long">DEFAULT_${column.constantJavaField}.intValue()<#else>DEFAULT_${column.constantJavaField}</#if>)))
         </#if>
     </#list>;
@@ -262,13 +262,13 @@ public class ${ClassName}ResourceIntTest {
     <#list table.columnList as column>
         <#if column.pk>
             .andExpect(jsonPath("$.data.${column.simpleJavaField}").value(${className}Dto.get${column.simpleJavaField?cap_first}()))
-        <#elseif column.edit && column.null && (column.isNotBaseField || column.simpleJavaField == 'description')>
+        <#elseif column.editField && column.nullField && (column.isNotBaseField || column.simpleJavaField == 'description')>
             .andExpect(jsonPath("$.data.${column.simpleJavaField}").value(<#if column.simpleJavaType == "Date">DateUtil.formatDateTime(DEFAULT_${column.constantJavaField})<#else>DEFAULT_${column.constantJavaField}</#if>))
         </#if>
     </#list>;
     }
 <#list table.columnList as column>
-    <#if column.query>
+    <#if column.queryField>
     @Test
     @Transactional
     public void getAll${ClassName}sBy${column.simpleJavaField?cap_first}Search() throws Exception {
@@ -298,7 +298,7 @@ public class ${ClassName}ResourceIntTest {
     <#list table.columnList as column>
         <#if column.pk>
             .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(${className}Dto.get${column.simpleJavaField?cap_first}())))
-        <#elseif column.edit && column.null && (column.isNotBaseField || column.simpleJavaField == 'description')>
+        <#elseif column.editField && column.nullField && (column.isNotBaseField || column.simpleJavaField == 'description')>
             .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(<#if column.simpleJavaType == "Date">DateUtil.formatDateTime(DEFAULT_${column.constantJavaField})<#elseif column.simpleJavaType == "Long">DEFAULT_${column.constantJavaField}.intValue()<#else>DEFAULT_${column.constantJavaField}</#if>)))
         </#if>
     </#list>;
@@ -339,12 +339,12 @@ public class ${ClassName}ResourceIntTest {
         ClassUtil.updateObj(updated${ClassName}, Lists.newArrayList(
     <#assign firstListField = true>
     <#list table.columnList as column>
-		<#if column.edit && (column.isNotBaseField || column.simpleJavaField == 'description')>
+		<#if column.editField && (column.isNotBaseField || column.simpleJavaField == 'description')>
 		<#if firstListField> <#assign firstListField = false><#else>,</#if>${ClassName}.F_${column.constantJavaField}
 		</#if>
 	</#list>
         ), <#assign firstListField = true><#list table.columnList as column>
-		<#if column.edit && (column.isNotBaseField || column.simpleJavaField == 'description')>
+		<#if column.editField && (column.isNotBaseField || column.simpleJavaField == 'description')>
 		<#if firstListField> <#assign firstListField = false><#else>,</#if>UPDATED_${column.constantJavaField}
 		</#if>
 	</#list>);
@@ -361,7 +361,7 @@ public class ${ClassName}ResourceIntTest {
 
         ${ClassName} test${ClassName} = ${className}List.stream().filter(item->${className}Dto.getId().equals(item.getId())).findAny().get();
     <#list table.columnList as column>
-		<#if column.edit && (column.isNotBaseField || column.simpleJavaField == 'description')>
+		<#if column.editField && (column.isNotBaseField || column.simpleJavaField == 'description')>
 		assertThat(test${ClassName}.get${column.simpleJavaField?cap_first}()).isEqualTo(UPDATED_${column.constantJavaField});
 		</#if>
 	</#list>

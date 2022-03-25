@@ -40,7 +40,7 @@ export const filterAsyncRouter = (routers) => { // 遍历后台传来的路由�
 }
 
 export const loadView = (view) => {
-  return (resolve) => require([`@/views/${view}`], resolve)
+  return (resolve) => require([view.indexOf('@/') !== -1 ? view : `@/views/${view}`], resolve)
 }
 
 export default permission

@@ -37,7 +37,7 @@ public class ${ClassName}QueryCriteria implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	<#list table.columnList as column>
-		<#if column.query><#assign flag = false>
+		<#if column.queryFiled><#assign flag = false>
 	/** F_${column.constantJavaField} ${column.nameAndTitle} */
 	@Query(<#if column.name != column.simpleJavaField><#assign flag = true>propName = "${column.name}"</#if><#if column.queryType?? && column.queryType != "" && column.queryType != "eq"><#if flag>, </#if>operator = Query.Operator.${column.queryType}</#if>)
 	private <#if column.queryType?? && (column.queryType == "between" || column.queryType == "in")>List<${column.simpleJavaType}><#else>${column.simpleJavaType}</#if> ${column.simpleJavaField};

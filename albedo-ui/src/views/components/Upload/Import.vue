@@ -70,7 +70,7 @@
 </template>
 <script>
 import elDragDialog from '@/directive/el-drag-dialog'
-import fileUpload from '@/components/lamp/fileUpload'
+import fileUpload from '@/views/components/Upload/fileUpload'
 
 export default {
   name: 'CommonImport',

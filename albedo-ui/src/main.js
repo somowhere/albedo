@@ -11,7 +11,7 @@ import Element from 'element-ui'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 // 权限指令
-import permission from './components/Permission'
+import permission from './views/components/Permission'
 import './assets/styles/element-variables.scss'
 // global css
 import './assets/styles/index.scss'

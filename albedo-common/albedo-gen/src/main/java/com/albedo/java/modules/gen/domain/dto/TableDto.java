@@ -235,7 +235,7 @@ public class TableDto extends DataDto<String> {
 
 	private void initImport(List<String> importList) {
 		for (TableColumnDto column : getColumnList()) {
-			boolean isImport = column.getIsNotBaseField() || column.isQuery() && "between".equals(column.getQueryType())
+			boolean isImport = column.getIsNotBaseField() || column.isQueryField() && "between".equals(column.getQueryType())
 				&& (DataDto.F_CREATED_DATE.equals(column.getSimpleJavaField())
 				|| DataDto.F_LAST_MODIFIED_DATE.equals(column.getSimpleJavaField()));
 			if (isImport) {
@@ -250,7 +250,7 @@ public class TableDto extends DataDto<String> {
 					addNoRepeatList(importList, ann.substring(0, ann.indexOf(StringUtil.BRACKETS_START)));
 				}
 			}
-			if (!column.isPk() && !column.isNull() && column.getJavaType().endsWith(CommonConstants.TYPE_STRING)) {
+			if (!column.isPk() && !column.isNullField() && column.getJavaType().endsWith(CommonConstants.TYPE_STRING)) {
 				addNoRepeatList(importList, "javax.validation.constraints.NotBlank");
 			}
 			if (StringUtil.isNotEmpty(column.getDictType())) {

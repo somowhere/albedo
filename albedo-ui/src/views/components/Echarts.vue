@@ -77,19 +77,19 @@
 </template>
 
 <script>
-import RadarChart from '@/components/Echarts/RadarChart'
-import HeatMap from '@/components/Echarts/HeatMap'
-import Gauge from '@/components/Echarts/Gauge'
-import Rich from '@/components/Echarts/Rich'
-import ThemeRiver from '@/components/Echarts/ThemeRiver'
-import Sunburst from '@/components/Echarts/Sunburst'
-import Graph from '@/components/Echarts/Graph'
-import Sankey from '@/components/Echarts/Sankey'
-import Scatter from '@/components/Echarts/Scatter'
-import Line3D from '@/components/Echarts/Line3D'
-import Category from '@/components/Echarts/Category'
-import Point from '@/components/Echarts/Point'
-import WordCloud from '@/components/Echarts/WordCloud'
+import RadarChart from '@/views/components/Echarts/RadarChart'
+import HeatMap from '@/views/components/Echarts/HeatMap'
+import Gauge from '@/views/components/Echarts/Gauge'
+import Rich from '@/views/components/Echarts/Rich'
+import ThemeRiver from '@/views/components/Echarts/ThemeRiver'
+import Sunburst from '@/views/components/Echarts/Sunburst'
+import Graph from '@/views/components/Echarts/Graph'
+import Sankey from '@/views/components/Echarts/Sankey'
+import Scatter from '@/views/components/Echarts/Scatter'
+import Line3D from '@/views/components/Echarts/Line3D'
+import Category from '@/views/components/Echarts/Category'
+import Point from '@/views/components/Echarts/Point'
+import WordCloud from '@/views/components/Echarts/WordCloud'
 
 export default {
   name: 'Echarts',

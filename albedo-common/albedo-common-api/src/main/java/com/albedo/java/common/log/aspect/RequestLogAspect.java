@@ -75,7 +75,7 @@ public class RequestLogAspect {
 				Object value = argValues[i];
 				// 如果是body的json则是对象
 				if (requestBody != null && value != null) {
-					paramMap.putAll(BeanUtil.toMap(value));
+					paramMap.putAll(BeanUtil.beanToMap(value));
 					continue;
 				}
 				// 处理 List

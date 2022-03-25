@@ -209,7 +209,7 @@
 
 <script>
 import crudMenu from '@/views/sys/menu/menu-service'
-import IconSelect from '@/components/IconSelect'
+import IconSelect from '@/views/components/IconSelect'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import CRUD, { crud, form, header, presenter } from '@crud/crud'

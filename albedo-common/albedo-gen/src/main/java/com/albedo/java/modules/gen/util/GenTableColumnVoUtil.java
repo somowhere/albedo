@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 public class GenTableColumnVoUtil {
 
 	public static String getHibernateValidatorExpression(TableColumnDto c) {
-		if (!c.isPk() && !c.isNull()) {
+		if (!c.isPk() && !c.isNullField()) {
 			if (c.getJavaType() != null && c.getJavaType().endsWith(CommonConstants.TYPE_STRING)) {
 				return (new StringBuilder()).append("@NotBlank ").append(getNotRequiredHibernateValidatorExpression(c))
 					.toString();

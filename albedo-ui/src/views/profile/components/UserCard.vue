@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import PanThumb from '@/components/PanThumb'
+import PanThumb from '@/views/components/PanThumb'
 import Avatar from './Avatar'
 
 export default {
