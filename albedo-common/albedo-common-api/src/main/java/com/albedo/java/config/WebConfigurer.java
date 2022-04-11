@@ -114,14 +114,16 @@ public class WebConfigurer
 			ConfigurableServletWebServerFactory servletWebServer = (ConfigurableServletWebServerFactory) server;
 			File root;
 			String prefixPath = env.getProperty(DefaultProfileUtil.SPRING_WEB_ROOT_PREFIX);
-			if (StringUtil.isEmpty(prefixPath)) {
-				prefixPath = DefaultProfileUtil.resolvePathPrefix(this.getClass()) + "src/main/webapp/";
+			if (StringUtil.isNotBlank(prefixPath)) {
+				log.info("web root: {}", prefixPath);
+				root = new File(prefixPath);
+				if (root.exists() && root.isDirectory()) {
+					servletWebServer.setDocumentRoot(root);
+				} else {
+					log.warn("web root is not exit or not directory [{}]", prefixPath);
+				}
 			}
-			log.info("web root:" + prefixPath);
-			root = new File(prefixPath);
-			if (root.exists() && root.isDirectory()) {
-				servletWebServer.setDocumentRoot(root);
-			}
+
 		}
 	}
 

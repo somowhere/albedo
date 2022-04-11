@@ -32,7 +32,6 @@ spring:
   profiles:
     active: ${mvn.spring.profiles.active}
   datasource:
-    type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: ${application.mysql.driverClassName}
     username: ${application.mysql.username}
     password: ${application.mysql.password}
@@ -83,7 +82,7 @@ application:
     version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)database:
   database:
     tenantDatabasePrefix: albedo_base
-    multiTenantType: DATASOURCE_COLUMN
+    multiTenantType: NONE
     tenantIdColumn: tenant_code
     ignore-tables:
       - sys_tenant

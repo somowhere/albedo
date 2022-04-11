@@ -10,7 +10,7 @@ server:
 
 spring:
   redis:
-    host: albedo-redis
+    host: localhost
 
 
 # ===================================================================

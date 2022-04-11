@@ -8,9 +8,6 @@ server:
 spring:
   redis:
     host: albedo-redis
- web:
-    root:
-      prefix: albedo-ui/dist/
 
 
 # ===================================================================

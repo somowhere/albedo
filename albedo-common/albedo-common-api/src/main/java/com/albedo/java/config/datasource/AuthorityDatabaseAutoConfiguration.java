@@ -1,6 +1,5 @@
 package com.albedo.java.config.datasource;
 
-import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.plugins.database.config.defaults.BaseMasterDatabaseConfiguration;
 import com.albedo.java.plugins.database.properties.DatabaseProperties;
 import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
@@ -11,7 +10,6 @@ import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.type.TypeHandler;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -39,9 +37,6 @@ import java.util.List;
  */
 @Configuration
 @Slf4j
-@MapperScan(
-	basePackages = {CommonConstants.UTIL_PACKAGE, CommonConstants.BUSINESS_PACKAGE},
-	sqlSessionFactoryRef = BaseMasterDatabaseConfiguration.DATABASE_PREFIX + "SqlSessionFactory")
 @EnableConfigurationProperties({MybatisPlusProperties.class})
 @ConditionalOnExpression("!'DATASOURCE'.equals('${application.database.multiTenantType}') && " +
 	"!'DATASOURCE_COLUMN'.equals('${application.database.multiTenantType}') ")

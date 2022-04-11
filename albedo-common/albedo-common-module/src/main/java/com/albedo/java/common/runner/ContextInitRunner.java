@@ -17,7 +17,6 @@
 package com.albedo.java.common.runner;
 
 import com.albedo.java.common.core.annotation.BaseInit;
-import com.albedo.java.common.core.annotation.BaseInterface;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import lombok.extern.slf4j.Slf4j;
@@ -55,24 +54,6 @@ public class ContextInitRunner implements ApplicationRunner {
 			}
 		}
 		log.debug(">>>>> spring BaseInit 初始化完毕 <<<<<");
-		// 系统入口初始化
-		log.debug(">>>>> spring BaseInterface 初始化开始 <<<<<");
-		Map<String, BaseInterface> baseInterfaceBeans = SpringContextHolder.getApplicationContext()
-			.getBeansOfType(BaseInterface.class);
-		if (ObjectUtil.isNotEmpty(baseInterfaceBeans)) {
-			for (Object service : baseInterfaceBeans.values()) {
-				log.debug(">>>>> {}.init()", service.getClass().getName());
-				try {
-					Method init = service.getClass().getMethod("init");
-					init.invoke(service);
-				} catch (Exception e) {
-					log.error("初始化BaseInterface的init方法异常{}", e);
-					e.printStackTrace();
-				}
-			}
-		}
-
-		log.debug(">>>>> spring BaseInterface 初始化完毕 <<<<<");
 	}
 
 }

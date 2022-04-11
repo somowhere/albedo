@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>com.albedo.java</groupId>
 		<artifactId>albedo-common</artifactId>
-		<version>3.2.4-SNAPSHOT</version>
+		<version>3.2.5-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>albedo-common-core</artifactId>
@@ -29,9 +29,6 @@
 
 	<description>albedo 公共工具类核心包</description>
 
-	<properties>
-		<swagger.version>1.5.20</swagger.version>
-	</properties>
 	<dependencies>
 		<!--hutool-->
 		<dependency>

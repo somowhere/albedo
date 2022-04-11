@@ -20,7 +20,6 @@ import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.modules.quartz.domain.Job;
-import com.albedo.java.modules.quartz.service.JobService;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -33,8 +32,6 @@ import java.util.List;
  * @author somewhere
  */
 public class JobInvokeUtil {
-
-	public static JobService jobService = SpringContextHolder.getBean(JobService.class);
 
 	/**
 	 * 执行方法

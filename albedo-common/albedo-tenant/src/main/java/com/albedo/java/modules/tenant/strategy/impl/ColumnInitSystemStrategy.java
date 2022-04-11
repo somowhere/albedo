@@ -56,7 +56,7 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
 	private final RoleService roleService;
 	private final RoleMenuService roleMenuService;
 	private final ApplicationService applicationService;
-	private final DictService dictionaryService;
+	private final DictService dictService;
 	private final ParameterService parameterService;
 	private final UidGenerator uidGenerator;
 	private final UserService userService;
