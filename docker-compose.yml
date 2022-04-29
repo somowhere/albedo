@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   albedo-mysql:
     build:
@@ -37,20 +37,18 @@ services:
     build:
       context: ./albedo-modules/albedo-admin
     restart: always
-    ports:
-      - 4000:4000
     container_name: albedo-admin
     hostname: albedo-admin
     image: albedo-admin
 
   albedo-api:
     build:
-      context: ./albedo-modules/albedo-api
+      context: ./albedo-modules/albedo-app
     restart: always
     ports:
       - 4001:4001
-    container_name: albedo-api
-    hostname: albedo-api
+    container_name: albedo-app
+    hostname: albedo-app
     image: albedo-api
 
   albedo-quartz:

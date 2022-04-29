@@ -21,7 +21,7 @@ application:
     username: albedo
     password: albedo
   mysql:
-    ip: 127.0.0.1
+    ip: albedo-mysql
     port: 3306
     driverClassName: com.mysql.cj.jdbc.Driver
     database: albedo

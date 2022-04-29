@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>com.albedo.java</groupId>
 		<artifactId>albedo-common</artifactId>
-		<version>3.2.5-SNAPSHOT</version>
+		<version>3.2.6-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>albedo-common-core</artifactId>
@@ -121,6 +121,13 @@
 			<artifactId>transmittable-thread-local</artifactId>
 			<version>${transmittable-thread-local.version}</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.reflections/reflections -->
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>${reflections.version}</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.lionsoul</groupId>

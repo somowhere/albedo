@@ -34,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -50,6 +51,8 @@ public class DictUtil {
 
 	public static DictService dictService = SpringContextHolder.getBean(DictService.class);
 
+	public static Set<Class<? extends BaseEnum>> baseEnums = ClassUtil.getAllInterfaceAchieveClass(BaseEnum.class, CommonConstants.BUSINESS_PACKAGE);
+
 	public static List<Dict> getDictList() {
 		return cacheOps.get(new DictCacheKeyBuilder().key(CacheNameConstants.DICT_ALL), (k) -> dictService.findAllOrderBySort());
 	}
@@ -64,10 +67,11 @@ public class DictUtil {
 		return convertSelectVoMapByCodes(DictUtil.getDictList(), codes);
 	}
 
-	public static Map<String, List<SelectVo>> convertBaseEnumToSelectVo(String[] codes, List<Class<BaseEnum>> baseEnums) {
+	public static Map<String, List<SelectVo>> convertBaseEnumToSelectVo(String[] codes) {
+		log.info("baseEnums {}", baseEnums);
 		if (ArrayUtil.isNotEmpty(baseEnums)) {
 			Map<String, List<SelectVo>> selectVoMap = Maps.newHashMap();
-			for (Class<BaseEnum> baseEnumClass : baseEnums) {
+			for (Class<? extends BaseEnum> baseEnumClass : baseEnums) {
 				String simpleName = StringUtil.toRevertCamelCase(StringUtil.lowerFirst(baseEnumClass.getSimpleName()), CharUtil.UNDERLINE);
 				boolean containsKey = selectVoMap.containsKey(simpleName),
 					hitCode = (ArrayUtil.isEmpty(codes) || ArrayUtil.contains(codes, simpleName));
@@ -101,8 +105,7 @@ public class DictUtil {
 				map.put(dict.getCode(), dictTempList);
 			}
 		});
-		Map<String, List<SelectVo>> baseEnumMap = DictUtil.convertBaseEnumToSelectVo(codes,
-			ClassUtil.getAllInterfaceAchieveClass(BaseEnum.class, CommonConstants.BUSINESS_PACKAGE));
+		Map<String, List<SelectVo>> baseEnumMap = DictUtil.convertBaseEnumToSelectVo(codes);
 		if (baseEnumMap != null) {
 			map.putAll(baseEnumMap);
 		}

@@ -62,7 +62,7 @@ public class LoginUtil {
 			throw new ValidateCodeException("随机码不能为空");
 		}
 
-		String key = ContextUtil.getTenant() + CommonConstants.DEFAULT_CODE_KEY + randomStr;
+		String key = CommonConstants.DEFAULT_CODE_KEY + randomStr;
 		if (!redisTemplate.hasKey(key)) {
 			throw new ValidateCodeException("随机码不合法");
 		}

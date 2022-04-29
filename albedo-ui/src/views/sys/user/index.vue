@@ -107,7 +107,7 @@
             </el-form-item>
 
             <el-form-item
-              label="昵称"
+              label="性别"
               prop="sex"
             >
               <el-radio-group v-model="form.sex" style="width: 220px">

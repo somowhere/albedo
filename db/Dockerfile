@@ -1,4 +1,4 @@
-FROM mysql:8.0.24
+FROM mysql:8.0.27
 
 MAINTAINER somewhere(somewhere0813@gmail.com)
 

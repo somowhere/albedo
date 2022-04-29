@@ -21,14 +21,14 @@
 
 	<groupId>com.albedo.java</groupId>
 	<artifactId>albedo</artifactId>
-	<version>3.2.5-SNAPSHOT</version>
+	<version>3.2.6-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 	<packaging>pom</packaging>
 	<url>https://github.com/somowhere</url>
 
 	<properties>
-		<project.release.version>3.2.5-SNAPSHOT</project.release.version>
-		<spring-boot.version>2.6.6</spring-boot.version>
+		<project.release.version>3.2.6-SNAPSHOT</project.release.version>
+		<spring-boot.version>2.6.7</spring-boot.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -38,7 +38,6 @@
 		<mybatis.version>3.5.9</mybatis.version>
 		<dynamic-ds.version>3.5.1</dynamic-ds.version>
 		<captcha.version>2.2.2</captcha.version>
-		<velocity.version>2.3</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
 		<druid.version>1.2.8</druid.version>
 		<h2.version>1.4.200</h2.version>
@@ -46,7 +45,9 @@
 		<springfox.version>3.0.0</springfox.version>
 		<knife4j.version>3.0.3</knife4j.version>
 		<poi.version>5.2.2</poi.version>
-		<oshi.version>6.1.5</oshi.version>
+		<oshi.version>6.1.6</oshi.version>
+		<jna.version>5.11.0</jna.version>
+		<reflections.version>0.10.2</reflections.version>
 		<guava.version>31.1-jre</guava.version>
 		<protostuff.version>1.8.0</protostuff.version>
 		<ip2region.version>1.7.2</ip2region.version>
@@ -55,14 +56,14 @@
 		<qcloudsms.version>1.0.6</qcloudsms.version>
 		<jjwt.version>0.11.2</jjwt.version>
 		<mail.version>1.5.0-b01</mail.version>
-		<alipay.version>4.22.67.ALL</alipay.version>
+		<alipay.version>4.22.110.ALL</alipay.version>
 		<tobato-fastdfs-client.version>1.27.2</tobato-fastdfs-client.version>
 		<aliyun-java-sdk-core.version>4.5.25</aliyun-java-sdk-core.version>
 		<aliyun-java-sdk-dysmsapi.version>2.1.0</aliyun-java-sdk-dysmsapi.version>
-		<aliyun-sdk-oss.version>3.14.0</aliyun-sdk-oss.version>
+		<aliyun-sdk-oss.version>3.14.1</aliyun-sdk-oss.version>
 		<bce-java-sdk.version>0.10.21</bce-java-sdk.version>
-		<esdk-obs-java.version>3.21.12</esdk-obs-java.version>
-		<qiniu-java-sdk.version>7.9.5</qiniu-java-sdk.version>
+		<esdk-obs-java.version>3.22.3</esdk-obs-java.version>
+		<qiniu-java-sdk.version>7.10.0</qiniu-java-sdk.version>
 
 		<profile.dev.log.level>DEBUG</profile.dev.log.level>
 		<profile.prod.log.level>INFO</profile.prod.log.level>

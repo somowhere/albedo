@@ -141,7 +141,7 @@ public class AccoutResource extends BaseResource {
 		ArithmeticCaptcha captcha = new ArithmeticCaptcha(DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT);
 
 		String result = captcha.text();
-		RedisUtil.setCacheString(ContextUtil.getTenant() + CommonConstants.DEFAULT_CODE_KEY + randomStr, result,
+		RedisUtil.setCacheString(CommonConstants.DEFAULT_CODE_KEY + randomStr, result,
 			CommonConstants.DEFAULT_IMAGE_EXPIRE, TimeUnit.SECONDS);
 		// 创建输出流
 		ServletOutputStream out = response.getOutputStream();
