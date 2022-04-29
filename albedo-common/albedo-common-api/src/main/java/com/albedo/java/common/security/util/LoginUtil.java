@@ -21,7 +21,6 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.context.ContextUtil;
 import com.albedo.java.common.core.exception.ValidateCodeException;
 import com.albedo.java.common.core.util.AddressUtil;
 import com.albedo.java.common.core.util.SpringContextHolder;
