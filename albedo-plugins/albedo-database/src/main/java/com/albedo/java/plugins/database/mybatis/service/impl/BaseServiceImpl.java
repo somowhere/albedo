@@ -1,7 +1,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -20,6 +19,10 @@ import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import com.albedo.java.plugins.database.mybatis.service.BaseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 public abstract class BaseServiceImpl<Repository extends BaseRepository<T>, T> extends ServiceImpl<Repository, T>
 	implements BaseService<T> {
 
+	public final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	public Repository repository;
 

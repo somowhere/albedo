@@ -78,19 +78,4 @@ public class ApplicationDto extends DataDto<Long> {
 	private Boolean state;
 
 
-	@Builder
-	public ApplicationDto(Long id,
-						  String clientId, String clientSecret, String website, String name, String icon,
-						  ApplicationAppTypeEnum appType, String describe, Boolean state) {
-		this.setId(id);
-		this.clientId = clientId;
-		this.clientSecret = clientSecret;
-		this.website = website;
-		this.name = name;
-		this.icon = icon;
-		this.appType = appType;
-		this.describe = describe;
-		this.state = state;
-	}
-
 }

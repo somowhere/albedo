@@ -1,7 +1,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -62,9 +61,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 		BeanUtils.copyProperties(context.getMergedJobDataMap().get(ScheduleConstants.TASK_PROPERTIES), job);
 		try {
 			before(context, job);
-			if (job != null) {
-				doExecute(context, job);
-			}
+			doExecute(context, job);
 			after(context, job, null);
 		} catch (Exception e) {
 			log.error("任务执行异常  - ：", e);
@@ -80,7 +77,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 	 */
 	protected void before(JobExecutionContext context, Job job) {
 		if (log.isDebugEnabled()) {
-			log.debug("start Task===>" + job.getName() + job.getGroup());
+			log.debug("start Task===> {} {}", job.getName(), job.getGroup());
 		}
 		threadLocal.set(new Date());
 	}
@@ -105,7 +102,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 		long runMs = jobLog.getEndTime().getTime() - jobLog.getStartTime().getTime();
 		jobLog.setJobMessage(jobLog.getJobName() + " 总共耗时：" + runMs + "毫秒");
 		if (log.isDebugEnabled()) {
-			log.debug("end Task===>" + jobLog.getJobMessage());
+			log.debug("end Task===> {}", jobLog.getJobMessage());
 		}
 		if (e != null) {
 			jobLog.setStatus(JobLogStatus.FAILURE);
@@ -154,6 +151,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 	 * @param job     系统计划任务
 	 * @throws Exception 执行过程中的异常
 	 */
-	protected abstract void doExecute(JobExecutionContext context, Job job) throws Exception;
+	protected abstract void doExecute(JobExecutionContext context, Job job)
+		throws Exception;
 
 }

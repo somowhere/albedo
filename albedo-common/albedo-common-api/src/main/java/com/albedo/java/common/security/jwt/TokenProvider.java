@@ -1,7 +1,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -16,6 +15,7 @@
 
 package com.albedo.java.common.security.jwt;
 
+import cn.hutool.core.text.CharSequenceUtil;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.ArgumentAssert;
@@ -72,7 +72,7 @@ public class TokenProvider {
 	@PostConstruct
 	public void init() {
 		String secret = applicationProperties.getSecurity().getAuthentication().getJwt().getBase64Secret();
-		ArgumentAssert.isTrue(StringUtil.isNotEmpty(secret), "jwt secret can not be empty");
+		ArgumentAssert.isTrue(CharSequenceUtil.isNotEmpty(secret), "jwt secret can not be empty");
 		byte[] keyBytes = Decoders.BASE64.decode(secret);
 		this.secretKey = Keys.hmacShaKeyFor(keyBytes);
 
@@ -118,12 +118,13 @@ public class TokenProvider {
 	}
 
 	public Date getExpirationDateFromToken(String token) {
-		Date expiration;
+		Date expiration = null;
 		try {
 			final Claims claims = getClaimsFromToken(token);
-			expiration = claims.getExpiration();
+			if(claims!=null){
+				expiration = claims.getExpiration();
+			}
 		} catch (Exception e) {
-			expiration = null;
 		}
 		return expiration;
 	}

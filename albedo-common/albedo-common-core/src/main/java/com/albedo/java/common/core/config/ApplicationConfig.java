@@ -1,7 +1,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -16,6 +15,7 @@
 
 package com.albedo.java.common.core.config;
 
+import com.albedo.java.common.core.util.StrPool;
 import com.albedo.java.common.core.util.StringUtil;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
@@ -56,8 +56,8 @@ public class ApplicationConfig {
 		if (map != null && !map.isEmpty() && qualifiedKey != null) {
 			String input = String.valueOf(qualifiedKey);
 			if (!"".equals(input)) {
-				if (input.contains(StringUtil.DOT)) {
-					int index = input.indexOf(StringUtil.DOT);
+				if (input.contains(StrPool.DOT)) {
+					int index = input.indexOf(StrPool.DOT);
 					String left = input.substring(0, index);
 					String right = input.substring(index + 1);
 					return getProperty((Map<?, ?>) map.get(left), right);

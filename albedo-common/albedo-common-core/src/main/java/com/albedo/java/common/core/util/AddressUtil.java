@@ -1,7 +1,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -16,18 +15,9 @@
 
 package com.albedo.java.common.core.util;
 
-import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.net.NetUtil;
-import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.lionsoul.ip2region.DataBlock;
-import org.lionsoul.ip2region.DbConfig;
-import org.lionsoul.ip2region.DbSearcher;
-import org.lionsoul.ip2region.Util;
-
-import java.io.File;
-import java.io.InputStream;
-import java.lang.reflect.Method;
+import net.dreamlu.mica.ip2region.core.Ip2regionSearcher;
 
 /**
  * 获取地址类
@@ -38,32 +28,8 @@ import java.lang.reflect.Method;
 public class AddressUtil {
 
 	public static final String LOCAL_IP = "0:0:0:0:0:0:0:1";
-	private static final String JAVA_TEMP_DIR = "java.io.tmpdir";
-	private static DbConfig config = null;
-	private static DbSearcher searcher = null;
 
-	static {
-		try {
-			String dbPath = AddressUtil.class.getResource("/ip2region/ip2region.db").getPath();
-			File file = new File(dbPath);
-			if (!file.exists()) {
-				String tmpDir = System.getProperties().getProperty(JAVA_TEMP_DIR);
-				dbPath = tmpDir + "ip2region.db";
-				file = new File(dbPath);
-				String classPath = "classpath*:ip2region/ip2region.db";
-				InputStream resourceAsStream = ResourceUtil.getStreamSafe(classPath);
-				if (resourceAsStream != null) {
-					FileUtil.copyInputStreamToFile(resourceAsStream, file);
-				}
-			}
-			config = new DbConfig();
-			searcher = new DbSearcher(config, dbPath);
-			log.info("bean [{}]", config);
-			log.info("bean [{}]", searcher);
-		} catch (Exception e) {
-			log.error("init ip region error", e);
-		}
-	}
+	public static final Ip2regionSearcher ip2regionSearcher = SpringContextHolder.getBean(Ip2regionSearcher.class);
 
 	private AddressUtil() {
 	}
@@ -75,36 +41,12 @@ public class AddressUtil {
 	 * @return 地区
 	 */
 	public static String getRegion(String ip) {
-
 		// 内网不查询
 		if (LOCAL_IP.equals(ip) || NetUtil.isInnerIP(ip)) {
 			return "内网IP";
 		}
-		try {
-			//db
-			if (searcher == null || StrUtil.isEmpty(ip)) {
-				log.error("DbSearcher is null");
-				return StrUtil.EMPTY;
-			}
-			long startTime = System.currentTimeMillis();
-			//查询算法
-			Method method = searcher.getClass().getMethod("memorySearch", String.class);
 
-			DataBlock dataBlock;
-			if (!Util.isIpAddress(ip)) {
-				log.warn("warning: Invalid ip address");
-			}
-
-			dataBlock = (DataBlock) method.invoke(searcher, ip);
-			String result = dataBlock != null ? dataBlock.getRegion() : StrUtil.EMPTY;
-			long endTime = System.currentTimeMillis();
-			log.debug("region use time[{}] result[{}]", endTime - startTime, result);
-			return result;
-
-		} catch (Exception e) {
-			log.error("根据ip查询地区失败:", e);
-		}
-		return StrUtil.EMPTY;
+		return ip2regionSearcher.getAddressAndIsp(ip);
 	}
 
 

@@ -1,7 +1,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -17,7 +16,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -87,7 +85,7 @@ public class SysLogAspect {
 		String strMethodName = point.getSignature().getName();
 		SysLogAspect.log.debug("[类名]:{},[方法]:{}", strClassName, strMethodName);
 		// 方法路径
-		String methodName = point.getTarget().getClass().getName() + StringUtil.DOT + signature.getName() + "()";
+		String methodName = point.getTarget().getClass().getName() + StrPool.DOT + signature.getName() + "()";
 		StringBuilder params = new StringBuilder("{");
 		// 参数值
 		Object[] argValues = point.getArgs();

@@ -1,7 +1,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -25,6 +24,7 @@ import com.albedo.java.common.security.util.LoginUtil;
 import com.albedo.java.common.util.AsyncUtil;
 import com.albedo.java.modules.sys.domain.LogLogin;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -39,6 +39,7 @@ import javax.servlet.http.HttpServletResponse;
  * authentication fails.
  * @date 2020/5/30 11:23 下午
  */
+@Slf4j
 @AllArgsConstructor
 public class AjaxAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
@@ -47,19 +48,20 @@ public class AjaxAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 										AuthenticationException exception) {
-		String useruame = request.getParameter("username");
-		LoginUtil.isValidateCodeLogin(useruame, true, false);
+		String username = request.getParameter("username");
+		LoginUtil.isValidateCodeLogin(username, true, false);
 		String message = exception instanceof BadCredentialsException
 			&& "Bad credentials".equals(exception.getMessage()) ? "密码填写错误！" : exception.getMessage();
 		LogLogin logLogin = SysLogUtils.getSysLogLogin();
 		logLogin.setParams(HttpUtil.toParams(request.getParameterMap()));
-		logLogin.setUsername(useruame);
+		logLogin.setUsername(username);
 		try {
-			UserDetail userDetails = (UserDetail) userDetailsService.loadUserByUsername(useruame);
+			UserDetail userDetails = (UserDetail) userDetailsService.loadUserByUsername(username);
 			if (userDetails != null) {
 				logLogin.setCreatedBy(userDetails.getId());
 			}
 		} catch (Exception e) {
+			log.debug("can not find createId by username[{}]", username);
 		}
 		logLogin.setTitle("用户登录失败");
 		logLogin.setDescription(message);

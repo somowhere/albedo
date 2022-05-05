@@ -1,7 +1,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -38,11 +37,9 @@ public abstract class AbstractDataCacheServiceImpl<Repository extends BaseReposi
 	extends AbstractCacheServiceImpl<Repository, T>
 	implements DataCacheService<T, D> {
 
-	public final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(getClass());
-
 	private Class<D> entityDtoClz;
 
-	public AbstractDataCacheServiceImpl() {
+	protected AbstractDataCacheServiceImpl() {
 		super();
 		Class<?> c = getClass();
 		Type type = c.getGenericSuperclass();

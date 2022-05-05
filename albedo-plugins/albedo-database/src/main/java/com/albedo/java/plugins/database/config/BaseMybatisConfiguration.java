@@ -57,7 +57,7 @@ import java.util.Properties;
 public abstract class BaseMybatisConfiguration {
 	protected final DatabaseProperties databaseProperties;
 
-	public BaseMybatisConfiguration(final DatabaseProperties databaseProperties) {
+	protected BaseMybatisConfiguration(final DatabaseProperties databaseProperties) {
 		this.databaseProperties = databaseProperties;
 	}
 

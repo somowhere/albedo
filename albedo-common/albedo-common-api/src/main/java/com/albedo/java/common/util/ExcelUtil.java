@@ -1,7 +1,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -27,6 +26,7 @@ import com.albedo.java.common.core.annotation.ExcelFields;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.ClassUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
+import com.albedo.java.common.core.util.StrPool;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.util.DictUtil;
@@ -297,7 +297,7 @@ public class ExcelUtil<T> {
 				String readConverterExp = attr.readConverterExp();
 				String dictType = attr.dictType();
 				if (StringUtil.isNotEmpty(attr.targetAttr())) {
-					propertyName = field.getName() + StringUtil.DOT + attr.targetAttr();
+					propertyName = field.getName() + StrPool.DOT + attr.targetAttr();
 				} else if (StringUtil.isNotEmpty(dictType)) {
 
 					val = getDataDictValue(dictType, val);
@@ -620,7 +620,7 @@ public class ExcelUtil<T> {
 		}
 		if (StringUtil.isNotEmpty(excelField.targetAttr())) {
 			String target = excelField.targetAttr();
-			if (target.indexOf(StringUtil.DOT) > -1) {
+			if (target.indexOf(StrPool.DOT) > -1) {
 				String[] targets = target.split("[.]");
 				for (String name : targets) {
 					o = getValue(o, name);

@@ -60,7 +60,7 @@ public abstract class BaseMasterDatabaseConfiguration extends BaseDatabaseConfig
 	 */
 	public static final String DATABASE_PREFIX = "master";
 
-	public BaseMasterDatabaseConfiguration(MybatisPlusProperties properties,
+	protected BaseMasterDatabaseConfiguration(MybatisPlusProperties properties,
 										   DatabaseProperties databaseProperties,
 										   ObjectProvider<Interceptor[]> interceptorsProvider,
 										   ObjectProvider<TypeHandler[]> typeHandlersProvider,

@@ -1,7 +1,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -18,6 +17,7 @@ package com.albedo.java.modules.gen.util;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.CharUtil;
 import cn.hutool.core.util.CharsetUtil;
 import com.albedo.java.common.core.basic.domain.BaseDataEntity;
@@ -148,7 +148,7 @@ public class GenUtil {
 				|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "BIT")
 				|| StringUtil.startWithIgnoreCase(column.getJdbcType(), "DOUBLE")) {
 				// 如果是浮点型
-				List<String> ss = StringUtil.split(
+				List<String> ss = CharSequenceUtil.split(
 					StringUtil.subBetween(column.getJdbcType(), StringUtil.BRACKETS_START, StringUtil.BRACKETS_END),
 					StringUtil.SPLIT_DEFAULT);
 				if (ss != null && ss.size() == 2 && Integer.parseInt(ss.get(1)) > 0) {
@@ -291,9 +291,9 @@ public class GenUtil {
 			.getBeansWithAnnotation(SpringBootApplication.class).keySet().iterator().next();
 		model.put("applicationName",
 			SpringContextHolder.getApplicationContext().getBean(applicationName).getClass().getPackage().getName()
-				+ StringUtil.DOT + StringUtil.upperFirst(applicationName));
+				+ StrPool.DOT + StringUtil.upperFirst(applicationName));
 		model.put("packageName", StringUtil.lowerCase(scheme.getPackageName()));
-		model.put("lastPackageName", StringUtil.subAfter((String) model.get("packageName"), StringUtil.DOT, true));
+		model.put("lastPackageName", StringUtil.subAfter((String) model.get("packageName"), StrPool.DOT, true));
 		model.put("moduleName", StringUtil.lowerCase(scheme.getModuleName()));
 		model.put("subModuleName",
 			StringUtil.lowerCase(StringUtil.isEmpty(scheme.getSubModuleName()) ? "" : scheme.getSubModuleName()));

@@ -1,7 +1,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -16,16 +15,21 @@
 
 package com.albedo.java.modules.monitor.web;
 
+import cn.hutool.json.JSONArray;
 import com.albedo.java.common.core.util.Result;
+import com.albedo.java.modules.monitor.domain.RedisInfo;
 import com.albedo.java.modules.monitor.domain.ReportSearchType;
 import com.albedo.java.modules.monitor.service.MonitorService;
 import com.albedo.java.modules.monitor.service.RedisService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 /**
  * @author somewhere
@@ -54,7 +58,7 @@ public class ActuatorResource {
 	 * @throws Exception
 	 */
 	@GetMapping("/redis/detail")
-	public Result getRedisInfo() {
+	public Result<IPage<RedisInfo>> getRedisInfo() {
 		return Result.buildOkData(redisService.getRedisInfo());
 	}
 
@@ -65,7 +69,7 @@ public class ActuatorResource {
 	 * @throws Exception
 	 */
 	@GetMapping("/redis/keys-size-report")
-	public Result getKeysSizeReport() {
+	public Result<Map<String, JSONArray>> getKeysSizeReport() {
 		return Result.buildOkData(redisService.getMapForReport(ReportSearchType.KEY));
 	}
 
@@ -76,7 +80,7 @@ public class ActuatorResource {
 	 * @throws Exception
 	 */
 	@GetMapping("/redis/memory-report")
-	public Result memoryForReport() {
+	public Result<Map<String, JSONArray>> memoryForReport() {
 		return Result.buildOkData(redisService.getMapForReport(ReportSearchType.RAM));
 	}
 
@@ -87,7 +91,7 @@ public class ActuatorResource {
 	 * @throws Exception
 	 */
 	@GetMapping("/redis/info-report")
-	public Result infoForReport() {
+	public Result<Map<String, JSONArray>> infoForReport() {
 
 		return Result.buildOkData(redisService.getMapForReport(ReportSearchType.INFO));
 

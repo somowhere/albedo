@@ -1,7 +1,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -72,7 +71,7 @@ public class UserOnlineResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('sys_userOnline_logout')")
 	@LogOperate(value = "在线用户强退")
 	@PutMapping("/batch-force-logout")
-	public Result batchForceLogout(@RequestBody Set<String> ids, HttpServletRequest request) {
+	public Result<String> batchForceLogout(@RequestBody Set<String> ids, HttpServletRequest request) {
 		for (String id : ids) {
 			UserOnline online = userOnlineService.getById(id);
 			if (online == null) {

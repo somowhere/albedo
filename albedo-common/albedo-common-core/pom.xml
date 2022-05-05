@@ -127,6 +127,12 @@
 			<artifactId>reflections</artifactId>
 			<version>${reflections.version}</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.dreamlu/mica-ip2region -->
+		<dependency>
+			<groupId>net.dreamlu</groupId>
+			<artifactId>mica-ip2region</artifactId>
+			<version>2.6.7</version>
+		</dependency>
 
 
 		<dependency>

@@ -1,7 +1,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -17,7 +16,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -35,6 +33,7 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.vo.SelectVo;
+import com.albedo.java.common.core.vo.TreeNode;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.Dict;
@@ -76,7 +75,7 @@ public class DictResource extends BaseResource {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public Result tree(DictQueryCriteria dictQueryCriteria) {
+	public Result<List<TreeNode>> tree(DictQueryCriteria dictQueryCriteria) {
 		return Result.buildOkData(dictService.findTreeNode(dictQueryCriteria));
 	}
 
@@ -86,7 +85,7 @@ public class DictResource extends BaseResource {
 	 */
 	@PreAuthorize("@pms.hasPermission('sys_dict_view')")
 	@GetMapping(CommonConstants.URL_ID_REGEX)
-	public Result get(@PathVariable String id) {
+	public Result<DictDto> get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
 		return Result.buildOkData(dictService.getOneDto(id));
 	}
@@ -113,7 +112,7 @@ public class DictResource extends BaseResource {
 	 */
 	@ApiOperation(value = "获取字典数据", notes = "codes 不传获取所有的业务字典，多个用','隔开")
 	@GetMapping(value = "/codes")
-	public Result getByCodes(String codes) {
+	public Result<Map<String, List<SelectVo>>> getByCodes(String codes) {
 		Map<String, List<SelectVo>> map = dictService.findCodes(codes);
 		return Result.buildOkData(map);
 	}
@@ -127,7 +126,7 @@ public class DictResource extends BaseResource {
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_dict_edit')")
 	@LogOperate(value = "字典管理编辑")
-	public Result save(@Valid @RequestBody DictDto dictDto) {
+	public Result<String> save(@Valid @RequestBody DictDto dictDto) {
 		dictService.saveOrUpdate(dictDto);
 		return Result.buildOk("操作成功");
 	}
@@ -141,7 +140,7 @@ public class DictResource extends BaseResource {
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_dict_del')")
 	@LogOperate(value = "字典管理删除")
-	public Result removeByIds(@RequestBody Set<Long> ids) {
+	public Result<Boolean> removeByIds(@RequestBody Set<Long> ids) {
 		return Result.buildOkData(dictService.removeByIds(ids));
 	}
 
@@ -152,7 +151,7 @@ public class DictResource extends BaseResource {
 	@PutMapping
 	@LogOperate(value = "字典管理锁定/解锁")
 	@PreAuthorize("@pms.hasPermission('sys_dept_lock')")
-	public Result lockOrUnLock(@RequestBody Set<Long> ids) {
+	public Result<String> lockOrUnLock(@RequestBody Set<Long> ids) {
 		dictService.lockOrUnLock(ids);
 		return Result.buildOk("操作成功");
 	}
@@ -164,7 +163,7 @@ public class DictResource extends BaseResource {
 	 */
 
 	@GetMapping("/all")
-	public Result findAllList() {
+	public Result<List<Dict>> findAllList() {
 		List<Dict> list = dictService.list();
 		return Result.buildOkData(list);
 	}

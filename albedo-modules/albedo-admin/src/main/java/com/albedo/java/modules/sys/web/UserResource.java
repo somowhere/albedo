@@ -1,7 +1,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -17,7 +16,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -42,10 +40,12 @@ import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.common.web.resource.BaseResource;
+import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
 import com.albedo.java.modules.sys.domain.dto.UserInfoDto;
 import com.albedo.java.modules.sys.domain.dto.UserQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.UserExcelVo;
+import com.albedo.java.modules.sys.domain.vo.UserInfo;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.albedo.java.modules.sys.service.UserService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -80,7 +80,7 @@ public class UserResource extends BaseResource {
 	 */
 	@GetMapping(CommonConstants.URL_ID_REGEX)
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
-	public Result get(@PathVariable Long id) {
+	public Result<UserDto> get(@PathVariable Long id) {
 		log.debug("REST request to get Entity : {}", id);
 		return Result.buildOkData(userService.findDtoById(id));
 	}
@@ -116,7 +116,7 @@ public class UserResource extends BaseResource {
 	 * @return 用户信息
 	 */
 	@GetMapping(value = {"/info"})
-	public Result info() {
+	public Result<UserInfo> info() {
 		String username = SecurityUtil.getUser().getUsername();
 		UserVo userVo = userService.findVoByUsername(username);
 		if (userVo == null) {
@@ -133,7 +133,7 @@ public class UserResource extends BaseResource {
 	 */
 	@LogOperate(value = "用户管理编辑")
 	@PostMapping("/info")
-	public Result saveInfo(@Valid @RequestBody UserInfoDto userInfoDto) {
+	public Result<String> saveInfo(@Valid @RequestBody UserInfoDto userInfoDto) {
 		log.debug("REST request to save userDto : {}", userInfoDto);
 		UserDto userDto = BeanUtil.copyPropertiesByClass(userInfoDto, UserDto.class);
 		userDto.setId(SecurityUtil.getUser().getId());
@@ -148,7 +148,7 @@ public class UserResource extends BaseResource {
 	 * @return 用户信息
 	 */
 	@GetMapping("/info/{username}")
-	public Result info(@PathVariable String username) {
+	public Result<UserInfo> info(@PathVariable String username) {
 		UserVo userVo = userService.findVoByUsername(username);
 		if (userVo == null) {
 			return Result.buildFail(String.format("用户信息为空 %s", username));
@@ -165,7 +165,7 @@ public class UserResource extends BaseResource {
 	@LogOperate(value = "用户管理删除")
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_del')")
-	public Result removeByIds(@RequestBody Set<Long> ids) {
+	public Result<Boolean> removeByIds(@RequestBody Set<Long> ids) {
 		return Result.buildByFlag(userService.removeByIds(ids));
 	}
 
@@ -178,7 +178,7 @@ public class UserResource extends BaseResource {
 	@LogOperate(value = "用户管理编辑")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
-	public Result save(@Valid @RequestBody UserDto userDto) {
+	public Result<String> save(@Valid @RequestBody UserDto userDto) {
 		log.debug("REST request to save userDto : {}", userDto);
 		boolean add = ObjectUtil.isEmpty(userDto.getId());
 		if (add) {
@@ -193,7 +193,7 @@ public class UserResource extends BaseResource {
 	 * @return 上级部门用户列表
 	 */
 	@GetMapping("/ancestor/{username}")
-	public Result listAncestorUsers(@PathVariable String username) {
+	public Result<List<User>> listAncestorUsers(@PathVariable String username) {
 		return Result.buildOkData(userService.listAncestorUsersByUsername(username));
 	}
 
@@ -204,7 +204,7 @@ public class UserResource extends BaseResource {
 	@PutMapping
 	@LogOperate(value = "用户管理锁定/解锁")
 	@PreAuthorize("@pms.hasPermission('sys_user_lock')")
-	public Result lockOrUnLock(@RequestBody Set<Long> ids) {
+	public Result<String> lockOrUnLock(@RequestBody Set<Long> ids) {
 		userService.lockOrUnLock(ids);
 		return Result.buildOk("操作成功");
 	}
@@ -218,7 +218,7 @@ public class UserResource extends BaseResource {
 	@PostMapping(value = "/upload")
 	@PreAuthorize("@pms.hasPermission('sys_user_upload')")
 	@LogOperate(value = "用户管理导入")
-	public ResponseEntity uploadData(@RequestParam("uploadFile") MultipartFile dataFile, HttpServletResponse response)
+	public ResponseEntity<Result> uploadData(@RequestParam("uploadFile") MultipartFile dataFile, HttpServletResponse response)
 		throws Exception {
 		if (dataFile.isEmpty()) {
 			return ResponseEntityBuilder.buildFail("上传文件为空");

@@ -1,7 +1,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -18,6 +17,7 @@ package com.albedo.java.modules.quartz.util;
 
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.SpringContextHolder;
+import com.albedo.java.common.core.util.StrPool;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.modules.quartz.domain.Job;
 
@@ -79,7 +79,7 @@ public class JobInvokeUtil {
 	 * @return true是 false否
 	 */
 	public static boolean isValidClassName(String invokeTarget) {
-		return StringUtil.contains(invokeTarget, StringUtil.DOT);
+		return StringUtil.contains(invokeTarget, StrPool.DOT);
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class JobInvokeUtil {
 	 */
 	public static String getBeanName(String invokeTarget) {
 		String beanName = StringUtil.subBefore(invokeTarget, StringUtil.BRACKETS_START, false);
-		return StringUtil.subBefore(beanName, StringUtil.DOT, true);
+		return StringUtil.subBefore(beanName, StrPool.DOT, true);
 	}
 
 	/**
@@ -101,7 +101,7 @@ public class JobInvokeUtil {
 	 */
 	public static String getMethodName(String invokeTarget) {
 		String methodName = StringUtil.subBefore(invokeTarget, StringUtil.BRACKETS_START, false);
-		return StringUtil.subAfter(methodName, StringUtil.DOT, true);
+		return StringUtil.subAfter(methodName, StrPool.DOT, true);
 	}
 
 	/**

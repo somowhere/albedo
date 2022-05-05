@@ -1,7 +1,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -118,7 +117,7 @@ public class DatasourceConfServiceImpl
 		DataSource dataSource = hikariDataSourceCreator.createDataSource(dataSourceProperty);
 		SpringContextHolder.getBean(DynamicRoutingDataSource.class).addDataSource(dataSourceProperty.getPoolName(),
 			dataSource);
-		log.info("addDataSource key[{}] value[{}]", dataSourceProperty.getPoolName(), dataSource);
+		logger.info("addDataSource key[{}] value[{}]", dataSourceProperty.getPoolName(), dataSource);
 	}
 
 	/**
@@ -131,7 +130,7 @@ public class DatasourceConfServiceImpl
 		try {
 			DriverManager.getConnection(conf.getUrl(), conf.getUsername(), conf.getPassword());
 		} catch (SQLException e) {
-			log.error("数据源配置 {} , 获取链接失败", conf.getName(), e);
+			logger.error("数据源配置 {} , 获取链接失败", conf.getName(), e);
 			return Boolean.FALSE;
 		}
 		return Boolean.TRUE;

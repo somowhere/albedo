@@ -69,7 +69,7 @@ public abstract class BaseDatabaseConfiguration implements InitializingBean {
 	protected final List<MybatisPlusPropertiesCustomizer> mybatisPlusPropertiesCustomizers;
 	protected final ApplicationContext applicationContext;
 
-	public BaseDatabaseConfiguration(final MybatisPlusProperties properties,
+	protected BaseDatabaseConfiguration(final MybatisPlusProperties properties,
 									 final DatabaseProperties databaseProperties,
 									 ObjectProvider<Interceptor[]> interceptorsProvider,
 									 ObjectProvider<TypeHandler[]> typeHandlersProvider,

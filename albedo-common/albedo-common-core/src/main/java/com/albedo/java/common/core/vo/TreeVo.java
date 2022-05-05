@@ -1,7 +1,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -45,7 +44,6 @@ public class TreeVo<T> extends DataVo<Long> implements TreeNodeAware<T> {
 	public static final String F_SORT = "sort";
 
 	public static final String F_PARENT = "parent";
-
 	/*** 模块名称 */
 	@NotBlank
 	protected String name;

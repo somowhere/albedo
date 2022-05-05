@@ -1,7 +1,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -17,7 +16,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -33,6 +31,7 @@
 package com.albedo.java.plugins.database.mybatis.datascope;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.albedo.java.common.core.util.StrPool;
 import com.albedo.java.common.core.util.StringUtil;
 import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
@@ -94,7 +93,7 @@ public class DataScopeInterceptor implements InnerInterceptor {
 					Alias alias = plainSelect.getFromItem().getAlias();
 					String aliaName = "";
 					if (alias != null && StringUtil.isNotEmpty(alias.getName())) {
-						aliaName = alias.getName() + StringUtil.DOT;
+						aliaName = alias.getName() + StrPool.DOT;
 					}
 					if (StringUtil.isNotBlank(scopeName) && CollectionUtil.isNotEmpty(deptIds)) {
 						ItemsList itemsList = new ExpressionList(

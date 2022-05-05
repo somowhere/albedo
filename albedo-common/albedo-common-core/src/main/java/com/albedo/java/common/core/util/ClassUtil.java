@@ -1,7 +1,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -17,7 +16,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -33,6 +31,7 @@
 package com.albedo.java.common.core.util;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ReflectUtil;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -164,8 +163,8 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 			return ((Map) obj).get(propertyName);
 		}
 		Object object = obj;
-		for (String name : StringUtil.split(propertyName, StringUtil.DOT)) {
-			object = ReflectUtil.invoke(object, GETTER_PREFIX + StringUtil.upperFirst(name));
+		for (String name : CharSequenceUtil.split(propertyName, StrPool.DOT)) {
+			object = ReflectUtil.invoke(object, GETTER_PREFIX + CharSequenceUtil.upperFirst(name));
 		}
 		return object;
 	}
@@ -175,12 +174,12 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 	 */
 	public static void invokeSetter(Object obj, String propertyName, Object value) {
 		Object object = obj;
-		List<String> names = StringUtil.split(propertyName, StringUtil.DOT);
+		List<String> names = CharSequenceUtil.split(propertyName, StrPool.DOT);
 		for (int i = 0, size = names.size(); i < size; i++) {
 			if (i < size - 1) {
-				object = ReflectUtil.invoke(object, GETTER_PREFIX + StringUtil.upperFirst(names.get(i)), value);
+				object = ReflectUtil.invoke(object, GETTER_PREFIX + CharSequenceUtil.upperFirst(names.get(i)), value);
 			} else {
-				ReflectUtil.invoke(object, SETTER_PREFIX + StringUtil.upperFirst(names.get(i)), value);
+				ReflectUtil.invoke(object, SETTER_PREFIX + CharSequenceUtil.upperFirst(names.get(i)), value);
 			}
 		}
 	}
@@ -231,7 +230,7 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 			}
 			try {
 				if (an == null) {
-					an = temp.getDeclaredMethod(StringUtil.genGetter(pName)).getAnnotation(annotationClass);
+					an = temp.getDeclaredMethod(CharSequenceUtil.genGetter(pName)).getAnnotation(annotationClass);
 				}
 			} catch (Exception e) {
 			}

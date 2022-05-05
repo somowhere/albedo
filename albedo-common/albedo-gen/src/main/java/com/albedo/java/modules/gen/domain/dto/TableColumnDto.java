@@ -1,7 +1,6 @@
 /*
  *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *  <p>
@@ -16,7 +15,9 @@
 
 package com.albedo.java.modules.gen.domain.dto;
 
+import cn.hutool.core.text.CharSequenceUtil;
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.util.StrPool;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.DataDto;
 import com.albedo.java.common.core.vo.TreeDto;
@@ -188,7 +189,7 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	 * @return
 	 */
 	public Integer getDataLength() {
-		List<String> ss = StringUtil.split(
+		List<String> ss = CharSequenceUtil.split(
 			StringUtil.subBetween(getJdbcType(), StringUtil.BRACKETS_START, StringUtil.BRACKETS_END),
 			StringUtil.SPLIT_DEFAULT);
 		if (ss != null && ss.size() == 1) {
@@ -206,7 +207,7 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	@JsonIgnore
 	public String getSimpleJavaType() {
 		return StringUtil.indexOf(getJavaType(), StringUtil.C_DOT) != -1
-			? StringUtil.subAfter(getJavaType(), StringUtil.DOT, true) : getJavaType();
+			? StringUtil.subAfter(getJavaType(), StrPool.DOT, true) : getJavaType();
 	}
 
 	/**
@@ -228,7 +229,7 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	 * @return
 	 */
 	public String getSimpleJavaField() {
-		return StringUtil.subBefore(getJavaFieldName(), StringUtil.DOT, false);
+		return StringUtil.subBefore(getJavaFieldName(), StrPool.DOT, false);
 	}
 
 	/**
@@ -257,7 +258,7 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	 */
 	public String getJavaFieldNameText() {
 		String[][] ss = getJavaFieldAttrs();
-		return ss.length > 0 ? getSimpleJavaField() + StringUtil.DOT + ss[0][0] : "";
+		return ss.length > 0 ? getSimpleJavaField() + StrPool.DOT + ss[0][0] : "";
 	}
 
 	/**
@@ -286,7 +287,7 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	 * @return
 	 */
 	public String[][] getJavaFieldAttrs() {
-		List<String> ss = StringUtil.split(StringUtil.subAfter(getJavaFieldName(), "|", false), "|");
+		List<String> ss = CharSequenceUtil.split(StringUtil.subAfter(getJavaFieldName(), "|", false), "|");
 		String[][] sss = new String[ss.size()][2];
 		if (ss != null) {
 			for (int i = 0; i < ss.size(); i++) {
@@ -326,7 +327,7 @@ public class TableColumnDto extends DataDto<String> implements Comparable {
 	public List<String> getSimpleAnnotationList() {
 		List<String> list = Lists.newArrayList();
 		for (String ann : getAnnotationList()) {
-			list.add(StringUtil.subAfter(ann, StringUtil.DOT, true));
+			list.add(StringUtil.subAfter(ann, StrPool.DOT, true));
 		}
 		return list;
 	}
