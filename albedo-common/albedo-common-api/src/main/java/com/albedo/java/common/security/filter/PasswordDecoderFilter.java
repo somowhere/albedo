@@ -25,8 +25,7 @@ import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.http.HttpUtil;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.SecurityConstants;
-import com.albedo.java.common.core.util.Result;
-import com.albedo.java.common.core.util.WebUtil;
+import com.albedo.java.common.core.util.*;
 import com.albedo.java.common.security.filter.warpper.ParameterRequestWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -39,6 +38,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -76,18 +77,34 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
 		}
 
 		String queryParam = request.getQueryString();
-		Map<String, String> paramMap = HttpUtil.decodeParamMap(queryParam, CharsetUtil.CHARSET_UTF_8);
-
+		Map<String, String> paramMap = null;
+		if(StringUtil.isNotBlank(queryParam)){
+			paramMap = HttpUtil.decodeParamMap(queryParam, CharsetUtil.CHARSET_UTF_8);
+		}else{
+			Enumeration<String> parameterNames = request.getParameterNames();
+			if(parameterNames != null){
+				paramMap = new HashMap<>();
+				while (parameterNames.hasMoreElements()){
+					String key = parameterNames.nextElement();
+					paramMap.put(key, request.getParameter(key));
+				}
+			}
+		}
 		String password = request.getParameter(PASSWORD);
 		if (StrUtil.isNotBlank(password)) {
 			try {
 				password = decryptAes(password, applicationProperties.getSecurity().getEncodeKey());
+				ArgumentAssert.notBlank(password, "非法密码输入");
 			} catch (Exception e) {
 				log.error("密码解密失败:{}", password);
 				WebUtil.renderJson(response, Result.buildFail("非法密码输入"));
 				return;
 			}
+			if(CollUtil.isEmpty(paramMap)){
+				paramMap = new HashMap<>();
+			}
 			paramMap.put(PASSWORD, password.trim());
+
 		}
 		ParameterRequestWrapper requestWrapper = new ParameterRequestWrapper(request, paramMap);
 		filterChain.doFilter(requestWrapper, response);

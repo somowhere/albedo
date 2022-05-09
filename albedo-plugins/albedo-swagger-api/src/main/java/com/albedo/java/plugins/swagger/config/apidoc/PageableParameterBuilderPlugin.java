@@ -174,7 +174,7 @@ public class PageableParameterBuilderPlugin implements OperationBuilderPlugin {
 	 */
 	protected RequestParameter createSortParameter() {
 		return new RequestParameterBuilder().description(SORT_DESCRIPTION).in(ParameterType.QUERY).name(getSortName())
-			.required(true).query(param -> param.model(model -> model.scalarModel(ScalarType.INTEGER))).build();
+			.query(param -> param.model(model -> model.scalarModel(ScalarType.INTEGER))).build();
 	}
 
 }
