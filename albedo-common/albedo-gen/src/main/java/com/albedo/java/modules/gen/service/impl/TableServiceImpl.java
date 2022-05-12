@@ -197,17 +197,15 @@ public class TableServiceImpl extends AbstractDataCacheServiceImpl<TableReposito
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	@DS("#tableDto.dsName")
 	public List<String> findTablePk(TableDto tableDto) {
-		List<String> pkList = repository.findTablePk(tableDto.getName());
+		List<String> pkList = repository.findTablePk(tableDto.getName(), tableDto.getDsName());
 		return pkList;
 	}
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	@DS("#tableDto.dsName")
 	public List<TableColumnDto> findTableColumnList(TableDto tableDto) {
-		List<TableColumnDto> list = repository.findTableColumnList(tableDto.getName());
+		List<TableColumnDto> list = repository.findTableColumnList(tableDto.getName(), tableDto.getDsName());
 		ArgumentAssert.notNull(list, StringUtil.toAppendStr("无法获取[", tableDto.getName(), "]表的列信息"));
 		if (ObjectUtil.isNotEmpty(tableDto.getId())) {
 			Collections.sort(list);
@@ -216,7 +214,6 @@ public class TableServiceImpl extends AbstractDataCacheServiceImpl<TableReposito
 	}
 
 	@Override
-	@DS("#tableDto.dsName")
 	public List<TableDto> findTableListFormDb(TableDto tableDto) {
 		ArgumentAssert.notNull(tableDto, "无效参数");
 		List<Table> tableEntities = list();
@@ -230,7 +227,7 @@ public class TableServiceImpl extends AbstractDataCacheServiceImpl<TableReposito
 				tableQuery.setNotNames(CollUtil.extractToList(tableEntities, Table.F_NAME));
 			}
 		}
-		List<Table> list = repository.findTableList(tableQuery);
+		List<Table> list = repository.findTableList(tableQuery, tableDto.getDsName());
 		return list.stream().map(item -> copyBeanToDto(item)).collect(Collectors.toList());
 	}
 

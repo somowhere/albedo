@@ -19,8 +19,11 @@ import com.albedo.java.modules.gen.domain.Table;
 import com.albedo.java.modules.gen.domain.dto.TableColumnDto;
 import com.albedo.java.modules.gen.domain.vo.TableQuery;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
+import com.baomidou.dynamic.datasource.annotation.DS;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -38,7 +41,9 @@ public interface TableRepository extends BaseRepository<Table> {
 	 * @param tableQuery
 	 * @return
 	 */
-	List<Table> findTableList(@Param("tableQuery") TableQuery tableQuery);
+	@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class, readOnly = true)
+	@DS("#last")
+	List<Table> findTableList(@Param("tableQuery") TableQuery tableQuery, String dsName);
 
 	/**
 	 * 获取数据表字段
@@ -46,7 +51,9 @@ public interface TableRepository extends BaseRepository<Table> {
 	 * @param tableName
 	 * @return
 	 */
-	List<TableColumnDto> findTableColumnList(@Param("tableName") String tableName);
+	@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class, readOnly = true)
+	@DS("#last")
+	List<TableColumnDto> findTableColumnList(@Param("tableName") String tableName, String dsName);
 
 	/**
 	 * 获取数据表主键
@@ -54,6 +61,8 @@ public interface TableRepository extends BaseRepository<Table> {
 	 * @param tableName
 	 * @return
 	 */
-	List<String> findTablePk(@Param("tableName") String tableName);
+	@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class, readOnly = true)
+	@DS("#last")
+	List<String> findTablePk(@Param("tableName") String tableName, String dsName);
 
 }

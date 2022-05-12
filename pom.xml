@@ -54,16 +54,16 @@
 		<transmittable-thread-local.version>2.12.6</transmittable-thread-local.version>
 		<minio.version>8.2.2</minio.version>
 		<qcloudsms.version>1.0.6</qcloudsms.version>
-		<jjwt.version>0.11.2</jjwt.version>
+		<jjwt.version>0.11.5</jjwt.version>
 		<mail.version>1.5.0-b01</mail.version>
-		<alipay.version>4.22.110.ALL</alipay.version>
+		<alipay.version>4.22.113.ALL</alipay.version>
 		<tobato-fastdfs-client.version>1.27.2</tobato-fastdfs-client.version>
 		<aliyun-java-sdk-core.version>4.5.25</aliyun-java-sdk-core.version>
 		<aliyun-java-sdk-dysmsapi.version>2.1.0</aliyun-java-sdk-dysmsapi.version>
 		<aliyun-sdk-oss.version>3.14.1</aliyun-sdk-oss.version>
 		<bce-java-sdk.version>0.10.21</bce-java-sdk.version>
 		<esdk-obs-java.version>3.22.3</esdk-obs-java.version>
-		<qiniu-java-sdk.version>7.10.0</qiniu-java-sdk.version>
+		<qiniu-java-sdk.version>7.10.2</qiniu-java-sdk.version>
 
 		<profile.dev.log.level>DEBUG</profile.dev.log.level>
 		<profile.prod.log.level>INFO</profile.prod.log.level>
