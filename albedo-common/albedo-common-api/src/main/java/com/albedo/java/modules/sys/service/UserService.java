@@ -68,7 +68,7 @@ public interface UserService extends DataCacheService<User, UserDto> {
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:35
 	 */
-	List<UserVo> findPage(UserQueryCriteria userQueryCriteria, DataScope dataScope);
+	List<UserVo> findList(UserQueryCriteria userQueryCriteria, DataScope dataScope);
 
 	/**
 	 * 删除用户

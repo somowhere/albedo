@@ -187,9 +187,11 @@
 		FROM
 		sys_user AS a
 		INNER JOIN sys_dept AS b ON b.id = a.dept_id
-		<where>
+		where a.del_flag = '0'
+			<if test="ew.sqlSegment != null and ew.sqlSegment != ''">
+				AND
+			</if>
 			${ew.sqlSegment}
-		</where>
 	</select>
 
 	<select id="findListByRoleId" resultType="com.albedo.java.modules.sys.domain.User">

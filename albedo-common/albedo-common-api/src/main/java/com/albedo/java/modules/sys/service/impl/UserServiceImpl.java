@@ -171,17 +171,15 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public IPage<UserVo> findPage(PageModel pageModel, UserQueryCriteria userQueryCriteria, DataScope dataScope) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, userQueryCriteria);
-		wrapper.eq("a.del_flag", User.FLAG_NORMAL);
 		IPage<UserVo> userVosPage = repository.findUserVoPage(pageModel, wrapper, dataScope);
 		return userVosPage;
 	}
 
 	@Override
-	public List<UserVo> findPage(UserQueryCriteria userQueryCriteria, DataScope dataScope) {
+	public List<UserVo> findList(UserQueryCriteria userQueryCriteria, DataScope dataScope) {
 		QueryWrapper wrapper = QueryWrapperUtil.<User>getWrapper(userQueryCriteria);
-		wrapper.eq("a.del_flag", User.FLAG_NORMAL);
 		wrapper.orderByDesc("a.created_date");
-		return repository.findUserVoPage(wrapper, dataScope);
+		return repository.findUserVoList(wrapper, dataScope);
 	}
 
 	public Boolean exitUserByUserName(User user) {

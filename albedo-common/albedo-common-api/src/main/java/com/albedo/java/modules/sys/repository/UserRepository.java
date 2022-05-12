@@ -65,7 +65,7 @@ public interface UserRepository extends BaseRepository<User> {
 	 * @param dataScope 数据权限
 	 * @return list
 	 */
-	List<UserVo> findUserVoPage(@Param(Constants.WRAPPER) Wrapper<User> wrapper, DataScope dataScope);
+	List<UserVo> findUserVoList(@Param(Constants.WRAPPER) Wrapper<User> wrapper, DataScope dataScope);
 
 	/**
 	 * 通过ID查询用户信息

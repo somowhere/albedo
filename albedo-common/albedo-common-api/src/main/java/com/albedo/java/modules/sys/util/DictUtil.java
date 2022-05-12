@@ -67,7 +67,6 @@ public class DictUtil {
 	}
 
 	public static Map<String, List<SelectVo>> convertBaseEnumToSelectVo(String[] codes) {
-		log.info("baseEnums {}", baseEnums);
 		if (ArrayUtil.isNotEmpty(baseEnums)) {
 			Map<String, List<SelectVo>> selectVoMap = Maps.newHashMap();
 			for (Class<? extends BaseEnum> baseEnumClass : baseEnums) {

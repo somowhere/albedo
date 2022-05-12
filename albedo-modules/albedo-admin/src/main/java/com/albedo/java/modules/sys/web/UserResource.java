@@ -93,7 +93,7 @@ public class UserResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
 	public void download(UserQueryCriteria userQueryCriteria, HttpServletResponse response) {
 		ExcelUtil<UserVo> util = new ExcelUtil(UserVo.class);
-		util.exportExcel(userService.findPage(userQueryCriteria, SecurityUtil.getDataScope()), "用户数据", response);
+		util.exportExcel(userService.findList(userQueryCriteria, SecurityUtil.getDataScope()), "用户数据", response);
 	}
 
 	/**
