@@ -115,7 +115,7 @@ public class RedisAutoConfigure {
 	@Bean
 	@ConditionalOnMissingBean
 	public CacheOps cacheOps(RedisOps redisOps) {
-		log.warn("检查到缓存采用了 Redis模式");
+		log.warn("Check that the cache is in Redis mode");
 		return new RedisOpsImpl(redisOps);
 	}
 

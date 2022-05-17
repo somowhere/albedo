@@ -36,7 +36,7 @@ public class ContextInitRunner implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		log.debug(">>>>> spring BaseInit 初始化开始 <<<<<");
+		log.debug(">>>>> spring BaseInit start <<<<<");
 		// spring初始化完毕后，通过反射调用所有使用BaseInit注解的afterPropertiesSet方法
 		Map<String, Object> baseServices = SpringContextHolder.getApplicationContext()
 			.getBeansWithAnnotation(BaseInit.class);
@@ -48,11 +48,11 @@ public class ContextInitRunner implements ApplicationRunner {
 					Method initMapper = service.getClass().getMethod(annotation.method());
 					initMapper.invoke(service);
 				} catch (Exception e) {
-					log.error("初始化" + service.getClass().getName() + "的BaseInit方法异常{}", e);
+					log.error("service " + service.getClass().getName() + " BaseInit error {}", e);
 				}
 			}
 		}
-		log.debug(">>>>> spring BaseInit 初始化完毕 <<<<<");
+		log.debug(">>>>> spring BaseInit end <<<<<");
 	}
 
 }

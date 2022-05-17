@@ -414,12 +414,12 @@ public class MultiTenantLineInnerInterceptor extends JsqlParserSupport implement
 				// 过滤退出执行
 				return;
 			}
-			// update by somewhere
-			Expression builderExpression = builderExpression(join.getOnExpression(), fromTable);
+			Expression onExpressions = (Expression) join.getOnExpressions().toArray()[0];
+			Expression builderExpression = builderExpression(onExpressions, fromTable);
 			if (builderExpression == null) {
 				return;
 			}
-			join.setOnExpression(builderExpression);
+			join.addOnExpression(builderExpression);
 		}
 	}
 

@@ -24,7 +24,6 @@ import com.albedo.java.common.core.context.ThreadLocalParam;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.StrPool;
-import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.event.listener.SysLogOperateEvent;
 import com.albedo.java.common.log.enums.LogType;
 import com.albedo.java.common.log.util.SysLogUtils;
@@ -69,7 +68,7 @@ public class SysLogAspect {
 		MethodSignature signature = (MethodSignature) point.getSignature();
 		String strClassName = point.getTarget().getClass().getName();
 		String strMethodName = point.getSignature().getName();
-		SysLogAspect.log.debug("[类名]:{},[方法]:{}", strClassName, strMethodName);
+		SysLogAspect.log.debug("[Class]:{},[Method]:{}", strClassName, strMethodName);
 		// 方法路径
 		String methodName = point.getTarget().getClass().getName() + StrPool.DOT + signature.getName() + "()";
 		StringBuilder params = new StringBuilder("{");

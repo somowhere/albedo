@@ -19,8 +19,6 @@ import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import com.albedo.java.plugins.database.mybatis.service.BaseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import org.apache.ibatis.logging.Log;
-import org.apache.ibatis.logging.LogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -37,7 +37,6 @@ import com.albedo.java.modules.gen.service.TableService;
 import com.albedo.java.modules.gen.util.GenUtil;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.plugins.database.mybatis.service.impl.AbstractDataCacheServiceImpl;
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;

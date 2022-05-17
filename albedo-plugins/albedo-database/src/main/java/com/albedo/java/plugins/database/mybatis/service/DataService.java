@@ -32,6 +32,13 @@ import java.io.Serializable;
 public interface DataService<T extends BaseDataEntity, D extends DataDto>
 	extends BaseService<T> {
 
+	/**
+	 * getEntityDtoClz
+	 *
+	 * @return Class<D>
+	 * @author somewhere
+	 * @updateTime 2020/5/31 17:33
+	 */
 	Class<D> getEntityDtoClz();
 
 	/**

@@ -63,6 +63,7 @@ public interface TreeService<T extends TreeEntity, D extends TreeDto> extends Da
 	/**
 	 * 查询全部部门树
 	 *
+	 * @param queryCriteria
 	 * @return 树
 	 */
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -70,6 +71,13 @@ public interface TreeService<T extends TreeEntity, D extends TreeDto> extends Da
 		return getNodeTree(findTreeList(queryCriteria));
 	}
 
+	/**
+	 * findTreeList
+	 *
+	 * @param queryCriteria
+	 * @param <Q>
+	 * @return
+	 */
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	default <Q> List<T> findTreeList(Q queryCriteria) {
 		return getRepository().selectList(QueryWrapperUtil.<T>getWrapper(queryCriteria).orderByAsc(TreeEntity.F_SQL_SORT));
@@ -91,14 +99,32 @@ public interface TreeService<T extends TreeEntity, D extends TreeDto> extends Da
 		return wrapper;
 	}
 
+	/**
+	 * countByParentId
+	 *
+	 * @param parentId
+	 * @return Long
+	 */
 	default Long countByParentId(String parentId) {
 		return getRepository().selectCount(Wrappers.<T>query().eq(TreeEntity.F_SQL_PARENT_ID, parentId));
 	}
 
+	/**
+	 * findAllByParentIdsLike
+	 *
+	 * @param parentIds
+	 * @return List<T>
+	 */
 	default List<T> findAllByParentIdsLike(String parentIds) {
 		return getRepository().selectList(Wrappers.<T>query().like(TreeEntity.F_SQL_PARENT_IDS, parentIds));
 	}
 
+	/**
+	 * saveOrUpdate
+	 *
+	 * @param entityDto 实体对象
+	 * @return boolean
+	 */
 	@Override
 	default boolean saveOrUpdate(T entityDto) {
 		// 获取修改前的parentIds，用于更新子节点的parentIds
@@ -137,6 +163,12 @@ public interface TreeService<T extends TreeEntity, D extends TreeDto> extends Da
 		return flag;
 	}
 
+	/**
+	 * removeByIds
+	 *
+	 * @param idList 主键ID或实体列表
+	 * @return boolean
+	 */
 	@Override
 	default boolean removeByIds(Collection<?> idList) {
 		idList.forEach(id -> {

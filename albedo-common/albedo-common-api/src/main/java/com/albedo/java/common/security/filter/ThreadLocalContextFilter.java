@@ -17,7 +17,6 @@ package com.albedo.java.common.security.filter;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.core.util.StrUtil;
 import com.albedo.java.common.core.context.ContextConstants;
 import com.albedo.java.common.core.context.ContextUtil;
 import com.albedo.java.common.core.util.WebUtil;

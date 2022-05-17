@@ -93,7 +93,7 @@ public abstract class BaseMybatisConfiguration {
 	@ConditionalOnMissingBean
 	public MybatisPlusInterceptor mybatisPlusInterceptor() {
 		MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-		log.info("检测到 application.database.multiTenantType={}，已启用 {} 模式", databaseProperties.getMultiTenantType().name(), databaseProperties.getMultiTenantType().getDescribe());
+		log.info("detected application.database.multiTenantType={}，{} mode enabled", databaseProperties.getMultiTenantType().name(), databaseProperties.getMultiTenantType().getDescribe());
 		if (StrUtil.equalsAny(databaseProperties.getMultiTenantType().name(),
 			MultiTenantType.SCHEMA.name(), MultiTenantType.SCHEMA_COLUMN.name())) {
 			// SCHEMA 动态表名插件

@@ -32,7 +32,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<hutool.version>5.7.22</hutool.version>
+		<hutool.version>5.8.0</hutool.version>
 		<p6spy.version>3.9.1</p6spy.version>
 		<mybatis-plus.version>3.5.1</mybatis-plus.version>
 		<mybatis.version>3.5.9</mybatis.version>
@@ -56,11 +56,11 @@
 		<qcloudsms.version>1.0.6</qcloudsms.version>
 		<jjwt.version>0.11.5</jjwt.version>
 		<mail.version>1.5.0-b01</mail.version>
-		<alipay.version>4.22.113.ALL</alipay.version>
+		<alipay.version>4.23.11.ALL</alipay.version>
 		<tobato-fastdfs-client.version>1.27.2</tobato-fastdfs-client.version>
 		<aliyun-java-sdk-core.version>4.5.25</aliyun-java-sdk-core.version>
 		<aliyun-java-sdk-dysmsapi.version>2.1.0</aliyun-java-sdk-dysmsapi.version>
-		<aliyun-sdk-oss.version>3.14.1</aliyun-sdk-oss.version>
+		<aliyun-sdk-oss.version>3.15.0</aliyun-sdk-oss.version>
 		<bce-java-sdk.version>0.10.21</bce-java-sdk.version>
 		<esdk-obs-java.version>3.22.3</esdk-obs-java.version>
 		<qiniu-java-sdk.version>7.10.2</qiniu-java-sdk.version>
@@ -292,46 +292,46 @@
 		</plugins>
 	</build>
 
-<!--	<repositories>-->
-<!--		&lt;!&ndash;阿里云主仓库，代理了maven central和jcenter仓库&ndash;&gt;-->
-<!--		<repository>-->
-<!--			<id>aliyun</id>-->
-<!--			<name>aliyun</name>-->
-<!--			<url>https://maven.aliyun.com/repository/public</url>-->
-<!--			<releases>-->
-<!--				<enabled>true</enabled>-->
-<!--			</releases>-->
-<!--			<snapshots>-->
-<!--				<enabled>false</enabled>-->
-<!--			</snapshots>-->
-<!--		</repository>-->
-<!--		&lt;!&ndash;阿里云代理Spring 官方仓库&ndash;&gt;-->
-<!--		<repository>-->
-<!--			<id>spring-milestones</id>-->
-<!--			<name>Spring Milestones</name>-->
-<!--			<url>https://maven.aliyun.com/repository/spring</url>-->
-<!--			<releases>-->
-<!--				<enabled>true</enabled>-->
-<!--			</releases>-->
-<!--			<snapshots>-->
-<!--				<enabled>false</enabled>-->
-<!--			</snapshots>-->
-<!--		</repository>-->
-<!--	</repositories>-->
-<!--	<pluginRepositories>-->
-<!--		&lt;!&ndash;阿里云代理Spring 插件仓库&ndash;&gt;-->
-<!--		<pluginRepository>-->
-<!--			<id>spring-plugin</id>-->
-<!--			<name>spring-plugin</name>-->
-<!--			<url>https://maven.aliyun.com/repository/spring-plugin</url>-->
-<!--			<releases>-->
-<!--				<enabled>true</enabled>-->
-<!--			</releases>-->
-<!--			<snapshots>-->
-<!--				<enabled>false</enabled>-->
-<!--			</snapshots>-->
-<!--		</pluginRepository>-->
-<!--	</pluginRepositories>-->
+	<repositories>
+		<!--阿里云主仓库，代理了maven central和jcenter仓库-->
+		<repository>
+			<id>aliyun</id>
+			<name>aliyun</name>
+			<url>https://maven.aliyun.com/repository/public</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<!--阿里云代理Spring 官方仓库-->
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://maven.aliyun.com/repository/spring</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<!--阿里云代理Spring 插件仓库-->
+		<pluginRepository>
+			<id>spring-plugin</id>
+			<name>spring-plugin</name>
+			<url>https://maven.aliyun.com/repository/spring-plugin</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
 	<profiles>
 		<profile>
 			<id>dev</id>

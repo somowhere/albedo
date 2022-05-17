@@ -70,15 +70,15 @@ public abstract class BaseDatabaseConfiguration implements InitializingBean {
 	protected final ApplicationContext applicationContext;
 
 	protected BaseDatabaseConfiguration(final MybatisPlusProperties properties,
-									 final DatabaseProperties databaseProperties,
-									 ObjectProvider<Interceptor[]> interceptorsProvider,
-									 ObjectProvider<TypeHandler[]> typeHandlersProvider,
-									 ObjectProvider<LanguageDriver[]> languageDriversProvider,
-									 final ResourceLoader resourceLoader,
-									 final ObjectProvider<DatabaseIdProvider> databaseIdProvider,
-									 ObjectProvider<List<ConfigurationCustomizer>> configurationCustomizersProvider,
-									 ObjectProvider<List<MybatisPlusPropertiesCustomizer>> mybatisPlusPropertiesCustomizerProvider,
-									 final ApplicationContext applicationContext) {
+										final DatabaseProperties databaseProperties,
+										ObjectProvider<Interceptor[]> interceptorsProvider,
+										ObjectProvider<TypeHandler[]> typeHandlersProvider,
+										ObjectProvider<LanguageDriver[]> languageDriversProvider,
+										final ResourceLoader resourceLoader,
+										final ObjectProvider<DatabaseIdProvider> databaseIdProvider,
+										ObjectProvider<List<ConfigurationCustomizer>> configurationCustomizersProvider,
+										ObjectProvider<List<MybatisPlusPropertiesCustomizer>> mybatisPlusPropertiesCustomizerProvider,
+										final ApplicationContext applicationContext) {
 		this.properties = properties;
 		this.databaseProperties = databaseProperties;
 		this.interceptors = interceptorsProvider.getIfAvailable();

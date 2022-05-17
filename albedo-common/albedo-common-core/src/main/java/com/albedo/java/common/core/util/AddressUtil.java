@@ -29,7 +29,7 @@ public class AddressUtil {
 
 	public static final String LOCAL_IP = "0:0:0:0:0:0:0:1";
 
-	public static final Ip2regionSearcher ip2regionSearcher = SpringContextHolder.getBean(Ip2regionSearcher.class);
+	public static final Ip2regionSearcher IP2_REGION_SEARCHER = SpringContextHolder.getBean(Ip2regionSearcher.class);
 
 	private AddressUtil() {
 	}
@@ -46,7 +46,7 @@ public class AddressUtil {
 			return "内网IP";
 		}
 
-		return ip2regionSearcher.getAddressAndIsp(ip);
+		return IP2_REGION_SEARCHER.getAddressAndIsp(ip);
 	}
 
 

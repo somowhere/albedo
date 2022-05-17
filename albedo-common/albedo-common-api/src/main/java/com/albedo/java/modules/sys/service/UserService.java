@@ -187,5 +187,10 @@ public interface UserService extends DataCacheService<User, UserDto> {
 	 */
 	boolean initUser(User user);
 
-	Object todayUserCount();
+	/**
+	 * todayUserCount
+	 *
+	 * @return long
+	 */
+	long todayUserCount();
 }

@@ -39,6 +39,7 @@ public interface TableRepository extends BaseRepository<Table> {
 	 * 查询表列表
 	 *
 	 * @param tableQuery
+	 * @param dsName
 	 * @return
 	 */
 	@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class, readOnly = true)
@@ -49,6 +50,7 @@ public interface TableRepository extends BaseRepository<Table> {
 	 * 获取数据表字段
 	 *
 	 * @param tableName
+	 * @param dsName
 	 * @return
 	 */
 	@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class, readOnly = true)
@@ -59,6 +61,7 @@ public interface TableRepository extends BaseRepository<Table> {
 	 * 获取数据表主键
 	 *
 	 * @param tableName
+	 * @param dsName
 	 * @return
 	 */
 	@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class, readOnly = true)

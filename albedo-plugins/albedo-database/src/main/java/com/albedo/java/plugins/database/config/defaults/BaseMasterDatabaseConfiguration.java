@@ -61,15 +61,15 @@ public abstract class BaseMasterDatabaseConfiguration extends BaseDatabaseConfig
 	public static final String DATABASE_PREFIX = "master";
 
 	protected BaseMasterDatabaseConfiguration(MybatisPlusProperties properties,
-										   DatabaseProperties databaseProperties,
-										   ObjectProvider<Interceptor[]> interceptorsProvider,
-										   ObjectProvider<TypeHandler[]> typeHandlersProvider,
-										   ObjectProvider<LanguageDriver[]> languageDriversProvider,
-										   ResourceLoader resourceLoader,
-										   ObjectProvider<DatabaseIdProvider> databaseIdProvider,
-										   ObjectProvider<List<ConfigurationCustomizer>> configurationCustomizersProvider,
-										   ObjectProvider<List<MybatisPlusPropertiesCustomizer>> mybatisPlusPropertiesCustomizerProvider,
-										   ApplicationContext applicationContext) {
+											  DatabaseProperties databaseProperties,
+											  ObjectProvider<Interceptor[]> interceptorsProvider,
+											  ObjectProvider<TypeHandler[]> typeHandlersProvider,
+											  ObjectProvider<LanguageDriver[]> languageDriversProvider,
+											  ResourceLoader resourceLoader,
+											  ObjectProvider<DatabaseIdProvider> databaseIdProvider,
+											  ObjectProvider<List<ConfigurationCustomizer>> configurationCustomizersProvider,
+											  ObjectProvider<List<MybatisPlusPropertiesCustomizer>> mybatisPlusPropertiesCustomizerProvider,
+											  ApplicationContext applicationContext) {
 		super(properties, databaseProperties, interceptorsProvider, typeHandlersProvider,
 			languageDriversProvider, resourceLoader, databaseIdProvider,
 			configurationCustomizersProvider, mybatisPlusPropertiesCustomizerProvider, applicationContext);

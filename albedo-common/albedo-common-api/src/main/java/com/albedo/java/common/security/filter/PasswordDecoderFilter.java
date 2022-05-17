@@ -78,13 +78,13 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
 
 		String queryParam = request.getQueryString();
 		Map<String, String> paramMap = null;
-		if(StringUtil.isNotBlank(queryParam)){
+		if (StringUtil.isNotBlank(queryParam)) {
 			paramMap = HttpUtil.decodeParamMap(queryParam, CharsetUtil.CHARSET_UTF_8);
-		}else{
+		} else {
 			Enumeration<String> parameterNames = request.getParameterNames();
-			if(parameterNames != null){
+			if (parameterNames != null) {
 				paramMap = new HashMap<>();
-				while (parameterNames.hasMoreElements()){
+				while (parameterNames.hasMoreElements()) {
 					String key = parameterNames.nextElement();
 					paramMap.put(key, request.getParameter(key));
 				}
@@ -100,7 +100,7 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
 				WebUtil.renderJson(response, Result.buildFail("非法密码输入"));
 				return;
 			}
-			if(CollUtil.isEmpty(paramMap)){
+			if (CollUtil.isEmpty(paramMap)) {
 				paramMap = new HashMap<>();
 			}
 			paramMap.put(PASSWORD, password.trim());

@@ -383,7 +383,7 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 
 	@Override
 	@Transactional(readOnly = true)
-	public Object todayUserCount() {
+	public long todayUserCount() {
 		return count(Wraps.<User>lbQ().leFooter(User::getCreatedDate, LocalDateTime.now()).geHeader(User::getCreatedDate, LocalDateTime.now()));
 	}
 

@@ -19,7 +19,6 @@ import cn.hutool.core.text.CharSequenceUtil;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.ArgumentAssert;
-import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.security.service.UserDetail;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -121,7 +120,7 @@ public class TokenProvider {
 		Date expiration = null;
 		try {
 			final Claims claims = getClaimsFromToken(token);
-			if(claims!=null){
+			if (claims != null) {
 				expiration = claims.getExpiration();
 			}
 		} catch (Exception e) {

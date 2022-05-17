@@ -16,7 +16,6 @@
 package com.albedo.java.common.core.basic.domain;
 
 import cn.hutool.core.text.CharSequenceUtil;
-import com.albedo.java.common.core.util.StringUtil;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;

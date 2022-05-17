@@ -40,5 +40,10 @@ public interface BaseService<T> extends IService<T> {
 	 */
 	boolean updateAllById(T entity);
 
+	/**
+	 * getRepository
+	 *
+	 * @return
+	 */
 	BaseRepository<T> getRepository();
 }

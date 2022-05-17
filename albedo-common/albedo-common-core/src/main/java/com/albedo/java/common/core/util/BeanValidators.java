@@ -39,7 +39,9 @@ import java.util.Set;
  */
 public class BeanValidators {
 
-	private BeanValidators(){}
+	private BeanValidators() {
+	}
+
 	/**
 	 * 调用JSR303的validate方法, 验证失败时抛出ConstraintViolationException.
 	 */

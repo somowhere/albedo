@@ -44,9 +44,14 @@ public interface DeptRelationRepository extends BaseRepository<DeptRelation> {
 	 * 更改部分关系表数据
 	 *
 	 * @param deptRelation
+	 * @return Integer
 	 */
 	Integer deleteDeptRelations(DeptRelation deptRelation);
 
+	/**
+	 * @param deptRelation
+	 * @return List<DeptRelation>
+	 */
 	List<DeptRelation> findListByDeptDto(DeptRelation deptRelation);
 
 }
