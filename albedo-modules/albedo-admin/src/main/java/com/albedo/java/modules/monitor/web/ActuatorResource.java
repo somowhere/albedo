@@ -22,8 +22,8 @@ import com.albedo.java.modules.monitor.domain.ReportSearchType;
 import com.albedo.java.modules.monitor.service.MonitorService;
 import com.albedo.java.modules.monitor.service.RedisService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +37,7 @@ import java.util.Map;
  */
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "服务监控")
+@Tag(name = "服务监控")
 @RequestMapping("${application.admin-path}/actuator/")
 public class ActuatorResource {
 
@@ -46,7 +46,7 @@ public class ActuatorResource {
 	private final RedisService redisService;
 
 	@GetMapping("system")
-	@ApiOperation("查询服务监控")
+	@Operation(summary = "查询服务监控")
 	public Result getServers() {
 		return Result.buildOkData(monitorService.getServers());
 	}

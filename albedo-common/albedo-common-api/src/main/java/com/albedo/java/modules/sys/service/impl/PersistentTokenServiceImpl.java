@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.service.impl;
 
-import com.albedo.java.modules.sys.domain.PersistentToken;
+import com.albedo.java.modules.sys.domain.PersistentTokenDo;
 import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
 import com.albedo.java.modules.sys.service.PersistentTokenService;
 import com.albedo.java.plugins.database.mybatis.service.impl.BaseServiceImpl;
@@ -33,7 +33,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class PersistentTokenServiceImpl extends BaseServiceImpl<PersistentTokenRepository, PersistentToken>
+public class PersistentTokenServiceImpl extends BaseServiceImpl<PersistentTokenRepository, PersistentTokenDo>
 	implements PersistentTokenService {
 
 }

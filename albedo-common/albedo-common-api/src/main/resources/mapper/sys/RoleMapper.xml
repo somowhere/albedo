@@ -19,26 +19,35 @@
 <mapper namespace="com.albedo.java.modules.sys.repository.RoleRepository">
 
 	<!-- 通过用户ID，查询角色信息-->
-	<select id="findListByUserId" resultType="com.albedo.java.modules.sys.domain.Role">
-        SELECT
-            r.*
-        FROM
-        sys_role r, sys_user_role ur WHERE r.id = ur.role_id AND r.del_flag = 0 and r.available = 1 and ur.user_id IN (#{userId})
-    </select>
+	<select id="findListByUserId" resultType="com.albedo.java.modules.sys.domain.RoleDo">
+		SELECT r.*
+		FROM sys_role r,
+			 sys_user_role ur
+		WHERE r.id = ur.role_id
+		  AND r.del_flag = 0
+		  and r.available = 1
+		  and ur.user_id IN (#{userId})
+	</select>
 
-	<select id="findListByDeptId" resultType="com.albedo.java.modules.sys.domain.Role">
-		SELECT
-            a.*
-        FROM
-        sys_role a, sys_role_dept b WHERE a.id = b.role_id AND a.del_flag = 0 and a.available = 1 and b.dept_id = #{deptId}
+	<select id="findListByDeptId" resultType="com.albedo.java.modules.sys.domain.RoleDo">
+		SELECT a.*
+		FROM sys_role a,
+			 sys_role_dept b
+		WHERE a.id = b.role_id
+		  AND a.del_flag = 0
+		  and a.available = 1
+		  and b.dept_id = #{deptId}
 
 	</select>
 
-	<select id="findListByMenuId" resultType="com.albedo.java.modules.sys.domain.Role">
-		SELECT
-            a.*
-        FROM
-        sys_role a, sys_role_menu b WHERE a.id = b.role_id AND a.del_flag = 0 and a.available = 1 and b.menu_id = #{menuId}
+	<select id="findListByMenuId" resultType="com.albedo.java.modules.sys.domain.RoleDo">
+		SELECT a.*
+		FROM sys_role a,
+			 sys_role_menu b
+		WHERE a.id = b.role_id
+		  AND a.del_flag = 0
+		  and a.available = 1
+		  and b.menu_id = #{menuId}
 
 	</select>
 

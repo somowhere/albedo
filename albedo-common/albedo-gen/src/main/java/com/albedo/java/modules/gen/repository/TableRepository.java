@@ -15,7 +15,7 @@
 
 package com.albedo.java.modules.gen.repository;
 
-import com.albedo.java.modules.gen.domain.Table;
+import com.albedo.java.modules.gen.domain.TableDo;
 import com.albedo.java.modules.gen.domain.dto.TableColumnDto;
 import com.albedo.java.modules.gen.domain.vo.TableQuery;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
@@ -33,7 +33,7 @@ import java.util.List;
  * @author somewhere
  */
 @Mapper
-public interface TableRepository extends BaseRepository<Table> {
+public interface TableRepository extends BaseRepository<TableDo> {
 
 	/**
 	 * 查询表列表
@@ -44,7 +44,7 @@ public interface TableRepository extends BaseRepository<Table> {
 	 */
 	@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class, readOnly = true)
 	@DS("#last")
-	List<Table> findTableList(@Param("tableQuery") TableQuery tableQuery, String dsName);
+	List<TableDo> findTableList(@Param("tableQuery") TableQuery tableQuery, String dsName);
 
 	/**
 	 * 获取数据表字段

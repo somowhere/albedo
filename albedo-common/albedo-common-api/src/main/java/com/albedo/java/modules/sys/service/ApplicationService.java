@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.modules.sys.domain.Application;
+import com.albedo.java.modules.sys.domain.ApplicationDo;
 import com.albedo.java.modules.sys.domain.dto.ApplicationDto;
 import com.albedo.java.plugins.database.mybatis.service.DataCacheService;
 
@@ -28,7 +28,7 @@ import com.albedo.java.plugins.database.mybatis.service.DataCacheService;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface ApplicationService extends DataCacheService<Application, ApplicationDto> {
+public interface ApplicationService extends DataCacheService<ApplicationDo, ApplicationDto> {
 
 	/**
 	 * 根据 clientId 和 clientSecret 查询
@@ -37,5 +37,5 @@ public interface ApplicationService extends DataCacheService<Application, Applic
 	 * @param clientSecret 客户端密钥
 	 * @return 应用
 	 */
-	Application getByClient(String clientId, String clientSecret);
+	ApplicationDo getByClient(String clientId, String clientSecret);
 }

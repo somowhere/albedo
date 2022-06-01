@@ -23,7 +23,7 @@ package ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModul
 import com.albedo.java.plugins.database.mybatis.service.DataService;
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
 import ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
-<#if (table.compositeId)!>
+<#if (tableDo.compositeId)!>
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Id;
 </#if>
 

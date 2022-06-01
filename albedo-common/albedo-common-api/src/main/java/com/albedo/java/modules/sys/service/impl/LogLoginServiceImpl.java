@@ -21,7 +21,7 @@ import cn.hutool.core.util.StrUtil;
 import com.albedo.java.common.core.cache.model.CacheKey;
 import com.albedo.java.common.core.util.MapHelper;
 import com.albedo.java.modules.sys.cache.*;
-import com.albedo.java.modules.sys.domain.LogLogin;
+import com.albedo.java.modules.sys.domain.LogLoginDo;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.albedo.java.modules.sys.repository.LogLoginRepository;
 import com.albedo.java.modules.sys.service.LogLoginService;
@@ -51,7 +51,7 @@ import java.util.stream.Stream;
 @Service
 @Transactional(rollbackFor = Exception.class)
 @RequiredArgsConstructor
-public class LogLoginServiceImpl extends BaseServiceImpl<LogLoginRepository, LogLogin> implements LogLoginService {
+public class LogLoginServiceImpl extends BaseServiceImpl<LogLoginRepository, LogLoginDo> implements LogLoginService {
 	private static final Supplier<Stream<String>> BROWSER = () -> Stream.of(
 		"Chrome", "Firefox", "Microsoft Edge", "Safari", "Opera"
 	);
@@ -70,21 +70,21 @@ public class LogLoginServiceImpl extends BaseServiceImpl<LogLoginRepository, Log
 	}
 
 	@Override
-	public boolean save(LogLogin logLogin) {
+	public boolean save(LogLoginDo logLoginDo) {
 		UserVo user;
-		Long userId = logLogin.getUserId();
-		String username = logLogin.getUsername();
+		Long userId = logLoginDo.getUserId();
+		String username = logLoginDo.getUsername();
 		if (userId != null) {
 			user = this.userService.findUserVoById(userId);
 		} else {
 			user = this.userService.findVoByUsername(username);
 		}
 		if (user != null) {
-			logLogin.setUsername(user.getUsername()).setUserId(user.getId()).setNickname(user.getNickname())
+			logLoginDo.setUsername(user.getUsername()).setUserId(user.getId()).setNickname(user.getNickname())
 				.setCreatedBy(user.getId());
 		}
 
-		super.save(logLogin);
+		super.save(logLoginDo);
 		LocalDate now = LocalDate.now();
 		String tenDaysAgo = LocalDateTimeUtil.formatNormal(now.plusDays(-9));
 

@@ -9,7 +9,7 @@
     <!--工具栏-->
     <div class="head-container">
       <div v-if="crud.props.searchToggle">
-      <#list table.columnList as column>
+      <#list tableDo.columnList as column>
       <#if column.queryField>
       <#if column.showType == "input" || column.showType == "textarea">
           <el-input class="filter-item input-small" v-model="query.${column.javaFieldId}" clearable size="small" placeholder="输入${column.title}搜索" @keyup.enter.native="toQuery" />
@@ -37,7 +37,7 @@
       width="800px"
     >
       <el-form ref="form" :inline="true" :model="form" label-width="120px" size="small">
-      <#list table.columnList as column>
+      <#list tableDo.columnList as column>
         <#if column.editField && (column.isNotBaseField || column.simpleJavaField == 'description')>
         <el-form-item label="${column.title}" prop="${column.javaFieldId}" :rules="[<#if !column.nullField>{required: true,message: '请输入${column.title}', trigger: <#if column.showType == "select" || column.showType == "checkbox" || column.showType == "radio">'change'<#else>'blur'</#if>},</#if><#if column.javaType == "Long" || column.javaType == "Integer">{validator:validateDigits},</#if><#if column.javaType == "java.math.BigDecimal" || column.javaType == "Double">{ validator:validateNumber},</#if><#if column.dataLength != 0 && column.javaType == "String">{min: 0,max: ${column.dataLength},message: '长度在 0 到 ${column.dataLength} 个字符', trigger: <#if column.showType == "select" || column.showType == "checkbox" || column.showType == "radio">'change'<#else>'blur'</#if>},</#if>]">
             <#if column.showType == "input">
@@ -73,30 +73,30 @@
       </div>
     </el-dialog>
     <!--表格渲染-->
-    <el-table
-      ref="table"
+    <el-tableDo
+      ref="tableDo"
       v-loading="crud.loading"
       :data="crud.data"
       style="width: 100%;"
       @sort-change="crud.sortChange"
       @selection-change="crud.selectionChangeHandler"
     >
-      <el-table-column type="selection" width="55" />
-      <#list table.columnList as column>
+      <el-tableDo-column type="selection" width="55" />
+      <#list tableDo.columnList as column>
       <#if column.listField && column.simpleJavaField!="parentId" && column.simpleJavaField!="parentIds" && column.simpleJavaField!="parent">
-      <el-table-column align="center" label="${column.title}" :show-overflow-tooltip="true" prop="${column.simpleJavaField}"<#if column.dictType?? && column.dictType != ""> >
+      <el-tableDo-column align="center" label="${column.title}" :show-overflow-tooltip="true" prop="${column.simpleJavaField}"<#if column.dictType?? && column.dictType != ""> >
         <template slot-scope="scope">
 		  <el-tag>{{scope.row.${column.simpleJavaField}Text}}</el-tag>
         </template>
-      </el-table-column><#else> /></#if>
+      </el-tableDo-column><#else> /></#if>
       </#if>
       </#list>
-      <el-table-column v-permission="[permission.edit,permission.del]" label="操作" width="120px" fixed="right">
+      <el-tableDo-column v-permission="[permission.edit,permission.del]" label="操作" width="120px" fixed="right">
         <template slot-scope="scope">
           <udOperation :data="scope.row" :permission="permission" />
         </template>
-      </el-table-column>
-    </el-table>
+      </el-tableDo-column>
+    </el-tableDo>
 	<!--分页组件-->
     <pagination />
   </div>
@@ -110,10 +110,10 @@ import udOperation from '@crud/UD.operation'
 import crudOperation from '@crud/CRUD.operation'
 import pagination from '@crud/Pagination'
 import validate from '@/utils/validate'
-import { mapGetters } from 'vuex'<#assign flag = false><#list table.columnList as column><#if column.dictType?? && column.dictType != '' && column.simpleJavaType != 'String'><#assign flag = true></#if></#list>
+import { mapGetters } from 'vuex'<#assign flag = false><#list tableDo.columnList as column><#if column.dictType?? && column.dictType != '' && column.simpleJavaType != 'String'><#assign flag = true></#if></#list>
 <#if flag>import commonUtil from '@/utils/common'</#if>
 const defaultForm = {
-  <#list table.columnList as column>
+  <#list tableDo.columnList as column>
 	<#if column.editField && (column.isNotBaseField || column.simpleJavaField == 'id' || column.simpleJavaField == 'description')>
   ${column.javaFieldId}: null,
 	</#if>
@@ -129,7 +129,7 @@ export default {
   // 数据字典
   data() {
     return {
-      <#list table.columnList as column>
+      <#list tableDo.columnList as column>
         <#if column.dictType??&& column.dictType != ''>
       ${column.javaFieldId}Options: undefined,
         </#if>
@@ -150,12 +150,12 @@ export default {
     ...mapGetters(["permissions","dicts"])
   },
   created() {
-    <#list table.columnList as column><#if column.dictType?? && column.dictType != ''>
+    <#list tableDo.columnList as column><#if column.dictType?? && column.dictType != ''>
     this.${column.javaFieldId}Options = this.dicts["${column.dictType}"]
     </#if></#list>
   },
   methods: {
-    <#assign flag = true><#list table.columnList as column><#if column.dictType?? && column.dictType != '' && column.simpleJavaType != 'String'><#if flag>
+    <#assign flag = true><#list tableDo.columnList as column><#if column.dictType?? && column.dictType != '' && column.simpleJavaType != 'String'><#if flag>
     // 新增与编辑前做的操作
    [CRUD.HOOK.afterToCU](crud, form) {</#if>
       form.${column.javaFieldId}Options = commonUtil.objToStr(form.${column.javaFieldId}Options)

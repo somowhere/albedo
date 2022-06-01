@@ -2,7 +2,7 @@ package com.albedo.java.modules.sys.domain.dto;
 
 import com.albedo.java.common.core.vo.DataDto;
 import com.albedo.java.modules.sys.domain.enums.ApplicationAppTypeEnum;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -23,7 +23,7 @@ import javax.validation.constraints.Size;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@ApiModel(value = "Application", description = "应用")
+@Schema(name = "Application", description = "应用")
 @AllArgsConstructor
 public class ApplicationDto extends DataDto<Long> {
 

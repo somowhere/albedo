@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.service.impl;
 
-import com.albedo.java.modules.sys.domain.LogOperate;
+import com.albedo.java.modules.sys.domain.LogOperateDo;
 import com.albedo.java.modules.sys.repository.LogOperateRepository;
 import com.albedo.java.modules.sys.service.LogOperateService;
 import com.albedo.java.plugins.database.mybatis.service.impl.BaseServiceImpl;
@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
  * @since 2019/2/1
  */
 @Service
-public class LogOperateServiceImpl extends BaseServiceImpl<LogOperateRepository, LogOperate>
+public class LogOperateServiceImpl extends BaseServiceImpl<LogOperateRepository, LogOperateDo>
 	implements LogOperateService {
 
 }

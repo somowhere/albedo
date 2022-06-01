@@ -36,10 +36,10 @@ import java.util.Date;
  * @version ${functionVersion}
  */
 @Data @ToString @NoArgsConstructor @AllArgsConstructor
-public class ${ClassName}Dto extends DataDto<${table.pkJavaType}> {
+public class ${ClassName}Dto extends DataDto<${tableDo.pkJavaType}> {
 
 	private static final long serialVersionUID = 1L;
-	<#list table.columnList as column>
+	<#list tableDo.columnList as column>
 		<#if !column.pk && column.isNotBaseField>
 	/** F_${column.constantJavaField} ${column.nameAndTitle} */
 	public static final String F_${column.constantJavaField} = "${column.simpleJavaField}";
@@ -51,11 +51,11 @@ public class ${ClassName}Dto extends DataDto<${table.pkJavaType}> {
 }
 <#macro generateFields>
 
-	<#list table.columnList as column>
+	<#list tableDo.columnList as column>
 		<#if !column.pk && column.isNotBaseField>
 	/** ${column.simpleJavaField} ${column.title} */
-	        <#if table.parentExists && table.parentTableFk == column.name>
-	private ${table.parent.className} ${column.simpleJavaField};
+	        <#if tableDo.parentExists && tableDo.parentTableFk == column.name>
+	private ${tableDo.parent.className} ${column.simpleJavaField};
 	        <#elseif column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
 	private String ${column.simpleJavaField}Id;
 	private ${column.simpleJavaType} ${column.simpleJavaField};

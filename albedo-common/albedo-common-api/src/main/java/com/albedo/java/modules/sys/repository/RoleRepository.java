@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.modules.sys.domain.Role;
+import com.albedo.java.modules.sys.domain.RoleDo;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -31,7 +31,7 @@ import java.util.List;
  * @since 2019/2/1
  */
 @Mapper
-public interface RoleRepository extends BaseRepository<Role> {
+public interface RoleRepository extends BaseRepository<RoleDo> {
 
 	/**
 	 * 通过用户ID，查询角色信息
@@ -39,7 +39,7 @@ public interface RoleRepository extends BaseRepository<Role> {
 	 * @param userId
 	 * @return
 	 */
-	List<Role> findListByUserId(Long userId);
+	List<RoleDo> findListByUserId(Long userId);
 
 	/**
 	 * 通过部门ID，查询角色信息
@@ -47,7 +47,7 @@ public interface RoleRepository extends BaseRepository<Role> {
 	 * @param deptId
 	 * @return
 	 */
-	List<Role> findListByDeptId(Long deptId);
+	List<RoleDo> findListByDeptId(Long deptId);
 
 	/**
 	 * 通过菜单ID，查询角色信息
@@ -55,6 +55,6 @@ public interface RoleRepository extends BaseRepository<Role> {
 	 * @param menuId
 	 * @return
 	 */
-	List<Role> findListByMenuId(Long menuId);
+	List<RoleDo> findListByMenuId(Long menuId);
 
 }

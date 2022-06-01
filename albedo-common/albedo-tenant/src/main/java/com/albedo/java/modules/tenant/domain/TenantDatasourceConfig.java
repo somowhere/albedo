@@ -1,13 +1,12 @@
 package com.albedo.java.modules.tenant.domain;
 
 import com.albedo.java.common.core.annotation.ExcelField;
-import com.albedo.java.common.core.basic.domain.BaseEntity;
+import com.albedo.java.common.core.basic.domain.BaseDo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -33,9 +32,9 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("sys_tenant_datasource_config")
-@ApiModel(value = "TenantDatasourceConfig", description = "租户数据源关系")
+@Schema(name = "TenantDatasourceConfig", description = "租户数据源关系")
 @AllArgsConstructor
-public class TenantDatasourceConfig extends BaseEntity<TenantDatasourceConfig> {
+public class TenantDatasourceConfig extends BaseDo<TenantDatasourceConfig> {
 
 	private static final long serialVersionUID = 1L;
 	protected Long createdBy;
@@ -55,7 +54,7 @@ public class TenantDatasourceConfig extends BaseEntity<TenantDatasourceConfig> {
 	/**
 	 * 租户id
 	 */
-	@ApiModelProperty(value = "租户id")
+	@Schema(name = "租户id")
 	@NotNull(message = "租户id不能为空")
 	@TableField("tenant_id")
 	@ExcelField(title = "租户id")
@@ -63,7 +62,7 @@ public class TenantDatasourceConfig extends BaseEntity<TenantDatasourceConfig> {
 	/**
 	 * 数据源id
 	 */
-	@ApiModelProperty(value = "数据源id")
+	@Schema(name = "数据源id")
 	@NotNull(message = "数据源id不能为空")
 	@TableField("datasource_config_id")
 	@ExcelField(title = "数据源id")
@@ -71,7 +70,7 @@ public class TenantDatasourceConfig extends BaseEntity<TenantDatasourceConfig> {
 	/**
 	 * 服务
 	 */
-	@ApiModelProperty(value = "服务")
+	@Schema(name = "服务")
 	@NotEmpty(message = "服务不能为空")
 	@Size(max = 100, message = "服务长度不能超过100")
 	@TableField(value = "application", condition = LIKE)

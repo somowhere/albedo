@@ -26,7 +26,7 @@ import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.common.web.resource.BaseResource;
-import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.modules.sys.domain.UserDo;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
 import com.albedo.java.modules.sys.domain.dto.UserInfoDto;
 import com.albedo.java.modules.sys.domain.dto.UserQueryCriteria;
@@ -36,7 +36,7 @@ import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.albedo.java.modules.sys.service.UserService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.Lists;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -56,7 +56,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("${application.admin-path}/sys/user")
 @AllArgsConstructor
-@Api(tags = "用户管理")
+@Tag(name = "用户管理")
 public class UserResource extends BaseResource {
 
 	private final UserService userService;
@@ -179,7 +179,7 @@ public class UserResource extends BaseResource {
 	 * @return 上级部门用户列表
 	 */
 	@GetMapping("/ancestor/{username}")
-	public Result<List<User>> listAncestorUsers(@PathVariable String username) {
+	public Result<List<UserDo>> listAncestorUsers(@PathVariable String username) {
 		return Result.buildOkData(userService.listAncestorUsersByUsername(username));
 	}
 

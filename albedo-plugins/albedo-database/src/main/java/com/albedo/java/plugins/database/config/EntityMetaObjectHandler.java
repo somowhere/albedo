@@ -2,8 +2,8 @@ package com.albedo.java.plugins.database.config;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
-import com.albedo.java.common.core.basic.domain.BaseDataEntity;
-import com.albedo.java.common.core.basic.domain.BaseEntity;
+import com.albedo.java.common.core.basic.domain.BaseDataDo;
+import com.albedo.java.common.core.basic.domain.BaseDo;
 import com.albedo.java.common.core.context.ContextUtil;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.StrPool;
@@ -74,25 +74,25 @@ public class EntityMetaObjectHandler implements MetaObjectHandler {
 		Long id = uidGenerator.getUid();
 
 		//1. 继承了BaseEntity 若 ID 中有值，就不设置
-		if (metaObject.getOriginalObject() instanceof BaseEntity) {
-			Object oldId = ((BaseEntity) metaObject.getOriginalObject()).pkVal();
+		if (metaObject.getOriginalObject() instanceof BaseDo) {
+			Object oldId = ((BaseDo) metaObject.getOriginalObject()).pkVal();
 			if (oldId != null) {
 				return;
 			}
-			Object idVal = StrPool.STRING_TYPE_NAME.equals(metaObject.getGetterType(BaseEntity.F_ID).getName()) ? String.valueOf(id) : id;
-			this.setFieldValByName(BaseEntity.F_ID, idVal, metaObject);
+			Object idVal = StrPool.STRING_TYPE_NAME.equals(metaObject.getGetterType(BaseDo.F_ID).getName()) ? String.valueOf(id) : id;
+			this.setFieldValByName(BaseDo.F_ID, idVal, metaObject);
 			return;
 		}
 
 		// 2. 没有继承BaseEntity， 但主键的字段名为：  id
-		if (metaObject.hasGetter(BaseEntity.F_ID)) {
-			Object oldId = metaObject.getValue(BaseEntity.F_ID);
+		if (metaObject.hasGetter(BaseDo.F_ID)) {
+			Object oldId = metaObject.getValue(BaseDo.F_ID);
 			if (oldId != null) {
 				return;
 			}
 
-			Object idVal = StrPool.STRING_TYPE_NAME.equals(metaObject.getGetterType(BaseEntity.F_ID).getName()) ? String.valueOf(id) : id;
-			this.setFieldValByName(BaseEntity.F_ID, idVal, metaObject);
+			Object idVal = StrPool.STRING_TYPE_NAME.equals(metaObject.getGetterType(BaseDo.F_ID).getName()) ? String.valueOf(id) : id;
+			this.setFieldValByName(BaseDo.F_ID, idVal, metaObject);
 			return;
 		}
 
@@ -126,67 +126,67 @@ public class EntityMetaObjectHandler implements MetaObjectHandler {
 
 	private void fillCreated(MetaObject metaObject) {
 		// 设置创建时间和创建人
-		if (metaObject.getOriginalObject() instanceof BaseEntity) {
+		if (metaObject.getOriginalObject() instanceof BaseDo) {
 			created(metaObject);
 			return;
 		}
 
-		if (metaObject.hasGetter(BaseDataEntity.F_CREATED_BY)) {
-			Object oldVal = metaObject.getValue(BaseDataEntity.F_CREATED_BY);
+		if (metaObject.hasGetter(BaseDataDo.F_CREATED_BY)) {
+			Object oldVal = metaObject.getValue(BaseDataDo.F_CREATED_BY);
 			if (oldVal == null) {
-				this.setFieldValByName(BaseDataEntity.F_CREATED_BY, ContextUtil.getUserId(), metaObject);
+				this.setFieldValByName(BaseDataDo.F_CREATED_BY, ContextUtil.getUserId(), metaObject);
 			}
 		}
-		if (metaObject.hasGetter(BaseDataEntity.F_CREATED_DATE)) {
-			Object oldVal = metaObject.getValue(BaseDataEntity.F_CREATED_DATE);
+		if (metaObject.hasGetter(BaseDataDo.F_CREATED_DATE)) {
+			Object oldVal = metaObject.getValue(BaseDataDo.F_CREATED_DATE);
 			if (oldVal == null) {
-				this.setFieldValByName(BaseDataEntity.F_CREATED_DATE, LocalDateTime.now(), metaObject);
+				this.setFieldValByName(BaseDataDo.F_CREATED_DATE, LocalDateTime.now(), metaObject);
 			}
 		}
 
 	}
 
 	private void created(MetaObject metaObject) {
-		BaseDataEntity entity = (BaseDataEntity) metaObject.getOriginalObject();
+		BaseDataDo entity = (BaseDataDo) metaObject.getOriginalObject();
 		if (entity.getCreatedDate() == null) {
-			this.setFieldValByName(BaseDataEntity.F_CREATED_DATE, LocalDateTime.now(), metaObject);
+			this.setFieldValByName(BaseDataDo.F_CREATED_DATE, LocalDateTime.now(), metaObject);
 		}
 		if (entity.getCreatedBy() == null || entity.getCreatedBy().equals(0)) {
-			Object userIdVal = StrPool.STRING_TYPE_NAME.equals(metaObject.getGetterType(BaseDataEntity.F_CREATED_BY).getName()) ? String.valueOf(ContextUtil.getUserId()) : ContextUtil.getUserId();
-			this.setFieldValByName(BaseDataEntity.F_CREATED_BY, userIdVal, metaObject);
+			Object userIdVal = StrPool.STRING_TYPE_NAME.equals(metaObject.getGetterType(BaseDataDo.F_CREATED_BY).getName()) ? String.valueOf(ContextUtil.getUserId()) : ContextUtil.getUserId();
+			this.setFieldValByName(BaseDataDo.F_CREATED_BY, userIdVal, metaObject);
 		}
 	}
 
 
 	private void fillUpdated(MetaObject metaObject) {
 		// 修改人 修改时间
-		if (metaObject.getOriginalObject() instanceof BaseDataEntity) {
+		if (metaObject.getOriginalObject() instanceof BaseDataDo) {
 			update(metaObject);
 			return;
 		}
 
-		if (metaObject.hasGetter(BaseDataEntity.F_LAST_MODIFIED_BY)) {
-			Object oldVal = metaObject.getValue(BaseDataEntity.F_LAST_MODIFIED_BY);
+		if (metaObject.hasGetter(BaseDataDo.F_LAST_MODIFIED_BY)) {
+			Object oldVal = metaObject.getValue(BaseDataDo.F_LAST_MODIFIED_BY);
 			if (oldVal == null) {
-				this.setFieldValByName(BaseDataEntity.F_LAST_MODIFIED_BY, ContextUtil.getUserId(), metaObject);
+				this.setFieldValByName(BaseDataDo.F_LAST_MODIFIED_BY, ContextUtil.getUserId(), metaObject);
 			}
 		}
-		if (metaObject.hasGetter(BaseDataEntity.F_LAST_MODIFIED_DATE)) {
-			Object oldVal = metaObject.getValue(BaseDataEntity.F_LAST_MODIFIED_DATE);
+		if (metaObject.hasGetter(BaseDataDo.F_LAST_MODIFIED_DATE)) {
+			Object oldVal = metaObject.getValue(BaseDataDo.F_LAST_MODIFIED_DATE);
 			if (oldVal == null) {
-				this.setFieldValByName(BaseDataEntity.F_LAST_MODIFIED_DATE, LocalDateTime.now(), metaObject);
+				this.setFieldValByName(BaseDataDo.F_LAST_MODIFIED_DATE, LocalDateTime.now(), metaObject);
 			}
 		}
 	}
 
 	private void update(MetaObject metaObject) {
-		BaseDataEntity entity = (BaseDataEntity) metaObject.getOriginalObject();
+		BaseDataDo entity = (BaseDataDo) metaObject.getOriginalObject();
 		if (entity.getLastModifiedBy() == null || entity.getLastModifiedBy().equals(0)) {
-			Object userIdVal = StrPool.STRING_TYPE_NAME.equals(metaObject.getGetterType(BaseDataEntity.F_LAST_MODIFIED_BY).getName()) ? String.valueOf(ContextUtil.getUserId()) : ContextUtil.getUserId();
-			this.setFieldValByName(BaseDataEntity.F_LAST_MODIFIED_BY, userIdVal, metaObject);
+			Object userIdVal = StrPool.STRING_TYPE_NAME.equals(metaObject.getGetterType(BaseDataDo.F_LAST_MODIFIED_BY).getName()) ? String.valueOf(ContextUtil.getUserId()) : ContextUtil.getUserId();
+			this.setFieldValByName(BaseDataDo.F_LAST_MODIFIED_BY, userIdVal, metaObject);
 		}
 		if (entity.getLastModifiedDate() == null) {
-			this.setFieldValByName(BaseDataEntity.F_LAST_MODIFIED_DATE, LocalDateTime.now(), metaObject);
+			this.setFieldValByName(BaseDataDo.F_LAST_MODIFIED_DATE, LocalDateTime.now(), metaObject);
 		}
 	}
 

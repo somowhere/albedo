@@ -21,9 +21,9 @@ import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.modules.gen.cache.TableCacheKeyBuilder;
-import com.albedo.java.modules.gen.domain.DatasourceConf;
-import com.albedo.java.modules.gen.domain.Table;
-import com.albedo.java.modules.gen.domain.TableColumn;
+import com.albedo.java.modules.gen.domain.DatasourceConfDo;
+import com.albedo.java.modules.gen.domain.TableColumnDo;
+import com.albedo.java.modules.gen.domain.TableDo;
 import com.albedo.java.modules.gen.domain.dto.TableColumnDto;
 import com.albedo.java.modules.gen.domain.dto.TableDto;
 import com.albedo.java.modules.gen.domain.dto.TableFromDto;
@@ -35,7 +35,7 @@ import com.albedo.java.modules.gen.service.DatasourceConfService;
 import com.albedo.java.modules.gen.service.TableColumnService;
 import com.albedo.java.modules.gen.service.TableService;
 import com.albedo.java.modules.gen.util.GenUtil;
-import com.albedo.java.modules.sys.domain.Dict;
+import com.albedo.java.modules.sys.domain.DictDo;
 import com.albedo.java.plugins.database.mybatis.service.impl.AbstractDataCacheServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
@@ -55,7 +55,7 @@ import java.util.stream.Collectors;
  * @author somewhere
  */
 @Service
-public class TableServiceImpl extends AbstractDataCacheServiceImpl<TableRepository, Table, TableDto>
+public class TableServiceImpl extends AbstractDataCacheServiceImpl<TableRepository, TableDo, TableDto>
 	implements TableService {
 
 	@Resource
@@ -71,57 +71,57 @@ public class TableServiceImpl extends AbstractDataCacheServiceImpl<TableReposito
 
 	@Override
 	public void saveOrUpdate(TableDto tableDto) {
-		Table table = new Table();
-		copyDtoToBean(tableDto, table);
-		super.saveOrUpdate(table);
-		logger.debug("Save Information for Table: {}", table);
-		for (TableColumn item : table.getColumnFormList()) {
-			item.setTableId(table.getId());
+		TableDo tableDo = new TableDo();
+		copyDtoToBean(tableDto, tableDo);
+		super.saveOrUpdate(tableDo);
+		logger.debug("Save Information for Table: {}", tableDo);
+		for (TableColumnDo item : tableDo.getColumnFormList()) {
+			item.setTableId(tableDo.getId());
 		}
-		List<TableColumn> tableColumnEntities = tableColumnService
-			.list(Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID, table.getId()));
-		for (TableColumn item : table.getColumnFormList()) {
-			for (TableColumn tableColumn : tableColumnEntities) {
-				if (tableColumn.getId().equals(item.getId())) {
-					item.setVersion(tableColumn.getVersion());
+		List<TableColumnDo> tableColumnDoEntities = tableColumnService
+			.list(Wrappers.<TableColumnDo>query().eq(TableColumnDo.F_SQL_GENTABLEID, tableDo.getId()));
+		for (TableColumnDo item : tableDo.getColumnFormList()) {
+			for (TableColumnDo tableColumnDo : tableColumnDoEntities) {
+				if (tableColumnDo.getId().equals(item.getId())) {
+					item.setVersion(tableColumnDo.getVersion());
 					break;
 				}
 			}
 		}
 
-		tableColumnService.saveOrUpdateBatch(table.getColumnFormList());
+		tableColumnService.saveOrUpdateBatch(tableDo.getColumnFormList());
 
 	}
 
 	@Override
-	public void copyDtoToBean(TableDto form, Table table) {
-		super.copyDtoToBean(form, table);
-		if (table != null) {
+	public void copyDtoToBean(TableDto form, TableDo tableDo) {
+		super.copyDtoToBean(form, tableDo);
+		if (tableDo != null) {
 			if (ObjectUtil.isNotEmpty(form.getPkColumnList())) {
-				table.setPkColumnList(form.getPkColumnList().stream().map(item -> tableColumnService.copyDtoToBean(item))
+				tableDo.setPkColumnList(form.getPkColumnList().stream().map(item -> tableColumnService.copyDtoToBean(item))
 					.collect(Collectors.toList()));
 			}
 			if (ObjectUtil.isNotEmpty(form.getColumnFormList())) {
-				table.setColumnFormList(form.getColumnFormList().stream()
+				tableDo.setColumnFormList(form.getColumnFormList().stream()
 					.map(item -> tableColumnService.copyDtoToBean(item)).collect(Collectors.toList()));
 			}
 			if (ObjectUtil.isNotEmpty(form.getColumnList())) {
-				table.setColumnList(form.getColumnList().stream().map(item -> tableColumnService.copyDtoToBean(item))
+				tableDo.setColumnList(form.getColumnList().stream().map(item -> tableColumnService.copyDtoToBean(item))
 					.collect(Collectors.toList()));
 			}
 		}
 	}
 
 	@Override
-	public void copyBeanToDto(Table table, TableDto result) {
-		super.copyBeanToDto(table, result);
-		if (table != null) {
-			if (ObjectUtil.isNotEmpty(table.getColumnFormList())) {
-				result.setColumnFormList(table.getColumnFormList().stream()
+	public void copyBeanToDto(TableDo tableDo, TableDto result) {
+		super.copyBeanToDto(tableDo, result);
+		if (tableDo != null) {
+			if (ObjectUtil.isNotEmpty(tableDo.getColumnFormList())) {
+				result.setColumnFormList(tableDo.getColumnFormList().stream()
 					.map(item -> tableColumnService.copyBeanToDto(item)).collect(Collectors.toList()));
 			}
-			if (ObjectUtil.isNotEmpty(table.getColumnList())) {
-				result.setColumnList(table.getColumnList().stream().map(item -> tableColumnService.copyBeanToDto(item))
+			if (ObjectUtil.isNotEmpty(tableDo.getColumnList())) {
+				result.setColumnList(tableDo.getColumnList().stream().map(item -> tableColumnService.copyBeanToDto(item))
 					.collect(Collectors.toList()));
 			}
 		}
@@ -133,7 +133,7 @@ public class TableServiceImpl extends AbstractDataCacheServiceImpl<TableReposito
 		if (StringUtil.isBlank(tableName)) {
 			return true;
 		}
-		List<Table> list = super.list(Wrappers.<Table>query().eq(Table.F_NAME, tableName));
+		List<TableDo> list = super.list(Wrappers.<TableDo>query().eq(TableDo.F_NAME, tableName));
 		return list.size() == 0;
 	}
 
@@ -215,18 +215,18 @@ public class TableServiceImpl extends AbstractDataCacheServiceImpl<TableReposito
 	@Override
 	public List<TableDto> findTableListFormDb(TableDto tableDto) {
 		ArgumentAssert.notNull(tableDto, "无效参数");
-		List<Table> tableEntities = list();
+		List<TableDo> tableDoEntities = list();
 		TableQuery tableQuery = new TableQuery();
 		if (StringUtil.isNotEmpty(tableDto.getName())) {
 			tableQuery.setName(tableDto.getName());
 		} else {
 			List<String> tempNames = Lists.newArrayList("gen_");
 			tableQuery.setNotLikeNames(tempNames);
-			if (ObjectUtil.isNotEmpty(tableEntities)) {
-				tableQuery.setNotNames(CollUtil.extractToList(tableEntities, Table.F_NAME));
+			if (ObjectUtil.isNotEmpty(tableDoEntities)) {
+				tableQuery.setNotNames(CollUtil.extractToList(tableDoEntities, TableDo.F_NAME));
 			}
 		}
-		List<Table> list = repository.findTableList(tableQuery, tableDto.getDsName());
+		List<TableDo> list = repository.findTableList(tableQuery, tableDto.getDsName());
 		return list.stream().map(item -> copyBeanToDto(item)).collect(Collectors.toList());
 	}
 
@@ -239,33 +239,33 @@ public class TableServiceImpl extends AbstractDataCacheServiceImpl<TableReposito
 		TableFormDataVo tableFormDataVo = new TableFormDataVo();
 		TableDto tableDto = new TableDto(tableFromDto);
 		tableFormDataVo.setTableList(
-			CollUtil.convertSelectVoList(findTableListFormDb(tableDto), Table.F_NAME, Table.F_NAMESANDTITLE));
+			CollUtil.convertSelectVoList(findTableListFormDb(tableDto), TableDo.F_NAME, TableDo.F_NAMESANDTITLE));
 		// 验证表是否存在
 		ArgumentAssert.isTrue(StringUtil.isNotEmpty(tableFromDto.getId()) || checkTableName(tableFromDto.getTableName()),
 			StringUtil.toAppendStr("下一步失败！", tableFromDto.getTableName(), " 表已经添加！"));
 		if (ObjectUtil.isNotEmpty(tableFromDto.getId())) {
 			tableDto = getOneDto(tableFromDto.getId());
 			tableDto.setColumnList(tableColumnService
-				.list(Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID, tableFromDto.getId())).stream()
+				.list(Wrappers.<TableColumnDo>query().eq(TableColumnDo.F_SQL_GENTABLEID, tableFromDto.getId())).stream()
 				.map(item -> tableColumnService.copyBeanToDto(item)).collect(Collectors.toList()));
 		}
 		// 获取物理表字段
 		tableDto = getTableFormDb(tableDto);
 		tableFormDataVo.setColumnList(
-			CollUtil.convertSelectVoList(tableDto.getColumnList(), Table.F_NAME, Table.F_NAMESANDTITLE));
+			CollUtil.convertSelectVoList(tableDto.getColumnList(), TableDo.F_NAME, TableDo.F_NAMESANDTITLE));
 		tableFormDataVo.setTableVo(tableDto);
 		GenConfig config = GenUtil.getConfig();
 		tableFormDataVo.setConfig(config);
-		tableFormDataVo.setDsNameList(CollUtil.convertSelectVoList(datasourceConfService.list(), DatasourceConf.F_NAME,
-			DatasourceConf.F_NAME));
+		tableFormDataVo.setDsNameList(CollUtil.convertSelectVoList(datasourceConfService.list(), DatasourceConfDo.F_NAME,
+			DatasourceConfDo.F_NAME));
 		tableFormDataVo
-			.setQueryTypeList(CollUtil.convertSelectVoList(config.getQueryTypeList(), Dict.F_VAL, Dict.F_NAME));
+			.setQueryTypeList(CollUtil.convertSelectVoList(config.getQueryTypeList(), DictDo.F_VAL, DictDo.F_NAME));
 		tableFormDataVo
-			.setQueryTypeList(CollUtil.convertSelectVoList(config.getQueryTypeList(), Dict.F_VAL, Dict.F_NAME));
+			.setQueryTypeList(CollUtil.convertSelectVoList(config.getQueryTypeList(), DictDo.F_VAL, DictDo.F_NAME));
 		tableFormDataVo
-			.setShowTypeList(CollUtil.convertSelectVoList(config.getShowTypeList(), Dict.F_VAL, Dict.F_NAME));
+			.setShowTypeList(CollUtil.convertSelectVoList(config.getShowTypeList(), DictDo.F_VAL, DictDo.F_NAME));
 		tableFormDataVo
-			.setJavaTypeList(CollUtil.convertSelectVoList(config.getJavaTypeList(), Dict.F_VAL, Dict.F_NAME));
+			.setJavaTypeList(CollUtil.convertSelectVoList(config.getJavaTypeList(), DictDo.F_VAL, DictDo.F_NAME));
 		if (ObjectUtil.isNotEmpty(tableDto.getId())) {
 			Collections.sort(tableDto.getColumnList());
 		}
@@ -276,7 +276,7 @@ public class TableServiceImpl extends AbstractDataCacheServiceImpl<TableReposito
 	@Override
 	public void delete(Set<String> ids) {
 		ids.forEach(id -> {
-			Table entity = repository.selectById(id);
+			TableDo entity = repository.selectById(id);
 			Assert.notNull(entity, "对象 " + id + " 信息为空，删除失败");
 			removeById(id);
 			tableColumnService.deleteByTableId(id);
@@ -291,12 +291,12 @@ public class TableServiceImpl extends AbstractDataCacheServiceImpl<TableReposito
 		Assert.isTrue(CollUtil.isNotEmpty(tableDto.getColumnList()), "对象 " + tableDto.getName() + " 列信息为空，操作失败");
 		tableColumnService.deleteByTableId(tableDto.getId());
 
-		Table table = new Table();
-		copyDtoToBean(tableDto, table);
-		for (TableColumn item : table.getColumnList()) {
-			item.setTableId(table.getId());
+		TableDo tableDo = new TableDo();
+		copyDtoToBean(tableDto, tableDo);
+		for (TableColumnDo item : tableDo.getColumnList()) {
+			item.setTableId(tableDo.getId());
 		}
-		tableColumnService.saveOrUpdateBatch(table.getColumnList());
+		tableColumnService.saveOrUpdateBatch(tableDo.getColumnList());
 	}
 
 }

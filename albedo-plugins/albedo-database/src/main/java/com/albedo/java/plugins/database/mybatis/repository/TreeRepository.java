@@ -18,7 +18,7 @@
 
 package com.albedo.java.plugins.database.mybatis.repository;
 
-import com.albedo.java.common.core.basic.domain.BaseEntity;
+import com.albedo.java.common.core.basic.domain.BaseDo;
 
 /**
  * TreeRepository
@@ -26,6 +26,6 @@ import com.albedo.java.common.core.basic.domain.BaseEntity;
  * @author sys
  * @version 2017-01-01
  */
-public interface TreeRepository<T extends BaseEntity> extends BaseRepository<T> {
+public interface TreeRepository<T extends BaseDo> extends BaseRepository<T> {
 
 }

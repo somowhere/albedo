@@ -3,7 +3,7 @@ package com.albedo.java.modules.file.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
-import com.albedo.java.common.core.basic.domain.IdEntity;
+import com.albedo.java.common.core.basic.domain.IdDo;
 import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.BeanUtil;
 import com.albedo.java.common.core.util.MapHelper;
@@ -46,7 +46,7 @@ public class AppendixServiceImpl extends DataServiceImpl<AppendixRepository, App
 
 	@Override
 	@Transactional(readOnly = true)
-	public <T extends IdEntity<T, Long> & EchoVo> void echoAppendix(IPage<T> page, String... bizTypes) {
+	public <T extends IdDo<T, Long> & EchoVo> void echoAppendix(IPage<T> page, String... bizTypes) {
 		if (page == null) {
 			return;
 		}
@@ -54,11 +54,11 @@ public class AppendixServiceImpl extends DataServiceImpl<AppendixRepository, App
 	}
 
 	@Override
-	public <T extends IdEntity<T, Long> & EchoVo> void echoAppendix(List<T> list, String... bizTypes) {
+	public <T extends IdDo<T, Long> & EchoVo> void echoAppendix(List<T> list, String... bizTypes) {
 		if (CollUtil.isEmpty(list)) {
 			return;
 		}
-		List<Long> ids = list.stream().map(IdEntity::getId).collect(Collectors.toList());
+		List<Long> ids = list.stream().map(IdDo::getId).collect(Collectors.toList());
 
 		Multimap<AppendixService.AppendixBizKey, AppendixVo> map = listByBizIds(ids, bizTypes);
 

@@ -17,7 +17,7 @@
 package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.core.util.CollUtil;
-import com.albedo.java.modules.sys.domain.DeptRelation;
+import com.albedo.java.modules.sys.domain.DeptRelationDo;
 import com.albedo.java.modules.sys.domain.dto.DeptDto;
 import com.albedo.java.modules.sys.repository.DeptRelationRepository;
 import com.albedo.java.modules.sys.service.DeptRelationService;
@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class DeptRelationServiceImpl extends BaseServiceImpl<DeptRelationRepository, DeptRelation>
+public class DeptRelationServiceImpl extends BaseServiceImpl<DeptRelationRepository, DeptRelationDo>
 	implements DeptRelationService {
 
 	private final DeptRelationRepository deptRelationRepository;
@@ -54,11 +54,11 @@ public class DeptRelationServiceImpl extends BaseServiceImpl<DeptRelationReposit
 	@Transactional(rollbackFor = Exception.class)
 	public void saveDeptRelation(DeptDto deptDto) {
 		// 增加部门关系表
-		DeptRelation condition = new DeptRelation();
+		DeptRelationDo condition = new DeptRelationDo();
 		condition.setDescendant(deptDto.getParentId());
-		List<DeptRelation> relationList = deptRelationRepository
+		List<DeptRelationDo> relationList = deptRelationRepository
 			.selectList(
-				Wrappers.<DeptRelation>query().lambda().eq(DeptRelation::getDescendant, deptDto.getParentId()))
+				Wrappers.<DeptRelationDo>query().lambda().eq(DeptRelationDo::getDescendant, deptDto.getParentId()))
 			.stream().map(relation -> {
 				relation.setDescendant(deptDto.getId());
 				return relation;
@@ -68,7 +68,7 @@ public class DeptRelationServiceImpl extends BaseServiceImpl<DeptRelationReposit
 		}
 
 		// 自己也要维护到关系表中
-		DeptRelation own = new DeptRelation();
+		DeptRelationDo own = new DeptRelationDo();
 		own.setDescendant(deptDto.getId());
 		own.setAncestor(deptDto.getId());
 		deptRelationRepository.insert(own);
@@ -90,10 +90,10 @@ public class DeptRelationServiceImpl extends BaseServiceImpl<DeptRelationReposit
 	 * @param relation
 	 */
 	@Override
-	public void updateDeptRelation(DeptRelation relation) {
+	public void updateDeptRelation(DeptRelationDo relation) {
 		repository.deleteDeptRelations(relation);
-		List<DeptRelation> listDeptRelation = repository.findListByDeptDto(relation);
-		saveBatch(listDeptRelation);
+		List<DeptRelationDo> listDeptRelationDo = repository.findListByDeptDto(relation);
+		saveBatch(listDeptRelationDo);
 	}
 
 }

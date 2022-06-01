@@ -221,7 +221,7 @@ public class TableDto extends DataDto<String> {
 					"org.hibernate.annotations.Where");
 			}
 		} else {
-			importList.add("com.albedo.java.common.core.basic.domain.IdEntity");
+			importList.add("com.albedo.java.common.core.basic.domain.IdDo");
 			initImport(importList);
 			// 如果有子表，则需要导入List相关引用
 			if (getChildList() != null && getChildList().size() > 0) {

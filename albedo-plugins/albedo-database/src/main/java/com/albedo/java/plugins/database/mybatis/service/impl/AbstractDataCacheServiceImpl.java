@@ -15,7 +15,7 @@
 
 package com.albedo.java.plugins.database.mybatis.service.impl;
 
-import com.albedo.java.common.core.basic.domain.BaseDataEntity;
+import com.albedo.java.common.core.basic.domain.BaseDataDo;
 import com.albedo.java.common.core.vo.DataDto;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import com.albedo.java.plugins.database.mybatis.service.DataCacheService;
@@ -33,7 +33,7 @@ import java.lang.reflect.Type;
  */
 @Transactional(rollbackFor = Exception.class)
 @Data
-public abstract class AbstractDataCacheServiceImpl<Repository extends BaseRepository<T>, T extends BaseDataEntity, D extends DataDto>
+public abstract class AbstractDataCacheServiceImpl<Repository extends BaseRepository<T>, T extends BaseDataDo, D extends DataDto>
 	extends AbstractCacheServiceImpl<Repository, T>
 	implements DataCacheService<T, D> {
 

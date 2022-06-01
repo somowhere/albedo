@@ -18,7 +18,7 @@ package com.albedo.java.modules.tool.service.impl;
 
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.ArgumentAssert;
-import com.albedo.java.modules.tool.domain.AlipayConfig;
+import com.albedo.java.modules.tool.domain.AlipayConfigDo;
 import com.albedo.java.modules.tool.domain.vo.TradeVo;
 import com.albedo.java.modules.tool.repository.AliPayConfigRepository;
 import com.albedo.java.modules.tool.service.AliPayService;
@@ -37,26 +37,26 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @AllArgsConstructor
-public class AliPayServiceImpl extends BaseServiceImpl<AliPayConfigRepository, AlipayConfig> implements AliPayService {
+public class AliPayServiceImpl extends BaseServiceImpl<AliPayConfigRepository, AlipayConfigDo> implements AliPayService {
 
 	private final AliPayConfigRepository alipayRepository;
 
 	@Override
-	public AlipayConfig find() {
-		AlipayConfig alipayConfig = alipayRepository.selectById(1L);
-		return alipayConfig == null ? new AlipayConfig() : alipayConfig;
+	public AlipayConfigDo find() {
+		AlipayConfigDo alipayConfigDo = alipayRepository.selectById(1L);
+		return alipayConfigDo == null ? new AlipayConfigDo() : alipayConfigDo;
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public AlipayConfig config(AlipayConfig alipayConfig) {
-		alipayConfig.setId(1L);
-		saveOrUpdate(alipayConfig);
-		return alipayConfig;
+	public AlipayConfigDo config(AlipayConfigDo alipayConfigDo) {
+		alipayConfigDo.setId(1L);
+		saveOrUpdate(alipayConfigDo);
+		return alipayConfigDo;
 	}
 
 	@Override
-	public String toPayAsPc(AlipayConfig alipay, TradeVo trade) throws Exception {
+	public String toPayAsPc(AlipayConfigDo alipay, TradeVo trade) throws Exception {
 		ArgumentAssert.notNull(alipay.getId(), () -> new BizException("请先添加相应配置，再操作"));
 		AlipayClient alipayClient = new DefaultAlipayClient(alipay.getGatewayUrl(), alipay.getAppId(),
 			alipay.getPrivateKey(), alipay.getFormat(), alipay.getCharset(), alipay.getPublicKey(),
@@ -80,7 +80,7 @@ public class AliPayServiceImpl extends BaseServiceImpl<AliPayConfigRepository, A
 	}
 
 	@Override
-	public String toPayAsWeb(AlipayConfig alipay, TradeVo trade) throws Exception {
+	public String toPayAsWeb(AlipayConfigDo alipay, TradeVo trade) throws Exception {
 		ArgumentAssert.notNull(alipay.getId(), () -> new BizException("请先添加相应配置，再操作"));
 		AlipayClient alipayClient = new DefaultAlipayClient(alipay.getGatewayUrl(), alipay.getAppId(),
 			alipay.getPrivateKey(), alipay.getFormat(), alipay.getCharset(), alipay.getPublicKey(),

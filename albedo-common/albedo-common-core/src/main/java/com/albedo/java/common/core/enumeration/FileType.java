@@ -1,7 +1,6 @@
 package com.albedo.java.common.core.enumeration;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +19,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "FileType", description = "文件类型-枚举")
+@Schema(name = "FileType", description = "文件类型-枚举")
 public enum FileType implements BaseEnum {
 
 	/**
@@ -45,7 +44,7 @@ public enum FileType implements BaseEnum {
 	OTHER("其他"),
 	;
 
-	@ApiModelProperty(value = "描述")
+	@Schema(name = "描述")
 	private String text;
 
 
@@ -65,7 +64,7 @@ public enum FileType implements BaseEnum {
 	}
 
 	@Override
-	@ApiModelProperty(value = "编码", allowableValues = "IMAGE,VIDEO,AUDIO,DOC,OTHER", example = "IMAGE")
+	@Schema(name = "编码", allowableValues = "IMAGE,VIDEO,AUDIO,DOC,OTHER", example = "IMAGE")
 	public String getCode() {
 		return this.name();
 	}

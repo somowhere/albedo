@@ -15,7 +15,7 @@
 
 package com.albedo.java.modules.gen.repository;
 
-import com.albedo.java.modules.gen.domain.TableColumn;
+import com.albedo.java.modules.gen.domain.TableColumnDo;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -25,7 +25,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @author somewhere
  */
 @Mapper
-public interface TableColumnRepository extends BaseRepository<TableColumn> {
+public interface TableColumnRepository extends BaseRepository<TableColumnDo> {
 
 	// Set<Role> selectListByTableId(String tableId);
 

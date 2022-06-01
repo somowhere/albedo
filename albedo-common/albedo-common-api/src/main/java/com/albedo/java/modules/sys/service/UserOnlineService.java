@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.modules.sys.domain.UserOnline;
+import com.albedo.java.modules.sys.domain.UserOnlineDo;
 import com.albedo.java.plugins.database.mybatis.service.BaseService;
 
 /**
@@ -27,7 +27,7 @@ import com.albedo.java.plugins.database.mybatis.service.BaseService;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface UserOnlineService extends BaseService<UserOnline> {
+public interface UserOnlineService extends BaseService<UserOnlineDo> {
 
 	/**
 	 * deleteBySessionId
@@ -50,11 +50,11 @@ public interface UserOnlineService extends BaseService<UserOnline> {
 	/**
 	 * saveByEvent
 	 *
-	 * @param userOnline
+	 * @param userOnlineDo
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:35
 	 */
-	void saveByEvent(UserOnline userOnline);
+	void saveByEvent(UserOnlineDo userOnlineDo);
 
 	/**
 	 * 重置用户登录

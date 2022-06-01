@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.modules.sys.domain.UserRole;
+import com.albedo.java.modules.sys.domain.UserRoleDo;
 import com.albedo.java.plugins.database.mybatis.service.BaseService;
 
 /**
@@ -27,7 +27,7 @@ import com.albedo.java.plugins.database.mybatis.service.BaseService;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface UserRoleService extends BaseService<UserRole> {
+public interface UserRoleService extends BaseService<UserRoleDo> {
 
 	/**
 	 * 根据用户Id删除该用户的角色关系

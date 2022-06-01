@@ -17,19 +17,19 @@
 package com.albedo.java.common.log.aspect;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.albedo.java.common.core.context.ContextUtil;
 import com.albedo.java.common.core.context.ThreadLocalParam;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.StrPool;
+import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.event.listener.SysLogOperateEvent;
 import com.albedo.java.common.log.enums.LogType;
 import com.albedo.java.common.log.util.SysLogUtils;
 import com.albedo.java.common.security.util.SecurityUtil;
-import com.albedo.java.modules.sys.domain.LogOperate;
-import io.swagger.annotations.Api;
+import com.albedo.java.modules.sys.domain.LogOperateDo;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -81,28 +81,28 @@ public class SysLogAspect {
 				params.append(" ").append(argNames[i]).append(": ").append(argValues[i]);
 			}
 		}
-		LogOperate logOperateVo = SysLogUtils.getSysLogOperate();
-		logOperateVo.setTitle(logOperate.value());
-		logOperateVo.setMethod(methodName);
-		logOperateVo.setParams(params + " }");
-		logOperateVo.setOperatorType(logOperate.operatorType().name());
-		setDescription(point, logOperate, logOperateVo);
+		LogOperateDo logOperateDoVo = SysLogUtils.getSysLogOperate();
+		logOperateDoVo.setTitle(logOperate.value());
+		logOperateDoVo.setMethod(methodName);
+		logOperateDoVo.setParams(params + " }");
+		logOperateDoVo.setOperatorType(logOperate.operatorType().name());
+		setDescription(point, logOperate, logOperateDoVo);
 		Long startTime = System.currentTimeMillis();
 		Object obj;
 		try {
 			obj = point.proceed();
-			logOperateVo.setLogType(LogType.INFO.name());
+			logOperateDoVo.setLogType(LogType.INFO.name());
 		} catch (Exception e) {
-			logOperateVo.setDescription(e.getMessage());
+			logOperateDoVo.setDescription(e.getMessage());
 			if (e instanceof BizException) {
-				logOperateVo.setLogType(LogType.WARN.name());
+				logOperateDoVo.setLogType(LogType.WARN.name());
 			} else {
-				logOperateVo.setException(ExceptionUtil.stacktraceToString(e));
-				logOperateVo.setLogType(LogType.ERROR.name());
+				logOperateDoVo.setException(ExceptionUtil.stacktraceToString(e));
+				logOperateDoVo.setLogType(LogType.ERROR.name());
 			}
 			throw e;
 		} finally {
-			saveLog(System.currentTimeMillis() - startTime, logOperateVo, logOperate);
+			saveLog(System.currentTimeMillis() - startTime, logOperateDoVo, logOperate);
 		}
 
 		return obj;
@@ -110,13 +110,13 @@ public class SysLogAspect {
 
 
 	private void setDescription(JoinPoint joinPoint, com.albedo.java.common.log.annotation.LogOperate logOperate,
-								LogOperate logOperateVo) {
+								LogOperateDo logOperateDoVo) {
 		String controllerDescription = "";
-		Api api = joinPoint.getTarget().getClass().getAnnotation(Api.class);
+		Tag api = joinPoint.getTarget().getClass().getAnnotation(Tag.class);
 		if (api != null) {
-			String[] tags = api.tags();
-			if (ArrayUtil.isNotEmpty(tags)) {
-				controllerDescription = tags[0];
+			String tag = api.name();
+			if (StringUtil.isNotEmpty(tag)) {
+				controllerDescription = tag;
 			}
 		}
 
@@ -131,12 +131,12 @@ public class SysLogAspect {
 		}
 
 		if (StrUtil.isEmpty(controllerDescription)) {
-			logOperateVo.setDescription(controllerMethodDescription);
+			logOperateDoVo.setDescription(controllerMethodDescription);
 		} else {
 			if (logOperate.controllerApiValue()) {
-				logOperateVo.setDescription(controllerDescription + "-" + controllerMethodDescription);
+				logOperateDoVo.setDescription(controllerDescription + "-" + controllerMethodDescription);
 			} else {
-				logOperateVo.setDescription(controllerMethodDescription);
+				logOperateDoVo.setDescription(controllerMethodDescription);
 			}
 		}
 	}
@@ -172,17 +172,17 @@ public class SysLogAspect {
 
 	/**
 	 * @param tookMs
-	 * @param logOperateVo
+	 * @param logOperateDoVo
 	 * @param logOperate
 	 */
-	public void saveLog(Long tookMs, LogOperate logOperateVo,
+	public void saveLog(Long tookMs, LogOperateDo logOperateDoVo,
 						com.albedo.java.common.log.annotation.LogOperate logOperate) {
-		logOperateVo.setTime(tookMs);
-		log.debug("[logOperateVo]:{}", logOperateVo);
+		logOperateDoVo.setTime(tookMs);
+		log.debug("[logOperateVo]:{}", logOperateDoVo);
 		// 是否需要保存request，参数和值
 		if (logOperate.isSaveRequestData()) {
 			// 发送异步日志事件
-			SpringContextHolder.publishEvent(new SysLogOperateEvent(logOperateVo));
+			SpringContextHolder.publishEvent(new SysLogOperateEvent(logOperateDoVo));
 		}
 	}
 

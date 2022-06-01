@@ -23,9 +23,9 @@ import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.modules.AlbedoAdminApplication;
 import com.albedo.java.modules.TestUtil;
-import com.albedo.java.modules.sys.domain.Dept;
-import com.albedo.java.modules.sys.domain.Role;
-import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.modules.sys.domain.DeptDo;
+import com.albedo.java.modules.sys.domain.RoleDo;
+import com.albedo.java.modules.sys.domain.UserDo;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
 import com.albedo.java.modules.sys.service.DeptService;
 import com.albedo.java.modules.sys.service.RoleService;
@@ -120,9 +120,9 @@ public class UserResourceIntTest {
 
 	private UserDto user;
 
-	private List<Role> roleList;
+	private List<RoleDo> roleDoList;
 
-	private List<Dept> deptList;
+	private List<DeptDo> deptDoList;
 
 	@BeforeEach
 	public void setup() {
@@ -149,15 +149,15 @@ public class UserResourceIntTest {
 		user.setEmail(DEFAULT_EMAIL);
 		user.setPhone(DEFAULT_PHONE);
 		user.setQqOpenId(DEFAULT_QQOPENID);
-		user.setDeptId(deptList.get(0).getId());
-		user.setRoleIdList(CollUtil.extractToList(roleList, Role.F_ID));
+		user.setDeptId(deptDoList.get(0).getId());
+		user.setRoleIdList(CollUtil.extractToList(roleDoList, RoleDo.F_ID));
 		return user;
 	}
 
 	@BeforeEach
 	public void initTest() {
-		deptList = deptService.list();
-		roleList = roleService.list();
+		deptDoList = deptService.list();
+		roleDoList = roleService.list();
 		user = createEntity();
 		// Initialize the database
 
@@ -165,29 +165,29 @@ public class UserResourceIntTest {
 		anotherUser.setPassword(DEFAULT_PASSWORD);
 		anotherUser.setEmail(DEFAULT_ANOTHER_EMAIL);
 		anotherUser.setPhone(DEFAULT_ANOTHER_PHONE);
-		anotherUser.setDeptId(deptList.get(0).getId());
-		anotherUser.setRoleIdList(CollUtil.extractToList(roleList, Role.F_ID));
+		anotherUser.setDeptId(deptDoList.get(0).getId());
+		anotherUser.setRoleIdList(CollUtil.extractToList(roleDoList, RoleDo.F_ID));
 		userService.saveOrUpdate(anotherUser);
 	}
 
 	@Test
 	@Transactional(rollbackFor = Exception.class)
 	public void createUser() throws Exception {
-		List<User> databaseSizeBeforeCreate = userService.list();
+		List<UserDo> databaseSizeBeforeCreate = userService.list();
 
 		// Create the User
 		restUserMockMvc.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
 			.content(TestUtil.convertObjectToJsonBytes(user))).andExpect(status().isOk());
 
 		// Validate the User in the database
-		List<User> userList = userService.list();
-		assertThat(userList).hasSize(databaseSizeBeforeCreate.size() + 1);
-		User testUser = userService.getOne(Wrappers.<User>query().lambda().eq(User::getUsername, user.getUsername()));
-		assertThat(testUser.getUsername()).isEqualTo(DEFAULT_USERNAME);
-		assertThat(testUser.getPhone()).isEqualTo(DEFAULT_PHONE);
-		assertThat(testUser.getEmail()).isEqualTo(DEFAULT_EMAIL);
-		assertThat(testUser.getQqOpenId()).isEqualTo(DEFAULT_QQOPENID);
-		assertThat(testUser.getDelFlag()).isEqualTo(User.FLAG_NORMAL);
+		List<UserDo> userDoList = userService.list();
+		assertThat(userDoList).hasSize(databaseSizeBeforeCreate.size() + 1);
+		UserDo testUserDo = userService.getOne(Wrappers.<UserDo>query().lambda().eq(UserDo::getUsername, user.getUsername()));
+		assertThat(testUserDo.getUsername()).isEqualTo(DEFAULT_USERNAME);
+		assertThat(testUserDo.getPhone()).isEqualTo(DEFAULT_PHONE);
+		assertThat(testUserDo.getEmail()).isEqualTo(DEFAULT_EMAIL);
+		assertThat(testUserDo.getQqOpenId()).isEqualTo(DEFAULT_QQOPENID);
+		assertThat(testUserDo.getDelFlag()).isEqualTo(UserDo.FLAG_NORMAL);
 	}
 
 	@Test
@@ -207,8 +207,8 @@ public class UserResourceIntTest {
 			.andExpect(jsonPath("$.message").isNotEmpty());
 
 		// Validate the User in the database
-		List<User> userList = userService.list();
-		assertThat(userList).hasSize(databaseSizeBeforeCreate);
+		List<UserDo> userDoList = userService.list();
+		assertThat(userDoList).hasSize(databaseSizeBeforeCreate);
 	}
 
 	@Test
@@ -218,7 +218,7 @@ public class UserResourceIntTest {
 		userService.saveOrUpdate(user);
 		// Get all the users
 		restUserMockMvc
-			.perform(get(DEFAULT_API_URL).param(PageModel.F_DESC, User.F_SQL_CREATED_DATE)
+			.perform(get(DEFAULT_API_URL).param(PageModel.F_DESC, UserDo.F_SQL_CREATED_DATE)
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.records.[*].username").value(hasItem(DEFAULT_USERNAME)))
@@ -253,7 +253,7 @@ public class UserResourceIntTest {
 			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.user.username").value(user.getUsername()))
 			.andExpect(jsonPath("$.data.user.qqOpenId").value(DEFAULT_QQOPENID))
-			.andExpect(jsonPath("$.data.roles").value(equalTo(CollUtil.extractToList(roleList, Role.F_ID))))
+			.andExpect(jsonPath("$.data.roles").value(equalTo(CollUtil.extractToList(roleDoList, RoleDo.F_ID))))
 			.andExpect(jsonPath("$.data.permissions").isNotEmpty());
 	}
 
@@ -271,7 +271,7 @@ public class UserResourceIntTest {
 		int databaseSizeBeforeUpdate = userService.list().size();
 
 		// Update the user
-		User updatedUser = userService.getById(user.getId());
+		UserDo updatedUserDo = userService.getById(user.getId());
 
 		UserDto managedUserVM = new UserDto();
 		managedUserVM.setUsername(UPDATED_USERNAME);
@@ -280,22 +280,22 @@ public class UserResourceIntTest {
 		managedUserVM.setPhone(UPDATED_PHONE);
 		managedUserVM.setQqOpenId(UPDATED_QQOPENID);
 		managedUserVM.setQqOpenId(UPDATED_QQOPENID);
-		managedUserVM.setRoleIdList(CollUtil.extractToList(roleList, Role.F_ID));
+		managedUserVM.setRoleIdList(CollUtil.extractToList(roleDoList, RoleDo.F_ID));
 
-		managedUserVM.setId(updatedUser.getId());
+		managedUserVM.setId(updatedUserDo.getId());
 		restUserMockMvc
 			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
 			.andExpect(status().isOk()).andExpect(jsonPath("$.code").value(CommonConstants.SUCCESS));
 
 		// Validate the User in the database
-		List<User> userList = userService.list();
-		assertThat(userList).hasSize(databaseSizeBeforeUpdate);
-		User testUser = userService.getById(updatedUser.getId());
-		assertThat(testUser.getUsername()).isEqualTo(UPDATED_USERNAME);
-		assertThat(testUser.getEmail()).isEqualTo(UPDATED_EMAIL);
-		assertThat(testUser.getPhone()).isEqualTo(UPDATED_PHONE);
-		assertThat(testUser.getQqOpenId()).isEqualTo(UPDATED_QQOPENID);
+		List<UserDo> userDoList = userService.list();
+		assertThat(userDoList).hasSize(databaseSizeBeforeUpdate);
+		UserDo testUserDo = userService.getById(updatedUserDo.getId());
+		assertThat(testUserDo.getUsername()).isEqualTo(UPDATED_USERNAME);
+		assertThat(testUserDo.getEmail()).isEqualTo(UPDATED_EMAIL);
+		assertThat(testUserDo.getPhone()).isEqualTo(UPDATED_PHONE);
+		assertThat(testUserDo.getQqOpenId()).isEqualTo(UPDATED_QQOPENID);
 	}
 
 	@Test
@@ -304,18 +304,18 @@ public class UserResourceIntTest {
 
 		userService.saveOrUpdate(user);
 		// Update the user
-		User updatedUser = userService.getById(user.getId());
+		UserDo updatedUserDo = userService.getById(user.getId());
 
 		UserDto managedUserVM = new UserDto();
 		managedUserVM.setEmail(DEFAULT_ANOTHER_EMAIL);
-		managedUserVM.setId(updatedUser.getId());
+		managedUserVM.setId(updatedUserDo.getId());
 		restUserMockMvc
 			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
 			.andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value(ResponseCode.FAIL.getCode()))
 			.andExpect(jsonPath("$.message").isNotEmpty());
-		User testUser = userService.getById(updatedUser.getId());
-		assertThat(testUser.getEmail()).isEqualTo(DEFAULT_EMAIL);
+		UserDo testUserDo = userService.getById(updatedUserDo.getId());
+		assertThat(testUserDo.getEmail()).isEqualTo(DEFAULT_EMAIL);
 
 	}
 
@@ -325,18 +325,18 @@ public class UserResourceIntTest {
 
 		userService.saveOrUpdate(user);
 		// Update the user
-		User updatedUser = userService.getById(user.getId());
+		UserDo updatedUserDo = userService.getById(user.getId());
 
 		UserDto managedUserVM = new UserDto();
 		managedUserVM.setUsername(DEFAULT_ANOTHER_USERNAME);
-		managedUserVM.setId(updatedUser.getId());
+		managedUserVM.setId(updatedUserDo.getId());
 		restUserMockMvc
 			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
 			.andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value(ResponseCode.FAIL.getCode()))
 			.andExpect(jsonPath("$.message").isNotEmpty());
-		User testUser = userService.getById(updatedUser.getId());
-		assertThat(testUser.getUsername()).isEqualTo(DEFAULT_USERNAME);
+		UserDo testUserDo = userService.getById(updatedUserDo.getId());
+		assertThat(testUserDo.getUsername()).isEqualTo(DEFAULT_USERNAME);
 	}
 
 	@Test
@@ -368,34 +368,34 @@ public class UserResourceIntTest {
 			.accept(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isOk());
 
 		// Validate the database is empty
-		User tempUser = userService.getById(user.getId());
-		assertThat(CommonConstants.STR_YES.equals(tempUser.getAvailable()));
+		UserDo tempUserDo = userService.getById(user.getId());
+		assertThat(CommonConstants.STR_YES.equals(tempUserDo.getAvailable()));
 		// lockOrUnLock the user
 		restUserMockMvc.perform(put(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
 			.content(TestUtil.convertObjectToJsonBytes(Lists.newArrayList(user.getId())))
 			.accept(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isOk());
 
 		// Validate the database is empty
-		User tempUser1 = userService.getById(user.getId());
-		assertThat(CommonConstants.STR_NO.equals(tempUser1.getAvailable()));
+		UserDo tempUser1Do = userService.getById(user.getId());
+		assertThat(CommonConstants.STR_NO.equals(tempUser1Do.getAvailable()));
 	}
 
 	@Test
 	@Transactional(rollbackFor = Exception.class)
 	public void testUserEquals() throws Exception {
-		TestUtil.equalsVerifier(User.class);
-		User user1 = new User();
-		user1.setId(1L);
-		user1.setUsername("User1");
-		User user2 = new User();
-		user2.setId(user1.getId());
-		user2.setUsername(user1.getUsername());
-		assertThat(user1).isEqualTo(user2);
-		user2.setId(2L);
-		user2.setUsername("User2");
-		assertThat(user1).isNotEqualTo(user2);
-		user1.setId(null);
-		assertThat(user1).isNotEqualTo(user2);
+		TestUtil.equalsVerifier(UserDo.class);
+		UserDo userDo1 = new UserDo();
+		userDo1.setId(1L);
+		userDo1.setUsername("User1");
+		UserDo userDo2 = new UserDo();
+		userDo2.setId(userDo1.getId());
+		userDo2.setUsername(userDo1.getUsername());
+		assertThat(userDo1).isEqualTo(userDo2);
+		userDo2.setId(2L);
+		userDo2.setUsername("User2");
+		assertThat(userDo1).isNotEqualTo(userDo2);
+		userDo1.setId(null);
+		assertThat(userDo1).isNotEqualTo(userDo2);
 	}
 
 }

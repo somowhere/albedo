@@ -16,7 +16,7 @@
 
 package com.albedo.java.common.event.listener;
 
-import com.albedo.java.modules.sys.domain.LogLogin;
+import com.albedo.java.modules.sys.domain.LogLoginDo;
 import com.albedo.java.modules.sys.service.LogLoginService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,8 +37,8 @@ public class SysLogLoginListener {
 	@Order
 	@EventListener(SysLogLoginEvent.class)
 	public void saveSysLog(SysLogLoginEvent event) {
-		LogLogin logLogin = (LogLogin) event.getSource();
-		logLoginService.save(logLogin);
+		LogLoginDo logLoginDo = (LogLoginDo) event.getSource();
+		logLoginService.save(logLoginDo);
 	}
 
 }

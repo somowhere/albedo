@@ -1,6 +1,6 @@
 package com.albedo.java.modules.file.service;
 
-import com.albedo.java.common.core.basic.domain.IdEntity;
+import com.albedo.java.common.core.basic.domain.IdDo;
 import com.albedo.java.common.core.vo.AppendixDto;
 import com.albedo.java.common.core.vo.AppendixVo;
 import com.albedo.java.common.core.vo.EchoVo;
@@ -36,7 +36,7 @@ public interface AppendixService extends DataService<Appendix, AppendixDto> {
 	 * @date 2021/8/28 3:53 下午
 	 * @create [2021/8/28 3:53 下午 ] [somewhere] [初始创建]
 	 */
-	<T extends IdEntity<T, Long> & EchoVo> void echoAppendix(IPage<T> page, String... bizTypes);
+	<T extends IdDo<T, Long> & EchoVo> void echoAppendix(IPage<T> page, String... bizTypes);
 
 	/**
 	 * 回显附件
@@ -47,7 +47,7 @@ public interface AppendixService extends DataService<Appendix, AppendixDto> {
 	 * @date 2021/8/28 3:53 下午
 	 * @create [2021/8/28 3:53 下午 ] [somewhere] [初始创建]
 	 */
-	<T extends IdEntity<T, Long> & EchoVo> void echoAppendix(List<T> list, String... bizTypes);
+	<T extends IdDo<T, Long> & EchoVo> void echoAppendix(List<T> list, String... bizTypes);
 
 	/**
 	 * 构建 listByObjectId 方法的key

@@ -15,7 +15,7 @@
 
 package com.albedo.java.modules.gen.repository;
 
-import com.albedo.java.modules.gen.domain.Template;
+import com.albedo.java.modules.gen.domain.TemplateDo;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -25,6 +25,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @author somewhere
  */
 @Mapper
-public interface TemplateRepository extends BaseRepository<Template> {
+public interface TemplateRepository extends BaseRepository<TemplateDo> {
 
 }

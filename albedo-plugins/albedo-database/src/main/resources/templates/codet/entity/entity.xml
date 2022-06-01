@@ -21,7 +21,7 @@
 package ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>;
 
 import lombok.*;
-<#list table.importList as i>
+<#list tableDo.importList as i>
 import ${i};
 </#list>
 
@@ -33,13 +33,13 @@ import javax.validation.constraints.*;
  * @author ${functionAuthor}
  * @version ${functionVersion}
  */
-@TableName(value = "${table.name}")
+@TableName(value = "${tableDo.name}")
 @Data @ToString @NoArgsConstructor @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ${ClassName} extends IdEntity<${ClassName}, ${table.pkColumn.javaType}> {
+public class ${ClassName} extends IdDo<${ClassName}, ${tableDo.pkColumn.javaType}> {
 
 	private static final long serialVersionUID = 1L;
-	<#list table.columnList as column>
+	<#list tableDo.columnList as column>
 		<#if !column.pk && column.isNotBaseField>
 	/** F_${column.constantJavaField} ${column.nameAndTitle} */
 	public static final String F_${column.constantJavaField} = "${column.simpleJavaField}";
@@ -59,11 +59,11 @@ public class ${ClassName} extends IdEntity<${ClassName}, ${table.pkColumn.javaTy
 }
 <#macro generateFields>
 
-	<#list table.columnList as column>
+	<#list tableDo.columnList as column>
 		<#if !column.pk && column.isNotBaseField>
-	/** ${column.simpleJavaField} ${column.title} */<#if table.parentExists && table.parentTableFk == column.name>
+	/** ${column.simpleJavaField} ${column.title} */<#if tableDo.parentExists && tableDo.parentTableFk == column.name>
 	@TableField(exist = false)
-	private ${table.parent.className} ${column.simpleJavaField};
+	private ${tableDo.parent.className} ${column.simpleJavaField};
 	<#elseif column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
 	@TableField(${ClassName}.F_SQL_${column.constantJavaField})
 	private String ${column.simpleJavaField}Id;
@@ -75,7 +75,7 @@ public class ${ClassName} extends IdEntity<${ClassName}, ${table.pkColumn.javaTy
 			</#if>
 		</#if>
 	</#list>
-	<#list table.childList as c>
+	<#list tableDo.childList as c>
 	@TableField(exist = false)
 	private List<${column.className}> ${column.className?uncap_first}List = Lists.newArrayList();
 	</#list>
@@ -83,18 +83,18 @@ public class ${ClassName} extends IdEntity<${ClassName}, ${table.pkColumn.javaTy
 </#macro>
 <#macro generateCompositeIdConstructorIfis>
 
-	<#if table.compositeId>
+	<#if tableDo.compositeId>
 	public ${ClassName}(${ClassName}Id id) {
 		this.id = id;
 	}
 	<#else>
-	public ${ClassName}(${table.pkJavaType} id) {
+	public ${ClassName}(${tableDo.pkJavaType} id) {
 		this.id = id;
 	}
 	</#if>
 </#macro>
 <#macro generatePkProperties>
-	<#if table.compositeId>
+	<#if tableDo.compositeId>
 	public ${ClassName}Id getId() {
 		return this.id;
 	}
@@ -103,12 +103,12 @@ public class ${ClassName} extends IdEntity<${ClassName}, ${table.pkColumn.javaTy
 		if (PublicUtil.isNotEmpty(id))this.id = id;
 	}
 	<#else>
-	/** ${table.pkColumn.simpleJavaField} ${table.pkColumn.comments} */
-	public void setId(${table.pkColumn.javaType} id) {
+	/** ${tableDo.pkColumn.simpleJavaField} ${tableDo.pkColumn.comments} */
+	public void setId(${tableDo.pkColumn.javaType} id) {
 		if (PublicUtil.isNotEmpty(id)){this.id = id;}
 	}
-	/** ${table.pkColumn.simpleJavaField} ${table.pkColumn.comments} */
-	public ${table.pkColumn.javaType} getId() {
+	/** ${tableDo.pkColumn.simpleJavaField} ${tableDo.pkColumn.comments} */
+	public ${tableDo.pkColumn.javaType} getId() {
 		return this.id;
 	}
 	</#if>
@@ -116,15 +116,15 @@ public class ${ClassName} extends IdEntity<${ClassName}, ${table.pkColumn.javaTy
 </#macro>
 
 <#macro generateNotPkProperties>
-	<#list table.columnList as column>
+	<#list tableDo.columnList as column>
 		<#if !column.pk && column.isNotBaseField>
-			<#if table.parentExists && table.parentTableFk == column.name>
+			<#if tableDo.parentExists && tableDo.parentTableFk == column.name>
 	/** ${column.simpleJavaField} ${column.title} */
-	public ${table.parent.className} get${column.simpleJavaField?cap_first}() {
+	public ${tableDo.parent.className} get${column.simpleJavaField?cap_first}() {
 		return ${column.simpleJavaField};
 	}
 	/** ${column.simpleJavaField} ${column.title} */
-	public void set${column.simpleJavaField?cap_first}(${table.parent.className} ${column.simpleJavaField}) {
+	public void set${column.simpleJavaField?cap_first}(${tableDo.parent.className} ${column.simpleJavaField}) {
 		this.${column.simpleJavaField} = ${column.simpleJavaField};
 	}
 			<#else>
@@ -149,13 +149,13 @@ public class ${ClassName} extends IdEntity<${ClassName}, ${table.pkColumn.javaTy
 			</#if>
 		</#if>
 	</#list>
-	<#list table.childList as table>
-	public List<${table.className}> get${table.className}List() {
-		return ${table.className?uncap_first}List;
+	<#list tableDo.childList as tableDo>
+	public List<${tableDo.className}> get${tableDo.className}List() {
+		return ${tableDo.className?uncap_first}List;
 	}
 
-	public void set${table.className}List(List<${table.className}> ${table.className?uncap_first}List) {
-		this.${table.className?uncap_first}List = ${table.className?uncap_first}List;
+	public void set${tableDo.className}List(List<${tableDo.className}> ${tableDo.className?uncap_first}List) {
+		this.${tableDo.className?uncap_first}List = ${tableDo.className?uncap_first}List;
 	}
 	</#list>
 </#macro>

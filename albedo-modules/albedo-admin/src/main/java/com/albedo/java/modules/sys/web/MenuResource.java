@@ -30,7 +30,7 @@ import com.albedo.java.modules.sys.domain.vo.MenuVo;
 import com.albedo.java.modules.sys.service.MenuService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.Lists;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("${application.admin-path}/sys/menu")
 @AllArgsConstructor
-@Api(tags = "菜单管理")
+@Tag(name = "菜单管理")
 public class MenuResource extends BaseResource {
 
 	private final MenuService menuService;

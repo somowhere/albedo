@@ -15,7 +15,7 @@
 
 package com.albedo.java.plugins.database.mybatis.service.impl;
 
-import com.albedo.java.common.core.basic.domain.BaseDataEntity;
+import com.albedo.java.common.core.basic.domain.BaseDataDo;
 import com.albedo.java.common.core.vo.DataDto;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import com.albedo.java.plugins.database.mybatis.service.DataService;
@@ -33,7 +33,7 @@ import java.lang.reflect.Type;
  */
 @Transactional(rollbackFor = Exception.class)
 @Data
-public class DataServiceImpl<Repository extends BaseRepository<T>, T extends BaseDataEntity, D extends DataDto>
+public class DataServiceImpl<Repository extends BaseRepository<T>, T extends BaseDataDo, D extends DataDto>
 	extends BaseServiceImpl<Repository, T> implements DataService<T, D> {
 
 	public final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(getClass());

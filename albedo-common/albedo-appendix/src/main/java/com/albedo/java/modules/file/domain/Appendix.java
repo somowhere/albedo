@@ -1,6 +1,6 @@
 package com.albedo.java.modules.file.domain;
 
-import com.albedo.java.common.core.basic.domain.IdEntity;
+import com.albedo.java.common.core.basic.domain.IdDo;
 import com.albedo.java.common.core.enumeration.FileType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -28,7 +28,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("sys_appendix")
-public class Appendix extends IdEntity<Appendix, Long> {
+public class Appendix extends IdDo<Appendix, Long> {
 
 	private static final long serialVersionUID = 1L;
 	/**

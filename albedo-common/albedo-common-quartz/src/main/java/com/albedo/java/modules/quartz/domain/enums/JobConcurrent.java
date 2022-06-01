@@ -2,8 +2,7 @@ package com.albedo.java.modules.quartz.domain.enums;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.enumeration.BaseEnum;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,15 +15,15 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "JobConcurrent", description = "任务是否并发执行-枚举")
+@Schema(name = "JobConcurrent", description = "任务是否并发执行-枚举")
 public enum JobConcurrent implements BaseEnum {
 
 	YES(CommonConstants.STR_YES, "是"),
 	NO(CommonConstants.STR_NO, "否");
 
-	@ApiModelProperty(value = "值")
+	@Schema(name = "值")
 	private String value;
-	@ApiModelProperty(value = "描述")
+	@Schema(name = "描述")
 	private String text;
 
 
@@ -44,7 +43,7 @@ public enum JobConcurrent implements BaseEnum {
 	}
 
 	@Override
-	@ApiModelProperty(value = "任务是否并发执行", allowableValues = "1,0", example = "1")
+	@Schema(name = "任务是否并发执行", allowableValues = "1,0", example = "1")
 	public String getCode() {
 		return this.getValue();
 	}

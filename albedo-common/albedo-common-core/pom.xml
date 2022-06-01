@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>com.albedo.java</groupId>
 		<artifactId>albedo-common</artifactId>
-		<version>3.2.7-SNAPSHOT</version>
+		<version>${revision}</version>
 	</parent>
 
 	<artifactId>albedo-common-core</artifactId>
@@ -34,7 +34,6 @@
 		<dependency>
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-all</artifactId>
-			<version>${hutool.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -52,7 +51,6 @@
 		<dependency>
 			<groupId>org.redisson</groupId>
 			<artifactId>redisson-spring-boot-starter</artifactId>
-			<version>3.15.0</version>
 		</dependency>
 		<dependency>
 			<groupId>io.netty</groupId>
@@ -67,7 +65,6 @@
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus-extension</artifactId>
-			<version>${mybatis-plus.version}</version>
 		</dependency>
 		<!--hibernate-validator-->
 		<dependency>
@@ -89,10 +86,8 @@
 			<artifactId>spring-boot-starter-freemarker</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>io.swagger</groupId>
+			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-annotations</artifactId>
-			<version>${swagger.version}</version>
-			<scope>compile</scope>
 		</dependency>
 		<!-- yml解析器 -->
 		<dependency>
@@ -109,29 +104,24 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>${guava.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.pig4cloud.plugin</groupId>
 			<artifactId>captcha-spring-boot-starter</artifactId>
-			<version>${captcha.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>transmittable-thread-local</artifactId>
-			<version>${transmittable-thread-local.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.reflections/reflections -->
 		<dependency>
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
-			<version>${reflections.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/net.dreamlu/mica-ip2region -->
 		<dependency>
 			<groupId>net.dreamlu</groupId>
 			<artifactId>mica-ip2region</artifactId>
-			<version>2.6.7</version>
 		</dependency>
 
 

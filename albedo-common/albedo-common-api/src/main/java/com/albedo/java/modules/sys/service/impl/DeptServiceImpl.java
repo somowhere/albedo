@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.service.impl;
 
-import com.albedo.java.common.core.basic.domain.TreeEntity;
+import com.albedo.java.common.core.basic.domain.TreeDo;
 import com.albedo.java.common.core.cache.model.CacheKey;
 import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.common.core.constant.CommonConstants;
@@ -29,10 +29,10 @@ import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.core.vo.TreeNode;
 import com.albedo.java.modules.sys.cache.DeptCacheKeyBuilder;
-import com.albedo.java.modules.sys.domain.Dept;
-import com.albedo.java.modules.sys.domain.DeptRelation;
-import com.albedo.java.modules.sys.domain.Role;
-import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.modules.sys.domain.DeptDo;
+import com.albedo.java.modules.sys.domain.DeptRelationDo;
+import com.albedo.java.modules.sys.domain.RoleDo;
+import com.albedo.java.modules.sys.domain.UserDo;
 import com.albedo.java.modules.sys.domain.dto.DeptDto;
 import com.albedo.java.modules.sys.domain.dto.DeptQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.DeptVo;
@@ -65,7 +65,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class DeptServiceImpl extends AbstractTreeCacheServiceImpl<DeptRepository, Dept, DeptDto> implements DeptService {
+public class DeptServiceImpl extends AbstractTreeCacheServiceImpl<DeptRepository, DeptDo, DeptDto> implements DeptService {
 
 	private final DeptRelationService deptRelationService;
 
@@ -87,7 +87,7 @@ public class DeptServiceImpl extends AbstractTreeCacheServiceImpl<DeptRepository
 			deptRelationService.saveDeptRelation(deptDto);
 		} else {
 			// 更新部门关系
-			DeptRelation relation = new DeptRelation();
+			DeptRelationDo relation = new DeptRelationDo();
 			relation.setAncestor(deptDto.getParentId());
 			relation.setDescendant(deptDto.getId());
 			deptRelationService.updateDeptRelation(relation);
@@ -111,8 +111,8 @@ public class DeptServiceImpl extends AbstractTreeCacheServiceImpl<DeptRepository
 			SysCacheUtil.delDeptCaches(id);
 			// 级联删除部门
 			Set<Long> idList = deptRelationService
-				.list(Wrappers.<DeptRelation>query().lambda().eq(DeptRelation::getAncestor, id)).stream()
-				.map(DeptRelation::getDescendant).collect(Collectors.toSet());
+				.list(Wrappers.<DeptRelationDo>query().lambda().eq(DeptRelationDo::getAncestor, id)).stream()
+				.map(DeptRelationDo::getDescendant).collect(Collectors.toSet());
 
 			if (CollUtil.isNotEmpty(idList)) {
 				super.removeByIds(idList);
@@ -142,11 +142,11 @@ public class DeptServiceImpl extends AbstractTreeCacheServiceImpl<DeptRepository
 	 * @return
 	 */
 	private void checkDept(Long deptId, String deptName) {
-		List<User> userList = userRepository.selectList(Wrappers.<User>lambdaQuery().eq(User::getDeptId, deptId));
-		ArgumentAssert.notEmpty(userList, "操作失败！用户："
-			+ CollUtil.convertToString(userList, User.F_USERNAME, StringUtil.COMMA) + "所属要操作的部门：" + deptName);
-		List<Role> roleList = roleRepository.findListByDeptId(deptId);
-		ArgumentAssert.notEmpty(roleList, () -> new BizException("操作失败！角色：" + CollUtil.convertToString(roleList, Role.F_NAME, StringUtil.COMMA)
+		List<UserDo> userDoList = userRepository.selectList(Wrappers.<UserDo>lambdaQuery().eq(UserDo::getDeptId, deptId));
+		ArgumentAssert.notEmpty(userDoList, "操作失败！用户："
+			+ CollUtil.convertToString(userDoList, UserDo.F_USERNAME, StringUtil.COMMA) + "所属要操作的部门：" + deptName);
+		List<RoleDo> roleDoList = roleRepository.findListByDeptId(deptId);
+		ArgumentAssert.notEmpty(roleDoList, () -> new BizException("操作失败！角色：" + CollUtil.convertToString(roleDoList, RoleDo.F_NAME, StringUtil.COMMA)
 			+ "的权限信息属于要操作的部门：" + deptName));
 	}
 
@@ -155,21 +155,21 @@ public class DeptServiceImpl extends AbstractTreeCacheServiceImpl<DeptRepository
 	public List<Long> findDescendantIdList(Long deptId) {
 		CacheKey cacheKey = new DeptCacheKeyBuilder().key("findDescendantIdList", deptId);
 		return cacheOps.get(cacheKey, (k) -> deptRelationService
-			.list(Wrappers.<DeptRelation>query().lambda().eq(DeptRelation::getAncestor, deptId)).stream()
-			.map(DeptRelation::getDescendant).collect(Collectors.toList()));
+			.list(Wrappers.<DeptRelationDo>query().lambda().eq(DeptRelationDo::getAncestor, deptId)).stream()
+			.map(DeptRelationDo::getDescendant).collect(Collectors.toList()));
 	}
 
 	@Override
 	public <Q> List<TreeNode> findTreeNode(Q queryCriteria) {
-		return super.getNodeTree(repository.selectList(QueryWrapperUtil.<Dept>getWrapper(queryCriteria).lambda()
-			.eq(Dept::getAvailable, CommonConstants.STR_YES).orderByAsc(Dept::getSort)));
+		return super.getNodeTree(repository.selectList(QueryWrapperUtil.<DeptDo>getWrapper(queryCriteria).lambda()
+			.eq(DeptDo::getAvailable, CommonConstants.STR_YES).orderByAsc(DeptDo::getSort)));
 	}
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public IPage<DeptVo> findTreeList(DeptQueryCriteria deptQueryCriteria) {
-		List<DeptVo> deptVoList = repository.findVoList(QueryWrapperUtil.<Dept>getWrapper(deptQueryCriteria)
-			.eq(TreeEntity.F_SQL_DEL_FLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT));
+		List<DeptVo> deptVoList = repository.findVoList(QueryWrapperUtil.<DeptDo>getWrapper(deptQueryCriteria)
+			.eq(TreeDo.F_SQL_DEL_FLAG, TreeDo.FLAG_NORMAL).orderByAsc(TreeDo.F_SQL_SORT));
 		return new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(deptVoList)), deptVoList.size());
 	}
 

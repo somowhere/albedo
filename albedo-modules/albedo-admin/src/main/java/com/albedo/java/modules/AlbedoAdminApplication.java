@@ -17,6 +17,7 @@
 package com.albedo.java.modules;
 
 import com.albedo.java.plugins.dynamic.datasource.annotation.EnableDynamicDataSource;
+import com.albedo.java.plugins.swagger.annotation.EnableSwaggerDoc;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,6 +31,7 @@ import java.net.InetAddress;
  * @date 2018年06月21日 用户统一管理系统
  */
 @Slf4j
+@EnableSwaggerDoc
 @EnableDynamicDataSource
 @SpringBootApplication
 public class AlbedoAdminApplication {
@@ -45,7 +47,7 @@ public class AlbedoAdminApplication {
 		log.info(
 			"\n----------------------------------------------------------\n\t"
 				+ "Application '{} v{}' is running! Access URLs:\n\t" + "Local: \t\thttp://localhost:{}\n\t"
-				+ "Doc: \t\thttp://localhost:{}/doc.html\n\t"
+				+ "Doc: \t\thttp://localhost:{}/swagger-ui/index.html\n\t"
 				+ "External: \thttp://{}:{}\n\t"
 				+ "\n----------------------------------------------------------",
 			env.getProperty(SPRING_APPLICATION_NAME), env.getProperty(APPLICATION_VERSION), env.getProperty(SERVER_PORT), env.getProperty(SERVER_PORT),

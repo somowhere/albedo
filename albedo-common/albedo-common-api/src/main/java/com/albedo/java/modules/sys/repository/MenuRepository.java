@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.modules.sys.domain.Menu;
+import com.albedo.java.modules.sys.domain.MenuDo;
 import com.albedo.java.modules.sys.domain.vo.MenuVo;
 import com.albedo.java.plugins.database.mybatis.repository.TreeRepository;
 import org.apache.ibatis.annotations.Mapper;
@@ -33,7 +33,7 @@ import java.util.List;
  * @since 2019/2/1
  */
 @Mapper
-public interface MenuRepository extends TreeRepository<Menu> {
+public interface MenuRepository extends TreeRepository<MenuDo> {
 
 	/**
 	 * 通过角色编号查询菜单

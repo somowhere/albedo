@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.service.impl;
 
-import com.albedo.java.common.core.basic.domain.TreeEntity;
+import com.albedo.java.common.core.basic.domain.TreeDo;
 import com.albedo.java.common.core.cache.model.CacheKey;
 import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.common.core.constant.CommonConstants;
@@ -30,7 +30,7 @@ import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.core.vo.SelectVo;
 import com.albedo.java.common.core.vo.TreeNode;
 import com.albedo.java.modules.sys.cache.DictCacheKeyBuilder;
-import com.albedo.java.modules.sys.domain.Dict;
+import com.albedo.java.modules.sys.domain.DictDo;
 import com.albedo.java.modules.sys.domain.dto.DictDto;
 import com.albedo.java.modules.sys.domain.dto.DictQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.DictVo;
@@ -62,18 +62,18 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class DictServiceImpl extends AbstractTreeCacheServiceImpl<DictRepository, Dict, DictDto>
+public class DictServiceImpl extends AbstractTreeCacheServiceImpl<DictRepository, DictDo, DictDto>
 	implements DictService {
 	public final String CACHE_FIND_CODES = "findCodes";
 
 
 	@Override
-	public List<Dict> findAllOrderBySort() {
-		return repository.selectList(Wrappers.<Dict>lambdaQuery().orderByAsc(Dict::getSort));
+	public List<DictDo> findAllOrderBySort() {
+		return repository.selectList(Wrappers.<DictDo>lambdaQuery().orderByAsc(DictDo::getSort));
 	}
 
 	public Boolean exitUserByCode(DictDto dictDto) {
-		return getOne(Wrappers.<Dict>query().ne(ObjectUtil.isNotEmpty(dictDto.getId()), DictDto.F_ID, dictDto.getId())
+		return getOne(Wrappers.<DictDo>query().ne(ObjectUtil.isNotEmpty(dictDto.getId()), DictDto.F_ID, dictDto.getId())
 			.eq(DictDto.F_CODE, dictDto.getCode())) != null;
 	}
 
@@ -104,20 +104,20 @@ public class DictServiceImpl extends AbstractTreeCacheServiceImpl<DictRepository
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public IPage<DictVo> findTreeList(DictQueryCriteria dictQueryCriteria) {
-		List<DictVo> dictVoList = repository.findDictVoList(QueryWrapperUtil.<Dict>getWrapper(dictQueryCriteria)
-			.eq(TreeEntity.F_SQL_DEL_FLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT));
+		List<DictVo> dictVoList = repository.findDictVoList(QueryWrapperUtil.<DictDo>getWrapper(dictQueryCriteria)
+			.eq(TreeDo.F_SQL_DEL_FLAG, TreeDo.FLAG_NORMAL).orderByAsc(TreeDo.F_SQL_SORT));
 		return new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(dictVoList)), dictVoList.size());
 	}
 
 	@Override
 	public void lockOrUnLock(Set<Long> ids) {
-		List<Dict> dictList = Lists.newArrayList();
+		List<DictDo> dictDoList = Lists.newArrayList();
 		repository.selectBatchIds(ids).forEach(dict -> {
-			dictList.addAll(repository.selectList(
-				Wrappers.<Dict>lambdaQuery().likeRight(Dict::getParentIds, TreeUtil.ROOT.equals(dict.getParentId())
+			dictDoList.addAll(repository.selectList(
+				Wrappers.<DictDo>lambdaQuery().likeRight(DictDo::getParentIds, TreeUtil.ROOT.equals(dict.getParentId())
 					? (dict.getId() + ",") : (dict.getParentIds() + dict.getId()))));
-			dictList.add(dict);
-			repository.updateAvailableByIdList(dictList.stream().map(Dict::getId).collect(Collectors.toList()),
+			dictDoList.add(dict);
+			repository.updateAvailableByIdList(dictDoList.stream().map(DictDo::getId).collect(Collectors.toList()),
 				CommonConstants.YES.equals(dict.getAvailable()) ? CommonConstants.NO : CommonConstants.YES);
 		});
 	}
@@ -131,7 +131,7 @@ public class DictServiceImpl extends AbstractTreeCacheServiceImpl<DictRepository
 	public boolean removeByIds(Collection<?> ids) {
 		ids.forEach(id -> {
 			// 查询父节点为当前节点的节点
-			List<Dict> menuList = this.list(Wrappers.<Dict>query().lambda().eq(Dict::getParentId, id));
+			List<DictDo> menuList = this.list(Wrappers.<DictDo>query().lambda().eq(DictDo::getParentId, id));
 			ArgumentAssert.notEmpty(menuList, () -> new BizException("字典含有下级不能删除"));
 		});
 		boolean b = super.removeByIds(ids);

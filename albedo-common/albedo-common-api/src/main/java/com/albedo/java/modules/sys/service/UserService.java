@@ -17,7 +17,7 @@
 package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.core.vo.PageModel;
-import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.modules.sys.domain.UserDo;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
 import com.albedo.java.modules.sys.domain.dto.UserEmailDto;
 import com.albedo.java.modules.sys.domain.dto.UserQueryCriteria;
@@ -37,7 +37,7 @@ import java.util.Set;
  * @author somewhere
  * @date 2019/2/1
  */
-public interface UserService extends DataCacheService<User, UserDto> {
+public interface UserService extends DataCacheService<UserDo, UserDto> {
 
 	/**
 	 * 查询用户信息
@@ -100,7 +100,7 @@ public interface UserService extends DataCacheService<User, UserDto> {
 	 * @param username 用户名
 	 * @return R
 	 */
-	List<User> listAncestorUsersByUsername(String username);
+	List<UserDo> listAncestorUsersByUsername(String username);
 
 	/**
 	 * lockOrUnLock
@@ -157,7 +157,7 @@ public interface UserService extends DataCacheService<User, UserDto> {
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:35
 	 */
-	List<User> findListByRoleId(Long roleId);
+	List<UserDo> findListByRoleId(Long roleId);
 
 	/**
 	 * updateEmail
@@ -182,10 +182,10 @@ public interface UserService extends DataCacheService<User, UserDto> {
 	/**
 	 * 初始化用户
 	 *
-	 * @param user 用户
+	 * @param userDo 用户
 	 * @return 是否成功
 	 */
-	boolean initUser(User user);
+	boolean initUser(UserDo userDo);
 
 	/**
 	 * todayUserCount

@@ -24,8 +24,8 @@ import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.core.vo.SelectVo;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.web.resource.BaseResource;
-import com.albedo.java.modules.gen.domain.DatasourceConf;
-import com.albedo.java.modules.gen.domain.Table;
+import com.albedo.java.modules.gen.domain.DatasourceConfDo;
+import com.albedo.java.modules.gen.domain.TableDo;
 import com.albedo.java.modules.gen.domain.dto.TableDto;
 import com.albedo.java.modules.gen.domain.dto.TableFromDto;
 import com.albedo.java.modules.gen.domain.dto.TableQueryCriteria;
@@ -34,8 +34,8 @@ import com.albedo.java.modules.gen.service.DatasourceConfService;
 import com.albedo.java.modules.gen.service.TableService;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +51,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("${application.admin-path}/gen/table")
 @AllArgsConstructor
-@Api(tags = "代码表")
+@Tag(name = "代码表")
 public class TableResource extends BaseResource {
 
 	private final TableService tableService;
@@ -61,8 +61,8 @@ public class TableResource extends BaseResource {
 	@GetMapping(value = "/ds-list")
 	@PreAuthorize("@pms.hasPermission('gen_table_view')")
 	public Result<SelectVo> dsList() {
-		return Result.buildOkData(CollUtil.convertSelectVoList(datasourceConfService.list(), DatasourceConf.F_NAME,
-			DatasourceConf.F_NAME));
+		return Result.buildOkData(CollUtil.convertSelectVoList(datasourceConfService.list(), DatasourceConfDo.F_NAME,
+			DatasourceConfDo.F_NAME));
 	}
 
 	@GetMapping(value = "/ds-table-list/{dsName:^[a-zA-Z0-9]+$}")
@@ -70,8 +70,8 @@ public class TableResource extends BaseResource {
 	public Result<SelectVo> tableList(@PathVariable String dsName) {
 		TableDto tableDto = new TableDto();
 		tableDto.setDsName(dsName);
-		return Result.buildOkData(CollUtil.convertSelectVoList(tableService.findTableListFormDb(tableDto), Table.F_NAME,
-			Table.F_NAMESANDTITLE));
+		return Result.buildOkData(CollUtil.convertSelectVoList(tableService.findTableListFormDb(tableDto), TableDo.F_NAME,
+			TableDo.F_NAMESANDTITLE));
 	}
 
 	@GetMapping(value = "/form-data")
@@ -135,7 +135,7 @@ public class TableResource extends BaseResource {
 	 *
 	 * @return 是否成功
 	 */
-	@ApiOperation(value = "刷新缓存", notes = "刷新缓存")
+	@Operation(summary = "刷新缓存", description = "刷新缓存")
 	@PostMapping("refresh-cache")
 	@LogOperate("业务表刷新缓存")
 	@PreAuthorize("@pms.hasPermission('gen_table_edit')")
@@ -149,7 +149,7 @@ public class TableResource extends BaseResource {
 	 *
 	 * @return 是否成功
 	 */
-	@ApiOperation(value = "清理缓存", notes = "清理缓存")
+	@Operation(summary = "清理缓存", description = "清理缓存")
 	@PostMapping("clearCache")
 	@LogOperate("'业务表清理缓存'")
 	@PreAuthorize("hasAnyPermission('gen_table_edit')")

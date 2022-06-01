@@ -15,7 +15,7 @@
 
 package com.albedo.java.modules.quartz.domain;
 
-import com.albedo.java.common.core.basic.domain.GeneralEntity;
+import com.albedo.java.common.core.basic.domain.GeneralDo;
 import com.albedo.java.modules.quartz.domain.enums.JobLogStatus;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -39,7 +39,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class JobLog extends GeneralEntity<JobLog> {
+public class JobLog extends GeneralDo<JobLog> {
 
 	/**
 	 * F_JOBNAME job_name : 任务名称
@@ -133,10 +133,10 @@ public class JobLog extends GeneralEntity<JobLog> {
 
 	private static final long serialVersionUID = 1L;
 
-	@TableId(value = GeneralEntity.F_SQL_ID, type = IdType.AUTO)
+	@TableId(value = GeneralDo.F_SQL_ID, type = IdType.AUTO)
 	protected Long id;
 
-	@TableField(GeneralEntity.F_SQL_DESCRIPTION)
+	@TableField(GeneralDo.F_SQL_DESCRIPTION)
 	protected String description;
 
 	/**

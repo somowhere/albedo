@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.modules.sys.domain.Parameter;
+import com.albedo.java.modules.sys.domain.ParameterDo;
 import com.albedo.java.modules.sys.domain.dto.ParameterDto;
 import com.albedo.java.plugins.database.mybatis.service.DataService;
 
@@ -31,7 +31,7 @@ import java.util.Map;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface ParameterService extends DataService<Parameter, ParameterDto> {
+public interface ParameterService extends DataService<ParameterDo, ParameterDto> {
 
 	/**
 	 * 根据参数键查询参数值

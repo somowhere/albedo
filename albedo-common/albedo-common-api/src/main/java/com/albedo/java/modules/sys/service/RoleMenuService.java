@@ -17,7 +17,7 @@
 package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.core.util.Result;
-import com.albedo.java.modules.sys.domain.RoleMenu;
+import com.albedo.java.modules.sys.domain.RoleMenuDo;
 import com.albedo.java.modules.sys.domain.dto.RoleMenuDto;
 import com.albedo.java.plugins.database.mybatis.service.BaseService;
 
@@ -29,7 +29,7 @@ import com.albedo.java.plugins.database.mybatis.service.BaseService;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface RoleMenuService extends BaseService<RoleMenu> {
+public interface RoleMenuService extends BaseService<RoleMenuDo> {
 
 	/**
 	 * 更新角色菜单

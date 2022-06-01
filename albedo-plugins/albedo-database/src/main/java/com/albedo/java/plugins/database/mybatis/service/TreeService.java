@@ -15,7 +15,7 @@
 
 package com.albedo.java.plugins.database.mybatis.service;
 
-import com.albedo.java.common.core.basic.domain.TreeEntity;
+import com.albedo.java.common.core.basic.domain.TreeDo;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.ObjectUtil;
@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
  * @param <D>
  * @author somewhere
  */
-public interface TreeService<T extends TreeEntity, D extends TreeDto> extends DataService<T, D> {
+public interface TreeService<T extends TreeDo, D extends TreeDto> extends DataService<T, D> {
 
 	/**
 	 * 构建树
@@ -80,7 +80,7 @@ public interface TreeService<T extends TreeEntity, D extends TreeDto> extends Da
 	 */
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	default <Q> List<T> findTreeList(Q queryCriteria) {
-		return getRepository().selectList(QueryWrapperUtil.<T>getWrapper(queryCriteria).orderByAsc(TreeEntity.F_SQL_SORT));
+		return getRepository().selectList(QueryWrapperUtil.<T>getWrapper(queryCriteria).orderByAsc(TreeDo.F_SQL_SORT));
 	}
 
 	/**
@@ -93,9 +93,9 @@ public interface TreeService<T extends TreeEntity, D extends TreeDto> extends Da
 		QueryWrapper<T> wrapper = QueryWrapperUtil.getWrapper(query);
 		boolean emptyWrapper = wrapper.isEmptyOfWhere();
 		if (emptyWrapper) {
-			wrapper.eq(TreeEntity.F_SQL_PARENT_ID, TreeUtil.ROOT);
+			wrapper.eq(TreeDo.F_SQL_PARENT_ID, TreeUtil.ROOT);
 		}
-		wrapper.eq(TreeEntity.F_SQL_DEL_FLAG, TreeEntity.FLAG_NORMAL).orderByAsc(TreeEntity.F_SQL_SORT);
+		wrapper.eq(TreeDo.F_SQL_DEL_FLAG, TreeDo.FLAG_NORMAL).orderByAsc(TreeDo.F_SQL_SORT);
 		return wrapper;
 	}
 
@@ -106,7 +106,7 @@ public interface TreeService<T extends TreeEntity, D extends TreeDto> extends Da
 	 * @return Long
 	 */
 	default Long countByParentId(String parentId) {
-		return getRepository().selectCount(Wrappers.<T>query().eq(TreeEntity.F_SQL_PARENT_ID, parentId));
+		return getRepository().selectCount(Wrappers.<T>query().eq(TreeDo.F_SQL_PARENT_ID, parentId));
 	}
 
 	/**
@@ -116,7 +116,7 @@ public interface TreeService<T extends TreeEntity, D extends TreeDto> extends Da
 	 * @return List<T>
 	 */
 	default List<T> findAllByParentIdsLike(String parentIds) {
-		return getRepository().selectList(Wrappers.<T>query().like(TreeEntity.F_SQL_PARENT_IDS, parentIds));
+		return getRepository().selectList(Wrappers.<T>query().like(TreeDo.F_SQL_PARENT_IDS, parentIds));
 	}
 
 	/**
@@ -173,7 +173,7 @@ public interface TreeService<T extends TreeEntity, D extends TreeDto> extends Da
 	default boolean removeByIds(Collection<?> idList) {
 		idList.forEach(id -> {
 			// 查询父节点为当前节点的节点
-			List<T> menuList = this.list(Wrappers.<T>query().eq(TreeEntity.F_SQL_PARENT_ID, id));
+			List<T> menuList = this.list(Wrappers.<T>query().eq(TreeDo.F_SQL_PARENT_ID, id));
 			ArgumentAssert.notEmpty(menuList, () -> new BizException("含有下级不能删除"));
 		});
 		return CollectionUtils.isEmpty(idList) ? false : SqlHelper.retBool(this.getBaseMapper().deleteBatchIds(idList));

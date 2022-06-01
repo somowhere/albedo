@@ -5,7 +5,7 @@ import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.modules.sys.service.LogLoginService;
 import com.albedo.java.modules.sys.service.UserService;
 import com.baidu.fsg.uid.UidGenerator;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -30,7 +30,7 @@ import java.util.Map;
 @Validated
 @RestController
 @RequestMapping("${application.admin-path}")
-@Api(value = "dashboard", tags = "首页")
+@Tag(name = "dashboard", description = "首页")
 @RequiredArgsConstructor
 public class DashboardResource {
 

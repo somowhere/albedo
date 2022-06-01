@@ -15,7 +15,7 @@
 
 package com.albedo.java.modules.gen.repository;
 
-import com.albedo.java.modules.gen.domain.Scheme;
+import com.albedo.java.modules.gen.domain.SchemeDo;
 import com.albedo.java.modules.gen.domain.vo.SchemeVo;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
@@ -32,7 +32,7 @@ import java.util.List;
  * @author somewhere
  */
 @Mapper
-public interface SchemeRepository extends BaseRepository<Scheme> {
+public interface SchemeRepository extends BaseRepository<SchemeDo> {
 
 	/**
 	 * 分页查询方案信息

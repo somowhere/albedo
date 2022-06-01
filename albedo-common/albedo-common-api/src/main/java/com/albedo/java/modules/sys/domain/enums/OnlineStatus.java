@@ -16,8 +16,7 @@
 package com.albedo.java.modules.sys.domain.enums;
 
 import com.albedo.java.common.core.enumeration.BaseEnum;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +31,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "OnlineStatus", description = "状态-枚举")
+@Schema(name = "OnlineStatus", description = "状态-枚举")
 public enum OnlineStatus implements BaseEnum {
 
 	/**
@@ -41,7 +40,7 @@ public enum OnlineStatus implements BaseEnum {
 	ONLINE("在线"),
 	OFFLINE("离线");
 
-	@ApiModelProperty(value = "描述")
+	@Schema(name = "描述")
 	private String text;
 
 
@@ -61,7 +60,7 @@ public enum OnlineStatus implements BaseEnum {
 	}
 
 	@Override
-	@ApiModelProperty(value = "用户状态", allowableValues = "ONLINE,OFFLINE", example = "ONLINE")
+	@Schema(name = "用户状态", allowableValues = "ONLINE,OFFLINE", example = "ONLINE")
 	public String getCode() {
 		return this.name();
 	}

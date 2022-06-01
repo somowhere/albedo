@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.modules.sys.domain.Dept;
+import com.albedo.java.modules.sys.domain.DeptDo;
 import com.albedo.java.modules.sys.domain.vo.DeptVo;
 import com.albedo.java.plugins.database.mybatis.repository.TreeRepository;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -35,7 +35,7 @@ import java.util.List;
  * @since 2019/2/1
  */
 @Mapper
-public interface DeptRepository extends TreeRepository<Dept> {
+public interface DeptRepository extends TreeRepository<DeptDo> {
 
 	/**
 	 * 部门树数据集合
@@ -43,7 +43,7 @@ public interface DeptRepository extends TreeRepository<Dept> {
 	 * @param wrapper
 	 * @return
 	 */
-	List<DeptVo> findVoList(@Param(Constants.WRAPPER) QueryWrapper<Dept> wrapper);
+	List<DeptVo> findVoList(@Param(Constants.WRAPPER) QueryWrapper<DeptDo> wrapper);
 
 	/**
 	 * 获取集合根据roleId
@@ -51,6 +51,6 @@ public interface DeptRepository extends TreeRepository<Dept> {
 	 * @param roleId
 	 * @return
 	 */
-	List<Dept> findListByRoleId(String roleId);
+	List<DeptDo> findListByRoleId(String roleId);
 
 }

@@ -41,7 +41,7 @@ import com.albedo.java.modules.sys.domain.vo.DeptVo;
 import com.albedo.java.modules.sys.service.DeptService;
 import com.albedo.java.plugins.database.mybatis.datascope.DataScope;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -60,7 +60,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("${application.admin-path}/sys/dept")
 @AllArgsConstructor
-@Api(tags = "部门管理")
+@Tag(name = "部门管理")
 public class DeptResource extends BaseResource {
 
 	private final DeptService deptService;

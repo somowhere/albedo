@@ -23,7 +23,7 @@ import com.albedo.java.modules.sys.domain.dto.PersistentTokenQueryCriteria;
 import com.albedo.java.modules.sys.service.PersistentTokenService;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +37,7 @@ import java.util.Set;
 @RestController
 @AllArgsConstructor
 @RequestMapping("${application.admin-path}/sys/persistent-token")
-@Api(tags = "令牌管理")
+@Tag(name = "令牌管理")
 public class PersistentTokenResource {
 
 	private final PersistentTokenService persistentTokenService;

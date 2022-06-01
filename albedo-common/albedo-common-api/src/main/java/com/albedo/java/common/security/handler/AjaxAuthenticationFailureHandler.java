@@ -22,7 +22,7 @@ import com.albedo.java.common.log.util.SysLogUtils;
 import com.albedo.java.common.security.service.UserDetail;
 import com.albedo.java.common.security.util.LoginUtil;
 import com.albedo.java.common.util.AsyncUtil;
-import com.albedo.java.modules.sys.domain.LogLogin;
+import com.albedo.java.modules.sys.domain.LogLoginDo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -52,20 +52,20 @@ public class AjaxAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 		LoginUtil.isValidateCodeLogin(username, true, false);
 		String message = exception instanceof BadCredentialsException
 			&& "Bad credentials".equals(exception.getMessage()) ? "密码填写错误！" : exception.getMessage();
-		LogLogin logLogin = SysLogUtils.getSysLogLogin();
-		logLogin.setParams(HttpUtil.toParams(request.getParameterMap()));
-		logLogin.setUsername(username);
+		LogLoginDo logLoginDo = SysLogUtils.getSysLogLogin();
+		logLoginDo.setParams(HttpUtil.toParams(request.getParameterMap()));
+		logLoginDo.setUsername(username);
 		try {
 			UserDetail userDetails = (UserDetail) userDetailsService.loadUserByUsername(username);
 			if (userDetails != null) {
-				logLogin.setCreatedBy(userDetails.getId());
+				logLoginDo.setCreatedBy(userDetails.getId());
 			}
 		} catch (Exception e) {
 			log.debug("can not find createId by username[{}]", username);
 		}
-		logLogin.setTitle("用户登录失败");
-		logLogin.setDescription(message);
-		AsyncUtil.recordLogLogin(logLogin);
+		logLoginDo.setTitle("用户登录失败");
+		logLoginDo.setDescription(message);
+		AsyncUtil.recordLogLogin(logLoginDo);
 		response.setStatus(HttpServletResponse.SC_OK);
 		WebUtil.renderJson(response, Result.buildFail(message));
 	}

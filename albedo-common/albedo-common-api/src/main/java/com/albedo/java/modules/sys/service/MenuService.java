@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.modules.sys.domain.Menu;
+import com.albedo.java.modules.sys.domain.MenuDo;
 import com.albedo.java.modules.sys.domain.dto.GenSchemeDto;
 import com.albedo.java.modules.sys.domain.dto.MenuDto;
 import com.albedo.java.modules.sys.domain.dto.MenuSortDto;
@@ -34,7 +34,7 @@ import java.util.Set;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface MenuService extends TreeService<Menu, MenuDto> {
+public interface MenuService extends TreeService<MenuDo, MenuDto> {
 
 	/**
 	 * 通过角色编号查询URL 权限

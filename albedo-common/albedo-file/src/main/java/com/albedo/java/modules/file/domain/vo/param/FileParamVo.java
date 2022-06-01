@@ -2,8 +2,7 @@ package com.albedo.java.modules.file.domain.vo.param;
 
 import com.albedo.java.common.core.enumeration.FileType;
 import com.albedo.java.modules.file.domain.enums.FileStorageType;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -26,7 +25,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "FileFileParamVO", description = "增量文件上传日志")
+@Schema(name = "FileFileParamVO", description = "增量文件上传日志")
 public class FileParamVo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -34,66 +33,66 @@ public class FileParamVo implements Serializable {
 	/**
 	 * 业务类型
 	 */
-	@ApiModelProperty(value = "业务类型")
+	@Schema(name = "业务类型")
 	private String bizType;
 	/**
 	 * 文件类型
 	 */
-	@ApiModelProperty(value = "文件类型")
+	@Schema(name = "文件类型")
 	private FileType fileType;
 	/**
 	 * 存储类型
 	 * LOCAL FAST_DFS MIN_IO ALI
 	 */
-	@ApiModelProperty(value = "存储类型")
+	@Schema(name = "存储类型")
 	private FileStorageType storageType;
 	/**
 	 * 桶
 	 */
-	@ApiModelProperty(value = "桶")
+	@Schema(name = "桶")
 	private String bucket;
 	/**
 	 * 文件相对地址
 	 */
-	@ApiModelProperty(value = "文件相对地址")
+	@Schema(name = "文件相对地址")
 	private String path;
 	/**
 	 * 文件访问地址
 	 */
-	@ApiModelProperty(value = "文件访问地址")
+	@Schema(name = "文件访问地址")
 	private String url;
 	/**
 	 * 唯一文件名
 	 */
-	@ApiModelProperty(value = "唯一文件名")
+	@Schema(name = "唯一文件名")
 	private String uniqueFileName;
 	/**
 	 * 文件md5
 	 */
-	@ApiModelProperty(value = "文件md5")
+	@Schema(name = "文件md5")
 	private String fileMd5;
 	/**
 	 * 原始文件名
 	 */
-	@ApiModelProperty(value = "原始文件名")
+	@Schema(name = "原始文件名")
 	private String originalFileName;
 	/**
 	 * 文件类型
 	 */
-	@ApiModelProperty(value = "文件类型")
+	@Schema(name = "文件类型")
 	private String contentType;
 	/**
 	 * 后缀
 	 */
-	@ApiModelProperty(value = "后缀")
+	@Schema(name = "后缀")
 	private String suffix;
 	/**
 	 * 大小
 	 */
-	@ApiModelProperty(value = "大小")
+	@Schema(name = "大小")
 	private Long size;
 
-	@ApiModelProperty("主键")
+	@Schema(name = "主键")
 	private Long id;
 
 }

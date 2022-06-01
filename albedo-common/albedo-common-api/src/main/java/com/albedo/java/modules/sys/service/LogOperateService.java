@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.modules.sys.domain.LogOperate;
+import com.albedo.java.modules.sys.domain.LogOperateDo;
 import com.albedo.java.plugins.database.mybatis.service.BaseService;
 
 /**
@@ -27,6 +27,6 @@ import com.albedo.java.plugins.database.mybatis.service.BaseService;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface LogOperateService extends BaseService<LogOperate> {
+public interface LogOperateService extends BaseService<LogOperateDo> {
 
 }

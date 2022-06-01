@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.service.impl;
 
-import com.albedo.java.modules.sys.domain.UserOnline;
+import com.albedo.java.modules.sys.domain.UserOnlineDo;
 import com.albedo.java.modules.sys.domain.enums.OnlineStatus;
 import com.albedo.java.modules.sys.repository.UserOnlineRepository;
 import com.albedo.java.modules.sys.service.UserOnlineService;
@@ -35,7 +35,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class UserOnlineServiceImpl extends BaseServiceImpl<UserOnlineRepository, UserOnline>
+public class UserOnlineServiceImpl extends BaseServiceImpl<UserOnlineRepository, UserOnlineDo>
 	implements UserOnlineService {
 
 	@Override
@@ -45,18 +45,18 @@ public class UserOnlineServiceImpl extends BaseServiceImpl<UserOnlineRepository,
 
 	@Override
 	public void offlineBySessionId(String sessionId) {
-		UserOnline userOnline = getById(sessionId);
-		if (userOnline != null) {
-			userOnline.setStatus(OnlineStatus.OFFLINE);
-			repository.updateById(userOnline);
+		UserOnlineDo userOnlineDo = getById(sessionId);
+		if (userOnlineDo != null) {
+			userOnlineDo.setStatus(OnlineStatus.OFFLINE);
+			repository.updateById(userOnlineDo);
 		}
 	}
 
 	@Override
-	public void saveByEvent(UserOnline userOnline) {
-		this.remove(Wrappers.<UserOnline>lambdaQuery().eq(UserOnline::getUserId, userOnline.getUserId()).or()
-			.eq(UserOnline::getSessionId, userOnline.getSessionId()));
-		saveOrUpdate(userOnline);
+	public void saveByEvent(UserOnlineDo userOnlineDo) {
+		this.remove(Wrappers.<UserOnlineDo>lambdaQuery().eq(UserOnlineDo::getUserId, userOnlineDo.getUserId()).or()
+			.eq(UserOnlineDo::getSessionId, userOnlineDo.getSessionId()));
+		saveOrUpdate(userOnlineDo);
 	}
 
 	@Override

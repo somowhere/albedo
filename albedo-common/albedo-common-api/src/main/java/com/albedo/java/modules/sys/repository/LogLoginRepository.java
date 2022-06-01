@@ -15,7 +15,7 @@
 package com.albedo.java.modules.sys.repository;
 
 
-import com.albedo.java.modules.sys.domain.LogLogin;
+import com.albedo.java.modules.sys.domain.LogLoginDo;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -32,7 +32,7 @@ import java.util.Map;
  * @version 2021-11-30 10:15:00
  */
 @Mapper
-public interface LogLoginRepository extends BaseRepository<LogLogin> {
+public interface LogLoginRepository extends BaseRepository<LogLoginDo> {
 
 	/**
 	 * 获取系统总访问次数

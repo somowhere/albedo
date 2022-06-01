@@ -15,7 +15,7 @@
 
 package com.albedo.java.plugins.database.mybatis.service.impl;
 
-import com.albedo.java.common.core.basic.domain.TreeEntity;
+import com.albedo.java.common.core.basic.domain.TreeDo;
 import com.albedo.java.common.core.vo.TreeDto;
 import com.albedo.java.plugins.database.mybatis.repository.TreeRepository;
 import com.albedo.java.plugins.database.mybatis.service.TreeService;
@@ -28,7 +28,7 @@ import lombok.Data;
  * @author somewhere
  */
 @Data
-public abstract class AbstractTreeServiceImpl<Repository extends TreeRepository<T>, T extends TreeEntity, D extends TreeDto>
+public abstract class AbstractTreeServiceImpl<Repository extends TreeRepository<T>, T extends TreeDo, D extends TreeDto>
 	extends DataServiceImpl<Repository, T, D> implements TreeService<T, D> {
 
 }

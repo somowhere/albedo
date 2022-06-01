@@ -29,11 +29,14 @@
 		</where>
 	</select>
 
-	<select id="findListByRoleId" resultType="com.albedo.java.modules.sys.domain.Dept">
-		SELECT
-            a.*
-        FROM
-        sys_dept a, sys_role_dept b WHERE a.id = b.dept_id AND a.del_flag = 0 and a.available = 1 and b.role_id = #{roleId}
+	<select id="findListByRoleId" resultType="com.albedo.java.modules.sys.domain.DeptDo">
+		SELECT a.*
+		FROM sys_dept a,
+			 sys_role_dept b
+		WHERE a.id = b.dept_id
+		  AND a.del_flag = 0
+		  and a.available = 1
+		  and b.role_id = #{roleId}
 	</select>
 
 </mapper>

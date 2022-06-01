@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.modules.sys.domain.UserDo;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.albedo.java.plugins.database.mybatis.datascope.DataScope;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
@@ -38,7 +38,7 @@ import java.util.Set;
  * @since 2019/2/1
  */
 @Mapper
-public interface UserRepository extends BaseRepository<User> {
+public interface UserRepository extends BaseRepository<UserDo> {
 
 	/**
 	 * 通过用户名查询用户信息（含有角色信息）
@@ -56,7 +56,7 @@ public interface UserRepository extends BaseRepository<User> {
 	 * @param dataScope 数据权限
 	 * @return list
 	 */
-	IPage<UserVo> findUserVoPage(IPage page, @Param(Constants.WRAPPER) Wrapper<User> wrapper, DataScope dataScope);
+	IPage<UserVo> findUserVoPage(IPage page, @Param(Constants.WRAPPER) Wrapper<UserDo> wrapper, DataScope dataScope);
 
 	/**
 	 * 分页查询用户信息（含角色）
@@ -65,7 +65,7 @@ public interface UserRepository extends BaseRepository<User> {
 	 * @param dataScope 数据权限
 	 * @return list
 	 */
-	List<UserVo> findUserVoList(@Param(Constants.WRAPPER) Wrapper<User> wrapper, DataScope dataScope);
+	List<UserVo> findUserVoList(@Param(Constants.WRAPPER) Wrapper<UserDo> wrapper, DataScope dataScope);
 
 	/**
 	 * 通过ID查询用户信息
@@ -83,7 +83,7 @@ public interface UserRepository extends BaseRepository<User> {
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:35
 	 */
-	List<User> findListByRoleId(Long roleId);
+	List<UserDo> findListByRoleId(Long roleId);
 
 	/**
 	 * findListByRoleIds
@@ -93,7 +93,7 @@ public interface UserRepository extends BaseRepository<User> {
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:35
 	 */
-	List<User> findListByRoleIds(@Param("roleIds") Set<Long> roleIds);
+	List<UserDo> findListByRoleIds(@Param("roleIds") Set<Long> roleIds);
 
 	/**
 	 * findListByMenuId
@@ -103,6 +103,6 @@ public interface UserRepository extends BaseRepository<User> {
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:35
 	 */
-	List<User> findListByMenuId(Long menuId);
+	List<UserDo> findListByMenuId(Long menuId);
 
 }

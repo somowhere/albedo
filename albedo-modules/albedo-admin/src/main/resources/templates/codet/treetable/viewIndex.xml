@@ -9,7 +9,7 @@
     <!--工具栏-->
     <div class="head-container">
       <div v-if="crud.props.searchToggle">
-      <#list table.columnList as column>
+      <#list tableDo.columnList as column>
       <#if column.queryField>
       <#if column.showType == "input" || column.showType == "textarea">
           <el-input class="filter-item input-small" v-model="query.${column.javaFieldId}" clearable size="small" placeholder="输入${column.title}搜索" @keyup.enter.native="toQuery" />
@@ -37,7 +37,7 @@
       width="800px"
     >
       <el-form ref="form" :inline="true" :model="form" label-width="120px" size="small">
-      <#list table.columnList as column>
+      <#list tableDo.columnList as column>
         <#if column.simpleJavaField == 'parentId'>
         <el-form-item label="上级${functionNameSimple}" prop="parentId" :rules="[{ required: true, message: '请选择上级${functionNameSimple}', trigger: 'blur' }]">
           <treeselect v-model="form.parentId" :options="${className}Tree" placeholder="选择上级${functionNameSimple}" class="input-small" />
@@ -77,30 +77,30 @@
       </div>
     </el-dialog>
     <!--表格渲染-->
-    <el-table
-      ref="table" row-key="id"
+    <el-tableDo
+      ref="tableDo" row-key="id"
       v-loading="crud.loading"
       :data="crud.data"
       style="width: 100%;"
       @sort-change="crud.sortChange"
       @selection-change="crud.selectionChangeHandler"
     >
-      <el-table-column type="selection" width="55" />
-          <#list table.columnList as column>
+      <el-tableDo-column type="selection" width="55" />
+          <#list tableDo.columnList as column>
       <#if column.listField && column.simpleJavaField!="parentId" && column.simpleJavaField!="parentIds" && column.simpleJavaField!="parent">
-      <el-table-column align="center" label="${column.title}" :show-overflow-tooltip="true" prop="${column.simpleJavaField}"<#if column.dictType?? && column.dictType != ""> >
+      <el-tableDo-column align="center" label="${column.title}" :show-overflow-tooltip="true" prop="${column.simpleJavaField}"<#if column.dictType?? && column.dictType != ""> >
         <template slot-scope="scope">
 		  <el-tag>{{scope.row.${column.simpleJavaField}Text}}</el-tag>
         </template>
-      </el-table-column><#else> /></#if>
+      </el-tableDo-column><#else> /></#if>
       </#if>
       </#list>
-          <el-table-column v-permission="[permission.edit,permission.del]" label="操作" width="120px" fixed="right">
+          <el-tableDo-column v-permission="[permission.edit,permission.del]" label="操作" width="120px" fixed="right">
         <template slot-scope="scope">
           <udOperation :data="scope.row" :permission="permission" />
         </template>
-      </el-table-column>
-    </el-table>
+      </el-tableDo-column>
+    </el-tableDo>
 	<!--分页组件-->
     <pagination />
   </div>
@@ -116,10 +116,10 @@ import pagination from '@crud/Pagination'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import validate from '@/utils/validate'
-import { mapGetters } from 'vuex'<#assign flag = false><#list table.columnList as column><#if column.dictType?? && column.dictType != '' && column.simpleJavaType != 'String'><#assign flag = true></#if></#list>
+import { mapGetters } from 'vuex'<#assign flag = false><#list tableDo.columnList as column><#if column.dictType?? && column.dictType != '' && column.simpleJavaType != 'String'><#assign flag = true></#if></#list>
 <#if flag>import commonUtil from '@/utils/common'</#if>
 const defaultForm = {
-  <#list table.columnList as column>
+  <#list tableDo.columnList as column>
 	<#if column.editField && (column.isNotBaseTreeField || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort') && (column.isNotBaseField || column.simpleJavaField == 'description')>
   ${column.javaFieldId}: null,
 	</#if>
@@ -136,7 +136,7 @@ export default {
   data() {
     return {
       ${className}Tree:[],
-      <#list table.columnList as column>
+      <#list tableDo.columnList as column>
         <#if column.dictType??&& column.dictType != ''>
       ${column.javaFieldId}Options: undefined,
         </#if>
@@ -157,21 +157,21 @@ export default {
     ...mapGetters(["permissions","dicts"])
   },
   created() {
-    <#list table.columnList as column><#if column.dictType?? && column.dictType != ''>
+    <#list tableDo.columnList as column><#if column.dictType?? && column.dictType != ''>
     this.${column.javaFieldId}Options = this.dicts["${column.dictType}"]
     </#if></#list>
   },
   methods: {
     // 新增与编辑前做的操作
     [CRUD.HOOK.afterToCU](crud, form) {
-    <#list table.columnList as column><#if column.dictType?? && column.dictType != '' && column.simpleJavaType != 'String'>
+    <#list tableDo.columnList as column><#if column.dictType?? && column.dictType != '' && column.simpleJavaType != 'String'>
       form.${column.javaFieldId}Options = commonUtil.objToStr(form.${column.javaFieldId}Options)
     </#if></#list>
       crud${ClassName}.getTree({ notId: form.id }).then(res => {
         this.${className}Tree = []
-        const menu = { id: -1, label: '顶级类目', children: [] }
-        menu.children = res.data
-        this.${className}Tree.push(menu)
+        const menuDo = { id: -1, label: '顶级类目', children: [] }
+        menuDo.children = res.data
+        this.${className}Tree.push(menuDo)
       })
     },
   }

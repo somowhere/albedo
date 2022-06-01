@@ -56,11 +56,11 @@ public class SelectVo implements Serializable {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		SelectVo idEntity = (SelectVo) o;
-		if (idEntity.toString() == null || toString() == null) {
+		SelectVo idDo = (SelectVo) o;
+		if (idDo.toString() == null || toString() == null) {
 			return false;
 		}
-		return Objects.equals(toString(), idEntity.toString());
+		return Objects.equals(toString(), idDo.toString());
 	}
 
 	@Override

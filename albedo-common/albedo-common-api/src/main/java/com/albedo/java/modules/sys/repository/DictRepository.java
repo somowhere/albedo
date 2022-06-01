@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.modules.sys.domain.Dict;
+import com.albedo.java.modules.sys.domain.DictDo;
 import com.albedo.java.modules.sys.domain.vo.DictVo;
 import com.albedo.java.plugins.database.mybatis.repository.TreeRepository;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -35,7 +35,7 @@ import java.util.List;
  * @since 2019/2/1
  */
 @Mapper
-public interface DictRepository extends TreeRepository<Dict> {
+public interface DictRepository extends TreeRepository<DictDo> {
 
 	/**
 	 * 字典树数据集合
@@ -43,7 +43,7 @@ public interface DictRepository extends TreeRepository<Dict> {
 	 * @param wrapper
 	 * @return
 	 */
-	List<DictVo> findDictVoList(@Param(Constants.WRAPPER) QueryWrapper<Dict> wrapper);
+	List<DictVo> findDictVoList(@Param(Constants.WRAPPER) QueryWrapper<DictDo> wrapper);
 
 	/**
 	 * 批量更新可用状态

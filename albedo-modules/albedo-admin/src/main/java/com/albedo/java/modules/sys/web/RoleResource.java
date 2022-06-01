@@ -26,8 +26,8 @@ import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.web.resource.BaseResource;
-import com.albedo.java.modules.sys.domain.Role;
-import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.modules.sys.domain.RoleDo;
+import com.albedo.java.modules.sys.domain.UserDo;
 import com.albedo.java.modules.sys.domain.dto.RoleDto;
 import com.albedo.java.modules.sys.domain.dto.RoleMenuDto;
 import com.albedo.java.modules.sys.domain.dto.RoleQueryCriteria;
@@ -39,8 +39,8 @@ import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -57,7 +57,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("${application.admin-path}/sys/role")
 @AllArgsConstructor
-@Api(tags = "角色管理")
+@Tag(name = "角色管理")
 public class RoleResource extends BaseResource {
 
 	private final RoleService roleService;
@@ -96,7 +96,7 @@ public class RoleResource extends BaseResource {
 	 *
 	 * @return
 	 */
-	@ApiOperation("获取用户级别")
+	@Operation(summary = "获取用户级别")
 	@GetMapping(value = "/level")
 	public Result findLevel() {
 		return Result.buildOkData(roleService.findLevelByUserId(SecurityUtil.getUser().getId()));
@@ -110,7 +110,7 @@ public class RoleResource extends BaseResource {
 	@GetMapping("/all")
 	public Result all() {
 		return Result.buildOkData(
-			roleService.list(Wrappers.<Role>lambdaQuery().eq(Role::getAvailable, CommonConstants.STR_YES)).stream()
+			roleService.list(Wrappers.<RoleDo>lambdaQuery().eq(RoleDo::getAvailable, CommonConstants.STR_YES)).stream()
 				.map(RoleComboVo::new).collect(Collectors.toList()));
 	}
 
@@ -137,8 +137,8 @@ public class RoleResource extends BaseResource {
 	@LogOperate(value = "角色管理编辑")
 	@PreAuthorize("@pms.hasPermission('sys_role_edit')")
 	public Result saveRoleMenus(@Valid @RequestBody RoleMenuDto roleMenuDto) {
-		Role role = roleService.getById(roleMenuDto.getRoleId());
-		checkLevel(role.getLevel());
+		RoleDo roleDo = roleService.getById(roleMenuDto.getRoleId());
+		checkLevel(roleDo.getLevel());
 		return roleMenuService.saveRoleMenus(roleMenuDto);
 	}
 
@@ -197,9 +197,9 @@ public class RoleResource extends BaseResource {
 	 * @return
 	 */
 	private void checkRole(Long roleId, String roleName) {
-		List<User> userList = userService.findListByRoleId(roleId);
-		ArgumentAssert.notEmpty(userList, () -> new BizException("操作失败！用户："
-			+ CollUtil.convertToString(userList, User.F_USERNAME, StringUtil.COMMA) + "所属要操作的角色：" + roleName));
+		List<UserDo> userDoList = userService.findListByRoleId(roleId);
+		ArgumentAssert.notEmpty(userDoList, () -> new BizException("操作失败！用户："
+			+ CollUtil.convertToString(userDoList, UserDo.F_USERNAME, StringUtil.COMMA) + "所属要操作的角色：" + roleName));
 	}
 
 }

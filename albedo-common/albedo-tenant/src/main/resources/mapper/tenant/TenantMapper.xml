@@ -2,9 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.albedo.java.modules.tenant.repository.TenantRepository">
 
-    <select id="getByCode" resultType="com.albedo.java.modules.tenant.domain.Tenant">
-        select * from c_tenant where code = #{code}
-    </select>
+	<select id="getByCode" resultType="com.albedo.java.modules.tenant.domain.Tenant">
+		select *
+		from c_tenant
+		where code = #{code}
+	</select>
 
 
 </mapper>

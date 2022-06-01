@@ -1,8 +1,7 @@
 package com.albedo.java.modules.sys.domain.enums;
 
 import com.albedo.java.common.core.enumeration.BaseEnum;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +20,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "AuthorizeType", description = "权限类型-枚举")
+@Schema(name = "AuthorizeType", description = "权限类型-枚举")
 public enum AuthorizeType implements BaseEnum {
 
 	/**
@@ -34,7 +33,7 @@ public enum AuthorizeType implements BaseEnum {
 	RESOURCE("资源"),
 	;
 
-	@ApiModelProperty(value = "描述")
+	@Schema(name = "描述")
 	private String text;
 
 
@@ -54,7 +53,7 @@ public enum AuthorizeType implements BaseEnum {
 	}
 
 	@Override
-	@ApiModelProperty(value = "编码", allowableValues = "MENU,RESOURCE", example = "MENU")
+	@Schema(name = "编码", allowableValues = "MENU,RESOURCE", example = "MENU")
 	public String getCode() {
 		return this.name();
 	}

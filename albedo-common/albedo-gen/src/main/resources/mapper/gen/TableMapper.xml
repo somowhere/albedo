@@ -3,7 +3,7 @@
 <mapper namespace="com.albedo.java.modules.gen.repository.TableRepository">
 
 
-	<select id="findTableList" resultType="com.albedo.java.modules.gen.domain.Table">
+	<select id="findTableList" resultType="com.albedo.java.modules.gen.domain.TableDo">
 		<if test="_databaseId == 'oracle'">
 			SELECT
 			t.TABLE_NAME AS name,

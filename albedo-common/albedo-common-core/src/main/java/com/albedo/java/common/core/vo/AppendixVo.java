@@ -1,8 +1,7 @@
 package com.albedo.java.common.core.vo;
 
 import com.albedo.java.common.core.enumeration.FileType;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -26,7 +25,7 @@ import java.time.LocalDateTime;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "AppendixResultVO", description = "业务附件")
+@Schema(name = "AppendixResultVO", description = "业务附件")
 public class AppendixVo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -34,50 +33,50 @@ public class AppendixVo implements Serializable {
 	/**
 	 * 业务id
 	 */
-	@ApiModelProperty(value = "业务id")
+	@Schema(name = "业务id")
 	private Long bizId;
 	/**
 	 * 业务类型
 	 */
-	@ApiModelProperty(value = "业务类型")
+	@Schema(name = "业务类型")
 	private String bizType;
 	/**
 	 * 文件类型
 	 */
-	@ApiModelProperty(value = "文件类型")
+	@Schema(name = "文件类型")
 	private FileType fileType;
 	/**
 	 * 桶
 	 */
-	@ApiModelProperty(value = "桶")
+	@Schema(name = "桶")
 	private String bucket;
 	/**
 	 * 文件相对地址
 	 */
-	@ApiModelProperty(value = "文件相对地址")
+	@Schema(name = "文件相对地址")
 	private String path;
 	/**
 	 * 原始文件名
 	 */
-	@ApiModelProperty(value = "原始文件名")
+	@Schema(name = "原始文件名")
 	private String originalFileName;
 	/**
 	 * 文件类型
 	 */
-	@ApiModelProperty(value = "文件类型")
+	@Schema(name = "文件类型")
 	private String contentType;
 	/**
 	 * 大小
 	 */
-	@ApiModelProperty(value = "大小")
+	@Schema(name = "大小")
 	private Long size;
 
-	@ApiModelProperty("主键")
+	@Schema(name = "主键")
 	private Long id;
 
 	/**
 	 * 创建时间
 	 */
-	@ApiModelProperty("创建时间")
+	@Schema(name = "创建时间")
 	private LocalDateTime createTime;
 }

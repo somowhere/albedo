@@ -21,8 +21,8 @@ import com.albedo.java.common.core.vo.AppendixVo;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.file.service.AppendixService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +38,7 @@ import java.util.List;
 @RestController
 @RequestMapping("${application.admin-path}/sys/appendix")
 @AllArgsConstructor
-@Api(tags = "附件管理")
+@Tag(name = "附件管理")
 public class AppendixResource extends BaseResource {
 
 	private final AppendixService appendixService;
@@ -49,7 +49,7 @@ public class AppendixResource extends BaseResource {
 	 * @param bizId   业务id
 	 * @param bizType 业务类型
 	 */
-	@ApiOperation(value = "根据业务id 和 业务类型查询附件信息", notes = "根据业务id 和 业务类型查询附件信息")
+	@Operation(summary = "根据业务id 和 业务类型查询附件信息", description = "根据业务id 和 业务类型查询附件信息")
 	@PostMapping(value = "/listByBizId")
 	@LogOperate("根据业务id 和 业务类型查询附件信息")
 	public Result<List<AppendixVo>> listByBizId(@RequestParam Long bizId, @RequestParam(required = false) String bizType) {

@@ -16,7 +16,7 @@
 
 package com.albedo.java.plugins.database.mybatis.datascope;
 
-import com.albedo.java.common.core.basic.domain.BaseEntity;
+import com.albedo.java.common.core.basic.domain.BaseDo;
 import com.google.common.collect.Sets;
 import lombok.Data;
 
@@ -40,7 +40,7 @@ public class DataScope implements Serializable {
 	/**
 	 * 限制范围的字段名称
 	 */
-	private String creatorName = BaseEntity.F_SQL_CREATED_BY;
+	private String creatorName = BaseDo.F_SQL_CREATED_BY;
 
 	/**
 	 * 具体的数据范围

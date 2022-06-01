@@ -19,7 +19,7 @@
 <mapper namespace="com.albedo.java.modules.sys.repository.UserRepository">
 
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.albedo.java.modules.sys.domain.User">
+	<resultMap id="BaseResultMap" type="com.albedo.java.modules.sys.domain.UserDo">
 		<id column="id" property="id"/>
 		<result column="username" property="username"/>
 		<result column="password" property="password"/>
@@ -62,7 +62,7 @@
 		<result column="del_flag" property="delFlag"/>
 		<result column="deptId" property="deptId"/>
 		<result column="deptName" property="deptName"/>
-		<collection property="roleList" ofType="com.albedo.java.modules.sys.domain.Role"
+		<collection property="roleDoList" ofType="com.albedo.java.modules.sys.domain.RoleDo"
 					select="com.albedo.java.modules.sys.repository.RoleRepository.findListByUserId" column="id">
 		</collection>
 	</resultMap>
@@ -89,7 +89,7 @@
 		<result column="del_flag" property="delFlag"/>
 		<result column="dept_id" property="deptId"/>
 		<result column="dept_name" property="deptName"/>
-		<collection property="roleList" ofType="com.albedo.java.modules.sys.domain.Role">
+		<collection property="roleDoList" ofType="com.albedo.java.modules.sys.domain.RoleDo">
 			<id column="role_id" property="id"/>
 			<result column="role_name" property="name"/>
 			<result column="role_data_scope" property="dataScope"/>
@@ -105,7 +105,10 @@
 	</resultMap>
 
 	<sql id="userRoleDeptSql">
-		a.id,
+		a
+		.
+		id
+		,
 		a.username,
 		a.`password`,
 		a.nickname,
@@ -136,7 +139,7 @@
 		r.del_flag AS role_del_flag,
 		d.name AS dept_name,
 		d.id AS dept_id
-    </sql>
+	</sql>
 
 	<select id="findVoByUsername" resultMap="userVoResultMap">
 		SELECT
@@ -188,20 +191,23 @@
 		sys_user AS a
 		INNER JOIN sys_dept AS b ON b.id = a.dept_id
 		where a.del_flag = '0'
-			<if test="ew.sqlSegment != null and ew.sqlSegment != ''">
-				AND
-			</if>
-			${ew.sqlSegment}
+		<if test="ew.sqlSegment != null and ew.sqlSegment != ''">
+			AND
+		</if>
+		${ew.sqlSegment}
 	</select>
 
-	<select id="findListByRoleId" resultType="com.albedo.java.modules.sys.domain.User">
-		SELECT
-            a.*
-        FROM
-        sys_user a, sys_user_role b WHERE a.id = b.user_id AND a.del_flag = 0 and a.available = 1 and b.role_id = #{roleId}
+	<select id="findListByRoleId" resultType="com.albedo.java.modules.sys.domain.UserDo">
+		SELECT a.*
+		FROM sys_user a,
+			 sys_user_role b
+		WHERE a.id = b.user_id
+		  AND a.del_flag = 0
+		  and a.available = 1
+		  and b.role_id = #{roleId}
 	</select>
 
-	<select id="findListByRoleIds" resultType="com.albedo.java.modules.sys.domain.User">
+	<select id="findListByRoleIds" resultType="com.albedo.java.modules.sys.domain.UserDo">
 
 		SELECT
 		a.*
@@ -212,11 +218,20 @@
 		</foreach>
 	</select>
 
-	<select id="findListByMenuId" resultType="com.albedo.java.modules.sys.domain.User">
-		SELECT
-            a.*
-        FROM
-        sys_user a, sys_user_role b, sys_role_menu c, sys_role d WHERE a.id = b.user_id AND c.role_id=b.role_id and c.role_id = d.id AND d.del_flag = 0 and d.available = 1 AND a.del_flag = 0 and a.available = 1 and c.menu_id = #{menuId}
+	<select id="findListByMenuId" resultType="com.albedo.java.modules.sys.domain.UserDo">
+		SELECT a.*
+		FROM sys_user a,
+			 sys_user_role b,
+			 sys_role_menu c,
+			 sys_role d
+		WHERE a.id = b.user_id
+		  AND c.role_id = b.role_id
+		  and c.role_id = d.id
+		  AND d.del_flag = 0
+		  and d.available = 1
+		  AND a.del_flag = 0
+		  and a.available = 1
+		  and c.menu_id = #{menuId}
 	</select>
 
 

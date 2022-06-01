@@ -20,13 +20,13 @@ import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.common.web.resource.BaseResource;
-import com.albedo.java.modules.sys.domain.LogLogin;
+import com.albedo.java.modules.sys.domain.LogLoginDo;
 import com.albedo.java.modules.sys.domain.dto.LogLoginQueryCriteria;
 import com.albedo.java.modules.sys.service.LogLoginService;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +43,7 @@ import java.util.Set;
 @RestController
 @RequestMapping(value = "${application.admin-path}/sys/log-login")
 @AllArgsConstructor
-@Api(tags = "登录日志")
+@Tag(name = "登录日志")
 public class LogLoginResource extends BaseResource {
 
 	private final LogLoginService service;
@@ -58,19 +58,19 @@ public class LogLoginResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('sys_logLogin_view')")
 	@GetMapping
 	@LogOperate(value = "登录日志管理查看")
-	@ApiOperation("登录日志查看")
+	@Operation(summary = "登录日志查看")
 	public Result getPage(PageModel pm, LogLoginQueryCriteria logLoginQueryCriteria) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, logLoginQueryCriteria);
 		return Result.buildOkData(service.page(pm, wrapper));
 	}
 
 	@LogOperate(value = "登录日志导出")
-	@ApiOperation("登录日志导出")
+	@Operation(summary = "登录日志导出")
 	@GetMapping(value = "/download")
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_export')")
 	public void download(LogLoginQueryCriteria logOperateQueryCriteria, HttpServletResponse response) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(logOperateQueryCriteria);
-		ExcelUtil<LogLogin> util = new ExcelUtil(LogLogin.class);
+		ExcelUtil<LogLoginDo> util = new ExcelUtil(LogLoginDo.class);
 		util.exportExcel(service.list(wrapper), "登录日志", response);
 	}
 
@@ -82,7 +82,7 @@ public class LogLoginResource extends BaseResource {
 	 */
 	@PreAuthorize("@pms.hasPermission('sys_logLogin_del')")
 	@LogOperate(value = "登录日志管理删除")
-	@ApiOperation("登录日志删除")
+	@Operation(summary = "登录日志删除")
 	@DeleteMapping
 	public Result delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete LogLogin: {}", ids);

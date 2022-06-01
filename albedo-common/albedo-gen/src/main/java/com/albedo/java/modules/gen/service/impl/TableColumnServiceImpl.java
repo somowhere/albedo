@@ -18,7 +18,7 @@ package com.albedo.java.modules.gen.service.impl;
 import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.modules.gen.cache.TableColumnCacheKeyBuilder;
-import com.albedo.java.modules.gen.domain.TableColumn;
+import com.albedo.java.modules.gen.domain.TableColumnDo;
 import com.albedo.java.modules.gen.domain.dto.TableColumnDto;
 import com.albedo.java.modules.gen.repository.TableColumnRepository;
 import com.albedo.java.modules.gen.service.TableColumnService;
@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
  * @author somewhere
  */
 @Service
-public class TableColumnServiceImpl extends AbstractDataCacheServiceImpl<TableColumnRepository, TableColumn, TableColumnDto>
+public class TableColumnServiceImpl extends AbstractDataCacheServiceImpl<TableColumnRepository, TableColumnDo, TableColumnDto>
 	implements TableColumnService {
 
 	@Override
@@ -43,15 +43,15 @@ public class TableColumnServiceImpl extends AbstractDataCacheServiceImpl<TableCo
 		return new TableColumnCacheKeyBuilder();
 	}
 
-	List<TableColumn> findAllByGenTableIdOrderBySort(String id) {
-		return list(Wrappers.<TableColumn>query().eq(TableColumn.F_SQL_GENTABLEID, id).orderByAsc(TableColumn.F_SORT));
+	List<TableColumnDo> findAllByGenTableIdOrderBySort(String id) {
+		return list(Wrappers.<TableColumnDo>query().eq(TableColumnDo.F_SQL_GENTABLEID, id).orderByAsc(TableColumnDo.F_SORT));
 	}
 
 	@Override
 	public void deleteByTableId(String id) {
-		List<TableColumn> tableColumnList = findAllByGenTableIdOrderBySort(id);
-		ArgumentAssert.notNull(tableColumnList, "id " + id + " tableColumn 不能为空");
-		super.removeByIds(tableColumnList.stream().map(item -> item.getId()).collect(Collectors.toList()));
+		List<TableColumnDo> tableColumnDoList = findAllByGenTableIdOrderBySort(id);
+		ArgumentAssert.notNull(tableColumnDoList, "id " + id + " tableColumn 不能为空");
+		super.removeByIds(tableColumnDoList.stream().map(item -> item.getId()).collect(Collectors.toList()));
 
 	}
 

@@ -1,7 +1,7 @@
 package com.albedo.java.common.core.context;
 
 import cn.hutool.core.convert.Convert;
-import com.albedo.java.common.core.basic.domain.BaseEntity;
+import com.albedo.java.common.core.basic.domain.BaseDo;
 import com.albedo.java.common.core.util.ClassUtil;
 import com.albedo.java.common.core.util.StrPool;
 import com.alibaba.ttl.TransmittableThreadLocal;
@@ -82,7 +82,7 @@ public final class ContextUtil {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication != null) {
 			Object principal = authentication.getPrincipal();
-			return (Long) ClassUtil.invokeGetter(principal, BaseEntity.F_ID);
+			return (Long) ClassUtil.invokeGetter(principal, BaseDo.F_ID);
 		}
 		log.info("get authentication null return -1L");
 		return -1L;

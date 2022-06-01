@@ -3,7 +3,7 @@ package com.albedo.java.plugins.database.mybatis.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ReflectUtil;
-import com.albedo.java.common.core.basic.domain.IdEntity;
+import com.albedo.java.common.core.basic.domain.IdDo;
 import com.albedo.java.common.core.cache.model.CacheKey;
 import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.common.core.util.ArgumentAssert;
@@ -270,8 +270,8 @@ public abstract class AbstractCacheServiceImpl<Repository extends BaseRepository
 	}
 
 	protected Object getId(T model) {
-		if (model instanceof IdEntity) {
-			return ((IdEntity) model).getId();
+		if (model instanceof IdDo) {
+			return ((IdDo) model).getId();
 		} else {
 			// 实体没有继承 IdEntity
 			TableInfo tableInfo = TableInfoHelper.getTableInfo(getEntityClass());

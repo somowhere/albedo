@@ -16,8 +16,7 @@
 package com.albedo.java.modules.quartz.domain.enums;
 
 import com.albedo.java.common.core.enumeration.BaseEnum;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +29,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "JobMisfirePolicy", description = "计划执行错误策略-枚举")
+@Schema(name = "JobMisfirePolicy", description = "计划执行错误策略-枚举")
 public enum JobMisfirePolicy implements BaseEnum {
 
 	EXECUTE_DEFAULT("默认"),
@@ -38,7 +37,7 @@ public enum JobMisfirePolicy implements BaseEnum {
 	FIRE_PROCEED("执行一次"),
 	EXECUTE_STOP("放弃执行");
 
-	@ApiModelProperty(value = "描述")
+	@Schema(name = "描述")
 	private String text;
 
 
@@ -58,7 +57,7 @@ public enum JobMisfirePolicy implements BaseEnum {
 	}
 
 	@Override
-	@ApiModelProperty(value = "计划执行错误策略", allowableValues = "EXECUTE_NOW,EXECUTE_ONCE,EXECUTE_STOP", example = "EXECUTE_NOW")
+	@Schema(name = "计划执行错误策略", allowableValues = "EXECUTE_NOW,EXECUTE_ONCE,EXECUTE_STOP", example = "EXECUTE_NOW")
 	public String getCode() {
 		return this.name();
 	}

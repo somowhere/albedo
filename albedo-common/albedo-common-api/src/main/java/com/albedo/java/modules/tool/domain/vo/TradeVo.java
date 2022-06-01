@@ -15,7 +15,7 @@
 
 package com.albedo.java.modules.tool.domain.vo;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -46,13 +46,13 @@ public class TradeVo {
 	/**
 	 * （必填）商户订单号，应该由后台生成
 	 */
-	@ApiModelProperty(hidden = true)
+	@Schema(hidden = true)
 	private String outTradeNo;
 
 	/**
 	 * （必填）第三方订单号
 	 */
-	@ApiModelProperty(hidden = true)
+	@Schema(hidden = true)
 	private String tradeNo;
 
 	/**
@@ -64,19 +64,19 @@ public class TradeVo {
 	/**
 	 * 订单状态,已支付，未支付，作废
 	 */
-	@ApiModelProperty(hidden = true)
+	@Schema(hidden = true)
 	private String state;
 
 	/**
 	 * 创建时间，存入数据库时需要
 	 */
-	@ApiModelProperty(hidden = true)
+	@Schema(hidden = true)
 	private Timestamp createTime;
 
 	/**
 	 * 作废时间，存入数据库时需要
 	 */
-	@ApiModelProperty(hidden = true)
+	@Schema(hidden = true)
 	private Date cancelTime;
 
 }

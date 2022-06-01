@@ -16,7 +16,7 @@
 package com.albedo.java.modules.gen.service;
 
 import com.albedo.java.common.core.vo.PageModel;
-import com.albedo.java.modules.gen.domain.Scheme;
+import com.albedo.java.modules.gen.domain.SchemeDo;
 import com.albedo.java.modules.gen.domain.dto.SchemeDto;
 import com.albedo.java.modules.gen.domain.dto.SchemeQueryCriteria;
 import com.albedo.java.modules.gen.domain.vo.SchemeFormDataVo;
@@ -31,7 +31,7 @@ import java.util.Map;
  * @description
  * @date 2020/5/30 11:25 下午
  */
-public interface SchemeService extends DataCacheService<Scheme, SchemeDto> {
+public interface SchemeService extends DataCacheService<SchemeDo, SchemeDto> {
 
 	/**
 	 * findAllListIdNot
@@ -41,7 +41,7 @@ public interface SchemeService extends DataCacheService<Scheme, SchemeDto> {
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:34
 	 */
-	List<Scheme> findAllListIdNot(String id);
+	List<SchemeDo> findAllListIdNot(String id);
 
 	/**
 	 * generateCode

@@ -20,13 +20,13 @@ import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.security.component.session.RedisSessionRegistry;
 import com.albedo.java.common.web.resource.BaseResource;
-import com.albedo.java.modules.sys.domain.UserOnline;
+import com.albedo.java.modules.sys.domain.UserOnlineDo;
 import com.albedo.java.modules.sys.domain.dto.UserOnlineQueryCriteria;
 import com.albedo.java.modules.sys.domain.enums.OnlineStatus;
 import com.albedo.java.modules.sys.service.UserOnlineService;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -45,7 +45,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("${application.admin-path}/sys/user-online")
 @AllArgsConstructor
-@Api(tags = "在线用户")
+@Tag(name = "在线用户")
 public class UserOnlineResource extends BaseResource {
 
 	private final UserOnlineService userOnlineService;
@@ -73,7 +73,7 @@ public class UserOnlineResource extends BaseResource {
 	@PutMapping("/batch-force-logout")
 	public Result<String> batchForceLogout(@RequestBody Set<String> ids, HttpServletRequest request) {
 		for (String id : ids) {
-			UserOnline online = userOnlineService.getById(id);
+			UserOnlineDo online = userOnlineService.getById(id);
 			if (online == null) {
 				return Result.buildFail("用户已下线");
 			}
@@ -97,7 +97,7 @@ public class UserOnlineResource extends BaseResource {
 	@DeleteMapping
 	public Result remove(@RequestBody Set<String> ids, HttpServletRequest request) {
 		for (String id : ids) {
-			UserOnline online = userOnlineService.getById(id);
+			UserOnlineDo online = userOnlineService.getById(id);
 			if (online == null) {
 				return Result.buildFail("用户已下线");
 			}

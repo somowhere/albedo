@@ -17,7 +17,7 @@
 package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.core.util.Result;
-import com.albedo.java.modules.sys.domain.RoleMenu;
+import com.albedo.java.modules.sys.domain.RoleMenuDo;
 import com.albedo.java.modules.sys.domain.dto.RoleMenuDto;
 import com.albedo.java.modules.sys.repository.RoleMenuRepository;
 import com.albedo.java.modules.sys.service.RoleMenuService;
@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class RoleMenuServiceImpl extends BaseServiceImpl<RoleMenuRepository, RoleMenu> implements RoleMenuService {
+public class RoleMenuServiceImpl extends BaseServiceImpl<RoleMenuRepository, RoleMenuDo> implements RoleMenuService {
 
 	/**
 	 * @param roleMenuDto 角色菜单
@@ -49,15 +49,15 @@ public class RoleMenuServiceImpl extends BaseServiceImpl<RoleMenuRepository, Rol
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public Result saveRoleMenus(RoleMenuDto roleMenuDto) {
-		this.remove(Wrappers.<RoleMenu>query().lambda().eq(RoleMenu::getRoleId, roleMenuDto.getRoleId()));
+		this.remove(Wrappers.<RoleMenuDo>query().lambda().eq(RoleMenuDo::getRoleId, roleMenuDto.getRoleId()));
 
-		List<RoleMenu> roleMenuList = roleMenuDto.getMenuIdList().stream().map(menuId -> {
-			RoleMenu roleMenu = new RoleMenu();
-			roleMenu.setRoleId(roleMenuDto.getRoleId());
-			roleMenu.setMenuId(menuId);
-			return roleMenu;
+		List<RoleMenuDo> roleMenuDoList = roleMenuDto.getMenuIdList().stream().map(menuId -> {
+			RoleMenuDo roleMenuDo = new RoleMenuDo();
+			roleMenuDo.setRoleId(roleMenuDto.getRoleId());
+			roleMenuDo.setMenuId(menuId);
+			return roleMenuDo;
 		}).collect(Collectors.toList());
-		this.saveBatch(roleMenuList);
+		this.saveBatch(roleMenuDoList);
 		SysCacheUtil.delRoleCaches(roleMenuDto.getRoleId());
 		return Result.buildOk("操作成功");
 

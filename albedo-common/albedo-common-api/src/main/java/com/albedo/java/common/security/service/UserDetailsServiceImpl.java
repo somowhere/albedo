@@ -21,7 +21,7 @@ import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.security.util.AuthUtil;
-import com.albedo.java.modules.sys.domain.Role;
+import com.albedo.java.modules.sys.domain.RoleDo;
 import com.albedo.java.modules.sys.domain.enums.DataScopeType;
 import com.albedo.java.modules.sys.domain.vo.UserInfo;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
@@ -95,20 +95,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		List<GrantedAuthority> authorities = AuthUtil.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 		UserVo userVo = userInfo.getUser();
 		DataScope dataScope = new DataScope();
-		if (CollUtil.isNotEmpty(userVo.getRoleList())) {
-			for (Role role : userVo.getRoleList()) {
-				if (DataScopeType.ALL.eq(role.getDataScope())) {
+		if (CollUtil.isNotEmpty(userVo.getRoleDoList())) {
+			for (RoleDo roleDo : userVo.getRoleDoList()) {
+				if (DataScopeType.ALL.eq(roleDo.getDataScope())) {
 					dataScope.setAll(true);
 					break;
-				} else if (DataScopeType.THIS_LEVEL_CHILDREN.eq(role.getDataScope())) {
+				} else if (DataScopeType.THIS_LEVEL_CHILDREN.eq(roleDo.getDataScope())) {
 					dataScope.getDeptIds().addAll(deptService.findDescendantIdList(userVo.getDeptId()));
-				} else if (DataScopeType.THIS_LEVEL.eq(role.getDataScope())) {
+				} else if (DataScopeType.THIS_LEVEL.eq(roleDo.getDataScope())) {
 					dataScope.getDeptIds().add(userVo.getDeptId());
-				} else if (DataScopeType.SELF.eq(role.getDataScope())) {
+				} else if (DataScopeType.SELF.eq(roleDo.getDataScope())) {
 					dataScope.setSelf(true);
 					dataScope.setUserId(userVo.getId());
-				} else if (DataScopeType.CUSTOMIZE.eq(role.getDataScope())) {
-					dataScope.getDeptIds().addAll(roleService.findDeptIdsByRoleId(role.getId()));
+				} else if (DataScopeType.CUSTOMIZE.eq(roleDo.getDataScope())) {
+					dataScope.getDeptIds().addAll(roleService.findDeptIdsByRoleId(roleDo.getId()));
 				}
 			}
 		}

@@ -24,6 +24,8 @@ spring:
 # ===================================================================
 
 application:
+  swagger:
+    enabled: false
   rabbitmq:
     enabled: false
     ip: 127.0.0.1

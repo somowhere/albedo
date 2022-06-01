@@ -16,8 +16,8 @@
 package com.albedo.java.modules.quartz.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
-import com.albedo.java.common.core.basic.domain.BaseDataEntity;
-import com.albedo.java.common.core.basic.domain.GeneralEntity;
+import com.albedo.java.common.core.basic.domain.BaseDataDo;
+import com.albedo.java.common.core.basic.domain.GeneralDo;
 import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.modules.quartz.domain.enums.JobConcurrent;
 import com.albedo.java.modules.quartz.domain.enums.JobMisfirePolicy;
@@ -47,7 +47,7 @@ import java.util.Objects;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Job extends BaseDataEntity<Job, Long> {
+public class Job extends BaseDataDo<Job, Long> {
 
 	/**
 	 * F_NAME name : 任务名称
@@ -121,7 +121,7 @@ public class Job extends BaseDataEntity<Job, Long> {
 
 	private static final long serialVersionUID = 1L;
 
-	@TableId(value = GeneralEntity.F_SQL_ID, type = IdType.AUTO)
+	@TableId(value = GeneralDo.F_SQL_ID, type = IdType.AUTO)
 	protected Long id;
 
 	/**

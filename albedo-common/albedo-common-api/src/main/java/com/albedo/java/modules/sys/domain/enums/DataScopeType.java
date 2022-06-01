@@ -1,8 +1,7 @@
 package com.albedo.java.modules.sys.domain.enums;
 
 import com.albedo.java.common.core.enumeration.BaseEnum;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -19,7 +18,7 @@ import java.util.stream.Stream;
  */
 @Getter
 @AllArgsConstructor
-@ApiModel(value = "DataScopeType", description = "数据权限类型-枚举")
+@Schema(name = "DataScopeType", description = "数据权限类型-枚举")
 public enum DataScopeType implements BaseEnum {
 
 	/**
@@ -44,7 +43,7 @@ public enum DataScopeType implements BaseEnum {
 	CUSTOMIZE("自定义"),
 	;
 
-	@ApiModelProperty(value = "描述")
+	@Schema(name = "描述")
 	private final String text;
 
 
@@ -62,7 +61,7 @@ public enum DataScopeType implements BaseEnum {
 	}
 
 	@Override
-	@ApiModelProperty(value = "编码", allowableValues = "ALL,THIS_LEVEL,THIS_LEVEL_CHILDREN,CUSTOMIZE,SELF", example = "ALL")
+	@Schema(name = "编码", allowableValues = "ALL,THIS_LEVEL,THIS_LEVEL_CHILDREN,CUSTOMIZE,SELF", example = "ALL")
 	public String getCode() {
 		return this.name();
 	}

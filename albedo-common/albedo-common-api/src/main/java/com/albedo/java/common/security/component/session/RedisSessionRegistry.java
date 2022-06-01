@@ -24,7 +24,7 @@ import com.albedo.java.common.security.event.SysUserOnlineRefreshLastRequestEven
 import com.albedo.java.common.security.service.UserDetail;
 import com.albedo.java.common.security.util.LoginUtil;
 import com.albedo.java.common.security.util.SecurityUtil;
-import com.albedo.java.modules.sys.domain.UserOnline;
+import com.albedo.java.modules.sys.domain.UserOnlineDo;
 import com.albedo.java.modules.sys.service.UserOnlineService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -152,10 +152,10 @@ public class RedisSessionRegistry implements SessionRegistry, ApplicationListene
 		}
 		Authentication authentication = SecurityUtil.getAuthentication();
 		if (authentication != null && authentication.isAuthenticated()) {
-			UserOnline userOnline = userOnlineService.getById(sessionId);
-			if (userOnline == null) {
-				userOnline = LoginUtil.getUserOnline(authentication);
-				SpringContextHolder.publishEvent(new SysUserOnlineEvent(userOnline));
+			UserOnlineDo userOnlineDo = userOnlineService.getById(sessionId);
+			if (userOnlineDo == null) {
+				userOnlineDo = LoginUtil.getUserOnline(authentication);
+				SpringContextHolder.publishEvent(new SysUserOnlineEvent(userOnlineDo));
 			}
 		}
 	}

@@ -23,8 +23,8 @@ import com.albedo.java.common.log.util.SysLogUtils;
 import com.albedo.java.common.security.event.SysUserOnlineEvent;
 import com.albedo.java.common.security.util.LoginUtil;
 import com.albedo.java.common.util.AsyncUtil;
-import com.albedo.java.modules.sys.domain.LogLogin;
-import com.albedo.java.modules.sys.domain.UserOnline;
+import com.albedo.java.modules.sys.domain.LogLoginDo;
+import com.albedo.java.modules.sys.domain.UserOnlineDo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
@@ -44,13 +44,13 @@ public class AjaxAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
 		response.setStatus(HttpServletResponse.SC_OK);
 		String useruame = request.getParameter("username");
 		LoginUtil.isValidateCodeLogin(useruame, false, true);
-		UserOnline userOnline = LoginUtil.getUserOnline(authentication);
-		SpringContextHolder.publishEvent(new SysUserOnlineEvent(userOnline));
-		LogLogin logLogin = SysLogUtils.getSysLogLogin();
-		logLogin.setParams(HttpUtil.toParams(request.getParameterMap()));
-		logLogin.setUsername(useruame);
-		logLogin.setTitle("用户登录");
-		AsyncUtil.recordLogLogin(logLogin);
+		UserOnlineDo userOnlineDo = LoginUtil.getUserOnline(authentication);
+		SpringContextHolder.publishEvent(new SysUserOnlineEvent(userOnlineDo));
+		LogLoginDo logLoginDo = SysLogUtils.getSysLogLogin();
+		logLoginDo.setParams(HttpUtil.toParams(request.getParameterMap()));
+		logLoginDo.setUsername(useruame);
+		logLoginDo.setTitle("用户登录");
+		AsyncUtil.recordLogLogin(logLoginDo);
 		WebUtil.renderJson(response, Result.buildOk("登录成功"));
 	}
 

@@ -20,7 +20,7 @@
 
 	<!--清空任务日志-->
 	<select id="cleanJobLog">
-        truncate table sys_job_log
+		truncate tableDo sys_job_log
 	</select>
 
 

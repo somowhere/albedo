@@ -28,8 +28,8 @@ import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.modules.sys.cache.MenuCacheKeyBuilder;
-import com.albedo.java.modules.sys.domain.Menu;
-import com.albedo.java.modules.sys.domain.RoleMenu;
+import com.albedo.java.modules.sys.domain.MenuDo;
+import com.albedo.java.modules.sys.domain.RoleMenuDo;
 import com.albedo.java.modules.sys.domain.dto.GenSchemeDto;
 import com.albedo.java.modules.sys.domain.dto.MenuDto;
 import com.albedo.java.modules.sys.domain.dto.MenuSortDto;
@@ -63,7 +63,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class MenuServiceImpl extends AbstractTreeCacheServiceImpl<MenuRepository, Menu, MenuDto> implements MenuService {
+public class MenuServiceImpl extends AbstractTreeCacheServiceImpl<MenuRepository, MenuDo, MenuDto> implements MenuService {
 
 	private final RoleRepository roleRepository;
 
@@ -181,17 +181,17 @@ public class MenuServiceImpl extends AbstractTreeCacheServiceImpl<MenuRepository
 		ids.forEach(id -> {
 			SysCacheUtil.delMenuCaches(id);
 			// 查询父节点为当前节点的节点
-			List<Menu> menuList = this.list(Wrappers.<Menu>query().lambda().eq(Menu::getParentId, id));
-			ArgumentAssert.notEmpty(menuList, () -> new BizException("菜单含有下级不能删除"));
+			List<MenuDo> menuDoList = this.list(Wrappers.<MenuDo>query().lambda().eq(MenuDo::getParentId, id));
+			ArgumentAssert.notEmpty(menuDoList, () -> new BizException("菜单含有下级不能删除"));
 
-			roleMenuRepository.delete(Wrappers.<RoleMenu>query().lambda().eq(RoleMenu::getMenuId, id));
+			roleMenuRepository.delete(Wrappers.<RoleMenuDo>query().lambda().eq(RoleMenuDo::getMenuId, id));
 			// 删除当前菜单及其子菜单
 			this.removeById(id);
 		});
 	}
 
 	public Boolean exitMenuByPermission(MenuDto menuDto) {
-		return getOne(Wrappers.<Menu>query().ne(ObjectUtil.isNotEmpty(menuDto.getId()), MenuDto.F_ID, menuDto.getId())
+		return getOne(Wrappers.<MenuDo>query().ne(ObjectUtil.isNotEmpty(menuDto.getId()), MenuDto.F_ID, menuDto.getId())
 			.eq(MenuDto.F_PERMISSION, menuDto.getPermission())) != null;
 	}
 
@@ -219,55 +219,55 @@ public class MenuServiceImpl extends AbstractTreeCacheServiceImpl<MenuRepository
 		String permission = StringUtil.toCamelCase(StringUtil.lowerFirst(url), CharUtil.DASHED)
 			.replace(StringUtil.SLASH, "_").substring(1),
 			permissionLike = permission.substring(0, permission.length() - 1);
-		List<Menu> currentMenuList = repository.selectList(Wrappers.<Menu>query().lambda().eq(Menu::getName, moduleName)
-			.or().likeLeft(Menu::getPermission, permissionLike));
-		for (Menu currentMenu : currentMenuList) {
-			if (currentMenu != null) {
+		List<MenuDo> currentMenuListDo = repository.selectList(Wrappers.<MenuDo>query().lambda().eq(MenuDo::getName, moduleName)
+			.or().likeLeft(MenuDo::getPermission, permissionLike));
+		for (MenuDo currentMenuDo : currentMenuListDo) {
+			if (currentMenuDo != null) {
 				List<Long> idList = repository
 					.selectList(
-						Wrappers.<Menu>query().lambda().likeLeft(Menu::getPermission, permissionLike)
-							.or(i -> i.eq(Menu::getId, currentMenu.getId()).or().eq(Menu::getParentId,
-								currentMenu.getId())))
-					.stream().map(Menu::getId).collect(Collectors.toList());
-				roleMenuRepository.delete(Wrappers.<RoleMenu>query().lambda().in(RoleMenu::getMenuId, idList));
+						Wrappers.<MenuDo>query().lambda().likeLeft(MenuDo::getPermission, permissionLike)
+							.or(i -> i.eq(MenuDo::getId, currentMenuDo.getId()).or().eq(MenuDo::getParentId,
+								currentMenuDo.getId())))
+					.stream().map(MenuDo::getId).collect(Collectors.toList());
+				roleMenuRepository.delete(Wrappers.<RoleMenuDo>query().lambda().in(RoleMenuDo::getMenuId, idList));
 				repository.deleteBatchIds(idList);
 			}
 		}
-		Menu parentMenu = repository.selectById(parentMenuId);
-		ArgumentAssert.notNull(parentMenu, StringUtil.toAppendStr("根据模块id[", parentMenuId, "无法查询到模块信息]"));
+		MenuDo parentMenuDo = repository.selectById(parentMenuId);
+		ArgumentAssert.notNull(parentMenuDo, StringUtil.toAppendStr("根据模块id[", parentMenuId, "无法查询到模块信息]"));
 
-		Menu module = new Menu();
+		MenuDo module = new MenuDo();
 
 		module.setName(moduleName);
-		module.setParentId(parentMenu.getId());
-		module.setType(Menu.TYPE_MENU);
+		module.setParentId(parentMenuDo.getId());
+		module.setType(MenuDo.TYPE_MENU);
 		module.setIcon("app");
 		module.setPath(StringUtil.toRevertCamelCase(StringUtil.lowerFirst(schemeDto.getClassName()), CharUtil.DASHED));
 		module.setComponent(url.substring(1) + "index");
 		save(module);
 
-		Menu moduleView = new Menu();
+		MenuDo moduleView = new MenuDo();
 		moduleView.setParent(module);
 		moduleView.setName(moduleName + "查看");
 		moduleView.setPermission(permission + "view");
 		moduleView.setParentId(module.getId());
-		moduleView.setType(Menu.TYPE_BUTTON);
+		moduleView.setType(MenuDo.TYPE_BUTTON);
 		moduleView.setSort(20);
 		save(moduleView);
-		Menu moduleEdit = new Menu();
+		MenuDo moduleEdit = new MenuDo();
 		moduleEdit.setParent(module);
 		moduleEdit.setName(moduleName + "编辑");
 		moduleEdit.setPermission(permission + "edit");
 		moduleEdit.setParentId(module.getId());
-		moduleEdit.setType(Menu.TYPE_BUTTON);
+		moduleEdit.setType(MenuDo.TYPE_BUTTON);
 		moduleEdit.setSort(40);
 		save(moduleEdit);
-		Menu moduleDelete = new Menu();
+		MenuDo moduleDelete = new MenuDo();
 		moduleDelete.setParent(module);
 		moduleDelete.setName(moduleName + "删除");
 		moduleDelete.setPermission(permission + "del");
 		moduleDelete.setParentId(module.getId());
-		moduleDelete.setType(Menu.TYPE_BUTTON);
+		moduleDelete.setType(MenuDo.TYPE_BUTTON);
 		moduleDelete.setSort(80);
 		save(moduleDelete);
 		return true;
@@ -276,10 +276,10 @@ public class MenuServiceImpl extends AbstractTreeCacheServiceImpl<MenuRepository
 	@Override
 	public void sortUpdate(MenuSortDto menuSortDto) {
 		menuSortDto.getMenuSortList().forEach(menuSortVo -> {
-			Menu menu = repository.selectById(menuSortVo.getId());
-			if (menu != null) {
-				menu.setSort(menuSortVo.getSort());
-				repository.updateById(menu);
+			MenuDo menuDo = repository.selectById(menuSortVo.getId());
+			if (menuDo != null) {
+				menuDo.setSort(menuSortVo.getSort());
+				repository.updateById(menuDo);
 			}
 		});
 

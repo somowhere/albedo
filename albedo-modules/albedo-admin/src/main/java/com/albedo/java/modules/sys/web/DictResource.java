@@ -22,14 +22,14 @@ import com.albedo.java.common.core.vo.SelectVo;
 import com.albedo.java.common.core.vo.TreeNode;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.web.resource.BaseResource;
-import com.albedo.java.modules.sys.domain.Dict;
+import com.albedo.java.modules.sys.domain.DictDo;
 import com.albedo.java.modules.sys.domain.dto.DictDto;
 import com.albedo.java.modules.sys.domain.dto.DictQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.DictVo;
 import com.albedo.java.modules.sys.service.DictService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +50,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("${application.admin-path}/sys/dict")
 @AllArgsConstructor
-@Api(tags = "字典管理")
+@Tag(name = "字典管理")
 public class DictResource extends BaseResource {
 
 	private final DictService dictService;
@@ -96,7 +96,7 @@ public class DictResource extends BaseResource {
 	 * @param codes
 	 * @return
 	 */
-	@ApiOperation(value = "获取字典数据", notes = "codes 不传获取所有的业务字典，多个用','隔开")
+	@Operation(summary = "获取字典数据", description = "codes 不传获取所有的业务字典，多个用','隔开")
 	@GetMapping(value = "/codes")
 	public Result<Map<String, List<SelectVo>>> getByCodes(String codes) {
 		Map<String, List<SelectVo>> map = dictService.findCodes(codes);
@@ -149,8 +149,8 @@ public class DictResource extends BaseResource {
 	 */
 
 	@GetMapping("/all")
-	public Result<List<Dict>> findAllList() {
-		List<Dict> list = dictService.list();
+	public Result<List<DictDo>> findAllList() {
+		List<DictDo> list = dictService.list();
 		return Result.buildOkData(list);
 	}
 

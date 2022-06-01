@@ -15,7 +15,7 @@
 
 package com.albedo.java.modules.gen.service.impl;
 
-import com.albedo.java.modules.gen.domain.Template;
+import com.albedo.java.modules.gen.domain.TemplateDo;
 import com.albedo.java.modules.gen.repository.TemplateRepository;
 import com.albedo.java.plugins.database.mybatis.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class TemplateServiceImpl
-	extends BaseServiceImpl<TemplateRepository, Template>
+	extends BaseServiceImpl<TemplateRepository, TemplateDo>
 	implements com.albedo.java.modules.gen.service.TemplateService {
 
 }

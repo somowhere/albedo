@@ -26,7 +26,7 @@ import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.WebUtil;
 import com.albedo.java.common.security.service.UserDetail;
 import com.albedo.java.common.util.RedisUtil;
-import com.albedo.java.modules.sys.domain.UserOnline;
+import com.albedo.java.modules.sys.domain.UserOnlineDo;
 import com.albedo.java.modules.sys.domain.vo.account.LoginVo;
 import com.google.common.collect.Maps;
 import lombok.SneakyThrows;
@@ -102,8 +102,8 @@ public class LoginUtil {
 		return !SpringContextHolder.isDevelopment() && loginFailNum >= 3;
 	}
 
-	public static UserOnline getUserOnline(Authentication authentication) {
-		UserOnline online = new UserOnline();
+	public static UserOnlineDo getUserOnline(Authentication authentication) {
+		UserOnlineDo online = new UserOnlineDo();
 		HttpServletRequest request = ((ServletRequestAttributes) Objects
 			.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
 		HttpSession session = request.getSession(false);

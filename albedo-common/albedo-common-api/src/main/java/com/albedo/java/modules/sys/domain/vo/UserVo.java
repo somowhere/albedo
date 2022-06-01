@@ -24,7 +24,7 @@ import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.vo.DataVo;
-import com.albedo.java.modules.sys.domain.Role;
+import com.albedo.java.modules.sys.domain.RoleDo;
 import com.albedo.java.modules.sys.domain.enums.Sex;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -112,20 +112,20 @@ public class UserVo extends DataVo<Long> {
 	/**
 	 * 角色ID
 	 */
-	private List<Role> roleList;
+	private List<RoleDo> roleDoList;
 
 	private List<Long> roleIdList;
 
 	public List<Long> getRoleIdList() {
-		if (CollUtil.isEmpty(roleIdList) && CollUtil.isNotEmpty(roleList)) {
-			roleIdList = CollUtil.extractToList(roleList, Role.F_ID);
+		if (CollUtil.isEmpty(roleIdList) && CollUtil.isNotEmpty(roleDoList)) {
+			roleIdList = CollUtil.extractToList(roleDoList, RoleDo.F_ID);
 		}
 		return roleIdList;
 	}
 
 	public String getRoleNames() {
-		if (ObjectUtil.isEmpty(roleNames) && CollUtil.isNotEmpty(roleList)) {
-			roleNames = CollUtil.convertToString(roleList, Role.F_NAME, StringUtil.COMMA);
+		if (ObjectUtil.isEmpty(roleNames) && CollUtil.isNotEmpty(roleDoList)) {
+			roleNames = CollUtil.convertToString(roleDoList, RoleDo.F_NAME, StringUtil.COMMA);
 		}
 		return roleNames;
 	}

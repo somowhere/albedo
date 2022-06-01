@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>albedo</artifactId>
 		<groupId>com.albedo.java</groupId>
-		<version>3.2.7-SNAPSHOT</version>
+		<version>${revision}</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
@@ -20,5 +20,5 @@
 		<module>albedo-dynamic-datasource</module>
 		<module>albedo-swagger-api</module>
 		<module>albedo-uid</module>
-    </modules>
+	</modules>
 </project>

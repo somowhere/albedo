@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.modules.sys.domain.RoleDept;
+import com.albedo.java.modules.sys.domain.RoleDeptDo;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -29,6 +29,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2019/2/1
  */
 @Mapper
-public interface RoleDeptRepository extends BaseRepository<RoleDept> {
+public interface RoleDeptRepository extends BaseRepository<RoleDeptDo> {
 
 }

@@ -25,7 +25,7 @@ import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.event.listener.ParameterUpdateEvent;
 import com.albedo.java.common.event.model.ParameterUpdate;
 import com.albedo.java.modules.sys.cache.ParameterKeyCacheKeyBuilder;
-import com.albedo.java.modules.sys.domain.Parameter;
+import com.albedo.java.modules.sys.domain.ParameterDo;
 import com.albedo.java.modules.sys.domain.dto.ParameterDto;
 import com.albedo.java.modules.sys.repository.ParameterRepository;
 import com.albedo.java.modules.sys.service.ParameterService;
@@ -52,14 +52,14 @@ import java.util.function.Function;
  */
 @Service
 @RequiredArgsConstructor
-public class ParameterServiceImpl extends DataServiceImpl<ParameterRepository, Parameter, ParameterDto>
+public class ParameterServiceImpl extends DataServiceImpl<ParameterRepository, ParameterDo, ParameterDto>
 	implements ParameterService {
 
 	private final CacheOps cacheOps;
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean save(Parameter model) {
+	public boolean save(ParameterDo model) {
 		ArgumentAssert.isFalse(check(model.getKey()), "参数key重复");
 
 		boolean bool = SqlHelper.retBool(baseMapper.insert(model));
@@ -72,13 +72,13 @@ public class ParameterServiceImpl extends DataServiceImpl<ParameterRepository, P
 
 	@Transactional(readOnly = true)
 	public boolean check(String key) {
-		return count(Wraps.<Parameter>lbQ().eq(Parameter::getKey, key)) > 0;
+		return count(Wraps.<ParameterDo>lbQ().eq(ParameterDo::getKey, key)) > 0;
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean updateById(Parameter model) {
-		long count = count(Wraps.<Parameter>lbQ().eq(Parameter::getKey, model.getKey()).ne(Parameter::getId, model.getId()));
+	public boolean updateById(ParameterDo model) {
+		long count = count(Wraps.<ParameterDo>lbQ().eq(ParameterDo::getKey, model.getKey()).ne(ParameterDo::getId, model.getId()));
 		ArgumentAssert.isFalse(count > 0, StrUtil.format("参数key[{}]已经存在，请勿重复创建", model.getKey()));
 
 		boolean bool = SqlHelper.retBool(getBaseMapper().updateById(model));
@@ -100,17 +100,17 @@ public class ParameterServiceImpl extends DataServiceImpl<ParameterRepository, P
 		if (CollectionUtils.isEmpty(idList)) {
 			return true;
 		}
-		List<Parameter> parameterList = super.listByIds((Collection<? extends Serializable>) idList);
-		if (parameterList.isEmpty()) {
+		List<ParameterDo> parameterDoList = super.listByIds((Collection<? extends Serializable>) idList);
+		if (parameterDoList.isEmpty()) {
 			return true;
 		}
 		boolean bool = SqlHelper.retBool(getBaseMapper().deleteBatchIds(idList));
-		CacheKey[] keys = parameterList.stream()
+		CacheKey[] keys = parameterDoList.stream()
 			.map(item -> new ParameterKeyCacheKeyBuilder().key(item.getKey()))
 			.toArray(CacheKey[]::new);
 		cacheOps.del(keys);
 
-		parameterList.forEach(model ->
+		parameterDoList.forEach(model ->
 			SpringContextHolder.publishEvent(new ParameterUpdateEvent(
 				new ParameterUpdate(model.getKey(), model.getValue(), null, ContextUtil.getTenant())
 			))
@@ -125,8 +125,8 @@ public class ParameterServiceImpl extends DataServiceImpl<ParameterRepository, P
 		}
 
 		Function<CacheKey, String> loader = k -> {
-			Parameter parameter = getOne(Wraps.<Parameter>lbQ().eq(Parameter::getKey, key));
-			return parameter == null ? defVal : parameter.getValue();
+			ParameterDo parameterDo = getOne(Wraps.<ParameterDo>lbQ().eq(ParameterDo::getKey, key));
+			return parameterDo == null ? defVal : parameterDo.getValue();
 		};
 		CacheKey cacheKey = new ParameterKeyCacheKeyBuilder().key(key);
 		return cacheOps.get(cacheKey, loader);
@@ -137,7 +137,7 @@ public class ParameterServiceImpl extends DataServiceImpl<ParameterRepository, P
 		if (CollUtil.isEmpty(keys)) {
 			return Collections.emptyMap();
 		}
-		List<Parameter> list = list(Wraps.<Parameter>lbQ().in(Parameter::getKey, keys));
+		List<ParameterDo> list = list(Wraps.<ParameterDo>lbQ().in(ParameterDo::getKey, keys));
 		Map<String, String> map = new HashMap<>(16);
 		list.forEach(item -> map.put(item.getKey(), item.getValue()));
 		return map;

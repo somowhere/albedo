@@ -14,7 +14,7 @@
  */
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.modules.sys.domain.LogLogin;
+import com.albedo.java.modules.sys.domain.LogLoginDo;
 import com.albedo.java.plugins.database.mybatis.service.BaseService;
 
 import java.time.LocalDateTime;
@@ -27,7 +27,7 @@ import java.util.Map;
  * @author admin
  * @version 2021-11-30 10:15:00
  */
-public interface LogLoginService extends BaseService<LogLogin> {
+public interface LogLoginService extends BaseService<LogLoginDo> {
 
 
 	/**

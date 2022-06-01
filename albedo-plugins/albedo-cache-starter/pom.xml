@@ -1,69 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xmlns="http://maven.apache.org/POM/4.0.0"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<artifactId>albedo-plugins</artifactId>
 		<groupId>com.albedo.java</groupId>
-		<version>3.2.7-SNAPSHOT</version>
+		<version>${revision}</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>albedo-cache-starter</artifactId>
-<dependencies>
+	<dependencies>
 
-	<!--core 工具类-->
-	<dependency>
-		<groupId>com.albedo.java</groupId>
-		<artifactId>albedo-common-core</artifactId>
-		<version>${project.release.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-cache</artifactId>
-	</dependency>
+		<!--core 工具类-->
+		<dependency>
+			<groupId>com.albedo.java</groupId>
+			<artifactId>albedo-common-core</artifactId>
+			<version>${project.release.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
 
-	<!-- 默认使用redis 作为缓存， 若演示项目时，不想部署redis，则将业务代码pom 中的 redis 排除 -->
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-data-redis</artifactId>
-	</dependency>
+		<!-- 默认使用redis 作为缓存， 若演示项目时，不想部署redis，则将业务代码pom 中的 redis 排除 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
 
-	<dependency>
-		<groupId>org.apache.commons</groupId>
-		<artifactId>commons-pool2</artifactId>
-	</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
+		</dependency>
 
-	<dependency>
-		<groupId>com.github.ben-manes.caffeine</groupId>
-		<artifactId>caffeine</artifactId>
-		<exclusions>
-			<exclusion>
-				<artifactId>error_prone_annotations</artifactId>
-				<groupId>com.google.errorprone</groupId>
-			</exclusion>
-		</exclusions>
-	</dependency>
+		<dependency>
+			<groupId>com.github.ben-manes.caffeine</groupId>
+			<artifactId>caffeine</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>error_prone_annotations</artifactId>
+					<groupId>com.google.errorprone</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-configuration-processor</artifactId>
-		<optional>true</optional>
-		<scope>compile</scope>
-	</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+			<scope>compile</scope>
+		</dependency>
 
-	<!-- Protostuff 序列化&反序列化工具 -->
-	<dependency>
-		<groupId>io.protostuff</groupId>
-		<artifactId>protostuff-core</artifactId>
-		<version>${protostuff.version}</version>
-	</dependency>
+		<!-- Protostuff 序列化&反序列化工具 -->
+		<dependency>
+			<groupId>io.protostuff</groupId>
+			<artifactId>protostuff-core</artifactId>
+		</dependency>
 
-	<dependency>
-		<groupId>io.protostuff</groupId>
-		<artifactId>protostuff-runtime</artifactId>
-		<version>${protostuff.version}</version>
-	</dependency>
+		<dependency>
+			<groupId>io.protostuff</groupId>
+			<artifactId>protostuff-runtime</artifactId>
+		</dependency>
 
-</dependencies>
+	</dependencies>
 </project>

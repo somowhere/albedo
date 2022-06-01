@@ -1,6 +1,6 @@
 package com.albedo.java.modules.file.domain;
 
-import com.albedo.java.common.core.basic.domain.IdEntity;
+import com.albedo.java.common.core.basic.domain.IdDo;
 import com.albedo.java.common.core.enumeration.FileType;
 import com.albedo.java.modules.file.domain.enums.FileStorageType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -30,7 +30,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @Accessors(chain = true)
 @TableName("sys_file")
 @AllArgsConstructor
-public class File extends IdEntity<File, Long> {
+public class File extends IdDo<File, Long> {
 
 	private static final long serialVersionUID = 1L;
 

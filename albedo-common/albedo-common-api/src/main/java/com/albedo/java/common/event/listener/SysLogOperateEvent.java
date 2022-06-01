@@ -16,7 +16,7 @@
 
 package com.albedo.java.common.event.listener;
 
-import com.albedo.java.modules.sys.domain.LogOperate;
+import com.albedo.java.modules.sys.domain.LogOperateDo;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -24,7 +24,7 @@ import org.springframework.context.ApplicationEvent;
  */
 public class SysLogOperateEvent extends ApplicationEvent {
 
-	public SysLogOperateEvent(LogOperate source) {
+	public SysLogOperateEvent(LogOperateDo source) {
 		super(source);
 	}
 

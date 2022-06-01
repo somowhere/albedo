@@ -21,8 +21,8 @@ import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.util.AddressUtil;
 import com.albedo.java.common.core.util.WebUtil;
 import com.albedo.java.common.security.util.RandomUtil;
-import com.albedo.java.modules.sys.domain.PersistentToken;
-import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.modules.sys.domain.PersistentTokenDo;
+import com.albedo.java.modules.sys.domain.UserDo;
 import com.albedo.java.modules.sys.repository.PersistentTokenRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -98,25 +98,25 @@ public class PersistentTokenRememberMeService extends AbstractRememberMeServices
 			}
 
 			if (login == null) {
-				PersistentToken persistentToken = getToken(cookieTokens);
-				User user = userRepository.selectById(persistentToken.getUserId());
-				login = user.getUsername();
+				PersistentTokenDo persistentTokenDo = getToken(cookieTokens);
+				UserDo userDo = userRepository.selectById(persistentTokenDo.getUserId());
+				login = userDo.getUsername();
 
 				// Token also matches, so login is valid. Update the token value, keeping
 				// the *same* series number.
 				log.debug("Refreshing persistent login token for user '{}', series '{}'", login,
-					persistentToken.getSeries());
-				persistentToken.setTokenDate(LocalDateTime.now());
-				persistentToken.setTokenValue(RandomUtil.generateTokenData());
-				persistentToken.setIpAddress(WebUtil.getIp(request));
-				persistentToken.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
+					persistentTokenDo.getSeries());
+				persistentTokenDo.setTokenDate(LocalDateTime.now());
+				persistentTokenDo.setTokenValue(RandomUtil.generateTokenData());
+				persistentTokenDo.setIpAddress(WebUtil.getIp(request));
+				persistentTokenDo.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
 				try {
-					persistentTokenRepository.updateById(persistentToken);
+					persistentTokenRepository.updateById(persistentTokenDo);
 				} catch (DataAccessException e) {
 					log.error("Failed to update token: ", e);
 					throw new RememberMeAuthenticationException("Autologin failed due to data access problem", e);
 				}
-				addCookie(persistentToken, request, response);
+				addCookie(persistentTokenDo, request, response);
 				upgradedTokenCache.put(cookieTokens[0], new UpgradedRememberMeToken(cookieTokens, login));
 			}
 			return getUserDetailsService().loadUserByUsername(login);
@@ -139,8 +139,8 @@ public class PersistentTokenRememberMeService extends AbstractRememberMeServices
 		String login = successfulAuthentication.getName();
 
 		log.debug("Creating new persistent login for user {}", login);
-		PersistentToken persistentToken = Optional.of(userRepository.findVoByUsername(login)).map(u -> {
-			PersistentToken t = new PersistentToken();
+		PersistentTokenDo persistentTokenDo = Optional.of(userRepository.findVoByUsername(login)).map(u -> {
+			PersistentTokenDo t = new PersistentTokenDo();
 			t.setSeries(RandomUtil.generateSeriesData());
 			t.setUserId(u.getId());
 			t.setUsername(u.getUsername());
@@ -155,8 +155,8 @@ public class PersistentTokenRememberMeService extends AbstractRememberMeServices
 			return t;
 		}).orElseThrow(() -> new UsernameNotFoundException("User " + login + " was not found in the database"));
 		try {
-			persistentTokenRepository.insert(persistentToken);
-			addCookie(persistentToken, request, response);
+			persistentTokenRepository.insert(persistentTokenDo);
+			addCookie(persistentTokenDo, request, response);
 		} catch (DataAccessException e) {
 			log.error("Failed to save persistent token ", e);
 		}
@@ -179,8 +179,8 @@ public class PersistentTokenRememberMeService extends AbstractRememberMeServices
 		if (rememberMeCookie != null && rememberMeCookie.length() != 0) {
 			try {
 				String[] cookieTokens = decodeCookie(rememberMeCookie);
-				PersistentToken persistentToken = getToken(cookieTokens);
-				persistentTokenRepository.deleteById(persistentToken.getSeries());
+				PersistentTokenDo persistentTokenDo = getToken(cookieTokens);
+				persistentTokenRepository.deleteById(persistentTokenDo.getSeries());
 			} catch (InvalidCookieException ice) {
 				log.info("Invalid cookie, no persistent token could be deleted", ice);
 			} catch (RememberMeAuthenticationException rmae) {
@@ -193,36 +193,36 @@ public class PersistentTokenRememberMeService extends AbstractRememberMeServices
 	/**
 	 * Validate the token and return it.
 	 */
-	private PersistentToken getToken(String[] cookieTokens) {
+	private PersistentTokenDo getToken(String[] cookieTokens) {
 		if (cookieTokens.length != TOKEN_LENGTH) {
 			throw new InvalidCookieException("Cookie token did not contain " + TOKEN_LENGTH + " tokens, but contained '"
 				+ Arrays.asList(cookieTokens) + "'");
 		}
 		String presentedSeries = cookieTokens[0];
 		String presentedToken = cookieTokens[1];
-		PersistentToken persistentToken = persistentTokenRepository.selectById(presentedSeries);
-		if (persistentToken == null) {
+		PersistentTokenDo persistentTokenDo = persistentTokenRepository.selectById(presentedSeries);
+		if (persistentTokenDo == null) {
 			// No series match, so we can't authenticate using this cookie
 			throw new RememberMeAuthenticationException("No persistent token found for series id: " + presentedSeries);
 		}
 		// We have a match for this user/series combination
-		log.info("presentedToken={} / tokenValue={}", presentedToken, persistentToken.getTokenValue());
-		if (!presentedToken.equals(persistentToken.getTokenValue())) {
+		log.info("presentedToken={} / tokenValue={}", presentedToken, persistentTokenDo.getTokenValue());
+		if (!presentedToken.equals(persistentTokenDo.getTokenValue())) {
 			// Token doesn't match series value. Delete this session and throw an
 			// exception.
-			persistentTokenRepository.deleteById(persistentToken.getSeries());
+			persistentTokenRepository.deleteById(persistentTokenDo.getSeries());
 			throw new CookieTheftException(
 				"Invalid remember-me token (Series/token) mismatch. Implies previous " + "cookie theft attack.");
 		}
-		if (persistentToken.getTokenDate().plusDays(TOKEN_VALIDITY_DAYS).isBefore(LocalDateTime.now())) {
-			persistentTokenRepository.deleteById(persistentToken.getSeries());
+		if (persistentTokenDo.getTokenDate().plusDays(TOKEN_VALIDITY_DAYS).isBefore(LocalDateTime.now())) {
+			persistentTokenRepository.deleteById(persistentTokenDo.getSeries());
 			throw new RememberMeAuthenticationException("Remember-me login has expired");
 		}
-		return persistentToken;
+		return persistentTokenDo;
 	}
 
-	private void addCookie(PersistentToken persistentToken, HttpServletRequest request, HttpServletResponse response) {
-		setCookie(new String[]{persistentToken.getSeries(), persistentToken.getTokenValue()}, TOKEN_VALIDITY_SECONDS,
+	private void addCookie(PersistentTokenDo persistentTokenDo, HttpServletRequest request, HttpServletResponse response) {
+		setCookie(new String[]{persistentTokenDo.getSeries(), persistentTokenDo.getTokenValue()}, TOKEN_VALIDITY_SECONDS,
 			request, response);
 	}
 

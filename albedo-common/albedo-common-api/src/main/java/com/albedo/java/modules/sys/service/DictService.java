@@ -17,7 +17,7 @@
 package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.core.vo.SelectVo;
-import com.albedo.java.modules.sys.domain.Dict;
+import com.albedo.java.modules.sys.domain.DictDo;
 import com.albedo.java.modules.sys.domain.dto.DictDto;
 import com.albedo.java.modules.sys.domain.dto.DictQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.DictVo;
@@ -36,14 +36,14 @@ import java.util.Set;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface DictService extends TreeService<Dict, DictDto> {
+public interface DictService extends TreeService<DictDo, DictDto> {
 
 	/**
 	 * 获取所有可用排序正序字典
 	 *
 	 * @return
 	 */
-	List<Dict> findAllOrderBySort();
+	List<DictDo> findAllOrderBySort();
 
 	/**
 	 * 获取字典数据

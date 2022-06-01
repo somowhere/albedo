@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.tool.repository;
 
-import com.albedo.java.modules.tool.domain.EmailConfig;
+import com.albedo.java.modules.tool.domain.EmailConfigDo;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -25,6 +25,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2019/2/1
  */
 @Mapper
-public interface EmailConfigRepository extends BaseRepository<EmailConfig> {
+public interface EmailConfigRepository extends BaseRepository<EmailConfigDo> {
 
 }

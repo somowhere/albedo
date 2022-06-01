@@ -16,11 +16,11 @@
 package com.albedo.java.modules.tool.web;
 
 import com.albedo.java.common.log.annotation.LogOperate;
-import com.albedo.java.modules.tool.domain.EmailConfig;
+import com.albedo.java.modules.tool.domain.EmailConfigDo;
 import com.albedo.java.modules.tool.domain.vo.EmailVo;
 import com.albedo.java.modules.tool.service.EmailService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${application.admin-path}/tool/email")
-@Api(tags = "工具-邮件管理")
+@Tag(name = "工具-邮件管理")
 public class EmailResource {
 
 	private final EmailService emailService;
@@ -48,15 +48,15 @@ public class EmailResource {
 
 	@LogOperate("配置邮件")
 	@PutMapping
-	@ApiOperation("配置邮件")
-	public ResponseEntity<Object> updateConfig(@Validated @RequestBody EmailConfig emailConfig) throws Exception {
-		emailService.config(emailConfig, emailService.find());
+	@Operation(summary = "配置邮件")
+	public ResponseEntity<Object> updateConfig(@Validated @RequestBody EmailConfigDo emailConfigDo) throws Exception {
+		emailService.config(emailConfigDo, emailService.find());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@LogOperate("发送邮件")
 	@PostMapping
-	@ApiOperation("发送邮件")
+	@Operation(summary = "发送邮件")
 	public ResponseEntity<Object> send(@Validated @RequestBody EmailVo emailVo) {
 		emailService.send(emailVo, emailService.find());
 		return new ResponseEntity<>(HttpStatus.OK);

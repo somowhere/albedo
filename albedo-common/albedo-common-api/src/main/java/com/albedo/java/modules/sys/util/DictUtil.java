@@ -23,7 +23,7 @@ import com.albedo.java.common.core.enumeration.BaseEnum;
 import com.albedo.java.common.core.util.*;
 import com.albedo.java.common.core.vo.SelectVo;
 import com.albedo.java.modules.sys.cache.DictCacheKeyBuilder;
-import com.albedo.java.modules.sys.domain.Dict;
+import com.albedo.java.modules.sys.domain.DictDo;
 import com.albedo.java.modules.sys.service.DictService;
 import com.albedo.java.plugins.cache.repository.CacheOps;
 import com.google.common.collect.Lists;
@@ -52,12 +52,12 @@ public class DictUtil {
 
 	public static Set<Class<? extends BaseEnum>> baseEnums = ClassUtil.getAllInterfaceAchieveClass(BaseEnum.class, CommonConstants.BUSINESS_PACKAGE);
 
-	public static List<Dict> getDictList() {
+	public static List<DictDo> getDictList() {
 		return cacheOps.get(new DictCacheKeyBuilder().key(CacheNameConstants.DICT_ALL), (k) -> dictService.findAllOrderBySort());
 	}
 
-	public static List<Dict> getDictListByParentCode(String code) {
-		Optional<Dict> first = getDictList().stream().filter(dict -> dict.getCode().equals(code)).findFirst();
+	public static List<DictDo> getDictListByParentCode(String code) {
+		Optional<DictDo> first = getDictList().stream().filter(dict -> dict.getCode().equals(code)).findFirst();
 		return getDictList().stream().filter(dict -> first.get().getId().equals(dict.getParentId()))
 			.collect(Collectors.toList());
 	}
@@ -89,16 +89,16 @@ public class DictUtil {
 		return null;
 	}
 
-	public static Map<String, List<SelectVo>> convertSelectVoMapByCodes(List<Dict> dictList, String... codes) {
+	public static Map<String, List<SelectVo>> convertSelectVoMapByCodes(List<DictDo> dictDoList, String... codes) {
 		Map<String, List<SelectVo>> map = Maps.newHashMap();
-		if (ObjectUtil.isEmpty(dictList)) {
+		if (ObjectUtil.isEmpty(dictDoList)) {
 			return map;
 		}
-		List<Dict> dictCodes = ObjectUtil.isNotEmpty(codes) ?
-			dictList.stream().filter(dict -> ArrayUtil.contains(codes, dict.getCode())).collect(Collectors.toList())
-			: dictList;
-		dictCodes.forEach(dict -> {
-			List<SelectVo> dictTempList = convertDictList(dictList, dict);
+		List<DictDo> dictDoCodes = ObjectUtil.isNotEmpty(codes) ?
+			dictDoList.stream().filter(dict -> ArrayUtil.contains(codes, dict.getCode())).collect(Collectors.toList())
+			: dictDoList;
+		dictDoCodes.forEach(dict -> {
+			List<SelectVo> dictTempList = convertDictList(dictDoList, dict);
 			if (CollUtil.isNotEmpty(dictTempList)) {
 				map.put(dict.getCode(), dictTempList);
 			}
@@ -110,13 +110,13 @@ public class DictUtil {
 		return map;
 	}
 
-	private static List<SelectVo> convertDictList(List<Dict> dictList, Dict dict) {
+	private static List<SelectVo> convertDictList(List<DictDo> dictDoList, DictDo dictDo) {
 		List<SelectVo> list = Lists.newLinkedList();
-		if (CollUtil.isNotEmpty(dictList)) {
-			for (Dict item : dictList) {
+		if (CollUtil.isNotEmpty(dictDoList)) {
+			for (DictDo item : dictDoList) {
 				if (CommonConstants.YES.equals(item.getAvailable()) &&
 					ObjectUtil.isNotEmpty(item.getParentId())
-					&& item.getParentId().equals(dict.getId()) && StringUtil.isNotEmpty(item.getVal())) {
+					&& item.getParentId().equals(dictDo.getId()) && StringUtil.isNotEmpty(item.getVal())) {
 					list.add(SelectVo.builder()
 						.value(item.getVal())
 						.label(item.getName())

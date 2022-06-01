@@ -17,7 +17,7 @@
 package com.albedo.java.common.security.event;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
-import com.albedo.java.modules.sys.domain.UserOnline;
+import com.albedo.java.modules.sys.domain.UserOnlineDo;
 import com.albedo.java.modules.sys.service.UserOnlineService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,8 +39,8 @@ public class SysUserOnlineListener {
 	@Order
 	@EventListener(SysUserOnlineEvent.class)
 	public void saveSysUserOnline(SysUserOnlineEvent event) {
-		UserOnline userOnline = (UserOnline) event.getSource();
-		userOnlineService.saveByEvent(userOnline);
+		UserOnlineDo userOnlineDo = (UserOnlineDo) event.getSource();
+		userOnlineService.saveByEvent(userOnlineDo);
 
 	}
 
@@ -49,10 +49,10 @@ public class SysUserOnlineListener {
 	@EventListener(SysUserOnlineRefreshLastRequestEvent.class)
 	public void saveSysUserOnlineRefreshLastRequestEvent(SysUserOnlineRefreshLastRequestEvent event) {
 		SessionInformation sessionInformation = (SessionInformation) event.getSource();
-		UserOnline userOnline = userOnlineService.getById(sessionInformation.getSessionId());
-		if (userOnline != null) {
-			userOnline.setLastAccessTime(LocalDateTimeUtil.of(sessionInformation.getLastRequest()));
-			userOnlineService.updateById(userOnline);
+		UserOnlineDo userOnlineDo = userOnlineService.getById(sessionInformation.getSessionId());
+		if (userOnlineDo != null) {
+			userOnlineDo.setLastAccessTime(LocalDateTimeUtil.of(sessionInformation.getLastRequest()));
+			userOnlineService.updateById(userOnlineDo);
 		} else {
 			log.debug("sessionInformation sessionId " + sessionInformation.getSessionId() + ", onlineUser is null");
 		}

@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.modules.sys.domain.Parameter;
+import com.albedo.java.modules.sys.domain.ParameterDo;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -29,6 +29,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2019/2/1
  */
 @Mapper
-public interface ParameterRepository extends BaseRepository<Parameter> {
+public interface ParameterRepository extends BaseRepository<ParameterDo> {
 
 }

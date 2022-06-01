@@ -16,7 +16,7 @@
 
 package com.albedo.java.common.event.listener;
 
-import com.albedo.java.modules.sys.domain.LogLogin;
+import com.albedo.java.modules.sys.domain.LogLoginDo;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -24,7 +24,7 @@ import org.springframework.context.ApplicationEvent;
  */
 public class SysLogLoginEvent extends ApplicationEvent {
 
-	public SysLogLoginEvent(LogLogin source) {
+	public SysLogLoginEvent(LogLoginDo source) {
 		super(source);
 	}
 

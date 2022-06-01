@@ -20,7 +20,9 @@
 
 	<!--根据用户Id删除该用户的角色关系-->
 	<delete id="deleteByUserId">
-		DELETE FROM sys_user_role WHERE user_id = #{userId}
+		DELETE
+		FROM sys_user_role
+		WHERE user_id = #{userId}
 	</delete>
 
 </mapper>

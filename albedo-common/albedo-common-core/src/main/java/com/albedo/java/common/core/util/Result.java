@@ -18,7 +18,7 @@ package com.albedo.java.common.core.util;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.code.ResponseCode;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,7 +47,7 @@ public class Result<T> implements Serializable {
 	/**
 	 * 调用是否成功标识，1：成功，0:失败，此时请开发者稍候再试 详情见[ExceptionCode]
 	 */
-	@ApiModelProperty(value = "响应编码:0/200-请求处理成功")
+	@Schema(name = "响应编码:0/200-请求处理成功")
 	private int code = CommonConstants.SUCCESS;
 
 	@Getter
@@ -56,19 +56,19 @@ public class Result<T> implements Serializable {
 	/**
 	 * 结果消息，如果调用成功，消息通常为空T
 	 */
-	@ApiModelProperty(value = "提示消息")
+	@Schema(name = "提示消息")
 	@Getter
 	@Setter
 	private String message;
 
-	@ApiModelProperty(value = "请求路径")
+	@Schema(name = "请求路径")
 	@Getter
 	@Setter
 	private String path;
 	/**
 	 * 附加数据
 	 */
-	@ApiModelProperty(value = "附加数据")
+	@Schema(name = "附加数据")
 	@Getter
 	@Setter
 	private Map<Object, Object> extra;
@@ -76,14 +76,14 @@ public class Result<T> implements Serializable {
 	/**
 	 * 响应时间
 	 */
-	@ApiModelProperty(value = "响应时间戳")
+	@Schema(name = "响应时间戳")
 	@Getter
 	private long timestamp = System.currentTimeMillis();
 
 	/**
 	 * 系统报错时，抛出的原生信息
 	 */
-	@ApiModelProperty(value = "异常消息")
+	@Schema(name = "异常消息")
 	@Getter
 	@Setter
 	private String errorMsg = "";

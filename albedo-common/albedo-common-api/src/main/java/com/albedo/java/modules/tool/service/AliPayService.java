@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.tool.service;
 
-import com.albedo.java.modules.tool.domain.AlipayConfig;
+import com.albedo.java.modules.tool.domain.AlipayConfigDo;
 import com.albedo.java.modules.tool.domain.vo.TradeVo;
 import com.albedo.java.plugins.database.mybatis.service.BaseService;
 
@@ -24,22 +24,22 @@ import com.albedo.java.plugins.database.mybatis.service.BaseService;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface AliPayService extends BaseService<AlipayConfig> {
+public interface AliPayService extends BaseService<AlipayConfigDo> {
 
 	/**
 	 * 查询配置
 	 *
 	 * @return AlipayConfig
 	 */
-	AlipayConfig find();
+	AlipayConfigDo find();
 
 	/**
 	 * 更新配置
 	 *
-	 * @param alipayConfig 支付宝配置
+	 * @param alipayConfigDo 支付宝配置
 	 * @return AlipayConfig
 	 */
-	AlipayConfig config(AlipayConfig alipayConfig);
+	AlipayConfigDo config(AlipayConfigDo alipayConfigDo);
 
 	/**
 	 * 处理来自PC的交易请求
@@ -49,7 +49,7 @@ public interface AliPayService extends BaseService<AlipayConfig> {
 	 * @return String
 	 * @throws Exception 异常
 	 */
-	String toPayAsPc(AlipayConfig alipay, TradeVo trade) throws Exception;
+	String toPayAsPc(AlipayConfigDo alipay, TradeVo trade) throws Exception;
 
 	/**
 	 * 处理来自手机网页的交易请求
@@ -59,6 +59,6 @@ public interface AliPayService extends BaseService<AlipayConfig> {
 	 * @return String
 	 * @throws Exception 异常
 	 */
-	String toPayAsWeb(AlipayConfig alipay, TradeVo trade) throws Exception;
+	String toPayAsWeb(AlipayConfigDo alipay, TradeVo trade) throws Exception;
 
 }

@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xmlns="http://maven.apache.org/POM/4.0.0"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.albedo.java</groupId>
+	<artifactId>albedo-dependencies</artifactId>
+	<packaging>pom</packaging>
+	<version>${revision}</version>
+	<name>${project.artifactId}</name>
+	<description>基础 bom 文件，管理整个项目的依赖版本</description>
+
+	<properties>
+		<revision>3.2.8-SNAPSHOT</revision>
+		<spring-boot.version>2.7.0</spring-boot.version>
+		<hutool.version>5.8.0</hutool.version>
+		<p6spy.version>3.9.1</p6spy.version>
+		<mybatis-plus.version>3.5.1</mybatis-plus.version>
+		<mybatis.version>3.5.9</mybatis.version>
+		<dynamic-ds.version>3.5.1</dynamic-ds.version>
+		<captcha.version>2.2.2</captcha.version>
+		<jasypt.version>2.1.0</jasypt.version>
+		<redisson.version>3.15.0</redisson.version>
+		<druid.version>1.2.8</druid.version>
+		<h2.version>1.4.200</h2.version>
+		<springdoc.version>1.6.6</springdoc.version>
+		<swagger.core.version>2.2.0</swagger.core.version>
+		<knife4j.version>3.0.3</knife4j.version>
+		<poi.version>5.2.2</poi.version>
+		<oshi.version>6.1.6</oshi.version>
+		<jna.version>5.11.0</jna.version>
+		<reflections.version>0.10.2</reflections.version>
+		<mica-ip2region.version>2.6.7</mica-ip2region.version>
+		<guava.version>31.1-jre</guava.version>
+		<protostuff.version>1.8.0</protostuff.version>
+		<ip2region.version>1.7.2</ip2region.version>
+		<transmittable-thread-local.version>2.12.6</transmittable-thread-local.version>
+		<minio.version>8.2.2</minio.version>
+		<qcloudsms.version>1.0.6</qcloudsms.version>
+		<jjwt.version>0.11.5</jjwt.version>
+		<mail.version>1.5.0-b01</mail.version>
+		<alipay.version>4.23.11.ALL</alipay.version>
+		<tobato-fastdfs-client.version>1.27.2</tobato-fastdfs-client.version>
+		<aliyun-java-sdk-core.version>4.5.25</aliyun-java-sdk-core.version>
+		<aliyun-java-sdk-dysmsapi.version>2.1.0</aliyun-java-sdk-dysmsapi.version>
+		<aliyun-sdk-oss.version>3.15.0</aliyun-sdk-oss.version>
+		<bce-java-sdk.version>0.10.21</bce-java-sdk.version>
+		<esdk-obs-java.version>3.22.3</esdk-obs-java.version>
+		<qiniu-java-sdk.version>7.10.2</qiniu-java-sdk.version>
+	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- 通用工具-->
+			<dependency>
+				<groupId>com.albedo.java</groupId>
+				<artifactId>albedo-appendix</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.albedo.java</groupId>
+				<artifactId>albedo-common-api</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.albedo.java</groupId>
+				<artifactId>albedo-common-core</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.albedo.java</groupId>
+				<artifactId>albedo-common-module</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.albedo.java</groupId>
+				<artifactId>albedo-common-quartz</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.albedo.java</groupId>
+				<artifactId>albedo-file</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.albedo.java</groupId>
+				<artifactId>albedo-gen</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.albedo.java</groupId>
+				<artifactId>albedo-monitor</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.albedo.java</groupId>
+				<artifactId>albedo-tenant</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+
+			<dependency>
+				<groupId>com.albedo.java</groupId>
+				<artifactId>albedo-cache-starter</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.albedo.java</groupId>
+				<artifactId>albedo-database</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.albedo.java</groupId>
+				<artifactId>albedo-dynamic-datasource</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.albedo.java</groupId>
+				<artifactId>albedo-swagger-api</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.albedo.java</groupId>
+				<artifactId>albedo-uid</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+
+			<dependency>
+				<groupId>org.redisson</groupId>
+				<artifactId>redisson-spring-boot-starter</artifactId>
+				<version>${redisson.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.ulisesbocchio</groupId>
+				<artifactId>jasypt-spring-boot-starter</artifactId>
+				<version>${jasypt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>p6spy</groupId>
+				<artifactId>p6spy</artifactId>
+				<version>${p6spy.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid-spring-boot-starter</artifactId>
+				<version>${druid.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-extension</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+				<version>${dynamic-ds.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>${h2.version}</version>
+			</dependency>
+			<!--springdoc -->
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-webmvc-core</artifactId>
+				<version>${springdoc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.swagger.core.v3</groupId>
+				<artifactId>swagger-annotations</artifactId>
+				<version>${swagger.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-webflux-ui</artifactId>
+				<version>${springdoc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-security</artifactId>
+				<version>${springdoc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-ui</artifactId>
+				<version>${springdoc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.xiaoymin</groupId>
+				<artifactId>knife4j-springdoc-ui</artifactId>
+				<version>${knife4j.version}</version>
+			</dependency>
+			<!-- poi office -->
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi</artifactId>
+				<version>${poi.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-codec</groupId>
+						<artifactId>commons-codec</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>${poi.version}</version>
+			</dependency>
+			<!--邮件依赖-->
+			<dependency>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+				<version>${mail.version}</version>
+			</dependency>
+			<!-- jwt -->
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt-api</artifactId>
+				<version>${jjwt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt-impl</artifactId>
+				<version>${jjwt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt-jackson</artifactId>
+				<version>${jjwt.version}</version>
+			</dependency>
+			<!--支付宝依赖-->
+			<dependency>
+				<groupId>com.alipay.sdk</groupId>
+				<artifactId>alipay-sdk-java</artifactId>
+				<version>${alipay.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.oshi</groupId>
+				<artifactId>oshi-core</artifactId>
+				<version>${oshi.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-all</artifactId>
+				<version>${hutool.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.pig4cloud.plugin</groupId>
+				<artifactId>captcha-spring-boot-starter</artifactId>
+				<version>${captcha.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>transmittable-thread-local</artifactId>
+				<version>${transmittable-thread-local.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.reflections/reflections -->
+			<dependency>
+				<groupId>org.reflections</groupId>
+				<artifactId>reflections</artifactId>
+				<version>${reflections.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.dreamlu</groupId>
+				<artifactId>mica-ip2region</artifactId>
+				<version>${mica-ip2region.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis</artifactId>
+				<version>${mybatis.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-boot-starter</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-extension</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-annotation</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+
+
+			<!-- Protostuff 序列化&反序列化工具 -->
+			<dependency>
+				<groupId>io.protostuff</groupId>
+				<artifactId>protostuff-core</artifactId>
+				<version>${protostuff.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.protostuff</groupId>
+				<artifactId>protostuff-runtime</artifactId>
+				<version>${protostuff.version}</version>
+			</dependency>
+
+			<!-- 阿里云 -->
+			<dependency>
+				<groupId>com.aliyun</groupId>
+				<artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+				<version>${aliyun-java-sdk-dysmsapi.version}</version>
+			</dependency>
+			<!-- 阿里云 -->
+			<dependency>
+				<groupId>com.aliyun</groupId>
+				<artifactId>aliyun-java-sdk-core</artifactId>
+				<version>${aliyun-java-sdk-core.version}</version>
+			</dependency>
+			<!-- 阿里云OSS -->
+			<dependency>
+				<groupId>com.aliyun.oss</groupId>
+				<artifactId>aliyun-sdk-oss</artifactId>
+				<version>${aliyun-sdk-oss.version}</version>
+			</dependency>
+			<!-- 华为云OBS -->
+			<dependency>
+				<groupId>com.huaweicloud</groupId>
+				<artifactId>esdk-obs-java</artifactId>
+				<version>${esdk-obs-java.version}</version>
+			</dependency>
+			<!-- 七牛云OSS -->
+			<dependency>
+				<groupId>com.qiniu</groupId>
+				<artifactId>qiniu-java-sdk</artifactId>
+				<version>${qiniu-java-sdk.version}</version>
+			</dependency>
+			<!-- FastDFS文件 -->
+			<dependency>
+				<groupId>com.github.tobato</groupId>
+				<artifactId>fastdfs-client</artifactId>
+				<version>${tobato-fastdfs-client.version}</version>
+			</dependency>
+			<!--minio文件系统 -->
+			<dependency>
+				<groupId>io.minio</groupId>
+				<artifactId>minio</artifactId>
+				<version>${minio.version}</version>
+			</dependency>
+			<!-- 腾讯云短信  -->
+			<dependency>
+				<groupId>com.github.qcloudsms</groupId>
+				<artifactId>qcloudsms</artifactId>
+				<version>${qcloudsms.version}</version>
+			</dependency>
+			<!-- 百度短信 -->
+			<dependency>
+				<groupId>com.baidubce</groupId>
+				<artifactId>bce-java-sdk</artifactId>
+				<version>${bce-java-sdk.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.lionsoul</groupId>
+				<artifactId>ip2region</artifactId>
+				<version>${ip2region.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+</project>

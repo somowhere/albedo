@@ -24,6 +24,8 @@ jasypt:
 spring:
   application:
     name: albedo-admin
+  cache:
+    type: redis
   session:
     store-type: redis
   profiles:
@@ -68,6 +70,18 @@ application:
   version: @project.release.version@
   address-enabled: true
   logPath: logs
+  swagger:
+    enabled: true
+    default-include-pattern: ${application.adminPath}/.*
+    title: ${spring.application.name} API
+    description: ${spring.application.name} API documentation
+    version: 0.0.1
+    terms-of-service:
+    contact-name:
+    contact-url:
+    contact-email:
+    license:
+    license-url:
   cors: #By default CORS are not enabled. Uncomment to enable.
     allowed-origins-pattern: "*"
     allowed-methods: "*"

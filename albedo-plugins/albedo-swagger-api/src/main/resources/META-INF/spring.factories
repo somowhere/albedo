@@ -1,4 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
- com.albedo.java.plugins.swagger.config.ApplicationSwaggerProperties,\
- com.albedo.java.plugins.swagger.config.apidoc.SwaggerAutoConfiguration,\
- com.albedo.java.plugins.swagger.config.apidoc.SwaggerPluginsAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=

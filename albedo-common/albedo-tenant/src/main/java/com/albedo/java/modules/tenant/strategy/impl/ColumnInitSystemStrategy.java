@@ -2,10 +2,10 @@ package com.albedo.java.modules.tenant.strategy.impl;
 
 import com.albedo.java.common.core.constant.ParameterKey;
 import com.albedo.java.common.core.context.ContextUtil;
-import com.albedo.java.modules.sys.domain.Application;
-import com.albedo.java.modules.sys.domain.Menu;
-import com.albedo.java.modules.sys.domain.Parameter;
-import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.modules.sys.domain.ApplicationDo;
+import com.albedo.java.modules.sys.domain.MenuDo;
+import com.albedo.java.modules.sys.domain.ParameterDo;
+import com.albedo.java.modules.sys.domain.UserDo;
 import com.albedo.java.modules.sys.domain.enums.ApplicationAppTypeEnum;
 import com.albedo.java.modules.sys.service.*;
 import com.albedo.java.modules.tenant.domain.dto.TenantConnectDto;
@@ -79,7 +79,7 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
 		ContextUtil.setTenant(tenant);
 
 		// 菜单 资源 角色 角色_资源 字典 参数
-		List<Menu> menuList = new ArrayList<>();
+		List<MenuDo> menuDoList = new ArrayList<>();
 		Map<String, Long> menuMap = new HashMap<>();
 //        boolean menuFlag = initMenu(menuList, menuMap);
 ////
@@ -109,22 +109,22 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
 	}
 
 	private boolean initApplication() {
-		List<Application> list = new ArrayList<>();
-		list.add(Application.builder().clientId("albedo_web").clientSecret("albedo_web_secret").website("http://somewhere.top:10000/albedo-web/").name("微服务快速开发管理后台").appType(ApplicationAppTypeEnum.PC).state(true).build());
+		List<ApplicationDo> list = new ArrayList<>();
+		list.add(ApplicationDo.builder().clientId("albedo_web").clientSecret("albedo_web_secret").website("http://somewhere.top:10000/albedo-web/").name("微服务快速开发管理后台").appType(ApplicationAppTypeEnum.PC).state(true).build());
 		return applicationService.saveBatch(list);
 	}
 
 	private boolean initSuperUser() {
-		User user = User.builder()
+		UserDo userDo = UserDo.builder()
 			.username("admin").password("11111")
 			.nickname("超级管理员").avatar("cnrhVkzwxjPwAaCfPbdc.png")
 			.build();
-		return userService.initUser(user);
+		return userService.initUser(userDo);
 	}
 
 	private boolean initParameter() {
-		List<Parameter> list = new ArrayList<>();
-		list.add(Parameter.builder().key(ParameterKey.LOGIN_POLICY).name("登录策略").value(ParameterKey.LoginPolicy.MANY.name()).describe("ONLY_ONE:一个用户只能登录一次; MANY:用户可以任意登录; ONLY_ONE_CLIENT:一个用户在一个应用只能登录一次").state(true).readonly(true).build());
+		List<ParameterDo> list = new ArrayList<>();
+		list.add(ParameterDo.builder().key(ParameterKey.LOGIN_POLICY).name("登录策略").value(ParameterKey.LoginPolicy.MANY.name()).describe("ONLY_ONE:一个用户只能登录一次; MANY:用户可以任意登录; ONLY_ONE_CLIENT:一个用户在一个应用只能登录一次").state(true).readonly(true).build());
 		return parameterService.saveBatch(list);
 	}
 

@@ -40,19 +40,17 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -77,7 +75,7 @@ import java.util.Set;
 @AllArgsConstructor
 @ComponentScan("com.albedo.java.common.security")
 @Profile("!" + CommonConstants.SPRING_PROFILE_JWT)
-public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityAutoConfiguration {
 
 	private final ApplicationProperties applicationProperties;
 
@@ -106,10 +104,6 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-		authenticationManagerBuilder.authenticationProvider(daoAuthenticationProvider());
-	}
 
 	//	@PostConstruct
 //	public void init() {
@@ -155,15 +149,10 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 		return new AjaxLogoutSuccessHandler();
 	}
 
-	@Override
-	@Bean
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
 
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**").antMatchers("/webjars/**").antMatchers("/**/*.{js,html}");
+	@Bean
+	public WebSecurityCustomizer webSecurityCustomizer() {
+		return (web) -> web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**").antMatchers("/webjars/**").antMatchers("/**/*.{js,html}");
 	}
 
 	@Bean
@@ -185,14 +174,14 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 		return new HttpSessionEventPublisher();
 	}
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http, DaoAuthenticationProvider daoAuthenticationProvider) throws Exception {
 		// 搜寻匿名标记 url： @AnonymousAccess
 		Map<RequestMappingInfo, HandlerMethod> handlerMethodMap = applicationContext
-			.getBean(RequestMappingHandlerMapping.class).getHandlerMethods();
+			.getBean("requestMappingHandlerMapping", RequestMappingHandlerMapping.class).getHandlerMethods();
 		// 获取匿名标记
 		Map<String, Set<String>> anonymousUrls = SecurityUtil.getAnonymousUrl(handlerMethodMap);
-		http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+		http.authenticationProvider(daoAuthenticationProvider).csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
 			.addFilterBefore(threadLocalContextFilter, UsernamePasswordAuthenticationFilter.class)
 			.addFilterBefore(validateCodeFilter(), UsernamePasswordAuthenticationFilter.class)
 			.addFilterBefore(passwordDecoderFilter(), CsrfFilter.class)
@@ -240,10 +229,7 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 				ArrayUtil.toArray(applicationProperties.getSecurity().getAuthorizePermitAll(), String.class))
 			.permitAll()
 			.antMatchers(ArrayUtil.toArray(applicationProperties.getSecurity().getAuthorize(), String.class))
-			.authenticated().and().sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry())
-
-		;
-
+			.authenticated().and().sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry());
+		return http.build();
 	}
-
 }

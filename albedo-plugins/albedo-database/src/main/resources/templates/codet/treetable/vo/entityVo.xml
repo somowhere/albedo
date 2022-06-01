@@ -37,7 +37,7 @@ import java.util.Date;
 public class ${ClassName}Vo extends TreeVo<${ClassName}Vo> {
 
 	private static final long serialVersionUID = 1L;
-	<#list table.columnList as column>
+	<#list tableDo.columnList as column>
 		<#if !column.pk && column.isNotBaseField && column.isNotBaseTreeField>
 	/** F_${column.constantJavaField} ${column.nameAndTitle} */
 	public static final String F_${column.constantJavaField} = "${column.simpleJavaField}";
@@ -48,11 +48,11 @@ public class ${ClassName}Vo extends TreeVo<${ClassName}Vo> {
 }
 <#macro generateFields>
 
-	<#list table.columnList as column>
+	<#list tableDo.columnList as column>
 		<#if !column.pk && column.isNotBaseField && column.isNotBaseTreeField>
 	/** ${column.simpleJavaField} ${column.title} */
-	        <#if table.parentExists && table.parentTableFk == column.name>
-	private ${table.parent.className} ${column.simpleJavaField};
+	        <#if tableDo.parentExists && tableDo.parentTableFk == column.name>
+	private ${tableDo.parent.className} ${column.simpleJavaField};
 	        <#elseif column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
 	private String ${column.simpleJavaField}Id;
 	        <#else><#if column.dictType?? && column.dictType != "">@DictType("${column.dictType}")</#if>

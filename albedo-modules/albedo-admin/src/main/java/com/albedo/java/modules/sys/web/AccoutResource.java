@@ -36,8 +36,8 @@ import com.albedo.java.modules.sys.service.UserService;
 import com.albedo.java.modules.tool.domain.vo.EmailVo;
 import com.albedo.java.modules.tool.service.EmailService;
 import com.pig4cloud.captcha.ArithmeticCaptcha;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -59,7 +59,7 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("${application.admin-path}")
 @Slf4j
 @AllArgsConstructor
-@Api(tags = "账户相关")
+@Tag(name = "账户相关")
 public class AccoutResource extends BaseResource {
 
 	private static final Integer DEFAULT_IMAGE_WIDTH = 100;
@@ -90,7 +90,7 @@ public class AccoutResource extends BaseResource {
 	 *
 	 * @param passwordChangeVo the passwordVo
 	 */
-	@ApiOperation(value = "修改密码")
+	@Operation(summary = "修改密码")
 	@PostMapping(path = "/account/change-password")
 	public Result changePassword(@Valid @RequestBody PasswordChangeVo passwordChangeVo) {
 		// 密码解密
@@ -106,7 +106,7 @@ public class AccoutResource extends BaseResource {
 		return Result.buildOk("密码修改成功，请重新登录");
 	}
 
-	@ApiOperation("修改头像")
+	@Operation(summary = "修改头像")
 	@PostMapping(value = "/account/change-avatar")
 	public Result<String> updateAvatar(@RequestBody AvatarInfo avatarInfo) {
 		userService.updateAvatar(SecurityUtil.getUser().getUsername(), avatarInfo.getAvatar());
@@ -114,7 +114,7 @@ public class AccoutResource extends BaseResource {
 	}
 
 	@LogOperate("修改邮箱")
-	@ApiOperation("修改邮箱")
+	@Operation(summary = "修改邮箱")
 	@PostMapping(value = "/account/change-email/{code}")
 	public Result<String> updateEmail(@PathVariable String code, @RequestBody UserEmailDto userEmailDto) {
 		// 密码解密
@@ -129,8 +129,8 @@ public class AccoutResource extends BaseResource {
 
 	@AnonymousAccess
 	@GetMapping(path = "/code/{randomStr}", produces = MediaType.IMAGE_JPEG_VALUE)
-	@ApiOperation(value = "获取验证码")
-	public void valicode(@PathVariable String randomStr, HttpServletResponse response) throws IOException {
+	@Operation(summary = "获取验证码")
+	public void valicode(@PathVariable("randomStr") String randomStr, HttpServletResponse response) throws IOException {
 		ArgumentAssert.notEmpty(randomStr, "机器码不能为空");
 		response.setHeader("Cache-Control", "no-store, no-cache");
 		response.setHeader("Transfer-Encoding", "JPG");
@@ -155,14 +155,14 @@ public class AccoutResource extends BaseResource {
 	 * @return
 	 */
 	@PostMapping("/reset/password")
-	@ApiOperation(value = "重置密码")
+	@Operation(summary = "重置密码")
 	public Result resetPassword(@RequestBody @Valid PasswordRestVo passwordRestVo) {
 		userService.resetPassword(passwordRestVo);
 		return Result.buildOk("发送成功");
 	}
 
 	@PostMapping(value = "/reset/email-send")
-	@ApiOperation("重置邮箱，发送验证码")
+	@Operation(summary = "重置邮箱，发送验证码")
 	public Result<Object> resetEmail(@RequestParam String email) {
 		EmailVo emailVo = emailService.sendEmail(email, CommonConstants.EMAIL_RESET_EMAIL_CODE);
 		emailService.send(emailVo, emailService.find());
@@ -170,7 +170,7 @@ public class AccoutResource extends BaseResource {
 	}
 
 	@PostMapping(value = "/reset/pass-send")
-	@ApiOperation("重置密码，发送验证码")
+	@Operation(summary = "重置密码，发送验证码")
 	public Result<Object> resetPass(@RequestParam String email) {
 		EmailVo emailVo = emailService.sendEmail(email, CommonConstants.EMAIL_RESET_PWD_CODE);
 		emailService.send(emailVo, emailService.find());
@@ -178,14 +178,14 @@ public class AccoutResource extends BaseResource {
 	}
 
 	@GetMapping(value = "/validate-pass")
-	@ApiOperation("验证码验证重置密码")
+	@Operation(summary = "验证码验证重置密码")
 	public Result<Object> validatedByPass(@RequestParam String email, @RequestParam String code) {
 		emailService.validated(CommonConstants.EMAIL_RESET_PWD_CODE + email, code);
 		return Result.buildOk("验证成功");
 	}
 
 	@GetMapping(value = "/validate-email")
-	@ApiOperation("验证码验证重置邮箱")
+	@Operation(summary = "验证码验证重置邮箱")
 	public Result<Object> validatedByEmail(@RequestParam String email, @RequestParam String code) {
 		emailService.validated(CommonConstants.EMAIL_RESET_EMAIL_CODE + email, code);
 		return Result.buildOk("验证成功");

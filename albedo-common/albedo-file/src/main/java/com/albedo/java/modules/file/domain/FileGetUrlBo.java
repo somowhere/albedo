@@ -1,6 +1,6 @@
 package com.albedo.java.modules.file.domain;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -23,7 +23,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "FileGetUrlVO", description = "附件查询")
+@Schema(name = "FileGetUrlVO", description = "附件查询")
 public class FileGetUrlBo implements Serializable {
 	private static final long serialVersionUID = 1L;
 

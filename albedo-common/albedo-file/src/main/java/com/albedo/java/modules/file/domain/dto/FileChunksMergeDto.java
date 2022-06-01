@@ -1,7 +1,6 @@
 package com.albedo.java.modules.file.domain.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.ToString;
 
@@ -13,26 +12,26 @@ import lombok.ToString;
  */
 @Data
 @ToString
-@ApiModel(value = "FileChunksMerge", description = "文件合并实体")
+@Schema(name = "FileChunksMerge", description = "文件合并实体")
 public class FileChunksMergeDto {
 
-	@ApiModelProperty(value = "文件唯一名 md5.js 生成的, 与后端生成的一致")
+	@Schema(name = "文件唯一名 md5.js 生成的, 与后端生成的一致")
 	private String name;
-	@ApiModelProperty(value = "原始文件名")
+	@Schema(name = "原始文件名")
 	private String submittedFileName;
 
-	@ApiModelProperty(value = "md5", notes = "webuploader 自带的md5算法值， 与后端生成的不一致")
+	@Schema(name = "md5", description = "webuploader 自带的md5算法值， 与后端生成的不一致")
 	private String md5;
 
-	@ApiModelProperty(value = "分片总数")
+	@Schema(name = "分片总数")
 	private Integer chunks;
-	@ApiModelProperty(value = "后缀")
+	@Schema(name = "后缀")
 	private String ext;
-	@ApiModelProperty(value = "文件夹id")
+	@Schema(name = "文件夹id")
 	private Long folderId;
 
-	@ApiModelProperty(value = "大小")
+	@Schema(name = "大小")
 	private Long size;
-	@ApiModelProperty(value = "类型")
+	@Schema(name = "类型")
 	private String contextType;
 }

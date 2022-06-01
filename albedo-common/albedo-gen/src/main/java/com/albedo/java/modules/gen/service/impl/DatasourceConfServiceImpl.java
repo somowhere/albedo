@@ -21,7 +21,7 @@ import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.modules.gen.cache.DatasourceConfCacheKeyBuilder;
-import com.albedo.java.modules.gen.domain.DatasourceConf;
+import com.albedo.java.modules.gen.domain.DatasourceConfDo;
 import com.albedo.java.modules.gen.domain.dto.DatasourceConfDto;
 import com.albedo.java.modules.gen.repository.DatasourceConfRepository;
 import com.albedo.java.modules.gen.service.DatasourceConfService;
@@ -51,7 +51,7 @@ import java.util.Collection;
 @Transactional(rollbackFor = Exception.class)
 @RequiredArgsConstructor
 public class DatasourceConfServiceImpl
-	extends AbstractDataCacheServiceImpl<DatasourceConfRepository, DatasourceConf, DatasourceConfDto>
+	extends AbstractDataCacheServiceImpl<DatasourceConfRepository, DatasourceConfDo, DatasourceConfDto>
 	implements DatasourceConfService {
 
 	private final StringEncryptor stringEncryptor;
@@ -64,9 +64,9 @@ public class DatasourceConfServiceImpl
 	}
 
 	public Boolean exitDatasourceConfByName(DatasourceConfDto datasourceConfDto) {
-		return getOne(Wrappers.<DatasourceConf>lambdaUpdate()
-			.ne(StringUtil.isNotEmpty(datasourceConfDto.getId()), DatasourceConf::getId, datasourceConfDto.getId())
-			.eq(DatasourceConf::getName, datasourceConfDto.getName())) != null;
+		return getOne(Wrappers.<DatasourceConfDo>lambdaUpdate()
+			.ne(StringUtil.isNotEmpty(datasourceConfDto.getId()), DatasourceConfDo::getId, datasourceConfDto.getId())
+			.eq(DatasourceConfDo::getName, datasourceConfDto.getName())) != null;
 	}
 
 	@Override

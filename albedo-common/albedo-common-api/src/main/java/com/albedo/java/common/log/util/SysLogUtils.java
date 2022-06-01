@@ -25,8 +25,8 @@ import cn.hutool.http.useragent.UserAgentUtil;
 import com.albedo.java.common.core.util.AddressUtil;
 import com.albedo.java.common.core.util.RequestHolder;
 import com.albedo.java.common.core.util.WebUtil;
-import com.albedo.java.modules.sys.domain.LogLogin;
-import com.albedo.java.modules.sys.domain.LogOperate;
+import com.albedo.java.modules.sys.domain.LogLoginDo;
+import com.albedo.java.modules.sys.domain.LogOperateDo;
 import lombok.experimental.UtilityClass;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
@@ -43,28 +43,28 @@ import java.time.LocalDateTime;
 @UtilityClass
 public class SysLogUtils {
 
-	public LogOperate getSysLogOperate() {
+	public LogOperateDo getSysLogOperate() {
 		HttpServletRequest request = RequestHolder.getHttpServletRequest();
-		LogOperate logOperate = new LogOperate();
-		logOperate.setCreatedBy(getUserId());
-		logOperate.setCreatedDate(LocalDateTime.now());
-		logOperate.setUsername(getUsername());
-		logOperate.setIpAddress(WebUtil.getIp(request));
-		logOperate.setIpLocation(AddressUtil.getRegion(logOperate.getIpAddress()));
-		logOperate.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
-		UserAgent userAgent = UserAgentUtil.parse(logOperate.getUserAgent());
-		logOperate.setBrowser(userAgent.getBrowser().getName());
-		logOperate.setOs(userAgent.getOs().getName());
-		logOperate.setRequestUri(URLUtil.getPath(request.getRequestURI()));
-		return logOperate;
+		LogOperateDo logOperateDo = new LogOperateDo();
+		logOperateDo.setCreatedBy(getUserId());
+		logOperateDo.setCreatedDate(LocalDateTime.now());
+		logOperateDo.setUsername(getUsername());
+		logOperateDo.setIpAddress(WebUtil.getIp(request));
+		logOperateDo.setIpLocation(AddressUtil.getRegion(logOperateDo.getIpAddress()));
+		logOperateDo.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
+		UserAgent userAgent = UserAgentUtil.parse(logOperateDo.getUserAgent());
+		logOperateDo.setBrowser(userAgent.getBrowser().getName());
+		logOperateDo.setOs(userAgent.getOs().getName());
+		logOperateDo.setRequestUri(URLUtil.getPath(request.getRequestURI()));
+		return logOperateDo;
 	}
 
-	public LogLogin getSysLogLogin() {
+	public LogLoginDo getSysLogLogin() {
 		HttpServletRequest request = RequestHolder.getHttpServletRequest();
 		String userAgentStr = request.getHeader(HttpHeaders.USER_AGENT);
 		UserAgent userAgent = UserAgentUtil.parse(userAgentStr);
 		String tempIp = WebUtil.getIp(request);
-		return LogLogin.builder()
+		return LogLoginDo.builder()
 			.ipAddress(tempIp)
 			.ipLocation(AddressUtil.getRegion(tempIp))
 			.username(getUsername())

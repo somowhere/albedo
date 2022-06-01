@@ -15,7 +15,7 @@
 
 package com.albedo.java.plugins.database.mybatis.service;
 
-import com.albedo.java.common.core.basic.domain.BaseDataEntity;
+import com.albedo.java.common.core.basic.domain.BaseDataDo;
 import com.albedo.java.common.core.util.BeanUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.vo.DataDto;
@@ -29,7 +29,7 @@ import java.io.Serializable;
  * @description
  * @date 2020/5/31 17:07
  */
-public interface DataService<T extends BaseDataEntity, D extends DataDto>
+public interface DataService<T extends BaseDataDo, D extends DataDto>
 	extends BaseService<T> {
 
 	/**

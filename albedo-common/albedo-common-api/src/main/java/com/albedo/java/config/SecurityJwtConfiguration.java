@@ -117,7 +117,7 @@ public class SecurityJwtConfiguration extends WebSecurityConfigurerAdapter {
 
 		// 搜寻匿名标记 url： @AnonymousAccess
 		Map<RequestMappingInfo, HandlerMethod> handlerMethodMap = applicationContext
-			.getBean(RequestMappingHandlerMapping.class).getHandlerMethods();
+			.getBean("requestMappingHandlerMapping", RequestMappingHandlerMapping.class).getHandlerMethods();
 		// 获取匿名标记
 		Map<String, Set<String>> anonymousUrls = SecurityUtil.getAnonymousUrl(handlerMethodMap);
 

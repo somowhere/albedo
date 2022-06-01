@@ -20,7 +20,7 @@ import cn.hutool.core.convert.Convert;
 import com.albedo.java.common.core.cache.model.CacheKey;
 import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.modules.sys.cache.ApplicationClientCacheKeyBuilder;
-import com.albedo.java.modules.sys.domain.Application;
+import com.albedo.java.modules.sys.domain.ApplicationDo;
 import com.albedo.java.modules.sys.domain.dto.ApplicationDto;
 import com.albedo.java.modules.sys.repository.ApplicationRepository;
 import com.albedo.java.modules.sys.service.ApplicationService;
@@ -40,7 +40,7 @@ import java.util.function.Function;
  * @since 2019/2/1
  */
 @Service
-public class ApplicationServiceImpl extends AbstractDataCacheServiceImpl<ApplicationRepository, Application, ApplicationDto>
+public class ApplicationServiceImpl extends AbstractDataCacheServiceImpl<ApplicationRepository, ApplicationDo, ApplicationDto>
 	implements ApplicationService {
 
 	@Override
@@ -49,9 +49,9 @@ public class ApplicationServiceImpl extends AbstractDataCacheServiceImpl<Applica
 	}
 
 	@Override
-	public Application getByClient(String clientId, String clientSecret) {
-		LbqWrapper<Application> wrapper = Wraps.<Application>lbQ()
-			.select(Application::getId).eq(Application::getClientId, clientId).eq(Application::getClientSecret, clientSecret);
+	public ApplicationDo getByClient(String clientId, String clientSecret) {
+		LbqWrapper<ApplicationDo> wrapper = Wraps.<ApplicationDo>lbQ()
+			.select(ApplicationDo::getId).eq(ApplicationDo::getClientId, clientId).eq(ApplicationDo::getClientSecret, clientSecret);
 		Function<CacheKey, Object> loader = k -> super.getObj(wrapper, Convert::toLong);
 		CacheKey cacheKey = new ApplicationClientCacheKeyBuilder().key(clientId, clientSecret);
 		return getByKey(cacheKey, loader);

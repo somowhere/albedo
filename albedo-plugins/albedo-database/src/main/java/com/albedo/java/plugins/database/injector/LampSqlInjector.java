@@ -1,7 +1,7 @@
 package com.albedo.java.plugins.database.injector;
 
 import cn.hutool.core.util.ArrayUtil;
-import com.albedo.java.common.core.basic.domain.BaseEntity;
+import com.albedo.java.common.core.basic.domain.BaseDo;
 import com.albedo.java.plugins.database.injector.method.UpdateAllById;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
@@ -25,7 +25,7 @@ public class LampSqlInjector extends DefaultSqlInjector {
 		//增加自定义方法
 		methodList.add(new InsertBatchSomeColumn(i -> i.getFieldFill() != FieldFill.UPDATE));
 		methodList.add(new UpdateAllById(field -> !ArrayUtil.containsAny(new String[]{
-			BaseEntity.F_SQL_CREATED_DATE, BaseEntity.F_SQL_CREATED_BY
+			BaseDo.F_SQL_CREATED_DATE, BaseDo.F_SQL_CREATED_BY
 		}, field.getColumn())));
 		return methodList;
 	}

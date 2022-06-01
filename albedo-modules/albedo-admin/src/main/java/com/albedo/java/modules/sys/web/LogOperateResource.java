@@ -35,6 +35,7 @@ import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.log.enums.LogType;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.ExcelUtil;
+import com.albedo.java.modules.sys.domain.LogOperateDo;
 import com.albedo.java.modules.sys.domain.dto.LogOperateQueryCriteria;
 import com.albedo.java.modules.sys.service.LogOperateService;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
@@ -42,8 +43,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.google.common.collect.Lists;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -62,7 +63,7 @@ import java.util.Set;
 @RestController
 @AllArgsConstructor
 @RequestMapping("${application.admin-path}/sys/log-operate")
-@Api(tags = "操作日志")
+@Tag(name = "操作日志")
 public class LogOperateResource {
 
 	private final LogOperateService logOperateService;
@@ -98,18 +99,18 @@ public class LogOperateResource {
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_export')")
 	public void download(LogOperateQueryCriteria logOperateQueryCriteria, HttpServletResponse response) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(logOperateQueryCriteria);
-		ExcelUtil<com.albedo.java.modules.sys.domain.LogOperate> util = new ExcelUtil(
-			com.albedo.java.modules.sys.domain.LogOperate.class);
+		ExcelUtil<LogOperateDo> util = new ExcelUtil(
+			LogOperateDo.class);
 		util.exportExcel(logOperateService.list(wrapper), "操作日志", response);
 	}
 
 	@GetMapping(value = "/user")
-	@ApiOperation("用户日志查询")
+	@Operation(summary = "用户日志查询")
 	public Result<Object> getUserLogs(PageModel pageModel, LogOperateQueryCriteria criteria) {
 		criteria.setLogType(Lists.newArrayList(LogType.INFO.name(), LogType.WARN.name()));
 		criteria.setUsername(SecurityUtil.getUser().getUsername());
-		pageModel.addOrder(OrderItem.desc(com.albedo.java.modules.sys.domain.LogOperate.F_SQL_CREATED_DATE));
-		QueryWrapper<com.albedo.java.modules.sys.domain.LogOperate> wrapper = QueryWrapperUtil.<com.albedo.java.modules.sys.domain.LogOperate>getWrapper(
+		pageModel.addOrder(OrderItem.desc(LogOperateDo.F_SQL_CREATED_DATE));
+		QueryWrapper<LogOperateDo> wrapper = QueryWrapperUtil.<LogOperateDo>getWrapper(
 			pageModel, criteria);
 
 		return Result.buildOkData(logOperateService.page(pageModel, wrapper));

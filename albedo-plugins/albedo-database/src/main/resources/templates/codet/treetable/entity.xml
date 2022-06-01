@@ -27,7 +27,7 @@ import lombok.ToString;
 
 
 import javax.validation.constraints.*;
-<#list table.importList as i>
+<#list tableDo.importList as i>
 import ${i};
 </#list>
 import javax.validation.constraints.NotNull;
@@ -38,12 +38,12 @@ import java.util.Date;
  * @author ${functionAuthor}
  * @version ${functionVersion}
  */
-@TableName(value = "${table.name}")
+@TableName(value = "${tableDo.name}")
 @Data @ToString @NoArgsConstructor @AllArgsConstructor
 public class ${ClassName} extends TreeEntity<${ClassName}> {
 
 	private static final long serialVersionUID = 1L;
-	<#list table.columnList as column>
+	<#list tableDo.columnList as column>
 		<#if !column.pk && column.isNotBaseField && column.isNotBaseTreeField>
 	/** F_${column.constantJavaField} ${column.nameAndTitle} */
 	public static final String F_${column.constantJavaField} = "${column.simpleJavaField}";
@@ -64,11 +64,11 @@ public class ${ClassName} extends TreeEntity<${ClassName}> {
 }
 <#macro generateFields>
 
-	<#list table.columnList as column>
+	<#list tableDo.columnList as column>
 		<#if !column.pk && column.isNotBaseField && column.isNotBaseTreeField>
-	/** ${column.simpleJavaField} ${column.title} */<#if table.parentExists && table.parentTableFk == column.name>
+	/** ${column.simpleJavaField} ${column.title} */<#if tableDo.parentExists && tableDo.parentTableFk == column.name>
 	@TableField(exist = false)
-	private ${table.parent.className} ${column.simpleJavaField};
+	private ${tableDo.parent.className} ${column.simpleJavaField};
 	<#elseif column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
 	@TableField(exist = false)
 	private ${column.simpleJavaType} ${column.simpleJavaField};
@@ -80,7 +80,7 @@ public class ${ClassName} extends TreeEntity<${ClassName}> {
 			</#if>
 		</#if>
 	</#list>
-	<#list table.childList as c>
+	<#list tableDo.childList as c>
 	@TableField(exist = false)
 	private List<${column.className}> ${column.className?uncap_first}List = Lists.newArrayList();
 	</#list>
@@ -88,12 +88,12 @@ public class ${ClassName} extends TreeEntity<${ClassName}> {
 </#macro>
 <#macro generateCompositeIdConstructorIfis>
 
-	<#if table.compositeId>
+	<#if tableDo.compositeId>
 	public ${ClassName}(${ClassName}Id id) {
 		this.id = id;
 	}
 	<#else>
-	public ${ClassName}(${table.pkJavaType} id) {
+	public ${ClassName}(${tableDo.pkJavaType} id) {
 		this.id = id;
 	}
 	</#if>
@@ -103,15 +103,15 @@ public class ${ClassName} extends TreeEntity<${ClassName}> {
 </#macro>
 
 <#macro generateNotPkProperties>
-	<#list table.columnList as column>
+	<#list tableDo.columnList as column>
 		<#if !column.pk && column.isNotBaseField && column.isNotBaseTreeField>
-			<#if table.parentExists && table.parentTableFk == column.name>
+			<#if tableDo.parentExists && tableDo.parentTableFk == column.name>
 	/** ${column.simpleJavaField} ${column.title} */
-	public ${table.parent.className} get${column.simpleJavaField?cap_first}() {
+	public ${tableDo.parent.className} get${column.simpleJavaField?cap_first}() {
 		return ${column.simpleJavaField};
 	}
 	/** ${column.simpleJavaField} ${column.title} */
-	public void set${column.simpleJavaField?cap_first}(${table.parent.className} ${column.simpleJavaField}) {
+	public void set${column.simpleJavaField?cap_first}(${tableDo.parent.className} ${column.simpleJavaField}) {
 		this.${column.simpleJavaField} = ${column.simpleJavaField};
 	}
 			<#else>
@@ -136,13 +136,13 @@ public class ${ClassName} extends TreeEntity<${ClassName}> {
 			</#if>
 		</#if>
 	</#list>
-	<#list table.childList as table>
-	public List<${table.className}> get${table.className}List() {
-		return ${table.className?uncap_first}List;
+	<#list tableDo.childList as tableDo>
+	public List<${tableDo.className}> get${tableDo.className}List() {
+		return ${tableDo.className?uncap_first}List;
 	}
 
-	public void set${table.className}List(List<${table.className}> ${table.className?uncap_first}List) {
-		this.${table.className?uncap_first}List = ${table.className?uncap_first}List;
+	public void set${tableDo.className}List(List<${tableDo.className}> ${tableDo.className?uncap_first}List) {
+		this.${tableDo.className?uncap_first}List = ${tableDo.className?uncap_first}List;
 	}
 	</#list>
 </#macro>

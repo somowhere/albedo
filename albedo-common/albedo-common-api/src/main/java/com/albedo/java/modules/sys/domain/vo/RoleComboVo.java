@@ -16,8 +16,8 @@
 
 package com.albedo.java.modules.sys.domain.vo;
 
-import com.albedo.java.common.core.basic.domain.IdEntity;
-import com.albedo.java.modules.sys.domain.Role;
+import com.albedo.java.common.core.basic.domain.IdDo;
+import com.albedo.java.modules.sys.domain.RoleDo;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -36,10 +36,10 @@ public class RoleComboVo implements Serializable {
 
 	private String name;
 
-	public RoleComboVo(Role role) {
-		this.id = role.getId();
-		this.name = role.getName();
-		this.level = role.getLevel();
+	public RoleComboVo(RoleDo roleDo) {
+		this.id = roleDo.getId();
+		this.name = roleDo.getName();
+		this.level = roleDo.getLevel();
 	}
 
 	@Override
@@ -51,11 +51,11 @@ public class RoleComboVo implements Serializable {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		IdEntity idEntity = (IdEntity) o;
-		if (idEntity.getId() == null || getId() == null) {
+		IdDo idDo = (IdDo) o;
+		if (idDo.getId() == null || getId() == null) {
 			return false;
 		}
-		return Objects.equals(getId(), idEntity.getId());
+		return Objects.equals(getId(), idDo.getId());
 	}
 
 	@Override

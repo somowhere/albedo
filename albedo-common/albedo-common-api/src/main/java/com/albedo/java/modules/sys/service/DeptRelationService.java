@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.modules.sys.domain.DeptRelation;
+import com.albedo.java.modules.sys.domain.DeptRelationDo;
 import com.albedo.java.modules.sys.domain.dto.DeptDto;
 import com.albedo.java.plugins.database.mybatis.service.BaseService;
 
@@ -28,7 +28,7 @@ import com.albedo.java.plugins.database.mybatis.service.BaseService;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface DeptRelationService extends BaseService<DeptRelation> {
+public interface DeptRelationService extends BaseService<DeptRelationDo> {
 
 	/**
 	 * 新建部门关系
@@ -49,6 +49,6 @@ public interface DeptRelationService extends BaseService<DeptRelation> {
 	 *
 	 * @param relation
 	 */
-	void updateDeptRelation(DeptRelation relation);
+	void updateDeptRelation(DeptRelationDo relation);
 
 }

@@ -70,6 +70,18 @@ application:
   version: @project.release.version@
   address-enabled: true
   logPath: logs
+  swagger:
+    enabled: true
+    default-include-pattern: ${application.adminPath}/.*
+    title: ${spring.application.name} API
+    description: ${spring.application.name} API documentation
+    version: 0.0.1
+    terms-of-service:
+    contact-name:
+    contact-url:
+    contact-email:
+    license:
+    license-url:
   static-file-directory:
     mac: ~/albedo/api-file
     linux: /home/albedo/api-file/

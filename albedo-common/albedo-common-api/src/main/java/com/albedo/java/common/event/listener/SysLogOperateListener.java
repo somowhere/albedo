@@ -16,7 +16,7 @@
 
 package com.albedo.java.common.event.listener;
 
-import com.albedo.java.modules.sys.domain.LogOperate;
+import com.albedo.java.modules.sys.domain.LogOperateDo;
 import com.albedo.java.modules.sys.service.LogOperateService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,8 +37,8 @@ public class SysLogOperateListener {
 	@Order
 	@EventListener(SysLogOperateEvent.class)
 	public void saveSysLog(SysLogOperateEvent event) {
-		LogOperate logOperate = (LogOperate) event.getSource();
-		logOperateService.saveOrUpdate(logOperate);
+		LogOperateDo logOperateDo = (LogOperateDo) event.getSource();
+		logOperateService.saveOrUpdate(logOperateDo);
 	}
 
 }

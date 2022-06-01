@@ -15,7 +15,7 @@
 
 package com.albedo.java.modules.gen.repository;
 
-import com.albedo.java.modules.gen.domain.DatasourceConf;
+import com.albedo.java.modules.gen.domain.DatasourceConfDo;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -26,6 +26,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @version 2020-09-20 09:36:15
  */
 @Mapper
-public interface DatasourceConfRepository extends BaseRepository<DatasourceConf> {
+public interface DatasourceConfRepository extends BaseRepository<DatasourceConfDo> {
 
 }

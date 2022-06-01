@@ -29,7 +29,7 @@ import com.albedo.java.common.core.context.ContextUtil;
 import com.albedo.java.common.core.exception.ArgumentException;
 import com.albedo.java.common.core.util.EncryptUtil;
 import com.albedo.java.common.util.RedisUtil;
-import com.albedo.java.modules.tool.domain.EmailConfig;
+import com.albedo.java.modules.tool.domain.EmailConfigDo;
 import com.albedo.java.modules.tool.domain.vo.EmailVo;
 import com.albedo.java.modules.tool.repository.EmailConfigRepository;
 import com.albedo.java.modules.tool.service.EmailService;
@@ -47,46 +47,46 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 @AllArgsConstructor
-public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, EmailConfig> implements EmailService {
+public class EmailServiceImpl extends BaseServiceImpl<EmailConfigRepository, EmailConfigDo> implements EmailService {
 
 	private final EmailConfigRepository emailRepository;
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public EmailConfig config(EmailConfig emailConfig, EmailConfig old) throws Exception {
-		emailConfig.setId(1L);
-		if (!emailConfig.getPass().equals(old.getPass())) {
+	public EmailConfigDo config(EmailConfigDo emailConfigDo, EmailConfigDo old) throws Exception {
+		emailConfigDo.setId(1L);
+		if (!emailConfigDo.getPass().equals(old.getPass())) {
 			// 对称加密
-			emailConfig.setPass(EncryptUtil.desEncrypt(emailConfig.getPass()));
+			emailConfigDo.setPass(EncryptUtil.desEncrypt(emailConfigDo.getPass()));
 		}
-		saveOrUpdate(emailConfig);
-		return emailConfig;
+		saveOrUpdate(emailConfigDo);
+		return emailConfigDo;
 	}
 
 	@Override
-	public EmailConfig find() {
-		EmailConfig emailConfig = emailRepository.selectById(1L);
-		return emailConfig == null ? new EmailConfig() : emailConfig;
+	public EmailConfigDo find() {
+		EmailConfigDo emailConfigDo = emailRepository.selectById(1L);
+		return emailConfigDo == null ? new EmailConfigDo() : emailConfigDo;
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public void send(EmailVo emailVo, EmailConfig emailConfig) {
-		if (emailConfig == null || emailConfig.getId() == null) {
+	public void send(EmailVo emailVo, EmailConfigDo emailConfigDo) {
+		if (emailConfigDo == null || emailConfigDo.getId() == null) {
 			throw new ArgumentException("请先配置，再操作");
 		}
 		// 封装
 		MailAccount account = new MailAccount();
-		account.setHost(emailConfig.getHost());
-		account.setPort(Integer.parseInt(emailConfig.getPort()));
+		account.setHost(emailConfigDo.getHost());
+		account.setPort(Integer.parseInt(emailConfigDo.getPort()));
 		account.setAuth(true);
 		try {
 			// 对称解密
-			account.setPass(EncryptUtil.desDecrypt(emailConfig.getPass()));
+			account.setPass(EncryptUtil.desDecrypt(emailConfigDo.getPass()));
 		} catch (Exception e) {
 			throw new ArgumentException(e.getMessage());
 		}
-		account.setFrom(emailConfig.getUser() + "<" + emailConfig.getFromUser() + ">");
+		account.setFrom(emailConfigDo.getUser() + "<" + emailConfigDo.getFromUser() + ">");
 		// ssl方式发送
 		account.setSslEnable(true);
 		// 使用STARTTLS安全连接

@@ -67,7 +67,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ${ClassName}ResourceIntTest {
 
     private String DEFAULT_API_URL;
-    <#list table.columnList as column>
+    <#list tableDo.columnList as column>
 		<#if column.queryField || (column.editField && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'parentId' || column.simpleJavaField == 'description'))>
 		<#if column.simpleJavaType == "Integer" || column.simpleJavaField == 'sort'>
 	/** DEFAULT_${column.constantJavaField} ${column.nameAndTitle} */
@@ -138,10 +138,10 @@ public class ${ClassName}ResourceIntTest {
      */
     public static ${ClassName}Dto createEntity() {
         ${ClassName}Dto ${className}Dto = ClassUtil.createObj(${ClassName}Dto.class, Lists.newArrayList(
-    <#assign firstListField = true><#list table.columnList as column>
+    <#assign firstListField = true><#list tableDo.columnList as column>
 		<#if column.editField && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'parentId' || column.simpleJavaField == 'description')>
 		<#if firstListField> <#assign firstListField = false><#else>,</#if>${ClassName}.<#if column.simpleJavaField == 'parentId'>F_PARENT_ID<#else>F_${column.constantJavaField}</#if></#if></#list>
-        ), <#assign firstListField = true><#list table.columnList as column>
+        ), <#assign firstListField = true><#list tableDo.columnList as column>
 		<#if column.editField && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'parentId' || column.simpleJavaField == 'description')>
 		<#if firstListField> <#assign firstListField = false><#else>,</#if>DEFAULT_${column.constantJavaField}
 		</#if>
@@ -173,13 +173,13 @@ public class ${ClassName}ResourceIntTest {
         );
         assertThat(${className}List).hasSize(databaseSizeBeforeCreate + 1);
         ${ClassName} test${ClassName} = ${className}List.get(${className}List.size() - 1);
-    <#list table.columnList as column>
+    <#list tableDo.columnList as column>
 		<#if column.editField && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'parentId' || column.simpleJavaField == 'description')>
 		assertThat(test${ClassName}.get${column.simpleJavaField?cap_first}()).isEqualTo(DEFAULT_${column.constantJavaField});
 		</#if>
 	</#list>
     }
-<#list table.columnList as column>
+<#list tableDo.columnList as column>
     <#if column.editField && column.uniqueField && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'parentId' || column.simpleJavaField == 'description')>
     @Test
     @Transactional
@@ -204,7 +204,7 @@ public class ${ClassName}ResourceIntTest {
     </#if>
 </#list>
 
-<#list table.columnList as column>
+<#list tableDo.columnList as column>
     <#if column.editField && !column.nullField && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'description')>
     @Test
     @Transactional
@@ -237,7 +237,7 @@ public class ${ClassName}ResourceIntTest {
         rest${ClassName}MockMvc.perform(get(DEFAULT_API_URL))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-    <#list table.columnList as column>
+    <#list tableDo.columnList as column>
         <#if column.pk>
             .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(${className}Dto.get${column.simpleJavaField?cap_first}())))
         <#elseif column.editField && column.isNotBaseTreeField && column.nullField && (column.isNotBaseField || column.simpleJavaField == 'description')>
@@ -256,7 +256,7 @@ public class ${ClassName}ResourceIntTest {
         rest${ClassName}MockMvc.perform(get(DEFAULT_API_URL+"{id}", ${className}Dto.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-    <#list table.columnList as column>
+    <#list tableDo.columnList as column>
         <#if column.pk>
             .andExpect(jsonPath("$.data.${column.simpleJavaField}").value(${className}Dto.get${column.simpleJavaField?cap_first}()))
         <#elseif column.editField && column.isNotBaseTreeField && column.nullField && (column.isNotBaseField || column.simpleJavaField == 'description')>
@@ -265,7 +265,7 @@ public class ${ClassName}ResourceIntTest {
     </#list>;
     }
 
-<#list table.columnList as column>
+<#list tableDo.columnList as column>
     <#if column.queryField>
     @Test
     @Transactional
@@ -293,7 +293,7 @@ public class ${ClassName}ResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.data.records").isArray())
-    <#list table.columnList as column>
+    <#list tableDo.columnList as column>
         <#if column.pk>
             .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(${className}Dto.get${column.simpleJavaField?cap_first}())))
         <#elseif column.editField && column.nullField && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'description')>
@@ -334,9 +334,9 @@ public class ${ClassName}ResourceIntTest {
         // Update the ${className}
         ${ClassName} updated${ClassName} = ${className}Service.getById(${className}Dto.getId());
         // Disconnect from session so that the updates on updated${ClassName} are not directly saved in db
-        ClassUtil.updateObj(updated${ClassName}, Lists.newArrayList(<#assign firstListField = true><#list table.columnList as column><#if column.editField && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'parentId' || column.simpleJavaField == 'description')>
+        ClassUtil.updateObj(updated${ClassName}, Lists.newArrayList(<#assign firstListField = true><#list tableDo.columnList as column><#if column.editField && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'parentId' || column.simpleJavaField == 'description')>
 		<#if firstListField> <#assign firstListField = false><#else>,</#if>${ClassName}.<#if column.simpleJavaField == 'parentId'>F_PARENT_ID<#else>F_${column.constantJavaField}</#if></#if></#list>
-        ), <#assign firstListField = true><#list table.columnList as column>
+        ), <#assign firstListField = true><#list tableDo.columnList as column>
 		<#if column.editField && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'parentId' || column.simpleJavaField == 'description')>
 		<#if firstListField> <#assign firstListField = false><#else>,</#if>UPDATED_${column.constantJavaField}
 		</#if>
@@ -353,7 +353,7 @@ public class ${ClassName}ResourceIntTest {
         assertThat(${className}List).hasSize(databaseSizeBeforeUpdate);
 
         ${ClassName} test${ClassName} = ${className}List.stream().filter(item->${className}Dto.getId().equals(item.getId())).findAny().get();
-    <#list table.columnList as column>
+    <#list tableDo.columnList as column>
 		<#if column.editField && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'parentId' || column.simpleJavaField == 'description')>
 		assertThat(test${ClassName}.get${column.simpleJavaField?cap_first}()).isEqualTo(UPDATED_${column.constantJavaField});
 		</#if>

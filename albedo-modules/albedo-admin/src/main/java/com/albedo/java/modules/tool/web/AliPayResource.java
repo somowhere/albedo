@@ -17,20 +17,19 @@ package com.albedo.java.modules.tool.web;
 
 import com.albedo.java.common.core.annotation.AnonymousAccess;
 import com.albedo.java.common.log.annotation.LogOperate;
-import com.albedo.java.modules.tool.domain.AlipayConfig;
+import com.albedo.java.modules.tool.domain.AlipayConfigDo;
 import com.albedo.java.modules.tool.domain.vo.TradeVo;
 import com.albedo.java.modules.tool.service.AliPayService;
 import com.albedo.java.modules.tool.util.AliPayStatusEnum;
 import com.albedo.java.modules.tool.util.AliPayUtils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,7 +44,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${application.admin-path}/tool/aliPay")
-@Api(tags = "工具-支付宝管理")
+@Tag(name = "工具-支付宝管理")
 public class AliPayResource {
 
 	private final AliPayUtils alipayUtils;
@@ -53,44 +52,43 @@ public class AliPayResource {
 	private final AliPayService alipayService;
 
 	@GetMapping
-	public ResponseEntity<AlipayConfig> get() {
+	public ResponseEntity<AlipayConfigDo> get() {
 		return new ResponseEntity<>(alipayService.find(), HttpStatus.OK);
 	}
 
 	@LogOperate("配置支付宝")
-	@ApiOperation("配置支付宝")
+	@Operation(summary = "配置支付宝")
 	@PutMapping
-	public ResponseEntity<Object> updateConfig(@Validated @RequestBody AlipayConfig alipayConfig) {
-		alipayService.config(alipayConfig);
+	public ResponseEntity<Object> updateConfig(@Validated @RequestBody AlipayConfigDo alipayConfigDo) {
+		alipayService.config(alipayConfigDo);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@LogOperate("支付宝PC网页支付")
-	@ApiOperation("PC网页支付")
+	@Operation(summary = "PC网页支付")
 	@PostMapping(value = "/toPayAsPC")
 	public ResponseEntity<String> toPayAsPc(@Validated @RequestBody TradeVo trade) throws Exception {
-		AlipayConfig aliPay = alipayService.find();
+		AlipayConfigDo aliPay = alipayService.find();
 		trade.setOutTradeNo(alipayUtils.getOrderCode());
 		String payUrl = alipayService.toPayAsPc(aliPay, trade);
 		return ResponseEntity.ok(payUrl);
 	}
 
 	@LogOperate("支付宝手机网页支付")
-	@ApiOperation("手机网页支付")
+	@Operation(summary = "手机网页支付")
 	@PostMapping(value = "/toPayAsWeb")
 	public ResponseEntity<String> toPayAsWeb(@Validated @RequestBody TradeVo trade) throws Exception {
-		AlipayConfig alipay = alipayService.find();
+		AlipayConfigDo alipay = alipayService.find();
 		trade.setOutTradeNo(alipayUtils.getOrderCode());
 		String payUrl = alipayService.toPayAsWeb(alipay, trade);
 		return ResponseEntity.ok(payUrl);
 	}
 
-	@ApiIgnore
 	@GetMapping("/return")
 	@AnonymousAccess
-	@ApiOperation("支付之后跳转的链接")
+	@Operation(hidden = true, summary = "支付之后跳转的链接")
 	public ResponseEntity<String> returnPage(HttpServletRequest request, HttpServletResponse response) {
-		AlipayConfig alipay = alipayService.find();
+		AlipayConfigDo alipay = alipayService.find();
 		response.setContentType("text/html;charset=" + alipay.getCharset());
 		// 内容验签，防止黑客篡改参数
 		if (alipayUtils.rsaCheck(request, alipay)) {
@@ -110,13 +108,12 @@ public class AliPayResource {
 		}
 	}
 
-	@ApiIgnore
 	@RequestMapping("/notify")
 	@AnonymousAccess
 	@SuppressWarnings("all")
-	@ApiOperation("支付异步通知(要公网访问)，接收异步通知，检查通知内容app_id、out_trade_no、total_amount是否与请求中的一致，根据trade_status进行后续业务处理")
+	@Operation(hidden = true, summary = "支付异步通知(要公网访问)，接收异步通知，检查通知内容app_id、out_trade_no、total_amount是否与请求中的一致，根据trade_status进行后续业务处理")
 	public ResponseEntity<Object> notify(HttpServletRequest request) {
-		AlipayConfig alipay = alipayService.find();
+		AlipayConfigDo alipay = alipayService.find();
 		Map<String, String[]> parameterMap = request.getParameterMap();
 		// 内容验签，防止黑客篡改参数
 		if (alipayUtils.rsaCheck(request, alipay)) {

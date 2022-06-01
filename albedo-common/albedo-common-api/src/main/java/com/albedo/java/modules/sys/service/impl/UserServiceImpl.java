@@ -28,10 +28,10 @@ import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.RedisUtil;
 import com.albedo.java.modules.sys.cache.UserCacheKeyBuilder;
-import com.albedo.java.modules.sys.domain.Dept;
-import com.albedo.java.modules.sys.domain.Role;
-import com.albedo.java.modules.sys.domain.User;
-import com.albedo.java.modules.sys.domain.UserRole;
+import com.albedo.java.modules.sys.domain.DeptDo;
+import com.albedo.java.modules.sys.domain.RoleDo;
+import com.albedo.java.modules.sys.domain.UserDo;
+import com.albedo.java.modules.sys.domain.UserRoleDo;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
 import com.albedo.java.modules.sys.domain.dto.UserEmailDto;
 import com.albedo.java.modules.sys.domain.dto.UserQueryCriteria;
@@ -74,7 +74,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository, User, UserDto> implements UserService {
+public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository, UserDo, UserDto> implements UserService {
 
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -145,9 +145,9 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 	public UserInfo getInfo(UserVo userVo) {
 		UserInfo userInfo = new UserInfo();
 		userInfo.setUser(userVo);
-		List<Role> roles = roleService.findListByUserId(userVo.getId());
+		List<RoleDo> roleDos = roleService.findListByUserId(userVo.getId());
 		// 设置角色列表 （ID）
-		List<Long> roleIds = roles.stream().map(Role::getId).collect(Collectors.toList());
+		List<Long> roleIds = roleDos.stream().map(RoleDo::getId).collect(Collectors.toList());
 		userInfo.setRoles(ArrayUtil.toArray(roleIds, Long.class));
 		// 设置权限列表（menu.permission）
 		Set<String> permissions = new HashSet<>();
@@ -177,28 +177,28 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 
 	@Override
 	public List<UserVo> findList(UserQueryCriteria userQueryCriteria, DataScope dataScope) {
-		QueryWrapper wrapper = QueryWrapperUtil.<User>getWrapper(userQueryCriteria);
+		QueryWrapper wrapper = QueryWrapperUtil.<UserDo>getWrapper(userQueryCriteria);
 		wrapper.orderByDesc("a.created_date");
 		return repository.findUserVoList(wrapper, dataScope);
 	}
 
-	public Boolean exitUserByUserName(User user) {
-		return getOne(Wrappers.<User>query().ne(ObjectUtil.isNotEmpty(user.getId()), UserDto.F_ID, user.getId())
-			.eq(UserDto.F_USERNAME, user.getUsername())) != null;
+	public Boolean exitUserByUserName(UserDo userDo) {
+		return getOne(Wrappers.<UserDo>query().ne(ObjectUtil.isNotEmpty(userDo.getId()), UserDto.F_ID, userDo.getId())
+			.eq(UserDto.F_USERNAME, userDo.getUsername())) != null;
 	}
 
 	public Boolean exitUserByUserName(UserDto userDto) {
-		return getOne(Wrappers.<User>query().ne(ObjectUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
+		return getOne(Wrappers.<UserDo>query().ne(ObjectUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
 			.eq(UserDto.F_USERNAME, userDto.getUsername())) != null;
 	}
 
 	public Boolean exitUserByEmail(UserDto userDto) {
-		return getOne(Wrappers.<User>query().ne(ObjectUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
+		return getOne(Wrappers.<UserDo>query().ne(ObjectUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
 			.eq(UserDto.F_EMAIL, userDto.getEmail())) != null;
 	}
 
 	public Boolean exitUserByPhone(UserDto userDto) {
-		return getOne(Wrappers.<User>query().ne(ObjectUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
+		return getOne(Wrappers.<UserDo>query().ne(ObjectUtil.isNotEmpty(userDto.getId()), UserDto.F_ID, userDto.getId())
 			.eq(UserDto.F_PHONE, userDto.getPhone())) != null;
 	}
 
@@ -226,23 +226,23 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 		if (StringUtil.isNotEmpty(userDto.getPhone()) && exitUserByPhone(userDto)) {
 			throw new EntityExistException(UserDto.class, "phone", userDto.getPhone());
 		}
-		User user = add ? new User() : repository.selectById(userDto.getId());
-		BeanUtil.copyProperties(userDto, user, true);
+		UserDo userDo = add ? new UserDo() : repository.selectById(userDto.getId());
+		BeanUtil.copyProperties(userDto, userDo, true);
 		if (StringUtil.isNotEmpty(userDto.getPassword())) {
-			user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+			userDo.setPassword(passwordEncoder.encode(userDto.getPassword()));
 		}
-		super.saveOrUpdate(user);
-		userDto.setId(user.getId());
+		super.saveOrUpdate(userDo);
+		userDto.setId(userDo.getId());
 		if (add || CollUtil.isNotEmpty(userDto.getRoleIdList())) {
 			ArgumentAssert.notEmpty(userDto.getRoleIdList(), "用户角色不能为空");
 			if (!add) {
-				SysCacheUtil.delUserCaches(user.getId(), user.getUsername());
+				SysCacheUtil.delUserCaches(userDo.getId(), userDo.getUsername());
 			}
-			List<UserRole> userRoleList = userDto.getRoleIdList().stream()
-				.map(roleId -> UserRole.builder().userId(user.getId()).roleId(roleId).build())
+			List<UserRoleDo> userRoleDoList = userDto.getRoleIdList().stream()
+				.map(roleId -> UserRoleDo.builder().userId(userDo.getId()).roleId(roleId).build())
 				.collect(Collectors.toList());
-			userRoleService.removeRoleByUserId(user.getId());
-			userRoleService.saveBatch(userRoleList);
+			userRoleService.removeRoleByUserId(userDo.getId());
+			userRoleService.saveBatch(userRoleDoList);
 		}
 	}
 
@@ -250,10 +250,10 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 	public Boolean removeByIds(List<Long> idList) {
 		idList.stream().forEach(id -> {
 			ArgumentAssert.notEquals(SecurityUtil.getUser().getId(), id, "不能操作当前登录用户");
-			User user = repository.selectById(id);
-			SysCacheUtil.delUserCaches(user.getId(), user.getUsername());
-			userRoleService.removeRoleByUserId(user.getId());
-			this.removeById(user.getId());
+			UserDo userDo = repository.selectById(id);
+			SysCacheUtil.delUserCaches(userDo.getId(), userDo.getUsername());
+			userRoleService.removeRoleByUserId(userDo.getId());
+			this.removeById(userDo.getId());
 		});
 		return Boolean.TRUE;
 	}
@@ -266,16 +266,16 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public List<User> listAncestorUsersByUsername(String username) {
-		User user = this.getOne(Wrappers.<User>query().lambda().eq(User::getUsername, username));
+	public List<UserDo> listAncestorUsersByUsername(String username) {
+		UserDo userDo = this.getOne(Wrappers.<UserDo>query().lambda().eq(UserDo::getUsername, username));
 
-		Dept dept = deptService.getById(user.getDeptId());
-		if (dept == null) {
+		DeptDo deptDo = deptService.getById(userDo.getDeptId());
+		if (deptDo == null) {
 			return null;
 		}
 
-		Long parentId = dept.getParentId();
-		return this.list(Wrappers.<User>query().lambda().eq(User::getDeptId, parentId));
+		Long parentId = deptDo.getParentId();
+		return this.list(Wrappers.<UserDo>query().lambda().eq(UserDo::getDeptId, parentId));
 	}
 
 	@Override
@@ -283,12 +283,12 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 		ArgumentAssert.notEmpty(idList, "idList不能为空");
 		for (Long id : idList) {
 			ArgumentAssert.notEquals(SecurityUtil.getUser().getId(), id, "不能操作当前登录用户");
-			User user = repository.selectById(id);
-			ArgumentAssert.notNull(user, "无法找到ID为" + id + "的数据");
-			user.setAvailable(
-				CommonConstants.YES.equals(user.getAvailable()) ? CommonConstants.NO : CommonConstants.YES);
-			SysCacheUtil.delUserCaches(user.getId(), user.getUsername());
-			int i = repository.updateById(user);
+			UserDo userDo = repository.selectById(id);
+			ArgumentAssert.notNull(userDo, "无法找到ID为" + id + "的数据");
+			userDo.setAvailable(
+				CommonConstants.YES.equals(userDo.getAvailable()) ? CommonConstants.NO : CommonConstants.YES);
+			SysCacheUtil.delUserCaches(userDo.getId(), userDo.getUsername());
+			int i = repository.updateById(userDo);
 			ArgumentAssert.isTrue(i != 0, "无法更新ID为" + id + "的数据");
 		}
 	}
@@ -302,16 +302,16 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 
 		Object tempCode = RedisUtil.getCacheString(SecurityConstants.DEFAULT_CODE_KEY + passwordRestVo.getPhone());
 		ArgumentAssert.equals(passwordRestVo.getCode(), tempCode, "验证码输入有误");
-		User user = repository
-			.selectOne(Wrappers.<User>query().lambda().eq(User::getUsername, passwordRestVo.getUsername()));
-		updatePassword(user, passwordRestVo.getPasswordPlaintext(), passwordRestVo.getNewPassword());
+		UserDo userDo = repository
+			.selectOne(Wrappers.<UserDo>query().lambda().eq(UserDo::getUsername, passwordRestVo.getUsername()));
+		updatePassword(userDo, passwordRestVo.getPasswordPlaintext(), passwordRestVo.getNewPassword());
 	}
 
-	private void updatePassword(User user, String passwordPlaintext, String newPassword) {
-		user.setPassword(newPassword);
-		SysCacheUtil.delBaseUserCaches(user.getId(), user.getUsername());
-		repository.updateById(user);
-		log.debug("Changed password for User: {}", user);
+	private void updatePassword(UserDo userDo, String passwordPlaintext, String newPassword) {
+		userDo.setPassword(newPassword);
+		SysCacheUtil.delBaseUserCaches(userDo.getId(), userDo.getUsername());
+		repository.updateById(userDo);
+		log.debug("Changed password for User: {}", userDo);
 	}
 
 	@Override
@@ -320,71 +320,71 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 		ArgumentAssert.isTrue(passwordChangeVo != null && checkPasswordLength(passwordChangeVo.getNewPassword()), "密码格式有误");
 		ArgumentAssert.notEquals(passwordChangeVo.getNewPassword(), passwordChangeVo.getOldPassword(), "新旧密码不能相同");
 		ArgumentAssert.equals(passwordChangeVo.getNewPassword(), passwordChangeVo.getConfirmPassword(), "两次输入密码不一致");
-		User user = repository.selectOne(Wrappers.<User>query().lambda().eq(User::getUsername, username));
-		ArgumentAssert.isTrue(passwordEncoder.matches(passwordChangeVo.getOldPassword(), user.getPassword()), "输入原密码有误");
+		UserDo userDo = repository.selectOne(Wrappers.<UserDo>query().lambda().eq(UserDo::getUsername, username));
+		ArgumentAssert.isTrue(passwordEncoder.matches(passwordChangeVo.getOldPassword(), userDo.getPassword()), "输入原密码有误");
 
 		passwordChangeVo.setNewPassword(passwordEncoder.encode(passwordChangeVo.getNewPassword()));
 
-		updatePassword(user, passwordChangeVo.getConfirmPassword(), passwordChangeVo.getNewPassword());
+		updatePassword(userDo, passwordChangeVo.getConfirmPassword(), passwordChangeVo.getNewPassword());
 	}
 
 	@Override
 	public void save(@Valid UserExcelVo userExcelVo) {
 		UserDto user = new UserDto();
 		BeanUtils.copyProperties(userExcelVo, user);
-		Dept dept = deptService.getOne(Wrappers.<Dept>query().lambda().eq(Dept::getName, userExcelVo.getDeptName()));
-		if (dept != null) {
-			user.setDeptId(dept.getId());
+		DeptDo deptDo = deptService.getOne(Wrappers.<DeptDo>query().lambda().eq(DeptDo::getName, userExcelVo.getDeptName()));
+		if (deptDo != null) {
+			user.setDeptId(deptDo.getId());
 		}
-		Role role = roleService.getOne(Wrappers.<Role>query().lambda().eq(Role::getName, userExcelVo.getRoleName()));
-		ArgumentAssert.notNull(role, () -> new BizException("无法获取角色" + userExcelVo.getRoleName() + "信息"));
-		user.setRoleIdList(Lists.newArrayList(role.getId()));
+		RoleDo roleDo = roleService.getOne(Wrappers.<RoleDo>query().lambda().eq(RoleDo::getName, userExcelVo.getRoleName()));
+		ArgumentAssert.notNull(roleDo, () -> new BizException("无法获取角色" + userExcelVo.getRoleName() + "信息"));
+		user.setRoleIdList(Lists.newArrayList(roleDo.getId()));
 		saveOrUpdate(user);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<User> findListByRoleId(Long roleId) {
+	public List<UserDo> findListByRoleId(Long roleId) {
 		return repository.findListByRoleId(roleId);
 	}
 
 	@Override
 	public void updateEmail(String username, UserEmailDto userEmailDto) {
-		User user = repository.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
-		ArgumentAssert.notNull(user, "无法获取用户信息" + username);
-		ArgumentAssert.isTrue(passwordEncoder.matches(userEmailDto.getPassword(), user.getPassword()), "输入密码有误");
-		user.setEmail(userEmailDto.getEmail());
-		SysCacheUtil.delBaseUserCaches(user.getId(), user.getUsername());
-		repository.updateById(user);
+		UserDo userDo = repository.selectOne(Wrappers.<UserDo>lambdaQuery().eq(UserDo::getUsername, username));
+		ArgumentAssert.notNull(userDo, "无法获取用户信息" + username);
+		ArgumentAssert.isTrue(passwordEncoder.matches(userEmailDto.getPassword(), userDo.getPassword()), "输入密码有误");
+		userDo.setEmail(userEmailDto.getEmail());
+		SysCacheUtil.delBaseUserCaches(userDo.getId(), userDo.getUsername());
+		repository.updateById(userDo);
 	}
 
 	@Override
 	public void updateAvatar(String username, String avatar) {
-		User user = repository.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
-		ArgumentAssert.notNull(user, "无法获取用户信息" + username);
-		user.setAvatar(avatar);
-		SysCacheUtil.delBaseUserCaches(user.getId(), user.getUsername());
-		repository.updateById(user);
+		UserDo userDo = repository.selectOne(Wrappers.<UserDo>lambdaQuery().eq(UserDo::getUsername, username));
+		ArgumentAssert.notNull(userDo, "无法获取用户信息" + username);
+		userDo.setAvatar(avatar);
+		SysCacheUtil.delBaseUserCaches(userDo.getId(), userDo.getUsername());
+		repository.updateById(userDo);
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean initUser(User user) {
+	public boolean initUser(UserDo userDo) {
 		// username before comparing with database
-		if (exitUserByUserName(user)) {
-			throw new EntityExistException(User.class, "username", user.getUsername());
+		if (exitUserByUserName(userDo)) {
+			throw new EntityExistException(UserDo.class, "username", userDo.getUsername());
 		}
-		if (StringUtil.isNotEmpty(user.getPassword())) {
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
+		if (StringUtil.isNotEmpty(userDo.getPassword())) {
+			userDo.setPassword(passwordEncoder.encode(userDo.getPassword()));
 		}
-		super.saveOrUpdate(user);
-		return userRoleService.initAdmin(user.getId());
+		super.saveOrUpdate(userDo);
+		return userRoleService.initAdmin(userDo.getId());
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public long todayUserCount() {
-		return count(Wraps.<User>lbQ().leFooter(User::getCreatedDate, LocalDateTime.now()).geHeader(User::getCreatedDate, LocalDateTime.now()));
+		return count(Wraps.<UserDo>lbQ().leFooter(UserDo::getCreatedDate, LocalDateTime.now()).geHeader(UserDo::getCreatedDate, LocalDateTime.now()));
 	}
 
 }

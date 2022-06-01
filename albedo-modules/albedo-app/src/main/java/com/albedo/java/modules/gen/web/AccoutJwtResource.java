@@ -27,8 +27,8 @@ import com.albedo.java.common.security.util.LoginUtil;
 import com.albedo.java.common.util.RedisUtil;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.vo.account.LoginVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -57,7 +57,7 @@ import java.util.LinkedHashMap;
  */
 @RestController
 @RequestMapping("${application.admin-path}")
-@Api(tags = "账户相关数据接口")
+@Tag(name = "账户相关数据接口")
 @Slf4j
 @AllArgsConstructor
 @Profile(CommonConstants.SPRING_PROFILE_JWT)
@@ -75,7 +75,7 @@ public class AccoutJwtResource extends BaseResource {
 	 * @param jwt the HTTP request
 	 */
 	@GetMapping("/refresh-token")
-	@ApiOperation("刷新登录Token")
+	@Operation(summary = "刷新登录Token")
 	public Result refreshToken(@RequestHeader(value = HttpHeaders.AUTHORIZATION) String jwt) {
 		String refreshToken = tokenProvider.refreshToken(jwt);
 		if (StringUtil.isEmpty(refreshToken)) {
@@ -94,7 +94,7 @@ public class AccoutJwtResource extends BaseResource {
 	 */
 	@AnonymousAccess
 	@PostMapping(SecurityConstants.AUTHENTICATE_URL)
-	@ApiOperation("认证授权")
+	@Operation(summary = "认证授权")
 	public ResponseEntity<Result> authorize(@Valid @RequestBody LoginVo loginVo) {
 
 		Date canLoginDate = RedisUtil
@@ -169,7 +169,7 @@ public class AccoutJwtResource extends BaseResource {
 	 */
 	@AnonymousAccess
 	@GetMapping(value = "/logout")
-	@ApiOperation("登出")
+	@Operation(summary = "登出")
 	public ResponseEntity<Result> logout(
 		@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
 		HttpServletRequest request, HttpServletResponse response) {

@@ -16,8 +16,7 @@
 package com.albedo.java.modules.quartz.domain.enums;
 
 import com.albedo.java.common.core.enumeration.BaseEnum;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,13 +29,13 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "JobStatus", description = "任务状态-枚举")
+@Schema(name = "JobStatus", description = "任务状态-枚举")
 public enum JobStatus implements BaseEnum {
 
 	RUNNING("运行中"),
 	PAUSE("暂停");
 
-	@ApiModelProperty(value = "描述")
+	@Schema(name = "描述")
 	private String text;
 
 
@@ -56,7 +55,7 @@ public enum JobStatus implements BaseEnum {
 	}
 
 	@Override
-	@ApiModelProperty(value = "任务状态", allowableValues = "RUNNING,PAUSE", example = "RUNNING")
+	@Schema(name = "任务状态", allowableValues = "RUNNING,PAUSE", example = "RUNNING")
 	public String getCode() {
 		return this.name();
 	}

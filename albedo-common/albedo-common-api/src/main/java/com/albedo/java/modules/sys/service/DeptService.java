@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.modules.sys.domain.Dept;
+import com.albedo.java.modules.sys.domain.DeptDo;
 import com.albedo.java.modules.sys.domain.dto.DeptDto;
 import com.albedo.java.modules.sys.domain.dto.DeptQueryCriteria;
 import com.albedo.java.modules.sys.domain.vo.DeptVo;
@@ -34,7 +34,7 @@ import java.util.Set;
  * @author somewhere
  * @since 2019/2/1
  */
-public interface DeptService extends TreeService<Dept, DeptDto> {
+public interface DeptService extends TreeService<DeptDo, DeptDto> {
 
 	/**
 	 * 获取祖先后代节点

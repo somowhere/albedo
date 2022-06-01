@@ -16,7 +16,7 @@
 package com.albedo.java.common.core.vo;
 
 import cn.hutool.core.util.EscapeUtil;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.ToString;
 
@@ -26,7 +26,7 @@ import lombok.ToString;
  * @author somewhere
  */
 @Data
-@ApiModel
+@Schema
 @ToString
 public class DictQuerySearch {
 

@@ -233,5 +233,5 @@ public interface CommonConstants {
 
 	String ANONYMOUS_USER = "anonymoususer";
 
-	public static final String DATA_TYPE_MULTIPART_FILE = "MultipartFile";
+	String DATA_TYPE_MULTIPART_FILE = "MultipartFile";
 }

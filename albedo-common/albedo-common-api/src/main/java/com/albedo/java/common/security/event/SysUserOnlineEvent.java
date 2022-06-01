@@ -16,7 +16,7 @@
 
 package com.albedo.java.common.security.event;
 
-import com.albedo.java.modules.sys.domain.UserOnline;
+import com.albedo.java.modules.sys.domain.UserOnlineDo;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -24,7 +24,7 @@ import org.springframework.context.ApplicationEvent;
  */
 public class SysUserOnlineEvent extends ApplicationEvent {
 
-	public SysUserOnlineEvent(UserOnline source) {
+	public SysUserOnlineEvent(UserOnlineDo source) {
 		super(source);
 	}
 

@@ -15,7 +15,7 @@
 
 package com.albedo.java.modules.tool.util;
 
-import com.albedo.java.modules.tool.domain.AlipayConfig;
+import com.albedo.java.modules.tool.domain.AlipayConfigDo;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import org.springframework.stereotype.Component;
@@ -61,7 +61,7 @@ public class AliPayUtils {
 	 * @param alipay  阿里云配置
 	 * @return boolean
 	 */
-	public boolean rsaCheck(HttpServletRequest request, AlipayConfig alipay) {
+	public boolean rsaCheck(HttpServletRequest request, AlipayConfigDo alipay) {
 
 		// 获取支付宝POST过来反馈信息
 		Map<String, String> params = new HashMap<>(1);

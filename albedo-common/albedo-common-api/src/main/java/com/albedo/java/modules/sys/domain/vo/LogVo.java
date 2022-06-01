@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.domain.vo;
 
-import com.albedo.java.modules.sys.domain.LogOperate;
+import com.albedo.java.modules.sys.domain.LogOperateDo;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -30,7 +30,7 @@ public class LogVo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private LogOperate logOperate;
+	private LogOperateDo logOperateDo;
 
 	private String username;
 

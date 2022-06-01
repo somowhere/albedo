@@ -25,7 +25,7 @@ import com.albedo.java.modules.quartz.domain.vo.JobLogExcelVo;
 import com.albedo.java.modules.quartz.service.JobLogService;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +42,7 @@ import java.util.Set;
 @RestController
 @RequestMapping(value = "${application.admin-path}/quartz/job-log")
 @AllArgsConstructor
-@Api(tags = "定时任务日志")
+@Tag(name = "定时任务日志")
 public class JobLogResource extends BaseResource {
 
 	private final JobLogService jobLogService;

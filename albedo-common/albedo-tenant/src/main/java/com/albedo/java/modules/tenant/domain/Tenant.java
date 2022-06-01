@@ -1,7 +1,7 @@
 package com.albedo.java.modules.tenant.domain;
 
 import com.albedo.java.common.core.annotation.ExcelField;
-import com.albedo.java.common.core.basic.domain.IdEntity;
+import com.albedo.java.common.core.basic.domain.IdDo;
 import com.albedo.java.common.core.util.DateUtil;
 import com.albedo.java.modules.tenant.enumeration.TenantConnectTypeEnum;
 import com.albedo.java.modules.tenant.enumeration.TenantStatusEnum;
@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.SqlCondition;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -34,14 +34,14 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @TableName("sys_tenant")
 @AllArgsConstructor
-public class Tenant extends IdEntity<Tenant, Long> {
+public class Tenant extends IdDo<Tenant, Long> {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 企业编码
 	 */
-	@ApiModelProperty(value = "企业编码")
+	@Schema(name = "企业编码")
 	@NotEmpty(message = "企业编码不能为空")
 	@Size(max = 20, message = "企业编码长度不能超过20")
 	@TableField(value = "code", condition = SqlCondition.LIKE)
@@ -51,7 +51,7 @@ public class Tenant extends IdEntity<Tenant, Long> {
 	/**
 	 * 企业名称
 	 */
-	@ApiModelProperty(value = "企业名称")
+	@Schema(name = "企业名称")
 	@Size(max = 255, message = "企业名称长度不能超过255")
 	@TableField(value = "name", condition = SqlCondition.LIKE)
 	@ExcelField(title = "企业名称", width = 20)
@@ -61,7 +61,7 @@ public class Tenant extends IdEntity<Tenant, Long> {
 	 * 类型
 	 * #{CREATE:创建;REGISTER:注册} 0=男,1=女,2=未知
 	 */
-	@ApiModelProperty(value = "类型")
+	@Schema(name = "类型")
 	@TableField("type")
 	@ExcelField(title = "类型", width = 20, readConverterExp = "CREATE=创建,REGISTER=注册")
 	private TenantTypeEnum type;
@@ -70,7 +70,7 @@ public class Tenant extends IdEntity<Tenant, Long> {
 	 * 连接类型
 	 * #TenantConnectTypeEnum{LOCAL:本地;REMOTE:远程}
 	 */
-	@ApiModelProperty(value = "连接类型")
+	@Schema(name = "连接类型")
 	@TableField("connect_type")
 	@ExcelField(title = "连接类型", width = 20, readConverterExp = "LOCAL=本地,REMOTE=远程")
 	private TenantConnectTypeEnum connectType;
@@ -79,7 +79,7 @@ public class Tenant extends IdEntity<Tenant, Long> {
 	 * 状态
 	 * #{NORMAL:正常;WAIT_INIT:待初始化;FORBIDDEN:禁用;WAITING:待审核;REFUSE:拒绝;DELETE:已删除}
 	 */
-	@ApiModelProperty(value = "状态")
+	@Schema(name = "状态")
 	@TableField("status")
 	@ExcelField(title = "状态", width = 20, readConverterExp = "NORMAL=正常,WAIT_INIT=待初始化,FORBIDDEN=禁用,WAITING=待审核,REFUSE=拒绝,DELETE=已删除")
 	private TenantStatusEnum status;
@@ -87,7 +87,7 @@ public class Tenant extends IdEntity<Tenant, Long> {
 	/**
 	 * 内置
 	 */
-	@ApiModelProperty(value = "内置")
+	@Schema(name = "内置")
 	@TableField("readonly_")
 	@ExcelField(title = "内置", readConverterExp = "true=是,false=否")
 	private Boolean readonly;
@@ -95,7 +95,7 @@ public class Tenant extends IdEntity<Tenant, Long> {
 	/**
 	 * 责任人
 	 */
-	@ApiModelProperty(value = "责任人")
+	@Schema(name = "责任人")
 	@Size(max = 50, message = "责任人长度不能超过50")
 	@TableField(value = "duty", condition = SqlCondition.LIKE)
 	@ExcelField(title = "责任人")
@@ -105,7 +105,7 @@ public class Tenant extends IdEntity<Tenant, Long> {
 	 * 有效期
 	 * 为空表示永久
 	 */
-	@ApiModelProperty(value = "有效期")
+	@Schema(name = "有效期")
 	@TableField(value = "expiration_time", updateStrategy = FieldStrategy.IGNORED)
 	@ExcelField(title = "有效期", dateFormat = DateUtil.TIME_FORMAT, width = 20)
 	private LocalDateTime expirationTime;
@@ -113,7 +113,7 @@ public class Tenant extends IdEntity<Tenant, Long> {
 	/**
 	 * logo地址
 	 */
-	@ApiModelProperty(value = "logo地址")
+	@Schema(name = "logo地址")
 	@Size(max = 255, message = "logo地址长度不能超过255")
 	@TableField(value = "logo", condition = SqlCondition.LIKE)
 	private String logo;
@@ -121,7 +121,7 @@ public class Tenant extends IdEntity<Tenant, Long> {
 	/**
 	 * 企业简介
 	 */
-	@ApiModelProperty(value = "企业简介")
+	@Schema(name = "企业简介")
 	@Size(max = 255, message = "企业简介长度不能超过255")
 	@TableField(value = "describe_", condition = SqlCondition.LIKE)
 	@ExcelField(title = "企业简介", width = 20)

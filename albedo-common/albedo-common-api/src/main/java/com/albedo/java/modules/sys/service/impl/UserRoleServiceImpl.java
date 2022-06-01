@@ -18,8 +18,8 @@ package com.albedo.java.modules.sys.service.impl;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.ArgumentAssert;
-import com.albedo.java.modules.sys.domain.Role;
-import com.albedo.java.modules.sys.domain.UserRole;
+import com.albedo.java.modules.sys.domain.RoleDo;
+import com.albedo.java.modules.sys.domain.UserRoleDo;
 import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.repository.UserRoleRepository;
 import com.albedo.java.modules.sys.service.UserRoleService;
@@ -38,7 +38,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleRepository, UserRole> implements UserRoleService {
+public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleRepository, UserRoleDo> implements UserRoleService {
 
 	private final RoleRepository roleRepository;
 
@@ -57,13 +57,13 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleRepository, Use
 
 	@Override
 	public boolean initAdmin(Long userId) {
-		Role role = roleRepository.selectOne(Wraps.<Role>lbQ().eq(Role::getCode, CommonConstants.ADMIN_ROLE_CODE));
-		ArgumentAssert.notNull(role, "初始化用户角色失败, 无法查询到内置角色:%s", CommonConstants.ADMIN_ROLE_CODE);
-		UserRole userRole = UserRole.builder()
-			.userId(userId).roleId(role.getId())
+		RoleDo roleDo = roleRepository.selectOne(Wraps.<RoleDo>lbQ().eq(RoleDo::getCode, CommonConstants.ADMIN_ROLE_CODE));
+		ArgumentAssert.notNull(roleDo, "初始化用户角色失败, 无法查询到内置角色:%s", CommonConstants.ADMIN_ROLE_CODE);
+		UserRoleDo userRoleDo = UserRoleDo.builder()
+			.userId(userId).roleId(roleDo.getId())
 			.build();
 
-		return super.save(userRole);
+		return super.save(userRoleDo);
 	}
 
 }

@@ -36,7 +36,7 @@ import java.util.*;
 public class ${ClassName}QueryCriteria implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	<#list table.columnList as column>
+	<#list tableDo.columnList as column>
 		<#if column.queryField><#assign flag = false>
 	/** F_${column.constantJavaField} ${column.nameAndTitle} */
 	@Query(<#if column.name != column.simpleJavaField><#assign flag = true>propName = "${column.name}"</#if><#if column.queryType?? && column.queryType != "" && column.queryType != "eq"><#if flag>, </#if>operator = Query.Operator.${column.queryType}</#if>)

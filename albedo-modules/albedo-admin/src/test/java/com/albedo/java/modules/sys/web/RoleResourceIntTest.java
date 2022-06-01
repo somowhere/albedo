@@ -150,14 +150,14 @@ public class RoleResourceIntTest {
 	public void initTest() {
 		roleDto = createEntity();
 		// Initialize the database
-		List<Menu> allMenuEntities = menuService.list();
-		List<Dept> allDept = deptService.list();
+		List<MenuDo> allMenuEntityDos = menuService.list();
+		List<DeptDo> allDeptDo = deptService.list();
 		anotherRole.setName(DEFAULT_ANOTHER_NAME);
 		anotherRole.setDataScope(DEFAULT_DATASCOPE);
 		anotherRole.setLevel(DEFAULT_LEVEL);
 		anotherRole.setDescription(DEFAULT_DESCRIPTION);
-		anotherRole.setMenuIdList(CollUtil.extractToList(allMenuEntities, Menu.F_ID));
-		anotherRole.setDeptIdList(CollUtil.extractToList(allDept, Menu.F_ID));
+		anotherRole.setMenuIdList(CollUtil.extractToList(allMenuEntityDos, MenuDo.F_ID));
+		anotherRole.setDeptIdList(CollUtil.extractToList(allDeptDo, MenuDo.F_ID));
 		roleService.saveOrUpdate(anotherRole);
 		roleDto.setMenuIdList(anotherRole.getMenuIdList());
 		roleDto.setDeptIdList(anotherRole.getDeptIdList());
@@ -166,20 +166,20 @@ public class RoleResourceIntTest {
 	@Test
 	@Transactional(rollbackFor = Exception.class)
 	public void createRole() throws Exception {
-		List<Role> databaseSizeBeforeCreate = roleService.list();
+		List<RoleDo> databaseSizeBeforeCreate = roleService.list();
 
 		// Create the Role
 		restRoleMockMvc.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
 			.content(TestUtil.convertObjectToJsonBytes(roleDto))).andExpect(status().isOk());
 
 		// Validate the Role in the database
-		List<Role> roleList = roleService.list();
-		assertThat(roleList).hasSize(databaseSizeBeforeCreate.size() + 1);
-		Role testRole = roleService.getOne(Wrappers.<Role>query().lambda().eq(Role::getName, roleDto.getName()));
-		assertThat(testRole.getName()).isEqualTo(DEFAULT_NAME);
-		assertThat(testRole.getLevel()).isEqualTo(DEFAULT_LEVEL);
-		assertThat(testRole.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
-		assertThat(testRole.getDelFlag()).isEqualTo(Role.FLAG_NORMAL);
+		List<RoleDo> roleDoList = roleService.list();
+		assertThat(roleDoList).hasSize(databaseSizeBeforeCreate.size() + 1);
+		RoleDo testRoleDo = roleService.getOne(Wrappers.<RoleDo>query().lambda().eq(RoleDo::getName, roleDto.getName()));
+		assertThat(testRoleDo.getName()).isEqualTo(DEFAULT_NAME);
+		assertThat(testRoleDo.getLevel()).isEqualTo(DEFAULT_LEVEL);
+		assertThat(testRoleDo.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+		assertThat(testRoleDo.getDelFlag()).isEqualTo(RoleDo.FLAG_NORMAL);
 	}
 
 	@Test
@@ -189,7 +189,7 @@ public class RoleResourceIntTest {
 		roleService.saveOrUpdate(roleDto);
 		// Get all the roles
 		restRoleMockMvc
-			.perform(get(DEFAULT_API_URL).param(PageModel.F_DESC, Role.F_SQL_CREATED_DATE)
+			.perform(get(DEFAULT_API_URL).param(PageModel.F_DESC, RoleDo.F_SQL_CREATED_DATE)
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.records.[*].name").value(hasItem(DEFAULT_NAME)))
@@ -227,7 +227,7 @@ public class RoleResourceIntTest {
 		int databaseSizeBeforeUpdate = roleService.list().size();
 
 		// Update the role
-		Role updatedRole = roleService.getById(roleDto.getId());
+		RoleDo updatedRoleDo = roleService.getById(roleDto.getId());
 
 		RoleDto managedRoleVM = new RoleDto();
 		managedRoleVM.setName(UPDATED_NAME);
@@ -236,29 +236,29 @@ public class RoleResourceIntTest {
 		managedRoleVM.setDescription(UPDATED_DESCRIPTION);
 		managedRoleVM.setMenuIdList(Lists.newArrayList(anotherRole.getMenuIdList().get(0)));
 		managedRoleVM.setDeptIdList(Lists.newArrayList(anotherRole.getDeptIdList().get(0)));
-		managedRoleVM.setId(updatedRole.getId());
+		managedRoleVM.setId(updatedRoleDo.getId());
 		restRoleMockMvc
 			.perform(post(DEFAULT_API_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(managedRoleVM)))
 			.andExpect(status().isOk()).andExpect(jsonPath("$.code").value(CommonConstants.SUCCESS));
 
 		// Validate the Role in the database
-		List<Role> roleList = roleService.list();
-		assertThat(roleList).hasSize(databaseSizeBeforeUpdate);
-		Role testRole = roleService.getById(updatedRole.getId());
-		List<RoleMenu> listRoleMenuEntities = roleMenuService
-			.list(Wrappers.<RoleMenu>query().lambda().eq(RoleMenu::getRoleId, testRole.getId()));
-		assertThat(listRoleMenuEntities.size()).isEqualTo(1);
-		assertThat(listRoleMenuEntities.get(0).getMenuId()).isEqualTo(anotherRole.getMenuIdList().get(0));
-		List<RoleDept> listRoleDept = roleDeptService
-			.list(Wrappers.<RoleDept>query().lambda().eq(RoleDept::getRoleId, testRole.getId()));
-		assertThat(listRoleDept.size()).isEqualTo(1);
-		assertThat(listRoleDept.get(0).getDeptId()).isEqualTo(anotherRole.getDeptIdList().get(0));
-		assertThat(testRole.getName()).isEqualTo(UPDATED_NAME);
+		List<RoleDo> roleDoList = roleService.list();
+		assertThat(roleDoList).hasSize(databaseSizeBeforeUpdate);
+		RoleDo testRoleDo = roleService.getById(updatedRoleDo.getId());
+		List<RoleMenuDo> listRoleMenuDoEntities = roleMenuService
+			.list(Wrappers.<RoleMenuDo>query().lambda().eq(RoleMenuDo::getRoleId, testRoleDo.getId()));
+		assertThat(listRoleMenuDoEntities.size()).isEqualTo(1);
+		assertThat(listRoleMenuDoEntities.get(0).getMenuId()).isEqualTo(anotherRole.getMenuIdList().get(0));
+		List<RoleDeptDo> listRoleDeptDo = roleDeptService
+			.list(Wrappers.<RoleDeptDo>query().lambda().eq(RoleDeptDo::getRoleId, testRoleDo.getId()));
+		assertThat(listRoleDeptDo.size()).isEqualTo(1);
+		assertThat(listRoleDeptDo.get(0).getDeptId()).isEqualTo(anotherRole.getDeptIdList().get(0));
+		assertThat(testRoleDo.getName()).isEqualTo(UPDATED_NAME);
 		// assertThat(testRole.getParentIds()).contains(UPDATED_PARENT_ID);
-		assertThat(testRole.getLevel()).isEqualTo(UPDATED_LEVEL);
-		assertThat(testRole.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
-		assertThat(testRole.getDelFlag()).isEqualTo(Role.FLAG_NORMAL);
+		assertThat(testRoleDo.getLevel()).isEqualTo(UPDATED_LEVEL);
+		assertThat(testRoleDo.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+		assertThat(testRoleDo.getDelFlag()).isEqualTo(RoleDo.FLAG_NORMAL);
 	}
 
 	@Test
@@ -281,19 +281,19 @@ public class RoleResourceIntTest {
 	@Test
 	@Transactional(rollbackFor = Exception.class)
 	public void testRoleEquals() throws Exception {
-		TestUtil.equalsVerifier(Role.class);
-		Role role1 = new Role();
-		role1.setId(1L);
-		role1.setName("Role1");
-		Role role2 = new Role();
-		role2.setId(role1.getId());
-		role2.setName(role1.getName());
-		assertThat(role1).isEqualTo(role2);
-		role2.setId(2L);
-		role2.setName("Role2");
-		assertThat(role1).isNotEqualTo(role2);
-		role1.setId(null);
-		assertThat(role1).isNotEqualTo(role2);
+		TestUtil.equalsVerifier(RoleDo.class);
+		RoleDo roleDo1 = new RoleDo();
+		roleDo1.setId(1L);
+		roleDo1.setName("Role1");
+		RoleDo roleDo2 = new RoleDo();
+		roleDo2.setId(roleDo1.getId());
+		roleDo2.setName(roleDo1.getName());
+		assertThat(roleDo1).isEqualTo(roleDo2);
+		roleDo2.setId(2L);
+		roleDo2.setName("Role2");
+		assertThat(roleDo1).isNotEqualTo(roleDo2);
+		roleDo1.setId(null);
+		assertThat(roleDo1).isNotEqualTo(roleDo2);
 	}
 
 }

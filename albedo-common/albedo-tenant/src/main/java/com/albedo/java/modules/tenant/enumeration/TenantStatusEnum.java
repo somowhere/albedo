@@ -1,8 +1,7 @@
 package com.albedo.java.modules.tenant.enumeration;
 
 import com.albedo.java.common.core.enumeration.BaseEnum;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +20,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "TenantStatusEnum", description = "状态-枚举")
+@Schema(name = "TenantStatusEnum", description = "状态-枚举")
 public enum TenantStatusEnum implements BaseEnum {
 
 	/**
@@ -50,7 +49,7 @@ public enum TenantStatusEnum implements BaseEnum {
 	DELETE("已删除"),
 	;
 
-	@ApiModelProperty(value = "描述")
+	@Schema(name = "描述")
 	private String text;
 
 
@@ -70,7 +69,7 @@ public enum TenantStatusEnum implements BaseEnum {
 	}
 
 	@Override
-	@ApiModelProperty(value = "编码", allowableValues = "NORMAL,WAIT_INIT,FORBIDDEN,WAITING,REFUSE,DELETE", example = "NORMAL")
+	@Schema(name = "编码", allowableValues = "NORMAL,WAIT_INIT,FORBIDDEN,WAITING,REFUSE,DELETE", example = "NORMAL")
 	public String getCode() {
 		return this.name();
 	}

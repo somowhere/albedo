@@ -21,7 +21,7 @@ import com.albedo.java.modules.sys.cache.DeptCacheKeyBuilder;
 import com.albedo.java.modules.sys.cache.MenuCacheKeyBuilder;
 import com.albedo.java.modules.sys.cache.RoleCacheKeyBuilder;
 import com.albedo.java.modules.sys.cache.UserCacheKeyBuilder;
-import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.modules.sys.domain.UserDo;
 import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.plugins.cache.repository.CacheOps;
@@ -99,7 +99,7 @@ public class SysCacheUtil {
 	public static void delDeptCaches(Long deptId) {
 		cacheOps.del(new DeptCacheKeyBuilder().key("findDescendantIdList", deptId));
 		cacheOps.del(roleRepository.findListByDeptId(deptId).stream().map(k -> new RoleCacheKeyBuilder().key("findDeptIdsByRoleId", k.getId())).toArray(CacheKey[]::new));
-		userRepository.selectList(Wrappers.<User>lambdaQuery().eq(User::getDeptId, deptId)).forEach(user -> {
+		userRepository.selectList(Wrappers.<UserDo>lambdaQuery().eq(UserDo::getDeptId, deptId)).forEach(user -> {
 			delUserCaches(user.getId(), user.getUsername());
 		});
 	}

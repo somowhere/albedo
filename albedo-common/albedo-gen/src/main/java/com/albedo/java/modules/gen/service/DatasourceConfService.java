@@ -15,7 +15,7 @@
 
 package com.albedo.java.modules.gen.service;
 
-import com.albedo.java.modules.gen.domain.DatasourceConf;
+import com.albedo.java.modules.gen.domain.DatasourceConfDo;
 import com.albedo.java.modules.gen.domain.dto.DatasourceConfDto;
 import com.albedo.java.plugins.database.mybatis.service.DataCacheService;
 
@@ -25,6 +25,6 @@ import com.albedo.java.plugins.database.mybatis.service.DataCacheService;
  * @author somewhere
  * @version 2020-09-20 09:36:15
  */
-public interface DatasourceConfService extends DataCacheService<DatasourceConf, DatasourceConfDto> {
+public interface DatasourceConfService extends DataCacheService<DatasourceConfDo, DatasourceConfDto> {
 
 }

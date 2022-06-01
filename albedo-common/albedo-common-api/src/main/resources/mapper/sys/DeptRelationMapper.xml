@@ -20,14 +20,17 @@
 
 	<!-- 更新部门关系 -->
 	<update id="deleteDeptRelations">
-        DELETE FROM sys_dept_relation
-        WHERE
-        	descendant IN ( SELECT temp.descendant FROM
-        	( SELECT descendant FROM sys_dept_relation WHERE ancestor = #{descendant} ) temp )
-        AND ancestor IN ( SELECT temp.ancestor FROM ( SELECT ancestor FROM
-        	sys_dept_relation WHERE descendant = #{descendant} AND ancestor != descendant ) temp );
+		DELETE
+		FROM sys_dept_relation
+		WHERE descendant IN (SELECT temp.descendant
+							 FROM (SELECT descendant FROM sys_dept_relation WHERE ancestor = #{descendant}) temp)
+		  AND ancestor IN (SELECT temp.ancestor
+						   FROM (SELECT ancestor
+								 FROM sys_dept_relation
+								 WHERE descendant = #{descendant}
+								   AND ancestor != descendant) temp);
 	</update>
-	<select id="findListByDeptDto" resultType="com.albedo.java.modules.sys.domain.DeptRelation">
+	<select id="findListByDeptDto" resultType="com.albedo.java.modules.sys.domain.DeptRelationDo">
 		SELECT a.ancestor, b.descendant
 		FROM sys_dept_relation a
 				 CROSS JOIN sys_dept_relation b
@@ -37,22 +40,12 @@
 
 	<!--删除部门-->
 	<delete id="deleteDeptRelationsById">
-        update
-            sys_dept_relation
-        set del_flag = '1'
-        WHERE
-            descendant IN (
-                SELECT
-                    temp.descendant
-                FROM
-                    (
-                        SELECT
-                            descendant
-                        FROM
-                            sys_dept_relation
-                        WHERE
-                            ancestor = #{id}
-                    ) temp
-            )
-    </delete>
+		update
+			sys_dept_relation
+		set del_flag = '1'
+		WHERE descendant IN (SELECT temp.descendant
+							 FROM (SELECT descendant
+								   FROM sys_dept_relation
+								   WHERE ancestor = #{id}) temp)
+	</delete>
 </mapper>

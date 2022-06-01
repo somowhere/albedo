@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.repository;
 
-import com.albedo.java.modules.sys.domain.DeptRelation;
+import com.albedo.java.modules.sys.domain.DeptRelationDo;
 import com.albedo.java.plugins.database.mybatis.repository.BaseRepository;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -31,7 +31,7 @@ import java.util.List;
  * @since 2019/2/1
  */
 @Mapper
-public interface DeptRelationRepository extends BaseRepository<DeptRelation> {
+public interface DeptRelationRepository extends BaseRepository<DeptRelationDo> {
 
 	/**
 	 * 删除部门关系表数据
@@ -43,15 +43,15 @@ public interface DeptRelationRepository extends BaseRepository<DeptRelation> {
 	/**
 	 * 更改部分关系表数据
 	 *
-	 * @param deptRelation
+	 * @param deptRelationDo
 	 * @return Integer
 	 */
-	Integer deleteDeptRelations(DeptRelation deptRelation);
+	Integer deleteDeptRelations(DeptRelationDo deptRelationDo);
 
 	/**
-	 * @param deptRelation
+	 * @param deptRelationDo
 	 * @return List<DeptRelation>
 	 */
-	List<DeptRelation> findListByDeptDto(DeptRelation deptRelation);
+	List<DeptRelationDo> findListByDeptDto(DeptRelationDo deptRelationDo);
 
 }
