@@ -67,7 +67,7 @@ mybatis-plus:
 
 application:
   adminPath: /api
-  version: @project.release.version@
+  version: @revision@
   address-enabled: true
   logPath: logs
   swagger:

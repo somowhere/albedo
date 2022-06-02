@@ -64,7 +64,7 @@ mybatis-plus:
 
 application:
   adminPath: /quartz
-  version: @project.release.version@
+  version: @revision@
   address-enabled: true
   logPath: logs
   static-file-directory:
