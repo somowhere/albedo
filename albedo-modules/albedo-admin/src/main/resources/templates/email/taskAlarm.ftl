@@ -19,7 +19,7 @@
             border: 1px solid #eee;">
   <div>
     <p style="margin-bottom: 10px;">任务信息：</p>
-    <tableDo style="border-collapse: collapse;">
+    <table style="border-collapse: collapse;">
       <tr>
         <th style="padding: .65em;background: #666;border: 1px solid #777;color: #fff;">任务名称</th>
         <th style="padding: .65em;background: #666;border: 1px solid #777;color: #fff;">Bean名称</th>
@@ -36,7 +36,7 @@
         <td style="padding: .65em;border: 1px solid#777;">${task.cronExpression}</td>
         <td style="padding: .65em;border: 1px solid#777;">${(task.description)!""}</td>
       </tr>
-    </tableDo>
+    </table>
   </div>
   <div>
     <p style="margin-bottom: 10px;">异常信息：</p>
