@@ -64,7 +64,6 @@ mybatis-plus:
 # ===================================================================
 # Albedo specific properties
 # ===================================================================
-
 application:
   adminPath: /a
   version: @project.release.version@
