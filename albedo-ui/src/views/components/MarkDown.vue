@@ -31,8 +31,8 @@ export default {
     }
   },
   methods: {
-    imgAdd(pos, $fileDo) {
-      upload(this.imagesUploadApi, $fileDo).then(data => {
+    imgAdd(pos, $file) {
+      upload(this.imagesUploadApi, $file).then(data => {
         this.$refs.md.$img2Url(pos, data.data.url)
       })
     }

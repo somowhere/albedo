@@ -51,11 +51,11 @@ export default {
     // 自定义菜单配置
     editor.customConfig.zIndex = 10
     // 文件上传
-    editor.customConfig.customUploadImg = function(fileDos, insert) {
-      // fileDos 是 input 中选中的文件列表
+    editor.customConfig.customUploadImg = function(files, insert) {
+      // files 是 input 中选中的文件列表
       // insert 是获取图片 url 后，插入到编辑器的方法
-      fileDos.forEach(image => {
-        fileDos.forEach(image => {
+      files.forEach(image => {
+        files.forEach(image => {
           upload(_this.imagesUploadApi, image).then(data => {
             insert(data.data.url)
           })

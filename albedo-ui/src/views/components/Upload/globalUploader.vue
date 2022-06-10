@@ -6,10 +6,10 @@
 <!--      :options="options"-->
 <!--      :auto-start="false"-->
 <!--      class="uploader-app"-->
-<!--      @fileDo-added="onFileAdded"-->
-<!--      @fileDo-success="onFileSuccess"-->
-<!--      @fileDo-progress="onFileProgress"-->
-<!--      @fileDo-error="onFileError"-->
+<!--      @file-added="onFileAdded"-->
+<!--      @file-success="onFileSuccess"-->
+<!--      @file-progress="onFileProgress"-->
+<!--      @file-error="onFileError"-->
 <!--    >-->
 <!--      <uploader-unsupport />-->
 
@@ -24,10 +24,10 @@
 <!--      <uploader-list v-show="panelShow">-->
 <!--        <div-->
 <!--          slot-scope="props"-->
-<!--          class="fileDo-panel"-->
+<!--          class="file-panel"-->
 <!--          :class="{'collapse': collapse}"-->
 <!--        >-->
-<!--          <div class="fileDo-title">-->
+<!--          <div class="file-title">-->
 <!--            <h2>文件列表</h2>-->
 <!--            <div class="operate">-->
 <!--              <el-button-->
@@ -50,23 +50,23 @@
 <!--            </div>-->
 <!--          </div>-->
 
-<!--          <ul class="fileDo-list">-->
+<!--          <ul class="file-list">-->
 <!--            <li-->
-<!--              v-for="fileDo in props.fileList"-->
-<!--              :key="fileDo.id"-->
+<!--              v-for="file in props.fileList"-->
+<!--              :key="file.id"-->
 <!--            >-->
-<!--              <uploader-fileDo-->
-<!--                ref="fileDos"-->
-<!--                :class="'file_' + fileDo.id"-->
-<!--                :fileDo="fileDo"-->
+<!--              <uploader-file-->
+<!--                ref="files"-->
+<!--                :class="'file_' + file.id"-->
+<!--                :file="file"-->
 <!--                :list="true"-->
 <!--              />-->
 <!--            </li>-->
 <!--            <div-->
 <!--              v-if="!props.fileList.length"-->
-<!--              class="no-fileDo"-->
+<!--              class="no-file"-->
 <!--            >-->
-<!--              <i class="iconfont icon-empty-fileDo" /> 暂无待上传文件-->
+<!--              <i class="iconfont icon-empty-file" /> 暂无待上传文件-->
 <!--            </div>-->
 <!--          </ul>-->
 <!--        </div>-->
@@ -95,7 +95,7 @@
 <!--  data() {-->
 <!--    return {-->
 <!--      options: {-->
-<!--        target: 'http://127.0.0.1:8760/api/fileDo/upload',-->
+<!--        target: 'http://127.0.0.1:8760/api/file/upload',-->
 <!--        chunkSize: 1 * 1000 * 1024,-->
 <!--        fileParameterName: 'upfile',-->
 <!--        maxChunkRetries: 3,-->
@@ -143,40 +143,40 @@
 <!--    Bus.$off('openUploader')-->
 <!--  },-->
 <!--  methods: {-->
-<!--    onFileAdded(fileDo) {-->
+<!--    onFileAdded(file) {-->
 <!--      this.panelShow = true-->
-<!--      this.computeMD5(fileDo)-->
+<!--      this.computeMD5(file)-->
 
 <!--      Bus.$emit('fileAdded')-->
 <!--    },-->
-<!--    onFileProgress(rootFile, fileDo, chunk) {-->
-<!--      console.log(`上传中 ${fileDo.name}，chunk：${chunk.startByte / 1024 / 1024} ~ ${chunk.endByte / 1024 / 1024}`)-->
+<!--    onFileProgress(rootFile, file, chunk) {-->
+<!--      console.log(`上传中 ${file.name}，chunk：${chunk.startByte / 1024 / 1024} ~ ${chunk.endByte / 1024 / 1024}`)-->
 <!--    },-->
-<!--    onFileSuccess(rootFile, fileDo, response, chunk) {-->
+<!--    onFileSuccess(rootFile, file, response, chunk) {-->
 <!--      const res = JSON.parse(response)-->
 
 <!--      // 服务器自定义的错误（即虽返回200，但是是错误的情况），这种错误是Uploader无法拦截的-->
 <!--      if (!res.result) {-->
 <!--        this.$message({ message: res.message, type: 'error' })-->
 <!--        // 文件状态设为“失败”-->
-<!--        this.statusSet(fileDo.id, 'failed')-->
+<!--        this.statusSet(file.id, 'failed')-->
 <!--        return-->
 <!--      }-->
 
 <!--      // 如果服务端返回需要合并-->
 <!--      if (res.needMerge) {-->
 <!--        // 文件状态设为“合并中”-->
-<!--        this.statusSet(fileDo.id, 'merging')-->
+<!--        this.statusSet(file.id, 'merging')-->
 
 <!--        // api.mergeSimpleUpload({-->
 <!--        //     tempName: res.tempName,-->
-<!--        //     fileName: fileDo.name,-->
+<!--        //     fileName: file.name,-->
 <!--        //     ...this.params,-->
 <!--        // }).then(res => {-->
 <!--        //     // 文件合并成功-->
 <!--        //     Bus.$emit('fileSuccess');-->
 <!--        //-->
-<!--        //     this.statusRemove(fileDo.id);-->
+<!--        //     this.statusRemove(file.id);-->
 <!--        // }).catch(e => {});-->
 
 <!--        // 不需要合并-->
@@ -185,7 +185,7 @@
 <!--        console.log('上传成功')-->
 <!--      }-->
 <!--    },-->
-<!--    onFileError(rootFile, fileDo, response, chunk) {-->
+<!--    onFileError(rootFile, file, response, chunk) {-->
 <!--      this.$message({-->
 <!--        message: response,-->
 <!--        type: 'error'-->
@@ -194,20 +194,20 @@
 
 <!--    /**-->
 <!--             * 计算md5，实现断点续传及秒传-->
-<!--             * @param fileDo-->
+<!--             * @param file-->
 <!--             */-->
-<!--    computeMD5(fileDo) {-->
+<!--    computeMD5(file) {-->
 <!--      const fileReader = new FileReader()-->
 <!--      const time = new Date().getTime()-->
 <!--      const blobSlice = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice-->
 <!--      let currentChunk = 0-->
 <!--      const chunkSize = 10 * 1024 * 1000-->
-<!--      const chunks = Math.ceil(fileDo.size / chunkSize)-->
+<!--      const chunks = Math.ceil(file.size / chunkSize)-->
 <!--      const spark = new SparkMD5.ArrayBuffer()-->
 
 <!--      // 文件状态设为"计算MD5"-->
-<!--      this.statusSet(fileDo.id, 'md5')-->
-<!--      fileDo.pause()-->
+<!--      this.statusSet(file.id, 'md5')-->
+<!--      file.pause()-->
 
 <!--      loadNext()-->
 
@@ -220,29 +220,29 @@
 
 <!--          // 实时展示MD5的计算进度-->
 <!--          this.$nextTick(() => {-->
-<!--            $(`.myStatus_${fileDo.id}`).text('校验MD5 ' + ((currentChunk / chunks) * 100).toFixed(0) + '%')-->
+<!--            $(`.myStatus_${file.id}`).text('校验MD5 ' + ((currentChunk / chunks) * 100).toFixed(0) + '%')-->
 <!--          })-->
 <!--        } else {-->
 <!--          const md5 = spark.end()-->
-<!--          this.computeMD5Success(md5, fileDo)-->
-<!--          console.log(`MD5计算完毕：${fileDo.name} \nMD5：${md5} \n分片：${chunks} 大小:${fileDo.size} 用时：${new Date().getTime() - time} ms`)-->
+<!--          this.computeMD5Success(md5, file)-->
+<!--          console.log(`MD5计算完毕：${file.name} \nMD5：${md5} \n分片：${chunks} 大小:${file.size} 用时：${new Date().getTime() - time} ms`)-->
 <!--        }-->
 <!--      }-->
 
 <!--      fileReader.onerror = function() {-->
-<!--        this.error(`文件${fileDo.name}读取出错，请检查该文件`)-->
-<!--        fileDo.cancel()-->
+<!--        this.error(`文件${file.name}读取出错，请检查该文件`)-->
+<!--        file.cancel()-->
 <!--      }-->
 
 <!--      function loadNext() {-->
 <!--        const start = currentChunk * chunkSize-->
-<!--        const end = ((start + chunkSize) >= fileDo.size) ? fileDo.size : start + chunkSize-->
+<!--        const end = ((start + chunkSize) >= file.size) ? file.size : start + chunkSize-->
 
-<!--        fileReader.readAsArrayBuffer(blobSlice.call(fileDo.fileDo, start, end))-->
+<!--        fileReader.readAsArrayBuffer(blobSlice.call(file.file, start, end))-->
 <!--      }-->
 <!--    },-->
 
-<!--    computeMD5Success(md5, fileDo) {-->
+<!--    computeMD5Success(md5, file) {-->
 <!--      // 将自定义参数直接加载uploader实例的opts上-->
 <!--      Object.assign(this.uploader.opts, {-->
 <!--        query: {-->
@@ -250,13 +250,13 @@
 <!--        }-->
 <!--      })-->
 
-<!--      fileDo.uniqueIdentifier = md5-->
-<!--      fileDo.resume()-->
-<!--      this.statusRemove(fileDo.id)-->
+<!--      file.uniqueIdentifier = md5-->
+<!--      file.resume()-->
+<!--      this.statusRemove(file.id)-->
 <!--    },-->
 
 <!--    fileListShow() {-->
-<!--      const $list = $('#global-uploader .fileDo-list')-->
+<!--      const $list = $('#global-uploader .file-list')-->
 
 <!--      if ($list.is(':visible')) {-->
 <!--        $list.slideUp()-->
@@ -298,7 +298,7 @@
 <!--      }-->
 
 <!--      this.$nextTick(() => {-->
-<!--        $(`<p class="myStatus_${id}"></p>`).appendTo(`.file_${id} .uploader-fileDo-status`).css({-->
+<!--        $(`<p class="myStatus_${id}"></p>`).appendTo(`.file_${id} .uploader-file-status`).css({-->
 <!--          'position': 'absolute',-->
 <!--          'top': '0',-->
 <!--          'left': '0',-->

@@ -179,7 +179,7 @@
 </template>
 
 <script>
-import crudJob from '@/views/quartz/jobDo/jobDo-service'
+import crudJob from '@/views/quartz/job/job-service'
 import Log from './log'
 import CRUD, { crud, form, header, presenter } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'

@@ -151,7 +151,7 @@ export default {
         id: '',
         bizId: '',
         bizType: '',
-        fileDo: null,
+        file: null,
         isSingle: false
       }
     },

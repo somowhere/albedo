@@ -8,7 +8,7 @@
       :before-remove="beforeRemove"
       :class="isUpload === false ? 'hidebtn' : ''"
       :data="fileOtherData"
-      :file-do-list="fileList"
+      :file-list="fileList"
       :headers="headers"
       :limit="limit"
       :multiple="multiple"
@@ -69,7 +69,7 @@ export default {
     },
     action: {
       type: String,
-      default: `${process.env.VUE_APP_BASE_API}/fileDo/anyone/upload`
+      default: `${process.env.VUE_APP_BASE_API}/file/anyone/upload`
     },
     // 允许上传的文件大小 单位：字节
     acceptSize: {
@@ -105,7 +105,7 @@ export default {
       uploadTotalNum: 0,
       // 是否上传失败
       isUploadError: false
-      // action: `${process.env.VUE_APP_BASE_API}/fileDo/anyone/upload`
+      // action: `${process.env.VUE_APP_BASE_API}/file/anyone/upload`
     }
   },
   computed: {
@@ -137,18 +137,18 @@ export default {
       vm.$refs[vm.uploadRef].clearFiles()
     },
 
-    handleChange(fileDo, fileList) {
+    handleChange(file, fileList) {
       const vm = this
-      console.log(fileDo)
-      if (fileDo.response) {
+      console.log(file)
+      if (file.response) {
         vm.uploadTotalNum += 1
-        if (fileDo.response.success) {
-          vm.fileOtherData.bizId = fileDo.response.data.bizId
+        if (file.response.success) {
+          vm.fileOtherData.bizId = file.response.data.bizId
           vm.successNum += 1
         } else {
           setTimeout(() => {
             vm.$message({
-              message: fileDo.name + '上传失败，原因：<br/>' + fileDo.response.msg,
+              message: file.name + '上传失败，原因：<br/>' + file.response.msg,
               type: 'error',
               dangerouslyUseHTMLString: true,
               showClose: true,
@@ -165,10 +165,10 @@ export default {
           vm.isUploadError = false
           vm.errorNum += 1
         }
-        vm.$emit('setId', vm.uploadTotalNum === fileList.length && vm.errorNum <= 0, fileDo.response)
+        vm.$emit('setId', vm.uploadTotalNum === fileList.length && vm.errorNum <= 0, file.response)
       } else {
         if (vm.acceptSize) {
-          const isLtAcceptSize = fileDo.size > vm.acceptSize
+          const isLtAcceptSize = file.size > vm.acceptSize
 
           if (isLtAcceptSize) {
             setTimeout(() => {
@@ -176,24 +176,24 @@ export default {
                 '只能上传' +
                   vm.renderSize(vm.acceptSize) +
                   '的文件!已为您过滤文件：' +
-                  fileDo.name
+                  file.name
               )
             }, 10)
 
             fileList.forEach((item, index) => {
-              if (item.uid === fileDo.uid) {
+              if (item.uid === file.uid) {
                 fileList.splice(index, 1)
               }
             })
           } else {
             if (!vm.isUploadError) {
-              vm.addFileAry.push(fileDo.name)
+              vm.addFileAry.push(file.name)
             }
             vm.isUploadError = false
           }
         } else {
           if (!vm.isUploadError) {
-            vm.addFileAry.push(fileDo.name)
+            vm.addFileAry.push(file.name)
           }
           vm.isUploadError = false
         }
@@ -233,13 +233,13 @@ export default {
       }
       return '文件太大'
     },
-    handlePreview(fileDo) {
-      if (fileDo.bizId) {
-        this.downLoadFile(fileDo)
+    handlePreview(file) {
+      if (file.bizId) {
+        this.downLoadFile(file)
       }
     },
-    beforeRemove(fileDo) {
-      return this.$confirm('确定移除' + fileDo.name, '删除确认')
+    beforeRemove(file) {
+      return this.$confirm('确定移除' + file.name, '删除确认')
     },
     // 文件超出个数限制时的钩子
     handleExceed() {
@@ -247,19 +247,19 @@ export default {
       vm.$message('当前最多允许上传' + vm.limit + '个文件')
     },
     // 删除附件列表
-    handleRemove(fileDo) {
+    handleRemove(file) {
       const vm = this
-      if (fileDo.bizId) {
-        vm.removeFileAry.push(fileDo.id)
+      if (file.bizId) {
+        vm.removeFileAry.push(file.id)
         vm.fileList.map((item, index) => {
-          if (item.name === fileDo.name) {
+          if (item.name === file.name) {
             vm.fileList.splice(index, 1)
             return false
           }
         })
       } else {
         vm.addFileAry.map((item, index) => {
-          if (item === fileDo.name) {
+          if (item === file.name) {
             vm.addFileAry.splice(index, 1)
             return false
           }

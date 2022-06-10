@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import crudJob from '@/views/quartz/jobDo/jobDo-service'
+import crudJob from '@/views/quartz/job/job-service'
 import crud from '@/mixins/crud'
 import commonUtil from '@/utils/common'
 import { mapGetters } from 'vuex'
@@ -134,7 +134,7 @@ export default {
     },
     // 获取数据前设置好接口地址
     beforeInit() {
-      this.url = '/quartz/jobDo-log'
+      this.url = '/quartz/job-log'
       this.size = 6
       return true
     },

@@ -8,7 +8,7 @@
       :before-upload="beforeUpload"
       :class="{ limit: showUploadBtn }"
       :data="fileOtherData"
-      :file-do-list="imgFileList"
+      :file-list="imgFileList"
       :headers="headers"
       :limit="limit"
       :multiple="multiple"
@@ -16,7 +16,7 @@
       :on-error="handleError"
       :on-exceed="handleExceed"
       :on-remove="handleRemove"
-      :show-file-do-list="showFileList"
+      :show-file-list="showFileList"
       class="avatar-uploader"
       list-type="picture-card"
     >
@@ -106,7 +106,7 @@ export default {
       // 是否上传失败
       isUploadError: false,
       fileLength: 0,
-      action: `${process.env.VUE_APP_BASE_API}/fileDo/anyone/upload`
+      action: `${process.env.VUE_APP_BASE_API}/file/anyone/upload`
     }
   },
   computed: {
@@ -146,39 +146,39 @@ export default {
       vm.$store.state.hasLoading = true
     },
     // 文件状态改变时的钩子，添加文件、上传成功和上传失败时都会被调用
-    handleChange(fileDo, fileList) {
+    handleChange(file, fileList) {
       const vm = this
-      if (fileDo.response) {
-        if (fileDo.response.code) {
-          const remoteFile = fileDo.response.data
+      if (file.response) {
+        if (file.response.code) {
+          const remoteFile = file.response.data
           vm.fileOtherData.bizId = remoteFile.bizId
           vm.imageUrl = remoteFile.url
           vm.$emit('setId', remoteFile.bizId, remoteFile.url)
         } else {
-          vm.$message.error(fileDo.response.message)
+          vm.$message.error(file.response.message)
           vm.isUploadError = false
         }
       } else {
         if (vm.acceptSize) {
-          const isLtAcceptSize = fileDo.size > vm.acceptSize
+          const isLtAcceptSize = file.size > vm.acceptSize
           if (isLtAcceptSize) {
             setTimeout(() => {
               vm.$message.error(
                 '只能上传' +
                   vm.renderSize(vm.acceptSize) +
                   '的文件!已为您过滤文件：' +
-                  fileDo.name
+                  file.name
               )
             }, 10)
 
             fileList.forEach((item, index) => {
-              if (item.uid === fileDo.uid) {
+              if (item.uid === file.uid) {
                 fileList.splice(index, 1)
               }
             })
           } else {
             if (!vm.isUploadError) {
-              vm.addFileAry.push(fileDo.name)
+              vm.addFileAry.push(file.name)
             }
             vm.isUploadError = false
           }
@@ -245,19 +245,19 @@ export default {
       }
     },
     // 删除附件回调
-    handleRemove(fileDo) {
+    handleRemove(file) {
       const vm = this
-      if (fileDo.bizId) {
-        vm.removeFileAry.push(fileDo.id)
+      if (file.bizId) {
+        vm.removeFileAry.push(file.id)
         vm.imgFileList.map((item, index) => {
-          if (item.bizId === fileDo.bizId) {
+          if (item.bizId === file.bizId) {
             vm.imgFileList.splice(index, 1)
             return false
           }
         })
       } else {
         vm.addFileAry.map((item, index) => {
-          if (item === fileDo.name) {
+          if (item === file.name) {
             vm.addFileAry.splice(index, 1)
             return false
           }
