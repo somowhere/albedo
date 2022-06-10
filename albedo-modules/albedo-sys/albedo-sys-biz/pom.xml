@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xmlns="http://maven.apache.org/POM/4.0.0"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>albedo-sys</artifactId>
+		<groupId>com.albedo.java</groupId>
+		<version>${revision}</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>albedo-sys-biz</artifactId>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>com.albedo.java</groupId>
+			<artifactId>albedo-sys-domain</artifactId>
+		</dependency>
+		<!--安全模块-->
+		<dependency>
+			<groupId>com.albedo.java</groupId>
+			<artifactId>albedo-common-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.albedo.java</groupId>
+			<artifactId>albedo-appendix</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.albedo.java</groupId>
+			<artifactId>albedo-monitor</artifactId>
+		</dependency>
+		<!--swagger-->
+		<dependency>
+			<groupId>com.albedo.java</groupId>
+			<artifactId>albedo-swagger-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.albedo.java</groupId>
+			<artifactId>albedo-dynamic-datasource</artifactId>
+		</dependency>
+		<!--web 模块-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<!--排除tomcat依赖-->
+				<exclusion>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+					<groupId>org.springframework.boot</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!--undertow容器-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-undertow</artifactId>
+		</dependency>
+
+		<!--邮件依赖-->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+		</dependency>
+
+		<!--支付宝依赖-->
+		<dependency>
+			<groupId>com.alipay.sdk</groupId>
+			<artifactId>alipay-sdk-java</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-launcher</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+
+</project>

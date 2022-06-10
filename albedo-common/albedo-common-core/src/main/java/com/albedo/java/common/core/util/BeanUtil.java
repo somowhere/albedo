@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
+ *  Copyright (c) 2019-2022  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -19,6 +19,8 @@ import com.albedo.java.common.core.annotation.BeanField;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.FatalBeanException;
+import org.springframework.cglib.beans.BeanMap;
+import org.springframework.util.Assert;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
@@ -36,8 +38,8 @@ import java.util.stream.Collectors;
 public class BeanUtil extends cn.hutool.core.bean.BeanUtil {
 
 	public static void copyProperties(Object source, Object target, boolean ignoreNull, String... ignoreProperties) {
-		ArgumentAssert.notNull(source, "Source must not be null");
-		ArgumentAssert.notNull(target, "Target must not be null");
+		Assert.notNull(source, "Source must not be null");
+		Assert.notNull(target, "Target must not be null");
 		Class<?> actualEditable = target.getClass();
 
 		PropertyDescriptor[] targetPds = getPropertyDescriptors(actualEditable);
@@ -109,6 +111,16 @@ public class BeanUtil extends cn.hutool.core.bean.BeanUtil {
 			log.error("{}", e);
 		}
 		return target;
+	}
+
+	/**
+	 * 将对象装成map形式
+	 *
+	 * @param bean 源对象
+	 * @return {Map}
+	 */
+	public static Map<String, Object> toMap(Object bean) {
+		return BeanMap.create(bean);
 	}
 
 	/**

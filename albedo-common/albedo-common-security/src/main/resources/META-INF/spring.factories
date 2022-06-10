@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.albedo.java.common.security.config.SecurityAutoConfiguration,\
+  com.albedo.java.common.security.config.SecurityJwtConfiguration

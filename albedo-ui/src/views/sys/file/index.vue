@@ -127,7 +127,7 @@
 </template>
 
 <script>
-import crudFile from '@/views/sys/file/file-service'
+import crudFile from '@/views/sys/fileDo/fileDo-service'
 import CRUD, { crud, form, header, presenter } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import udOperation from '@crud/UD.operation'

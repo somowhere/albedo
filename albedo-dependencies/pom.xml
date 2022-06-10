@@ -11,16 +11,16 @@
 	<description>基础 bom 文件，管理整个项目的依赖版本</description>
 
 	<properties>
-		<revision>3.2.8-SNAPSHOT</revision>
+		<revision>3.3.0-SNAPSHOT</revision>
 		<spring-boot.version>2.7.0</spring-boot.version>
-		<hutool.version>5.8.0</hutool.version>
+		<hutool.version>5.8.2</hutool.version>
 		<p6spy.version>3.9.1</p6spy.version>
-		<mybatis-plus.version>3.5.1</mybatis-plus.version>
+		<mybatis-plus.version>3.5.2</mybatis-plus.version>
 		<mybatis.version>3.5.9</mybatis.version>
 		<dynamic-ds.version>3.5.1</dynamic-ds.version>
 		<captcha.version>2.2.2</captcha.version>
 		<jasypt.version>2.1.0</jasypt.version>
-		<redisson.version>3.15.0</redisson.version>
+		<redisson.version>3.17.3</redisson.version>
 		<druid.version>1.2.8</druid.version>
 		<h2.version>1.4.200</h2.version>
 		<springdoc.version>1.6.9</springdoc.version>
@@ -39,7 +39,7 @@
 		<qcloudsms.version>1.0.6</qcloudsms.version>
 		<jjwt.version>0.11.5</jjwt.version>
 		<mail.version>1.5.0-b01</mail.version>
-		<alipay.version>4.23.11.ALL</alipay.version>
+		<alipay.version>4.23.19.ALL</alipay.version>
 		<tobato-fastdfs-client.version>1.27.2</tobato-fastdfs-client.version>
 		<aliyun-java-sdk-core.version>4.5.25</aliyun-java-sdk-core.version>
 		<aliyun-java-sdk-dysmsapi.version>2.1.0</aliyun-java-sdk-dysmsapi.version>
@@ -66,12 +66,12 @@
 			</dependency>
 			<dependency>
 				<groupId>com.albedo.java</groupId>
-				<artifactId>albedo-common-api</artifactId>
+				<artifactId>albedo-common-core</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.albedo.java</groupId>
-				<artifactId>albedo-common-core</artifactId>
+				<artifactId>albedo-common-log</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
@@ -81,18 +81,51 @@
 			</dependency>
 			<dependency>
 				<groupId>com.albedo.java</groupId>
-				<artifactId>albedo-common-quartz</artifactId>
+				<artifactId>albedo-common-security</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.albedo.java</groupId>
+				<artifactId>albedo-sys-api</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.albedo.java</groupId>
-				<artifactId>albedo-file</artifactId>
+				<artifactId>albedo-sys-domain</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.albedo.java</groupId>
+				<artifactId>albedo-sys-biz</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.albedo.java</groupId>
+				<artifactId>albedo-sys-web</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.albedo.java</groupId>
+				<artifactId>albedo-file-biz</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.albedo.java</groupId>
+				<artifactId>albedo-file-domain</artifactId>
 				<version>${revision}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-gen</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+
+			<dependency>
+				<groupId>com.albedo.java</groupId>
+				<artifactId>albedo-quartz</artifactId>
 				<version>${revision}</version>
 			</dependency>
 

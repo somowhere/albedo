@@ -5,7 +5,7 @@
 	<fileName>${ClassName}Id.java</fileName>
 	<content><![CDATA[
 /*
- *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
+ *  Copyright (c) 2019-2022  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -20,7 +20,7 @@
  */
 package ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>;
 
-<#list tableDo.importList as i>
+<#list table.importList as i>
 import ${i};
 </#list>
 
@@ -35,7 +35,7 @@ import java.io.Serializable;
 public class ${ClassName}Id implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-<#list tableDo.columnList as column>
+<#list table.columnList as column>
 	<#if column.pk>
 	@Column(name = "${column.name}"<#if column.javaType = 'String'>, length = ${column.size}</#if>)
 	private ${column.javaType} ${column.simpleJavaField};
@@ -44,7 +44,7 @@ public class ${ClassName}Id implements Serializable {
 	public ${ClassName}Id(){
 	}
 
-<#list tableDo.columnList as column>
+<#list table.columnList as column>
 	<#if column.pk>
 	public void set${column.simpleJavaField?cap_first}(${column.javaType} value) {
 		this.${column.simpleJavaField} = value;

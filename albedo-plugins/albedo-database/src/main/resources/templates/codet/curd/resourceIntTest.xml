@@ -5,7 +5,7 @@
 	<fileName>${ClassName}ResourceIntTest.java</fileName>
 	<content><![CDATA[
 /*
- *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
+ *  Copyright (c) 2019-2022  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -23,11 +23,11 @@ package ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleNam
 import cn.hutool.core.date.DateField;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.exception.handler.GlobalExceptionHandler;
-import com.albedo.java.common.core.util.ClassUtil;
 import com.albedo.java.common.core.util.DateUtil;
 import com.albedo.java.common.core.vo.PageModel;
 import com.albedo.java.modules.TestUtil;
-import ${packageName}.${moduleName}.domain.${ClassName};
+import com.albedo.java.modules.base.SimulationRuntimeIntegrationTest;
+import ${packageName}.${moduleName}.domain.${ClassName}Do;
 import ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
 import ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}QueryCriteria;
 import ${packageName}.${moduleName}.repository<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Repository;
@@ -42,7 +42,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
@@ -62,12 +61,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @see ${ClassName}Resource
  */
-@SpringBootTest(classes = ${applicationName}.class)
 @Slf4j
-public class ${ClassName}ResourceIntTest {
+public class ${ClassName}ResourceIntTest extends SimulationRuntimeIntegrationTest {
 
     private String DEFAULT_API_URL;
-    <#list tableDo.columnList as column>
+    <#list table.columnList as column>
 		<#if column.queryField || (column.editField && (column.isNotBaseField || column.simpleJavaField == 'description'))>
 		<#if column.simpleJavaType == "Integer">
 	/** DEFAULT_${column.constantJavaField} ${column.nameAndTitle} */
@@ -136,24 +134,14 @@ public class ${ClassName}ResourceIntTest {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static ${ClassName}Dto createEntity() {
-        ${ClassName}Dto ${className}Dto = ClassUtil.createObj(${ClassName}Dto.class, Lists.newArrayList(
-    <#assign firstListField = true>
-    <#list tableDo.columnList as column>
-		<#if column.editField && (column.isNotBaseField || column.simpleJavaField == 'description')>
-		<#if firstListField> <#assign firstListField = false><#else>,</#if>${ClassName}Dto.F_${column.constantJavaField}
-		</#if>
-	</#list>
-        ), <#assign firstListField = true><#list tableDo.columnList as column>
-        <#if column.editField && (column.isNotBaseField || column.simpleJavaField == 'description')><#if firstListField> <#assign firstListField = false><#else>,</#if>DEFAULT_${column.constantJavaField}
-		</#if>
-	</#list>);
-        return ${className}Dto;
+    public static ${ClassName}Dto createDto() {
+        return ${ClassName}Dto.builder()<#list table.columnList as column>
+		<#if column.editField && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'parentId' || column.simpleJavaField == 'description')>.${column.javaFieldId}(DEFAULT_${column.constantJavaField})</#if></#list>.build();
     }
 
     @BeforeEach
     public void initTest() {
-        ${className}Dto = createEntity();
+        ${className}Dto = createDto();
     }
 
     @Test
@@ -162,26 +150,26 @@ public class ${ClassName}ResourceIntTest {
         int databaseSizeBeforeCreate = ${className}Service.list().size();
         // Create the ${ClassName}
         rest${ClassName}MockMvc.perform(post(DEFAULT_API_URL)
-			.param(PageModel.F_DESC, ${ClassName}.F_SQL_CREATED_DATE)
+			.param(PageModel.F_DESC, ${ClassName}Do.F_SQL_CREATED_DATE)
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(${className}Dto)))
             .andExpect(status().isOk());
         ;
         // Validate the ${ClassName} in the database
-        List<${ClassName}> ${className}List = ${className}Service.list(
-            Wrappers.<${ClassName}>query().lambda().orderByAsc(
-				${ClassName}::getCreatedDate
+        List<${ClassName}Do> ${className}DoList = ${className}Service.list(
+            Wrappers.<${ClassName}Do>query().lambda().orderByAsc(
+				${ClassName}Do::getCreatedDate
 			)
         );
-        assertThat(${className}List).hasSize(databaseSizeBeforeCreate + 1);
-        ${ClassName} test${ClassName} = ${className}List.get(${className}List.size() - 1);
-    <#list tableDo.columnList as column>
+        assertThat(${className}DoList).hasSize(databaseSizeBeforeCreate + 1);
+        ${ClassName}Do test${ClassName}Do = ${className}DoList.get(${className}DoList.size() - 1);
+    <#list table.columnList as column>
 		<#if column.editField && (column.isNotBaseField || column.simpleJavaField == 'description')>
-		assertThat(test${ClassName}.get${column.simpleJavaField?cap_first}()).isEqualTo(DEFAULT_${column.constantJavaField});
+		assertThat(test${ClassName}Do.get${column.simpleJavaField?cap_first}()).isEqualTo(DEFAULT_${column.constantJavaField});
 		</#if>
 	</#list>
     }
-<#list tableDo.columnList as column>
+<#list table.columnList as column>
     <#if column.editField && column.uniqueField && (column.isNotBaseField || column.simpleJavaField == 'description')>
     @Test
     @Transactional
@@ -190,8 +178,7 @@ public class ${ClassName}ResourceIntTest {
         int databaseSizeBeforeCreate = ${className}Service.list().size();
 
         // Create the ${ClassName} with an existing ID
-        ${ClassName}Dto ${className}DtoNew = ClassUtil.createObj(${ClassName}Dto.class, Lists.newArrayList(${ClassName}Dto.F_ID, ${ClassName}Dto.F_${column.constantJavaField}),
-            null, ${className}Dto.get${column.simpleJavaField?cap_first}());
+        ${ClassName}Dto ${className}DtoNew = ${ClassName}Dto.builder().${column.simpleJavaField}(${className}Dto.get${column.simpleJavaField?cap_first}()).build();
 
         // An entity with an existing ID cannot be created, so this API call must fail
         rest${ClassName}MockMvc.perform(post(DEFAULT_API_URL)
@@ -200,13 +187,13 @@ public class ${ClassName}ResourceIntTest {
             .andExpect(status().isBadRequest());
 
         // Validate the ${ClassName} in the database
-        List<${ClassName}> ${className}List = ${className}Service.list();
-        assertThat(${className}List).hasSize(databaseSizeBeforeCreate);
+        List<${ClassName}Do> ${className}DoList = ${className}Service.list();
+        assertThat(${className}DoList).hasSize(databaseSizeBeforeCreate);
     }
     </#if>
 </#list>
 
-<#list tableDo.columnList as column>
+<#list table.columnList as column>
     <#if column.editField && !column.nullField && (column.isNotBaseField || column.simpleJavaField == 'description')>
     @Test
     @Transactional
@@ -215,15 +202,15 @@ public class ${ClassName}ResourceIntTest {
         // set the field null
         ${className}Dto.set${column.simpleJavaField?cap_first}(null);
 
-        // Create the ${ClassName}, which fails.
+        // Create the ${ClassName}Do, which fails.
 
         rest${ClassName}MockMvc.perform(post(DEFAULT_API_URL)
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(${className}Dto)))
             .andExpect(status().isBadRequest());
 
-        List<${ClassName}> ${className}List = ${className}Service.list();
-        assertThat(${className}List).hasSize(databaseSizeBeforeTest);
+        List<${ClassName}Do> ${className}DoList = ${className}Service.list();
+        assertThat(${className}DoList).hasSize(databaseSizeBeforeTest);
     }
     </#if>
 </#list>
@@ -235,15 +222,15 @@ public class ${ClassName}ResourceIntTest {
         // Initialize the database
         ${className}Service.saveOrUpdate(${className}Dto);
 
-        // Get all the ${className}List
+        // Get all the ${className}DoList
         rest${ClassName}MockMvc.perform(get(DEFAULT_API_URL))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-    <#list tableDo.columnList as column>
+    <#list table.columnList as column>
         <#if column.pk>
-            .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(${className}Dto.get${column.simpleJavaField?cap_first}())))
+            .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(String.valueOf(${className}Dto.get${column.simpleJavaField?cap_first}()))))
         <#elseif column.editField && column.nullField && (column.isNotBaseField || column.simpleJavaField == 'description')>
-            .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(<#if column.simpleJavaType == "Date">DateUtil.formatDateTime(DEFAULT_${column.constantJavaField})<#elseif column.simpleJavaType == "Long">DEFAULT_${column.constantJavaField}.intValue()<#else>DEFAULT_${column.constantJavaField}</#if>)))
+            .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(<#if column.simpleJavaType == "Date">DateUtil.formatDateTime(DEFAULT_${column.constantJavaField})<#elseif column.simpleJavaType == "Long">String.valueOf(DEFAULT_${column.constantJavaField})<#else>DEFAULT_${column.constantJavaField}</#if>)))
         </#if>
     </#list>;
     }
@@ -258,15 +245,15 @@ public class ${ClassName}ResourceIntTest {
         rest${ClassName}MockMvc.perform(get(DEFAULT_API_URL+"{id}", ${className}Dto.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-    <#list tableDo.columnList as column>
+    <#list table.columnList as column>
         <#if column.pk>
-            .andExpect(jsonPath("$.data.${column.simpleJavaField}").value(${className}Dto.get${column.simpleJavaField?cap_first}()))
+            .andExpect(jsonPath("$.data.${column.simpleJavaField}").value(String.valueOf(${className}Dto.get${column.simpleJavaField?cap_first}())))
         <#elseif column.editField && column.nullField && (column.isNotBaseField || column.simpleJavaField == 'description')>
-            .andExpect(jsonPath("$.data.${column.simpleJavaField}").value(<#if column.simpleJavaType == "Date">DateUtil.formatDateTime(DEFAULT_${column.constantJavaField})<#else>DEFAULT_${column.constantJavaField}</#if>))
+            .andExpect(jsonPath("$.data.${column.simpleJavaField}").value(<#if column.simpleJavaType == "Date">DateUtil.formatDateTime(DEFAULT_${column.constantJavaField})<#elseif column.simpleJavaType == "Long" || column.simpleJavaType == "long">String.valueOf(DEFAULT_${column.constantJavaField})<#else>DEFAULT_${column.constantJavaField}</#if>))
         </#if>
     </#list>;
     }
-<#list tableDo.columnList as column>
+<#list table.columnList as column>
     <#if column.queryField>
     @Test
     @Transactional
@@ -276,11 +263,11 @@ public class ${ClassName}ResourceIntTest {
 
 		${ClassName}QueryCriteria ${className}QueryCriteria = new ${ClassName}QueryCriteria();
 		${className}QueryCriteria.set${column.simpleJavaField?cap_first}(<#if column.queryType?? && (column.queryType == "between" || column.queryType == "in")><#if column.simpleJavaType == 'Date'>Lists.newArrayList(DateUtil.offset(DEFAULT_${column.constantJavaField}, DateField.MINUTE, -1), DateUtil.offset(DEFAULT_${column.constantJavaField}, DateField.MINUTE, 1))<#else>Lists.newArrayList(DEFAULT_${column.constantJavaField}, DEFAULT_${column.constantJavaField})</#if><#else>DEFAULT_${column.constantJavaField}</#if>);
-        // Get all the ${className}List where ${column.simpleJavaField} equals to DEFAULT_${column.constantJavaField}
+        // Get all the ${className}DoList where ${column.simpleJavaField} equals to DEFAULT_${column.constantJavaField}
         default${ClassName}ShouldBeFound(${className}QueryCriteria);
 
 		${className}QueryCriteria.set${column.simpleJavaField?cap_first}(<#if column.queryType?? && (column.queryType == "between" || column.queryType == "in")><#if column.simpleJavaType == 'Date'>Lists.newArrayList(DateUtil.offset(UPDATED_${column.constantJavaField}, DateField.MINUTE, -1), DateUtil.offset(UPDATED_${column.constantJavaField}, DateField.MINUTE, 1))<#else>Lists.newArrayList(UPDATED_${column.constantJavaField}, UPDATED_${column.constantJavaField})</#if><#else>UPDATED_${column.constantJavaField}</#if>);
-        // Get all the ${className}List where ${column.simpleJavaField} equals to UPDATED_${column.constantJavaField}
+        // Get all the ${className}DoList where ${column.simpleJavaField} equals to UPDATED_${column.constantJavaField}
         default${ClassName}ShouldNotBeFound(${className}QueryCriteria);
     }
     </#if>
@@ -294,11 +281,11 @@ public class ${ClassName}ResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.data.records").isArray())
-    <#list tableDo.columnList as column>
+    <#list table.columnList as column>
         <#if column.pk>
-            .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(${className}Dto.get${column.simpleJavaField?cap_first}())))
+            .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(String.valueOf(${className}Dto.get${column.simpleJavaField?cap_first}()))))
         <#elseif column.editField && column.nullField && (column.isNotBaseField || column.simpleJavaField == 'description')>
-            .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(<#if column.simpleJavaType == "Date">DateUtil.formatDateTime(DEFAULT_${column.constantJavaField})<#elseif column.simpleJavaType == "Long">DEFAULT_${column.constantJavaField}.intValue()<#else>DEFAULT_${column.constantJavaField}</#if>)))
+            .andExpect(jsonPath("$.data.records.[*].${column.simpleJavaField}").value(hasItem(<#if column.simpleJavaType == "Date">DateUtil.formatDateTime(DEFAULT_${column.constantJavaField})<#elseif column.simpleJavaType == "Long">String.valueOf(DEFAULT_${column.constantJavaField})<#else>DEFAULT_${column.constantJavaField}</#if>)))
         </#if>
     </#list>;
     }
@@ -333,35 +320,27 @@ public class ${ClassName}ResourceIntTest {
         int databaseSizeBeforeUpdate = ${className}Service.list().size();
 
         // Update the ${className}
-        ${ClassName} updated${ClassName} = ${className}Service.getById(${className}Dto.getId());
+        ${ClassName}Do updated${ClassName}Do = ${className}Service.getById(${className}Dto.getId());
         // Disconnect from session so that the updates on updated${ClassName} are not directly saved in db
-        ClassUtil.updateObj(updated${ClassName}, Lists.newArrayList(
-    <#assign firstListField = true>
-    <#list tableDo.columnList as column>
-		<#if column.editField && (column.isNotBaseField || column.simpleJavaField == 'description')>
-		<#if firstListField> <#assign firstListField = false><#else>,</#if>${ClassName}.F_${column.constantJavaField}
-		</#if>
-	</#list>
-        ), <#assign firstListField = true><#list tableDo.columnList as column>
-		<#if column.editField && (column.isNotBaseField || column.simpleJavaField == 'description')>
-		<#if firstListField> <#assign firstListField = false><#else>,</#if>UPDATED_${column.constantJavaField}
-		</#if>
-	</#list>);
+		<#list table.columnList as column>
+		<#if column.editField && ((column.isNotBaseField && column.isNotBaseTreeField) || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'parentId' || column.simpleJavaField == 'description')>
+		updated${ClassName}Do.set${column.simpleJavaField?cap_first}(UPDATED_${column.constantJavaField});</#if></#list>
 
-        ${ClassName}Dto ${className}Vo = ${className}Service.copyBeanToDto(updated${ClassName});
+
+        ${ClassName}Dto ${className}Vo = ${className}Service.copyBeanToDto(updated${ClassName}Do);
         rest${ClassName}MockMvc.perform(post(DEFAULT_API_URL)
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(${className}Vo)))
             .andExpect(status().isOk());
 
         // Validate the ${ClassName} in the database
-        List<${ClassName}> ${className}List = ${className}Service.list();
-        assertThat(${className}List).hasSize(databaseSizeBeforeUpdate);
+        List<${ClassName}Do> ${className}DoList = ${className}Service.list();
+        assertThat(${className}DoList).hasSize(databaseSizeBeforeUpdate);
 
-        ${ClassName} test${ClassName} = ${className}List.stream().filter(item->${className}Dto.getId().equals(item.getId())).findAny().get();
-    <#list tableDo.columnList as column>
+        ${ClassName}Do test${ClassName}Do = ${className}DoList.stream().filter(item->${className}Dto.getId().equals(item.getId())).findAny().get();
+    <#list table.columnList as column>
 		<#if column.editField && (column.isNotBaseField || column.simpleJavaField == 'description')>
-		assertThat(test${ClassName}.get${column.simpleJavaField?cap_first}()).isEqualTo(UPDATED_${column.constantJavaField});
+		assertThat(test${ClassName}Do.get${column.simpleJavaField?cap_first}()).isEqualTo(UPDATED_${column.constantJavaField});
 		</#if>
 	</#list>
     }
@@ -382,8 +361,8 @@ public class ${ClassName}ResourceIntTest {
             .andExpect(status().isOk());
 
         // Validate the database is empty
-        List<${ClassName}> ${className}List = ${className}Service.list();
-        assertThat(${className}List).hasSize(databaseSizeBeforeDelete - 1);
+        List<${ClassName}Do> ${className}DoList = ${className}Service.list();
+        assertThat(${className}DoList).hasSize(databaseSizeBeforeDelete - 1);
     }
 
 

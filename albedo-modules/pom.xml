@@ -29,8 +29,12 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>albedo-admin</module>
+		<module>albedo-sys</module>
+		<module>albedo-gen</module>
+		<module>albedo-tenant</module>
 		<module>albedo-quartz</module>
-		<module>albedo-app</module>
+		<module>albedo-file</module>
+		<module>albedo-appendix</module>
+		<module>albedo-monitor</module>
 	</modules>
 </project>

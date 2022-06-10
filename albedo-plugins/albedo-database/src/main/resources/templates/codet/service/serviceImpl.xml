@@ -5,7 +5,7 @@
 	<fileName>${ClassName}ServiceImpl.java</fileName>
 	<content><![CDATA[
 /*
- *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
+ *  Copyright (c) 2019-2022  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -21,16 +21,16 @@
 package ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.impl;
 
 import com.albedo.java.common.core.exception.EntityExistException;
-import com.albedo.java.common.core.util.StringUtil;
+import com.albedo.java.common.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.albedo.java.plugins.database.mybatis.service.impl.DataServiceImpl;
 import ${packageName}.${moduleName}.service.${ClassName}Service;
-import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
+import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Do;
 import ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dto;
-<#if (tableDo.compositeId)!>
+<#if (table.compositeId)!>
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Id;
 </#if>
 import ${packageName}.${moduleName}.repository.${ClassName}Repository;
@@ -42,17 +42,17 @@ import ${packageName}.${moduleName}.repository.${ClassName}Repository;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class ${ClassName}ServiceImpl extends DataServiceImpl<${ClassName}Repository, ${ClassName}, ${ClassName}Dto> implements ${ClassName}Service{
-<#list tableDo.columnList as column><#if column.uniqueField && !column.pk>
+public class ${ClassName}ServiceImpl extends DataServiceImpl<${ClassName}Repository, ${ClassName}Do, ${ClassName}Dto> implements ${ClassName}Service{
+<#list table.columnList as column><#if column.uniqueField && !column.pk>
 	public Boolean exit${ClassName}By${column.simpleJavaField?cap_first}(${ClassName}Dto ${className}Dto) {
-		return getOne(Wrappers.<${ClassName}>lambdaUpdate()
-			.ne(StringUtil.isNotEmpty(${className}Dto.getId()), ${ClassName}::getId, ${className}Dto.getId())
-			.eq(${ClassName}::get${column.simpleJavaField?cap_first}, ${className}Dto.get${column.simpleJavaField?cap_first}())) != null;
+		return getOne(Wrappers.<${ClassName}Do>lambdaUpdate()
+			.ne(ObjectUtil.isNotEmpty(${className}Dto.getId()), ${ClassName}Do::getId, ${className}Dto.getId())
+			.eq(${ClassName}Do::get${column.simpleJavaField?cap_first}, ${className}Dto.get${column.simpleJavaField?cap_first}())) != null;
 	}
 </#if></#list>
 	@Override
 	public void saveOrUpdate(${ClassName}Dto ${className}Dto) {
-<#list tableDo.columnList as column>
+<#list table.columnList as column>
 	<#if column.uniqueField && !column.pk>// ${column.simpleJavaField} before comparing with database
 		if (exit${ClassName}By${column.simpleJavaField?cap_first}(${className}Dto)) {
 			throw new EntityExistException(${ClassName}Dto.class, "${column.simpleJavaField}", ${className}Dto.get${column.simpleJavaField?cap_first}());

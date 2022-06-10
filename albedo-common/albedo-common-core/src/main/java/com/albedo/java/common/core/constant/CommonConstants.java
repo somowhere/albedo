@@ -1,6 +1,6 @@
 
 /*
- *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
+ *  Copyright (c) 2019-2022  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -234,4 +234,6 @@ public interface CommonConstants {
 	String ANONYMOUS_USER = "anonymoususer";
 
 	String DATA_TYPE_MULTIPART_FILE = "MultipartFile";
+	String TENANT_CODE_ADMIN = "0000";
+
 }

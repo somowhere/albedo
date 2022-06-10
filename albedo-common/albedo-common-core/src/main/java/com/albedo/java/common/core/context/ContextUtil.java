@@ -81,8 +81,12 @@ public final class ContextUtil {
 	public static Long getUserId() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication != null) {
-			Object principal = authentication.getPrincipal();
-			return (Long) ClassUtil.invokeGetter(principal, BaseDo.F_ID);
+			try {
+				Object principal = authentication.getPrincipal();
+				return (Long) ClassUtil.invokeGetter(principal, BaseDo.F_ID);
+			} catch (Exception e) {
+				log.warn("can not getUserId from principal {} authentication {} ", authentication.getPrincipal(), authentication);
+			}
 		}
 		log.info("get authentication null return -1L");
 		return -1L;

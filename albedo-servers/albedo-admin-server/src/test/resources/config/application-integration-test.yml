@@ -1,0 +1,137 @@
+# 加解密根密码
+jasypt:
+  encryptor:
+    password: albedo #根密码
+
+# Spring 相关
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 111111
+    url: jdbc:mysql://127.0.0.1:3306/albedo?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowMultiQueries=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+  redis:
+    host: localhost
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+
+# mybaits-plus配置
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*/*Mapper.xml
+  global-config:
+    banner: false
+    db-config:
+      id-type: input
+      insert-strategy: NOT_NULL
+      update-strategy: NOT_NULL
+      table-underline: true
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+    default-enum-type-handler: com.albedo.java.plugins.database.mybatis.typehandler.CustomEnumTypeHandler
+# ===================================================================
+# Albedo specific properties
+# ===================================================================
+application:
+  adminPath: /a
+  address-enabled: true
+  logPath: logs
+  swagger:
+    enabled: true
+    default-include-pattern: ${application.adminPath}/.*
+    title: ${spring.application.name} API
+    description: ${spring.application.name} API documentation
+    version: 0.0.1
+    terms-of-service:
+    contact-name:
+    contact-url:
+    contact-email:
+    license:
+    license-url:
+  cors: #By default CORS are not enabled. Uncomment to enable.
+    allowed-origins-pattern: "*"
+    allowed-methods: "*"
+    allowed-headers: "*"
+    exposed-headers: "Authorization,Link,X-Total-Count"
+    allow-credentials: true
+    max-age: 1800
+  http:
+    version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
+  database:
+    tenantDatabasePrefix: albedo_base
+    multiTenantType: DATASOURCE_COLUMN
+    tenantIdColumn: tenant_code
+    ignore-tables:
+      - sys_tenant
+    ignore-mapper-ids:
+      - com.albedo.java.modules.gen.repository.TableRepository.findTableList
+      - com.albedo.java.modules.gen.repository.TableRepository.findTableColumnList
+      - com.albedo.java.modules.gen.repository.TableRepository.findTablePk
+    isNotWrite: false
+    p6spy: false
+    isBlockAttack: false  # 是否启用 攻击 SQL 阻断解析器
+    isSeata: false
+    id-type: HU_TOOL
+    hutoolId:
+      workerId: 0
+      dataCenterId: 0
+    cache-id:
+      time-bits: 31
+      worker-bits: 22
+      seq-bits: 10
+      epochStr: '2020-09-15'
+      boost-power: 3
+      padding-factor: 50
+  file:
+    storageType: LOCAL #  FAST_DFS LOCAL MIN_IO ALI_OSS HUAWEI_OSS QINIU_OSS
+    delFile: false
+    local:
+      storage-path: /Users/somewhere/data/projects/uploadfile/file/     # 文件存储路径  （ 某些版本的 window 需要改成  D:\\data\\projects\\uploadfile\\file\\  ）
+      endpoint: http://127.0.0.1/file/   # 文件访问 （部署nginx后，配置nginx的ip，并配置nginx静态代理storage-path地址的静态资源）
+      inner-uri-prefix: null  #  内网的url前缀
+    ali:
+      # 请填写自己的阿里云存储配置
+      uriPrefix: "http://albedo-admin-cloud.oss-cn-beijing.aliyuncs.com/"
+      bucket-name: "albedo-admin-cloud"
+      endpoint: "oss-cn-beijing.aliyuncs.com"
+      access-key-id: "填写你的id"
+      access-key-secret: "填写你的秘钥"
+    minIo:
+      endpoint: "http://127.0.0.1:9000/"
+      accessKey: "aledo"
+      secretKey: "aledo"
+      bucket: "dev"
+    huawei:
+      uriPrefix: "dev.obs.cn-southwest-2.myhuaweicloud.com"
+      endpoint: "obs.cn-southwest-2.myhuaweicloud.com"
+      accessKey: "1"
+      secretKey: "2"
+      location: "cn-southwest-2"
+      bucket: "dev"
+    qiNiu:
+      zone: "z0"
+      accessKey: "1"
+      secretKey: "2"
+      bucket: "albedo_admin"
+  #密码加密传输，前端公钥加密，后端私钥解密
+  rsa:
+    public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAN4UOrkIuLpL0o7WItgIUkP/RFBsurMPQ7fTaOKwT+S9tWly0xMmJzSl9Kdh8MpWcyz+5nUSb7SgGWxiE3qIL2sCAwEAAQ==
+    private-key: MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEA3hQ6uQi4ukvSjtYi2AhSQ/9EUGy6sw9Dt9No4rBP5L21aXLTEyYnNKX0p2HwylZzLP7mdRJvtKAZbGITeogvawIDAQABAkBnojsRE//Yd/+nRkh2VdPGBX5kpYiufKYWR6K/fpWZ4QrASv5sIuD2Cqfp5e8K6fZ4DW/CSUMKGq6Vq6xZVeLJAiEA/BazblQTEeGFsQydEmaBA1CWupPOAFO2xg7c/5s1sI8CIQDhhlRtXfjqcUWhj4Um1t8pFBkFHiN8RC1hufaZs9OJZQIgEuLogoWOADLzPzaAthYz6DmrcUMNlfyvntsSN5w7Q4UCIQCu7raAWvsgRxqe1iePV+6j+33o1VbrJisZedkJok48bQIgWVX940QICkAUhYRJgX9uj7oWOAyE1V8ambte6SHBHhs=
+  security:
+    # 前端密码密钥，必须16位
+    encode-key: 'somewhere-albedo'
+    remember-me:
+      key: albedo-admin
+    authorize:
+      - ${application.adminPath}/**
+    authorize-permit-all:
+      - /management/health
+      - /v2/api-docs/**
+      - /swagger-resources/configuration/ui
+      - /swagger-ui.html
+
+

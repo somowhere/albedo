@@ -1,4 +1,4 @@
-<h1 style="text-align: center">Albedo 3.2.8 - 企业信息化快速开发平台</h1>
+<h1 style="text-align: center">Albedo 3.3.0 - 企业信息化快速开发平台</h1>
  <p align="center">
  
  [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/somowhere/albedo/blob/master/LICENSE)
@@ -50,35 +50,39 @@
 依赖 | 版本
 ---|---
 Spring Boot |  2.7.0 
-Mybatis Plus | 3.5.1
-hutool | 5.8.0
+Mybatis Plus | 3.5.2
+hutool | 5.8.2
    
 
 
 #### 模块说明
 ```
 albedo
-├── albedo-ui -- 前端工程[8080]
 └── albedo-common -- 系统公共模块 
-     ├── albedo-common-appendix --  附件模块
-     ├── albedo-common-api --  服务基础api
      ├── albedo-common-core -- 公共工具类核心包
+     ├── albedo-common-log --  日志基础包
      ├── albedo-common-module -- 模块基础包
-     ├── albedo-common-quartz -- 定时基础包
+     └── albedo-common-security -- 权限基础包
+├── albedo-dependencies -- 基础bom文件管理整个项目的依赖版本
+└── albedo-modules -- 功能模块
+     ├── albedo-appendix --  附件模块
+     ├── albedo-fileDo -- 文件api
      ├── albedo-gen -- 代码生成基础包
      ├── albedo-monitor -- 监控api
-     ├── albedo-tenant -- 租户基础包
-     ├── albedo-file -- 文件api
-└── albedo-modules -- 功能模块
-     ├── albedo-admin -- 通用用户权限管理系统业务处理模块[4000]
-     ├── albedo-app -- 接口模块
-     ├── albedo-quartz -- 定时任务模块
-└── albedo-plugin  -- 插件模块 
-     ├── albedo-cache-starter -- 缓存模块
-     ├── albedo-database -- 数据库基础模块
-     ├── albedo-dynamic-database -- 动态数据源模块
-     ├── albedo-swagger-api -- swagger api
-     └── albedo-uid -- 主键uid
+     ├── albedo-quartz -- 定时基础包
+     ├── albedo-sys -- 通用用户权限管理系统业务处理模块
+     └── albedo-tenant -- 租户基础包
+└── albedo-plugins  -- 插件模块 
+     ├── albedo-cache-starter -- 缓存插件
+     ├── albedo-database -- 数据库基础插件
+     ├── albedo-dynamic-database -- 动态数据源插件
+     ├── albedo-swagger-api -- swagger api插件
+     └── albedo-uid -- 主键uid插件
+└── albedo-servers  -- 启动服务 
+     ├── albedo-admin -- admin服务[4000]
+     ├── albedo-app -- 接口服务
+     └── albedo-quartz -- 定时任务服务
+└── albedo-ui -- 前端工程[8080]
 	 
 ```
 

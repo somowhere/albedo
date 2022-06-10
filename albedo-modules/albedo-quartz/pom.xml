@@ -10,51 +10,54 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>albedo-quartz</artifactId>
-	<packaging>jar</packaging>
+
 	<dependencies>
+		<!-- 通用工具-->
 		<dependency>
 			<groupId>com.albedo.java</groupId>
-			<artifactId>albedo-common-quartz</artifactId>
+			<artifactId>albedo-common-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.albedo.java</groupId>
-			<artifactId>albedo-tenant</artifactId>
+			<artifactId>albedo-common-module</artifactId>
 		</dependency>
-		<!--数据库-->
+
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
+			<groupId>com.albedo.java</groupId>
+			<artifactId>albedo-database</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-undertow</artifactId>
+		</dependency>
+		<!--web 模块-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<!--排除tomcat依赖-->
+				<exclusion>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+					<groupId>org.springframework.boot</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- 定时任务 -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>com.mchange</groupId>
+					<artifactId>c3p0</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.zaxxer</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
 	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-	<profiles>
-		<profile>
-			<id>dev</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<!-- log configuration -->
-				<logback.loglevel>${profile.dev.log.level}</logback.loglevel>
-				<!-- default Spring profiles -->
-				<mvn.spring.profiles.active>dev</mvn.spring.profiles.active>
-			</properties>
-		</profile>
-		<profile>
-			<id>prod</id>
-			<properties>
-				<!-- log configuration -->
-				<logback.loglevel>${profile.prod.log.level}</logback.loglevel>
-				<!-- default Spring profiles -->
-				<mvn.spring.profiles.active>prod</mvn.spring.profiles.active>
-			</properties>
-		</profile>
-	</profiles>
 </project>

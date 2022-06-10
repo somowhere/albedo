@@ -148,7 +148,7 @@ export default {
     initAttachment() {
       return {
         bizType: 'BASE_FILE',
-        file: null
+        fileDo: null
       }
     },
     handleDrag() {

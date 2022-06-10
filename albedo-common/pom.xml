@@ -17,12 +17,7 @@
 	<modules>
 		<module>albedo-common-core</module>
 		<module>albedo-common-module</module>
-		<module>albedo-common-api</module>
-		<module>albedo-common-quartz</module>
-		<module>albedo-gen</module>
-		<module>albedo-tenant</module>
-		<module>albedo-monitor</module>
-		<module>albedo-appendix</module>
-		<module>albedo-file</module>
+		<module>albedo-common-log</module>
+		<module>albedo-common-security</module>
 	</modules>
 </project>

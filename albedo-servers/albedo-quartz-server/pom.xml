@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xmlns="http://maven.apache.org/POM/4.0.0"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>albedo-servers</artifactId>
+		<groupId>com.albedo.java</groupId>
+		<version>${revision}</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>albedo-quartz-server</artifactId>
+	<packaging>jar</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>com.albedo.java</groupId>
+			<artifactId>albedo-quartz</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.albedo.java</groupId>
+			<artifactId>albedo-sys-biz</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.albedo.java</groupId>
+			<artifactId>albedo-tenant</artifactId>
+		</dependency>
+		<!--数据库-->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<!-- log configuration -->
+				<logback.loglevel>${profile.dev.log.level}</logback.loglevel>
+				<!-- default Spring profiles -->
+				<mvn.spring.profiles.active>dev</mvn.spring.profiles.active>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<!-- log configuration -->
+				<logback.loglevel>${profile.prod.log.level}</logback.loglevel>
+				<!-- default Spring profiles -->
+				<mvn.spring.profiles.active>prod</mvn.spring.profiles.active>
+			</properties>
+		</profile>
+	</profiles>
+</project>

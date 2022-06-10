@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
+ *  Copyright (c) 2019-2022  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -28,6 +28,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import lombok.SneakyThrows;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
@@ -125,42 +126,50 @@ public interface TreeService<T extends TreeDo, D extends TreeDto> extends DataSe
 	 * @param entityDto 实体对象
 	 * @return boolean
 	 */
-	@Override
-	default boolean saveOrUpdate(T entityDto) {
+	@SneakyThrows
+	default void saveOrUpdate(D entityDto) {
+		T entity;
+		entity = ObjectUtil.isNotEmpty(entityDto.getId()) ? getById(entityDto.getId())
+			: getEntityClass().newInstance();
+		copyDtoToBean(entityDto, entity);
 		// 获取修改前的parentIds，用于更新子节点的parentIds
-		String oldParentIds = entityDto.getParentIds();
-		if (entityDto.getParentId() != null) {
-			T parent = getRepository().selectById(entityDto.getParentId());
+		String oldParentIds = entity.getParentIds();
+		if (entity.getParentId() != null) {
+			T parent = getRepository().selectById(entity.getParentId());
 			if (parent != null && ObjectUtil.isNotEmpty(parent.getId())) {
 				parent.setLeaf(false);
 				getRepository().updateById(parent);
-				entityDto.setParentIds(
+				entity.setParentIds(
 					StringUtil.toAppendStr(parent.getParentIds(), parent.getId(), StringUtil.SPLIT_DEFAULT));
 			}
 		} else {
-			entityDto.setParentId(TreeUtil.ROOT);
+			entity.setParentId(TreeUtil.ROOT);
 		}
-
-		if (ObjectUtil.isNotEmpty(entityDto.getId())) {
-			Long count = countByParentId((String) entityDto.getId());
-			entityDto.setLeaf(count == null || count == 0);
+		String id = entity.getId() != null ? String.valueOf(entity.getId()) : null;
+		if (ObjectUtil.isNotEmpty(entity.getId())) {
+			Long count = countByParentId(id);
+			entity.setLeaf(count == null || count == 0);
 		} else {
-			entityDto.setLeaf(true);
+			entity.setLeaf(true);
 		}
-		boolean flag = StringUtil.isNotEmpty((String) entityDto.getId()) ? this.updateById(entityDto) : this.save(entityDto);
+		if (StringUtil.isNotEmpty(id)) {
+			this.updateById(entity);
+		} else {
+			this.save(entity);
+		}
 		if (ObjectUtil.isNotEmpty(oldParentIds)) {
 			// 更新子节点 parentIds
-			List<T> list = findAllByParentIdsLike((String) entityDto.getId());
+			List<T> list = findAllByParentIdsLike(id);
 			for (T e : list) {
 				if (StringUtil.isNotEmpty(e.getParentIds())) {
-					e.setParentIds(e.getParentIds().replace(oldParentIds, entityDto.getParentIds()));
+					e.setParentIds(e.getParentIds().replace(oldParentIds, entity.getParentIds()));
 				}
 			}
 			if (ObjectUtil.isNotEmpty(list)) {
 				updateBatchById(list);
 			}
 		}
-		return flag;
+		entityDto.setId((Long) entity.getId());
 	}
 
 	/**

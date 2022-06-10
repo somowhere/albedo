@@ -71,7 +71,7 @@
           ref="imgFileRef"
           :auto-upload="true"
           :data="myAvatar"
-          :show-file-list="false"
+          :show-file-do-list="false"
           list-type="picture-card"
           @setId="setIdAndSubmit"
         >

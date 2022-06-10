@@ -5,7 +5,7 @@
 	<fileName>${ClassName}Dto.java</fileName>
 	<content><![CDATA[
 /*
- *  Copyright (c) 2019-2021  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
+ *  Copyright (c) 2019-2022  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -21,10 +21,7 @@
 package ${packageName}.${moduleName}.domain.dto<#if subModuleName != "">.${subModuleName}</#if>;
 
 import com.albedo.java.common.core.vo.DataDto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.*;
 import javax.validation.constraints.NotNull;
@@ -36,10 +33,10 @@ import java.util.Date;
  * @version ${functionVersion}
  */
 @Data @ToString @NoArgsConstructor @AllArgsConstructor
-public class ${ClassName}Dto extends DataDto<${tableDo.pkJavaType}> {
+public class ${ClassName}Dto extends DataDto<${table.pkJavaType}> {
 
 	private static final long serialVersionUID = 1L;
-	<#list tableDo.columnList as column>
+	<#list table.columnList as column>
 		<#if !column.pk && column.isNotBaseField>
 	/** F_${column.constantJavaField} ${column.nameAndTitle} */
 	public static final String F_${column.constantJavaField} = "${column.simpleJavaField}";
@@ -47,15 +44,22 @@ public class ${ClassName}Dto extends DataDto<${tableDo.pkJavaType}> {
 	</#list>
 
 	<@generateFields/>
+	@Builder
+	public ${ClassName}Dto(<#if table.compositeId>${ClassName}Id id<#else>${table.pkJavaType} id</#if><#list table.columnList as column><#if !column.pk && column.isNotBaseField && column.isNotBaseTreeField || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'parentId' || column.simpleJavaField == 'description'>, ${column.simpleJavaType} ${column.simpleJavaField}</#if></#list>) {
+		<#list table.columnList as column>
+		<#if column.isNotBaseField && column.isNotBaseTreeField || column.simpleJavaField == 'name' || column.simpleJavaField == 'sort' || column.simpleJavaField == 'parentId' || column.simpleJavaField == 'description'>
+		set${column.simpleJavaField?cap_first}(${column.simpleJavaField});</#if>
+		</#list>
+	}
 
 }
 <#macro generateFields>
 
-	<#list tableDo.columnList as column>
+	<#list table.columnList as column>
 		<#if !column.pk && column.isNotBaseField>
 	/** ${column.simpleJavaField} ${column.title} */
-	        <#if tableDo.parentExists && tableDo.parentTableFk == column.name>
-	private ${tableDo.parent.className} ${column.simpleJavaField};
+	        <#if table.parentExists && table.parentTableFk == column.name>
+	private ${table.parent.className} ${column.simpleJavaField};
 	        <#elseif column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
 	private String ${column.simpleJavaField}Id;
 	private ${column.simpleJavaType} ${column.simpleJavaField};
