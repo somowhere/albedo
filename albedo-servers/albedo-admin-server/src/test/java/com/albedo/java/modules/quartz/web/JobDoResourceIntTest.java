@@ -284,9 +284,8 @@ public class JobDoResourceIntTest extends SimulationRuntimeIntegrationTest {
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$.data.records.[*].id").value(hasItem(String.valueOf(jobDto.getId()))))
 			.andExpect(jsonPath("$.data.records.[*].cronExpression").value(hasItem(DEFAULT_CRONEXPRESSION)))
-			.andExpect(jsonPath("$.data.records.[*].concurrent").value(DEFAULT_CONCURRENT.getValue()))
-			.andExpect(jsonPath("$.data.records.[*].concurrentText").value(DEFAULT_CONCURRENT.getText()))
-			.andExpect(jsonPath("$.data.records.[*].STATUS").value(hasItem(DEFAULT_STATUS)))
+			.andExpect(jsonPath("$.data.records.[*].concurrent").value(hasItem(DEFAULT_CONCURRENT.getValue())))
+			.andExpect(jsonPath("$.data.records.[*].concurrentText").value(hasItem(DEFAULT_CONCURRENT.getText())))
 			.andExpect(jsonPath("$.data.records.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
 	}
 
@@ -303,7 +302,6 @@ public class JobDoResourceIntTest extends SimulationRuntimeIntegrationTest {
 			.andExpect(jsonPath("$.data.cronExpression").value(DEFAULT_CRONEXPRESSION))
 			.andExpect(jsonPath("$.data.concurrent").value(DEFAULT_CONCURRENT.getValue()))
 			.andExpect(jsonPath("$.data.concurrentText").value(DEFAULT_CONCURRENT.getText()))
-			.andExpect(jsonPath("$.data.STATUS").value(DEFAULT_STATUS))
 			.andExpect(jsonPath("$.data.description").value(DEFAULT_DESCRIPTION));
 	}
 
