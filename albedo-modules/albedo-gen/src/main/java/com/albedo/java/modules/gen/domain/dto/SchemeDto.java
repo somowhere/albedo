@@ -16,7 +16,7 @@
 package com.albedo.java.modules.gen.domain.dto;
 
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.vo.DataDto;
+import com.albedo.java.common.core.domain.vo.DataDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;

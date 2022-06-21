@@ -18,7 +18,7 @@ package com.albedo.java.modules.gen.domain.dto;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.StringUtil;
-import com.albedo.java.common.core.vo.DataDto;
+import com.albedo.java.common.core.domain.vo.DataDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
 import lombok.Data;
@@ -212,7 +212,7 @@ public class TableDto extends DataDto<String> {
 		// 引用列表
 		List<String> importList = Lists.newArrayList("com.baomidou.mybatisplus.annotation.*");
 		if (CATEGORY_TREETABLE.equalsIgnoreCase(getCategory())) {
-			importList.add("com.albedo.java.common.core.basic.domain.TreeDo");
+			importList.add("com.albedo.java.common.core.domain.TreeDo");
 			initImport(importList);
 			// 如果有子表，则需要导入List相关引用
 			if (getChildList() != null && getChildList().size() > 0) {
@@ -221,7 +221,7 @@ public class TableDto extends DataDto<String> {
 					"org.hibernate.annotations.Where");
 			}
 		} else {
-			importList.add("com.albedo.java.common.core.basic.domain.IdDo");
+			importList.add("com.albedo.java.common.core.domain.IdDo");
 			initImport(importList);
 			// 如果有子表，则需要导入List相关引用
 			if (getChildList() != null && getChildList().size() > 0) {

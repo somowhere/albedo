@@ -19,7 +19,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import com.albedo.java.common.core.util.StringUtil;
-import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.core.domain.vo.PageModel;
 import com.albedo.java.modules.monitor.domain.RedisInfo;
 import com.albedo.java.modules.monitor.domain.ReportSearchType;
 import com.albedo.java.modules.monitor.service.RedisService;

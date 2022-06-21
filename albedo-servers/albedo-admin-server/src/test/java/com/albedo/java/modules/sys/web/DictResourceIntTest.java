@@ -126,7 +126,7 @@ public class DictResourceIntTest extends SimulationRuntimeIntegrationTest {
 	 * This is a static method, as tests for other entities might also need it, if they
 	 * test an domain which has a required relationship to the Dict domain.
 	 */
-	public DictDto createEntity() {
+	public DictDto createDto() {
 		DictDto dict = new DictDto();
 		dict.setName(DEFAULT_NAME);
 		dict.setVal(DEFAULT_VAL);
@@ -139,7 +139,7 @@ public class DictResourceIntTest extends SimulationRuntimeIntegrationTest {
 
 	@BeforeEach
 	public void initTest() {
-		dict = createEntity();
+		dict = createDto();
 		// Initialize the database
 
 		anotherDict.setName(DEFAULT_ANOTHER_NAME);
@@ -185,7 +185,7 @@ public class DictResourceIntTest extends SimulationRuntimeIntegrationTest {
 		int databaseSizeBeforeCreate = dictService.list().size();
 
 		// Create the Dict
-		DictDto managedDictVM = createEntity();
+		DictDto managedDictVM = createDto();
 
 		// Create the Dict
 		restDictMockMvc

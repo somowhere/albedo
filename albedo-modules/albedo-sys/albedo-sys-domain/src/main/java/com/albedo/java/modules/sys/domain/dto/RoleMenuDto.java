@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.domain.dto;
 
-import com.albedo.java.common.core.vo.GeneralDto;
+import com.albedo.java.common.core.domain.vo.GeneralDto;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;

@@ -15,7 +15,7 @@
 
 package com.albedo.java.modules.quartz.domain;
 
-import com.albedo.java.common.core.basic.domain.GeneralDo;
+import com.albedo.java.common.core.domain.GeneralDo;
 import com.albedo.java.modules.quartz.domain.enums.JobLogStatus;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;

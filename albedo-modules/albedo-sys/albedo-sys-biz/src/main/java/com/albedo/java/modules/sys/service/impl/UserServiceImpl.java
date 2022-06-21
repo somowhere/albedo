@@ -24,7 +24,7 @@ import com.albedo.java.common.core.constant.SecurityConstants;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.exception.EntityExistException;
 import com.albedo.java.common.core.util.*;
-import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.core.domain.vo.PageModel;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.RedisUtil;
 import com.albedo.java.modules.sys.cache.UserCacheKeyBuilder;

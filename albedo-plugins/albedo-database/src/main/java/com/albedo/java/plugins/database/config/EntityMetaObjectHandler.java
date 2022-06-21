@@ -2,8 +2,8 @@ package com.albedo.java.plugins.database.config;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
-import com.albedo.java.common.core.basic.domain.BaseDataDo;
-import com.albedo.java.common.core.basic.domain.BaseDo;
+import com.albedo.java.common.core.domain.BaseDataDo;
+import com.albedo.java.common.core.domain.BaseDo;
 import com.albedo.java.common.core.context.ContextUtil;
 import com.albedo.java.common.core.util.SpringContextHolder;
 import com.albedo.java.common.core.util.StrPool;

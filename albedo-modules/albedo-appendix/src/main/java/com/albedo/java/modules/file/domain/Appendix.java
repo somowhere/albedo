@@ -1,6 +1,6 @@
 package com.albedo.java.modules.file.domain;
 
-import com.albedo.java.common.core.basic.domain.IdDo;
+import com.albedo.java.common.core.domain.IdDo;
 import com.albedo.java.common.core.enumeration.FileType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;

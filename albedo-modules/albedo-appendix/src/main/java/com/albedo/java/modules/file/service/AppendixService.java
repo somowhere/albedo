@@ -1,9 +1,9 @@
 package com.albedo.java.modules.file.service;
 
-import com.albedo.java.common.core.basic.domain.IdDo;
-import com.albedo.java.common.core.vo.AppendixDto;
-import com.albedo.java.common.core.vo.AppendixVo;
-import com.albedo.java.common.core.vo.EchoVo;
+import com.albedo.java.common.core.domain.IdDo;
+import com.albedo.java.common.core.domain.vo.AppendixDto;
+import com.albedo.java.common.core.domain.vo.AppendixVo;
+import com.albedo.java.common.core.domain.vo.EchoVo;
 import com.albedo.java.modules.file.domain.Appendix;
 import com.albedo.java.plugins.database.mybatis.service.DataService;
 import com.baomidou.mybatisplus.core.metadata.IPage;

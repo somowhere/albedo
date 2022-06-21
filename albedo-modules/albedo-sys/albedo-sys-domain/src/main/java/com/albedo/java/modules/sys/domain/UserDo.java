@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.domain;
 
-import com.albedo.java.common.core.basic.domain.IdDo;
+import com.albedo.java.common.core.domain.IdDo;
 import com.albedo.java.modules.sys.domain.enums.Sex;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;

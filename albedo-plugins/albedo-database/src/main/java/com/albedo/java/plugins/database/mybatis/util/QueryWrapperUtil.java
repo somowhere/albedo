@@ -20,7 +20,7 @@ import cn.hutool.core.util.ReflectUtil;
 import com.albedo.java.common.core.annotation.Query;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
-import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.core.domain.vo.PageModel;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;

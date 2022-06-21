@@ -15,7 +15,7 @@
 
 package com.albedo.java.modules.sys.domain;
 
-import com.albedo.java.common.core.basic.domain.GeneralDo;
+import com.albedo.java.common.core.domain.GeneralDo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;

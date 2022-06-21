@@ -42,6 +42,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -203,7 +204,7 @@ public class ExcelUtil<T> {
 		this.type = Type.IMPORT;
 		this.wb = WorkbookFactory.create(is);
 		List<T> list = new ArrayList<T>();
-		Sheet sheet = null;
+		Sheet sheet;
 		if (StringUtil.isNotEmpty(sheetName)) {
 			// 如果指定sheet名,则取指定sheet中的内容.
 			sheet = wb.getSheet(sheetName);
@@ -339,13 +340,7 @@ public class ExcelUtil<T> {
 	 *
 	 * @return 结果
 	 */
-	public void exportExcel(HttpServletResponse response) {
-		ServletOutputStream out = null;
-		String filename = encodingFilename(sheetName);
-		response.setCharacterEncoding(CharsetUtil.UTF_8);
-		// response为HttpServletResponse对象
-		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
-		response.setHeader("Content-Disposition", "attachment;filename=" + filename);
+	public void exportExcel(OutputStream out) {
 		try {
 			// 取出一共有多少个sheet.
 			double sheetNo = Math.ceil(list.size() / SHEET_SIZE);
@@ -361,13 +356,13 @@ public class ExcelUtil<T> {
 					this.createCell(excelField, row, column++);
 				}
 				if (Type.EXPORT.equals(type)) {
-					fillExcelData(index, row);
+					fillExcelData(index);
 				}
 			}
-			out = response.getOutputStream();
 			wb.write(out);
+			out.flush();
 		} catch (Exception e) {
-			log.error("导出Excel异常{}", e.getMessage());
+			log.error("导出Excel异常", e);
 			throw new RuntimeMsgException("导出Excel失败，请联系网站管理员！");
 		} finally {
 			if (wb != null) {
@@ -388,16 +383,33 @@ public class ExcelUtil<T> {
 	}
 
 	/**
+	 * 对list数据源将其里面的数据导入到excel表单
+	 *
+	 * @return 结果
+	 */
+	public void exportExcel(HttpServletResponse response) {
+		try {
+			String filename = encodingFilename(sheetName);
+			response.setCharacterEncoding(CharsetUtil.UTF_8);
+			// response为HttpServletResponse对象
+			response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
+			response.setHeader("Content-Disposition", "attachment;filename=" + filename);
+			exportExcel(response.getOutputStream());
+		} catch (Exception e) {
+			log.error("导出Excel异常{}", e.getMessage());
+			throw new RuntimeMsgException("导出Excel失败，请联系网站管理员！");
+		}
+	}
+	/**
 	 * 填充excel数据
 	 *
 	 * @param index 序号
-	 * @param row   单元格行
 	 */
-	public void fillExcelData(int index, Row row) {
+	public void fillExcelData(int index) {
 		int startNo = index * SHEET_SIZE;
 		int endNo = Math.min(startNo + SHEET_SIZE, list.size());
 		for (int i = startNo; i < endNo; i++) {
-			row = sheet.createRow(i + 1 - startNo);
+			Row row = sheet.createRow(i + 1 - startNo);
 			// 得到导出对象.
 			T vo = list.get(i);
 			int column = 0;

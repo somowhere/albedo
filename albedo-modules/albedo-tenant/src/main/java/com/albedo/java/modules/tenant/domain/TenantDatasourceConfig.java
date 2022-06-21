@@ -1,7 +1,7 @@
 package com.albedo.java.modules.tenant.domain;
 
 import com.albedo.java.common.core.annotation.ExcelField;
-import com.albedo.java.common.core.basic.domain.BaseDo;
+import com.albedo.java.common.core.domain.BaseDo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;

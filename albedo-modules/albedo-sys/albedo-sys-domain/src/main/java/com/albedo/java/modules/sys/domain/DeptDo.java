@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.domain;
 
-import com.albedo.java.common.core.basic.domain.TreeDo;
+import com.albedo.java.common.core.domain.TreeDo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

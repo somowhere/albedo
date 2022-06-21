@@ -23,7 +23,7 @@ import cn.hutool.extra.template.TemplateUtil;
 import com.albedo.java.common.core.constant.ScheduleConstants;
 import com.albedo.java.common.core.context.ContextUtil;
 import com.albedo.java.common.core.util.SpringContextHolder;
-import com.albedo.java.common.core.vo.ScheduleVo;
+import com.albedo.java.common.core.domain.vo.ScheduleVo;
 import com.albedo.java.common.util.RedisUtil;
 import com.albedo.java.modules.quartz.domain.JobDo;
 import com.albedo.java.modules.quartz.domain.JobLogDo;

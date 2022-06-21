@@ -16,7 +16,7 @@
 
 package com.albedo.java.plugins.database.mybatis.datascope;
 
-import com.albedo.java.common.core.basic.domain.BaseDo;
+import com.albedo.java.common.core.domain.BaseDo;
 import com.google.common.collect.Sets;
 import lombok.Data;
 

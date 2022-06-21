@@ -18,7 +18,7 @@
 
 package com.albedo.java.plugins.database.mybatis.repository;
 
-import com.albedo.java.common.core.basic.domain.BaseDo;
+import com.albedo.java.common.core.domain.BaseDo;
 
 /**
  * TreeRepository

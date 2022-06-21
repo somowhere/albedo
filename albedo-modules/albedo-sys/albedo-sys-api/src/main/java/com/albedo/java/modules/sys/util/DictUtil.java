@@ -21,7 +21,7 @@ import com.albedo.java.common.core.constant.CacheNameConstants;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.enumeration.BaseEnum;
 import com.albedo.java.common.core.util.*;
-import com.albedo.java.common.core.vo.SelectVo;
+import com.albedo.java.common.core.domain.vo.SelectVo;
 import com.albedo.java.modules.sys.cache.DictCacheKeyBuilder;
 import com.albedo.java.modules.sys.domain.DictDo;
 import com.albedo.java.modules.sys.feign.RemoteDictService;

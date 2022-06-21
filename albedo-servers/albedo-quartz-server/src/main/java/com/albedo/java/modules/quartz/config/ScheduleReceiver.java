@@ -20,7 +20,7 @@ import com.albedo.java.common.core.annotation.BaseInit;
 import com.albedo.java.common.core.context.ContextUtil;
 import com.albedo.java.common.core.exception.TaskException;
 import com.albedo.java.common.core.util.ArgumentAssert;
-import com.albedo.java.common.core.vo.ScheduleVo;
+import com.albedo.java.common.core.domain.vo.ScheduleVo;
 import com.albedo.java.modules.quartz.domain.JobDo;
 import com.albedo.java.modules.quartz.repository.JobRepository;
 import com.albedo.java.modules.quartz.util.ScheduleUtils;

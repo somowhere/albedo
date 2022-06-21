@@ -1,4 +1,4 @@
-package com.albedo.java.common.core.vo;
+package com.albedo.java.common.core.domain.vo;
 
 import java.util.Map;
 

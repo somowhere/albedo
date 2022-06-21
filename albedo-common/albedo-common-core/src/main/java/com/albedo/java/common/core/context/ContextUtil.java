@@ -1,7 +1,7 @@
 package com.albedo.java.common.core.context;
 
 import cn.hutool.core.convert.Convert;
-import com.albedo.java.common.core.basic.domain.BaseDo;
+import com.albedo.java.common.core.domain.BaseDo;
 import com.albedo.java.common.core.util.ClassUtil;
 import com.albedo.java.common.core.util.StrPool;
 import com.alibaba.ttl.TransmittableThreadLocal;

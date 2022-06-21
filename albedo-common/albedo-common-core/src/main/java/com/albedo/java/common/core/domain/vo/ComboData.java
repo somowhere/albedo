@@ -13,24 +13,46 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.core.vo;
+package com.albedo.java.common.core.domain.vo;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.ToString;
+
+import java.io.Serializable;
 
 /**
- * Created by somewhere on 2017/3/2.
- *
  * @author somewhere
+ * @description
+ * @date 2020/5/31 17:07
  */
 @Data
-@Schema
-@ToString
-public class DictQuery {
+public class ComboData implements Serializable {
 
-	private String code;
+	public static final String F_LABEL = "label";
 
-	private String filter;
+	public static final String F_VALUE = "value";
+
+	public static final String F_PID = "pId";
+
+	private static final long serialVersionUID = 1L;
+
+	private String value;
+
+	private String label;
+
+	private String pId;
+
+	public ComboData() {
+	}
+
+	public ComboData(String value, String label) {
+		this.value = value;
+		this.label = label;
+	}
+
+	public ComboData(String value, String label, String pId) {
+		this.value = value;
+		this.label = label;
+		this.pId = pId;
+	}
 
 }

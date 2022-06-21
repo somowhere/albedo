@@ -16,7 +16,7 @@
 package com.albedo.java.modules.gen.domain;
 
 import cn.hutool.core.text.CharSequenceUtil;
-import com.albedo.java.common.core.basic.domain.IdDo;
+import com.albedo.java.common.core.domain.IdDo;
 import com.albedo.java.common.core.util.CollUtil;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;

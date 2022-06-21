@@ -15,8 +15,8 @@
 
 package com.albedo.java.plugins.database.mybatis.service.impl;
 
-import com.albedo.java.common.core.basic.domain.TreeDo;
-import com.albedo.java.common.core.vo.TreeDto;
+import com.albedo.java.common.core.domain.TreeDo;
+import com.albedo.java.common.core.domain.vo.TreeDto;
 import com.albedo.java.plugins.database.mybatis.repository.TreeRepository;
 import com.albedo.java.plugins.database.mybatis.service.TreeService;
 import lombok.Data;

@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.core.basic.domain;
+package com.albedo.java.common.core.domain;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

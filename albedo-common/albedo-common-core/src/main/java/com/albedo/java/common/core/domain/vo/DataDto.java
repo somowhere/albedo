@@ -13,13 +13,13 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.core.vo;
+package com.albedo.java.common.core.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -29,22 +29,12 @@ import java.util.Objects;
  * @author somewhere
  */
 @Data
-public class DataVo<PK extends Serializable> extends GeneralDto {
+public class DataDto<PK extends Serializable> extends GeneralDto {
 
 	private PK id;
 
-	private String createdBy;
-
-	private LocalDateTime createdDate;
-
-	private String lastModifiedBy;
-
-	private LocalDateTime lastModifiedDate;
-
 	@JsonIgnore
-	private Integer version;
-
-	@JsonIgnore
+	@Schema(hidden = true)
 	private String delFlag;
 
 	private String description;
@@ -57,7 +47,7 @@ public class DataVo<PK extends Serializable> extends GeneralDto {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		return Objects.equals(id, ((DataVo) o).id);
+		return Objects.equals(id, ((DataDto) o).id);
 	}
 
 	@Override

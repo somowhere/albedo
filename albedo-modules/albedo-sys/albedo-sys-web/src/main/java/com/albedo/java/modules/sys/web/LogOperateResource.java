@@ -30,7 +30,7 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.util.Result;
-import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.core.domain.vo.PageModel;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.log.enums.LogType;
 import com.albedo.java.common.security.util.SecurityUtil;

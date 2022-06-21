@@ -15,7 +15,7 @@
 
 package com.albedo.java.modules.quartz.domain.dto;
 
-import com.albedo.java.common.core.vo.DataDto;
+import com.albedo.java.common.core.domain.vo.DataDto;
 import com.albedo.java.modules.quartz.domain.enums.JobConcurrent;
 import com.albedo.java.modules.quartz.domain.enums.JobMisfirePolicy;
 import com.albedo.java.modules.quartz.domain.enums.JobStatus;

@@ -107,7 +107,7 @@ public class DeptResourceIntTest extends SimulationRuntimeIntegrationTest {
 	 * This is a static method, as tests for other entities might also need it, if they
 	 * test an domain which has a required relationship to the Dept domain.
 	 */
-	public DeptDto createEntity() {
+	public DeptDto createDto() {
 		DeptDto dept = new DeptDto();
 		dept.setName(DEFAULT_NAME);
 		dept.setSort(DEFAULT_SORT);
@@ -117,7 +117,7 @@ public class DeptResourceIntTest extends SimulationRuntimeIntegrationTest {
 
 	@BeforeEach
 	public void initTest() {
-		dept = createEntity();
+		dept = createDto();
 		// Initialize the database
 
 		anotherDept.setName(DEFAULT_ANOTHER_NAME);

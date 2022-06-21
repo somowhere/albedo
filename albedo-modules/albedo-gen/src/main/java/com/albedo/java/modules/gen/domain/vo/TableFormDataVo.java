@@ -15,7 +15,7 @@
 
 package com.albedo.java.modules.gen.domain.vo;
 
-import com.albedo.java.common.core.vo.SelectVo;
+import com.albedo.java.common.core.domain.vo.SelectVo;
 import com.albedo.java.modules.gen.domain.dto.TableDto;
 import com.albedo.java.modules.gen.domain.xml.GenConfig;
 import lombok.Data;

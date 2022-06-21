@@ -18,7 +18,7 @@ package com.albedo.java.modules.quartz.web;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.exception.handler.GlobalExceptionHandler;
 import com.albedo.java.common.core.util.ClassUtil;
-import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.core.domain.vo.PageModel;
 import com.albedo.java.modules.TestUtil;
 import com.albedo.java.modules.base.SimulationRuntimeIntegrationTest;
 import com.albedo.java.modules.quartz.domain.JobDo;
@@ -161,7 +161,7 @@ public class JobDoResourceIntTest extends SimulationRuntimeIntegrationTest {
 	 * This is a static method, as tests for other entities might also need it, if they
 	 * test an entity which requires the current entity.
 	 */
-	public static JobDto createEntity() {
+	public static JobDto createDto() {
 		JobDto jobDto = ClassUtil.createObj(JobDto.class,
 			Lists.newArrayList(JobDto.F_NAME, JobDto.F_GROUP, JobDto.F_INVOKETARGET, JobDto.F_CRONEXPRESSION,
 				JobDto.F_MISFIREPOLICY, JobDto.F_CONCURRENT, JobDto.F_STATUS, JobDto.F_DESCRIPTION),
@@ -200,7 +200,7 @@ public class JobDoResourceIntTest extends SimulationRuntimeIntegrationTest {
 
 	@BeforeEach
 	public void initTest() {
-		jobDto = createEntity();
+		jobDto = createDto();
 	}
 
 	@Test

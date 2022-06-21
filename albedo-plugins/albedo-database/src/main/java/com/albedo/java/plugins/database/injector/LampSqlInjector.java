@@ -1,7 +1,7 @@
 package com.albedo.java.plugins.database.injector;
 
 import cn.hutool.core.util.ArrayUtil;
-import com.albedo.java.common.core.basic.domain.BaseDo;
+import com.albedo.java.common.core.domain.BaseDo;
 import com.albedo.java.plugins.database.injector.method.UpdateAllById;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;

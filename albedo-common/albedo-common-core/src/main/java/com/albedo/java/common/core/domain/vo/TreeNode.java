@@ -1,3 +1,4 @@
+
 /*
  *  Copyright (c) 2019-2022  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
@@ -13,65 +14,45 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.core.basic.domain;
+package com.albedo.java.common.core.domain.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import com.albedo.java.common.core.util.tree.TreeNodeAware;
+import lombok.Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
  * @author somewhere
+ * @date 2017年11月9日23:33:45
  */
-@Accessors(chain = true)
-@AllArgsConstructor
-public class IdDo<T extends BaseDo<T>, PK extends Serializable> extends BaseDataDo<T, PK> {
+@Data
+public class TreeNode<T> implements TreeNodeAware<T>, Serializable {
 
-	private static final long serialVersionUID = 1L;
+	protected Long id;
 
-	@TableId(value = GeneralDo.F_SQL_ID, type = IdType.INPUT)
-	@Getter
-	@Setter
-	protected PK id;
+	protected Long parentId;
 
-	public IdDo() {
-		super();
-	}
+	protected List<T> children = new ArrayList<T>();
 
-	@Override
-	public Serializable pkVal() {
-		return this.getId();
-	}
-
-	@Override
-	public void setPk(PK pk) {
-		this.setId(pk);
-	}
+	private String label;
 
 	@Override
 	public boolean equals(Object o) {
-
 		if (this == o) {
 			return true;
 		}
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		IdDo idDo = (IdDo) o;
-		if (idDo.getId() == null || getId() == null) {
-			return false;
-		}
-		return Objects.equals(getId(), idDo.getId());
+		return Objects.equals(id, ((TreeNode) o).id);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(getId());
+		return Objects.hash(id);
 	}
 
 }

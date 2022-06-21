@@ -13,12 +13,13 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.core.vo;
+package com.albedo.java.common.core.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -26,46 +27,51 @@ import java.util.Objects;
 
 /**
  * @author somewhere
- * @date 2017/3/2
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Accessors(chain = true)
-@Builder
-public class SelectVo implements Serializable {
+@AllArgsConstructor
+public class IdDo<T extends BaseDo<T>, PK extends Serializable> extends BaseDataDo<T, PK> {
 
-	private static final long serialVersionUID = 1848699240546373048L;
+	private static final long serialVersionUID = 1L;
 
-	private String value;
+	@TableId(value = GeneralDo.F_SQL_ID, type = IdType.INPUT)
+	@Getter
+	@Setter
+	protected PK id;
 
-	private String label;
+	public IdDo() {
+		super();
+	}
 
-	private Integer version;
+	@Override
+	public Serializable pkVal() {
+		return this.getId();
+	}
 
-	public SelectVo(String value, String label) {
-		this.value = value;
-		this.label = label;
+	@Override
+	public void setPk(PK pk) {
+		this.setId(pk);
 	}
 
 	@Override
 	public boolean equals(Object o) {
+
 		if (this == o) {
 			return true;
 		}
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		SelectVo idDo = (SelectVo) o;
-		if (idDo.toString() == null || toString() == null) {
+		IdDo idDo = (IdDo) o;
+		if (idDo.getId() == null || getId() == null) {
 			return false;
 		}
-		return Objects.equals(toString(), idDo.toString());
+		return Objects.equals(getId(), idDo.getId());
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(toString());
+		return Objects.hashCode(getId());
 	}
 
 }

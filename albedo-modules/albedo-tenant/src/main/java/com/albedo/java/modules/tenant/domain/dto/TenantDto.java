@@ -1,7 +1,7 @@
 package com.albedo.java.modules.tenant.domain.dto;
 
-import com.albedo.java.common.core.vo.AppendixDto;
-import com.albedo.java.common.core.vo.DataDto;
+import com.albedo.java.common.core.domain.vo.AppendixDto;
+import com.albedo.java.common.core.domain.vo.DataDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;

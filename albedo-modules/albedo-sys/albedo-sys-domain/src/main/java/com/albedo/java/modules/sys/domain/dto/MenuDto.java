@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.domain.dto;
 
-import com.albedo.java.common.core.vo.TreeDto;
+import com.albedo.java.common.core.domain.vo.TreeDto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

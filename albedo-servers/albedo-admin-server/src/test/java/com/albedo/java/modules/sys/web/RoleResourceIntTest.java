@@ -15,16 +15,19 @@
 
 package com.albedo.java.modules.sys.web;
 
+import com.albedo.java.common.core.annotation.ExcelField;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.handler.GlobalExceptionHandler;
 import com.albedo.java.common.core.util.CollUtil;
-import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.core.domain.vo.PageModel;
+import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.modules.TestUtil;
 import com.albedo.java.modules.base.SimulationRuntimeIntegrationTest;
 import com.albedo.java.modules.sys.domain.*;
 import com.albedo.java.modules.sys.domain.dto.RoleDto;
 import com.albedo.java.modules.sys.domain.enums.DataScopeType;
+import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.albedo.java.modules.sys.service.*;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
@@ -39,6 +42,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.List;
 
 import static com.albedo.java.modules.TestUtil.createFormattingConversionService;
@@ -135,7 +141,7 @@ public class RoleResourceIntTest extends SimulationRuntimeIntegrationTest {
 	 * This is a static method, as tests for other entities might also need it, if they
 	 * test an domain which has a required relationship to the Role domain.
 	 */
-	public RoleDto createEntity() {
+	public RoleDto createDto() {
 		RoleDto roleDto = new RoleDto();
 		roleDto.setName(DEFAULT_NAME);
 		roleDto.setDataScope(DEFAULT_DATASCOPE);
@@ -147,7 +153,7 @@ public class RoleResourceIntTest extends SimulationRuntimeIntegrationTest {
 
 	@BeforeEach
 	public void initTest() {
-		roleDto = createEntity();
+		roleDto = createDto();
 		// Initialize the database
 		List<MenuDo> allMenuEntityDos = menuService.list();
 		List<DeptDo> allDeptDo = deptService.list();
@@ -294,5 +300,17 @@ public class RoleResourceIntTest extends SimulationRuntimeIntegrationTest {
 		roleDo1.setId(null);
 		assertThat(roleDo1).isNotEqualTo(roleDo2);
 	}
-
+	//@Test
+	//public void doExport() throws FileNotFoundException {
+	//	String homePath = System.getProperty("user.dir");
+	//	String filePath = File.separator + "src" + File.separator + "main" +
+	//		File.separator + "resources" + File.separator;
+	//	//String path =  homePath+filePath+"4.xlsx";
+	//	//write(path);
+	//	List<UserVo> userVoList = Lists.newArrayList(UserVo.builder().username("username").build());
+	//
+	//	ExcelUtil excelUtil = new ExcelUtil( UserVo.class);
+	//	excelUtil.init(userVoList, "test", ExcelField.Type.EXPORT);
+	//	excelUtil.exportExcel(new FileOutputStream(homePath+filePath+"5.xlsx"));
+	//}
 }

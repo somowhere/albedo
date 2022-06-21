@@ -18,8 +18,8 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.util.Result;
-import com.albedo.java.common.core.vo.SelectVo;
-import com.albedo.java.common.core.vo.TreeNode;
+import com.albedo.java.common.core.domain.vo.SelectVo;
+import com.albedo.java.common.core.domain.vo.TreeNode;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.DictDo;

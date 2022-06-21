@@ -21,7 +21,7 @@ import com.albedo.java.common.core.util.BeanUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.ResponseEntityBuilder;
 import com.albedo.java.common.core.util.Result;
-import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.core.domain.vo.PageModel;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.ExcelUtil;

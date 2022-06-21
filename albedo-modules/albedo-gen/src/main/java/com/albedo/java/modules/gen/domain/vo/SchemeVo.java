@@ -15,7 +15,7 @@
 
 package com.albedo.java.modules.gen.domain.vo;
 
-import com.albedo.java.common.core.vo.DataVo;
+import com.albedo.java.common.core.domain.vo.DataVo;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;

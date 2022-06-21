@@ -15,18 +15,21 @@
 
 package com.albedo.java.modules.sys.web;
 
+import com.albedo.java.common.core.annotation.ExcelField;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.exception.code.ResponseCode;
 import com.albedo.java.common.core.exception.handler.GlobalExceptionHandler;
 import com.albedo.java.common.core.util.CollUtil;
-import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.core.domain.vo.PageModel;
+import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.modules.TestUtil;
 import com.albedo.java.modules.base.SimulationRuntimeIntegrationTest;
 import com.albedo.java.modules.sys.domain.DeptDo;
 import com.albedo.java.modules.sys.domain.RoleDo;
 import com.albedo.java.modules.sys.domain.UserDo;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
+import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.albedo.java.modules.sys.service.DeptService;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.modules.sys.service.UserService;
@@ -43,6 +46,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,7 +67,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 public class UserResourceIntTest extends SimulationRuntimeIntegrationTest {
 
-	private static final String DEFAULT_ANOTHER_USERNAME = "johndoeddd";
+	private static final String DEFAULT_ANOTHER_USERNAME = "johndoeddd1";
 
 	private static final String DEFAULT_USERNAME = "johndoe";
 
@@ -75,9 +81,9 @@ public class UserResourceIntTest extends SimulationRuntimeIntegrationTest {
 
 	private static final String UPDATED_PHONE = "13222222222";
 
-	private static final String DEFAULT_ANOTHER_PHONE = "13222221111";
+	private static final String DEFAULT_ANOTHER_PHONE = "13222221311";
 
-	private static final String DEFAULT_ANOTHER_EMAIL = "23423432@localhost";
+	private static final String DEFAULT_ANOTHER_EMAIL = "234234323@localhost";
 
 	private static final String DEFAULT_EMAIL = "johndoe@localhost";
 
@@ -139,7 +145,7 @@ public class UserResourceIntTest extends SimulationRuntimeIntegrationTest {
 	 * This is a static method, as tests for other entities might also need it, if they
 	 * test an domain which has a required relationship to the User domain.
 	 */
-	public UserDto createEntity() {
+	public UserDto createDto() {
 		UserDto user = new UserDto();
 		user.setUsername(DEFAULT_USERNAME);
 		user.setPassword(DEFAULT_PASSWORD);
@@ -155,7 +161,7 @@ public class UserResourceIntTest extends SimulationRuntimeIntegrationTest {
 	public void initTest() {
 		deptDoList = deptService.list();
 		roleList = roleService.list();
-		user = createEntity();
+		user = createDto();
 		// Initialize the database
 
 		anotherUser.setUsername(DEFAULT_ANOTHER_USERNAME);
@@ -194,7 +200,7 @@ public class UserResourceIntTest extends SimulationRuntimeIntegrationTest {
 		int databaseSizeBeforeCreate = userService.list().size();
 
 		// Create the User
-		UserDto managedUserVM = createEntity();
+		UserDto managedUserVM = createDto();
 		managedUserVM.setEmail(DEFAULT_ANOTHER_EMAIL);
 		// Create the User
 		restUserMockMvc
@@ -382,6 +388,8 @@ public class UserResourceIntTest extends SimulationRuntimeIntegrationTest {
 		UserDo tempUser1Do = userService.getById(user.getId());
 		assertThat(CommonConstants.STR_NO.equals(tempUser1Do.getAvailable()));
 	}
+
+
 
 	@Test
 	@Transactional(rollbackFor = Exception.class)

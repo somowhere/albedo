@@ -13,43 +13,30 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.core.vo;
+package com.albedo.java.common.core.domain.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * Copyright 2013 albedo All right reserved Author somewhere Created on 2013-10-23
- * 下午1:55:43
+ * Created by somewhere on 2017/3/2.
  *
  * @author somewhere
  */
 @Data
-public class DictResult {
+@AllArgsConstructor
+@NoArgsConstructor
+public class DictTreeResult {
 
-	public static final String F_CODE = "code";
+	private String id;
 
-	public static final String F_NAME = "name";
+	private String pid;
 
-	public static final String F_VAL = "val";
-
-	/*** 名称 */
 	private String name;
 
-	/*** 编码 */
-	private String code;
+	private String value;
 
-	/*** 字典值 */
-	private String val;
-
-	public DictResult() {
-		super();
-	}
-
-	public DictResult(String name, String code, String val) {
-		super();
-		this.name = name;
-		this.code = code;
-		this.val = val;
-	}
+	private String label;
 
 }

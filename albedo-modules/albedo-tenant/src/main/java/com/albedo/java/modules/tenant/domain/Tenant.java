@@ -1,7 +1,7 @@
 package com.albedo.java.modules.tenant.domain;
 
 import com.albedo.java.common.core.annotation.ExcelField;
-import com.albedo.java.common.core.basic.domain.IdDo;
+import com.albedo.java.common.core.domain.IdDo;
 import com.albedo.java.common.core.util.DateUtil;
 import com.albedo.java.modules.tenant.enumeration.TenantConnectTypeEnum;
 import com.albedo.java.modules.tenant.enumeration.TenantStatusEnum;

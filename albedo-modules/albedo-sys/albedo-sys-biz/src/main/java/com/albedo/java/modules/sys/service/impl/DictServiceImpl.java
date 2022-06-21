@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.service.impl;
 
-import com.albedo.java.common.core.basic.domain.TreeDo;
+import com.albedo.java.common.core.domain.TreeDo;
 import com.albedo.java.common.core.cache.model.CacheKey;
 import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.common.core.constant.CommonConstants;
@@ -26,9 +26,9 @@ import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.tree.TreeUtil;
-import com.albedo.java.common.core.vo.PageModel;
-import com.albedo.java.common.core.vo.SelectVo;
-import com.albedo.java.common.core.vo.TreeNode;
+import com.albedo.java.common.core.domain.vo.PageModel;
+import com.albedo.java.common.core.domain.vo.SelectVo;
+import com.albedo.java.common.core.domain.vo.TreeNode;
 import com.albedo.java.modules.sys.cache.DictCacheKeyBuilder;
 import com.albedo.java.modules.sys.domain.DictDo;
 import com.albedo.java.modules.sys.domain.dto.DictDto;

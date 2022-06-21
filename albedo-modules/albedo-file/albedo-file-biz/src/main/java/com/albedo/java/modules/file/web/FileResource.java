@@ -18,7 +18,7 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.core.exception.code.ResponseCode;
 import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.Result;
-import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.core.domain.vo.PageModel;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.modules.file.domain.dto.FileQueryCriteria;
 import com.albedo.java.modules.file.domain.vo.param.FileUploadVo;

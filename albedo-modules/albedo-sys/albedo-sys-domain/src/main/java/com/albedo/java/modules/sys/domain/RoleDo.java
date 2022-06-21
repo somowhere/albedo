@@ -17,7 +17,7 @@
 package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
-import com.albedo.java.common.core.basic.domain.IdDo;
+import com.albedo.java.common.core.domain.IdDo;
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.modules.sys.domain.enums.DataScopeType;

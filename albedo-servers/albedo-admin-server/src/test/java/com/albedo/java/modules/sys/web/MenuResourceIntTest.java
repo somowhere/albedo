@@ -145,7 +145,7 @@ public class MenuResourceIntTest extends SimulationRuntimeIntegrationTest {
 	 * This is a static method, as tests for other entities might also need it, if they
 	 * test an domain which has a required relationship to the Menu domain.
 	 */
-	public MenuDto createEntity() {
+	public MenuDto createDto() {
 		MenuDto menu = new MenuDto();
 		menu.setName(DEFAULT_NAME);
 		menu.setComponent(DEFAULT_COMPONENT);
@@ -164,7 +164,7 @@ public class MenuResourceIntTest extends SimulationRuntimeIntegrationTest {
 
 	@BeforeEach
 	public void initTest() {
-		menu = createEntity();
+		menu = createDto();
 		// Initialize the database
 
 		anotherMenu.setName(DEFAULT_ANOTHER_NAME);
@@ -222,7 +222,7 @@ public class MenuResourceIntTest extends SimulationRuntimeIntegrationTest {
 		int databaseSizeBeforeCreate = menuService.list().size();
 
 		// Create the Menu
-		MenuDto managedMenuVM = createEntity();
+		MenuDto managedMenuVM = createDto();
 
 		// Create the Menu
 		restMenuMockMvc

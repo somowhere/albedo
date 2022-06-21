@@ -13,11 +13,12 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.core.vo;
+package com.albedo.java.common.core.domain.vo;
 
-import lombok.AllArgsConstructor;
+import cn.hutool.core.util.EscapeUtil;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Created by somewhere on 2017/3/2.
@@ -25,18 +26,14 @@ import lombok.NoArgsConstructor;
  * @author somewhere
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class DictTreeResult {
+@Schema
+@ToString
+public class DictQuerySearch {
 
-	private String id;
+	private String dictQueries;
 
-	private String pid;
-
-	private String name;
-
-	private String value;
-
-	private String label;
+	public void setDictQueries(String dictQueries) {
+		this.dictQueries = EscapeUtil.unescapeHtml4(dictQueries);
+	}
 
 }

@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.core.basic.domain;
+package com.albedo.java.common.core.domain;
 
 import cn.hutool.core.text.CharSequenceUtil;
 import com.baomidou.mybatisplus.annotation.TableField;

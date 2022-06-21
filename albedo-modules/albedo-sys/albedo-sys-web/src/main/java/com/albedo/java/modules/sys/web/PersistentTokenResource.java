@@ -17,7 +17,7 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.util.Result;
-import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.core.domain.vo.PageModel;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.modules.sys.domain.dto.PersistentTokenQueryCriteria;
 import com.albedo.java.modules.sys.service.PersistentTokenService;

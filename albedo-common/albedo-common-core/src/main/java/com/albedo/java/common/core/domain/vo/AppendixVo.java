@@ -1,4 +1,4 @@
-package com.albedo.java.common.core.vo;
+package com.albedo.java.common.core.domain.vo;
 
 import com.albedo.java.common.core.enumeration.FileType;
 import io.swagger.v3.oas.annotations.media.Schema;

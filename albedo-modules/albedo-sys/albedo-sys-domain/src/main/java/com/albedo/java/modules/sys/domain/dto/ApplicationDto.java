@@ -1,6 +1,6 @@
 package com.albedo.java.modules.sys.domain.dto;
 
-import com.albedo.java.common.core.vo.DataDto;
+import com.albedo.java.common.core.domain.vo.DataDto;
 import com.albedo.java.modules.sys.domain.enums.ApplicationAppTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;

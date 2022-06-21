@@ -15,7 +15,7 @@
 
 package com.albedo.java.modules.gen.service;
 
-import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.core.domain.vo.PageModel;
 import com.albedo.java.modules.gen.domain.SchemeDo;
 import com.albedo.java.modules.gen.domain.dto.SchemeDto;
 import com.albedo.java.modules.gen.domain.dto.SchemeQueryCriteria;

@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.core.vo.PageModel;
+import com.albedo.java.common.core.domain.vo.PageModel;
 import com.albedo.java.modules.sys.domain.UserDo;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
 import com.albedo.java.modules.sys.domain.dto.UserEmailDto;

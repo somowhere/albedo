@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.core.vo;
+package com.albedo.java.common.core.domain.vo;
 
 import com.albedo.java.common.core.constant.ScheduleConstants;
 import com.albedo.java.common.core.context.ContextUtil;

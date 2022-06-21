@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.core.vo;
+package com.albedo.java.common.core.domain.vo;
 
 import cn.hutool.core.builder.EqualsBuilder;
 import cn.hutool.core.builder.HashCodeBuilder;

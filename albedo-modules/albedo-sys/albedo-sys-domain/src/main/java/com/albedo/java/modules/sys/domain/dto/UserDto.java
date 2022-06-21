@@ -17,7 +17,7 @@
 package com.albedo.java.modules.sys.domain.dto;
 
 import com.albedo.java.common.core.util.ArgumentAssert;
-import com.albedo.java.common.core.vo.DataDto;
+import com.albedo.java.common.core.domain.vo.DataDto;
 import com.albedo.java.modules.sys.domain.enums.Sex;
 import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.fasterxml.jackson.annotation.JsonIgnore;

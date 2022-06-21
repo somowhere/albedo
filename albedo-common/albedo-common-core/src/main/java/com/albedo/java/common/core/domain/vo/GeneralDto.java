@@ -13,9 +13,8 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.core.basic.domain;
+package com.albedo.java.common.core.domain.vo;
 
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -26,9 +25,8 @@ import java.io.Serializable;
  *
  * @author somewhere
  */
-
 @Data
-public class GeneralDo<T extends Model<T>> extends Model<T> implements Serializable {
+public class GeneralDto implements Serializable {
 
 	/*** 状态 正常 */
 	public static final String FLAG_NORMAL = "0";
@@ -61,24 +59,6 @@ public class GeneralDo<T extends Model<T>> extends Model<T> implements Serializa
 	public static final String F_DESCRIPTION = "description";
 
 	public static final String F_TENANT_CODE = "tenantCode";
-
-	public static final String F_SQL_ID = "id";
-
-	public static final String F_SQL_CREATED_BY = "created_by";
-
-	public static final String F_SQL_CREATED_DATE = "created_date";
-
-	public static final String F_SQL_LAST_MODIFIED_BY = "last_modified_by";
-
-	public static final String F_SQL_MODIFIER = "modifier";
-
-	public static final String F_SQL_LAST_MODIFIED_DATE = "last_modified_date";
-
-	public static final String F_SQL_VERSION = "version";
-
-	public static final String F_SQL_DESCRIPTION = "description";
-
-	public static final String F_SQL_DEL_FLAG = "del_flag";
 
 	private static final long serialVersionUID = 1L;
 

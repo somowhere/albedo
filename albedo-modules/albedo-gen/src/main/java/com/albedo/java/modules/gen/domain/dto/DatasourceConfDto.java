@@ -15,7 +15,7 @@
 
 package com.albedo.java.modules.gen.domain.dto;
 
-import com.albedo.java.common.core.vo.DataDto;
+import com.albedo.java.common.core.domain.vo.DataDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

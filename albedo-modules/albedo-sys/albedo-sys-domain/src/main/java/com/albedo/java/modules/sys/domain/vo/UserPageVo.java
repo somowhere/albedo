@@ -23,7 +23,7 @@ import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.core.util.CollUtil;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
-import com.albedo.java.common.core.vo.DataVo;
+import com.albedo.java.common.core.domain.vo.DataVo;
 import com.albedo.java.modules.sys.domain.RoleDo;
 import com.albedo.java.modules.sys.domain.enums.Sex;
 import lombok.Data;

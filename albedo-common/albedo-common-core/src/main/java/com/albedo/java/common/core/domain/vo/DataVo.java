@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) 2019-2022  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
@@ -14,30 +13,41 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.core.vo;
+package com.albedo.java.common.core.domain.vo;
 
-import com.albedo.java.common.core.util.tree.TreeNodeAware;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
+ * 通常的数据基类 copyright 2014 albedo all right reserved author somewhere created on
+ * 2014年12月31日 下午1:57:09
+ *
  * @author somewhere
- * @date 2017年11月9日23:33:45
  */
 @Data
-public class TreeNode<T> implements TreeNodeAware<T>, Serializable {
+public class DataVo<PK extends Serializable> extends GeneralDto {
 
-	protected Long id;
+	private PK id;
 
-	protected Long parentId;
+	private String createdBy;
 
-	protected List<T> children = new ArrayList<T>();
+	private LocalDateTime createdDate;
 
-	private String label;
+	private String lastModifiedBy;
+
+	private LocalDateTime lastModifiedDate;
+
+	@JsonIgnore
+	private Integer version;
+
+	@JsonIgnore
+	private String delFlag;
+
+	private String description;
 
 	@Override
 	public boolean equals(Object o) {
@@ -47,7 +57,7 @@ public class TreeNode<T> implements TreeNodeAware<T>, Serializable {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		return Objects.equals(id, ((TreeNode) o).id);
+		return Objects.equals(id, ((DataVo) o).id);
 	}
 
 	@Override

@@ -3,7 +3,7 @@ package com.albedo.java.plugins.database.mybatis.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ReflectUtil;
-import com.albedo.java.common.core.basic.domain.IdDo;
+import com.albedo.java.common.core.domain.IdDo;
 import com.albedo.java.common.core.cache.model.CacheKey;
 import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.common.core.util.ArgumentAssert;

@@ -16,8 +16,8 @@
 package com.albedo.java.common.core.util;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.albedo.java.common.core.vo.ComboData;
-import com.albedo.java.common.core.vo.SelectVo;
+import com.albedo.java.common.core.domain.vo.ComboData;
+import com.albedo.java.common.core.domain.vo.SelectVo;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.google.common.collect.Lists;
 import lombok.experimental.UtilityClass;

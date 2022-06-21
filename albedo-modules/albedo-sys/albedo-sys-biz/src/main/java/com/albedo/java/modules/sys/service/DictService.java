@@ -16,7 +16,7 @@
 
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.core.vo.SelectVo;
+import com.albedo.java.common.core.domain.vo.SelectVo;
 import com.albedo.java.modules.sys.domain.DictDo;
 import com.albedo.java.modules.sys.domain.dto.DictDto;
 import com.albedo.java.modules.sys.domain.dto.DictQueryCriteria;

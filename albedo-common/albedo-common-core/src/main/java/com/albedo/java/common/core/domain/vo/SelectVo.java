@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) 2019-2022  <a href="https://github.com/somowhere/albedo">Albedo</a>, somewhere (somewhere0813@gmail.com).
  *  <p>
@@ -14,53 +13,59 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.sys.domain.vo;
+package com.albedo.java.common.core.domain.vo;
 
-import com.albedo.java.common.core.domain.IdDo;
-import com.albedo.java.modules.sys.domain.RoleDo;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * @author somewhere
- * @date 2019/2/1 角色Dto
+ * @date 2017/3/2
  */
 @Data
-public class RoleComboVo implements Serializable {
+@AllArgsConstructor
+@NoArgsConstructor
+@Accessors(chain = true)
+@Builder
+public class SelectVo implements Serializable {
 
-	private Long id;
+	private static final long serialVersionUID = 1848699240546373048L;
 
-	private Integer level;
+	private String value;
 
-	private String name;
+	private String label;
 
-	public RoleComboVo(RoleDo roleDo) {
-		this.id = roleDo.getId();
-		this.name = roleDo.getName();
-		this.level = roleDo.getLevel();
+	private Integer version;
+
+	public SelectVo(String value, String label) {
+		this.value = value;
+		this.label = label;
 	}
 
 	@Override
 	public boolean equals(Object o) {
-
 		if (this == o) {
 			return true;
 		}
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		IdDo idDo = (IdDo) o;
-		if (idDo.getId() == null || getId() == null) {
+		SelectVo idDo = (SelectVo) o;
+		if (idDo.toString() == null || toString() == null) {
 			return false;
 		}
-		return Objects.equals(getId(), idDo.getId());
+		return Objects.equals(toString(), idDo.toString());
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(getId());
+		return Objects.hashCode(toString());
 	}
 
 }

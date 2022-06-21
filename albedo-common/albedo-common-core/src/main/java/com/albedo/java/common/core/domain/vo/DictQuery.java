@@ -13,46 +13,24 @@
  * limitations under the License.
  */
 
-package com.albedo.java.common.core.vo;
+package com.albedo.java.common.core.domain.vo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
-import java.io.Serializable;
-import java.util.Objects;
+import lombok.ToString;
 
 /**
- * 通常的数据基类 copyright 2014 albedo all right reserved author somewhere created on
- * 2014年12月31日 下午1:57:09
+ * Created by somewhere on 2017/3/2.
  *
  * @author somewhere
  */
 @Data
-public class DataDto<PK extends Serializable> extends GeneralDto {
+@Schema
+@ToString
+public class DictQuery {
 
-	private PK id;
+	private String code;
 
-	@JsonIgnore
-	@Schema(hidden = true)
-	private String delFlag;
-
-	private String description;
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		return Objects.equals(id, ((DataDto) o).id);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
+	private String filter;
 
 }
