@@ -15,19 +15,16 @@
 
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.core.annotation.ExcelField;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.domain.vo.PageModel;
 import com.albedo.java.common.core.exception.handler.GlobalExceptionHandler;
 import com.albedo.java.common.core.util.CollUtil;
-import com.albedo.java.common.core.domain.vo.PageModel;
-import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.modules.TestUtil;
 import com.albedo.java.modules.base.SimulationRuntimeIntegrationTest;
 import com.albedo.java.modules.sys.domain.*;
 import com.albedo.java.modules.sys.domain.dto.RoleDto;
 import com.albedo.java.modules.sys.domain.enums.DataScopeType;
-import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.albedo.java.modules.sys.service.*;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
@@ -42,9 +39,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.List;
 
 import static com.albedo.java.modules.TestUtil.createFormattingConversionService;

@@ -18,8 +18,8 @@ package com.albedo.java.modules.sys.domain.vo;
 
 import cn.hutool.core.util.StrUtil;
 import com.albedo.java.common.core.constant.CommonConstants;
-import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.common.core.domain.vo.TreeNode;
+import com.albedo.java.common.core.util.tree.TreeUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

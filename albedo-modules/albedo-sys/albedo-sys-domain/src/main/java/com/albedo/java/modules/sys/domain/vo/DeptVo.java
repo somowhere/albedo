@@ -18,8 +18,8 @@ package com.albedo.java.modules.sys.domain.vo;
 
 import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.constant.DictNameConstants;
-import com.albedo.java.common.core.util.tree.TreeNodeAware;
 import com.albedo.java.common.core.domain.vo.TreeVo;
+import com.albedo.java.common.core.util.tree.TreeNodeAware;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

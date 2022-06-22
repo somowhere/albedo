@@ -18,8 +18,8 @@ package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
 import com.albedo.java.common.core.annotation.ExcelField;
-import com.albedo.java.common.core.domain.BaseDo;
 import com.albedo.java.common.core.constant.DictNameConstants;
+import com.albedo.java.common.core.domain.BaseDo;
 import com.albedo.java.common.core.util.StringUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

@@ -17,8 +17,8 @@
 package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
-import com.albedo.java.common.core.domain.TreeDo;
 import com.albedo.java.common.core.constant.DictNameConstants;
+import com.albedo.java.common.core.domain.TreeDo;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;

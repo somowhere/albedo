@@ -15,21 +15,18 @@
 
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.core.annotation.ExcelField;
 import com.albedo.java.common.core.config.ApplicationProperties;
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.domain.vo.PageModel;
 import com.albedo.java.common.core.exception.code.ResponseCode;
 import com.albedo.java.common.core.exception.handler.GlobalExceptionHandler;
 import com.albedo.java.common.core.util.CollUtil;
-import com.albedo.java.common.core.domain.vo.PageModel;
-import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.modules.TestUtil;
 import com.albedo.java.modules.base.SimulationRuntimeIntegrationTest;
 import com.albedo.java.modules.sys.domain.DeptDo;
 import com.albedo.java.modules.sys.domain.RoleDo;
 import com.albedo.java.modules.sys.domain.UserDo;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
-import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.albedo.java.modules.sys.service.DeptService;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.modules.sys.service.UserService;
@@ -46,9 +43,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -388,7 +382,6 @@ public class UserResourceIntTest extends SimulationRuntimeIntegrationTest {
 		UserDo tempUser1Do = userService.getById(user.getId());
 		assertThat(CommonConstants.STR_NO.equals(tempUser1Do.getAvailable()));
 	}
-
 
 
 	@Test

@@ -15,8 +15,8 @@
 
 package com.albedo.java.modules.gen.web;
 
-import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.domain.vo.PageModel;
+import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.web.resource.BaseResource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;

@@ -16,13 +16,13 @@
 package com.albedo.java.plugins.database.mybatis.service;
 
 import com.albedo.java.common.core.domain.TreeDo;
+import com.albedo.java.common.core.domain.vo.TreeDto;
+import com.albedo.java.common.core.domain.vo.TreeNode;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.ObjectUtil;
 import com.albedo.java.common.core.util.StringUtil;
 import com.albedo.java.common.core.util.tree.TreeUtil;
-import com.albedo.java.common.core.domain.vo.TreeDto;
-import com.albedo.java.common.core.domain.vo.TreeNode;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;

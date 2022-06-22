@@ -16,9 +16,9 @@
 package com.albedo.java.modules.quartz.domain;
 
 import com.albedo.java.common.core.annotation.DictType;
+import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.common.core.domain.BaseDataDo;
 import com.albedo.java.common.core.domain.GeneralDo;
-import com.albedo.java.common.core.constant.DictNameConstants;
 import com.albedo.java.modules.quartz.domain.enums.JobConcurrent;
 import com.albedo.java.modules.quartz.domain.enums.JobMisfirePolicy;
 import com.albedo.java.modules.quartz.domain.enums.JobStatus;
