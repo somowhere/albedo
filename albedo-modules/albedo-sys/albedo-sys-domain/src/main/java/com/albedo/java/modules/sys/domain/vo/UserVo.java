@@ -37,7 +37,6 @@ import java.util.List;
  * @date 2019/2/1
  */
 @Data
-@Builder
 @EqualsAndHashCode(callSuper = true)
 public class UserVo extends DataVo<Long> {
 
@@ -46,7 +45,6 @@ public class UserVo extends DataVo<Long> {
 	public static final String F_EMAIL = "email";
 
 	public static final String F_PHONE = "phone";
-
 	/**
 	 * 用户名
 	 */
