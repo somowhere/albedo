@@ -13,7 +13,7 @@
 	<properties>
 		<revision>3.3.0-SNAPSHOT</revision>
 		<spring-boot.version>2.7.0</spring-boot.version>
-		<hutool.version>5.8.2</hutool.version>
+		<hutool.version>5.8.3</hutool.version>
 		<p6spy.version>3.9.1</p6spy.version>
 		<mybatis-plus.version>3.5.2</mybatis-plus.version>
 		<mybatis.version>3.5.9</mybatis.version>

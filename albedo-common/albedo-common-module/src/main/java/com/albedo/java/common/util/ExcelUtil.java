@@ -322,7 +322,17 @@ public class ExcelUtil<T> {
 		this.init(list, sheetName, Type.EXPORT);
 		exportExcel(response);
 	}
-
+	/**
+	 * 对list数据源将其里面的数据导入到excel表单
+	 *
+	 * @param list      导出数据集合
+	 * @param sheetName 工作表的名称
+	 * @return 结果
+	 */
+	public void exportExcel(List<T> list, String sheetName, OutputStream out) {
+		this.init(list, sheetName, Type.EXPORT);
+		exportExcel(out);
+	}
 	/**
 	 * 对list数据源将其里面的数据导入到excel表单
 	 *
@@ -390,10 +400,9 @@ public class ExcelUtil<T> {
 		try {
 			String filename = encodingFilename(sheetName);
 			response.setCharacterEncoding(CharsetUtil.UTF_8);
-			// response为HttpServletResponse对象
-			response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
-			response.setHeader("Content-Disposition", "attachment;filename=" + filename);
 			exportExcel(response.getOutputStream());
+			response.addHeader("Content-Disposition", "attachment;filename=" + java.net.URLEncoder.encode(filename, "UTF-8"));
+			response.setContentType("application/vnd.ms-excel;charset=UTF-8");
 		} catch (Exception e) {
 			log.error("导出Excel异常{}", e.getMessage());
 			throw new RuntimeMsgException("导出Excel失败，请联系网站管理员！");
