@@ -322,6 +322,7 @@ public class ExcelUtil<T> {
 		this.init(list, sheetName, Type.EXPORT);
 		exportExcel(response);
 	}
+
 	/**
 	 * 对list数据源将其里面的数据导入到excel表单
 	 *
@@ -333,6 +334,7 @@ public class ExcelUtil<T> {
 		this.init(list, sheetName, Type.EXPORT);
 		exportExcel(out);
 	}
+
 	/**
 	 * 对list数据源将其里面的数据导入到excel表单
 	 *
