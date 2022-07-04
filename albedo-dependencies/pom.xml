@@ -11,8 +11,8 @@
 	<description>基础 bom 文件，管理整个项目的依赖版本</description>
 
 	<properties>
-		<revision>3.3.0-SNAPSHOT</revision>
-		<spring-boot.version>2.7.0</spring-boot.version>
+		<revision>3.3.1-SNAPSHOT</revision>
+		<spring-boot.version>2.7.1</spring-boot.version>
 		<hutool.version>5.8.3</hutool.version>
 		<p6spy.version>3.9.1</p6spy.version>
 		<mybatis-plus.version>3.5.2</mybatis-plus.version>
@@ -40,7 +40,7 @@
 		<qcloudsms.version>1.0.6</qcloudsms.version>
 		<jjwt.version>0.11.5</jjwt.version>
 		<mail.version>1.5.0-b01</mail.version>
-		<alipay.version>4.23.19.ALL</alipay.version>
+		<alipay.version>4.31.12.ALL</alipay.version>
 		<tobato-fastdfs-client.version>1.27.2</tobato-fastdfs-client.version>
 		<aliyun-java-sdk-core.version>4.5.25</aliyun-java-sdk-core.version>
 		<aliyun-java-sdk-dysmsapi.version>2.1.0</aliyun-java-sdk-dysmsapi.version>

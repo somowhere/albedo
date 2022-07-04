@@ -1,8 +1,8 @@
-<h1 style="text-align: center">Albedo 3.3.0 - 企业信息化快速开发平台</h1>
+<h1 style="text-align: center">Albedo 3.3.1 - 企业信息化快速开发平台</h1>
  <p align="center">
  
  [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/somowhere/albedo/blob/master/LICENSE)
- [![AUR](https://img.shields.io/badge/Spring%20Boot-2.7.0-blue.svg)](https://spring.io/projects/spring-boot#overview)
+ [![AUR](https://img.shields.io/badge/Spring%20Boot-2.7.1-blue.svg)](https://spring.io/projects/spring-boot#overview)
  [![star](https://gitee.com/somowhere/albedo/badge/star.svg?theme=white)](https://gitee.com/somowhere/albedo)
  [![GitHub stars](https://img.shields.io/github/stars/somowhere/albedo.svg?style=social&label=Stars)](https://github.com/somowhere/albedo)
  [![GitHub forks](https://img.shields.io/github/forks/somowhere/albedo.svg?style=social&label=Fork)](https://github.com/somowhere/albedo)
@@ -49,9 +49,9 @@
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.7.0 
+Spring Boot |  2.7.1 
 Mybatis Plus | 3.5.2
-hutool | 5.8.2
+hutool | 5.8.3
    
 
 
@@ -66,7 +66,7 @@ albedo
 ├── albedo-dependencies -- 基础bom文件管理整个项目的依赖版本
 └── albedo-modules -- 功能模块
      ├── albedo-appendix --  附件模块
-     ├── albedo-fileDo -- 文件api
+     ├── albedo-file -- 文件api
      ├── albedo-gen -- 代码生成基础包
      ├── albedo-monitor -- 监控api
      ├── albedo-quartz -- 定时基础包

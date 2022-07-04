@@ -27,8 +27,8 @@
 	<url>https://github.com/somowhere</url>
 
 	<properties>
-		<spring-boot.version>2.7.0</spring-boot.version>
-		<revision>3.3.0-SNAPSHOT</revision>
+		<spring-boot.version>2.7.1</spring-boot.version>
+		<revision>3.3.1-SNAPSHOT</revision>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
