@@ -15,7 +15,7 @@
  
 - 微服务版本 <a href="https://github.com/somowhere/albedo-cloud">albedo-cloud</a>   
 
-<tableDo>
+<table>
     <tr>
         <td><img src="https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/1.png"/></td>
         <td><img src="https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/2.png"/></td>
@@ -40,7 +40,7 @@
         <td><img src="https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/11.png"/></td>
         <td></td>
     </tr>
-</tableDo>
+</table>
    
  
 
@@ -127,10 +127,10 @@ albedo
 
 项目的发展离不开您的支持，请作者喝杯咖啡吧☕  
 
-<tableDo>
+<table>
     <tr>
         <td><img src="https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/alipay.png"/></td>
         <td><img src="https://raw.githubusercontent.com/somowhere/albedo-source/master/albedo/wxpay.png"/></td>
     </tr>
-</tableDo>
+</table>
  
