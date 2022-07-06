@@ -144,10 +144,10 @@ public class DeptServiceImpl extends AbstractTreeCacheServiceImpl<DeptRepository
 	 */
 	private void checkDept(Long deptId, String deptName) {
 		List<UserDo> userDoList = userRepository.selectList(Wrappers.<UserDo>lambdaQuery().eq(UserDo::getDeptId, deptId));
-		ArgumentAssert.notEmpty(userDoList, "操作失败！用户："
-			+ CollUtil.convertToString(userDoList, UserDo.F_USERNAME, StringUtil.COMMA) + "所属要操作的部门：" + deptName);
+		ArgumentAssert.empty(userDoList, ()-> new BizException("操作失败！用户："
+			+ CollUtil.convertToString(userDoList, UserDo.F_USERNAME, StringUtil.COMMA) + "所属要操作的部门：" + deptName));
 		List<RoleDo> roleList = roleRepository.findListByDeptId(deptId);
-		ArgumentAssert.notEmpty(roleList, () -> new BizException("操作失败！角色：" + CollUtil.convertToString(roleList, RoleDo.F_NAME, StringUtil.COMMA)
+		ArgumentAssert.empty(roleList, () -> new BizException("操作失败！角色：" + CollUtil.convertToString(roleList, RoleDo.F_NAME, StringUtil.COMMA)
 			+ "的权限信息属于要操作的部门：" + deptName));
 	}
 

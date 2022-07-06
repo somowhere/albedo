@@ -179,7 +179,7 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 	}
 
 	@Override
-	public List<UserVo> findList(UserQueryCriteria userQueryCriteria, DataScope dataScope) {
+	public List<UserPageVo> findList(UserQueryCriteria userQueryCriteria, DataScope dataScope) {
 		QueryWrapper wrapper = QueryWrapperUtil.<UserDo>getWrapper(userQueryCriteria);
 		wrapper.orderByDesc("a.created_date");
 		return repository.findUserVoList(wrapper, dataScope);

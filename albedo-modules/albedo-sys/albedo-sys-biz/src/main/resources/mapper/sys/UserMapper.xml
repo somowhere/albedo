@@ -192,6 +192,38 @@
 		${ew.sqlSegment}
 	</select>
 
+	<select id="findUserVoList" resultMap="userVoPageResultMap">
+		SELECT
+		a.id,
+		a.username,
+		a.`password`,
+		a.nickname,
+		a.phone,
+		a.email,
+		a.avatar,
+		a.wx_open_id,
+		a.qq_open_id,
+		a.dept_id,
+		a.created_by,
+		a.created_date,
+		a.last_modified_by,
+		a.last_modified_date,
+		a.description,
+		a.version,
+		a.del_flag,
+		a.available AS available,
+		a.dept_id AS deptId,
+		b.name AS deptName
+		FROM
+		sys_user AS a
+		INNER JOIN sys_dept AS b ON b.id = a.dept_id
+		where a.del_flag = '0'
+		<if test="ew.nonEmptyOfWhere">
+			AND
+		</if>
+		${ew.sqlSegment}
+	</select>
+
 	<select id="findListByRoleId" resultType="com.albedo.java.modules.sys.domain.UserDo">
 		SELECT a.*
 		FROM sys_user a,

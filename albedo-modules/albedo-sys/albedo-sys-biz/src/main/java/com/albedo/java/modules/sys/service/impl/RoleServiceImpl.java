@@ -116,7 +116,7 @@ public class RoleServiceImpl extends AbstractDataCacheServiceImpl<RoleRepository
 
 	public void verification(Set<Long> ids) {
 		List<UserDo> userDoList = userRepository.findListByRoleIds(ids);
-		ArgumentAssert.notEmpty(userDoList, () -> new BizException("所选角色存在用户关联，请解除关联再试！"));
+		ArgumentAssert.empty(userDoList, () -> new BizException("所选角色存在用户关联，请解除关联再试！"));
 	}
 
 	@Override

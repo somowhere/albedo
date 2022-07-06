@@ -62,7 +62,7 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item v-if="form.dataScope === '5'" label="数据权限" prop="deptIdList">
+        <el-form-item v-if="form.dataScope === 'CUSTOMIZE'" label="数据权限" prop="deptIdList">
           <treeselect v-model="form.deptIdList" :options="depts" multiple placeholder="请选择" />
         </el-form-item>
         <el-form-item label="描述信息" prop="description">
@@ -237,13 +237,11 @@ export default {
     },
     // 编辑前
     [CRUD.HOOK.beforeToEdit](crud, form) {
-      if (form.dataScope === '5') {
-        this.getDepts()
-      }
+      this.getDepts()
     },
     // 提交前做的操作
     [CRUD.HOOK.afterValidateCU](crud) {
-      if (crud.form.dataScope === '5' && crud.form.deptIdList.length === 0) {
+      if (crud.form.dataScope === 'CUSTOMIZE' && crud.form.deptIdList.length === 0) {
         this.$message({
           message: '自定义数据权限不能为空',
           type: 'warning'
@@ -323,7 +321,7 @@ export default {
     },
     // 如果数据权限为自定义则获取部门数据
     changeScope() {
-      if (this.form.dataScope === '5') {
+      if (this.form.dataScope === 'CUSTOMIZE') {
         this.getDepts()
       }
     },

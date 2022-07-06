@@ -183,7 +183,7 @@ public class MenuServiceImpl extends AbstractTreeCacheServiceImpl<MenuRepository
 			SysCacheUtil.delMenuCaches(id);
 			// 查询父节点为当前节点的节点
 			List<MenuDo> menuDoList = this.list(Wrappers.<MenuDo>query().lambda().eq(MenuDo::getParentId, id));
-			ArgumentAssert.notEmpty(menuDoList, () -> new BizException("菜单含有下级不能删除"));
+			ArgumentAssert.empty(menuDoList, () -> new BizException("菜单含有下级不能删除"));
 
 			roleMenuRepository.delete(Wrappers.<RoleMenuDo>query().lambda().eq(RoleMenuDo::getMenuId, id));
 			// 删除当前菜单及其子菜单

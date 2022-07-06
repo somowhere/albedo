@@ -133,7 +133,7 @@ public class DictServiceImpl extends AbstractTreeCacheServiceImpl<DictRepository
 		ids.forEach(id -> {
 			// 查询父节点为当前节点的节点
 			List<DictDo> menuList = this.list(Wrappers.<DictDo>query().lambda().eq(DictDo::getParentId, id));
-			ArgumentAssert.notEmpty(menuList, () -> new BizException("字典含有下级不能删除"));
+			ArgumentAssert.empty(menuList, () -> new BizException("字典含有下级不能删除"));
 		});
 		boolean b = super.removeByIds(ids);
 		cacheOps.del(new DictCacheKeyBuilder().key(CACHE_FIND_CODES));

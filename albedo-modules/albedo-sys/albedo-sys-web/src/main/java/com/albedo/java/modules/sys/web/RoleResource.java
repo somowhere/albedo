@@ -198,7 +198,7 @@ public class RoleResource extends BaseResource {
 	 */
 	private void checkRole(Long roleId, String roleName) {
 		List<UserDo> userDoList = userService.findListByRoleId(roleId);
-		ArgumentAssert.notEmpty(userDoList, () -> new BizException("操作失败！用户："
+		ArgumentAssert.empty(userDoList, () -> new BizException("操作失败！用户："
 			+ CollUtil.convertToString(userDoList, UserDo.F_USERNAME, StringUtil.COMMA) + "所属要操作的角色：" + roleName));
 	}
 

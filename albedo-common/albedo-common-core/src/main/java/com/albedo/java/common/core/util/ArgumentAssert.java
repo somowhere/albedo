@@ -670,7 +670,32 @@ public class ArgumentAssert {
 		}
 		return collection;
 	}
-
+	/**
+	 * 断言给定集合非空
+	 * 并使用指定的函数获取错误信息返回
+	 * <pre class="code">
+	 * Assert.empty(collection, ()-&gt;{
+	 *      // to query relation message
+	 *      return new ArgumentException("relation message to return");
+	 *  });
+	 * </pre>
+	 *
+	 * @param <E>           集合元素类型
+	 * @param <T>           集合类型
+	 * @param <X>           异常类型
+	 * @param collection    被检查的集合
+	 * @param errorSupplier 错误抛出异常附带的消息生产接口
+	 * @return 空集合 t
+	 * @throws X if the collection is {@code null} or has no elements
+	 * @see CollUtil#isNotEmpty(Iterable) CollUtil#isNotEmpty(Iterable)
+	 * @since 5.4.5
+	 */
+	public static <E, T extends Iterable<E>, X extends Throwable> T empty(T collection, Supplier<X> errorSupplier) throws X {
+		if (CollUtil.isNotEmpty(collection)) {
+			throw errorSupplier.get();
+		}
+		return collection;
+	}
 	/**
 	 * 断言给定集合非空
 	 *
