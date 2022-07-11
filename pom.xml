@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  ~  Copyright (c) 2019-2021, somewhere (somewhere0813@gmail.com).
+  ~  Copyright (c) 2019-2022, somewhere (somewhere0813@gmail.com).
   ~  <p>
   ~  Licensed under the GNU Lesser General Public License 3.0 (the "License");
   ~  you may not use this file except in compliance with the License.
@@ -32,7 +32,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
 		<git.commit.plugin>4.9.9</git.commit.plugin>
 		<spring.checkstyle.plugin>0.0.32</spring.checkstyle.plugin>
 
@@ -122,97 +121,48 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-		<plugins>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven-compiler-plugin.version}</version>
-				<configuration>
-					<target>${maven.compiler.target}</target>
-					<source>${maven.compiler.source}</source>
-					<encoding>${project.build.sourceEncoding}</encoding>
-				</configuration>
-			</plugin>
-			<!--			<plugin>-->
-			<!--				<groupId>org.apache.maven.plugins</groupId>-->
-			<!--				<artifactId>maven-resources-plugin</artifactId>-->
-			<!--				<executions>-->
-			<!--					<execution>-->
-			<!--						<id>default-resources</id>-->
-			<!--						<phase>validate</phase>-->
-			<!--						<goals>-->
-			<!--							<goal>copy-resources</goal>-->
-			<!--						</goals>-->
-			<!--						<configuration>-->
-			<!--							<outputDirectory>${project.build.directory}/classes</outputDirectory>-->
-			<!--							<useDefaultDelimiters>false</useDefaultDelimiters>-->
-			<!--							<delimiters>-->
-			<!--								<delimiter>#</delimiter>-->
-			<!--							</delimiters>-->
-			<!--							<resources>-->
-			<!--								<web>-->
-			<!--									<directory>src/main/resources/</directory>-->
-			<!--									<filtering>true</filtering>-->
-			<!--									<includes>-->
-			<!--										<include>*.yml</include>-->
-			<!--									</includes>-->
-			<!--								</web>-->
-			<!--								<web>-->
-			<!--									<directory>src/main/resources/</directory>-->
-			<!--									<filtering>false</filtering>-->
-			<!--									<excludes>-->
-			<!--										<exclude>*.yml</exclude>-->
-			<!--									</excludes>-->
-			<!--								</web>-->
-			<!--							</resources>-->
-			<!--						</configuration>-->
-			<!--					</execution>-->
-			<!--				</executions>-->
-			<!--			</plugin>-->
-		</plugins>
 	</build>
 
-	<!--	<repositories>-->
-	<!--		&lt;!&ndash;阿里云主仓库，代理了maven central和jcenter仓库&ndash;&gt;-->
-	<!--		<repository>-->
-	<!--			<id>aliyun</id>-->
-	<!--			<name>aliyun</name>-->
-	<!--			<url>https://maven.aliyun.com/repository/public</url>-->
-	<!--			<releases>-->
-	<!--				<enabled>true</enabled>-->
-	<!--			</releases>-->
-	<!--			<snapshots>-->
-	<!--				<enabled>false</enabled>-->
-	<!--			</snapshots>-->
-	<!--		</repository>-->
-	<!--		&lt;!&ndash;阿里云代理Spring 官方仓库&ndash;&gt;-->
-	<!--		<repository>-->
-	<!--			<id>spring-milestones</id>-->
-	<!--			<name>Spring Milestones</name>-->
-	<!--			<url>https://maven.aliyun.com/repository/spring</url>-->
-	<!--			<releases>-->
-	<!--				<enabled>true</enabled>-->
-	<!--			</releases>-->
-	<!--			<snapshots>-->
-	<!--				<enabled>false</enabled>-->
-	<!--			</snapshots>-->
-	<!--		</repository>-->
-	<!--	</repositories>-->
-	<!--	<pluginRepositories>-->
-	<!--		&lt;!&ndash;阿里云代理Spring 插件仓库&ndash;&gt;-->
-	<!--		<pluginRepository>-->
-	<!--			<id>spring-plugin</id>-->
-	<!--			<name>spring-plugin</name>-->
-	<!--			<url>https://maven.aliyun.com/repository/spring-plugin</url>-->
-	<!--			<releases>-->
-	<!--				<enabled>true</enabled>-->
-	<!--			</releases>-->
-	<!--			<snapshots>-->
-	<!--				<enabled>false</enabled>-->
-	<!--			</snapshots>-->
-	<!--		</pluginRepository>-->
-	<!--	</pluginRepositories>-->
+<!--		<repositories>-->
+<!--			&lt;!&ndash;阿里云主仓库，代理了maven central和jcenter仓库&ndash;&gt;-->
+<!--			<repository>-->
+<!--				<id>aliyun</id>-->
+<!--				<name>aliyun</name>-->
+<!--				<url>https://maven.aliyun.com/repository/public</url>-->
+<!--				<releases>-->
+<!--					<enabled>true</enabled>-->
+<!--				</releases>-->
+<!--				<snapshots>-->
+<!--					<enabled>false</enabled>-->
+<!--				</snapshots>-->
+<!--			</repository>-->
+<!--			&lt;!&ndash;阿里云代理Spring 官方仓库&ndash;&gt;-->
+<!--			<repository>-->
+<!--				<id>spring-milestones</id>-->
+<!--				<name>Spring Milestones</name>-->
+<!--				<url>https://maven.aliyun.com/repository/spring</url>-->
+<!--				<releases>-->
+<!--					<enabled>true</enabled>-->
+<!--				</releases>-->
+<!--				<snapshots>-->
+<!--					<enabled>false</enabled>-->
+<!--				</snapshots>-->
+<!--			</repository>-->
+<!--		</repositories>-->
+<!--		<pluginRepositories>-->
+<!--			&lt;!&ndash;阿里云代理Spring 插件仓库&ndash;&gt;-->
+<!--			<pluginRepository>-->
+<!--				<id>spring-plugin</id>-->
+<!--				<name>spring-plugin</name>-->
+<!--				<url>https://maven.aliyun.com/repository/spring-plugin</url>-->
+<!--				<releases>-->
+<!--					<enabled>true</enabled>-->
+<!--				</releases>-->
+<!--				<snapshots>-->
+<!--					<enabled>false</enabled>-->
+<!--				</snapshots>-->
+<!--			</pluginRepository>-->
+<!--		</pluginRepositories>-->
 	<profiles>
 		<profile>
 			<id>dev</id>
