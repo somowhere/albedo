@@ -34,13 +34,10 @@ public final class ContextUtil {
 	}
 
 	public static void putAll(Map<String, String> map) {
-		map.forEach((k, v) -> {
-			set(k, v);
-		});
+		map.forEach((k, v) -> set(k, v));
 	}
 
 	public static void set(String key, Object value) {
-		log.debug("key: " + key + " value: " + value);
 		Map<String, String> map = getLocalMap();
 		map.put(key, value == null ? StrPool.EMPTY : value.toString());
 	}
