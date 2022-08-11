@@ -16,6 +16,7 @@
 
 package com.albedo.java.modules;
 
+import com.albedo.java.common.config.datasource.AuthorityDatabaseAutoConfiguration;
 import com.albedo.java.plugins.dynamic.datasource.annotation.EnableDynamicDataSource;
 import com.albedo.java.plugins.swagger.annotation.EnableSwaggerDoc;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,7 @@ import java.net.InetAddress;
 @Slf4j
 @EnableSwaggerDoc
 @EnableDynamicDataSource
-@SpringBootApplication
+@SpringBootApplication(exclude = AuthorityDatabaseAutoConfiguration.class)
 public class AlbedoAdminApplication {
 
 	static String SERVER_PORT = "server.port";
