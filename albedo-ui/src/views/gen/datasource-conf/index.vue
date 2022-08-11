@@ -86,6 +86,7 @@ import validate from '@/utils/validate'
 import { mapGetters } from 'vuex'
 
 const defaultForm = {
+  id: null,
   name: null,
   url: null,
   username: null,
