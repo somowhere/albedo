@@ -23,7 +23,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -55,12 +54,10 @@ public abstract class BaseDataDo<T extends BaseDo<T>, PK extends Serializable> e
 
 	/*** 默认0，必填，离线乐观锁 */
 	@Version
-	@XmlTransient
 	@TableField(F_SQL_VERSION)
 	protected Integer version = 0;
 
 	/*** 备注 */
-	@XmlTransient
 	@TableField(F_SQL_DESCRIPTION)
 	protected String description;
 
