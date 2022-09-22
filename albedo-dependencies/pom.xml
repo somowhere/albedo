@@ -23,7 +23,7 @@
 		<jasypt.version>2.1.0</jasypt.version>
 		<redisson.version>3.17.3</redisson.version>
 		<druid.version>1.2.8</druid.version>
-		<h2.version>1.4.200</h2.version>
+		<h2.version>2.1.210</h2.version>
 		<springdoc.version>1.6.11</springdoc.version>
 		<swagger.core.version>2.2.2</swagger.core.version>
 		<knife4j.version>3.0.3</knife4j.version>
