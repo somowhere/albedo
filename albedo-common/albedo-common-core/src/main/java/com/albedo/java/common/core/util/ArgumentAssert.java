@@ -670,6 +670,7 @@ public class ArgumentAssert {
 		}
 		return collection;
 	}
+
 	/**
 	 * 断言给定集合非空
 	 * 并使用指定的函数获取错误信息返回
@@ -696,6 +697,7 @@ public class ArgumentAssert {
 		}
 		return collection;
 	}
+
 	/**
 	 * 断言给定集合非空
 	 *
