@@ -49,9 +49,9 @@
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.7.3 
+Spring Boot |  2.7.5 
 Mybatis Plus | 3.5.2
-hutool | 5.8.5
+hutool | 5.8.9
    
 
 
