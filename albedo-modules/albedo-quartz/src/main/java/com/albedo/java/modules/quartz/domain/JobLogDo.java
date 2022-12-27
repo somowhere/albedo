@@ -25,7 +25,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 任务调度日志Entity 任务调度日志
@@ -188,19 +188,19 @@ public class JobLogDo extends GeneralDo<JobLogDo> {
 	 * startTime 开始时间
 	 */
 	@TableField("start_time")
-	private Date startTime;
+	private LocalDateTime startTime;
 
 	/**
 	 * endTime 结束时间
 	 */
 	@TableField("end_time")
-	private Date endTime;
+	private LocalDateTime endTime;
 
 	/**
 	 * createdDate 创建时间
 	 */
 	@TableField("create_time")
-	private Date createdDate;
+	private LocalDateTime createdDate;
 
 	/**
 	 * exceptionInfo 异常信息

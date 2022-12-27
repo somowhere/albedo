@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.gen.domain.dto;
+package com.albedo.java.modules.sys.domain.dto;
 
 import com.albedo.java.common.core.annotation.Query;
 import lombok.Data;
@@ -27,12 +27,21 @@ import java.util.List;
  * @date 2020-05-10
  */
 @Data
-public class TableQueryCriteria implements Serializable {
+public class LogOperateQueryDto implements Serializable {
 
-	@Query(blurry = "name,comments,className,parentTable,description")
+	@Query(blurry = "username,title,user_agent,browser,os")
 	private String blurry;
 
-	@Query(propName = "created_date", operator = Query.Operator.between)
+	@Query(operator = Query.Operator.like)
+	private String username;
+
+	@Query(operator = Query.Operator.in)
+	private List<String> logType;
+
+	@Query
+	private String operatorType;
+
+	@Query(operator = Query.Operator.between)
 	private List<Date> createdDate;
 
 }

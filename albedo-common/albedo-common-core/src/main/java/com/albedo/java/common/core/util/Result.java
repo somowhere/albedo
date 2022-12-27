@@ -42,11 +42,11 @@ public class Result<T> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Getter
-	@Setter
 	/**
 	 * 调用是否成功标识，1：成功，0:失败，此时请开发者稍候再试 详情见[ExceptionCode]
 	 */
+	@Getter
+	@Setter
 	@Schema(name = "响应编码:0/200-请求处理成功")
 	private int code = CommonConstants.SUCCESS;
 
@@ -130,52 +130,52 @@ public class Result<T> implements Serializable {
 		this.code = ResponseCode.FAIL.getCode();
 	}
 
-	public static Result buildOk(String... messages) {
-		return new Result(StringUtil.toAppendStr(messages));
+	public static Result<?> buildOk(String... messages) {
+		return new Result<>(StringUtil.toAppendStr(messages));
 	}
 
-	public static Result buildByFlag(boolean flag) {
-		return new Result(flag, flag ? CommonConstants.SUCCESS : ResponseCode.FAIL.getCode(), flag ? "操作成功" : "系统繁忙，请稍候再试");
+	public static Result<Boolean> buildByFlag(boolean flag) {
+		return new Result<>(flag, flag ? CommonConstants.SUCCESS : ResponseCode.FAIL.getCode(), flag ? "操作成功" : "系统繁忙，请稍候再试");
 	}
 
-	public static <T> Result buildOkData(T data, String message) {
-		return new Result(data, message);
+	public static <T> Result<T> buildOkData(T data, String message) {
+		return new Result<>(data, message);
 	}
 
-	public static <T> Result buildOkData(T data) {
-		return new Result(data);
+	public static <T> Result<T> buildOkData(T data) {
+		return new Result<>(data);
 	}
 
-	public static <T> Result buildFailData(T data, String message) {
-		return new Result(data, ResponseCode.FAIL.getCode(), message);
+	public static <T> Result<T> buildFailData(T data, String message) {
+		return new Result<>(data, ResponseCode.FAIL.getCode(), message);
 	}
 
-	public static <T> Result buildFail(String message) {
-		return new Result(null, ResponseCode.FAIL.getCode(), message);
+	public static Result<?> buildFail(String message) {
+		return new Result<>(null, ResponseCode.FAIL.getCode(), message);
 	}
 
-	public static <T> Result build(T data, int code, String message) {
-		return new Result(data, code, message);
+	public static <T> Result<T> build(T data, int code, String message) {
+		return new Result<>(data, code, message);
 	}
 
-	public static <T> Result build(int code, String message) {
-		return new Result(null, code, message);
+	public static <T> Result<T> build(int code, String message) {
+		return new Result<>(null, code, message);
 	}
 
-	public static <T> Result build(int code, String message, String errorMsg) {
-		return new Result(null, code, message, errorMsg);
+	public static <T> Result<T> build(int code, String message, String errorMsg) {
+		return new Result<>(null, code, message, errorMsg);
 	}
 
 
-	public static <T> Result timeout() {
+	public static Result<?> timeout() {
 		return build(ResponseCode.SYSTEM_TIMEOUT);
 	}
 
-	public static Result build(ResponseCode responseCode) {
+	public static Result<?> build(ResponseCode responseCode) {
 		return build(responseCode.getCode(), responseCode.getMessage());
 	}
 
-	public static Result build(ResponseCode responseCode, String errorMsg) {
+	public static Result<?> build(ResponseCode responseCode, String errorMsg) {
 		return build(responseCode.getCode(), responseCode.getMessage(), errorMsg);
 	}
 

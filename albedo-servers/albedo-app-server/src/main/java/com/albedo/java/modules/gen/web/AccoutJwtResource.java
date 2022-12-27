@@ -95,7 +95,7 @@ public class AccoutJwtResource extends BaseResource {
 	@AnonymousAccess
 	@PostMapping(SecurityConstants.AUTHENTICATE_URL)
 	@Operation(summary = "认证授权")
-	public ResponseEntity<Result> authorize(@Valid @RequestBody LoginVo loginVo) {
+	public ResponseEntity<Result<?>> authorize(@Valid @RequestBody LoginVo loginVo) {
 
 		Date canLoginDate = RedisUtil
 			.getCacheObject(SecurityConstants.DEFAULT_LOGIN_AFTER_24_KEY + loginVo.getUsername());
@@ -120,7 +120,7 @@ public class AccoutJwtResource extends BaseResource {
 		try {
 			Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-			boolean rememberMe = (loginVo.getRememberMe() == null) ? false : loginVo.getRememberMe();
+			boolean rememberMe = loginVo.getRememberMe() != null && loginVo.getRememberMe();
 			String jwt = tokenProvider.createToken(authentication, rememberMe);
 			log.info("jwt:{}", jwt);
 			RedisUtil.delete(keyLoginCount);
@@ -131,7 +131,7 @@ public class AccoutJwtResource extends BaseResource {
 				}
 			});
 		} catch (AuthenticationException ae) {
-			log.warn("Authentication exception trace: {}", ae);
+			log.warn("Authentication exception trace: {0}", ae);
 			String msg = ae.getMessage();
 			if (ae instanceof BadCredentialsException) {
 				Integer cacheObject = RedisUtil.getCacheObject(keyLoginCount);
@@ -170,7 +170,7 @@ public class AccoutJwtResource extends BaseResource {
 	@AnonymousAccess
 	@GetMapping(value = "/logout")
 	@Operation(summary = "登出")
-	public ResponseEntity<Result> logout(
+	public Result<?> logout(
 		@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
 		HttpServletRequest request, HttpServletResponse response) {
 		String tokenValue = authHeader.replace("Bearer ", StrUtil.EMPTY).trim();
@@ -181,7 +181,7 @@ public class AccoutJwtResource extends BaseResource {
 		}
 		WebUtil.removeCookie(response, HttpHeaders.AUTHORIZATION);
 		request.getSession().invalidate();
-		return ResponseEntityBuilder.buildOk("退出登录成功");
+		return Result.buildOk("退出登录成功");
 
 	}
 

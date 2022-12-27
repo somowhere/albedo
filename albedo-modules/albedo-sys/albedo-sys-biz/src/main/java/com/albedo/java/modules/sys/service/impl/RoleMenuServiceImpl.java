@@ -48,7 +48,7 @@ public class RoleMenuServiceImpl extends BaseServiceImpl<RoleMenuRepository, Rol
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public Result saveRoleMenus(RoleMenuDto roleMenuDto) {
+	public Result<?> saveRoleMenus(RoleMenuDto roleMenuDto) {
 		this.remove(Wrappers.<RoleMenuDo>query().lambda().eq(RoleMenuDo::getRoleId, roleMenuDto.getRoleId()));
 
 		List<RoleMenuDo> roleMenuDoList = roleMenuDto.getMenuIdList().stream().map(menuId -> {

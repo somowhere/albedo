@@ -20,11 +20,11 @@ import com.albedo.java.common.core.domain.vo.PageModel;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.web.resource.BaseResource;
+import com.albedo.java.modules.quartz.domain.JobDo;
 import com.albedo.java.modules.quartz.domain.dto.JobDto;
-import com.albedo.java.modules.quartz.domain.dto.JobQueryCriteria;
+import com.albedo.java.modules.quartz.domain.dto.JobQueryDto;
 import com.albedo.java.modules.quartz.service.JobService;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -54,7 +54,7 @@ public class JobResource extends BaseResource {
 	 */
 	@GetMapping(CommonConstants.URL_ID_REGEX)
 	@PreAuthorize("@pms.hasPermission('quartz_job_view')")
-	public Result get(@PathVariable String id) {
+	public Result<JobDto> get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
 		return Result.buildOkData(jobService.getOneDto(id));
 	}
@@ -69,9 +69,8 @@ public class JobResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('quartz_job_view')")
 	@GetMapping
 	@LogOperate(value = "任务调度查看")
-	public Result<IPage> getPage(PageModel pageModel, JobQueryCriteria jobQueryCriteria) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, jobQueryCriteria);
-		return Result.buildOkData(jobService.page(pageModel, wrapper));
+	public Result<IPage<JobDo>> getPage(PageModel<JobDo> pageModel, JobQueryDto jobQueryDto) {
+		return Result.buildOkData(jobService.page(pageModel, QueryWrapperUtil.getWrapper(pageModel, jobQueryDto)));
 	}
 
 	/**
@@ -82,7 +81,7 @@ public class JobResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
 	@LogOperate(value = "任务调度编辑")
 	@PostMapping
-	public Result save(@Valid @RequestBody JobDto jobVo) {
+	public Result<?> save(@Valid @RequestBody JobDto jobVo) {
 		log.debug("REST request to save JobForm : {}", jobVo);
 		jobService.saveOrUpdate(jobVo);
 		return Result.buildOk("保存任务调度成功");
@@ -98,7 +97,7 @@ public class JobResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('quartz_job_del')")
 	@LogOperate(value = "任务调度删除")
 	@DeleteMapping
-	public Result delete(@RequestBody Set<String> ids) {
+	public Result<?> delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete Job: {}", ids);
 		jobService.deleteJobByIds(ids);
 		return Result.buildOk("删除任务调度成功");
@@ -113,7 +112,7 @@ public class JobResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
 	@LogOperate(value = "任务调度编辑")
 	@PutMapping("/update-status")
-	public Result updateStatus(@RequestBody Set<String> ids) {
+	public Result<?> updateStatus(@RequestBody Set<String> ids) {
 		log.debug("REST request to available Job: {}", ids);
 		jobService.updateStatus(ids);
 		return Result.buildOk("操作成功");
@@ -128,7 +127,7 @@ public class JobResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
 	@LogOperate(value = "任务调度编辑")
 	@PutMapping("/run")
-	public Result run(@RequestBody Set<String> ids) {
+	public Result<?> run(@RequestBody Set<String> ids) {
 		log.debug("REST request to available Job: {}", ids);
 		jobService.runByIds(ids);
 		return Result.buildOk("操作成功");
@@ -143,7 +142,7 @@ public class JobResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('quartz_job_edit')")
 	@LogOperate(value = "任务调度编辑")
 	@PutMapping("/concurrent")
-	public Result concurrent(@RequestBody Set<String> ids) {
+	public Result<?> concurrent(@RequestBody Set<String> ids) {
 		log.debug("REST request to available Job: {}", ids);
 		jobService.concurrent(ids);
 		return Result.buildOk("操作成功");

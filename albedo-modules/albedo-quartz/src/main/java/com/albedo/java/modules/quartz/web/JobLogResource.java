@@ -20,11 +20,11 @@ import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.common.web.resource.BaseResource;
-import com.albedo.java.modules.quartz.domain.dto.JobLogQueryCriteria;
+import com.albedo.java.modules.quartz.domain.JobLogDo;
+import com.albedo.java.modules.quartz.domain.dto.JobLogQueryDto;
 import com.albedo.java.modules.quartz.domain.vo.JobLogExcelVo;
 import com.albedo.java.modules.quartz.service.JobLogService;
-import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -57,9 +57,8 @@ public class JobLogResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_view')")
 	@GetMapping
 	@LogOperate(value = "任务日志查看")
-	public Result getPage(PageModel pageModel, JobLogQueryCriteria jobLogQueryCriteria) {
-		return Result.buildOkData(
-			jobLogService.page(pageModel, QueryWrapperUtil.getWrapper(pageModel, jobLogQueryCriteria)));
+	public Result<IPage<JobLogDo>> findPage(PageModel<JobLogDo> pageModel, JobLogQueryDto jobLogQueryDto) {
+		return Result.buildOkData(jobLogService.findPage(pageModel, jobLogQueryDto));
 	}
 
 	/**
@@ -71,7 +70,7 @@ public class JobLogResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_del')")
 	@LogOperate(value = "任务日志删除")
 	@DeleteMapping
-	public Result delete(@RequestBody Set<String> ids) {
+	public Result<?> delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete JobLog: {}", ids);
 		jobLogService.removeByIds(ids);
 		return Result.buildOk("删除任务调度日志成功");
@@ -81,7 +80,7 @@ public class JobLogResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_clean')")
 	@PostMapping("/clean")
 	@ResponseBody
-	public Result clean() {
+	public Result<?> clean() {
 		jobLogService.cleanJobLog();
 		return Result.buildOk("清空任务调度日志成功");
 	}
@@ -89,10 +88,9 @@ public class JobLogResource extends BaseResource {
 	@LogOperate(value = "任务日志导出")
 	@GetMapping(value = "/download")
 	@PreAuthorize("@pms.hasPermission('quartz_jobLog_export')")
-	public void download(JobLogQueryCriteria jobLogQueryCriteria, HttpServletResponse response) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(jobLogQueryCriteria);
-		ExcelUtil<JobLogExcelVo> util = new ExcelUtil(JobLogExcelVo.class);
-		util.exportExcel(jobLogService.findExcelVo(wrapper), "任务调度日志", response);
+	public void download(JobLogQueryDto jobLogQueryDto, HttpServletResponse response) {
+		ExcelUtil<JobLogExcelVo> util = new ExcelUtil<>(JobLogExcelVo.class);
+		util.exportExcel(jobLogService.findExcelVo(jobLogQueryDto), "任务调度日志", response);
 	}
 
 }

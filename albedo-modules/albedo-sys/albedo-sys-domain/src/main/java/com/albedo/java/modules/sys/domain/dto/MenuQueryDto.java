@@ -27,7 +27,7 @@ import java.util.List;
  * @date 2020-05-10
  */
 @Data
-public class MenuQueryCriteria implements Serializable {
+public class MenuQueryDto implements Serializable {
 
 	@Query(propName = "id", operator = Query.Operator.ne)
 	private String notId;

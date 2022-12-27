@@ -28,12 +28,11 @@ import com.albedo.java.modules.gen.domain.DatasourceConfDo;
 import com.albedo.java.modules.gen.domain.TableDo;
 import com.albedo.java.modules.gen.domain.dto.TableDto;
 import com.albedo.java.modules.gen.domain.dto.TableFromDto;
-import com.albedo.java.modules.gen.domain.dto.TableQueryCriteria;
+import com.albedo.java.modules.gen.domain.dto.TableQueryDto;
 import com.albedo.java.modules.gen.domain.vo.TableFormDataVo;
 import com.albedo.java.modules.gen.service.DatasourceConfService;
 import com.albedo.java.modules.gen.service.TableService;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -41,6 +40,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -60,14 +60,14 @@ public class TableResource extends BaseResource {
 
 	@GetMapping(value = "/ds-list")
 	@PreAuthorize("@pms.hasPermission('gen_table_view')")
-	public Result<SelectVo> dsList() {
+	public Result<List<SelectVo>> dsList() {
 		return Result.buildOkData(CollUtil.convertSelectVoList(datasourceConfService.list(), DatasourceConfDo.F_NAME,
 			DatasourceConfDo.F_NAME));
 	}
 
 	@GetMapping(value = "/ds-table-list/{dsName:^[a-zA-Z0-9]+$}")
 	@PreAuthorize("@pms.hasPermission('gen_table_view')")
-	public Result<SelectVo> tableList(@PathVariable String dsName) {
+	public Result<List<SelectVo>> tableList(@PathVariable String dsName) {
 		TableDto tableDto = new TableDto();
 		tableDto.setDsName(dsName);
 		return Result.buildOkData(CollUtil.convertSelectVoList(tableService.findTableListFormDb(tableDto), TableDo.F_NAME,
@@ -88,16 +88,14 @@ public class TableResource extends BaseResource {
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('gen_table_view')")
 	@LogOperate(value = "业务表查看")
-	public Result getPage(PageModel pm, TableQueryCriteria tableQueryCriteria) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, tableQueryCriteria);
-		pm = tableService.page(pm, wrapper);
-		return Result.buildOkData(pm);
+	public Result<PageModel<TableDo>> getPage(PageModel<TableDo> pm, TableQueryDto tableQueryDto) {
+		return Result.buildOkData(tableService.page(pm, QueryWrapperUtil.getWrapper(pm, tableQueryDto)));
 	}
 
 	@LogOperate(value = "业务表编辑")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('gen_table_edit')")
-	public Result save(@Valid @RequestBody TableDto tableDto) {
+	public Result<?> save(@Valid @RequestBody TableDto tableDto) {
 		// 验证表是否已经存在
 		if (StringUtil.isBlank(tableDto.getId()) && !tableService.checkTableName(tableDto.getName())) {
 			return Result.buildFail("保存失败！" + tableDto.getName() + " 表已经存在！");
@@ -112,7 +110,7 @@ public class TableResource extends BaseResource {
 	 */
 	@PutMapping("refresh-column" + CommonConstants.URL_ID_REGEX)
 	@PreAuthorize("@pms.hasPermission('gen_table_edit')")
-	public Result refreshColumn(@PathVariable String id) {
+	public Result<?> refreshColumn(@PathVariable String id) {
 		log.debug("REST request to refreshColumn Entity : {}", id);
 		TableDto tableDto = tableService.getOneDto(id);
 		ArgumentAssert.notNull(tableDto, "对象 " + id + " 信息为空，操作失败");
@@ -124,7 +122,7 @@ public class TableResource extends BaseResource {
 	@DeleteMapping
 	@LogOperate(value = "业务表删除")
 	@PreAuthorize("@pms.hasPermission('gen_table_del')")
-	public Result delete(@RequestBody Set<String> ids) {
+	public Result<?> delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete table: {}", ids);
 		tableService.delete(ids);
 		return Result.buildOk("删除成功");
@@ -139,7 +137,7 @@ public class TableResource extends BaseResource {
 	@PostMapping("refresh-cache")
 	@LogOperate("业务表刷新缓存")
 	@PreAuthorize("@pms.hasPermission('gen_table_edit')")
-	public Result refreshCache() {
+	public Result<?> refreshCache() {
 		tableService.refreshCache();
 		return Result.buildOk("刷新缓存成功");
 	}
@@ -153,7 +151,7 @@ public class TableResource extends BaseResource {
 	@PostMapping("clearCache")
 	@LogOperate("'业务表清理缓存'")
 	@PreAuthorize("hasAnyPermission('gen_table_edit')")
-	public Result clearCache() {
+	public Result<?> clearCache() {
 		tableService.clearCache();
 		return Result.buildOk("清理缓存成功");
 	}

@@ -21,34 +21,18 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author somewhere
  * @date 2020-05-10
  */
 @Data
-public class DeptQueryCriteria implements Serializable {
+public class PersistentTokenQueryDto implements Serializable {
 
-	@Query(propName = "id", operator = Query.Operator.ne)
-	private String notId;
-
-	@Query(propName = "id", operator = Query.Operator.in)
-	private Set<Long> deptIds;
-
-	@Query(operator = Query.Operator.like)
-	private String name;
-
-	@Query
-	private Boolean available;
-
-	@Query(blurry = "name,description")
+	@Query(blurry = "series,tokenValue,username,userAgent,browser,os")
 	private String blurry;
 
-	@Query
-	private String parentId;
-
 	@Query(operator = Query.Operator.between)
-	private List<Date> createdDate;
+	private List<Date> tokenDate;
 
 }

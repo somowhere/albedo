@@ -21,7 +21,7 @@ import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.LogLoginDo;
-import com.albedo.java.modules.sys.domain.dto.LogLoginQueryCriteria;
+import com.albedo.java.modules.sys.domain.dto.LogLoginQueryDto;
 import com.albedo.java.modules.sys.service.LogLoginService;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -59,8 +59,8 @@ public class LogLoginResource extends BaseResource {
 	@GetMapping
 	@LogOperate(value = "登录日志管理查看")
 	@Operation(summary = "登录日志查看")
-	public Result getPage(PageModel pm, LogLoginQueryCriteria logLoginQueryCriteria) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, logLoginQueryCriteria);
+	public Result getPage(PageModel pm, LogLoginQueryDto logLoginQueryDto) {
+		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, logLoginQueryDto);
 		return Result.buildOkData(service.page(pm, wrapper));
 	}
 
@@ -68,7 +68,7 @@ public class LogLoginResource extends BaseResource {
 	@Operation(summary = "登录日志导出")
 	@GetMapping(value = "/download")
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_export')")
-	public void download(LogLoginQueryCriteria logOperateQueryCriteria, HttpServletResponse response) {
+	public void download(LogLoginQueryDto logOperateQueryCriteria, HttpServletResponse response) {
 		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(logOperateQueryCriteria);
 		ExcelUtil<LogLoginDo> util = new ExcelUtil(LogLoginDo.class);
 		util.exportExcel(service.list(wrapper), "登录日志", response);

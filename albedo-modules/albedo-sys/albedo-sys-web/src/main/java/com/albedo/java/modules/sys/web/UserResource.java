@@ -18,10 +18,7 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.domain.vo.PageModel;
-import com.albedo.java.common.core.util.BeanUtil;
-import com.albedo.java.common.core.util.ObjectUtil;
-import com.albedo.java.common.core.util.ResponseEntityBuilder;
-import com.albedo.java.common.core.util.Result;
+import com.albedo.java.common.core.util.*;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.ExcelUtil;
@@ -29,7 +26,7 @@ import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.UserDo;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
 import com.albedo.java.modules.sys.domain.dto.UserInfoDto;
-import com.albedo.java.modules.sys.domain.dto.UserQueryCriteria;
+import com.albedo.java.modules.sys.domain.dto.UserQueryDto;
 import com.albedo.java.modules.sys.domain.vo.UserExcelVo;
 import com.albedo.java.modules.sys.domain.vo.UserInfo;
 import com.albedo.java.modules.sys.domain.vo.UserPageVo;
@@ -81,20 +78,20 @@ public class UserResource extends BaseResource {
 	@GetMapping
 	@LogOperate(value = "用户管理查看")
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
-	public Result<IPage<UserPageVo>> findPage(PageModel pageModel, UserQueryCriteria userQueryCriteria) {
-		return Result.buildOkData(userService.findPage(pageModel, userQueryCriteria, SecurityUtil.getDataScope()));
+	public Result<IPage<UserPageVo>> findPage(PageModel<?> pageModel, UserQueryDto userQueryDto) {
+		return Result.buildOkData(userService.findPage(pageModel, userQueryDto, SecurityUtil.getDataScope()));
 	}
 
 	/**
-	 * @param userQueryCriteria
+	 * @param userQueryDto
 	 * @param response
 	 */
 	@LogOperate(value = "用户管理导出")
 	@GetMapping(value = "/download")
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
-	public void download(UserQueryCriteria userQueryCriteria, HttpServletResponse response) {
-		ExcelUtil<UserPageVo> util = new ExcelUtil(UserPageVo.class);
-		util.exportExcel(userService.findList(userQueryCriteria, SecurityUtil.getDataScope()), "用户数据", response);
+	public void download(UserQueryDto userQueryDto, HttpServletResponse response) {
+		ExcelUtil<UserPageVo> util = new ExcelUtil<>(UserPageVo.class);
+		util.exportExcel(userService.findList(userQueryDto, SecurityUtil.getDataScope()), "用户数据", response);
 	}
 
 	/**
@@ -106,9 +103,7 @@ public class UserResource extends BaseResource {
 	public Result<UserInfo> info() {
 		String username = SecurityUtil.getUser().getUsername();
 		UserVo userVo = userService.findVoByUsername(username);
-		if (userVo == null) {
-			return Result.buildFail("获取当前用户信息失败");
-		}
+		ArgumentAssert.notNull(userVo, "获取当前用户信息失败");
 		return Result.buildOkData(userService.getInfo(userVo));
 	}
 
@@ -120,7 +115,7 @@ public class UserResource extends BaseResource {
 	 */
 	@LogOperate(value = "用户管理编辑")
 	@PostMapping("/info")
-	public Result<String> saveInfo(@Valid @RequestBody UserInfoDto userInfoDto) {
+	public Result<?> saveInfo(@Valid @RequestBody UserInfoDto userInfoDto) {
 		log.debug("REST request to save userDto : {}", userInfoDto);
 		UserDto userDto = BeanUtil.copyPropertiesByClass(userInfoDto, UserDto.class);
 		userDto.setId(SecurityUtil.getUser().getId());
@@ -137,9 +132,7 @@ public class UserResource extends BaseResource {
 	@GetMapping("/info/{username}")
 	public Result<UserInfo> info(@PathVariable String username) {
 		UserVo userVo = userService.findVoByUsername(username);
-		if (userVo == null) {
-			return Result.buildFail(String.format("用户信息为空 %s", username));
-		}
+		ArgumentAssert.notNull(userVo, String.format("用户信息为空 %s", username));
 		return Result.buildOkData(userService.getInfo(userVo));
 	}
 
@@ -165,7 +158,7 @@ public class UserResource extends BaseResource {
 	@LogOperate(value = "用户管理编辑")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
-	public Result<String> save(@Valid @RequestBody UserDto userDto) {
+	public Result<?> save(@Valid @RequestBody UserDto userDto) {
 		log.debug("REST request to save userDto : {}", userDto);
 		boolean add = ObjectUtil.isEmpty(userDto.getId());
 		if (add) {
@@ -191,7 +184,7 @@ public class UserResource extends BaseResource {
 	@PutMapping
 	@LogOperate(value = "用户管理锁定/解锁")
 	@PreAuthorize("@pms.hasPermission('sys_user_lock')")
-	public Result<String> lockOrUnLock(@RequestBody Set<Long> ids) {
+	public Result<?> lockOrUnLock(@RequestBody Set<Long> ids) {
 		userService.lockOrUnLock(ids);
 		return Result.buildOk("操作成功");
 	}
@@ -205,12 +198,12 @@ public class UserResource extends BaseResource {
 	@PostMapping(value = "/upload")
 	@PreAuthorize("@pms.hasPermission('sys_user_upload')")
 	@LogOperate(value = "用户管理导入")
-	public ResponseEntity<Result> uploadData(@RequestParam("uploadFile") MultipartFile dataFile, HttpServletResponse response)
+	public ResponseEntity<Result<?>> uploadData(@RequestParam("uploadFile") MultipartFile dataFile, HttpServletResponse response)
 		throws Exception {
 		if (dataFile.isEmpty()) {
 			return ResponseEntityBuilder.buildFail("上传文件为空");
 		}
-		ExcelUtil<UserExcelVo> util = new ExcelUtil(UserExcelVo.class);
+		ExcelUtil<UserExcelVo> util = new ExcelUtil<>(UserExcelVo.class);
 		List<UserExcelVo> dataList = util.importExcel(dataFile.getInputStream());
 		for (UserExcelVo userExcelVo : dataList) {
 			if (userExcelVo.getPhone().length() != 11) {
@@ -224,13 +217,13 @@ public class UserResource extends BaseResource {
 	}
 
 	/**
-	 * @param response
+	 * @param response response
 	 */
 	@GetMapping(value = "/importTemplate")
 	@PreAuthorize("@pms.hasPermission('sys_user_view')")
 	@LogOperate(value = "用户导入模板导出")
 	public void importTemplate(HttpServletResponse response) {
-		ExcelUtil<UserExcelVo> util = new ExcelUtil(UserExcelVo.class);
+		ExcelUtil<UserExcelVo> util = new ExcelUtil<>(UserExcelVo.class);
 		util.exportExcel(Lists.newArrayList(new UserExcelVo()), "操作日志", response);
 	}
 

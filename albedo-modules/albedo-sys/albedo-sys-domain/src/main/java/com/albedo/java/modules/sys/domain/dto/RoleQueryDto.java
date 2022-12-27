@@ -15,33 +15,27 @@
 
 package com.albedo.java.modules.sys.domain.dto;
 
-import com.albedo.java.common.core.annotation.Query;
+import com.albedo.java.common.core.util.DateUtil;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
 
 /**
  * @author somewhere
  * @date 2020-05-10
  */
 @Data
-public class LogOperateQueryCriteria implements Serializable {
+public class RoleQueryDto implements Serializable {
 
-	@Query(blurry = "username,title,user_agent,browser,os")
 	private String blurry;
 
-	@Query(operator = Query.Operator.like)
-	private String username;
+	private Integer available;
 
-	@Query(operator = Query.Operator.in)
-	private List<String> logType;
-
-	@Query
-	private String operatorType;
-
-	@Query(operator = Query.Operator.between)
-	private List<Date> createdDate;
+	@Schema(name = "创建时间", example = "[2022-07-01 00:00:00,2022-07-01 23:59:59]")
+	@DateTimeFormat(pattern = DateUtil.TIME_FORMAT)
+	private LocalDateTime[] createdDate;
 
 }

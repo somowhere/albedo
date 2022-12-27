@@ -11,24 +11,24 @@
 	<description>基础 bom 文件，管理整个项目的依赖版本</description>
 
 	<properties>
-		<revision>3.3.6-SNAPSHOT</revision>
-		<spring-boot.version>2.7.6</spring-boot.version>
+		<revision>3.3.7-SNAPSHOT</revision>
+		<spring-boot.version>2.7.7</spring-boot.version>
 		<hutool.version>5.8.10</hutool.version>
 		<p6spy.version>3.9.1</p6spy.version>
 		<mybatis-plus.version>3.5.2</mybatis-plus.version>
 		<mybatis.version>3.5.10</mybatis.version>
 		<commons-io.version>2.11.0</commons-io.version>
-		<dynamic-ds.version>3.5.2</dynamic-ds.version>
+		<dynamic-ds.version>3.6.0</dynamic-ds.version>
 		<captcha.version>2.2.2</captcha.version>
 		<jasypt.version>2.1.0</jasypt.version>
 		<redisson.version>3.17.3</redisson.version>
 		<druid.version>1.2.8</druid.version>
 		<h2.version>2.1.210</h2.version>
-		<springdoc.version>1.6.13</springdoc.version>
+		<springdoc.version>1.6.14</springdoc.version>
 		<swagger.core.version>2.2.6</swagger.core.version>
 		<knife4j.version>3.0.3</knife4j.version>
 		<poi.version>5.2.2</poi.version>
-		<oshi.version>6.3.2</oshi.version>
+		<oshi.version>6.4.0</oshi.version>
 		<jna.version>5.11.0</jna.version>
 		<reflections.version>0.10.2</reflections.version>
 		<mica-ip2region.version>2.7.6</mica-ip2region.version>

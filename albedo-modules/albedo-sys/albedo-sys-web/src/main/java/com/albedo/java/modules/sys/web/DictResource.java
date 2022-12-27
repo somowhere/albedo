@@ -24,7 +24,7 @@ import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.DictDo;
 import com.albedo.java.modules.sys.domain.dto.DictDto;
-import com.albedo.java.modules.sys.domain.dto.DictQueryCriteria;
+import com.albedo.java.modules.sys.domain.dto.DictQueryDto;
 import com.albedo.java.modules.sys.domain.vo.DictVo;
 import com.albedo.java.modules.sys.service.DictService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -61,8 +61,8 @@ public class DictResource extends BaseResource {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public Result<List<TreeNode>> tree(DictQueryCriteria dictQueryCriteria) {
-		return Result.buildOkData(dictService.findTreeNode(dictQueryCriteria));
+	public Result<List<TreeNode<?>>> tree(DictQueryDto dictQueryDto) {
+		return Result.buildOkData(dictService.findTreeNode(dictQueryDto));
 	}
 
 	/**
@@ -79,14 +79,14 @@ public class DictResource extends BaseResource {
 	/**
 	 * 查询字典信息
 	 *
-	 * @param dictQueryCriteria 查询对象
+	 * @param dictQueryDto 查询对象
 	 * @return 分页对象
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_dict_view')")
 	@LogOperate(value = "字典管理查看")
-	public Result<IPage<DictVo>> findTreeList(DictQueryCriteria dictQueryCriteria) {
-		IPage<DictVo> treeList = dictService.findTreeList(dictQueryCriteria);
+	public Result<IPage<DictVo>> findTreeList(DictQueryDto dictQueryDto) {
+		IPage<DictVo> treeList = dictService.findTreeList(dictQueryDto);
 		return Result.buildOkData(treeList);
 	}
 
@@ -112,7 +112,7 @@ public class DictResource extends BaseResource {
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_dict_edit')")
 	@LogOperate(value = "字典管理编辑")
-	public Result<String> save(@Valid @RequestBody DictDto dictDto) {
+	public Result<?> save(@Valid @RequestBody DictDto dictDto) {
 		dictService.saveOrUpdate(dictDto);
 		return Result.buildOk("操作成功");
 	}
@@ -137,7 +137,7 @@ public class DictResource extends BaseResource {
 	@PutMapping
 	@LogOperate(value = "字典管理锁定/解锁")
 	@PreAuthorize("@pms.hasPermission('sys_dept_lock')")
-	public Result<String> lockOrUnLock(@RequestBody Set<Long> ids) {
+	public Result<?> lockOrUnLock(@RequestBody Set<Long> ids) {
 		dictService.lockOrUnLock(ids);
 		return Result.buildOk("操作成功");
 	}

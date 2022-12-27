@@ -26,7 +26,7 @@ import java.io.Serializable;
  * @version 2021-11-30 10:15:00
  */
 @Data
-public class LogLoginQueryCriteria implements Serializable {
+public class LogLoginQueryDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	/**

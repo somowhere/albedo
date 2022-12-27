@@ -25,8 +25,8 @@ import com.albedo.java.modules.sys.domain.dto.ApplicationDto;
 import com.albedo.java.modules.sys.repository.ApplicationRepository;
 import com.albedo.java.modules.sys.service.ApplicationService;
 import com.albedo.java.plugins.database.mybatis.conditions.Wraps;
-import com.albedo.java.plugins.database.mybatis.conditions.query.LbqWrapper;
 import com.albedo.java.plugins.database.mybatis.service.impl.AbstractDataCacheServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;
@@ -50,7 +50,7 @@ public class ApplicationServiceImpl extends AbstractDataCacheServiceImpl<Applica
 
 	@Override
 	public ApplicationDo getByClient(String clientId, String clientSecret) {
-		LbqWrapper<ApplicationDo> wrapper = Wraps.<ApplicationDo>lbQ()
+		LambdaQueryWrapper<ApplicationDo> wrapper = Wraps.<ApplicationDo>lambdaQueryWrapperX()
 			.select(ApplicationDo::getId).eq(ApplicationDo::getClientId, clientId).eq(ApplicationDo::getClientSecret, clientSecret);
 		Function<CacheKey, Object> loader = k -> super.getObj(wrapper, Convert::toLong);
 		CacheKey cacheKey = new ApplicationClientCacheKeyBuilder().key(clientId, clientSecret);

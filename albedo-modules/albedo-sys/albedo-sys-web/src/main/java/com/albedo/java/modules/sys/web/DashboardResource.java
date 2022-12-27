@@ -39,7 +39,7 @@ public class DashboardResource {
 	private final UidGenerator uidGenerator;
 
 	@PostMapping("/dashboard/pvIncr")
-	public Result<Boolean> pvIncr() {
+	public Result<?> pvIncr() {
 		logLoginService.pvIncr();
 		return Result.buildOk();
 	}
@@ -76,7 +76,7 @@ public class DashboardResource {
 	}
 
 	@GetMapping("/common/generateId")
-	public Result<Object> generate() {
+	public Result<String> generate() {
 		long uid = uidGenerator.getUid();
 		return Result.buildOkData(uid + "length" + String.valueOf(uid).length());
 	}

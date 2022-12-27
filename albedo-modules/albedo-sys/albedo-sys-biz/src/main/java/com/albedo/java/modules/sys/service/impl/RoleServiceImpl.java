@@ -19,6 +19,7 @@ package com.albedo.java.modules.sys.service.impl;
 import com.albedo.java.common.core.cache.model.CacheKey;
 import com.albedo.java.common.core.cache.model.CacheKeyBuilder;
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.domain.vo.PageModel;
 import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.CollUtil;
@@ -30,6 +31,7 @@ import com.albedo.java.modules.sys.domain.RoleDo;
 import com.albedo.java.modules.sys.domain.RoleMenuDo;
 import com.albedo.java.modules.sys.domain.UserDo;
 import com.albedo.java.modules.sys.domain.dto.RoleDto;
+import com.albedo.java.modules.sys.domain.dto.RoleQueryDto;
 import com.albedo.java.modules.sys.feign.RemoteRoleService;
 import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
@@ -37,7 +39,9 @@ import com.albedo.java.modules.sys.service.RoleDeptService;
 import com.albedo.java.modules.sys.service.RoleMenuService;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.modules.sys.util.SysCacheUtil;
+import com.albedo.java.plugins.database.mybatis.conditions.Wraps;
 import com.albedo.java.plugins.database.mybatis.service.impl.AbstractDataCacheServiceImpl;
+import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -168,8 +172,18 @@ public class RoleServiceImpl extends AbstractDataCacheServiceImpl<RoleRepository
 		List<Integer> levels = this.findListByUserId(SecurityUtil.getUser().getId()).stream().map(RoleDo::getLevel)
 			.collect(Collectors.toList());
 		ArgumentAssert.notEmpty(levels, () -> new BizException("权限不足，找不到可用的角色信息"));
-		int min = Collections.min(levels);
-		return min;
+		return Collections.min(levels);
+	}
+
+	@Override
+	public PageModel<RoleDo> findPage(PageModel<RoleDo> pageModel, RoleQueryDto roleQueryDto) {
+		return this.page(pageModel, QueryWrapperUtil.fillWrapperOrder(pageModel, Wraps.<RoleDo>lambdaQueryWrapperX()
+			.eqIfPresent(RoleDo::getAvailable, roleQueryDto.getAvailable())
+			.betweenIfPresent(RoleDo::getCreatedDate, roleQueryDto.getCreatedDate())
+			.and(roleQueryDto.getBlurry() != null, roleDoLambdaQueryWrapper -> roleDoLambdaQueryWrapper
+				.like(RoleDo::getName, roleQueryDto.getBlurry())
+				.or()
+				.like(RoleDo::getDescription, roleQueryDto.getBlurry()))));
 	}
 
 	@Override

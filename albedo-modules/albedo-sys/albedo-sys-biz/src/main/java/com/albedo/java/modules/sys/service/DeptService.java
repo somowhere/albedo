@@ -18,7 +18,7 @@ package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.modules.sys.domain.DeptDo;
 import com.albedo.java.modules.sys.domain.dto.DeptDto;
-import com.albedo.java.modules.sys.domain.dto.DeptQueryCriteria;
+import com.albedo.java.modules.sys.domain.dto.DeptQueryDto;
 import com.albedo.java.modules.sys.domain.vo.DeptVo;
 import com.albedo.java.plugins.database.mybatis.service.TreeService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -64,10 +64,10 @@ public interface DeptService extends TreeService<DeptDo, DeptDto> {
 	/**
 	 * 查询部门树集合
 	 *
-	 * @param deptQueryCriteria
+	 * @param deptQueryDto
 	 * @return
 	 */
-	IPage<DeptVo> findTreeList(DeptQueryCriteria deptQueryCriteria);
+	IPage<DeptVo> findTreeList(DeptQueryDto deptQueryDto);
 
 	/**
 	 * 锁定、解锁

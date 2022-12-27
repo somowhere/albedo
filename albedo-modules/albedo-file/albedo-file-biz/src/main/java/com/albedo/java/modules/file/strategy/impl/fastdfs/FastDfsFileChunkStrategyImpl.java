@@ -1,5 +1,6 @@
 package com.albedo.java.modules.file.strategy.impl.fastdfs;
 
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.modules.file.domain.FileDo;
 import com.albedo.java.modules.file.domain.dto.FileChunksMergeDto;
@@ -57,9 +58,7 @@ public class FastDfsFileChunkStrategyImpl extends AbstractFileChunkStrategy {
 					in, file.length());
 			}
 		}
-		if (storePath == null) {
-			return Result.buildFail("上传失败");
-		}
+		ArgumentAssert.notNull(storePath, "上传失败");
 
 		long end = System.currentTimeMillis();
 		log.info("上传耗时={}", (end - start));

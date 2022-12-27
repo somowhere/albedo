@@ -18,6 +18,7 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
 import com.albedo.java.common.core.domain.vo.PageModel;
+import com.albedo.java.common.core.domain.vo.TreeNode;
 import com.albedo.java.common.core.util.BeanUtil;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.tree.TreeUtil;
@@ -25,8 +26,9 @@ import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.dto.MenuDto;
-import com.albedo.java.modules.sys.domain.dto.MenuQueryCriteria;
+import com.albedo.java.modules.sys.domain.dto.MenuQueryDto;
 import com.albedo.java.modules.sys.domain.dto.MenuSortDto;
+import com.albedo.java.modules.sys.domain.vo.MenuTree;
 import com.albedo.java.modules.sys.domain.vo.MenuVo;
 import com.albedo.java.modules.sys.service.MenuService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -58,7 +60,7 @@ public class MenuResource extends BaseResource {
 	 * @return
 	 */
 	@GetMapping(CommonConstants.URL_ID_REGEX)
-	public Result get(@PathVariable String id) {
+	public Result<MenuDto> get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
 		return Result.buildOkData(menuService.getOneDto(id));
 	}
@@ -69,7 +71,7 @@ public class MenuResource extends BaseResource {
 	 * @return 当前用户的树形菜单
 	 */
 	@GetMapping("/user-menu")
-	public Result findTreeByUserId() {
+	public Result<List<MenuTree>> findTreeByUserId() {
 		return Result.buildOkData(menuService.findTreeByUserId(SecurityUtil.getUser().getId()));
 	}
 
@@ -79,8 +81,8 @@ public class MenuResource extends BaseResource {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public Result tree(MenuQueryCriteria menuQueryCriteria) {
-		return Result.buildOkData(menuService.findTreeNode(menuQueryCriteria));
+	public Result<List<TreeNode<?>>> tree(MenuQueryDto menuQueryDto) {
+		return Result.buildOkData(menuService.findTreeNode(menuQueryDto));
 	}
 
 	/**
@@ -90,7 +92,7 @@ public class MenuResource extends BaseResource {
 	 * @return 属性集合
 	 */
 	@GetMapping("/role/{roleId}")
-	public Result findByRoleId(@PathVariable Long roleId) {
+	public Result<List<Long>> findByRoleId(@PathVariable Long roleId) {
 		return Result.buildOkData(
 			menuService.findListByRoleId(roleId).stream().map(MenuVo::getId).collect(Collectors.toList()));
 	}
@@ -104,7 +106,7 @@ public class MenuResource extends BaseResource {
 	@LogOperate(value = "菜单管理编辑")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_menu_edit')")
-	public Result save(@Valid @RequestBody MenuDto menuDto) {
+	public Result<?> save(@Valid @RequestBody MenuDto menuDto) {
 		menuService.saveOrUpdate(menuDto);
 		return Result.buildOk("操作成功");
 	}
@@ -118,7 +120,7 @@ public class MenuResource extends BaseResource {
 	@LogOperate(value = "菜单管理编辑")
 	@PostMapping("/sort-update")
 	@PreAuthorize("@pms.hasPermission('sys_menu_edit')")
-	public Result sortUpdate(@Valid @RequestBody MenuSortDto menuSortDto) {
+	public Result<?> sortUpdate(@Valid @RequestBody MenuSortDto menuSortDto) {
 		menuService.sortUpdate(menuSortDto);
 		return Result.buildOk("操作成功");
 	}
@@ -132,7 +134,7 @@ public class MenuResource extends BaseResource {
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_menu_del')")
 	@LogOperate(value = "菜单管理删除")
-	public Result removeByIds(@RequestBody Set<Long> ids) {
+	public Result<?> removeByIds(@RequestBody Set<Long> ids) {
 		menuService.removeByIds(ids);
 		return Result.buildOk("操作成功");
 	}
@@ -145,8 +147,8 @@ public class MenuResource extends BaseResource {
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_menu_view')")
 	@LogOperate(value = "菜单管理查看")
-	public Result<IPage<MenuVo>> findTreeList(MenuQueryCriteria menuQueryCriteria) {
-		List<MenuVo> menuVoList = menuService.findTreeList(menuQueryCriteria).stream()
+	public Result<IPage<MenuVo>> findTreeList(MenuQueryDto menuQueryDto) {
+		List<MenuVo> menuVoList = menuService.findTreeList(menuQueryDto).stream()
 			.map(item -> BeanUtil.copyPropertiesByClass(item, MenuVo.class)).collect(Collectors.toList());
 		return Result.buildOkData(
 			new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(menuVoList)), menuVoList.size()));

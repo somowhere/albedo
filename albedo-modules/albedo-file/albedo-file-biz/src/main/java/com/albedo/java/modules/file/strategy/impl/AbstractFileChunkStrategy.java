@@ -2,6 +2,7 @@ package com.albedo.java.modules.file.strategy.impl;
 
 import cn.hutool.core.convert.Convert;
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.exception.BizException;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.StrPool;
 import com.albedo.java.modules.file.domain.FileDo;
@@ -135,7 +136,7 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
 				}
 			} catch (Exception ex) {
 				log.error("数据分片合并失败", ex);
-				return Result.buildFail("数据分片合并失败");
+				throw new BizException("数据分片合并失败");
 			} finally {
 				//解锁
 				lock.unlock();
@@ -147,7 +148,7 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
 		FileDo fileDo = this.md5Check(md5);
 		if (fileDo == null) {
 			log.error("文件[签名:" + md5 + "]数据不完整，可能该文件正在合并中");
-			return Result.buildFail("数据不完整，可能该文件正在合并中, 也有可能是上传过程中某些分片丢失");
+			throw new BizException("数据不完整，可能该文件正在合并中, 也有可能是上传过程中某些分片丢失");
 		}
 		return Result.buildOkData(fileDo);
 	}

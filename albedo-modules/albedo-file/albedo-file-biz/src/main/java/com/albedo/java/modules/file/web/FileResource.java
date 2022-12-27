@@ -16,16 +16,15 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.domain.vo.PageModel;
-import com.albedo.java.common.core.exception.code.ResponseCode;
 import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.log.annotation.LogOperate;
+import com.albedo.java.modules.file.domain.FileDo;
 import com.albedo.java.modules.file.domain.dto.FileQueryCriteria;
 import com.albedo.java.modules.file.domain.vo.param.FileUploadVo;
 import com.albedo.java.modules.file.domain.vo.result.FileResultVo;
 import com.albedo.java.modules.file.service.FileService;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -69,10 +68,7 @@ public class FileResource {
 	@LogOperate("上传附件")
 	public Result<FileResultVo> upload(@RequestParam(value = "file") MultipartFile file,
 									   @Validated FileUploadVo attachmentVo) {
-		// 忽略路径字段,只处理文件类型
-		if (file.isEmpty()) {
-			return Result.build(ResponseCode.BASE_VALID_PARAM.build("请上传有效文件"));
-		}
+		ArgumentAssert.isTrue(file != null && !file.isEmpty(), "请上传有效文件");
 		return Result.buildOkData(fileService.upload(file, attachmentVo));
 	}
 
@@ -123,9 +119,8 @@ public class FileResource {
 	@GetMapping
 	@LogOperate(value = "文件分页查看")
 	@PreAuthorize("@pms.hasPermission('sys_file_view')")
-	public Result<IPage> findPage(PageModel pageModel, FileQueryCriteria fileQueryCriteria) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, fileQueryCriteria);
-		return Result.buildOkData(fileService.page(pageModel, wrapper));
+	public Result<IPage<FileDo>> findPage(PageModel<FileDo> pageModel, FileQueryCriteria fileQueryCriteria) {
+		return Result.buildOkData(fileService.page(pageModel, QueryWrapperUtil.getWrapper(pageModel, fileQueryCriteria)));
 	}
 
 	/**
@@ -137,7 +132,7 @@ public class FileResource {
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_file_del')")
 	@LogOperate(value = "附件删除")
-	public Result removeById(@RequestBody Set<Long> ids) {
+	public Result<Boolean> removeById(@RequestBody Set<Long> ids) {
 		return Result.buildOkData(fileService.removeByIds(ids));
 	}
 

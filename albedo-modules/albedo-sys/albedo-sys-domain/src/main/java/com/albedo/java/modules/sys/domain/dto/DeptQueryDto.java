@@ -13,28 +13,42 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.gen.domain.dto;
+package com.albedo.java.modules.sys.domain.dto;
 
 import com.albedo.java.common.core.annotation.Query;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
- * 数据源QueryCriteria 数据源
- *
  * @author somewhere
- * @version 2020-09-20 09:36:15
+ * @date 2020-05-10
  */
 @Data
-public class DatasourceConfQueryCriteria implements Serializable {
+public class DeptQueryDto implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	@Query(propName = "id", operator = Query.Operator.ne)
+	private String notId;
 
-	/**
-	 * F_NAME name : 名称
-	 */
+	@Query(propName = "id", operator = Query.Operator.in)
+	private Set<Long> deptIds;
+
 	@Query(operator = Query.Operator.like)
 	private String name;
+
+	@Query
+	private Boolean available;
+
+	@Query(blurry = "name,description")
+	private String blurry;
+
+	@Query
+	private String parentId;
+
+	@Query(operator = Query.Operator.between)
+	private List<Date> createdDate;
 
 }

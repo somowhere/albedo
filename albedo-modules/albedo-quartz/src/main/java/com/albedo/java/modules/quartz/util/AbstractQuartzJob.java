@@ -39,7 +39,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 抽象quartz调用
@@ -53,7 +57,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 	/**
 	 * 线程本地变量
 	 */
-	private static ThreadLocal<Date> threadLocal = new ThreadLocal<>();
+	private static ThreadLocal<LocalDateTime> threadLocal = new ThreadLocal<>();
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -79,7 +83,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 		if (log.isDebugEnabled()) {
 			log.debug("start Task===> {} {}", jobDo.getName(), jobDo.getGroup());
 		}
-		threadLocal.set(new Date());
+		threadLocal.set(LocalDateTime.now());
 	}
 
 	/**
@@ -89,7 +93,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 	 * @param jobDo   系统计划任务
 	 */
 	protected void after(JobExecutionContext context, JobDo jobDo, Exception e) {
-		Date startTime = threadLocal.get();
+		LocalDateTime startTime = threadLocal.get();
 		threadLocal.remove();
 		ContextUtil.setTenant(jobDo.getTenantCode());
 		final JobLogDo jobLogDo = new JobLogDo();
@@ -98,8 +102,8 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 		jobLogDo.setCronExpression(jobDo.getCronExpression());
 		jobLogDo.setInvokeTarget(jobDo.getInvokeTarget());
 		jobLogDo.setStartTime(startTime);
-		jobLogDo.setEndTime(new Date());
-		long runMs = jobLogDo.getEndTime().getTime() - jobLogDo.getStartTime().getTime();
+		jobLogDo.setEndTime(LocalDateTime.now());
+		int runMs = jobLogDo.getEndTime().getNano() - jobLogDo.getStartTime().getNano();
 		jobLogDo.setJobMessage(jobLogDo.getJobName() + " 总共耗时：" + runMs + "毫秒");
 		if (log.isDebugEnabled()) {
 			log.debug("end Task===> {}", jobLogDo.getJobMessage());
@@ -123,7 +127,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 			jobLogDo.setStatus(JobLogStatus.SUCCESS);
 		}
 
-		jobLogDo.setCreatedDate(new Date());
+		jobLogDo.setCreatedDate(LocalDateTime.now());
 		// 写入数据库当中
 		SpringContextHolder.getBean(JobLogService.class).saveOrUpdate(jobLogDo);
 		ContextUtil.setTenant(null);

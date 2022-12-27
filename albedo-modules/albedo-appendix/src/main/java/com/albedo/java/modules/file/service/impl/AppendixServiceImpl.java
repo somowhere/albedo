@@ -14,8 +14,8 @@ import com.albedo.java.modules.file.domain.Appendix;
 import com.albedo.java.modules.file.repository.AppendixRepository;
 import com.albedo.java.modules.file.service.AppendixService;
 import com.albedo.java.plugins.database.mybatis.conditions.Wraps;
-import com.albedo.java.plugins.database.mybatis.conditions.query.LbqWrapper;
 import com.albedo.java.plugins.database.mybatis.service.impl.DataServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.Multimap;
 import lombok.extern.slf4j.Slf4j;
@@ -77,7 +77,7 @@ public class AppendixServiceImpl extends DataServiceImpl<AppendixRepository, App
 	@Transactional(readOnly = true)
 	public Multimap<AppendixBizKey, AppendixVo> listByBizId(Long bizId, String... bizType) {
 		ArgumentAssert.notNull(bizId, "请传入业务id");
-		LbqWrapper<Appendix> wrap = Wraps.<Appendix>lbQ().eq(Appendix::getBizId, bizId).in(Appendix::getBizType, bizType);
+		LambdaQueryWrapper<Appendix> wrap = Wraps.<Appendix>lambdaQueryWrapperX().eq(Appendix::getBizId, bizId).in(Appendix::getBizType, bizType);
 		List<Appendix> list = list(wrap);
 		return MapHelper.iterableToMultiMap(list,
 			item -> AppendixBizKey.builder().bizId(item.getBizId()).bizType(item.getBizType()).build(),
@@ -88,8 +88,7 @@ public class AppendixServiceImpl extends DataServiceImpl<AppendixRepository, App
 	@Transactional(readOnly = true)
 	public Multimap<AppendixBizKey, AppendixVo> listByBizIds(List<Long> bizIds, String... bizType) {
 		ArgumentAssert.notEmpty(bizIds, "请传入业务id");
-		LbqWrapper<Appendix> wrap = Wraps.<Appendix>lbQ().in(Appendix::getBizId, bizIds).in(Appendix::getBizType, bizType);
-		List<Appendix> list = list(wrap);
+		List<Appendix> list = list(Wraps.<Appendix>lambdaQueryWrapperX().in(Appendix::getBizId, bizIds).in(Appendix::getBizType, bizType));
 		return MapHelper.iterableToMultiMap(list,
 			item -> AppendixBizKey.builder().bizId(item.getBizId()).bizType(item.getBizType()).build(),
 			item -> BeanUtil.toBean(item, AppendixVo.class));
@@ -99,7 +98,7 @@ public class AppendixServiceImpl extends DataServiceImpl<AppendixRepository, App
 	@Transactional(readOnly = true)
 	public List<AppendixVo> listByBizIdAndBizType(Long bizId, String bizType) {
 		ArgumentAssert.notNull(bizId, "请传入业务id");
-		LbqWrapper<Appendix> wrap = Wraps.<Appendix>lbQ().eq(Appendix::getBizId, bizId)
+		LambdaQueryWrapper<Appendix> wrap = Wraps.<Appendix>lambdaQueryWrapperX().eq(Appendix::getBizId, bizId)
 			.eq(Appendix::getBizType, bizType);
 		return BeanUtil.toBeanList(list(wrap), AppendixVo.class);
 	}
@@ -109,7 +108,7 @@ public class AppendixServiceImpl extends DataServiceImpl<AppendixRepository, App
 	public AppendixVo getByBiz(Long bizId, String bizType) {
 		ArgumentAssert.notNull(bizId, "请传入业务id");
 		ArgumentAssert.notEmpty(bizType, "请传入功能点");
-		LbqWrapper<Appendix> wrap = Wraps.<Appendix>lbQ().eq(Appendix::getBizId, bizId)
+		LambdaQueryWrapper<Appendix> wrap = Wraps.<Appendix>lambdaQueryWrapperX().eq(Appendix::getBizId, bizId)
 			.eq(Appendix::getBizType, bizType);
 		List<Appendix> list = list(wrap);
 		if (CollUtil.isEmpty(list)) {
@@ -123,7 +122,7 @@ public class AppendixServiceImpl extends DataServiceImpl<AppendixRepository, App
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean save(Long bizId, AppendixDto saveVo) {
 		if (bizId != null) {
-			remove(Wraps.<Appendix>lbQ().eq(Appendix::getBizId, bizId));
+			remove(Wraps.<Appendix>lambdaQueryWrapperX().eq(Appendix::getBizId, bizId));
 		}
 		if (saveVo == null) {
 			return true;
@@ -138,7 +137,7 @@ public class AppendixServiceImpl extends DataServiceImpl<AppendixRepository, App
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean save(Long bizId, List<AppendixDto> list) {
 		if (bizId != null) {
-			remove(Wraps.<Appendix>lbQ().eq(Appendix::getBizId, bizId));
+			remove(Wraps.<Appendix>lambdaQueryWrapperX().eq(Appendix::getBizId, bizId));
 		}
 		if (CollUtil.isEmpty(list)) {
 			return false;
@@ -171,7 +170,7 @@ public class AppendixServiceImpl extends DataServiceImpl<AppendixRepository, App
 		if (CollUtil.isEmpty(objectIds)) {
 			return false;
 		}
-		return remove(Wraps.<Appendix>lbQ().in(Appendix::getBizId, objectIds));
+		return remove(Wraps.<Appendix>lambdaQueryWrapperX().in(Appendix::getBizId, objectIds));
 	}
 
 	@Override
@@ -180,14 +179,14 @@ public class AppendixServiceImpl extends DataServiceImpl<AppendixRepository, App
 		if (ArrayUtil.isEmpty(objectIds)) {
 			return false;
 		}
-		return remove(Wraps.<Appendix>lbQ().in(Appendix::getBizId, objectIds));
+		return remove(Wraps.<Appendix>lambdaQueryWrapperX().in(Appendix::getBizId, objectIds));
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean removeByBizId(Long bizId, String bizType) {
 		ArgumentAssert.isFalse(bizId == null && StrUtil.isEmpty(bizType), "请传入对象id或功能点");
-		return remove(Wraps.<Appendix>lbQ().eq(Appendix::getBizId, bizId).eq(Appendix::getBizType, bizType));
+		return remove(Wraps.<Appendix>lambdaQueryWrapperX().eq(Appendix::getBizId, bizId).eq(Appendix::getBizType, bizType));
 	}
 
 }

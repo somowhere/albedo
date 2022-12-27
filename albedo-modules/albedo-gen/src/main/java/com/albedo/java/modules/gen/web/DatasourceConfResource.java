@@ -20,11 +20,11 @@ import com.albedo.java.common.core.domain.vo.PageModel;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.web.resource.BaseResource;
+import com.albedo.java.modules.gen.domain.DatasourceConfDo;
 import com.albedo.java.modules.gen.domain.dto.DatasourceConfDto;
-import com.albedo.java.modules.gen.domain.dto.DatasourceConfQueryCriteria;
+import com.albedo.java.modules.gen.domain.dto.DatasourceConfQueryDto;
 import com.albedo.java.modules.gen.service.DatasourceConfService;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -53,7 +53,7 @@ public class DatasourceConfResource extends BaseResource {
 	 */
 	@GetMapping(CommonConstants.URL_ID_REGEX)
 	@PreAuthorize("@pms.hasPermission('gen_datasourceConf_view')")
-	public Result get(@PathVariable String id) {
+	public Result<DatasourceConfDto> get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
 		DatasourceConfDto datasourceConfDto = service.getOneDto(id);
 		datasourceConfDto.setPassword(null);
@@ -70,9 +70,8 @@ public class DatasourceConfResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('gen_datasourceConf_view')")
 	@GetMapping
 	@LogOperate(value = "数据源查看")
-	public Result getPage(PageModel pm, DatasourceConfQueryCriteria datasourceConfQueryCriteria) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pm, datasourceConfQueryCriteria);
-		return Result.buildOkData(service.page(pm, wrapper));
+	public Result<PageModel<DatasourceConfDo>> getPage(PageModel<DatasourceConfDo> pm, DatasourceConfQueryDto datasourceConfQueryDto) {
+		return Result.buildOkData(service.page(pm, QueryWrapperUtil.getWrapper(pm, datasourceConfQueryDto)));
 	}
 
 	/**
@@ -83,7 +82,7 @@ public class DatasourceConfResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('gen_datasourceConf_edit')")
 	@LogOperate(value = "数据源编辑")
 	@PostMapping
-	public Result save(@Valid @RequestBody DatasourceConfDto datasourceConfDto) {
+	public Result<?> save(@Valid @RequestBody DatasourceConfDto datasourceConfDto) {
 		log.debug("REST request to save DatasourceConfDto : {}", datasourceConfDto);
 		service.saveOrUpdate(datasourceConfDto);
 		return Result.buildOk("保存数据源成功");
@@ -99,7 +98,7 @@ public class DatasourceConfResource extends BaseResource {
 	@PreAuthorize("@pms.hasPermission('gen_datasourceConf_del')")
 	@LogOperate(value = "数据源删除")
 	@DeleteMapping
-	public Result delete(@RequestBody Set<String> ids) {
+	public Result<?> delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete DatasourceConf: {}", ids);
 		service.removeByIds(ids);
 		return Result.buildOk("删除数据源成功");

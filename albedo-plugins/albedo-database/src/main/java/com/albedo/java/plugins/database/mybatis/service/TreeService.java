@@ -50,9 +50,9 @@ public interface TreeService<T extends TreeDo, D extends TreeDto> extends DataSe
 	 * @param trees
 	 * @return
 	 */
-	default List<TreeNode> getNodeTree(List<T> trees) {
-		List<TreeNode> treeList = trees.stream().map(tree -> {
-			TreeNode node = new TreeNode();
+	default List<TreeNode<?>> getNodeTree(List<T> trees) {
+		List<TreeNode<?>> treeList = trees.stream().map(tree -> {
+			TreeNode<?> node = new TreeNode<>();
 			node.setId((Long) tree.getId());
 			node.setParentId(tree.getParentId());
 			node.setLabel(tree.getName());
@@ -68,7 +68,7 @@ public interface TreeService<T extends TreeDo, D extends TreeDto> extends DataSe
 	 * @return 树
 	 */
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	default <Q> List<TreeNode> findTreeNode(Q queryCriteria) {
+	default <Q> List<TreeNode<?>> findTreeNode(Q queryCriteria) {
 		return getNodeTree(findTreeList(queryCriteria));
 	}
 

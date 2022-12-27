@@ -17,11 +17,10 @@ package com.albedo.java.modules.sys.web;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
-import com.albedo.java.common.core.util.ResponseEntityBuilder;
+import com.albedo.java.common.core.util.Result;
 import com.albedo.java.modules.sys.domain.vo.LoggerVo;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,10 +43,10 @@ public class LogsResource {
 	}
 
 	@PutMapping("/logs")
-	public ResponseEntity changeLevel(@RequestBody LoggerVo jsonLogger) {
+	public Result<?> changeLevel(@RequestBody LoggerVo jsonLogger) {
 		LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
 		context.getLogger(jsonLogger.getName()).setLevel(Level.valueOf(jsonLogger.getLevel()));
-		return ResponseEntityBuilder.buildOk("操作成功");
+		return Result.buildOk("操作成功");
 	}
 
 }

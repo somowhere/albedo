@@ -19,10 +19,11 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.core.domain.vo.PageModel;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.log.annotation.LogOperate;
-import com.albedo.java.modules.sys.domain.dto.PersistentTokenQueryCriteria;
+import com.albedo.java.modules.sys.domain.PersistentTokenDo;
+import com.albedo.java.modules.sys.domain.dto.PersistentTokenQueryDto;
 import com.albedo.java.modules.sys.service.PersistentTokenService;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -51,7 +52,7 @@ public class PersistentTokenResource {
 	@LogOperate(value = "令牌管理删除")
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_persistentToken_del')")
-	public Result removeByIds(@RequestBody Set<String> ids) {
+	public Result<?> removeByIds(@RequestBody Set<String> ids) {
 		persistentTokenService.removeByIds(ids);
 		return Result.buildOk("操作成功");
 	}
@@ -65,9 +66,8 @@ public class PersistentTokenResource {
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_persistentToken_view')")
 	@LogOperate(value = "令牌管理查看")
-	public Result findPage(PageModel pageModel, PersistentTokenQueryCriteria persistentTokenQueryCriteria) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, persistentTokenQueryCriteria);
-		return Result.buildOkData(persistentTokenService.page(pageModel, wrapper));
+	public Result<IPage<PersistentTokenDo>> findPage(PageModel<PersistentTokenDo> pageModel, PersistentTokenQueryDto persistentTokenQueryDto) {
+		return Result.buildOkData(persistentTokenService.page(pageModel, QueryWrapperUtil.getWrapper(pageModel, persistentTokenQueryDto)));
 	}
 
 }

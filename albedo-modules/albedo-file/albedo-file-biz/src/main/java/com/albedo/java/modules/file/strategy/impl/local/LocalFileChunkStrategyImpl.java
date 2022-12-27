@@ -4,6 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IORuntimeException;
 import cn.hutool.core.util.StrUtil;
 import com.albedo.java.common.core.exception.BizException;
+import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.core.util.StrPool;
 import com.albedo.java.modules.file.domain.FileDo;
@@ -74,17 +75,17 @@ public class LocalFileChunkStrategyImpl extends AbstractFileChunkStrategy {
 		java.io.File outputFile = new java.io.File(Paths.get(path, fileName).toString());
 		if (!outputFile.exists()) {
 			boolean newFile = outputFile.createNewFile();
-			if (!newFile) {
-				return Result.buildFail("创建文件失败");
-			}
-			try (FileChannel outChannel = new FileOutputStream(outputFile).getChannel()) {
+			ArgumentAssert.isFalse(newFile, "创建文件失败");
+			try (FileOutputStream fileOutputStream = new FileOutputStream(outputFile)) {
+				FileChannel outChannel = fileOutputStream.getChannel();
 				//同步nio 方式对分片进行合并, 有效的避免文件过大导致内存溢出
 				for (java.io.File file : files) {
-					try (FileChannel inChannel = new FileInputStream(file).getChannel()) {
+					try (FileInputStream fileInputStream = new FileInputStream(file)) {
+						FileChannel inChannel = fileInputStream.getChannel();
 						inChannel.transferTo(0, inChannel.size(), outChannel);
 					} catch (FileNotFoundException ex) {
 						log.error("文件转换失败", ex);
-						return Result.buildFail("文件转换失败");
+						throw new BizException("文件转换失败");
 					}
 					//删除分片
 					if (!file.delete()) {
@@ -93,7 +94,7 @@ public class LocalFileChunkStrategyImpl extends AbstractFileChunkStrategy {
 				}
 			} catch (FileNotFoundException e) {
 				log.error("文件输出失败", e);
-				return Result.buildFail("文件输出失败");
+				throw new BizException("文件输出失败");
 			}
 
 		} else {

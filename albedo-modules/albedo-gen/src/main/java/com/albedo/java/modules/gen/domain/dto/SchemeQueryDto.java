@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.sys.domain.dto;
+package com.albedo.java.modules.gen.domain.dto;
 
 import com.albedo.java.common.core.annotation.Query;
 import lombok.Data;
@@ -27,12 +27,12 @@ import java.util.List;
  * @date 2020-05-10
  */
 @Data
-public class UserOnlineQueryCriteria implements Serializable {
+public class SchemeQueryDto implements Serializable {
 
-	@Query(blurry = "dept_name,os,username,ip_location")
+	@Query(blurry = "a.name,a.module_name,a.sub_module_name,a.function_name,a.description")
 	private String blurry;
 
-	@Query(propName = "created_date", operator = Query.Operator.between)
+	@Query(propName = "a.created_date", operator = Query.Operator.between)
 	private List<Date> createdDate;
 
 }

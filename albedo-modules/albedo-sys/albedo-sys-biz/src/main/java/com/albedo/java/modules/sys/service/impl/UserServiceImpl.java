@@ -34,7 +34,7 @@ import com.albedo.java.modules.sys.domain.UserDo;
 import com.albedo.java.modules.sys.domain.UserRoleDo;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
 import com.albedo.java.modules.sys.domain.dto.UserEmailDto;
-import com.albedo.java.modules.sys.domain.dto.UserQueryCriteria;
+import com.albedo.java.modules.sys.domain.dto.UserQueryDto;
 import com.albedo.java.modules.sys.domain.vo.*;
 import com.albedo.java.modules.sys.domain.vo.account.PasswordChangeVo;
 import com.albedo.java.modules.sys.domain.vo.account.PasswordRestVo;
@@ -156,7 +156,7 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 		Set<String> permissions = new HashSet<>();
 		roleIds.forEach(roleId -> {
 			List<String> permissionList = menuService.findListByRoleId(roleId).stream()
-				.filter(menuVo -> StringUtil.isNotEmpty(menuVo.getPermission())).map(MenuVo::getPermission)
+				.map(MenuVo::getPermission).filter(StringUtil::isNotEmpty)
 				.collect(Collectors.toList());
 			permissions.addAll(permissionList);
 		});
@@ -172,15 +172,13 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public IPage<UserPageVo> findPage(PageModel pageModel, UserQueryCriteria userQueryCriteria, DataScope dataScope) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, userQueryCriteria);
-		IPage<UserPageVo> userVosPage = repository.findUserVoPage(pageModel, wrapper, dataScope);
-		return userVosPage;
+	public IPage<UserPageVo> findPage(PageModel<?> pageModel, UserQueryDto userQueryDto, DataScope dataScope) {
+		return repository.findUserVoPage(pageModel, QueryWrapperUtil.getWrapper(pageModel, userQueryDto), dataScope);
 	}
 
 	@Override
-	public List<UserPageVo> findList(UserQueryCriteria userQueryCriteria, DataScope dataScope) {
-		QueryWrapper wrapper = QueryWrapperUtil.<UserDo>getWrapper(userQueryCriteria);
+	public List<UserPageVo> findList(UserQueryDto userQueryDto, DataScope dataScope) {
+		QueryWrapper<?> wrapper = QueryWrapperUtil.<UserDo>getWrapper(userQueryDto);
 		wrapper.orderByDesc("a.created_date");
 		return repository.findUserVoList(wrapper, dataScope);
 	}
@@ -387,7 +385,7 @@ public class UserServiceImpl extends AbstractDataCacheServiceImpl<UserRepository
 	@Override
 	@Transactional(readOnly = true)
 	public long todayUserCount() {
-		return count(Wraps.<UserDo>lbQ().leFooter(UserDo::getCreatedDate, LocalDateTime.now()).geHeader(UserDo::getCreatedDate, LocalDateTime.now()));
+		return count(Wraps.<UserDo>lambdaQueryWrapperX().leFooter(UserDo::getCreatedDate, LocalDateTime.now()).geHeader(UserDo::getCreatedDate, LocalDateTime.now()));
 	}
 
 }

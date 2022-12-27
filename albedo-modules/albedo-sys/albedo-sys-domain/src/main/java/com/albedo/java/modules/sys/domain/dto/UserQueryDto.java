@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.albedo.java.modules.quartz.domain.dto;
+package com.albedo.java.modules.sys.domain.dto;
 
 import com.albedo.java.common.core.annotation.Query;
 import lombok.Data;
@@ -21,21 +21,28 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author somewhere
  * @date 2020-05-10
  */
 @Data
-public class JobLogQueryCriteria implements Serializable {
+public class UserQueryDto implements Serializable {
 
-	@Query(blurry = "job_name,job_group,description")
+	@Query(propName = "b.id", operator = Query.Operator.in)
+	private Set<String> deptIds;
+
+	@Query(blurry = "a.email,a.username,a.phone")
 	private String blurry;
 
-	@Query
-	private Integer status;
+	@Query(propName = "a.available")
+	private Integer available;
 
-	@Query(propName = "created_date", operator = Query.Operator.between)
+	@Query(propName = "a.dept_id")
+	private String deptId;
+
+	@Query(propName = "a.created_date", operator = Query.Operator.between)
 	private List<Date> createdDate;
 
 }

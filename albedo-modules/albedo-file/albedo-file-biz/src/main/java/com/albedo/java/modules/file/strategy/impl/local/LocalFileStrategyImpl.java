@@ -70,7 +70,7 @@ public class LocalFileStrategyImpl extends AbstractFileStrategy {
 		Map<String, String> map = new LinkedHashMap<>(MapHelper.initialCapacity(fileGets.size()));
 		// 方式1 取上传时存的url （多查询一次数据库）
 //        List<String> paths = fileGets.stream().map(FileGetUrlBO::getPath).collect(Collectors.toList());
-//        List<File> list = fileMapper.selectList(Wraps.<File>lbQ().eq(File::getPath, paths));
+//        List<File> list = fileMapper.selectList(Wraps.<File>lambdaQueryWrapperX().eq(File::getPath, paths));
 //        list.forEach(item -> map.put(item.getPath(), item.getUrl()));
 
 		// 方式2 重新拼接 （urlPrefix 可能跟上传时不一样）

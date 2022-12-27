@@ -30,13 +30,14 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.core.constant.CommonConstants;
+import com.albedo.java.common.core.domain.vo.TreeNode;
 import com.albedo.java.common.core.util.ArgumentAssert;
 import com.albedo.java.common.core.util.Result;
 import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.dto.DeptDto;
-import com.albedo.java.modules.sys.domain.dto.DeptQueryCriteria;
+import com.albedo.java.modules.sys.domain.dto.DeptQueryDto;
 import com.albedo.java.modules.sys.domain.vo.DeptVo;
 import com.albedo.java.modules.sys.service.DeptService;
 import com.albedo.java.plugins.database.mybatis.datascope.DataScope;
@@ -47,6 +48,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -71,7 +73,7 @@ public class DeptResource extends BaseResource {
 	 */
 	@GetMapping(CommonConstants.URL_ID_REGEX)
 	@PreAuthorize("@pms.hasPermission('sys_dept_view')")
-	public Result get(@PathVariable String id) {
+	public Result<DeptDto> get(@PathVariable String id) {
 		log.debug("REST request to get Entity : {}", id);
 		return Result.buildOkData(deptService.getOneDto(id));
 	}
@@ -82,12 +84,12 @@ public class DeptResource extends BaseResource {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public Result tree(DeptQueryCriteria deptQueryCriteria) {
+	public Result<List<TreeNode<?>>> tree(DeptQueryDto deptQueryDto) {
 		DataScope dataScope = SecurityUtil.getDataScope();
 		if (!dataScope.isAll()) {
-			deptQueryCriteria.setDeptIds(dataScope.getDeptIds());
+			deptQueryDto.setDeptIds(dataScope.getDeptIds());
 		}
-		return Result.buildOkData(deptService.findTreeNode(deptQueryCriteria));
+		return Result.buildOkData(deptService.findTreeNode(deptQueryDto));
 	}
 
 	/**
@@ -98,13 +100,13 @@ public class DeptResource extends BaseResource {
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_dept_view')")
 	@LogOperate(value = "部门管理查看")
-	public Result<IPage<DeptVo>> findTreeList(DeptQueryCriteria deptQueryCriteria) {
+	public Result<IPage<DeptVo>> findTreeList(DeptQueryDto deptQueryDto) {
 		DataScope dataScope = SecurityUtil.getDataScope();
 		if (!dataScope.isAll()) {
 			ArgumentAssert.notEmpty(dataScope.getDeptIds(), "login user deptIds is empty");
-			deptQueryCriteria.setDeptIds(dataScope.getDeptIds());
+			deptQueryDto.setDeptIds(dataScope.getDeptIds());
 		}
-		return Result.buildOkData(deptService.findTreeList(deptQueryCriteria));
+		return Result.buildOkData(deptService.findTreeList(deptQueryDto));
 	}
 
 	/**
@@ -116,7 +118,7 @@ public class DeptResource extends BaseResource {
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_dept_edit')")
 	@LogOperate(value = "部门管理编辑")
-	public Result save(@Valid @RequestBody DeptDto deptDto) {
+	public Result<?> save(@Valid @RequestBody DeptDto deptDto) {
 		deptService.saveOrUpdate(deptDto);
 		return Result.buildOk("操作成功");
 	}
@@ -128,7 +130,7 @@ public class DeptResource extends BaseResource {
 	@PutMapping
 	@LogOperate(value = "用户管理锁定/解锁")
 	@PreAuthorize("@pms.hasPermission('sys_dept_lock')")
-	public Result lockOrUnLock(@RequestBody Set<Long> ids) {
+	public Result<?> lockOrUnLock(@RequestBody Set<Long> ids) {
 		deptService.lockOrUnLock(ids);
 		return Result.buildOk("操作成功");
 	}
@@ -142,7 +144,7 @@ public class DeptResource extends BaseResource {
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_dept_del')")
 	@LogOperate(value = "部门管理删除")
-	public Result removeById(@RequestBody Set<Long> ids) {
+	public Result<?> removeById(@RequestBody Set<Long> ids) {
 		return Result.buildOkData(deptService.removeByIds(ids));
 	}
 

@@ -26,16 +26,19 @@ import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.gen.domain.dto.*;
 import com.albedo.java.modules.gen.domain.vo.SchemeFormDataVo;
+import com.albedo.java.modules.gen.domain.vo.SchemeVo;
 import com.albedo.java.modules.gen.service.SchemeService;
 import com.albedo.java.modules.gen.service.TableService;
 import com.albedo.java.modules.sys.domain.dto.GenSchemeDto;
 import com.albedo.java.modules.sys.feign.RemoteMenuService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -63,13 +66,13 @@ public class SchemeResource extends BaseResource {
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('gen_scheme_view')")
 	@LogOperate(value = "生成方案查看")
-	public Result getPage(PageModel pageModel, SchemeQueryCriteria schemeQueryCriteria) {
-		return Result.buildOkData(schemeService.getSchemeVoPage(pageModel, schemeQueryCriteria));
+	public Result<IPage<List<SchemeVo>>> getPage(PageModel<?> pageModel, SchemeQueryDto schemeQueryDto) {
+		return Result.buildOkData(schemeService.getSchemeVoPage(pageModel, schemeQueryDto));
 	}
 
 	@GetMapping(value = "/preview" + CommonConstants.URL_ID_REGEX)
 	@PreAuthorize("@pms.hasPermission('gen_scheme_view')")
-	public Result preview(@PathVariable String id) {
+	public Result<Map<String, Object>> preview(@PathVariable String id) {
 		String username = SecurityUtil.getUser().getUsername();
 		Map<String, Object> formData = schemeService.previewCode(id, username);
 		return Result.buildOkData(formData);
@@ -77,7 +80,7 @@ public class SchemeResource extends BaseResource {
 
 	@GetMapping(value = "/form-data")
 	@PreAuthorize("@pms.hasPermission('gen_scheme_view')")
-	public Result formData(SchemeDto schemeDto) {
+	public Result<SchemeFormDataVo> formData(SchemeDto schemeDto) {
 		String username = SecurityUtil.getUser().getUsername();
 		SchemeFormDataVo formData = schemeService.findFormData(schemeDto, username);
 		return Result.buildOkData(formData);
@@ -86,7 +89,7 @@ public class SchemeResource extends BaseResource {
 	@LogOperate(value = "方案生成代码")
 	@PutMapping(value = "/gen-code")
 	@PreAuthorize("@pms.hasPermission('gen_scheme_code')")
-	public Result genCode(@Valid @RequestBody GenCodeDto genCodeDto) {
+	public Result<?> genCode(@Valid @RequestBody GenCodeDto genCodeDto) {
 		SchemeDto genSchemeDto = schemeService.getOneDto(genCodeDto.getId());
 		ArgumentAssert.notNull(genSchemeDto, "无法获取代码生成方案信息");
 		genSchemeDto.setReplaceFile(genCodeDto.getReplaceFile());
@@ -97,7 +100,7 @@ public class SchemeResource extends BaseResource {
 	@LogOperate(value = "生成方案编辑")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('gen_scheme_edit')")
-	public Result save(@Valid @RequestBody SchemeDto schemeDto) {
+	public Result<?> save(@Valid @RequestBody SchemeDto schemeDto) {
 		schemeService.saveOrUpdate(schemeDto);
 		// 生成代码
 		if (schemeDto.getGenCode()) {
@@ -109,7 +112,7 @@ public class SchemeResource extends BaseResource {
 	@LogOperate(value = "生成方案编辑")
 	@PostMapping("/gen-menu")
 	@PreAuthorize("@pms.hasPermission('gen_scheme_menu')")
-	public Result genMenu(@Valid @RequestBody SchemeGenDto schemeGenDto) {
+	public Result<?> genMenu(@Valid @RequestBody SchemeGenDto schemeGenDto) {
 		SchemeDto schemeDto = schemeService.getOneDto(schemeGenDto.getId());
 		TableDto tableDto = schemeDto.getTableDto();
 		if (tableDto == null) {
@@ -129,7 +132,7 @@ public class SchemeResource extends BaseResource {
 	@LogOperate(value = "生成方案删除")
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('gen_scheme_del')")
-	public Result delete(@RequestBody Set<String> ids) {
+	public Result<?> delete(@RequestBody Set<String> ids) {
 		log.debug("REST request to delete User: {}", ids);
 		schemeService.removeByIds(ids);
 		return Result.buildOk("删除成功");

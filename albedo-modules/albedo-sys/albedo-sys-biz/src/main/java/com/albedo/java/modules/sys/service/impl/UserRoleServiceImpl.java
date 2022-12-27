@@ -57,7 +57,7 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleRepository, Use
 
 	@Override
 	public boolean initAdmin(Long userId) {
-		RoleDo roleDo = roleRepository.selectOne(Wraps.<RoleDo>lbQ().eq(RoleDo::getCode, CommonConstants.ADMIN_ROLE_CODE));
+		RoleDo roleDo = roleRepository.selectOne(Wraps.<RoleDo>lambdaQueryWrapperX().eq(RoleDo::getCode, CommonConstants.ADMIN_ROLE_CODE));
 		ArgumentAssert.notNull(roleDo, "初始化用户角色失败, 无法查询到内置角色:%s", CommonConstants.ADMIN_ROLE_CODE);
 		UserRoleDo userRoleDo = UserRoleDo.builder()
 			.userId(userId).roleId(roleDo.getId())

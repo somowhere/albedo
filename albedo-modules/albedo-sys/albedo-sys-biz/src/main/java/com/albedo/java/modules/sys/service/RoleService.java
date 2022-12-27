@@ -16,8 +16,10 @@
 
 package com.albedo.java.modules.sys.service;
 
+import com.albedo.java.common.core.domain.vo.PageModel;
 import com.albedo.java.modules.sys.domain.RoleDo;
 import com.albedo.java.modules.sys.domain.dto.RoleDto;
+import com.albedo.java.modules.sys.domain.dto.RoleQueryDto;
 import com.albedo.java.plugins.database.mybatis.service.DataCacheService;
 
 import java.io.Serializable;
@@ -79,4 +81,5 @@ public interface RoleService extends DataCacheService<RoleDo, RoleDto> {
 	 */
 	Integer findLevelByUserId(Long userId);
 
+	PageModel<RoleDo> findPage(PageModel<RoleDo> pageModel, RoleQueryDto roleQueryDto);
 }

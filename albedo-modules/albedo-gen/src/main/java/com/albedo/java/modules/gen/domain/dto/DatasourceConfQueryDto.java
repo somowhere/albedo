@@ -19,20 +19,22 @@ import com.albedo.java.common.core.annotation.Query;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 
 /**
+ * 数据源QueryCriteria 数据源
+ *
  * @author somewhere
- * @date 2020-05-10
+ * @version 2020-09-20 09:36:15
  */
 @Data
-public class SchemeQueryCriteria implements Serializable {
+public class DatasourceConfQueryDto implements Serializable {
 
-	@Query(blurry = "a.name,a.module_name,a.sub_module_name,a.function_name,a.description")
-	private String blurry;
+	private static final long serialVersionUID = 1L;
 
-	@Query(propName = "a.created_date", operator = Query.Operator.between)
-	private List<Date> createdDate;
+	/**
+	 * F_NAME name : 名称
+	 */
+	@Query(operator = Query.Operator.like)
+	private String name;
 
 }

@@ -72,13 +72,13 @@ public class ParameterServiceImpl extends DataServiceImpl<ParameterRepository, P
 
 	@Transactional(readOnly = true)
 	public boolean check(String key) {
-		return count(Wraps.<ParameterDo>lbQ().eq(ParameterDo::getKey, key)) > 0;
+		return count(Wraps.<ParameterDo>lambdaQueryWrapperX().eq(ParameterDo::getKey, key)) > 0;
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean updateById(ParameterDo model) {
-		long count = count(Wraps.<ParameterDo>lbQ().eq(ParameterDo::getKey, model.getKey()).ne(ParameterDo::getId, model.getId()));
+		long count = count(Wraps.<ParameterDo>lambdaQueryWrapperX().eq(ParameterDo::getKey, model.getKey()).ne(ParameterDo::getId, model.getId()));
 		ArgumentAssert.isFalse(count > 0, StrUtil.format("参数key[{}]已经存在，请勿重复创建", model.getKey()));
 
 		boolean bool = SqlHelper.retBool(getBaseMapper().updateById(model));
@@ -125,7 +125,7 @@ public class ParameterServiceImpl extends DataServiceImpl<ParameterRepository, P
 		}
 
 		Function<CacheKey, String> loader = k -> {
-			ParameterDo parameterDo = getOne(Wraps.<ParameterDo>lbQ().eq(ParameterDo::getKey, key));
+			ParameterDo parameterDo = getOne(Wraps.<ParameterDo>lambdaQueryWrapperX().eq(ParameterDo::getKey, key));
 			return parameterDo == null ? defVal : parameterDo.getValue();
 		};
 		CacheKey cacheKey = new ParameterKeyCacheKeyBuilder().key(key);
@@ -137,7 +137,7 @@ public class ParameterServiceImpl extends DataServiceImpl<ParameterRepository, P
 		if (CollUtil.isEmpty(keys)) {
 			return Collections.emptyMap();
 		}
-		List<ParameterDo> list = list(Wraps.<ParameterDo>lbQ().in(ParameterDo::getKey, keys));
+		List<ParameterDo> list = list(Wraps.<ParameterDo>lambdaQueryWrapperX().in(ParameterDo::getKey, keys));
 		Map<String, String> map = new HashMap<>(16);
 		list.forEach(item -> map.put(item.getKey(), item.getValue()));
 		return map;

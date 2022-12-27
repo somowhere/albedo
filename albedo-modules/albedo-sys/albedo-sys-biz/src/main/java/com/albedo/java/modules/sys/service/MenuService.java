@@ -20,6 +20,7 @@ import com.albedo.java.modules.sys.domain.MenuDo;
 import com.albedo.java.modules.sys.domain.dto.GenSchemeDto;
 import com.albedo.java.modules.sys.domain.dto.MenuDto;
 import com.albedo.java.modules.sys.domain.dto.MenuSortDto;
+import com.albedo.java.modules.sys.domain.vo.MenuTree;
 import com.albedo.java.modules.sys.domain.vo.MenuVo;
 import com.albedo.java.plugins.database.mybatis.service.TreeService;
 
@@ -79,6 +80,6 @@ public interface MenuService extends TreeService<MenuDo, MenuDto> {
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:34
 	 */
-	Object findTreeByUserId(Long userId);
+	List<MenuTree> findTreeByUserId(Long userId);
 
 }

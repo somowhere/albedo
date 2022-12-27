@@ -15,10 +15,12 @@
 
 package com.albedo.java.modules.quartz.service;
 
+import com.albedo.java.common.core.domain.vo.PageModel;
 import com.albedo.java.modules.quartz.domain.JobLogDo;
+import com.albedo.java.modules.quartz.domain.dto.JobLogQueryDto;
 import com.albedo.java.modules.quartz.domain.vo.JobLogExcelVo;
 import com.albedo.java.plugins.database.mybatis.service.BaseService;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
 
@@ -41,6 +43,7 @@ public interface JobLogService extends BaseService<JobLogDo> {
 	 * @param toEntityWrapper
 	 * @return
 	 */
-	List<JobLogExcelVo> findExcelVo(QueryWrapper<JobLogDo> toEntityWrapper);
+	List<JobLogExcelVo> findExcelVo(JobLogQueryDto jobLogQueryDto);
 
+	IPage<JobLogDo> findPage(PageModel<JobLogDo> pageModel, JobLogQueryDto jobLogQueryDto);
 }

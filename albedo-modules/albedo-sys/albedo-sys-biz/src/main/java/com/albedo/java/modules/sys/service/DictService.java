@@ -19,7 +19,7 @@ package com.albedo.java.modules.sys.service;
 import com.albedo.java.common.core.domain.vo.SelectVo;
 import com.albedo.java.modules.sys.domain.DictDo;
 import com.albedo.java.modules.sys.domain.dto.DictDto;
-import com.albedo.java.modules.sys.domain.dto.DictQueryCriteria;
+import com.albedo.java.modules.sys.domain.dto.DictQueryDto;
 import com.albedo.java.modules.sys.domain.vo.DictVo;
 import com.albedo.java.plugins.database.mybatis.service.TreeService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -56,10 +56,10 @@ public interface DictService extends TreeService<DictDo, DictDto> {
 	/**
 	 * 字典树集合
 	 *
-	 * @param dictQueryCriteria
+	 * @param dictQueryDto
 	 * @return
 	 */
-	IPage<DictVo> findTreeList(DictQueryCriteria dictQueryCriteria);
+	IPage<DictVo> findTreeList(DictQueryDto dictQueryDto);
 
 	/**
 	 * 批量锁定，解锁

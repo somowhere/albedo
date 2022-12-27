@@ -20,7 +20,7 @@ import com.albedo.java.common.core.domain.vo.PageModel;
 import com.albedo.java.modules.sys.domain.UserDo;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
 import com.albedo.java.modules.sys.domain.dto.UserEmailDto;
-import com.albedo.java.modules.sys.domain.dto.UserQueryCriteria;
+import com.albedo.java.modules.sys.domain.dto.UserQueryDto;
 import com.albedo.java.modules.sys.domain.vo.UserExcelVo;
 import com.albedo.java.modules.sys.domain.vo.UserInfo;
 import com.albedo.java.modules.sys.domain.vo.UserPageVo;
@@ -52,24 +52,24 @@ public interface UserService extends DataCacheService<UserDo, UserDto> {
 	 * findPage 分页查询用户信息（含有角色信息）
 	 *
 	 * @param pageModel
-	 * @param userQueryCriteria
+	 * @param userQueryDto
 	 * @param dataScope
 	 * @return com.baomidou.mybatisplus.core.metadata.IPage<com.albedo.java.modules.sys.domain.vo.UserVo>
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:35
 	 */
-	IPage<UserPageVo> findPage(PageModel pageModel, UserQueryCriteria userQueryCriteria, DataScope dataScope);
+	IPage<UserPageVo> findPage(PageModel<?> pageModel, UserQueryDto userQueryDto, DataScope dataScope);
 
 	/**
 	 * findPage
 	 *
-	 * @param userQueryCriteria
+	 * @param userQueryDto
 	 * @param dataScope
 	 * @return java.util.List<com.albedo.java.modules.sys.domain.vo.UserVo>
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:35
 	 */
-	List<UserPageVo> findList(UserQueryCriteria userQueryCriteria, DataScope dataScope);
+	List<UserPageVo> findList(UserQueryDto userQueryDto, DataScope dataScope);
 
 	/**
 	 * 删除用户

@@ -15,12 +15,16 @@
 
 package com.albedo.java.modules.quartz.service.impl;
 
+import com.albedo.java.common.core.domain.vo.PageModel;
 import com.albedo.java.modules.quartz.domain.JobLogDo;
+import com.albedo.java.modules.quartz.domain.dto.JobLogQueryDto;
 import com.albedo.java.modules.quartz.domain.vo.JobLogExcelVo;
 import com.albedo.java.modules.quartz.repository.JobLogRepository;
 import com.albedo.java.modules.quartz.service.JobLogService;
+import com.albedo.java.plugins.database.mybatis.conditions.Wraps;
 import com.albedo.java.plugins.database.mybatis.service.impl.BaseServiceImpl;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,8 +46,24 @@ public class JobLogServiceImpl extends BaseServiceImpl<JobLogRepository, JobLogD
 	}
 
 	@Override
-	public List<JobLogExcelVo> findExcelVo(QueryWrapper<JobLogDo> toEntityWrapper) {
-		return repository.findExcelVo(toEntityWrapper);
+	public List<JobLogExcelVo> findExcelVo(JobLogQueryDto jobLogQueryDto) {
+		return repository.findExcelVo(getWrapperByJobLogQueryDto(jobLogQueryDto));
+	}
+
+	@Override
+	public IPage<JobLogDo> findPage(PageModel<JobLogDo> pageModel, JobLogQueryDto jobLogQueryDto) {
+		return this.page(pageModel, getWrapperByJobLogQueryDto(jobLogQueryDto));
+	}
+
+	private Wrapper<JobLogDo> getWrapperByJobLogQueryDto(JobLogQueryDto jobLogQueryDto) {
+		return Wraps.<JobLogDo>lambdaQueryWrapperX()
+			.eqIfPresent(JobLogDo::getStatus, jobLogQueryDto.getStatus())
+			.betweenIfPresent(JobLogDo::getCreatedDate, jobLogQueryDto.getCreatedDate())
+			.or(jobLogQueryDto.getBlurry() != null, jobLogDoLambdaQueryWrapper -> jobLogDoLambdaQueryWrapper
+				.like(JobLogDo::getJobName, jobLogQueryDto.getBlurry())
+				.like(JobLogDo::getJobGroup, jobLogQueryDto.getBlurry())
+				.like(JobLogDo::getDescription, jobLogQueryDto.getBlurry())
+			);
 	}
 
 }

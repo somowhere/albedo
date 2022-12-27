@@ -112,7 +112,7 @@ public class FileContext {
 	 * @return
 	 */
 	public Map<String, String> findUrlByPath(List<String> paths) {
-		List<FileDo> pathFileDos = fileMapper.selectList(Wraps.<FileDo>lbQ().in(FileDo::getPath, paths));
+		List<FileDo> pathFileDos = fileMapper.selectList(Wraps.<FileDo>lambdaQueryWrapperX().in(FileDo::getPath, paths));
 
 		return findUrl(pathFileDos);
 	}
@@ -142,7 +142,7 @@ public class FileContext {
 	}
 
 	public Map<Long, String> findUrlById(List<Long> ids) {
-		List<FileDo> pathFileDos = fileMapper.selectList(Wraps.<FileDo>lbQ().in(FileDo::getId, ids));
+		List<FileDo> pathFileDos = fileMapper.selectList(Wraps.<FileDo>lambdaQueryWrapperX().in(FileDo::getId, ids));
 
 		Map<Long, List<FileDo>> pathMap = pathFileDos.stream().collect(Collectors.groupingBy(FileDo::getId, LinkedHashMap::new, toList()));
 

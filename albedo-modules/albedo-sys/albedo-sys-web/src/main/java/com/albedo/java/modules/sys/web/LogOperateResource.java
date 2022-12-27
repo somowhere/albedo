@@ -36,7 +36,7 @@ import com.albedo.java.common.log.enums.LogType;
 import com.albedo.java.common.security.util.SecurityUtil;
 import com.albedo.java.common.util.ExcelUtil;
 import com.albedo.java.modules.sys.domain.LogOperateDo;
-import com.albedo.java.modules.sys.domain.dto.LogOperateQueryCriteria;
+import com.albedo.java.modules.sys.domain.dto.LogOperateQueryDto;
 import com.albedo.java.modules.sys.service.LogOperateService;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -77,9 +77,8 @@ public class LogOperateResource {
 	 */
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_view')")
-	public Result<IPage> getPage(PageModel pageModel, LogOperateQueryCriteria logOperateQueryCriteria) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, logOperateQueryCriteria);
-		return Result.buildOkData(logOperateService.page(pageModel, wrapper));
+	public Result<IPage<LogOperateDo>> getPage(PageModel<LogOperateDo> pageModel, LogOperateQueryDto logOperateQueryDto) {
+		return Result.buildOkData(logOperateService.page(pageModel, QueryWrapperUtil.getWrapper(pageModel, logOperateQueryDto)));
 	}
 
 	/**
@@ -91,28 +90,28 @@ public class LogOperateResource {
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_del')")
 	@LogOperate(value = "操作日志删除")
-	public Result removeById(@RequestBody Set<Long> ids) {
+	public Result<?> removeById(@RequestBody Set<Long> ids) {
 		return Result.buildOkData(logOperateService.removeByIds(ids));
 	}
 
 	@LogOperate(value = "操作日志导出")
 	@GetMapping(value = "/download")
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_export')")
-	public void download(LogOperateQueryCriteria logOperateQueryCriteria, HttpServletResponse response) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(logOperateQueryCriteria);
-		ExcelUtil<LogOperateDo> util = new ExcelUtil(
+	public void download(LogOperateQueryDto logOperateQueryDto, HttpServletResponse response) {
+		QueryWrapper<LogOperateDo> wrapper = QueryWrapperUtil.getWrapper(logOperateQueryDto);
+		ExcelUtil<LogOperateDo> util = new ExcelUtil<>(
 			LogOperateDo.class);
-		List list = logOperateService.list(wrapper);
+		List<LogOperateDo> list = logOperateService.list(wrapper);
 		util.exportExcel(list, "操作日志", response);
 	}
 
 	@GetMapping(value = "/user")
 	@Operation(summary = "用户日志查询")
-	public Result<Object> getUserLogs(PageModel pageModel, LogOperateQueryCriteria criteria) {
+	public Result<IPage<LogOperateDo>> getUserLogs(PageModel<LogOperateDo> pageModel, LogOperateQueryDto criteria) {
 		criteria.setLogType(Lists.newArrayList(LogType.INFO.name(), LogType.WARN.name()));
 		criteria.setUsername(SecurityUtil.getUser().getUsername());
 		pageModel.addOrder(OrderItem.desc(LogOperateDo.F_SQL_CREATED_DATE));
-		QueryWrapper<LogOperateDo> wrapper = QueryWrapperUtil.<LogOperateDo>getWrapper(
+		QueryWrapper<LogOperateDo> wrapper = QueryWrapperUtil.getWrapper(
 			pageModel, criteria);
 
 		return Result.buildOkData(logOperateService.page(pageModel, wrapper));

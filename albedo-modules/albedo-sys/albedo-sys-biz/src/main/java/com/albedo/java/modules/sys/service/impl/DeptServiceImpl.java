@@ -34,7 +34,7 @@ import com.albedo.java.modules.sys.domain.DeptRelationDo;
 import com.albedo.java.modules.sys.domain.RoleDo;
 import com.albedo.java.modules.sys.domain.UserDo;
 import com.albedo.java.modules.sys.domain.dto.DeptDto;
-import com.albedo.java.modules.sys.domain.dto.DeptQueryCriteria;
+import com.albedo.java.modules.sys.domain.dto.DeptQueryDto;
 import com.albedo.java.modules.sys.domain.vo.DeptVo;
 import com.albedo.java.modules.sys.feign.RemoteDeptService;
 import com.albedo.java.modules.sys.repository.DeptRepository;
@@ -161,15 +161,15 @@ public class DeptServiceImpl extends AbstractTreeCacheServiceImpl<DeptRepository
 	}
 
 	@Override
-	public <Q> List<TreeNode> findTreeNode(Q queryCriteria) {
+	public <Q> List<TreeNode<?>> findTreeNode(Q queryCriteria) {
 		return super.getNodeTree(repository.selectList(QueryWrapperUtil.<DeptDo>getWrapper(queryCriteria).lambda()
 			.eq(DeptDo::getAvailable, CommonConstants.STR_YES).orderByAsc(DeptDo::getSort)));
 	}
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public IPage<DeptVo> findTreeList(DeptQueryCriteria deptQueryCriteria) {
-		List<DeptVo> deptVoList = repository.findVoList(QueryWrapperUtil.<DeptDo>getWrapper(deptQueryCriteria)
+	public IPage<DeptVo> findTreeList(DeptQueryDto deptQueryDto) {
+		List<DeptVo> deptVoList = repository.findVoList(QueryWrapperUtil.<DeptDo>getWrapper(deptQueryDto)
 			.eq(TreeDo.F_SQL_DEL_FLAG, TreeDo.FLAG_NORMAL).orderByAsc(TreeDo.F_SQL_SORT));
 		return new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(deptVoList)), deptVoList.size());
 	}

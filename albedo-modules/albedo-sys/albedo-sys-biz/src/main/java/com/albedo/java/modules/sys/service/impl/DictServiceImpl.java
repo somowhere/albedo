@@ -32,7 +32,7 @@ import com.albedo.java.common.core.util.tree.TreeUtil;
 import com.albedo.java.modules.sys.cache.DictCacheKeyBuilder;
 import com.albedo.java.modules.sys.domain.DictDo;
 import com.albedo.java.modules.sys.domain.dto.DictDto;
-import com.albedo.java.modules.sys.domain.dto.DictQueryCriteria;
+import com.albedo.java.modules.sys.domain.dto.DictQueryDto;
 import com.albedo.java.modules.sys.domain.vo.DictVo;
 import com.albedo.java.modules.sys.feign.RemoteDictService;
 import com.albedo.java.modules.sys.repository.DictRepository;
@@ -98,14 +98,14 @@ public class DictServiceImpl extends AbstractTreeCacheServiceImpl<DictRepository
 	}
 
 	@Override
-	public <Q> List<TreeNode> findTreeNode(Q queryCriteria) {
+	public <Q> List<TreeNode<?>> findTreeNode(Q queryCriteria) {
 		return super.findTreeNode(queryCriteria);
 	}
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public IPage<DictVo> findTreeList(DictQueryCriteria dictQueryCriteria) {
-		List<DictVo> dictVoList = repository.findDictVoList(QueryWrapperUtil.<DictDo>getWrapper(dictQueryCriteria)
+	public IPage<DictVo> findTreeList(DictQueryDto dictQueryDto) {
+		List<DictVo> dictVoList = repository.findDictVoList(QueryWrapperUtil.<DictDo>getWrapper(dictQueryDto)
 			.eq(TreeDo.F_SQL_DEL_FLAG, TreeDo.FLAG_NORMAL).orderByAsc(TreeDo.F_SQL_SORT));
 		return new PageModel<>(Lists.newArrayList(TreeUtil.buildByLoopAutoRoot(dictVoList)), dictVoList.size());
 	}

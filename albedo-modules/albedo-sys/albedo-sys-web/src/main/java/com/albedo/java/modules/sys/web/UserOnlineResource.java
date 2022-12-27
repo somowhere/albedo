@@ -21,11 +21,11 @@ import com.albedo.java.common.log.annotation.LogOperate;
 import com.albedo.java.common.security.component.session.RedisSessionRegistry;
 import com.albedo.java.common.web.resource.BaseResource;
 import com.albedo.java.modules.sys.domain.UserOnlineDo;
-import com.albedo.java.modules.sys.domain.dto.UserOnlineQueryCriteria;
+import com.albedo.java.modules.sys.domain.dto.UserOnlineQueryDto;
 import com.albedo.java.modules.sys.domain.enums.OnlineStatus;
 import com.albedo.java.modules.sys.service.UserOnlineService;
 import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -63,15 +63,14 @@ public class UserOnlineResource extends BaseResource {
 	@GetMapping
 	@PreAuthorize("@pms.hasPermission('sys_userOnline_view')")
 	@LogOperate(value = "在线用户查看")
-	public Result findPage(PageModel pageModel, UserOnlineQueryCriteria userOnlineQueryCriteria) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, userOnlineQueryCriteria);
-		return Result.buildOkData(userOnlineService.page(pageModel, wrapper));
+	public Result<IPage<UserOnlineDo>> findPage(PageModel<UserOnlineDo> pageModel, UserOnlineQueryDto userOnlineQueryDto) {
+		return Result.buildOkData(userOnlineService.page(pageModel, QueryWrapperUtil.getWrapper(pageModel, userOnlineQueryDto)));
 	}
 
 	@PreAuthorize("@pms.hasPermission('sys_userOnline_logout')")
 	@LogOperate(value = "在线用户强退")
 	@PutMapping("/batch-force-logout")
-	public Result<String> batchForceLogout(@RequestBody Set<String> ids, HttpServletRequest request) {
+	public Result<?> batchForceLogout(@RequestBody Set<String> ids, HttpServletRequest request) {
 		for (String id : ids) {
 			UserOnlineDo online = userOnlineService.getById(id);
 			if (online == null) {

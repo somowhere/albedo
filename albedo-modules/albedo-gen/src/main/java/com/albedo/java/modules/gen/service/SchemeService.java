@@ -18,8 +18,9 @@ package com.albedo.java.modules.gen.service;
 import com.albedo.java.common.core.domain.vo.PageModel;
 import com.albedo.java.modules.gen.domain.SchemeDo;
 import com.albedo.java.modules.gen.domain.dto.SchemeDto;
-import com.albedo.java.modules.gen.domain.dto.SchemeQueryCriteria;
+import com.albedo.java.modules.gen.domain.dto.SchemeQueryDto;
 import com.albedo.java.modules.gen.domain.vo.SchemeFormDataVo;
+import com.albedo.java.modules.gen.domain.vo.SchemeVo;
 import com.albedo.java.plugins.database.mybatis.service.DataCacheService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
@@ -68,12 +69,12 @@ public interface SchemeService extends DataCacheService<SchemeDo, SchemeDto> {
 	 * getSchemeVoPage 分页查询用户信息（含有角色信息）
 	 *
 	 * @param pageModel
-	 * @param schemeQueryCriteria
+	 * @param schemeQueryDto
 	 * @return com.baomidou.mybatisplus.core.metadata.IPage
 	 * @author somewhere
 	 * @updateTime 2020/5/31 17:38
 	 */
-	IPage getSchemeVoPage(PageModel pageModel, SchemeQueryCriteria schemeQueryCriteria);
+	IPage<List<SchemeVo>> getSchemeVoPage(PageModel<?> pageModel, SchemeQueryDto schemeQueryDto);
 
 	/**
 	 * previewCode

@@ -27,12 +27,24 @@ import java.util.List;
  * @date 2020-05-10
  */
 @Data
-public class PersistentTokenQueryCriteria implements Serializable {
+public class DictQueryDto implements Serializable {
 
-	@Query(blurry = "series,tokenValue,username,userAgent,browser,os")
+	@Query(propName = "id", operator = Query.Operator.ne)
+	private String notId;
+
+	@Query(operator = Query.Operator.like)
+	private String name;
+
+	@Query
+	private Integer available;
+
+	@Query(blurry = "name,code,val,description")
 	private String blurry;
 
+	@Query
+	private String parentId;
+
 	@Query(operator = Query.Operator.between)
-	private List<Date> tokenDate;
+	private List<Date> createdDate;
 
 }

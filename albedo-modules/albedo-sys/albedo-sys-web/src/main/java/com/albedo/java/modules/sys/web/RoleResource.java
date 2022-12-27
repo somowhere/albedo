@@ -30,13 +30,11 @@ import com.albedo.java.modules.sys.domain.RoleDo;
 import com.albedo.java.modules.sys.domain.UserDo;
 import com.albedo.java.modules.sys.domain.dto.RoleDto;
 import com.albedo.java.modules.sys.domain.dto.RoleMenuDto;
-import com.albedo.java.modules.sys.domain.dto.RoleQueryCriteria;
+import com.albedo.java.modules.sys.domain.dto.RoleQueryDto;
 import com.albedo.java.modules.sys.domain.vo.RoleComboVo;
 import com.albedo.java.modules.sys.service.RoleMenuService;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.modules.sys.service.UserService;
-import com.albedo.java.plugins.database.mybatis.util.QueryWrapperUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.swagger.v3.oas.annotations.Operation;
@@ -71,7 +69,7 @@ public class RoleResource extends BaseResource {
 	 * @return
 	 */
 	@GetMapping(CommonConstants.URL_ID_REGEX)
-	public Result get(@PathVariable Long id) {
+	public Result<RoleDto> get(@PathVariable Long id) {
 		log.debug("REST request to get Entity : {}", id);
 		return Result.buildOkData(roleService.getOneDto(id));
 	}
@@ -85,7 +83,7 @@ public class RoleResource extends BaseResource {
 	@LogOperate(value = "角色管理编辑")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_role_edit')")
-	public Result save(@Valid @RequestBody RoleDto roleDto) {
+	public Result<?> save(@Valid @RequestBody RoleDto roleDto) {
 		checkLevel(roleDto.getLevel());
 		roleService.saveOrUpdate(roleDto);
 		return Result.buildOk("操作成功");
@@ -98,7 +96,7 @@ public class RoleResource extends BaseResource {
 	 */
 	@Operation(summary = "获取用户级别")
 	@GetMapping(value = "/level")
-	public Result findLevel() {
+	public Result<Integer> findLevel() {
 		return Result.buildOkData(roleService.findLevelByUserId(SecurityUtil.getUser().getId()));
 	}
 
@@ -108,7 +106,7 @@ public class RoleResource extends BaseResource {
 	 * @return 角色列表
 	 */
 	@GetMapping("/all")
-	public Result all() {
+	public Result<List<RoleComboVo>> all() {
 		return Result.buildOkData(
 			roleService.list(Wrappers.<RoleDo>lambdaQuery().eq(RoleDo::getAvailable, CommonConstants.STR_YES)).stream()
 				.map(RoleComboVo::new).collect(Collectors.toList()));
@@ -122,9 +120,8 @@ public class RoleResource extends BaseResource {
 	 */
 	@GetMapping
 	@LogOperate(value = "角色管理查看")
-	public Result<IPage> getPage(PageModel pageModel, RoleQueryCriteria roleQueryCriteria) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, roleQueryCriteria);
-		return Result.buildOkData(roleService.page(pageModel, wrapper));
+	public Result<IPage<RoleDo>> findPage(PageModel<RoleDo> pageModel, RoleQueryDto roleQueryDto) {
+		return Result.buildOkData(roleService.findPage(pageModel, roleQueryDto));
 	}
 
 	/**
@@ -136,7 +133,7 @@ public class RoleResource extends BaseResource {
 	@PutMapping("/menu")
 	@LogOperate(value = "角色管理编辑")
 	@PreAuthorize("@pms.hasPermission('sys_role_edit')")
-	public Result saveRoleMenus(@Valid @RequestBody RoleMenuDto roleMenuDto) {
+	public Result<?> saveRoleMenus(@Valid @RequestBody RoleMenuDto roleMenuDto) {
 		RoleDo roleDo = roleService.getById(roleMenuDto.getRoleId());
 		checkLevel(roleDo.getLevel());
 		return roleMenuService.saveRoleMenus(roleMenuDto);
@@ -151,8 +148,8 @@ public class RoleResource extends BaseResource {
 	@LogOperate(value = "角色管理删除")
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_role_del')")
-	public Result removeByIds(@RequestBody Set<Long> ids) {
-		roleService.listByIds(ids).stream().forEach(item -> {
+	public Result<?> removeByIds(@RequestBody Set<Long> ids) {
+		roleService.listByIds(ids).forEach(item -> {
 			checkLevel(item.getLevel());
 			checkRole(item.getId(), item.getName());
 		});
@@ -167,8 +164,8 @@ public class RoleResource extends BaseResource {
 	@PutMapping
 	@LogOperate(value = "角色管理锁定/解锁")
 	@PreAuthorize("@pms.hasPermission('sys_role_lock')")
-	public Result lockOrUnLock(@RequestBody Set<Long> ids) {
-		roleService.listByIds(ids).stream().forEach(item -> {
+	public Result<?> lockOrUnLock(@RequestBody Set<Long> ids) {
+		roleService.listByIds(ids).forEach(item -> {
 			checkLevel(item.getLevel());
 			checkRole(item.getId(), item.getName());
 		});
@@ -178,17 +175,14 @@ public class RoleResource extends BaseResource {
 
 	/**
 	 * 获取用户的角色级别
-	 *
-	 * @return
 	 */
-	private int checkLevel(Integer level) {
+	private void checkLevel(Integer level) {
 		int min = roleService.findLevelByUserId(SecurityUtil.getUser().getId());
 		if (level != null) {
 			if (level < min) {
 				throw new BizException("权限不足，你的角色级别：" + min + "，低于操作的角色级别：" + level);
 			}
 		}
-		return min;
 	}
 
 	/**

@@ -80,7 +80,7 @@ public class AccoutResource extends BaseResource {
 	 */
 	@AnonymousAccess
 	@GetMapping(SecurityConstants.AUTHENTICATE_URL)
-	public Result isAuthenticated() throws AccessDeniedException {
+	public Result<?> isAuthenticated() throws AccessDeniedException {
 		log.debug("REST request to check if the current user is authenticated");
 		return SecurityUtil.getUser() == null ? Result.buildFail("") : Result.buildOkData(SecurityUtil.getUser().getUsername());
 	}
@@ -92,7 +92,7 @@ public class AccoutResource extends BaseResource {
 	 */
 	@Operation(summary = "修改密码")
 	@PostMapping(path = "/account/change-password")
-	public Result changePassword(@Valid @RequestBody PasswordChangeVo passwordChangeVo) {
+	public Result<?> changePassword(@Valid @RequestBody PasswordChangeVo passwordChangeVo) {
 		// 密码解密
 		RSA rsa = new RSA(applicationProperties.getRsa().getPrivateKey(),
 			applicationProperties.getRsa().getPublicKey());
@@ -108,7 +108,7 @@ public class AccoutResource extends BaseResource {
 
 	@Operation(summary = "修改头像")
 	@PostMapping(value = "/account/change-avatar")
-	public Result<String> updateAvatar(@RequestBody AvatarInfo avatarInfo) {
+	public Result<?> updateAvatar(@RequestBody AvatarInfo avatarInfo) {
 		userService.updateAvatar(SecurityUtil.getUser().getUsername(), avatarInfo.getAvatar());
 		return Result.buildOk("头像修改成功");
 	}
@@ -116,7 +116,7 @@ public class AccoutResource extends BaseResource {
 	@LogOperate("修改邮箱")
 	@Operation(summary = "修改邮箱")
 	@PostMapping(value = "/account/change-email/{code}")
-	public Result<String> updateEmail(@PathVariable String code, @RequestBody UserEmailDto userEmailDto) {
+	public Result<?> updateEmail(@PathVariable String code, @RequestBody UserEmailDto userEmailDto) {
 		// 密码解密
 		RSA rsa = new RSA(applicationProperties.getRsa().getPrivateKey(),
 			applicationProperties.getRsa().getPublicKey());
@@ -156,14 +156,14 @@ public class AccoutResource extends BaseResource {
 	 */
 	@PostMapping("/reset/password")
 	@Operation(summary = "重置密码")
-	public Result resetPassword(@RequestBody @Valid PasswordRestVo passwordRestVo) {
+	public Result<?> resetPassword(@RequestBody @Valid PasswordRestVo passwordRestVo) {
 		userService.resetPassword(passwordRestVo);
 		return Result.buildOk("发送成功");
 	}
 
 	@PostMapping(value = "/reset/email-send")
 	@Operation(summary = "重置邮箱，发送验证码")
-	public Result<Object> resetEmail(@RequestParam String email) {
+	public Result<?> resetEmail(@RequestParam String email) {
 		EmailVo emailVo = emailService.sendEmail(email, CommonConstants.EMAIL_RESET_EMAIL_CODE);
 		emailService.send(emailVo, emailService.find());
 		return Result.buildOk("发送成功");
@@ -171,7 +171,7 @@ public class AccoutResource extends BaseResource {
 
 	@PostMapping(value = "/reset/pass-send")
 	@Operation(summary = "重置密码，发送验证码")
-	public Result<Object> resetPass(@RequestParam String email) {
+	public Result<?> resetPass(@RequestParam String email) {
 		EmailVo emailVo = emailService.sendEmail(email, CommonConstants.EMAIL_RESET_PWD_CODE);
 		emailService.send(emailVo, emailService.find());
 		return Result.buildOk("发送成功");
@@ -179,14 +179,14 @@ public class AccoutResource extends BaseResource {
 
 	@GetMapping(value = "/validate-pass")
 	@Operation(summary = "验证码验证重置密码")
-	public Result<Object> validatedByPass(@RequestParam String email, @RequestParam String code) {
+	public Result<?> validatedByPass(@RequestParam String email, @RequestParam String code) {
 		emailService.validated(CommonConstants.EMAIL_RESET_PWD_CODE + email, code);
 		return Result.buildOk("验证成功");
 	}
 
 	@GetMapping(value = "/validate-email")
 	@Operation(summary = "验证码验证重置邮箱")
-	public Result<Object> validatedByEmail(@RequestParam String email, @RequestParam String code) {
+	public Result<?> validatedByEmail(@RequestParam String email, @RequestParam String code) {
 		emailService.validated(CommonConstants.EMAIL_RESET_EMAIL_CODE + email, code);
 		return Result.buildOk("验证成功");
 	}

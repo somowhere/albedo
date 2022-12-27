@@ -39,6 +39,7 @@ import org.springframework.stereotype.Service;
 public class UserOnlineServiceImpl extends BaseServiceImpl<UserOnlineRepository, UserOnlineDo>
 	implements UserOnlineService, RemoteUserOnlineService {
 
+
 	@Override
 	public UserOnlineDo getById(String sessionId) {
 		return super.getById(sessionId);
@@ -70,6 +71,7 @@ public class UserOnlineServiceImpl extends BaseServiceImpl<UserOnlineRepository,
 	public void reset() {
 
 	}
+
 
 	@Override
 	public boolean updateById(UserOnlineDo entity) {

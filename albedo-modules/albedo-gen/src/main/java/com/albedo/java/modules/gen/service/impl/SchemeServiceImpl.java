@@ -27,7 +27,7 @@ import com.albedo.java.modules.gen.domain.SchemeDo;
 import com.albedo.java.modules.gen.domain.TableColumnDo;
 import com.albedo.java.modules.gen.domain.TableDo;
 import com.albedo.java.modules.gen.domain.dto.SchemeDto;
-import com.albedo.java.modules.gen.domain.dto.SchemeQueryCriteria;
+import com.albedo.java.modules.gen.domain.dto.SchemeQueryDto;
 import com.albedo.java.modules.gen.domain.dto.TableDto;
 import com.albedo.java.modules.gen.domain.vo.SchemeFormDataVo;
 import com.albedo.java.modules.gen.domain.vo.SchemeVo;
@@ -92,7 +92,7 @@ public class SchemeServiceImpl extends AbstractDataCacheServiceImpl<SchemeReposi
 		TableDto tableDto = tableService.getOneDto(schemeDto.getTableId());
 		tableDto.setColumnList(tableColumnService
 			.list(Wrappers.<TableColumnDo>query().eq(TableColumnDo.F_SQL_GENTABLEID, tableDto.getId())).stream()
-			.map(item -> tableColumnService.copyBeanToDto(item)).collect(Collectors.toList()));
+			.map(tableColumnService::copyBeanToDto).collect(Collectors.toList()));
 		Collections.sort(tableDto.getColumnList());
 
 		// 获取所有代码模板
@@ -106,7 +106,7 @@ public class SchemeServiceImpl extends AbstractDataCacheServiceImpl<SchemeReposi
 		if (childTableTemplateList.size() > 0) {
 			tableDto.setChildList(tableRepository
 				.selectList(Wrappers.<TableDo>lambdaQuery().eq(TableDo::getParentTable, tableDto.getId())).stream()
-				.map(item -> tableService.copyBeanToDto(item)).collect(Collectors.toList()));
+				.map(tableService::copyBeanToDto).collect(Collectors.toList()));
 		}
 
 		// 生成子表模板代码
@@ -169,13 +169,12 @@ public class SchemeServiceImpl extends AbstractDataCacheServiceImpl<SchemeReposi
 	}
 
 	@Override
-	public IPage getSchemeVoPage(PageModel pageModel, SchemeQueryCriteria schemeQueryCriteria) {
-		QueryWrapper wrapper = QueryWrapperUtil.getWrapper(pageModel, schemeQueryCriteria);
+	public IPage<List<SchemeVo>> getSchemeVoPage(PageModel<?> pageModel, SchemeQueryDto schemeQueryDto) {
+		QueryWrapper<?> wrapper = QueryWrapperUtil.getWrapper(pageModel, schemeQueryDto);
 
 		wrapper.eq("a.del_flag", SchemeDo.FLAG_NORMAL);
 		pageModel.addOrder(OrderItem.desc("a." + SchemeDo.F_SQL_CREATED_DATE));
-		IPage<List<SchemeVo>> userVosPage = repository.getSchemeVoPage(pageModel, wrapper);
-		return userVosPage;
+		return repository.getSchemeVoPage(pageModel, wrapper);
 	}
 
 	@Override
@@ -187,7 +186,7 @@ public class SchemeServiceImpl extends AbstractDataCacheServiceImpl<SchemeReposi
 		ArgumentAssert.notNull(tableDto, "无法找到业务表ID为" + id + "的数据");
 		tableDto.setColumnList(Optional.ofNullable(tableColumnService
 				.list(Wrappers.<TableColumnDo>query().eq(TableColumnDo.F_SQL_GENTABLEID, tableDto.getId()))).orElseThrow(() -> new BizException("业务列信息不存在")).stream()
-			.map(item -> tableColumnService.copyBeanToDto(item)).collect(Collectors.toList()));
+			.map(tableColumnService::copyBeanToDto).collect(Collectors.toList()));
 		Collections.sort(tableDto.getColumnList());
 
 		// 获取所有代码模板
@@ -201,7 +200,7 @@ public class SchemeServiceImpl extends AbstractDataCacheServiceImpl<SchemeReposi
 		if (childTableTemplateList.size() > 0) {
 			tableDto.setChildList(Optional.ofNullable(tableRepository
 					.selectList(Wrappers.<TableDo>lambdaQuery().eq(TableDo::getParentTable, tableDto.getId()))).orElseThrow(() -> new BizException("业务表不存在")).stream()
-				.map(item -> tableService.copyBeanToDto(item)).collect(Collectors.toList()));
+				.map(tableService::copyBeanToDto).collect(Collectors.toList()));
 		}
 
 		// 生成子表模板代码

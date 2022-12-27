@@ -27,24 +27,12 @@ import java.util.List;
  * @date 2020-05-10
  */
 @Data
-public class DictQueryCriteria implements Serializable {
+public class UserOnlineQueryDto implements Serializable {
 
-	@Query(propName = "id", operator = Query.Operator.ne)
-	private String notId;
-
-	@Query(operator = Query.Operator.like)
-	private String name;
-
-	@Query
-	private Integer available;
-
-	@Query(blurry = "name,code,val,description")
+	@Query(blurry = "dept_name,os,username,ip_location")
 	private String blurry;
 
-	@Query
-	private String parentId;
-
-	@Query(operator = Query.Operator.between)
+	@Query(propName = "created_date", operator = Query.Operator.between)
 	private List<Date> createdDate;
 
 }

@@ -27,7 +27,7 @@ import java.util.List;
  * @date 2020-05-10
  */
 @Data
-public class JobQueryCriteria implements Serializable {
+public class JobQueryDto implements Serializable {
 
 	@Query(blurry = "name,group,description")
 	private String blurry;

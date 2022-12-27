@@ -62,4 +62,5 @@ public interface UserOnlineService extends BaseService<UserOnlineDo> {
 	 * @return 是否成功
 	 */
 	void reset();
+
 }

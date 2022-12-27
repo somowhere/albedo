@@ -60,7 +60,7 @@ public class TenantServiceImpl extends AbstractDataCacheServiceImpl<TenantReposi
 	@Override
 	public Tenant getByCode(String tenant) {
 		Function<CacheKey, Object> loader = (k) ->
-			getObj(Wraps.<Tenant>lbQ().select(Tenant::getId).eq(Tenant::getCode, tenant), Convert::toLong);
+			getObj(Wraps.<Tenant>lambdaQueryWrapperX().select(Tenant::getId).eq(Tenant::getCode, tenant), Convert::toLong);
 		CacheKey cacheKey = new TenantCodeCacheKeyBuilder().key(tenant);
 		return getByKey(cacheKey, loader);
 	}
@@ -89,7 +89,7 @@ public class TenantServiceImpl extends AbstractDataCacheServiceImpl<TenantReposi
 
 	@Override
 	public boolean check(String tenantCode) {
-		return count(Wraps.<Tenant>lbQ().eq(Tenant::getCode, tenantCode)) < 1;
+		return count(Wraps.<Tenant>lambdaQueryWrapperX().eq(Tenant::getCode, tenantCode)) < 1;
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class TenantServiceImpl extends AbstractDataCacheServiceImpl<TenantReposi
 	}
 
 	private Boolean updateTenantStatus(TenantConnectDto tenantConnect) {
-		Boolean flag = this.update(Wraps.<Tenant>lbU()
+		Boolean flag = this.update(Wraps.<Tenant>lambdaUpdateWrapper()
 			.set(Tenant::getStatus, TenantStatusEnum.NORMAL)
 			.set(Tenant::getConnectType, tenantConnect.getConnectType())
 			.eq(Tenant::getId, tenantConnect.getId()));
@@ -110,7 +110,7 @@ public class TenantServiceImpl extends AbstractDataCacheServiceImpl<TenantReposi
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean delete(List<Long> ids) {
-		List<String> tenantCodeList = listObjs(Wraps.<Tenant>lbQ().select(Tenant::getCode).in(Tenant::getId, ids), Convert::toStr);
+		List<String> tenantCodeList = listObjs(Wraps.<Tenant>lambdaQueryWrapperX().select(Tenant::getCode).in(Tenant::getId, ids), Convert::toStr);
 		if (tenantCodeList.isEmpty()) {
 			return true;
 		}
@@ -121,7 +121,7 @@ public class TenantServiceImpl extends AbstractDataCacheServiceImpl<TenantReposi
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean deleteAll(List<Long> ids) {
-		List<String> tenantCodeList = listObjs(Wraps.<Tenant>lbQ().select(Tenant::getCode).in(Tenant::getId, ids), Convert::toStr);
+		List<String> tenantCodeList = listObjs(Wraps.<Tenant>lambdaQueryWrapperX().select(Tenant::getCode).in(Tenant::getId, ids), Convert::toStr);
 		if (tenantCodeList.isEmpty()) {
 			return true;
 		}
@@ -132,13 +132,13 @@ public class TenantServiceImpl extends AbstractDataCacheServiceImpl<TenantReposi
 
 	@Override
 	public List<Tenant> find() {
-		return list(Wraps.<Tenant>lbQ().eq(Tenant::getStatus, TenantStatusEnum.NORMAL));
+		return list(Wraps.<Tenant>lambdaQueryWrapperX().eq(Tenant::getStatus, TenantStatusEnum.NORMAL));
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean updateStatus(List<Long> ids, TenantStatusEnum status) {
-		boolean update = super.update(Wraps.<Tenant>lbU().set(Tenant::getStatus, status)
+		boolean update = super.update(Wraps.<Tenant>lambdaUpdateWrapper().set(Tenant::getStatus, status)
 			.in(Tenant::getId, ids));
 
 		delCache(ids);

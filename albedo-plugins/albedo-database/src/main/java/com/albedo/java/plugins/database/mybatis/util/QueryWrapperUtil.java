@@ -42,14 +42,14 @@ import java.util.List;
 @Slf4j
 public class QueryWrapperUtil {
 
-	public static Wrapper<?> fillWrapperOrder(Page<?> page, Wrapper<?> wrapper) {
+	public static <T> Wrapper<T> fillWrapperOrder(Page<T> page, Wrapper<T> wrapper) {
 		if (null == page) {
 			return wrapper;
 		}
 		if (ObjectUtil.isEmpty(page.orders())) {
 			return wrapper;
 		}
-		QueryWrapper queryWrapper = null == wrapper ? new QueryWrapper() : (QueryWrapper) wrapper;
+		QueryWrapper<T> queryWrapper = null == wrapper ? new QueryWrapper<>() : (QueryWrapper<T>) wrapper;
 		if (ObjectUtil.isNotEmpty(page.orders())) {
 			page.orders().forEach(orderItem -> queryWrapper.orderBy(true, orderItem.isAsc(),
 				StringUtil.toRevertCamelCase(orderItem.getColumn(), CharUtil.UNDERLINE)));
@@ -59,7 +59,7 @@ public class QueryWrapperUtil {
 	}
 
 	public static <T> QueryWrapper<T> getWrapper(PageModel<T> pageModel, Object query) {
-		return (QueryWrapper) fillWrapperOrder(pageModel, getWrapper(query));
+		return (QueryWrapper<T>) fillWrapperOrder(pageModel, getWrapper(query));
 	}
 
 	public static <T> QueryWrapper<T> getWrapper(Object query) {
@@ -92,7 +92,7 @@ public class QueryWrapperUtil {
 						});
 						continue;
 					}
-					parseWarpper(entityWrapper, q, attributeName, val);
+					parseWrapper(entityWrapper, q, attributeName, val);
 				}
 				field.setAccessible(accessible);
 			}
@@ -102,7 +102,7 @@ public class QueryWrapperUtil {
 		return entityWrapper;
 	}
 
-	private static void parseWarpper(QueryWrapper<?> entityWrapper, Query q, String attributeName, Object val) {
+	private static void parseWrapper(QueryWrapper<?> entityWrapper, Query q, String attributeName, Object val) {
 		switch (q.operator()) {
 			case eq:
 				entityWrapper.eq(attributeName, val);
@@ -147,7 +147,7 @@ public class QueryWrapperUtil {
 				entityWrapper.isNull(attributeName);
 				break;
 			case between:
-				List<Object> between = new ArrayList<>((List<Object>) val);
+				List<Object> between = new ArrayList<>((List<?>) val);
 				entityWrapper.between(attributeName, between.get(0), between.get(1));
 				break;
 			default:
