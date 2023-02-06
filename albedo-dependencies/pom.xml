@@ -11,8 +11,8 @@
 	<description>基础 bom 文件，管理整个项目的依赖版本</description>
 
 	<properties>
-		<revision>3.3.7-SNAPSHOT</revision>
-		<spring-boot.version>2.7.7</spring-boot.version>
+		<revision>3.3.8-SNAPSHOT</revision>
+		<spring-boot.version>2.7.8</spring-boot.version>
 		<hutool.version>5.8.10</hutool.version>
 		<p6spy.version>3.9.1</p6spy.version>
 		<mybatis-plus.version>3.5.2</mybatis-plus.version>
