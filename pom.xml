@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  ~  Copyright (c) 2019-2022, somewhere (somewhere0813@gmail.com).
+  ~  Copyright (c) 2019-2023, somewhere (somewhere0813@gmail.com).
   ~  <p>
   ~  Licensed under the GNU Lesser General Public License 3.0 (the "License");
   ~  you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@
 
 	<properties>
 		<spring-boot.version>2.7.8</spring-boot.version>
-		<revision>3.3.8-SNAPSHOT</revision>
+		<revision>3.3.10-SNAPSHOT</revision>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -133,46 +133,46 @@
 		</pluginManagement>
 	</build>
 
-<!--		<repositories>-->
-<!--			&lt;!&ndash;阿里云主仓库，代理了maven central和jcenter仓库&ndash;&gt;-->
-<!--			<repository>-->
-<!--				<id>aliyun</id>-->
-<!--				<name>aliyun</name>-->
-<!--				<url>https://maven.aliyun.com/repository/public</url>-->
-<!--				<releases>-->
-<!--					<enabled>true</enabled>-->
-<!--				</releases>-->
-<!--				<snapshots>-->
-<!--					<enabled>false</enabled>-->
-<!--				</snapshots>-->
-<!--			</repository>-->
-<!--			&lt;!&ndash;阿里云代理Spring 官方仓库&ndash;&gt;-->
-<!--			<repository>-->
-<!--				<id>spring-milestones</id>-->
-<!--				<name>Spring Milestones</name>-->
-<!--				<url>https://maven.aliyun.com/repository/spring</url>-->
-<!--				<releases>-->
-<!--					<enabled>true</enabled>-->
-<!--				</releases>-->
-<!--				<snapshots>-->
-<!--					<enabled>false</enabled>-->
-<!--				</snapshots>-->
-<!--			</repository>-->
-<!--		</repositories>-->
-<!--		<pluginRepositories>-->
-<!--			&lt;!&ndash;阿里云代理Spring 插件仓库&ndash;&gt;-->
-<!--			<pluginRepository>-->
-<!--				<id>spring-plugin</id>-->
-<!--				<name>spring-plugin</name>-->
-<!--				<url>https://maven.aliyun.com/repository/spring-plugin</url>-->
-<!--				<releases>-->
-<!--					<enabled>true</enabled>-->
-<!--				</releases>-->
-<!--				<snapshots>-->
-<!--					<enabled>false</enabled>-->
-<!--				</snapshots>-->
-<!--			</pluginRepository>-->
-<!--		</pluginRepositories>-->
+		<repositories>
+			<!--阿里云主仓库，代理了maven central和jcenter仓库-->
+			<repository>
+				<id>aliyun</id>
+				<name>aliyun</name>
+				<url>https://maven.aliyun.com/repository/public</url>
+				<releases>
+					<enabled>true</enabled>
+				</releases>
+				<snapshots>
+					<enabled>false</enabled>
+				</snapshots>
+			</repository>
+			<!--阿里云代理Spring 官方仓库-->
+			<repository>
+				<id>spring-milestones</id>
+				<name>Spring Milestones</name>
+				<url>https://maven.aliyun.com/repository/spring</url>
+				<releases>
+					<enabled>true</enabled>
+				</releases>
+				<snapshots>
+					<enabled>false</enabled>
+				</snapshots>
+			</repository>
+		</repositories>
+		<pluginRepositories>
+			<!--阿里云代理Spring 插件仓库-->
+			<pluginRepository>
+				<id>spring-plugin</id>
+				<name>spring-plugin</name>
+				<url>https://maven.aliyun.com/repository/spring-plugin</url>
+				<releases>
+					<enabled>true</enabled>
+				</releases>
+				<snapshots>
+					<enabled>false</enabled>
+				</snapshots>
+			</pluginRepository>
+		</pluginRepositories>
 	<profiles>
 		<profile>
 			<id>dev</id>
@@ -189,7 +189,7 @@
 		<profile>
 			<id>prod</id>
 			<properties>
-				<!-- log configuration -->
+				<!-- lo g configuration -->
 				<logback.loglevel>${profile.prod.log.level}</logback.loglevel>
 				<!-- default Spring profiles -->
 				<mvn.spring.profiles.active>prod</mvn.spring.profiles.active>
