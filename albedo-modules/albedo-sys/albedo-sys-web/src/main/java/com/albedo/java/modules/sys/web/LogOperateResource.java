@@ -99,8 +99,7 @@ public class LogOperateResource {
 	@PreAuthorize("@pms.hasPermission('sys_logOperate_export')")
 	public void download(LogOperateQueryDto logOperateQueryDto, HttpServletResponse response) {
 		QueryWrapper<LogOperateDo> wrapper = QueryWrapperUtil.getWrapper(logOperateQueryDto);
-		ExcelUtil<LogOperateDo> util = new ExcelUtil<>(
-			LogOperateDo.class);
+		ExcelUtil<LogOperateDo> util = new ExcelUtil<>(LogOperateDo.class);
 		List<LogOperateDo> list = logOperateService.list(wrapper);
 		util.exportExcel(list, "操作日志", response);
 	}

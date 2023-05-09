@@ -15,6 +15,7 @@
 
 package com.albedo.java.common.core.util;
 
+import cn.hutool.core.util.EscapeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.enums.SqlLike;
 import com.baomidou.mybatisplus.core.toolkit.sql.SqlUtils;

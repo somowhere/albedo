@@ -16,8 +16,8 @@
 package com.albedo.java.common.core.resource;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.EscapeUtil;
 import cn.hutool.core.util.URLUtil;
-import com.albedo.java.common.core.util.EscapeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.WebDataBinder;

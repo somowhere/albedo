@@ -11,8 +11,8 @@
 	<description>基础 bom 文件，管理整个项目的依赖版本</description>
 
 	<properties>
-		<revision>3.3.10-SNAPSHOT</revision>
-		<spring-boot.version>2.7.10</spring-boot.version>
+		<revision>3.3.11-SNAPSHOT</revision>
+		<spring-boot.version>2.7.11</spring-boot.version>
 		<hutool.version>5.8.16</hutool.version>
 		<p6spy.version>3.9.1</p6spy.version>
 		<mybatis-plus.version>3.5.3.1</mybatis-plus.version>
@@ -31,7 +31,7 @@
 		<oshi.version>6.4.0</oshi.version>
 		<jna.version>5.11.0</jna.version>
 		<reflections.version>0.10.2</reflections.version>
-		<mica-ip2region.version>2.7.10</mica-ip2region.version>
+		<mica-ip2region.version>2.7.11</mica-ip2region.version>
 		<guava.version>31.1-jre</guava.version>
 		<protostuff.version>1.8.0</protostuff.version>
 		<transmittable-thread-local.version>2.14.2</transmittable-thread-local.version>
