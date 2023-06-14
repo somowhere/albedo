@@ -32,7 +32,7 @@
 		<jna.version>5.11.0</jna.version>
 		<reflections.version>0.10.2</reflections.version>
 		<mica-ip2region.version>2.7.11</mica-ip2region.version>
-		<guava.version>31.1-jre</guava.version>
+		<guava.version>32.0.0-jre</guava.version>
 		<protostuff.version>1.8.0</protostuff.version>
 		<transmittable-thread-local.version>2.14.2</transmittable-thread-local.version>
 		<minio.version>8.2.2</minio.version>
