@@ -23,9 +23,10 @@ import com.google.common.collect.Lists;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * @author somewhere
@@ -115,5 +116,13 @@ public class CollUtil extends cn.hutool.core.collection.CollUtil {
 		}
 		return null;
 	}
+
+	public static <T, U> List<U> convertList(Collection<T> from, Function<T, U> func, Predicate<T> filter) {
+		if (cn.hutool.core.collection.CollUtil.isEmpty(from)) {
+			return new ArrayList<>();
+		}
+		return from.stream().filter(filter).map(func).filter(Objects::nonNull).collect(Collectors.toList());
+	}
+
 
 }

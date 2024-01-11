@@ -40,8 +40,8 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 
 	private final StringEncryptor stringEncryptor;
 
-	public JdbcDynamicDataSourceProvider(StringEncryptor stringEncryptor, DataSourceProperties properties) {
-		super(new DefaultDataSourceCreator(), properties.getDriverClassName(), properties.getUrl(), properties.getUsername(), properties.getPassword());
+	public JdbcDynamicDataSourceProvider(DefaultDataSourceCreator defaultDataSourceCreator, StringEncryptor stringEncryptor, DataSourceProperties properties) {
+		super(defaultDataSourceCreator, properties.getDriverClassName(), properties.getUrl(), properties.getUsername(), properties.getPassword());
 		this.stringEncryptor = stringEncryptor;
 		this.properties = properties;
 	}

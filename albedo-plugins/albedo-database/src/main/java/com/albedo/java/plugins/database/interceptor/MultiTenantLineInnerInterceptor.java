@@ -48,7 +48,6 @@ import java.util.Properties;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@SuppressWarnings({"rawtypes"})
 public class MultiTenantLineInnerInterceptor extends JsqlParserSupport implements InnerInterceptor {
 
 	private final static String SELECT = "SELECT";

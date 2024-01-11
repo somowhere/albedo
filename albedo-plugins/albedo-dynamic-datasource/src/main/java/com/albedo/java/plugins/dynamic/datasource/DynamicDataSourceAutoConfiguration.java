@@ -18,6 +18,7 @@ package com.albedo.java.plugins.dynamic.datasource;
 import com.albedo.java.plugins.dynamic.datasource.config.DataSourceProperties;
 import com.albedo.java.plugins.dynamic.datasource.config.JdbcDynamicDataSourceProvider;
 import com.albedo.java.plugins.dynamic.datasource.config.LastParamDsProcessor;
+import com.baomidou.dynamic.datasource.creator.DefaultDataSourceCreator;
 import com.baomidou.dynamic.datasource.processor.DsHeaderProcessor;
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSessionProcessor;
@@ -50,8 +51,8 @@ public class DynamicDataSourceAutoConfiguration {
 	private final DataSourceProperties properties;
 
 	@Bean
-	public DynamicDataSourceProvider dynamicDataSourceProvider() {
-		return new JdbcDynamicDataSourceProvider(stringEncryptor, properties);
+	public DynamicDataSourceProvider dynamicDataSourceProvider(DefaultDataSourceCreator defaultDataSourceCreator) {
+		return new JdbcDynamicDataSourceProvider(defaultDataSourceCreator, stringEncryptor, properties);
 	}
 
 	@Bean

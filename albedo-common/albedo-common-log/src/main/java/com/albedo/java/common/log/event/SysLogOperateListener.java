@@ -16,9 +16,9 @@
 
 package com.albedo.java.common.log.event;
 
-import com.albedo.java.common.core.util.AddressUtil;
 import com.albedo.java.modules.sys.domain.LogOperateDo;
 import com.albedo.java.modules.sys.feign.RemoteLogOperateService;
+import com.albedo.java.plugins.ip.util.IpUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -43,7 +43,7 @@ public class SysLogOperateListener {
 			log.trace("{}", event);
 		}
 		LogOperateDo logOperate = (LogOperateDo) event.getSource();
-		logOperate.setIpLocation(AddressUtil.getRegion(logOperate.getIpAddress()));
+		logOperate.setIpLocation(IpUtil.getAreaName(logOperate.getIpAddress()));
 		remoteLogOperateService.save(logOperate);
 	}
 }

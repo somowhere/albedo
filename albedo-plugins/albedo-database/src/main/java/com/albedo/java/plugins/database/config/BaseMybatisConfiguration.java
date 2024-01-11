@@ -5,10 +5,10 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.albedo.java.common.core.context.ContextUtil;
-import com.albedo.java.plugins.database.handler.TenantLineHandler;
+import com.albedo.java.plugins.database.handler.AlbedoTenantLineHandler;
 import com.albedo.java.plugins.database.injector.LampSqlInjector;
+import com.albedo.java.plugins.database.interceptor.AlbedoTenantLineInnerInterceptor;
 import com.albedo.java.plugins.database.interceptor.SchemaInterceptor;
-import com.albedo.java.plugins.database.interceptor.TenantLineInnerInterceptor;
 import com.albedo.java.plugins.database.mybatis.WriteInterceptor;
 import com.albedo.java.plugins.database.mybatis.typehandler.FullLikeTypeHandler;
 import com.albedo.java.plugins.database.mybatis.typehandler.LeftLikeTypeHandler;
@@ -25,10 +25,8 @@ import com.baidu.fsg.uid.impl.HuToolUidGenerator;
 import com.baidu.fsg.uid.worker.DisposableWorkerIdAssigner;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.inner.IllegalSQLInnerInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
+import com.baomidou.mybatisplus.extension.plugins.inner.*;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.StringValue;
@@ -103,8 +101,8 @@ public abstract class BaseMybatisConfiguration {
 		if (StrUtil.equalsAny(databaseProperties.getMultiTenantType().name(),
 			MultiTenantType.COLUMN.name(), MultiTenantType.SCHEMA_COLUMN.name(), MultiTenantType.DATASOURCE_COLUMN.name())) {
 			// COLUMN 模式 多租户插件
-			TenantLineInnerInterceptor tli = new TenantLineInnerInterceptor();
-			tli.setTenantLineHandler(new TenantLineHandler() {
+			AlbedoTenantLineInnerInterceptor tli = new AlbedoTenantLineInnerInterceptor();
+			tli.setAlbedoTenantLineHandler(new AlbedoTenantLineHandler() {
 				@Override
 				public String getTenantIdColumn() {
 					return databaseProperties.getTenantIdColumn();

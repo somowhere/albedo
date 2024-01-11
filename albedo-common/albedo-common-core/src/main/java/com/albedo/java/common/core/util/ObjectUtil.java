@@ -19,6 +19,7 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
@@ -73,4 +74,9 @@ public class ObjectUtil extends cn.hutool.core.util.ObjectUtil {
 		}
 	}
 
+
+	@SafeVarargs
+	public static <T> boolean equalsAny(T obj, T... array) {
+		return Arrays.asList(array).contains(obj);
+	}
 }

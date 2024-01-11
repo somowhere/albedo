@@ -38,11 +38,11 @@ import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
-import com.albedo.java.common.core.util.AddressUtil;
 import com.albedo.java.common.core.util.RequestHolder;
 import com.albedo.java.common.core.util.WebUtil;
 import com.albedo.java.modules.sys.domain.LogLoginDo;
 import com.albedo.java.modules.sys.domain.LogOperateDo;
+import com.albedo.java.plugins.ip.util.IpUtil;
 import lombok.experimental.UtilityClass;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
@@ -66,7 +66,7 @@ public class SysLogUtils {
 		logOperate.setCreatedDate(LocalDateTime.now());
 		logOperate.setUsername(getUsername());
 		logOperate.setIpAddress(WebUtil.getIp(request));
-		logOperate.setIpLocation(AddressUtil.getRegion(logOperate.getIpAddress()));
+		logOperate.setIpLocation(IpUtil.getAreaName(logOperate.getIpAddress()));
 		logOperate.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
 		UserAgent userAgent = UserAgentUtil.parse(logOperate.getUserAgent());
 		logOperate.setBrowser(userAgent.getBrowser().getName());
@@ -82,7 +82,7 @@ public class SysLogUtils {
 		String tempIp = WebUtil.getIp(request);
 		return LogLoginDo.builder()
 			.ipAddress(tempIp)
-			.ipLocation(AddressUtil.getRegion(tempIp))
+			.ipLocation(IpUtil.getAreaName(tempIp))
 			.username(getUsername())
 			.createdBy(getUserId())
 			.createdDate(LocalDateTime.now())

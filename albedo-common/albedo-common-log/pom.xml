@@ -46,5 +46,11 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>com.albedo.java</groupId>
+            <artifactId>albedo-biz-ip</artifactId>
+            <version>3.3.18-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 </project>
