@@ -176,7 +176,7 @@ public class PersistentTokenRememberMeService extends AbstractRememberMeServices
 	@Override
 	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		String rememberMeCookie = extractRememberMeCookie(request);
-		if (rememberMeCookie != null && rememberMeCookie.length() != 0) {
+		if (rememberMeCookie != null && !rememberMeCookie.isEmpty()) {
 			try {
 				String[] cookieTokens = decodeCookie(rememberMeCookie);
 				PersistentTokenDo persistentTokenDo = getToken(cookieTokens);
