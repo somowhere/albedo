@@ -31,7 +31,7 @@ public class Area {
 	private String name;
 	/**
 	 * 类型
-	 *
+	 * <p>
 	 * 枚举 {@link AreaTypeEnum}
 	 */
 	private Integer type;

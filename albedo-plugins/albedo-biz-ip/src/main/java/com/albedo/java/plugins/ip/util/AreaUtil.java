@@ -1,6 +1,5 @@
 package com.albedo.java.plugins.ip.util;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.text.csv.CsvRow;
@@ -80,15 +79,15 @@ public class AreaUtil {
 
 	/**
 	 * 格式化区域
-	 *
+	 * <p>
 	 * 例如说：
-	 *      1. id = “静安区”时：上海 上海市 静安区
-	 *      2. id = “上海市”时：上海 上海市
-	 *      3. id = “上海”时：上海
-	 *      4. id = “美国”时：美国
+	 * 1. id = “静安区”时：上海 上海市 静安区
+	 * 2. id = “上海市”时：上海 上海市
+	 * 3. id = “上海”时：上海
+	 * 4. id = “美国”时：美国
 	 * 当区域在中国时，默认不显示中国
 	 *
-	 * @param id 区域编号
+	 * @param id        区域编号
 	 * @param separator 分隔符
 	 * @return 格式化后的区域
 	 */
