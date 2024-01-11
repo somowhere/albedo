@@ -203,9 +203,9 @@ public abstract class BaseDatabaseConfiguration implements InitializingBean {
 	}
 
 	protected void applyConfiguration(MybatisSqlSessionFactoryBean factory) {
-		MybatisConfiguration newConfiguration = this.properties.getConfiguration();
+		MybatisPlusProperties.CoreConfiguration newConfiguration = this.properties.getConfiguration();
 		if (newConfiguration == null && !StringUtils.hasText(this.properties.getConfigLocation())) {
-			newConfiguration = new MybatisConfiguration();
+			newConfiguration = new MybatisPlusProperties.CoreConfiguration();
 		}
 
 		// somewhere 改过这里：  这里一定要复制一次， 否则多数据源时，会导致拦截器等执行多次

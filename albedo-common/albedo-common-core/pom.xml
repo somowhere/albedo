@@ -114,11 +114,10 @@
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/net.dreamlu/mica-ip2region -->
-		<dependency>
-			<groupId>net.dreamlu</groupId>
-			<artifactId>mica-ip2region</artifactId>
-		</dependency>
+    <dependency>
+      <groupId>org.lionsoul</groupId>
+      <artifactId>ip2region</artifactId>
+    </dependency>
 
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
@@ -135,5 +134,9 @@
 			<artifactId>assertj-core</artifactId>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </dependency>
+  </dependencies>
 </project>

@@ -16,10 +16,12 @@
 package com.albedo.java.plugins.dynamic.datasource.config;
 
 import com.albedo.java.plugins.dynamic.datasource.support.DataSourceConstants;
+import com.baomidou.dynamic.datasource.creator.DataSourceProperty;
+import com.baomidou.dynamic.datasource.creator.DefaultDataSourceCreator;
 import com.baomidou.dynamic.datasource.provider.AbstractJdbcDataSourceProvider;
-import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
 import org.jasypt.encryption.StringEncryptor;
 
+import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -39,7 +41,7 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 	private final StringEncryptor stringEncryptor;
 
 	public JdbcDynamicDataSourceProvider(StringEncryptor stringEncryptor, DataSourceProperties properties) {
-		super(properties.getDriverClassName(), properties.getUrl(), properties.getUsername(), properties.getPassword());
+		super(new DefaultDataSourceCreator(), properties.getDriverClassName(), properties.getUrl(), properties.getUsername(), properties.getPassword());
 		this.stringEncryptor = stringEncryptor;
 		this.properties = properties;
 	}

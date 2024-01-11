@@ -1,4 +1,4 @@
-<h1 style="text-align: center">Albedo 3.3.11 - 企业信息化快速开发平台</h1>
+<h1 style="text-align: center">Albedo 3.3.18 - 企业信息化快速开发平台</h1>
  <p align="center">
  
  [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/somowhere/albedo/blob/master/LICENSE)
@@ -49,9 +49,9 @@
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.7.11
-Mybatis Plus | 3.5.3.1
-hutool | 5.8.16
+Spring Boot |  2.7.18
+Mybatis Plus | 3.5.5
+hutool | 5.8.24
    
 
 

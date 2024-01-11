@@ -17,7 +17,9 @@ package com.albedo.java.common.core.util;
 
 import cn.hutool.core.net.NetUtil;
 import lombok.extern.slf4j.Slf4j;
-import net.dreamlu.mica.ip2region.core.Ip2regionSearcher;
+import org.lionsoul.ip2region.xdb.Searcher;
+
+import java.io.IOException;
 
 /**
  * 获取地址类
@@ -28,10 +30,17 @@ import net.dreamlu.mica.ip2region.core.Ip2regionSearcher;
 public class AddressUtil {
 
 	public static final String LOCAL_IP = "0:0:0:0:0:0:0:1";
+	public static Searcher searcher;
 
-	public static final Ip2regionSearcher IP2_REGION_SEARCHER = SpringContextHolder.getBean(Ip2regionSearcher.class);
+    static {
+        try {
+            searcher = Searcher.newWithFileOnly(StringUtil.getProjectPath("ip2region/ip2region.xdb", null));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	private AddressUtil() {
+    private AddressUtil() {
 	}
 
 	/**
@@ -45,8 +54,12 @@ public class AddressUtil {
 		if (LOCAL_IP.equals(ip) || NetUtil.isInnerIP(ip)) {
 			return "内网IP";
 		}
-
-		return IP2_REGION_SEARCHER.getAddressAndIsp(ip);
+		try {
+			return searcher.search(ip);
+		}catch (Exception e){
+			log.warn("getRegion ", e);
+		}
+		return "未知IP";
 	}
 
 

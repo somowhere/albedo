@@ -25,7 +25,6 @@ import com.albedo.java.common.core.util.StrPool;
 import com.albedo.java.common.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.PersistenceException;
-import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -334,15 +333,15 @@ public class GlobalExceptionHandler {
 		return Result.build(ResponseCode.SQL_EX, ex.getMessage()).setPath(getPath());
 	}
 
-	@ExceptionHandler(MyBatisSystemException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public Result myBatisSystemException(MyBatisSystemException ex) {
-		log.warn("PersistenceException:", ex);
-		if (ex.getCause() instanceof PersistenceException) {
-			return this.persistenceException((PersistenceException) ex.getCause());
-		}
-		return Result.build(ResponseCode.SQL_EX, ex.getMessage()).setPath(getPath());
-	}
+//	@ExceptionHandler(MyBatisSystemException.class)
+//	@ResponseStatus(HttpStatus.BAD_REQUEST)
+//	public Result myBatisSystemException(MyBatisSystemException ex) {
+//		log.warn("PersistenceException:", ex);
+//		if (ex.getCause() instanceof PersistenceException) {
+//			return this.persistenceException((PersistenceException) ex.getCause());
+//		}
+//		return Result.build(ResponseCode.SQL_EX, ex.getMessage()).setPath(getPath());
+//	}
 
 	@ExceptionHandler(SQLException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)

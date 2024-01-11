@@ -29,7 +29,7 @@ import com.albedo.java.plugins.database.mybatis.service.impl.AbstractDataCacheSe
 import com.albedo.java.plugins.dynamic.datasource.support.DataSourceConstants;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.creator.DataSourceCreator;
-import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
+import com.baomidou.dynamic.datasource.creator.DataSourceProperty;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.jasypt.encryption.StringEncryptor;
