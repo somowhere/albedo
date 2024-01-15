@@ -58,7 +58,7 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
 	/**
 	 * 日期路径 即年/月/日 如2018/08/08
 	 */
-	public static final String datePath() {
+    public static String datePath() {
 		Date now = new Date();
 		return format(now, DATE_FORMAT_SLASH);
 	}

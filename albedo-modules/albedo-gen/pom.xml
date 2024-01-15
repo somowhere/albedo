@@ -24,7 +24,7 @@
 
 		<dependency>
 			<groupId>com.albedo.java</groupId>
-			<artifactId>albedo-dynamic-datasource</artifactId>
+			<artifactId>albedo-plugin-dynamic-datasource</artifactId>
 		</dependency>
 
 	</dependencies>

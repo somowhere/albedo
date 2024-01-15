@@ -140,15 +140,15 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
 			if (outs != null) {
 				try {
 					outs.close();
-				} catch (IOException oute) {
-					oute.printStackTrace();
+				} catch (IOException e) {
+					log.error("failed init", e);
 				}
 			}
 			if (ins != null) {
 				try {
 					ins.close();
-				} catch (IOException ine) {
-					ine.printStackTrace();
+				} catch (IOException e) {
+					log.error("failed init", e);
 				}
 			}
 		}
@@ -374,7 +374,7 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
 				return false;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("failed init", e);
 			log.debug(descFileName + " 文件创建失败!");
 			return false;
 		}
@@ -447,7 +447,7 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
 			}
 			in.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("failed init", e);
 			return null;
 		}
 		BigInteger bigInt = new BigInteger(1, digest.digest());
@@ -611,16 +611,14 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
 			if (outs != null) {
 				try {
 					outs.close();
-				} catch (IOException oute) {
-					oute.printStackTrace();
+				} catch (IOException e) {
+					log.error("failed init", e);
 				}
 			}
-			if (ins != null) {
-				try {
-					ins.close();
-				} catch (IOException ine) {
-					ine.printStackTrace();
-				}
+			try {
+				ins.close();
+			} catch (IOException e) {
+				log.error("failed init", e);
 			}
 		}
 

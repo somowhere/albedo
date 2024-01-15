@@ -32,8 +32,7 @@ public class ContextInitRunner implements ApplicationRunner {
 					Method initMapper = service.getClass().getMethod(annotation.method());
 					initMapper.invoke(service);
 				} catch (Exception e) {
-					log.error("初始化BaseInit的afterPropertiesSet方法异常{}", e);
-					e.printStackTrace();
+                    log.error("failed init", e);
 				}
 			}
 		}

@@ -34,7 +34,7 @@ import java.util.concurrent.ConcurrentMap;
 @SuppressWarnings("rawtypes")
 public class JaxbMapper {
 
-	private static ConcurrentMap<Class, JAXBContext> jaxbContexts = new ConcurrentHashMap<Class, JAXBContext>();
+    private static final ConcurrentMap<Class, JAXBContext> jaxbContexts = new ConcurrentHashMap<Class, JAXBContext>();
 
 	/**
 	 * Java Object->Xml with encoding.

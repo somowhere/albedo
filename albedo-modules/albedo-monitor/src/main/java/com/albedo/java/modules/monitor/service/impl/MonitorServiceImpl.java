@@ -76,7 +76,7 @@ public class MonitorServiceImpl implements MonitorService {
 			resultMap.put("redis", getRedisInfo());
 			resultMap.put("time", DateUtil.format(new Date(), "HH:mm:ss"));
 		} catch (Exception e) {
-			e.printStackTrace();
+            log.error("failed init", e);
 		}
 		return resultMap;
 	}

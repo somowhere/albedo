@@ -38,7 +38,7 @@ import java.util.Set;
 
 @Component("HUAWEI_OSS")
 public class HuaweiFileStrategyImpl extends AbstractFileStrategy {
-	private static OkHttpClient httpClient = new OkHttpClient.Builder().followRedirects(false)
+    private static final OkHttpClient httpClient = new OkHttpClient.Builder().followRedirects(false)
 		.retryOnConnectionFailure(false).cache(null).build();
 
 

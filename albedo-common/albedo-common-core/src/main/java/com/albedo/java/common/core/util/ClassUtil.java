@@ -106,7 +106,7 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 		try {
 			obj = updateObj(cls.newInstance(), fields, value);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("failed init", e);
 		}
 		return (T) obj;
 	}
@@ -133,7 +133,7 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
 				log.warn("obj is null");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("failed init", e);
 		}
 		return (T) obj;
 	}

@@ -62,7 +62,7 @@ public class ExcelUtil<T> {
 
 	private static final Logger log = LoggerFactory.getLogger(ExcelUtil.class);
 	public static String CELL_TITLE_TYPE1 = "注：";
-	private static Map<String, Object> dataDictMap = Maps.newHashMap();
+	private static final Map<String, Object> dataDictMap = Maps.newHashMap();
 	/**
 	 * 实体对象
 	 */
@@ -622,7 +622,7 @@ public class ExcelUtil<T> {
 	 * 编码文件名
 	 */
 	public String encodingFilename(String filename) {
-		filename = UUID.randomUUID().toString() + "_"
+		filename = UUID.randomUUID() + "_"
 			+ URLEncoder.createDefault().encode(filename, CharsetUtil.CHARSET_UTF_8) + ".xlsx";
 		return filename;
 	}

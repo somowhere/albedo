@@ -120,7 +120,7 @@ public class SecurityUtil {
 				List<RequestMethod> requestMethods = new ArrayList<>(
 					infoEntry.getKey().getMethodsCondition().getMethods());
 				RequestMethodEnum request = RequestMethodEnum.find(
-					requestMethods.size() == 0 ? RequestMethodEnum.ALL.getType() : requestMethods.get(0).name());
+                        requestMethods.isEmpty() ? RequestMethodEnum.ALL.getType() : requestMethods.get(0).name());
 				switch (Objects.requireNonNull(request)) {
 					case GET:
 						get.addAll(getPatterns(infoEntry));

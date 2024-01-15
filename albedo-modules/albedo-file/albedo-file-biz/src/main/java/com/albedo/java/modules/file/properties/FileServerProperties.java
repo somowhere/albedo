@@ -73,8 +73,8 @@ public class FileServerProperties {
 		/**
 		 * 东南亚 as0
 		 */
-		as0;
-	}
+        as0
+    }
 
 	@Data
 	public static class FastDfs {

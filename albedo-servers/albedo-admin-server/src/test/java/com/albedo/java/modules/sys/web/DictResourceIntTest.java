@@ -107,7 +107,7 @@ public class DictResourceIntTest extends SimulationRuntimeIntegrationTest {
 
 	private DictDto dict;
 
-	private DictDto anotherDict = new DictDto();
+    private final DictDto anotherDict = new DictDto();
 
 	@BeforeEach
 	public void setup() {

@@ -36,10 +36,7 @@ public class Http401UnauthorizedEntryPoint implements AuthenticationEntryPoint {
 
 	private final Logger log = LoggerFactory.getLogger(Http401UnauthorizedEntryPoint.class);
 
-	private final ApplicationProperties applicationProperties;
-
 	public Http401UnauthorizedEntryPoint(ApplicationProperties applicationProperties) {
-		this.applicationProperties = applicationProperties;
 	}
 
 	/**

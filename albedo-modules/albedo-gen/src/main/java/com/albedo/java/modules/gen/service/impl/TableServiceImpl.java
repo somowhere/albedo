@@ -134,7 +134,7 @@ public class TableServiceImpl extends AbstractDataCacheServiceImpl<TableReposito
 			return true;
 		}
 		List<TableDo> list = super.list(Wrappers.<TableDo>query().eq(TableDo.F_NAME, tableName));
-		return list.size() == 0;
+        return list.isEmpty();
 	}
 
 	@Override
@@ -143,7 +143,7 @@ public class TableServiceImpl extends AbstractDataCacheServiceImpl<TableReposito
 		if (StringUtil.isNotBlank(tableDto.getName())) {
 
 			List<TableDto> list = findTableListFormDb(tableDto);
-			if (list.size() > 0 && CollUtil.isEmpty(tableDto.getColumnList())) {
+            if (!list.isEmpty() && CollUtil.isEmpty(tableDto.getColumnList())) {
 
 				// 如果是新增，初始化表属性
 				if (ObjectUtil.isEmpty(tableDto.getId())) {

@@ -34,7 +34,7 @@ public class EncryptUtil {
 
 	private static Cipher cipher;
 
-	private static IvParameterSpec iv = new IvParameterSpec(STR_PARAM.getBytes(StandardCharsets.UTF_8));
+    private static final IvParameterSpec iv = new IvParameterSpec(STR_PARAM.getBytes(StandardCharsets.UTF_8));
 
 	private static DESKeySpec getDesKeySpec(String source) throws Exception {
 		if (source == null || source.length() == 0) {

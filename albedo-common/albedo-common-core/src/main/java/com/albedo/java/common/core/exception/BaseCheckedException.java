@@ -13,12 +13,12 @@ public abstract class BaseCheckedException extends Exception implements BaseExce
 	/**
 	 * 异常信息
 	 */
-	private String message;
+    private final String message;
 
 	/**
 	 * 具体异常码
 	 */
-	private int errorCode;
+    private final int errorCode;
 
 	public BaseCheckedException(final int errorCode, final String message) {
 		super(message);

@@ -24,7 +24,7 @@
 
 		<dependency>
 			<groupId>com.albedo.java</groupId>
-			<artifactId>albedo-database</artifactId>
+			<artifactId>albedo-plugin-database</artifactId>
 		</dependency>
 
 		<dependency>

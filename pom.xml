@@ -70,7 +70,7 @@
 	<modules>
 		<module>albedo-dependencies</module>
 		<module>albedo-common</module>
-		<module>albedo-plugins</module>
+		<module>albedo-plugin</module>
 		<module>albedo-modules</module>
 		<module>albedo-servers</module>
 	</modules>
@@ -94,6 +94,10 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
+				<excludes>
+					<exclude>*.xdb</exclude>
+					<exclude>*.csv</exclude>
+				</excludes>
 			</resource>
 		</resources>
 

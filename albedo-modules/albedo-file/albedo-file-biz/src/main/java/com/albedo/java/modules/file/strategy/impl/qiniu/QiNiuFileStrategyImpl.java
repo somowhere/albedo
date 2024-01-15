@@ -38,7 +38,7 @@ import java.util.Set;
 
 @Component("QINIU_OSS")
 public class QiNiuFileStrategyImpl extends AbstractFileStrategy {
-	private static StringMap PUT_POLICY = new StringMap();
+    private static final StringMap PUT_POLICY = new StringMap();
 
 	static {
 		PUT_POLICY.put("returnBody", "{\"key\":\"$(key)\",\"hash\":\"$(etag)\",\"bucket\":\"$(bucket)\",\"width\":$(imageInfo.width), \"height\":${imageInfo.height}}");

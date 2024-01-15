@@ -35,13 +35,13 @@ public class ApplicationConfig {
 
 	private static java.util.Map<String, Object> props = null;
 
-	private static java.util.Map<String, String> paramMap = Maps.newHashMap();
+    private static final java.util.Map<String, String> paramMap = Maps.newHashMap();
 
 	static {
 		try {
 			reload();
 		} catch (Exception e) {
-			e.printStackTrace();
+            log.error("failed init", e);
 		}
 	}
 

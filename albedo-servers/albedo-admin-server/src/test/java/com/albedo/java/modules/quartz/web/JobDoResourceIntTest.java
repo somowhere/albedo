@@ -153,7 +153,7 @@ public class JobDoResourceIntTest extends SimulationRuntimeIntegrationTest {
 
 	private JobDto jobDto;
 
-	private JobDto anotherJobDto = new JobDto();
+    private final JobDto anotherJobDto = new JobDto();
 
 	/**
 	 * Create an entity for this test.

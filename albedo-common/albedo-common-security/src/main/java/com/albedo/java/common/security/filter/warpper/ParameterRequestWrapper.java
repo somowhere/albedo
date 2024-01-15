@@ -31,7 +31,7 @@ public class ParameterRequestWrapper extends HttpServletRequestWrapper {
 	/**
 	 * 定义参数集合
 	 */
-	private Map<String, String> params;
+    private final Map<String, String> params;
 
 	/**
 	 * 需要一个request和 篡改之后的参数进行实例化

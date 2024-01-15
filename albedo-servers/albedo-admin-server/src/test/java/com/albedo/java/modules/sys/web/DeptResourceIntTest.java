@@ -88,7 +88,7 @@ public class DeptResourceIntTest extends SimulationRuntimeIntegrationTest {
 
 	private DeptDto dept;
 
-	private DeptDto anotherDept = new DeptDto();
+    private final DeptDto anotherDept = new DeptDto();
 
 	@BeforeEach
 	public void setup() {

@@ -57,7 +57,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
 	/**
 	 * 线程本地变量
 	 */
-	private static ThreadLocal<LocalDateTime> threadLocal = new ThreadLocal<>();
+	private static final ThreadLocal<LocalDateTime> threadLocal = new ThreadLocal<>();
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {

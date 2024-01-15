@@ -81,7 +81,7 @@ public class BodyRequestWrapper extends HttpServletRequestWrapper {
 
 	private class CustomServletInputStream extends ServletInputStream {
 
-		private ByteArrayInputStream buffer;
+        private final ByteArrayInputStream buffer;
 
 		public CustomServletInputStream(String body) {
 			body = body == null ? "" : body;

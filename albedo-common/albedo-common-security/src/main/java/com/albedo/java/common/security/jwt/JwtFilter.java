@@ -41,15 +41,10 @@ import java.io.IOException;
 @Slf4j
 public class JwtFilter extends GenericFilterBean {
 
-	private final String PREFIX_TOKEN = "Bearer ";
-
-	private TokenProvider tokenProvider;
-
-	private ApplicationProperties applicationProperties;
+    private final TokenProvider tokenProvider;
 
 	public JwtFilter(TokenProvider tokenProvider, ApplicationProperties applicationProperties) {
 		this.tokenProvider = tokenProvider;
-		this.applicationProperties = applicationProperties;
 	}
 
 	@Override
@@ -70,6 +65,7 @@ public class JwtFilter extends GenericFilterBean {
 
 	private String resolveToken(HttpServletRequest request) {
 		String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+        String PREFIX_TOKEN = "Bearer ";
 		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(PREFIX_TOKEN)) {
 			return bearerToken.substring(7);
 		}

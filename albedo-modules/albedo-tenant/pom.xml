@@ -28,12 +28,12 @@
 
 		<dependency>
 			<groupId>com.albedo.java</groupId>
-			<artifactId>albedo-database</artifactId>
+			<artifactId>albedo-plugin-database</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>com.albedo.java</groupId>
-			<artifactId>albedo-dynamic-datasource</artifactId>
+			<artifactId>albedo-plugin-dynamic-datasource</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.baomidou</groupId>

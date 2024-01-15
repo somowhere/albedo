@@ -103,7 +103,7 @@ public class SchemeServiceImpl extends AbstractDataCacheServiceImpl<SchemeReposi
 		List<TemplateVo> childTableTemplateList = GenUtil.getTemplateList(config, schemeDto.getCategory(), true);
 
 		// 如果有子表模板，则需要获取子表列表
-		if (childTableTemplateList.size() > 0) {
+        if (!childTableTemplateList.isEmpty()) {
 			tableDto.setChildList(tableRepository
 				.selectList(Wrappers.<TableDo>lambdaQuery().eq(TableDo::getParentTable, tableDto.getId())).stream()
 				.map(tableService::copyBeanToDto).collect(Collectors.toList()));
@@ -197,7 +197,7 @@ public class SchemeServiceImpl extends AbstractDataCacheServiceImpl<SchemeReposi
 		List<TemplateVo> childTableTemplateList = GenUtil.getTemplateList(config, schemeDto.getCategory(), true);
 
 		// 如果有子表模板，则需要获取子表列表
-		if (childTableTemplateList.size() > 0) {
+        if (!childTableTemplateList.isEmpty()) {
 			tableDto.setChildList(Optional.ofNullable(tableRepository
 					.selectList(Wrappers.<TableDo>lambdaQuery().eq(TableDo::getParentTable, tableDto.getId()))).orElseThrow(() -> new BizException("业务表不存在")).stream()
 				.map(tableService::copyBeanToDto).collect(Collectors.toList()));

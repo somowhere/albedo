@@ -116,7 +116,7 @@ public class RoleResourceIntTest extends SimulationRuntimeIntegrationTest {
 
 	private RoleDto roleDto;
 
-	private RoleDto anotherRole = new RoleDto();
+    private final RoleDto anotherRole = new RoleDto();
 
 	@BeforeEach
 	public void setup() {

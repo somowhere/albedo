@@ -52,7 +52,7 @@ import java.util.Map;
  */
 public class GenUtil {
 
-	private static Logger logger = LoggerFactory.getLogger(GenUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(GenUtil.class);
 
 	private static void initTreeColumn(TableColumnDto column) {
 		boolean isTitle = StringUtil.equalsIgnoreCase(column.getJavaFieldName(), "title");
@@ -380,7 +380,7 @@ public class GenUtil {
 	// System.out.println(config);
 	// System.out.println(JaxbMapper.toXml(config));
 	// } catch (Exception e) {
-	// e.printStackTrace();
+    // log.error("failed init",e);
 	// }
 	// }
 

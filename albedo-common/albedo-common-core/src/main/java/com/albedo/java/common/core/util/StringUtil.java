@@ -128,7 +128,7 @@ public class StringUtil extends StrUtil {
 			}
 			return sb.toString();
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			log.error("failed init", e);
 		}
 		return "";
 	}
@@ -301,21 +301,9 @@ public class StringUtil extends StrUtil {
 				projectPath = file.toString();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("failed init", e);
 		}
 		return projectPath;
-	}
-
-	/**
-	 * 如果不为空，则设置值
-	 *
-	 * @param target
-	 * @param source
-	 */
-	public static void setValueIfNotBlank(String target, String source) {
-		if (isNotBlank(source)) {
-			target = source;
-		}
 	}
 
 	/**
@@ -417,7 +405,7 @@ public class StringUtil extends StrUtil {
 		if (msg == null) {
 			msg = "";
 		}
-		return "[" + msg.toString() + "]";
+		return "[" + msg + "]";
 	}
 
 	/**

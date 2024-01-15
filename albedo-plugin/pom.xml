@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xmlns="http://maven.apache.org/POM/4.0.0"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>albedo</artifactId>
+		<groupId>com.albedo.java</groupId>
+		<version>${revision}</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>albedo-plugin</artifactId>
+
+	<packaging>pom</packaging>
+
+
+	<modules>
+		<module>albedo-plugin-cache-starter</module>
+		<module>albedo-plugin-database</module>
+		<module>albedo-plugin-dynamic-datasource</module>
+		<module>albedo-plugin-swagger</module>
+		<module>albedo-plugin-uid</module>
+        <module>albedo-plugin-biz-ip</module>
+    </modules>
+</project>

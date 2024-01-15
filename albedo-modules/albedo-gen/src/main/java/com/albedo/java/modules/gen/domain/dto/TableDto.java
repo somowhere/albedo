@@ -215,7 +215,7 @@ public class TableDto extends DataDto<String> {
 			importList.add("com.albedo.java.common.core.domain.TreeDo");
 			initImport(importList);
 			// 如果有子表，则需要导入List相关引用
-			if (getChildList() != null && getChildList().size() > 0) {
+            if (getChildList() != null && !getChildList().isEmpty()) {
 				addNoRepeatList(importList, "java.util.List", "com.google.common.collect.Lists",
 					"org.hibernate.annotations.FetchMode", "org.hibernate.annotations.Fetch",
 					"org.hibernate.annotations.Where");
@@ -224,7 +224,7 @@ public class TableDto extends DataDto<String> {
 			importList.add("com.albedo.java.common.core.domain.IdDo");
 			initImport(importList);
 			// 如果有子表，则需要导入List相关引用
-			if (getChildList() != null && getChildList().size() > 0) {
+            if (getChildList() != null && !getChildList().isEmpty()) {
 				addNoRepeatList(importList, "java.util.List", "com.google.common.collect.Lists");
 			}
 		}

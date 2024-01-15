@@ -126,7 +126,7 @@ public class MenuResourceIntTest extends SimulationRuntimeIntegrationTest {
 
 	private MenuDto menu;
 
-	private MenuDto anotherMenu = new MenuDto();
+    private final MenuDto anotherMenu = new MenuDto();
 
 	@BeforeEach
 	public void setup() {
