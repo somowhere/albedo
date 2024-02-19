@@ -208,7 +208,7 @@ public class GenUtil {
 		try {
 			return StringUtil.toAppendStr("classpath*:/templates/codet/");
 		} catch (Exception e) {
-			logger.error("{}", e);
+			logger.error("", e);
 		}
 
 		return "";

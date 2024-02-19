@@ -195,16 +195,6 @@
 				<version>${druid.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.baomidou</groupId>
-				<artifactId>mybatis-plus-extension</artifactId>
-				<version>${mybatis-plus.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.baomidou</groupId>
-				<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-				<version>${dynamic-ds.version}</version>
-			</dependency>
-			<dependency>
 				<groupId>com.h2database</groupId>
 				<artifactId>h2</artifactId>
 				<version>${h2.version}</version>
@@ -345,8 +335,11 @@
 				<artifactId>mybatis-plus-annotation</artifactId>
 				<version>${mybatis-plus.version}</version>
 			</dependency>
-
-
+      <dependency>
+        <groupId>com.baomidou</groupId>
+        <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+        <version>${dynamic-ds.version}</version>
+      </dependency>
 			<!-- Protostuff 序列化&反序列化工具 -->
 			<dependency>
 				<groupId>io.protostuff</groupId>

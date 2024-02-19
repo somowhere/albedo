@@ -103,12 +103,12 @@ public class BeanUtil extends cn.hutool.core.bean.BeanUtil {
 		try {
 			target = requiredType.newInstance();
 		} catch (Exception e) {
-			log.error("{}", e);
+			log.error("", e);
 		}
 		try {
 			copyProperties(source, target, true);
 		} catch (Exception e) {
-			log.error("{}", e);
+			log.error("", e);
 		}
 		return target;
 	}

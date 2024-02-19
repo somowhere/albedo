@@ -99,7 +99,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public Result exception(Exception e) {
-		log.error("全局异常信息 ex={}", e);
+		log.error("全局异常信息 ex=", e);
 		return Result.build(ResponseCode.SYSTEM_BUSY).setPath(getPath());
 	}
 
@@ -113,7 +113,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler({AccessDeniedException.class})
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	public Result bodyValidExceptionHandler(AccessDeniedException exception) {
-		log.warn("AccessDeniedException:{}", exception);
+		log.warn("AccessDeniedException:", exception);
 		return Result.build(ResponseCode.UNAUTHORIZED.getCode(), "权限不足").setPath(getPath());
 	}
 

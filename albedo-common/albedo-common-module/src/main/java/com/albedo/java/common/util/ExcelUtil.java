@@ -561,7 +561,7 @@ public class ExcelUtil<T> {
 				}
 			}
 		} catch (Exception e) {
-			log.error("导出Excel失败{}", e);
+			log.error("Excel", e);
 		}
 		return cell;
 	}

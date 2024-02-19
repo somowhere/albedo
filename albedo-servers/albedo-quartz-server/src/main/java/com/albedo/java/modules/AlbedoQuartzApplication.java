@@ -58,7 +58,7 @@ public class AlbedoQuartzApplication {
 				+ "Application '{} v{}' is running! Access URLs:\n\t" + "Local: \t\thttp://localhost:{}\n\t"
 				+ "External: \thttp://{}:{}\n\t"
 				+ "\n----------------------------------------------------------",
-			env.getProperty(SPRING_APPLICATION_NAME), env.getProperty(APPLICATION_VERSION), env.getProperty(SERVER_PORT), env.getProperty(SERVER_PORT),
+			env.getProperty(SPRING_APPLICATION_NAME), env.getProperty(APPLICATION_VERSION), env.getProperty(SERVER_PORT),
 			InetAddress.getLocalHost().getHostAddress(), env.getProperty(SERVER_PORT));
 	}
 

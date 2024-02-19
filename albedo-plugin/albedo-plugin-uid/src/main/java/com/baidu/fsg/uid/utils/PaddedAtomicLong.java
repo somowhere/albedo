@@ -28,8 +28,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class PaddedAtomicLong extends AtomicLong {
 	private static final long serialVersionUID = -3415778863941386253L;
 
-    private final long p6 = 7L;
-	/**
+    /**
 	 * Padded 6 long (48 bytes)
 	 */
     private volatile long p1;
@@ -53,7 +52,8 @@ public class PaddedAtomicLong extends AtomicLong {
 	 * To prevent GC optimizations for cleaning unused padded references
 	 */
 	public long sumPaddingToPreventOptimization() {
-		return p1 + p2 + p3 + p4 + p5 + p6;
+        long p6 = 7L;
+        return p1 + p2 + p3 + p4 + p5 + p6;
 	}
 
 }

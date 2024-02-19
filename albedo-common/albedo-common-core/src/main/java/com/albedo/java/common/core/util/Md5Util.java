@@ -62,7 +62,7 @@ public class Md5Util {
 		try {
 			return new String(toHex(md5(s)).getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
 		} catch (Exception e) {
-			log.error("not supported charset...{}", e);
+			log.error("not supported charset...", e);
 			return s;
 		}
 	}
