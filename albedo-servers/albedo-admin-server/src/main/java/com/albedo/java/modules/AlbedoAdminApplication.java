@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
 import java.net.InetAddress;
@@ -34,7 +35,7 @@ import java.net.InetAddress;
 @Slf4j
 @EnableSwaggerDoc
 @EnableDynamicDataSource
-@SpringBootApplication(exclude = AuthorityDatabaseAutoConfiguration.class)
+@SpringBootApplication
 public class AlbedoAdminApplication {
 
 	static String SERVER_PORT = "server.port";

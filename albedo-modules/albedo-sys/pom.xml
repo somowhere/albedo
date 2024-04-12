@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>com.albedo.java</groupId>
 		<artifactId>albedo-modules</artifactId>
-		<version>${revision}</version>
+		<version>3.3.18-SNAPSHOT</version>
 	</parent>
 
 	<packaging>pom</packaging>

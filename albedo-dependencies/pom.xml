@@ -6,14 +6,14 @@
 	<groupId>com.albedo.java</groupId>
 	<artifactId>albedo-dependencies</artifactId>
 	<packaging>pom</packaging>
-	<version>${revision}</version>
+	<version>3.3.18-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 	<description>基础 bom 文件，管理整个项目的依赖版本</description>
 
 	<properties>
 		<revision>3.3.18-SNAPSHOT</revision>
 		<spring-boot.version>2.7.18</spring-boot.version>
-		<hutool.version>5.8.24</hutool.version>
+		<hutool.version>5.8.25</hutool.version>
 		<p6spy.version>3.9.1</p6spy.version>
 		<mybatis-plus.version>3.5.5</mybatis-plus.version>
 		<mybatis.version>3.5.15</mybatis.version>
@@ -62,114 +62,114 @@
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-appendix</artifactId>
-				<version>${revision}</version>
+				<version>3.3.18-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-common-core</artifactId>
-				<version>${revision}</version>
+				<version>3.3.18-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-common-log</artifactId>
-				<version>${revision}</version>
+				<version>3.3.18-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-common-module</artifactId>
-				<version>${revision}</version>
+				<version>3.3.18-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-common-security</artifactId>
-				<version>${revision}</version>
+				<version>3.3.18-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-sys-api</artifactId>
-				<version>${revision}</version>
+				<version>3.3.18-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-sys-domain</artifactId>
-				<version>${revision}</version>
+				<version>3.3.18-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-sys-biz</artifactId>
-				<version>${revision}</version>
+				<version>3.3.18-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-sys-web</artifactId>
-				<version>${revision}</version>
+				<version>3.3.18-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-file-biz</artifactId>
-				<version>${revision}</version>
+				<version>3.3.18-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-file-domain</artifactId>
-				<version>${revision}</version>
+				<version>3.3.18-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-gen</artifactId>
-				<version>${revision}</version>
+				<version>3.3.18-SNAPSHOT</version>
 			</dependency>
 
 
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-quartz</artifactId>
-				<version>${revision}</version>
+				<version>3.3.18-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-monitor</artifactId>
-				<version>${revision}</version>
+				<version>3.3.18-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-tenant</artifactId>
-				<version>${revision}</version>
+				<version>3.3.18-SNAPSHOT</version>
 			</dependency>
 
 
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-plugin-cache-starter</artifactId>
-				<version>${revision}</version>
+				<version>3.3.18-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-plugin-database</artifactId>
-				<version>${revision}</version>
+				<version>3.3.18-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-plugin-dynamic-datasource</artifactId>
-				<version>${revision}</version>
+				<version>3.3.18-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-plugin-swagger</artifactId>
-				<version>${revision}</version>
+				<version>3.3.18-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.albedo.java</groupId>
 				<artifactId>albedo-plugin-uid</artifactId>
-				<version>${revision}</version>
+				<version>3.3.18-SNAPSHOT</version>
 			</dependency>
 
 

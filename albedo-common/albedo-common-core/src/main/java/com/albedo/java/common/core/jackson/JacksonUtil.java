@@ -140,6 +140,7 @@ public class JacksonUtil {
 		return getInstance().convertValue(fromValue, toValueType);
 	}
 
+
 	public static <T> T toPojo(JsonNode resultNode, Class<T> toValueType) {
 		return getInstance().convertValue(resultNode, toValueType);
 	}

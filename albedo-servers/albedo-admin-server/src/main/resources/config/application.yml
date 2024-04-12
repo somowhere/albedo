@@ -61,6 +61,7 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     default-enum-type-handler: com.albedo.java.plugins.database.mybatis.typehandler.CustomEnumTypeHandler
+  executor-type: batch
 # ===================================================================
 # Albedo specific properties
 # ===================================================================

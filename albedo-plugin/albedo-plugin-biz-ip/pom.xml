@@ -6,7 +6,7 @@
   <parent>
     <artifactId>albedo-plugin</artifactId>
     <groupId>com.albedo.java</groupId>
-    <version>${revision}</version>
+    <version>3.3.18-SNAPSHOT</version>
   </parent>
 
   <artifactId>albedo-plugin-biz-ip</artifactId>

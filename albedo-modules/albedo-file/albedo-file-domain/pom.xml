@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>albedo-file</artifactId>
 		<groupId>com.albedo.java</groupId>
-		<version>${revision}</version>
+		<version>3.3.18-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
@@ -15,7 +15,7 @@
 		<dependency>
 			<groupId>com.albedo.java</groupId>
 			<artifactId>albedo-common-core</artifactId>
-			<version>${revision}</version>
+			<version>3.3.18-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>
