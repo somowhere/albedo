@@ -63,66 +63,66 @@ public class EntityMetaObjectHandler implements MetaObjectHandler {
 	public void insertFill(MetaObject metaObject) {
 		fillCreated(metaObject);
 		fillUpdated(metaObject);
-		fillId(metaObject);
+//		fillId(metaObject);
 	}
 
-	private void fillId(MetaObject metaObject) {
-		if (uidGenerator == null) {
-			// 这里使用SpringUtils的方式"异步"获取对象，防止启动时，报循环注入的错
-			uidGenerator = SpringContextHolder.getBean(UidGenerator.class);
-		}
-		Long id = uidGenerator.getUid();
-
-		//1. 继承了BaseEntity 若 ID 中有值，就不设置
-		if (metaObject.getOriginalObject() instanceof BaseDo) {
-			Object oldId = ((BaseDo) metaObject.getOriginalObject()).pkVal();
-			if (oldId != null) {
-				return;
-			}
-			Object idVal = StrPool.STRING_TYPE_NAME.equals(metaObject.getGetterType(BaseDo.F_ID).getName()) ? String.valueOf(id) : id;
-			this.setFieldValByName(BaseDo.F_ID, idVal, metaObject);
-			return;
-		}
-
-		// 2. 没有继承BaseEntity， 但主键的字段名为：  id
-		if (metaObject.hasGetter(BaseDo.F_ID)) {
-			Object oldId = metaObject.getValue(BaseDo.F_ID);
-			if (oldId != null) {
-				return;
-			}
-
-			Object idVal = StrPool.STRING_TYPE_NAME.equals(metaObject.getGetterType(BaseDo.F_ID).getName()) ? String.valueOf(id) : id;
-			this.setFieldValByName(BaseDo.F_ID, idVal, metaObject);
-			return;
-		}
-
-		// 3. 实体没有继承 Entity 和 BaseEntity，且 主键名为其他字段
-		TableInfo tableInfo = TableInfoHelper.getTableInfo(metaObject.getOriginalObject().getClass());
-		if (tableInfo == null) {
-			return;
-		}
-		// 主键类型
-		Class<?> keyType = tableInfo.getKeyType();
-		if (keyType == null) {
-			return;
-		}
-		// id 字段名
-		String keyProperty = tableInfo.getKeyProperty();
-		Object oldId = metaObject.getValue(keyProperty);
-		if (oldId != null) {
-			return;
-		}
-
-		// 反射得到 主键的值
-		Field idField = ReflectUtil.getField(metaObject.getOriginalObject().getClass(), keyProperty);
-		Object fieldValue = ReflectUtil.getFieldValue(metaObject.getOriginalObject(), idField);
-		// 判断ID 是否有值，有值就不
-		if (ObjectUtil.isNotEmpty(fieldValue)) {
-			return;
-		}
-		Object idVal = keyType.getName().equalsIgnoreCase(StrPool.STRING_TYPE_NAME) ? String.valueOf(id) : id;
-		this.setFieldValByName(keyProperty, idVal, metaObject);
-	}
+//	private void fillId(MetaObject metaObject) {
+//		if (uidGenerator == null) {
+//			// 这里使用SpringUtils的方式"异步"获取对象，防止启动时，报循环注入的错
+//			uidGenerator = SpringContextHolder.getBean(UidGenerator.class);
+//		}
+//		Long id = uidGenerator.getUid();
+//
+//		//1. 继承了BaseEntity 若 ID 中有值，就不设置
+//		if (metaObject.getOriginalObject() instanceof BaseDo) {
+//			Object oldId = ((BaseDo) metaObject.getOriginalObject()).pkVal();
+//			if (oldId != null) {
+//				return;
+//			}
+//			Object idVal = StrPool.STRING_TYPE_NAME.equals(metaObject.getGetterType(BaseDo.F_ID).getName()) ? String.valueOf(id) : id;
+//			this.setFieldValByName(BaseDo.F_ID, idVal, metaObject);
+//			return;
+//		}
+//
+//		// 2. 没有继承BaseEntity， 但主键的字段名为：  id
+//		if (metaObject.hasGetter(BaseDo.F_ID)) {
+//			Object oldId = metaObject.getValue(BaseDo.F_ID);
+//			if (oldId != null) {
+//				return;
+//			}
+//
+//			Object idVal = StrPool.STRING_TYPE_NAME.equals(metaObject.getGetterType(BaseDo.F_ID).getName()) ? String.valueOf(id) : id;
+//			this.setFieldValByName(BaseDo.F_ID, idVal, metaObject);
+//			return;
+//		}
+//
+//		// 3. 实体没有继承 Entity 和 BaseEntity，且 主键名为其他字段
+//		TableInfo tableInfo = TableInfoHelper.getTableInfo(metaObject.getOriginalObject().getClass());
+//		if (tableInfo == null) {
+//			return;
+//		}
+//		// 主键类型
+//		Class<?> keyType = tableInfo.getKeyType();
+//		if (keyType == null) {
+//			return;
+//		}
+//		// id 字段名
+//		String keyProperty = tableInfo.getKeyProperty();
+//		Object oldId = metaObject.getValue(keyProperty);
+//		if (oldId != null) {
+//			return;
+//		}
+//
+//		// 反射得到 主键的值
+//		Field idField = ReflectUtil.getField(metaObject.getOriginalObject().getClass(), keyProperty);
+//		Object fieldValue = ReflectUtil.getFieldValue(metaObject.getOriginalObject(), idField);
+//		// 判断ID 是否有值，有值就不
+//		if (ObjectUtil.isNotEmpty(fieldValue)) {
+//			return;
+//		}
+//		Object idVal = keyType.getName().equalsIgnoreCase(StrPool.STRING_TYPE_NAME) ? String.valueOf(id) : id;
+//		this.setFieldValByName(keyProperty, idVal, metaObject);
+//	}
 
 	private void fillCreated(MetaObject metaObject) {
 		// 设置创建时间和创建人

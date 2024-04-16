@@ -23,6 +23,7 @@ import com.baidu.fsg.uid.impl.CachedUidGenerator;
 import com.baidu.fsg.uid.impl.DefaultUidGenerator;
 import com.baidu.fsg.uid.impl.HuToolUidGenerator;
 import com.baidu.fsg.uid.worker.DisposableWorkerIdAssigner;
+import com.baomidou.mybatisplus.autoconfigure.MybatisPlusPropertiesCustomizer;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerInterceptor;
@@ -237,8 +238,10 @@ public abstract class BaseMybatisConfiguration {
 		DatabaseProperties.HutoolId id = databaseProperties.getHutoolId();
 		return new HuToolUidGenerator(id.getWorkerId(), id.getDataCenterId());
 	}
-
-
+	@Bean
+	public MybatisPlusPropertiesCustomizer plusPropertiesCustomizer(UidGenerator uidGenerator) {
+		return plusProperties -> plusProperties.getGlobalConfig().setIdentifierGenerator(entity -> uidGenerator.getUid());
+	}
 	/**
 	 * Mybatis 自定义的类型处理器： 处理XML中  #{name,typeHandler=leftLike} 类型的参数
 	 * 用于左模糊查询时使用

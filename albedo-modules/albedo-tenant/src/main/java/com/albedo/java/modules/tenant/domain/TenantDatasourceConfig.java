@@ -49,7 +49,7 @@ public class TenantDatasourceConfig extends BaseDo<TenantDatasourceConfig> {
 	/**
 	 * 编号
 	 */
-	@TableId(value = "id", type = IdType.AUTO)
+	@TableId(value = "id", type = IdType.ASSIGN_ID)
 	private Long id;
 	/**
 	 * 租户id

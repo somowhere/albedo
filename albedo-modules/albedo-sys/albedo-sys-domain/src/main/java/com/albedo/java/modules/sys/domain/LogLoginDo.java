@@ -96,7 +96,7 @@ public class LogLoginDo extends BaseDo<LogLoginDo> {
 	/**
 	 * 编号
 	 */
-	@TableId(value = "id", type = IdType.INPUT)
+	@TableId(value = "id", type = IdType.ASSIGN_ID)
 	private Long id;
 	/**
 	 * title 日志标题

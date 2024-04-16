@@ -34,7 +34,7 @@ public class IdDo<T extends BaseDo<T>, PK extends Serializable> extends BaseData
 
 	private static final long serialVersionUID = 1L;
 
-	@TableId(value = GeneralDo.F_SQL_ID, type = IdType.INPUT)
+	@TableId(value = GeneralDo.F_SQL_ID, type = IdType.ASSIGN_ID)
 	@Getter
 	@Setter
 	protected PK id;

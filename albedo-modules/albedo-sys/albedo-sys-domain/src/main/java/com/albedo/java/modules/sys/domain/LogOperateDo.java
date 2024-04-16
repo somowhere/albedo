@@ -65,7 +65,7 @@ public class LogOperateDo extends BaseDo<LogOperateDo> {
 	/**
 	 * 编号
 	 */
-	@TableId(value = "id", type = IdType.INPUT)
+	@TableId(value = "id", type = IdType.ASSIGN_ID)
 	private Long id;
 	/**
 	 * 用户ID

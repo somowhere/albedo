@@ -40,16 +40,16 @@ public class CollUtil extends cn.hutool.core.collection.CollUtil {
 	/**
 	 * 转换Collection所有元素(通过toString())为String, 中间以 separator分隔。
 	 */
-	public static String convertToString(final Collection collection, final String separator) {
+	public static <T> String convertToString(final Collection<T> collection, final String separator) {
 		return cn.hutool.core.collection.CollUtil.join(collection, separator);
 	}
 
 	/**
 	 * 转换Collection所有元素(通过toString())为String, 中间以 separator分隔。
 	 */
-	public static String convertToString(final Collection collection, final String propertyName,
+	public static <T> String convertToString(final Collection<T> collection, final String propertyName,
 										 final String separator) {
-		List list = extractToList(collection, propertyName);
+		List<String> list = extractToList(collection, propertyName);
 		return convertToString(list, separator);
 	}
 
@@ -59,17 +59,16 @@ public class CollUtil extends cn.hutool.core.collection.CollUtil {
 	 * @param collection   来源集合.
 	 * @param propertyName 要提取的属性名.
 	 */
-	@SuppressWarnings("unchecked")
-	public static List extractToList(final Collection collection, final String propertyName) {
-		List list = Lists.newArrayList();
+	public static <T,E> List<E> extractToList(final Collection<T> collection, final String propertyName) {
+		List<E> list = Lists.newArrayList();
 		try {
 			if (collection != null) {
-				Object item = null;
+				E item = null;
 				for (Object obj : collection) {
 					if (obj instanceof Map) {
-						item = ((Map) obj).get(propertyName);
+						item = (E) ((Map) obj).get(propertyName);
 					} else {
-						item = BeanUtil.getFieldValue(obj, propertyName);
+						item = (E) BeanUtil.getFieldValue(obj, propertyName);
 					}
 					if (item != null) {
 						list.add(item);

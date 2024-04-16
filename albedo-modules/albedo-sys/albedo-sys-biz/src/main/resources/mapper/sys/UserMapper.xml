@@ -102,10 +102,7 @@
 	</resultMap>
 
 	<sql id="userRoleDeptSql">
-		a
-		.
-		id
-		,
+		a.id,
 		a.username,
 		a.`password`,
 		a.nickname,

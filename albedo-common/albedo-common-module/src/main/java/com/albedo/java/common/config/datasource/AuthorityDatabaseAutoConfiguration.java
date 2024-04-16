@@ -37,9 +37,9 @@ import java.util.List;
  */
 @Configuration
 @Slf4j
-//@EnableConfigurationProperties({MybatisPlusProperties.class})
-//@ConditionalOnExpression("!'DATASOURCE'.equals('${application.database.multiTenantType}') && " +
-//	"!'DATASOURCE_COLUMN'.equals('${application.database.multiTenantType}') ")
+@EnableConfigurationProperties({MybatisPlusProperties.class})
+@ConditionalOnExpression("!'DATASOURCE'.equals('${application.database.multiTenantType}') && " +
+	"!'DATASOURCE_COLUMN'.equals('${application.database.multiTenantType}') ")
 public class AuthorityDatabaseAutoConfiguration extends BaseMasterDatabaseConfiguration {
 
 	public AuthorityDatabaseAutoConfiguration(MybatisPlusProperties properties,

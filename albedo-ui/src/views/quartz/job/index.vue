@@ -68,7 +68,7 @@
         </el-form-item>
         <el-form-item label="是否并发执行" :rules="[{ required: true, message: '请选择是否并发执行', trigger: 'change' }]">
           <el-radio-group v-model="form.concurrent" style="width: 220px">
-            <el-checkbox-button v-for="item in flagOptions" :key="item.value" :label="item.value">{{ item.label }}</el-checkbox-button>
+            <el-radio-button v-for="item in flagOptions" :key="item.value" :label="item.value">{{ item.label }}</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="执行错误策略" :rules="[{ required: true, message: '请选择计划执行错误策略', trigger: 'change' }]">

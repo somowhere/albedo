@@ -20,6 +20,6 @@
 		<module>albedo-plugin-dynamic-datasource</module>
 		<module>albedo-plugin-swagger</module>
 		<module>albedo-plugin-uid</module>
-        <module>albedo-plugin-biz-ip</module>
+    <module>albedo-plugin-biz-ip</module>
     </modules>
 </project>

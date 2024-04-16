@@ -27,6 +27,7 @@ import com.albedo.java.modules.sys.domain.DeptDo;
 import com.albedo.java.modules.sys.domain.RoleDo;
 import com.albedo.java.modules.sys.domain.UserDo;
 import com.albedo.java.modules.sys.domain.dto.UserDto;
+import com.albedo.java.modules.sys.domain.vo.UserVo;
 import com.albedo.java.modules.sys.service.DeptService;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.modules.sys.service.UserService;
@@ -157,14 +158,24 @@ public class UserResourceIntTest extends SimulationRuntimeIntegrationTest {
 		roleList = roleService.list();
 		user = createDto();
 		// Initialize the database
-
-		anotherUser.setUsername(DEFAULT_ANOTHER_USERNAME);
-		anotherUser.setPassword(DEFAULT_PASSWORD);
-		anotherUser.setEmail(DEFAULT_ANOTHER_EMAIL);
-		anotherUser.setPhone(DEFAULT_ANOTHER_PHONE);
-		anotherUser.setDeptId(deptDoList.get(0).getId());
-		anotherUser.setRoleIdList(CollUtil.extractToList(roleList, RoleDo.F_ID));
-		userService.saveOrUpdate(anotherUser);
+		UserVo userVo = userService.findVoByUsername(DEFAULT_ANOTHER_USERNAME);
+		if(userVo!=null){
+			anotherUser.setId(userVo.getId());
+			anotherUser.setUsername(userVo.getUsername());
+			anotherUser.setPassword(userVo.getPassword());
+			anotherUser.setEmail(userVo.getEmail());
+			anotherUser.setPhone(userVo.getPhone());
+			anotherUser.setDeptId(userVo.getDeptId());
+			anotherUser.setRoleIdList(userVo.getRoleIdList());
+		}else{
+			anotherUser.setUsername(DEFAULT_ANOTHER_USERNAME);
+			anotherUser.setPassword(DEFAULT_PASSWORD);
+			anotherUser.setEmail(DEFAULT_ANOTHER_EMAIL);
+			anotherUser.setPhone(DEFAULT_ANOTHER_PHONE);
+			anotherUser.setDeptId(deptDoList.get(0).getId());
+			anotherUser.setRoleIdList(CollUtil.extractToList(roleList, RoleDo.F_ID));
+			userService.saveOrUpdate(anotherUser);
+		}
 	}
 
 	@Test
@@ -401,5 +412,4 @@ public class UserResourceIntTest extends SimulationRuntimeIntegrationTest {
 		userDo1.setId(null);
 		assertThat(userDo1).isNotEqualTo(userDo2);
 	}
-
 }

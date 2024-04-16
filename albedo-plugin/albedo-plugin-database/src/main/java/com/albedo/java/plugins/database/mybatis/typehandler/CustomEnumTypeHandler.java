@@ -44,7 +44,7 @@ public class CustomEnumTypeHandler<E extends Enum<E>> extends BaseTypeHandler<E>
 		if (value == null) {
 			return null;
 		}
-		return ArrayUtil.contains(this.type.getInterfaces(), BaseEnum.class) ? Arrays.stream(this.type.getEnumConstants()).filter(baseEnum -> ((BaseEnum) baseEnum).eq(value)).findFirst().get()
+		return ArrayUtil.contains(this.type.getInterfaces(), BaseEnum.class) ? Arrays.stream(this.type.getEnumConstants()).filter(baseEnum -> ((BaseEnum) baseEnum).eq(value)).findFirst().orElse(null)
 			: Enum.valueOf(this.type, value);
 	}
 

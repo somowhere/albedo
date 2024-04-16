@@ -99,6 +99,14 @@
 					<exclude>*.csv</exclude>
 				</excludes>
 			</resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+        <includes>
+          <include>*.xdb</include>
+          <include>*.csv</include>
+        </includes>
+      </resource>
 		</resources>
 
 		<pluginManagement>
